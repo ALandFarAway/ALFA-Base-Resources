@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8">
+<!-- XML code by: Abraxas77 DMFI GUI Design Team Lead and Demetrious -->
+
+
+<UIScene name="SCREEN_DMFI_PLAYER" 
+	x="602" y="5" width="195" height="51"
+	draggable="true" idleexpiretime="1.0f" scriptloadable="true" 
+	priority="SCENE_SCRIPT"
+/>
+<UIGrid name="pcButtons_grid" x="6" y="5" columns="5" rows="1" xPadding="5" yPadding="5" >
+	
+	<UIButton name="rollAbility-btn" width="30" height="30" OnToolTip=UIObject_Tooltip_DisplayTooltipString("RollAbility",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_playerui",".ability") >
+		<UIFrame state="base"	fill="ise_abilitystrincr.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>					
+	<UIButton name="rollSkill-btn" width="30" height="30" OnToolTip=UIObject_Tooltip_DisplayTooltipString("RollSkill",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_playerui",".skill") >
+		<UIFrame state="base"	fill="ise_skillincr.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.90" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.75"/>
+	</UIButton>					
+	<UIButton name="rollDice-btn" width="30" height="30" OnToolTip=UIObject_Tooltip_DisplayTooltipString("RollDice",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_playerui",".dice") >
+		<UIFrame state="base"	fill="ira_hl_lucky.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>									
+	<UIButton name="followOn-btn" width="30" height="30" OnToolTip=UIObject_Tooltip_DisplayTooltipString("FollowOn",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_playerui",".follow_on") >
+		<UIFrame state="base"	fill="ia_follow.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+	<UIButton name="languageOn-btn" width="30" height="30" OnToolTip=UIObject_Tooltip_DisplayTooltipString("VoiceEntry",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_playerui",".language_on") >
+		<UIFrame state="base"	fill="ia_talk.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.7" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.45" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.45"/>
+	</UIButton>					
+	
+</UIGrid>
+<UIFrame x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" border="32"
+	topleft="frame1_tl.tga" 		topright="frame1_tr.tga"
+	bottomleft="frame1_bl.tga"	bottomright="frame1_BR.tga"
+	top="frame1_t.tga"			bottom="frame1_b.tga"
+	left="frame1_l.tga"			right="frame1_r.tga" />	
+<UIFrame x="8" y="8" width="179" height="35" fillstyle="tile" fill="frame_main_bg.tga"/>

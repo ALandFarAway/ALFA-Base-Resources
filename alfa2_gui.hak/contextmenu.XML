@@ -1,0 +1,1900 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<!--
+
+  System Name : ALFA GUI
+     Filename : contextmenu.xml
+    $Revision:: 511        $
+        $Date:: 2010-03-13#$
+
+  Revision History:
+  2007/10/30  Cipher  Added custom creature and item radial options
+  2007/11/20  AcadiusLost  Merged ALFA's UI with Heed's PC tools and DMFI
+  2008/04/11  Cipher  Added custom DM XP radial options, merged in uncommitted changes
+  2009/08/08  AcadiusLost Removed Taunt, Heal.
+  2009/12/29  AcadiusLost Added Appraise, fixed call to creature identification
+  2010/03/13  AcadiusLost: Added Kemo's Descriptions mod.
+-->
+
+<UIScene name="SCREEN_RADIALMENU" x=ALIGN_LEFT y=ALIGN_TOP height=SCREEN_HEIGHT width=SCREEN_WIDTH 
+	priority="SCENE_INGAME" capturemouseevents=true capturemouseclicks=true backoutkey=true update=true
+	OnUpdate=UIScene_OnUpdate_UpdateContextMenu() OnUnhandledMouseClick=UIRadialNode_Mouse_CloseMenu() fullscreen=true />
+
+
+<!-- Prototype Grid  -->
+<UIGrid name="ContextGrid" rows=15 columns=1 xPadding=0 yPadding=0 >
+	<UIButton name="GridPrototypeButton" height=32 width=32 draggable=false prototype=true update=true handleactiontarget=false
+		OnUpdate=UIButton_OnUpdate_ContextNode()
+		OnLeftClick=UIButton_Input_ContextNodeHandleLeftClick()>
+		<UIText align=right valign=bottom fontfamily="Special_Font" style="1"/>
+		<UIFrame state=base		fill="b_empty.tga" />
+		<UIFrame state=up		fill="b_empty.tga" />
+		<UIFrame state=down		fill="b_overlay.tga" />
+		<UIFrame state=focused	fill="b_empty.tga" />
+		<UIFrame state=hilited	fill="b_overlay.tga" />
+		<UIFrame state=hifocus	fill="b_overlay.tga" />
+		<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>
+</UIGrid>
+
+
+<!-- Tooltip -->
+<UIPane name=TOOLTIP_PANE x=0 y=0 width=100 height=100 tupple=true
+	OnLeftClick=UIPane_Input_ContextTooltip()>
+	<UIText name=TOOLTIP_TEXT align=left valign=top x=11 y=11 width=PARENT_WIDTH height=DYNAMIC color=e8e8e8 fontfamily="Body_Font" style="1" />
+
+	<UIFrame name=TOOLTIP_FRAME x=0 y=0 height=PARENT_HEIGHT width=PARENT_WIDTH 
+		topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+		bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+		left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+		border=5 />
+
+</UIPane>
+
+
+
+
+<!-- 
+============================================================================================================
+
+UIRadialNode Callbacks:
+	OnUpdateExpanded
+	OnUpdateCollapsed
+	OnLeftClickExpanded
+	OnLeftClickCollapsed
+
+============================================================================================================
+-->
+
+
+
+
+<!-- 
+============================================================================================================
+								Unknown Context Root Menu
+
+	This is what is brought up when the game can't figure out what you clicked on, or 
+	for objects that I haven't created the menus for yet.... 
+
+*	Examine - Performs the examine action on the target immediately.
+
+============================================================================================================
+-->
+
+<UIRadialNode name="root-unknown" style="BASE_RADIAL_NODE" strref=10510
+	OnLeftClickExpanded=UIRadialNode_Mouse_CloseMenu() >
+	<UISubNode node="node-examine" />									
+</UIRadialNode>
+
+
+
+
+<!-- 
+============================================================================================================
+								Default Root Menu
+
+	If a player clicks on the currently active character or on no object in the environment, 
+	the following commands will appears
+
+*	Examine - Performs the examine action on the target immediately.
+*	Party Commands - Brings up a sub-menu of AI commands that will immediately be issued to all party 
+	members.  Actions that require a target will bring up a targeting cursor unless the player has already selected a valid target.
+*	Heal - Shows up only if the Heal skill could be of reflexive benefit.
+*   Party Actions - Shows valid, available party commands at the moment.
+*	Class Abilities - Brings up a sub-menu.  Anything activated or de-activated that is associated with a 
+	specific class (excluding bonus feats) on the PC can be found here.  Character can have multiple sub-menus 
+	for multiple classes.  Each will have a separate icon in the menu.  The abilities will always be moved 
+	to the cursor unless the ability is reflexive, in which case it executes immediately.
+*	Racial Abilities - Brings up a sub-menu.  Anything activated or de-activated that is associated with a 
+	specific race (excluding bonus feats) can be found here.  The same execution logic that applies to c
+	lass abilities above applies here.
+
+============================================================================================================
+-->
+<UIRadialNode name="root-default" style="BASE_RADIAL_NODE" strref="182693" >
+	<UISubNode node="menu-dm-general" />
+	<UISubNode node="menu-dm-creature" />
+	<UISubNode node="menu-dm-creature-control" />
+	<UISubNode node="menu-dm-dmfi-server" />
+	<UISubNode node="node-examine" />
+	<UISubNode node="node-bioedit" />
+	<UISubNode node="node-party-privatechat" />
+	<UISubNode node="menu-companion-command-broadcast"/>
+	
+	<UISubNode node="menu-party-actions" />					
+	<UISubNode node="menu-abilities-otherabilities" />
+	<UISubNode node="menu-abilities-racial"/>							
+	<UISubNode node="menu-abilities-class-1"/>							
+	<UISubNode node="menu-abilities-class-2"/>							
+	<UISubNode node="menu-abilities-class-3"/>							
+	<UISubNode node="menu-abilities-class-4"/>	
+	<UISubNode node="menu-emotes"/>									
+	<UISubNode node="node-unpolymorph"/>
+    <UISubNode node="node-dmfi-toggle" />
+    <UISubNode node="node-pctools"/>										
+</UIRadialNode>
+
+
+<UIRadialNode name="node-examine" style="BASE_RADIAL_NODE" strref=549
+	OnLeftClickExpanded=UIRadialNode_Mouse_ActionExamineObject("SCREEN_EXAMINE","SCREEN_EXAMINE")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionExamineObject("SCREEN_EXAMINE","SCREEN_EXAMINE")>
+	<UIFrame state=base	fill="ia_examine.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-bioedit" style="BASE_RADIAL_NODE" text="Edit Description"
+	OnLeftClickExpanded=UIObject_Misc_ExecuteServerScript("gui_kemo_bio","edit","","")
+	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_kemo_bio","edit","","")>
+	<UIFrame state=base	fill="ia_examine.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-party-privatechat" style="BASE_RADIAL_NODE" strref=549
+	OnInit=UIRadialNode_OnInit_PrivateChat()
+	OnLeftClickExpanded=UIRadialNode_Mouse_ActionPrivateChat()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionPrivateChat() >
+  <UIFrame state=base		fill="ia_talk.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-heal" style="BASE_RADIAL_NODE" strref=273
+	OnLeftClickExpanded=UIRadialNode_Mouse_ActionUseSkill(4) 
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionUseSkill(4)
+	OnInit=UIRadialNode_OnInit_UseSkill(4) >
+</UIRadialNode>
+
+<!-- MENU-ABILITIES-SPECIAL ABILITIES -->
+<UIRadialNode name="menu-abilities-otherabilities" style="BASE_RADIAL_NODE" strref=949
+	OnInit=UIRadialNode_OnInit_CreatureOtherAbilities(0)>
+	<UIFrame state=base		fill="ia_specialabilities.tga" />
+</UIRadialNode>
+
+
+<!-- MENU-ABILITIES-RACIAL -->
+<!-- This will populate the menu with the special abilities
+     that the race adds -->
+<UIRadialNode name="menu-abilities-racial" style="BASE_RADIAL_NODE" strref=179955
+	OnInit=UIRadialNode_OnInit_CreatureRacialAbilities(0)>
+	<UIFrame state=base		fill="ia_racialabilities.tga" />
+</UIRadialNode>
+
+
+<!-- MENU-ABILITIES-CLASS-1 -->
+<!-- This will populate the menu with the special abilities
+     of the class 0 for this character -->
+<UIRadialNode name="menu-abilities-class-1"  style="BASE_RADIAL_NODE" strref=112977
+	OnInit=UIRadialNode_OnInit_CreatureClassAbilities(0,0)> 
+</UIRadialNode>
+
+<!-- MENU-ABILITIES-CLASS-2 -->
+<!-- This will populate the menu with the special abilities
+     of the class 1 for this character -->
+<UIRadialNode name="menu-abilities-class-2" style="BASE_RADIAL_NODE" strref=112977
+	OnInit=UIRadialNode_OnInit_CreatureClassAbilities(1,0)>
+</UIRadialNode>
+
+<!-- MENU-ABILITIES-CLASS-3 -->
+<!-- This will populate the menu with the special abilities
+     of the class 2 for this character -->
+<UIRadialNode name="menu-abilities-class-3"  style="BASE_RADIAL_NODE" strref=112977
+	OnInit=UIRadialNode_OnInit_CreatureClassAbilities(2,0)>
+</UIRadialNode>
+
+<!-- MENU-ABILITIES-CLASS-4 -->
+<!-- This will populate the menu with the special abilities
+     of the class 3 for this character -->
+<UIRadialNode name="menu-abilities-class-4"  style="BASE_RADIAL_NODE" strref=112977
+	OnInit=UIRadialNode_OnInit_CreatureClassAbilities(3,0)>
+</UIRadialNode>
+
+<!-- these need to made MP only
+<UIRadialNode name="node-abdicate"  style="BASE_RADIAL_NODE" strref=179951 >
+	<UIFrame state=base		fill="ia_transferlead.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-leave-party" style="BASE_RADIAL_NODE" strref=1071 >
+	<UIFrame state=base		fill="ia_removefromparty.tga" />
+</UIRadialNode>
+-->
+
+<!-- Unpolymorph Myself  -->
+<UIRadialNode name="node-unpolymorph" style="BASE_RADIAL_NODE" strref="8272" 
+	OnInit=UIRadialNode_OnInit_Unpolymorph()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionUnpolymorph()  >
+	<UIFrame state=base		fill="is_polymorphself.tga" />
+</UIRadialNode>
+
+
+<!-- Submenu for : Companion Command (Broadcast to Group) -->
+<UIRadialNode name="menu-companion-command-broadcast" style="BASE_RADIAL_NODE" strref=179950
+	OnInit=UIRadialNode_OnInit_BroadcastCommands()
+	OnLeftClickExpanded=UIRadialNode_Mouse_CloseMenu() >
+	<UISubNode node="node-companion-command-broadcast-follow-me"/>							
+	<UISubNode node="node-companion-command-broadcast-stand-ground" />		
+	<UISubNode node="node-companion-command-broadcast-attack-nearest" />		
+	<UISubNode node="node-companion-command-broadcast-guard-me"/>							
+	<UISubNode node="node-companion-command-broadcast-heal-me" />		
+<!-- <UISubNode node="node-scripting-example"/> -->
+	<UIFrame state=base		fill="ia_cancelshout.tga" />
+</UIRadialNode>
+
+
+<!-- ASSOCIATE_COMMAND_STANDGROUND -2  -->
+<UIRadialNode name="node-companion-command-broadcast-stand-ground" style="BASE_RADIAL_NODE" strref=1477
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionCompanionCommand("true",-2)  >
+	<UIFrame state=base		fill="ia_standground.tga" />
+</UIRadialNode>
+
+
+<!-- ASSOCIATE_COMMAND_ATTACKNEAREST -3  -->
+<UIRadialNode name="node-companion-command-broadcast-attack-nearest" style="BASE_RADIAL_NODE" strref=5345
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionCompanionCommand("true",-3) >
+	<UIFrame state=base		fill="ia_attacknearest.tga" />
+</UIRadialNode>
+
+
+<!-- ASSOCIATE_COMMAND_HEALMASTER -4  -->
+<UIRadialNode name="node-companion-command-broadcast-heal-me" style="BASE_RADIAL_NODE" strref=1483
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionCompanionCommand("true",-4)  >
+	<UIFrame state=base		fill="ia_healme.tga" />
+</UIRadialNode>
+
+
+<!-- ASSOCIATE_COMMAND_FOLLOWMASTER -5  -->
+<UIRadialNode name="node-companion-command-broadcast-follow-me" style="BASE_RADIAL_NODE" strref=179949
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionCompanionCommand("true",-5)  >
+	<UIFrame state=base		fill="ia_follow.tga" />
+</UIRadialNode>
+
+
+<!-- ASSOCIATE_COMMAND_GUARDMASTER -7  -->
+<UIRadialNode name="node-companion-command-broadcast-guard-me" style="BASE_RADIAL_NODE" strref=1474
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionCompanionCommand("true",-7)  >
+	<UIFrame state=base		fill="ia_guardme.tga" />
+</UIRadialNode>
+
+<!-- 
+	Node scripting example:
+	script name:	gui_scripttest
+	paramter 1:		Call#	(string)
+	paramter 2:		867		(integer)
+	paramter 3:		53.09	(float)
+	paramter 4:		Jenny	(string)
+<UIRadialNode name="node-scripting-example" style="BASE_RADIAL_NODE" 
+	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_scripttest","Call#","867","53.09","'Jenny'")  >
+	<UIFrame state=base		fill="ia_use.tga" />
+</UIRadialNode>
+--> 
+
+
+<!-- Player Emotes window -->
+<UIRadialNode name="menu-emotes" style="BASE_RADIAL_NODE" strref="1025"
+	OnLeftClickExpanded=UIRadialNode_Mouse_CollapseNode()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ExpandNode()>
+	<UISubNode node="node-emote-winner" />							
+	<UISubNode node="node-emote-nodyes" />
+	<UISubNode node="node-emote-nodno" />
+	<UISubNode node="node-emote-point" />
+	<UISubNode node="node-emote-cheer" />
+	<UISubNode node="node-emote-bow" />
+	<UISubNode node="node-emote-scratchead" />
+	<UISubNode node="node-emote-sigh" />
+	<UIFrame state=base		fill="ia_use.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-emote-winner" style="BASE_RADIAL_NODE" strref="181823"
+	OnInit=UIRadialNode_OnInit_Emote(0)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionEmote(0)  >
+</UIRadialNode>
+
+<UIRadialNode name="node-emote-nodyes" style="BASE_RADIAL_NODE" strref="181816"
+	OnInit=UIRadialNode_OnInit_Emote(1)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionEmote(1)  >
+</UIRadialNode>
+
+<UIRadialNode name="node-emote-nodno" style="BASE_RADIAL_NODE" strref="181817"
+	OnInit=UIRadialNode_OnInit_Emote(2)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionEmote(2)  >
+</UIRadialNode>
+
+<UIRadialNode name="node-emote-point" style="BASE_RADIAL_NODE" strref="181818"
+	OnInit=UIRadialNode_OnInit_Emote(3)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionEmote(3)  >
+</UIRadialNode>
+
+<UIRadialNode name="node-emote-cheer" style="BASE_RADIAL_NODE" strref="181828"
+	OnInit=UIRadialNode_OnInit_Emote(9)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionEmote(4)  >
+</UIRadialNode>
+
+<UIRadialNode name="node-emote-bow" style="BASE_RADIAL_NODE" strref="699"
+	OnInit=UIRadialNode_OnInit_Emote(5)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionEmote(5)  >
+</UIRadialNode>
+
+<UIRadialNode name="node-emote-scratchead" style="BASE_RADIAL_NODE" strref="181819"
+	OnInit=UIRadialNode_OnInit_Emote(19)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionEmote(19)  >
+</UIRadialNode>
+
+<UIRadialNode name="node-emote-sigh" style="BASE_RADIAL_NODE" strref="181812"
+	OnInit=UIRadialNode_OnInit_Emote(16)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionEmote(16)  >
+</UIRadialNode>
+
+
+<!--
+============================================================================================================
+							Environmental Interactive Object Root Menu
+
+	Non-static doors and placeables
+
+*	Open/Close - Attempts to open door or chest if closed.  
+	Changes to a close icon if open.  Close icon attempts to close the door or chest.
+*	Examine - Performs the examine action on the target immediately.
+*	Attack - Attempts to attack the door with the currently equipped weapon.
+*	Force - Attempts to force the door or chest open.  Only appears if the door or chest is locked. 
+	Otherwise, it is greyed-out.
+*	Pick Lock - Attempts to pick the lock on the door or chest.  Only appears if the door or chest is locked.  
+	Otherwise, it is greyed-out.
+*	Remove Trap - Attempts to remove the trap on the door or chest.  Only appears if the door or chest is 
+	trapped and the trap has been spotted.  Otherwise, it is greyed-out.
+
+
+============================================================================================================
+-->
+<UIRadialNode name="root-environmental-object" style="BASE_RADIAL_NODE" strref="182694" >
+	<UISubNode node="menu-dm-general" />
+	<UISubNode node="menu-dm-envirobj" />
+	<UISubNode node="menu-dm-dmfi-object" />
+	<UISubNode node="node-use" />									
+	<UISubNode node="node-examine"/>								
+	<UISubNode node="node-close-door"/>	
+	<UISubNode node="node-bash"/>									
+	<UISubNode node="node-picklock"/>								
+	<UISubNode node="node-setlock"/>
+	<UISubNode node="node-removetrap"/>								
+	<UISubNode node="node-examinetrap"/>
+</UIRadialNode>
+
+
+<UIRadialNode name="node-use" style="BASE_RADIAL_NODE" strref=554
+	OnInit=UIRadialNode_OnInit_UseObject()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionUseObject()>
+	<UIFrame state=base		fill="ia_use.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-close-door" style="BASE_RADIAL_NODE" strref="1466"
+	OnInit=UIRadialNode_OnInit_CloseDoor() 
+	OnLeftClickExpanded=UIRadialNode_Mouse_ActionCloseDoor() 
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionCloseDoor()>
+	<UIFrame state=base		fill="ia_openclose.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-bash" style="BASE_RADIAL_NODE" strref=946
+	OnInit=UIRadialNode_OnUpdate_AttackDisengage()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionAttackDisengage()>
+	<UIFrame state=base		fill="ia_bash.tga" />
+</UIRadialNode>
+
+
+<UIRadialNode name="node-picklock" style="BASE_RADIAL_NODE" strref=1467
+	OnLeftClickExpanded=UIRadialNode_Mouse_ActionUseSkill(9) 
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionUseSkill(9)
+	OnInit=UIRadialNode_OnInit_UseSkill(9) >
+</UIRadialNode>
+
+<UIRadialNode name="node-setlock" style="BASE_RADIAL_NODE" strref=947
+	OnLeftClickExpanded=UIRadialNode_Mouse_ActionUseSkill(9,103) 
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionUseSkill(9,103)
+	OnInit=UIRadialNode_OnInit_UseSkill(9,103) >
+</UIRadialNode>
+
+<UIRadialNode name="node-removetrap" style="BASE_RADIAL_NODE" strref=1471
+	OnLeftClickExpanded=UIRadialNode_Mouse_ActionUseSkill(2) 
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionUseSkill(2)
+	OnInit=UIRadialNode_OnInit_UseSkill(2) >
+</UIRadialNode>
+
+
+<UIRadialNode name="node-examinetrap" style="BASE_RADIAL_NODE" strref=549
+	OnLeftClickExpanded=UIRadialNode_Mouse_ActionUseSkill(2,102) 
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionUseSkill(2,102)
+	OnInit=UIRadialNode_OnInit_UseSkill(2,102) >
+</UIRadialNode>
+
+
+<UIRadialNode name="node-flagtrap" style="BASE_RADIAL_NODE" strref=1472
+	OnLeftClickExpanded=UIRadialNode_Mouse_ActionUseSkill(2,100) 
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionUseSkill(2,100)
+	OnInit=UIRadialNode_OnInit_UseSkill(2,100) >
+</UIRadialNode>
+
+<!-- 
+============================================================================================================
+								Environmental Item Root Menu
+
+	Objects outside of a container that can be picked up allow the following commands:
+
+*	Pick-Up - Attempts to place the object in the active character's inventory.
+*	Examine - Performs the examine action on the target immediately.
+*	DM Abilities - NOT FOR SHIP - The DM client will put a sub-menu here that allows the DM to do fancy 
+	things with this type of object.
+
+============================================================================================================
+-->
+
+
+<UIRadialNode name="root-environmental-item" style="BASE_RADIAL_NODE" strref=549
+	OnLeftClickExpanded=UIRadialNode_Mouse_CloseMenu() >
+	<UISubNode node="menu-dm-general" />
+	<UISubNode node="menu-dm-dmfi-item" />
+	<UISubNode node="node-pickup-item"/>
+	<UISubNode node="node-pickup-equip-item"/>
+	<UISubNode node="node-pickup-examine-item"/>								
+	<UISubNode node="node-examine" />
+	<UISubNode node="node-appraise" />									
+</UIRadialNode>
+
+
+
+<UIRadialNode name="node-pickup-item" style="BASE_RADIAL_NODE" strref=555
+		OnLeftClickExpanded=UIRadialNode_Mouse_ActionPickupItem() 
+		OnLeftClickCollapsed=UIRadialNode_Mouse_ActionPickupItem() >
+	<UIFrame state=base		fill="ia_takegold.tga" />
+</UIRadialNode>
+
+
+
+<UIRadialNode name="node-pickup-equip-item" style="BASE_RADIAL_NODE" text="Pick Up and Equip"
+	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_it_pickupequip") >
+	<UIFrame state=base		fill="ia_equip.tga" />
+</UIRadialNode>
+
+
+<UIRadialNode name="node-pickup-examine-item" style="BASE_RADIAL_NODE" text="Pick Up and Examine"
+	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_it_pickupexamine") >
+	<UIFrame state=base		fill="ia_sleightofhand.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-appraise" style="BASE_RADIAL_NODE" strref=2693
+	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_alfa_appraise") >
+	<UIFrame state=base		fill="isk_X1App.tga" />
+</UIRadialNode>
+
+<!-- 
+ 
+============================================================================================================
+								Hostile NPCs
+
+
+
+ Objects in a faction that is hostile to the PC will allow the following commands:
+
+*	Attack - Executes a standard attack against the target with the currently equipped weapon.
+*	Examine - Performs the examine action on the target immediately.
+*	Special Attacks - Brings up a sub-menu that features special attacks like knockdowns, disarms, and 
+	counterspells that the PC can perform against the target.  The selected action is performed on the 
+	selected target.
+*	Sleight of Hand - This only appears if the target is neutral or if the target is hostile and the 
+	active character is hidden/invisible.  Otherwise, it is greyed-out.
+*	Racial Abilities - Brings up a sub-menu.  Anything activated or de-activated that is associated with 
+	a specific race (excluding bonus feats) can be found here.  The same execution logic that applies to 
+	class abilities applies here.
+*	Class Abilities - Brings up a sub-menu.  Anything activated or de-activated that is associated with a 
+	specific class (excluding bonus feats) on the PC can be found here.  Character can have multiple 
+	sub-menus for multiple classes.  Each will have a separate icon in the menu.  The abilities will 
+	always be executed against the listed target unless the ability is reflexive or the target is of 
+	an invalid faction.
+
+
+============================================================================================================
+-->
+
+
+<UIRadialNode name="root-npc-hostile" style="BASE_RADIAL_NODE" strref="182695"
+	OnLeftClickExpanded=UIRadialNode_Mouse_CloseMenu() >
+	<UISubNode node="menu-dm-general" />
+	<UISubNode node="menu-dm-creature" />
+	<UISubNode node="menu-dm-creature-control" />
+	<UISubNode node="menu-dm-dmfi-creature"/>
+	<UISubNode node="node-attack" />
+	<UISubNode node="node-examine" />		
+	<UISubNode node="node-pickpocket" />	
+
+	<UISubNode node="node-identify" />
+	<UISubNode node="menu-abilities-target-otherabilities"/>							
+	<UISubNode node="menu-abilities-target-racial"/>							
+	<UISubNode node="menu-abilities-target-class-1"/>							
+	<UISubNode node="menu-abilities-target-class-2"/>							
+	<UISubNode node="menu-abilities-target-class-3"/>							
+	<UISubNode node="menu-abilities-target-class-4"/>							
+</UIRadialNode>
+
+<UIRadialNode name="node-attack" style="BASE_RADIAL_NODE" strref=1056
+	OnInit=UIRadialNode_OnUpdate_AttackDisengage()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionAttackDisengage()>
+	<UIFrame state=base		fill="ia_attack.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="menu-abilities-target-otherabilities" style="BASE_RADIAL_NODE" strref=949
+	OnInit=UIRadialNode_OnInit_CreatureOtherAbilities(0,"TARGET")>
+	<UIFrame state=base		fill="ia_racialabilities.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-pickpocket" style="BASE_RADIAL_NODE" strref=179956
+	OnLeftClickExpanded=UIRadialNode_Mouse_ActionUseSkill(13) 
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionUseSkill(13)
+	OnInit=UIRadialNode_OnInit_UseSkill(13) >
+</UIRadialNode>
+
+<UIRadialNode name="node-taunt" style="BASE_RADIAL_NODE" 
+	OnLeftClickExpanded=UIRadialNode_Mouse_ActionUseSkill(18) 
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionUseSkill(18)
+	OnInit=UIRadialNode_OnInit_UseSkill(18) >
+</UIRadialNode>
+
+<UIRadialNode name="node-identify" style="BASE_RADIAL_NODE" strref=13543
+	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_cre_identify") >
+	<UIFrame state=base		fill="is_identify.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="menu-abilities-target-racial" style="BASE_RADIAL_NODE" strref=179955
+	OnInit=UIRadialNode_OnInit_CreatureRacialAbilities(0,"TARGET")>
+	<UIFrame state=base		fill="ia_racialabilities.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="menu-abilities-target-class-1"  style="BASE_RADIAL_NODE" strref=112977
+	OnInit=UIRadialNode_OnInit_CreatureClassAbilities(0,0,"TARGET")> 
+</UIRadialNode>
+
+<UIRadialNode name="menu-abilities-target-class-2" style="BASE_RADIAL_NODE" strref=112977
+	OnInit=UIRadialNode_OnInit_CreatureClassAbilities(1,0,"TARGET")>
+</UIRadialNode>
+
+<UIRadialNode name="menu-abilities-target-class-3"  style="BASE_RADIAL_NODE" strref=112977
+	OnInit=UIRadialNode_OnInit_CreatureClassAbilities(2,0,"TARGET")>
+</UIRadialNode>
+
+<UIRadialNode name="menu-abilities-target-class-4"  style="BASE_RADIAL_NODE" strref=112977
+	OnInit=UIRadialNode_OnInit_CreatureClassAbilities(3,0,"TARGET")>
+</UIRadialNode>
+
+<!-- 
+============================================================================================================
+								Non Hostile NPCs
+
+	 Objects in a faction that is neutral or friendly to the PC will allow the following commands:
+
+*	Talk - Executes a standard attack against the target with the currently equipped weapon.
+*   Party Actions - Leave, accept, kick, transfer leadership, etc., sub-menu.
+*	Examine - Performs the examine action on the target immediately.
+*	Sleight of Hand - 
+*	Heal - Shows up only if the Heal skill could be of benefit to the target.
+*   Barter - Open trade window with another player.
+*	Attack - Forces an Attack on the target NPC
+*	Class Abilities - (NON Hostile only)
+*	Racial Abilities - (NON Hostile only)
+
+
+============================================================================================================
+-->
+
+
+<UIRadialNode name="root-npc-nonhostile" style="BASE_RADIAL_NODE" strref="182696" >
+	<UISubNode node="menu-dm-general" />
+	<UISubNode node="menu-dm-creature" />
+	<UISubNode node="menu-dm-creature-control" />
+	<UISubNode node="menu-dm-dmfi-creature"/>
+	<UISubNode node="node-talkto" />
+	<UISubNode node="menu-party-actions" />	
+	<UISubNode node="node-examine" />		
+		
+	<UISubNode node="node-barter" />
+	<UISubNode node="node-pickpocket" />	
+	<UISubNode node="node-attack" />
+	<UISubNode node="node-identify" />
+	<UISubNode node="menu-abilities-target-racial"/>							
+	<UISubNode node="menu-abilities-target-class-1"/>							
+	<UISubNode node="menu-abilities-target-class-2"/>							
+	<UISubNode node="menu-abilities-target-class-3"/>							
+	<UISubNode node="menu-abilities-target-class-4"/>								
+</UIRadialNode>
+
+<UIRadialNode name="node-talkto" style="BASE_RADIAL_NODE" strref=1072
+	OnInit=UIRadialNode_OnInit_TalkTo()
+	OnLeftClickExpanded=UIRadialNode_Mouse_ActionTalkTo() 
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionTalkTo() >
+	<UIFrame state=base		fill="ia_talk.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-barter" style="BASE_RADIAL_NODE" strref=263
+	OnInit=UIRadialNode_OnInit_Barter()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionStartBarter() >
+	<UIFrame state=base		fill="ia_barter.tga" />
+</UIRadialNode>
+
+<!-- The -1 parameter tells the function that we are seeing if we should
+  -- display the menu at all. The same callback will be used to determine
+  -- which of the specific subsequent callbacks will be displayed -->
+<UIRadialNode name="menu-party-actions" style="BASE_RADIAL_NODE" strref=179952
+	OnInit=UIRadialNode_OnInit_PartyActions(-1)>
+	<UIFrame state=base  fill="ia_partycommands.tga" />
+  <UISubNode node="node-party-leave" />
+	<UISubNode node="node-party-kick" />
+	<UISubNode node="node-party-transfer" />
+	<UISubNode node="node-party-invite" />
+	<UISubNode node="node-party-ignoreinvite" />
+	<UISubNode node="node-party-acceptinvite" />
+	<UISubNode node="node-party-rejectinvite" />
+</UIRadialNode>
+
+<!-- PARTY-LEAVE -->
+<!-- Shows up when in a party and not the party leader.
+  -- Also shows up if we target ourself. -->
+<UIRadialNode name="node-party-leave" style="BASE_RADIAL_NODE" strref=1071
+	OnInit=UIRadialNode_OnInit_PartyActions(0)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionPartyAction(0) >
+	<UIFrame state=base		fill="ia_removefromparty.tga" />
+</UIRadialNode>
+
+<!-- PARTY-KICK -->
+<!-- Shows up when in a party and the party leader and targetted someone else -->
+<UIRadialNode name="node-party-kick" style="BASE_RADIAL_NODE" strref=1068
+	OnInit=UIRadialNode_OnInit_PartyActions(1)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionPartyAction(1) >
+	<UIFrame state=base		fill="ia_kickplayer.tga" />
+</UIRadialNode>
+
+<!-- PARTY-TRANSFER -->
+<!-- Shows up when in a party and the party leader and targetted someone else -->
+<UIRadialNode name="node-party-transfer" style="BASE_RADIAL_NODE" strref=6383
+	OnInit=UIRadialNode_OnInit_PartyActions(3)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionPartyAction(3) >
+	<UIFrame state=base		fill="ia_transferlead.tga" />
+</UIRadialNode>
+
+<!-- PARTY-INVITE -->
+<!-- Shows up when in a party and the party leader and targetted someone else -->
+<UIRadialNode name="node-party-invite" style="BASE_RADIAL_NODE" strref=1067
+	OnInit=UIRadialNode_OnInit_PartyActions(4)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionPartyAction(4) >
+	<UIFrame state=base		fill="ia_invite.tga" />
+</UIRadialNode>
+
+<!-- PARTY-IGNOREINVITE -->
+<!-- Shows up not in a party and you've received an invitation. Must be targeting
+  -- yourself or the player that invited you -->
+<UIRadialNode name="node-party-ignoreinvite" style="BASE_RADIAL_NODE" strref=6384
+	OnInit=UIRadialNode_OnInit_PartyActions(5)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionPartyAction(5) >
+	<UIFrame state=base		fill="ia_cancelshout.tga" />
+</UIRadialNode>
+
+<!-- PARTY-ACCEPTINVITE -->
+<!-- Shows up not in a party and you've received an invitation. Must be targeting
+  -- yourself or the player that invited you -->
+<UIRadialNode name="node-party-acceptinvite" style="BASE_RADIAL_NODE" strref=6386
+	OnInit=UIRadialNode_OnInit_PartyActions(6)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionPartyAction(6) >
+	<UIFrame state=base		fill="ia_accept.tga" />
+</UIRadialNode>
+
+<!-- PARTY-REJECTINVITE -->
+<!-- Shows up not in a party and you've received an invitation. Must be targeting
+  -- yourself or the player that invited you -->
+<UIRadialNode name="node-party-rejectinvite" style="BASE_RADIAL_NODE" strref=6385
+	OnInit=UIRadialNode_OnInit_PartyActions(7)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionPartyAction(7) >
+	<UIFrame state=base		fill="ia_layonhands.tga" />
+</UIRadialNode>
+
+<!-- 
+============================================================================================================
+				Allies - PCs or NPCs in the same faction
+
+*	Talk - Attempts to speak with the targeted ally.
+*	Emote - A sub-menu of emotes that can be sent to the PC (assumes player's PC is the agent).
+*	Examine - Performs the examine action on the target immediately.
+*	Heal - Shows up only if the Heal skill could be of benefit to the target.  Otherwise, it is greyed out.
+*	Class Abilities - (NON Hostile only)
+*	Racial Abilities - (NON Hostile only)
+*	Companion Command Submenu
+
+============================================================================================================
+-->
+
+<UIRadialNode name="root-allies" style="BASE_RADIAL_NODE" strref="182697" >
+	<UISubNode node="menu-dm-general" />
+	<UISubNode node="menu-dm-creature" />
+	<UISubNode node="menu-dm-creature-control" />
+    <UISubNode node="menu-dm-dmfi-creature"/>
+    <UISubNode node="node-party-privatechat" />
+    <UISubNode node="node-talkto" />		
+    <UISubNode node="menu-party-actions" />	
+	<UISubNode node="node-examine" />		
+	<UISubNode node="node-inspect" />
+	<UISubNode node="node-barter" />
+	<UISubNode node="node-first-aid" />
+    <UISubNode node="node-pickpocket" />	
+	<UISubNode node="node-attack" />
+	<UISubNode node="menu-abilities-target-racial"/>							
+	<UISubNode node="menu-abilities-target-class-1"/>							
+	<UISubNode node="menu-abilities-target-class-2"/>							
+	<UISubNode node="menu-abilities-target-class-3"/>							
+	<UISubNode node="menu-abilities-target-class-4"/>		
+	<UISubnode node="menu-companion-command-single" />
+	<UISubNode node="node-unsummon"/>
+</UIRadialNode>
+
+<UIRadialNode name="node-inspect" style="BASE_RADIAL_NODE" text="Inspect"
+	OnLeftClickExpanded=UIObject_Misc_ExecuteServerScript("gui_kemo_bio","display","","")
+	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_kemo_bio","display","","")>
+	<UIFrame state=base	fill="ia_examine.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-unsummon" style="BASE_RADIAL_NODE" strref="1569"
+	OnInit=UIRadialNode_OnInit_Unsummon()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionUnsummon()  >
+	<UIFrame state=base		fill="ife_bullheaded.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-first-aid" style="BASE_RADIAL_NODE" strref=751
+	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_alfa_firstaid") >
+	<UIFrame state=base		fill="is_heal.tga" />
+</UIRadialNode>
+
+
+
+<!-- Submenu for : Companion Command (Single Companion) -->
+<UIRadialNode name="menu-companion-command-single" style="BASE_RADIAL_NODE" strref=683
+	OnInit=UIRadialNode_OnInit_BroadcastCommands()
+	OnLeftClickExpanded=UIRadialNode_Mouse_CloseMenu() >
+	<UISubNode node="action-companion-command-single-follow-me"/>							
+	<UISubNode node="action-companion-command-single-stand-ground" />		
+	<UISubNode node="action-companion-command-single-attack-nearest" />		
+	<UISubNode node="action-companion-command-single-guard-me"/>	
+	<UISubNode node="action-companion-command-single-heal-me" />		
+	<UIFrame state=base		fill="ia_cancelshout.tga" />	
+</UIRadialNode>
+
+
+<!-- ASSOCIATE_COMMAND_STANDGROUND -2  -->
+<UIRadialNode name="action-companion-command-single-stand-ground" style="BASE_RADIAL_NODE" strref=1477
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionCompanionCommand("false",-2) >
+	<UIFrame state=base		fill="ia_standground.tga" />
+</UIRadialNode>
+
+
+<!-- ASSOCIATE_COMMAND_ATTACKNEAREST -3  -->
+<UIRadialNode name="action-companion-command-single-attack-nearest" style="BASE_RADIAL_NODE" strref=5345
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionCompanionCommand("false",-3)  >
+	<UIFrame state=base		fill="ia_attacknearest.tga" />
+</UIRadialNode>
+
+
+<!-- ASSOCIATE_COMMAND_HEALMASTER -4  -->
+<UIRadialNode name="action-companion-command-single-heal-me" style="BASE_RADIAL_NODE" strref=1483
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionCompanionCommand("false",-4)  >
+	<UIFrame state=base		fill="ia_healme.tga" />
+</UIRadialNode>
+
+
+<!-- ASSOCIATE_COMMAND_FOLLOWMASTER -5  -->
+<UIRadialNode name="action-companion-command-single-follow-me" style="BASE_RADIAL_NODE" strref=179949
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionCompanionCommand("false",-5) >
+	<UIFrame state=base		fill="ia_follow.tga" />
+</UIRadialNode>
+
+
+<!-- ASSOCIATE_COMMAND_GUARDMASTER -7  -->
+<UIRadialNode name="action-companion-command-single-guard-me" style="BASE_RADIAL_NODE" strref=1474
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionCompanionCommand("false",-7) >
+	<UIFrame state=base		fill="ia_guardme.tga" />
+</UIRadialNode>
+
+
+<!-- ASSOCIATE_COMMAND_LEAVEPARTY -17 -->
+<UIRadialNode name="action-companion-command-leave-party" style="BASE_RADIAL_NODE" strref=1071 
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionCompanionCommand("false",-17)  >
+	<UIFrame state=base		fill="ia_removefromparty.tga" />
+</UIRadialNode>
+
+
+
+<!-- 
+============================================================================================================
+				Other PCs
+
+*	Examine - Performs the examine action on the target immediately.
+
+============================================================================================================
+-->
+
+<!-- 
+============================================================================================================
+				Interface Inventory Item 
+
+*	Examine - Performs the examine action on the target immediately.
+*	Split - This allows a stack of items to be split.
+*	Equip/Unequip - This icon changes like the open/close icon for doors and allows the player to equip 
+	the item in the appropriate default slot on the current character.  Unequipping it simply removes 
+	the item and places it in the inventory.  Unequippable items do not have this icon.
+*	Use - This may be either a single icon or a link to a sub-menu.  Items with single uses simply have 
+	the icon.  Items with multiple uses automatically go to the sub-menu.  Objects that cannot be used do 
+	not have this icon.
+
+============================================================================================================
+-->
+
+<UIRadialNode name="root-inventory-item" style="BASE_RADIAL_NODE" strref="3731"
+	OnInit=UIRadialNode_OnInit_InventoryItem() >
+	<UISubNode node="menu-dm-general" />
+	<UISubNode node="menu-dm-dmfi-item" />
+	<UISubNode node="node-examine" />									
+	<UISubNode node="menu-item-use-multi" />							
+	<UISubNode node="menu-item-use-single" />							
+	<UISubNode node="node-item-equip" />									
+	<UISubNode node="node-item-unequip" />	
+	<UISubNode node="node-item-split" />	
+	<UISubNode node="node-item-container-open" />	
+	<UISubNode node="node-item-drop" />							
+	<UISubNode node="node-item-cast-identify" />
+	<UISubNode node="node-item-store-sell" />									
+	<UISubNode node="node-item-store-identify" />			
+	<UISubNode node="node-item-scribe-scroll" />
+	<UISubNode node="node-appraise" />							
+</UIRadialNode>
+
+
+<!-- MENU-ITEM-USE-MULTI -->
+<!-- This node actually has to spawn a sub-array in its OnInit callback
+	 The nodes it spawns are of the action-item-use-# variety.    
+-->
+<UIRadialNode name="menu-item-use-multi"  style="BASE_RADIAL_NODE" strref="182698"
+	OnInit=UIRadialNode_OnInit_ItemUseSubMenu(0)>
+</UIRadialNode>
+
+<UIRadialNode name="menu-item-use-single"  style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_ItemUseSingle()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionItemUseProperty(0)>
+</UIRadialNode>
+
+
+<UIRadialNode name="node-item-container-open" style="BASE_RADIAL_NODE" strref="744"
+	OnInit=UIRadialNode_OnInit_Inventory_ShowContainerOpen()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Inventory_ContainerOpen() >
+	<UIFrame state=base	fill="ia_openclose.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-item-equip" style="BASE_RADIAL_NODE" strref="551"
+	OnInit=UIRadialNode_OnInit_Inventory_ShowEquip()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Inventory_Equip() >
+	<UIFrame state=base	fill="ia_equip.tga" />
+</UIRadialNode>
+
+
+<UIRadialNode name="node-item-unequip" style="BASE_RADIAL_NODE" strref="550"
+	OnInit=UIRadialNode_OnInit_Inventory_ShowUnequip()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Inventory_Unequip() >
+	<UIFrame state=base	fill="ia_disarm.tga" />
+</UIRadialNode>
+
+
+<UIRadialNode name="node-item-split" style="BASE_RADIAL_NODE" strref="559"
+	OnInit=UIRadialNode_OnInit_Inventory_ShowSplit()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Inventory_Split()>
+	<UIFrame state=base	fill="ia_splitcombine.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-item-drop" style="BASE_RADIAL_NODE" strref="553"
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Inventory_Drop()>
+	<UIFrame state=base	fill="ia_drop.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-item-cast-identify" style="BASE_RADIAL_NODE" strref="951"
+	OnInit=UIRadialNode_OnInit_Inventory_CastIdentify()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Inventory_CastIdentify()>
+	<UIFrame state=base	fill="is_identify.tga" />
+</UIRadialNode>
+
+
+<UIRadialNode name="node-item-store-sell" style="BASE_RADIAL_NODE" strref="6381"
+	OnInit=UIRadialNode_OnInit_Store("SELL")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Store("SELL")>
+	<UIFrame state=base	fill="ia_sell.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-item-store-identify" style="BASE_RADIAL_NODE" strref="183636" 
+	OnInit=UIRadialNode_OnInit_Store("IDENTIFY")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Store("IDENTIFY")>
+	<UIFrame state=base	fill="is_identify.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-item-scribe-scroll" style="BASE_RADIAL_NODE" strref="68895"
+	OnInit=UIRadialNode_OnInit_Inventory_ShowScribeScroll()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Inventory_ScribeScroll()>
+	<UIFrame state=base	fill="ife_scribescroll.tga" />
+</UIRadialNode>
+
+<!-- 
+============================================================================================================
+				Barter Item
+
+*	Examine - Performs the examine action on the target immediately.
+
+============================================================================================================
+-->
+
+<UIRadialNode name="root-barter-item" style="BASE_RADIAL_NODE" strref="182699" >
+	<UISubNode node="node-examine" />	
+	<UISubNode node="node-appraise" />								
+</UIRadialNode>
+
+
+
+
+
+
+<!-- 
+============================================================================================================
+				Interface Store Item
+
+*	Examine - Performs the examine action on the target immediately.
+
+============================================================================================================
+-->
+<UIRadialNode name="root-store-item" style="BASE_RADIAL_NODE" strref="182699" >
+	<UISubNode node="node-examine" />
+	<UISubNode node="node-appraise" />									
+	<UISubNode node="node-item_store-buy" /> 
+</UIRadialNode>
+
+<UIRadialNode name="node-item_store-buy" style="BASE_RADIAL_NODE" strref="6380"
+	OnInit=UIRadialNode_OnInit_Store("BUY")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Store("BUY")>
+	<UIFrame state=base	fill="ia_buy.tga" />
+</UIRadialNode>
+
+<!-- 
+============================================================================================================
+				Interface World Container Item
+
+*	Examine - Performs the examine action on the target immediately.
+
+============================================================================================================
+-->
+<UIRadialNode name="root-container-item" style="BASE_RADIAL_NODE" strref="182699" >
+	<UISubNode node="menu-dm-general" />
+	<UISubNode node="menu-dm-dmfi-item" />
+	<UISubNode node="node-examine" />
+	<UISubNode node="node-item-take" /> 
+</UIRadialNode>
+
+<UIRadialNode name="node-item-take" style="BASE_RADIAL_NODE" strref="6652"
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Inventory_Take()>
+	<UIFrame state=base	fill="ia_takegold.tga" />
+</UIRadialNode>
+
+
+<!-- 
+============================================================================================================
+								
+				Trap Triggers
+
+============================================================================================================
+-->
+
+<UIRadialNode name="root-environmental-trap" style="BASE_RADIAL_NODE" strref=47442
+	OnLeftClickExpanded=UIRadialNode_Mouse_CloseMenu() >
+	<UISubNode node="menu-dm-general" />
+	<UISubNode node="menu-dm-trigger" />
+	<UISubNode node="node-examinetrap"/>
+	<UISubNode node="node-removetrap"/>								
+</UIRadialNode>
+
+
+<!-- 
+============================================================================================================
+				Interface Chat Window
+
+
+============================================================================================================
+-->
+<UIRadialNode name="root-chat-window" style="BASE_RADIAL_NODE" strref="2392" >
+
+  <UISubNode node="node-chat-replyto" />
+
+  <!--
+	<UISubNode node="node-chat-none-show" />
+	<UISubNode node="node-chat-none-hide" />
+ -->
+	<UISubNode node="node-chat-talk-show" />
+	<UISubNode node="node-chat-talk-hide" />
+
+	<UISubNode node="node-chat-tell-show" />
+	<UISubNode node="node-chat-tell-hide" />
+
+	<UISubNode node="node-chat-shout-show" />
+	<UISubNode node="node-chat-shout-hide" />
+
+	<UISubNode node="node-chat-whisper-show" />
+	<UISubNode node="node-chat-whisper-hide" />
+
+<!-- 
+	<UISubNode node="node-chat-tohit-show" />
+	<UISubNode node="node-chat-tohit-hide" />
+-->
+
+	<UISubNode node="node-chat-servertell-show" />
+	<UISubNode node="node-chat-servertell-hide" />
+
+	<UISubNode node="node-chat-party-show" />
+	<UISubNode node="node-chat-party-hide" />
+
+	<UISubNode node="node-chat-general-show" />
+	<UISubNode node="node-chat-general-hide" />
+
+	<UISubNode node="node-chat-dialog-show" />
+	<UISubNode node="node-chat-dialog-hide" />
+
+<!-- 
+	<UISubNode node="node-chat-dialogreply-show" />
+	<UISubNode node="node-chat-dialogreply-hide" />
+-->
+
+	<UISubNode node="node-chat-dmmsg-show" />
+	<UISubNode node="node-chat-dmmsg-hide" />
+
+<!-- 
+	<UISubNode node="node-chat-console-show" />
+	<UISubNode node="node-chat-console-hide" />
+-->
+
+</UIRadialNode>
+
+<!-- MESSAGE_NONE -->
+<!--
+<UIRadialNode name="node-chat-none-show" style="BASE_RADIAL_NODE" strref=67384
+	OnInit=UIRadialNode_OnInit_Quickchat_Show("MESSAGE_NONE")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Show("MESSAGE_NONE")>
+	<UIFrame state=base	fill="ia_use.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-chat-none-hide" style="BASE_RADIAL_NODE" strref=67386
+	OnInit=UIRadialNode_OnInit_Quickchat_Hide("MESSAGE_NONE")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Hide("MESSAGE_NONE")>
+	<UIFrame state=base	fill="b_emptyframe.tga" />
+</UIRadialNode>
+-->
+
+<!-- MESSAGE_REPLYTO -->
+<UIRadialNode name="node-chat-replyto" style="BASE_RADIAL_NODE" strref="67574"
+	OnInit=UIRadialNode_OnInit_Replyto_Show()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Replyto() >
+  <UIFrame state="base"	fill="it_z_blank.tga" />
+</UIRadialNode>
+
+<!-- MESSAGE_TALK -->
+<UIRadialNode name="node-chat-talk-show" style="BASE_RADIAL_NODE" strref=67574
+	OnInit=UIRadialNode_OnInit_Quickchat_Show("MESSAGE_TALK")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Show("MESSAGE_TALK")>
+	<UIFrame state=base	fill="it_z_blank.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-chat-talk-hide" style="BASE_RADIAL_NODE" strref=67574
+	OnInit=UIRadialNode_OnInit_Quickchat_Hide("MESSAGE_TALK")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Hide("MESSAGE_TALK")>
+	<UIFrame state=base	fill="ia_use.tga" />
+</UIRadialNode>
+
+
+<!-- MESSAGE_TELL -->
+<UIRadialNode name="node-chat-tell-show" style="BASE_RADIAL_NODE" strref=183247
+	OnInit=UIRadialNode_OnInit_Quickchat_Show("MESSAGE_TELL")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Show("MESSAGE_TELL")>
+	<UIFrame state=base	fill="it_z_blank.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-chat-tell-hide" style="BASE_RADIAL_NODE" strref=183247
+	OnInit=UIRadialNode_OnInit_Quickchat_Hide("MESSAGE_TELL")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Hide("MESSAGE_TELL")>
+	<UIFrame state=base	fill="ia_use.tga" />
+</UIRadialNode>
+
+<!-- MESSAGE_SHOUT -->
+<UIRadialNode name="node-chat-shout-show" style="BASE_RADIAL_NODE" strref=1394
+	OnInit=UIRadialNode_OnInit_Quickchat_Show("MESSAGE_SHOUT")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Show("MESSAGE_SHOUT")>
+	<UIFrame state=base	fill="it_z_blank.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-chat-shout-hide" style="BASE_RADIAL_NODE" strref=1394
+	OnInit=UIRadialNode_OnInit_Quickchat_Hide("MESSAGE_SHOUT")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Hide("MESSAGE_SHOUT")>
+	<UIFrame state=base	fill="ia_use.tga" />
+</UIRadialNode>
+
+
+<!-- MESSAGE_WHISPER -->
+<UIRadialNode name="node-chat-whisper-show" style="BASE_RADIAL_NODE" strref=183250
+	OnInit=UIRadialNode_OnInit_Quickchat_Show("MESSAGE_WHISPER")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Show("MESSAGE_WHISPER")>
+	<UIFrame state=base	fill="it_z_blank.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-chat-whisper-hide" style="BASE_RADIAL_NODE" strref=183250
+	OnInit=UIRadialNode_OnInit_Quickchat_Hide("MESSAGE_WHISPER")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Hide("MESSAGE_WHISPER")>
+	<UIFrame state=base	fill="ia_use.tga" />
+</UIRadialNode>
+
+<!-- MESSAGE_TO_HIT 
+  -- Doesn't do anything
+<UIRadialNode name="node-chat-tohit-show" style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_Quickchat_Show("MESSAGE_TO_HIT")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Show("MESSAGE_TO_HIT")>
+	<UIFrame state=base	fill="ia_use.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-chat-tohit-hide" style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_Quickchat_Hide("MESSAGE_TO_HIT")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Hide("MESSAGE_TO_HIT")>
+	<UIFrame state=base	fill="it_z_blank.tga" />
+</UIRadialNode>
+-->
+
+<!-- MESSAGE_SERVERTELL -->
+<UIRadialNode name="node-chat-servertell-show" style="BASE_RADIAL_NODE" strref=1397
+	OnInit=UIRadialNode_OnInit_Quickchat_Show("MESSAGE_SERVERTELL")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Show("MESSAGE_SERVERTELL")>
+	<UIFrame state=base	fill="it_z_blank.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-chat-servertell-hide" style="BASE_RADIAL_NODE" strref=1397
+	OnInit=UIRadialNode_OnInit_Quickchat_Hide("MESSAGE_SERVERTELL")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Hide("MESSAGE_SERVERTELL")>
+	<UIFrame state=base	fill="ia_use.tga" />
+</UIRadialNode>
+
+<!-- MESSAGE_PARTY -->
+<UIRadialNode name="node-chat-party-show" style="BASE_RADIAL_NODE" strref=1399
+	OnInit=UIRadialNode_OnInit_Quickchat_Show("MESSAGE_PARTY")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Show("MESSAGE_PARTY")>
+	<UIFrame state=base	fill="it_z_blank.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-chat-party-hide" style="BASE_RADIAL_NODE" strref=1399
+	OnInit=UIRadialNode_OnInit_Quickchat_Hide("MESSAGE_PARTY")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Hide("MESSAGE_PARTY")>
+	<UIFrame state=base	fill="ia_use.tga" />
+</UIRadialNode>
+
+<!-- MESSAGE_CCMESSAGE -->
+<UIRadialNode name="node-chat-general-show" style="BASE_RADIAL_NODE" strref=1407
+	OnInit=UIRadialNode_OnInit_Quickchat_Show("MESSAGE_CCMESSAGE")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Show("MESSAGE_CCMESSAGE")>
+	<UIFrame state=base	fill="it_z_blank.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-chat-general-hide" style="BASE_RADIAL_NODE" strref=1407
+	OnInit=UIRadialNode_OnInit_Quickchat_Hide("MESSAGE_CCMESSAGE")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Hide("MESSAGE_CCMESSAGE")>
+	<UIFrame state=base	fill="ia_use.tga" />
+</UIRadialNode>
+
+
+<!-- MESSAGE_DIALOG -->
+<UIRadialNode name="node-chat-dialog-show" style="BASE_RADIAL_NODE" strref=183252
+	OnInit=UIRadialNode_OnInit_Quickchat_Show("MESSAGE_DIALOG")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Show("MESSAGE_DIALOG")>
+	<UIFrame state=base	fill="it_z_blank.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-chat-dialog-hide" style="BASE_RADIAL_NODE" strref=183252
+	OnInit=UIRadialNode_OnInit_Quickchat_Hide("MESSAGE_DIALOG")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Hide("MESSAGE_DIALOG")>
+	<UIFrame state=base	fill="ia_use.tga" />
+</UIRadialNode>
+
+
+<!-- MESSAGE_DIALOGREPLY 
+  -- Doesn't do anything
+<UIRadialNode name="node-chat-dialogreply-show" style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_Quickchat_Show("MESSAGE_DIALOGREPLY")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Show("MESSAGE_DIALOGREPLY")>
+	<UIFrame state=base	fill="ia_use.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-chat-dialogreply-hide" style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_Quickchat_Hide("MESSAGE_DIALOGREPLY")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Hide("MESSAGE_DIALOGREPLY")>
+	<UIFrame state=base	fill="it_z_blank.tga" />
+</UIRadialNode>
+-->
+
+
+<!-- MESSAGE_DM_MESSAGE -->
+<UIRadialNode name="node-chat-dmmsg-show" style="BASE_RADIAL_NODE" strref=67572
+	OnInit=UIRadialNode_OnInit_Quickchat_Show("MESSAGE_DM_MESSAGE")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Show("MESSAGE_DM_MESSAGE")>
+	<UIFrame state=base	fill="it_z_blank.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-chat-dmmsg-hide" style="BASE_RADIAL_NODE" strref=67572
+	OnInit=UIRadialNode_OnInit_Quickchat_Hide("MESSAGE_DM_MESSAGE")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Hide("MESSAGE_DM_MESSAGE")>
+	<UIFrame state=base	fill="ia_use.tga" />
+</UIRadialNode>
+
+<!-- MESSAGE_CONSOLE 
+  -- Doesn't do anything
+<UIRadialNode name="node-chat-console-show" style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_Quickchat_Show("MESSAGE_CONSOLE")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Show("MESSAGE_CONSOLE")>
+	<UIFrame state=base	fill="ia_use.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-chat-console-hide" style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_Quickchat_Hide("MESSAGE_CONSOLE")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_Quickchat_Hide("MESSAGE_CONSOLE")>
+	<UIFrame state=base	fill="it_z_blank.tga" />
+</UIRadialNode>
+-->
+
+
+<!-- 
+============================================================================================================
+
+				Sub-Spell selection interface
+
+============================================================================================================
+-->
+<UIRadialNode name="root-sub-spell" style="BASE_RADIAL_NODE" strref="2295"
+	OnInit=UIRadialNode_OnInit_SubSpell() >
+</UIRadialNode>
+
+
+
+
+<!-- 
+============================================================================================================
+
+				Sub-Feat selection interface
+ 
+============================================================================================================
+-->
+<UIRadialNode name="root-sub-feat" style="BASE_RADIAL_NODE" strref="326"
+	OnInit=UIRadialNode_OnInit_SubFeat() >
+</UIRadialNode>
+
+
+<!-- 
+============================================================================================================
+
+				Item Sub-Property selection interface
+ 
+============================================================================================================
+-->
+<UIRadialNode name="root-sub-itemprop" style="BASE_RADIAL_NODE" strref="182698"
+	OnInit=UIRadialNode_OnInit_ItemUseSubMenu(0) >
+</UIRadialNode>
+
+
+
+
+
+<!-- 
+============================================================================================================
+
+				DM Client Menus
+
+ 
+============================================================================================================
+-->
+<!-- DM General commands -->
+<UIRadialNode name="menu-dm-general" style="BASE_RADIAL_NODE" strref=184716
+	OnInit=UIRadialNode_OnInit_DM_General()
+	OnLeftClickExpanded=UIRadialNode_Mouse_CollapseNode()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ExpandNode()>
+	<UISubNode node="node-dm-goto" />							
+	<UISubNode node="node-dm-destroy" />
+	<UISubNode node="node-dm-add-invulnerable" />
+	<UISubNode node="node-dm-rem-invulnerable" />
+	<UISubNode node="node-dm-dump-locals" />
+	<UIFrame state=base	fill="ia_use.tga" />
+</UIRadialNode>
+
+
+<!-- DM Creature specific commands -->
+<UIRadialNode name="menu-dm-creature" style="BASE_RADIAL_NODE" strref=184717
+	OnInit=UIRadialNode_OnInit_DM_Creature()
+	OnLeftClickExpanded=UIRadialNode_Mouse_CollapseNode()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ExpandNode()>
+	<UISubNode node="node-dm-limbo" />		
+	<UISubNode node="node-dm-jumptodm" />
+	<UISubNode node="node-dm-heal" />
+	<UISubNode node="node-dm-kill" />
+	<UISubNode node="node-dm-force-rest" />
+	<UISubNode node="node-dm-givebonusxp" />
+	<UISubNode node="node-dm-givexp" />
+	<UISubNode node="node-dm-givegold" />
+	<UISubNode node="node-dm-setxp" />
+	<UISubNode node="node-dm-set-scripthidden" />
+	<UISubNode node="node-dm-unset-scripthidden" />
+	<UISubNode node="node-dm-reset2level" />
+      <UISubNode node="node-dm-shiftalignment" />	
+	<UIFrame state=base	fill="is_charmperson.tga" />
+</UIRadialNode>
+
+<!-- DM Creature specific commands 
+
+-->
+
+<!-- DM Creature Control commands -->
+<UIRadialNode name="menu-dm-creature-control" style="BASE_RADIAL_NODE" strref=184743
+	OnInit=UIRadialNode_OnInit_DM_Creature()
+	OnLeftClickExpanded=UIRadialNode_Mouse_CollapseNode()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ExpandNode()>
+	<UISubNode node="node-dm-unpossess" />		
+	<UISubNode node="node-dm-possess" />		
+	<UISubNode node="node-dm-impersonate" />
+	<UIFrame state=base	fill="is_charm.tga" />
+</UIRadialNode>
+
+
+<!-- DM Door / Placeable specific commands -->
+<UIRadialNode name="menu-dm-envirobj" style="BASE_RADIAL_NODE" strref=184718
+	OnInit=UIRadialNode_OnInit_DM_EnvObject()
+	OnLeftClickExpanded=UIRadialNode_Mouse_CollapseNode()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ExpandNode()>
+	<UISubNode node="node-dm-lock" />							
+	<UISubNode node="node-dm-unlock" />
+	<UISubNode node="node-dm-setlockable" />
+	<UISubNode node="node-dm-setunlockable" />
+	<UISubNode node="node-dm-disabletrap" />
+	<UIFrame state=base	fill="ia_openclose.tga" />
+</UIRadialNode>
+
+
+<!-- DM Trigger commands -->
+<UIRadialNode name="menu-dm-trigger" style="BASE_RADIAL_NODE" strref=184719
+	OnInit=UIRadialNode_OnInit_DM_Trigger()
+	OnLeftClickExpanded=UIRadialNode_Mouse_CollapseNode()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ExpandNode()>
+	<UISubNode node="node-dm-trigger-entered" />
+	<UISubNode node="node-dm-trigger-exited" />
+	<UISubNode node="node-dm-disabletrap" />
+	<UIFrame state=base	fill="ia_traps.tga" />
+</UIRadialNode>
+
+
+
+<!-- DM General commands -->
+<UIRadialNode name="node-dm-goto" style="BASE_RADIAL_NODE" strref=184746
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_Goto()>
+	<UIFrame state=base	fill="ia_moveto.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-destroy" style="BASE_RADIAL_NODE"
+	OnInit=UIRadialNode_OnInit_DM_GenericCommand("DM_COMMAND_DESTROY")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_DESTROY")>
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-add-invulnerable" style="BASE_RADIAL_NODE"  strref=184747
+	OnInit=UIRadialNode_OnInit_DM_SetPlot(1)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_TOGGLEINVULNERABLE")>
+	<UIFrame state=base	fill="ia_makeinvuln.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-rem-invulnerable" style="BASE_RADIAL_NODE"  strref=184748
+	OnInit=UIRadialNode_OnInit_DM_SetPlot(0)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_TOGGLEINVULNERABLE")>
+	<UIFrame state=base	fill="ia_makeinvuln.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-dump-locals" style="BASE_RADIAL_NODE" strref=184752
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_DumpLocals()>
+	<UIFrame state=base	fill="ia_drop.tga" />
+</UIRadialNode>
+
+
+
+
+<!-- DM Creature specific commands -->
+
+<UIRadialNode name="node-dm-limbo" style="BASE_RADIAL_NODE"
+	OnInit=UIRadialNode_OnInit_DM_GenericCommand("DM_COMMAND_LIMBO")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_LIMBO")>
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-jumptodm" style="BASE_RADIAL_NODE" strref=184745
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_JumpToDM()>
+	<UIFrame state=base	fill="ia_jump.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-heal" style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_DM_GenericCommand("DM_COMMAND_HEAL")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_HEAL")>
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-kill" style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_DM_GenericCommand("DM_COMMAND_KILL")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_KILL")>
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-force-rest" style="BASE_RADIAL_NODE" 	
+	OnInit=UIRadialNode_OnInit_DM_GenericCommand("DM_COMMAND_FORCEREST")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_FORCEREST")>
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-setxp" style="BASE_RADIAL_NODE" text="Set Experience"
+    OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmc_setxp",-1) >
+	<UIFrame state=base		fill="ia_assignotheractions.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-givebonusxp" style="BASE_RADIAL_NODE" text="Give 10 XP"
+    OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",0,0,0.0,10,0,1) >
+	<UIFrame state=base		fill="ia_assignotheractions.tga" />
+</UIRadialNode>
+
+<!-- Launch the Give XP GUI and pass in the default settings (should match GUI defaults) -->
+<UIRadialNode name="node-dm-givexp" style="BASE_RADIAL_NODE" text="Give Experience"
+    OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",0,30,1.0,0,1) >
+	<UIFrame state=base		fill="ia_assignotheractions.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-givegold" style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_DM_GenericCommand("DM_COMMAND_GIVEGOLD")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_AmountCommand("DM_COMMAND_GIVEGOLD")>
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-givelevel" style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_DM_GenericCommand("DM_COMMAND_GIVELEVEL")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_AmountCommand("DM_COMMAND_GIVELEVEL")>
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-reset2level" style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_DM_GenericCommand("DM_COMMAND_RESETLEVEL")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_AmountCommand("DM_COMMAND_RESETLEVEL")>
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-set-scripthidden" style="BASE_RADIAL_NODE" strref=184750
+	OnInit=UIRadialNode_OnInit_DM_SetScriptHidden(1)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_TOGGLESCRIPTHIDDEN")>
+	<UIFrame state=base	fill="it_blankscroll.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-unset-scripthidden" style="BASE_RADIAL_NODE"  strref=184751
+	OnInit=UIRadialNode_OnInit_DM_SetScriptHidden(0)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_TOGGLESCRIPTHIDDEN")>
+	<UIFrame state=base	fill="it_blankscroll.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-shiftalignment" style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_DM_GenericCommand("DM_COMMAND_SHIFTALIGNMENT")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_AmountCommand("DM_COMMAND_SHIFTALIGNMENT")>
+</UIRadialNode>
+
+
+<!-- DM Door / Placeable specific commands -->
+<UIRadialNode name="node-dm-lock" style="BASE_RADIAL_NODE" strref=184722
+	OnInit=UIRadialNode_OnInit_DM_SetLocked(1)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_TOGGLELOCK")>
+	<UIFrame state=base	fill="ia_lock.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-unlock" style="BASE_RADIAL_NODE" strref=184723
+	OnInit=UIRadialNode_OnInit_DM_SetLocked(0)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_TOGGLELOCK")>
+	<UIFrame state=base	fill="ia_unlock.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-setlockable" style="BASE_RADIAL_NODE" strref=184725
+	OnInit=UIRadialNode_OnInit_DM_SetLockable(1)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_TOGGLELOCKABLE")>
+	<UIFrame state=base	fill="ia_forcelock.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-setunlockable" style="BASE_RADIAL_NODE" strref=184726
+	OnInit=UIRadialNode_OnInit_DM_SetLockable(0)
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_TOGGLELOCKABLE")>
+	<UIFrame state=base	fill="ia_forcelock.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-disabletrap" style="BASE_RADIAL_NODE" strref=184730
+	OnInit=UIRadialNode_OnInit_DM_DisableTrap()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_DISABLETRAP")>
+	<UIFrame state=base	fill="ia_disabledevice.tga" />
+</UIRadialNode>
+
+<!-- DM Trigger commands -->
+<UIRadialNode name="node-dm-trigger-entered" style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_DM_GenericCommand("DM_COMMAND_TRIGGERENTERED")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_TRIGGERENTERED")>
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-trigger-exited" style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_DM_GenericCommand("DM_COMMAND_TRIGGEREXITED")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_TRIGGEREXITED")>
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-unpossess" style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_DM_GenericCommand("DM_COMMAND_UNPOSSESS")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_UNPOSSESS")>
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-possess" style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_DM_GenericCommand("DM_COMMAND_POSSESS")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_POSSESS")>
+</UIRadialNode>
+
+<UIRadialNode name="node-dm-impersonate" style="BASE_RADIAL_NODE" 
+	OnInit=UIRadialNode_OnInit_DM_GenericCommand("DM_COMMAND_IMPERSONATE")
+	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_IMPERSONATE")>
+</UIRadialNode>
+
+
+                                       <!-- PC Tools -- Heed -->
+
+
+<UIRadialNode name="node-pctools" style="BASE_RADIAL_NODE" text="PC Tools"
+	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","1","1.0","") >
+	<UIFrame state=base fill="hss_gui_pctool.tga" />
+</UIRadialNode>
+
+
+                                       <!-- PC Tools -- Heed -->
+
+
+
+<!--  ============================================================================================================
+    				DMFI Context Menus
+     
+    ============================================================================================================ -->
+   
+      	    <UIRadialNode name="node-dmfi-toggle" style="BASE_RADIAL_NODE" text="Toggle DMFI UI"
+	      	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".ui") >
+	    <UIFrame state=base	fill="dmfi_blue.tga" />
+	    </UIRadialNode>
+
+
+
+   <!-- DMFI ITEM Menu -->
+       	
+   <UIRadialNode name="menu-dm-dmfi-item" style="BASE_RADIAL_NODE" text="DMFI Item Tool"
+       	OnInit=UIRadialNode_OnInit_DM_General()
+       	OnLeftClickExpanded=UIRadialNode_Mouse_CollapseNode()
+       	OnLeftClickCollapsed=UIRadialNode_Mouse_ExpandNode()>
+       	<UISubNode node="node_dm_dmfi_identify" />
+   	<UISubNode node="node_dm_dmfi_rename" />
+   	<UISubNode node="node_dm_dmfi_give" />
+   	<UISubNode node="node_dm_dmfi_take" />
+   	<UISubNode node="node_dm_dmfi_togcursed" />
+   	<UISubNode node="node_dm_dmfi_togplot" />
+   	<UISubNode node="node_dm_dmfi_togstolen" />
+   	<UIFrame state=base	fill="dmfi_blue.tga" />
+       	</UIRadialNode>
+       			
+   	    
+   	    <UIRadialNode name="node_dm_dmfi_identify" style="BASE_RADIAL_NODE" text="Identify"
+   	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".item_identify") >
+   	    <UIFrame state=base	fill="is_identify.tga" />
+   	    </UIRadialNode>
+   	    <UIRadialNode name="node_dm_dmfi_rename" style="BASE_RADIAL_NODE" text="Rename"
+	       	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".rename") >
+	       	<UIFrame state=base	fill="ia_issuecommands.tga" />
+   	    </UIRadialNode>
+   	       	       	    
+    	    <UIRadialNode name="node_dm_dmfi_give" style="BASE_RADIAL_NODE" text="Give Item (IM)"
+	       	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".item_give") >
+	    <UIFrame state=base	fill="ia_disarm.tga" />
+   	    </UIRadialNode>
+   	    
+   	    <UIRadialNode name="node_dm_dmfi_take" style="BASE_RADIAL_NODE" text="Take Item (IM)"
+	       	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".item_take") >
+	    <UIFrame state=base	fill="ia_disarm.tga" />
+   	    </UIRadialNode>
+   	    
+   	    <UIRadialNode name="node_dm_dmfi_togcursed" style="BASE_RADIAL_NODE" text="Toggle Cursed"
+   	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".item_toggle_cursed") >
+   	    <UIFrame state=base	fill="ia_assignmodes.tga" />
+   	    </UIRadialNode>
+   	    <UIRadialNode name="node_dm_dmfi_togplot" style="BASE_RADIAL_NODE" text="Toggle Plot"
+   	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".item_toggle_plot")>
+            <UIFrame state=base	fill="ia_assignspecialability.tga" />
+            </UIRadialNode>
+   	    <UIRadialNode name="node_dm_dmfi_togstolen" style="BASE_RADIAL_NODE" text="Toggle Stolen"
+             	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".item_toggle_stolen") >
+            <UIFrame state=base	fill="ia_assignspecialattack.tga" />
+            </UIRadialNode>
+    
+   <!-- DMFI OBJECT Menu -->
+       	
+   <UIRadialNode name="menu-dm-dmfi-object" style="BASE_RADIAL_NODE" text="DMFI Object Tool"
+            OnInit=UIRadialNode_OnInit_DM_General()
+            OnLeftClickExpanded=UIRadialNode_Mouse_CollapseNode()
+            OnLeftClickCollapsed=UIRadialNode_Mouse_ExpandNode()>
+          
+          <UISubNode node="node_dm_dmfi_rotate" />
+          <UISubNode node="node_dm_dmfi_rename" />
+          <UIFrame state=base	fill="dmfi_blue.tga" />
+     </UIRadialNode>
+     
+     
+     <UIRadialNode name="node_dm_dmfi_rotate" style="BASE_RADIAL_NODE" text="DMFI Rotate"
+	OnInit=UIRadialNode_OnInit_DM_General()
+	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".facing") >
+	<UIFrame state=base	fill="ia_previous.tga" />
+    </UIRadialNode>
+
+     
+<!-- DMFI SERVER Menu --> 
+   
+   <UIRadialNode name="menu-dm-dmfi-server" style="BASE_RADIAL_NODE" text="DMFI Server Tool"
+          OnInit=UIRadialNode_OnInit_DM_General()
+          OnLeftClickExpanded=UIRadialNode_Mouse_CollapseNode()
+          OnLeftClickCollapsed=UIRadialNode_Mouse_ExpandNode()>
+        <UISubNode node="node_dm_dmfi_advtime" />
+        <UISubNode node="node_dm_dmfi_recall" />
+      	<UISubNode node="node_dm_dmfi_repgold" />
+      	<UISubNode node="node_dm_dmfi_repnw" />
+      	<UISubNode node="node_dm_dmfi_repxp" />
+      	
+      	<UISubNode node="menu-dm-dmfi-init" />
+      	<UISubNode node="menu-dm-dmfi-battle" />
+      	<UIFrame state=base	fill="dmfi_blue.tga" />
+        </UIRadialNode>
+          			
+      	    <UIRadialNode name="node_dm_dmfi_advtime" style="BASE_RADIAL_NODE" text="Adjust Time"
+      	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","context_time") >
+      	    <UIFrame state=base	fill="ia_wait.tga" />
+      	    </UIRadialNode>
+      	    
+      	    <UIRadialNode name="node_dm_dmfi_recall" style="BASE_RADIAL_NODE" text="Paste Creature"
+	        OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".paste") >
+	    <UIFrame state=base	fill="is_mirrorimage.tga" />
+      	    </UIRadialNode>
+      	    
+      	    <UIRadialNode name="node_dm_dmfi_repgold" style="BASE_RADIAL_NODE" text="Report Gold"
+      	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".report_gold") >
+      	    <UIFrame state=base	fill="it_gold.tga" />
+      	    </UIRadialNode>
+      	    <UIRadialNode name="node_dm_dmfi_repnw" style="BASE_RADIAL_NODE" text="Report Net Worth"
+      	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".report_networth") >
+      	    <UIFrame state=base	fill="ia_inventory.tga" />
+      	    </UIRadialNode>
+      	    <UIRadialNode name="node_dm_dmfi_repxp" style="BASE_RADIAL_NODE" text="Report XP"
+      	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".report_xp") >
+      	    <UIFrame state=base	fill="ia_makeinvuln.tga" />
+      	    </UIRadialNode>
+      	         	    
+  	     
+   <!-- Battle Control Sub Menu -->
+     
+        <UIRadialNode name="menu-dm-dmfi-battle" style="BASE_RADIAL_NODE" text="Battle Control"
+          	OnInit=UIRadialNode_OnInit_DM_General() 
+          	OnLeftClickExpanded=UIRadialNode_Mouse_CollapseNode()
+          	OnLeftClickCollapsed=UIRadialNode_Mouse_ExpandNode()>
+          	<UISubNode node="node_dm_dmfi_battleon" />
+      		<UISubNode node="node_dm_dmfi_battleoff" />							
+          	
+          	<UIFrame state=base	fill="dmfi_red.tga" />
+        </UIRadialNode> 	
+      
+      
+       	<UIRadialNode name="node_dm_dmfi_battleon" style="BASE_RADIAL_NODE" text="Whole Area Hostile"
+		OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".battle_on") >
+       		<UIFrame state=base	fill="ia_attack.tga" />
+       	</UIRadialNode>
+	<UIRadialNode name="node_dm_dmfi_battleoff" style="BASE_RADIAL_NODE" text="Whole Area Commoners"
+		OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".battle_off") >
+	    	<UIFrame state=base	fill="ia_defend.tga" />
+	</UIRadialNode>
+
+
+   <!-- Initialization Sub Menu -->
+  
+     <UIRadialNode name="menu-dm-dmfi-init" style="BASE_RADIAL_NODE" text="Initialize Menu"
+       	OnInit=UIRadialNode_OnInit_DM_General()
+       	OnLeftClickExpanded=UIRadialNode_Mouse_CollapseNode()
+       	OnLeftClickCollapsed=UIRadialNode_Mouse_ExpandNode()>
+       	<UISubNode node="node_dm_dmfi_initlang" />
+   	<UISubNode node="node_dm_dmfi_initplug" />							
+       	<UISubNode node="node_dm_dmfi_inittool" />
+       	<UIFrame state=base	fill="dmfi_purple.tga" />
+     </UIRadialNode> 	
+   
+   
+    	<UIRadialNode name="node_dm_dmfi_initlang" style="BASE_RADIAL_NODE" text="Initialize Languages"
+       		OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".initialize_languages") >
+            <UIFrame state=base	fill="ia_use.tga" />
+            </UIRadialNode>
+    	<UIRadialNode name="node_dm_dmfi_initplug" style="BASE_RADIAL_NODE" text="Initialize Plugins"
+      	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".initialize_plugins") >
+       	    <UIFrame state=base	fill="ia_use.tga" />
+       	    </UIRadialNode>
+    	<UIRadialNode name="node_dm_dmfi_inittool" style="BASE_RADIAL_NODE" text="Initialize Server"
+       	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".initialize_server") >
+       	    <UIFrame state=base	fill="ia_use.tga" />
+      	    </UIRadialNode>
+   
+
+  <!-- DMFI Creature Menu --> 
+   
+   <UIRadialNode name="menu-dm-dmfi-creature" style="BASE_RADIAL_NODE" text="DMFI Creature Tool"
+          OnInit=UIRadialNode_OnInit_DM_General()
+          OnLeftClickExpanded=UIRadialNode_Mouse_CollapseNode()
+          OnLeftClickCollapsed=UIRadialNode_Mouse_ExpandNode()>
+        
+        <UISubNode node="node_dm_dmfi_pccopy" />
+      	<UISubNode node="node_dm_dmfi_pccopy_party" />
+      	<UISubNode node="node_dm_dmfi_remove_effects" />
+      	<UISubNode node="node_dm_dmfi_rename" />
+      	<UISubNode node="node_dm_dmfi_scale" />
+      	<UISubNode node="node_dm_dmfi_setapp" />
+      	
+	<UISubNode node="menu-dm-dmfi-enforce" />
+	<UISubNode node="menu-dm-dmfi-faction" />
+        <UISubNode node="menu-dm-dmfi-inventory" />
+        <UISubNode node="menu-dm-dmfi-language" />
+                
+      	<UIFrame state=base	fill="dmfi_blue.tga" />
+        </UIRadialNode>
+          			
+      	    <UIRadialNode name="node_dm_dmfi_pccopy" style="BASE_RADIAL_NODE" text="Copy Target"
+	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".copy_pc") >
+	        <UIFrame state=base	fill="is_mirrorimage.tga" />
+    	    </UIRadialNode>
+    	    <UIRadialNode name="node_dm_dmfi_pccopy_party" style="BASE_RADIAL_NODE" text="Copy Party"
+	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".copy_party") >
+	        <UIFrame state=base	fill="isc_illusion.tga" />
+    	    </UIRadialNode>
+    	    <UIRadialNode name="node_dm_dmfi_remove_effects" style="BASE_RADIAL_NODE" text="Remove Effects"
+	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","context_effects") >
+	    	<UIFrame state=base	fill="ia_disarm.tga" />
+      	    </UIRadialNode>
+      	    
+      	    <!-- Rename in Item functions -->
+      	    
+      	    <UIRadialNode name="node_dm_dmfi_scale" style="BASE_RADIAL_NODE" text="Scale"
+	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","context_scale") >
+	        <UIFrame state=base	fill="ia_inventory.tga" />
+    	    </UIRadialNode>
+    	    
+    	    <UIRadialNode name="node_dm_dmfi_setapp" style="BASE_RADIAL_NODE" text="Set Appearance"
+	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","context_appearance") >
+	    	<UIFrame state=base	fill="ia_appear.tga" />
+    	    </UIRadialNode>
+      	    
+      	          	           
+	<!-- Enforce Sub-Menu -->   
+		
+		
+	<UIRadialNode name="menu-dm-dmfi-enforce" style="BASE_RADIAL_NODE" text="Enforcement"
+		OnInit=UIRadialNode_OnInit_DM_General()
+		OnLeftClickExpanded=UIRadialNode_Mouse_CollapseNode()
+		OnLeftClickCollapsed=UIRadialNode_Mouse_ExpandNode()>
+	        	<UISubNode node="node_dm_dmfi_freeze" />
+      			<UISubNode node="node_dm_dmfi_boot" />
+		<UIFrame state=base	fill="dmfi_red.tga" />
+		</UIRadialNode> 		
+		
+	    <UIRadialNode name="node_dm_dmfi_freeze" style="BASE_RADIAL_NODE" text="Freeze"
+         	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".freeze") >
+   	    	    <UIFrame state=base	fill="ia_banplayer.tga" />
+         	    </UIRadialNode>
+       	    <UIRadialNode name="node_dm_dmfi_boot" style="BASE_RADIAL_NODE" text="BOOT PLAYER" 
+         	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".boot")>
+       		    <UIFrame state=base	fill="ia_bootplayer.tga" />
+       		    </UIRadialNode>
+   
+  	<!-- Faction Sub-Menu -->
+	        	
+    
+    	<UIRadialNode name="menu-dm-dmfi-faction" style="BASE_RADIAL_NODE" text="Change Faction"
+	OnInit=UIRadialNode_OnInit_DM_General()
+	OnLeftClickExpanded=UIRadialNode_Mouse_CollapseNode()
+	OnLeftClickCollapsed=UIRadialNode_Mouse_ExpandNode()>
+		<UISubNode node="node_dm_dmfi_hostile" />
+		<UISubNode node="node_dm_dmfi_commoner" />							
+		<UISubNode node="node_dm_dmfi_merchant" />
+		<UISubNode node="node_dm_dmfi_defender" />
+	<UIFrame state=base	fill="dmfi_purple.tga" />
+	</UIRadialNode> 	
+		       
+		       
+	<UIRadialNode name="node_dm_dmfi_hostile" style="BASE_RADIAL_NODE" text="Set To Hostile"
+		OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".faction_hostile") >
+	<UIFrame state=base	fill="ia_use.tga" />
+	</UIRadialNode>
+	<UIRadialNode name="node_dm_dmfi_commoner" style="BASE_RADIAL_NODE" text="Set To Commoner"
+		OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".faction_commoner") >
+	    <UIFrame state=base	fill="ia_use.tga" />
+	    </UIRadialNode>
+	<UIRadialNode name="node_dm_dmfi_merchant" style="BASE_RADIAL_NODE" text="Set To Merchant"
+		OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".faction_merchant") >
+	    <UIFrame state=base	fill="ia_use.tga" />
+	</UIRadialNode>
+	<UIRadialNode name="node_dm_dmfi_defender" style="BASE_RADIAL_NODE" text="Set To Defender"
+		OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".faction_defender") >
+	    <UIFrame state=base	fill="ia_use.tga" />
+	</UIRadialNode>
+	
+	<!-- Macro Inventory Sub-Menu -->
+	
+	<UIRadialNode name="menu-dm-dmfi-inventory" style="BASE_RADIAL_NODE" text="Inventory"
+			OnInit=UIRadialNode_OnInit_DM_General()
+			OnLeftClickExpanded=UIRadialNode_Mouse_CollapseNode()
+			OnLeftClickCollapsed=UIRadialNode_Mouse_ExpandNode()>
+				<UISubNode node="node_dm_dmfi_inventory_manage" />
+				<UISubNode node="node_dm_dmfi_iden_inven" />
+				<UISubNode node="node_dm_dmfi_strip_inven" />
+		        	<UISubNode node="node_dm_dmfi_remove_uber" />
+			<UIFrame state=base	fill="dmfi_green.tga" />
+			</UIRadialNode> 	
+			
+	      	    <UIRadialNode name="node_dm_dmfi_inventory_manage" style="BASE_RADIAL_NODE" text="Manage Inventory"
+	      	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".inventory_manage") >
+	      	    <UIFrame state=base	fill="ia_inventory.tga" />
+      	    	    </UIRadialNode>	
+      	    	    <UIRadialNode name="node_dm_dmfi_iden_inven" style="BASE_RADIAL_NODE" text="Iden All Inven"
+	      	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".inventory_identify") >
+	      	    <UIFrame state=base	fill="is_identify.tga" />
+	      	    </UIRadialNode>
+	      	    <UIRadialNode name="node_dm_dmfi_strip_inven" style="BASE_RADIAL_NODE" text="Strip ALL Inven"
+	      	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".inventory_strip") >
+	      	    <UIFrame state=base	fill="ia_cancelshout.tga" />
+	      	    </UIRadialNode>
+	      	    <UIRadialNode name="node_dm_dmfi_remove_uber" style="BASE_RADIAL_NODE" text="Remove Uber Items"
+	      	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".inventory_uber") >
+	      	    <UIFrame state=base	fill="ia_disarm.tga" />
+      	    	    </UIRadialNode>	
+	
+   <!-- Language Sub-Menu -->
+	
+	<UIRadialNode name="menu-dm-dmfi-language" style="BASE_RADIAL_NODE" text="Languages"
+			OnInit=UIRadialNode_OnInit_DM_General()
+			OnLeftClickExpanded=UIRadialNode_Mouse_CollapseNode()
+			OnLeftClickCollapsed=UIRadialNode_Mouse_ExpandNode()>
+				<UISubNode node="node_dm_dmfi_list" />
+				<UISubNode node="node_dm_dmfi_grant" />
+				<UISubNode node="node_dm_dmfi_remove" />
+		       	<UIFrame state=base	fill="dmfi_blue.tga" />
+			</UIRadialNode> 	
+		<UIRadialNode name="node_dm_dmfi_list" style="BASE_RADIAL_NODE" text="List Languages"
+	      	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".list_language") >
+	      	    <UIFrame state=base	fill="ia_customtextmacro.tga" />
+	      	    </UIRadialNode>	
+		<UIRadialNode name="node_dm_dmfi_grant" style="BASE_RADIAL_NODE" text="Grant Language"
+	      	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","context_grant") >
+	      	    <UIFrame state=base	fill="ia_accept.tga" />
+	      	    </UIRadialNode>
+	      	    <UIRadialNode name="node_dm_dmfi_remove" style="BASE_RADIAL_NODE" text="Remove Language"
+	      	    	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","context_remove") >
+	      	    <UIFrame state=base	fill="ia_exit.tga" />
+	      	    </UIRadialNode>
+	      	    
+      	    </UIRadialNode>	   	 
+      	 
+      	 
+      	 
+        </UIRadialNode>
+

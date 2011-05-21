@@ -1,0 +1,6 @@
+2DA V2.0
+
+  LABEL          ReqType ReqParam1       ReqParam2 
+0 Base_Attack    BAB     6               ****      
+1 ScriptVar      VAR     nw_AllowNW9Ward 0         
+2 PrC_Validation FEAT    3500            ****      

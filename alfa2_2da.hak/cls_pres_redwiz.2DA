@@ -1,0 +1,22 @@
+2DA V2.0
+
+   LABEL                      ReqType    ReqParam1       ReqParam2 
+0  Human                      RACE       6               ****      
+1  Spellcraft                 SKILL      16              8         
+2  Spell_Penetration          FEAT       36              ****      
+3  Greater_Spell_Penetration  FEAT       401             ****      
+4  Empower                    FEATOR     11              ****      
+5  Extend                     FEATOR     12              ****      
+6  Maximize                   FEATOR     25              ****      
+7  Quicken                    FEATOR     29              ****      
+8  Silent                     FEATOR     33              ****      
+9  Still                      FEATOR     37              ****      
+10 Persistent                 FEATOR     1679            ****      
+11 Brew_Potion                FEATOR     944             ****      
+12 Craft_Magic_Arms_And_Armor FEATOR     1092            ****      
+13 Craft_Wand                 FEATOR     946             ****      
+14 Craft_Wondrous_Item        FEATOR     1093            ****      
+15 Specialist_Wizard          SPECIALIST ****            ****      
+16 Arcane                     ARCSPELL   3               ****      
+17 ScriptVar                  VAR        nx1_AllowRedWiz 1         
+18 PrC_Validation             FEAT       3500            ****      

@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8">
+	
+<!-- XML code by: Demetrious.  Special thanks to Abraxas77, Grinning Fool, PIPBoy3000 
+	and Obsidian for their examples, answers and framework that made this possible -->
+	
+<UIScene name="SCREEN_DMFI_LIST" x="532" y="47" width="390" height="325" draggable="true" idleexpiretime="1.0f" 
+	backoutkey="true" scriptloadable="true" priority="SCENE_SCRIPT" />
+		
+<UIText name="SkillTitle" text="TITLE" x=25 y=15 width="360" height="30" fontfamily="Body_Font" />
+<UIIcon name="DIVIDER" img="frame1_b.tga" x=8 y=50 width=374 height=10 />
+
+	<UIButton name="btn1" x=15 y=65 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list1") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill1" x=20 y=68 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn4" x=15 y=90 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list4") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill4" x=20 y=93 width="105" height="20" fontfamily="Body_Font" />
+		
+	<UIButton name="btn7" x=15 y=115 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list7") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill7" x=20 y=118 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn10" x=15 y=140 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list10") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill10" x=20 y=143 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn13" x=15 y=165 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list13") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill13" x=20 y=168 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn16" x=15 y=190 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list16") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill16" x=20 y=193 width="105" height="20" fontfamily="Body_Font" />
+		
+	<UIButton name="btn19" x=15 y=215 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list19") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill19" x=20 y=218 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn22" x=15 y=240 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list22") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill22" x=20 y=243 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn25" x=15 y=265 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list25") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill25" x=20 y=268 width="105" height="20" fontfamily="Body_Font" />
+
+	<UIButton name="btn2" x=140 y=65 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list2") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill2" x=145 y=68 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn5" x=140 y=90 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list5") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill5" x=145 y=93 width="105" height="20" fontfamily="Body_Font" />
+		
+	<UIButton name="btn8" x=140 y=115 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list8") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill8" x=145 y=118 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn11" x=140 y=140 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list11") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill11" x=145 y=143 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn14" x=140 y=165 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list14") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill14" x=145 y=168 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn17" x=140 y=190 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list17") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill17" x=145 y=193 width="105" height="20" fontfamily="Body_Font" />
+		
+	<UIButton name="btn20" x=140 y=215 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list20") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill20" x=145 y=218 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn23" x=140 y=240 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list23") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill23" x=145 y=243 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn26" x=140 y=265 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list26") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill26" x=145 y=268 width="105" height="20" fontfamily="Body_Font" />
+
+	<UIButton name="btn3" x=265 y=65 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list3") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill3" x=270 y=68 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn6" x=265 y=90 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list6") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill6" x=270 y=93 width="105" height="20" fontfamily="Body_Font" />
+		
+	<UIButton name="btn9" x=265 y=115 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list9") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill9" x=270 y=118 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn12" x=265 y=140 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list12") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill12" x=270 y=143 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn15" x=265 y=165 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list15") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill15" x=270 y=168 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn18" x=265 y=190 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list18") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill18" x=270 y=193 width="105" height="20" fontfamily="Body_Font" />
+		
+	<UIButton name="btn21" x=265 y=215 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list21") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill21" x=270 y=218 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn24" x=265 y=240 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list24") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill24" x=270 y=243 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn27" x=265 y=265 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list27") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill27" x=270 y=268 width="105" height="20" fontfamily="Body_Font" />
+	
+	
+	<UIButton name="btn28" x=15 y=290 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list28") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill28" x=20 y=293 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn29" x=140 y=290 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list29") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill29" x=145 y=293 width="105" height="20" fontfamily="Body_Font" />
+	
+	<UIButton name="btn30" x=265 y=290 fontfamily="Body_Font" width="115" height="20" 		
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_skills","list30") >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIText name="skill30" x=270 y=293 width="105" height="20" fontfamily="Body_Font" />
+
+
+<UIFrame x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" border="32"
+	topleft="frame1_tl.tga" 		topright="frame1_tr.tga"
+	bottomleft="frame1_bl.tga"		bottomright="frame1_BR.tga"
+	top="frame1_t.tga"			bottom="frame1_b.tga"
+	left="frame1_l.tga"			right="frame1_r.tga" />		
+	
+<UIFrame x="8" y="8" width="374" height="309" fillstyle="tile" fill="frame_main_bg.tga"/>

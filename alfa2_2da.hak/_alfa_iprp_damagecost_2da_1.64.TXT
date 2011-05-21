@@ -1,0 +1,8 @@
+AcadiusLost: 
+
+5/18/2009: Added 1d2 and 1d3 damage types
+
+Padded to row 60.
+
+61: 1d2
+62: 1d3

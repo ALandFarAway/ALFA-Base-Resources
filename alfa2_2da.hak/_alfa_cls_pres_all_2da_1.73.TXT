@@ -1,0 +1,33 @@
+AcadiusLost: 
+
+2/15/2009: Added requirement for PrC validation feat to all PrCs.  Merged to SoZ 1.22 Beta.
+8/9/2009: Removed unused PrCs, updated to Custom skills.
+7/25/2010: Added Knight-Protector in place of NW9 Warder
+
+ <-- all got FEAT req line for row 3500, PrC Validation (DM granted)
+     All got custom tlk entries for descriptions.
+
+cls_pres_archer.2da  
+cls_pres_arctr.2da   <-- added skill reqs; DesScr 7, EscArt 7, K:Arc 4
+cls_pres_asasin.2da  <-- added skill reqs; disguise 4
+cls_pres_blkgrd.2da  <-- added skill reqs; Know: religion 2
+cls_pres_divcha.2da     <-- addedskill reqs; Know: religion 3
+cls_pres_doomguide.2da  <-- added skill reqs; Know: planes 5
+cls_pres_dradis.2da    <-- added skill reqs; Know: arcana 8
+cls_pres_duel.2da      <-- added skill reqs; perform (any) 3
+cls_pres_dwdef.2da
+cls_pres_eknight.2da
+cls_pres_frenz.2da
+cls_pres_harper.2da    <-- added skill reqs; Local 4, SnsMot 2, feat to Negotiator
+cls_pres_hellfire.2da  <-- added skill reqs; Know: planes 12
+cls_pres_invisiblade.2da  <-- added skill reqs; SnsMot 6
+cls_pres_nw9wd.2da    <-- ScriptVar to 0
+cls_pres_palema.2da  <-- added skill reqs; Know: religion 8
+cls_pres_redwiz.2da
+cls_pres_sacredfist.2da  <-- added skill reqs; Know: religion 8
+cls_pres_scholar.2da
+cls_pres_sdthf.2da  <-- added skill reqs; GthInfo 3
+cls_pres_shadow.2da  <-- added skill reqs; Perform (Dance) 5
+cls_pres_stormlord.2da
+cls_pres_wm.2da
+cls_pres_wprst.2da  <-- added skill reqs; SnsMot 5

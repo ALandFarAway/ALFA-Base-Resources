@@ -1,0 +1,511 @@
+AcadiusLost: 
+
+2/15/2009: Merged to SoZ 1.22 Beta. Padding to 1000.
+5/17/2009: Merged to SoZ 1.23 Beta, added first batch of Riotnrrd's Spells.
+5/26/2009: Shifted over to new cast spell pricing for many rows, added more CL 1 rows
+9/19/2010: Fixed row numbering for final spellscroll entries, Amended SpellIndex for Magic Weapon (178)
+5/5/2011: Added more spell/CL combos
+
+0: Acid Fog (CL11, repriced)
+1: Aid (CL3, repriced)
+2-4: Animate Dead (CL5, 10, 15: repriced)
+5-7: Barkskin, (CL3, 6, 12: repriced)
+8: Bestow Curse (CL5, repriced), new strref
+9-10: Blade Barrier (CL11, 15: repriced)
+11: Bless (CL2, repriced)
+12-13: Bless Weapon (CL3, 10: repriced)
+14: Blind/Deafness (CL3, repriced)
+15-17: Bull's Strength (CL3, 10, 15: repriced)
+18-19: Burning Hands (CL2, 5: repriced)
+20-21: Call Lightning (CL5, 10: repriced)
+22: Magic Missile (CL1, repriced)
+
+25-27: Cat's Grace (repriced)
+28-30: Chain Lightning (CL11, 15, 20: repriced)
+32-33: Charm Monster (CL5, 10: repriced)
+33-34: Charm Person (CL2, 5: repriced)
+35-36: Charm Animal (CL3, 10: repriced)
+37-39: Circle of Death (CL11, 15, 20: repriced)
+40-42: Circle of Doom (CL9, 15, 20: repriced)
+43-45: Clairaudience/voyance (CL5, 10, 15: repriced)
+46: Clarity (CL3, repriced)
+
+48: Cloudkill (CL9, repriced)
+49: Color Spray (CL2, repriced)
+50-51: Cone of Cold (CL9, 15: repriced)
+52-53: Confusion (CL5, 10: repriced)
+54: Contagion (CL5, repriced)
+55-56: Control Undead (CL13, 20: repriced)
+57-59: Create Greater Undead (CL15, 16, 18: repriced)
+60-62: Create Undead (CL11, 14, 16: repriced)
+63-74: Cure spells repriced
+75: Darkness (CL3, repriced)
+76: Daze (CL1, repriced)
+77: Death Ward (CL7, repriced)
+78-80: Delayed Blast Fireball (CL13, 15, 20: repriced)
+81-83: Dismissal (CL7, 12, 18: repriced)
+84-85: Dispel Magic (CL5, 10: repriced)
+86: Divine Power (CL7, repriced)
+87: Dominate Animal (CL5, repriced)
+88: Dominate Monster (CL17, repriced)
+89: Dominate Person (CL7, repriced)
+90-91: Doom (CL2, 5: repriced)
+92-93: Elemental Shield (CL7, 12: repriced)
+94: Elemental Swarm (CL17, repriced)
+95-97: Bear's Endurance (CL3, 10, 15: repriced), new strrefs
+98: Endure Elements (CL2, repriced)
+99: Energy Drain (CL17, repriced)
+100: Enervation (CL7, repriced)
+101-102: Entangle (CL2, CL5: repriced)
+103: Fear (CL5, repriced)
+104: Feeblemind (CL9, repriced)
+105: Finger of Death (CL13, repriced)
+106-107: Fire Storm (CL13, 18: repriced)
+108-109: Fireball (CL5, 10: repriced)
+110-112: Flame Arrow (CL5, 12, 18: repriced)
+113-114: Flame Lash (CL3, 10: repriced)
+115-117: Flame Strike (CL7, 12, 18: repriced)
+118: Freedom of Movement (CL7, repriced)
+119: Gate (CL17, repriced)
+120: Ghoul Touch (CL3, repriced)
+121: Globe of Invulnerability (CL11, repriced)
+122: Grease (CL2, repriced)
+123-124: Greater Dispel Magic CL7->CL9 (CL9, 15: repriced), new strref
+125: Greater Magic Weapon (CL5, repriced)
+126: Greater Planar Binding (CL15, repriced)
+127: Greater Restoration (CL13, repriced)
+128: Greater Shadow Conjuraion (CL9, repriced)
+129: Greater Spell Breach (CL11, repriced)
+130: Greater Spell Mantle (CL17, repriced)
+131: Greater Stoneskin (CL11, repriced)
+132: Scare (CL3, repriced), new strref
+133-135: Hammer of the Gods (CL7, 12, 20: repriced)
+136: Harm (CL11, repriced)
+137-138: Haste (CL5, 10: repriced)
+139: Heal (CL11, repriced)
+140-141: Healing Circle (CL9, CL16: repriced)
+142: Hold Animal (CL3, repriced)
+143: Hold Monster (CL7, repriced)
+144: Hold Person (repriced)
+
+146: Holy Sword (CL14, repriced), new strref
+147: Identify: CL1/SL1, price adjust for mat. comp, new strref
+148: Implosion (CL17, repriced)
+149: Greater Invisibility (CL7, repriced)
+150: Incendiary Cloud (CL15, repriced)
+151: Invisibility (CL2, repriced)
+152: Invisibility Purge (CL5, repriced)
+153: Invisibility Sphere (CL5, repriced)
+154: Knock (CL3, repriced)
+155-156: Lesser Dispel (CL3, 5: repriced)
+157: Lesser Mind Blank (CL9, repriced)
+158: Lesser Planar Binding (CL9, repriced)
+159: Lesser Restoration (CL3, repriced)
+160: Lesser Spell Breach (CL7, repriced)
+161: Lesser Spell Mantle (CL9, repriced)
+162-163: Light (CL1, 5: repriced)
+164-165: Lightning Bolt (CL5, 10: repriced)
+166: Mass Cure Light Wounds (CL9, repriced), new strref
+167: Mage Armor (CL2, repriced)
+168-171: Magic Circles (CL5, repriced)
+172-174: Magic Missile (CL3, 5, 9: repriced)
+175-177: Magic Vestment (CL5, 13, 20: repriced)
+178: Magic Weapon (CL1, repriced)       <---------- fixed to point at nSpellIndex=544
+179: Mass Blindness/Deafness (CL15, repriced)
+180: Mass Charm (CL15, repriced)
+
+182: Mass Haste (CL11, repriced)
+183: Mass Heal (CL17, repriced)
+184-186: Melf's Acid Arrow (CL3, 6, 9: repriced)
+187: Meteor Swarm (CL17, repriced)
+188: Mind Blank (CL15, repriced)
+189: Mind Fog (CL9, repriced)
+190-191: Minor Globe of Invulnerability (CL7, 15: repriced)
+192-194: Ghostly Visage (CL3, 9, 15: repriced)
+195-196: Ethereal Visage (CL9, 15: repriced)
+197: Disjunction (CL17, repriced)
+198-199: Mordenkainen's Sword (CL13, 18: repriced)
+
+201-203: Neg. energy prot. (CL5, 10, 15: repriced)
+204: Neut. Poison (CL5, repriced)
+205: Phantasmal Killer (CL7, repriced)
+206: Planar Binding (CL11, repriced)
+207: Poison (CL5, repriced)
+208: Polymorph Self (CL7, repriced)
+209: Power Word Kill (CL17, repriced)
+210: Power Word Stun (CL13, repriced)
+211: Prayer (CL5, repriced)
+212: Premonition (CL15, repriced)
+213: Prismatic Spray (CL13, repriced)
+
+216-217: Prot. from Energy (repriced), CL to 5,1, new strref
+218-221: Prot. from Alignment (CL1, 10: repriced), new strref
+
+224-225: Prot. from Spells (CL13, 20: repriced)
+226: Raise Dead (CL9, repriced)
+227: Ray of Enfeeblement (CL2, repriced)
+228: Ray of Frost (CL1, repriced)
+229: Remove Blind/deaf (CL5, repriced)
+230: Remove Curse (CL5, repriced)
+231: Remove Disease (CL5, repriced)
+232: Remove Fear (CL2, repriced)
+233: Remove Paralysis (CL3, repriced)
+234-235: Resist Energy (CL3, 10: repriced), new strrefs
+236-237: Resistance (CL2, 5: repriced), InnateLevel to 0.5
+238: Restoration (CL7, repriced)
+239: Resurrection (CL13, repriced)
+240: Sanctuary (CL2, repriced)
+241: Cause Fear (CL3, repriced), new strref
+242: Searing Light (CL5, repriced)
+243: See Invis. (CL3, repriced)
+244: Shades (CL17, repriced)
+245: Shadow Conjuration (CL7, repriced)
+246: Shadow Shield (CL13, repriced)
+247: Shapechange (CL17, repriced)
+
+249: Silence (CL3, repriced)
+250: Slay Living (CL9, repriced)
+251-252: Sleep (CL2,5, repriced)
+253: Slow (CL5, repriced)
+254: Sound Burst (CL3, repriced)
+255-256: Spell Resistance (CL9, 15: repriced)
+257: Spell Mantle (CL13, repriced)
+
+259: Stinking Cloud (CL5, repriced)
+260: Stoneskin (CL7, repriced)
+261: Storm of Vengeance (CL17, repriced)
+262-271: Summon Creature I-IC (CL2-17, repriced)
+272: Sunbeam (CL13, repriced)
+273: Tenser's Transformation (CL11, repriced)
+274: Time Stop (CL17, repriced)
+275: True Seeing (CL9, repriced)
+
+277: Vampiric Touch (CL5, repriced)
+278: Virtue (CL1, repriced)
+279: Wail of the Banshee (CL17, repriced)
+280: Wall of Fire (CL9, repriced)
+281: Web (CL3, repriced)
+282: Weird (CL17, repriced)
+283: Word of Faith (CL13, repriced)
+284-285: Protection from Alignment (CL2-5, repriced)
+286: Circle against Alignment (CL5, repriced)
+287: Aura versus Alignment (CL15, repriced)
+288-290: Eagle's Splendor (CL3-15, repriced)
+291-293: Owl's Wisdom (CL3-15, repriced)
+294-296: Fox's Cunning (CL3-15, repriced)
+297: Greater Eagle's Splendor (CL11, repriced)
+298: Greater Owl's Wisdom (CL11, repriced)
+299: Greater Fox's Cunning (CL11, repriced)
+300: Greater Bull's Strength (CL11, repriced)
+301: Greater Cat's Grace (CL11, repriced)
+302: Greater Endurance (CL11, repriced)
+303: Awaken (CL9, repriced)
+304: Creeping Doom (CL13, repriced)
+305-306: Ultravision (CL3-6, repriced)
+307: Destruction (CL13, repriced)
+308-309: Horrid Wilting (CL15, 20: repriced)
+310: Ice Storm (CL9, repriced)
+311-313: Energy Buffer (CL11, 15, 20: repriced)
+
+321: Aura of Vitality (CL13, repriced)
+322: War Cry (CL7, repriced)
+323: Regenerate (CL13, repriced)
+324-325: Evard's Black Tentacles (CL7, 15: repriced)
+326: Legend Lore lev->5, CL->9 (CL9, repriced), new strref
+327: Find Traps (CL3, repriced)
+
+336-343: Grenadelike items, repriced
+
+345: Divine Favor (CL5, repriced)
+346: True Strike (CL5, repriced)
+347: Flare (CL1, repriced)
+348: Shield (CL5, repriced)
+349: Entropic Shield (CL5, repriced)
+350: Continual Flame (CL7, repriced)
+351: Shield (CL1, repriced)
+352: Camoflage (CL5, repriced)
+
+354: Bombardment (CL20, repriced)
+355: Acid Splash (CL1, repriced)
+356: Quillfire (CL8, repriced)
+357: Earthquake (CL20, repriced)
+358: Sunburst (CL20, repriced)
+
+360: Aura of Glory (CL7, repriced)
+361: Banishment (CL15, repriced)
+362-366: Inflict Wounds (CL1-12, repriced), Minor to Innate 0.5
+367: Iron Horn (CL7, repriced)
+368: Drown (CL15, repriced)
+369: Owl's Insight (CL15, repriced)
+370: Inflict Moderate Wounds (CL3, repriced)
+371: Firebrand (CL15, repriced)
+
+373: Amplify (CL5, repriced)
+374: Greater Sanctuary (CL18, repriced)
+375: Undeath's Eternal Foe (CL20, repriced)
+376: Dirge (CL15, repriced)
+377: Inferno (CL15, repriced)
+378: Lesser Missile Storm (CL13, repriced)
+379: Greater Missile Storm (CL15, repriced)
+380: Bane (CL5, repriced)
+381: Shield of Faith (CL5, repriced)
+382: Planar Ally (CL15, repriced)
+383: Magic Fang (CL5, repriced)
+384: Greater Magic Fang (CL9, repriced)
+385: Spike Growth (CL9, repriced)
+386: Mass Camoflage SL4->SL2 (CL13, repriced)
+387: Exped. Retreat (CL5, repriced)
+388: Hideous Laughter (CL7, repriced)
+389: Displacement (CL9, repriced)
+390: Bigby's Interposing Hand (CL15, repriced)
+391: Bigby's Forceful Hand (CL15, repriced)
+392: Bigby's Grasping Hand (CL17, repriced)
+393: Bigby's Clenched Fist (CL20, repriced)
+394: Bigby's Crushing Hand (CL20, repriced)
+395: Divine Might (CL5, repriced)
+396: Divine Shield (CL5, repriced)
+397: Displacement (CL5, repriced)
+398: Flesh to Stone CL to 11 (CL11, repriced), new strref
+399: Stone to Flesh CL to 11 (CL11, repriced), new strref
+
+410: Gust of Wind (CL10, repriced)
+
+415: Mass Inflict Light Wounds (CL9, repriced), new strref
+
+426: Tide of Battle (CL17, repriced)
+
+450: Crumble (CL11, repriced)
+451: Infest of Maggots (CL5, repriced)
+
+455: Battletide (CL9, repriced)
+456: Combust (CL3, repriced)
+457: Death Armor (CL3, repriced)
+458: Electric Loop (CL3, repriced)
+
+461: Mestil's Acid Breath (CL5, repriced)
+
+464: Scintillating Sphere (CL5, repriced)
+
+466: Undeath to Death (CL11, repriced)
+467: Vine Mine SL5->SL3 (CL9, repriced)
+472: Bless Weapon (CL6, repriced)
+473: Holy Sword (CL15, repriced)
+474: Keen Edge (CL5, repriced)
+
+476: Blackstaff (CL15, repriced)
+477: Flame Weapon (CL3, repriced)
+
+479: Magic Weapon (CL2, repriced)
+480: Greater Magic Weapon (CL5, repriced)
+481: Magic Vestment (CL5, repriced)
+482: Stonehold (CL11, repriced)
+483: Darkfire (CL5, repriced)
+484: Glyph of Warding (CL5, repriced)
+
+486: Cloud of Bewilderment (CL3, repriced)
+
+501: Foundation of Stone (CL1, repriced), new strref
+502: Body of the Sun (CL3, repriced), new strref
+503: Jagged Tooth (CL5, repriced), new strref
+504: Moon Bolt (CL7, repriced), new strref
+505: Rejuv. Cocoon (CL9, repriced), new strref
+506: Tortise Shell (CL11, repriced), new strref
+507: Swamp Lung (CL13, repriced), new strref
+508: Storm Avatar (CL15, repriced), new strref
+509: Nature's Avatar (CL17, repriced), new strref
+
+511: GMW (CL10, repriced)
+512: GMW (CL15, repriced)
+
+514: Flame Weapon (CL10, repriced)
+515: Flame Weapon (CL17, repriced)
+516: Bless Weapon (CL10, repriced)
+517: Bless Weapon (CL17, repriced)
+518: Holy Sword (CL17, repriced)
+519: Keen Edge (CL10, repriced)
+520: Keen Edge (CL17, repriced)
+
+525: Ethereal Jaunt (CL18, repriced), new strref
+
+528: Firebomb Grenadelike to 37500
+529: Acidbomb Grenadelike to 37500
+
+539: Scintillating Sphere (CL20, repriced)
+
+541: Assay Resistance (CL7, repriced), new strref
+542: Blindsight (CL3, repriced), new strref
+543: Mass Charm Monster (CL16, repriced), new strref
+544: Mass Cure Critical Wounds (CL15, repriced), new strref
+545: Mass Cure Critical Wounds (CL20, repriced), new strref
+546: Mass Cure Moderate Wounds (CL11, repriced), new strref
+547: Mass Cure Moderate Wounds (CL15, repriced), new strref
+548: Mass Cure Moderate Wounds (CL20, repriced), new strref
+549: Mass Cure Serious Wounds (CL13, repriced), new strref
+550: Mass Cure Serious Wounds (CL17, repriced), new strref
+551: Mass Cure Serious Wounds (CL20, repriced), new strref
+552: Death Knell (CL3, repriced), new strref
+
+554: Deep Slumber (CL5, repriced), new strref
+555: Detect Undead (CL1, repriced), new strref
+556-558: Disintegrate (CL11, 15, 20: repriced) new strrefs
+559: Energy Immunity (CL11, repriced), new strref
+
+560: Enlarge Person (CL1, repriced), new strref
+561-563: Ethereal Jaunt (CL13, 17, 20: repriced), new strrefs
+564-566: False Life (CL3, 7, 10: repriced), new strrefs
+567-568: Fireburst (CL3, 5: repriced), new strrefs
+569-571: Greater Fireburst (CL9, 12, 15: repriced), new strrefs
+572: Heroism (CL4, repriced), new strref
+573-575: Greater Heroism (CL13, 17, 20: repriced), new strrefs
+576: Mass Hold Monster (CL17, repriced), new strref
+577: Mass Hold Person (CL13, repriced), new strref
+578-579: Mass Inflict Critical Wounds (CL15, 20: repriced), new strrefs
+580-582: Mass Inflict Moderate Wounds (CL11, 15, 20: repriced), new strrefs
+583-585: Mass Inglict Serious Wounds (CL13, 17, 20: repriced), new strrefs
+586-587: Iron Body (CL15, 20: repriced) new strrefs
+588: Joyful Noice (CL2, repriced), new strref
+589: Lesser Spell Mantle (CL7, repriced), new strref
+590-592: Low Light Vision (CL1, 10, 20; repriced), new strrefs
+593-595: Improved Mage Armor (CL5, 10, 20; repriced), new strrefs
+596-598: Mirror Image (CL3, 12, 18; repriced), new strrefs
+599-600: Polar Ray (CL15, 20: repriced), new strrefs
+601-603: Protection from Arrows (CL3, 6, 10; repriced), new strrefs
+604-606: Rage (CL3, 12, 20; repriced)
+
+610-612: Righteous Might (CL9, 12, 15: repriced), new strrefs
+613-615: Shield Other (CL3, 12, 20: repriced), new strrefs
+616-618: Shocking Grasp (CL1, 3, 5: repriced), new strrefs
+619-621: Shroud of Flame (CL9, 14, 20: repriced), new strrefs
+622-624: Song of Discord (CL13, 15, 20: repriced), new strrefs
+625-627: Spiderskin: CL3 to CL5 (CL5, 9, 12: repriced), new strrefs
+628-630: Stone Body (CL11, 16, 20: repriced), new strrefs
+631-633: Vitriolic Sphere (CL9, 12, 15; repriced), new strrefs
+634-636: Weapon of Impact (CL5, 13, 20; repriced), new strrefs
+637: Crushing Despair (CL7, repriced), new strref
+
+646: Mass Bear's Endurance (CL11, repriced), new strref
+647: Avasculate (CL13, repriced), new strref
+648: Mass Bull's Strength (CL11, repriced), new strref
+649: Burst of Glacial Wrath (CL17, repriced), new strref
+650: Cacophonic Burst (CL9, repriced), new strref
+651: Call Lightning Storm (CL9, repriced), new strref
+652: Mass Cat's Grace (CL11, repriced), new strref
+653: Mass Contagion (CL9, repriced), new strref
+654: Creeping Cold (CL3, repriced), new strref
+655: Greater Creeping Cold (CL7, repriced), new strref
+656: Curse of Blades (CL3, repriced), new strref
+657: Mass Death Ward (CL15, repriced), new strref
+658: Mass Drown (CL17, repriced), new strref
+659: Mass Eagle's Splendor (CL11, repriced), new strref
+660: Mass Fox's Cunning (CL11, repriced), new strref
+661: Heal Animal Companion (CL9, repriced), new strref
+662: Hiss of Sleep (CL13, repriced), new strref
+663: Hypothermia (CL5, repriced), new strref
+664: Mass Owl's Wisdom (CL11, repriced), new strref
+665: Power Word Blind (CL13, repriced), new strref
+666: Power Word Disable (CL9, repriced), new strref
+667: Power Word Maladroit (CL5, repriced), new strref
+668: Power Word Petrify (CL15, repriced), new strref
+669: Power Word Weaken (CL5, repriced), new strref
+670: Greater Resistance (CL7, repriced), new strref
+671: Superior Resistance (CL11, repriced), new strref
+672: Shout (CL9, repriced), new strref
+673: Greater Shout CL13->CL15 (CL15, repriced), new strref
+674: Vigor (CL5, repriced), new strref
+675: Lesser Vigor (CL1, repriced), new strref
+676: Mass Lesser Vigor (CL5, repriced), new strref
+677: Vigorous Cycle (CL11, repriced), new strref
+678: Greater Visage of the Diety (CL17, repriced), new strref
+679: Lesser Visage of the Diety (CL5, repriced), new strref
+680: Wall of Dispel Magic (CL9, repriced), new strref
+681: Greater Wall of Dispel Magic (CL15, repriced), new strref
+682: Mass Curse of Blades (CL5, repriced), new strref
+683: Touch of Fatigue CL0->CL1 (CL1, repriced), new strref
+684: Touch of Idiocy (CL3, repriced), new strref
+685: Mass Aid (CL5, repriced), new strref
+686: Lionheart (CL1, repriced), new strref
+687: Recitation (CL7, repriced), new strref
+688: Scorching Ray, single (CL3, repriced), new strref
+689: Scorching Ray, multiple (CL3, repriced)
+
+709: Animalistic Power (CL3, repriced), new strref
+710: Arc of Lightning (CL7, repriced), new strref
+711: Blades of Fire (CL1, repriced), new strref
+712: Bladeweave (CL3, repriced), new strref
+713: Blood to Water (CL13, repriced), new strref
+714: Bodaks Glare (CL15, repriced), new strref
+715: Castigate (CL7, repriced), new strref
+716: Dehydrate (CL5, repriced), new strref
+717: Healing Sting (CL3, repriced), new strref
+718: Living Undeath (CL3, repriced), new strref
+719: Nightshield (CL1, repriced), new strref
+720: Lesser Orb of Acid (CL1, repriced), new strref
+721: Lesser Orb of Cold (CL1, repriced), new strref
+722: Lesser Orb of Fire (CL1, repriced), new strref
+723: Lesser Orb of Electricity (CL1, repriced), new strref
+724: Lesser Orb of Sound (CL1, repriced), new strref
+725: Orb of Acid (CL7, repriced), new strref
+726: Orb of Cold (CL7, repriced), new strref
+727: Orb of Fire (CL7, repriced), new strref
+728: Orb of Electricity (CL7, repriced), new strref
+729: Orb of Sound (CL7, repriced), new strref
+730: Reduce Animal (CL3, repriced), new strref
+731: Reduce Person (CL1, repriced), new strref
+732: Greater Reduce Person (CL9, repriced), new strref
+733: Snake's Swiftness (CL1, repriced), new strref
+734: Mass Snake's Swiftness (CL5, repriced), new strref
+735: Stabilize (CL3, repriced), new strref
+736: Conviction (CL1, repriced), new strref
+737: Mass Reduce Person (CL7, repriced), new strref
+
+1000: Scorching Ray entry for tradescroll use, repriced.
+
+1001: Blur (3)
+1002: Daze Monster (3)
+1003: Detect Magic (1)
+1004: Disrupt Undead (1)
+1005: Halt Undead (5)
+1006: Ray of Exhaustion (5)
+1007: Read Magic (1)
+1008: Spider Climb (3)
+1009: Snilloc's Snowball Swarm (3)
+1010: Comprehend Languages (1)
+1011: Ray of Enfeeblement (1)
+1012: Bless (1)
+1013: Bless Weapon (1)
+1014: Cure Light Wounds (1)
+1015: Endure Elements (1)
+1016: Remove Fear (1)
+1017: Resistance (1)
+1018: Summon Creature 1 (1)
+1019: Joyful Noise (1)
+1020: Mage Armor (1)
+1021: Mage Armor (5)
+1022: Burning Hands (1)
+1023: Charm Person (1)
+1024: Color Spray (1)
+1025: Doom (1)
+1026: Entangle (1)
+1027: Grease (1)
+1028: Sleep (1)
+1029: Cause Fear (1)
+1030: True Strike (1)
+1031: Balagarn's Iron Horn (3)
+1032: Expeditious Retreat (1)
+1033: Tasha's Hideous Laughter (3)
+1034: Gust of Wind (3)
+1035: Amplify (1)
+1036: Bane (1)
+1037: Camoflage (1)
+1038: Divine Favor (1)
+1039: Entropic Shield (1)
+1040: Inflict Light Wounds (1)
+1041: Magic Fang (1)
+1042: Prot. from Alignment (1)
+1043: Sanctuary (1)
+1044: Shield of Faith (1)
+1045: Greater Magic Fang (5)
+1046: Inflict Serious Wounds (5)
+1047: Mass Camouflage (3)
+1048: Quillfire (5)
+1049: Vine Mine (5)

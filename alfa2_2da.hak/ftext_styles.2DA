@@ -1,0 +1,15 @@
+2DA	V2.0									
+
+	Label			FontFamily		Style		BeginColor	EndColor	Duration	Speed
+
+0	Default			Floating_Text_Default	normal		0xFFFFFFFF	0xFFFFFFFF	6		0.0.
+1	Default_Bold		Floating_Text_Default	bold		0xFFFFFFFF	0xFFFFFFFF	4		0.2
+2	Default_Italic		Floating_Text_Default	italic		0xFFFFFFFF	0xFFFFFFFF	4		0.2
+3	Default_BoldItalic	Floating_Text_Default	bolditalic	0xFFFFFFFF	0xFFFFFFFF	4		0.2
+4	Default_Red		Floating_Text_Special	normal		0xFFFF0000	0xFFFF0000	2		0.4
+5	Default_Green		Floating_Text_Default	normal		0xFF00FF00	0xFF00FF00	4		0.2
+6	Default_Blue		Floating_Text_Default	normal		0xFF0000FF	0xFF0000FF	4		0.2
+7	Sneak_Attack		Floating_Text_Special	normal		0xFF666666	0xFF666666	2		0.4
+8	CoupDeGrace		Floating_Text_Special	bold		0xFF0000FF	0xFF0000FF	2		0.4
+9	AttackOfOpportunity	Floating_Text_Special	bold		0xFF0000FF	0xFF0000FF	2.25		0.4
+10	CriticalHit		Floating_Text_Special	bold		0xFFFF0000	0xFF8F0000	2		0.4

@@ -1,0 +1,22 @@
+2DA V2.0
+
+     Label          ToolsetName      Prefix Parent 
+0    Cloth          112978           CL     ****   
+1    ClothPadded    111246           CP     1      
+2    Leather        111247           LE     ****   
+3    LeatherStudded 111248           LS     3      
+4    Chain          111249           CH     ****   
+5    Scale          111250           SC     5      
+6    Banded         111251           BA     5      
+7    Half-Plate     111252           PH     9      
+8    Full-Plate     111253           PF     ****   
+9    Hide           113308           HD     3      
+10   Naked          182339           NK     ****   
+11   padding        ****             ****   ****   
+12   padding        ****             ****   ****   
+13   padding        ****             ****   ****   
+14   padding        ****             ****   ****   
+15   padding        ****             ****   ****   
+16   DMCB_cloth     "Costume Barrel" DMCB   ****   
+17   ACME           ACME             ACME   ****   
+18   GodBeastX      GodBeastX        GBX    ****   

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Original XML code by: Abraxas77 DMFI GUI Design Team Lead and Demetrious -->
+<UIScene name="SCREEN_DMFI_DM" width="88" height="49" draggable="true" scriptloadable="true" priority="SCENE_SCRIPT" idleexpiretime="1.0"
+OnCreate="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_init_h&quot;)" />
+
+<!--
+local:1000 = VFX Tooltip
+local:1001 = Ambient Sounds Tooltip
+local:1002 = Localized Sounds Tooltip
+local:1003 = Musics Tooltip
+local:1004 = Roll Dice Tooltip
+local:1005 = Language On Tooltip
+local:1006 = PC Inventory Manager Tooltip
+local:1007 = Local Variables Manager Tooltip
+-->
+
+
+<UIPane x="ALIGN_RIGHT" y="15" width="22" height="16">
+	<UIButton x="10" y="4" width="10" height="10" 
+	OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_turn_vertical&quot;,&quot;vfx&quot;)">
+		<UIFrame state="up"			fill="b_rotd_normal.tga" /> 
+		<UIFrame state="down"		fill="b_rotd_hover_pressed.tga" />
+		<UIFrame state="focused"	fill="b_rotd_normal.tga" />
+		<UIFrame state="hilited"	fill="b_rotd_hover.tga" />
+		<UIFrame state="hifocus"	fill="b_rotd_normal.tga" />
+		<UIFrame state="disabled"	fill="b_rotd_disabled.tga" />
+	</UIButton>
+
+	<UIFrame x="ALIGN_RIGHT" y="3" width="17" height="12" border="5" topright="tp_frame_tr.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga" right="tp_frame_r.tga" />
+</UIPane>		
+<UIPane x="9" y="7" width="66" height="32">
+	<UIGrid columns="2" rows="1" xPadding="2" yPadding="2">		
+		<!-- PC Inventory Manager -->
+		<UIButton width="30" height="30" 
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1007,OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)" 
+		OnLeftClick="UIObject_Input_ActionTargetScript(&quot;creature&quot;,37,39,0,&quot;TRUE&quot;,&quot;gui_wand_pim_show&quot;,&quot;target:object&quot;) ">
+			<UIFrame state="base" fill="it_pouchlarge.tga" />
+			<UIFrame state="up" fill="b_empty.tga" />
+			<UIFrame state="down" fill="b_overlay_active.tga" alpha="0.8" />
+			<UIFrame state="focused" fill="b_empty.tga" />
+			<UIFrame state="hilited" fill="b_overlay_active.tga" alpha="0.5" />
+			<UIFrame state="hifocus" fill="b_overlay_active.tga" alpha="0.5" />
+		</UIButton>
+		<!-- Local Variables Manager -->
+		<UIButton width="30" height="30" 
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1008,OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)" 
+		OnLeftClick="UIObject_Input_ActionTargetScript(&quot;creature&quot;,37,39,0,&quot;TRUE&quot;,&quot;gui_wand_lvm_show&quot;,&quot;target:object&quot;) ">
+			<UIFrame state="base" fill="wand_var.tga" />
+			<UIFrame state="up" fill="b_empty.tga" />
+			<UIFrame state="down" fill="b_overlay_active.tga" alpha="0.8" />
+			<UIFrame state="focused" fill="b_empty.tga" />
+			<UIFrame state="hilited" fill="b_overlay_active.tga" alpha="0.5" />
+			<UIFrame state="hifocus" fill="b_overlay_active.tga" alpha="0.5" />
+		</UIButton>
+	</UIGrid>
+</UIPane>
+<UIFrame x="ALIGN_LEFT" y="ALIGN_CENTER" width="83" height="49" border="32" topleft="frame1_tl.tga" topright="frame1_tr.tga"
+bottomleft="frame1_bl.tga" bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga" left="frame1_l.tga" right="frame1_r.tga" />

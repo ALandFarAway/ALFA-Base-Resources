@@ -1,0 +1,14 @@
+AcadiusLost: 
+
+3/10/2009: Merged to SoZ 1.22.1588.  Added 4 more valid props for 16_Misc
+5/18/2009: Added Various properties to allow more armor/shield/weapon customization
+9/13/2010: Added new row for use restriction: Gender
+
+10: (AttackPenalty) Column 6_Arm_Shld = 1
+30: Column 16_Misc = 1
+60: (ToHitPenalty) Column 6_Arm_Shld = 1
+79: (SpecialWalk) Column 6_Arm_Shld, 16_Misc = 1
+81: (WeightIncrease) Column 0_Melee, 1_Ranged, 2_Thrown, 3_Staves, 6_Arm_Shld, 7_Helm, 16_Misc = 1
+84: Column 16_Misc = 1
+
+125: (GenderRestrict) 0_Melee, 1_Ranged, 2_Thrown, 5_Ammo, 6_Arm_Shield, 7_Helm, 13_Hide, 14_Claw, 21_Glove

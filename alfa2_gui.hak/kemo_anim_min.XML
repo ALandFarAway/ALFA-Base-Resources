@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<UIScene name="KEMO_ANIM_MIN" x=ALIGN_CENTER y=ALIGN_CENTER width=85 height=28 fadeout="0.3" fadein="0.3" draggable=true
+	priority="SCENE_INGAME" scriptloadable=true backoutkey=false modal=false capturemouseclicks=false
+	idleexpiretime="0.1f" dragregion_x=5 dragregion_y=5 dragregion_width=84 dragregion_height=27
+/>
+
+	<UIText text="KEMO" x=42 y=9 height=28 uppercase=true fontfamily="Body_Font" style="3" />
+
+	<!-- Nav Buttons -->
+	<UIButton name="CloseButton" x=10 y=8 width=15 height=15 style="STYLE_CLOSE_BUTTON" 
+		OnLeftClick=UIButton_Input_ScreenClose() />
+	<UIButton name="MaxButton" x=25 y=8 width=15 height=15 style="STYLE_PLUS_BUTTON"
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_anim","19") />
+
+
+	<UIIcon name="DETAIL_TOP" img="title_large03.tga" x=9 y=8 width=75 height=24 ignoreevents="true" />
+
+	<!-- Background pieces -->
+	<!-- Background Image -->
+	<UIFrame x=8 y=7 width=77 height=20
+		topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga"
+		bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga"
+		top="tp_frame_t.tga" bottom="tp_frame_b.tga" left="tp_frame_l.tga"
+		right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border=5 />
+
+<!--	<UIFrame name="FRAME_BG" x=0 y=0 height=30 width=PARENT_WIDTH 
+		topleft="frame1_TL.tga" topright="frame1_TR.tga" bottomleft="frame1_BL.tga"
+		bottomright="frame1_BR.tga" top="frame1_T.tga" bottom="frame1_B.tga"
+		left="frame1_L.tga" right="frame1_R.tga" 
+		border=32 />
+-->

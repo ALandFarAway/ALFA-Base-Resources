@@ -1,0 +1,34 @@
+2DA V2.0
+
+         LABEL                  StringRef     NWN2_ModelName                 NWN2_Skeleton_File          NWN2_BaseAnims     MODEL                       
+0        None                   112753        ****                           ****                        ****               ****                        
+1        Demon                  ****          ****                           ****                        ****               c_wingsdm                   
+2        Angel                  ****          ****                           ****                        ****               c_wingsan                   
+3        Bat                    ****          ****                           ****                        ****               c_wingbat                   
+4        Dragon                 ****          ****                           ****                        ****               c_wingdra                   
+5        Butterfly              ****          ****                           ****                        ****               c_wingbut                   
+6        Bird                   ****          ****                           ****                        ****               c_wingbird                  
+7        GargoyleWings          111453        c_gargoyle_wings               c_winglegwing_skel          c_wingleg          c_gargoyle_wings            
+8        PitFiendWings          111906        c_fiend_wings                  c_devilwing_skel            c_devil            c_fiend_wings               
+9        BalorWings             111907        c_balor_wings                  c_devilwing_skel            c_devil            c_balor_wings               
+10       ImpWings               111949        c_imp_wings                    c_impwing_skel              c_imp              c_imp_wings                 
+11       ImpFireWings           111950        c_impfire_wings                c_impwing_skel              c_imp              c_impfire_wings             
+12       ImpIceWings            111951        c_impice_wings                 c_impwing_skel              c_imp              c_impice_wings              
+13       DevilhornWings         113251        C_Devilhorn_Wings              c_winglegwing_skel          c_wingleg          C_Devilhorn_Wings           
+14       ErinyesWings           113252        C_Erinyes_Wings                P_HHFcapewing_skel          P_HHF              C_Erinyes_Wings             
+15       SuccubusWings          113253        C_Succubus_Wings               c_succubuscapewing_skel     C_Succubus         C_Succubus_Wings            
+16       N_HezebelWings         113348        N_Hezebel_wings01              P_HHFcapewing_skel          P_HHF              N_Hezebel_wings01           
+17       LichCloak              113525        C_Lich_Cloak01                 P_HHMcapewing_skel          P_HHM              C_Lich_Cloak01              
+18       CTannCloak             172720        N_CTann_Cape01                 P_HHMcapewing_skel          P_HHM              N_CTann_Cape01              
+19       KingofShadowsCloak     174135        N_KingofShadows_CL_Cloak01     N_KOScapewing_skel          N_KOS              N_KingofShadows_Cloak01     
+20       N_ZhjaeveCloak         174179        N_Zhjaeve_Cloak01              P_HHFcapewing_skel          P_HHF              N_Zhjaeve_Cloak01           
+21       N_Hezebel_Wings        174253        N_Hezebel_Wings01              P_HHFcapewing_skel          P_HHF              N_Hezebel_Wings01           
+22       HomunculusWings        185669        c_homunculus_wings             c_homunculuswing_skel       c_homunculus       c_homunculus_wings          
+23       N_SafiyaCloak          185672        N_Safiya_Cloak01               P_HHFcapewing_skel          P_HHF              N_Safiya_Cloak01            
+24       N_NefrisCloak          186229        N_Nefris_Cape01                P_HHFcapewing_skel          P_HHF              N_Nefris_Cape01             
+25       N_SolarWings           186219        c_solar_wings                  P_HHMcapewing_skel          P_HHM              c_solar_wings               
+26       N_KaelynWings          196054        n_kaelyn_wings                 P_HHFcapewing_skel          P_HHF              n_kaelyn_wings              
+27       ****                   ****          ****                           ****                        ****               ****                        
+28       ****                   ****          ****                           ****                        ****               ****                        
+29       ****                   ****          ****                           ****                        ****               ****                        
+30       PaeliryonWings         ****          c_pael_wings                   c_paelwing_skel             c_pael             c_pael_wings                

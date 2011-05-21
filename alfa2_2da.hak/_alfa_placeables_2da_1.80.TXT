@@ -1,0 +1,89 @@
+AcadiusLost: 
+
+8/7/2007:  merge from NWN2 1.06 final (no hotfix)
+10/11/2007:  MotB / v1.10116 merge and update
+11/04/2006: Added Drow Caves, Signposts, BTH Houses
+1/1/2008: Merged in NWN2/MotB 1.11 hotfix content
+3/1/2008: RWS_pocket_cathedrals, BCKII, Heed's actionsit, City Hak (Tupoun)
+3/2/2008: walkmesh helpers added
+7/12/2008: Added Racerblue's Ruins v1, Thangorn's windows and banners, v1, Collision helpers v1.0. 
+12/13/2008: Added Snakebane's NWN2 Foliage Pack 3 Beta Test
+2/15/2009: Merged with SoZ 1.22 Beta, Added RWS Ship Interiors
+2/28/2009: Merged with SoZ 1.22.1587 (final)
+3/9/2009: Added RWS Cliffs, RWS Dungeons, Heed's Boardable Ships, checked to 1.22.1588
+3/19/2009: Added missing rows for updated PWS Cathedrals
+8/3/2010: Added Kivinen's Item Placeables
+9/16/2010: Added RWS Deep Halls Anniv, RWS Towers, RWS Merchants, RWS Grand Citadels, RWS Underwater
+9/23/2010: Fixed for misnumbered RWS Underwater row, broke all lower content
+5/5/2010: Added RWS Adobe, CODI Sigil, Razorvines, Gribo's Tree Platform, FR Banners, RWS Cave Entrances
+
+
+Padding to row 3000, should insure well against expansion content.
+
+
+3001-3002: Arched Bridges, by TD_Méphisto
+
+3010-3036: Cave Roof placeable, by ArPharazon
+
+3040-3044: RWS Cave Entrances (2da rows shifted, conflict with SoZ content)
+
+3050-3066: Faerun Stain Glass, by Arpharazon (missing tint texture by AcadiusLost)
+
+3075-3076: Walkmesh helpers by Zarathustra217 (shifted)
+
+3100-3226: Castles, Towers, Ramparts and More (V1.0) by Nytir
+
+3250-3251: Deep Halls Tileset, by Robinson Workshop ( http://www.robinsonworkshop.com/phpBB2/ )
+
+3253: Deep Sewers Tileset, by Robinson Workshop ( http://www.robinsonworkshop.com/phpBB2/ )
+
+3301-3308: RWS Bridge pack, by Robinson Workshop ( http://www.robinsonworkshop.com/phpBB2/ )
+
+4000-4296: City Hak, by Tupoun (original 2da rows maintained)
+
+4500-4504: RWS Pocket Cathedral (original 2da rows maintained)
+
+4505-4515: RWS Dungeons (original 2da rows maintained)
+
+4524-4534: RWS Pocket Ships (original 2da rows maintained)
+
+4602-4618: RWS Deep Halls Anniv. Ed. (original 2da rows maintained)
+4619-4638: RWS Merchants (Original 2da rows maintained)
+
+4641-4672: RWS Cliffs and more (original 2da rows maintained)
+
+4690-4709: RWS Underwater (original 2da rows maintained)
+
+4710-4721: RWS Grand Citadels (original 2da rows maintained)
+
+4725-4751: RWS Adobe placeables (original 2da rows maintained)
+
+5000-5986: Item placeables v.1.04 by Kivinen (original 2da rows maintained)
+
+5990-5998: Razorvine placeables (standalone original 2da rows maintained)
+
+6001-6007: Heed's Boardable Ships, v0.83
+
+6050-6083: CODI Sigil set (rows padded/shifted)
+
+6100-6206: FR Banners (rows padded/shifted)
+
+6500: Heed's sittables, v1.1
+
+7000-7021: City Walls v1.0, by Simbolic  (original 2da rows maintained)
+
+7041-7080: BTH Houses, v1.10, by Barry The Hatchet (original 2da rows mostly maintained)
+
+7081-7087: Signposts v1.0, by Crystal Violet
+
+7100-7125: Drow Caves v1.0, by Botumys
+
+7200-7207: Thangorn's Stained Glass Windows and Faerun Banners v1
+
+7250-7259: Collision Helpers v1.0, by SGK73
+
+7500-7550: Racerblue's Ruins and Slum Houses, v1
+
+7600: Gribo's Tree Platform
+
+9001-9835: BCKII (generic and gothic) by Nytir (original 2da rows)

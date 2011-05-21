@@ -1,0 +1,10 @@
+2DA V2.0
+
+  LABEL                     ReqType  ReqParam1       ReqParam2 
+0 Spellcraft                SKILL    16              8         
+1 Empower                   FEAT     11              ****      
+2 Skill_Focus_Concentration FEAT     173             ****      
+3 Skill_Focus_Spellcraft    FEAT     189             ****      
+4 Arcane                    ARCSPELL 3               ****      
+5 ScriptVar                 VAR      nx1_AllowRedWiz 0         
+6 PrC_Validation            FEAT     3500            ****      

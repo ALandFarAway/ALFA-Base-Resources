@@ -1,0 +1,8 @@
+AcadiusLost: 
+
+7/26/2009: Edited from SoZ 1.23 final 2das, edits for ALFA descriptions
+7/25/2010: Added Knight-Protector as a modification of NW9
+
+47: NWN9, renamed to Knight-Protector (new requirements, class skills)
+
+58: Favored Soul, description to custom TLK for ALFA (extraordinary) details.

@@ -1,0 +1,11 @@
+2DA V2.0
+
+  LABEL             ReqType ReqParam1     ReqParam2 
+0 BluffSkill        SKILL   23            3         
+1 HideSkill         SKILL   5             8         
+2 IntimidateSkill   SKILL   24            3         
+3 MoveSilentSkill   SKILL   8             3         
+4 GatherInformation SKILL   37            3         
+5 Stealthy          FEAT    387           ****      
+6 ScriptVar         VAR     X1_AllowSdThf 0         
+7 PrC_Validation    FEAT    3500          ****      

@@ -1,0 +1,21 @@
+AcadiusLost: 
+
+1/1/2008, documenting baseitems.2da merge from NWN2 1.11 (hotfix)
+3/26/2008: added rows 95 & 96 for targetable potions and equipable backpacks.
+7/12/2008: Added double-quarterstaves.
+11/25/2008: Merged with 1.21.1549
+2/15/2009: Merged with SoZ 1.22 Beta, removed double-quaterstaff (doesn't work yet)
+3/10/2009: Merged with SoZ 1.22.1588, added OffHand Items (replaced double-quarterstaves)
+5/30/2009: Adjustments to Itemcost factors for repricing
+
+3: Bastard sword ReqFeat0 to 45 (martial)
+
+45-45: Staff/Wand ItemMutiplier to 0.833
+
+75: Scrolls: ItemMultiplier to 0.25
+
+78: Grenades: ItemMultiplier to 0.144
+
+95: added inventoried backpacks, based on Cloaks
+96: added potions, targetable on others.
+200: added offhand item

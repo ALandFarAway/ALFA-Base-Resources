@@ -1,0 +1,338 @@
+2DA	V2.0						
+							
+	Area	GameStateMin	GameStateMax	Weighting	String	DebugString	Comment
+1	****	****	****	1	181767	****	****
+2	****	****	****	1	181768	****	****
+3	****	****	****	1	181769	****	****
+4	****	****	****	1	181770	****	****
+5	****	****	****	4	16788216	****	acr_hint001
+6	****	****	****	1	181773	****	****
+7	****	****	****	1	181774	****	****
+8	****	****	****	1	181775	****	****
+9	****	****	****	1	181776	****	****
+10	****	****	****	1	181777	****	****
+11	****	****	****	4	16788217	****	acr_hint002
+12	****	****	****	1	181779	****	****
+13	****	****	****	1	181780	****	****
+14	****	****	****	4	16788218	****	acr_hint003
+15	****	****	****	4	16788219	****	acr_hint004
+16	****	****	****	4	16788220	****	acr_hint005
+17	****	****	****	1	181784	****	****
+18	****	****	****	1	181785	****	****
+19	****	****	****	4	16788221	****	acr_hint006
+20	****	****	****	4	16788222	****	acr_hint007
+21	****	****	****	4	16788223	****	acr_hint008
+22	****	****	****	1	181789	****	****
+23	****	****	****	1	181790	****	****
+24	****	****	****	1	181791	****	****
+25	****	****	****	1	181792	****	****
+26	****	****	****	4	16788224	****	acr_hint009
+27	****	****	****	4	16788225	****	acr_hint010
+28	****	****	****	4	16788226	****	acr_hint011
+29	****	****	****	4	16788227	****	acr_hint012
+30	****	****	****	4	16788228	****	acr_hint013
+31	****	****	****	1	181798	****	****
+32	****	****	****	1	181799	****	****
+33	****	****	****	1	181800	****	****
+34	****	****	****	4	16788229	****	acr_hint014
+35	****	****	****	1	181802	****	****
+36	****	****	****	1	181803	****	****
+37	****	****	****	1	181804	****	****
+38	****	****	****	4	16788230	****	acr_hint015
+39	****	****	****	4	16788231	****	acr_hint016
+40	****	****	****	1	181808	****	****
+41	****	****	****	1	181809	****	****
+42	****	****	****	1	181810	****	****
+43	****	****	****	4	16788232	****	acr_hint017
+44	****	****	****	1	183607	****	****
+45	****	****	****	1	183608	****	****
+46	****	****	****	1	183609	****	****
+47	****	****	****	1	183610	****	****
+48	****	****	****	1	183611	****	****
+49	****	****	****	1	183612	****	****
+50	****	****	****	1	183613	****	****
+51	****	****	****	1	183614	****	****
+52	****	****	****	1	183615	****	****
+53	****	****	****	1	183616	****	****
+54	****	****	****	1	183617	****	****
+55	****	****	****	1	183618	****	****
+56	****	****	****	1	183619	****	****
+57	****	****	****	1	183620	****	****
+58	****	****	****	1	183621	****	****
+59	****	****	****	1	183623	****	****
+60	****	****	****	1	183624	****	****
+61	****	****	****	1	184285	****	****
+62	****	****	****	1	184286	****	****
+63	****	****	****	1	184287	****	****
+64	****	****	****	1	184288	****	****
+65	****	****	****	1	184289	****	****
+66	****	****	****	1	184603	****	****
+67	****	****	****	1	184836	****	****
+68	****	****	****	1	184837	****	****
+69	****	****	****	1	184838	****	****
+70	****	****	****	1	184839	****	****
+71	****	****	****	1	184840	****	****
+72	****	****	****	1	184841	****	****
+73	****	****	****	1	184842	****	****
+74	****	****	****	1	184843	****	****
+75	****	****	****	4	16788233	****	acr_hint018
+76	****	****	****	1	184845	****	****
+77	****	****	****	1	184846	****	****
+78	****	****	****	1	184847	****	****
+79	****	****	****	0	207939	"For the latest news on Neverwinter Nights 2 and Mask of the Betrayer, visit www.nwn2.com."	****
+80	****	****	****	0	208023	"Wizards of the Coast, Atari, and Obsidian Entertainment welcome you to Neverwinter Nights 2, the ultimate D&D computer role-playing experience."	****
+81	****	****	****	0	208024	Use the Neverwinter Nights 2 toolset to create your own adventures for friends to enjoy.	****
+82	****	****	****	0	207940	"TIP: Press ""*"" to switch between Strategic Mode and Character Mode."	****
+83	****	1	4	1	208646	"TIP: The AI Off button in the lower right will toggle your characters' AI, preventing them from acting on their own in combat."	****
+84	****	1	4	1	207940	"TIP: Press ""*"" to switch between Strategic Mode and Character Mode."	****
+85	****	1	4	1	207941	TIP: Using marquee select in Strategic Play Mode lets you play NWN2 more like a real-time strategy game.	****
+86	****	****	****	4	16788234	****	acr_hint019
+87	****	****	****	4	16788235	****	acr_hint020
+88	****	****	****	4	16788236	****	acr_hint021
+89	****	****	****	4	16788237	****	acr_hint022
+90	****	****	****	4	16788238	****	acr_hint023
+91	****	****	****	4	16788239	****	acr_hint024
+92	****	1	4	1	207948	"TIP: Checking the box for Spontaneous Conversion in the Quick Cast menu will allow good and neutral clerics to convert their spells to cure wounds, evil clerics to convert their spells to inflict wounds, and druids to convert their spells to summon creatures."	****
+93	****	1	4	1	207950	"TIP: Press ""F"" to display the Quickcast Panel."	****
+94	****	****	****	4	16788240	****	acr_hint025
+95	****	****	****	4	16788241	****	acr_hint026
+96	****	****	****	4	16788242	****	acr_hint027
+97	****	****	****	4	16788243	****	acr_hint028
+98	****	****	****	4	16788244	****	acr_hint029
+99	****	1	4	1	207956	TIP: Some of the optional fights in Mask of the Betrayer are extremely difficult - only the most skilled can hope to defeat everything!	****
+100	****	1	4	1	207957	"TIP: Press ""V"" to use the Voice Menu to quickly give commands to your companions. These commands can be dragged to the hotbar."	****
+101	****	1	7	1	207962	"LORE: Nearly ten thousand years ago, southern Rashemen was an outlying territory of the Imaskari Empire - a nation of magical builders and artificers. The art of golem-building is thought to have originated in ancient Imaskar."	****
+102	****	1	7	1	207963	"LORE: Stretching from the merchant-realm of Thesk to distant Kara-tur, the Golden Way is perhaps the most well-traveled trade route in the Realms. Caravans pass along its length at all seasons of the year, bringing eastern goods to the markets of the west."	****
+103	****	1	7	1	207964	"LORE: The land of Rashemen is rich with spirits - ghostly echoes of powerful beasts, or of humans who perished while preserving or defending the wild places. Amongst the Rashemi, these spirits are known as telthors."	****
+104	****	1	7	1	207965	"LORE: Even as far north as Rashemen, sailors whisper of distant Chult, a land of steaming jungles, deadly disease, and massive reptilian monsters. Local peoples cling to coastal regions, mounting occasional expeditions into the deep jungle... and living in fear of serpents who can take the shape of men."	****
+105	****	1	7	1	207966	"LORE: West of Rashemen lies the merchant kingdom of Thesk, which has grown rich from trade along the Golden Way. Rumors suggest that its cities have fallen under the rule the Shadowmasters - a secretive and ambitious guild of thieves."	****
+106	****	1	7	1	207967	"LORE: Some Rashemi Witches have abandoned their order, believing that Rashemen should be ruled with a firm and pitiless hand. These are the durthans, who hide in remote corners of Rashemen, and plot the downfall of their more open-minded sisters."	****
+107	****	1	7	1	207968	"LORE: The nation of Thay is ruled by the nine zulkirs - each of whom represents a single school of magic. Chief among these is Szass Tam, a scheming lich who is much feared by his fellow Red Wizards."	****
+108	****	1	7	1	207969	"LORE: Unlike most other realms, Rashemen has no king or hereditary ruler. Instead, the people are guided and led by the Witches - a sisterhood of masked women who refer to themselves as hathrans, or 'learned sisters.'"	****
+109	****	1	7	1	207970	"LORE: The people of Rashemen are highly suspicious of outsiders... though perhaps with good cause. Their country has suffered countless invasions by the Red Wizards of Thay, whose domain borders Rashemen to the south."	****
+110	****	1	7	1	207971	"LORE: Rashemi men are forbidden to practice arcane magic... unless they agree to join the vremyonni, an order of wizards who live in seclusion and are rarely seen by common folk. Those who choose not to join the order are banished from their homeland forever."	****
+111	****	1	1	1	207982	TIP: The feat Epic Precision allows rogues to inflict some sneak attack damage against creatures such as undead and elementals.	****
+112	****	1	1	1	207983	"TIP: Press ""*"" to switch between Strategic Play Mode and Character Play Mode."	****
+113	****	1	1	1	207984	"TIP: Use a Shaper's Alembic to convert volatile essences into brilliant ones, which can then be used to enchant items."	****
+114	****	1	1	1	207985	"TIP: If the action is going too fast, press <SPACE> to pause the game between rounds."	****
+115	****	2	2	1	207986	"TIP: Base classes can reach levels 21 through 30, but prestige classes still have a maximum level of either five or ten."	****
+116	****	2	2	2	207987	"TIP: Some epic feats can only be learned by characters with very high ability scores. For example, to gain an Epic Animal Companion, a druid or ranger must have a Wisdom of 25."	****
+117	****	2	2	2	207988	TIP: Epic Prowess and Epic Toughness are prerequisites for more advanced epic feats.	****
+118	****	2	2	2	207989	"TIP: After level 20, characters gain a bonus feat at every odd level. Base classes gain additional bonus feats depending upon the class."	****
+119	****	2	2	2	207990	TIP: Epic characters can enchant items that already have three magical properties.	****
+120	****	2	2	2	207991	TIP: Characters continue to gain additional attacks per round as their base attack bonus (BAB) increases. So a level 26 fighter receives six attacks per round!	****
+121	****	3	7	5	207992	"Keep an eye on your spirit energy bar at all times. As it drops, your character will weaken. Should the bar ever empty, you will die."	****
+122	****	3	7	5	207993	Devour Spirit is much more beneficial when used as a killing blow - whatever hit points your victim had remaining when it was devoured are absorbed as bonus spirit energy.	****
+123	****	3	7	5	207994	"If you find yourself in desperate need of spirit energy with no obvious sources within reach, use your Satiate ability. It costs XP, but it can save your life."	****
+124	****	3	7	2	207995	"Your current level of craving dictates how fast you lose spirit energy. Certain abilities, like Suppress, can reduce your craving and allow you to survive longer between opportunities to devour spirits."	****
+125	****	3	7	2	207996	"As your spirit craving grows, you become less a being of flesh and more an embodiment of hunger. Though your spirit energy will drain faster, you'll also gain an increasingly powerful set of benefits as you begin to transcend your physical form."	****
+126	****	3	7	2	207997	"Spirits include fey (such as telthors), elementals, or incorporeal undead (such as shadows or wraiths).  Rashemen has them in abundance, but caution should be taken not to drive down the local population so much that you can no longer find food."	****
+127	****	3	7	2	207998	"When a creature is weakened or otherwise vulnerable, you may be able to devour them without it costing a use of your devour ability. Whenever you see [Devour Spirit] in dialogue, you can expect to get that devour for free."	****
+128	****	3	7	2	207999	"Never let your spirit eater power uses go to waste. If you must rest, but haven't devoured a spirit since your last rest, try to find a nearby spirit to devour, or at least use Suppress to help counteract the spirit energy cost of resting."	****
+129	****	3	7	2	208000	Stronger beings will tend to yield better spirit essences when devoured. Some especially powerful ones will have unique essences with their own special sets of benefits.	****
+130	****	3	7	2	208001	"It can actually be to your benefit to wait for your spirit energy to drop before devouring a spirit. If you devour spirits when your spirit energy is high and you aren't weakened by your affliction, it will increase your level of craving."	****
+131	****	4	7	1	208008	TIP: Epic level druids can eventually gain a dragon as their animal companion.	****
+132	****	4	7	1	208009	TIP: Only the strongest barbarians can achieve the ability to Epic Rage.	****
+133	****	4	7	1	208010	TIP: Check the manual for the prerequisites for the most powerful epic feats.	****
+134	****	4	7	1	208011	TIP: Pristine essences usually provide the same types of enchantments as brilliant ones - but the resulting item is significantly more powerful.	****
+135	****	4	7	1	208012	TIP: The difficulty class (DC) of any spellcaster's spells increases by one for every three caster levels above 20. A 29th level wizard therefore gains a +3 bonus to all of her spell DCs.	****
+136	****	1	1	10	208013	"Rashemen lies many hundreds of leagues from the Sword Coast - a journey that would ordinarily take many months on foot, but can be accomplished much more quickly by magical means..."	****
+137	****	1	1	4	208014	"In the more remote corners of the world, some animals are said to speak the words of men, and build barrows for their dead. These creatures are survivors of a distant past, before the Age of Faith... and few are thought to remain."	****
+138	****	1	1	4	208015	"Your memories of the Shadow Temple - and its collapse - are still vague. But you dimly recall the stones falling around you... and the shouts of your companions. Some of them survived the collapse - of that, you are certain."	****
+139	****	1	1	4	208016	"The shard of Gith has been torn from your chest, the wound raggedly closed and stitched. You are somewhat astonished that you survived the procedure... though you strongly suspect that magic was employed to keep you alive."	****
+140	****	1	1	4	208017	"A presence... a hunger... still lingers inside you, ever since you awoke in the lower barrow. It is quiet now, barely noticeable, but you feel strangely hollow and empty, nonetheless."	****
+141	****	2	2	-1	208018	"Okku's army of spirits is encamped outside the gates of Mulsantir. According to Sheva Whitefeather, they will not leave until you face them..."	****
+142	****	2	2	4	208019	"Magda's shadow stone is a key, of sorts. If you approach a location where the boundary between the Prime Plane and the Plane of Shadow is weak, a rift will open, allowing you to pass between the two planes."	****
+143	****	2	2	4	208020	"Sheva Whitefeather is the ranking Witch of Mulsantir - an authority in matters of law and faith. She can be found at the outdoor temple to the Three, which overlooks the river in the northern part of town."	****
+144	****	2	2	4	208021	"Ever since the arrival of the spirit army at the gate, the sense of an emptiness inside you - a feeling of hunger that cannot be quenched - has become more intense. Your eyes appear sunken, your cheeks hollow, and you suspect that simple exhaustion is not the cause..."	****
+145	****	2	2	4	208022	"Amongst the Rashemi, powerful spirits of the land - such as Okku the bear - are revered as minor gods. No Rashemi would dare raise a hand against them."	****
+146	****	3	3	-1	208074	"The dark presence within you has been revealed as a symptom of a curse - a supernatural hunger that will devour you from within, unless it is fed with spirits... or suppressed by your will."	****
+147	****	3	3	4	208075	"Among the Rashemi, a bearer of your curse is called a ""spirit-eater"" - a monster from ancient tales. Many Rashemi, especially simple folk, may react to you with even more fear and suspicion than before."	****
+148	****	3	3	4	208076	"Even if you continue to feed - or suppress - the empty presence within you, it is likely that your supernatural hunger will grow, and eventually consume you... unless a more permanent ""cure""  can be found."	****
+149	****	3	3	4	208077	"You suspect that your hunger can be traced to the strange presence within you... which you have felt since you awoke in Okku's barrow. You can sense little about this presence, but it seems an empty, hollow thing - a void that seeks always to fill itself up."	****
+150	****	3	3	4	208078	"You may discover additional insights about your curse by talking to residents of Mulsantir and the surrounding lands. Spirit-eaters have not been seen in Rashemen for many years, but fragments of their lore have been preserved by the Witches, and by others as well..."	****
+151	****	4	4	-1	208079	"According to the Wood Man, your curse is a punishment, bestowed by a dead god. But he could not say which god was to blame... nor why a dead god should bear you any grudge."	****
+152	****	4	4	4	208080	"Gods do not die as mortals do... their curses and blessings live on, and their corpses float in the endless sky of the Astral Plane. And as long as mortals remember them - with love or with fear - a spark of their consciousness may persist beyond death."	****
+153	****	4	4	4	208081	"The creature that possessed Nadaj was called a genius loci - a powerful and malevolent spirit that can sometimes arise in ancient, untouched places. It arose after a spirit-eater nearly drained the forest of life - as a result, this genius loci was especially vengeful..."	****
+154	****	5	5	-1	208082	"Your curse has been revealed as the work of Myrkul, former god of the dead. If you have any chance of defeating your supernatural hunger, you will need to find a way to speak with a dead god..."	****
+155	****	5	5	4	208083	"It seems clear now that Safiya's mother, Nefris, was seeking a way to contact the dead god Myrkul... presumably to seek a way to end your curse. Nefris is - or was - headmistress at the Academy of Shapers and Binders, in Thay."	****
+156	****	5	5	4	208084	"Myrkul ruled as god of the dead until he was slain, during the Time of Troubles. After his death, his throne briefly passed to the insane god, Cyric... but Cyric was soon overthrown, and Kelemvor took his place."	****
+157	****	5	5	4	208085	"If you wish to learn more about the fallen god Myrkul, you might inquire at the temple of Kelemvor, in Mulsantir... or seek the ancient Myrkulite vault in Shadow Mulsantir, where Myrkul's servants once celebrated his faith."	****
+158	****	5	5	4	208086	"According to the Slumbering Coven, Lienna and Nefris were ""twins"" of a sort. In your dream, their faces appeared almost identical, though they were dressed quite differently..."	****
+159	****	6	6	-1	208087	"When Myrkul ruled the City of Judgment, it was a place of horrors and torments - the Wall of the Faithless was only one of these. Kelemvor has ended most of Myrkul's cruel punishments... but the Wall remains."	****
+160	****	7	7	4	208088	"With the proper magic, a mortal soul can be broken into fragments, and each fragment can be given a body of its own. If the fragments are kept apart for long enough, they may become increasingly distinct from one another... like identical twins who go their separate ways."	****
+161	****	7	7	4	208089	"In ancient days, it was customary for Rashemi towns to offer up a small number of their infant children as ""sacrifices"" to the church of Myrkul - these children would be raised as wards of the church and trained as priests. Akachi, and his brother Araman, were two such children."	****
+162	****	7	7	4	208090	"Kelemvor, current god of the dead, was born a mortal man, and lived during the Time of Troubles. He is, by all accounts, a fair but passionless god."	****
+163	****	7	7	4	208091	"The City of Judgment is inhabited by countless souls of the False - those who betrayed their gods - and by Faithful who once worshipped the god of the dead. Those who were heroes in life often serve as guardians of the City, protecting its walls from demons... and from others who might seek to assault its gates."	****
+164	****	7	7	4	208092	"It has been nearly a thousand years since Akachi led his Crusade against the Wall, freed the Founder's soul... and was terribly punished by Myrkul. In all the years since, the Founder labored to end his suffering."	****
+165	a01_lower_barrow	0	2	-1	208026	"The lower barrow apparently served as some sort of prison, and the spirit animals avoid the area. Whatever was imprisoned there seems to be gone, and you should be able to rest safely."	****
+166	a02_middle_barrow	0	2	-1	208027	"The spirits are aware of your intrusion now, and it's probable that any encounter with them will be less than friendly."	****
+167	a02_middle_barrow	0	2	3	207949	The barrow guardians and spirit animals are capable of appearing out of nowhere - move cautiously.	****
+168	a02_middle_barrow	0	2	3	207972	"You've encountered strange burial mounds, atop which rest the ancient skeletons of bears. The spirits in this place seem to concentrate around these mounds."	****
+169	a02_middle_barrow	0	2	3	207973	"The incorporeal nature of the animal spirits makes them difficult to hit, but fortunately, they don't seem to be particularly resilient."	****
+170	a03_upper_barrow	0	2	3	207974	"More spirit animals awaken with each passing moment, and you've yet to encounter the lord of this placeà"	****
+171	a03_upper_barrow	0	2	-1	207975	"Judging from the masses of tree roots protruding from the tunnel ceilings, the surface can't be far away."	****
+172	a04_forges	0	2	-1	207976	"The path takes you downward. Instead of more earthen tunnels, however, you are greeted with ancient stonework and the scent of oil and steel."	****
+173	a04_forges	0	2	3	207977	"Like the lower barrow, the spirit animals seem to avoid this area. You should be able to rest safely here."	****
+174	a05_library	0	2	-1	207978	The path takes you downward to a place of ancient stonework and musty tomes.	****
+175	a05_library	0	2	3	207979	"Like the lower barrow, the spirit animals seem to avoid this area. You should be able to rest safely here."	****
+176	b01_mulsantir_gate	2	2	-1	208418	"Before you face the might of the bear god, Okku, and the spirit army he commands, make sure you are well prepared, and have found allies in Mulsantir to stand with you."	Confronting the Spirit Army
+177	b01_mulsantir_gate	3	7	3	208419	"Foreigners typically gather at the Sloop - a seedy tavern near Mulsantir's ferry landing. By unspoken agreement, the Witches leave the Sloop and its patrons in peace."	****
+178	b02_mulsantir_town	0	1	-1	208420	"In the center of Mulsantir, near the thriving bazaar, is one of Mulsantir's oldest landmarks: the Veil Theater. With its distinctive, circular architecture and brightly colored banners, it is difficult to miss."	First entry to Mulsantir
+179	b02_mulsantir_town	0	1	3	208421	Mulsantir's ferry landing provides transit across River Mulsantir for travelers along the Golden Way. It is also a staging point for the witchboat patrols that help keep Rashemen safe from Thayan incursions across Lake Mulsantir.	****
+180	b02_mulsantir_town	2	2	-1	208422	"It may be difficult to find allies to stand with you against the spirit army, but if you thoroughly explore shady places like the Mulsantir Prison, and speak with people around town, you may find the help you need."	Entering Mulsantir first time after talking to Sheva (something about the restless spirit army outside)
+181	b02_mulsantir_town	2	2	3	208423	"With the spirit army outside the gates, the only way out of Mulsantir is via the ferry landing on the western side of the city. Unfortunately, the spirits of the river are allied with the bear god - and no ship would survive a crossing if you were aboard. "	****
+182	b02_mulsantir_town	2	2	3	208424	Many of the residents of Mulsantir are fearful of the spirit army and have locked themselves away in their homes.	****
+183	b02_mulsantir_town	3	3	-1	208425	"Now that the spirit army has been driven away, the residents of Mulsantir should be more at ease. Try speaking with them again, and revisit places that were previously locked. Sheva Whitefeather will also want to speak with you."	Returning to Mulsantir after fighting Okku
+184	b02_mulsantir_town	3	7	3	208426	"In Mulsantir, the boundaries between the Plane of Shadow and the Material Plane are especially thin, particularly at night. It is rumored that occasionally an unfortunate resident will stumble into, or be pulled into, the city's shadowy reflection."	****
+185	b02_mulsantir_town	3	7	3	208427	"To honor the spirits of the land, many residents of Mulsantir bury valuables in the ground around the city. It is said that anyone who loots these caches will be cursed. But you are already cursed, soà"	****
+186	b02_mulsantir_town	3	7	3	208428	"Though it seems like Sheva Whitefeather has given you free run of her city, you feel like she is watching you always, anticipating - perhaps hoping for -  the moment when  fate takes you away from Mulsantir permanently."	****
+187	b02_mulsantir_town	3	7	3	208429	"Rashemen is home to many famed heroes. One such is the ranger Minsc who, with his pet hamster Boo, served as the loyal companion to the witch Dynaheir."	****
+188	b03_shadow_mulsantir	1	2	-1	208430	"In Shadow Mulsantir lies the Death God's Vault, which contains much of the collected knowledge and treasures of Myrkul, the former God of the Dead."	Specific about Shadow Mulsantir
+189	b03_shadow_mulsantir	1	7	10	208431	"Though the Plane of Shadow is not itself evil, it is populated by a number of foul creatures who hate the light and the living."	General about Shadow Plane
+190	b03_shadow_mulsantir	1	7	3	208432	Some outlaws use the Shadow Mulsantir as a place to hide from and subvert the witches' authority. Sheva Whitefeather would surely be grateful to anyone who roots out such criminals.	****
+191	b03_shadow_mulsantir	1	7	3	208433	"The Plane of Shadow is highly morphic, so buildings and geographical features are often different from their Material Plane counterparts. Thorough exploration of Shadow Mulsantir may reveal paths that are blocked in Mulsantir itself."	****
+192	b03_shadow_mulsantir	1	7	3	208434	"Other places in Rashemen - besides Mulsantir - may have ""weak spots"" through which one can enter the Plane of Shadows."	****
+193	b03_shadow_mulsantir	7	7	-1	208435	"The Plane of Shadows is called a Transitive Plane. Transitive Planes are the ""glue"" that holds the universe together. Other Transitive Planes include the Astral Plane and the Ethereal Plane."	****
+194	b04_the_veil_theater	1	2	-1	208436	"There is a lot of superstition surrounding the Veil Theater. Some claim that backstage is a ""gateway to darkness"" and that the masks created by Lienna, the theater's owner, have a life of their own."	First entry to Veil
+195	b04_the_veil_theater	3	7	3	208438	"The famous bard Grobnar of Neverwinter once said ""There is nothing so sad as an empty theaterà except maybe one full of people crying."""	****
+196	b04_the_veil_theater	3	7	3	208439	"The Veil actors are working on a new play called ""The Sorcerer's Concubine"" which is to be a dramatic romance about a powerful enchanter and his pure-hearted mistress."	after Okku is defeated
+197	b04_the_veil_theater	3	7	3	208440	"Magda and the the Veil actors are probably deeply disturbed at what happened to Lienna, but the show must go onà"	****
+198	b04_the_veil_theater	3	7	3	208441	"The Veil actors look down their noses at Vladek's Sloop Troupe, and their ""artless, inane attempts at theater."""	****
+199	b05_the_veil_theater_s	1	2	-1	208442	"The Plane of Shadow is a dimension that coexists with, and overlaps, the Material Plane. It is a world of black and white, as if color itself has been bleached from the environment."	First entry to the Shadow Plane
+200	b05_the_veil_theater_s	1	3	3	208444	Lienna sealed several of the doors and chests in this Shadow Plane version of the Veil theater with a special lock. Perhaps Magda would know how to access them.	Before getting the key from Magda
+201	b05_the_veil_theater_s	1	3	3	208445	Lienna left much behind. Perhaps a thorough search would reveal some answers that may have otherwise died with her.	After obtaining the key
+202	b05_the_veil_theater_s	7	7	-1	208446	"You are haunted by vague, but terrifying memories of your first visit to this place, when you were bound to a crude operating table."	****
+203	b06_temple_of_kelemvor	2	3	10	208447	"This place smells of death, but not in a sinister way. This temple is where many come to die in peace."	First entry to Temple of Kelemvor
+204	b06_temple_of_kelemvor	2	7	3	208448	"Kelemvor, the God of the Dead, is lawful to a fault. Some appreciate his unbending adherence, compared to past Gods of the Dead. But there are a few who believe that the laws of universe are flawed and Kelemvor is wrong to follow them so closely."	****
+205	b06_temple_of_kelemvor	4	7	10	208449	"Darovik is one of Kelemvor's Chosen - the god's most powerful agent in this part of the Realms. He may seem peaceful and even-tempered, but it would be folly to anger him."	****
+206	b07_upper_vault	2	4	-1	208450	"This vault was built by Myrkul, the old God of the Dead who was killed by Mystra in the Time of Troubles."	"First visit to vault, if early game"
+207	b07_upper_vault	2	7	3	208451	"Myrkul was replaced by Cyric as God of the Dead. Shortly following Myrkul's death, Cyric's faithful stormed Death God's Vault slaying all of Myrkul's followers. "	****
+208	b07_upper_vault	2	7	3	208452	"Though Myrkul is long-dead, it feels like vestiges of him remain here in his vault. You almost feel like he yet lives, and is watching you from somewhere far away."	****
+209	b07_upper_vault	7	7	-1	208453	"You feel pulled to descend to the lower depths. Images of a massive, twisted gateway flash in your mind."	Enterting upper vault at end of game
+210	b08_lower_vault	2	4	-1	208454	You feel a great sense of dread upon reaching the bottom of the stairs. The icy chill running down your spine betrays that you are mortal and this is a place you could very well die if you are not well-prepared.	"First visit to lower vault, if early game"
+211	b08_lower_vault	2	7	3	208455	You feel compelled toward the open door to the north.	If PC has not found Lamentations of the Dead
+212	b08_lower_vault	7	7	-1	208456	"The images in your mind coalesce and you see the gate before you, though you know it is somewhere to the northwest. The urge to approach the gate is unbearable."	Enterting lower vault at end of game
+213	b09_prison	2	2	-1	208457	This prison reeks of the desperation of doomed men. Perhaps here you will find someone desperate enough to stand with you against the spirit army.	Entering prison before fighting Okku
+214	b09_prison	3	7	-1	208458	"Tirzah ""the Old"" is a moniker that the witch adopted for herself, shortly after taking on the duty of being the warden for Mulstantir's prison."	Entering prison after Okku defeated
+215	b10_wells_of_lurue	3	4	-1	208459	"The air here is crisp and fresh, but it carries with it sounds of mournful howls... seeming to come from beasts who are lost, confused, or mad."	"First visit to Wells, early game"
+216	b10_wells_of_lurue	3	7	3	208460	It is a mystery how the farmer Janiik manages to maintain and protect his farm in such a dangerous territory. 	****
+217	b10_wells_of_lurue	3	7	3	208461	"Outlying areas filled with great spirit energy often attract durthans, and other evil beings, that seek to corrupt and draw power from the darker spirits that inhabit Rashemen."	****
+218	b10_wells_of_lurue	3	7	3	208462	"The hathran witches have done their best to exterminate the uthraki, terrifying ape-like beasts who prey on the sentient. However uthraki are wily and know how to disguise themselves."	****
+219	b11_sloop_inn	2	2	-1	208463	"The Sloop was constructed from the salvaged wreckage of a galleon called the Mystic, the flagship of a Rashemi armada that repelled Thayan invaders led by Zulkir Szass Tam in the Year of the Tattered Banner."	Entering sloop before fighting Okku
+220	b11_sloop_inn	3	7	-1	208464	"To compete with the Veil Theater as the main venue for entertainment in Mulsantir, Vladek recently formed a band of actors, called the Sloop Troupe. Vladek intends to draw in an audience with low-brow comedies and parodies."	Entering sloop first time after fighting Okku
+221	b11_sloop_inn	3	7	3	208465	"Since the Sloop was taken over by Vladek, it has become seedy and ramshackle, and most of the locals stay away. Despite this, the inn continues to prosper due to foreign visitors and seamen."	****
+222	b11_sloop_inn	3	7	3	208466	"There is a rumor that the ghost-sailors of the flagship Mystic haunt the Sloop, and have become more restless of late. Perhaps they are distressed over the poor conditions in which Vladek keeps the Inn."	****
+223	b12_ice_troll_lodge	2	2	-1	208467	"Berserkers are often itching for a fight, and eager to prove themselves superior in strength and combat. It is usually wise to not give them any excuses."	"First time entering ice troll lodge, before fighting okku"
+224	b12_ice_troll_lodge	3	3	-1	208468	"The berserkers of Rashemen are organized into lodges named after local creatures. The lodges are like an extended family, and a berserker can always find welcome at the lodge-house of another village."	"first time entering ice troll lodge, after fighting okku"
+225	b12_ice_troll_lodge	2	7	3	208469	"Berserker lodges are usually guarded by a telthor animal that represent the ideals of that lodge's fighting style. With a tough hide and the fortitude to endure freezing weather, the badger is the typical guardian of Ice Troll lodgehouses."	****
+226	b13_janiiks_farmhouse	3	7	-1	208470	"Janiik's farm house is well-constructed, but humble and utilitarian. The lack of creature comforts suggest that Janiik spends more time in the fields than in his home."	****
+227	b14_anyas_dreamscape	3	7	-1	208471	Anya's mind has constructed a place so sereneà You can see why the girl would prefer to be here than in her father's dismal dwelling in the Wells of Lurue.	****
+228	b15_avolov_house	3	7	-1	208472	"Most half-drow are outcasts, with the exception of those who dwell in far off Dambrath. Mulsantir is one of the few towns in the East tolerant enough to allow half-drow to take up residence."	****
+229	b16_lurue_dreamscape	3	7	-1	208025	You awaken to the sound of falling waterà	"Using the same tip from the beginning of the game, for effectà"
+230	b17_necromancer	3	7	-1	208473	"Not all liches are created equal. In fact, many who try to become liches fail rather miserably, and their fate is not always so kind as a hideously painful death."	****
+231	b18_madatov_home	3	7	-1	208474	"All Rashemi children are tested at an early age to determine if they possess gift of magic. Those who show magical aptitude are taken away to study with the Old Ones, hermit-like male wizards of great power. "	****
+232	b19_vremyonni	3	7	-1	208475	"Any Rashemi males who wish to practice the arcane arts must do so in service to the wychlaran, the female witches that rule Rashemen. Refusal to do is grounds for exileà or execution."	****
+233	c01_outskirts	3	3	5	207980	"Your boat rests docked at the shore of the frigid Lake Ashane. A fence of sharpened stakes marks the outline of a military outpost, but is this outpost here to protect the forest behind it, or is it there to offer protection <i>from</i> the forest?"	****
+234	c01_outskirts	3	3	5	207981	"The Witches of Rashemen wisely established a series of garrisoned outposts along each of their borders. Through the years, the Red Wizards of Thay have attacked from all directions, and early warning has become Rashemen's best defense."	****
+235	c01_outskirts	3	3	5	208002	"Berserkers have been instrumental to Rashemen's continued survival, and now that you're among them, it's easy to see why. These men aren't just career soldiers, they're bred and reared for it. They live for one purpose, and all they do is preparation toward that end."	****
+236	c01_outskirts	3	3	5	208003	"Though relatively new, the Lake of Tears outpost has clearly suffered more than its fair share of vicious battles. There's little wonder that its lifespan seems destined to be so short, given the obvious wear and tear."	****
+237	c01_outskirts	4	4	-1	208004	"It's hard to shake the feeling that you got little if anything of what you came here for in the first place. You came for a cure. You embarked on a set of tasks that would benefit the local garrison. Yet your curse remains, and the garrison is silent now, completely emptied of its defenders."	****
+238	c02_ashenwood	3	3	-1	208005	"You make your way down a little-used path and find yourself in a place both ancient and mystical. It is pristine - untouched by civilization, and there is something else... an eager palpitation you've felt before. There are spirits nearby. The forest is filled with them."	****
+239	c02_ashenwood	3	3	5	208006	"Navigating the forest isn't easy. Some paths have been trodden by huge trolls or other large forest denizens, but there is little else to go by. There is one landmark, though, that has been a gift in finding your way back here. You see it in the distance, shining like a beacon..."	****
+240	c02_ashenwood	3	3	5	208007	"You've been this way several times now, and there is still little sign of the berserkers missing from the garrison. Most of the predators from these parts, you'd expect, would have left behind carcasses or bones. What did they encounter here?"	****
+241	c02_ashenwood	3	3	5	208029	"The Ashenwood is mostly an evergreen forest, but the snow is so thick in some places you'd hardly know it. More so than in Mulsantir, the onset of winter here must be swift and unrelenting, year in and year out."	****
+242	c02_ashenwood	3	3	5	208030	"There is a strict protocol set up for anyone who wishes to hunt in the Ashenwood, where it is said many ideal specimens of creatures reside. They must burn offerings before ever entering the forest, and thank the spirits for every kill. Failure to do so brings untold, but supposedly dire, consequences."	****
+243	c02_ashenwood	3	3	5	208031	"The Witches keep a careful eye on the Ashenwood, wary of losing it to foreign invaders. In times past, they have received valuable counsel from its eldest treants, as well as its greatest source of wisdom, the Wood Man. Would they have sent you here <i>knowing</i> that he had disappeared?"	****
+244	c02_ashenwood	4	7	-1	208032	"There is a new quiet to the forest. The hostility you felt from it as you ventured through these parts earlier is gone now, the threats that awoke its feral survival instinct pacified for the time being."	****
+245	c03_burning_grove	3	3	5	208033	"The blaze was easy to locate, once you were pointed in the right direction. The scent of wood burning, the sight of smoke on the horizon leading you onward. Now at last the flames are in sight, and it occurs to you how remarkable their presence is amongst all this snow."	****
+246	c03_burning_grove	3	3	5	208034	"The strangest sense of having been here before - long ago - crosses your mind, which, having grown up in a swamp on the Sword Coast, seems relatively unlikely and most likely some bizarre by-product of your spirit-eater malady. "	****
+247	c04_immil_vale	3	4	-1	208035	"You descend from the slopes of the Running Rocks and arrive in the place Nadaj described - Immil Vale. It is unseasonably warm here, making you wonder briefly whether your journey took much longer than you'd expected."	****
+248	c04_immil_vale	3	7	5	208036	"The Vale is alive with the growls of animals that should be hibernating and the calls of birds that should have migrated. It's surreal, but a welcome respite from the harsh winter that enshrouds the rest of the surrounding land."	****
+249	c04_immil_vale	3	7	5	208037	"The Immil Vale, like Neverwinter, experiences a temperate climate year-round. And just as Neverwinter's is rumored to be, the Vale's secret is a geological one - it's nestled between the foothills of an active volcano."	****
+250	c05_dalenkas_dwelling	3	3	-1	208038	"This dwelling provides a respite from the freezing gusts off of Lake Ashane, but little else has been done to make it hospitable. It's little wonder the Rashemi are such a surly bunch, if they insist on living in such barren accommodations."	****
+251	c05_dalenkas_dwelling	3	4	5	208039	"It hardly feels like a military garrison in this small abode - more like a study. There are many books lining Dalenka's shelves, and a sizeable portion of them seem to be non-magic related. Is this how time is passed in a tiny outpost so far from civilization?"	****
+252	c06_caved_in_mine	3	4	-1	208040	"You entered a cave, but as you've advanced, the walls have smoothed out, and you realize you are in a mineshaft. It gets colder with every step forward."	****
+253	c07_wolverine_cave	3	4	-1	208041	"Sometimes an animal is born - often of ancient lineage - that exhibits absolute perfection of its species. These remarkable paragon beasts are to their kind what heroes are to normal men, and for that they are greatly sought after by hunters, although few hunters who come in search of them ever emerge from the woods again."	****
+254	c08_dreamscape	3	7	-1	208042	"Your mind is active with thoughts of your plight, and your sleep is light. A gentle, glassy hum stirs you - an invitation to partake in something important. You open your eyes and are aware of your surroundings, but you are also aware that you are dreaming."	****
+255	d01_lakeshore	3	7	-1	208312	"You think you hear screams and evil laughter coming from across the waves, but you are unsure if it is just your imagination."	player only sees this when returning to lakeshore from nightshore
+256	d02_nightshore	3	3	-1	208313	"Stepping into the Shadow Plane once again, you feel a sudden uncertainty, as if perhaps you are not prepared for the dangers here."	first visit to nightshore
+257	d02_nightshore	4	4	-1	208314	"You feel a brief apprehension upon arriving in this dark place. But reminding yourself of the dangers you overcame in Ashenwood, you steel yourself for the challenges ahead."	"first visit to nightshore, went to wood man already"
+258	d02_nightshore	3	7	3	208315	"Hearing the ominous sounds of the creatures that lurk in the depths below, you wonder how any of the floating corpses manage to drift ashore uneaten."	****
+259	d02_nightshore	3	7	3	208316	Once again the numbing darkness closes over you and all color drains away. You wonder how many more times you must return to the Shadow Plane.	****
+260	d03_coveya_kurgannis	3	3	-1	208317	"Through a window ahead you can see the Slumbering Coven, suspended in repose in the Chamber of Dreamers. Your feelings of uncertainty persist. You are risking much for the hope that the Coven will give you answers."	first visit
+261	d03_coveya_kurgannis	4	4	-1	208318	"Through a window ahead you can see the Slumbering Coven, suspended in repose in the Chamber of Dreamers. You are eager to face them and get answers."	"first visit, went to wood man already"
+262	d03_coveya_kurgannis	3	7	3	208319	You are struck again by how badly it smells here. You would think the hags would make their hagspawn servants keep the seat of their power tidy.	****
+263	d04_the_skein	3	5	-1	208331	You come to and realize you are trapped in this place. This is where the hags send people they never want to see again.	First visit (likely the only time this will ever be seen)
+264	d05_dreamscape	3	5	-1	208332	You find yourself back in the Chamber of Dreamers...	First visit (likely the only time this will ever be seen)
+265	d06_sleepers_prison	3	5	-1	208333	"The ability to walk in dreams is not unique to the hags of Rashemen, but they would like it to be, so they seek out other ""dreamers"" and slay them, or worseà trap them within a nightmare."	First visit (likely the only time this will ever be seen)
+266	d07_dreamscape_theatre	3	5	-1	208334	You are shocked to find yourself in a familiar place. Did the Coven somehow return you to Mulsantir?	First visit (likely the only time this will ever be seen)
+267	d08_dreamscape_gate	3	5	-1	208335	"You have seen this gate often in your dreams, and sometimes you even see it when you are awakeà"	First visit (likely the only time this will ever be seen)
+268	d09_dreamscape_wall	3	5	-1	208336	Those who die without committing themselves to any god are judged Faithless and imprisoned in a living wall that surrounds the City of Judgment - the Wall of the Faithless. These doomed souls are slowly dissolved into the very substance of the Wall - and that is just as painful as it sounds.	First visit (likely the only time this will ever be seen)
+269	d10_dreamscape_durler	3	5	-1	208337	"You hear music, and the sounds of people talking and laughing, but this tavern is empty except for one tired-looking soul who is playing cards with himself."	First visit (likely the only time this will ever be seen)
+270	d11_dreamscape_gudbughach	3	5	-1	208339	"Long ago the githyanki were a slave race to the illithids, or mind flayers. They revolted under the leadership of Gith, and swore vengeance on their former slavemasters. To this day, the githyanki still hunt the mind flayers to extinction."	First visit (likely the only time this will ever be seen)
+271	d13_dreamscape_faras	3	5	-1	208340	There are many fables about the foolishness of making deals with devils. Some people just don't listen.	First visit (likely the only time this will ever be seen)
+272	e01_thaymount	5	6	5	208043	"The air is filled with the strong stench of sulfur, leaving little doubt that the mountain whose paths you walk is an active volcano. A tall, multi-tiered structure looms above, its main tower so high it seems almost disconnected from the rest."	****
+273	e02_academy_classrooms	5	6	-1	208044	"You come upon a grisly scene just inside the academy's main doors. A large and bitter struggle took place here, and no one has yet bothered to remove the dead from the hallways."	****
+274	e02_academy_classrooms	5	6	5	208045	The halls echo with chatter from adjacent classrooms where lessons are being taught. The reality of living in Thay must truly be grim if they are so quickly able to return to their habits and ways of life as though nothing had happened at all.	****
+275	e02_academy_classrooms	5	6	5	208046	"Despite the recent coup, there is a single-mindedness about this place unusual for a country that blames most of its failings on internal strife and competing ambitions. The school's coat of arms hangs from banners in every hall and classroom, and its motto, ""Nothing is immutable,"" is posted everywhere."	****
+276	e02_academy_classrooms	5	6	5	208047	"At every turn, you half expect to be discovered by Araman, and for a decisive battle to ensue. Yet you have seen no sign of him - only of his overthrow of the headmistress. His prolonged absence is becoming an increasing cause for concern."	****
+277	e02_academy_classrooms	5	6	5	208048	"There is an unsettling way in which the students and teachers look at you here. Even the youngest students stare calculatingly, a look of pure defiance on their faces. It's as if it's something they teach here."	****
+278	e03_academy_instructor_quarters	5	6	-1	208049	"It is quiet as you descend into the area where the academy's instructors sleep - partially because class seems to be in session, and partially due to the many recent vacancies brought about by Araman's coup."	****
+279	e03_academy_instructor_quarters	5	6	5	208050	"The academy masters seem to live relatively close together. Still, you'd expect Red Wizards to take pains to keep as many secrets from their colleagues as possible. There is probably much that is hidden on this level..."	****
+280	e03_academy_instructor_quarters	5	6	5	208051	"The main hallway seems to hold a large collection of stocks and torture equipment. It seems like a detention facility, but there are also tables and chairs and house plants. It must be more of a lounge area."	****
+281	e04_headmistress_tower	5	6	-1	208052	"A winding staircase seems to take you up for an eternity. At last, at the very top, you come upon Nefris' room, which has been ransacked. You can only hope that the pillagers didn't destroy or remove everything you might have found useful."	****
+282	e04_headmistress_tower	5	6	5	208053	"This room, disconnected as it is, must have been a lonely place for Nefris to sequester herself. You notice a loom in one of the far corners, facing toward a window. Did Nefris ever get out of this place, or was that her only view of the world below?"	****
+283	e04_headmistress_tower	5	6	5	208054	"It occurs to you that a portal system would have been much better for ascending this tower than all those stairs. Unless of course the Headmistress wanted to discourage visitors, in which case the stairs are <i>ideal</i>."	****
+284	e05_astral_boneyard	5	5	-1	208055	"You feel suddenly light, as if a deep breath would be enough to make you float away, but some force still binds you to the rocky terrain at your feet. Before you is an endless sky, and you feel briefly as though it provides you with some insight into the perspective of deities."	****
+285	e06_founders_sanctum	5	6	-1	208056	"Rot and mold swell up in the moist air that pours thickly into your nostrils. You are in a place that is wholly unkempt, seemingly centuries removed from the time it was steadily maintained. Or perhaps it never was..."	****
+286	z01_city_gates	7	7	-1	208057	The Fugue Plane is where all souls go after death. The Faithful are eventually transported to their deity's home plane - everyone else faces sentencing in the City of Judgment.	****
+287	z02_basilica	7	7	-1	208058	"Newly arrived False and Faithless souls are brought to the Basilica for judgment and sentencing. For the False, the punishment varies, but for the Faithless, there is only one sentence - entombment within the Wall."	****
+288	z02_basilica	7	7	5	208059	"Baatezu are permitted within the halls of the Basilica, extending bargains with the doomed souls awaiting sentencing. Souls who are likely to be judged Faithless often find it preferable to join the ranks of the devils as an enslaved minion rather than face oblivion on the Wall."	****
+289	z02_basilica	7	7	5	208060	The Throne of Judgment in the Basilica is almost always empty. Only in the most severe cases does Kelemvor himself appear to personally sentence a doomed soul.	****
+290	z03_eternitys_end	7	7	-1	208061	"Jergal, a former god of the dead, created Eternity's End with the explicit purpose of storing the names of every creature who has ever died. The district is now used to store lore and artifacts deemed too dangerous to be loose in the planes."	****
+291	z03_eternitys_end	7	7	5	208062	"Though the paladins of Kelemvor are few in number, Kelemvor bestows a measure of his divine power upon each of them, greatly increasing their power."	****
+292	z03_eternitys_end	7	7	5	208063	"The Codex of the Doomed, the giant tome in which all the names of the False and Faithless are inscribed, can be found in a Temple of Kelemvor in Eternity's End."	****
+293	z05_wall	7	7	-1	208064	"Your soul now lies in the Wall of the Faithless, occupying the place that Myrkul reserved for Akachi. The souls of past spirit-eater have also been imprisoned here... and been dissolved when they succumbed to the curse."	****
+294	z06_vault_1	7	7	-1	208065	"Most of the vaults simply contain tomes with endless lists of names of people long-dead, but a few have been adapted to store magical lore and artifacts."	****
+295	z07_dreamscape_ck	7	7	-1	208066	"Crossroad Keep - *your* keep. You rebuilt it from the ruins, you held it against the against the army of the King of Shadows, and once again you are called upon to defend it."	****
+296	z08_good	7	7	-1	208067	"Descent. Ahead of you is a warm, idyllic place, a place of compassion and mercy. It is your true self, uncloaked by words and deeds, and it is there that Akachi awaits you for one final battle."	****
+297	z04_temple	7	7	-1	208068	"There are many temples in the City of Judgment, but this particular temple holds the Codex of the Dead. Within the Codex lies the location of your soul."	****
+298	z09_dreamscape_wh	7	7	-1	208069	"Regardless of how you feel about it, your childhood village of West Harbor *is* important to you. It is part of you, a part which the Faceless Man is attempting to destroy."	****
+299	z10_vault_2	7	7	-1	208065	"Most of the vaults simply contain tomes with endless lists of names of people long-dead, but a few have been adapted to store magical lore and artifacts."	****
+300	z11_vault_3	7	7	-1	208065	"Most of the vaults simply contain tomes with endless lists of names of people long-dead, but a few have been adapted to store magical lore and artifacts."	****
+301	z08_neutral	7	7	-1	208070	"Descent. Ahead of you is a cool, twilit place, a place of pragmatism and balance. It is your true self, uncloaked by words and deeds, and it is there that Akachi awaits you for one final battle."	****
+302	z08_evil	7	7	-1	208071	"Descent. Ahead of you is a bleak, hellish place, a place of hatred and ruthlessness. It is your true self, uncloaked by words and deeds, and it is there that Akachi awaits you for one final battle."	****
+303	****	****	****	4	16788245	****	acr_hint030
+304	****	****	****	4	16788246	****	acr_hint031
+305	****	****	****	4	16788247	****	acr_hint032
+306	****	****	****	4	16788248	****	acr_hint033
+307	****	****	****	4	16788249	****	acr_hint034
+308	****	****	****	4	16788250	****	acr_hint035
+309	****	****	****	4	16788251	****	acr_hint036
+310	****	****	****	4	16788252	****	acr_hint037
+311	****	****	****	4	16788253	****	acr_hint038
+312	****	****	****	4	16788254	****	acr_hint039
+313	****	****	****	4	16788255	****	acr_hint040
+314	****	****	****	4	16788256	****	acr_hint041
+315	****	****	****	4	16788257	****	acr_hint042
+316	****	****	****	4	16788258	****	acr_hint043
+317	****	****	****	4	16788259	****	acr_hint044
+318	****	****	****	4	16788260	****	acr_hint045
+319	****	****	****	4	16788261	****	acr_hint046
+320	****	****	****	4	16788262	****	acr_hint047
+321	****	****	****	4	16788263	****	acr_hint048
+322	****	****	****	4	16788264	****	acr_hint049
+323	****	****	****	4	16788265	****	acr_hint050
+324	****	****	****	4	16788266	****	acr_hint051
+325	****	****	****	4	16788267	****	acr_hint052
+326	****	****	****	4	16788268	****	acr_hint053
+327	****	****	****	4	16788269	****	acr_hint054
+328	****	****	****	4	16788270	****	acr_hint055
+329	****	****	****	4	16788271	****	acr_hint056
+330	****	****	****	4	16788272	****	acr_hint057
+331	****	****	****	4	16788273	****	acr_hint058
+332	****	****	****	4	16788274	****	acr_hint059
+333	****	****	****	4	16788275	****	acr_hint060
+334	****	****	****	4	16788276	****	acr_hint061
+335	****	****	****	4	16788277	****	acr_hint062

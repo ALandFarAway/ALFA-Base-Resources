@@ -1,0 +1,662 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UIScene x="0" y="ALIGN_CENTER" width="595" height="485" draggable="true" fadeout="0.3"
+fadein="0.3" backoutkey="true" priority="SCENE_SCRIPT" scriptloadable="true" idleexpiretime="1.0" dragregion_x="10"
+dragregion_y="8" dragregion_width="340" dragregion_height="20" capturemouseclicks="false" 
+OnCreate="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_init&quot;)" 
+OnBackout="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_close&quot;)" />
+
+<!-- 
+
+list_row:0 = embedded data (int)
+//local:0 = Var Index (Row)
+local:1 = Var Index (Selected)
+local:2 = New var name
+ 
+local:100 = Var value - Int
+local:101 = Var value - Float
+local:102 = Var value - String 
+local:103 = Var value - Location: X
+local:104 = Var value - Location: Y
+local:105 = Var value - Location: Z
+local:106 = Var value - Location: Area Tag
+local:107 = Var value - Location: Orientation
+local:108 = Var value - Object (Int ID)
+
+local:1000 = const string WAND_UI_LV_TT_OBJ_ID
+local:1001 = const string WAND_UI_LV_TT_NEW_VAR
+local:1002 = const string WAND_UI_LV_TT_SAVE
+local:1003 = const string WAND_UI_LV_TT_DELETE
+local:1004 = const string WAND_UI_LV_TT_CANCEL
+local:1005 = const string WAND_UI_LV_TT_INTEGER
+local:1006 = const string WAND_UI_LV_TT_FLOAT
+local:1007 = const string WAND_UI_LV_TT_STRING
+local:1008 = const string WAND_UI_LV_TT_LOCATION
+local:1009 = const string WAND_UI_LV_TT_OBJECT
+local:1010 = const string WAND_UI_LV_TT_CLICK
+local:1011 = const string WAND_UI_LV_TT_OBJ_NAME
+-->
+
+<!-- Scene Title -->
+<UIText name="TITLE_TEXT" x="100" y="8" width="255" height="27" align="left" valign="middle"
+fontfamily="Title_Font" style="2" />
+
+<UIPane x="ALIGN_LEFT" width="350" height="42" capturemouseclicks="false" capturemouseevents="false" >
+	<!-- Close Button -->
+	<UIButton x="ALIGN_RIGHT" y="ALIGN_CENTER" style="STYLE_CLOSE_BUTTON" 
+	OnLeftClick0="UIButton_Input_ScreenClose()"
+	OnLeftClick1="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_close&quot;)" />
+	
+	<UIPane x="ALIGN_CENTER" width="290" capturemouseclicks="false" capturemouseevents="false" >
+		<!-- Reload GUI -->
+		<UIButton x="ALIGN_RIGHT" y="ALIGN_CENTER" width="20" height="20" MouseUpSFX="gui_button"
+		OnLeftClick0="UIButton_Input_HideObject(&quot;EDIT_PANE&quot;)"
+		OnLeftClick1="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_reload&quot;)" >
+			<UIFrame state="base"		fill="ia_previous.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay_active.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>
+	</UIPane>
+</UIPane>
+	
+<!-- Selection grid -->
+<UIGrid rows="1" columns="5" height="40" x="17" y="45" >
+    <!-- Integer -->
+	<UIButton text="Int." width="65" buttontype="radio" groupid="1" groupmemberid="1" style="STYLE_BIG_TAB"
+    OnSelected0="UIButton_Input_ShowObject(&quot;INT_VAR_TAB_PANE&quot;)"
+	OnSelected1="UIButton_Input_ShowObject(&quot;NEW_INT_BUTTON&quot;)"
+    OnSelected2="UIButton_Input_HideObject(&quot;EDIT_PANE&quot;)"
+    OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_new_tab&quot;)"
+    OnUnselected0="UIButton_Input_HideObject(&quot;INT_VAR_TAB_PANE&quot;)"
+	OnUnselected1="UIButton_Input_HideObject(&quot;NEW_INT_BUTTON&quot;)"
+	OnUnselected2="UIButton_Input_HideObject(&quot;INPUT_CONTAINER_INT&quot;)"
+    OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1005,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+		<UIText x="ALIGN_CENTER" align="center" valign="middle" fontfamily="Title_Font" style="2" />
+    </UIButton>
+	<!-- Float -->
+    <UIButton text="Float" width="65" buttontype="radio" groupid="1" groupmemberid="2" style="STYLE_BIG_TAB"
+    OnSelected0="UIButton_Input_ShowObject(&quot;FLOAT_VAR_TAB_PANE&quot;)"
+	OnSelected1="UIButton_Input_ShowObject(&quot;NEW_FLOAT_BUTTON&quot;)"
+    OnSelected2="UIButton_Input_HideObject(&quot;EDIT_PANE&quot;)"
+    OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_new_tab&quot;)"
+    OnUnselected0="UIButton_Input_HideObject(&quot;FLOAT_VAR_TAB_PANE&quot;)"
+	OnUnselected1="UIButton_Input_HideObject(&quot;NEW_FLOAT_BUTTON&quot;)"
+	OnUnselected2="UIButton_Input_HideObject(&quot;INPUT_CONTAINER_FLOAT&quot;)"
+    OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1006,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+		<UIText x="ALIGN_CENTER" align="center" valign="middle" fontfamily="Title_Font" style="2" />
+    </UIButton>
+	<!-- String -->
+    <UIButton text="Str." width="65" buttontype="radio" groupid="1" groupmemberid="3" style="STYLE_BIG_TAB"
+    OnSelected0="UIButton_Input_ShowObject(&quot;STR_VAR_TAB_PANE&quot;)"
+	OnSelected1="UIButton_Input_ShowObject(&quot;NEW_STR_BUTTON&quot;)"
+    OnSelected2="UIButton_Input_HideObject(&quot;EDIT_PANE&quot;)"
+    OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_new_tab&quot;)"
+    OnUnselected0="UIButton_Input_HideObject(&quot;STR_VAR_TAB_PANE&quot;)"
+	OnUnselected1="UIButton_Input_HideObject(&quot;NEW_STR_BUTTON&quot;)"
+	OnUnselected2="UIButton_Input_HideObject(&quot;INPUT_CONTAINER_STR&quot;)"
+    OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1007,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)">
+        <UIText x="ALIGN_CENTER" align="center" valign="middle" fontfamily="Title_Font" style="2" />
+    </UIButton>
+	<!-- Location -->
+    <UIButton text="Loc." width="65" buttontype="radio" groupid="1" groupmemberid="4" style="STYLE_BIG_TAB"
+    OnSelected0="UIButton_Input_ShowObject(&quot;LOC_VAR_TAB_PANE&quot;)"
+	OnSelected1="UIButton_Input_ShowObject(&quot;NEW_LOC_BUTTON&quot;)"
+    OnSelected2="UIButton_Input_HideObject(&quot;EDIT_PANE&quot;)"
+    OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_new_tab&quot;)"
+    OnUnselected0="UIButton_Input_HideObject(&quot;LOC_VAR_TAB_PANE&quot;)"
+	OnUnselected1="UIButton_Input_HideObject(&quot;NEW_LOC_BUTTON&quot;)"
+	OnUnselected2="UIButton_Input_HideObject(&quot;INPUT_CONTAINER_LOC&quot;)"
+    OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1008,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)">
+		<UIText x="ALIGN_CENTER" align="center" valign="middle" fontfamily="Title_Font" style="2" />
+    </UIButton>
+	<!-- Object -->
+    <UIButton text="Obj." width="65" buttontype="radio" groupid="1" groupmemberid="5" style="STYLE_BIG_TAB"
+    OnSelected0="UIButton_Input_ShowObject(&quot;OBJECT_VAR_TAB_PANE&quot;)"
+	OnSelected1="UIButton_Input_ShowObject(&quot;NEW_OBJ_BUTTON&quot;)"
+    OnSelected2="UIButton_Input_HideObject(&quot;EDIT_PANE&quot;)"
+    OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_new_tab&quot;)"
+    OnUnselected0="UIButton_Input_HideObject(&quot;OBJECT_VAR_TAB_PANE&quot;)"
+	OnUnselected1="UIButton_Input_HideObject(&quot;NEW_OBJECT_BUTTON&quot;)"
+	OnUnselected2="UIButton_Input_HideObject(&quot;INPUT_CONTAINER_OBJ&quot;)"
+    OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1009,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)">
+		<UIText x="ALIGN_CENTER" align="center" valign="middle" fontfamily="Title_Font" style="2" />
+    </UIButton>
+</UIGrid>
+<!-- Edit Pane -->
+<UIPane name="EDIT_PANE" x="ALIGN_RIGHT" y="45" width="260" height="270" hidden="true">
+	<!-- Var Name -->
+	<UIPane x="ALIGN_CENTER" y="32" height="30" width="260" >
+		<UIPane x="ALIGN_CENTER" y="ALIGN_CENTER" width="250">
+			<UIText name="VAR_NAME_NEW" x="ALIGN_CENTER" width="206" allowspace="false" fontfamily="Title_Font" style="2" align="center" valign="middle"
+			selectable="true" editable="true" update="true" multiline="false" returnrestricted="true" OnUpdate="UIObject_Misc_SetLocalVarString(local:2)" />	
+			<!--<UIText name="VAR_NAME" x="ALIGN_CENTER" width="206" selectable="true" editable="false" multiline="false" align="center" valign="middle" fontfamily="Title_Font" style="2" />-->
+			<UIListBox x="ALIGN_CENTER" width="206" height="PARENT_HEIGHT" showpartialchild="true" xPadding="5" yPadding="5"
+			unequalcontrols="true" scrollsegmentsize="25" hidescrollbarwhennotneeded="true" >
+				<UIText name="VAR_NAME" width="PARENT_WIDTH" height="DYNAMIC" allowspace="true" fontfamily="Title_Font" style="2" valign="middle" align="center"
+				multiline="true" />
+				<UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>
+			</UIListBox>		
+		</UIPane>	
+	</UIPane>
+
+	<!-- Horizontal line -->
+	<UIIcon x="ALIGN_CENTER" y="60" width="218" height="3" img="tp_frame_t.tga" />
+	
+	<!-- Integer -->	
+	<UIPane name="INPUT_CONTAINER_INT" x="ALIGN_CENTER" width="170" hidden="true"> 
+		<!-- Input -->
+		<UIPane y="ALIGN_CENTER" height="30" >
+			<UIPane x="ALIGN_CENTER" y="ALIGN_CENTER" width="150">
+				<UIText name="VAR_INT_INPUT" width="PARENT_WIDTH" allowspace="false" fontfamily="Body_Font" style=2 valign="middle" align="right"
+				selectable="true" editable="true" update="true" multiline="false" returnrestricted="true" filter="signed_numeric"
+				OnUpdate="UIObject_Misc_SetLocalVarString(local:100)" />
+			</UIPane>	
+			<UIFrame x="ALIGN_CENTER" y="ALIGN_TOP" width="PARENT_WIDTH" height="PARENT_HEIGHT" topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" 								
+			bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"left="tp_frame_l.tga" 
+			right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border="3" />
+		</UIPane>
+		<!-- Buttons -->
+		<UIPane x="ALIGN_CENTER" y="180" height="60" >
+			<UIButton name="ACCEPT_INT" x="ALIGN_LEFT" y="ALIGN_TOP" width="80" style="STYLE_SMALL_BUTTON" 
+			OnLeftClick="UIObject_MISC_ExecuteServerScript(&quot;gui_wand_lvm_do_int&quot;,local:1,local:2,local:100)" 
+			OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1002,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+			
+			<UIButton name="DELETE_INT" x="ALIGN_RIGHT" y="ALIGN_TOP" width="80" style="STYLE_SMALL_BUTTON" 
+			OnLeftClick0="UIObject_MISC_ExecuteServerScript(&quot;gui_wand_lvm_del_int&quot;,local:1)" 
+			OnLeftClick1="UIButton_Input_HideObject(&quot;EDIT_PANE&quot;)"
+			OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1003,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+						
+			<UIButton name="CANCEL_INT" x="ALIGN_CENTER" y="ALIGN_BOTTOM" width="100" style="STYLE_SMALL_BUTTON" 
+			OnLeftClick0="UIButton_Input_HideObject(&quot;EDIT_PANE&quot;)"
+			OnLeftClick1="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_new_tab&quot;)"
+			OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1004,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)"/>			
+		</UIPane>
+	</UIPane>	
+	<!-- Float -->	
+	<UIPane name="INPUT_CONTAINER_FLOAT" x="ALIGN_CENTER" width="170" hidden="true"> 
+		<!-- Input -->
+		<UIPane y="ALIGN_CENTER" height="30" >
+			<UIPane x="ALIGN_CENTER" y="ALIGN_CENTER" width="150" >
+				<UIText name="VAR_FLOAT_INPUT" width="PARENT_WIDTH" allowspace="false" fontfamily="Body_Font" style="2" valign="middle" align="right"
+				selectable="true" editable="true" update="true" multiline="false" returnrestricted="true"
+				OnUpdate="UIObject_Misc_SetLocalVarString(local:101)" />
+			</UIPane>
+			<UIFrame x="ALIGN_CENTER" y="ALIGN_TOP" width="PARENT_WIDTH" height="PARENT_HEIGHT" topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" 
+			bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"left="tp_frame_l.tga" 
+			right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border="3" />
+		</UIPane>
+		<!-- Buttons -->
+		<UIPane x="ALIGN_CENTER" y="180" height="60" >
+			<UIButton name="ACCEPT_FLOAT" x="ALIGN_LEFT" y="ALIGN_TOP" width="80" style="STYLE_SMALL_BUTTON" 
+			OnLeftClick="UIObject_MISC_ExecuteServerScript(&quot;gui_wand_lvm_do_float&quot;,local:1,local:2,local:101)" 
+			OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1002,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+			
+			<UIButton name="DELETE_FLOAT" x="ALIGN_RIGHT" y="ALIGN_TOP" width="80" style="STYLE_SMALL_BUTTON" 
+			OnLeftClick0="UIObject_MISC_ExecuteServerScript(&quot;gui_wand_lvm_del_float&quot;,local:1)" 
+			OnLeftClick1="UIButton_Input_HideObject(&quot;EDIT_PANE&quot;)"			
+			OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1003,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+			
+			<UIButton name="CANCEL_FLOAT" x="ALIGN_CENTER" y="ALIGN_BOTTOM" width="100" style="STYLE_SMALL_BUTTON" 
+			OnLeftClick0="UIButton_Input_HideObject(&quot;EDIT_PANE&quot;)"
+			OnLeftClick1="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_new_tab&quot;)"
+			OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1004,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />		
+		</UIPane>
+	</UIPane>	
+	<!-- String -->
+	<UIPane name="INPUT_CONTAINER_STR" x="ALIGN_CENTER" width="170" hidden="true"> 
+		<!-- Input -->
+		<UIPane y="70" height="105" >
+			<UIListBox x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" showpartialchild="true" xPadding="5" yPadding="5"
+			unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded="true" >
+
+				<UIText name="VAR_STR_INPUT" width="PARENT_WIDTH" height="DYNAMIC" allowspace="true" fontfamily="Body_Font" style="2" valign="top" align="left"
+				selectable="true" editable="true" update="true" multiline="true" returnrestricted="true" 
+				OnUpdate="UIObject_Misc_SetLocalVarString(local:102)" />
+
+				<UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>
+			</UIListBox>		
+			<UIFrame x="ALIGN_CENTER" y="ALIGN_TOP" width="PARENT_WIDTH" height="PARENT_HEIGHT" topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" 								bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"left="tp_frame_l.tga" 
+			right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border=3 />
+		</UIPane>
+		<!-- Buttons -->
+		<UIPane x="ALIGN_CENTER" y="177" height="60" >			
+			<UIButton name="ACCEPT_STR" x="ALIGN_LEFT" y="ALIGN_TOP" width="80" style="STYLE_SMALL_BUTTON" 
+			OnLeftClick="UIObject_MISC_ExecuteServerScript(&quot;gui_wand_lvm_do_str&quot;,local:1,local:2,local:102)" 
+			OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1002,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+			
+			<UIButton name="DELETE_STR" x="ALIGN_RIGHT" y="ALIGN_TOP" width="80" style="STYLE_SMALL_BUTTON" 
+			OnLeftClick0="UIObject_MISC_ExecuteServerScript(&quot;gui_wand_lvm_del_str&quot;,local:1)"  
+			OnLeftClick1="UIButton_Input_HideObject(&quot;EDIT_PANE&quot;)"	
+			OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1003,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+			
+			<UIButton name="CANCEL_STR" x="ALIGN_CENTER" y="ALIGN_BOTTOM" width="100" style="STYLE_SMALL_BUTTON" 
+			OnLeftClick0="UIButton_Input_HideObject(&quot;EDIT_PANE&quot;)"
+			OnLeftClick1="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_new_tab&quot;)"
+			OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1004,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />		
+		</UIPane>
+	</UIPane>
+	<!-- Location -->
+	<UIPane name="INPUT_CONTAINER_LOC" x="ALIGN_CENTER" width="205" height="250" hidden="true"> 
+		<!-- Fake dropdown pane -->	
+		<UIPane name="VAR_LOC_AREA_DROPDOWN" x="ALIGN_RIGHT" y="88" width="200" height="80" hidden="true">
+			<UIListBox name="AREA_LIST" y="ALIGN_CENTER" width="PARENT_WIDTH" showpartialchild="false" xPadding="3" yPadding="5"
+			unequalcontrols="true" scrollsegmentsize="18" selectonleftclick="true">
+				<UIPane width="200" height="16" tupple="true" prototype="true"
+				OnLeftClick0="UIObject_Misc_ExtractData(selected:AREA_LIST,&quot;string&quot;,0,local:106)"
+				OnLeftClick1="UIObject_MISC_ExecuteServerScript(&quot;gui_wand_lvm_init_area&quot;,local:106)" 
+				OnLeftClick2="UIButton_Input_HideObject(&quot;VAR_LOC_AREA_DROPDOWN&quot;)" >
+					<UIButton name="VAR_LOC_AREA" width="183" height="16">
+						<UIText indent="10" hangingindent="10" align="left" valign="middle"
+						fontfamily="Special_Font" style="1" />
+						<UIFrame state="up" fill="b_i_normal.tga" />
+						<UIFrame state="down" fill="b_i_hover_pressed.tga" />
+						<UIFrame state="focused" fill="b_i_hover_pressed.tga" />
+						<UIFrame state="hilited" fill="b_i_hover.tga" />
+						<UIFrame state="hifocus" fill="b_i_hover_pressed.tga" />
+						<UIFrame state="disabled" fill="b_i_normal.tga" />
+					</UIButton>	
+				</UIPane>
+				<UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>
+			</UIListBox>	
+			<UIFrame x="ALIGN_CENTER" y="ALIGN_TOP" width="PARENT_WIDTH" height="PARENT_HEIGHT" topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" 								bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"left="tp_frame_l.tga" 
+			right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border=3 />
+		</UIPane>
+		<!-- Input -->
+		<UIPane y="65" height="150" capturemouseclicks="false" capturemouseevents="false" >
+			<!-- Click to target -->
+			<UIButton name="CLICK_TO_TARGET_OBJ" height="24" width="24" x="ALIGN_RIGHT" y="0"  
+			OnLeftClick="UIObject_Input_ActionTargetScript(&quot;&quot;,37,39,0,&quot;TRUE&quot;,&quot;gui_wand_lvm_target_loc&quot;,target:object,target:x,target:y,target:z)"
+			OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1010,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+				<UIFrame state="up"			fill="b_s0_normal.tga" />
+				<UIFrame state="down"		fill="b_s0_pressed.tga" />
+				<UIFrame state="focused"	fill="b_s0_hover.tga" />
+				<UIFrame state="hilited"	fill="b_s0_hover.tga" />
+				<UIFrame state="hifocus"	fill="b_s0_hover_pressed.tga" />
+				<UIFrame state="disabled"	fill="b_s0_normal.tga" />
+			</UIButton>	
+			<!-- Area -->
+			<UIPane x="ALIGN_CENTER" y="2" width="PARENT_WIDTH" height="20" >
+				<UIText name="LOC_AREA" x="ALIGN_LEFT" width="50" align="left" valign="middle"
+				fontfamily="Title_Font" style="2" />
+				<UIPane x="50" width="120" height="20">
+					<UIButton name="VAR_LOC_INPUT_AREA" x=0 y=0 width=120 
+					OnLeftClick="UIButton_Input_ShowObject(&quot;VAR_LOC_AREA_DROPDOWN&quot;)" >
+						<UIText x="ALIGN_CENTER" fontfamily="Body_Font" style="1" indent="5" hangingindent="5" valign="middle" align="left" multiline="false" />
+					</UIButton>
+					<UIFrame topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"left="tp_frame_l.tga" 
+					right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border=3 />
+				</UIPane>					
+			</UIPane>	
+			<!-- X -->
+			<UIPane x="ALIGN_CENTER" y="25" width="PARENT_WIDTH" height="20">
+				<UIText name="LOC_X" x="ALIGN_LEFT" width="50" align="left" valign="middle"
+				fontfamily="Title_Font" style="2" />
+				<UIPane x="50" width="120">
+					<UIText name="VAR_LOC_INPUT_X" x="5" width="110" allowspace="false" fontfamily="Body_Font" style="1" valign="middle" align="right"
+					selectable="true" editable="true" update="true" multiline="false" returnrestricted="true"
+					OnUpdate="UIObject_Misc_SetLocalVarString(local:103)"/>
+					<UIFrame x="ALIGN_CENTER" y="ALIGN_TOP" width="PARENT_WIDTH" height="PARENT_HEIGHT" topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" 								bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"left="tp_frame_l.tga" 
+					right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border=3 />
+				</UIPane>
+			</UIPane>
+			<!-- Y -->
+			<UIPane x="ALIGN_CENTER" y="48" width="PARENT_WIDTH" height="20">
+				<UIText name="LOC_Y" x="ALIGN_LEFT" width="50" align="left" valign="middle"
+				fontfamily="Title_Font" style="2" />
+				<UIPane x="50" width="120">
+					<UIText name="VAR_LOC_INPUT_Y" x="ALIGN_CENTER" width="110" allowspace="false" fontfamily="Body_Font" style="1" valign="middle" align="right"
+					selectable="true" editable="true" update="true" multiline="false" returnrestricted="true"
+					OnUpdate="UIObject_Misc_SetLocalVarString(local:104)" />
+					<UIFrame x="ALIGN_CENTER" y="ALIGN_TOP" width="PARENT_WIDTH" height="PARENT_HEIGHT" topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" 								bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"left="tp_frame_l.tga" 
+					right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border=3 />
+				</UIPane>
+			</UIPane>
+			<!-- Z -->
+			<UIPane x="ALIGN_CENTER" y="71" width="PARENT_WIDTH" height="20">
+				<UIText name="LOC_Z" x="ALIGN_LEFT" width="50" align="left" valign="middle"
+				fontfamily="Title_Font" style="2" />
+				<UIPane x="50" width="120">
+					<UIText name="VAR_LOC_INPUT_Z" x="ALIGN_CENTER" width="110" allowspace="false" fontfamily="Body_Font" style="1" valign="middle" align="right"
+					selectable="true" editable="true" update="true" multiline="false" returnrestricted="true"
+					OnUpdate="UIObject_Misc_SetLocalVarString(local:105)" />
+					<UIFrame x="ALIGN_CENTER" y="ALIGN_TOP" width="PARENT_WIDTH" height="PARENT_HEIGHT" topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" 								bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"left="tp_frame_l.tga" 
+					right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border=3 />
+				</UIPane>
+			</UIPane>
+			<!-- Orientation -->
+			<UIPane x="ALIGN_CENTER" y="94" width="PARENT_WIDTH" height="20">
+				<UIText name="LOC_ORIENT" x="ALIGN_LEFT" width="50" align="left" valign="middle"
+				fontfamily="Title_Font" style="2" />
+				<UIPane x="50" width="120">
+					<UIText name="VAR_LOC_INPUT_ORIENT" x="ALIGN_CENTER" width="110" allowspace="false" fontfamily="Body_Font" style="1" valign="middle" align="right"
+					selectable="true" editable="true" update="true" multiline="false" returnrestricted="true"
+					OnUpdate="UIObject_Misc_SetLocalVarString(local:107)" />
+					<UIFrame x="ALIGN_CENTER" y="ALIGN_TOP" width="PARENT_WIDTH" height="PARENT_HEIGHT" topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" 								bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"left="tp_frame_l.tga" 
+					right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border=3 />
+				</UIPane>
+			</UIPane>
+		</UIPane>	
+		<!-- Buttons -->
+		<UIPane x="ALIGN_CENTER" y="187" width="170" height="60" >
+			<UIButton name="ACCEPT_LOC" x="ALIGN_LEFT" y="ALIGN_TOP" width="80" style="STYLE_SMALL_BUTTON" 
+			OnLeftClick="UIObject_MISC_ExecuteServerScript(&quot;gui_wand_lvm_do_loc&quot;,local:1,local:2,local:103,local:104,local:105,local:106,local:107)" 
+			OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1002,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+			
+			<UIButton name="DELETE_LOC" x="ALIGN_RIGHT" y="ALIGN_TOP" width="80" style="STYLE_SMALL_BUTTON" 
+			OnLeftClick0="UIObject_MISC_ExecuteServerScript(&quot;gui_wand_lvm_del_loc&quot;,local:1)" 
+			OnLeftClick1="UIButton_Input_HideObject(&quot;EDIT_PANE&quot;)"	
+			OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1003,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+			
+			<UIButton name="CANCEL_LOC" x="ALIGN_CENTER" y="ALIGN_BOTTOM" width="100" style="STYLE_SMALL_BUTTON" 
+			OnLeftClick0="UIButton_Input_HideObject(&quot;EDIT_PANE&quot;)"
+			OnLeftClick1="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_new_tab&quot;)"
+			OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1004,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />		
+		</UIPane>
+	</UIPane>
+
+	<!-- Object -->
+	<UIPane name="INPUT_CONTAINER_OBJ" x="ALIGN_CENTER" width="170" hidden="true"> 
+		<!-- Description (i.e. object's name/tag/resref) -->
+		<UIPane x="ALIGN_LEFT" y="80" height="46"
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1011,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)">
+		
+			<UIListBox width="PARENT_WIDTH" showpartialchild="true" xPadding="5" yPadding="5"
+				unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded="true" >
+				<UIText name="VAR_OBJ_NAME" height="DYNAMIC" fontfamily="Body_Font" style="2" valign="middle" align="center" filter="signed_numeric" />
+				<UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>
+			</UIListBox>	
+
+			<UIFrame name="INPUT_CONTAINER_FRAME" x="ALIGN_LEFT" y="ALIGN_TOP" height="PARENT_HEIGHT" topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" 								
+			bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"left="tp_frame_l.tga" 
+			right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border=3 />
+		</UIPane>
+		<!-- Input -->		
+		<UIPane y="140" height="30" >
+
+			<UIPane x="ALIGN_LEFT" width="130" 
+			OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1000,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)">
+				<UIText name="VAR_OBJ_INPUT" width="120" allowspace="false" fontfamily="Body_Font" style="2" valign="middle" align="right"
+				selectable="true" editable="true" update="true" multiline="true" returnrestricted="true" 
+				OnUpdate="UIObject_Misc_SetLocalVarString(local:108)"
+				OnLostFocus="UIObject_MISC_ExecuteServerScript(&quot;gui_wand_lvm_obj_input_lost_foc&quot;,local:108)" />
+				<UIFrame name="INPUT_CONTAINER_FRAME" x="ALIGN_LEFT" y="ALIGN_CENTER" width="PARENT_WIDTH" height="PARENT_HEIGHT" topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" 								
+				bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"left="tp_frame_l.tga" 
+				right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border="3" />
+			</UIPane>				
+
+			<UIButton name="CLICK_TO_TARGET_OBJ" height="24" width="24" x="ALIGN_RIGHT" y="ALIGN_CENTER"  
+			OnLeftClick="UIObject_Input_ActionTargetScript(&quot;self,creature,item,door,placeable,trigger&quot;,37,39,0,&quot;TRUE&quot;,&quot;gui_wand_lvm_target_obj&quot;,&quot;target:object&quot;)"
+			OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1010,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+				<UIFrame state="up"			fill="b_s0_normal.tga" />
+				<UIFrame state="down"		fill="b_s0_pressed.tga" />
+				<UIFrame state="focused"	fill="b_s0_hover.tga" />
+				<UIFrame state="hilited"	fill="b_s0_hover.tga" />
+				<UIFrame state="hifocus"	fill="b_s0_hover_pressed.tga" />
+				<UIFrame state="disabled"	fill="b_s0_normal.tga" />
+			</UIButton>			
+		</UIPane>
+		<!-- Buttons -->
+		<UIPane x="ALIGN_CENTER" y="180" height="60" >
+			<UIButton name="ACCEPT_OBJ" x="ALIGN_LEFT" y="ALIGN_TOP" width="80" style="STYLE_SMALL_BUTTON" 
+			OnLeftClick="UIObject_MISC_ExecuteServerScript(&quot;gui_wand_lvm_do_obj&quot;,local:1,local:2,local:108)" 
+			OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1002,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+			
+			<UIButton name="DELETE_OBJ" x="ALIGN_RIGHT" y="ALIGN_TOP" width="80" style="STYLE_SMALL_BUTTON" 
+			OnLeftClick0="UIObject_MISC_ExecuteServerScript(&quot;gui_wand_lvm_del_obj&quot;,local:1)"
+			OnLeftClick1="UIButton_Input_HideObject(&quot;EDIT_PANE&quot;)"	
+			OnToolTip='UIObject_Tooltip_DisplayTooltipString(local:1003,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
+			
+			<UIButton name="CANCEL_OBJ" x="ALIGN_CENTER" y="ALIGN_BOTTOM" width="100" style="STYLE_SMALL_BUTTON" 
+			OnLeftClick0="UIButton_Input_HideObject(&quot;EDIT_PANE&quot;)"
+			OnLeftClick1="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_new_tab&quot;)"
+			OnToolTip='UIObject_Tooltip_DisplayTooltipString(local:1004,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />		
+		</UIPane>
+	</UIPane>	
+	
+    <UIFrame x="ALIGN_CENTER" y="ALIGN_TOP" width="PARENT_WIDTH" height="PARENT_HEIGHT" topleft="frame_main_TL.tga" topright="frame_main_t_TR.tga"
+    bottomleft="frame_main_BL.tga" bottomright="frame_main_d_BR.tga" top="frame_main_T.tga" bottom="frame_main_b.tga"
+    left="frame_main_l.tga" right="frame_main_r.tga" fillstyle="stretch" fill="frame_main_bg.tga" border="64" />
+</UIPane>
+
+
+<!-- Integer -->
+<UIPane name="INT_VAR_TAB_PANE" x="18" y="84" width="327" height="312" hidden="true">
+    <UIListbox name="VAR_INT_LIST" yPadding="0" xPadding="0" showpartialchild="true" scrollbaronright="true"
+    unequalcontrols="false" scrollsegmentsize="80" selectonleftclick="true">
+        <UIPane name="HIDDEN_ROW" x="0" y="0" width="307" height="1" tupple="true" hidden="true"></UIPane>
+        <UIPane name="INVENTORY_PROTO" x="0" y="0" width="307" height="40" tupple="true" prototype="true"
+        OnLeftClick0="UIObject_Misc_ExtractData(selected:VAR_INT_LIST,&quot;string&quot;,0,local:1)"
+		OnLeftClick1="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_init_int&quot;,local:1)"
+        OnLeftClick2="UIButton_Input_ShowObject(&quot;EDIT_PANE&quot;)"
+		OnLeftClick3="UIButton_Input_ShowObject(&quot;INPUT_CONTAINER_INT&quot;)"
+		OnLeftClick4="UIButton_Input_ShowObject(&quot;VAR_NAME&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;VAR_NAME_NEW&quot;)" >				
+            <UIButton name="VAR_TEXT_BUTTON" x="0" width="156" height="40">
+                <UIText name="VAR_NAME_TEXT" indent="10" hangingindent="10" align="left" valign="middle"
+                fontfamily="Body_Font" style="3" />
+                <UIFrame state="up" fill="b_i_normal.tga" />
+                <UIFrame state="down" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="focused" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="hilited" fill="b_i_hover.tga" />
+                <UIFrame state="hifocus" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="disabled" fill="b_i_normal.tga" />
+            </UIButton>
+            <UIButton name="VAR_VALUE_BUTTON" x="156" width="156" height="40" >
+                <UIText name="ITEM_VALUE_TEXTFIELD" indent="10" hangingindent="10" align="right" valign="middle"
+                fontfamily="Special_Font" style="3" />
+                <UIFrame state="up" fill="b_i_normal.tga" />
+                <UIFrame state="down" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="focused" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="hilited" fill="b_i_hover.tga" />
+                <UIFrame state="hifocus" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="disabled" fill="b_i_normal.tga" />
+            </UIButton>
+        </UIPane>
+        <UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>
+    </UIListbox>
+</UIPane>
+<!-- Float -->
+<UIPane name="FLOAT_VAR_TAB_PANE" x="18" y="84" width="327" height="312" hidden="true">
+    <UIListbox name="VAR_FLOAT_LIST" yPadding="0" xPadding="0" showpartialchild="true" scrollbaronright="true"
+    unequalcontrols="false" scrollsegmentsize="80" selectonleftclick="true" >
+        <UIPane name="HIDDEN_ROW" x="0" y="0" width="307" height="1" tupple="true" hidden="true"></UIPane>
+        <UIPane x="0" y="0" width="307" height="40" tupple="true" prototype="true"
+        OnLeftClick0="UIObject_Misc_ExtractData(selected:VAR_FLOAT_LIST,&quot;string&quot;,0,local:1)"
+		OnLeftClick1="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_init_float&quot;,local:1)"
+        OnLeftClick2="UIButton_Input_ShowObject(&quot;EDIT_PANE&quot;)"
+		OnLeftClick3="UIButton_Input_ShowObject(&quot;INPUT_CONTAINER_FLOAT&quot;)"
+		OnLeftClick4="UIButton_Input_ShowObject(&quot;VAR_NAME&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;VAR_NAME_NEW&quot;)" >	
+            <UIButton name="VAR_TEXT_BUTTON" x="0" width="156" height="40">
+                <UIText name="VAR_NAME_TEXT" indent="10" hangingindent="10" align="left" valign="middle"
+                fontfamily="Body_Font" style="3" />
+                <UIFrame state="up" fill="b_i_normal.tga" />
+                <UIFrame state="down" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="focused" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="hilited" fill="b_i_hover.tga" />
+                <UIFrame state="hifocus" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="disabled" fill="b_i_normal.tga" />
+            </UIButton>
+            <UIButton name="VAR_VALUE_BUTTON" x="156" width="156" height="40" >
+                <UIText name="ITEM_VALUE_TEXTFIELD" indent="10" hangingindent="10" align="right" valign="middle"
+                fontfamily="Special_Font" style="3" />
+                <UIFrame state="up" fill="b_i_normal.tga" />
+                <UIFrame state="down" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="focused" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="hilited" fill="b_i_hover.tga" />
+                <UIFrame state="hifocus" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="disabled" fill="b_i_normal.tga" />
+            </UIButton>
+        </UIPane>
+        <UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>
+    </UIListbox>
+</UIPane>
+<!-- String -->
+<UIPane name="STR_VAR_TAB_PANE" x="18" y="84" width="327" height="312" hidden="true">
+    <UIListbox name="VAR_STR_LIST" yPadding="0" xPadding="0" showpartialchild="true" scrollbaronright="true"
+    unequalcontrols="false" scrollsegmentsize="80" selectonleftclick="true" >
+        <UIPane name="HIDDEN_ROW" x="0" y="0" width="307" height="1" tupple="true" hidden="true"></UIPane>
+        <UIPane x="0" y="0" width="307" height="40" tupple="true" prototype="true"
+        OnLeftClick0="UIObject_Misc_ExtractData(selected:VAR_STR_LIST,&quot;string&quot;,0,local:1)"
+		OnLeftClick1="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_init_str&quot;,local:1)"
+        OnLeftClick2="UIButton_Input_ShowObject(&quot;EDIT_PANE&quot;)"
+		OnLeftClick3="UIButton_Input_ShowObject(&quot;INPUT_CONTAINER_STR&quot;)" 
+		OnLeftClick4="UIButton_Input_ShowObject(&quot;VAR_NAME&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;VAR_NAME_NEW&quot;)" >			
+            <UIButton name="VAR_TEXT_BUTTON" x="0" width="156" height="40">
+                <UIText name="VAR_NAME_TEXT" indent="10" hangingindent="10" align="left" valign="middle"
+                fontfamily="Body_Font" style="3" />
+                <UIFrame state="up" fill="b_i_normal.tga" />
+                <UIFrame state="down" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="focused" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="hilited" fill="b_i_hover.tga" />
+                <UIFrame state="hifocus" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="disabled" fill="b_i_normal.tga" />
+            </UIButton>
+            <UIButton name="VAR_VALUE_BUTTON" x="156" width="156" height="40" >
+                <UIText name="ITEM_VALUE_TEXTFIELD" indent="10" hangingindent="10" align="left" valign="middle"
+                fontfamily="Special_Font" style="3" />
+                <UIFrame state="up" fill="b_i_normal.tga" />
+                <UIFrame state="down" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="focused" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="hilited" fill="b_i_hover.tga" />
+                <UIFrame state="hifocus" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="disabled" fill="b_i_normal.tga" />
+            </UIButton>
+        </UIPane>
+        <UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>
+    </UIListbox>
+</UIPane>
+<!-- Location -->
+<UIPane name="LOC_VAR_TAB_PANE" x="18" y="84" width="327" height="312" hidden="true">
+    <UIListbox name="VAR_LOC_LIST" yPadding="0" xPadding="0" showpartialchild="true" scrollbaronright="true"
+    unequalcontrols="false" scrollsegmentsize="80" selectonleftclick="true"
+    OnMouseDropReceived="UIObject_Misc_ExecuteServerScript(&quot;gui_xsoh_give&quot;)">
+        <UIPane name="HIDDEN_ROW" x="0" y="0" width="307" height="1" tupple="true" hidden="true"></UIPane>
+        <UIPane x="0" y="0" width="307" height="40" tupple="true" prototype="true"
+		OnLeftClick0="UIObject_Misc_ExtractData(selected:VAR_LOC_LIST,&quot;string&quot;,0,local:1)"
+		OnLeftClick1="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_init_loc&quot;,local:1)"
+        OnLeftClick2="UIButton_Input_ShowObject(&quot;EDIT_PANE&quot;)"
+		OnLeftClick3="UIButton_Input_ShowObject(&quot;INPUT_CONTAINER_LOC&quot;)"
+		OnLeftClick4="UIButton_Input_ShowObject(&quot;VAR_NAME&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;VAR_NAME_NEW&quot;)" >	        
+            <UIButton name="VAR_TEXT_BUTTON" x="0" width="156" height="40">
+                <UIText name="VAR_NAME_TEXT" indent="10" hangingindent="10" align="left" valign="middle"
+                fontfamily="Body_Font" style="3" />
+                <UIFrame state="up" fill="b_i_normal.tga" />
+                <UIFrame state="down" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="focused" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="hilited" fill="b_i_hover.tga" />
+                <UIFrame state="hifocus" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="disabled" fill="b_i_normal.tga" />
+            </UIButton>
+            <UIButton name="VAR_VALUE_BUTTON" x="156" width="156" height="40" >
+                <UIText name="ITEM_VALUE_TEXTFIELD" indent="10" hangingindent="10" align="left" valign="middle"
+                fontfamily="Special_Font" style="3" />
+                <UIFrame state="up" fill="b_i_normal.tga" />
+                <UIFrame state="down" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="focused" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="hilited" fill="b_i_hover.tga" />
+                <UIFrame state="hifocus" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="disabled" fill="b_i_normal.tga" />
+            </UIButton>
+        </UIPane>
+        <UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>
+    </UIListbox>
+</UIPane>
+<!-- Object -->
+<UIPane name="OBJECT_VAR_TAB_PANE" x="18" y="84" width="327" height="312" hidden="true">
+    <UIListbox name="VAR_OBJ_LIST" yPadding="0" xPadding="0" showpartialchild="true" scrollbaronright="true"
+    unequalcontrols="true" scrollsegmentsize="80" selectonleftclick="true">
+        <UIPane name="HIDDEN_ROW" x="0" y="0" width="307" height="1" tupple="true" hidden="true"></UIPane>
+        <UIPane x="0" y="0" width="307" height="40" tupple="true" prototype="true"
+		OnLeftClick0="UIObject_Misc_ExtractData(selected:VAR_OBJ_LIST,&quot;string&quot;,0,local:1)"
+		OnLeftClick1="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_init_obj&quot;,local:1)"
+        OnLeftClick2="UIButton_Input_ShowObject(&quot;EDIT_PANE&quot;)"
+		OnLeftClick3="UIButton_Input_ShowObject(&quot;INPUT_CONTAINER_OBJ&quot;)"
+		OnLeftClick4="UIButton_Input_ShowObject(&quot;VAR_NAME&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;VAR_NAME_NEW&quot;)" >		
+            <UIButton name="VAR_TEXT_BUTTON" x="0" width="156" height="40">
+                <UIText name="VAR_NAME_TEXT" indent="10" hangingindent="10" align="left" valign="middle"
+                fontfamily="Body_Font" style="3" />
+                <UIFrame state="up" fill="b_i_normal.tga" />
+                <UIFrame state="down" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="focused" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="hilited" fill="b_i_hover.tga" />
+                <UIFrame state="hifocus" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="disabled" fill="b_i_normal.tga" />
+            </UIButton>
+            <UIButton name="VAR_VALUE_BUTTON" x="156" width="156" height="40" >
+                <UIText name="ITEM_VALUE_TEXTFIELD" indent="10" hangingindent="10" align="left" valign="middle"
+                fontfamily="Special_Font" style="3" />
+                <UIFrame state="up" fill="b_i_normal.tga" />
+                <UIFrame state="down" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="focused" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="hilited" fill="b_i_hover.tga" />
+                <UIFrame state="hifocus" fill="b_i_hover_pressed.tga" />
+                <UIFrame state="disabled" fill="b_i_normal.tga" />
+            </UIButton>
+        </UIPane>
+        <UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>
+    </UIListbox>
+</UIPane>
+
+<!-- New buttons -->
+<UIPane x="20" y="430" width="320" height="30" >
+	<!-- New var INTEGER -->
+	<UIButton name="NEW_INT_BUTTON" x="ALIGN_CENTER" width="100" style="STYLE_SMALL_BUTTON" hidden="true"
+	OnLeftClick0="UIButton_Input_ShowObject(&quot;EDIT_PANE&quot;)"
+	OnLeftClick1="UIButton_Input_ShowObject(&quot;INPUT_CONTAINER_INT&quot;)" 
+	OnLeftClick2="UIButton_Input_ShowObject(&quot;VAR_NAME_NEW&quot;)"
+	OnLeftClick3="UIButton_Input_HideObject(&quot;VAR_NAME&quot;)"
+	OnLeftClick4="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_init_int&quot;,&quot;-1&quot;)"
+	OnLeftClick5="UIObject_Input_SetFocus(&quot;VAR_NAME_NEW&quot;)"
+	OnToolTip='UIObject_Tooltip_DisplayTooltipString(local:1001,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />	
+	<!-- New var FLOAT -->
+	<UIButton name="NEW_FLOAT_BUTTON" x="ALIGN_CENTER"  width="100" style="STYLE_SMALL_BUTTON" hidden="true"
+	OnLeftClick0="UIButton_Input_ShowObject(&quot;EDIT_PANE&quot;)"
+	OnLeftClick1="UIButton_Input_ShowObject(&quot;INPUT_CONTAINER_FLOAT&quot;)" 
+	OnLeftClick2="UIButton_Input_ShowObject(&quot;VAR_NAME_NEW&quot;)"
+	OnLeftClick3="UIButton_Input_HideObject(&quot;VAR_NAME&quot;)"
+	OnLeftClick4="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_init_float&quot;,&quot;-1&quot;)"
+	OnLeftClick5="UIObject_Input_SetFocus(&quot;VAR_NAME_NEW&quot;)"
+	OnToolTip='UIObject_Tooltip_DisplayTooltipString(local:1001,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />	
+	<!-- New var STRING -->
+	<UIButton name="NEW_STR_BUTTON" x="ALIGN_CENTER"  width="100" style="STYLE_SMALL_BUTTON" hidden="true"
+	OnLeftClick0="UIButton_Input_ShowObject(&quot;EDIT_PANE&quot;)"
+	OnLeftClick1="UIButton_Input_ShowObject(&quot;INPUT_CONTAINER_STR&quot;)" 
+	OnLeftClick2="UIButton_Input_ShowObject(&quot;VAR_NAME_NEW&quot;)"
+	OnLeftClick3="UIButton_Input_HideObject(&quot;VAR_NAME&quot;)"
+	OnLeftClick4="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_init_str&quot;,&quot;-1&quot;)"
+	OnLeftClick5="UIObject_Input_SetFocus(&quot;VAR_NAME_NEW&quot;)"
+	OnToolTip='UIObject_Tooltip_DisplayTooltipString(local:1001,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />	
+	<!-- New var LOCATION -->
+	<UIButton name="NEW_LOC_BUTTON" x="ALIGN_CENTER"  width="100" style="STYLE_SMALL_BUTTON" hidden="true"
+	OnLeftClick0="UIButton_Input_ShowObject(&quot;EDIT_PANE&quot;)"
+	OnLeftClick1="UIButton_Input_ShowObject(&quot;INPUT_CONTAINER_LOC&quot;)" 
+	OnLeftClick2="UIButton_Input_ShowObject(&quot;VAR_NAME_NEW&quot;)"
+	OnLeftClick3="UIButton_Input_HideObject(&quot;VAR_NAME&quot;)"
+	OnLeftClick4="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_init_loc&quot;,&quot;-1&quot;)"
+	OnLeftClick5="UIObject_Input_SetFocus(&quot;VAR_NAME_NEW&quot;)"
+	OnToolTip='UIObject_Tooltip_DisplayTooltipString(local:1001,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
+	<!-- New var OBJECT -->
+	<UIButton name="NEW_OBJ_BUTTON" x="ALIGN_CENTER"  width="100" style="STYLE_SMALL_BUTTON" hidden="true"
+	OnLeftClick0="UIButton_Input_ShowObject(&quot;EDIT_PANE&quot;)"
+	OnLeftClick1="UIButton_Input_ShowObject(&quot;INPUT_CONTAINER_OBJ&quot;)" 
+	OnLeftClick2="UIButton_Input_ShowObject(&quot;VAR_NAME_NEW&quot;)"
+	OnLeftClick3="UIButton_Input_HideObject(&quot;VAR_NAME&quot;)"
+	OnLeftClick4="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_init_obj&quot;,&quot;-1&quot;)"
+	OnLeftClick5="UIObject_Input_SetFocus(&quot;VAR_NAME_NEW&quot;)"
+	OnToolTip='UIObject_Tooltip_DisplayTooltipString(local:1001,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />		
+</UIPane>
+
+<!-- Background Image -->
+<UIIcon name="BACKGROUND_TOP" img="store_top_bg.tga" x="10" y="8" width="340" height="90" />
+<UIIcon name="BACKGROUND_BOTTOM" img="store_bottom_bg.tga" x="10" y="387" width="340" height="89" />
+<UIIcon name="BACKGROUND" img="store_bg.tga" x="10" y="78" width="340" height="339" />
+<UIFrame x="0" y="0" width="359" height="PARENT_HEIGHT" topleft="frame1_tl.tga" topright="frame1_tr.tga"
+bottomleft="frame1_bl.tga" bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga" left="frame1_l.tga"
+right="frame1_r.tga" border="32" />

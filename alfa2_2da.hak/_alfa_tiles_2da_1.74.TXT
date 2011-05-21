@@ -1,0 +1,45 @@
+AcadiusLost: 
+
+
+8/9/2007, documenting tiles.2da merge from NWN2 1.06 final (no hotfix)
+10/11/2007: Merged with MotB v1.10116
+11/04/2007: Added Deep Chasms
+11/26/2007: Added RWS Tower rooms
+3/1/2008: Added RWS Pocket Cathedral (original rows maintained)
+7/8/2008: Added RWS Pocket Citadel
+2/16/2009: Added RWS Pocket Ships, merged with SoZ 1.22
+3/9/2009: Added RWS Dungeons, RWS Dark Ruins, checked to SoZ 1.22.1588
+3/21/2009: Added updated tiles for RWS Cathedrals
+9/16/2010: Added RWS Deep Halls Anniv. Ed, RWS Dark Mines, RWS Grand Citadels
+9/19/2010: RWS Sewers Fixes, RWS Deep Chasm fixes
+
+
+Padding to row 904, should insure well against expansion content.
+
+904-911: Deep Sewers, additional tiles (2da rows maintained, extra variations and row 910 added)
+
+979-983: Deep Halls Tileset, additional rows (2da rows maintained)
+
+1001-1042: Deep Halls Tileset, by Robinson Workshop ( http://www.robinsonworkshop.com/phpBB2/ )
+
+1052-1064: Deep Sewers Tileset, by Robinson Workshop ( http://www.robinsonworkshop.com/phpBB2/ )
+
+1075-1098: RWS Pocket Citadel Tileset, by Robinson Workshop ( http://www.robinsonworkshop.com/phpBB2/ )
+
+1100-1160: Deep Chasms Tileset, by Robinson Workshop ( http://www.robinsonworkshop.com/phpBB2/ )
+
+1175-1177: Tower Rooms Tileset, by Robinson Workshop ( http://www.robinsonworkshop.com/phpBB2/ )
+
+1350-1379: RWS Pocket Ships Tileset, by Robinson Workshop
+
+1599-1614: RWS Pocket Cathedral Tileset (original 2da rows maintained)
+
+1615-1665: RWS Dungeons (original 2da rows maintained)
+
+1675-1737: RWS Dark Ruins (original 2da rows maintained)
+
+1743-1750 : RWS Deep Halls Anniv. Edition (original 2da rows maintained)
+
+1760-1785: RWS Dark Mines (Original 2da rows maintained)
+
+1786-1814: RWS Grand Citadels (1785 conflicted, moved to 1814, otherwise 2da rows maintained as original.)

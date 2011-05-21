@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8">
+
+<UIScene name="SCREEN_CONTAINER_DEFAULT" OnAdd=UIScene_Misc_RequestContainerUpdates("true") x=0 y=150 width=288 height=370 fadeout="0.3" fadein="0.3"
+	draggable=true backoutkey=true OnUpdate=UIScene_OnUpdate_UpdateClosureFlag()
+	OnRemove=UIScene_Misc_RequestContainerUpdates("false") priority="SCENE_INGAME" OnBackout=UIScene_OnBackout_CloseContainer() />
+
+	<!-- Close Button -->
+	<UIButton name="CloseButton" x=250 y=6 style="STYLE_CLOSE_BUTTON" 
+		OnLeftClick=UIButton_Input_CloseContainer()>
+	</UIButton>
+
+	<UIIcon name="CONTAINER_ICON" img="container_icon.tga" x=0 y=0 width=78 height=71 />
+
+<UIText name="ContainerCapacity" x="96" y="36" width="156" height="31" align="right" valign="middle" fontfamily="Title_Font" style="1"
+  update="true" OnUpdate=UIObject_OnUpdate_FormatContainerCapacity()/>
+
+<!-- Container Listbox
+		To add tooltips back in, add the following callback to the prototype pane.  I took it off because it did
+		not show any *NEW* information.
+
+			OnToolTip=UIObject_Tooltip_DisplayObject(OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+	-->
+	<UIListbox name="CONTAINER_LISTBOX" x=20 y=70 width=252 height=240 yPadding=0 xPadding=0
+		showpartialchild=false scrollbaronright=true unequalcontrols=false scrollsegmentsize=1
+		update=true OnUpdate=UIListbox_OnUpdate_UpdateContainer()
+		OnMouseDropReceived=UIButton_OnDropReceived_SetContainerSlot() >
+
+		<UIPane name="ITEM_PROTOTYPE" width=237 height=40 tupple=true prototype=true draggable=false
+			OnMouseDropFailed=UIButton_OnDropFailed_DropContainerItem()
+			OnRadialRequest=UIObject_OnRadial_DisplayInventoryRadial()
+			OnLeftDoubleClick=UIButton_Input_PickupItem()
+			OnRightClick=UIObject_OnRadial_DisplayInventoryRadial() >
+
+			<UIButton name="ITEM_ICON_PROTOTYPE" x=0 y=0 style="STYLE_LOOT_ICON" prototype=true draggable=true
+				OnMouseDropReceived=UIButton_OnDropReceived_SetContainerSlot()
+				OnUpdate=UIButton_OnUpdate_UpdateLootSlot()
+				OnLeftDoubleClick=UIButton_Input_PickupItem() 
+				OnRightClick=UIObject_OnRadial_DisplayInventoryRadial()
+				OnRadialRequest=UIObject_OnRadial_DisplayInventoryRadial() >
+				<UIText align=right valign=bottom fontfamily="Special_Font" style="1"/>
+			</UIButton>
+
+			<UIButton name="ITEM_TEXT_PROTOTYPE" x=40 y=0 width=197 style="STYLE_LOOT_TEXT" prototype=true draggable=false
+				OnMouseDropReceived=UIButton_OnDropReceived_SetContainerSlot()  OnRightClick=UIObject_OnRadial_DisplayInventoryRadial()
+				OnRadialRequest=UIObject_OnRadial_DisplayInventoryRadial() >
+			</UIButton>
+		</UIPane>
+
+		<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
+	</UIListbox>
+
+	<!-- <UIPane name="BUTTON_CONTATINER" x=ALIGN_CENTER y="322" width="194" height="28" >  -->	
+	<!-- 	<UIButton name="LOOT_ALL" strref="182901" x=0 y=ALIGN_CENTER 	-->	
+	<!-- 		OnLeftClick=UIButton_Input_LootAll()				-->	
+	<!-- 		style="STYLE_LARGE_BUTTON" >						-->	
+	<!-- 	</UIButton>										-->	
+	<!-- </UIPane>										-->	
+
+	<!-- Container Name -->	
+	<UIText name="ContainerName" x=70 y=4 width=180 height=31 align=left valign=middle fontfamily="Title_Font" style="1"
+		update=true OnUpdate=UIObject_OnUpdate_GetContainerName()/>
+	<UIIcon name="DETAIL_TOP" img="title_medium03.tga" x=10 y=8 width=269 height=31 ignoreevents="true" />
+
+	<!-- BACKGROUND -->
+	<UIFrame width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+		bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+		left="frame1_l.tga" right="frame1_r.tga" border=32 />	
+	<UIFrame x=7 y=8 width=274 height=356 fillstyle="stretch" fill="frame_main_bg.tga"/>		
+
+

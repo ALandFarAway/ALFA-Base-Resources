@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8">
+
+<!-- XML code by: Demetrious.  Special thanks to Abraxas77, Grinning Fool, PIPBoy3000 
+	and Obsidian for their examples, answers and framework that made this possible -->
+	
+<UIScene name="SCREEN_DMFI_DICETOOL" x="200" y="100" width="416" height="73" idleexpiretime="1.0f" 
+	draggable="true" backoutkey="true" scriptloadable="true" priority="SCENE_SCRIPT" />
+
+<UIText name="ListTitle" text="Dice Menu" color=00FFFF x=15 y=13 width="50" height="40" fontfamily="Title_Font" style="bold" />
+
+<UIButton name="CloseButton" x=378 y=8 style="STYLE_CLOSE_BUTTON" 
+ 		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Close",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+ 		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","close") /> 
+
+<UIText name="DiceDC" text="DC:" x=90 y=10 width="50" height="15" fontfamily="Body_Font" />
+<UIButton name="update_dc" text="test" x=90 y=28 fontfamily="Body_Font" width="50" height="20" 		
+			OnToolTip=UIObject_Tooltip_DisplayTooltipString("ChangeDC",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","update_dc") >
+		<UIText align=center valign=middle fontfamily="Body_Font" />	
+		<UIFrame state="base"		fill="b_sm_normal.tga" />
+		<UIFrame state="up"		fill="b_sm_normal.tga" />
+		<UIFrame state="down"		fill="b_sm_hover.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_sm_normal.tga" />
+		<UIFrame state="hilited"	fill="b_sm_hover.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_sm_hover.tga" alpha="0.6"/>
+	</UIButton>
+
+<UIText name="DiceDetail" text="Detail:" x=150 y=10 width="50" height="15" fontfamily="Body_Font" />
+<UIButton name="toggle_detail" text="test" x=150 y=28 fontfamily="Body_Font" width="50" height="20" 		
+			OnToolTip=UIObject_Tooltip_DisplayTooltipString("ChangeDetailFeedback",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","toggle_detail") >
+		<UIText align=center valign=middle fontfamily="Body_Font" />	
+		<UIFrame state="base"		fill="b_sm_normal.tga" />
+		<UIFrame state="up"		fill="b_sm_normal.tga" />
+		<UIFrame state="down"		fill="b_sm_hover.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_sm_normal.tga" />
+		<UIFrame state="hilited"	fill="b_sm_hover.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_sm_hover.tga" alpha="0.6"/>
+	</UIButton>
+	
+<UIText name="DiceReport" text="Report" x=210 y=10 width="50" height="15" fontfamily="Body_Font" />
+<UIButton name="toggle_report" text="test" x=210 y=28 fontfamily="Body_Font" width="50" height="20" 		
+			OnToolTip=UIObject_Tooltip_DisplayTooltipString("ChangeReportingLevel",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","toggle_report") >
+		<UIText align=center valign=middle fontfamily="Body_Font" />	
+		<UIFrame state="base"		fill="b_sm_normal.tga" />
+		<UIFrame state="up"		fill="b_sm_normal.tga" />
+		<UIFrame state="down"		fill="b_sm_hover.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_sm_normal.tga" />
+		<UIFrame state="hilited"	fill="b_sm_hover.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_sm_hover.tga" alpha="0.6"/>
+	</UIButton>	
+
+<UIText name="DiceRoll" text="Roll:" x=270 y=10 width="50" height="15" fontfamily="Body_Font" />
+<UIButton name="toggle_roll" text="test" x=270 y=28 fontfamily="Body_Font" width="50" height="20" 		
+			OnToolTip=UIObject_Tooltip_DisplayTooltipString("ChangeRollType",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","toggle_roll") >
+		<UIText align=center valign=middle fontfamily="Body_Font" />	
+		<UIFrame state="base"		fill="b_sm_normal.tga" />
+		<UIFrame state="up"		fill="b_sm_normal.tga" />
+		<UIFrame state="down"		fill="b_sm_hover.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_sm_normal.tga" />
+		<UIFrame state="hilited"	fill="b_sm_hover.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_sm_hover.tga" alpha="0.6"/>
+	</UIButton>
+
+
+
+
+
+
+<UIButton name="top"  x=340 y=18  width="25" height="25" 		
+		
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("RepeatLastRoll",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".repeat_roll") >
+		<UIText align=center valign=middle fontfamily="Body_Font" />	
+		<UIFrame state="base"		fill="ia_previous.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.90" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.75"/>
+	</UIButton>
+	
+
+<!-- SUB-TABS -->
+	
+<UIButton name="sub1"  x=8 y=53  width="80" height="20" text="group1"
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("ShowGroup",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","sub1") >
+		<UIText align=center valign=middle fontfamily="Body_Font" />	
+		<UIFrame state="base"		fill="b_subtab_normal.tga" />
+		<UIFrame state="up"		fill="b_subtab_normal.tga" />
+		<UIFrame state="down"		fill="b_subtab_pressed.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_subtab_normal.tga" />
+		<UIFrame state="hilited"	fill="b_subtab_pressed.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_subtab_pressed.tga" alpha="0.6"/>
+	</UIButton>	
+	
+	
+<UIButton name="sub2"  x=88 y=53  width="80" height="20" text="group234"
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("ShowGroup",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","sub2") >
+		<UIText align=center valign=middle fontfamily="Body_Font" />	
+		<UIFrame state="base"		fill="b_subtab_normal.tga" />
+		<UIFrame state="up"		fill="b_subtab_normal.tga" />
+		<UIFrame state="down"		fill="b_subtab_pressed.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_subtab_normal.tga" />
+		<UIFrame state="hilited"	fill="b_subtab_pressed.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_subtab_pressed.tga" alpha="0.6"/>
+	</UIButton>	
+	
+<UIButton name="sub3"  x=168 y=53  width="80" height="20" text="group3"
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("ShowGroup",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","sub3") >
+		<UIText align=center valign=middle fontfamily="Body_Font" />	
+		<UIFrame state="base"		fill="b_subtab_normal.tga" />
+		<UIFrame state="up"		fill="b_subtab_normal.tga" />
+		<UIFrame state="down"		fill="b_subtab_pressed.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_subtab_normal.tga" />
+		<UIFrame state="hilited"	fill="b_subtab_pressed.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_subtab_pressed.tga" alpha="0.6"/>
+	</UIButton>	
+	
+
+<UIIcon name="Banner" img="title_medium02.tga" x=8 y=8 width=400 height=55 />
+
+
+<UIFrame x=0 y=0 width=PARENT_WIDTH height=63 topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+	bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+	left="frame1_l.tga" right="frame1_r.tga" border=32 />		
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+		
+	

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<!-- Neverwinter Nights 2, GUI ActionSit -->
+<!-- Copyright (c) 2008, Heed 
+
+v1.2
+
+-->
+
+ 
+<UIScene name="SCREEN_HSS_ACTIONSIT" x=ALIGN_CENTER y=ALIGN_TOP modal=false width=30 height=50
+        OnAdd=UIObject_Misc_ExecuteServerScript("gui_hss_actionsit","1")
+        OnRemove=UIObject_Misc_ExecuteServerScript("gui_hss_actionsit","2",local:0)
+        capturemouseclicks=true fadeout="0.0" fadein="0.0" 
+        draggable=true dragregion_x=0 dragregion_y=30 dragregion_width=30 dragregion_height=20
+        priority="SCENE_SCRIPT" scriptloadable=true />
+
+	      <UIPane name="HSS_ACTIONSIT_DRAG_REGION" x=0 y=30 width=30 height=20 alpha="1.0" fadealpha="0.0" update=true capturemouseclicks=false
+		    OnUpdate=UIObject_OnUpdate_FadeAlpha("0.25")
+		    OnMouseEnter=UIObject_Input_SetFadeAlpha("1.0")
+		    OnMouseLeave=UIObject_Input_SetFadeAlpha("0.0")
+		    OnToolTip='UIObject_Tooltip_DisplayTooltipString(<b>" Drag "</b>,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")' >
+	      <UIIcon name="HSS_ACTIONSIT_DRAG_ICON" img="inv_sort_normal.tga" x=ALIGN_CENTER y=ALIGN_CENTER width=16 height=16 />
+		    <UIFrame width=PARENT_WIDDTH height=PARENT_HEIGHT topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+			  bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+			  left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+			  border=5 />
+	      </UIPane>
+	
+	      <UIIcon name="HSS_ACTIONSIT_ICON" img="ife_mobility.tga" x=0 y=0 width=30 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnToolTip='UIObject_Tooltip_DisplayTooltipString(<b>" Stand Up "</b>,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")' 
+	      update=true updaterate=12.0
+	      OnUpdate=UIObject_Misc_ExecuteServerScript("gui_hss_actionsit","3")
+	      OnLeftClick=UIButton_Input_ScreenClose() />
+	      		    
+
+
+
+
+

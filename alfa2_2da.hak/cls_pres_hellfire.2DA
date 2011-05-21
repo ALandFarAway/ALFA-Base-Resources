@@ -1,0 +1,11 @@
+2DA V2.0
+
+  LABEL                ReqType ReqParam1         ReqParam2 
+0 Intimidate           SKILL   24                6         
+1 Spellcraft           SKILL   16                6         
+2 Knowledge(theplanes) SKILL   44                12        
+3 Warlock              CLASSOR 39                ****      
+4 BrimstoneBlast       SPELLOR 820               ****      
+5 HellrimeBlast        SPELLOR 826               ****      
+6 ScriptVar            VAR     nx1_AllowHellfire 0         
+7 PrC_Validation       FEAT    3500              ****      

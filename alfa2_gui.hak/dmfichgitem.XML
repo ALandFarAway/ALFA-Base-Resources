@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<UIScene name="dmfirenameitem" width=400 height=150 x=ALIGN_CENTER y=ALIGN_CENTER fadeout="0.2" fadein="0.2" fullscreen=true backoutkey="true"  idleexpiretime="1.0f" scriptloadable=true autolayout=false priority="SCENE_INGAME_FULLSCREEN" />
+
+	<!-- Title Pane -->
+	<UIPane name="pnlTitlePane" x=ALIGN_CENTER y=ALIGN_TOP width="PARENT_WIDTH" height="50" capturemouseclicks="false" ignoreevents="true" >
+
+		<UIText name="txtTitle" text="DMFI Rename" x=0 y=0 width="PARENT_WIDTH" height=30 align="center" valign="middle" fontfamily="Special_Font" style="2" />
+		<UIIcon name="imgTitle" img="main_sub_titles.tga" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT"/>
+
+	</UIPane>
+
+	<!-- Content Pane -->
+	<UIPane name="pnlContentPane" x=ALIGN_CENTER y=ALIGN_TOP width="PARENT_WIDTH" height="PARENT_HEIGHT" capturemouseclicks="true" ignoreevents="false" >
+
+		<!-- First Name -->
+		<UIText name="lblFirstName" text="New Item Target Name:" fontfamily="Body_Font" style=4 x=ALIGN_CENTER y=50 width=250 height=18 valign="middle" align="left" selectable=false editable=false multiline=false />	
+		<UIText name="txtFirstName" text="" fontfamily="International" x=ALIGN_CENTER y=75 width=250 height=18 valign="middle" align="left" filter="alpha" highlightcolor=FFFFFF allowspace=true allowpunc=true selectable=true editable=true maxlength=32 multiline=false prevcontrol="btnClose" nextcontrol="txtLastName" update=true OnUpdate=UIObject_Misc_SetLocalVarString(local:0) />
+
+		<!-- First Name Frame-->
+		<UIFrame name="frmFirstName" x=ALIGN_CENTER y=73 width=254 height=22 topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border=5 />
+
+		<!-- Ok Button -->
+		<UIButton name="btnOk" text="Ok" x=ALIGN_CENTER y=110 style="STYLE_SMALL_BUTTON" OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_playerui",local:0) >
+		</UIButton>
+
+	</UIPane>
+
+	<!-- Background Image -->
+	<UIFrame name="frmBackground" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga" left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border=5 />

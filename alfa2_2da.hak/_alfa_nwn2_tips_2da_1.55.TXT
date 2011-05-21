@@ -1,0 +1,17 @@
+AcadiusLost: 
+
+1/18/2009, initial edit (from 1.021 MotB)
+
+5:	replaced with acr tips
+11:	replaced with acr tips
+14-16:	replaced with acr tips
+19-21:	replaced with acr tips	
+26-30:	replaced with acr tips
+34:	replaced with acr tips	
+38-39:	replaced with acr tips	
+43:	replaced with acr tips
+75:	replaced with acr tips
+79-82: Priority to 0 (from -1)
+86-91:	replaced with acr tips
+94-98:	replaced with acr tips
+303-335	Additional ALFA tips.

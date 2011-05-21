@@ -1,0 +1,544 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<UIScene name="TKL_PERFORMER_HELP" idleexpiretime=1 x=ALIGN_CENTER y=ALIGN_CENTER modal=false width=309 height=400 draggable=true priority=SCENE_GLOBAL backoutkey=true scriptloadable=true/>
+	
+	<UIText text="TKL Performer - FAQ" uppercase=true x=60 y=12 width=208 height=20 align=left valign=middle fontfamily="Title_Font" style="1" />
+	<UIIcon img="ia_examine.tga" x=15 y=12 width=40 height=40 />
+
+	<!-- Close Button -->
+	<UIButton name="CloseButton" x=274 y=8 style="STYLE_CLOSE_BUTTON" OnLeftClick=UIButton_Input_ScreenClose()></UIButton>
+
+	<!-- Item Name -->	
+	<UIButton x=18 y=88 style="STYLE_SMALL_BUTTON" width=90 height=24 text="Basics" OnLeftClick=UIButton_Input_HideObject("RecordPane") OnLeftClick0=UIButton_Input_HideObject("FinishPane") OnLeftClick1=UIButton_Input_HideObject("PlayPane") OnLeftClick2=UIButton_Input_HideObject("OtherPane") OnLeftClick3=UIButton_Input_HideObject("CreditsPane") OnLeftClick4=UIButton_Input_ShowObject("BasicsPane")></UIButton>
+	<UIButton x=109 y=88 style="STYLE_SMALL_BUTTON" width=90 height=24 text="Songs" OnLeftClick=UIButton_Input_ShowObject("RecordPane") OnLeftClick0=UIButton_Input_HideObject("FinishPane") OnLeftClick1=UIButton_Input_HideObject("PlayPane") OnLeftClick2=UIButton_Input_HideObject("OtherPane") OnLeftClick3=UIButton_Input_HideObject("CreditsPane") OnLeftClick4=UIButton_Input_HideObject("BasicsPane")></UIButton>
+	<UIButton x=200 y=88 style="STYLE_SMALL_BUTTON" width=90 height=24 text="Tracks" OnLeftClick=UIButton_Input_HideObject("RecordPane") OnLeftClick0=UIButton_Input_HideObject("FinishPane") OnLeftClick1=UIButton_Input_ShowObject("PlayPane") OnLeftClick2=UIButton_Input_HideObject("OtherPane") OnLeftClick3=UIButton_Input_HideObject("CreditsPane") OnLeftClick4=UIButton_Input_HideObject("BasicsPane")></UIButton>
+	<UIButton x=18 y=113 style="STYLE_SMALL_BUTTON" width=90 height=24 text="FAQ" OnLeftClick=UIButton_Input_HideObject("RecordPane") OnLeftClick0=UIButton_Input_ShowObject("FinishPane") OnLeftClick1=UIButton_Input_HideObject("PlayPane") OnLeftClick2=UIButton_Input_HideObject("OtherPane") OnLeftClick3=UIButton_Input_HideObject("CreditsPane") OnLeftClick4=UIButton_Input_HideObject("BasicsPane")></UIButton>
+	<UIButton x=109 y=113 style="STYLE_SMALL_BUTTON" width=90 height=24 text="Tutorial 1" OnLeftClick=UIButton_Input_HideObject("RecordPane") OnLeftClick0=UIButton_Input_HideObject("FinishPane") OnLeftClick1=UIButton_Input_HideObject("PlayPane") OnLeftClick2=UIButton_Input_ShowObject("OtherPane") OnLeftClick3=UIButton_Input_HideObject("CreditsPane") OnLeftClick4=UIButton_Input_HideObject("BasicsPane")></UIButton>
+	<UIButton x=200 y=113 style="STYLE_SMALL_BUTTON" width=90 height=24 text="Tutorial 2" OnLeftClick=UIButton_Input_HideObject("RecordPane") OnLeftClick0=UIButton_Input_HideObject("FinishPane") OnLeftClick1=UIButton_Input_HideObject("PlayPane") OnLeftClick2=UIButton_Input_HideObject("OtherPane") OnLeftClick3=UIButton_Input_ShowObject("CreditsPane") OnLeftClick4=UIButton_Input_HideObject("BasicsPane")></UIButton>
+
+	<UIIcon img="grid_pixel.tga" x=10 y=138 width=295 height=1 />
+
+	<UIPane name="BasicsPane" x=26 y=139 width=272 height=251 hidden=false>
+		<UIListBox name="HEADER_LISTBOX" width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=0 xPadding=0 showpartialchild=true unequalcontrols=true scrollsegmentsize=30 hidescrollbarwhennotneeded=true >
+			<UIText 
+				name="TKL_HELP_TEXT" 
+				text="<b>BASICS</b>
+
+**Top Bar** (from left to right)
+
+KEY:
+This button isn't actually labeled 'Key', but it controls the <i>key</i> of the music.  It is labeled 'C' by default, and it is in the middle of the top bar.  To change the key of a song, click this button and then select a new key from the drop-down window.  The key determines how high or low the music is.  The twelve keys, from lowest to highest, are: C, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B.
+
+MAJOR/MINOR:
+This button is labeled either 'Major' or 'Minor' ('Major' by default).  Each of the twelve keys mentioned above can be played either 'Major' or 'Minor'.  This effects the emotional impact of the music.  In general, Major keys are happy, and Minor keys are sad.  NOTE: This button only affects which notes are available on the screen.  Thus, after a song has been created, changing the Major/Minor button will have no effect.
+
+AREA:
+The 'Area' button can be used to silence NWN2's background music and sounds in the area.  After clicking this button, you can click either 'Music', 'Sounds', or both, to silence that audio.  NOTE: This effects ALL players.  The audio will remain off until you click again on 'Area' and right-click on either 'Music', 'Sounds', or both, to turn the audio back on.
+ 
+EASY:
+The 'Easy' button, when activated, removes any non-diatonic (ie, 'out-of-key') notes from the screen.  If you don't know what 'non-diatonic' or 'out-of-key' means, you should probably always keep the 'Easy' button activated.  This will allow you to play around with the notes without worrying about hitting a 'sour' one.
+
+?
+Click this button to open the Help file.  You've already done this, so I'm basically wasting time typing these words.
+
+X
+Click this button to close the TKL Performer window.  To re-open it, you will need to re-equip your instrument.
+
+**Note buttons**
+
+Depending on which instrument you have equipped, you will see panes for 'Melody', 'Harmony', and/or 'Percussion'.  Within each of these panes are the actual 'note buttons', that you can click to produce sound.  Clicking on the top-half of a button will produce a different sound than clicking on the bottom-half.  The differences depend on the instrument, and are detailed below:
+
+FLUTE: The Flute screen contains only a 'Melody' pane.  Clicking on the bottom-half of a Flute note produces a longer, more sustained sound.  Clicking on the top-half of a Flute note produces a short, quick note.  There are two rows of notes.  The higher row produces notes of a higher octave (pitch) and the lower row produces notes of a lower octave (pitch).
+
+DRUM: The Drum screen contains a 'Melody' pane and a 'Percussion' pane.  Clicking on the top-half of a Drum note produces a louder sound.  Clicking on the bottom-half of a Drum note produces a softer sound.  The 'Melody' pane has two rows, corresponding to a high and low octave (pitch), just as the Flute notes are.  The 'Percussion' pane also has two rows, but these correspond to two differing variations.  For example, the top Snare button is a single snare hit, while the bottom Snare button is a triple snare hit.
+
+LUTE: The Lute screen contains a 'Melody' pane and a 'Harmony' pane.  The Lute Melody notes behave similarly to the Flute notes: clicking on the bottom-half produces a longer, sustained note, while clicking the top-half produces a short, muffled note.  The Lute Harmony pane produces 'chord' sounds: clicking on the top-half produces a quick, sharp chord, while clicking on the bottom-half produces a slower, rolled chord."
+
+ 
+
+
+			width=PARENT_WIDTH height=DYNAMIC align=left valign=top color="3d3131" fontfamily="NWN1_Dialog" style="bold" />
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
+		</UIListBox>	
+	</UIPane>
+
+	<UIPane name="RecordPane" x=26 y=139 width=272 height=251 hidden=true>
+		<UIListBox name="HEADER_LISTBOX" width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=0 xPadding=0 showpartialchild=true unequalcontrols=true scrollsegmentsize=30 hidescrollbarwhennotneeded=true >
+			<UIText 
+				name="TKL_HELP_TEXT" 
+				text="<b>SONG MENU</b>
+
+In the 'Songs' panel, the left-most drop-down menu contains many buttons that affect the entire song.  This menu is labeled 'Untitled', by default, but you can rename it by right-clicking on it.  From top to bottom, the buttons in the drop-down menu are:
+
+PLAY:
+Left-clicking on this button will play the entire song (including all recorded tracks, plus any recorded lyrics).  Right-clicking this button will only play a certain number of seconds of the song.  While a song is playing, this button will be disabled.
+
+SPEED:
+Clicking the +/- buttons on either side of 'Speed' will control the playback speed of the song.  The maximum speed you can acheive <i>may</i> depend on your Perform skill (depending on your server's settings).  You can click the 'Speed' button itself to check the current speed.
+
+LYRICS:
+This button will open a Lyrics window, which contains a certain number of Lyric slots.  The number of available Lyric slots <i>may</i> depend on your Perform skill (depending on your server's settings).  To edit a Lyric slot, right-click on it.  To have your PC sing/speak a Lyric slot, left-click on it. 
+
+Recording Lyrics:
+If your server allows it, you can record sequences of Lyrics, and play them back later with a single click.  To do this, first edit all of the Lyric slots you will need.  Then click 'Record Lyrics'.  Then click each Lyric slot in the rhythm and order you would like them played back.  Finally, click 'Stop Recording'.  Thereafter, when you play your song, your PC will speak/sing the lyrics in the recorded rhythm.  If you would like to suppress the recorded Lyrics during playback, click the 'Mute Lyrics' button.  Clicking the button again will Un-Mute the Lyrics.
+
+LOAD:
+This button opens a Song window, which contains a certain number of Song slots.  The number of available Song slots <i>may</i> depend on your Perform skill (depending on your server's settings).  To load one of these songs, click on it.  If you have never saved any songs (see below) then all the slots will be empty.
+
+SAVE
+This button opens a Song window, which contains a certain number of Song slots.  The number of available Song slots <i>may</i> depend on your Perform skill (depending on your server's settings).  To save your current song into a slot, click on the slot.  This allows you to keep songs for later use, even while you work on new songs.  TIP: If you get creative with Load/Save, you can create songs that use multiple instruments (ie, you can have a song that uses drums, lute, and flute simultaneously).
+
+TRANSCRIBE
+If your server allows it, clicking this button will trigger the 'Transcribe' process.  Transcribing creates a new object in your inventory, which is a written version of your current song, called a 'score'.  Any PC that is equipping an instrument can activate these 'scores' to learn the songs themselves.  PCs that are not equipping an instrument can also activate these scores, and a Lyric sheet will open, allowing them to speak/sing the Lyrics of the song.  Transcribing scores <i>may</i> depend on a Perform skill check for success (depending on your server's settings).
+
+NEW:
+Click this button to clear the current song, so that you can start a new one."
+
+
+			width=PARENT_WIDTH height=DYNAMIC align=left valign=top color="3d3131" fontfamily="NWN1_Dialog" style="bold" />
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
+		</UIListBox>	
+	</UIPane>
+
+	<UIPane name="PlayPane" x=26 y=139 width=272 height=251 hidden=true>
+		<UIListBox name="HEADER_LISTBOX" width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=0 xPadding=0 showpartialchild=true unequalcontrols=true scrollsegmentsize=30 hidescrollbarwhennotneeded=true >
+			<UIText 
+				name="TKL_HELP_TEXT" 
+				text="<b>TRACK MENU</b>
+
+In the 'Songs' panel, the 4 right-most drop-down menus contains many buttons that affect each of 4 'tracks'.  Think of a 'track' as a member of a rock band: ie, singer, bass player, drummer, guitarist.  By creating songs with multiple tracks, you can make more intricate music.  These menus are labeled 'Track 1', 'Track 2', etc, by default, but you can rename them by right-clicking.  From top to bottom, the buttons in the Track menus are:
+
+PLAY:
+Left-clicking on this button will play the entirety of that one track.  Right-clicking this button will only play a certain number of seconds of the track.  While a song or track is playing, this button will be disabled.
+
+RECORD:
+Clicking this button will open a Record window, which contains many options for creating music in TKL Performer.  There are two buttons for making music: 'Record Track', and 'Write Track'.  The 'Record Track' button, if your server allows it, is a straight-forward way of making music, by performing it in real-time, just as you might do on a tape-recorder.  The 'Write Track' button is a way to input music as text.  Knowing what text to input will require some musical knowledge (or the help of someone with musical knowledge!).
+
+Using the Metronome: 
+Turning on the Metronome sets a steady 'pulse' for the track.  It is used in different ways, depending on which method of making music you choose: If you choose 'Write Track', the Metronome's 'Tempo' will determine the speed of the music that is produced from the text.  If you choose 'Record Track', the Metronome's 'Tempo' will determine the speed of an audible click that will play while you are recording.  The Metronome's 'Duration' determines the number of seconds that this 'clicking' will continue.
+TIP: Right-click the arrows to move them in larger increments!
+
+Using the Lag Check: 
+If you choose the 'Record Track' method of making music, you will automatically perform a 'Lag Check'.  You will hear these instructions: 'Click the button on ONE... Five... Four... Three... Two... ONE'.  Try to click the button as precisely as you can on ONE.  This allows TKL Performer to automatically adjust your music to account for the 'lag' between your computer and your server.  You can keep trying until you feel you got it precise enough.  NOTE: If you choose 'Write Track' to create music, then the Lag Check is not necessary.
+
+Using 'Record Track': 
+To create music by performing it in real-time, like a tape-recorder, click on 'Record Track'.  Then simply play music in the rhythm/order you desire.  When you are finished, click 'Stop Recording'.  If you need help keeping a steady beat, you can turn on the Metronome before you start.  You can also tweak your recordings using the Edit and Quantize buttons, described later.
+NOTE: To use 'Record Track', your server must allow recording.
+
+Using 'Write Track': 
+To create music by inputting it as text, click on 'Write Track'.  Knowing what text to input requires some musical knowledge, so beginners are encouraged to seek help from musicians, before using this function.  The rules for inputting music as text are as follows (NOTE: Non-musicians can skip this part):
+
+-Inputted songs must be in the key of C.
+
+-Melody notes must be typed in as letters AND numbers.  The letter can be any note name, such as B, g, F#, Bb, etc..  Lower-case letters are short notes, while upper-case letters are long notes.  The number, which must follow the letter, should be either 1, 2, or 3.  This specifies the octave. Examples: c#1 (first-octave short C#), Db2 (second-octave long Db), B2 (second-octave long B) etc.. (NOTE: Only one note, C, can be in the third octave)
+
+-Harmony notes (chords) must be typed in as letters, just like melody notes, followed by a quality indicator: M (for major), m (for minor), and * (for half-diminished).  Lower-case chord letters are slow, rolled chords, and upper-case chord letters are normal.  For example, a slow C major chord would be: cM, while a normal C major chord would be CM.  Other examples: dm (slow D minor), ebM (slow Eb Major), G* (normal G half-diminished), etc..
+
+-Percussion notes must begin with p, followed by a 'drum letter' A-J (or a-j).  Each letter stands for one of the ten drum sounds: a = bass drum, b = taiko drum, c = udu, d = qandahar, e = frame drum, f = open snare, g = closed snare, h = tabla, i = tambourine, j = anvil.  Finally, it must end with a 1 or 2, to specify which of the two variations to use.  Lower-case drum-letters are normal volume, while upper-case drum-letters are loud.  Examples: pa2 (normal volume bass drum, 2nd variation), pA1 (loud volume bass drum, 1st variation), pJ2 (loud volume anvil, 2nd variation).
+
+-To enter a rest, use a dash or a right-arrow: - or >
+
+-You do not have to put anything in between notes, but if you'd like to make it easier to read, you can enter spaces, or any of these symbols: | / ;
+
+EDIT:
+Clicking this button will open up an Edit window, in which you can edit any aspect of any note in the track.  Use 'Next' and 'Previous' to cycle through the notes until you find the one you would like to edit.  To change the variation/attack/volume/sustain, click the appropriate button, if available.  To delete a note, click the 'Delete' button.  To change the pitch of the note, select the number of semi-tones using the Up/Down arrows, and then click 'Edit Pitch'.  To change the timing of the note, select the number of seconds using the Up/Down arrows, then click 'Edit Time'.  TIP: Right-click the arrows to move the numbers in larger increments! 
+
+TIME:
+Clicking the +/- buttons on either side of 'Time' will move the entire track forwards or backwards in time.  You probably won't need to use this, but if you do, it's there!
+
+MUTE:
+If you would like to Mute this track during playback, click this button.  Clicking it again will Un-Mute the track.
+
+NEW:
+This button clears this track.
+
+QUANTIZE:
+Clicking this button will open up a Quantize window.  Quantizing a track will 'snap' each note onto a predetermined pulse, determined by the Metronome Tempo.  This is used to tighten up the rhythm of recorded music.  It can only be used on a track you created with 'Record Track' with the Metronome ON.  You can use Quantize to 'snap' notes onto the nearest whole beat, or you can subdivide the beat into 1/2 beats, 1/3 beats, or 1/4 beats.  If this confuses you, think of Quantize as turning each beat (or each subdivided beat) into 'note magnet', that pulls nearby notes and snaps them into a tighter rhythm.  If you like to use 'Record Track', and you find you have difficulty keeping a steady rhythm on your recordings, you might want to try Quantize.   
+
+COPY:
+Clicking this button will open up a Copy window.  You can use this to copy/move some or all of the notes of one track to any point on any of the four tracks.  To select the destination track, click on one of the four tracks on the left side of the window.  If you want to move the notes (instead of just copying them) click on the 'Delete Source Notes' box.  If you want to place the notes at a later 'time' on the destination track, set the appropriate number of seconds in the 'Paste To' box.  If you want to limit the function to only part of the source track, set the appropriate number of seconds in the 'Copy From' box.  Finally, click 'Copy'.  This function is versatile enough to do a variety of things, such as splitting a track in two parts, or merging two tracks together.  
+NOTE: The 'Destination Track' can be the same as the Source track, to perform tasks such as copying all of the notes of a track to the end of the same track, essentially creating a musical 'repeat'."
+
+			width=PARENT_WIDTH height=DYNAMIC align=left valign=top color="3d3131" fontfamily="NWN1_Dialog" style="bold" />
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
+		</UIListBox>	
+	</UIPane>
+
+	<UIPane name="FinishPane" x=26 y=139 width=272 height=251 hidden=true>
+		<UIListBox name="HEADER_LISTBOX" width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=0 xPadding=0 showpartialchild=true unequalcontrols=true scrollsegmentsize=30 hidescrollbarwhennotneeded=true >
+			<UIText 
+				name="TKL_HELP_TEXT" 
+				text="<b>FAQ</b>
+
+Q: <i>How do I stop playback?</i>
+A: You can't, unfortunately.  Once music starts, it goes all the way to the end.  Note that you can right-click the 'Play' buttons, if you just want to preview the first few seconds.
+
+Q: <i>Sometimes I hear gaps in the music, followed by jumbles of simultaneous notes.  Why is that?</i>
+A: This is a function of internet lag.  Because the music must go through the server, we are at the mercy of the Great Lag Beast.
+
+Q. <i>Will I lose my song if I log off?  What if the server crashes?</i>
+A. The current song will be saved automatically, on the instrument itself.  Every time your character is saved, the current song is saved as well.  Typically, the server takes care of that for you.  'Server-vault' servers automatically save characters on log-out too.  If the server does crash, however, your current song will revert to the last time your character was saved.
+
+NOTE: The current song is actually 'saved' on the instrument itself.  So... if somebody steals your instrument, they'll get the song too!
+
+Q. <i>Sometimes I'm finding it difficult to hear the audio?  How do I turn it up?</i>
+A. A few tips: Make sure that in NWN2's audio options, the 'Sound Effects Volume' slider is all the way up.  Next, make sure there aren't other noises in the area drowning out the sound, like music or environmental audio.  If so, use the 'Area' button to silence them.  Finally, some players have reported that it helps to zoom your camera all the way in to your PC.  NWN2's sounds sometimes increase in volume as the camera gets closer.
+
+Q. <i>I'm not a musician, but I want to play around with this.  How do I get started?</i>
+A. Try starting with the Lute.  Make sure the 'Easy' button is activated.  The center buttons on the top bar should read 'C Major'.  If not, change them to 'C' and 'Major'.  Now, let's play some chords!  Collapse the 'Melody' and 'Song' panels, you won't need these right now.  In the 'Harmony' panel, start clicking the C, F, and G chords.  Play around with any combination of C, F, and G, but always end on C.  Try C F G F C.  Or... C C F G C.  Have fun!  You can now play 99% of the Country & Western repertoire!
+ 
+
+Q. <i>There seems to be a slight delay between clicking the buttons and actually hearing the sound.  Is this normal?  Is there anything that can be done about this?</i>
+A. This is normal.  It's simply a result of 'lag', or the time it takes to send the action to the server, and for the server to send the 'play sound' command back to your computer.  The good news is that, if your server allows for it, you can actually Record music, and while Recording, this 'lag delay' disappears completely.
+
+Q. <i>How do I give my song a name?</i>
+A. In the 'Songs' pane, you should see a button that says 'Untitled'.  Right-click this button, and type in a new name.
+
+ 
+Q. <i>My server doesn't allow me to Record?  Why is that?</i>
+A. In order to use the 'Record Track' and 'Record Lyrics' features, your server must have NWNX4's Timer plugin installed.  Don't despair, though, you can still make music by using the 'Write Track' button, or simply by performing live.  If you don't have any musical experience, ask around on your forums to see if anyone can help you.
+
+Q. <i>Can I change the speed of my song AFTER I've recorded it?</i>
+A. Yes, just click on the name of your song (or 'Untitled') and click on the +/- buttons on each side of the Speed button.  Left-clicking adjusts the speed by 1, while right-clicking adjusts the speed by 5.
+
+Q. <i>Can I also change the Key of my song after I've recorded it?</i>
+A. Yes.  When you Play a song, it will be in whatever Key you currently have selected, on the center buttons of the top bar.  The default is 'C', but after you've created a song, you might want to try it out in some other keys, in case it sounds better!
+
+Q. <i>I would like to have a track repeat, so that it is twice as long, but I don't want to re-record the entire track.  Is this possible?</i>
+A. Yes, the Copy function can take care of this.  Click on the drop-down menu for the Track, and choose Copy.  In the Copy window select the same track, and adjust the 'Paste To' number until you get to the point (in seconds) at which you want the repeat to start, then click Copy.  You should probably Save your song before you try this, though, because it might take some trial and error to get the timing right.
+
+Q. <i>I would like to merge two tracks into one, so that I can record even more tracks.  Is this possible?</i>
+A. Yes, again, the Copy function can also do this.  Click on the drop-down menu for the source Track, and choose Copy.  In the Copy window, select the track you would like to merge to.  Make sure the 'Copy From' and 'Paste To' numbers are at 0.  Click on 'Delete Source Notes', and then click Copy.  All the notes from the source track will be moved over to the destination track.
+
+Q. <i>Can I teach a song to another player?</i>
+A. Yes, indirectly.  Give your song a nice name, if you haven't already, then choose 'Transcribe'.  This will create a 'musical score' item, which you can give out to other players, who can then learn the song from the score by 'using' it.
+ 
+Q. <i>What affect does my Perform skill have in TKL Performer?</i>
+A. Your server has control over this, by their own configuration of TKL Performer.  Ask them!
+
+Q. <i>Is there an 'undo' function?</i>
+A. No, not directly.  You just have to remember to Save your song before any major edits, so that you can Load the saved version if you mess up.
+
+Q. <i>What is the deal with this 'prioritygroups.2da' file that I have to put in my Override folder?</i>
+A. This file controls many audio-related settings, the most important being the number of sounds that can be playing at the same time.  By default, it is set at 4 simultaneous sounds, which is extremely limiting for TKL Performer.  Raising this number to 10 dramatically improves TKL Performer, and allows you to player faster, fuller music.  And unfortunately the only way to do this is to have the file in your Override folder.  The good news is that it is such an obscure file, there's almost no chance of conflicts with other modules/servers.  So, for the most part, you can safely leave it in your Override folder even when playing on other servers.  (Note that this file is purely optional.  TKL Performer will work without it.  It just won't sound as good on your machine.)"
+
+			width=PARENT_WIDTH height=DYNAMIC align=left valign=top color="3d3131" fontfamily="NWN1_Dialog" style="bold" />
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
+		</UIListBox>	
+	</UIPane>
+
+	<UIPane name="OtherPane" x=26 y=139 width=272 height=251 hidden=true>
+		<UIListBox name="HEADER_LISTBOX" width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=0 xPadding=0 showpartialchild=true unequalcontrols=true scrollsegmentsize=30 hidescrollbarwhennotneeded=true >
+			<UIText 
+				name="TKL_HELP_TEXT" 
+				text="<b>TUTORIAL 1</b>
+
+In this tutorial you will use many of the functions of TKL Performer to create a complete song with lyrics.  What you'll need: a lute, a drum, and a flute (in-game, of course!)
+
+I. CHORDS
+
+First we'll use the 'Write Track' function to create what musician-types call... the chord progression!  Here's what you want to do:
+
+1. Equip a Lute.  This should cause the TKL Performer GUI to appear on your screen.
+
+2. Under the 'Songs' pane, click the name of the song (probably 'Untitled' if you haven't named it yet) and select 'New' from the drop-down menu.  This should erase any current song, so that you can start from scratch.  For future reference, this pull-down menu will be referred to as the 'Song Menu'.
+
+3. Right-click on 'Track 1', and type in 'Chords'.  This will rename the track, to make it easier to deal with later.
+
+4. Click on the newly named 'Chords' button, and select 'Record' from the drop-down menu.  This should bring up a new window for Recording functions.
+
+5. First, turn on the 'Metronome' by clicking the box next to it.  Then make sure that the 'Tempo' is set to 60, the default.  This tells TKL Performer how many beats-per-minute this track will have.  (60 beats-per-minute = 1 beat-per-second.)  We don't need to worry about the Duration, now.
+
+6. Now it's time to write the chords.  Click on 'Write Track'.  Type this in EXACTLY as written, case-sensitive:
+
+CM>>cM>>CM>>CM>>gM>>Am>>eM>>AM
+
+7. That's it!  You just created the chord progression.  In case you're wondering about the symbols: 'M' means 'Major', and 'm' means 'Minor'.  The dashes represent silent beats (also known as 'rests').  The other letters indicate the name of the chord itself: upper-case equal normal, and lower-case equals 'rolled'.  Eg, 'CM' is a normal C Major chord; 'cM' is a 'rolled' C Major chord; 'Am' is a normal A Minor chord; etc...
+
+8. To hear your track, select 'Play' in the 'Chords' menu.
+
+II. DRUMS
+
+Next we'll add a little tambourine!  Here's what you want to do:
+
+1. Give the song a name.  Right-click on the 'Untitled' button, and type in 'As I Went To Silverbridge'.  This will rename the song.
+
+2. Now pull-down the Song Menu and select 'Save'.  Click on any available slot to save this song in that slot.
+
+3. Now equip your Drum!  A slightly different TKL Performer GUI will appear on your screen.  You'll notice that your song is no longer loaded.  This is because songs are saved on the instruments themselves, and it is the reason we saved the song earlier: so that we could access it on the Drum.
+
+4. Pull-down the Song Menu and select 'Load'.  Click on the slot with your saved 'As I Went To Silverbridge' song.  NOW your song is loaded.
+
+5. Right-click on 'Track 2', and type in 'Drums' to rename it.
+
+6. Pull-down the newly named 'Drums' menu and select 'Record'.  Turn on the Metronome if necessary, and make sure the Tempo is 60.  Click 'Write Track' and type this EXACTLY:
+
+pI1>>pi1>>pI2>>pi1>>pI1>>pi2>>pI2>>pi1
+
+7. That's it!  You just created the drum track.  In case you're wondering about the symbols: The 'p' means percussion, and should precede all percussion notes.  As before, the dashes represent 'rests'.  The lower-case 'i' indicates for a soft tambourine hit, and the upper-case 'I' indicates a loud tambourine hit.  The 1 and 2 are just slightly different variations of tambourine hits.
+
+8. You can listen to the 'Drums' track if you'd like, but let's listen to the Drums and Chords together!  Pull-down the Song Menu (the 'As I Went to Silverbridge' button) and select 'Play'.
+
+III. MELODY
+
+Third, we will use the flute to add some melody.  Here's what you want to do:
+
+1. Save the song again by selecting 'Save' from the Song Menu.  You can overwrite the same slot, or you can use a new one.
+
+2. Now equip your Flute!  A slightly different TKL Performer GUI will appear on your screen, again, without your song.  To get your song back, select 'Load' from the Song Menu and click on the correct slot.
+
+3. Right-click on 'Track 3' and type in 'Flute' to rename it.
+
+4. Pull down the newly named 'Flute' menu and select 'Record'.  Turn on the Metronome.
+
+5. THIS time, we are going to set the Metronome 'Tempo' to 240.  Melodies usually have more intricate rhythms, and require us to speed up the pulse, and use more rests.  If this confuses you, don't worry about it!  Just set the Tempo to 240, and move on.  TIP: Right-click the up/down arrows to make the Tempo increase in larger increments!!
+
+6. Click 'Write Track' and type this EXACTLY as written:
+
+C2>>d2E2>>>D2>>>C2>>>A1>>>G1>>>C2>>d2e2>f2>d2>e2>C2>>>>>Gb2>>>>>B1>>c2D2>>>E2>>>C2>>>A1>>>E1>>>B1>>c#2D2>>>c#2>b1>a1
+
+7. Phew!  Ok, that's it, you now have your melody.  In case you'd wondering about the symbols: the 1 and 2 indicate the 'octave', ie, 1 = low note, 2 = high note.  The letters correspond to the notes themselves, upper-case indicating long sustain, and lower-case indicating short sustain.
+
+8. Select Play from the Song Menu to hear the whole thing!
+
+OPTIONAL - Trying a different instrument for the melody:
+
+Want to hear what the melody sounds like on the Lute, instead of the Flute?  It's easy to switch:
+
+1. Save your song by selecting 'Save' from the Song Menu.
+
+2. Equip the Lute, and select 'Load' from the Song Menu to load your song again. (Note: It may appear that the song is already loaded, but if you look closely you'll notice that it is not the latest version.  The only track is the 'Chords' track: ie, the Lute is 'remembering' the song as it was at the end of Part I.  Thus it's necessary to load the latest version that you just saved.)
+
+3. Pull-down the Flute menu and select Record.  Make sure the Metronome is enabled, and the Tempo is set to 240.  Select 'Write Track'.
+
+4. The text will already be inputted for you.  Just click 'OK'.
+
+5. NOW play the song again.  Do you like it better with Lute for the melody?  If not, you can switch back by loading the saved version, or by repeating these steps with the Flute equipped.
+
+IV. EDITING
+
+Did you notice a bad note in the melody?  Something that sounded out of place?  Well, I put it there on purpose!  Now we're going to learn how to tweak individual notes within a track.
+
+1. Save your song again by selecting 'Save' from the Song Menu.  It is a good idea to save before doing any editing, in case you need to revert to a saved version. (there is no 'Undo' button!)
+
+2. Pull-down the 'Flute' menu and select 'Edit'.  This brings up a new 'Edit' window.
+
+3. First let's find that bad note.  I'll go ahead and tell you: it was the Gb, right in the middle of the track.  Click on 'Next' until you get to the Gb.
+
+4. Once you get to the Gb, click 'Delete Note'.  That's it!  No more bad note.
+
+5. There is one more tweak we should do: You may have noticed the final note of the melody was short, and really should have been longer.  Let's fix that!  Go to the last note of the track.  TIP: Right-click the 'Next Note' button to go to the last note instantly.
+
+6. Press the 'Sustain' button.  The note is now longer, problem solved!
+
+7. Exit the 'Edit' window, and save your song once more.
+
+8. Pull-down the Song Menu and select 'Play' to hear the whole thing!
+
+V. LYRICS
+
+Next, we'll prepare lyrics so we can sing along with the music.
+
+1. Pull-down the Song Menu and click 'Lyrics'.  This will open up a separate Lyrics window.
+
+2. You should see a certain number of available Lyric slots.  We'll just be using four here.  Right-click on the first slot and type this:
+
+As I went to Silverbridge,
+
+3. Afterwards, left-click that same slot.  This causes your PC to speak the words.  Now let's do three more slots, one line per slot:
+
+To the shrine with speed,
+Met I with a goodly monk,
+In a pilgrim's weed.
+
+4. Now you've got four lines of lyrics!  Try playing the whole song ('Play' on the Song Menu) and while it's playing, click the lyrics in time with the odd-numbered tambourine hits.  (1st, 3rd, 5th, and 7th tambourine hits).
+
+VI. REPETITION
+
+Next, we'll have the music repeat, so that we can enter more lyrics, for another verse.
+
+1. First let's do the 'Chords' track.  Pull-down the 'Chords' menu and select 'Copy'.  This brings up a new Copy window.
+
+2. Under 'Destination Track', select the same track you are copying (Chords = Track 1, Drums = Track 2, Flute = Track 3).
+
+3. Make sure that 'Delete Source Notes' is NOT checked.
+
+4. Make sure that 'Copy From' is set to 0.
+
+5. Set 'Paste To' to 24.  TIP: Right-click the up/down arrows to change the numbers in larger increments.
+
+6. Click 'Copy Track'.
+
+7. Repeat steps 1-6 for the 'Drums' track, and the 'Flute' track.
+
+8. That's it!  You now have 2 verses of music to work with.  If you wanted to double it again, to 4 verses, you would repeat this section, except set the 'Paste To' box to 48.
+
+9. Feel free to make up 4 more lines of lyrics, to go along with the new verse!
+
+VII. KEY AND SPEED
+
+Next, we'll decide on a key and speed.  This is where your personal taste comes in!
+
+1. First let's pick a speed.  Pull-down the Song Menu and click the + or - buttons on either side of 'Speed'.  If you'd like the song to be faster, click +.  For slower, click -.  Speed it up or slow it down as much as you want.  NOTE: Depending on your server's settings, the maximum speed may be limited by your Perform skill.
+
+2. Play the song and take a listen.  TIP: If you don't need to hear the entire song, right-click on the 'Play' button to only preview the first few seconds of music.
+
+3. Keep adjusting the Speed until you get something you like.
+
+4. Next we'll adjust the Key.  The key determines the pitch-level (ie, low to high) of the music.  By default, it starts at 'C', which is the lowest key.  The highest key is 'B'.
+
+5. Click on the 'C' button on the top bar, and choose a different key.  Preview the song again by right-clicking on 'Play'.
+
+6. Keep adjusting the Key until you get something you like.  When you're done, don't forget to Save!
+
+VII. PUBLISHING
+
+Finally, we'll learn how to distribute the song in-game.
+
+1. Pull-down the Song Menu, and select 'Transcribe'.  Depending on your server's settings, this may trigger a Perform skill check.  If successful, you will receive a 'musical score' charged item.  If unsuccessful, you may have to wait 1 game-hour before trying again.
+
+2. You can distribute these items however you see fit.  They are activated items with a certain number of charges.  The effect of their activation by a PC depends on whether or not the PC is holding an instrument:
+
+-If a PC who is holding an instrument activates the musical score, the entire song will be loaded onto their instrument, for them to play, edit, etc...
+
+-If a PC who is NOT holding an instrument activates the musical score, the Lyric window will appear.  If the song contains Lyrics, the PC may click on them to speak them. (for audience sing-a-longs!)
+
+End of Tutorial."
+
+			width=PARENT_WIDTH height=DYNAMIC align=left valign=top color="3d3131" fontfamily="NWN1_Dialog" style="bold" />
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
+		</UIListBox>	
+	</UIPane>
+
+	<UIPane name="CreditsPane" x=26 y=139 width=272 height=251 hidden=true>
+		<UIListBox name="HEADER_LISTBOX" width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=0 xPadding=0 showpartialchild=true unequalcontrols=true scrollsegmentsize=30 hidescrollbarwhennotneeded=true >
+			<UIText 
+				name="TKL_HELP_TEXT" 
+				text="<b>TUTORIAL 2</b>
+
+In this tutorial you will learn to use TKL Performer to record music and lyrics in real-time.  What you'll need: a lute (in-game, of course!)
+NOTE: This tutorial is only possible if your server allows recording!  Also, this tutorial assumes that you have completed Tutorial 1.
+
+I. SETTING THE LAG CHECK AND METRONOME
+
+First we'll perform the 'Lag Check', which helps to make your recordings as precise as possible.  We'll also set up the Metronome.  Here's what you want to do:
+
+1. Equip a Lute and start a New song.
+
+2. Pull-down any of the 'Track' menus, and select 'Record'.
+
+3. Make sure your speakers are on, and activate 'Lag Checking' by clicking the box next to it.  You will hear these instructions: 'Click the button on ONE... Five... Four... Three... Two... ONE'.  Try to click the button as precisely as you can on ONE.  This allows TKL Performer to automatically adjust your recordings to account for the 'lag' between your computer and the server.  You can keep trying until you feel you got it precise enough.
+
+4. Now let's turn on the Metronome.  Click the box next to the metronome, and set the 'Tempo' to 60.  Set the 'Duration' to 20.  When you are recording later, this will provide a 'click-track' to help with your rhythm, and it also allows you do use the 'Quantize' feature, after the recording is finished.
+
+II. PRACTICING
+
+Recording music in real-time with TKL Performer is fairly straight-forward, but it does take some dexterity with all the pointing and clicking!  In this section we'll practice playing the Lute.
+
+1. Click 'Cancel' to exit out of the Record window, if you haven't already.  Collapse the 'Melody' panel by clicking on it.
+
+2. Let's keep things simple at first: Activate the 'Easy' button in the top bar.  This removes some unnecessary chords from the view.
+
+3. If the 'Harmony' panel is collapsed, expand it by clicking on it.
+
+4. Now click the buttons in this order, as steadily as possible:
+
+C C C C F F C C
+F F C C G G C
+
+5. Try it again.  Try to play as steadily as a ticking clock.  Don't try to play fast; keep it nice and slow.  Practice as long as you need, until you feel comfortable with it.  Try to memorize the sequence.
+
+NOTE: You may notice that sometimes the chords are 'rolled', and sometimes they are not.  This has to do with the placement of your mouse when you click (the top-half of the button, or the bottom-half of the button).  Don't worry about it too much for now, just try to get the right button!
+
+III. RECORDING
+
+Now that you have practiced, we are ready to record!
+
+1. Right-click the 'Track 1' button, and rename it to 'Chords'.
+
+2. Pull-down the 'Chords' menu and select 'Record'.  Make sure that the Lag Check and Metronome are still enabled, with the Tempo at 60 and the Duration at 20.
+
+3. Let's do a practice run.  Go ahead and click 'Record Track'.  You will hear the clicking of the Metronome 'click track'.  Listen to it for a while, then click 'Stop Recording'.  You will notice the Metronome may continue.  This is normal; the Metronome will continue to click for the full amount you specified in the 'Duration' box (20 seconds).
+
+4. Let's do another practice run.  This time, we'll count the first four clicks of the Metronome.  Go back to the Record window, and again click 'Record Track'.  Count out loud, 'One, Two, Three, Four' along with the first four clicks of the Metronome.
+
+5. Ok!  Now we're ready to record the music.  You may want to run through the sequence again, that we practiced earlier.  To remind you, it was:
+
+C C C C F F C C
+F F C C G G C
+
+6. Now you're going to record it.  However, you're going to let 4 clicks of the Metronome go by, before we start playing.  In other words, you'll start playing on the 5th click of the Metronome.  Ever hear rock singers start off a song with '1 2 3 4!'?  That's what this is!  Go ahead and get back to the Record window, click 'Record Track', count to 4, and play your music!  One chord per metronome-click!
+
+7. When you're done, click 'Stop Recording'.  How'd it go?  Not so good?  Feel free to try again, if you feel you could have done better.  Don't worry too much about the accuracy of the rhythm, though.  We're about to fix that in the next step.
+
+IV. QUANTIZE
+
+In this step, we'll make SURE that the rhythm of the 'Chords' track is perfect.
+
+1. Playback the track you just recorded, and listen for the steadiness of the rhythm.  Is it perhaps a little 'loose' in parts?  Some chords too early, some chords too late?  If not, you can skip to part V.  But if you want to tighten up the rhythm of this track, proceed.
+
+2. Save your song.  We're about to use 'Quantize', which does not have an 'Undo' feature.
+
+3. Pull-down the 'Chords' menu and select 'Quantize'.  This will open up a new Quantize window.
+
+4. Make sure the 'Snap each note in this track to...' option is set to 'Full Beat'.  Now click 'Quantize Track'.
+
+5. Afterwards, play the track again.  Is the rhythm tighter?  Hopefully yes.  Did some chords get shifted incorrectly?  Hopefully not, but that is possible.  Quantize essentially takes each note and 'snaps' it onto the nearest beat.  So if you were REALLY inaccurate with the recording, the 'Quantize' function will snap the notes onto the wrong beat.  If this happens, you probably ought to go back to Part II and start again. (Hey, art ain't easy!)
+
+V. TWINKLE TWINKLE LITTLE STAR
+
+Now that we have a solid chord track, we're going to record the melody.
+
+1. Save your song.
+
+2. Time for some more practice!  Collapse the 'Harmony' panel, and expand the 'Melody' panel.  Make sure the 'Easy' button is still activated.
+
+3. Now, here is a new sequence of notes to play in the 'Melody' panel.  Practice these, just like you did with the chords.  You can play this on either the top or bottom rows of buttons.  Start and end with the 'C' on the left.
+
+C C G G A A G
+F F E E D D C
+
+(Confused about which 'C' to use?  Again, use the 'C' on the left.  You can use either the top or bottom row of buttons, whichever you prefer.)
+
+4. Recognize the song now?  Good.  Now practice, practice, practice.  Memorize.
+
+5. Ready to record?  OK!  Right-click the 'Track 2' button and rename it 'Twinkle'.  Pull-down the 'Twinkle' menu and select Record.
+
+6. Make sure that the Metronome and Lag Check are still enabled.  Let's do a practice run.  Go ahead and click 'Record Track', and listen.  You will hear the Metronome begin to click, and then you will hear the chords you recorded earlier.  Click 'Stop Recording'.  Feel free to keep doing test runs until you feel you're ready to record.
+
+7. Finally, when you're ready, start recording, and this time play the song, one note per metronome-click.   'Twinkle Twinkle Little Star' DOES have a pause after the first line, so watch out for that: C C G G A A G (pause) F F E E D D C.
+
+8. When you're done, click 'Stop Recording'.  How'd it go?  Again, feel free to keep trying until you're happy with your recording.  You will probably want to 'Quantize' this track as well, the same way you did before.  Afterwards, pull-down the Song Menu and play both tracks together.  Magical!
+
+VI. LYRICS
+
+Finally, we'll record some lyrics to go with the music.
+
+1. Save your song.
+
+2. Pull-down the Song Menu and select 'Lyrics'.
+
+3. Right-click the first Lyric slot, and type in: Twinkle Twinkle Little Star,
+
+4. Right-click the second Lyric slot, and type in: How I wonder what you are.
+
+5. Now click 'Record Lyrics' and get ready to left-click the Lyric slots.  You won't hear the metronome this time, so be ready to click the first slot when your music starts.  Then click the second slot when appropriate.  Finally click 'Stop Recording'.
+
+6. Feel free to try again until you get it right.
+
+7. In the main window, pull-down the Song Menu and select play.  You'll hear your song again, PLUS your PC will automatically sing/speak the lyrics!
+
+End of Tutorial" 
+
+
+			width=PARENT_WIDTH height=DYNAMIC align=left valign=top color="3d3131" fontfamily="NWN1_Dialog" style="bold" />
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
+		</UIListBox>	
+	</UIPane>
+
+	<!-- Background Image -->
+	<UIIcon img="idesc_top_bg.tga" x=10 y=8 width=290 height=80 />
+	<UIIcon img="idesc_paper_bg.tga" x=10 y=88 width=290 height=303 />
+	<UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+		bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+		left="frame1_l.tga" right="frame1_r.tga" border=32 />	

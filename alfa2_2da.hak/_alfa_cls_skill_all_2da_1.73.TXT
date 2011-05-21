@@ -1,0 +1,46 @@
+AcadiusLost: 
+
+8/9/2009: All classes, updated to Custom skills, custom descriptions to reflect class skills and Extraordinary PCs.
+7/25/2010: Added NW9 skill 2da for use with Knight Protector PrC
+
+     All got custom tlk entries for descriptions.
+
+cls_skill_archer.2da 
+cls_skill_arctr.2da
+cls_skill_asasin.2da
+cls_skill_barb.2DA
+cls_skill_bard.2DA
+cls_skill_blkgrd.2da
+cls_skill_cler.2DA
+cls_skill_divcha.2da
+cls_skill_doomguide.2da
+cls_skill_dradis.2da
+cls_skill_dru.2DA
+cls_skill_duelist.2da
+cls_skill_dwdef.2da
+cls_skill_eknight.2da
+cls_skill_favored_soul.2DA
+cls_skill_fight.2DA
+cls_skill_frenz.2da
+cls_skill_harper.2da
+cls_skill_hellfire.2da
+cls_skill_invisiblade.2da
+cls_skill_monk.2DA
+cls_skill_nw9wd.2DA
+cls_skill_pal.2DA
+cls_skill_palema.2da
+cls_skill_rang.2DA
+cls_skill_redwiz.2da
+cls_skill_rog.2DA
+cls_skill_sacredfist.2da
+cls_skill_scholar.2da
+cls_skill_sdthf.2da
+cls_skill_shadow.2da
+cls_skill_sorc.2da
+cls_skill_spiritshaman.2DA
+cls_skill_stormlord.2da
+cls_skill_swashbuckler.2da
+cls_skill_wiz.2DA
+cls_skill_wlck.2DA
+cls_skill_wm.2da
+cls_skill_wprst.2da

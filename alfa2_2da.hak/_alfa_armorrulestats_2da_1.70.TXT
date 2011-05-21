@@ -1,0 +1,20 @@
+AcadiusLost: 
+
+11/25/2007, documenting armorrulestats.2da edit from MotB 1.010.1116
+2/29/2009: Merged with SoZ 1.22.1587
+5/18/2009: Added rows for +1 ACP metal armor types (10% heavier)
+8/4/2009: Added custom tlk names for +1 ACP rows.
+
+Padding to row 75.
+
+
+row 0: changed armor type: cloth to weigh 1 lb (100->10)
+
+76: Chain Shirt ACP
+77: Scale ACP
+78: Banded ACP
+79: HalfPlate ACP
+80: Fullplate ACP
+81: Chainmail ACP
+82: Breastplate ACP
+83: Splint ACP

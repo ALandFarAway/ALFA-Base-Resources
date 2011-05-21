@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<!-- Neverwinter Nights 2, PC Tools Post Message Screen -->
+<!-- Copyright (c) 2007, Heed 
+
+v0.9
+
+-->
+
+<UIScene name="SCREEN_HSS_POPUP_MESSAGE" width=700 height=300 x=ALIGN_CENTER y=ALIGN_CENTER fadeout="0.2" fadein="0.2" priority="SCENE_GLOBAL"
+ scriptloadable=true capturemouseclicks=false expiretime=6.0 />
+		<UIText name="HSS_POPUP_MESSAGE" width=PARENT_WIDTH height=PARENT_HEIGHT align=center valign=middle 
+			fontfamily="Special_Font" style=4 capturemouseclicks=false />
+
+
+	

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8">
+
+<!-- XML code by: Demetriou - Based largely upon an example by Grinning Fool -->
+
+<UIScene name="SCREEN_EXEC_COMMAND" width=550 height=30 
+    x="460" y="650" 
+    draggable="true" idleexpiretime="1.0" scriptloadable="true" 
+	priority="SCENE_SCRIPT" modal="false"
+    OnAdd=UIScene_OnAdd_SetFocus(INPUT_BOX)
+    />
+
+    <!-- Prompt next to the input box -->
+
+	<UIButton name="languageOn-btn" width="85" height="20" y="6" x="8" OnToolTip=UIObject_Tooltip_DisplayTooltipString("ChangeLanguage",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_playerui",".language_on") >
+		<UIFrame state="base"	fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.7" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.45" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.45"/>
+	</UIButton>	
+
+
+    <UIText name="Language" text="Undercommon:" fontfamily="Body_Font" style=3 y="9" x="8" width="90" 
+        height=24 color="EEEEEE" sizetofit="false" align="center" editable="false"/>
+
+    <!-- WAS filter="alphanumeric" and not allowspace="true" Qk:a numeric will explode the server-->
+	<!-- text input box -->
+    <UIText name="INPUT_BOX" x=100 y=9 width=415 height=48 editable="true" sanitized="false" 
+        allowspace="true" maxlength=160 allowpunc="true"  
+	multiline="false" scaleytoparent="true" scalewidthtoparent="true" 
+        fontfamily="International" selectable="true" update="true"
+        OnUpdate=UIObject_Misc_SetLocalVarString(local:0)
+        OnReturn=UIObject_Misc_ExecuteServerScript("gui_dmfi_text",local:0) 
+    />
+    
+	<UIButton name="CloseButton" x=522 y=ALIGN_CENTER style="STYLE_CLOSE_BUTTON" 
+ 		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Cancel",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+ 		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_text",".language_off") />	
+
+    <!-- Input Frame-->
+	<UIFrame x=0 y=ALIGN_CENTER width=550 height=28 topleft="frame_main_d_TL.tga" topright="tp_frame_tr.tga" 
+        bottomleft="tp_frame_bl.tga"
+		bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+		left="tp_frame_l.tga" right="tp_frame_r.tga"
+		border=5 />
+
+    <UIIcon name="messagebackground" x="0" y="0" img="fx_white.tga" width=PARENT_WIDTH height=PARENT_HEIGHT color="2F000000" alpha="0.18" />    
+	

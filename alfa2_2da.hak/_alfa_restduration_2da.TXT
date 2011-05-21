@@ -1,0 +1,4 @@
+AcadiusLost: 8/25/2007, documenting restduration.2da from NWN2 1.06 final 
+
+
+all set to 120.0 seconds.

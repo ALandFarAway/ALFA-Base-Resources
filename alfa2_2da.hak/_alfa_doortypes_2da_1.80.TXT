@@ -1,0 +1,39 @@
+AcadiusLost: 
+
+8/9/2007, documenting doortypes.2da merge from NWN2 1.06 final (no hotfix)
+10/11/2007, merge to MotB v1.10116, added City Walls v1.0
+11/04/2007, added Drow Cave
+3/1/2008: added RWS Pocket Cathedrals, BCKII, City Hak
+2/15/2009: Merged to SoZ 1.22 beta
+3/9/2009: checked to SoZ 1.22.1588, added RWS Dungeons, RWS Dark Ruins
+9/16/2010: Added Deep Halls Anniversary, RWS Towers
+5/9/2011: Added CODI Sigil doors, RWS Cave Entrances
+
+
+Padding to row 466, should insure well against expansion content.
+
+466: Deep Halls Anniv. ed. door. (duplicate of 801)
+
+546: DHall door row for RWS Towers (another duplicate of 801)
+
+593: RWS Dark Ruins Round Door (original 2da row maintained)
+
+596-600: RWS Cave entrances (original 2da rows maintained)
+
+601-621: BCKII, by Nytir
+
+701-703: City Walls v1.0, by Simbolic  (original 2da rows maintained)
+
+725-743: CODI Sigil pack doors
+
+746: RWS Pocket Cathedrals (original 2da row maintained)
+
+750: RWS Dungeons tileset door (original 2da row maintained)
+
+801: Deep Halls Tileset, by Robinson Workshop ( http://www.robinsonworkshop.com/phpBB2/ )
+
+810-814: Castles, Towers, Ramparts and More (V1.0) by Nytir
+
+820: Drow Cave, v1.0, by Botumys
+
+1000-1012: City Hak, by Tupoun

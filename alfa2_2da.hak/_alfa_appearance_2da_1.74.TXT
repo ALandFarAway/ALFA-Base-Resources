@@ -1,0 +1,76 @@
+Appearance.2da
+
+10/11/2007: Merged with MotB v1.10116
+3/19/2007: merged with 1.12(1249)
+7/12/2008: added camera height fix (adjusted by White Warlock) and reinstated scaling changes to rows 0-5.
+11/12/2008: rolled back camera height change
+11/25/2008: Merged with 1.21(1549) - extra column for animationspeed, default 0
+2/15/2009: Marged with SoZ 1.22 Beta.
+3/8/2010: Added RWS Creatures, Gray Render, Snake, Hill Giants, Worg Riders, MoW creatures
+9/6/2010: Updated RWS creatures (Lion, Kuo Toa, Axebeak, etc)
+
+
+edited size for PC appearances (x,y,z)
+0
+1
+2
+3
+4
+5
+
+edited size for NPC appearances (x,y,z)
+565
+566
+567
+568
+569
+570
+571
+574
+575
+576
+577
+
+1044: Devil, Paeliryon
+1045: Wererat
+1046: NPC_Orbakh
+1047: Quelzarn
+
+1197: Arpharazon's Snake (shifted 2DA row)
+
+1201: Beholder
+
+1204: Female Yuan-ti
+
+1206: Drider, Female
+1207: Drider, Male
+
+1301: Mimic
+
+2300: Gelatinous Cube
+2301: Ooze
+2302: Hammerhead Shark
+2303: Mako Shark
+2304: Myconid
+2305: Naga
+2306: Purple Worm
+2307: Stirge
+2308: Stirge, tintable
+2309: Purple Worm, tintable
+
+2319: Doberman
+2320: Shepard
+2321: Smilodon
+2322: Tyrannosaur
+2323: Cinderspawn
+2324: RWS_Tiger 
+2325: RWS_Lion
+2326: RWS_Lion_Male
+2327: Manticore
+2328: Kuoa_Toa   (was misnumbered as 2329)
+2329: Sahuaguin  (was misnumbered as 2330)
+2330: Axebeak    (was misnumbered as 2331)
+
+2700: Worg Rider
+
+3402: Gray Render

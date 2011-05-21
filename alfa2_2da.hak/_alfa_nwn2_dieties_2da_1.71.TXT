@@ -1,0 +1,34 @@
+AcadiusLost: 
+
+
+1/10/2009, documenting nwn2_dieties.2da merge from SoZ 1.021 final 
+2/15/2009: Merged to SoZ 1.22 beta
+7/31/2009: Added dieties, fixes
+8/7/2009: Custom names/descriptions for all dieties (ALFA domains)
+3/13/2010: Added Bahamut, replaced icons for Deep Sashelas, Tiamat, and Uthgar, opened Rangers
+  and Spirit Shamans to all dieties.
+
+Padded to row 150
+
+(All rows: eligible for Rangers and Spirit Shamans)
+
+13:	Eilistraee Favored Weapon prof to 45
+27:	Clangeddin: Fav. weapon spec. to 148
+28:	Deep Duera: Fav. weapon spec. to 148
+41:	Calladuran: Fav. weapon spec. to 148
+44: 	Garl Glittergold: Fav. weapon spec. to 148
+54:	Auril: Fav. weapon spec. to 148
+
+62:	Finder Wyvernspur Favored Weapon prof to 45
+68:	Helm Favored Weapon prof to 45
+73: 	Kelemvor Favored Weapon prof to 45
+
+97: 	Tempus: Fav. weapon spec. to 148
+
+150: Added Deep Sashelas (updated icon)
+151: Added Tiamat (updated icon)
+152: Added Uthgar (updated icon)
+153: Added Bahamut
+
+
+Missing: Anhur, Hiatea, Isis, Nobanion, Osiris, Sebek, Sekolah, Stronmaus, Ulutio

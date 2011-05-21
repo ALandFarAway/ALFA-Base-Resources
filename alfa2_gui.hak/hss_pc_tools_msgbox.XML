@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<!-- Neverwinter Nights 2, PC Tools Message Box -->
+<!-- Copyright (c) 2007, Heed 
+
+v0.9
+
+-->
+
+ 
+<UIScene name="SCREEN_HSS_PC_TOOLS_MSGBOX" x=ALIGN_CENTER y=ALIGN_CENTER modal=false width=200
+        OnAdd=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","8","1.0")
+        OnCreate=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","5","1.0")
+        height=150 capturemouseclicks=true fadeout="0.0" fadein="0.0" 
+        draggable=true dragregion_x=6 dragregion_y=3 dragregion_width=188 dragregion_height=34
+        priority="SCENE_SCRIPT" scriptloadable=true />
+
+
+	      <UIIcon name="PC_TOOLS_MSGBOX_ICON" img="hss_gui_pctool_msgbox.tga" x=6 y=5 width=30 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnRightClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool",local:50,"","10.0")
+	      OnToolTip='UIObject_Tooltip_DisplayTooltipString(<b>"    PC Tools Message    " </b> " <color=#EFD4AC><i>Rclick</i></c> = Print Message.","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")'  />
+
+	      <!-- Root Pane -->
+	      <UIPane name="PC_TOOLS_MSGBOX_ROOT_PANE" x=0 y=0 width=200 height=150 capturemouseclicks=false hidden=false >
+
+	      
+	      <UIText name="PC_TOOLS_MSGBOX_SCREEN_NAME" text="Message" uppercase=true x=0 y=10 width=200 height=21 align=center valign=middle fontfamily="NWN1_Dialog" style="4" color=C1AB89 />
+
+		    <UIListBox name="PC_TOOLS_MSGBOX_TEXT_LISTBOX" x=6 y=38 width=188 height=78 showpartialchild=false
+			  unequalcontrols=true scrollsegmentsize=13 hidescrollbarwhennotneeded=true update=true xPadding=2 yPadding=0 >
+
+			  <!--  -->
+			  <UIText name="PC_TOOLS_MSGBOX_TEXT" text="Candygram for Mr. Mongo" width=PARENT_WIDTH height=DYNAMIC align=left valign=top 
+				fontfamily="International" multiline="true" update=true
+				OnUpdate=UIObject_Misc_SetLocalVarString(local:50) />
+
+			  <UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>	
+		    </UIListBox>
+		    
+               	                    
+	      <UIButton name="PC_TOOLS_MSGBOX_YES_BUTTON" text="Yes" x=10 y=120 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool",local:1,local:100,"10.0") disabledcolor="white"
+	      OnLeftClick0=UIButton_Input_ScreenClose() >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_MSGBOX_NO_BUTTON" text="No" x=103 y=120 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool",local:2,local:100,"10.0") disabledcolor="white"
+	      OnLeftClick0=UIButton_Input_ScreenClose() >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>      	                             
+
+	      <!-- End Misc Custom Buttons pane 	                   	                   
+	      </UIPane>-->
+
+
+	      <!-- Main Frame -->
+	      <UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+		    bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+		    left="frame1_l.tga" right="frame1_r.tga" border=24 />		
+
+        <UIIcon name="PC_TOOLS_HLINE" img="hss_gui_top_bg.tga" x=6 y=3 width=188 height=34 /> 	           		
+
+
+	      <!-- Background Image -->	
+	      <UIIcon name="PCTOOLS_BACKGROUND" img="cloth_bg.tga" x=6 y=5 width=188 height=140 capturemouseclicks=true />	
+
+	
+	      <!-- End Root Pane -->
+	      </UIPane>
+
+
+
+

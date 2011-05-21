@@ -1,0 +1,5 @@
+AcadiusLost: 
+
+1/1/2007, documenting feat.2da merge from NWN2 1.11 (hotfix)
+
+0: default text speed to 0.0

@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<UIScene name="KEMO_ANIM" x=ALIGN_RIGHT y=ALIGN_CENTER width=432 height=400 fadeout="0.3" fadein="0.3" draggable=true
+	priority="SCENE_INGAME" scriptloadable=true backoutkey=true modal=false capturemouseclicks=false
+	idleexpiretime="0.1f" dragregion_x=5 dragregion_y=5 dragregion_width=432 dragregion_height=30
+/>
+
+	<UIText text="KEMO Animations" x=210 y=12 height=28 uppercase=true fontfamily="NWN2_Dialog" style="3" />
+
+	<!-- Nav Buttons -->
+	<UIButton name="CloseButton" x=10 y=8 style="STYLE_CLOSE_BUTTON" 
+		OnLeftClick=UIButton_Input_ScreenClose() />
+	<UIButton name="MinButton" x=35 y=10 style="STYLE_MINUS_BUTTON"
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_anim","15") />
+	<UIButton name="Sheet1Button" x=59 y=11 buttontype=radio groupid=3 groupmemberid=1 width=22 height=22
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_anim","16") style="CHAT_MODE_BUTTON" text="1" >
+        	<UIText align=center valign=middle fontfamily="Default" style="3" color=C1AB89 />	                  
+	</UIButton>
+	<UIButton name="Sheet2Button" x=81 y=11 buttontype=radio groupid=3 groupmemberid=2 width=22 height=22
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_anim","17") style="CHAT_MODE_BUTTON" text="2" >
+        	<UIText align=center valign=middle fontfamily="Default" style="3" color=C1AB89 />
+	</UIButton>
+	<UIButton name="ToolsButton" x=103 y=11 buttontype=radio groupid=3 groupmemberid=3 width=42 height=22
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_anim","18") style="CHAT_MODE_BUTTON" text="Tools" >
+        	<UIText align=center valign=middle fontfamily="Default" style="3" color=C1AB89 />
+	</UIButton>
+	<UIButton name="HelpButton" x=145 y=11 buttontype=radio groupid=3 groupmemberid=4 width=22 height=22
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_anim","20") style="CHAT_MODE_BUTTON" text="?" >
+        	<UIText align=center valign=middle fontfamily="Default" style="3" color=C1AB89 />
+	</UIButton>
+
+
+	<UIIcon name="DETAIL_TOP" img="title_large03.tga" x=9 y=8 width=414 height=40 ignoreevents="true" />
+
+
+	<!-- Animation Buttons -->
+	<UIGrid name="AnimButtonGrid1" x=8 y=40 rows=1 columns=5 xPadding=1 yPadding=1>
+		<UIButton name="Sitting" text="Sit" style="STYLE_SMALL_TAB" groupid=1 groupmemberid=1
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_anim","1") />
+		<UIButton name="Standing" text="Stand" style="STYLE_SMALL_TAB" groupid=1 groupmemberid=2
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_anim","2") />
+		<UIButton name="Crouching" text="Crouch" style="STYLE_SMALL_TAB" groupid=1 groupmemberid=3
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_anim","3") />
+		<UIButton name="Kneeling" text="Kneel" style="STYLE_SMALL_TAB" groupid=1 groupmemberid=4
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_anim","4") />
+	</UIGrid>
+	<UIGrid name="AnimButtonGrid2" x=8 y=40 rows=1 columns=5 xPadding=1 yPadding=1 hidden=true>
+		<UIButton name="Misc" text="Misc" style="STYLE_SMALL_TAB" groupid=2 groupmemberid=5
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_anim","10") />
+	</UIGrid>
+
+	<!-- Animations -->
+	<UIPane name="Sheet1Grids" x=8 y=75 hidden=true >
+	<UIGrid name="SittingGrid" rows=8 columns=1 xPadding=1 yPadding=1>
+		<UIButton name="Sitting3" text="  Both knees up, loose" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=4 groupmemberid=1
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","sit_3","90","0") >
+			<UIText x=5 align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Sitting4" text="  Cross-legged forward" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=4 groupmemberid=2
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","sit_4","90","0") >
+			<UIText x=5 align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Sitting5" text="  Both knees up" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=4 groupmemberid=3
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","sit_5","90","0") >
+			<UIText x=5 align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Sitting6" text="  On right side, left knee up" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=4 groupmemberid=4
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","sit_6","90","0") >
+			<UIText x=5 align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Sitting7" text="  On right side, left leg out" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=4 groupmemberid=5
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","sit_7","90","0") >
+			<UIText x=5 align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Sitting8" text="  Leaning forward along legs" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=4 groupmemberid=6
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","sit_8","90","0") >
+			<UIText x=5 align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Sitting91" text="  Right knee up, left leg out" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=4 groupmemberid=7
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","sit_91","90","0") >
+			<UIText x=5 align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Sitting92" text="  Right knee up, left leg under" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=4 groupmemberid=8
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","sit_92","60","0") >
+			<UIText x=5 align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+	</UIGrid>
+	<UIGrid name="StandingGrid" rows=7 columns=1 xPadding=1 yPadding=1>
+		<UIButton name="Standing1" text="  Doubled over" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=5 groupmemberid=1
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","stand_1","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Standing2" text="  Hands behind neck" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=5 groupmemberid=2
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","stand_2","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Standing3" text="  Hands down behind back" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=5 groupmemberid=3
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","stand_3","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Standing4" text="  Hands up behind back" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=5 groupmemberid=4
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","stand_4","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+<!--		<UIButton name="Standing5" text="  Legs spread, arms up" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=5 groupmemberid=5
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","stand_5","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton> -->
+		<UIButton name="Standing6" text="  Crossed arms, strong stance" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=5 groupmemberid=6
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","stand_6","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Standing7" text="  Hands on hips, strong stance" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=5 groupmemberid=6
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","stand_7","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+	</UIGrid>
+	<UIGrid name="CrouchingGrid" rows=12 columns=1 xPadding=1 yPadding=1>
+		<UIButton name="Crouching1" text="  Crouching, back up" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=6 groupmemberid=1
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","crouch_1","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Crouching2" text="  Crouching, body forward" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=6 groupmemberid=2
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","crouch_2","75","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Crouching3" text="  Crouching, right leg up, facing left" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=6 groupmemberid=3
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","crouch_3","90","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Crouching4" text="  Crouching, back up, hands outside" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=6 groupmemberid=4
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","crouch_4","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+	</UIGrid>
+	<UIGrid name="KneelingGrid" rows=6 columns=1 xPadding=1 yPadding=1>
+		<UIButton name="Kneeling1" text="  Kneeling, hands on legs" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=7 groupmemberid=1
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","kneel_1","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Kneeling2" text="  Kneeling, hands behind neck" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=7 groupmemberid=2
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","kneel_2","90","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Kneeling3" text="  Kneeling, hands behind back" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=7 groupmemberid=3
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","kneel_3","90","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Kneeling4" text="  Kneeling up, hands behind neck" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=7 groupmemberid=4
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","kneel_4","90","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Kneeling5" text="  Kneeling, hands outside" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=7 groupmemberid=5
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","kneel_5","90","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Kneeling6" text="  Kneeling, doubled over" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=7 groupmemberid=6
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","kneel_6","120","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+	</UIGrid>
+	<UIGrid name="SupineGrid" rows=6 columns=1 xPadding=1 yPadding=1>
+		<UIButton name="Supine1" text="  Knees up, arms over head" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=8 groupmemberid=1
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","back_1","120","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Supine2" text="  Knees down, arms over head" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=8 groupmemberid=2
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","back_2","135","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Supine3" text="  Legs up, arms over head" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=8 groupmemberid=3
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","back_3","120","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Supine4" text="  Legs up, hands on legs" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=8 groupmemberid=4
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","back_4","120","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Supine5" text="  Legs up, knees bent" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=8 groupmemberid=5
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","back_5","120","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Supine6" text="  Knees up close, hands on ankles" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=8 groupmemberid=6
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","back_6","120","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+	</UIGrid>
+	</UIPane>
+	<UIPane name="Sheet2Grids" x=8 y=75 hidden=true >
+	<UIGrid name="ProneGrid" rows=3 columns=1 xPadding=1 yPadding=1>
+		<UIButton name="Supine1" text="  Arms and legs in" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=9 groupmemberid=1
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","belly_1","120","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Supine2" text="  Arms in, legs spread" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=9 groupmemberid=2
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","belly_2","120","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Supine3" text="  Arms and legs attached" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=9 groupmemberid=3
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","belly_3","150","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+	</UIGrid>
+	<UIGrid name="AllFoursGrid" rows=4 columns=1 xPadding=1 yPadding=1>
+		<UIButton name="AllFours1" text="  All fours" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=10 groupmemberid=1
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","allfours_1","90","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="AllFours2" text="  On elbows" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=10 groupmemberid=2
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","allfours_2","105","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="AllFours3" text="  Arms stretched out" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=10 groupmemberid=3
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","allfours_3","120","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="AllFours4" text="  Head up" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=10 groupmemberid=4
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","allfours_4","90","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+	</UIGrid>
+	<UIGrid name="SuspendGrid" rows=6 columns=1 xPadding=1 yPadding=1>
+		<UIButton name="Suspend1" text="  Arms over head" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=11 groupmemberid=1
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","suspend_1","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Suspend2" text="  Reversed arms over head" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=11 groupmemberid=2
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","suspend_2","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Suspend3" text="  Horizontal, arms back, knees in" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=11 groupmemberid=3
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","suspend_3","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Suspend4" text="  Horizontal, arms back, legs down" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=11 groupmemberid=4
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","suspend_4","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Suspend5" text="  Spread-eagled" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=11 groupmemberid=5
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","suspend_5","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Suspend6" text="  Reversed spread-eagled" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=11 groupmemberid=6
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","suspend_6","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+	</UIGrid>
+	<UIGrid name="MasturbateGrid" rows=5 columns=1 xPadding=1 yPadding=1>
+		<UIButton name="Masturbate1" text="  On back" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=12 groupmemberid=1
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","mast_1","135","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Masturbate2" text="  On all fours, including tail" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=12 groupmemberid=2
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","mast_2","120","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Masturbate3" text="  On all fours, without tail" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=12 groupmemberid=3
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","mast_3","120","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Masturbate4" text="  On knees" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=12 groupmemberid=4
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","mast_4","90","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Masturbate5" text="  On back, fondling breasts" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=12 groupmemberid=5
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","mast_5","90","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+	</UIGrid>
+	<UIGrid name="MiscGrid" rows=11 columns=1 xPadding=1 yPadding=1>
+		<UIButton name="Misc1" text="  Deep nod" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=13 groupmemberid=1
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","bow_1","120","1") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Misc2" text="  Bow, palms together" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=13 groupmemberid=2
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","bow_2","120","1") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Misc3" text="  Bow, hand in fist" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=13 groupmemberid=3
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","bow_3","90","1") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Misc5" text="  Hand to forehead salute" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=13 groupmemberid=5
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","salute_1","120","1") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Misc6" text="  Fist to chest salute" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=13 groupmemberid=6
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","salute_2","120","1") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Misc7" text="  Modesty" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=13 groupmemberid=7
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","modest_1","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Misc8" text="  Crossed arms, relaxed" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=13 groupmemberid=8
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","stand_8","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+<!--		<UIButton name="Misc9" text="  Legs spread, hands to wall" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=13 groupmemberid=9
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","wall_1","60","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Misc10" text="  One leg up, hands to wall" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=13 groupmemberid=10
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","wall_2","90","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton>
+		<UIButton name="Misc11" text="  Legs spread, elbows to wall" style="STYLE_LIST_BUTTON"
+			width=415 height=20 groupid=13 groupmemberid=11
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_animation","wall_3","90","0") >
+			<UIText align=left valign=middle fontfamily="Default" color=C1AB89 />
+			<UIFrame state=base fill="bg_60_alpha.tga" />
+		</UIButton> -->
+	</UIGrid>
+	</UIPane>
+	<UIPane name="ToolPane" x=20 y=75 width=390 height=210 hidden=true >
+		<UIText text="Nudge + Anim" x=50 y=15 style="3" color=C1AB89 />
+		<UIButton name="ForwardAnim" text="Forward" x=30 y=30
+			style="STYLE_SMALL_BUTTON" groupid=14 groupmemberid=1
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_nudge","0","0.05f","1") />
+		<UIButton name="BackwardAnim" text="Backward" x=30 y=90
+			style="STYLE_SMALL_BUTTON" groupid=14 groupmemberid=2
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_nudge","1","0.05f","1") />
+		<UIButton name="LeftAnim" text="Left" x=32 y=60 width=60
+			style="STYLE_SMALL_BUTTON" groupid=14 groupmemberid=3
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_nudge","2","0.05f","1") />
+		<UIButton name="RightAnim" text="Right" x=92 y=60 width=60
+			style="STYLE_SMALL_BUTTON" groupid=14 groupmemberid=4
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_nudge","3","0.05f","1") />
+
+		<UIText text="Nudge Only" x=265 y=15 style="3" color=C1AB89 />
+		<UIButton name="ForwardAnim" text="Forward" x=240 y=30
+			style="STYLE_SMALL_BUTTON" groupid=15 groupmemberid=1
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_nudge","0","0.05f","0") />
+		<UIButton name="BackwardAnim" text="Backward" x=240 y=90
+			style="STYLE_SMALL_BUTTON" groupid=15 groupmemberid=2
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_nudge","1","0.05f","0") />
+		<UIButton name="LeftAnim" text="Left" x=242 y=60 width=60
+			style="STYLE_SMALL_BUTTON" groupid=15 groupmemberid=3
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_nudge","2","0.05f","0") />
+		<UIButton name="RightAnim" text="Right" x=302 y=60 width=60
+			style="STYLE_SMALL_BUTTON" groupid=15 groupmemberid=4
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_nudge","3","0.05f","0") />
+
+		<UIButton name="RepeatLoop" text="Repeat last animation loop" x=ALIGN_CENTER y=125
+			style="STYLE_MENU_BUTTON_SML" groupid=16 groupmemberid=1
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_repeat","0") />
+		<UIButton name="RepeatFull" text="Repeat last full animation" x=ALIGN_CENTER y=165
+			style="STYLE_MENU_BUTTON_SML" groupid=16 groupmemberid=2
+			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_repeat","1") />
+
+		<UIFrame state=base fill="bg_60_alpha.tga" />
+	</UIPane>
+
+	<UIPane name="HelpPane" x=20 y=75 width=390 height=240 hidden=true >
+		<UIText text="How to use:" x=50 y=15 style="3" />
+		<UIListBox name="INPUT_BIOBOX" x=50 y=30 width=320 height=200
+			showpartialchild=true unequalcontrols=true hidescrollbarwhennotneeded=true>
+			<UIText name="INPUT_BIOTEXT"
+text="Each tab contains a selection of animations and poses. Poses shaded tan are available for females only.
+At this time, only animations for human-like characters are supported. Gnomes, dwarves and half-orcs are not supported.
+
+It is suggested that you remove your cloak before going into a pose. Especially long cloaks cannot be positioned well, and will not appear correctly.
+
+There are two sheets of tabs, labeled 1 and 2, accessible at the top of the window. (The full version has a total of 10 tabs; the PG/PG-13 version has five: four on sheet 1, one on sheet 2.)
+
+The Tools button offers options to nudge your character a short distance in any direction, allowing for increased precision while positioning.
+
+Two additional Tools buttons will let you repeat the last animation you used, either partially (only the idle pose) or completely (including the transition).
+
+The X button closes the window. The - button will dock the window to a small bar that you may move anywhere on the screen.
+
+The full window and the dock are positioned independently: moving the dock will not also move the window, and vice versa.
+
+The full window may be dismissed with the Escape key. The dock will not be dismissed unless you click the X or switch to the full window."
+				allowspace="true"
+				width=PARENT_WIDTH height=DYNAMIC align=left valign=top
+				fontfamily="International" multiline="true" returnrestricted="false" editable="false" />
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>
+		</UIListBox>
+		<UIFrame state=base fill="bg_60_alpha.tga" />
+	</UIPane>
+
+	<!-- Background pieces -->
+	<!-- Background Image -->
+	<UIFrame name="FRAME_BG" x=0 y=0 height=81 width=PARENT_WIDTH 
+		topleft="frame1_TL.tga" topright="frame1_TR.tga" bottomleft="frame1_BL.tga"
+		bottomright="frame1_BR.tga" top="frame1_T.tga" bottom="frame1_B.tga"
+		left="frame1_L.tga" right="frame1_R.tga" 
+		border=32 />

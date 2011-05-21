@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8">
+<!-- XML code by: Qkrch 10/07 -->
+
+<UIScene name="SCREEN_DMFI_MNGRTOOL" 
+	x="5" y="60" width="420" height="500" capturemouseevents=true
+	draggable="true" dragregion_x=0 dragregion_y=0 dragregion_width=120 dragregion_height=30 idleexpiretime="1.0f" scriptloadable="true" OnCreate=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","READ_MNGR")
+	priority="SCENE_SCRIPT"/>
+
+	<UIText name="TITLE" text="DMFI MANAGER TOOL" x=90 y=8 width=300 height=27 align=left valign=middle fontfamily="Title_Font" style="2"/>
+
+	<UIText name="targetname" text="1.-" x=12 y=80 align=left
+	fontfamily="Special_Font_2" style=2 prototype=true/>
+
+	<UIButton name="BUT_MNGR_1" buttontype=radio x=30 y=70 text="Empty" width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=1 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_1") >
+
+	</UIButton>
+
+
+	<UIText name="targetname" text="2.-" x=12 y=110/>
+
+	<UIButton name="BUT_MNGR_2" buttontype=radio x=30 y=100 text="Empty" width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=2 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_2") >
+	</UIButton>
+
+	<UIText name="targetname" text="3.-" x=12 y=140 />
+	<UIButton name="BUT_MNGR_3" buttontype=radio x=30 y=130 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=3 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_3") >
+	</UIButton>
+
+	<UIText name="targetname" text="4.-" x=12 y=170 />
+	<UIButton name="BUT_MNGR_4" buttontype=radio x=30 y=160 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=4 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_4") >
+	</UIButton>
+
+	<UIText name="targetname" text="5.-" x=12 y=200 />
+	<UIButton name="BUT_MNGR_5" buttontype=radio x=30 y=190 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=5 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_5") >
+	</UIButton>
+
+	<UIText name="targetname" text="6.-" x=12 y=230 />
+	<UIButton name="BUT_MNGR_6" buttontype=radio x=30 y=220 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=6 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_6") >
+	</UIButton>
+
+	<UIText name="targetname" text="7.-" x=12 y=260 />
+	<UIButton name="BUT_MNGR_7" buttontype=radio x=30 y=250 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=7 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_7") >
+	</UIButton>
+
+	<UIText name="targetname" text="8.-" x=12 y=290 />
+	<UIButton name="BUT_MNGR_8" buttontype=radio x=30 y=280 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=8 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_8") >
+	</UIButton>
+
+	<UIText name="targetname" text="9.-" x=12 y=320 />
+	<UIButton name="BUT_MNGR_9" buttontype=radio x=30 y=310 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=9 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_9") >
+	</UIButton>
+
+	<UIText name="targetname" text="10.-" x=12 y=350 />
+	<UIButton name="BUT_MNGR_10" buttontype=radio x=30 y=340 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=10 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_10") >
+	</UIButton>
+
+	<UIText name="targetname" text="11.-" x=212 y=80 />
+	<UIButton name="BUT_MNGR_11" buttontype=radio x=230 y=70 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=11 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_11") >
+	</UIButton>
+
+	<UIText name="targetname" text="12.-" x=212 y=110 />
+	<UIButton name="BUT_MNGR_12" buttontype=radio x=230 y=100 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=12 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_12") >
+	</UIButton>
+
+	<UIText name="targetname" text="13.-" x=212 y=140 />
+	<UIButton name="BUT_MNGR_13" buttontype=radio x=230 y=130 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=13 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_13") >
+	</UIButton>
+
+	<UIText name="targetname" text="14.-" x=212 y=170 />
+	<UIButton name="BUT_MNGR_14" buttontype=radio x=230 y=160 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=14 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_14") >
+	</UIButton>
+
+	<UIText name="targetname" text="15.-" x=212 y=200 />
+	<UIButton name="BUT_MNGR_15" buttontype=radio x=230 y=190 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=15 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_15") >
+	</UIButton>
+
+	<UIText name="targetname" text="16.-" x=212 y=230 />
+	<UIButton name="BUT_MNGR_16" buttontype=radio x=230 y=220 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=16 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_16") >
+	</UIButton>
+
+	<UIText name="targetname" text="17.-" x=212 y=260 />
+	<UIButton name="BUT_MNGR_17" buttontype=radio x=230 y=250 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=17 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_17") >
+	</UIButton>
+
+	<UIText name="targetname" text="18.-" x=212 y=290 />
+	<UIButton name="BUT_MNGR_18" buttontype=radio x=230 y=280 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=18 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_18") >
+	</UIButton>
+
+	<UIText name="targetname" text="19.-" x=212 y=320 />
+	<UIButton name="BUT_MNGR_19" buttontype=radio x=230 y=310 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=19 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_19") >
+	</UIButton>
+
+	<UIText name="targetname" text="20.-" x=212 y=350 />
+	<UIButton name="BUT_MNGR_20" buttontype=radio x=230 y=340 text="Empty"  width=180 height=30 style="MP_BROWSER_TAB_TITLE" groupid=1                 groupmemberid=20 disabledcolor="white"
+		OnSelected=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","SLOT_20") >
+	</UIButton>
+
+
+	<UIButton name="BUT_STORE_OBJ"  x=70 y=400 text="Store"  width=120 height=30 style="STYLE_MENU_BUTTON" disabledcolor="white"
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_mngrtool","BUT_STORE") >
+	</UIButton>
+
+	<UIButton name="BUT_PICK_OBJ"  x=240 y=400 text="Pick Object"  width=120 height=30 style="STYLE_MENU_BUTTON" disabledcolor="white"
+		OnLeftClick=UIObject_Input_ActionTargetScript("",51,53,-1,"true","gui_dmfi_mngrtool","BUT_PICKUP","target:object","target:x","target:y","target:z") >
+	</UIButton>
+
+
+           <UIButton name="CloseButton" x=380 y=10 style="STYLE_CLOSE_BUTTON" 
+	    OnLeftClick=UIButton_Input_ScreenClose()>
+
+	   </UIButton>
+
+
+<UIFrame x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" border="32"
+	topleft="frame1_tl.tga" 		topright="frame1_tr.tga"
+	bottomleft="frame1_bl.tga"		bottomright="frame1_BR.tga"
+	top="frame1_t.tga"			bottom="frame1_b.tga"
+	left="frame1_l.tga"			right="frame1_r.tga" />		
+	
+<UIFrame x="8" y="8" width="405" height="485" fillstyle="tile" fill="frame_main_bg.tga"/>

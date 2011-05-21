@@ -1,0 +1,70 @@
+//::///////////////////////////////////////////////
+//:: Expeditious retreat 
+//:: x0_s0_exretreat.nss
+//:: Copyright (c) 2002 Bioware Corp.
+//:://////////////////////////////////////////////
+/*
+ Increases movement rate to the max, allowing
+ the spell-caster to flee.
+*/
+//:://////////////////////////////////////////////
+//:: Created By: Brent Knowles
+//:: Created On: September 6, 2002
+//:://////////////////////////////////////////////
+//:: Last Update By: Andrew Nobbs May 01, 2003
+
+
+// JLR - OEI 08/23/05 -- Metamagic changes
+
+// Modified by Riotnrrd for ALFA 1/7/2009
+// Changed to 99% increase in speed
+// Increased duration to 1 min / level per 3.5 canon
+//  2009-01-20 AcadiusLost: shifted to 1 minute + 1 rnd/level
+
+#include "nwn2_inc_spells"
+
+#include "NW_I0_SPELLS"
+#include "x2_inc_spellhook" 
+
+void main()
+{
+
+/* 
+  Spellcast Hook Code 
+  Added 2003-06-20 by Georg
+  If you want to make changes to all spells,
+  check x2_inc_spellhook.nss to find out more
+  
+*/
+
+    if (!X2PreSpellCastCode())
+    {
+	// If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell
+        return;
+    }
+
+// End of Spell Cast Hook
+
+
+	//Declare major variables
+    object oTarget = GetSpellTargetObject();
+
+    if (GetHasSpellEffect(SPELL_HASTE, oTarget) == TRUE)
+    {
+        return ; // does nothing if caster already has haste
+    }
+    //effect eDur = EffectVisualEffect(VFX_DUR_CESSATE_POSITIVE);	// NWN1 VFX
+    effect eDur = EffectVisualEffect( VFX_DUR_SPELL_EXPEDITIOUS_RETREAT );	// NWN2 VFX
+    effect eFast = EffectMovementSpeedIncrease(99);
+    effect eLink = EffectLinkEffects(eFast, eDur);
+    
+    float fDuration = TurnsToSeconds(1)+RoundsToSeconds(GetCasterLevel(OBJECT_SELF));
+    fDuration = ApplyMetamagicDurationMods(fDuration);
+    int nDurType = ApplyMetamagicDurationTypeMods(DURATION_TYPE_TEMPORARY);
+
+    //Fire cast spell at event for the specified target
+    SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, 455, FALSE));
+
+	//Apply the VFX impact and effects
+    ApplyEffectToObject(nDurType, eLink, oTarget, fDuration);
+}

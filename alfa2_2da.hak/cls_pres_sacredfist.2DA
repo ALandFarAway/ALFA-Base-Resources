@@ -1,0 +1,11 @@
+2DA V2.0
+
+  LABEL               ReqType  ReqParam1          ReqParam2 
+0 BAB                 BAB      4                  ****      
+1 Divine              DIVSPELL 1                  ****      
+2 Knowledge(religion) SKILL    43                 8         
+3 CombatCasting       FEAT     7                  ****      
+4 ImpStrike           FEAT     21                 ****      
+5 StunFist            FEAT     39                 ****      
+6 ScriptVar           VAR      nw_AllowSacredFist 0         
+7 PrC_Validation      FEAT     3500               ****      

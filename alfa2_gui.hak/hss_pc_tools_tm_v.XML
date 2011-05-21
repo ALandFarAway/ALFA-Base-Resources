@@ -1,0 +1,894 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<!-- Neverwinter Nights 2, PC Tools Text Macro Pad -->
+<!-- Copyright (c) 2007, Heed 
+
+v0.9
+
+-->
+
+ 
+<UIScene name="SCREEN_HSS_PC_TOOLS_TM_V" x=ALIGN_CENTER y=ALIGN_CENTER modal=false width=107
+        OnAdd=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","10","1.0")
+        OnCreate=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","7","1.0")
+        height=243 capturemouseclicks=false fadeout="0.0" fadein="0.0" 
+        draggable=true dragregion_x=6 dragregion_y=5 dragregion_width=24 dragregion_height=24
+        priority="SCENE_SCRIPT" scriptloadable=true />
+
+
+	      <UIIcon name="PC_TOOLS_TM_ICON" img="hss_gui_pctool_macro.tga" x=6 y=5 width=30 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnToolTip='UIObject_Tooltip_DisplayTooltipString(<b>" PC Tools Macros" </b> " <color=#EFD4AC><i>Rclick</i></c> = Minimize." " <color=#EFD4AC><i>Lclick</i></c> = Restore.","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")' 
+	      OnLeftClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_ROOT_PANE")
+	      OnRightClick=UIButton_Input_HideObject("PC_TOOLS_TM_V_ROOT_PANE") />
+
+	      		    
+	      <!-- Root Pane -->
+	      <UIPane name="PC_TOOLS_TM_V_ROOT_PANE" x=0 y=0 width=107 height=243 capturemouseclicks=false hidden=true >
+
+		    <UIGrid name="PC_TOOLS_TM_PAGE_GRID" rows=1 columns=2 x=44 y=7 xPadding=1 yPadding=0 >
+
+			  <UIButton name="PC_TOOLS_TM_PAGE_01" buttontype=radio groupid=75 groupmemberid=1 width=13 height=13 
+				OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","'1'","10","8.0") style="CHAT_MODE_BUTTON" text="1" >
+        <UIText align=center valign=middle fontfamily="Default" style="2" color=C1AB89 />	                  
+	      </UIButton>				 
+
+			  <UIButton name="PC_TOOLS_TM_PAGE_02" buttontype=radio groupid=75 groupmemberid=2 width=13 height=13
+				OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","'2'","10","8.0") style="CHAT_MODE_BUTTON" text="2" >
+        <UIText align=center valign=middle fontfamily="Default" style="2" color=C1AB89 />	                  
+	      </UIButton>
+	      
+		    </UIGrid>
+
+		    <UIGrid name="PC_TOOLS_TM_PAGE_GRID2" rows=1 columns=3 x=37 y=20 xPadding=1 yPadding=0 >
+
+			  <UIButton name="PC_TOOLS_TM_PAGE_03" buttontype="radio" groupid="75" groupmemberid="3" width=13 height=13
+				OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","'3'","10","8.0") style="CHAT_MODE_BUTTON" text="3" >
+        <UIText align=center valign=middle fontfamily="Default" style="2" color=C1AB89 />	                  
+	      </UIButton>
+	      
+			  <UIButton name="PC_TOOLS_TM_PAGE_04" buttontype="radio" groupid="75" groupmemberid="4" width=13 height=13
+				OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","'4'","10","8.0") style="CHAT_MODE_BUTTON" text="4" >
+        <UIText align=center valign=middle fontfamily="Default" style="2" color=C1AB89 />	                  
+	      </UIButton>
+	      
+			  <UIButton name="PC_TOOLS_TM_PAGE_05" buttontype="radio" groupid="75" groupmemberid="5" width=13 height=13
+				OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","'5'","10","8.0") style="CHAT_MODE_BUTTON" text="5" >
+        <UIText align=center valign=middle fontfamily="Default" style="2" color=C1AB89 />	                  
+	      </UIButton>	      
+	      				
+		    </UIGrid>
+		    		    
+	      <!-- Close Button -->
+	      <UIButton name="CloseButton" x=81 y=6 style="STYLE_CLOSE_BUTTON" width=20 height=20
+		    OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","5","7.0")	       
+		    OnLeftClick1=UIButton_Input_ScreenClose() >
+	      </UIButton>
+
+	      <!-- Background Image Top -->
+	      <UIIcon name="PCTOOLS_TM_V_TOP" img="hss_gui_top_v_bg.tga" x=8 y=3 width=92 height=34 fillstyle=tile />
+
+	      <!-- Setup Pane -->
+	      <UIPane name="PC_TOOLS_TM_V_SETUP_PANE" x=0 y=30 width=107 height=206 capturemouseclicks=true hidden=true
+	      OnMouseLeave=UIObject_Input_SetFocus("SCREEN_HSS_PC_TOOLS_TM_V")
+	      OnMouseEnter=UIObject_Input_SetFocus("PC_TOOLS_TM_INPUT_LABEL") >
+
+	      <UIText name="PC_TOOLS_TM_V_LABEL" text="Macro Label" buttonoverlay=true uppercase=false x=0 y=5 width=107 height=16 align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	
+
+	      <UIIcon name="PCTOOLS_TM_V_TOP" img="hss_gui_top_v_bg.tga" x=7 y=5 width=93 height=16 />
+
+
+			  <!--  -->
+			  <UIText name="PC_TOOLS_TM_INPUT_LABEL" x=8 y=24 allowspace="true" width=PARENT_WIDTH height=16 align=left valign=top 
+				fontfamily="International" multiline="false" returnrestricted="true" editable=true selectable=true maxlength=12	update=true 
+				OnUpdate=UIObject_Misc_SetLocalVarString(local:1) nextcontrol="PC_TOOLS_TM_V_INPUT_TEXT" />
+
+	      <UIButton name="PC_TOOLS_TM_V_LABEL_APPLY_BUTTON" text="Apply" x=34 y=42 width=40 height=16 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool",local:1,"100","8.0",local:100) disabledcolor="white"
+	      OnLeftClick0=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	      
+		    <!-- Input Frame 	-->
+		    <UIFrame x=6 y=22 width=94 height=16 topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+			  bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+			  left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+			  border=5 />	
+
+	      <UIText name="PC_TOOLS_TM_V_TEXT" text="Macro Text" buttonoverlay=true uppercase=false x=0 y=61 width=107 height=16 align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	
+
+	      <UIIcon name="PCTOOLS_TM_V_TOP" img="hss_gui_top_v_bg.tga" x=7 y=61 width=93 height=16 />
+
+
+		    <UIGrid name="PC_TOOLS_TM_CHAT_GRID" rows=1 columns=3 x=27 y=79 xPadding=0 yPadding=0 >
+
+			  <UIButton name="LOCAL SAY" buttontype=radio groupid=1 groupmemberid=1 
+				OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","'1'","110","8.0",local:100) style="CHAT_MODE_BUTTON"  text="L"
+				OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(184736,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+        <UIText align=center valign=middle fontfamily="Default" style="2" color=C1AB89 />	                  
+	      </UIButton>
+	      
+			  <UIButton name="WHISPER" buttontype=radio groupid=1 groupmemberid=2 
+				OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","'3'","110","8.0",local:100) style="CHAT_MODE_BUTTON"  text="W"
+				OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(184737,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+        <UIText align=center valign=middle fontfamily="Default" style="2" color=C1AB89 />	                  
+	      </UIButton>
+	      
+			  <UIButton name="PARTY" buttontype="radio" groupid="1" groupmemberid="3"
+				OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","'6'","110","8.0",local:100) style="CHAT_MODE_BUTTON"  text="P"
+				OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(184738,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+        <UIText align=center valign=middle fontfamily="Default" style="2" color=C1AB89 />	                  
+	      </UIButton>
+	      
+		    </UIGrid>
+      			  				
+		    <UIListBox name="PC_TOOLS_TM_V_INPUT_TEXT_LISTBOX" x=8 y=101 width=92 height=65 showpartialchild=false
+			  unequalcontrols=true scrollsegmentsize=13 hidescrollbarwhennotneeded=false update=true xPadding=0 yPadding=0
+			  OnMouseEnter=UIListBox_OnResize_ScrollToBottom() >
+
+			  <!--  -->
+			  <UIText name="PC_TOOLS_TM_V_INPUT_TEXT" allowspace="true" width=PARENT_WIDTH height=DYNAMIC align=left valign=top 
+				fontfamily="International" multiline="true" returnrestricted="true" editable=true selectable=true maxlength=130	update=true
+				OnUpdate=UIObject_Misc_SetLocalVarString(local:2) nextcontrol="PC_TOOLS_TM_INPUT_LABEL" />
+
+			  <UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>	
+		    </UIListBox>
+		    
+		    <!-- Input Frame -->
+		    <UIFrame x=6 y=99 width=95 height=70 topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+			  bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+			  left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+			  border=5 />		    	
+
+        <UIButton name="PC_TOOLS_TM_V_TEXT_APPLY_BUTTON" text="Apply" x=34 y=173 width=40 height=16 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool",local:2,"101","8.0",local:100) disabledcolor="white"
+	      OnLeftClick0=UIObject_Input_ClearTextfield("PC_TOOLS_TM_V_INPUT_TEXT") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	      
+	      <UIButton name="PC_TOOLS_TM_V_SETUP_EXIT" text="Exit" x=7 y=191 width=93 height=16 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+	      OnLeftClick=UIButton_Input_HideObject("PC_TOOLS_TM_V_SETUP_PANE") disabledcolor="white"
+	      OnLeftClick0=UIObject_Input_ClearTextfield("PC_TOOLS_TM_V_INPUT_TEXT")
+	      OnLeftClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL")
+	      OnLeftClick2=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","103","8.0")
+	      OnLeftClick3=UIScene_OnAdd_SetRadioControl(1,1) >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+			  <UIFrame state=up		fill="hss_gui_top_v_bg.tga" />
+			  <UIFrame state=down		fill="hss_gui_top_v_bg.tga" />
+			  <UIFrame state=hilited		fill="hss_gui_top_v_bg.tga" />
+			  <UIFrame state=focused		fill="hss_gui_top_v_bg.tga" />
+			  <UIFrame state=hifocus		fill="hss_gui_top_v_bg.tga" />
+			  <UIFrame state=disabled		fill="hss_gui_top_v_bg.tga" />
+			  <UIFrame state=header		fill="hss_gui_top_v_bg.tga" />
+			  <UIFrame state=hiheader		fill="hss_gui_top_v_bg.tga" />
+			  <UIFrame state=downheader	fill="hss_gui_top_v_bg.tga" />
+	      </UIButton>
+
+	      <!-- Background Image -->	
+	      <UIIcon name="PCTOOLS_BACKGROUND" img="cloth_bg.tga" x=6 y=8 width=94 height=228 capturemouseclicks=true />	
+
+	      <!-- End Setup Pane -->
+	      </UIPane>
+
+	      <!-- Page 1 Pane -->
+	      <UIPane name="PC_TOOLS_TM_V_PAGE_PANE_01" x=0 y=0 width=107 height=243 capturemouseclicks=false hidden=false >
+	      
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_01" text="Macro 1" x=10 y=38 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_01","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_01")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_02" text="Macro 2" x=10 y=60 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_02","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_02")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>      
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_03" text="Macro 3" x=10 y=82 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_03","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_03")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton> 	
+	                  
+        <UIButton name="PC_TOOLS_MACRO_BUTTON_04" text="Macro 4" x=10 y=104 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_04","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_04")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton> 
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_05" text="Macro 5" x=10 y=126 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_05","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_05")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>        
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_06" text="Macro 6" x=10 y=148 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_06","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_06")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>     	                       	                             
+
+        <UIButton name="PC_TOOLS_MACRO_BUTTON_07" text="Macro 7" x=10 y=170 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_07","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_07")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton> 
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_08" text="Macro 8" x=10 y=192 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_08","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_08")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>        
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_09" text="Macro 9" x=10 y=214 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_09","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_09")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>     	                       	                             
+
+
+	      <!-- Main Frame -->
+	      <UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+		    bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+		    left="frame1_l.tga" right="frame1_r.tga" border=24 />		
+
+	      <!-- Background Image -->	
+	      <UIIcon name="PCTOOLS_BACKGROUND" img="cloth_bg.tga" x=4 y=4 width=98 height=228 capturemouseclicks=true />	
+
+	      <!-- End Page 1 Pane -->
+	      </UIPane>
+
+	      <!-- Page 2 Pane -->
+	      <UIPane name="PC_TOOLS_TM_V_PAGE_PANE_02" x=0 y=0 width=107 height=243 capturemouseclicks=false hidden=true >
+	      
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_10" text="Macro 10" x=10 y=38 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_10","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_10")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_11" text="Macro 11" x=10 y=60 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_11","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_11")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>      
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_12" text="Macro 12" x=10 y=82 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_12","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_12")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton> 	
+	                  
+        <UIButton name="PC_TOOLS_MACRO_BUTTON_13" text="Macro 13" x=10 y=104 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_13","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_13")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton> 
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_14" text="Macro 14" x=10 y=126 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_14","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_14")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>        
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_15" text="Macro 15" x=10 y=148 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_15","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_15")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>     	                       	                             
+
+        <UIButton name="PC_TOOLS_MACRO_BUTTON_16" text="Macro 16" x=10 y=170 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_16","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_16")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton> 
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_17" text="Macro 17" x=10 y=192 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_17","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_17")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>        
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_18" text="Macro 18" x=10 y=214 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_18","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_18")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>     	                       	                             
+
+
+	      <!-- Main Frame -->
+	      <UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+		    bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+		    left="frame1_l.tga" right="frame1_r.tga" border=24 />		
+
+	      <!-- Background Image -->	
+	      <UIIcon name="PCTOOLS_BACKGROUND" img="cloth_bg.tga" x=4 y=4 width=98 height=228 capturemouseclicks=true />	
+
+	      <!-- End Page 2 Pane -->
+	      </UIPane>
+	
+	      <!-- Page 3 Pane -->
+	      <UIPane name="PC_TOOLS_TM_V_PAGE_PANE_03" x=0 y=0 width=107 height=243 capturemouseclicks=false hidden=true >
+	      
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_19" text="Macro 19" x=10 y=38 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_19","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_19")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_20" text="Macro 20" x=10 y=60 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_20","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_20")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>      
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_21" text="Macro 21" x=10 y=82 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_21","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_21")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton> 	
+	                  
+        <UIButton name="PC_TOOLS_MACRO_BUTTON_22" text="Macro 22" x=10 y=104 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_22","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_22")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton> 
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_23" text="Macro 23" x=10 y=126 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_23","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_23")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>        
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_24" text="Macro 24" x=10 y=148 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_24","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_24")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>     	                       	                             
+
+        <UIButton name="PC_TOOLS_MACRO_BUTTON_25" text="Macro 25" x=10 y=170 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_25","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_25")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton> 
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_26" text="Macro 26" x=10 y=192 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_26","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_26")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>        
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_27" text="Macro 27" x=10 y=214 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_27","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_27")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>     	                       	                             
+
+
+	      <!-- Main Frame -->
+	      <UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+		    bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+		    left="frame1_l.tga" right="frame1_r.tga" border=24 />		
+
+	      <!-- Background Image -->	
+	      <UIIcon name="PCTOOLS_BACKGROUND" img="cloth_bg.tga" x=4 y=4 width=98 height=228 capturemouseclicks=true />	
+
+	      <!-- End Page 3 Pane -->
+	      </UIPane>
+	
+	      <!-- Page 4 Pane -->
+	      <UIPane name="PC_TOOLS_TM_V_PAGE_PANE_04" x=0 y=0 width=107 height=243 capturemouseclicks=false hidden=true >
+	      
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_28" text="Macro 28" x=10 y=38 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_28","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_28")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_29" text="Macro 29" x=10 y=60 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_29","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_29")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>      
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_30" text="Macro 30" x=10 y=82 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_30","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_30")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton> 	
+	                  
+        <UIButton name="PC_TOOLS_MACRO_BUTTON_31" text="Macro 31" x=10 y=104 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_31","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_31")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton> 
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_32" text="Macro 32" x=10 y=126 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_32","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_32")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>        
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_33" text="Macro 33" x=10 y=148 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_33","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_33")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>     	                       	                             
+
+        <UIButton name="PC_TOOLS_MACRO_BUTTON_34" text="Macro 34" x=10 y=170 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_34","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_34")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton> 
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_35" text="Macro 35" x=10 y=192 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_35","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_35")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>        
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_36" text="Macro 36" x=10 y=214 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_36","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_36")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>     	                       	                             
+
+
+	      <!-- Main Frame -->
+	      <UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+		    bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+		    left="frame1_l.tga" right="frame1_r.tga" border=24 />		
+
+	      <!-- Background Image -->	
+	      <UIIcon name="PCTOOLS_BACKGROUND" img="cloth_bg.tga" x=4 y=4 width=98 height=228 capturemouseclicks=true />	
+
+	      <!-- End Page 4 Pane -->
+	      </UIPane>
+
+	      <!-- Page 5 Pane -->
+	      <UIPane name="PC_TOOLS_TM_V_PAGE_PANE_05" x=0 y=0 width=107 height=243 capturemouseclicks=false hidden=true >
+	      
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_37" text="Macro 37" x=10 y=38 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_37","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_37")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_38" text="Macro 38" x=10 y=60 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_38","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_38")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>      
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_39" text="Macro 39" x=10 y=82 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_39","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_39")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton> 	
+	                  
+        <UIButton name="PC_TOOLS_MACRO_BUTTON_40" text="Macro 40" x=10 y=104 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_40","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_40")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton> 
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_41" text="Macro 41" x=10 y=126 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_41","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_41")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>        
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_42" text="Macro 42" x=10 y=148 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_42","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_42")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>     	                       	                             
+
+        <UIButton name="PC_TOOLS_MACRO_BUTTON_43" text="Macro 43" x=10 y=170 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_43","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_43")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton> 
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_44" text="Macro 44" x=10 y=192 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_44","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_44")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>        
+	                  
+	      <UIButton name="PC_TOOLS_MACRO_BUTTON_45" text="Macro 45" x=10 y=214 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","PC_TOOLS_MACRO_BUTTON_45","1","8.0") disabledcolor="white"
+	      OnRightClick=UIButton_Input_ShowObject("PC_TOOLS_TM_V_SETUP_PANE")
+	      OnRightClick0=UIObject_Misc_SetLocalVarString(local:100,"PC_TOOLS_MACRO_BUTTON_45")
+	      OnRightClick1=UIObject_Input_ClearTextfield("PC_TOOLS_TM_INPUT_LABEL") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>     	                       	                             
+
+
+	      <!-- Main Frame -->
+	      <UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+		    bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+		    left="frame1_l.tga" right="frame1_r.tga" border=24 />		
+
+	      <!-- Background Image -->	
+	      <UIIcon name="PCTOOLS_BACKGROUND" img="cloth_bg.tga" x=4 y=4 width=98 height=228 capturemouseclicks=true />	
+
+	      <!-- End Page 5 Pane -->
+	      </UIPane>
+	      	
+	      <!-- End Root Pane -->
+	      </UIPane>
+
+
+
+

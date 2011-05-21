@@ -1,0 +1,8 @@
+2DA V2.0
+
+  LABEL             ReqType ReqParam1     ReqParam2 
+0 knowledge(arcana) SKILL   7             8         
+1 BardOr            CLASSOR 1             ****      
+2 SorcOr            CLASSOR 9             ****      
+3 ScriptVar         VAR     X1_AllowDrDis 0         
+4 PrC_Validation    FEAT    3500          ****      

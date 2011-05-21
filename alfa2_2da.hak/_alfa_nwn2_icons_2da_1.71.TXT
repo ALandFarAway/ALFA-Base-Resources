@@ -1,0 +1,15 @@
+AcadiusLost: 
+
+7/2/2008, documenting nwn2_icons.2da merge from NWN2 1.12 final with Hatsplosion pack for extra custom icons.
+11/25/2008, merged with 1.21.1549
+2/15/2009: Merged with SoZ 1.22 Beta
+3/13/2010: Added icons from Amraphael's Handheld Light Sources pack
+
+
+Padding to row 2800, should insure well against expansion content.
+
+
+2824-2830: Hatsplosion icons (halfplate helms 50-52, cloth helms 50-53)
+
+3060-3063: Amraphael's Handheld Light Sources icons.
+

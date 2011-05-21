@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="NWN2UI"?>
+
+<!-- scene setup -->
+
+<UIScene name ="KEMO_BIO_DISPLAY" x=ALIGN_CENTER y=ALIGN_CENTER width=556 height=512 modal=false fadeout="0.3" fadein = "0.3" draggable=true backoutkey=true idleexpiretime="1.0f" scriptloadable=true priority="SCENE_SCRIPT"
+dragregion_x=0 dragregion_y=0 dragregion_width=300 dragregion_height=30 />
+
+<!-- close button -->
+
+<UIButton name="CloseButton" x=0 y=0 style="STYLE_CLOSE_BUTTON"
+	OnLeftClick=UIButton_Input_ScreenClose()
+	/>
+<!-- <UIButton name="PortraitButton" x=275 y=5 style="SQUARE_CHECKBOX_BUTTON"
+	OnSelected=UIObject_Misc_ExecuteServerScript("gui_kemo_bio","portrait","displayyes","")
+	OnUnselected=UIObject_Misc_ExecuteServerScript("gui_kemo_bio","portrait","displayno","")
+	/> -->
+
+
+<UIPane name="MainBox" x=0 y=0 width=300 height=512 capturemouseclicks=false >
+
+<!-- bio listbox -->
+<UIText name="bioboxtxt" text="KEMO Character Biography" y=4 fontfamily="Body_Font" style=2 width="PARENT_WIDTH" height="DYNAMIC" color="CCCAAA" sizetofit="true" align="center" />
+
+<UIPane name="INPUT_BIO" x=ALIGN_CENTER y=30 width=275 height=440>
+
+	<UIListBox name="INPUT_BIOBOX" x=5 y=5 width=265 height=420 showpartialchild=true unequalcontrols=true hidescrollbarwhennotneeded=true>
+
+		<UIText name="INPUT_BIOTEXT" text="Enter the biography here." allowspace="true" width=PARENT_WIDTH height=DYNAMIC align=left valign=top fontfamily="International" multiline="true" returnrestricted="false" editable="false" />
+		<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>
+	</UIListBox>
+
+	<UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga" left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border=5 />
+
+</UIPane>
+
+	<UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga" left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border=5 />
+</UIPane>
+
+	<UIFrame name="KEMO_PORTRAIT" x=300 y=0 width=256 height=512 topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga" left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="center" border=5 />

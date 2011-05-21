@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<!-- Neverwinter Nights 2, PC Tools Custom Button Vertical Floater -->
+<!-- Copyright (c) 2007, Heed 
+
+v0.9
+
+-->
+
+ 
+<UIScene name="SCREEN_HSS_PC_TOOLS_CB_V" x=ALIGN_CENTER y=ALIGN_CENTER modal=false width=107
+        OnAdd=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","9","1.0")
+        OnCreate=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","6","1.0")
+        height=243 capturemouseclicks=false fadeout="0.0" fadein="0.0" 
+        draggable=true dragregion_x=6 dragregion_y=5 dragregion_width=24 dragregion_height=24
+        priority="SCENE_SCRIPT" scriptloadable=true />
+
+
+	      <UIIcon name="PC_TOOLS_ICON" img="hss_gui_pctool_cbutt.tga" x=6 y=5 width=30 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnToolTip='UIObject_Tooltip_DisplayTooltipString(<b>" PC Tools Buttons "</b> " <color=#EFD4AC><i>Rclick</i></c> = Minimize." " <color=#EFD4AC><i>Lclick</i></c> = Restore.","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")' 
+	      OnLeftClick=UIButton_Input_ShowObject("PC_TOOLS_CB_V_ROOT_PANE")
+	      OnRightClick=UIButton_Input_HideObject("PC_TOOLS_CB_V_ROOT_PANE") />
+
+	      		    
+	      <!-- Root Pane -->
+	      <UIPane name="PC_TOOLS_CB_V_ROOT_PANE" x=0 y=0 width=107 height=243 capturemouseclicks=false hidden=true >
+
+		    <UIGrid name="PC_TOOLS_CB_PAGE_GRID" rows=2 columns=2 x=41 y=7 xPadding=2 yPadding=0 >
+
+			  <UIButton name="PC_TOOLS_CB_PAGE_01" buttontype=radio groupid=75 groupmemberid=1 width=13 height=13 
+				OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","'2'","96","6.0") style="CHAT_MODE_BUTTON" text="1" >
+        <UIText align=center valign=middle fontfamily="Default" style="2" color=C1AB89 />	                  
+	      </UIButton>				 
+
+			  <UIButton name="PC_TOOLS_CB_PAGE_02" buttontype=radio groupid=75 groupmemberid=2 width=13 height=13
+				OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","'2'","97","6.0") style="CHAT_MODE_BUTTON" text="2" >
+        <UIText align=center valign=middle fontfamily="Default" style="2" color=C1AB89 />	                  
+	      </UIButton>
+	      
+			  <UIButton name="PC_TOOLS_CB_PAGE_03" buttontype="radio" groupid="75" groupmemberid="3" width=13 height=13
+				OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","'2'","98","6.0") style="CHAT_MODE_BUTTON" text="3" >
+        <UIText align=center valign=middle fontfamily="Default" style="2" color=C1AB89 />	                  
+	      </UIButton>
+	      
+			  <UIButton name="PC_TOOLS_CB_PAGE_04" buttontype="radio" groupid="75" groupmemberid="4" width=13 height=13
+				OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","'2'","99","6.0") style="CHAT_MODE_BUTTON" text="4" >
+        <UIText align=center valign=middle fontfamily="Default" style="2" color=C1AB89 />	                  
+	      </UIButton>
+	      				
+		    </UIGrid>
+		    
+	      <!-- Close Button -->
+	      <UIButton name="CloseButton" x=81 y=6 style="STYLE_CLOSE_BUTTON" width=20 height=20
+		    OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","2","7.0")	       
+		    OnLeftClick1=UIButton_Input_ScreenClose() >
+	      </UIButton>
+
+	      <!-- Background Image Top -->
+	      <UIIcon name="PCTOOLS_TM_V_TOP" img="hss_gui_top_v_bg.tga" x=8 y=3 width=92 height=34 fillstyle=tile />
+
+	      <!-- Custom Buttons Button Pane 01 -->
+	      <UIPane name="PC_TOOLS_CBUT_01" x=0 y=6 width=107 height=243 capturemouseclicks=false >
+
+	      <UIButton name="PC_TOOLS_CUSTOM1_BUTTON" text="Custom 1" x=10 y=32 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","1","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM2_BUTTON" text="Custom 2" x=10 y=54 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","2","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	       
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM3_BUTTON" text="Custom 3" x=10 y=76 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","3","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	
+	                  
+        <UIButton name="PC_TOOLS_CUSTOM4_BUTTON" text="Custom 4" x=10 y=98 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","4","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM5_BUTTON" text="Custom 5" x=10 y=120 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","5","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	       
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM6_BUTTON" text="Custom 6" x=10 y=142 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","6","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	    	                       	                             
+
+        <UIButton name="PC_TOOLS_CUSTOM7_BUTTON" text="Custom 7" x=10 y=164 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","7","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM8_BUTTON" text="Custom 8" x=10 y=186 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","8","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	       
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM9_BUTTON" text="Custom 9" x=10 y=208 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","9","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	    	                       	                             
+
+	      <!-- End Custom Buttons Button Pane 01 -->
+	      </UIPane>
+
+	      <!-- Custom Buttons Button Pane 02 -->
+	      <UIPane name="PC_TOOLS_CBUT_02" x=0 y=6 width=107 height=243 capturemouseclicks=false >		
+		                	                    
+	      <UIButton name="PC_TOOLS_CUSTOM10_BUTTON" text="Custom 10" x=10 y=32 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","10","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM11_BUTTON" text="Custom 11" x=10 y=54 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","11","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	       
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM12_BUTTON" text="Custom 12" x=10 y=76 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","12","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	
+	                  
+        <UIButton name="PC_TOOLS_CUSTOM13_BUTTON" text="Custom 13" x=10 y=98 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","13","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM14_BUTTON" text="Custom 14" x=10 y=120 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","14","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	       
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM15_BUTTON" text="Custom 15" x=10 y=142 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","15","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	    	                       	                             
+
+        <UIButton name="PC_TOOLS_CUSTOM16_BUTTON" text="Custom 16" x=10 y=164 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","16","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM17_BUTTON" text="Custom 17" x=10 y=186 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","17","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	       
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM18_BUTTON" text="Custom 18" x=10 y=208 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","","18","6.0") disabledcolor="white" >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	    	                       	                             
+
+	      <!-- End Custom Buttons Button Pane 02-->	                   	                   
+	      </UIPane>
+
+
+	      <!-- Custom Buttons Button Pane 03 -->
+	      <UIPane name="PC_TOOLS_CBUT_03" x=0 y=6 width=107 height=243 capturemouseclicks=false >		
+		                	                    
+	      <UIButton name="PC_TOOLS_CUSTOM19_BUTTON" text="Target 1" x=10 y=32 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,-1,"false","gui_hss_pc_tool","","19","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white" 
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","19","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM20_BUTTON" text="Target 2" x=10 y=54 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,-1,"false","gui_hss_pc_tool","","20","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white"
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","20","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	       
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM21_BUTTON" text="Target 3" x=10 y=76 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,-1,"false","gui_hss_pc_tool","","21","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white"
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","21","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	
+	                  
+        <UIButton name="PC_TOOLS_CUSTOM22_BUTTON" text="Target 4" x=10 y=98 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,-1,"false","gui_hss_pc_tool","","22","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white"
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","22","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM23_BUTTON" text="Target 5" x=10 y=120 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,-1,"false","gui_hss_pc_tool","","23","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white"
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","23","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	       
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM24_BUTTON" text="Target 6" x=10 y=142 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,-1,"false","gui_hss_pc_tool","","24","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white"
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","24","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	    	                       	                             
+
+        <UIButton name="PC_TOOLS_CUSTOM25_BUTTON" text="Target 7" x=10 y=164 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,-1,"false","gui_hss_pc_tool","","25","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white"
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","25","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM26_BUTTON" text="Target 8" x=10 y=186 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,-1,"false","gui_hss_pc_tool","","26","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white"
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","26","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	       
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM27_BUTTON" text="Target 9" x=10 y=208 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,-1,"false","gui_hss_pc_tool","","27","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white"
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","27","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	    	                       	                             
+
+	      <!-- End Custom Buttons Button Pane 03-->	                   	                   
+	      </UIPane>
+
+
+	      <!-- Custom Buttons Button Pane 04 -->
+	      <UIPane name="PC_TOOLS_CBUT_04" x=0 y=6 width=107 height=243 capturemouseclicks=false >		
+		                	                    
+	      <UIButton name="PC_TOOLS_CUSTOM28_BUTTON" text="Target 10" x=10 y=32 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,15,"false","gui_hss_pc_tool","","28","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white"
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","28","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM29_BUTTON" text="Target 11" x=10 y=54 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,15,"false","gui_hss_pc_tool","","29","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white"
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","29","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	       
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM30_BUTTON" text="Target 12" x=10 y=76 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,15,"false","gui_hss_pc_tool","","30","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white"
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","30","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	
+	                  
+        <UIButton name="PC_TOOLS_CUSTOM31_BUTTON" text="Target 13" x=10 y=98 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,13,"false","gui_hss_pc_tool","","31","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white"
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","31","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM32_BUTTON" text="Target 14" x=10 y=120 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,13,"false","gui_hss_pc_tool","","32","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white"
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","32","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	       
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM33_BUTTON" text="Target 15" x=10 y=142 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,13,"false","gui_hss_pc_tool","","33","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white"
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","33","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	    	                       	                             
+
+        <UIButton name="PC_TOOLS_CUSTOM34_BUTTON" text="Target 16" x=10 y=164 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,11,"false","gui_hss_pc_tool","","34","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white"
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","34","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM35_BUTTON" text="Target 17" x=10 y=186 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,11,"false","gui_hss_pc_tool","","35","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white"
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","35","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	       
+	                  
+	      <UIButton name="PC_TOOLS_CUSTOM36_BUTTON" text="Target 18" x=10 y=208 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Input_ActionTargetScript("",37,39,11,"false","gui_hss_pc_tool","","36","6.0","","","target:object","target:x","target:y","target:z") disabledcolor="white"
+	      OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_hss_pc_tool","click","36","6.0") >
+        <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_sm_normal.tga" />
+		    <UIFrame state=down		fill="b_sm_normal.tga" />
+		    <UIFrame state=focused	fill="b_sm_normal.tga" />
+		    <UIFrame state=hilited	fill="b_sm_hover.tga" />
+		    <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+		    <UIFrame state=disabled	fill="b_sm_normal.tga" />
+	      </UIButton>	    	                       	                             
+
+	      <!-- End Custom Buttons Button Pane 04-->	                   	                   
+	      </UIPane>
+
+	      <!-- Main Frame -->
+	      <UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+		    bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+		    left="frame1_l.tga" right="frame1_r.tga" border=24 />		
+
+	      <!-- Background Image -->	
+	      <UIIcon name="PCTOOLS_BACKGROUND" img="cloth_bg.tga" x=4 y=4 width=98 height=228 capturemouseclicks=true />	
+	
+	      <!-- End Root Pane -->
+	      </UIPane>
+
+
+
+

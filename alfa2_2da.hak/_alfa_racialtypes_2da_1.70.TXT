@@ -1,0 +1,8 @@
+AcadiusLost: 
+
+7/26/2009: Edited from SoZ 1.23 final 2das, edits for ALFA descriptions
+
+21: Planetouched, description to custom TLK for ALFA (extraordinary) details.
+
+31: Yuanti Pureblood, description to custom TLK for ALFA (extraordinary) details.
+32: Gray Orc, description to custom TLK for ALFA (extraordinary) details.

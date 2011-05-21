@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8">
+
+<!--
+
+  System Name : ALFA GUI
+     Filename : dmsetxp.xml
+    $Revision:: 509        $
+        $Date:: 2008-04-14#$
+
+  Revision History:
+  2008/04/11  Cipher  Inception
+
+-->
+
+<UIScene name="SCREEN_DM_SETXP" width=388 height=235 x=ALIGN_CENTER y=ALIGN_CENTER draggable="true" fadeout="0.0" fadein="0.0" backoutkey=true
+    scriptloadable=true OnCreate="UIScene_OnCreate_SetupMessageBox(350,195,10,10,10,10)" priority="SCENE_SCRIPT" modal="true"
+    OnAdd=UIScene_OnAdd_SetFocus("inputbox") />
+
+    <! -- Title -->
+    <UIText name="TITLE" text="Set Experience" x=12 y=10 width=184 height=23 align=left valign=middle fontfamily="Title_Font" style="2" />
+          
+    <!-- Close Button -->
+    <UIButton name="CloseButton" x=348 y=9 style="STYLE_CLOSE_BUTTON" OnLeftClick=UIButton_Input_ScreenClose() />
+
+	<!-- Message Listbox -->
+	<UIListBox name="MESSAGEBOX" x=ALIGN_CENTER y=48 width=300 height=80 showpartialchild="true" xPadding=10 yPadding=0
+	hidescrollbarwhennotneeded="true" scrollsegmentsize=17 unequalcontrols="true">
+		<UIText name="MESSAGETEXT" fontfamily="Title_Font" style=1 width=PARENT_WIDTH height=DYNAMIC sizetofit="true" align="center" />
+		<UIScrollBar name="SB" style="STYLE_SB_THIN"/>
+	</UIListBox>
+
+	<UIText name="inputbox" x=ALIGN_CENTER y=134 align=right valign="middle" width=80 height=28 
+		editable="true" selectable="true" filter="signed_numeric" maxlength=6 multiline=false fontfamily="Body_Font" style=1
+	    update="true" OnUpdate=UIObject_Misc_SetLocalVarString(local:0) />
+
+	<UIFrame x=ALIGN_CENTER y=132 width=86 height=32 topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+		bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+		left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+		border=5 />
+
+	<!-- BUTTON CONTAINER -->
+	<UIPane name="BUTTON_CONTAINER" x=ALIGN_CENTER y=194 width=254 height=32 >
+		<!-- OK button -->
+		<UIButton name="okbutton" strref="66" x=0 y=0 style="STYLE_SMALL_BUTTON" OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmc_setxp",local:0) />
+		<!-- Cancel Button -->
+		<UIButton name="cancelbutton" strref="67" x=130 y=0 style="STYLE_SMALL_BUTTON" OnLeftClick=UIButton_Input_HandleDungeonMasterAmountCancel() />
+	</UIPane>
+
+	<!-- Main Window -->
+    <UIFrame x=0 y=0 width=388 height=235 topleft="frame1_TL.tga" topright="frame1_TR.tga" 
+     bottomleft="frame1_BL.tga" bottomright="frame1_br.tga" top="frame1_T.tga" bottom="frame1_b.tga"
+     left="frame1_l.tga" right="frame1_r.tga" fillstyle="stretch" border="32" />
+    <UIIcon name="DETAIL_TOP" img="title_nwn_dialog.tga" x=8 y=8 width=374 height=30 ignoreevents="true" />
+    <UIIcon img="frame_main_bg.tga" x=8 y=16 width=374 height=210 />

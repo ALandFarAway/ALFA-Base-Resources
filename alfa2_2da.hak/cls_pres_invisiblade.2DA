@@ -1,0 +1,12 @@
+2DA V2.0
+
+  LABEL                              ReqType ReqParam1              ReqParam2 
+0 Bluff                              SKILL   23                     8         
+1 SenseMotive                        SKILL   51                     6         
+2 TwoWeap                            FEATOR2 41                     ****      
+3 FEAT_COMBATSTYLE_RANGER_DUAL_WIELD FEATOR2 1729                   ****      
+4 FEAT_FEINT                         FEAT    1098                   ****      
+5 WeapFocDagger                      FEATOR  90                     ****      
+6 WeapFocKukri                       FEATOR  118                    ****      
+7 ScriptVar                          VAR     nw_AllowInvisibleBlade 0         
+8 PrC_Validation                     FEAT    3500                   ****      

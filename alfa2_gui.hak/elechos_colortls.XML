@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8">
+
+<UIScene name="SCREEN_COLOR_TLS" width=388 height=236 x=ALIGN_CENTER y=ALIGN_CENTER draggable="true" fadeout="0.3" fadein="0.3" backoutkey=true
+         scriptloadable=true priority="SCENE_SCRIPT" modal="true" idleexpiretime=0.1 />
+
+	<!-- ***SCENE TITLE*** -->
+	<UIText name="SceneTitle" text="HLS Colors" x=ALIGN_CENTER y=12 width=120 height=24 align=left valign=middle uppercase=true fontfamily="Title_Font" style="1" />
+
+	<UIPane name="T_CONTAINER" x=ALIGN_CENTER y=32 width=292 height=48 >
+		<UIText name="TEXT_T" text="Hue (Tint)" x=ALIGN_LEFT y=0 align=left valign="middle" width=80 height=24
+			editable="false" selectable="false" multiline=false fontfamily="Body_Font" style=1/>
+
+		<UIButton name="BUT_T_VALUE" x=ALIGN_CENTER y=0 width=80 height=24 >
+			<UIText name="TEXT_T_VALUE" x=ALIGN_CENTER y=0 align=center valign="middle" 
+				editable="false" selectable="false" multiline=false fontfamily="Body_Font" style=1
+				update=true OnUpdate0=UIText_OnUpdate_DisplayScrollbarValue("scrollbar_T") 
+				OnUpdate1=UIObject_Misc_SetLocalVarString(local:1)/>
+		</UIButton>
+
+		<UIScrollBar name="scrollbar_T" x=0 y=24 width=292 height=24 horizontal=true minvalue=0 maxvalue=360 minsize=0 maxsize=360 >
+			<UIButton name=up x=0 y=0 height=20 width=20 >
+				<UIFrame state=up		fill="b_minus_normal.tga" />
+				<UIFrame state=down		fill="b_minus_hover_pressed.tga" />
+				<UIFrame state=focused	fill="b_minus_normal.tga" />
+				<UIFrame state=hilited	fill="b_minus_hover.tga" />
+				<UIFrame state=hifocus	fill="b_minus_hover_pressed.tga" />
+				<UIFrame state=disabled	fill="b_minus_normal.tga" />
+			</UIButton>
+			<UIButton name=down x=0 y=294 width=20 height=20 >
+				<UIFrame state=up		fill="b_plus_normal.tga" />
+				<UIFrame state=down		fill="b_plus_hover_pressed.tga" />
+				<UIFrame state=focused	fill="b_plus_normal.tga" />
+				<UIFrame state=hilited	fill="b_plus_hover.tga" />
+				<UIFrame state=hifocus	fill="b_plus_hover_pressed.tga" />
+				<UIFrame state=disabled	fill="b_plus_normal.tga" />
+			</UIButton>
+			<UIButton name=slider x=1 y=154 width=10 height=20 >
+				<UIFrame state=up		fill="slider_handle_normal.tga" />
+				<UIFrame state=down		fill="slider_handle_pressed.tga" />
+				<UIFrame state=focused	fill="slider_handle_pressed.tga" />
+				<UIFrame state=hilited	fill="slider_handle_pressed.tga" />
+				<UIFrame state=hifocus	fill="slider_handle_pressed.tga" />
+				<UIFrame state=disabled	fill="slider_handle_normal.tga" />
+			</UIButton>
+			<UIButton name=back x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT OnLeftClick=UIScrollBar_Input_JumpSlider()>
+			</UIButton>
+		</UIScrollBar>
+		<UIFrame name="FRAME_COLOR_TLS" x=18 y=24 width=256 height=24 
+			topleft="tp_frame_tl.tga" 	topright="tp_frame_tr.tga" 
+			bottomleft="tp_frame_bl.tga" 	bottomright="tp_frame_BR.tga" 
+			top="tp_frame_t.tga" 		bottom="tp_frame_b.tga" 
+			left="tp_frame_l.tga" 		right="tp_frame_r.tga" 
+			fillstyle="stretch" fill="color_tls_background.tga" border=3 />
+
+	</UIPane>
+
+	<UIPane name="L_CONTAINER" x=ALIGN_CENTER y=82 width=292 height=48 >
+		<UIText name="TEXT_L" text="Lightness" x=ALIGN_LEFT y=0 align=left valign="middle" width=80 height=24
+			editable="false" selectable="false" multiline=false fontfamily="Body_Font" style=1/>
+
+		<UIButton name="BUT_L_VALUE" x=ALIGN_CENTER y=0 width=80 height=24 >
+			<UIText name="TEXT_L_VALUE" x=ALIGN_CENTER y=0 align=center valign="middle" 
+				editable="false" selectable="false" multiline=false fontfamily="Body_Font" style=1
+				update=true OnUpdate0=UIText_OnUpdate_DisplayScrollbarValue("scrollbar_L") 
+				OnUpdate1=UIObject_Misc_SetLocalVarString(local:2)/>
+		</UIButton>
+
+		<UIScrollBar name="scrollbar_L" style="STYLE_OPTION_SLIDER" x=0 y=24 width=292 height=24 minvalue=0 maxvalue=100 minsize=0 maxsize=100 >
+		</UIScrollBar>
+	</UIPane>
+
+	<UIPane name="S_CONTAINER" x=ALIGN_CENTER y=132 width=292 height=48 >
+		<UIText name="TEXT_S" text="Saturation" x=ALIGN_LEFT y=0 align=left valign="middle" width=80 height=24
+			editable="false" selectable="false" multiline=false fontfamily="Body_Font" style=1/>
+
+		<UIButton name="BUT_S_VALUE" x=ALIGN_CENTER y=0 width=80 height=24 >
+			<UIText name="TEXT_S_VALUE" x=ALIGN_CENTER y=0 align=center valign="middle" 
+				editable="false" selectable="false" multiline=false fontfamily="Body_Font" style=1
+				update=true OnUpdate0=UIText_OnUpdate_DisplayScrollbarValue("scrollbar_S") 
+				OnUpdate1=UIObject_Misc_SetLocalVarString(local:3)/>
+		</UIButton>
+
+		<UIScrollBar name="scrollbar_S" style="STYLE_OPTION_SLIDER" x=0 y=24 width=292 height=24 minvalue=0 maxvalue=100 minsize=0 maxsize=100 >
+		</UIScrollBar>
+	</UIPane>
+
+
+	<!-- BUTTON CONTAINER -->
+	<UIPane name="BUTTON_CONTAINER" x=ALIGN_CENTER y=189 width=254 height=32 >
+		<!-- OK button -->
+		<UIButton name="okbutton" strref="7088" x=0 y=0 style="STYLE_SMALL_BUTTON" OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_color_tls",local:1,local:2,local:3) />
+		<!-- Cancel Button -->
+		<UIButton name="cancelbutton" strref="71" x=130 y=0 style="STYLE_SMALL_BUTTON" OnLeftClick=UIButton_Input_ScreenClose() />
+	</UIPane>
+
+	<!-- Main Window -->
+	<UIFrame width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+		bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+		left="frame1_l.tga" right="frame1_r.tga" border=32 />		
+	<UIFrame x=7 y=8 width=374 height=220 fillstyle="tile" fill="cloth_bg.tga"/>		

@@ -1,0 +1,1372 @@
+AcadiusLost: 9/16/2010
+
+8/10/2007, documenting tiles merge from NWN2 1.06 final (no hotfix)
+11/04/2007: Added Deep Chasms
+11/26/2007: Added Tower Rooms
+3/1/2008: Added RWS Pocket Cathedral
+7/8/2008: Added RWS Pocket Citadel
+2/21/2009: Added RWS Pocket Ships
+3/8/2009: Updated RWS Cathedrals
+3/9/2009: Added RWS Dungeons, RWS Dark Ruins
+3/21/2009: Added RWS Dark Ruins round door resources
+5/18/2009: Added Riotnrrd's fix for dark ruins tile walkmesh
+9/16/2010: Added RWS Deep Halls Anniv. edition, RWS Deep Mines, Fixes to Dark Ruins, RWS Grand Citadels, Fixes to Deep Sewers
+9/19/2010: Fixes to Deep Chasms, Pocket Ships
+
+
+Deep Halls Tileset, by Robinson Workshop ( http://www.robinsonworkshop.com/phpBB2/ )
+Updated to Anniversary Edition 9/16/2010
+
+dh-test03.DDS	  <--------(added 9/16/2010 for Anniv. Edition)
+dh-test03_n.DDS			..
+dh-testwall-01_d.DDS		..
+dh-testwall-01_n.DDS		..
+dh-testwall-03_d.DDS		..
+dh-testwall-03_n.DDS		..
+railings01.DDS			..
+railings01_n.DDS		..
+rocklayered0016_fade.DDS	..
+rocklayered0016_fade_n.DDS	..
+rocklayered0016_n.DDS		..
+rws_deeprock.DDS		..
+rws_deeprock_n.DDS		..
+tcn01_evil02.DDS	(also used by Deep Sewers)
+tcn01_evil02_n.DDS	(also used by Deep Sewers)
+tl_cit_stnwrit.DDS		..
+tl_cv_details1.DDS
+tl_cv_details1_n.DDS
+tl_cv_floor01.DDS 	(also used by Deep Chasms)
+tl_cv_floor01_n.DDS		..
+tl_dh_black_01.DDS
+tl_dh_black_01_n.DDS
+tl_dh_blockfade_01.DDS
+tl_dh_blockfade_01_n.DDS
+tl_dh_blok_01.MDB   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_bloock_01.DDS
+tl_dh_bloock_01_n.DDS
+tl_dh_cccc_01.MDB
+tl_dh_cccc_02.MDB
+tl_dh_cccc_03.MDB
+tl_dh_cccc_04.MDB
+tl_dh_cccc_05.MDB
+tl_dh_cccc_06.MDB
+tl_dh_cccc_07.MDB
+tl_dh_cccc_08.MDB
+tl_dh_cccc_09.MDB   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_cccc_10.MDB		..
+tl_dh_cccx_01.MDB
+tl_dh_cccx_02.MDB
+tl_dh_cccx_03.MDB
+tl_dh_cccx_04.MDB   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_cccx_05.MDB		..
+tl_dh_ccxx_01.MDB
+tl_dh_ccxx_02.MDB
+tl_dh_ccxx_03.MDB
+tl_dh_ccxx_05.MDB   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_ccxx_06.MDB		..
+tl_dh_coffer_01.DDS
+tl_dh_coffer_01_n.DDS
+tl_dh_coldetail_01.DDS
+tl_dh_coldetail_01_n.DDS
+tl_dh_coldetail_02.DDS
+tl_dh_coldetail_02_n.DDS
+tl_dh_crnr_01.MDB
+tl_dh_crnr_02.MDB
+tl_dh_crnr_03.MDB   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_crnr_04.MDB		..
+tl_dh_crnr_05.MDB		..
+tl_dh_crnr_06.MDB		..
+tl_dh_cucc_01.MDB
+tl_dh_cucc_02.MDB
+tl_dh_ddcc_01.MDB
+tl_dh_ddcc_02.MDB
+tl_dh_ddcc_03.MDB
+tl_dh_ddcc_04.MDB   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_ddcc_05.MDB		..
+tl_dh_ddcc_06.MDB		..
+tl_dh_ddcc_07.MDB		..
+tl_dh_ddcw_01.MDB
+tl_dh_ddcw_02.MDB
+tl_dh_ddcw_03.MDB
+tl_dh_ddcx_01.MDB
+tl_dh_ddcx_02.MDB
+tl_dh_ddcx_03.MDB
+tl_dh_dddc_01.MDB
+tl_dh_dddd_01.MDB
+tl_dh_dddd_02.MDB   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_dddx_01.MDB
+tl_dh_ddwc_01.MDB
+tl_dh_ddwc_02.MDB
+tl_dh_ddwc_03.MDB
+tl_dh_ddww_01.MDB
+tl_dh_ddwx_01.MDB
+tl_dh_ddwx_02.MDB
+tl_dh_ddwx_03.MDB
+tl_dh_ddwx_04.MDB
+tl_dh_ddxc_01.MDB
+tl_dh_ddxc_02.MDB
+tl_dh_ddxc_03.MDB
+tl_dh_ddxw_01.MDB
+tl_dh_ddxw_02.MDB
+tl_dh_ddxw_03.MDB
+tl_dh_ddxw_04.MDB
+tl_dh_ddxx_01.MDB
+tl_dh_ddxx_02.MDB
+tl_dh_ddxx_03.MDB
+tl_dh_ddxx_04.MDB
+tl_dh_ddxx_05.MDB
+tl_dh_ddxx_06.MDB   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_deepfade_01.DDS
+tl_dh_deepfade_01_n.DDS
+tl_dh_deepstoone_01.DDS
+tl_dh_deepstoone_01_c.DDS
+tl_dh_deepstoone_01_n.DDS
+tl_dh_deepstoone_06.DDS	   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_deepstoone_06_n.DDS		..
+tl_dh_fade_01.DDS
+tl_dh_fade_01_n.DDS
+tl_dh_finishblock_01.DDS
+tl_dh_finishblock_01_n.DDS
+tl_dh_floordetail.DDS
+tl_dh_floordetail_n.DDS
+tl_dh_hhhh_01.MDB
+tl_dh_hhhh_02.MDB  	<---(added 9/16/2010 for Anniv. Edition)
+tl_dh_hhhh_03.MDB			..
+tl_dh_hhhh_04.MDB			..
+tl_dh_m0102_fault.MDB
+tl_dh_m0102_pitstair.MDB <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_m0102_stair.MDB
+tl_dh_m0202_forum.MDB
+tl_dh_m0202_mine.MDB
+tl_dh_m0203_stairs.MDB	<---(added 9/16/2010 for Anniv. Edition)
+tl_dh_m0301_brid.MDB			..
+tl_dh_m0302_rotunda.MDB			..
+
+tl_dh_m0303_entry.MDB
+tl_dh_m0303_greathall.MDB  <-(added 9/16/2010 for Anniv. Edition)
+tl_dh_m0303_minehead.MDB		..
+tl_dh_m0304_gspiral.MDB			..
+tl_dh_m0405_temple.MDB			..
+
+tl_dh_metacombo_01.DDS
+tl_dh_metacombo_01_n.DDS
+tl_dh_pitcol_01.DDS
+tl_dh_pitcol_01_n.DDS
+tl_dh_randomstone_01.DDS
+tl_dh_randomstone_01_n.DDS
+tl_dh_roughblock_01.DDS
+tl_dh_roughblock_01_n.DDS
+tl_dh_spr1_01.MDB
+tl_dh_spr1_02.MDB
+tl_dh_spr1_03.MDB	<---(added 9/16/2010 for Anniv. Edition)
+tl_dh_spr1_04.MDB		..
+tl_dh_spr2_01.MDB		..
+tl_dh_spr2_02.MDB		..
+tl_dh_spr2_03.MDB		..
+tl_dh_spr2_04.MDB		..
+tl_dh_spr3_01.MDB		..
+tl_dh_spr3_02.MDB		..
+tl_dh_spr3_03.MDB		..
+tl_dh_spr3_04.MDB		..
+tl_dh_spr4_01.MDB		..
+tl_dh_spr4_02.MDB		..
+tl_dh_spr4_03.MDB		..
+tl_dh_spr4_04.MDB		..
+tl_dh_spr5_01.MDB		..
+tl_dh_spr5_02.MDB		..
+tl_dh_spr5_03.MDB		..
+tl_dh_spr5_04.MDB		..
+tl_dh_spu1_01.MDB
+tl_dh_spu1_02.MDB
+tl_dh_spu2_01.MDB
+tl_dh_spu2_02.MDB
+tl_dh_spu3_01.MDB
+tl_dh_spu4_01.MDB
+tl_dh_spu5_01.MDB
+tl_dh_spu6_01.MDB
+tl_dh_spu6_02.MDB   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_spu6_03.MDB		..
+tl_dh_spu6_04.MDB		..
+tl_dh_spu7_01.MDB
+tl_dh_spu8_01.MDB
+tl_dh_std2_01.MDB
+tl_dh_std2_02.MDB
+tl_dh_stp1_01.MDB
+tl_dh_stp1_02.MDB
+tl_dh_stu2_01.MDB
+tl_dh_stu2_02.MDB
+tl_dh_stu2_03.MDB   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_stu3_01.MDB		..
+tl_dh_upr1_01.MDB
+tl_dh_upr1_02.MDB
+tl_dh_uucc_01.MDB
+tl_dh_uucc_02.MDB
+tl_dh_uucc_03.MDB
+tl_dh_uucc_04.MDB
+tl_dh_uucc_05.MDB
+tl_dh_uucc_06.MDB   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_uucc_07.MDB		..
+tl_dh_uucc_08.MDB		..
+tl_dh_uucc_09.MDB		..
+tl_dh_uucw_01.MDB
+tl_dh_uucw_02.MDB
+tl_dh_uuuc_01.MDB
+tl_dh_uuwc_01.MDB
+tl_dh_uuwc_02.MDB
+tl_dh_wall1.DDS
+tl_dh_wall1_n.DDS
+tl_dh_wwcc_01.MDB
+tl_dh_wwcc_02.MDB   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_wwcc_03.MDB		..
+tl_dh_wwcx_01.MDB
+tl_dh_wwcx_02.MDB
+tl_dh_wwwc_01.MDB
+tl_dh_wwwc_02.MDB   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_wwwc_03.MDB		..
+tl_dh_wwwx_01.MDB
+tl_dh_wwwx_02.MDB
+tl_dh_wwwx_03.MDB
+tl_dh_wwwx_04.MDB   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_wwwx_05.MDB		..
+tl_dh_wwxc_01.MDB
+tl_dh_wwxc_02.MDB
+tl_dh_wwxx_01.MDB
+tl_dh_wwxx_02.MDB
+tl_dh_wwxx_03.MDB
+tl_dh_wwxx_04.MDB
+tl_dh_wwxx_05.MDB
+tl_dh_wwxx_06.MDB
+tl_dh_wwxx_07.MDB
+tl_dh_wwxx_08.MDB
+tl_dh_wwxx_09.MDB
+tl_dh_wwxx_10.MDB
+tl_dh_wwxx_11.MDB   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_wwxx_12.MDB		..
+tl_dh_xxxx_01.MDB
+tl_dh_xxxx_02.MDB   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_xxxx_03.MDB
+tl_dh_xxxx_04.MDB   <---(added 9/16/2010 for Anniv. Edition)
+tl_dh_xxxx_05.MDB		..
+tl_dh_xxxx_06.MDB		..
+tl_dh_xxxx_07.MDB		..
+tl_dh_xxxx_08.MDB		..
+tl_dh_xxxx_09.MDB		..
+tl_ds_rivit01.DDS	(also used by Deep Sewers)
+tl_ds_rivit01_n.DDS	(also used by Deep Sewers)
+tl_ds_rust01.DDS	(also used by Deep Sewers)
+tl_ds_rust01_n.DDS	(also used by Deep Sewers)
+tl_ds_sconce.DDS   <---(added 9/16/2010 for Anniv. Edition)
+tl_ds_sconce_n.DDS		..
+tl_gc_bbbb_01.MDB	(Grand Causeway miniset)
+tl_gc_bbbb_02.MDB		..
+tl_gc_bbbb_03.MDB		..
+tl_gc_bbbb_04.MDB		..
+tl_gc_bbbb_05.MDB		..
+tl_gc_bbbb_06.MDB		..
+tl_gc_bbbb_07.MDB		..
+tl_gc_bbbb_08.MDB		..
+tl_gc_bbbb_09.MDB		..
+tl_gc_bbbb_10.MDB		..
+tl_gc_cxxx_01.MDB		..
+tl_gc_ddxx_01.MDB		..
+tl_gc_ddxx_02.MDB		..
+tl_gc_m0102_brchasm.MDB		..
+tl_gc_m0102_cryptlink.MDB	..
+tl_gc_m0102_cventry.MDB		..
+tl_gc_m0102_cvlink.MDB		..
+tl_gc_m0102_dend01.MDB		..
+tl_gc_m0102_dhlink.MDB		..
+tl_gc_m0102_dhlink2.MDB		..
+tl_gc_m0102_doorlink.MDB	..
+tl_gc_m0102_stdn.MDB		..
+tl_gc_m0102_sthall01.MDB	..
+tl_gc_m0202_3wayint01.MDB	..
+tl_gc_m0202_4wayint01.MDB	..
+tl_gc_m0202_curve.MDB		..
+tl_gc_std3_01.MDB		..
+tl_gc_stu3_01.MDB		..
+tl_gc_wall.DDS			..
+tl_gc_wwwx_01.MDB		..
+tl_gc_wwwx_02.MDB		..
+tl_gc_wwxx_01.MDB		..
+tl_gc_wwxx_02.MDB		..
+tl_gc_wwxx_03.MDB		..
+tl_gc_xxxx_01.MDB		..
+tl_gc_xxxx_02.MDB		..
+tl_xx_blacktexture.DDS	     (Shared)
+tl_xx_blacktexture_n.DDS     (Shared)
+
+
+
+Deep Sewers Tileset, by Robinson Workshop ( http://www.robinsonworkshop.com/phpBB2/ )
+(updated 9/19/2010)
+
+brickoldmixedsize0038_1_nm.DDS  (added in 9/19/2010 update)
+brickoldmixedsize0038_1_s.DDS		..
+brickoldmixedsize0038_1_s.JPG		..
+tcn01_evil02.DDS
+tcn01_evil02_n.DDS
+tcn01_hrdwd01.DDS
+tcn01_hrdwd01_n.DDS
+tdc01_wall00.DDS
+tdc01_wall00_n.DDS
+tdm01_roof02.DDS
+tdm01_roof02_n.DDS
+tl_dc_wall01.DDS     (shared)
+tl_dc_wall01_n.DDS   (shared)
+tl_ds_altall01.DDS
+tl_ds_altwall01_n.DDS
+tl_ds_cavl_01.MDB     <-------- (added in 9/19/2010 update)
+tl_ds_cccc_01.MDB
+tl_ds_cccc_02.MDB
+tl_ds_cccx_01.MDB
+tl_ds_ccxx_01.MDB
+tl_ds_ccxx_02.MDB
+tl_ds_cobble01.DDS
+tl_ds_cobble01_n.DDS
+tl_ds_cxxx_01.MDB
+tl_ds_ddcc_01.MDB    <-------- (added in 9/19/2010 update)
+tl_ds_dddd_01.MDB			..
+tl_ds_ddww_01.MDB			..
+tl_ds_ffff_01.MDB
+tl_ds_ffff_02.MDB
+tl_ds_gate1.DDS
+tl_ds_gate1_n.DDS
+tl_ds_gate2.DDS
+tl_ds_gate2_n.DDS
+tl_ds_hhhh_01.MDB
+tl_ds_hhhh_02.MDB
+tl_ds_hhhh_03.MDB
+tl_ds_hhhh_04.MDB  <-------- (added in 9/19/2010 update)
+tl_ds_hhhh_05.MDB			..
+tl_ds_hhhh_06.MDB			..
+tl_ds_hhhh_07.MDB			..
+tl_ds_hhhh_08.MDB			..
+tl_ds_infill01.DDS
+tl_ds_infill01_n.DDS
+tl_ds_m0102_join.MDB   <-------- (added in 9/19/2010 update)
+tl_ds_m0102_lend.MDB
+tl_ds_m0201_bridge.MDB <-------- (added in 9/19/2010 update)
+tl_ds_m0201_send.MDB
+tl_ds_m0202_stair.MDB
+tl_ds_m0202_tchan.MDB  <-------- (added in 9/19/2010 update)
+tl_ds_m0202_xchan.MDB  			..
+tl_ds_m0203_bridge.MDB
+tl_ds_m0404_curve.MDB
+tl_ds_mossstone01.DDS
+tl_ds_mossstone01_n.DDS
+tl_ds_rivit01.DDS	(also used by Deep Halls Anniv.)
+tl_ds_rivit01_n.DDS	(also used by Deep Halls Anniv.)
+tl_ds_rust01.DDS	(also used by Deep Halls Anniv.)
+tl_ds_rust01_n.DDS	(also used by Deep Halls Anniv.)
+tl_ds_spr1_01.MDB  <-------- (added in 9/19/2010 update)
+tl_ds_spr1_02.MDB			..
+tl_ds_spr1_03.MDB			..
+tl_ds_spr1_04.MDB			..
+tl_ds_spu6_01.MDB
+tl_ds_spu6_02.MDB
+tl_ds_spu6_03.MDB
+tl_ds_spu6_04.MDB   <-------- (added in 9/19/2010 update)
+tl_ds_wall01.DDS
+tl_ds_wall01_n.DDS
+tl_ds_wwcc_01.MDB
+tl_ds_wwcc_02.MDB
+tl_ds_wwcc_03.MDB   <-------- (added in 9/19/2010 update)
+tl_ds_wwcc_04.MDB   			..
+tl_ds_wwcc_05.MDB			..
+tl_ds_wwcx_01.MDB
+tl_ds_wwcx_02.MDB
+tl_ds_wwwc_01.MDB
+tl_ds_wwwc_02.MDB
+tl_ds_wwwc_04.MDB   <-------- (added in 9/19/2010 update)
+tl_ds_wwwx_01.MDB
+tl_ds_wwxc_01.MDB
+tl_ds_wwxc_02.MDB
+tl_ds_wwxx_01.MDB
+tl_ds_wwxx_02.MDB
+tl_ds_wwxx_03.MDB   <-------- (added in 9/19/2010 update)
+tl_ds_wwxx_04.MDB			..
+tl_xx_blacktexture.DDS		(shared)
+tl_xx_blacktexture_n.DDS	(shared)
+
+
+Deep Chasms Tileset, by Robinson Workshop ( http://www.robinsonworkshop.com/phpBB2/ )
+(all models replaced & updated 9/19/2010)
+
+mite.DDS
+plc_dn_caveent6.MDB
+plc_nl_caveent6.MDB
+tl_cv_floor01.DDS   <----(Also used by Deep Halls Anniv.)
+tl_cv_wall02.DDS
+tl_dc_bbbb_01.MDB
+tl_dc_bbbb_02.MDB
+tl_dc_bbbb_03.MDB
+tl_dc_bbbb_04.MDB
+tl_dc_bbbb_05.MDB
+tl_dc_ccbb_01.MDB
+tl_dc_ccbb_02.MDB
+tl_dc_ccbb_03.MDB
+tl_dc_ccbb_04.MDB
+tl_dc_ccbb_05.MDB
+tl_dc_cccc_01.MDB
+tl_dc_cccc_02.MDB
+tl_dc_cccc_03.MDB
+tl_dc_cccp_01.MDB
+tl_dc_cccp_02.MDB
+tl_dc_cccx_01.MDB
+tl_dc_cccx_02.MDB
+tl_dc_cccz_01.MDB
+tl_dc_ccpp_01.MDB
+tl_dc_ccpz_01.MDB
+tl_dc_ccpz_02.MDB
+tl_dc_ccxx_01.MDB
+tl_dc_ccxx_02.MDB
+tl_dc_cczp_01.MDB
+tl_dc_cczp_02.MDB
+tl_dc_cczz_01.MDB
+tl_dc_cczz_02.MDB
+tl_dc_cczz_03.MDB
+tl_dc_cczz_04.MDB
+tl_dc_cppp_01.MDB
+tl_dc_cxxx_01.MDB
+tl_dc_cxxx_02.MDB
+tl_dc_cxxx_03.MDB
+tl_dc_czzz_01.MDB	
+tl_dc_ddcc_01.MDB
+tl_dc_ddcc_02.MDB
+tl_dc_ddcc_03.MDB
+tl_dc_dddd_01.MDB
+tl_dc_dddd_02.MDB
+tl_dc_dddz_01.MDB
+tl_dc_ddwz_01.MDB
+tl_dc_ddxx_01.MDB
+tl_dc_ddxx_02.MDB
+tl_dc_ddzz_01.MDB 
+tl_dc_ddzz_02.MDB
+tl_dc_floor02b.DDS
+tl_dc_floor02b_n.DDS
+tl_dc_floor03.DDS
+tl_dc_floor03_n.DDS
+tl_dc_hhhh_01.MDB
+tl_dc_hhhh_02.MDB
+tl_dc_hhmh_01.MDB
+tl_dc_hhmh_02.MDB
+tl_dc_hhmm_01.MDB
+tl_dc_hhmm_02.MDB
+tl_dc_hmmm_01.MDB 
+tl_dc_hmmm_02.MDB
+tl_dc_m0103_bridge.MDB
+tl_dc_m0202_sone.MDB
+tl_dc_mlll_01.MDB
+tl_dc_mlll_02.MDB
+tl_dc_mmll_01.MDB
+tl_dc_mmll_02.MDB
+tl_dc_mmlm_01.MDB
+tl_dc_mmlm_02.MDB
+tl_dc_mmlm_03.MDB
+tl_dc_mo2o2_stwo.MDB
+tl_dc_pppz_01.MDB <--- (added 9/19/2010)
+tl_dc_ppzz_01.MDB
+tl_dc_ppzz_02.MDB
+tl_dc_ppzz_03.MDB
+tl_dc_ppzz_04.MDB
+tl_dc_ppzz_05.MDB
+tl_dc_ppzz_06.MDB
+tl_dc_pwzz_01.MDB
+tl_dc_pwzz_02.MDB
+tl_dc_pwzz_03.MDB
+tl_dc_pwzz_04.MDB
+tl_dc_spr1_01.MDB
+tl_dc_spr1_02.MDB
+tl_dc_spr2_01.MDB
+tl_dc_spr2_02.MDB
+tl_dc_spr3_01.MDB
+tl_dc_spr3_02.MDB
+tl_dc_spr4_01.MDB
+tl_dc_spr4_02.MDB
+tl_dc_spr5_01.MDB
+tl_dc_spr5_02.MDB
+tl_dc_spu1_01.MDB
+tl_dc_spu1_02.MDB
+tl_dc_spu6_01.MDB
+tl_dc_spu6_02.MDB
+tl_dc_tlhs_01.MDB
+tl_dc_tmhc_01.MDB
+tl_dc_tmhc_02.MDB
+tl_dc_tmhs_01.MDB
+tl_dc_tmhs_02.MDB
+tl_dc_tmlc_01.MDB
+tl_dc_tmlc_02.MDB
+tl_dc_tmls_01.MDB
+tl_dc_tmls_02.MDB
+tl_dc_wall01.DDS     (shared)
+tl_dc_wall01_n.DDS   (shared)
+tl_dc_wall02.DDS
+tl_dc_wall02_n.DDS
+tl_dc_wall03.DDS
+tl_dc_wall03_n.DDS
+tl_dc_wpzz_01.MDB
+tl_dc_wpzz_02.MDB
+tl_dc_wpzz_03.MDB
+tl_dc_wwbb_01.MDB
+tl_dc_wwbb_02.MDB
+tl_dc_wwbb_03.MDB
+tl_dc_wwcc_01.MDB
+tl_dc_wwcc_02.MDB
+tl_dc_wwcc_03.MDB
+tl_dc_wwcx_01.MDB
+tl_dc_wwcx_02.MDB
+tl_dc_wwcz_01.MDB
+tl_dc_wwdd_01.MDB
+tl_dc_wwdd_02.MDB
+tl_dc_wwhm_01.MDB
+tl_dc_wwhm_02.MDB
+tl_dc_wwlm_01.MDB
+tl_dc_wwlm_02.MDB
+tl_dc_wwmh_01.MDB
+tl_dc_wwmh_02.MDB
+tl_dc_wwml_01.MDB
+tl_dc_wwml_02.MDB
+tl_dc_wwwc_01.MDB
+tl_dc_wwwc_02.MDB
+tl_dc_wwwc_03.MDB
+tl_dc_wwwx_01.MDB
+tl_dc_wwwx_02.MDB
+tl_dc_wwwz_01.MDB
+tl_dc_wwwz_02.MDB
+tl_dc_wwxc_01.MDB
+tl_dc_wwxc_02.MDB
+tl_dc_wwxx_01.MDB
+tl_dc_wwxx_02.MDB
+tl_dc_wwxx_03.MDB
+tl_dc_wwzc_01.MDB
+tl_dc_wwzz_01.MDB
+tl_dc_wwzz_02.MDB
+tl_dc_wwzz_03.MDB
+tl_dc_wwzz_04.MDB
+tl_dc_wwzz_05.MDB
+tl_dc_wwzz_06.MDB
+tl_dc_wwzz_07.MDB
+tl_dc_xxxx_01.MDB
+tl_dc_xxxx_02.MDB
+tl_dc_xxxx_03.MDB
+tl_dc_xxxx_04.MDB
+tl_dc_xxxx_05.MDB
+tl_dc_xxxx_06.MDB
+tl_dc_zzzz_01.MDB
+tl_xx_blacktexture.DDS
+tl_xx_blacktexture_n.DDS
+
+
+RWS Tower Rooms set:
+
+planksold0011_n.DDS
+planksold0011_s.DDS
+planksold0169_1_n.DDS
+planksold0169_1_S.DDS
+plc_mc_tflr1.DDS
+plc_mc_tflr1_n.DDS
+tl_ds_cobble01.DDS    <- repeats of Deep Halls resource, overwrote
+tl_ds_cobble01_n.DDS  <- repeats of Deep Halls resource, overwrote
+tl_rt_rdrm_01.MDB
+tl_rt_rdrm_02.MDB
+tl_rt_str1_01.MDB
+tl_rt_str1_02.MDB
+tl_rt_tttt_01.MDB
+tl_rt_tttt_02.MDB
+tl_rt_tttt_03.MDB
+tl_rt_tttt_04.MDB
+tl_rt_tttt_05.MDB
+tl_rt_tttt_06.MDB
+towerwall.DDS
+towerwall_n.DDS
+
+
+RWS Pocket Cathedral set:
+
+arch.DDS
+arch_n.DDS
+brickoldsharp0150_1.DDS
+brickoldsharp0150_1_n.DDS
+carved_entry.DDS
+carved_entry_n.DDS
+cath_flr1.DDS
+cath_flr1_n.DDS
+col_bare.DDS
+col_bare_n.DDS
+cornice.DDS
+cornice_n.DDS
+doorframe_n.DDS
+doorframe_s.DDS
+downstairarch.DDS
+downstairarch_n.DDS
+mosaic_sun.DDS
+mosaic_sun_n.DDS
+newpattern2.DDS
+newpattern2_n.DDS
+newpattern.DDS
+newpattern_n.DDS
+newpattern_t.DDS
+oakply1.DDS
+oakply1_n.DDS
+ornamentborder0036_1_n.DDS
+ornamentborder0036_1_s.DDS
+ornaments0027_n.DDS
+ornaments0027_s.DDS
+ornaments0036_n.DDS
+ornaments0036_s.DDS
+ornaments0192_n.DDS
+ornaments0192_s.DDS
+plc_bc_templeg02win.DDS
+plc_bc_templeg02win_i.DDS
+plc_bc_templee01win.DDS
+plc_bc_templee01win_i.DDS
+plc_bc_templee01win_n.DDS
+plc_dr_cath01.GR2
+plc_dr_cath01.MDB
+plc_dr_cath01_01.MDB
+plc_dr_cath01_02.MDB
+plc_dr_cath01_dr_open1.GR2
+plc_dr_cath01_dr_open2.GR2
+plc_dr_cath01_idle.GR2
+plc_mc_pewwall.MDB
+plc_mc_rwspew02.MDB    (added in update)
+plc_mc_rwspew03.MDB	(added in update)
+plc_mc_rwspew.MDB
+plc_mc_rwspulpit.MDB
+plc_nf_boulders8.DDS	(also used by Deep Halls Anniv.)
+plc_nf_boulders8_n.DDS	(also used by Deep Halls Anniv.)
+pulpit_dump.DDS
+pulpit_dump_n.DDS
+stairupdump.DDS
+stairupdump_n.DDS
+tan_stone_block.DDS
+tan_stone_block_dirty.DDS
+tan_stone_block_n.DDS
+tan_stone_stack.DDS
+tan_stone_stack_n.DDS
+tl_rc_cccc_01.MDB
+tl_rc_ddcc_01.MDB
+tl_rc_ddww_01.MDB
+tl_rc_hhhh_01.MDB
+tl_rc_hhhh_02.MDB   (added in update)
+tl_rc_hhhh_03.MDB   (added in update)
+tl_rc_m0102_choir.MDB
+tl_rc_m0102_entry.MDB
+tl_rc_m0202_apse.MDB
+tl_rc_navc_01.MDB
+tl_rc_navc_02.MDB  (added in update)
+tl_rc_navc_03.MDB  (added in update)
+tl_rc_navc_04.MDB  (added in update)
+tl_rc_navs_01.MDB
+tl_rc_navs_02.MDB  (added in update)
+tl_rc_navx_01.MDB  (added in update)
+tl_rc_spu1_01.MDB
+tl_rc_spu2_01.MDB
+tl_rc_spu4_01.MDB
+tl_rc_spu6_01.MDB
+tl_rc_std1_01.MDB   (added in update)
+tl_rc_std3_01.MDB
+tl_rc_stu3_01.MDB
+tl_rc_wwcc_01.MDB
+tl_rc_wwwc_01.MDB
+tl_rc_wwwc_02.MDB  (added in update)
+wains.DDS
+wains_n.DDS
+windowstainedglassround.DDS
+windowstainedglassround_n.DDS (added in update)
+
+
+
+
+RWS Pocket Citadel Tileset:
+
+csv20002t.DDS		   (shared)
+csv20002t_n.DDS		   (shared)
+frame.DDS		   (shared)
+frame_n.DDS	           (shared)
+grillmask2.DDS             (shared)
+grillmask2_n.DDS           (shared)
+ornamentborder0036_1_n.DDS  (duplicate)
+ornamentborder0036_1_s.DDS  (duplicate)
+plc_br_templee01win.DDS    (duplicate)
+plc_br_templee01win_i.DDS  (duplicate)
+plc_br_templee01win_n.DDS  (duplicate)
+plc_mc_windows1.DDS
+plc_mc_windows1_n.DDS
+plc_nf_boulders8.DDS      (duplicate)
+plc_nf_boulders8_n.DDS    (duplicate)
+plc_nt_myrkul.DDS
+plc_nt_myrkul_n.DDS
+rocksmooth0029.DDS
+rocksmooth0029_n.DDS
+rockwithwriting.DDS
+rockwithwriting_n.DDS
+tcn01_evil02.DDS	  (duplicate)
+tcn01_evil02_n.DDS	  (duplicate)
+tl_dh_blockfade_01.DDS	  (duplicate)
+tl_dh_blockfade_01_n.DDS  (duplicate)
+tl_dh_bloock_01.DDS	  (duplicate)	
+tl_dh_bloock_01_n.DDS	  (duplicate)
+tl_dh_deepstoone_01.DDS	  (duplicate)
+tl_dh_deepstoone_01_n.DDS  (duplicate)
+tl_dh_finishblock_01.DDS  (duplicate)
+tl_dh_finishblock_01_n.DDS  (duplicate)
+tl_dh_floordetail.DDS  	   (duplicate)
+tl_dh_floordetail_n.DDS    (duplicate)
+tl_pc_cavl_01.MDB
+tl_pc_cccc_01.MDB
+tl_pc_cccc_02.MDB
+tl_pc_cccx_01.MDB
+tl_pc_cccx_02.MDB
+tl_pc_ccxx_01.MDB
+tl_pc_ccxx_02.MDB
+tl_pc_cxxc_01.MDB
+tl_pc_cxxc_02.MDB
+tl_pc_cxxx_01.MDB
+tl_pc_cxxx_02.MDB
+tl_pc_ddxx_01.MDB
+tl_pc_ddxx_02.MDB
+tl_pc_ddxx_03.MDB
+tl_pc_ddxx_04.MDB
+tl_pc_hhhh_01.MDB
+tl_pc_hhhh_02.MDB
+tl_pc_hhhh_03.MDB
+tl_pc_hhhh_04.MDB
+tl_pc_spu6_01.MDB
+tl_pc_spu6_02.MDB
+tl_pc_std3_01.MDB
+tl_pc_stp1_01.MDB
+tl_pc_stp1_02.MDB
+tl_pc_stu3_01.MDB
+tl_pc_wwwx_01.MDB
+tl_pc_wwwx_02.MDB
+tl_pc_wwxx_01.MDB
+tl_pc_wwxx_02.MDB
+tl_pc_wwxx_03.MDB
+tl_pc_xxxx_01.MDB
+tl_pc_xxxx_02.MDB
+tl_pc_xxxx_03.MDB
+tl_pc_xxxx_04.MDB
+tl_xx_blacktexture.DDS	  (duplicate)
+tl_xx_blacktexture_n.DDS  (duplicate)
+
+
+Pocket Ships Tileset, by Robinson Workshop ( http://www.robinsonworkshop.com/phpBB2/ )
+(All tile models reimported 9/19/2010)
+
+plc_bc_boatbench.MDB
+plc_bc_hammock01.GR2
+plc_bc_hammock01.MDB
+plc_bc_hammock01_01.MDB
+plc_bc_hammock01_02.MDB
+plc_bc_hammock01_03.MDB
+plc_bc_hammock01_04.MDB
+plc_bc_hammock01_05.MDB
+plc_bc_hammock01_06.MDB
+plc_bc_hammock01_idle.GR2
+plc_bc_oaronwall.MDB
+plc_bc_psmast01.MDB
+plc_bc_shiprow1.MDB
+plc_ps_flrhatch.MDB
+plc_ps_shrtwall2.MDB
+plc_ps_shrtwall.MDB
+plc_ps_shrtwalldr2.MDB
+plc_ps_shrtwalldr.MDB
+plc_ps_stair.MDB
+rustmetl.DDS
+rustmetl_n.DDS
+tl_ps_bow1_01.MDB
+tl_ps_bow2_01.MDB
+tl_ps_bowa_01.MDB
+tl_ps_bowb_01.MDB
+tl_ps_bowz_01.MDB
+tl_ps_bowz_02.MDB
+tl_ps_for1_02.MDB
+tl_ps_for2_01.MDB
+tl_ps_for2_02.MDB
+tl_ps_for3_01.MDB
+tl_ps_for4_01.MDB
+tl_ps_fora_01.MDB
+tl_ps_forb_01.MDB
+tl_ps_forc_01.MDB
+tl_ps_ford_01.MDB
+tl_ps_forz_01.MDB
+tl_ps_forz_02.MDB
+tl_ps_m0201_capt.MDB
+tl_ps_mid1_01.MDB
+tl_ps_mid1_02.MDB
+tl_ps_mid1_03.MDB
+tl_ps_mid1_04.MDB
+tl_ps_mid2_01.MDB
+tl_ps_mid2_02.MDB
+tl_ps_mid2_03.MDB
+tl_ps_mid2_04.MDB
+tl_ps_mid3_01.MDB
+tl_ps_mid3_02.MDB
+tl_ps_mid3_03.MDB
+tl_ps_mid3_04.MDB
+tl_ps_mid4_01.MDB
+tl_ps_mid4_02.MDB
+tl_ps_mid4_03.MDB
+tl_ps_mid5_01.MDB
+tl_ps_mid5_02.MDB
+tl_ps_mid5_03.MDB
+tl_ps_mid6_01.MDB
+tl_ps_mid6_02.MDB
+tl_ps_mid7_01.MDB
+tl_ps_mid7_02.MDB
+tl_ps_mida_01.MDB
+tl_ps_mida_02.MDB
+tl_ps_midb_01.MDB
+tl_ps_midb_02.MDB
+tl_ps_midc_01.MDB
+tl_ps_midc_02.MDB
+tl_ps_midh_01.MDB
+tl_ps_midr_01.MDB
+tl_ps_midz_01.MDB
+tl_ps_str1_01.MDB
+tl_ps_str2_01.MDB
+tl_ps_str3_01.MDB
+tl_ps_str4_01.MDB
+tl_ps_stra_01.MDB
+tl_ps_strb_01.MDB
+tl_ps_strc_01.MDB
+tl_ps_strd_01.MDB
+tl_ps_strz_01.MDB
+tl_ps_strz_02.MDB
+tl_xx_blacktexture.DDS   (duplicate)
+tl_xx_blacktexture_n.DDS (duplicate)
+
+
+
+
+Dungeons tileset, by Robinson Workshop ( http://www.robinsonworkshop.com/phpBB2/ )
+
+bones0016_2_n.DDS
+bones0016_2_s.DDS
+brickoldsharp0062_s.DDS
+brickoldsharp0062_s_n.DDS
+doorknobs0008.DDS
+doorknobs0008_n.DDS
+ornamentpanel01.DDS
+ornamentpanel01_n.DDS
+planksold0001.DDS
+planksold0001_n.DDS  (duplicate)
+planksold0011_n.DDS  (duplicate)
+planksold0011_s.DDS
+planksold0074_n.DDS
+planksold0074_s.DDS
+planksold0169_1_n.DDS  (duplicate)
+planksold0169_1_s.DDS  (duplicate)
+plc_dr_rwsdgate.DDS
+plc_dr_rwsdgate.GR2
+plc_dr_rwsdgate.MDB
+plc_dr_rwsdgate_01.MDB
+plc_dr_rwsdgate_02.MDB
+plc_dr_rwsdgate_dr_open1.GR2
+plc_dr_rwsdgate_dr_open2.GR2
+plc_dr_rwsdgate_idle.GR2
+plc_dr_rwsdgate_n.DDS
+plc_mc_rope.DDS
+plc_mc_rope_n.DDS
+plc_mc_rwschair.MDB
+plc_mc_rwsrack.MDB
+plc_mc_rwsshakl2.MDB
+plc_mc_rwsshakl3.MDB
+plc_mc_rwsshakl.MDB
+plc_mc_rwsstock.MDB
+plc_mm_ironmaiden.DDS
+plc_mm_ironmaiden_n.DDS
+plc_mm_ironmaiden.GR2
+plc_mm_ironmaiden.MDB
+plc_mm_ironmaiden_01.MDB
+plc_mm_ironmaiden_02.MDB
+plc_mm_ironmaiden_03.MDB
+plc_mm_ironmaiden_04.MDB
+plc_mm_ironmaiden_05.MDB
+plc_mm_ironmaiden_06.MDB
+plc_mm_ironmaiden_07.MDB
+plc_nn_ironmaiden_idle.GR2
+plc_nn_ironmaiden_plc_openidle.GR2
+plc_wc_rwsdw1.MDB
+plc_wc_rwsdw2.MDB
+plc_wc_rwsdw3.MDB
+plc_wc_rwsdw4.MDB
+rws_shackles.DDS
+rws_shackles_n.DDS
+tcn01_evil02.DDS    (duplicate)
+tcn01_evil02_n.DDS  (duplicate)
+tcn01_evil04.DDS
+tcn01_evil04-nm.DDS
+tcn01_evil05.DDS
+tcn01_evil05-nm.DDS
+tdm01_metl03_n.DDS
+tds01_floor01.DDS
+tds01_floor01_n.DDS
+tds01_floor01_t.DDS
+tds01_floor02.DDS
+tds01_floor02_n.DDS
+tl_dc_detail.DDS     (duplicate)
+tl_dc_detail_n.DDS   (duplicate)
+tl_dc_wall01.DDS     (duplicate)
+tl_dc_wall01_n.DDS   (duplicate)
+tl_dc_wall04.DDS     (duplicate)
+tl_dh_deepstoone_01.DDS    (duplicate)  
+tl_dh_deepstoone_01_n.DDS  (duplicate)
+tl_ds_rivit01_n.DDS        (duplicate)
+tl_ds_rust01.DDS	  (duplicate)
+tl_ds_rust01_n.DDS	  (duplicate)
+tl_ds_wall01.DDS	  (duplicate)
+tl_ds_wall01_n.DDS	  (duplicate)
+tl_rd_bbbb_01.MDB
+tl_rd_bbbb_02.MDB
+tl_rd_bbbb_03.MDB
+tl_rd_bbbb_04.MDB
+tl_rd_bbbb_05.MDB
+tl_rd_bbbb_06.MDB
+tl_rd_beams02.DDS
+tl_rd_beams02_n.DDS
+tl_rd_beams.DDS
+tl_rd_beams_n.DDS
+tl_rd_cavl_01.MDB
+tl_rd_ccbb_01.MDB
+tl_rd_cccc_01.MDB
+tl_rd_cccc_02.MDB
+tl_rd_cccx_01.MDB
+tl_rd_cccx_02.MDB
+tl_rd_ccxx_01.MDB
+tl_rd_ccxx_02.MDB
+tl_rd_cczz_01.MDB
+tl_rd_cppp_01.MDB
+tl_rd_crnr_01.MDB
+tl_rd_crnr_02.MDB
+tl_rd_cxxc_01.MDB
+tl_rd_czzz_01.MDB
+tl_rd_czzz_02.MDB
+tl_rd_ddcc_01.MDB
+tl_rd_ddcw_01.MDB
+tl_rd_dddd_01.MDB
+tl_rd_ddwc_01.MDB
+tl_rd_ddww_01.MDB
+tl_rd_ddwx_01.MDB
+tl_rd_ddwx_02.MDB
+tl_rd_ddxw_01.MDB
+tl_rd_ddxw_02.MDB
+tl_rd_ddzz_01.MDB
+tl_rd_grate.DDS
+tl_rd_grate_n.DDS
+tl_rd_hhhh_01.MDB
+tl_rd_lnk1_01.MDB
+tl_rd_m0102_gate.MDB
+tl_rd_m0202_curve.MDB
+tl_rd_m0202_vault.MDB
+tl_rd_m0303_arena.MDB
+tl_rd_m0303_entry.MDB
+tl_rd_pppz_01.MDB
+tl_rd_ppzz_01.MDB
+tl_rd_pwzz_01.MDB
+tl_rd_spr1_01.MDB
+tl_rd_spr2_01.MDB
+tl_rd_spr3_01.MDB
+tl_rd_spr4_01.MDB
+tl_rd_spr5_01.MDB
+tl_rd_spu1_01.MDB
+tl_rd_spu2_01.MDB
+tl_rd_spu3_01.MDB
+tl_rd_spu4_01.MDB
+tl_rd_spu5_01.MDB
+tl_rd_spu6_01.MDB
+tl_rd_spu6_02.MDB
+tl_rd_spu7_01.MDB
+tl_rd_spu8_01.MDB
+tl_rd_stair.DDS
+tl_rd_stair_n.DDS
+tl_rd_std2_01.MDB
+tl_rd_stu2_01.MDB
+tl_rd_wall01.DDS
+tl_rd_wall01_n.DDS
+tl_rd_wall02.DDS
+tl_rd_wall02_n.DDS
+tl_rd_wall03.DDS
+tl_rd_wall03_n.DDS
+tl_rd_wpzz_01.MDB
+tl_rd_wwbb_01.MDB
+tl_rd_wwcc_01.MDB
+tl_rd_wwcc_02.MDB
+tl_rd_wwcc_03.MDB
+tl_rd_wwcc_04.MDB
+tl_rd_wwcz_01.MDB
+tl_rd_wwwc_01.MDB
+tl_rd_wwwx_01.MDB
+tl_rd_wwwx_02.MDB
+tl_rd_wwwz_01.MDB
+tl_rd_wwxx_01.MDB
+tl_rd_wwxx_02.MDB
+tl_rd_wwxx_03.MDB
+tl_rd_wwxx_04.MDB
+tl_rd_wwzc_01.MDB
+tl_rd_wwzz_01.MDB
+tl_rd_wwzz_02.MDB
+tl_rd_xxxx_01.MDB
+tl_rd_xxxx_02.MDB
+tl_rd_zzzz_01.MDB
+tl_rd_zzzz_02.MDB
+tl_xx_blacktexture.DDS    (duplicate)
+tl_xx_blacktexture_n.DDS  (duplicate)
+
+
+
+Dark Ruins tileset, by Robinson Workshop ( http://www.robinsonworkshop.com/phpBB2/ )
+(all files replaced with 11/2008 update versions)
+
+plc_dr_roll.GR2
+plc_dr_roll.MDB
+plc_dr_roll_01.MDB
+plc_dr_roll_dr_open1.GR2
+plc_dr_roll_dr_open2.GR2
+plc_dr_roll_idle.GR2
+tl_dc_wall01.DDS   (duplicate)
+tl_dc_wall01_n.DDS (duplicate)
+tl_dc_wall04.DDS
+tl_dr_bbbb_01.MDB
+tl_dr_ccbb_01.MDB
+tl_dr_ccbb_02.MDB
+tl_dr_ccbb_03.MDB
+tl_dr_cccc_01.MDB
+tl_dr_cccc_02.MDB
+tl_dr_cccx_01.MDB
+tl_dr_cccz_01.MDB
+tl_dr_ccpp_01.MDB
+tl_dr_ccpz_01.MDB
+tl_dr_ccpz_02.MDB
+tl_dr_ccpz_03.MDB
+tl_dr_ccxx_01.MDB
+tl_dr_cczp_01.MDB
+tl_dr_cczp_02.MDB
+tl_dr_cczp_03.MDB
+tl_dr_cczz_01.MDB
+tl_dr_cczz_02.MDB
+tl_dr_cczz_03.MDB
+tl_dr_cczz_04.MDB
+tl_dr_cppp_01.MDB
+tl_dr_cxxc_01.MDB
+tl_dr_cxxc_02.MDB
+tl_dr_cxxx_01.MDB
+tl_dr_czzc_01.MDB
+tl_dr_czzz_01.MDB
+tl_dr_czzz_02.MDB
+tl_dr_czzz_03.MDB
+tl_dr_ddbb_01.MDB
+tl_dr_ddcc_01.MDB
+tl_dr_ddcw_01.MDB
+tl_dr_ddcx_01.MDB
+tl_dr_dddc_01.MDB
+tl_dr_dddd_01.MDB
+tl_dr_dddw_01.MDB
+tl_dr_dddx_01.MDB
+tl_dr_dddz_01.MDB
+tl_dr_ddwc_01.MDB
+tl_dr_ddww_01.MDB
+tl_dr_ddww_02.MDB
+tl_dr_ddww_03.MDB
+tl_dr_ddwx_01.MDB
+tl_dr_ddxc_01.MDB
+tl_dr_ddxw_01.MDB
+tl_dr_ddxx_01.MDB
+tl_dr_ddzz_01.MDB
+tl_dr_detail1.DDS
+tl_dr_detail1_n.DDS
+tl_dr_dome01.DDS
+tl_dr_dome01_n.DDS
+tl_dr_floor _n.DDS
+tl_dr_floor.DDS
+tl_dr_hhhh_01.MDB
+tl_dr_hhhh_02.MDB
+tl_dr_hhhh_03.MDB
+tl_dr_m0102_cliff.MDB
+tl_dr_m0303_templ.MDB
+tl_dr_mosaic.DDS
+tl_dr_mosaic_n.DDS
+tl_dr_parts2.DDS
+tl_dr_parts2_n.DDS
+tl_dr_parts.DDS
+tl_dr_parts_n.DDS
+tl_dr_pppz_01.MDB
+tl_dr_pppz_02.MDB
+tl_dr_ppzz_01.MDB
+tl_dr_ppzz_02.MDB
+tl_dr_pwzz_01.MDB
+tl_dr_pwzz_02.MDB
+tl_dr_spr1_01.MDB
+tl_dr_spr2_01.MDB
+tl_dr_spr3_01.MDB
+tl_dr_spr4_01.MDB
+tl_dr_spu1_01.MDB  (updated to Riot's fix, 5/15/09 for 1.64, to RWS update 9/16/10)
+tl_dr_spu2_01.MDB
+tl_dr_spu3_01.MDB
+tl_dr_spu4_01.MDB
+tl_dr_spu5_01.MDB
+tl_dr_spu6_01.MDB
+tl_dr_std3_01.MDB
+tl_dr_stu1_01.MDB
+tl_dr_stu2_01.MDB
+tl_dr_wall.DDS
+tl_dr_wall_n.DDS
+tl_dr_wpzz_01.MDB
+tl_dr_wpzz_02.MDB
+tl_dr_wwbb_01.MDB
+tl_dr_wwcc_01.MDB
+tl_dr_wwcx_01.MDB
+tl_dr_wwcz_01.MDB
+tl_dr_wwwc_01.MDB
+tl_dr_wwwx_01.MDB
+tl_dr_wwwz_01.MDB
+tl_dr_wwwz_02.MDB
+tl_dr_wwwz_03.MDB
+tl_dr_wwwz_04.MDB
+tl_dr_wwxc_01.MDB
+tl_dr_wwxx_01.MDB
+tl_dr_wwxx_02.MDB
+tl_dr_wwzc_01.MDB
+tl_dr_wwzz_01.MDB
+tl_dr_wwzz_02.MDB
+tl_dr_wwzz_03.MDB
+tl_dr_wwzz_04.MDB
+tl_dr_xxxx_01.MDB
+tl_dr_zzzz_01.MDB
+tl_jr_dirt.DDS
+tl_jr_dirt_n.DDS
+tl_jr_dome01_n.DDS
+tl_jr_floor2 _n.DDS
+tl_jr_floor2.DDS
+tl_xx_blacktexture.DDS    (duplicate)
+tl_xx_blacktexture_n.DDS  (duplicate)
+
+
+
+RWS Dark Mines tileset, by Robinson's Workshop:
+
+rockwithwriting.DDS    (shared)
+rockwithwriting_n.DDS  (shared)
+tcn01_evil04-nm.DDS    (shared)
+tcn01_evil04.DDS       (shared)
+tcn01_evil05-nm.DDS    (shared)
+tcn01_evil05.DDS       (shared)
+tic01_jailflr01.DDS
+tic01_jailflr01_n.DDS
+tl_dc_wall01.DDS	(shared)
+tl_dc_wall01_n.DDS	(shared)
+tl_dc_wall02.DDS	(shared)
+tl_dc_wall02_n.DDS	(shared)
+tl_dc_wall04.DDS	(shared)
+tl_dm_bbbb_01.MDB
+tl_dm_bbbb_02.MDB
+tl_dm_bbbb_03.MDB
+tl_dm_ccbb_01.MDB
+tl_dm_ccbb_02.MDB
+tl_dm_cccc_01.MDB
+tl_dm_cccc_02.MDB
+tl_dm_cccc_03.MDB
+tl_dm_cccc_04.MDB
+tl_dm_cccz_01.MDB
+tl_dm_cccz_02.MDB
+tl_dm_cccz_03.MDB
+tl_dm_ccpp_01.MDB
+tl_dm_ccpz_01.MDB
+tl_dm_ccpz_02.MDB
+tl_dm_cczp_01.MDB
+tl_dm_cczp_02.MDB
+tl_dm_cczz_01.MDB
+tl_dm_cczz_02.MDB
+tl_dm_cczz_03.MDB
+tl_dm_cppp_01.MDB
+tl_dm_ddcc_01.MDB
+tl_dm_ddcc_02.MDB
+tl_dm_ddcw_01.MDB
+tl_dm_ddcw_02.MDB
+tl_dm_dddd_01.MDB
+tl_dm_dddd_02.MDB
+tl_dm_ddwc_01.MDB
+tl_dm_ddwc_02.MDB
+tl_dm_ddww_01.MDB
+tl_dm_ddww_02.MDB
+tl_dm_ddww_03.MDB
+tl_dm_detail.DDS
+tl_dm_detail_n.DDS
+tl_dm_edge_01.MDB
+tl_dm_edge_02.MDB
+tl_dm_edge_03.MDB
+tl_dm_edge_04.MDB
+tl_dm_edge_05.MDB
+tl_dm_edge_06.MDB
+tl_dm_edge_07.MDB
+tl_dm_edge_08.MDB
+tl_dm_edge_09.MDB
+tl_dm_edge_10.MDB
+tl_dm_edge_11.MDB
+tl_dm_edge_12.MDB
+tl_dm_edge_13.MDB
+tl_dm_hhhh_01.MDB
+tl_dm_hhhh_02.MDB
+tl_dm_hhhh_03.MDB
+tl_dm_hhhh_04.MDB
+tl_dm_hhhh_05.MDB
+tl_dm_hhhh_06.MDB
+tl_dm_hhhh_07.MDB
+tl_dm_hhhh_08.MDB
+tl_dm_hhhh_09.MDB
+tl_dm_hhhh_10.MDB
+tl_dm_link_01.MDB
+tl_dm_link_02.MDB
+tl_dm_link_03.MDB
+tl_dm_link_04.MDB
+tl_dm_m0103_rbridge.MDB
+tl_dm_m0201_edge01.MDB
+tl_dm_m0302_dig.MDB
+tl_dm_m0303_dig.MDB
+tl_dm_ore.DDS
+tl_dm_pppz_01.MDB
+tl_dm_ppzz_01.MDB
+tl_dm_ppzz_02.MDB
+tl_dm_railbed.DDS
+tl_dm_railbed_n.DDS
+tl_dm_spu6_01.MDB
+tl_dm_spu6_02.MDB
+tl_dm_spu6_03.MDB
+tl_dm_std2_01.MDB
+tl_dm_stu2_01.MDB
+tl_dm_wwcc_01.MDB
+tl_dm_wwcc_02.MDB
+tl_dm_wwcc_03.MDB
+tl_dm_wwwc_01.MDB
+tl_dm_wwwc_02.MDB
+tl_dm_wwwc_03.MDB
+tl_dm_wwzz_01.MDB
+tl_dm_wwzz_02.MDB
+tl_dm_wwzz_03.MDB
+tl_dm_wwzz_04.MDB
+tl_dm_xxxx_01.MDB
+tl_ds_rust01.DDS	(shared)
+tl_ds_rust01_n.DDS	(shared)
+tl_gc_col01.DDS
+tl_gc_col01_n.DDS
+tl_xx_blacktexture.DDS		(shared)
+tl_xx_blacktexture_n.DDS	(shared)
+
+
+
+RWS Grand Citadels, by Robinson's Workshop
+
+cdle01_b.DDS
+cdle01_b_n.DDS
+cdle01_d.DDS
+cdle01_d_n.DDS
+cndl01bse.DDS
+cndl01bse_n.DDS
+csv20002t.DDS		(shared)
+csv20002t_n.DDS		(shared)
+frame.DDS		(shared)
+frame_n.DDS	 	(shared)
+grillmask2.DDS		(shared)
+grillmask_n.DDS		(shared)
+tl_cit_cccc_01.MDB
+tl_cit_cccc_02.MDB
+tl_cit_cccc_03.MDB
+tl_cit_cccx_01.MDB
+tl_cit_cccx_02.MDB
+tl_cit_ccxx_01.MDB
+tl_cit_ccxx_02.MDB
+tl_cit_ceiling02.DDS
+tl_cit_cit1_01.MDB
+tl_cit_cit1_02.MDB
+tl_cit_cit1_03.MDB
+tl_cit_cit2_01.MDB
+tl_cit_cit2_02.MDB
+tl_cit_cit2_03.MDB
+tl_cit_cit2_04.MDB
+tl_cit_cit2_05.MDB
+tl_cit_cit3_01.MDB
+tl_cit_cit3_02.MDB
+tl_cit_cit4_01.MDB
+tl_cit_cit6_01.MDB
+tl_cit_cit8_01.MDB
+tl_cit_cit8_02.MDB
+tl_cit_cxxc_01.MDB
+tl_cit_cxxc_02.MDB
+tl_cit_cxxx_01.MDB
+tl_cit_cxxx_02.MDB
+tl_cit_ddcc_01.MDB
+tl_cit_ddcc_02.MDB
+tl_cit_ddcc_03.MDB
+tl_cit_ddcc_04.MDB
+tl_cit_dddd_01.MDB
+tl_cit_dddd_02.MDB
+tl_cit_dddd_03.MDB
+tl_cit_dddx_01.MDB
+tl_cit_dddx_02.MDB
+tl_cit_dddx_03.MDB
+tl_cit_ddwx_01.MDB
+tl_cit_ddwx_02.MDB
+tl_cit_ddwx_03.MDB
+tl_cit_ddxw_01.MDB
+tl_cit_ddxw_02.MDB
+tl_cit_ddxw_03.MDB
+tl_cit_ddxx_01.MDB
+tl_cit_ddxx_02.MDB
+tl_cit_ddxx_03.MDB
+tl_cit_ddxx_04.MDB
+tl_cit_ddxx_05.MDB
+tl_cit_ddxx_06.MDB
+tl_cit_hhhh_01.MDB
+tl_cit_hhhh_02.MDB
+tl_cit_hhhh_03.MDB
+tl_cit_hhhh_04.MDB
+tl_cit_hhhh_05.MDB
+tl_cit_link_01.MDB
+tl_cit_link_02.MDB
+tl_cit_link_03.MDB
+tl_cit_m0202_cvlink.MDB
+tl_cit_m0302_entry.MDB
+tl_cit_spr1_01.MDB
+tl_cit_spu6_01.MDB
+tl_cit_spu6_02.MDB
+tl_cit_spu6_03.MDB
+tl_cit_stnwrit.DDS   (shared)
+tl_cit_stp1_01.MDB
+tl_cit_stp1_02.MDB
+tl_cit_stu3_01.MDB
+tl_cit_stu4_01.MDB
+tl_cit_stu4_02.MDB
+tl_cit_stu4_03.MDB
+tl_cit_stu4_04.MDB
+tl_cit_stu4_05.MDB
+tl_cit_stu5_01.MDB
+tl_cit_stu5_02.MDB
+tl_cit_wwwx_01.MDB
+tl_cit_wwwx_02.MDB
+tl_cit_wwwx_03.MDB
+tl_cit_wwwx_04.MDB
+tl_cit_wwwx_05.MDB
+tl_cit_wwwx_06.MDB
+tl_cit_wwxx_01.MDB
+tl_cit_wwxx_02.MDB
+tl_cit_wwxx_03.MDB
+tl_cit_wwxx_04.MDB
+tl_cit_wwxx_05.MDB
+tl_cit_wwxx_06.MDB
+tl_cit_xxxx_01.MDB
+tl_cit_xxxx_02.MDB
+tl_cit_xxxx_03.MDB
+tl_cit_xxxx_04.MDB
+tl_cit_xxxx_05.MDB
+tl_cit_xxxx_06.MDB
+tl_dh_deepstoone_01.DDS     (shared)
+tl_dh_deepstoone_01_n.DDS   (shared)
+tl_dh_floordetail.DDS	    (shared)
+tl_dh_floordetail_n.DDS     (shared)
+tl_ds_rust01.DDS	    (shared)
+tl_ds_rust01_n.DDS          (shared)
+tl_pc_stu4_01.MDB
+tl_xx_blacktexture.DDS      (shared)
+tl_xx_blacktexture_n.DDS    (shared)

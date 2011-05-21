@@ -1,0 +1,928 @@
+<?xml version="1.0" encoding="utf-8">
+<!-- Neverwinter Nights 2 Creature Examine Context Menu GUI -->
+<!-- Created by Cipher, $Date:: 2007-04-09#$, $Revision:: 304    $ -->
+<!--  merged with MotB 1.11.1115 creatureexamine.xml by AcadiusLost  $ -->
+<!--  DM examine for Feats fixed, SoZ/1.23 henchmen AI functionality merged in by AcadiusLost; 2010-08-31 $ -->
+
+<UIScene name="SCREEN_CREATUREEXAMINE" x=20 y=ALIGN_CENTER width=469 height=540 draggable=true 
+	idleexpiretime="1.0" fadeout="0.3" fadein="0.3" scriptloadable=true backoutkey=true priority="SCENE_INGAME"
+	OnAdd=UIScene_Misc_SetCreatureExamineTarget()
+	OnRemove=UIObject_Misc_ExecuteServerScript("gui_dmc_crunselect")	
+	OnRemove0=UIScene_Misc_ClearCreatureExamineTarget()
+/>
+
+	<!-- Close Button -->
+	<UIButton name="CloseButton" x=426 y=8 style="STYLE_CLOSE_BUTTON" 
+		OnLeftClick=UIButton_Input_ScreenClose()>
+	</UIButton>
+
+	<UIIcon name="CHAR_ICON" img="charexam_icon.tga" x=0 y=0 width=78 height=71 />
+	<UIText name="TITLE" x=80 y=8 width=300 height=27 align=left valign=middle fontfamily="Title_Font" style="2"
+	update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","FULLNAME") />
+
+	<!-- ***CHARACTER TABS*** -->
+	<UIButton name="SHOW_INFO" x=82 y=43 strref="181231" style="STYLE_SMALL_TAB" groupid=1 groupmemberid=1
+		OnLeftClick=UIObject_Misc_RequestCharacterUpdates(1,"true","STATS")
+		OnSelected=UIButton_Input_ShowObject("INFO_PAGE") OnUnselected=UIButton_Input_HideObject("INFO_PAGE") >
+	</UIButton>
+	<UIButton name="SHOW_SKILLS" x=165 y=43 strref="327" style="STYLE_SMALL_TAB" groupid=1 groupmemberid=2
+		OnLeftClick=UIObject_Misc_RequestCharacterUpdates(1,"true","SKILLS")
+		OnSelected=UIButton_Input_ShowObject("SKILLS_PAGE") OnUnselected=UIButton_Input_HideObject("SKILLS_PAGE") >
+	</UIButton>
+	<UIButton name="SHOW_FEATS" x=246 y=43 strref="326" style="STYLE_SMALL_TAB" groupid=1 groupmemberid=3
+		OnLeftClick=UIObject_Misc_RequestCharacterUpdates(1,"true","FEATS")
+		OnSelected=UIButton_Input_ShowObject("FEATS_PAGE") OnUnselected=UIButton_Input_HideObject("FEATS_PAGE") >
+	</UIButton>
+	<UIButton name="SHOW_DISP" x=327 y=43 strref="181238" style="STYLE_BIG_TAB" groupid=1 groupmemberid=4
+		update=true OnUpdate=UIObject_OnUpdate_HideIfDMC()
+		OnLeftClick=UIObject_Misc_RequestCharacterUpdates(1,"true","STATS")
+		OnSelected=UIButton_Input_ShowObject("DISP_PAGE") OnUnselected=UIButton_Input_HideObject("DISP_PAGE") >
+	</UIButton>
+
+	<!-- Character Information Page -->
+	<UIPane name="INFO_PAGE" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT capturemouseclicks=false >
+
+		<!-- Character Statistics Listbox -->
+		<UIText name="STATISTICS_TITLE" strref="7379" x=170 y=158 width=230 height=20 align=left valign=middle fontfamily="Title_Font" style="1" />
+		<UIListBox name="CAMP_DESC_LISTBOX" x=160 y=180 width=298 height=350 yPadding=4 xPadding=0 showpartialchild=true
+			unequalcontrols=true scrollsegmentsize=50 hidescrollbarwhennotneeded=false >
+
+			<UIPane name="SUBRACE_CONTAINER" width=280 height=40 >
+				<UIButton name="SUBRACE_ICON" x=0 y=0 width=40 height=40 style="STYLE_EMPTY_BUTTON"
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterIcon("CREATUREEXAMINE","SUBRACE")/>
+				<UIText name="SUBRACE_TEXT" x=44 y=0 width=230 height=40 fontfamily="Title_Font" style=1 align=left valign=middle indent=5 hangingindent=5
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","SUBRACE") />
+				<UIIcon img="char_r_container_01.tga" x=44 y=0 width=226 height=40 />
+			</UIPane>
+			<UIPane name="ALIGNMENT_CONTAINER" width=280 height=40 >
+				<UIButton name="ALIGNMENT_ICON" x=0 y=0 width=40 height=40 style="STYLE_EMPTY_BUTTON"
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterIcon("CREATUREEXAMINE","ALIGNMENT_ICON")/>
+				<UIText name="ALIGNMENT_TEXT" x=44 y=0 width=230 height=40 fontfamily="Title_Font" style=1 align=left valign=middle indent=5 hangingindent=5
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","ALIGNMENT_TITLE") />
+				<UIIcon img="char_r_container_01.tga" x=44 y=0 width=226 height=40 />
+			</UIPane>
+
+			<UICollapsable name="CLASS_COL" x=0 y=0 height=182 width=PARENT_WIDTH yPadding=5 xPadding=0 indent=20 isexpanded=true collapselock=true 
+				update=true OnUpdate=UICollapsable_OnUpdate_UpdateClassList("CREATUREEXAMINE") >
+				<UIButton name="HEADER_BUTTON" strref="144" x=0 y=0 width=270 height=40  header=true >
+					<UIText x=30 y=0 align=left valign=middle fontfamily="Title_Font" style="1" indent=20 multiline=false />
+					<UIFrame state=up			fill="char_r_container_02.tga" />
+					<UIFrame state=down			fill="char_r_container_02.tga" />
+					<UIFrame state=hilited		fill="char_r_container_02.tga" />
+					<UIFrame state=focused		fill="char_r_container_02.tga" />
+					<UIFrame state=hifocus		fill="char_r_container_02.tga" />
+					<UIFrame state=disabled		fill="char_r_container_02.tga" />
+					<UIFrame state=header		fill="char_r_container_02.tga" />
+					<UIFrame state=hiheader		fill="char_r_container_02.tga" />
+					<UIFrame state=downheader	fill="char_r_container_02.tga" />
+				</UIButton>			
+				<UIPane name="CLASS_PROTO" x=0 y=0 width=280 height=40 prototype=true >					
+					<UIIcon name="CLASS_ICON" img="b_empty.tga" x=0 y=0 width=40 height=40 />
+					<UIText name="CLASS_TEXT" x=44 y=0 width=206 height=40 align=left valign=middle fontfamily="Title_Font" style="1" indent=5 hangingindent=5 multiline=true maxlines=2 />
+					<UIIcon img="char_r_container_02.tga" x=44 y=0 width=206 height=40 />
+				</UIPane>
+			</UICollapsable>						
+
+			<UICollapsable name="MAINHAND_COL" x=0 y=0 height=182 width=PARENT_WIDTH yPadding=5 xPadding=5 indent=0 isexpanded=true >
+				<UIButton name="HEADER_BUTTON" strref="113742" x=0 y=0 width=260 height=22  header=true >
+					<UIText x=30 y=0 align=left valign=middle fontfamily="Title_Font" style="1" indent=20 multiline=false />
+					<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=header		fill="b_feat_normal.tga" />
+					<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+					<UIFrame state=downheader	fill="b_feat_normal.tga" />
+				</UIButton>
+
+				<UIText name="MAINHAND_TEXT" width=PARENT_WIDTH height=DYNAMIC fontfamily="Title_Font" style=1 align=left valign=top indent=10 hangingindent=30
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","MAINHAND") />
+
+				<UIText name="MAINHAND_ATTACK_TEXT" width=PARENT_WIDTH height=DYNAMIC fontfamily="Title_Font" style=1 align=left valign=top indent=20 hangingindent=20
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","MAINHAND_ATTACK_BONUS_STRING") />
+
+				<UIText name="MAINHAND_DAMAGE_TEXT" width=PARENT_WIDTH height=DYNAMIC fontfamily="Title_Font" style=1 align=left valign=top indent=20 hangingindent=20
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","MAINHAND_DAMAGE_STRING") />
+
+			</UICollapsable>						
+
+			<UICollapsable name="MAINHAND_COL" x=0 y=0 height=182 width=PARENT_WIDTH yPadding=5 xPadding=5 indent=0 isexpanded=true >
+				<UIButton name="HEADER_BUTTON" strref="113754" x=0 y=0 width=260 height=22  header=true >
+					<UIText x=30 y=0 align=left valign=middle fontfamily="Title_Font" style="1" indent=20 multiline=false />
+					<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=header		fill="b_feat_normal.tga" />
+					<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+					<UIFrame state=downheader	fill="b_feat_normal.tga" />
+				</UIButton>
+
+				<UIText name="OFFHAND_TEXT" x=4 y=0 width=PARENT_WIDTH height=DYNAMIC fontfamily="Title_Font" style=1 align=left valign=top indent=10 hangingindent=30
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","OFFHAND") />
+
+				<UIText name="OFFHAND_ATTACK_TEXT" x=44 y=0 width=PARENT_WIDTH height=DYNAMIC fontfamily="Title_Font" style=1 align=left valign=top indent=20 hangingindent=20
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","OFFHAND_ATTACK_BONUS_STRING") />
+
+				<UIText name="OFFHAND_DAMAGE_TEXT" x=44 y=0 width=PARENT_WIDTH height=DYNAMIC fontfamily="Title_Font" style=1 align=left valign=top indent=20 hangingindent=20
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","OFFHAND_DAMAGE_STRING") />
+
+			</UICollapsable>						
+
+			<UIPane name="BASEATTACK_CONTAINER" width=274 height=40 >
+				<UIText name="BASEATTACK_TEXT" x=4 y=0 width=270 height=40 fontfamily="Title_Font" style=1 align=left valign=middle indent=5 hangingindent=5
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","BASE_ATTACK") />
+				<UIIcon img="char_r_container_02.tga" x=0 y=0 width=270 height=40 />
+			</UIPane>
+
+			<UIPane name="DEITY_CONTAINER" width=280 height=40 >
+				<UIButton name="DEITY_ICON" x=0 y=0 width=40 height=40 style="STYLE_EMPTY_BUTTON"
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterIcon("CREATUREEXAMINE","DEITY")/>
+				<UIText name="DEITY_TEXT" x=44 y=0 width=230 height=40 fontfamily="Title_Font" style=1 align=left valign=middle indent=5 hangingindent=5
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","DEITY") />
+				<UIIcon img="char_r_container_01.tga" x=44 y=0 width=226 height=40 />
+			</UIPane>
+			<UIPane name="PACKAGE_CONTAINER" width=274 height=40 >
+				<UIText name="PACKAGE_TEXT" x=4 y=0 width=270 height=40 fontfamily="Title_Font" style=1 align=left valign=middle indent=5 hangingindent=5
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","PACKAGE") />
+				<UIIcon img="char_r_container_02.tga" x=0 y=0 width=270 height=40 />
+			</UIPane>
+			<UIPane name="DOMAINS_CONTAINER" width=274 height=40 >
+				<UIText name="DOMAINS_TEXT" x=4 y=0 width=270 height=40 fontfamily="Title_Font" style=1 align=left valign=middle indent=5 hangingindent=5
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","DOMAINS") />
+				<UIIcon img="char_r_container_02.tga" x=0 y=0 width=270 height=40 />
+			</UIPane>
+			<UIPane name="SCHOOL_CONTAINER" width=274 height=40 >
+				<UIButton name="SCHOOL_ICON" x=0 y=0 width=40 height=40 style="STYLE_EMPTY_BUTTON"
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterIcon("CREATUREEXAMINE","SCHOOL")/>
+				<UIText name="SCHOOL_TEXT" x=44 y=0 width=230 height=40 fontfamily="Title_Font" style=1 align=left valign=middle indent=5 hangingindent=5
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","SCHOOL") />
+				<UIIcon img="char_r_container_01.tga" x=44 y=0 width=226 height=40 />
+			</UIPane>
+			<UIPane name="SPELLRESIST_CONTAINER" width=274 height=40 >
+				<UIText name="SPELLRESIST_TEXT" x=4 y=0 width=270 height=40 fontfamily="Title_Font" style=1 align=left valign=middle indent=10 hangingindent=10
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","SPELL_RESIST") />
+				<UIIcon img="char_r_container_02.tga" x=0 y=0 width=270 height=40 />
+			</UIPane>
+			<UIPane name="ARCANESPELLFAIL_CONTAINER" width=274 height=40 >
+				<UIText name="ARCANESPELLFAIL_TEXT" x=4 y=0 width=270 height=40 fontfamily="Title_Font" style=1 align=left valign=middle indent=10 hangingindent=10
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","ARCANE_SPELL_FAILURE") />
+				<UIIcon img="char_r_container_02.tga" x=0 y=0 width=270 height=40 />
+			</UIPane>
+			<UIPane name="AC_PENALTY_CONTAINER" width=274 height=40 >
+				<UIText name="AC_PENALTY_TEXT" x=4 y=0 width=270 height=40 fontfamily="Title_Font" style=1 align=left valign=middle indent=10 hangingindent=10
+					update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","ARMOR_CHECK_PENALTY") />
+				<UIIcon img="char_r_container_02.tga" x=0 y=0 width=270 height=40 />
+			</UIPane>
+
+			<UICollapsable name="EFFECT_COL" x=0 y=0 height=182 width=PARENT_WIDTH yPadding=5 xPadding=5 indent=0 isexpanded=true
+				update=true OnUpdate=UICollapsable_OnUpdate_UpdateEffectList("CREATUREEXAMINE") >
+				<UIButton name="HEADER_BUTTON" strref="313" x=0 y=0 width=260 height=22  header=true >
+					<UIText x=30 y=0 align=left valign=middle fontfamily="Title_Font" style="1" indent=20 multiline=false />
+					<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=header		fill="b_feat_normal.tga" />
+					<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+					<UIFrame state=downheader	fill="b_feat_normal.tga" />
+				</UIButton>
+				
+				<UIPane name="EFFECT_PROTO" x=0 y=0 width=280 height=40 prototype=true >					
+					<UIIcon name="EFFECT_ICON" img="b_empty.tga" x=0 y=0 width=40 height=40 />
+					<UIText name="EFFECT_TEXT" x=40 y=0 width=240 height=40 align=left valign=middle fontfamily="Title_Font" style="1" indent=5 multiline=true maxlines=2 />
+				</UIPane>
+			</UICollapsable>						
+
+
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
+		</UIListBox>		
+
+		<!-- Influence -->
+	   	 <UIPane name="INFLUENCE_CONTAINER" x="30" y="230" width="250" height="44" hideoverride="true" >
+      	<UIText strref="185677"	x="0" y="1" width="360" height="20" align="left" valign="middle" fontfamily="Title_Font" style="1"/>
+      	<UIText name="INFLUENCE_TEXT" x="0" y="22" width="360" height="20" align="left" valign="middle" fontfamily="Title_Font" style="1" 
+        		update="true" OnUpdate="UIText_OnUpdate_DisplayLocalVar(local:1)" />
+    		</UIPane>
+
+		<!-- Character Attributes -->
+		<UIText strref="181233"	x=30 y=294 width=360 height=20 align=left valign=middle fontfamily="Title_Font" style="1"/>		
+		<UIPane name="ABILITIES_CONTAINER" x=18 y=305 width=250 height=135 >				
+			<UIText name="STR_TEXT"	x=0 y=10 width=50 height=20 strref=183041 fontfamily="Title_Font" style=1 align=left valign=middle indent=5 hangingindent=5 />
+			<UIText name="STR_RANK" x=50 y=10 width=40 height=20 fontfamily="Title_Font" style=1 align=center valign=middle
+				update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","STRENGTH") />
+			<UIText name="STR_MOD" x=90 y=10 width=40 height=20 fontfamily="Title_Font" style=1 align=center valign=middle
+				update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","STR_TOTAL_BONUS") />
+			<UIIcon name="STR_TEXT_BG" x=0 y=10 width=50 height=20 img="fx_white.tga" color="1e1e1e" alpha="0.80" />
+			<UIIcon name="STR_RANK_BG" x=50 y=10 width=40 height=20 img="fx_white.tga" color="353535" alpha="0.80" />
+			<UIIcon name="STR_MOD_BG" x=90 y=10 width=40 height=20 img="fx_white.tga" color="1e1e1e" alpha="0.80" />
+
+			<UIText name="DEX_TEXT"	x=0 y=31 width=50 height=20 strref=183042 fontfamily="Title_Font" style=1 align=left valign=middle indent=5 hangingindent=5 />
+			<UIText name="DEX_RANK" x=50 y=31 width=40 height=20 fontfamily="Title_Font" style=1 align=center valign=middle
+				update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","DEXTERITY") />
+			<UIText name="DEX_MOD" x=90 y=31 width=40 height=20 fontfamily="Title_Font" style=1 align=center valign=middle
+				update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","DEX_TOTAL_BONUS") />
+			<UIIcon name="DEX_TEXT_BG" x=0 y=31 width=50 height=20 img="fx_white.tga" color="040404" />
+			<UIIcon name="DEX_RANK_BG" x=50 y=31 width=40 height=20 img="fx_white.tga" color="1e1e1e" />
+			<UIIcon name="DEX_MOD_BG" x=90 y=31 width=40 height=20 img="fx_white.tga" color="040404" />
+
+			<UIText name="CON_TEXT"	x=0 y=52 width=50 height=20 strref=183043 fontfamily="Title_Font" style=1 align=left valign=middle indent=5 hangingindent=5 />
+			<UIText name="CON_RANK" x=50 y=52 width=40 height=20 fontfamily="Title_Font" style=1 align=center valign=middle
+				update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","CONSTITUTION") />
+			<UIText name="CON_MOD" x=90 y=52 width=40 height=20 fontfamily="Title_Font" style=1 align=center valign=middle
+				update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","CON_TOTAL_BONUS") />
+			<UIIcon name="CON_TEXT_BG" x=0 y=52 width=50 height=20 img="fx_white.tga" color="1e1e1e" />
+			<UIIcon name="CON_RANK_BG" x=50 y=52 width=40 height=20 img="fx_white.tga" color="353535" />
+			<UIIcon name="CON_MOD_BG" x=90 y=52 width=40 height=20 img="fx_white.tga" color="1e1e1e" />
+
+			<UIText name="INT_TEXT"	x=0 y=73 width=50 height=20 strref=183044 fontfamily="Title_Font" style=1 align=left valign=middle indent=5 hangingindent=5 />
+			<UIText name="INT_RANK" x=50 y=73 width=40 height=20 fontfamily="Title_Font" style=1 align=center valign=middle
+				update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","INTELLIGENCE") />
+			<UIText name="INT_MOD" x=90 y=73 width=40 height=20 fontfamily="Title_Font" style=1 align=center valign=middle
+				update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","INT_TOTAL_BONUS") />
+			<UIIcon name="INT_TEXT_BG" x=0 y=73 width=50 height=20 img="fx_white.tga" color="040404" />
+			<UIIcon name="INT_RANK_BG" x=50 y=73 width=40 height=20 img="fx_white.tga" color="1e1e1e" />
+			<UIIcon name="INT_MOD_BG" x=90 y=73 width=40 height=20 img="fx_white.tga" color="040404" />
+
+			<UIText name="WIS_TEXT"	x=0 y=94 width=50 height=20 strref=183045 fontfamily="Title_Font" style=1 align=left valign=middle indent=5 hangingindent=5 />
+			<UIText name="WIS_RANK" x=50 y=94 width=40 height=20 fontfamily="Title_Font" style=1 align=center valign=middle
+				update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","WISDOM") />
+			<UIText name="WIS_MOD" x=90 y=94 width=40 height=20 fontfamily="Title_Font" style=1 align=center valign=middle
+				update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","WIS_TOTAL_BONUS")/>
+			<UIIcon name="WIS_TEXT_BG" x=0 y=94 width=50 height=20 img="fx_white.tga" color="1e1e1e" />
+			<UIIcon name="WIS_RANK_BG" x=50 y=94 width=40 height=20 img="fx_white.tga" color="353535" />
+			<UIIcon name="WIS_MOD_BG" x=90 y=94 width=40 height=20 img="fx_white.tga" color="1e1e1e" />
+
+			<UIText name="CHA_TEXT"	x=0 y=115 width=50 height=20 strref=183046 fontfamily="Title_Font" style=1 align=left valign=middle indent=5 hangingindent=5 />
+			<UIText name="CHA_RANK" x=50 y=115 width=40 height=20 fontfamily="Title_Font" style=1 align=center valign=middle
+				update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","CHARISMA") />
+			<UIText name="CHA_MOD" x=90 y=115 width=40 height=20 fontfamily="Title_Font" style=1 align=center valign=middle
+				update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","CHA_TOTAL_BONUS") />
+			<UIIcon name="CHA_TEXT_BG" x=0 y=115 width=50 height=20 img="fx_white.tga" color="040404" />
+			<UIIcon name="CHA_RANK_BG" x=50 y=115 width=40 height=20 img="fx_white.tga" color="1e1e1e" />
+			<UIIcon name="CHA_MOD_BG" x=90 y=115 width=40 height=20 img="fx_white.tga" color="040404" />
+		</UIPane>
+
+		<!-- Character Saving Throws -->
+		<UIText strref="184612" x=30 y=445 width=360 height=20 align=left valign=middle fontfamily="Title_Font" style="1" multiline=false />
+		<UIPane name="SAVES_CONTAINER" x=13 y=456 width=250 height=160 >				
+			<UIText name="FORT_TEXT" x=0 y=10 width=95 height=20 strref=317 fontfamily="Title_Font" style=1 align=left valign=middle indent=5 hangingindent=5 multiline=false />
+			<UIText name="FORT_SAVE" x=90 y=10 width=40 height=20 fontfamily="Title_Font" style=1 align=center valign=middle
+				update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","FORT_SAVINGTHROW") />
+			<UIIcon name="FORT_TEXT_BG" x=5 y=10 width=90 height=20 img="fx_white.tga" color="1e1e1e" alpha="0.80" />
+			<UIIcon name="FORT_SAVE_BG" x=95 y=10 width=40 height=20 img="fx_white.tga" color="353535" alpha="0.80" />
+
+			<UIText name="REF_TEXT" x=0 y=31 width=90 height=20 strref=318 fontfamily="Title_Font" style=1 align=left valign=middle indent=5 hangingindent=5 multiline=false />
+			<UIText name="REF_SAVE" x=90 y=31 width=40 height=20 fontfamily="Title_Font" style=1 align=center valign=middle
+				update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","REFLEX_SAVINGTHROW") />
+			<UIIcon name="REF_TEXT_BG" x=5 y=31 width=90 height=20 img="fx_white.tga" color="040404" />
+			<UIIcon name="REF_SAVE_BG" x=95 y=31 width=40 height=20 img="fx_white.tga" color="1e1e1e" />
+
+			<UIText name="WILL_TEXT" x=0 y=52 width=90 height=20 strref=319 fontfamily="Title_Font" style=1 align=left valign=middle indent=5 hangingindent=5 multiline=false />
+			<UIText name="WILL_SAVE" x=90 y=52 width=40 height=20 fontfamily="Title_Font" style=1 align=center valign=middle
+				update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","WILL_SAVINGTHROW") />
+			<UIIcon name="WILL_TEXT_BG" x=5 y=52 width=90 height=20 img="fx_white.tga" color="1e1e1e" />
+			<UIIcon name="WILL_SAVE_BG"	x=95 y=52 width=40 height=20 img="fx_white.tga" color="353535" />
+		</UIPane>
+
+		<!-- Character Experience -->
+		<UIProgressBar name="LEVELUP_PROGRESS" x=147 y=86 width=299 height=15 
+			update=true OnUpdate=UIProgressBar_OnUpdate_DisplayCreatureLevelUpPercentage()
+			img="char_xp_fill.tga" >
+		</UIProgressBar>
+		<UIText name="EXP_RATIO"	x=146 y=105 width=301 height=20 indent=10 align=center valign=top fontfamily="Body_Font" style="1" 
+			update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","EXP_RATIO") />
+
+		<!-- Character Hit Points -->
+		<UIText name="HP_RATIO"		x=178 y=125 width=110 height=29 align=left valign=middle fontfamily="Body_Font" style="1"
+			update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","HP_RATIO") />
+		<UIIcon name="HP_ICON" img="icon_health.tga" x=145 y=124 width=29 height=29 />
+
+		<!-- Character Armor Class -->
+		<UIText name="ARMOR_CLASS"	x=328 y=125 width=100 height=29 indent=10 align=left valign=middle fontfamily="Body_Font" style="1"
+			update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("CREATUREEXAMINE","ARMOR_CLASS") />
+		<UIIcon name="AC_ICON" img="icon_ac.tga" x=298 y=124 width=29 height=29 />
+
+		<!-- Character Portrait Frame -->
+		<UIIcon name="CHAR_PORT_FRAME" img="charportrait_frame.tga" x=1 y=75 width=150 height=147 />
+		<UIIcon name="PORTRAIT_FRAME_LEVELUP"	x=1 y=75 width=150 height=147 img="charportrait_glow.tga" hidden=true ignoreevents=true
+			update=true OnUpdate=UIObject_OnUpdate_CheckForLevelUp() />
+
+		<!-- Character Custom Portrait icon -->
+		<UIIcon name="CUSTOM_PORTRAIT_ICON"  x=14 y=85 width=128 height=128 hidden=true />
+
+		<!-- Character Portrait -->
+		<UIPortrait name="PORTRAIT"	texture="p_m_bg_dark.tga" x=14 y=85 width=128 height=128
+			update=true OnUpdate=UIPortrait_OnUpdate_UpdateCharacterPortrait("CREATUREEXAMINE")
+			OnRender=UIPortrait_OnRender_RenderCharacterPortrait()
+			ambground_intens=".4" ambgroundcolor_r=".7" ambgroundcolor_g=".55" ambgroundcolor_b=".4"
+			ambsky_intens=".8" ambskycolor_r=".3" ambskycolor_g=".4" ambskycolor_b=".78"        
+			diffusecolor_r=.9 diffusecolor_g=.8 diffusecolor_b=.6
+			light_intens=.0 >
+		
+        <UIPointLight active="true" pos_x="0" pos_y="1" pos_z="1" radius="4" intensity=".4" 
+        color_r="1" color_g=".6" color_b="0" 
+        speccolor_r=".5" speccolor_g=".2" speccolor_b="0" />
+     
+        <UIPointLight active="true" pos_x="1" pos_y="1" pos_z="1" radius="3" intensity="2.0" 
+        color_r=".31" color_g=".42" color_b=".58" 
+        speccolor_r=".31" speccolor_g=".42" speccolor_b=".58" />
+     
+        <UIPointLight active="true" pos_x="-2" pos_y="1" pos_z="1" radius="3" intensity="2.5" 
+        color_r=".6" color_g=".55" color_b=".5" 
+        speccolor_r=".6" speccolor_g=".55" speccolor_b=".5" />
+		</UIPortrait>
+
+		<UIIcon name="DETAIL_TOP" img="char_top_bg.tga" x=10 y=7 width=450 height=170 ignoreevents="true" />
+		<UIIcon name="DETAIL_LEFT" img="char_left_bg.tga" x=10 y=177 width=145 height=355 ignoreevents="true" />
+		<UIFrame width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+			bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+			left="frame1_l.tga" right="frame1_r.tga" border=32 />	
+		<UIFrame x=155 y=177 width=305 height=355 fillstyle="tile" fill="bg_60_alpha.tga" />
+		<UIFrame x=155 y=177 width=305 height=355 fillstyle="tile" fill="dark_rock_tile.tga" />
+	</UIPane>
+	<!-- End Character InformationPage -->
+
+	<!-- Character Skills Page -->
+	<UIPane name="SKILLS_PAGE" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT hidden=true capturemouseclicks=false >
+		<UIText strref="181234"	x=43 y=78 width=360 height=20 align=left valign=middle fontfamily="Title_Font" style=1 />
+		<UIListBox name="SKILLDESC_LISTBOX" x=28 y=108 width=414 height=106 yPadding=0 xPadding=0 showpartialchild=true
+			unequalcontrols=true scrollsegmentsize=30 hidescrollbarwhennotneeded=false >			
+			<UIPane name="INFO_CONTAINER" x=0 y=0 width=PARENT_WIDTH height=40 >
+				<UIIcon name="INFOPANE_IMAGE" img="b_empty.tga" x=5 y=0 width=40 height=40 ignoreevents=true />
+				<UIText name="INFOPANE_TITLE" x=50 y=0 width=340 height=40 align=left valign=middle fontfamily="Title_Font" style="2" />
+			</UIPane>		
+			<UIText name="INFOPANE_TEXT" width="PARENT_WIDTH" height="DYNAMIC" align="left" valign="top" fontfamily="Default" style="1" multiline="true" />
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
+		</UIListBox>
+
+		<!-- Skill Listbox -->
+		<UIText strref="181235" x=43 y=241 width=360 height=20 align=left valign=middle fontfamily="Title_Font" style=1 />
+		<UIListbox name="SKILLPANE_LIST" x=22 y=263 width=426 height=267 yPadding=0 xPadding=0  
+			showpartialchild=true scrollbaronright=true unequalcontrols=true scrollsegmentsize=32 update=true
+			OnUpdate=UIListBox_OnUpdate_SkillList("CREATUREEXAMINE","SKILL_RANK","SKILL_IMAGE","SKILL_TEXT","INFOPANE_TEXT","INFOPANE_IMAGE","INFOPANE_TITLE") >
+
+			<UIPane name="SKILL_PROTO" width=420 height=32 tupple=true update=true updaterate="0.5" prototype=true
+				OnUpdate=UIObject_OnUpdate_Skill("CREATUREEXAMINE","SKILL_RANK","SKILL_IMAGE","SKILL_TEXT")
+				OnLeftClick=UIButton_Input_ShowSkillDesc("INFOPANE_TEXT","INFOPANE_IMAGE","INFOPANE_TITLE") >
+
+				<UIButton name="SKILL_IMAGE" x=0 y=0 width=32 height=32 style="STYLE_SKILL_ICON_CHARSHEET" />
+				<UIText name="SKILL_TEXT" x=36 y=1 width=314 height=30 align=left valign=middle fontfamily="Title_Font" style=2 indent=10 />
+				<UIText name="SKILL_RANK" x=354 y=1 width=50 height=30 align=center valign=middle fontfamily="Title_Font" style=2 />
+				<UIIcon name="SKILL_TEXT_BG" img="stats_container4.tga" x=36 y=1 width=314 height=30 />
+				<UIIcon name="SKILL_RANK_BG" img="stats_container5.tga" x=354 y=1 width=50 height=30 />
+			</UIPane>
+
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
+		</UIListbox>		
+
+		<UIIcon name="DETAIL_SUBTITLE1" img="char_stats_title.tga" x=ALIGN_CENTER y=80 width=431 height=20 ignoreevents="true" />
+		<UIIcon name="DETAIL_MIDDLE" img="stats_container_lg.tga" x=ALIGN_CENTER y=103 width=427 height=115 ignoreevents="true" />
+		<UIIcon name="DETAIL_SUBTITLE2" img="char_stats_title.tga" x=ALIGN_CENTER y=241 width=431 height=20 ignoreevents="true" />
+		<UIIcon name="DETAIL_TOP" img="char_skills_top.tga" x=10 y=7 width=450 height=233 ignoreevents="true" />
+		<UIFrame width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+			bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+			left="frame1_l.tga" right="frame1_r.tga" border=32 />	
+		<UIFrame x=10 y=222 width=450 height=310 fillstyle="tile" fill="bg_60_alpha.tga"/>
+		<UIFrame x=10 y=222 width=450 height=310 fillstyle="tile" fill="dark_rock_tile.tga"/>
+	</UIPane>
+
+	<!-- Character Feats Page -->
+	<UIPane name="FEATS_PAGE" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT hidden=true capturemouseclicks=false >
+		<UIText strref="181236"	x=43 y=78 width=360 height=20 align=left valign=middle fontfamily="Title_Font" style=1 />
+		<UIListBox name="FEATDESC_LISTBOX" x=28 y=108 width=414 height=106 yPadding=0 xPadding=0 showpartialchild=true
+			unequalcontrols=true scrollsegmentsize=30 hidescrollbarwhennotneeded=false >			
+			<UIPane name="FEAT_CONTAINER" x=0 y=0 width=PARENT_WIDTH height=40 >
+				<UIIcon name="FEATPANE_IMAGE" img="b_empty.tga" x=5 y=0 width=40 height=40 ignoreevents=true />
+				<UIText name="FEATPANE_TITLE" x=50 y=0 width=340 height=40 align=left valign=middle fontfamily="Title_Font" style="2" />			
+			</UIPane>		
+
+			<UIText name="FEATPANE_TEXT" strref="183528" width="PARENT_WIDTH" height="DYNAMIC" align="left" valign="top" fontfamily="Default" style="1" multiline="true" />
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
+		</UIListBox>
+
+		<!-- Feat Collapsable Listbox -->
+		<UIText strref="181237" x=43 y=241 width=360 height=20 align=left valign=middle fontfamily="Title_Font" style=1 />
+		<UIListbox name="FEAT_LIST" x=22 y=263 width=426 height=267 yPadding=0 xPadding=0  
+			showpartialchild=true scrollbaronright=true unequalcontrols=true scrollsegmentsize=32 update=true
+			OnUpdate=UIListBox_OnUpdate_FeatList("CREATUREEXAMINE","FEAT_TEXT","FEAT_IMAGE","FEATPANE_TEXT","FEATPANE_IMAGE","FEATPANE_TITLE","FEAT_HISTORY_LIST","FEAT_GENERAL_LIST","FEAT_PROF_LIST","FEAT_SPELLCAST_LIST","FEAT_METAMAGIC_LIST","FEAT_ITEMCREATION_LIST","FEAT_DIVINE_LIST","FEAT_SKILLSAVE_LIST","FEAT_RACIAL_LIST","FEAT_CLASS_LIST","FEAT_BACKGROUND_LIST","FEAT_EPIC_LIST","FEAT_HERITAGE_LIST","FEAT_TEAMWORK_LIST") >
+
+			<UICollapsable name="FEAT_PROTO_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true prototype=true >
+				<UIButton name=HeaderButton x=0 y=0 width=400 height=22 header=true >
+					<UIText strref="5846" align=center valign=middle fontfamily="Title_Font" style=1 />
+					<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+					<UIFrame state=header		fill="b_feat_normal.tga" />
+					<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+					<UIFrame state=downheader	fill="b_feat_normal.tga" />
+				</UIButton>
+				<UIPane name="FEATPANE_PROTO" x=0 y=0 height=40 width=PARENT_WIDTH prototype=true >
+					<UIButton name="FEAT_IMAGE" x=0 y=0 style="STYLE_SKILL_ICON" prototype=true draggable=true hotbartype="HOTBAR_FEAT" 
+						OnLeftClick=UIButton_Input_ShowFeatDesc("FEATPANE_TEXT","FEATPANE_IMAGE","FEATPANE_TITLE") >
+					</UIButton>
+					<UIButton name="FEAT_TEXT" x=44 y=1 width=314 height=40 prototype=true OnLeftClick=UIButton_Input_ShowFeatDesc("FEATPANE_TEXT","FEATPANE_IMAGE","FEATPANE_TITLE") >
+						<UIText name="FEAT_TEXTFIELD" indent=5 align=left valign=middle strref="25105" fontfamily="Title_Font" style=1 prototype=true />
+						<UIFrame state=up		fill="stats_container4.tga" />
+						<UIFrame state=down		fill="stats_container4.tga" />
+						<UIFrame state=focused	fill="stats_container4.tga" />
+						<UIFrame state=hilited	fill="stats_container4.tga" />
+						<UIFrame state=hifocus	fill="stats_container4.tga" />
+						<UIFrame state=disabled	fill="stats_container4.tga" />
+					</UIButton>
+				</UIPane>
+			</UICollapsable>				
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
+		</UIListbox>		
+		<UIIcon name="DETAIL_SUBTITLE1" img="char_stats_title.tga" x=ALIGN_CENTER y=80 width=431 height=20 ignoreevents="true" />
+		<UIIcon name="DETAIL_MIDDLE" img="stats_container_lg.tga" x=ALIGN_CENTER y=103 width=427 height=115 ignoreevents="true" />
+		<UIIcon name="DETAIL_SUBTITLE2" img="char_stats_title.tga" x=ALIGN_CENTER y=241 width=431 height=20 ignoreevents="true" />
+		<UIIcon name="DETAIL_TOP" img="char_skills_top.tga" x=10 y=7 width=450 height=233 ignoreevents="true" />
+		<UIFrame width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+			bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+			left="frame1_l.tga" right="frame1_r.tga" border=32 />	
+		<UIFrame x=10 y=222 width=450 height=310 fillstyle="tile" fill="bg_60_alpha.tga"/>
+		<UIFrame x=10 y=222 width=450 height=310 fillstyle="tile" fill="dark_rock_tile.tga"/>
+	</UIPane>
+
+	<!-- Character Disposition Page -->
+	<UIPane name="DISP_PAGE" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT hidden=true capturemouseclicks=false >
+
+		<UIText strref="181242"	x=43 y=78 width=360 height=20 align=left valign=middle fontfamily="Title_Font" style=1 />
+		<!-- Script selection text box. This text box holds the description for the currently selected script -->	
+		<UIListBox name="FEATDESC_LISTBOX" x=28 y=108 width=414 height=106 yPadding=2 xPadding=0 showpartialchild=true
+			unequalcontrols=true scrollsegmentsize=30 hidescrollbarwhennotneeded=false 
+			updaterate="1.0" update=true OnUpdate=UIObject_Misc_ExecuteServerScript("gui_bhvr_update","1") >			
+			<UIText name="BEHAVIORDESC_TEXT" strref="183529" width="PARENT_WIDTH" height="DYNAMIC" align="left" valign="top" fontfamily="Default" multiline="true" />
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
+		</UIListBox>
+
+		<!-- Script Radio Buttons -->
+		<UIText strref="181243" x=43 y=241 width=360 height=20 align=left valign=middle fontfamily="Title_Font" style=1 />		
+		<UIListbox name="BEHAVIOR_LIST" x=22 y=263 width=426 height=267 yPadding=0 xPadding=0  
+			showpartialchild=true scrollbaronright=true unequalcontrols=true scrollsegmentsize=32  >
+
+			<!-- Puppet Collapsable -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_DISARM_COL_HEADER" strref="183221" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Puppet On Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_PUPPET_STATE_BUTTON_ON" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+					OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_puppet_on","1") />
+					<UIButton name="BEHAVIOR_PUPPET_TEXT_BUTTON_ON" strref="181250" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+					OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_puppet_on","1") />
+				</UIPane>
+				<!-- Puppet Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_PUPPET_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+					OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_puppet_off","1") />
+					<UIButton name="BEHAVIOR_PUPPET_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+					OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_puppet_off","1") />
+				</UIPane>
+			</UICollapsable>	      
+      
+			<!-- Follow Distance Collapsable -->
+			<UICollapsable name="BEHAVIOR_FOLLOWDIST_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_FOLLOWDIST_COL_HEADER" strref="181244" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Near Button -->
+				<UIPane name="BEHAVIOR_FOLLOWDIST_PANE_FAR" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_FOLLOWDIST_STATE_BUTTON_NEAR" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_follownear","1") />
+					<UIButton name="BEHAVIOR_FOLLOWDIST_TEXT_BUTTON_NEAR" strref="181245" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON" 
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_follownear","1") />
+				</UIPane>
+				<!-- Medium Button -->
+				<UIPane name="BEHAVIOR_FOLLOWDIST_PANE_MED" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_FOLLOWDIST_STATE_BUTTON_MED" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_followmed","1") />
+					<UIButton name="BEHAVIOR_FOLLOWDIST_TEXT_BUTTON_MED" strref="181246" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_followmed","1") />
+				</UIPane>
+				<!-- Far Button -->
+				<UIPane name="BEHAVIOR_FOLLOWDIST_PANE_FAR" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_FOLLOWDIST_STATE_BUTTON_FAR" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_followfar","1") />
+					<UIButton name="BEHAVIOR_FOLLOWDIST_TEXT_BUTTON_FAR" strref="181247" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_followfar","1") />
+				</UIPane>
+			</UICollapsable>	
+
+			<!-- Disarm Traps Collapsable -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_DISARM_COL_HEADER" strref="181249" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Disarm Traps On Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_DISARM_STATE_BUTTON_ON" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_disarm_on","1") />
+					<UIButton name="BEHAVIOR_DISARM_TEXT_BUTTON_ON" strref="181250" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_disarm_on","1") />
+				</UIPane>
+				<!-- Disarm Traps Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_DISARM_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_disarm_off","1") />
+					<UIButton name="BEHAVIOR_DISARM_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_disarm_off","1")/>
+				</UIPane>
+			</UICollapsable>	
+
+			<!-- Defend Master Collapsable -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_DISARM_COL_HEADER" strref="181252"	 header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Defend Master On Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_DEF_MASTER_STATE_BUTTON_ON" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_def_master_on","1") />
+					<UIButton name="BEHAVIOR_DEF_MASTER_TEXT_BUTTON_ON" strref="181250" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_def_master_on","1") />
+				</UIPane>
+				<!-- Defend Master Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_DEF_MASTER_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_def_master_off","1") />
+					<UIButton name="BEHAVIOR_DEF_MASTER_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_def_master_off","1") />
+				</UIPane>
+			</UICollapsable>
+
+			<!-- Guard Distance Collapsable -->
+			<UICollapsable name="BEHAVIOR_GUARDDIST_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_GUARDDIST_COL_HEADER" strref="181244" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Near Button -->
+				<UIPane name="BEHAVIOR_GUARDDIST_PANE_NEAR" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_GUARDDIST_STATE_BUTTON_NEAR" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","262144","1","0","1") />
+					<UIButton name="BEHAVIOR_GUARDDIST_TEXT_BUTTON_NEAR" strref="181245" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON" 
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","262144","1","0","1") />
+				</UIPane>
+				<!-- Medium Button -->
+				<UIPane name="BEHAVIOR_GUARDDIST_PANE_MED" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_GUARDDIST_STATE_BUTTON_MED" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","524288","1","0","1") />
+					<UIButton name="BEHAVIOR_GUARDDIST_TEXT_BUTTON_MED" strref="181246" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","524288","1","0","1") />
+				</UIPane>
+				<!-- Far Button -->
+				<UIPane name="BEHAVIOR_GUARDDIST_PANE_FAR" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_GUARDDIST_STATE_BUTTON_FAR" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","1048576","1","0","1") />
+					<UIButton name="BEHAVIOR_GUARDDIST_TEXT_BUTTON_FAR" strref="181247" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","1048576","1","0","1") />
+				</UIPane>
+				<!-- default Button -->
+				<UIPane name="BEHAVIOR_GUARDDIST_PANE_DEFAULT" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_GUARDDIST_STATE_BUTTON_DEFAULT" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","1310720","1","0","1") />
+					<UIButton name="BEHAVIOR_GUARDDIST_TEXT_BUTTON_DEFAULT" strref="6614" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","1310720","1","0","1") />
+				</UIPane>
+			</UICollapsable>	
+
+			<!-- Retry Locks Collapsable -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_DISARM_COL_HEADER" strref="181253" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Retry Locks On Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_RETRY_LOCKS_STATE_BUTTON_ON" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_retry_locks_on","1") />
+					<UIButton name="BEHAVIOR_RETRY_LOCKS_TEXT_BUTTON_ON" strref="181250" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_retry_locks_on","1") />
+				</UIPane>
+				<!-- Retry Locks Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_RETRY_LOCKS_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_retry_locks_off","1") />
+					<UIButton name="BEHAVIOR_RETRY_LOCKS_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_retry_locks_off","1") />
+				</UIPane>
+			</UICollapsable>	
+
+			<!-- Auto open locks -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_AUTO_OPEN_LOCKS_COL_HEADER" strref="6818" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Disable weapon switch On Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_AUTO_OPEN_LOCKS_STATE_BUTTON_ON" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","4096","1","0","1") />
+					<UIButton name="BEHAVIOR_AUTO_OPEN_LOCKS_TEXT_BUTTON_ON" strref="181250" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","4096","1","0","1") />
+				</UIPane>
+				<!-- Enable weapon switch Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_AUTO_OPEN_LOCKS_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","4096","0","0","1") />
+					<UIButton name="BEHAVIOR_AUTO_OPEN_LOCKS_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","4096","0","0","1") />
+				</UIPane>
+			</UICollapsable>
+
+			<!-- Auto pickup -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_AUTO_PICKUP_COL_HEADER" strref="6818" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Disable weapon switch On Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_AUTO_PICKUP_STATE_BUTTON_ON" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","8192","1","0","1") />
+					<UIButton name="BEHAVIOR_AUTO_PICKUP_TEXT_BUTTON_ON" strref="181250" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","8192","1","0","1") />
+				</UIPane>
+				<!-- Enable weapon switch Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_AUTO_PICKUP_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","8192","0","0","1") />
+					<UIButton name="BEHAVIOR_AUTO_PICKUP_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","8192","0","0","1") />
+				</UIPane>
+			</UICollapsable>
+
+			<!-- Stealth Mode Collapsable -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_DISARM_COL_HEADER" strref="4850" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Stealth Mode None Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_STEALTH_MODE_STATE_BUTTON_NONE" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_stealth_none","1") />
+					<UIButton name="BEHAVIOR_STEALTH_MODE_TEXT_BUTTON_NONE" strref="181254" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_stealth_none","1") />
+				</UIPane>
+				<!-- Stealth Mode Permanent Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_STEALTH_MODE_STATE_BUTTON_PERM" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_stealth_perm","1") />
+					<UIButton name="BEHAVIOR_STEALTH_MODE_TEXT_BUTTON_PERM" strref="181255" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_stealth_perm","1") />
+				</UIPane>
+				<!-- Stealth Mode Temporary Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_STEALTH_MODE_STATE_BUTTON_TEMP" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_stealth_temp","1") />
+					<UIButton name="BEHAVIOR_STEALTH_MODE_TEXT_BUTTON_TEMP" strref="181256" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_stealth_temp","1") />
+				</UIPane>
+			</UICollapsable>	
+
+			<!-- Disable automatic hiding -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_DISABLE_HIDING_COL_HEADER" strref="1000" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Disable weapon switch On Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_DISABLE_HIDING_STATE_BUTTON_ON" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","131072","0","0","1") />
+					<UIButton name="BEHAVIOR_DISABLE_HIDING_TEXT_BUTTON_ON" strref="181250" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","131072","0","0","1") />
+				</UIPane>
+				<!-- Enable weapon switch Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_DISABLE_HIDING_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","131072","1","0","1") />
+					<UIButton name="BEHAVIOR_DISABLE_HIDING_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","131072","1","0","1") />
+				</UIPane>
+			</UICollapsable>
+
+			<!-- Casting Collapsable -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_DISARM_COL_HEADER" strref="181257" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Casting Overkill Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_CASTING_STATE_BUTTON_OVERKILL" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_casting_overkill","1") />
+					<UIButton name="BEHAVIOR_CASTING_TEXT_BUTTON_OVERKILL" strref="182898" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_casting_overkill","1") />
+				</UIPane>
+				<!-- Casting Power Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH>
+					<UIButton name="BEHAVIOR_CASTING_STATE_BUTTON_POWER" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_casting_power","1") />
+					<UIButton name="BEHAVIOR_CASTING_TEXT_BUTTON_POWER" strref="182899" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_casting_power","1") />
+				</UIPane>
+				<!-- Casting Scaled Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_CASTING_STATE_BUTTON_SCALED" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_casting_scaled","1") />
+					<UIButton name="BEHAVIOR_CASTING_TEXT_BUTTON_SCALED" strref="182900" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_casting_scaled","1") />
+				</UIPane> 
+				<!-- Casting Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_CASTING_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_casting_off","1") />
+					<UIButton name="BEHAVIOR_CASTING_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_casting_off","1") />
+				</UIPane>
+			</UICollapsable>	
+
+			<!-- Dispel Collapsable -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_DISARM_COL_HEADER" strref="181258" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Dispel On Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_DISPEL_STATE_BUTTON_ON" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_dispel_on","1") />
+					<UIButton name="BEHAVIOR_DISPEL_TEXT_BUTTON_ON" strref="181250" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_dispel_on","1") />
+				</UIPane>
+				<!-- Dispel Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_DISPEL_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_dispel_off","1") />
+					<UIButton name="BEHAVIOR_DISPEL_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_dispel_off","1") />
+				</UIPane>
+			</UICollapsable>	
+
+			<!-- Item Use Collapsable -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_DISARM_COL_HEADER" strref="183201" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Item Use On Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_ITEM_USE_STATE_BUTTON_ON" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_item_use_on","1") />
+					<UIButton name="BEHAVIOR_ITEM_USE_TEXT_BUTTON_ON" strref="181250" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_item_use_on","1") />
+				</UIPane>
+				<!-- Item Use Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_ITEM_USE_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_item_use_off","1") />
+					<UIButton name="BEHAVIOR_ITEM_USE_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_item_use_off","1") />
+				</UIPane>
+			</UICollapsable>	
+
+			<!-- Use cure and healing items -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_ENABLE_HEAL_ITEM_USE_COL_HEADER" strref="1000" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Disable weapon switch On Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_ENABLE_HEAL_ITEM_USE_STATE_BUTTON_ON" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","65536","1","0","1") />
+					<UIButton name="BEHAVIOR_ENABLE_HEAL_ITEM_USE_TEXT_BUTTON_ON" strref="181250" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","65536","1","0","1") />
+				</UIPane>
+				<!-- Enable weapon switch Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_ENABLE_HEAL_ITEM_USE_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","65536","0","0","1") />
+					<UIButton name="BEHAVIOR_ENABLE_HEAL_ITEM_USE_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","65536","0","0","1") />
+				</UIPane>
+			</UICollapsable>
+
+			<!-- Ability Use Collapsable -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_DISARM_COL_HEADER" strref="183213" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Ability Use On Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_FEAT_USE_STATE_BUTTON_ON" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_feat_use_on","1") />
+					<UIButton name="BEHAVIOR_FEAT_USE_TEXT_BUTTON_ON" strref="181250" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_feat_use_on","1") />
+				</UIPane>
+				<!-- Ability Use Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_FEAT_USE_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_feat_use_off","1") />
+					<UIButton name="BEHAVIOR_FEAT_USE_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_feat_use_off","1") />
+				</UIPane>
+			</UICollapsable>
+			
+			<!-- Combat Mode Use Collapsable -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_DISARM_COL_HEADER" strref="184644" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Combat Mode Use On Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_COMBAT_MODE_USE_STATE_BUTTON_ON" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_combat_mode_use_on","1") />
+					<UIButton name="BEHAVIOR_COMBAT_MODE_USE_TEXT_BUTTON_ON" strref="181250" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_combat_mode_use_on","1") />
+				</UIPane>
+				<!-- Combat Mode Use Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_COMBAT_MODE_USE_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_combat_mode_use_off","1") />
+					<UIButton name="BEHAVIOR_COMBAT_MODE_USE_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_combat_mode_use_off","1") />
+				</UIPane>
+			</UICollapsable>
+
+			<!-- Summons switch -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_DISABLE_SUMMONS_COL_HEADER" strref="1000" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Disable weapon switch On Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_DISABLE_SUMMONS_STATE_BUTTON_ON" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","64","0","0","1") />
+					<UIButton name="BEHAVIOR_DISABLE_SUMMONS_TEXT_BUTTON_ON" strref="181250" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","64","0","0","1") />
+				</UIPane>
+				<!-- Enable weapon switch Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_DISABLE_SUMMONS_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","64","1","0","1") />
+					<UIButton name="BEHAVIOR_DISABLE_SUMMONS_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","64","1","0","1") />
+				</UIPane>
+			</UICollapsable>
+
+			<!-- Polymorph switch -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_DISABLE_POLYMORPH_COL_HEADER" strref="1000" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Disable weapon switch On Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_DISABLE_POLYMORPH_STATE_BUTTON_ON" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","16384","0","0","1") />
+					<UIButton name="BEHAVIOR_DISABLE_POLYMORPH_TEXT_BUTTON_ON" strref="181250" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","16384","0","0","1") />
+				</UIPane>
+				<!-- Enable weapon switch Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_DISABLE_POLYMORPH_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","16384","1","0","1") />
+					<UIButton name="BEHAVIOR_DISABLE_POLYMORPH_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","16384","1","0","1") />
+				</UIPane>
+			</UICollapsable>
+
+			<!-- Use ranged weapons -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_RANGED_WEAPONS_COL_HEADER" strref="6818" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Disable weapon switch On Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_RANGED_WEAPONS_STATE_BUTTON_ON" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","2","1","0","1") />
+					<UIButton name="BEHAVIOR_RANGED_WEAPONS_TEXT_BUTTON_ON" strref="181250" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","2","1","0","1") />
+				</UIPane>
+				<!-- Enable weapon switch Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_RANGED_WEAPONS_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","2","0","0","1") />
+					<UIButton name="BEHAVIOR_RANGED_WEAPONS_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","2","0","0","1") />
+				</UIPane>
+			</UICollapsable>
+									
+						
+			<!-- Back away -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_BACK_AWAY_COL_HEADER" strref="6818" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Enable back away On Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_BACK_AWAY_STATE_BUTTON_ON" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","32","1","0","1") />
+					<UIButton name="BEHAVIOR_BACK_AWAY_TEXT_BUTTON_ON" strref="181250" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","32","1","0","1") />
+				</UIPane>
+				<!-- Enable back away Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_BACK_AWAY_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","32","0","0","1") />
+					<UIButton name="BEHAVIOR_BACK_AWAY_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","32","0","0","1") />
+				</UIPane>
+			</UICollapsable>			
+									
+			<!-- No melee attacks -->
+			<UICollapsable name="BEHAVIOR_DISARM_COL" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=5 indent=20 isexpanded=true >
+				<UIButton name="BEHAVIOR_DISABLE_MELEE_ATTACK_COL_HEADER" strref="1000" header=true x=0 y=0 style="BEHAVIOR_COLLAPSABLE_HEADER" />
+				<!-- Disable melee attacks On Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_DISABLE_MELEE_ATTACK_STATE_BUTTON_ON" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","4194304","1","0","1") />
+					<UIButton name="BEHAVIOR_DISABLE_MELEE_ATTACK_TEXT_BUTTON_ON" strref="181250" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","4194304","1","0","1") />
+				</UIPane>
+				<!-- Disable melee attacks Off Button -->
+				<UIPane name="BEHAVIOR_DISARM_PANE_ON" x=0 y=0 height=32 width=PARENT_WIDTH >
+					<UIButton name="BEHAVIOR_DISABLE_MELEE_ATTACK_STATE_BUTTON_OFF" x=0 y=4 style="BEHAVIOR_STATE_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","4194304","0","0","1") />
+					<UIButton name="BEHAVIOR_DISABLE_MELEE_ATTACK_TEXT_BUTTON_OFF" strref="181251" x=25 y=0 style="BEHAVIOR_TEXT_BUTTON"
+						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_bhvr_hench_change","4194304","0","0","1") />
+				</UIPane>
+			</UICollapsable>
+
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
+		</UIListbox>		
+
+		<UIIcon name="DETAIL_SUBTITLE1" img="char_stats_title.tga" x=ALIGN_CENTER y=80 width=431 height=20 ignoreevents="true" />
+		<UIIcon name="DETAIL_MIDDLE" img="stats_container_lg.tga" x=ALIGN_CENTER y=103 width=427 height=115 ignoreevents="true" />
+		<UIIcon name="DETAIL_SUBTITLE2" img="char_stats_title.tga" x=ALIGN_CENTER y=241 width=431 height=20 ignoreevents="true" />
+		<UIIcon name="DETAIL_TOP" img="char_skills_top.tga" x=10 y=7 width=450 height=233 ignoreevents="true" />
+		<UIFrame width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+			bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+			left="frame1_l.tga" right="frame1_r.tga" border=32 />	
+		<UIFrame x=10 y=222 width=450 height=310 fillstyle="tile" fill="bg_60_alpha.tga"/>
+		<UIFrame x=10 y=222 width=450 height=310 fillstyle="tile" fill="dark_rock_tile.tga"/>
+	</UIPane>	<!-- END Disposition Pane -->

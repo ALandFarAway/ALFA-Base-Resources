@@ -1,0 +1,4 @@
+packages.2da
+
+3/20/2010: all rows to FALSE for usable by PC packages.  Should prevent selection of packages during char creation.
+

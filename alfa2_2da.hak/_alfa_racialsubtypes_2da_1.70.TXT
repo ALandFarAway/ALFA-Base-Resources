@@ -1,0 +1,17 @@
+AcadiusLost: 
+
+7/26/2009: Edited from SoZ 1.23 final 2das, edits for ALFA descriptions
+
+1: Gray Dwarf / Duergar, description to custom TLK for ALFA (ECL, extraordinary) details.
+
+3: Dark Elf / Drow, description to custom TLK for ALFA (ECL, extraordinary) details.
+
+8: Deep Gnome / Svirfneblin, description to custom TLK for ALFA (ECL, extraordinary) details.
+
+13: Aasimar, description to custom TLK for ALFA (ECL, extraordinary) details.
+14: Tiefling, description to custom TLK for ALFA (ECL, extraordinary) details.
+
+18-21: Genasi, description to custom TLK for ALFA (ECL, extraordinary) details.
+
+47: Yuan-ti pureblood, description to custom TLK for ALFA (ECL, extraordinary) details.
+48: Gray Orc, description to custom TLK for ALFA (ECL, extraordinary) details.

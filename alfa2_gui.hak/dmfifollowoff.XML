@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8">
+<!-- XML code by: Abraxas77 DMFI GUI Design Team Lead and Demetrious -->
+
+
+<UIScene name="SCREEN_DMFI_FOLLOWOFF" 
+	x="709" y="46" width="50" height="50"
+	draggable="true" idleexpiretime="1.0f" scriptloadable="true" 
+	priority="SCENE_SCRIPT"
+/>
+<UIGrid name="pcButtons_grid" x="6" y="5" columns="5" rows="1" xPadding="5" yPadding="5" >
+	
+	<UIButton name="followoff-btn" width="30" height="30" OnToolTip=UIObject_Tooltip_DisplayTooltipString("CancelFollow",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_playerui",".follow_off") >
+		<UIFrame state="base"	fill="dmfi_cancel_follow.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.6"/>
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.4" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.4"/>
+	</UIButton>					
+		
+	
+</UIGrid>
+<UIFrame x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" border="32"
+	topleft="frame1_tl.tga" 		topright="frame1_tr.tga"
+	bottomleft="frame1_bl.tga"	bottomright="frame1_BR.tga"
+	top="frame1_t.tga"			bottom="frame1_b.tga"
+	left="frame1_l.tga"			right="frame1_r.tga" />	
+<UIFrame x="8" y="8" width="39" height="39" fillstyle="tile" fill="frame_main_bg.tga"/>

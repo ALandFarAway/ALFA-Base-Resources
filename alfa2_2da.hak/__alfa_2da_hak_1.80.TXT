@@ -1,0 +1,170 @@
+AcadiusLost: 5/9/2011, documenting 2da hak (updated release), merged to SoZ 1.23 final
+
+8/26/2007 - Inception
+10/11/2007 - MotB,  City Walls 1.0, RWS Bridges
+10/15/2007 - MotB, fixed to use full MotB content
+11/04/2007 - Added Deep Chasms, Drow Caves, Signposts, HTH Houses
+11/26/2007 - Added Tower Rooms, martial bastardswords, 1 lb clothing
+1/1/2007 - Added feat.2da (bsword wf to martial), ftext_styles.2da (no more floating text), merge to 1.11 hotfix
+1/6/2007 - Added framework for custom skills.  Skills.2da plus the base class skill 2das
+1/20/2007 - updated skills (to 55 rows) and class skill 2das, added custom skill icons
+1/29/2008 - rolled back custom skills, deleted class skill 2das and icons.
+3/1/2008 - added RWS pocket cathedrals, BCKII, Heed's ActionSit, DMCB Yeomans pack, DMCB Yeomans, City Hak(Tupoun)
+3/2/2008 - added walkmesh helpers
+3/19/2008 - merged with 1.12(1249) MotB patch
+3/26/2008 - updated baseitems.2da for potions, backpacks
+4/13/2008 - feats.2da edits, pre-live
+6/30/2008 - Added icon 2da for Hatsplosion
+7/12/2008 - updated appearance.2da (camera height), baseitems.2da (doublestaves), placeables.2da, tiles.2da and tilesets.2da (pocket citadels)
+8/3/2008 - merged spells.2da changes for the 1.13.1407 patch of MotB/NWN2
+10/28/2008 - rolled back appearance.2da to restore camera height.
+11/12/2008 - Added PrC requirements for Feat# 3500 "PrC_Validation" (DM granted)
+11/26/2008 - Merged 2das for 1.021.1549 update (appearance.2da, baseitems.2da, feat.2da, nwn2icons.2da, spells.2da) 
+12/14/2008 - Added PrC Validation feat to feat.2da
+1/20/2009 - Updated spells.2da for first-round spell fixes, added nwn2_tips.2da, nwn2_dieties.2da
+2/15/2009 - Merged to SoZ 1.22.  Added additional cls_pres_*, added des_crft_spells.2da, iprp_spells.2da
+3/1/2009 - Merged to SoZ 1.22.1587
+3/9/2009 - Current to SoZ 1.22.1588, added RWS Cliffs, RWS Dungeons, RWS Dark Ruins, Heed's Boardable Ships, itemprops.2da
+3/21/2009 - fixes to tiles.2da, placeables.2da for RWS Cathedrals
+5/17/2009 - Additional spells added, fixes for tradescrolls, itemcost 2da for UMD, armorrulestats, iprp_damagecost.2da, iprp_resistcost.2da, itemprops.2da edits
+5/30/2009 - CastSpell items repriced, additional iprp rows.  Added iprp_chargecost.2da
+8/9/2009 - Major updates: 1.23 SoZ merge, custom skills, regions, etc.
+12/29/2009 - Fix to skills.2da to make Ride usable untrained.
+3/13/2010 - NWN2_Dieties fixes, Weapon VFX added, Kemo's descriptions added, Custom Creatures, Lightsources, packages.2da added
+7/25/2010 - Added Knight Protector PrC, Inscribe Rune, Craft Rod, Craft Staff, Forge Ring
+8/3/2010 - fixed Soundset.2da, added ItemPlaceables pack
+9/16/2010 - Added Deep Halls Anniv Ed, Dark Mines, Grand Citadels, RWS Merchants, RWS Underwater, RWS Towers, Tintable RedWizard robe, etc.
+9/19/2010 - Added 2da fixes for Deep Sewers, Deep Chasms (tile variations, extra rows, strrefs), des_crft_spells and iprp_castspell fixes, new iprp for gender restricto
+9/23/2010 - Fixed broken placeables.2da due to misnumbered position in RWS Underwater set
+5/9/2010 - Added ambientmusic.2da (BG1/2 music), updates for placeables, terrainmaterials, doortypes, additional iprp_spells rows
+
+
+Ambientmusic.2da <- additional rows for BG1 & BG2 music
+Appearance.2da 	<- PC, NPC race sizes
+armorruleset.2da <- AC 0 armor default weight to 1 lb, new rows for +1ACP metal armors, added labels for new rows
+armorvisualdata.2da <- DMCB & ACME added, also GodBeastX
+backgrounds.2da <- totally redone for Custom Regions.
+baseitems.2da   <- Bastard sword to martial proficiency, potions, backpacks, offhand items, ItemMultiplier changes
+
+classes.2da    <--- Custom class descriptions, new class_feat for SS, added Knight Protector
+
+cls_feat_spiritshaman.2da <-- subs SF: Listen for Alertness
+
+cls_pres_archer.2da  <-- all got FEAT req line for row 3500
+cls_pres_arctr.2da   <-- added custom skill reqs
+cls_pres_asasin.2da  <-- added custom skill reqs
+cls_pres_blkgrd.2da  <-- added custom skill reqs
+cls_pres_divcha.2da     <-- added custom skill reqs
+cls_pres_doomguide.2da  <-- added custom skill reqs
+cls_pres_dradis.2da    <-- added custom skill reqs
+cls_pres_duel.2da      <-- added custom skill reqs
+cls_pres_dwdef.2da
+cls_pres_eknight.2da
+cls_pres_frenz.2da
+cls_pres_harper.2da    <-- added custom skill reqs, feat to Negotiator
+cls_pres_hellfire.2da  <-- added custom skill reqs
+cls_pres_invisiblade.2da  <-- added custom skill reqs
+cls_pres_nw9wd.2da   <-- re-added for use with Knight Protector PrC
+cls_pres_palema.2da  <-- added custom skill reqs
+cls_pres_redwiz.2da
+cls_pres_sacredfist.2da  <-- added custom skill reqs
+cls_pres_scholar.2da
+cls_pres_sdthf.2da  <-- added custom skill reqs
+cls_pres_shadow.2da  <-- added custom skill reqs
+cls_pres_stormlord.2da
+cls_pres_wm.2da
+cls_pres_wprst.2da  <-- added custom skill reqs
+
+cls_skill_archer.2da <--- All fully redone to PnP custom skills (plus Parry)
+cls_skill_arctr.2da
+cls_skill_asasin.2da
+cls_skill_barb.2DA
+cls_skill_bard.2DA
+cls_skill_blkgrd.2da
+cls_skill_cler.2DA
+cls_skill_divcha.2da
+cls_skill_doomguide.2da
+cls_skill_dradis.2da
+cls_skill_dru.2DA
+cls_skill_duelist.2da
+cls_skill_dwdef.2da
+cls_skill_eknight.2da
+cls_skill_favored_soul.2DA
+cls_skill_fight.2DA
+cls_skill_frenz.2da
+cls_skill_harper.2da
+cls_skill_hellfire.2da
+cls_skill_invisiblade.2da
+cls_skill_monk.2DA
+cls_skill_nw9wd.2da  <--- re-added, edited for use with Knight Protector PrC
+cls_skill_pal.2DA
+cls_skill_palema.2da
+cls_skill_rang.2DA
+cls_skill_redwiz.2da
+cls_skill_rog.2DA
+cls_skill_sacredfist.2da
+cls_skill_scholar.2da
+cls_skill_sdthf.2da
+cls_skill_shadow.2da
+cls_skill_sorc.2da
+cls_skill_spiritshaman.2DA
+cls_skill_stormlord.2da
+cls_skill_swashbuckler.2da
+cls_skill_wiz.2DA
+cls_skill_wlck.2DA
+cls_skill_wm.2da
+cls_skill_wprst.2da
+
+des_crft_spells.2da <- Fix for Scorching Ray Tradescrolls, additional entries for ALFA spells, merged to 1.23 fixes, Detect Undead Fix
+
+Doortypes.2da 	<- Deep sewers, Deep Halls, City Walls, Drow Caves, Pocketcath, Dungeons, Dark Ruins
+feat.2da 	<- Bastard sword Weapon focus prereq to Martial, various changes for Live, Regional feats, subdual, PrC validation, extra crafting feat placeholders
+ftext_styles.2da <- all to 0.0 (stops floaty upwards text)
+itempropdef.2da <- New Property: Use restriction (Female)
+itemprops.2da   <- More valid selections for type 16_Misc, armor/shields/helms/weapons, new prop: female only
+iprp_chargecost.2da <- altered rates for charges and /day
+iprp_damagecost.2da <- added 1d2 and 1d3 amounts
+iprp_resistcost.2da <-  Added rows for 2/4/6
+iprp_spells.2da <- added row for generalized scorching ray , added entries for ALFA spells, repriced all spell properties, extra rows for low CL versions. Magic Weapon reference fix
+Metatiles.2da 	<- Deep sewers, Deep Halls, Deep Chasms, pocket cath, Dungeons, Dark Ruins
+
+npc_soundset.2da <--- extra NPC voices 
+
+nwn2_dieties.2da <- Kelemvor, Finder Fav.Weapon prof. to 45 (Martial), fixed battleaxe spec., added Uthgar, Tiamat, Sashselas, Bahamut.
+
+nwn2_icons.2da <- Hatsplosion v1.0, Amraphael's Light Sources.
+nwn2_tips.2da <- ACR and ALFA Tips added, OC tips removed/diminished
+
+packages.2da <- PlayerClass = FALSE, all rows (disables packages)
+
+placeables.2da	<- assorted
+
+race_feat_yuanti.2da <-- subbed SF: Spot for Alertness
+
+restduration.2da <- all to 120.0 sec
+
+skills.2da <------- 67 rows, all custom PnP skills implemented to be brought in with 1.23 SoZ 
+
+skillvsitemcost.2da <- UMD minimum rank fixes
+
+soundset.2da <--- extra playable voices, also MoW voices. Fixed 1.73
+
+spells.2da	<- CastableOnDead = TRUE (all rows), ACR spell fixes pt.1 & 2 merged with 1.23 fixes
+
+terrainmaterials.2da <- GF snow, Drow webs, CODI Sigil exteriors
+texturestileceiling.2da <- Deep Chasms
+texturestilefloor.2da <- Deep Chasms
+texturestilewall.2da <- Deep Chasms
+tiles.2da 	<- Deep sewers, Deep Halls, Deep Chasms, tower rooms, cath, citadels, Dungeons, Dark Ruins
+tilesets.2da 	<- Deep sewers, Deep Halls, Deep Chasms, tower tooms, cath, citadels, Dungeons, Dark Ruins
+
+wingmodel.2da  <- From MoW creatures
+
+
+
+
+
+
+
+
+

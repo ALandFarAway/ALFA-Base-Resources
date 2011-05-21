@@ -1,0 +1,16 @@
+AcadiusLost: 
+
+2/15/2009: Merged to SoZ 1.22 Beta.
+5/17/2009: Merged to SoZ 1.23 Beta, added Riotnrrd's new spells
+7/25/2009: Merged to SoZ 1.23 final
+9/18/2010: Fixed Detect Undead for tradescrolls
+
+
+109: Labelled deprecated Magic Weapon row as such
+
+845: Detect Undead row amended to point at the correct iprp_castspell row, 555
+
+1056: Scorching Ray, Many- to IPRP 1000
+1057: Scorching Ray, Single- to IPRP 1000
+
+3000-3010: additional rows for new ACR spell tradescrolls

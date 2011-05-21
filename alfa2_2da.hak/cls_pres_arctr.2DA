@@ -1,0 +1,11 @@
+2DA V2.0
+
+  LABEL              ReqType  ReqParam1       ReqParam2 
+0 Knowledge(arcana)  SKILL    40              4         
+1 DisableDeviceSkill SKILL    2               7         
+2 Decipherscript     SKILL    32              7         
+3 EscapeArtist       SKILL    35              7         
+4 Arcane             ARCSPELL 3               ****      
+5 Sneak_Attack_Dice  SAD      2               ****      
+6 ScriptVar          VAR      nw_AllowArcanTr 0         
+7 PrC_Validation     FEAT     3500            ****      

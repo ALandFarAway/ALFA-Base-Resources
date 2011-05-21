@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8">
+
+<!-- XML code by: Demetrious.  Special thanks to Abraxas77, Grinning Fool, PIPBoy3000 
+	and Obsidian for their examples, answers and framework that made this possible -->
+	
+<UIScene name="SCREEN_DMFI_SNDTOOL" x="200" y="100" width="416" height="73" idleexpiretime="1.0f" 
+	draggable="true" backoutkey="true" scriptloadable="true" priority="SCENE_SCRIPT" />
+
+<UIText name="ListTitle" text="" color=00FFFF x=15 y=13 width="90" height="40" fontfamily="Title_Font" style="bold" />
+
+<UIButton name="CloseButton" x=378 y=8 style="STYLE_CLOSE_BUTTON" 
+ 		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Close",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+ 		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","close") /> 
+ 	
+
+<UIText name="SoundDelay" text="Delay:" x=170 y=10 width="150" height="15" fontfamily="Body_Font" />
+
+<UIButton name="update_delay" text="" x=170 y=28 fontfamily="Body_Font" width="65" height="20" 		
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("ChangeDelay",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","update_delay") >
+		<UIText align=center valign=middle fontfamily="Body_Font" />	
+		<UIFrame state="base"		fill="b_sm_normal.tga" />
+		<UIFrame state="up"		fill="b_sm_normal.tga" />
+		<UIFrame state="down"		fill="b_sm_hover.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_sm_normal.tga" />
+		<UIFrame state="hilited"	fill="b_sm_hover.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_sm_hover.tga" alpha="0.6"/>
+	</UIButton>
+
+<UIButton name="repeat-btn"  x=325 y=15  width="30" height="30" 		
+		
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("RepeatMostRecentSound",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".repeat_sound") >
+		<UIText align=center valign=middle fontfamily="Body_Font" />	
+		<UIFrame state="base"		fill="ia_previous.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.90" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.75"/>
+	</UIButton>
+	
+
+<!-- SUB-TABS -->
+	
+<UIButton name="sub1"  x=8 y=53  width="80" height="20" text="group1"
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("ShowGroup",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","sub1") >
+		<UIText align=center valign=middle fontfamily="Body_Font" />	
+		<UIFrame state="base"		fill="b_subtab_normal.tga" />
+		<UIFrame state="up"		fill="b_subtab_normal.tga" />
+		<UIFrame state="down"		fill="b_subtab_pressed.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_subtab_normal.tga" />
+		<UIFrame state="hilited"	fill="b_subtab_pressed.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_subtab_pressed.tga" alpha="0.6"/>
+	</UIButton>	
+	
+	
+<UIButton name="sub2"  x=88 y=53  width="80" height="20" text="group234"
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("ShowGroup",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","sub2") >
+		<UIText align=center valign=middle fontfamily="Body_Font" />	
+		<UIFrame state="base"		fill="b_subtab_normal.tga" />
+		<UIFrame state="up"		fill="b_subtab_normal.tga" />
+		<UIFrame state="down"		fill="b_subtab_pressed.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_subtab_normal.tga" />
+		<UIFrame state="hilited"	fill="b_subtab_pressed.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_subtab_pressed.tga" alpha="0.6"/>
+	</UIButton>	
+	
+<UIButton name="sub3"  x=168 y=53  width="80" height="20" text="group3"
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("ShowGroup",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","sub3") >
+		<UIText align=center valign=middle fontfamily="Body_Font" />	
+		<UIFrame state="base"		fill="b_subtab_normal.tga" />
+		<UIFrame state="up"		fill="b_subtab_normal.tga" />
+		<UIFrame state="down"		fill="b_subtab_pressed.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_subtab_normal.tga" />
+		<UIFrame state="hilited"	fill="b_subtab_pressed.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_subtab_pressed.tga" alpha="0.6"/>
+	</UIButton>	
+	
+<UIButton name="sub4"  x=248 y=53  width="80" height="20" text="group4"
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("ShowGroup",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","sub4") >
+		<UIText align=center valign=middle fontfamily="Body_Font" />	
+		<UIFrame state="base"		fill="b_subtab_normal.tga" />
+		<UIFrame state="up"		fill="b_subtab_normal.tga" />
+		<UIFrame state="down"		fill="b_subtab_pressed.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_subtab_normal.tga" />
+		<UIFrame state="hilited"	fill="b_subtab_pressed.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_subtab_pressed.tga" alpha="0.6"/>
+	</UIButton>	
+	
+<UIButton name="sub5"  x=328 y=53  width="80" height="20" text="group5"
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("ShowGroup",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","sub5") >
+		<UIText align=center valign=middle fontfamily="Body_Font" />	
+		<UIFrame state="base"		fill="b_subtab_normal.tga" />
+		<UIFrame state="up"		fill="b_subtab_normal.tga" />
+		<UIFrame state="down"		fill="b_subtab_pressed.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_subtab_normal.tga" />
+		<UIFrame state="hilited"	fill="b_subtab_pressed.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_subtab_pressed.tga" alpha="0.6"/>
+	</UIButton>		
+<UIIcon name="Banner" img="title_medium02.tga" x=8 y=8 width=400 height=55 />
+
+
+<UIFrame x=0 y=0 width=PARENT_WIDTH height=63 topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+	bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+	left="frame1_l.tga" right="frame1_r.tga" border=32 />		
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+		
+	

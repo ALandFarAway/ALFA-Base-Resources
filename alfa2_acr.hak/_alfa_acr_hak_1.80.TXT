@@ -1,0 +1,324 @@
+AcadiusLost: 5/9/2011, documenting ACR hak (updated release)
+
+   9/3/2007: removed acr_spellhook.nss, updated death, spawn, it_persist, 1984 for fixes
+   9/22/2007: added quest system, updated death, resting, pps_i, creature_i, time_i, 1984_i, etc.
+  10/04/2007: fixed autoclose doors, fixed acr_spawn_i to compile under NWN2 v1.10
+  10/07/2007: fixed acr_spawn_i to compile under MotB as well as v1.10\
+  10/09/2007: fixed acr_spawn_i to allow SetSpawnIsEnabled() to work.
+  10/16/2007: fixed acr_vfx_i to compile under MotB
+  10/31/2007: fixed spell restoration, setisspawnpoint enabled, despawning pstorage, pstorage logging, DMFI compatibility
+  11/03/2007: Added conversation scripts, updated for heeds pc tools compatibility, pc locator
+  11/19/2007: Added scroll use handling, fixed pstorage debug spam
+  12/19/2007: Added RP XP, bastard sword use, death fixes, dc setter granting, expanded logging, Server DB monitoring.
+   1/26/2008: Added custom skills framework, and module reset automation for failed SQL DB connection.
+   1/29/2008: dropped skills framework for now. removed references from mod_events_i.
+  2/22/2008: updated acr_time_i and quest scripts.
+  3/1/2008: fix to time_i, xp_i, and resting_i scripts
+  3/19/2008: fixes to acr_death_i, acr_trigger_i, acr_quest_i
+  3/26/2008: fixes to quests_i, errand, reward, and acr_death_i
+  3/30/2008: fixes to resting_i
+  4/13/2008: fixes to death_i (DMFI follow fix), vfx_i (performance) and seamlessAT_i
+  4/14/2008: fixes to acr_1984 logging for GUI DM XP
+  4/21/2008: fixes to acr_creature_i, acr_1984_i, acr_quests_i, acr_mod_events_i, acr_wealth_i, acr_xp_i 
+  5/10/2008: fixes to acr_quest_i, acr_wealth_i
+  5/27/2008: fixes to acr_time_i (starting year), acr_wealth_i (loot system nodrop subtraction), updated acr_death_i, and 
+acr_xp_i (RPXP fix)
+  5/31/2008: fixes to acr_quest_i (adding quest creature despawns), acr_pps_i (blocking changed CDKeys, and disabling Quarantine)
+  9/21/2008: fixes to death system, Crelyn's subdual system added, pctools/dmfi update, dynamic descriptions.
+  9/27/2008: improvements to logging, subdual, combat XP, and player feedback (clearing {} text)
+  11/12/2008: death system fixes, AT prediction fixes, subdual fixes, {OOC CR} text filtering
+  11/16/2008: Combat XP improvements/rebalance, AT prediction fixes (again), logging of OverCR kills and % RPXP, added NCS files for quest scripts
+  12/10/2008: multiple login/logout optimizations to assist with lag. Deprecated some outdated resources.
+  12/29/2008: Improved logging for pchests, DMFI renaming.  More login lag stopgap, quest system fixes, seamless AT fixes for DM avatars.
+  01/14/2009: Added tradescroll system (acr_tradescroll_i), TKL performer support (acr_items_i), initial quarantine and multiserver support (pps, 1984, mod_events, death), also bundled .ncs for abr_it_firstaid.
+  01/20/2009: Added first-round spell fixes, updated db_persist and mod_events to prepare for portalling.
+  02/07/2009: Added more portalling code, plus optimizations for logins, PPS changes for networked vault, plus Returns system.
+  02/10/2009: Several Returns Bin fixes, spawn system fix.
+  02/12/2009: Added Portalling system for testing, preparaion for 010 Baldur's Gate Live transition
+  02/13/2009: Fixes and improvements to Portalling.
+  03/10/2009: Improvements to death system, 1984 logging, ABR merchants, compatibility with DM client extension, SoZ 1.22.1588
+  05/14/2009: Fixes and improvements to subdual, game-minute timing, UMD scroll activation, online player/DM reporting, and RPXP monitoring frequency (for the 14-min hour test)
+  05/17/2009: Added additional spells by Riotnrrd and AcadiusLost
+  05/30/2009: xp_i changes back for the 7 min gamehour, nonlethal changes for subdual healing
+  08/09/2009: Major changes for 1.23 switchover.  Added custom skills, regions, languages. Added acr_skills_i, acr_language_i
+  08/15/2009; minor adjustments to ACR_skills_convo, debugging cleanup in skills_i and resting_i, accounting for travel map OnUnAcquire in acr_items_i.
+  12/29/2009: Fixes to death_i, creature_i, mod_events_i, spawn_i, wealth_i
+  3/13/2010: Added weapon VFX sytem to items_i, new icons for dieties, spelltrack/UMD fix, db_persist fix for class4, new icons for light sources.
+  9/21/2010: Fixes to quest_i (item quests), items_i (earrings, OnEquip Gender Restrict), edited OEI grenadelike scripts, fixed first aid scripts for stabilized PCs
+  5/9/2011: Fixes to declarations by Zelknolf (debug, spawn, resting), for for locations by Paazin (PPS)
+ 
+Core scripts:
+
+acr_1984_i.nss
+acr_area_i.nss
+acr_array_i.nss
+acr_creature.i.nss
+acr_chat_i.nss
+acr_cs_abcheck.nss
+acr_cs_atcheck.nss
+acr_cs_gpcheck.nss
+acr_cs_guard_duty.nss
+acr_cs_guard_in.nss
+acr_cs_guard_out.nss
+acr_cs_has_item.nss
+acr_cs_skcheck.nss
+acr_cs_svcheck.nss
+acr_db_persist_i.nss
+acr_death_i.nss
+acr_debug_i.nss
+acr_door_i.nss
+acr_events_i.nss
+acr_game_loc_i.nss
+acr_i.nss
+acr_it_persist_i.nss
+acr_items_i.nss
+acr_language_i.nss
+acr_mod_events_i.nss
+acr_nonlethal_i.nss
+acr_physicalobject_i.nss
+acr_placeable_i.nss
+acr_portal_i.nss
+acr_pps_i.nss
+acr_quest_errand.nss
+acr_quest_escort.nss
+acr_quest_i.nss
+acr_quest_progress.nss
+acr_quest_reward.nss
+acr_quest_update.nss
+acr_resting_i.nss
+acr_scry_i.nss
+acr_seamlessat_i.nss
+acr_settings_i.nss
+acr_skills_i.nss
+acr_spawn_i.nss
+acr_spelltrack_i.nss
+acr_time_i.nss
+acr_tools_i.nss
+acr_tradescroll_i.nss
+acr_trigger_i.nss
+acr_vfx_i.nss
+acr_wealth_i.nss
+acr_xp_i.nss
+
+
+
+activation scripts:
+
+i_abr_firstaid.ncs
+i_abr_firstaid.nss
+i_acr_subdual_ac.nss
+i_acr_subdual_ac.ncs
+
+
+Spell mods for Subdual use:
+
+nw_i0_spells.nss
+nw_s0_curcrwn.ncs
+nw_s0_curcrwn.nss
+nw_s0_curlgtw.ncs
+nw_s0_curlgtw.nss
+nw_s0_curminw.ncs <- removed, replaced by nw_s0_curminw.ncs
+nw_s0_curminw.nss <- removed, replaced by nw_s0_curminw.nss
+nw_s0_curmodw.ncs
+nw_s0_curmodw.nss
+nw_s0_curserw.ncs
+nw_s0_curserw.nss
+nw_s0_grrestore.ncs
+nw_s0_grrestore.nss
+nw_s0_heal.ncs
+nw_s0_heal.nss
+nw_s0_macurcrit.ncs
+nw_s0_macurcrit.nss
+nw_s0_macurligt.ncs
+nw_s0_macurligt.nss
+nw_s0_macurmod.ncs
+nw_s0_macurmod.nss
+nw_s0_macurseri.ncs
+nw_s0_macurseri.nss
+nw_s0_masheal.ncs
+nw_s0_masheal.nss
+nw_s0_regen.ncs
+nw_s0_regen.nss
+nw_s0_rejuvcocoon.ncs
+nw_s0_rejuvcocoon.nss
+nw_s2_layonhand.ncs
+nw_s2_layonhand.nss
+nw_s2_snginregn.ncs
+nw_s2_snginregn.nss
+nw_s2_turndead.ncs
+nw_s2_turndead.nss
+nw_s2_wholeness.ncs
+nw_s2_wholeness.nss
+nwn2_inc_spells.nss
+nx2_s0_healing_sting.ncs
+nx2_s0_healing_sting.nss
+nx_s0_lsrvigor.ncs
+nx_s0_lsrvigor.nss
+nx_s0_mlsrvigor.ncs
+nx_s0_mlsrvigor.nss
+nx_s0_vigor.ncs
+nx_s0_vigor.nss
+nx_s0_vigorcycle.ncs
+nx_s0_vigorcycle.nss
+x2_s0_cureother.ncs
+x2_s0_cureother.nss
+x2_s3_onhitcast.ncs
+x2_s3_onhitcast.nss
+
+
+
+Arrival prediction waypoint for seamless ATs:
+
+acr_sat_wp.utw
+
+
+Items for automatic inclusion:
+
+abr_it_firstaid.uti
+abr_it_ooc_mindoverbody.uti
+acr_it_tradescroll.uti
+acr_nld_fist.uti
+acr_subdual.uti
+dmfi_exe_pc.uti
+dmfi_exe_tool.uti
+
+
+ACR Quests system:
+
+acr_quest_progress.ncs
+acr_quest_reward.ncs
+acr_quest_update.ncs
+
+
+ACR Spell fixes:
+
+acr_s0_acidarrow.ncs
+acr_s0_acidarrow.nss
+acr_s0_barkskin.ncs
+acr_s0_barkskin.nss
+acr_s0_bless.ncs
+acr_s0_bless.nSs
+acr_s0_blur.ncs
+acr_s0_blur.nss
+acr_s0_causefear.ncs
+acr_s0_causefear.nss
+acr_s0_charmper.ncs
+acr_s0_charmper.nSs
+acr_s0_complang.ncs
+acr_s0_complang.nss
+acr_s0_curminw.ncs
+acr_s0_curminw.nss
+acr_s0_daze.ncs
+acr_s0_daze.nSs
+acr_s0_dazemonster.ncs
+acr_s0_dazemonster.nss
+acr_s0_detectmagic.ncs
+acr_s0_detectmagic.nss
+acr_s0_dismagic.ncs
+acr_s0_dismagic.nss
+acr_s0_disruptundead.ncs
+acr_s0_disruptundead.nss
+acr_s0_exretreat.ncs
+acr_s0_exretreat.nss
+acr_s0_fear.ncs
+acr_s0_fear.nss
+acr_s0_haltundead.ncs
+acr_s0_haltundead.nss
+acr_s0_haste.ncs
+acr_s0_haste.nss
+acr_s0_lsdispel.ncs
+acr_s0_lsdispel.nss
+acr_s0_rayenfeeb.ncs
+acr_s0_rayenfeeb.nss
+acr_s0_rayexhaustion.ncs
+acr_s0_rayexhaustion.nss
+acr_s0_rayfrost.ncs
+acr_s0_rayfrost.nss
+acr_s0_readmagic.ncs
+acr_s0_readmagic.nss
+acr_s0_scare.ncs
+acr_s0_scare.nss
+acr_s0_snillocsnowball.ncs
+acr_s0_snillocsnowball.nss
+acr_s0_spiderclimb.ncs
+acr_s0_spiderclimb.nss
+acr_s0_web.ncs
+acr_s0_web.nss
+
+Returns bin scripts:
+
+abr_plc_oninventorydisreturns.ncs
+abr_plc_oninventorydisreturns.nss
+abr_plc_onopenreturns.ncs
+abr_plc_onopenreturns.nss
+abr_storeclose.ncs
+abr_storeclose.nss
+abr_storeopen.ncs
+abr_storeopen.nss
+abr_trg_returnsonenter.ncs
+abr_trg_returnsonenter.nss
+abr_trg_returnsonexit.ncs
+abr_trg_returnsonexit.nss
+
+
+Portalling resources:
+
+acr_cs_bootpc.ncs
+acr_cs_bootpc.nss
+acr_portal_convo.dlg
+acr_trg_portalstart.ncs
+acr_trg_portalstart.nss
+
+
+ACR Skills system adaption resources
+
+acr_convo_skill.dlg
+isk_balance.tga
+isk_climb.tga
+isk_decipherscript.tga
+isk_disguise.tga
+isk_escart.tga
+isk_forgery.tga
+isk_gatherinfo.tga
+isk_handanim.tga
+isk_jump.tga
+isk_knowarcane.tga
+isk_knowdungen.tga
+isk_knowplanes.tga
+isk_knowreligion.tga
+isk_ride.tga
+isk_swim.tga
+isk_userope.tga
+isk_wilderness.tga
+
+
+Additional Diety icons
+
+ig_dr_bahamut.tga
+ig_dr_tiamat.tga
+ig_e_sashelas.tga
+ig_gr_uthgar.tga
+
+
+Icons for Amraphael's Handheld Light Sources:
+
+i_brass_lantern.TGA
+i_burning_stick.TGA
+i_candles.TGA
+i_lantern_stick.TGA
+
+
+Edits of OEI grenadelike scripts: (cause them to recognize ABR item tags)
+
+x0_s3_acid.ncs
+x0_s3_acid.nss
+x0_s3_alchem.ncs
+x0_s3_alchem.nss
+x0_s3_choke.ncs
+x0_s3_choke.nss
+x0_s3_holy.ncs
+x0_s3_holy.nss
+x0_s3_tangle.ncs
+x0_s3_tangle.nss
+x0_s3_thunder.ncs
+x0_s3_thunder.nss

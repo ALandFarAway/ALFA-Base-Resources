@@ -1,0 +1,112 @@
+AcadiusLost: 
+
+12/23/2007, documenting feat.2da merge from NWN2 1.11 (hotfix)
+3/19/2008, merged with 1.12(1249)
+4/13/2008, alterations pre-Live
+11/25/2008: Merged with 1.21(1549)
+12/14/2008: Added PrC Validation feat at 3500
+2/15/2009: Merged with SoZ 1.22 beta
+4/19/2009: Merged with SoZ 1.23 beta, added first regional feats, changed Circle Kick ref.
+7/26/2009: Added full regional feats, removed deprecated skill foci
+7/27/2009: Updated banned feats, customized TLK descriptions
+3/20/2010: Unrestricted divine feats by class (retained feat prereqs)
+7/25/2010: Added feats for Inscribe Rune, Craft Ring, Rod, and Staff (RP placeholders).
+    also added custom descriptions for Craft Wonderous, Craft Magic Arms / Armor
+
+
+13: Extra Turning: AllClassesCanUse to 1
+
+40: Toughness: MaxLevel to 1, description to custom TLK
+
+44: Weapon Prof: Exotic (description to custom TLK)
+45: Martial weapon Prof (description to custom TLK)
+
+123: Weapon focus Bastardsword prerequsite to 45 (Martial), description to Custom TLK
+
+180: Skill Focus: Lore (removed)
+184: Skill Focus: Perform (removed)
+188: Skill Focus: Set Trap (removed)
+192: Skill Focus: Taunt (removed)
+
+261: Fav Enemy: Dwarf (desc updated, language)
+262: Fav Enemy: Elf (desc updated, language)
+263: Fav Enemy: Gnome (desc updated, language)
+264: Fav Enemy: Halfling (desc updated, language)
+265: Fav Enemy: Halfelf (desc updated, language)
+266: Fav Enemy: HalfOrc (desc updated, language)
+
+272: Fav Enemy: Dragons (desc updated, language)
+273: Fav Enemy: Goblins (desc updated, language)
+274: Fav Enemy: Monsterous (desc updated, language)
+275: Fav Enemy: Orc (desc updated, language)
+276: Fav Enemy: Reptilian (desc updated, language)
+277: Fav Enemy: Elementals (desc updated, language)
+278: Fav Enemy: Fey (desc updated, language)
+279: Fav Enemy: Giants (desc updated, language)
+
+281: Fav Enemy: Outsiders (desc updated, language)
+
+407: Skill Focus: Craft Trap (removed)
+
+409: Circle Kick, Removed (banned, also description to indicate flaws)
+
+413: Divine Might: AllClassesCanUse to 1
+414: Divine Shield: AllClassesCanUse to 1
+
+427: Resist Energy: Cold, Removed (banned)
+428: Resist Energy: Acid, Removed (banned)
+429: Resist Energy: Fire, Removed (banned)
+430: Resist Energy: Electrical, Removed (banned)
+431: Resist Energy: Sonic, Removed (banned)
+
+871: Curse Song: Removed (banned)
+
+1092: Craft Magic Arms & Armor: new description, custom TLK
+1093: Craft Wonderous Item: new description, custom TLK
+
+1104: Mind Over Body: Description to custom TLK (ALFA edits)
+
+1337: Dash: Removed (banned)
+
+1720: Background: Tale Teller removed (lore)
+
+1723: Background: Farmer removed (lore)
+
+1725: Background: Tale Teller removed (lore)
+1726: Background: Troublemaker removed (set trap)
+1727: Background: Wild Child removed (lore)
+1728: Background: Wizard's Apprentice removed (lore)
+
+1774: Able learner, max level to 1, description to custom TLK
+
+2168: Dinosaur Companion: removed (banned)
+
+2180: Fey Heritage: description to custom TLK (Extraordinary)
+2181: Fey Legacy (removed, banned)
+2182: Fey Power (removed, banned)
+2183: Fey Presence (removed, banned)
+2184: Fey Skin (removed, banned)
+2185: Fiendish Heritage: description to custom TLK (Extraordinary)
+2186: Fiendish Legacy (removed, banned)
+2187: Fiendish Power (removed, banned)
+2188: Fiendish Presence (removed, banned)
+2189: Fiendish Resistance (removed, banned)
+
+2241: Background: Appraiser removed (lore)
+2242: Background: Confidant removed (taunt)
+2243: Background: Foreigner removed (lore)
+
+2246: Background: Talent removed (lore)
+
+3500: PrC Validation feat.
+3501: Subdual feat
+3502-3571: Starting Region Feats
+3572: Forge Ring (RP placeholder)
+3573: Craft Rod (RP placeholder)
+3574: Craft Staff (RP placeholder)
+3575: Inscribe Rune (Cleric - RP placeholder)
+3576: Inscribe Rune (Druid - RP placeholder)
+3577: Inscribe Rune (Ranger - RP placeholder)
+3578: Inscribe Rune (Paladin - RP placeholder)
+3579: Inscribe Rune (Spirit Shaman - RP placeholder)
+3580: Inscribe Rune (Favored Soul - RP placeholder)

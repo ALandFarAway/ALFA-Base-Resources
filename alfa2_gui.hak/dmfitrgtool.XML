@@ -1,0 +1,1109 @@
+<?xml version="1.0" encoding="utf-8">
+<!-- XML code by: Qkrch 10/07 -->
+
+
+<UIScene name="SCREEN_DMFI_TRGTOOL" 
+	x="5" y="60" width="160" height="420" capturemouseevents=true capturemouseclicks=false
+	 idleexpiretime="1.0f" scriptloadable="true" 
+draggable="true" dragregion_x=0 dragregion_y=0 dragregion_width=120 dragregion_height=30
+	priority="SCENE_SCRIPT"/>
+
+<!-- Target-->
+<UIPane name="DMFI_TRGTOOL_Header" x=0 y=0 width=160 height=70
+
+	capturemouseclicks=false
+	capturemouseevents=false
+	alpha="0.65"
+	>
+
+        <UIText name="targettitle" text="DMFI TARGET" x=10 y=6 width=PARENT_WIDTH height=30 align=center color=FFFFFF style=1 fontfamily="Special_Font_2" /> 
+	<UIText name="targetname" x=10 y=25 width=130 height=35 align=left valign=middle
+	fontfamily="Special_Font_2" style=2 prototype=true 
+	update=true OnUpdate=UIText_OnUpdate_DisplayTargetObjectName()/>
+<!-- Header Buttons-->
+	      <UIIcon name="DMFI_MIN_PLAY" img="b_rsize_hover.tga" x=2 y=0 width=21 height=21 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnToolTip='UIObject_Tooltip_DisplayTooltipString("Left Click to show server options. Right Click to hide","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")' 
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_trgtool","SERVER_TOOL")
+	      OnRightClick=UIButton_Input_HideObject("DMFI_ROOT2") />
+
+	      <UIIcon name="DMFI_MIN_SERV" img="b_rsize_normal.tga" x=22 y=0 width=21 height=21 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnToolTip='UIObject_Tooltip_DisplayTooltipString("Left Click to show object options. Right click to hide ","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")' 
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_trgtool","OBJECT_TOOL")
+	      OnRightClick=UIButton_Input_HideObject("DMFI_ROOT1") />
+
+		<UIButton name="CloseButton" x=132 y=0 style="STYLE_CLOSE_BUTTON" 
+ 		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Close",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+ 		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_trgtool","close") />
+
+		<UIIcon name="BCK_DMFITRG" img="dmfi_trgbck.tga" x=0 y=0 width=160 height=71 capturemouseclicks=false />
+
+
+ 	
+	</UIPane>      
+
+
+
+
+		<UIPane name="DMFI_ROOT2" x=0 y=70 width=160 height=350 hidden=true capturemouseclicks=false      alpha="0.65"         capturemouseevents=false >
+
+		 <UIListbox name="DMFI_LISTBOX2" x=2 y=1 width=287 height=800 yPadding=0 xPadding=0
+		    showpartialchild=true scrollbaronright=true unequalcontrols=true scrollsegmentsize=234 selectonleftclick=false >
+
+<-- DMFI SERVER TOOLS -->
+
+		<UICollapsable name="DMFI_COL_SERV" x=0 y=70 width=160 height=50 capturemouseclicks=false yPadding=0                         xPadding=0 isexpanded=false >	
+		<UIButton name="DMFI_SERVERTOOLBUT" text="Server Tool" x=0 y=0 width=160 height=20 header=true >
+
+			  <UIText x=0 y=0 align=center valign=middle fontfamily="Default" style="2" indent=0 multiline=false                                                    color=C1AB89 />
+			  <UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=header		        fill="b_feat_normal.tga" />
+			  <UIFrame state=hiheader		fill="b_feat_normal.tga" />
+			  <UIFrame state=downheader	        fill="b_feat_normal.tga" />
+		    </UIButton>
+
+		<UIGrid name="gridserver" x="2" y="2" columns="4" rows="3" xPadding="2" yPadding="2" >
+
+		<UIButton name="RepGoldBut" width="25" height="25" draggable=true hotbartype="HOTBAR_BUTTON"
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Report_Gold",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".report_gold")>
+		<UIFrame state="base"	fill="it_gold.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<!-- <UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" /> -->
+		<UIFrame state="focused"	fill="b_overlay_active.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+		<UIButton name="RepNetBut" width="25" height="25" draggable=true hotbartype="HOTBAR_BUTTON"
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Report_Networth",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".report_networth")>
+		<UIFrame state="base"	fill="ia_inventory.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+		<UIButton name="RepXPBut" width="25" height="25" draggable=true hotbartype="HOTBAR_BUTTON"
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Report_XP",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".report_xp")>
+		<UIFrame state="base"	fill="ia_makeinvuln.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+		<UIButton name="RepLocBut" width="25" height="25" draggable=true hotbartype="HOTBAR_BUTTON"
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Report_Location",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_trgtool","REPORT_LOCATION")>
+		<UIFrame state="base"	fill="isk_persuade.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+	<UIButton name="NA" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","")>
+		
+		<UIFrame state="base"	fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="PCCopy" width="25" height="25" 		                  OnToolTip=UIObject_Tooltip_DisplayTooltipString("PC_Copy",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".copy_pc")>
+			<UIFrame state="base"	fill="is_mirrorimage.tga" />
+			<UIFrame state="up"		fill="b_empty.tga" />
+			<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.7" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.45" />
+			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.45"/>
+	                </UIButton>
+                   
+	<UIButton name="PARtyPC" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Copy_Party_PC",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".copy_party")>
+		
+		<UIFrame state="base"	fill="isc_illusion.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+		<UIButton name="PasteCreatBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Paste_Creature",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".paste")>
+		<UIFrame state="base"	fill="is_mirrorimage.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+		<UIButton name="AdjTimeBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Adjust_Time",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","context_time")>
+		<UIFrame state="base"	fill="ia_wait.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+		<UIButton name="AdjWeaDFut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Adjust_Weather_To_Default",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".weather")>
+		<UIFrame state="base"	fill="is_stormavatar.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+		<UIButton name="AdjWeaMFut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Adjust_Rain_Inc",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".rain")>
+		<UIFrame state="base"	fill="is_ismissilestormgreat.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+		<UIButton name="AdjWeaDFut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Adjust_Rain_Dec",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".norain")>
+		<UIFrame state="base"	fill="is_ismissilestormless.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+
+
+		</UIGrid>
+
+               </UICollapsable>
+
+	<--DMFI TOOLS SPECIFIC -->
+
+		<UICollapsable name="DMFI_COL_SERVDMF" x=0 y=91 width=160 height=50 capturemouseclicks=false yPadding=0                         xPadding=0 isexpanded=false >	
+		<UIButton name="DMFI_DMFISTOOLBUT" text="DMFI Specific Tool" x=0 y=0 width=160 height=20 header=true >
+
+			  <UIText x=0 y=0 align=center valign=middle fontfamily="Default" style="2" indent=0 multiline=false                                                    color=C1AB89 />
+			  <UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=header		        fill="b_feat_normal.tga" />
+			  <UIFrame state=hiheader		fill="b_feat_normal.tga" />
+			  <UIFrame state=downheader	        fill="b_feat_normal.tga" />
+		    </UIButton>
+
+		<UIGrid name="griddmfispec" x="2" y="2" columns="3" rows="2" xPadding="2" yPadding="2" >
+
+		<UIButton name="INILangBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Initialize_Languages",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".initialize_languages")>
+		<UIFrame state="base"	fill="ia_use.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+
+		<UIButton name="INIPlugsBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Initialize_Plugins",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".initialize_plugins")>
+		<UIFrame state="base"	fill="ia_use.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+
+		<UIButton name="INIServBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Initialize_Server",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".initialize_server")>
+		<UIFrame state="base"	fill="ia_use.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+		<UIButton name="INIManagBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Manager_Tool",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_trgtool","MNGR_TOOL")>
+		<UIFrame state="base"	fill="ia_use.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+
+		</UIGrid>
+
+               </UICollapsable>
+
+		<--DMFI DM SPECIFIC BRONCA-->
+
+		<UICollapsable name="DMFI_COL_DMDMF" x=0 y=112 width=160 height=50 capturemouseclicks=false yPadding=0                         xPadding=0 isexpanded=false >	
+		<UIButton name="DMFI_DMFIDMPARTYBUT" text="DMFI DM Party Tool" x=0 y=0 width=160 height=20 header=true >
+
+			  <UIText x=0 y=0 align=center valign=middle fontfamily="Default" style="2" indent=0 multiline=false                                                    color=C1AB89 />
+			  <UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=header		        fill="b_feat_normal.tga" />
+			  <UIFrame state=hiheader		fill="b_feat_normal.tga" />
+			  <UIFrame state=downheader	        fill="b_feat_normal.tga" />
+		    </UIButton>
+
+		<UIGrid name="griddmfidmspec" x="2" y="2" columns="4" rows="3" xPadding="2" yPadding="2" >
+
+		<UIButton name="OutOfMyWayButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("GetOutOfMyWay",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_trgtool","GET_OUT")>
+		<UIFrame state="base"	fill="ibt_devout.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+		<UIButton name="JumpPartyButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("JumpPartyToDM",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_trgtool","JUMP_PARTY")>
+		<UIFrame state="base"	fill="ia_jump.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+		<UIButton name="JumpAllPlayersButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("JumpAllPlayersToDM",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_trgtool","JUMP_ALLPLAYERS")>
+		<UIFrame state="base"	fill="ia_jumpallplayers.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+		<UIButton name="JumpPlayerToLeadButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("JumpPlayersToPartyLeader",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_trgtool","JUMP_TOLEADER")>
+		<UIFrame state="base"	fill="ia_jumpallplayers.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+		<UIButton name="CRTPORTALABUTT" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Create_Destination_Portal",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_trgtool","PORTAL_A")>
+		<UIFrame state="base"	fill="ia_spells.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+
+		<UIButton name="CRTPORTALBBUTT" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Create_Start_Portal",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_trgtool","PORTAL_B")>
+		<UIFrame state="base"	fill="ia_spells.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+		<UIButton name="DSTRYPORTLBUTT" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Destroy_Portals",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_trgtool","DESTROY_PORT")>
+		<UIFrame state="base"	fill="ife_CM_bonusdomain.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+
+
+	<UIButton name="NA" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","")>
+		
+		<UIFrame state="base"	fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+
+		<UIButton name="MSGTOALLBUTT" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Send_Message_Popup_To_All_Players",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_trgtool","MSGALL_POPUP")>
+		<UIFrame state="base"	fill="ia_splitcombine.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+
+		<UIButton name="MSGTOPARTYBUTT" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Send_Message_Popup_To_Party",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_trgtool","MSGPARTY_POPUP")>
+		<UIFrame state="base"	fill="ia_splitcombine.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
+
+
+
+		</UIGrid>
+
+               </UICollapsable>
+
+
+		</UIListbox>
+		</UIPane>
+
+	        <UIPane name="DMFI_ROOT1" x=0 y=70 width=160 height=350 hidden=false capturemouseclicks=false    alpha="0.65"           capturemouseevents=false >
+
+          <UIListbox name="DMFI_LISTBOX1" x=2 y=1 width=287 height=800 yPadding=0 xPadding=0
+		    showpartialchild=true scrollbaronright=true unequalcontrols=true scrollsegmentsize=234 selectonleftclick=false >
+
+          
+
+	<!-- DMFI BATTLE TOOOL -->
+		<UICollapsable name="DMFI_COL_1" x=0 y=0 width=250 height=50 capturemouseclicks=false yPadding=0                         xPadding=0 isexpanded=false >	
+		<UIButton name="DMFI_BATTLETOOLBUT" text="Battle Tool" x=0 y=0 width=160 height=20 header=true >
+
+			  <UIText x=0 y=0 align=center valign=middle fontfamily="Default" style="2" indent=0 multiline=false                                                    color=C1AB89 />
+			  <UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=header		        fill="b_feat_normal.tga" />
+			  <UIFrame state=hiheader		fill="b_feat_normal.tga" />
+			  <UIFrame state=downheader	        fill="b_feat_normal.tga" />
+		    </UIButton>
+
+		        <UIPane name="DMFIPANEROW1" x=0 y=0 width=160 height=85 hidden=false capturemouseclicks=false capturemouseevents=false >
+
+			<UIGrid name="battle_grid" x="2" y="2" columns="4" rows="3" xPadding="2" yPadding="2" >
+	
+	                 <UIButton name="StrInc" text="StrINCC" width="25" height="25" 
+	OnToolTip=UIObject_Tooltip_DisplayTooltipString("STRInc",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_battle","STRinc") 
+		OnRightClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_battle","R_STRinc")>
+		
+		<UIFrame state="base"	fill="ise_abilitystrincr.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>					
+        
+	<UIButton name="DexInc" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("DEXInc",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_battle","DEXinc") 
+		OnRightClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_battle","R_DEXinc")>
+		
+		<UIFrame state="base"	fill="ise_acincr.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+	
+	<UIButton name="ConInc" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("CONInc",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_battle","CONinc") 
+		OnRightClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_battle","R_CONinc")>
+			<UIFrame state="base"	fill="ise_dmgimmuneincr.tga" />
+			<UIFrame state="up"		fill="b_empty.tga" />
+			<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+       			</UIButton>
+
+	<UIButton name="SRInc" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("SRInc",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_battle","SRinc") 
+		OnRightClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_battle","R_SRinc")>
+			<UIFrame state="base"	fill="ise_spellresincr.tga" />
+			<UIFrame state="up"		fill="b_empty.tga" />
+			<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+       			</UIButton>
+
+
+<UIButton name="StrDec" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("STRDec",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_battle","STRdec") 
+		OnRightClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_battle","R_STRdec")>
+		
+		<UIFrame state="base"	fill="ise_abilitystrdecr.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.90" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.75"/>
+	</UIButton>
+	
+	<UIButton name="DexDec" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("DEXDec",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_battle","DEXdec") 
+		OnRightClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_battle","R_DEXdec")>
+		
+		<UIFrame state="base"	fill="ise_acdecr.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+
+	<UIButton name="ConDec" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("CONDec",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_battle","CONdec") 
+		OnRightClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_battle","R_CONdec")>
+			<UIFrame state="base"	fill="ise_dmgimmunedecr.tga" />
+			<UIFrame state="up"		fill="b_empty.tga" />
+			<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.7" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.45" />
+			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.45"/>
+	                </UIButton>
+
+
+<UIButton name="SRDec" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("SRDec",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_battle","SRdec") 
+		OnRightClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_battle","R_SRdec")>
+		
+		<UIFrame state="base"	fill="ise_spellresdecr.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.90" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.75"/>
+	</UIButton>
+
+
+	<UIButton name="WholeHostileBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Whole_Area_Hostile",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".battle_on")>
+		
+		<UIFrame state="base"	fill="ia_attack.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="WholeCommonBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Whole_Area_Commoners",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".battle_off")>
+		
+		<UIFrame state="base"	fill="ia_defend.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+
+			</UIGrid>
+			</UIPane>
+			
+	        
+                 
+          
+
+                </UICollapsable>	
+		
+	<!-- DMFI CREATURE TOOOL -->
+
+		<UICollapsable name="DMFI_COL_2" x=0 y=21 width=160 height=130 capturemouseclicks=true yPadding=0  xPadding=0 isexpanded=false>
+		<UIButton name="DMFI_CREATURETOOL" text="Creature Tool" x=0 y=0 width=160 height=20 header=true >
+
+			  <UIText x=0 y=0 align=center valign=middle fontfamily="Default" style="2" indent=0 multiline=false                                                    color=C1AB89 />
+			  <UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=header		        fill="b_feat_normal.tga" />
+			  <UIFrame state=hiheader		fill="b_feat_normal.tga" />
+			  <UIFrame state=downheader	        fill="b_feat_normal.tga" />
+		    </UIButton>
+		<UIPane name="PANE_SUB" x=0 y=76 width=160 height=142 capturemouseclicks=false hidden=false >
+	
+			<UIGrid name="But2grid" x="0" y="3" columns="5" rows="5" xPadding="2" yPadding="2" >
+
+			<UIButton name="PCCopy" width="25" height="25" 		OnToolTip=UIObject_Tooltip_DisplayTooltipString("PC_Copy",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".copy_pc")>
+			<UIFrame state="base"	fill="is_mirrorimage.tga" />
+			<UIFrame state="up"		fill="b_empty.tga" />
+			<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.7" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.45" />
+			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.45"/>
+	                </UIButton>
+                   
+	<UIButton name="PARtyPC" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Copy_Party_PC",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".copy_party")>
+		
+		<UIFrame state="base"	fill="isc_illusion.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="REmoveEffects" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Remove_Effects",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","context_effects")>
+		
+		<UIFrame state="base"	fill="ia_disarm.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="ScaleBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Scale",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","context_scale")>
+		
+		<UIFrame state="base"	fill="ia_inventory.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="AppearanceBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Appearance",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","context_appearance")>
+		
+		<UIFrame state="base"	fill="ia_appear.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="FreesePlayBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Freeze_Player",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".freeze")>
+		
+		<UIFrame state="base"	fill="ia_banplayer.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+
+	<UIButton name="BootPlayBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Boot_Player",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".boot")>
+		
+		<UIFrame state="base"	fill="ia_bootplayer.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="NA" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","")>
+		
+		<UIFrame state="base"	fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="NA" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","")>
+		
+		<UIFrame state="base"	fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+
+	<UIButton name="CreatRenameButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Rename",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".rename")>
+		<UIFrame state="base"	fill="ia_issuecommands.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	  </UIButton>
+
+	<UIButton name="CHGFactHostile" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Change_Faction_To_Hostile",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".faction_hostile")>
+		<UIFrame state="base"	fill="dmfi_red.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="CHGFactCommoner" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Change_Faction_To_Commoner",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".faction_commoner")>
+		<UIFrame state="base"	fill="dmfi_green.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="CHGFactDefender" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Change_Faction_To_Defender",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".faction_defender")>
+		<UIFrame state="base"	fill="dmfi_blue.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="CHGFactMerchant" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Change_Faction_To_Merchant",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".faction_merchant")>
+		<UIFrame state="base"	fill="dmfi_purple.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="NA" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","")>
+		
+		<UIFrame state="base"	fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="ManageInvBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Manage_Inventory",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".inventory_manage")>
+		<UIFrame state="base"	fill="ia_inventory.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="IdenInvBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Identify_All_Inventory",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".inventory_identify")>
+		<UIFrame state="base"	fill="is_identify.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="StripInvBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Strip_All_Inventory",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".inventory_strip")>
+		<UIFrame state="base"	fill="ia_cancelshout.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="UberInvBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Remove_Uber_Items",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".inventory_uber")>
+		<UIFrame state="base"	fill="ia_disarm.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="NA" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","")>
+		
+		<UIFrame state="base"	fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+	<UIButton name="ListLangBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("List_Languages",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".list_language")>
+		<UIFrame state="base"	fill="ia_customtextmacro.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+
+	<UIButton name="GrantLangBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Grant_Language",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","context_grant")>
+		<UIFrame state="base"	fill="ia_accept.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+
+	<UIButton name="RemoveLangBut" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Remove_Languages",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","context_remove")>
+		<UIFrame state="base"	fill="ia_exit.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+
+
+
+
+
+
+
+			</UIGrid>
+		</UIPane>
+
+		</UICollapsable>
+
+	<!-- DMFI ITEM TOOOL -->
+
+		<UICollapsable name="DMFI_COL_3" x=0 y=42 width=160 height=150 capturemouseclicks=true yPadding=0  xPadding=0 isexpanded=false>
+		<UIButton name="DMFI_CREATURETOOL" text="Item Tool" x=0 y=0 width=160 height=20 header=true >
+
+			  <UIText x=0 y=0 align=center valign=middle fontfamily="Default" style="2" indent=0 multiline=false                                                    color=C1AB89 />
+			  <UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=header		        fill="b_feat_normal.tga" />
+			  <UIFrame state=hiheader		fill="b_feat_normal.tga" />
+			  <UIFrame state=downheader	        fill="b_feat_normal.tga" />
+		    </UIButton>
+
+		<UIPane name="PANE_SUB3" x=0 y=76 width=160 height=65 capturemouseclicks=false hidden=false >
+	
+			<UIGrid name="But3grid" x="0" y="3" columns="5" rows="5" xPadding="2" yPadding="2" >
+
+					<UIButton name="ItemIdentifyButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Identify",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".item_identify")>
+		<UIFrame state="base"	fill="is_identify.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	  </UIButton>
+
+
+		<UIButton name="ItemRenameButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Rename",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".rename")>
+		<UIFrame state="base"	fill="ia_issuecommands.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	  </UIButton>
+
+	<UIButton name="NA" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool","")>
+		
+		<UIFrame state="base"	fill="b_empty.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	</UIButton>
+
+		<UIButton name="GiveItemButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Give_Item_IM",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".item_give")>
+		<UIFrame state="base"	fill="ia_disarm.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	  </UIButton>
+
+		<UIButton name="TakeItemButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Take_Item_IM",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".item_take")>
+		<UIFrame state="base"	fill="ia_disarm.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	  </UIButton>
+
+		<UIButton name="CursItemButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Toggle_Cursed",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".item_toggle_cursed")>
+		<UIFrame state="base"	fill="ia_assignmodes.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	  </UIButton>
+
+		<UIButton name="PlotItemButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Toggle_Plot",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".item_toggle_plot")>
+		<UIFrame state="base"	fill="ia_assignspecialability.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	  </UIButton>
+
+		<UIButton name="StolenItemButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Toggle_Stolen",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".item_toggle_stolen")>
+		<UIFrame state="base"	fill="ia_assignspecialattack.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	  </UIButton>
+
+                        </UIGrid>
+		</UIPane>
+		</UICollapsable>
+
+
+<!-- DMFI PLACEABLE TOOOL -->
+
+		<UICollapsable name="DMFI_COL_4" x=0 y=63 width=160 height=236 capturemouseclicks=true yPadding=0  xPadding=0 isexpanded=false>
+		<UIButton name="DMFI_PLACEABLETOOL" text="Placeable Tool" x=0 y=0 width=160 height=20 header=true >
+
+			  <UIText x=0 y=0 align=center valign=middle fontfamily="Default" style="2" indent=0 multiline=false                                                    color=C1AB89 />
+			  <UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+			  <UIFrame state=header		        fill="b_feat_normal.tga" />
+			  <UIFrame state=hiheader		fill="b_feat_normal.tga" />
+			  <UIFrame state=downheader	        fill="b_feat_normal.tga" />
+		    </UIButton>
+
+		<UIPane name="PANE_SUB4" x=0 y=76 width=160 height=142 capturemouseclicks=false hidden=false >
+		<UIGrid name="But4grid" x="0" y="3" columns="3" rows="3" xPadding="2" yPadding="2" >
+
+
+		<UIButton name="RotatePlacButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Rotate_Placeable",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".facing")>
+		<UIFrame state="base"	fill="ia_previous.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	  </UIButton>
+		
+		<UIButton name="PlaceabRenameButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Rename",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".rename")>
+		<UIFrame state="base"	fill="ia_issuecommands.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	  </UIButton>
+
+		<UIButton name="PlaceabPlotButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Set_Plot",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_dmtool",".placeableplot")>
+		<UIFrame state="base"	fill="ia_assignspecialability.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	  </UIButton>
+
+		<UIButton name="PlaceabDestButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Destroy_Placeable",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_trgtool","DESTROY_PLAC")>
+		<UIFrame state="base"	fill="ife_masterefwa.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	  </UIButton>
+
+		<UIButton name="Placeab3ftButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Destroy_Placeables_3ft",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Input_ActionTargetScript("ground",51,53,6,"true","gui_dmfi_vfxcustom","DESTROY3FEET","","target:x","target:y","target:z")>
+		<UIFrame state="base"	fill="ife_WR_detectmagic.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	  </UIButton>
+
+		<UIButton name="Placeab5ftButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Destroy_Placeables_6ft",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Input_ActionTargetScript("ground",51,53,7,"true","gui_dmfi_vfxcustom","DESTROY6FEET","","target:x","target:y","target:z")>
+		<UIFrame state="base"	fill="ife_WR_detectmagic.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	  </UIButton>
+
+		<UIButton name="Placeab20ftButt" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Destroy_Placeables_20ft",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Input_ActionTargetScript("ground",51,53,10,"true","gui_dmfi_vfxcustom","DESTROY20FEET","","target:x","target:y","target:z")>
+		<UIFrame state="base"	fill="ife_WR_detectmagic.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+	  </UIButton>
+
+          </UIGrid>
+		</UIPane>
+		</UICollapsable>
+		</UIListbox>
+                </UIPane>
+  
+

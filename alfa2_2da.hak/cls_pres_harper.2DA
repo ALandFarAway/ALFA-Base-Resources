@@ -1,0 +1,19 @@
+2DA V2.0
+
+   LABEL            ReqType ReqParam1      ReqParam2 
+0  Diplomacy        SKILL   12             8         
+1  Survival         SKILL   29             2         
+2  Knowledge(local) SKILL   59             4         
+3  SenseMotive      SKILL   51             2         
+4  Negotiator       FEAT    1109           ****      
+5  ScriptVar        VAR     X1_AllowHarper 0         
+6  Bard             CLASSOR 1              ****      
+7  Cleric           CLASSOR 2              ****      
+8  Druid            CLASSOR 3              ****      
+9  Paladin          CLASSOR 6              ****      
+10 Ranger           CLASSOR 7              ****      
+11 Sorcerer         CLASSOR 9              ****      
+12 Wizard           CLASSOR 10             ****      
+13 Spirit_Shaman    CLASSOR 55             ****      
+14 Favored_Soul     CLASSOR 58             ****      
+15 PrC_Validation   FEAT    3500           ****      

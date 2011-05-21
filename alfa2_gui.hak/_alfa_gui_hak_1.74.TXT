@@ -1,0 +1,454 @@
+AcadiusLost: 9/6/2010, documenting alfa_gui, updated for NWN2/MotB/SoZ 1.23 final
+
+version 1.74
+
+update: 8/19/2007: edit to hss_pc_tools.XML to add Praying for spells as Custom 1.
+	9/3/2007: removed dmcreator until it can be fixed
+	10/29/2007: Heeds PC Tools to 0.91, Heeds NO CON 2, DMFI 1.04 added.
+	11/03/2007: moved DMFI back out to UI, added dmfi_inc_const
+	11/19/2006: updated dmfi_inc_const, fixed contextmenu for DMs.
+        1/1/2008: DMFI to 1.10, replaces the Custom UI implementation.
+	3/1/2008: Added Heed's ActionSit
+	4/14/2008: Added DM XP UI, altered contextmenu for identify, and pick up options
+	4/26/2008: Added the Alignment shift slider back to contextmenu.xml
+	5/31/2008: Added NPC SetLevel back to DM client via contextmenu.xml
+	7/6/2008: Updated Heed's ActionSit to 1.21
+	7/12/2008: Added container.xml for Loot All removal. (avoids corpse bugs, thanks Kest)
+	9/06/2008: Added Dynamic Descriptions
+	9/21/2008: Updated DMFI constants.
+	1/14/2009: Added TKL performer support
+	3/10/2009: Added DM Client Extension support
+	5/18/2009: Updated TKL performer to v2.0
+	 8/8/2009: Updates to PC tools and the levelup GUI for 1.23/skills.
+		also removed Heed's No CON 2, adjusted creatureexamine.xml
+	8/25/2009: Updated contextmenu.xml to remove RecoverTrap
+	12/29/2009: Added Appraise option to contextmenu.xml, fixed creature "Identify" option.
+	3/13/2010: Added Kemo's Descriptions, PC tools party macro change, DMFI target tool fix
+        9/6/2010:  Added TKL Cardgame, Kemo's animations (PG-13 version), CreatureExamine fixes,
+                UI files for XP-Craft
+
+
+ALFA Custom GUI by Cipher:
+
+contextmenu.xml (merged with DMFI-compatible Heed's PC Tools, v0.91, knockout removed 10/29/07, id, xp, pick up added 4/14/08, heal/taunt removed 8/8/2009, RecoverTrap removed 8/25/09)
+creatureexamine.xml  <---- edited 8/8/2009 to add some SoZ functions, 8/31/10 to fix Feat display for DMs
+(dmcreator.xml)  <--------removed 9/3
+dmgivexp.xml
+dmsetxp.xml
+
+Heed's PC Tools, v0.91 by Heed:
+
+contextmenu.xml (DMFI compatible, merged with Cipher's ALFA GUI)
+
+hss_gui_pctool.TGA
+hss_gui_pctool_cbutt.TGA
+hss_gui_pctool_macro.TGA
+hss_gui_pctool_msgbox.TGA
+hss_gui_title_closed_normal.TGA
+hss_gui_title_open_normal.TGA
+hss_gui_top_bg.TGA
+hss_pc_tools.XML (with custom button #1 set for ALFA prayer, #2 set for Locate Players (DM only))
+hss_pc_tools_cb.XML
+hss_pc_tools_cb_v.XML
+hss_pc_tools_msgbox.XML
+hss_pc_tools_postmsg.XML
+hss_pc_tools_tm_v.XML
+
+
+DMFI 1.10, by Demetrious:
+
+dmfi_blue.TGA
+dmfi_cancel_follow.TGA
+dmfi_green.TGA
+dmfi_play_bat.TGA
+dmfi_purple.TGA
+dmfi_red.TGA
+dmfi_trgbck.TGA
+dmfiambtool.XML
+dmfichgitem.XML
+dmfichgname.XML
+dmfichoose.XML
+dmfidicetool.XML
+dmfidmlist.XML
+dmfidmui.XML
+dmfifollowoff.XML
+dmfilist.XML
+dmfimngrtool.XML
+dmfimusictool.XML
+dmfiplayerui.XML
+dmfiskillsui.XML
+dmfisndtool.XML
+dmfitext.XML
+dmfitextdesc.XML
+dmfitextvfx.XML
+dmfitrgtool.XML
+dmfivfxtool.XML
+
+dmfi_inc_const.NSS
+
+
+
+Heed's ActionSit v1.21
+
+hss_actionsit.XML
+
+
+DM client GUI temp fix for 1.12 by QK/Senalaya
+
+dmcpartybar.XML
+
+
+Removal of Loot All for containers, by Kest.
+
+container.XML
+
+
+Dynamic Descriptions, by Bartleby:
+
+alfa_moddec_01.xml
+alfa_gui_backdrop01.tga
+
+
+TKL Performer package, by brockfanning@gmail.com, updated to v2.0
+
+tkl_performer_drum.XML   (updated for v2.0)
+tkl_performer_flute.XML  (updated for v2.0)
+tkl_performer_help.XML
+tkl_performer_lute.XML   (updated for v2.0)
+tkl_performer_lyrics.XML (updated for v2.0)
+tkl_performer_write.XML (added for v2.0)
+
+
+
+
+DM Client Extension pack, by Caos81
+
+b_rotd_hover.TGA
+b_rotd_hover_pressed.TGA
+b_rotd_normal.TGA
+b_rotd_pressed.TGA
+equipment.TGA
+i_bite.TGA
+i_claw.TGA
+i_hide.TGA
+i_musics.TGA
+inventoryscreen.XML
+local_var_repository.XML
+menu_highlight_active.TGA
+middle.TGA
+pc_inventory.XML
+wand_dmfi_h.XML
+wand_dmfi_v.XML
+wand_editvar.TGA
+wand_equip.TGA
+wand_equipbite.TGA
+wand_equipoffhand.TGA
+wand_h.XML
+wand_unequip.TGA
+wand_v.XML
+wand_var.TGA
+
+
+
+ALFA Skills system.
+
+levelup_skillsx2.xml
+
+
+
+DMFI target tool fix, by BrianMeyer:
+
+dmfitrgtool.XML
+
+
+
+Kemo's Descriptions:
+
+kemo_bio_display.XML
+kemo_bio_edit.XML
+
+
+PC Tools macro mod (Party chat vs. Shout) by AcadiusLost
+
+hss_pc_tools_tm_v.XML
+
+
+TKL Cardgame v.2 by BrockFanning:
+cards_back.TGA
+i_cards_poker_clubs_10.TGA
+i_cards_poker_clubs_10_sm.TGA
+i_cards_poker_clubs_2.TGA
+i_cards_poker_clubs_2_sm.TGA
+i_cards_poker_clubs_3.TGA
+i_cards_poker_clubs_3_sm.TGA
+i_cards_poker_clubs_4.TGA
+i_cards_poker_clubs_4_sm.TGA
+i_cards_poker_clubs_5.TGA
+i_cards_poker_clubs_5_sm.TGA
+i_cards_poker_clubs_6.TGA
+i_cards_poker_clubs_6_sm.TGA
+i_cards_poker_clubs_7.TGA
+i_cards_poker_clubs_7_sm.TGA
+i_cards_poker_clubs_8.TGA
+i_cards_poker_clubs_8_sm.TGA
+i_cards_poker_clubs_9.TGA
+i_cards_poker_clubs_9_sm.TGA
+i_cards_poker_clubs_ace.TGA
+i_cards_poker_clubs_ace_sm.TGA
+i_cards_poker_clubs_jack.TGA
+i_cards_poker_clubs_jack_sm.TGA
+i_cards_poker_clubs_king.TGA
+i_cards_poker_clubs_king_sm.TGA
+i_cards_poker_clubs_queen.TGA
+i_cards_poker_clubs_queen_sm.TGA
+i_cards_poker_diamonds_10.TGA
+i_cards_poker_diamonds_10_sm.TGA
+i_cards_poker_diamonds_2.TGA
+i_cards_poker_diamonds_2_sm.TGA
+i_cards_poker_diamonds_3.TGA
+i_cards_poker_diamonds_3_sm.TGA
+i_cards_poker_diamonds_4.TGA
+i_cards_poker_diamonds_4_sm.TGA
+i_cards_poker_diamonds_5.TGA
+i_cards_poker_diamonds_5_sm.TGA
+i_cards_poker_diamonds_6.TGA
+i_cards_poker_diamonds_6_sm.TGA
+i_cards_poker_diamonds_7.TGA
+i_cards_poker_diamonds_7_sm.TGA
+i_cards_poker_diamonds_8.TGA
+i_cards_poker_diamonds_8_sm.TGA
+i_cards_poker_diamonds_9.TGA
+i_cards_poker_diamonds_9_sm.TGA
+i_cards_poker_diamonds_ace.TGA
+i_cards_poker_diamonds_ace_sm.TGA
+i_cards_poker_diamonds_jack.TGA
+i_cards_poker_diamonds_jack_sm.TGA
+i_cards_poker_diamonds_king.TGA
+i_cards_poker_diamonds_king_sm.TGA
+i_cards_poker_diamonds_queen.TGA
+i_cards_poker_diamonds_queen_sm.TGA
+i_cards_poker_hearts_10.TGA
+i_cards_poker_hearts_10_sm.TGA
+i_cards_poker_hearts_2.TGA
+i_cards_poker_hearts_2_sm.TGA
+i_cards_poker_hearts_3.TGA
+i_cards_poker_hearts_3_sm.TGA
+i_cards_poker_hearts_4.TGA
+i_cards_poker_hearts_4_sm.TGA
+i_cards_poker_hearts_5.TGA
+i_cards_poker_hearts_5_sm.TGA
+i_cards_poker_hearts_6.TGA
+i_cards_poker_hearts_6_sm.TGA
+i_cards_poker_hearts_7.TGA
+i_cards_poker_hearts_7_sm.TGA
+i_cards_poker_hearts_8.TGA
+i_cards_poker_hearts_8_sm.TGA
+i_cards_poker_hearts_9.TGA
+i_cards_poker_hearts_9_sm.TGA
+i_cards_poker_hearts_ace.TGA
+i_cards_poker_hearts_ace_sm.TGA
+i_cards_poker_hearts_jack.TGA
+i_cards_poker_hearts_jack_sm.TGA
+i_cards_poker_hearts_king.TGA
+i_cards_poker_hearts_king_sm.TGA
+i_cards_poker_hearts_queen.TGA
+i_cards_poker_hearts_queen_sm.TGA
+i_cards_poker_spades_10.TGA
+i_cards_poker_spades_10_sm.TGA
+i_cards_poker_spades_2.TGA
+i_cards_poker_spades_2_sm.TGA
+i_cards_poker_spades_3.TGA
+i_cards_poker_spades_3_sm.TGA
+i_cards_poker_spades_4.TGA
+i_cards_poker_spades_4_sm.TGA
+i_cards_poker_spades_5.TGA
+i_cards_poker_spades_5_sm.TGA
+i_cards_poker_spades_6.TGA
+i_cards_poker_spades_6_sm.TGA
+i_cards_poker_spades_7.TGA
+i_cards_poker_spades_7_sm.TGA
+i_cards_poker_spades_8.TGA
+i_cards_poker_spades_8_sm.TGA
+i_cards_poker_spades_9.TGA
+i_cards_poker_spades_9_sm.TGA
+i_cards_poker_spades_ace.TGA
+i_cards_poker_spades_ace_sm.TGA
+i_cards_poker_spades_jack.TGA
+i_cards_poker_spades_jack_sm.TGA
+i_cards_poker_spades_king.TGA
+i_cards_poker_spades_king_sm.TGA
+i_cards_poker_spades_queen.TGA
+i_cards_poker_spades_queen_sm.TGA
+i_cards_tarot_cups_10.TGA
+i_cards_tarot_cups_10_sm.TGA
+i_cards_tarot_cups_2.TGA
+i_cards_tarot_cups_2_sm.TGA
+i_cards_tarot_cups_3.TGA
+i_cards_tarot_cups_3_sm.TGA
+i_cards_tarot_cups_4.TGA
+i_cards_tarot_cups_4_sm.TGA
+i_cards_tarot_cups_5.TGA
+i_cards_tarot_cups_5_sm.TGA
+i_cards_tarot_cups_6.TGA
+i_cards_tarot_cups_6_sm.TGA
+i_cards_tarot_cups_7.TGA
+i_cards_tarot_cups_7_sm.TGA
+i_cards_tarot_cups_8.TGA
+i_cards_tarot_cups_8_sm.TGA
+i_cards_tarot_cups_9.TGA
+i_cards_tarot_cups_9_sm.TGA
+i_cards_tarot_cups_a.TGA
+i_cards_tarot_cups_a_sm.TGA
+i_cards_tarot_cups_k.TGA
+i_cards_tarot_cups_kn.TGA
+i_cards_tarot_cups_kn_sm.TGA
+i_cards_tarot_cups_k_sm.TGA
+i_cards_tarot_cups_p.TGA
+i_cards_tarot_cups_p_sm.TGA
+i_cards_tarot_cups_q.TGA
+i_cards_tarot_cups_q_sm.TGA
+i_cards_tarot_pent_10.TGA
+i_cards_tarot_pent_10_sm.TGA
+i_cards_tarot_pent_2.TGA
+i_cards_tarot_pent_2_sm.TGA
+i_cards_tarot_pent_3.TGA
+i_cards_tarot_pent_3_sm.TGA
+i_cards_tarot_pent_4.TGA
+i_cards_tarot_pent_4_sm.TGA
+i_cards_tarot_pent_5.TGA
+i_cards_tarot_pent_5_sm.TGA
+i_cards_tarot_pent_6.TGA
+i_cards_tarot_pent_6_sm.TGA
+i_cards_tarot_pent_7.TGA
+i_cards_tarot_pent_7_sm.TGA
+i_cards_tarot_pent_8.TGA
+i_cards_tarot_pent_8_sm.TGA
+i_cards_tarot_pent_9.TGA
+i_cards_tarot_pent_9_sm.TGA
+i_cards_tarot_pent_a.TGA
+i_cards_tarot_pent_a_sm.TGA
+i_cards_tarot_pent_k.TGA
+i_cards_tarot_pent_kn.TGA
+i_cards_tarot_pent_kn_sm.TGA
+i_cards_tarot_pent_k_sm.TGA
+i_cards_tarot_pent_p.TGA
+i_cards_tarot_pent_p_sm.TGA
+i_cards_tarot_pent_q.TGA
+i_cards_tarot_pent_q_sm.TGA
+i_cards_tarot_swords_10.TGA
+i_cards_tarot_swords_10_sm.TGA
+i_cards_tarot_swords_2.TGA
+i_cards_tarot_swords_2_sm.TGA
+i_cards_tarot_swords_3.TGA
+i_cards_tarot_swords_3_sm.TGA
+i_cards_tarot_swords_4.TGA
+i_cards_tarot_swords_4_sm.TGA
+i_cards_tarot_swords_5.TGA
+i_cards_tarot_swords_5_sm.TGA
+i_cards_tarot_swords_6.TGA
+i_cards_tarot_swords_6_sm.TGA
+i_cards_tarot_swords_7.TGA
+i_cards_tarot_swords_7_sm.TGA
+i_cards_tarot_swords_8.TGA
+i_cards_tarot_swords_8_sm.TGA
+i_cards_tarot_swords_9.TGA
+i_cards_tarot_swords_9_sm.TGA
+i_cards_tarot_swords_a.TGA
+i_cards_tarot_swords_a_sm.TGA
+i_cards_tarot_swords_k.TGA
+i_cards_tarot_swords_kn.TGA
+i_cards_tarot_swords_kn_sm.TGA
+i_cards_tarot_swords_k_sm.TGA
+i_cards_tarot_swords_p.TGA
+i_cards_tarot_swords_p_sm.TGA
+i_cards_tarot_swords_q.TGA
+i_cards_tarot_swords_q_sm.TGA
+i_cards_tarot_trump_0.TGA
+i_cards_tarot_trump_0_sm.TGA
+i_cards_tarot_trump_1.TGA
+i_cards_tarot_trump_10.TGA
+i_cards_tarot_trump_10_sm.TGA
+i_cards_tarot_trump_11.TGA
+i_cards_tarot_trump_11_sm.TGA
+i_cards_tarot_trump_12.TGA
+i_cards_tarot_trump_12_sm.TGA
+i_cards_tarot_trump_13.TGA
+i_cards_tarot_trump_13_sm.TGA
+i_cards_tarot_trump_14.TGA
+i_cards_tarot_trump_14_sm.TGA
+i_cards_tarot_trump_15.TGA
+i_cards_tarot_trump_15_sm.TGA
+i_cards_tarot_trump_16.TGA
+i_cards_tarot_trump_16_sm.TGA
+i_cards_tarot_trump_17.TGA
+i_cards_tarot_trump_17_sm.TGA
+i_cards_tarot_trump_18.TGA
+i_cards_tarot_trump_18_sm.TGA
+i_cards_tarot_trump_19.TGA
+i_cards_tarot_trump_19_sm.TGA
+i_cards_tarot_trump_1_sm.TGA
+i_cards_tarot_trump_2.TGA
+i_cards_tarot_trump_20.TGA
+i_cards_tarot_trump_20_sm.TGA
+i_cards_tarot_trump_21.TGA
+i_cards_tarot_trump_21_sm.TGA
+i_cards_tarot_trump_2_sm.TGA
+i_cards_tarot_trump_3.TGA
+i_cards_tarot_trump_3_sm.TGA
+i_cards_tarot_trump_4.TGA
+i_cards_tarot_trump_4_sm.TGA
+i_cards_tarot_trump_5.TGA
+i_cards_tarot_trump_5_sm.TGA
+i_cards_tarot_trump_6.TGA
+i_cards_tarot_trump_6_sm.TGA
+i_cards_tarot_trump_7.TGA
+i_cards_tarot_trump_7_sm.TGA
+i_cards_tarot_trump_8.TGA
+i_cards_tarot_trump_8_sm.TGA
+i_cards_tarot_trump_9.TGA
+i_cards_tarot_trump_9_sm.TGA
+i_cards_tarot_wands_10.TGA
+i_cards_tarot_wands_10_sm.TGA
+i_cards_tarot_wands_2.TGA
+i_cards_tarot_wands_2_sm.TGA
+i_cards_tarot_wands_3.TGA
+i_cards_tarot_wands_3_sm.TGA
+i_cards_tarot_wands_4.TGA
+i_cards_tarot_wands_4_sm.TGA
+i_cards_tarot_wands_5.TGA
+i_cards_tarot_wands_5_sm.TGA
+i_cards_tarot_wands_6.TGA
+i_cards_tarot_wands_6_sm.TGA
+i_cards_tarot_wands_7.TGA
+i_cards_tarot_wands_7_sm.TGA
+i_cards_tarot_wands_8.TGA
+i_cards_tarot_wands_8_sm.TGA
+i_cards_tarot_wands_9.TGA
+i_cards_tarot_wands_9_sm.TGA
+i_cards_tarot_wands_a.TGA
+i_cards_tarot_wands_a_sm.TGA
+i_cards_tarot_wands_k.TGA
+i_cards_tarot_wands_kn.TGA
+i_cards_tarot_wands_kn_sm.TGA
+i_cards_tarot_wands_k_sm.TGA
+i_cards_tarot_wands_p.TGA
+i_cards_tarot_wands_p_sm.TGA
+i_cards_tarot_wands_q.TGA
+i_cards_tarot_wands_q_sm.TGA
+tkl_cardgame_player1.XML
+tkl_cardgame_player2.XML
+tkl_cardgame_player3.XML
+tkl_cardgame_player4.XML
+
+
+Kemo's Custom animations (PG-13 version)
+
+kemo_anim.XML         <-- alternate PG-13 version
+kemo_anim_lapsit.XML
+kemo_anim_min.XML
+
+
+XP-craft by Carter DC (UI added in advance of sytem integration)
+
+color_tls_background.TGA
+elechos_colortls.XML

@@ -1,0 +1,9 @@
+AcadiusLost: 
+
+5/18/2009: Merged to SoZ 1.22.1588.  Added experimental rows for 2/4/6 Damage Res.
+
+Padding to row 20
+
+21: Damage Resistance 2
+22: Damage Resistance 4
+23: Damage Resistance 6

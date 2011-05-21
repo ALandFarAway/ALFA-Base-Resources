@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<!--
+
+  System Name : ALFA GUI
+     Filename : dmgivexp.xml
+    $Revision:: 509        $
+        $Date:: 2008-04-14#$
+
+  Revision History:
+  2008/04/11  Cipher  Inception
+
+-->
+
+<UIScene name="SCREEN_DM_GIVEQUESTXP" x=ALIGN_CENTER y=ALIGN_CENTER modal="false" width=428 height=346 fadeout="0.0" fadein="0.0" draggable="true" backoutkey="true"
+    priority="SCENE_SCRIPT" scriptloadable=true />
+
+    <! -- Title -->
+    <UIText name="TITLE" x=12 y=10 width=325 height=23 align=left valign=middle fontfamily="Title_Font" style="2" />
+          
+    <!-- Close Button -->
+    <UIButton name="CloseButton" x=388 y=9 style="STYLE_CLOSE_BUTTON" OnLeftClick=UIButton_Input_ScreenClose() />
+          
+    <!-- Quest Rating Header -->
+    <UIText name="DM_QUEST_RATING" text="Quest Rating (xp):" buttonoverlay=true uppercase=false x=16 y=50 width=280 height=16 valign=middle style="2" color=C1AB89 />
+    
+    <!-- Quest Rating Buttons -->
+    <UIButton name="DM_QUEST_RATING_BUTTON1" x=16 y=74 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=1 groupmemberid=1 SetDataInt=0
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:0,0) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",0,local:1,local:2) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>
+
+    <UIButton name="DM_QUEST_RATING_BUTTON2" x=16 y=94 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=1 groupmemberid=2 SetDataInt=25
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:0,25) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",25,local:1,local:2) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>          
+         
+    <UIButton name="DM_QUEST_RATING_BUTTON3" x=16 y=114 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=1 groupmemberid=3 SetDataInt=50
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:0,50) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",50,local:1,local:2) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>
+    
+    <UIButton name="DM_QUEST_RATING_BUTTON4" x=16 y=134 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=1 groupmemberid=4 SetDataInt=75
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:0,75) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",75,local:1,local:2) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>    
+            
+    <UIButton name="DM_QUEST_RATING_BUTTON5" x=16 y=154 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=1 groupmemberid=5 SetDataInt=100
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:0,100) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",100,local:1,local:2) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>
+    
+    <UIText name="DM_QUEST_RATING_LABEL1" text="None (0)" buttonoverlay=true uppercase=false x=33 y=71 width=280 height=16 valign=middle style="1" color=C1AB89 />    
+    <UIText name="DM_QUEST_RATING_LABEL2" text="Easy (25)" buttonoverlay=true uppercase=false x=33 y=91 width=280 height=16 valign=middle style="1" color=C1AB89 />                   
+    <UIText name="DM_QUEST_RATING_LABEL3" text="Normal (50)" buttonoverlay=true uppercase=false x=33 y=111 width=280 height=16 valign=middle style="1" color=C1AB89 />
+    <UIText name="DM_QUEST_RATING_LABEL4" text="Serious (75)" buttonoverlay=true uppercase=false x=33 y=131 width=280 height=16 valign=middle style="1" color=C1AB89 />               
+    <UIText name="DM_QUEST_RATING_LABEL5" text="Exceptional (100)" buttonoverlay=true uppercase=false x=33 y=151 width=280 height=16 valign=middle style="1" color=C1AB89 />                              
+
+    <!-- Roleplay Rating Header -->
+    <UIText name="DM_RP_RATING" text="Roleplay Rating (xp):" buttonoverlay=true uppercase=false x=155 y=50 width=280 height=16 valign=middle style="2" color=C1AB89 />
+
+    <!-- Roleplay Rating Buttons -->
+    <UIButton name="DM_RP_RATING_BUTTON1" x=155 y=74 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=2 groupmemberid=2 SetDataInt=15
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:1,15) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",local:0,15,local:2) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>
+    
+    <UIButton name="DM_RP_RATING_BUTTON2" x=155 y=94 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=2 groupmemberid=1 SetDataInt=30
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:1,30) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",local:0,30,local:2) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>
+        
+    <UIButton name="DM_RP_RATING_BUTTON3" x=155 y=114 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=2 groupmemberid=3 SetDataInt=45
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:1,45) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",local:0,45,local:2) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>
+        
+    <UIButton name="DM_RP_RATING_BUTTON4" x=155 y=134 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=2 groupmemberid=4 SetDataInt=60
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:1,60) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",local:0,60,local:2) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>    
+
+    <UIText name="DM_RP_RATING_LABEL1" text="Poor (15)" buttonoverlay=true uppercase=false x=171 y=71 width=280 height=16 valign=middle style="1" color=C1AB89 />                   
+    <UIText name="DM_RP_RATING_LABEL2" text="Average (30)" buttonoverlay=true uppercase=false x=171 y=91 width=280 height=16 valign=middle style="1" color=C1AB89 />                   
+    <UIText name="DM_RP_RATING_LABEL3" text="Good (45)" buttonoverlay=true uppercase=false x=171 y=111 width=280 height=16 valign=middle style="1" color=C1AB89 />                            
+    <UIText name="DM_RP_RATING_LABEL4" text="Exceptional (60)" buttonoverlay=true uppercase=false x=171 y=131 width=280 height=16 valign=middle style="1" color=C1AB89 />                            
+
+    <!-- Session Length Header -->
+    <UIText name="DM_SESSION_LENGTH" text="Session Length:" buttonoverlay=true uppercase=false x=294 y=50 width=280 height=16 valign=middle style="2" color=C1AB89 />
+
+    <!-- Session Length Buttons -->
+    <UIButton name="DM_SESSION_LENGTH_BUTTON1" x=294 y=74 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=3 groupmemberid=2 SetDataFloat=0.5
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:2,0.5) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",local:0,local:1,0.5) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>
+    
+    <UIButton name="DM_SESSION_LENGTH_BUTTON2" x=294 y=94 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=3 groupmemberid=1 SetDataFloat=1.0
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:2,1.0) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",local:0,local:1,1.0) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>
+        
+    <UIButton name="DM_SESSION_LENGTH_BUTTON3" x=294 y=114 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=3 groupmemberid=3 SetDataFloat=1.5
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:2,1.5) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",local:0,local:1,1.5) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>
+        
+    <UIButton name="DM_SESSION_LENGTH_BUTTON4" x=294 y=134 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=3 groupmemberid=4 SetDataFloat=2.0
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:2,2.0) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",local:0,local:1,2.0) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>    
+
+    <UIButton name="DM_SESSION_LENGTH_BUTTON5" x=294 y=154 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=3 groupmemberid=5 SetDataFloat=2.5
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:2,2.5) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",local:0,local:1,2.5) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>
+    
+    <UIButton name="DM_SESSION_LENGTH_BUTTON6" x=294 y=174 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=3 groupmemberid=6 SetDataFloat=3.0
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:2,3.0) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",local:0,local:1,3.0) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>
+        
+    <UIButton name="DM_SESSION_LENGTH_BUTTON7" x=294 y=194 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=3 groupmemberid=7 SetDataFloat=3.5
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:2,3.5) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",local:0,local:1,3.5) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>
+        
+    <UIButton name="DM_SESSION_LENGTH_BUTTON8" x=294 y=214 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=3 groupmemberid=8 SetDataFloat=4.0
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:2,4.0) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",local:0,local:1,4.0) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>    
+        
+    <UIButton name="DM_SESSION_LENGTH_BUTTON9" x=294 y=234 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=3 groupmemberid=9 SetDataFloat=4.5
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:2,4.5) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",local:0,local:1,4.5) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>    
+        
+    <UIButton name="DM_SESSION_LENGTH_BUTTON10" x=294 y=254 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=3 groupmemberid=10 SetDataFloat=5.0
+     OnLeftClick0=UIObject_Misc_SetLocalVarString(local:2,5.0) OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",local:0,local:1,5.0) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>    
+
+    <UIText name="DM_SESSION_LENGTH_LABEL1" text="30 mins" buttonoverlay=true uppercase=false x=310 y=71 width=280 height=16 valign=middle style="1" color=C1AB89 />                   
+    <UIText name="DM_SESSION_LENGTH_LABEL2" text="1 hour" buttonoverlay=true uppercase=false x=310 y=91 width=280 height=16 valign=middle style="1" color=C1AB89 />                   
+    <UIText name="DM_SESSION_LENGTH_LABEL3" text="1 1/2 hours" buttonoverlay=true uppercase=false x=310 y=111 width=280 height=16 valign=middle style="1" color=C1AB89 />                            
+    <UIText name="DM_SESSION_LENGTH_LABEL4" text="2 hours" buttonoverlay=true uppercase=false x=310 y=131 width=280 height=16 valign=middle style="1" color=C1AB89 />                            
+    <UIText name="DM_SESSION_LENGTH_LABEL5" text="2 1/2 hours" buttonoverlay=true uppercase=false x=310 y=151 width=280 height=16 valign=middle style="1" color=C1AB89 />                            
+    <UIText name="DM_SESSION_LENGTH_LABEL6" text="3 hours" buttonoverlay=true uppercase=false x=310 y=171 width=280 height=16 valign=middle style="1" color=C1AB89 />                            
+    <UIText name="DM_SESSION_LENGTH_LABEL7" text="3 1/2 hours" buttonoverlay=true uppercase=false x=310 y=191 width=280 height=16 valign=middle style="1" color=C1AB89 />                            
+    <UIText name="DM_SESSION_LENGTH_LABEL8" text="4 hours" buttonoverlay=true uppercase=false x=310 y=211 width=280 height=16 valign=middle style="1" color=C1AB89 />                            
+    <UIText name="DM_SESSION_LENGTH_LABEL9" text="4 1/2 hours" buttonoverlay=true uppercase=false x=310 y=231 width=280 height=16 valign=middle style="1" color=C1AB89 />                            
+    <UIText name="DM_SESSION_LENGTH_LABEL10" text="5 hours" buttonoverlay=true uppercase=false x=310 y=251 width=280 height=16 valign=middle style="1" color=C1AB89 />                            
+
+    <!-- Party Header
+    <UIText name="DM_SESSION_PARTY" text="Reward Party?" buttonoverlay=true uppercase=false x=185 y=183 width=280 height=16 valign=middle style="2" color=C1AB89 />
+        
+    <UIButton name="DM_SESSION_PARTY_BUTTON1" x=185 y=203 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=4 groupmemberid=2 SetDataFloat=4.0
+     OnLeftClick=UIObject_Misc_SetLocalVarString(local:3,1) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>    
+        
+    <UIButton name="DM_SESSION_PARTY_BUTTON2" x=230 y=203 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=4 groupmemberid=1 SetDataFloat=4.0
+     OnLeftClick=UIObject_Misc_SetLocalVarString(local:3,0) disabledcolor="LightSlateGray" >
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=up        fill="b_radio_off.tga" />
+      <UIFrame state=down      fill="b_radio_on.tga" />
+      <UIFrame state=focused   fill="b_radio_on.tga" />
+      <UIFrame state=hilited   fill="b_radio_on.tga" />
+      <UIFrame state=hifocus   fill="b_radio_on.tga" />
+      <UIFrame state=disabled  fill="b_radio_off.tga" />
+    </UIButton>    
+
+    <UIText name="DM_SESSION_PARTY_LABEL1" text="Yes" buttonoverlay=true uppercase=false x=201 y=200 width=280 height=16 valign=middle style="1" color=C1AB89 />                   
+    <UIText name="DM_SESSION_PARTY_LABEL2" text="No" buttonoverlay=true uppercase=false x=246 y=200 width=280 height=16 valign=middle style="1" color=C1AB89 />                   
+    -->
+
+   	<UIText name="MESSAGETEXT" style=1 x=16 y=186 width=250 height=80 color=C1AB89 />
+
+    <!-- BUTTON CONTAINER -->
+	<UIPane name="BUTTON_CONTAINER" x=ALIGN_CENTER y=290 width=385 height=32 >
+		<!-- PC XP button -->
+		<UIButton name="pcxpbutton" text="Reward PC" x=0 y=0 style="STYLE_SMALL_BUTTON" OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",local:0,local:1,local:2,0,0,1) />
+		<!-- Party XP button -->
+		<UIButton name="partyxpbutton" text="Reward Party" x=130 y=0 style="STYLE_SMALL_BUTTON" OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmc_givexp",local:0,local:1,local:2,0,0,1,1) />
+		<!-- Cancel Button -->
+		<UIButton name="cancelbutton" strref="67" x=260 y=0 style="STYLE_SMALL_BUTTON" OnLeftClick=UIButton_Input_HandleDungeonMasterAmountCancel() />
+	</UIPane>
+
+    <UIFrame x=0 y=0 width=428 height=346 topleft="frame1_TL.tga" topright="frame1_TR.tga" 
+     bottomleft="frame1_BL.tga" bottomright="frame1_br.tga" top="frame1_T.tga" bottom="frame1_b.tga"
+     left="frame1_l.tga" right="frame1_r.tga" fillstyle="stretch" border="32" />
+
+    	<UIFrame x=10 y=44 width=120 height=130 topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+		bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+		left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+		border=5 />
+
+    	<UIFrame x=144 y=44 width=130 height=130 topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+		bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+		left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+		border=5 />
+
+    	<UIFrame x=288 y=44 width=130 height=230 topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+		bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+		left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+		border=5 />
+
+    	<UIFrame x=10 y=180 width=265 height=94 topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+		bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+		left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+		border=5 />
+
+    <UIIcon name="DETAIL_TOP" img="title_nwn_dialog.tga" x=8 y=8 width=412 height=30 ignoreevents="true" />
+    <UIIcon img="frame_main_bg.tga" x=8 y=8 width=412 height=332 />

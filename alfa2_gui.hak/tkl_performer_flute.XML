@@ -1,0 +1,1455 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<UIScene name="TKL_PERFORMER_SCREEN" idleexpiretime=0.01 modal=false draggable=true width=445 height=316 capturemouseclicks=false scriptloadable=true backoutkey=false priority=SCENE_INGAME />	
+	<UIPane name="TopPane" height=34 width=445 capturemouseclicks=false>
+		<UIFrame x=-5 y=-5 width=458 height=40 topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga" bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga" border=32 />
+		<UIButton name="EasyButton" text="EASY" x=358 y=3 height=22 width=39 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","EASY_MODE",1)>
+			<UIText text="EASY" align=center valign=middle fontfamily="Default" style=1 />
+			<UIFrame state=base		fill="skill_points_container.tga" />
+		</UIButton>
+		<UIButton name="MinorButton" text="MAJOR" x=210 y=3 height=22 width=50 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","MINOR_MODE",1)>
+			<UIText text="MAJOR" align=center valign=middle fontfamily="Default" style=1 />
+			<UIFrame state=base		fill="skill_points_container.tga" />
+		</UIButton>
+		<UIText name="TopText" x=5 y=5 height=20 text="<color=lightgrey>Flute Performer</c>" align=left fontfamily="Title_Font" style="2"/>
+		<UIButton name="CloseButton" x=422 y=3 style="STYLE_CLOSE_BUTTON" height=22 width=22 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","CLOSE",1)></UIButton>
+		<UIButton name="AreaButton" text="AREA" x=316 y=3 style="STYLE_SKILL_ICON" height=22 width=42 OnLeftClick=UIButton_Input_ShowObject("AreaPane")></UIButton>
+		<UIButton name="HelpButton" x=400 y=4 style="STYLE_SKILL_ICON" height=20 width=20 MouseDownSFX="" MouseUPSFX="" OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","HELP",1)>
+			<UIFrame state=base	fill="is_identify.tga"/>
+		</UIButton>
+		<UIButton name="KeyButton" text="C" x=184 y=3 style="STYLE_SKILL_ICON" height=22 width=27 OnLeftClick=UIButton_Input_ShowObject("KeyPane")></UIButton>
+		<UIIcon name="TopBar" capturemouseclicks=false img="title_large01.tga" x=1 y=0 height=34 />
+	</UIPane>
+
+	<UIPane name="AreaPane" x=313 y=26 height=54 with=50 capturemouseclicks=true hidden=true OnMouseLeave=UIButton_Input_HideObject("AreaPane")>
+		<UIButton text="Music" x=0 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=50 height=27 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","DISABLE_MUSIC",0) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","DISABLE_MUSIC",1)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton text="Sounds" x=0 y=26 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=50 height=27 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","DISABLE_MUSIC",2) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","DISABLE_MUSIC",3)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+	</UIPane>
+
+	<UIPane name="KeyPane" x=167 y=26 height=164 width=68 capturemouseclicks=true hidden=true OnMouseLeave=UIButton_Input_HideObject("KeyPane")>
+		<UIButton text="C" x=1 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=27 height=27 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","KEY_CHANGE",0)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton text="F" x=1 y=27 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=27 height=27 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","KEY_CHANGE",5)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton text="Bb" x=1 y=54 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=27 height=27 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","KEY_CHANGE",10)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton text="Eb" x=1 y=81 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=27 height=27 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","KEY_CHANGE",3)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton text="Ab" x=1 y=108 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=27 height=27 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","KEY_CHANGE",8)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton text="Db" x=1 y=135 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=27 height=27 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","KEY_CHANGE",1)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton text="G" x=28 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=27 height=27 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","KEY_CHANGE",7)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton text="D" x=28 y=27 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=27 height=27 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","KEY_CHANGE",2)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton text="A" x=28 y=54 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=27 height=27 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","KEY_CHANGE",9)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton text="E" x=28 y=81 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=27 height=27 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","KEY_CHANGE",4)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton text="B" x=28 y=108 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=27 height=27 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","KEY_CHANGE",11)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton text="Gb" x=28 y=135 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=27 height=27 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","KEY_CHANGE",6)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+	</UIPane>
+
+	<UIPane name="LoadPane" x=0 y=26 height=266 width=445 capturemouseclicks=true hidden=true>
+		<UIButton name="Load1Button" text="" x=7 y=9 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_LOAD",1) OnLeftClick0=UIButton_Input_HideObject("LoadPane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Load2Button" text="" x=7 y=34 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_LOAD",2) OnLeftClick0=UIButton_Input_HideObject("LoadPane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Load3Button" text="" x=7 y=59 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_LOAD",3) OnLeftClick0=UIButton_Input_HideObject("LoadPane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Load4Button" text="" x=7 y=84 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_LOAD",4) OnLeftClick0=UIButton_Input_HideObject("LoadPane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Load5Button" text="" x=7 y=109 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_LOAD",5) OnLeftClick0=UIButton_Input_HideObject("LoadPane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Load6Button" text="" x=7 y=134 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_LOAD",6) OnLeftClick0=UIButton_Input_HideObject("LoadPane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Load7Button" text="" x=7 y=159 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_LOAD",7) OnLeftClick0=UIButton_Input_HideObject("LoadPane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Load8Button" text="" x=7 y=184 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_LOAD",8) OnLeftClick0=UIButton_Input_HideObject("LoadPane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Load9Button" text="" x=7 y=209 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_LOAD",9) OnLeftClick0=UIButton_Input_HideObject("LoadPane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Load10Button" text="" x=7 y=234 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_LOAD",10) OnLeftClick0=UIButton_Input_HideObject("LoadPane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton text="CANCEL" x=352 y=165 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=80 height=25 OnLeftClick=UIButton_Input_HideObject("LoadPane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIText text="Choose" x=367 y=24></UIText>
+		<UIText text="a song" x=369 y=44></UIText>
+		<UIText text="to load." x=367 y=64></UIText>
+		<UIIcon x=0 y=0 height=270 width=445 img="dark_rock_tile.tga" capturemouseclicks=true/>
+	</UIPane>
+
+	<UIPane name="SavePane" x=0 y=26 height=266 width=445 capturemouseclicks=true hidden=true>
+		<UIButton name="Save1Button" text="" x=7 y=9 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_SAVE",1) OnLeftClick0=UIButton_Input_HideObject("SavePane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Save2Button" text="" x=7 y=34 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_SAVE",2) OnLeftClick0=UIButton_Input_HideObject("SavePane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Save3Button" text="" x=7 y=59 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_SAVE",3) OnLeftClick0=UIButton_Input_HideObject("SavePane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Save4Button" text="" x=7 y=84 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_SAVE",4) OnLeftClick0=UIButton_Input_HideObject("SavePane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Save5Button" text="" x=7 y=109 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_SAVE",5) OnLeftClick0=UIButton_Input_HideObject("SavePane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Save6Button" text="" x=7 y=134 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_SAVE",6) OnLeftClick0=UIButton_Input_HideObject("SavePane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Save7Button" text="" x=7 y=159 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_SAVE",7) OnLeftClick0=UIButton_Input_HideObject("SavePane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Save8Button" text="" x=7 y=184 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_SAVE",8) OnLeftClick0=UIButton_Input_HideObject("SavePane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Save9Button" text="" x=7 y=209 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_SAVE",9) OnLeftClick0=UIButton_Input_HideObject("SavePane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="Save10Button" text="" x=7 y=234 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=335 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_SAVE",10) OnLeftClick0=UIButton_Input_HideObject("SavePane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton text="CANCEL" x=352 y=165 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=80 height=25 OnLeftClick=UIButton_Input_HideObject("SavePane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIText text="Choose a" x=367 y=24></UIText>
+		<UIText text="slot to" x=374 y=44></UIText>
+		<UIText text="save over." x=367 y=64></UIText>
+		<UIIcon x=0 y=0 height=270 width=445 img="dark_rock_tile.tga" capturemouseclicks=true/>
+	</UIPane>
+
+	<UIPane name="StopRecordingPane" x=0 y=30 height=50 width=445 capturemouseclicks=true hidden=true >
+		<UIButton name="StopRecordingButton" text="Now Recording: Click here to stop." x=0 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=445 height=50 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","STOP_RECORDING",1)><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="2"/></UIButton>
+	</UIPane>
+
+	<UIPane name="RecordPane" x=0 y=78 height=238 width=445 capturemouseclicks=true hidden=true >
+
+		<UIText text="<color=grey>Metronome</color>" x=55 y=30 fontfamily="NWN2_Dialog"></UIText>
+		<UIText name="MetronomeStatus" text="<color=grey>(disabled)</color>" x=72 y=50 fontfamily="Default"></UIText>
+		<UIButton name="MetronomeToggleButton" x=30 y=30 style="ROUND_CHECKBOX_BUTTON" OnSelected=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","METRONOME",4) OnUnselected=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","METRONOME",5)></UIButton>
+		<UIButton name="ApplyMetronome" text="Apply" x=160 y=30 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=40 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","METRONOME",6)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>	
+		
+		<UIText text="<color=grey>Lag Fixing</color>" x=55 y=100 fontfamily="NWN2_Dialog"></UIText>
+		<UIText name="LagFixStatus" text="<color=grey>(disabled)</color>" x=72 y=120 fontfamily="Default"></UIText>
+		<UIButton name="LagFixToggleButton" x=30 y=100 style="ROUND_CHECKBOX_BUTTON" OnSelected=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","LAG_TOGGLE",1) OnUnselected=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","LAG_TOGGLE",0)></UIButton>
+		
+		<UIText text="<color=grey>(right-click for larger increments)</color>" x=220 y=10 />
+		<UIText name="MetronomeTempoField" text="" x=237 y=32 width=50 height=28 fontfamily="NWN1_Dialog" style="bold"/>		
+		<UIFrame x=230 y=28 width=40 height=25 topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+				bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+				left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+				border=5 />
+		<UIText text="<color=grey>Tempo</color>" x=231 y=55 fontfamily="Default"></UIText>
+		<UIText name="MetronomeSecondsPerBeat" text="<color=grey>(beats-per-minute)</color>" x=209 y=67 fontfamily="Default"></UIText>
+		<UIButton name="MetronomeTempoUp" x=269 y=28 style="STYLE_LOOT_ICON" MouseDownSFX="" MouseUpSFX="" width=20 height=28 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","METRONOME",0) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","METRONOME",1)><UIFrame state=base	fill="b_addr_normal.tga"/></UIButton>		
+		<UIButton name="MetronomeTempoDown" x=211 y=28 style="STYLE_LOOT_ICON" MouseDownSFX="" MouseUpSFX="" width=20 height=28 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","METRONOME",2) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","METRONOME",3)><UIFrame state=base	fill="b_addl_normal.tga"/></UIButton>		
+		
+		<UIText name="MetronomeDurationField" text="" x=344 y=33 width=50 height=28 fontfamily="NWN1_Dialog" style="bold"/>		
+		<UIFrame x=336 y=28 width=40 height=25 topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+				bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+				left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+				border=5 />
+		<UIText text="<color=grey>Duration</color>" x=333 y=55 fontfamily="Default"></UIText>
+		<UIText text="<color=grey>(in seconds)</color>" x=326 y=67 fontfamily="Default"></UIText>
+		<UIButton name="MetronomeDurationUp" x=375 y=28 style="STYLE_LOOT_ICON" MouseDownSFX="" MouseUpSFX="" width=20 height=28 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","METRONOME_DURATION",0) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","METRONOME_DURATION",1)><UIFrame state=base	fill="b_addr_normal.tga"/></UIButton>		
+		<UIButton name="MetronomeDurationDown" x=317 y=28 style="STYLE_LOOT_ICON" MouseDownSFX="" MouseUpSFX="" width=20 height=28 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","METRONOME_DURATION",2) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","METRONOME_DURATION",3)><UIFrame state=base	fill="b_addl_normal.tga"/></UIButton>		
+		
+		<UIButton name="LagCheckButton" text="Lag Check: 0.045" x=236 y=97 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=135 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","LAG_CHECK",0)></UIButton>		
+		<UIText name="LagCheckInstructions" text="<color=grey>(click to repeat check)</color>" x=243 y=125 fontfamily="Default"></UIText>
+		
+		<UIButton name="Record" text="RECORD TRACK" x=260 y=190 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=110 height=35 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_RECORD",0)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>	
+		<UIButton name="RecordCancel" text="EXIT" x=80 y=190 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=110 height=35 OnLeftClick=UIButton_Input_HideObject("RecordPane") OnLeftClick0=UIObject_ExecuteServerScript("gui_tkl_performer_cancel")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIButton name="RecordWrite" text="WRITE TRACK" x=260 y=155 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=110 height=35 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","WRITE",0)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		
+		<UIText name="RecordTrackName" text="" x=82 y=162 width=100 align=center valign=center fontfamily="NWN2_Dialog" style=2></UIText>
+		
+		
+		<UIFrame x=-5 y=-5 width=455 height=248 topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+			bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+			left="frame1_l.tga" right="frame1_r.tga" border=32 />
+		<UIIcon img="idesc_paper_bg.tga" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT />
+	</UIPane>
+
+	<UIPane name="ImprovPane" x=0 y=78 height=238 width=445 capturemouseclicks=true hidden=true >
+
+		<UIText text="<color=grey>Choose your</color>" x=20 y=30 width=300 align=left valign=center fontfamily="NWN2_Dialog" style=2></UIText>
+		<UIText text="<color=grey>instruments:</color>" x=20 y=50 width=300 align=left valign=center fontfamily="NWN2_Dialog" style=2></UIText>
+		<UIButton name="ImprovTrack1None" text="None" x=140 y=5 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK1",0)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_hover.tga" /></UIButton>
+		<UIButton name="ImprovTrack2None" text="None" x=215 y=5 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK2",0)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_hover.tga" /></UIButton>
+		<UIButton name="ImprovTrack3None" text="None" x=290 y=5 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK3",0)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_hover.tga" /></UIButton>
+		<UIButton name="ImprovTrack4None" text="None" x=365 y=5 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK4",0)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_hover.tga" /></UIButton>
+		<UIButton name="ImprovTrack1Drums" text="Drums" x=140 y=25 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK1",1)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovTrack2Drums" text="Drums" x=215 y=25 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK2",1)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovTrack3Drums" text="Drums" x=290 y=25 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK3",1)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovTrack4Drums" text="Drums" x=365 y=25 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK4",1)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovTrack1Chords" text="Chords" x=140 y=45 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK1",2)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovTrack2Chords" text="Chords" x=215 y=45 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK2",2)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovTrack3Chords" text="Chords" x=290 y=45 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK3",2)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovTrack4Chords" text="Chords" x=365 y=45 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK4",2)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovTrack1Lute" text="Lute" x=140 y=65 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK1",3)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovTrack2Lute" text="Lute" x=215 y=65 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK2",3)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovTrack3Lute" text="Lute" x=290 y=65 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK3",3)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovTrack4Lute" text="Lute" x=365 y=65 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK4",3)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovTrack1Flute" text="Flute" x=140 y=85 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK1",4)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovTrack2Flute" text="Flute" x=215 y=85 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK2",4)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovTrack3Flute" text="Flute" x=290 y=85 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK3",4)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovTrack4Flute" text="Flute" x=365 y=85 width=75 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_TRACK4",4)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+
+		<UIText text="<color=grey>Improv style:</color>" x=20 y=110 width=300 align=left valign=center fontfamily="NWN2_Dialog" style=2></UIText>
+		<UIText name="ImprovStyleDescription" text="" color="grey" x=140 y=105 width=300 height=30 align=left valign=middle fontfamily="Default" style=1></UIText>
+		<UIButton name="ImprovStyle1" text="" x=8 y=135 width=85 height=30 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_STYLE",1)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_hover.tga" /></UIButton>
+		<UIButton name="ImprovStyle2" text="" x=94 y=135 width=85 height=30 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_STYLE",2)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovStyle3" text="" x=180 y=135 width=85 height=30 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_STYLE",3)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovStyle4" text="" x=266 y=135 width=85 height=30 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_STYLE",4)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovStyle5" text="" x=352 y=135 width=85 height=30 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_STYLE",5)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovStyle6" text="" x=8 y=165 width=85 height=30 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_STYLE",6)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovStyle7" text="" x=94 y=165 width=85 height=30 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_STYLE",7)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovStyle8" text="" x=180 y=165 width=85 height=30 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_STYLE",8)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovStyle9" text="" x=266 y=165 width=85 height=30 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_STYLE",9)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="ImprovStyle10" text="" x=352 y=165 width=85 height=30 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROV_STYLE",10)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		
+		<UIButton text="IMPROVISE" x=80 y=197 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=110 height=35 OnLeftClick=UIButton_Input_HideObject("ImprovPane") OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","IMPROVISE",0)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>	
+		<UIButton text="CANCEL" x=260 y=197 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=110 height=35 OnLeftClick=UIButton_Input_HideObject("ImprovPane") OnLeftClick0=UIObject_ExecuteServerScript("gui_tkl_performer_cancel")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		
+		<UIFrame x=-5 y=-5 width=455 height=248 topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+			bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+			left="frame1_l.tga" right="frame1_r.tga" border=32 />
+		<UIIcon img="idesc_paper_bg.tga" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT />
+	</UIPane>
+
+
+	<UIPane name="QuantizePane" x=0 y=78 height=238 width=445 capturemouseclicks=true hidden=true >
+
+		<UIText text="<color=grey>Quantize</color>" x=20 y=20 fontfamily="NWN2_Dialog"></UIText>
+		<UIText text="<color=grey>Warning!</color>" x=280 y=20 fontfamily="NWN2_Dialog"></UIText>
+		<UIText text="<color=grey>Cannot be undone.</color>" x=280 y=60 width=100 fontfamily="Default" style=1></UIText>
+		<UIText text="<color=grey>Saving first is recommended!</color>" x=280 y=100 width=100 fontfamily="Default" style=2></UIText>
+		
+		
+		<UIText text="<color=grey>Snap each note in this track to...</color>" x=20 y=50 fontfamily="Default"></UIText>
+
+		<UIButton name="QuantizeFullBeat" x=20 y=70 groupid="1" groupmemberid="1" buttontype="radio" style="ROUND_RADIO_BUTTON" OnSelected=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","QUANTIZE",1)></UIButton>
+ 		<UIButton name="QuantizeDuplet" x=20 y=90 groupid="1" groupmemberid="2" buttontype="radio" style="ROUND_RADIO_BUTTON" OnSelected=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","QUANTIZE",2)></UIButton>
+ 		<UIButton name="QuantizeTriplet" x=20 y=110 groupid="1" groupmemberid="3" buttontype="radio" style="ROUND_RADIO_BUTTON" OnSelected=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","QUANTIZE",3)></UIButton>
+ 		<UIButton name="QuantizeQuadruplet" x=20 y=130 groupid="1" groupmemberid="4" buttontype="radio" style="ROUND_RADIO_BUTTON" OnSelected=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","QUANTIZE",4)></UIButton>
+ 		<UIButton name="QuantizeSextuplet" x=20 y=150 groupid="1" groupmemberid="5" buttontype="radio" style="ROUND_RADIO_BUTTON" OnSelected=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","QUANTIZE",6)></UIButton>
+ 		<UIText text="<color=grey>Full Beat</color>" x=50 y=73 width=100 fontfamily="Default" style=2></UIText>
+		<UIText text="<color=grey>1/2 Beat</color>" x=50 y=93 width=100 fontfamily="Default" style=2></UIText>
+		<UIText text="<color=grey>1/3 Beat</color>" x=50 y=113 width=100 fontfamily="Default" style=2></UIText>
+		<UIText text="<color=grey>1/4 Beat</color>" x=50 y=133 width=100 fontfamily="Default" style=2></UIText>
+		<UIText text="<color=grey>1/6 Beat</color>" x=50 y=153 width=100 fontfamily="Default" style=2></UIText>
+
+		<UIButton name="Quantize" text="QUANTIZE TRACK" x=260 y=190 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=90 height=35 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","QUANTIZE",0)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>	
+		<UIButton name="QuantizeCancel" text="CANCEL" x=80 y=190 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=90 height=35 OnLeftClick=UIButton_Input_HideObject("QuantizePane") OnLeftClick0=UIObject_ExecuteServerScript("gui_tkl_performer_cancel")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIText name="QuantizeTrackName" text="" x=166 y=197 width=100 align=center valign=center fontfamily="Default" style=2></UIText>
+		
+		
+		<UIFrame x=-5 y=-5 width=455 height=248 topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+			bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+			left="frame1_l.tga" right="frame1_r.tga" border=32 />
+		<UIIcon img="idesc_paper_bg.tga" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT />
+	</UIPane>
+
+	<UIPane name="CopyPane" x=0 y=78 height=238 width=445 capturemouseclicks=true hidden=true >
+
+		<UIText name="CopyTopText" text="Copy Track 1 to:" x=20 y=20 fontfamily="NWN2_Dialog" color="grey"></UIText>
+		<UIText text="Track 1" x=40 y=50 fontfamily="NWN2_Dialog" color="grey"></UIText>
+		<UIText text="Track 2" x=40 y=80 fontfamily="NWN2_Dialog" color="grey"></UIText>
+		<UIText text="Track 3" x=40 y=110 fontfamily="NWN2_Dialog" color="grey"></UIText>
+		<UIText text="Track 4" x=40 y=140 fontfamily="NWN2_Dialog" color="grey"></UIText>
+		<UIText name="CopyTrackText1" text="(Track 1)" x=112 y=53 color="grey"></UIText>
+		<UIText name="CopyTrackText2" text="(Track 2)" x=112 y=83 color="grey"></UIText>
+		<UIText name="CopyTrackText3" text="(Track 3)" x=112 y=113 color="grey"></UIText>
+		<UIText name="CopyTrackText4" text="(Track 4)" x=112 y=143 color="grey"></UIText>
+		<UIButton name="CopyTrack1" x=20 y=50 groupid="1" groupmemberid="1" buttontype="radio" style="ROUND_RADIO_BUTTON" OnSelected=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_SETTINGS",1)></UIButton>
+ 		<UIButton name="CopyTrack2" x=20 y=80 groupid="1" groupmemberid="2" buttontype="radio" style="ROUND_RADIO_BUTTON" OnSelected=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_SETTINGS",2)></UIButton>
+ 		<UIButton name="CopyTrack3" x=20 y=110 groupid="1" groupmemberid="3" buttontype="radio" style="ROUND_RADIO_BUTTON" OnSelected=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_SETTINGS",3)></UIButton>
+ 		<UIButton name="CopyTrack4" x=20 y=140 groupid="1" groupmemberid="4" buttontype="radio" style="ROUND_RADIO_BUTTON" OnSelected=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_SETTINGS",4)></UIButton>
+ 		
+				
+		<UIText text="Delete Source Notes: " x=215 y=20 fontfamily="NWN2_Dialog" color="grey"></UIText>
+		<UIButton name="CopyDeleteSource" x=399 y=20 buttontype="check" style="SQUARE_CHECKBOX_BUTTON" OnUnselected=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_SETTINGS",6) OnSelected=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_SETTINGS",5)></UIButton>
+ 		
+		<UIText text="Start Point: " x=220 y=65 fontfamily="NWN2_Dialog" color="grey"></UIText>
+		<UIText name="CopyFromField" text="" x=345 y=68 width=50 align="center" height=28 fontfamily="NWN1_Dialog" style="bold"/>		
+		<UIFrame x=349 y=63 width=40 height=25 topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+				bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+				left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+				border=5 />
+
+		<UIButton name="CopyMode" text="(seconds)" height=25 width=80 x=329 y=92 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_MODE",0)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+			
+		<UIButton name="CopyFromUp" x=394 y=63 style="STYLE_LOOT_ICON" MouseDownSFX="" MouseUpSFX="" width=20 height=28 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_SETTINGS",7) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_SETTINGS",8)><UIFrame state=base	fill="b_addr_normal.tga"/></UIButton>		
+		<UIButton name="CopyFromDown" x=324 y=63 style="STYLE_LOOT_ICON" MouseDownSFX="" MouseUpSFX="" width=20 height=28 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_SETTINGS",9) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_SETTINGS",10)><UIFrame state=base	fill="b_addl_normal.tga"/></UIButton>		
+		
+		<UIText text="Time Change: " x=206 y=125 fontfamily="NWN2_Dialog" color="grey"></UIText>
+		<UIText name="PasteToField" text="" x=345 y=128 width=50 height=28 align="center" fontfamily="NWN1_Dialog" style="bold"/>		
+		<UIFrame x=349 y=123 width=40 height=25 topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+				bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+				left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+				border=5 />
+
+		<UIButton name="PasteToUp" x=394 y=123 style="STYLE_LOOT_ICON" MouseDownSFX="" MouseUpSFX="" width=20 height=28 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_SETTINGS",11) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_SETTINGS",12)><UIFrame state=base	fill="b_addr_normal.tga"/></UIButton>		
+		<UIButton name="PasteToDown" x=324 y=123 style="STYLE_LOOT_ICON" MouseDownSFX="" MouseUpSFX="" width=20 height=28 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_SETTINGS",13) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_SETTINGS",14)><UIFrame state=base	fill="b_addl_normal.tga"/></UIButton>		
+		
+		
+		<UIButton name="Copy" text="COPY TRACK" x=260 y=190 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=90 height=35 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY",0)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>	
+		<UIButton name="CopyCancel" text="CANCEL" x=80 y=190 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=90 height=35 OnLeftClick=UIButton_Input_HideObject("CopyPane") OnLeftClick0=UIObject_ExecuteServerScript("gui_tkl_performer_cancel")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		<UIText name="CopyTrackName" text="" x=166 y=197 width=100 align=center valign=center fontfamily="Default" style=2></UIText>
+		
+		
+		<UIFrame x=-5 y=-5 width=455 height=248 topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+			bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+			left="frame1_l.tga" right="frame1_r.tga" border=32 />
+		<UIIcon img="idesc_paper_bg.tga" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT />
+	</UIPane>
+
+	<UIPane name="EmbellishPane" x=0 y=78 height=238 width=445 capturemouseclicks=true hidden=true >
+		
+		<UIText text="Pick an embellishment for this chord below:" x=20 y=20 fontfamily="NWN2_Dialog" color="grey"></UIText>
+		
+		<UIButton name="Embellish1" text="6" x=40 y=80 width=40 height=40 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","EMBELLISH",1)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="Embellish2" text="m7" x=80 y=80 width=40 height=40 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","EMBELLISH",2)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="Embellish3" text="M7" x=120 y=80 width=40 height=40 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","EMBELLISH",3)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="Embellish4" text="b9" x=160 y=80 width=40 height=40 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","EMBELLISH",4)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="Embellish5" text="9" x=200 y=80 width=40 height=40 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","EMBELLISH",5)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="Embellish6" text="#9" x=240 y=80 width=40 height=40 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","EMBELLISH",6)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="Embellish7" text="#11" x=280 y=80 width=40 height=40 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","EMBELLISH",7)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="Embellish8" text="b13" x=320 y=80 width=40 height=40 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","EMBELLISH",8)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="Embellish9" text="13" x=360 y=80 width=40 height=40 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","EMBELLISH",9)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		
+		<UIButton name="Embellish10" text="1" x=90 y=140 width=40 height=40 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","EMBELLISH",10)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="Embellish11" text="m3" x=165 y=140 width=40 height=40 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","EMBELLISH",11)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="Embellish12" text="M3" x=240 y=140 width=40 height=40 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","EMBELLISH",12)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		<UIButton name="Embellish13" text="P5" x=315 y=140 width=40 height=40 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","EMBELLISH",13)><UIText align=center valign=middle fontfamily="Default" style="1"/><UIFrame state=base fill="b_sm_normal.tga" /></UIButton>
+		
+		<UIButton text="EMBELLISH" x=260 y=197 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=110 height=35 OnLeftClick=UIButton_Input_HideObject("EmbellishPane") OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","EMBELLISH",0)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>	
+		<UIButton text="CANCEL" x=80 y=197 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=110 height=35 OnLeftClick=UIButton_Input_HideObject("EmbellishPane")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		
+		<UIFrame x=-5 y=-5 width=455 height=248 topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+			bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+			left="frame1_l.tga" right="frame1_r.tga" border=32 />
+		<UIIcon img="idesc_paper_bg.tga" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT />
+	</UIPane>
+
+	<UIPane name="NotePane" x=0 y=78 height=238 width=445 capturemouseclicks=true hidden=true >
+
+		<UIButton name="CurrentNote" text="" style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" x=183 y=10 width=90 height=35 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","CURRENT_NOTE",1)></UIButton>
+		<UIText name="NoteName" text="" x=10 y=48 width=435 align="center" fontfamily="Default" color="grey"></UIText>
+		<UIText name="NoteTime" text="" x=10 y=65 width=435 align="center" fontfamily="Default" color="grey"></UIText>
+
+		
+		<UIButton name="NoteButton1" text="PREVIOUS" style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" x=10 y=10 width=90 height=35 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PREVIOUS_NOTE",1) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PREVIOUS_NOTE",5)></UIButton>
+		<UIButton name="NoteButton2" text="NEXT" style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" x=345 y=10 width=90 height=35 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NEXT_NOTE",1) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NEXT_NOTE",5)></UIButton>
+
+		<UIButton name="NotePitchButton" text="ADJUST PITCH" x=98 y=82 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=90 height=35 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_EDIT",2)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>	
+		<UIPane x=103 y=120 height=50 width=90 capturemouseclicks=false>
+			<UIText name="NotePitchField" text="0" x=16 y=5 width=50 align="center" height=28 fontfamily="NWN1_Dialog" style="bold"/>		
+			<UIFrame x=20 y=0 width=40 height=25 topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+				bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+				left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+				border=5 />
+			<UIButton name="NotePitchMode" text="(chromatic)" height=25 width=80 x=0 y=25 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_MODE",2)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+			<UIButton name="NotePitchUp" x=60 y=0 style="STYLE_LOOT_ICON" MouseDownSFX="" MouseUpSFX="" width=20 height=28 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_SETTINGS",1) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_SETTINGS",2)><UIFrame state=base	fill="b_addr_normal.tga"/></UIButton>		
+			<UIButton name="NotePitchDown" x=1 y=0 style="STYLE_LOOT_ICON" MouseDownSFX="" MouseUpSFX="" width=20 height=28 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_SETTINGS",3) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_SETTINGS",4)><UIFrame state=base	fill="b_addl_normal.tga"/></UIButton>		
+		</UIPane>
+		<UIButton name="NoteTimeButton" text="ADJUST TIME" x=260 y=82 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=90 height=35 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_EDIT",3)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>	
+		<UIPane x=265 y=120 height=50 width=90 capturemouseclicks=false>
+			<UIText name="NoteTimeField" text="0" x=16 y=5 width=50 align="center" height=28 fontfamily="NWN1_Dialog" style="bold"/>		
+			<UIFrame x=20 y=0 width=40 height=25 topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+				bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+				left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+				border=5 />
+			<UIButton name="NoteTimeMode" text="(seconds)" height=25 width=80 x=0 y=25 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_MODE",1)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+			<UIButton name="NoteTimeUp" x=60 y=0 style="STYLE_LOOT_ICON" MouseDownSFX="" MouseUpSFX="" width=20 height=28 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_SETTINGS",5) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_SETTINGS",6)><UIFrame state=base	fill="b_addr_normal.tga"/></UIButton>		
+			<UIButton name="NoteTimeDown" x=0 y=0 style="STYLE_LOOT_ICON" MouseDownSFX="" MouseUpSFX="" width=20 height=28 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_SETTINGS",7) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_SETTINGS",8)><UIFrame state=base	fill="b_addl_normal.tga"/></UIButton>		
+		</UIPane>
+		
+		<UIText name="NoteTrackName" color="grey" x=176 y=97 width=100 align=center valign=center fontfamily="Default" style=2></UIText>
+		<UIText name="NoteTotalNotes" color="grey" x=176 y=112 width=100 height=50 align=center valign=center fontfamily="Default" style=1></UIText>
+		<UIText name="MetronomeBeat" text=""color="grey" x=176 y=152 width=100 height=50 align=center valign=center fontfamily="Default" style=1></UIText>		
+
+		<UIButton name="DeleteNote" text="DELETE" x=240 y=195 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=80 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_EDIT",1)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>	
+		<UIButton name="DuplicateNote" text="DUPLICATE" x=335 y=195 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=80 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_EDIT",6)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>	
+		<UIButton name="EmbellishChord" text="EMBELLISH" x=145 y=195 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=80 height=25 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","EMBELLISH_PANE",0)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>	
+		<UIButton name="NoteCancel" text="EXIT" x=25 y=190 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=90 height=35 OnLeftClick=UIButton_Input_HideObject("NotePane") OnLeftClick0=UIObject_ExecuteServerScript("gui_tkl_performer_cancel")><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+		
+		<UIPane name="NotePrimaryPane" x=14 y=110 width=70 height=50>
+			<UIButton name="NotePrimaryType" x=0 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=70 height=35 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_EDIT",4)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+			<UIText name="NotePrimaryValue" x=0 y=35 color="grey" width=70 height=15 align=center valign=middle fontfamily="Default" style="1"></UIText>
+		</UIPane>
+
+		<UIPane name="NoteSecondaryPane" x=360 y=110 width=70 height=70>
+			<UIButton name="NoteSecondaryType" x=0 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=70 height=35 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_EDIT",5)><UIText align=center valign=middle fontfamily="Default" style="1"/></UIButton>
+			<UIText name="NoteSecondaryValue" x=0 y=35 color="grey" width=70 height=15 align=center valign=middle fontfamily="Default" style="1"></UIText>
+		</UIPane>
+
+		<UIFrame x=-5 y=-5 width=455 height=248 topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+			bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+			left="frame1_l.tga" right="frame1_r.tga" border=32 />
+		<UIIcon img="idesc_paper_bg.tga" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT />
+	</UIPane>
+
+	<UIPane name="LagCheckPane" x=0 y=30 height=50 width=445 capturemouseclicks=true hidden=true >
+		<UIButton name="StopLagCheckButton" text="Lag Check: Click here <b>ON</b> one." x=0 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=445 height=50 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","LAG_CHECK",1)><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="2"/></UIButton>
+	</UIPane>
+
+
+	<UIPane name="SongMenuPane" x=4 y=76 height=240 width=137 capturemouseclicks=true hidden=true OnMouseLeave=UIButton_Input_HideObject("SongMenuPane")>
+		<UIButton name="SongPlayButton" text="Play" x=1 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=135 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_PLAY",1) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_PREVIEW",1)></UIButton>
+		<UIButton name="SongTempoButton1" text="-" x=1 y=26 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=25 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_TEMPO",2) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_TEMPO",3)><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+		<UIButton name="SongTempoButton2" text="+" x=110 y=26 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=25 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_TEMPO",0) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_TEMPO",1)><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+		<UIButton name="SongTempoButton" text="Speed" x=1 y=26 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=135 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","SONG_TEMPO",4)></UIButton>
+		<UIButton name="LyricButton" text="Lyrics" x=1 y=52 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=135 height=26 OnLeftClick=UIObject_Input_HideObject("SongMenuPane") OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","LYRIC_PANE",1)></UIButton>		
+		<UIButton name="SongLoadButton" text="Load" x=1 y=78 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=135 height=26 OnLeftClick=UIButton_Input_HideObject("SongMenuPane") OnLeftClick0=UIButton_Input_ShowObject("LoadPane")></UIButton>
+		<UIButton name="SongSaveButton" text="Save" x=1 y=104 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=135 height=26 OnLeftClick=UIButton_Input_HideObject("SongMenuPane") OnLeftClick0=UIButton_Input_ShowObject("SavePane")></UIButton>
+		<UIButton name="SongTranscribeButton" text="Transcribe" x=1 y=130 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=135 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRANSCRIBE",1)></UIButton>
+		<UIButton name="SongNewButton" text="New" x=1 y=156 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=135 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NEW",0)></UIButton>		
+		<UIButton name="SongImprovButton" text="Improvise" x=1 y=182 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=135 height=26 OnLeftClick=UIButton_Input_HideObject("SongMenuPane") OnLeftClick0=UIButton_Input_ShowObject("ImprovPane")></UIButton>
+	</UIPane>
+
+	<UIPane name="Track1MenuPane" x=139 y=78 height=208 width=77 capturemouseclicks=true hidden=true OnMouseLeave=UIButton_Input_HideObject("Track1MenuPane")>
+		<UIButton name="Track1PlayButton" text="Play" x=1 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_PLAY",1) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_PREVIEW",1)></UIButton>
+		<UIButton name="Track1RecordButton" text="Record" x=1 y=26 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_PANE",1)></UIButton>
+		<UIButton name="Track1NoteButton" text="Edit" x=1 y=52 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_PANE",1)></UIButton>
+		<UIButton name="Track1AdjustButton1" text="-" style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" x=1 y=78 width=15 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_AHEAD",1) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_AHEAD",5)><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+		<UIButton name="Track1AdjustButton2" text="+" style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" x=61 y=78 width=15 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_BEHIND",1) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_BEHIND",5)><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+		<UIButton name="Track1AdjustButton" text="Time" x=1 y=78 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_ADJUST",1)></UIButton>
+		<UIButton name="Track1MuteButton" text="Mute" x=1 y=104 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_MUTE",1)></UIButton>
+		<UIButton name="Track1New" text="New" x=1 y=130 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NEW",1)></UIButton>		
+		<UIButton name="Track1Quantize" text="Quantize" x=1 y=156 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","QUANTIZE_PANE",1)></UIButton>		
+		<UIButton name="Track1Copy" text="Copy" x=1 y=182 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_PANE",1)></UIButton>		
+	</UIPane>
+
+	<UIPane name="Track2MenuPane" x=214 y=78 height=208 width=77 capturemouseclicks=true hidden=true OnMouseLeave=UIButton_Input_HideObject("Track2MenuPane")>
+		<UIButton name="Track2PlayButton" text="Play" x=1 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_PLAY",2) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_PREVIEW",2)></UIButton>
+		<UIButton name="Track2RecordButton" text="Record" x=1 y=26 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_PANE",2)></UIButton>
+		<UIButton name="Track2NoteButton" text="Edit" x=1 y=52 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_PANE",2)></UIButton>
+		<UIButton name="Track2AdjustButton1" text="-" style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" x=1 y=78 width=15 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_AHEAD",2) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_AHEAD",6)><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+		<UIButton name="Track2AdjustButton2" text="+" style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" x=61 y=78 width=15 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_BEHIND",2) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_BEHIND",6)><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+		<UIButton name="Track2AdjustButton" text="Time" x=1 y=78 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_ADJUST",2)></UIButton>
+		<UIButton name="Track2MuteButton" text="Mute" x=1 y=104 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_MUTE",2)></UIButton>
+		<UIButton name="Track2New" text="New" x=1 y=130 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NEW",2)></UIButton>		
+		<UIButton name="Track2Quantize" text="Quantize" x=1 y=156 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","QUANTIZE_PANE",2)></UIButton>
+		<UIButton name="Track2Copy" text="Copy" x=1 y=182 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_PANE",2)></UIButton>			
+	</UIPane>
+
+	<UIPane name="Track3MenuPane" x=289 y=78 height=208 width=77 capturemouseclicks=true hidden=true OnMouseLeave=UIButton_Input_HideObject("Track3MenuPane")>
+		<UIButton name="Track3PlayButton" text="Play" x=1 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_PLAY",3) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_PREVIEW",3)></UIButton>
+		<UIButton name="Track3RecordButton" text="Record" x=1 y=26 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_PANE",3)></UIButton>
+		<UIButton name="Track3NoteButton" text="Edit" x=1 y=52 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_PANE",3)></UIButton>
+		<UIButton name="Track3AdjustButton1" text="-" style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" x=1 y=78 width=15 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_AHEAD",3) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_AHEAD",7)><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+		<UIButton name="Track3AdjustButton2" text="+" style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" x=61 y=78 width=15 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_BEHIND",3) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_BEHIND",7)><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+		<UIButton name="Track3AdjustButton" text="Time" x=1 y=78 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_ADJUST",3)></UIButton>
+		<UIButton name="Track3MuteButton" text="Mute" x=1 y=104 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_MUTE",3)></UIButton>
+		<UIButton name="Track3New" text="New" x=1 y=130 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NEW",3)></UIButton>		
+		<UIButton name="Track3Quantize" text="Quantize" x=1 y=156 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","QUANTIZE_PANE",3)></UIButton>
+		<UIButton name="Track3Copy" text="Copy" x=1 y=182 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_PANE",3)></UIButton>			
+	</UIPane>
+
+	<UIPane name="Track4MenuPane" x=364 y=78 height=208 width=77 capturemouseclicks=true hidden=true OnMouseLeave=UIButton_Input_HideObject("Track4MenuPane")>
+		<UIButton name="Track4PlayButton" text="Play" x=1 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_PLAY",4) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_PREVIEW",4)></UIButton>
+		<UIButton name="Track4RecordButton" text="Record" x=1 y=26 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_PANE",4)></UIButton>
+		<UIButton name="Track4NoteButton" text="Edit" x=1 y=52 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NOTE_PANE",4)></UIButton>
+		<UIButton name="Track4AdjustButton1" text="-" style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" x=1 y=78 width=15 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_AHEAD",4) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_AHEAD",8)><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+		<UIButton name="Track4AdjustButton2" text="+" style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" x=61 y=78 width=15 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_BEHIND",4) OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_BEHIND",8)><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+		<UIButton name="Track4AdjustButton" text="Time" x=1 y=78 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_ADJUST",4)></UIButton>
+		<UIButton name="Track4MuteButton" text="Mute" x=1 y=104 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","TRACK_MUTE",4)></UIButton>
+		<UIButton name="Track4New" text="New" x=1 y=130 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","NEW",4)></UIButton>		
+		<UIButton name="Track4Quantize" text="Quantize" x=1 y=156 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","QUANTIZE_PANE",4)></UIButton>
+		<UIButton name="Track4Copy" text="Copy" x=1 y=182 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","COPY_PANE",4)></UIButton>			
+	</UIPane>
+
+
+	<UIPane name="MainPane" x=0 y=29 height=266 width=445 capturemouseclicks=false hidden=true>
+	<UIListbox name="INSTRUMENT_LIST" x=0 y=0 width=445 height=266 yPadding=0 xPadding=0  
+			showpartialchild=true scrollbaronright=true unequalcontrols=true scrollsegmentsize=32 update=false>
+		<UICollapsable name="SongsCollapsable" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=0 indent=4 isexpanded=true >
+			<UIButton name=HeaderButton text="Songs" x=0 y=0 width=445 height=22 header=true OnMouseEnter=UIButton_Input_HideObject("SongMenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track1MenuPane") OnMouseEnter1=UIButton_Input_HideObject("Track2MenuPane") OnMouseEnter2=UIButton_Input_HideObject("Track3MenuPane") OnMouseEnter3=UIButton_Input_HideObject("Track4MenuPane")>
+				<UIText text="Songs" align=center valign=middle fontfamily="Title_Font" style=1 />
+				<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=header		fill="b_feat_normal.tga" />
+				<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+				<UIFrame state=downheader	fill="b_feat_normal.tga" />
+			</UIButton>
+			<UIPane name="SongsPane" x=0 y=0 height=26 width=PARENT_WIDTH >
+				<UIButton name="SongButton" text="Opus #1" x=1 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=135 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",0) OnLeftClick=UIButton_Input_ShowObject("SongMenuPane") OnMouseEnter=UIButton_Input_HideObject("Track1MenuPane")></UIButton>
+				<UIButton name="Track1Button" text="Track 1" x=136 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",1) OnLeftClick=UIButton_Input_ShowObject("Track1MenuPane") OnMouseEnter=UIButton_Input_HideObject("SongMenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track2MenuPane")></UIButton>
+				<UIButton name="Track2Button" text="Track 2" x=211 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",2) OnLeftClick=UIButton_Input_ShowObject("Track2MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track1MenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track3MenuPane")></UIButton>
+				<UIButton name="Track3Button" text="Track 3" x=286 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",3) OnLeftClick=UIButton_Input_ShowObject("Track3MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track2MenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track4MenuPane")></UIButton>
+				<UIButton name="Track4Button" text="Track 4" x=361 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",4) OnLeftClick=UIButton_Input_ShowObject("Track4MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track3MenuPane")></UIButton>
+			</UIPane>
+		</UICollapsable>
+		<UICollapsable name="MelodyCollapsable" x=0 y=46 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=0 indent=4 isexpanded=true >
+			<UIButton name=HeaderButton text="Melody" x=0 y=0 width=445 height=22 header=true >
+				<UIText text="Melody" align=center valign=middle fontfamily="Title_Font" style=1 />
+				<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=header		fill="b_feat_normal.tga" />
+				<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+				<UIFrame state=downheader	fill="b_feat_normal.tga" />
+			</UIButton>
+			<UIPane name="MelodyPane" x=0 y=0 height=84 width=PARENT_WIDTH >
+				<UIButton x=0 y=0 MouseDownSFX="tkl_performer_263" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",263)></UIButton>
+				<UIButton x=0 y=20 MouseDownSFX="tkl_performer_213" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",213)></UIButton>
+				<UIButton name="Note1" text="C" x=0 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=42 y=3 MouseDownSFX="tkl_performer_264" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",264)></UIButton>
+				<UIButton x=42 y=20 MouseDownSFX="tkl_performer_214" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",214)></UIButton>
+				<UIButton name="Note2" text="" x=42 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=64 y=0 MouseDownSFX="tkl_performer_265" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",265)></UIButton>
+				<UIButton x=64 y=20 MouseDownSFX="tkl_performer_215" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",215)></UIButton>
+				<UIButton name="Note3" text="D" x=64 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=106 y=3 MouseDownSFX="tkl_performer_266" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",266)></UIButton>
+				<UIButton x=106 y=20 MouseDownSFX="tkl_performer_216" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",216)></UIButton>
+				<UIButton name="Note4" text="" x=106 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=128 y=0 MouseDownSFX="tkl_performer_267" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",267)></UIButton>
+				<UIButton x=128 y=20 MouseDownSFX="tkl_performer_217" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",217)></UIButton>
+				<UIButton name="Note5" text="E" x=128 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=170 y=0 MouseDownSFX="tkl_performer_268" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",268)></UIButton>
+				<UIButton x=170 y=20 MouseDownSFX="tkl_performer_218" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",218)></UIButton>
+				<UIButton name="Note6" text="F" x=170 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=212 y=3 MouseDownSFX="tkl_performer_269" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",269)></UIButton>
+				<UIButton x=212 y=20 MouseDownSFX="tkl_performer_219" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",219)></UIButton>
+				<UIButton name="Note7" text="" x=212 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=233 y=0 MouseDownSFX="tkl_performer_270" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",270)></UIButton>
+				<UIButton x=233 y=20 MouseDownSFX="tkl_performer_220" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",220)></UIButton>
+				<UIButton name="Note8" text="G" x=233 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=274 y=3 MouseDownSFX="tkl_performer_271" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",271)></UIButton>
+				<UIButton x=274 y=20 MouseDownSFX="tkl_performer_221" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",221)></UIButton>
+				<UIButton name="Note9" text="" x=274 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=295 y=0 MouseDownSFX="tkl_performer_272" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",272)></UIButton>
+				<UIButton x=295 y=20 MouseDownSFX="tkl_performer_222" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",222)></UIButton>
+				<UIButton name="Note10" text="A" x=295 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=336 y=3 MouseDownSFX="tkl_performer_273" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",273)></UIButton>
+				<UIButton x=336 y=20 MouseDownSFX="tkl_performer_223" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",223)></UIButton>
+				<UIButton name="Note11" text="" x=336 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=357 y=0 MouseDownSFX="tkl_performer_274" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",274)></UIButton>
+				<UIButton x=357 y=20 MouseDownSFX="tkl_performer_224" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",224)></UIButton>
+				<UIButton name="Note12" text="B" x=357 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=398 y=0 MouseDownSFX="tkl_performer_275" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",275)></UIButton>
+				<UIButton x=398 y=20 MouseDownSFX="tkl_performer_225" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",225)></UIButton>
+				<UIButton name="Note12b" text="C" x=398 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+
+				<UIButton x=0 y=42 MouseDownSFX="tkl_performer_251" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",251)></UIButton>
+				<UIButton x=0 y=62 MouseDownSFX="tkl_performer_201" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",201)></UIButton>
+				<UIButton name="Note13" text="C" x=0 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=42 y=45 MouseDownSFX="tkl_performer_252" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",252)></UIButton>
+				<UIButton x=42 y=62 MouseDownSFX="tkl_performer_202" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",202)></UIButton>
+				<UIButton name="Note14" text="" x=42 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=64 y=42 MouseDownSFX="tkl_performer_253" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",253)></UIButton>
+				<UIButton x=64 y=62 MouseDownSFX="tkl_performer_203" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",203)></UIButton>
+				<UIButton name="Note15" text="D" x=64 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=106 y=45 MouseDownSFX="tkl_performer_254" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",254)></UIButton>
+				<UIButton x=106 y=62 MouseDownSFX="tkl_performer_204" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",204)></UIButton>
+				<UIButton name="Note16" text="" x=106 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=128 y=42 MouseDownSFX="tkl_performer_255" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",255)></UIButton>
+				<UIButton x=128 y=62 MouseDownSFX="tkl_performer_205" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",205)></UIButton>
+				<UIButton name="Note17" text="E" x=128 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=170 y=42 MouseDownSFX="tkl_performer_256" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",256)></UIButton>
+				<UIButton x=170 y=62 MouseDownSFX="tkl_performer_206" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",206)></UIButton>
+				<UIButton name="Note18" text="F" x=170 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=212 y=45 MouseDownSFX="tkl_performer_257" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",257)></UIButton>
+				<UIButton x=212 y=62 MouseDownSFX="tkl_performer_207" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",207)></UIButton>
+				<UIButton name="Note19" text="" x=212 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=233 y=42 MouseDownSFX="tkl_performer_258" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",258)></UIButton>
+				<UIButton x=233 y=62 MouseDownSFX="tkl_performer_208" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",208)></UIButton>
+				<UIButton name="Note20" text="G" x=233 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=274 y=45 MouseDownSFX="tkl_performer_259" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",259)></UIButton>
+				<UIButton x=274 y=62 MouseDownSFX="tkl_performer_209" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",29)></UIButton>
+				<UIButton name="Note21" text="" x=274 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=295 y=42 MouseDownSFX="tkl_performer_260" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",260)></UIButton>				
+				<UIButton x=295 y=62 MouseDownSFX="tkl_performer_210" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",210)></UIButton>				
+				<UIButton name="Note22" text="A" x=295 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=336 y=45 MouseDownSFX="tkl_performer_261" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",261)></UIButton>
+				<UIButton x=336 y=62 MouseDownSFX="tkl_performer_211" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",211)></UIButton>				
+				<UIButton name="Note23" text="" x=336 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=357 y=42 MouseDownSFX="tkl_performer_262" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",262)></UIButton>
+				<UIButton x=357 y=62 MouseDownSFX="tkl_performer_212" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",212)></UIButton>				
+				<UIButton name="Note24" text="B" x=357 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+			
+				<UIButton x=398 y=42 MouseDownSFX="tkl_performer_263" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",263)></UIButton>
+				<UIButton x=398 y=62 MouseDownSFX="tkl_performer_213" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",213)></UIButton>				
+				<UIButton name="Note24b" text="C" x=398 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+			
+
+			</UIPane>
+		</UICollapsable>
+	</UIListbox>	
+	<UIFrame x=-5 y=-8 height=66 width=455 top="frame1_t.tga" topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga" bottomright="frame1_BR.tga" bottom="frame1_b.tga" left="frame1_l.tga" right="frame1_r.tga" border=32 />
+	<UIIcon name="Background" x=-5 y=-8 height=56 width=455 img="dark_rock_tile.tga" capturemouseclicks=true/>	
+	</UIPane>
+
+
+	<UIPane name="MainMinorPane" x=0 y=29 height=266 width=445 capturemouseclicks=false hidden=true>
+	<UIListbox name="INSTRUMENT_LIST" x=0 y=0 width=445 height=266 yPadding=0 xPadding=0  
+			showpartialchild=true scrollbaronright=true unequalcontrols=true scrollsegmentsize=32 update=false>
+		<UICollapsable name="SongsCollapsable" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=0 indent=4 isexpanded=true >
+			<UIButton name=HeaderButton text="Songs" x=0 y=0 width=445 height=22 header=true OnMouseEnter=UIButton_Input_HideObject("SongMenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track1MenuPane") OnMouseEnter1=UIButton_Input_HideObject("Track2MenuPane") OnMouseEnter2=UIButton_Input_HideObject("Track3MenuPane") OnMouseEnter3=UIButton_Input_HideObject("Track4MenuPane")>
+				<UIText text="Songs" align=center valign=middle fontfamily="Title_Font" style=1 />
+				<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=header		fill="b_feat_normal.tga" />
+				<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+				<UIFrame state=downheader	fill="b_feat_normal.tga" />
+			</UIButton>
+			<UIPane name="SongsPane" x=0 y=0 height=26 width=PARENT_WIDTH >
+				<UIButton name="MinorSongButton" text="Opus #1" x=1 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=135 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",0) OnLeftClick=UIButton_Input_ShowObject("SongMenuPane") OnMouseEnter=UIButton_Input_HideObject("Track1MenuPane")></UIButton>
+				<UIButton name="MinorTrack1Button" text="Track 1" x=136 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",1) OnLeftClick=UIButton_Input_ShowObject("Track1MenuPane") OnMouseEnter=UIButton_Input_HideObject("SongMenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track2MenuPane")></UIButton>
+				<UIButton name="MinorTrack2Button" text="Track 2" x=211 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",2) OnLeftClick=UIButton_Input_ShowObject("Track2MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track1MenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track3MenuPane")></UIButton>
+				<UIButton name="MinorTrack3Button" text="Track 3" x=286 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",3) OnLeftClick=UIButton_Input_ShowObject("Track3MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track2MenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track4MenuPane")></UIButton>
+				<UIButton name="MinorTrack4Button" text="Track 4" x=361 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",4) OnLeftClick=UIButton_Input_ShowObject("Track4MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track3MenuPane")></UIButton>
+			</UIPane>
+		</UICollapsable>
+		<UICollapsable name="MelodyCollapsable" x=0 y=46 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=0 indent=4 isexpanded=true >
+			<UIButton name=HeaderButton text="Melody" x=0 y=0 width=445 height=22 header=true >
+				<UIText text="Melody" align=center valign=middle fontfamily="Title_Font" style=1 />
+				<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=header		fill="b_feat_normal.tga" />
+				<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+				<UIFrame state=downheader	fill="b_feat_normal.tga" />
+			</UIButton>
+			<UIPane name="MelodyPane" x=0 y=0 height=84 width=PARENT_WIDTH >
+				<UIButton x=0 y=0 MouseDownSFX="tkl_performer_263" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",263)></UIButton>
+				<UIButton x=0 y=20 MouseDownSFX="tkl_performer_213" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",213)></UIButton>
+				<UIButton name="MinorNote1" text="C" x=0 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=42 y=3 MouseDownSFX="tkl_performer_264" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",264)></UIButton>
+				<UIButton x=42 y=20 MouseDownSFX="tkl_performer_214" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",214)></UIButton>
+				<UIButton name="MinorNote2" text="" x=42 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=64 y=0 MouseDownSFX="tkl_performer_265" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",265)></UIButton>
+				<UIButton x=64 y=20 MouseDownSFX="tkl_performer_215" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",215)></UIButton>
+				<UIButton name="MinorNote3" text="D" x=64 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=106 y=0 MouseDownSFX="tkl_performer_266" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",266)></UIButton>
+				<UIButton x=106 y=20 MouseDownSFX="tkl_performer_216" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",216)></UIButton>
+				<UIButton name="MinorNote4" text="Eb" x=106 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=148 y=3 MouseDownSFX="tkl_performer_267" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",267)></UIButton>
+				<UIButton x=148 y=20 MouseDownSFX="tkl_performer_217" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",217)></UIButton>
+				<UIButton name="MinorNote5" text="" x=148 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=170 y=0 MouseDownSFX="tkl_performer_268" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",268)></UIButton>
+				<UIButton x=170 y=20 MouseDownSFX="tkl_performer_218" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",218)></UIButton>
+				<UIButton name="MinorNote6" text="F" x=170 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=212 y=3 MouseDownSFX="tkl_performer_269" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",269)></UIButton>
+				<UIButton x=212 y=20 MouseDownSFX="tkl_performer_219" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",219)></UIButton>
+				<UIButton name="MinorNote7" text="" x=212 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=233 y=0 MouseDownSFX="tkl_performer_270" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",270)></UIButton>
+				<UIButton x=233 y=20 MouseDownSFX="tkl_performer_220" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",220)></UIButton>
+				<UIButton name="MinorNote8" text="G" x=233 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=274 y=0 MouseDownSFX="tkl_performer_271" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",271)></UIButton>
+				<UIButton x=274 y=20 MouseDownSFX="tkl_performer_221" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",221)></UIButton>
+				<UIButton name="MinorNote9" text="Ab" x=274 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=315 y=3 MouseDownSFX="tkl_performer_272" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",272)></UIButton>
+				<UIButton x=315 y=20 MouseDownSFX="tkl_performer_222" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",222)></UIButton>
+				<UIButton name="MinorNote10" text="" x=315 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=336 y=0 MouseDownSFX="tkl_performer_273" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",273)></UIButton>
+				<UIButton x=336 y=20 MouseDownSFX="tkl_performer_223" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",223)></UIButton>
+				<UIButton name="MinorNote11" text="Bb" x=336 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=377 y=3 MouseDownSFX="tkl_performer_274" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",274)></UIButton>
+				<UIButton x=377 y=20 MouseDownSFX="tkl_performer_224" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",224)></UIButton>
+				<UIButton name="MinorNote12" text="" x=377 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=398 y=0 MouseDownSFX="tkl_performer_275" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",275)></UIButton>
+				<UIButton x=398 y=20 MouseDownSFX="tkl_performer_225" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",225)></UIButton>
+				<UIButton name="MinorNote12b" text="C" x=398 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+
+				<UIButton x=0 y=42 MouseDownSFX="tkl_performer_251" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",251)></UIButton>
+				<UIButton x=0 y=62 MouseDownSFX="tkl_performer_201" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",201)></UIButton>
+				<UIButton name="MinorNote13" text="C" x=0 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=42 y=45 MouseDownSFX="tkl_performer_252" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",252)></UIButton>
+				<UIButton x=42 y=62 MouseDownSFX="tkl_performer_202" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",202)></UIButton>
+				<UIButton name="MinorNote14" text="" x=42 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=64 y=42 MouseDownSFX="tkl_performer_253" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",253)></UIButton>
+				<UIButton x=64 y=62 MouseDownSFX="tkl_performer_203" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",203)></UIButton>
+				<UIButton name="MinorNote15" text="D" x=64 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=106 y=42 MouseDownSFX="tkl_performer_254" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",254)></UIButton>
+				<UIButton x=106 y=62 MouseDownSFX="tkl_performer_204" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",204)></UIButton>
+				<UIButton name="MinorNote16" text="Eb" x=106 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=148 y=45 MouseDownSFX="tkl_performer_255" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",255)></UIButton>
+				<UIButton x=148 y=62 MouseDownSFX="tkl_performer_205" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",205)></UIButton>
+				<UIButton name="MinorNote17" text="" x=148 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=170 y=42 MouseDownSFX="tkl_performer_256" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",256)></UIButton>
+				<UIButton x=170 y=62 MouseDownSFX="tkl_performer_206" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",206)></UIButton>
+				<UIButton name="MinorNote18" text="F" x=170 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=212 y=45 MouseDownSFX="tkl_performer_257" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",257)></UIButton>
+				<UIButton x=212 y=62 MouseDownSFX="tkl_performer_207" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",207)></UIButton>
+				<UIButton name="MinorNote19" text="" x=212 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=233 y=42 MouseDownSFX="tkl_performer_258" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",258)></UIButton>
+				<UIButton x=233 y=62 MouseDownSFX="tkl_performer_208" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",208)></UIButton>
+				<UIButton name="MinorNote20" text="G" x=233 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=274 y=42 MouseDownSFX="tkl_performer_259" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",259)></UIButton>
+				<UIButton x=274 y=62 MouseDownSFX="tkl_performer_209" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",209)></UIButton>
+				<UIButton name="MinorNote21" text="Ab" x=274 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=315 y=45 MouseDownSFX="tkl_performer_260" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",260)></UIButton>				
+				<UIButton x=315 y=62 MouseDownSFX="tkl_performer_210" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",210)></UIButton>				
+				<UIButton name="MinorNote22" text="" x=315 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=336 y=42 MouseDownSFX="tkl_performer_261" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",261)></UIButton>
+				<UIButton x=336 y=62 MouseDownSFX="tkl_performer_211" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",211)></UIButton>				
+				<UIButton name="MinorNote23" text="Bb" x=336 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=377 y=45 MouseDownSFX="tkl_performer_262" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",262)></UIButton>
+				<UIButton x=377 y=62 MouseDownSFX="tkl_performer_212" width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",212)></UIButton>				
+				<UIButton name="MinorNote24" text="" x=377 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+			
+				<UIButton x=398 y=42 MouseDownSFX="tkl_performer_263" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",263)></UIButton>
+				<UIButton x=398 y=62 MouseDownSFX="tkl_performer_213" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",213)></UIButton>				
+				<UIButton name="MinorNote24b" text="C" x=398 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+			</UIPane>
+		</UICollapsable>
+	</UIListbox>	
+	<UIFrame x=-5 y=-8 height=66 width=455 top="frame1_t.tga" topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga" bottomright="frame1_BR.tga" bottom="frame1_b.tga" left="frame1_l.tga" right="frame1_r.tga" border=32 />
+	<UIIcon name="Background" x=-5 y=-8 height=56 width=455 img="dark_rock_tile.tga" capturemouseclicks=true/>	
+	</UIPane>
+
+
+	<UIPane name="MainLivePane" x=0 y=29 height=266 width=445 capturemouseclicks=false hidden=false>
+	<UIListbox name="INSTRUMENT_LIST" x=0 y=0 width=445 height=266 yPadding=0 xPadding=0  
+			showpartialchild=true scrollbaronright=true unequalcontrols=true scrollsegmentsize=32 update=false>
+		<UICollapsable name="SongsCollapsable" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=0 indent=4 isexpanded=true >
+			<UIButton name=HeaderButton text="Songs" x=0 y=0 width=445 height=22 header=true OnMouseEnter=UIButton_Input_HideObject("SongMenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track1MenuPane") OnMouseEnter1=UIButton_Input_HideObject("Track2MenuPane") OnMouseEnter2=UIButton_Input_HideObject("Track3MenuPane") OnMouseEnter3=UIButton_Input_HideObject("Track4MenuPane")>
+				<UIText text="Songs" align=center valign=middle fontfamily="Title_Font" style=1 />
+				<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=header		fill="b_feat_normal.tga" />
+				<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+				<UIFrame state=downheader	fill="b_feat_normal.tga" />
+			</UIButton>
+			<UIPane name="SongsPane" x=0 y=0 height=26 width=PARENT_WIDTH >
+				<UIButton name="LiveSongButton" text="Opus #1" x=1 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=135 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",0) OnLeftClick=UIButton_Input_ShowObject("SongMenuPane") OnMouseEnter=UIButton_Input_HideObject("Track1MenuPane")></UIButton>
+				<UIButton name="LiveTrack1Button" text="Track 1" x=136 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",1) OnLeftClick=UIButton_Input_ShowObject("Track1MenuPane") OnMouseEnter=UIButton_Input_HideObject("SongMenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track2MenuPane")></UIButton>
+				<UIButton name="LiveTrack2Button" text="Track 2" x=211 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",2) OnLeftClick=UIButton_Input_ShowObject("Track2MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track1MenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track3MenuPane")></UIButton>
+				<UIButton name="LiveTrack3Button" text="Track 3" x=286 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",3) OnLeftClick=UIButton_Input_ShowObject("Track3MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track2MenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track4MenuPane")></UIButton>
+				<UIButton name="LiveTrack4Button" text="Track 4" x=361 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",4) OnLeftClick=UIButton_Input_ShowObject("Track4MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track3MenuPane")></UIButton>
+			</UIPane>
+		</UICollapsable>
+		<UICollapsable name="MelodyCollapsable" x=0 y=46 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=0 indent=4 isexpanded=true >
+			<UIButton name=HeaderButton text="Melody" x=0 y=0 width=445 height=22 header=true >
+				<UIText text="Melody" align=center valign=middle fontfamily="Title_Font" style=1 />
+				<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=header		fill="b_feat_normal.tga" />
+				<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+				<UIFrame state=downheader	fill="b_feat_normal.tga" />
+			</UIButton>
+			<UIPane name="MelodyPane" x=0 y=0 height=84 width=PARENT_WIDTH >
+				<UIButton x=0 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",263)></UIButton>
+				<UIButton x=0 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",213)></UIButton>
+				<UIButton name="LiveNote1" text="C" x=0 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=42 y=3 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",264)></UIButton>
+				<UIButton x=42 y=20 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",214)></UIButton>
+				<UIButton name="LiveNote2" text="" x=42 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=64 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",265)></UIButton>
+				<UIButton x=64 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",215)></UIButton>
+				<UIButton name="LiveNote3" text="D" x=64 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=106 y=3 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",266)></UIButton>
+				<UIButton x=106 y=20 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",216)></UIButton>
+				<UIButton name="LiveNote4" text="" x=106 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=128 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",267)></UIButton>
+				<UIButton x=128 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",217)></UIButton>
+				<UIButton name="LiveNote5" text="E" x=128 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=170 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",268)></UIButton>
+				<UIButton x=170 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",218)></UIButton>
+				<UIButton name="LiveNote6" text="F" x=170 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=212 y=3 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",269)></UIButton>
+				<UIButton x=212 y=20 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",219)></UIButton>
+				<UIButton name="LiveNote7" text="" x=212 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=233 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",270)></UIButton>
+				<UIButton x=233 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",220)></UIButton>
+				<UIButton name="LiveNote8" text="G" x=233 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=274 y=3 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",271)></UIButton>
+				<UIButton x=274 y=20 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",221)></UIButton>
+				<UIButton name="LiveNote9" text="" x=274 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=295 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",272)></UIButton>
+				<UIButton x=295 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",222)></UIButton>
+				<UIButton name="LiveNote10" text="A" x=295 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=336 y=3 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",273)></UIButton>
+				<UIButton x=336 y=20 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",223)></UIButton>
+				<UIButton name="LiveNote11" text="" x=336 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=357 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",274)></UIButton>
+				<UIButton x=357 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",224)></UIButton>
+				<UIButton name="LiveNote12" text="B" x=357 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=398 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",275)></UIButton>
+				<UIButton x=398 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",225)></UIButton>
+				<UIButton name="LiveNote12b" text="C" x=398 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=0 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",251)></UIButton>
+				<UIButton x=0 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",201)></UIButton>
+				<UIButton name="LiveNote13" text="C" x=0 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=42 y=45 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",252)></UIButton>
+				<UIButton x=42 y=62 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",202)></UIButton>
+				<UIButton name="LiveNote14" text="" x=42 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=64 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",253)></UIButton>
+				<UIButton x=64 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",203)></UIButton>
+				<UIButton name="LiveNote15" text="D" x=64 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=106 y=45 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",254)></UIButton>
+				<UIButton x=106 y=62 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",204)></UIButton>
+				<UIButton name="LiveNote16" text="" x=106 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=128 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",255)></UIButton>
+				<UIButton x=128 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",205)></UIButton>
+				<UIButton name="LiveNote17" text="E" x=128 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=170 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",256)></UIButton>
+				<UIButton x=170 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",206)></UIButton>
+				<UIButton name="LiveNote18" text="F" x=170 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=212 y=45 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",257)></UIButton>
+				<UIButton x=212 y=62 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",207)></UIButton>
+				<UIButton name="LiveNote19" text="" x=212 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=233 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",258)></UIButton>
+				<UIButton x=233 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",208)></UIButton>
+				<UIButton name="LiveNote20" text="G" x=233 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=274 y=45 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",259)></UIButton>
+				<UIButton x=274 y=62 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",209)></UIButton>
+				<UIButton name="LiveNote21" text="" x=274 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=295 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",260)></UIButton>				
+				<UIButton x=295 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",210)></UIButton>				
+				<UIButton name="LiveNote22" text="A" x=295 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=336 y=45 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",261)></UIButton>
+				<UIButton x=336 y=62 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",211)></UIButton>				
+				<UIButton name="LiveNote23" text="" x=336 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=357 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",262)></UIButton>
+				<UIButton x=357 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",212)></UIButton>				
+				<UIButton name="LiveNote24" text="B" x=357 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+			
+				<UIButton x=398 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",263)></UIButton>
+				<UIButton x=398 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",213)></UIButton>				
+				<UIButton name="LiveNote24b" text="C" x=398 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+			
+			</UIPane>
+		</UICollapsable>
+	</UIListbox>	
+	<UIFrame x=-5 y=-8 height=66 width=455 top="frame1_t.tga" topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga" bottomright="frame1_BR.tga" bottom="frame1_b.tga" left="frame1_l.tga" right="frame1_r.tga" border=32 />
+	<UIIcon name="Background" x=-5 y=-8 height=56 width=455 img="dark_rock_tile.tga" capturemouseclicks=true/>	
+	</UIPane>
+
+
+	<UIPane name="MainMinorLivePane" x=0 y=29 height=266 width=445 capturemouseclicks=false hidden=true>
+	<UIListbox name="INSTRUMENT_LIST" x=0 y=0 width=445 height=266 yPadding=0 xPadding=0  
+			showpartialchild=true scrollbaronright=true unequalcontrols=true scrollsegmentsize=32 update=false>
+		<UICollapsable name="SongsCollapsable" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=0 indent=4 isexpanded=false >
+			<UIButton name=HeaderButton text="Songs" x=0 y=0 width=445 height=22 header=true OnMouseEnter=UIButton_Input_HideObject("SongMenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track1MenuPane") OnMouseEnter1=UIButton_Input_HideObject("Track2MenuPane") OnMouseEnter2=UIButton_Input_HideObject("Track3MenuPane") OnMouseEnter3=UIButton_Input_HideObject("Track4MenuPane")>
+				<UIText text="Songs" align=center valign=middle fontfamily="Title_Font" style=1 />
+				<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=header		fill="b_feat_normal.tga" />
+				<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+				<UIFrame state=downheader	fill="b_feat_normal.tga" />
+			</UIButton>
+			<UIPane name="SongsPane" x=0 y=0 height=26 width=PARENT_WIDTH >
+				<UIButton name="MinorLiveSongButton" text="Opus #1" x=1 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=135 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",0) OnLeftClick=UIButton_Input_ShowObject("SongMenuPane") OnMouseEnter=UIButton_Input_HideObject("Track1MenuPane")></UIButton>
+				<UIButton name="MinorLiveTrack1Button" text="Track 1" x=136 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",1) OnLeftClick=UIButton_Input_ShowObject("Track1MenuPane") OnMouseEnter=UIButton_Input_HideObject("SongMenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track2MenuPane")></UIButton>
+				<UIButton name="MinorLiveTrack2Button" text="Track 2" x=211 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",2) OnLeftClick=UIButton_Input_ShowObject("Track2MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track1MenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track3MenuPane")></UIButton>
+				<UIButton name="MinorLiveTrack3Button" text="Track 3" x=286 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",3) OnLeftClick=UIButton_Input_ShowObject("Track3MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track2MenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track4MenuPane")></UIButton>
+				<UIButton name="MinorLiveTrack4Button" text="Track 4" x=361 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",4) OnLeftClick=UIButton_Input_ShowObject("Track4MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track3MenuPane")></UIButton>
+			</UIPane>
+		</UICollapsable>
+		<UICollapsable name="MelodyCollapsable" x=0 y=46 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=0 indent=4 isexpanded=true >
+			<UIButton name=HeaderButton text="Melody" x=0 y=0 width=445 height=22 header=true >
+				<UIText text="Melody" align=center valign=middle fontfamily="Title_Font" style=1 />
+				<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=header		fill="b_feat_normal.tga" />
+				<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+				<UIFrame state=downheader	fill="b_feat_normal.tga" />
+			</UIButton>
+			<UIPane name="MelodyPane" x=0 y=0 height=84 width=PARENT_WIDTH >
+				<UIButton x=0 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",263)></UIButton>
+				<UIButton x=0 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",213)></UIButton>
+				<UIButton name="MinorLiveNote1" text="C" x=0 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=42 y=3 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",264)></UIButton>
+				<UIButton x=42 y=20 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",214)></UIButton>
+				<UIButton name="MinorLiveNote2" text="" x=42 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=64 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",265)></UIButton>
+				<UIButton x=64 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",215)></UIButton>
+				<UIButton name="MinorLiveNote3" text="D" x=64 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=106 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",266)></UIButton>
+				<UIButton x=106 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",216)></UIButton>
+				<UIButton name="MinorLiveNote4" text="Eb" x=106 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=148 y=3 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",267)></UIButton>
+				<UIButton x=148 y=20 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",217)></UIButton>
+				<UIButton name="MinorLiveNote5" text="" x=148 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=170 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",268)></UIButton>
+				<UIButton x=170 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",218)></UIButton>
+				<UIButton name="MinorLiveNote6" text="F" x=170 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=212 y=3 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",269)></UIButton>
+				<UIButton x=212 y=20 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",219)></UIButton>
+				<UIButton name="MinorLiveNote7" text="" x=212 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=233 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",270)></UIButton>
+				<UIButton x=233 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",220)></UIButton>
+				<UIButton name="MinorLiveNote8" text="G" x=233 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=274 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",271)></UIButton>
+				<UIButton x=274 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",221)></UIButton>
+				<UIButton name="MinorLiveNote9" text="Ab" x=274 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=315 y=3 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",272)></UIButton>
+				<UIButton x=315 y=20 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",222)></UIButton>
+				<UIButton name="MinorLiveNote10" text="" x=315 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=336 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",273)></UIButton>
+				<UIButton x=336 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",223)></UIButton>
+				<UIButton name="MinorLiveNote11" text="Bb" x=336 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=377 y=3 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",274)></UIButton>
+				<UIButton x=377 y=20 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",224)></UIButton>
+				<UIButton name="MinorLiveNote12" text="" x=377 y=3 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=398 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",275)></UIButton>
+				<UIButton x=398 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",225)></UIButton>
+				<UIButton name="MinorLiveNote12b" text="C" x=398 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=0 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",251)></UIButton>
+				<UIButton x=0 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",201)></UIButton>
+				<UIButton name="MinorLiveNote13" text="C" x=0 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=42 y=45 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",252)></UIButton>
+				<UIButton x=42 y=62 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",202)></UIButton>
+				<UIButton name="MinorLiveNote14" text="" x=42 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=64 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",253)></UIButton>
+				<UIButton x=64 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",203)></UIButton>
+				<UIButton name="MinorLiveNote15" text="D" x=64 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=106 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",254)></UIButton>
+				<UIButton x=106 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",204)></UIButton>
+				<UIButton name="MinorLiveNote16" text="Eb" x=106 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=148 y=45 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",255)></UIButton>
+				<UIButton x=148 y=62 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",205)></UIButton>
+				<UIButton name="MinorLiveNote17" text="" x=148 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=170 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",256)></UIButton>
+				<UIButton x=170 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",206)></UIButton>
+				<UIButton name="MinorLiveNote18" text="F" x=170 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=212 y=45 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",257)></UIButton>
+				<UIButton x=212 y=62 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",207)></UIButton>
+				<UIButton name="MinorLiveNote19" text="" x=212 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=233 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",258)></UIButton>
+				<UIButton x=233 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",208)></UIButton>
+				<UIButton name="MinorLiveNote20" text="G" x=233 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=274 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",259)></UIButton>
+				<UIButton x=274 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",209)></UIButton>
+				<UIButton name="MinorLiveNote21" text="Ab" x=274 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=315 y=45 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",260)></UIButton>				
+				<UIButton x=315 y=62 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",210)></UIButton>				
+				<UIButton name="MinorLiveNote22" text="" x=315 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=336 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",261)></UIButton>
+				<UIButton x=336 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",211)></UIButton>				
+				<UIButton name="MinorLiveNote23" text="Bb" x=336 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=377 y=45 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",262)></UIButton>
+				<UIButton x=377 y=62 width=21 height=17 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",212)></UIButton>				
+				<UIButton name="MinorLiveNote24" text="" x=377 y=45 style="STYLE_SMALL_BUTTON" width=21 height=34><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+			
+				<UIButton x=398 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",263)></UIButton>
+				<UIButton x=398 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",213)></UIButton>				
+				<UIButton name="MinorLiveNote24b" text="C" x=398 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+			</UIPane>
+		</UICollapsable>
+	</UIListbox>	
+	<UIFrame x=-5 y=-8 height=66 width=455 top="frame1_t.tga" topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga" bottomright="frame1_BR.tga" bottom="frame1_b.tga" left="frame1_l.tga" right="frame1_r.tga" border=32 />
+	<UIIcon name="Background" x=-5 y=-8 height=56 width=455 img="dark_rock_tile.tga" capturemouseclicks=true/>	
+	</UIPane>
+
+
+	<UIPane name="MainEasyPane" x=0 y=29 height=266 width=445 capturemouseclicks=false hidden=false>
+	<UIListbox name="INSTRUMENT_LIST" x=0 y=0 width=445 height=266 yPadding=0 xPadding=0  
+			showpartialchild=true scrollbaronright=true unequalcontrols=true scrollsegmentsize=32 update=false>
+		<UICollapsable name="SongsCollapsable" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=0 indent=4 isexpanded=true >
+			<UIButton name=HeaderButton text="Songs" x=0 y=0 width=445 height=22 header=true OnMouseEnter=UIButton_Input_HideObject("SongMenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track1MenuPane") OnMouseEnter1=UIButton_Input_HideObject("Track2MenuPane") OnMouseEnter2=UIButton_Input_HideObject("Track3MenuPane") OnMouseEnter3=UIButton_Input_HideObject("Track4MenuPane")>
+				<UIText text="Songs" align=center valign=middle fontfamily="Title_Font" style=1 />
+				<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=header		fill="b_feat_normal.tga" />
+				<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+				<UIFrame state=downheader	fill="b_feat_normal.tga" />
+			</UIButton>
+			<UIPane name="SongsPane" x=0 y=0 height=26 width=PARENT_WIDTH >
+				<UIButton name="EasySongButton" text="Opus #1" x=1 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=135 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",0) OnLeftClick=UIButton_Input_ShowObject("SongMenuPane") OnMouseEnter=UIButton_Input_HideObject("Track1MenuPane")></UIButton>
+				<UIButton name="EasyTrack1Button" text="Track 1" x=136 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",1) OnLeftClick=UIButton_Input_ShowObject("Track1MenuPane") OnMouseEnter=UIButton_Input_HideObject("SongMenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track2MenuPane")></UIButton>
+				<UIButton name="EasyTrack2Button" text="Track 2" x=211 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",2) OnLeftClick=UIButton_Input_ShowObject("Track2MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track1MenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track3MenuPane")></UIButton>
+				<UIButton name="EasyTrack3Button" text="Track 3" x=286 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",3) OnLeftClick=UIButton_Input_ShowObject("Track3MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track2MenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track4MenuPane")></UIButton>
+				<UIButton name="EasyTrack4Button" text="Track 4" x=361 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",4) OnLeftClick=UIButton_Input_ShowObject("Track4MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track3MenuPane")></UIButton>
+			</UIPane>
+		</UICollapsable>
+		<UICollapsable name="MelodyCollapsable" x=0 y=46 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=0 indent=4 isexpanded=true >
+			<UIButton name=HeaderButton text="Melody" x=0 y=0 width=445 height=22 header=true >
+				<UIText text="Melody" align=center valign=middle fontfamily="Title_Font" style=1 />
+				<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=header		fill="b_feat_normal.tga" />
+				<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+				<UIFrame state=downheader	fill="b_feat_normal.tga" />
+			</UIButton>
+			<UIPane name="MelodyPane" x=0 y=0 height=84 width=PARENT_WIDTH >
+				<UIButton x=44 y=0 MouseDownSFX="tkl_performer_263" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",263)></UIButton>
+				<UIButton x=44 y=20 MouseDownSFX="tkl_performer_213" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",213)></UIButton>
+				<UIButton name="EasyNote1" text="C" x=44 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=86 y=0 MouseDownSFX="tkl_performer_265" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",265)></UIButton>
+				<UIButton x=86 y=20 MouseDownSFX="tkl_performer_215" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",215)></UIButton>
+				<UIButton name="EasyNote3" text="D" x=86 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=128 y=0 MouseDownSFX="tkl_performer_267" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",267)></UIButton>
+				<UIButton x=128 y=20 MouseDownSFX="tkl_performer_217" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",17)></UIButton>
+				<UIButton name="EasyNote5" text="E" x=128 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=170 y=0 MouseDownSFX="tkl_performer_268" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",268)></UIButton>
+				<UIButton x=170 y=20 MouseDownSFX="tkl_performer_218" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",218)></UIButton>
+				<UIButton name="EasyNote6" text="F" x=170 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=212 y=0 MouseDownSFX="tkl_performer_270" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",270)></UIButton>
+				<UIButton x=212 y=20 MouseDownSFX="tkl_performer_220" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",220)></UIButton>
+				<UIButton name="EasyNote8" text="G" x=212 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=254 y=0 MouseDownSFX="tkl_performer_272" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",272)></UIButton>
+				<UIButton x=254 y=20 MouseDownSFX="tkl_performer_222" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",222)></UIButton>
+				<UIButton name="EasyNote10" text="A" x=254 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=296 y=0 MouseDownSFX="tkl_performer_274" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",274)></UIButton>
+				<UIButton x=296 y=20 MouseDownSFX="tkl_performer_224" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",224)></UIButton>
+				<UIButton name="EasyNote12" text="B" x=296 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=337 y=0 MouseDownSFX="tkl_performer_275" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",275)></UIButton>
+				<UIButton x=337 y=20 MouseDownSFX="tkl_performer_225" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",225)></UIButton>
+				<UIButton name="EasyNote12b" text="C" x=337 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+
+				<UIButton x=44 y=42 MouseDownSFX="tkl_performer_251" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",251)></UIButton>
+				<UIButton x=44 y=62 MouseDownSFX="tkl_performer_201" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",201)></UIButton>
+				<UIButton name="EasyNote13" text="C" x=44 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=86 y=42 MouseDownSFX="tkl_performer_253" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",253)></UIButton>
+				<UIButton x=86 y=62 MouseDownSFX="tkl_performer_203" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",203)></UIButton>
+				<UIButton name="EasyNote15" text="D" x=86 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=128 y=42 MouseDownSFX="tkl_performer_255" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",255)></UIButton>
+				<UIButton x=128 y=62 MouseDownSFX="tkl_performer_205" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",205)></UIButton>
+				<UIButton name="EasyNote17" text="E" x=128 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=170 y=42 MouseDownSFX="tkl_performer_256" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",256)></UIButton>
+				<UIButton x=170 y=62 MouseDownSFX="tkl_performer_206" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",206)></UIButton>
+				<UIButton name="EasyNote18" text="F" x=170 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=212 y=42 MouseDownSFX="tkl_performer_258" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",258)></UIButton>
+				<UIButton x=212 y=62 MouseDownSFX="tkl_performer_208" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",208)></UIButton>
+				<UIButton name="EasyNote20" text="G" x=212 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=254 y=42 MouseDownSFX="tkl_performer_260" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",260)></UIButton>				
+				<UIButton x=254 y=62 MouseDownSFX="tkl_performer_210" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",210)></UIButton>				
+				<UIButton name="EasyNote22" text="A" x=254 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=296 y=42 MouseDownSFX="tkl_performer_262" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",262)></UIButton>
+				<UIButton x=296 y=62 MouseDownSFX="tkl_performer_212" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",212)></UIButton>				
+				<UIButton name="EasyNote24" text="B" x=296 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+			
+				<UIButton x=337 y=42 MouseDownSFX="tkl_performer_263" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",263)></UIButton>
+				<UIButton x=337 y=62 MouseDownSFX="tkl_performer_213" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",213)></UIButton>				
+				<UIButton name="EasyNote24b" text="C" x=337 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+			</UIPane>
+		</UICollapsable>
+	</UIListbox>	
+	<UIFrame x=-5 y=-8 height=66 width=455 top="frame1_t.tga" topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga" bottomright="frame1_BR.tga" bottom="frame1_b.tga" left="frame1_l.tga" right="frame1_r.tga" border=32 />
+	<UIIcon name="Background" x=-5 y=-8 height=56 width=455 img="dark_rock_tile.tga" capturemouseclicks=true/>	
+	</UIPane>
+
+
+	<UIPane name="MainEasyMinorPane" x=0 y=29 height=266 width=445 capturemouseclicks=false hidden=true>
+	<UIListbox name="INSTRUMENT_LIST" x=0 y=0 width=445 height=266 yPadding=0 xPadding=0  
+			showpartialchild=true scrollbaronright=true unequalcontrols=true scrollsegmentsize=32 update=false>
+		<UICollapsable name="SongsCollapsable" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=0 indent=4 isexpanded=true >
+			<UIButton name=HeaderButton text="Songs" x=0 y=0 width=445 height=22 header=true OnMouseEnter=UIButton_Input_HideObject("SongMenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track1MenuPane") OnMouseEnter1=UIButton_Input_HideObject("Track2MenuPane") OnMouseEnter2=UIButton_Input_HideObject("Track3MenuPane") OnMouseEnter3=UIButton_Input_HideObject("Track4MenuPane")>
+				<UIText text="Songs" align=center valign=middle fontfamily="Title_Font" style=1 />
+				<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=header		fill="b_feat_normal.tga" />
+				<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+				<UIFrame state=downheader	fill="b_feat_normal.tga" />
+			</UIButton>
+			<UIPane name="SongsPane" x=0 y=0 height=26 width=PARENT_WIDTH >
+				<UIButton name="EasyMinorSongButton" text="Opus #1" x=1 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=135 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",0) OnLeftClick=UIButton_Input_ShowObject("SongMenuPane") OnMouseEnter=UIButton_Input_HideObject("Track1MenuPane")></UIButton>
+				<UIButton name="EasyMinorTrack1Button" text="Track 1" x=136 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",1) OnLeftClick=UIButton_Input_ShowObject("Track1MenuPane") OnMouseEnter=UIButton_Input_HideObject("SongMenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track2MenuPane")></UIButton>
+				<UIButton name="EasyMinorTrack2Button" text="Track 2" x=211 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",2) OnLeftClick=UIButton_Input_ShowObject("Track2MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track1MenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track3MenuPane")></UIButton>
+				<UIButton name="EasyMinorTrack3Button" text="Track 3" x=286 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",3) OnLeftClick=UIButton_Input_ShowObject("Track3MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track2MenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track4MenuPane")></UIButton>
+				<UIButton name="EasyMinorTrack4Button" text="Track 4" x=361 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",4) OnLeftClick=UIButton_Input_ShowObject("Track4MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track3MenuPane")></UIButton>
+			</UIPane>
+		</UICollapsable>
+		<UICollapsable name="MelodyCollapsable" x=0 y=46 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=0 indent=4 isexpanded=true >
+			<UIButton name=HeaderButton text="Melody" x=0 y=0 width=445 height=22 header=true >
+				<UIText text="Melody" align=center valign=middle fontfamily="Title_Font" style=1 />
+				<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=header		fill="b_feat_normal.tga" />
+				<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+				<UIFrame state=downheader	fill="b_feat_normal.tga" />
+			</UIButton>
+			<UIPane name="MelodyPane" x=0 y=0 height=84 width=PARENT_WIDTH >
+				<UIButton x=44 y=0 MouseDownSFX="tkl_performer_263" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",263)></UIButton>
+				<UIButton x=44 y=20 MouseDownSFX="tkl_performer_213" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",213)></UIButton>
+				<UIButton name="EasyMinorNote1" text="C" x=44 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=86 y=0 MouseDownSFX="tkl_performer_265" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",265)></UIButton>
+				<UIButton x=86 y=20 MouseDownSFX="tkl_performer_215" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",215)></UIButton>
+				<UIButton name="EasyMinorNote3" text="D" x=86 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=128 y=0 MouseDownSFX="tkl_performer_266" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",266)></UIButton>
+				<UIButton x=128 y=20 MouseDownSFX="tkl_performer_216" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",216)></UIButton>
+				<UIButton name="EasyMinorNote4" text="Eb" x=128 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=170 y=0 MouseDownSFX="tkl_performer_268" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",268)></UIButton>
+				<UIButton x=170 y=20 MouseDownSFX="tkl_performer_218" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",218)></UIButton>
+				<UIButton name="EasyMinorNote6" text="F" x=170 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=212 y=0 MouseDownSFX="tkl_performer_270" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",270)></UIButton>
+				<UIButton x=212 y=20 MouseDownSFX="tkl_performer_220" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",220)></UIButton>
+				<UIButton name="EasyMinorNote8" text="G" x=212 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=254 y=0 MouseDownSFX="tkl_performer_271" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",271)></UIButton>
+				<UIButton x=254 y=20 MouseDownSFX="tkl_performer_221" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",221)></UIButton>
+				<UIButton name="EasyMinorNote9" text="Ab" x=254 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=296 y=0 MouseDownSFX="tkl_performer_273" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",273)></UIButton>
+				<UIButton x=296 y=20 MouseDownSFX="tkl_performer_223" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",223)></UIButton>
+				<UIButton name="EasyMinorNote11" text="Bb" x=296 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=337 y=0 MouseDownSFX="tkl_performer_275" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",275)></UIButton>
+				<UIButton x=337 y=20 MouseDownSFX="tkl_performer_225" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",225)></UIButton>
+				<UIButton name="EasyMinorNote12b" text="C" x=337 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+
+				<UIButton x=44 y=42 MouseDownSFX="tkl_performer_251" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",251)></UIButton>
+				<UIButton x=44 y=62 MouseDownSFX="tkl_performer_201" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",201)></UIButton>
+				<UIButton name="EasyMinorNote13" text="C" x=44 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=86 y=42 MouseDownSFX="tkl_performer_253" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",253)></UIButton>
+				<UIButton x=86 y=62 MouseDownSFX="tkl_performer_203" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",203)></UIButton>
+				<UIButton name="EasyMinorNote15" text="D" x=86 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=128 y=42 MouseDownSFX="tkl_performer_254" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",254)></UIButton>
+				<UIButton x=128 y=62 MouseDownSFX="tkl_performer_204" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",204)></UIButton>
+				<UIButton name="EasyMinorNote16" text="Eb" x=128 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=170 y=42 MouseDownSFX="tkl_performer_256" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",256)></UIButton>
+				<UIButton x=170 y=62 MouseDownSFX="tkl_performer_206" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",206)></UIButton>
+				<UIButton name="EasyMinorNote18" text="F" x=170 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=212 y=42 MouseDownSFX="tkl_performer_258" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",258)></UIButton>
+				<UIButton x=212 y=62 MouseDownSFX="tkl_performer_208" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",208)></UIButton>
+				<UIButton name="EasyMinorNote20" text="G" x=212 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=254 y=42 MouseDownSFX="tkl_performer_259" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",259)></UIButton>
+				<UIButton x=254 y=62 MouseDownSFX="tkl_performer_209" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",209)></UIButton>
+				<UIButton name="EasyMinorNote21" text="Ab" x=254 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=296 y=42 MouseDownSFX="tkl_performer_261" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",261)></UIButton>
+				<UIButton x=296 y=62 MouseDownSFX="tkl_performer_211" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",211)></UIButton>				
+				<UIButton name="EasyMinorNote23" text="Bb" x=296 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>	
+			
+				<UIButton x=337 y=42 MouseDownSFX="tkl_performer_263" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",263)></UIButton>
+				<UIButton x=337 y=62 MouseDownSFX="tkl_performer_213" width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RECORD_NOTE",213)></UIButton>				
+				<UIButton name="EasyMinorNote24b" text="C" x=337 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+			</UIPane>
+		</UICollapsable>
+	</UIListbox>	
+	<UIFrame x=-5 y=-8 height=66 width=455 top="frame1_t.tga" topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga" bottomright="frame1_BR.tga" bottom="frame1_b.tga" left="frame1_l.tga" right="frame1_r.tga" border=32 />
+	<UIIcon name="Background" x=-5 y=-8 height=56 width=455 img="dark_rock_tile.tga" capturemouseclicks=true/>	
+	</UIPane>
+
+
+	<UIPane name="MainEasyLivePane" x=0 y=29 height=266 width=445 capturemouseclicks=false hidden=false>
+	<UIListbox name="INSTRUMENT_LIST" x=0 y=0 width=445 height=266 yPadding=0 xPadding=0  
+			showpartialchild=true scrollbaronright=true unequalcontrols=true scrollsegmentsize=32 update=false>
+		<UICollapsable name="SongsCollapsable" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=0 indent=4 isexpanded=false >
+			<UIButton name=HeaderButton text="Songs" x=0 y=0 width=445 height=22 header=true OnMouseEnter=UIButton_Input_HideObject("SongMenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track1MenuPane") OnMouseEnter1=UIButton_Input_HideObject("Track2MenuPane") OnMouseEnter2=UIButton_Input_HideObject("Track3MenuPane") OnMouseEnter3=UIButton_Input_HideObject("Track4MenuPane")>
+				<UIText text="Songs" align=center valign=middle fontfamily="Title_Font" style=1 />
+				<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=header		fill="b_feat_normal.tga" />
+				<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+				<UIFrame state=downheader	fill="b_feat_normal.tga" />
+			</UIButton>
+			<UIPane name="SongsPane" x=0 y=0 height=26 width=PARENT_WIDTH >
+				<UIButton name="EasyLiveSongButton" text="Opus #1" x=1 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=135 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",0) OnLeftClick=UIButton_Input_ShowObject("SongMenuPane") OnMouseEnter=UIButton_Input_HideObject("Track1MenuPane")></UIButton>
+				<UIButton name="EasyLiveTrack1Button" text="Track 1" x=136 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",1) OnLeftClick=UIButton_Input_ShowObject("Track1MenuPane") OnMouseEnter=UIButton_Input_HideObject("SongMenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track2MenuPane")></UIButton>
+				<UIButton name="EasyLiveTrack2Button" text="Track 2" x=211 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",2) OnLeftClick=UIButton_Input_ShowObject("Track2MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track1MenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track3MenuPane")></UIButton>
+				<UIButton name="EasyLiveTrack3Button" text="Track 3" x=286 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",3) OnLeftClick=UIButton_Input_ShowObject("Track3MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track2MenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track4MenuPane")></UIButton>
+				<UIButton name="EasyLiveTrack4Button" text="Track 4" x=361 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",4) OnLeftClick=UIButton_Input_ShowObject("Track4MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track3MenuPane")></UIButton>
+			</UIPane>
+		</UICollapsable>
+		<UICollapsable name="MelodyCollapsable" x=0 y=46 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=0 indent=4 isexpanded=true >
+			<UIButton name=HeaderButton text="Melody" x=0 y=0 width=445 height=22 header=true >
+				<UIText text="Melody" align=center valign=middle fontfamily="Title_Font" style=1 />
+				<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=header		fill="b_feat_normal.tga" />
+				<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+				<UIFrame state=downheader	fill="b_feat_normal.tga" />
+			</UIButton>
+			<UIPane name="MelodyPane" x=0 y=0 height=84 width=PARENT_WIDTH >
+				<UIButton x=44 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",263)></UIButton>
+				<UIButton x=44 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",213)></UIButton>
+				<UIButton name="EasyLiveNote1" text="C" x=44 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=86 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",265)></UIButton>
+				<UIButton x=86 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",215)></UIButton>
+				<UIButton name="EasyLiveNote3" text="D" x=86 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=128 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",267)></UIButton>
+				<UIButton x=128 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",217)></UIButton>
+				<UIButton name="EasyLiveNote5" text="E" x=128 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=170 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",268)></UIButton>
+				<UIButton x=170 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",218)></UIButton>
+				<UIButton name="EasyLiveNote6" text="F" x=170 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=212 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",270)></UIButton>
+				<UIButton x=212 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",220)></UIButton>
+				<UIButton name="EasyLiveNote8" text="G" x=212 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=254 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",272)></UIButton>
+				<UIButton x=254 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",222)></UIButton>
+				<UIButton name="EasyLiveNote10" text="A" x=254 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=296 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",274)></UIButton>
+				<UIButton x=296 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",224)></UIButton>
+				<UIButton name="EasyLiveNote12" text="B" x=296 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=337 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",275)></UIButton>
+				<UIButton x=337 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",225)></UIButton>
+				<UIButton name="EasyLiveNote12b" text="C" x=337 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+
+				<UIButton x=44 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",251)></UIButton>
+				<UIButton x=44 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",201)></UIButton>
+				<UIButton name="EasyLiveNote13" text="C" x=44 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=86 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",253)></UIButton>
+				<UIButton x=86 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",203)></UIButton>
+				<UIButton name="EasyLiveNote15" text="D" x=86 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=128 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",255)></UIButton>
+				<UIButton x=128 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",205)></UIButton>
+				<UIButton name="EasyLiveNote17" text="E" x=128 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=170 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",256)></UIButton>
+				<UIButton x=170 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",206)></UIButton>
+				<UIButton name="EasyLiveNote18" text="F" x=170 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=212 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",258)></UIButton>
+				<UIButton x=212 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",208)></UIButton>
+				<UIButton name="EasyLiveNote20" text="G" x=212 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=254 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",260)></UIButton>				
+				<UIButton x=254 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",210)></UIButton>				
+				<UIButton name="EasyLiveNote22" text="A" x=254 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=296 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",262)></UIButton>
+				<UIButton x=296 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",212)></UIButton>				
+				<UIButton name="EasyLiveNote24" text="B" x=296 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+			
+				<UIButton x=337 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",263)></UIButton>
+				<UIButton x=337 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",213)></UIButton>				
+				<UIButton name="EasyLiveNote24b" text="C" x=337 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+			</UIPane>
+		</UICollapsable>
+	</UIListbox>	
+	<UIFrame x=-5 y=-8 height=66 width=455 top="frame1_t.tga" topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga" bottomright="frame1_BR.tga" bottom="frame1_b.tga" left="frame1_l.tga" right="frame1_r.tga" border=32 />
+	<UIIcon name="Background" x=-5 y=-8 height=56 width=455 img="dark_rock_tile.tga" capturemouseclicks=true/>	
+	</UIPane>
+
+
+	<UIPane name="MainEasyMinorLivePane" x=0 y=29 height=266 width=445 capturemouseclicks=false hidden=true>
+	<UIListbox name="INSTRUMENT_LIST" x=0 y=0 width=445 height=266 yPadding=0 xPadding=0  
+			showpartialchild=true scrollbaronright=true unequalcontrols=true scrollsegmentsize=32 update=false>
+		<UICollapsable name="SongsCollapsable" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=0 indent=4 isexpanded=false >
+			<UIButton name=HeaderButton text="Songs" x=0 y=0 width=445 height=22 header=true OnMouseEnter=UIButton_Input_HideObject("SongMenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track1MenuPane") OnMouseEnter1=UIButton_Input_HideObject("Track2MenuPane") OnMouseEnter2=UIButton_Input_HideObject("Track3MenuPane") OnMouseEnter3=UIButton_Input_HideObject("Track4MenuPane")>
+				<UIText text="Songs" align=center valign=middle fontfamily="Title_Font" style=1 />
+				<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=header		fill="b_feat_normal.tga" />
+				<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+				<UIFrame state=downheader	fill="b_feat_normal.tga" />
+			</UIButton>
+			<UIPane name="SongsPane" x=0 y=0 height=26 width=PARENT_WIDTH >
+				<UIButton name="EasyMinorLiveSongButton" text="Opus #1" x=1 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=135 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",0) OnLeftClick=UIButton_Input_ShowObject("SongMenuPane") OnMouseEnter=UIButton_Input_HideObject("Track1MenuPane")></UIButton>
+				<UIButton name="EasyMinorLiveTrack1Button" text="Track 1" x=136 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",1) OnLeftClick=UIButton_Input_ShowObject("Track1MenuPane") OnMouseEnter=UIButton_Input_HideObject("SongMenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track2MenuPane")></UIButton>
+				<UIButton name="EasyMinorLiveTrack2Button" text="Track 2" x=211 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",2) OnLeftClick=UIButton_Input_ShowObject("Track2MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track1MenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track3MenuPane")></UIButton>
+				<UIButton name="EasyMinorLiveTrack3Button" text="Track 3" x=286 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",3) OnLeftClick=UIButton_Input_ShowObject("Track3MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track2MenuPane") OnMouseEnter0=UIButton_Input_HideObject("Track4MenuPane")></UIButton>
+				<UIButton name="EasyMinorLiveTrack4Button" text="Track 4" x=361 y=0 style="STYLE_SMALL_BUTTON" MouseDownSFX="" MouseUpSFX="" width=75 height=26 OnRightClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","RENAME",4) OnLeftClick=UIButton_Input_ShowObject("Track4MenuPane") OnMouseEnter=UIButton_Input_HideObject("Track3MenuPane")></UIButton>
+			</UIPane>
+		</UICollapsable>
+		<UICollapsable name="MelodyCollapsable" x=0 y=46 width=PARENT_WIDTH height=PARENT_HEIGHT yPadding=1 xPadding=0 indent=4 isexpanded=true >
+			<UIButton name=HeaderButton text="Melody" x=0 y=0 width=445 height=22 header=true >
+				<UIText text="Melody" align=center valign=middle fontfamily="Title_Font" style=1 />
+				<UIFrame state=up			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=down			fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hilited		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=focused		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=hifocus		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=disabled		fill="b_feat_hover_pressed.tga" />
+				<UIFrame state=header		fill="b_feat_normal.tga" />
+				<UIFrame state=hiheader		fill="b_feat_normal.tga" />
+				<UIFrame state=downheader	fill="b_feat_normal.tga" />
+			</UIButton>
+			<UIPane name="MelodyPane" x=0 y=0 height=84 width=PARENT_WIDTH >
+				<UIButton x=44 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",263)></UIButton>
+				<UIButton x=44 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",213)></UIButton>
+				<UIButton name="EasyMinorLiveNote1" text="C" x=44 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=86 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",265)></UIButton>
+				<UIButton x=86 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",215)></UIButton>
+				<UIButton name="EasyMinorLiveNote3" text="D" x=86 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=128 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",266)></UIButton>
+				<UIButton x=128 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",216)></UIButton>
+				<UIButton name="EasyMinorLiveNote4" text="Eb" x=128 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=170 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",268)></UIButton>
+				<UIButton x=170 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",218)></UIButton>
+				<UIButton name="EasyMinorLiveNote6" text="F" x=170 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=212 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",270)></UIButton>
+				<UIButton x=212 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",220)></UIButton>
+				<UIButton name="EasyMinorLiveNote8" text="G" x=212 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=254 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",271)></UIButton>
+				<UIButton x=254 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",221)></UIButton>
+				<UIButton name="EasyMinorLiveNote9" text="Ab" x=254 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=296 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",273)></UIButton>
+				<UIButton x=296 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",223)></UIButton>
+				<UIButton name="EasyMinorLiveNote11" text="Bb" x=296 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=337 y=0 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",275)></UIButton>
+				<UIButton x=337 y=20 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",225)></UIButton>
+				<UIButton name="EasyMinorLiveNote12b" text="C" x=337 y=0 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+
+				<UIButton x=44 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",251)></UIButton>
+				<UIButton x=44 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",201)></UIButton>
+				<UIButton name="EasyMinorLiveNote13" text="C" x=44 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=86 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",253)></UIButton>
+				<UIButton x=86 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",203)></UIButton>
+				<UIButton name="EasyMinorLiveNote15" text="D" x=86 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=128 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",254)></UIButton>
+				<UIButton x=128 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",204)></UIButton>
+				<UIButton name="EasyMinorLiveNote16" text="Eb" x=128 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=170 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",256)></UIButton>
+				<UIButton x=170 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",206)></UIButton>
+				<UIButton name="EasyMinorLiveNote18" text="F" x=170 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=212 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",258)></UIButton>
+				<UIButton x=212 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",208)></UIButton>
+				<UIButton name="EasyMinorLiveNote20" text="G" x=212 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=254 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",259)></UIButton>
+				<UIButton x=254 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",209)></UIButton>
+				<UIButton name="EasyMinorLiveNote21" text="Ab" x=254 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+				
+				<UIButton x=296 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",261)></UIButton>
+				<UIButton x=296 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",211)></UIButton>				
+				<UIButton name="EasyMinorLiveNote23" text="Bb" x=296 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>	
+				
+				<UIButton x=337 y=42 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",263)></UIButton>
+				<UIButton x=337 y=62 width=41 height=20 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_tkl_performer","PLAY_LIVE",213)></UIButton>				
+				<UIButton name="EasyMinorLiveNote24b" text="C" x=337 y=42 style="STYLE_SMALL_BUTTON" width=41 height=40><UIText align=center valign=middle fontfamily="NWN2_Dialog" style="1"/></UIButton>
+			</UIPane>
+		</UICollapsable>
+	</UIListbox>	
+	<UIFrame x=-5 y=-8 height=66 width=455 top="frame1_t.tga" topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga" bottomright="frame1_BR.tga" bottom="frame1_b.tga" left="frame1_l.tga" right="frame1_r.tga" border=32 />
+	<UIIcon name="Background" x=-5 y=-8 height=56 width=455 img="dark_rock_tile.tga" capturemouseclicks=true/>	
+	</UIPane>

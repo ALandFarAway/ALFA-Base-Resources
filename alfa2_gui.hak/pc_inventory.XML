@@ -1,0 +1,1688 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UIScene name="SCREEN_CUSTOM_PC_INVENTORY" x="0" y="ALIGN_CENTER" width="510" height="550" draggable="true" fadeout="0.3"
+fadein="0.3" backoutkey="true" priority="SCENE_SCRIPT" scriptloadable="true" idleexpiretime="1.0" dragregion_x="0"
+dragregion_y="0" dragregion_width="340" dragregion_height="40" capturemouseclicks="false" 
+OnCreate="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init&quot;)"
+OnBackout="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_close&quot;)" />
+
+<!-- 
+
+list_row:0 = embedded data (int)
+local:0 = Selected item ID
+local:1 = Equip slot 1
+local:2 = Equip slot 2
+local:3 = Equip slot 3
+local:4 = Selected slot
+
+local:10 = Slot 0 Item ID
+local:11 = Slot 1 Item ID
+local:12 = Slot 2 Item ID
+local:13 = Slot 3 Item ID
+local:14 = Slot 4 Item ID
+local:15 = Slot 5 Item ID
+local:16 = Slot 6 Item ID
+local:17 = Slot 7 Item ID
+local:18 = Slot 8 Item ID
+local:19 = Slot 9 Item ID
+local:20 = Slot 10 Item ID
+local:21 = Slot 11 Item ID
+local:22 = Slot 12 Item ID
+local:23 = Slot 13 Item ID
+local:24 = Slot 14 Item ID
+local:25 = Slot 15 Item ID
+local:26 = Slot 16 Item ID
+local:27 = Slot 17 Item ID
+
+local:1000 = Slot 0 Item Tooltip
+local:1001 = Slot 1 Item Tooltip
+local:1002 = Slot 2 Item Tooltip
+local:1003 = Slot 3 Item Tooltip
+local:1004 = Slot 4 Item Tooltip
+local:1005 = Slot 5 Item Tooltip
+local:1006 = Slot 6 Item Tooltip
+local:1007 = Slot 7 Item Tooltip
+local:1008 = Slot 8 Item Tooltip
+local:1009 = Slot 9 Item Tooltip
+local:1010 = Slot 10 Item Tooltip
+local:1011 = Slot 11 Item Tooltip
+local:1012 = Slot 12 Item Tooltip
+local:1013 = Slot 13 Item Tooltip
+local:1014 = Slot 14 Item Tooltip
+local:1015 = Slot 15 Item Tooltip
+local:1016 = Slot 16 Item Tooltip
+local:1017 = Slot 17 Item Tooltip
+
+local:1100 = Inventory Value
+
+<!-- Radial Menu Equipment -->
+<UIPane name="PANE_INVENTORY_RADIAL_EQUIP" x="ALIGN_RIGHT" y="0" width="230" height="300" hidden="true">
+	<!-- Selected Item Name -->
+	<UIPane x="ALIGN_CENTER" y="46" width="170" height="39" >
+	
+		<UIListBox width="PARENT_WIDTH" showpartialchild="true" xPadding="5" yPadding="2"
+			unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded="true" >
+			<UIText name="SELECTED_ITEM_NAME_EQUIPMENT" height="DYNAMIC" fontfamily="Body_Font" style="2" valign="middle" align="center" />
+			<UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>
+		</UIListBox>	
+
+		<UIFrame name="INPUT_CONTAINER_FRAME" x="ALIGN_LEFT" y="ALIGN_TOP" height="PARENT_HEIGHT" topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" 								
+		bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"left="tp_frame_l.tga" 
+		right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border=3 />
+	</UIPane>
+    <UIPane x="ALIGN_CENTER" y="85" width="180" xPadding="30">
+        <!-- Examine -->
+        <UIButton x="ALIGN_LEFT" y="4" width="24" height="24" MouseUpSFX="gui_button"
+        OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_examine&quot;,local:0)">
+            <UIFrame state="up" fill="ia_assignexamine.tga" />
+            <UIFrame state="down" fill="ia_assignexamine.tga" />
+            <UIFrame state="focused" fill="ia_assignexamine.tga" />
+            <UIFrame state="hilited" fill="ia_assignexamine.tga" />
+            <UIFrame state="hifocus" fill="ia_assignexamine.tga" />
+            <UIFrame state="disabled" fill="ia_assignexamine.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_EXAMINE_EQUIPMENT" x="ALIGN_RIGHT" y="4" width="155" height="24" MouseUpSFX="gui_button"
+        OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_examine&quot;,local:0)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+        <!-- Take -->
+        <UIButton x="ALIGN_LEFT" y="29" width="24" height="24" MouseUpSFX="gui_button"
+        OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_take&quot;,local:0)"
+        OnLeftClick1="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)" >
+            <UIFrame state="up" fill="ia_assignpickpocket.tga" />
+            <UIFrame state="down" fill="ia_assignpickpocket.tga" />
+            <UIFrame state="focused" fill="ia_assignpickpocket.tga" />
+            <UIFrame state="hilited" fill="ia_assignpickpocket.tga" />
+            <UIFrame state="hifocus" fill="ia_assignpickpocket.tga" />
+            <UIFrame state="disabled" fill="ia_assignpickpocket.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_TAKE_EQUIPMENT" x="ALIGN_RIGHT" y="29" width="155" height="24" MouseUpSFX="gui_button"
+        OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_take&quot;,local:0)"
+        OnLeftClick1="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)" 		
+		OnLeftClick2="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Unequip -->
+        <UIButton name="RADIAL_UNEQUIP_ICON" x="ALIGN_LEFT" y="54" width="24" height="24" MouseUpSFX="gui_button"
+        OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_unequip&quot;,local:0)"
+		OnLeftClick1="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)" >
+            <UIFrame state="up" fill="wand_unequip.tga" />
+            <UIFrame state="down" fill="wand_unequip.tga" />
+            <UIFrame state="focused" fill="wand_unequip.tga" />
+            <UIFrame state="hilited" fill="wand_unequip.tga" />
+            <UIFrame state="hifocus" fill="wand_unequip.tga" />
+            <UIFrame state="disabled" fill="wand_unequip.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_UNEQUIP" x="ALIGN_RIGHT" y="54" width="155" height="24" MouseUpSFX="gui_button"
+        OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_unequip&quot;,local:0)"
+		OnLeftClick1="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Local Var -->
+        <UIButton x="ALIGN_LEFT" y="79" width="24" height="24" MouseUpSFX="gui_button"
+        OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_show&quot;,local:0)">
+            <UIFrame state="up" fill="wand_editvar.tga" />
+            <UIFrame state="down" fill="wand_editvar.tga" />
+            <UIFrame state="focused" fill="wand_editvar.tga" />
+            <UIFrame state="hilited" fill="wand_editvar.tga" />
+            <UIFrame state="hifocus" fill="wand_editvar.tga" />
+            <UIFrame state="disabled" fill="wand_editvar.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_LOCAL_VAR_EQUIPMENT" x="ALIGN_RIGHT" y="79" width="155" height="24" MouseUpSFX="gui_button"
+        OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_show&quot;,local:0)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+        <!-- Plot -->
+        <UIButton x="ALIGN_LEFT" y="104" width="24" height="24" MouseUpSFX="gui_button"
+		OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_plot&quot;,local:0,local:4)" >
+            <UIFrame state="up" fill="it_qi_truenamescroll.tga" />
+            <UIFrame state="down" fill="it_qi_truenamescroll.tga" />
+            <UIFrame state="focused" fill="it_qi_truenamescroll.tga" />
+            <UIFrame state="hilited" fill="it_qi_truenamescroll.tga" />
+            <UIFrame state="hifocus" fill="it_qi_truenamescroll.tga" />
+            <UIFrame state="disabled" fill="it_qi_truenamescroll.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_PLOT_EQUIPMENT" x="ALIGN_RIGHT" y="104" width="155" height="24" MouseUpSFX="gui_button"
+		OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_plot&quot;,local:0,local:4)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+        <!-- Cursed -->
+        <UIButton x="ALIGN_LEFT" y="129" width="24" height="24" MouseUpSFX="gui_button"
+		OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_cursed&quot;,local:0,local:4)" >
+            <UIFrame state="up" fill="ise_curse.tga" />
+            <UIFrame state="down" fill="ise_curse.tga" />
+            <UIFrame state="focused" fill="ise_curse.tga" />
+            <UIFrame state="hilited" fill="ise_curse.tga" />
+            <UIFrame state="hifocus" fill="ise_curse.tga" />
+            <UIFrame state="disabled" fill="ise_curse.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_CURSED_EQUIPMENT" x="ALIGN_RIGHT" y="129" width="155" height="24" MouseUpSFX="gui_button"
+        OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_cursed&quot;,local:0,local:4)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+        <!-- Stolen -->
+        <UIButton x="ALIGN_LEFT" y="154" width="24" height="24" MouseUpSFX="gui_button"
+		OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_stolen&quot;,local:0,local:4)">
+            <UIFrame state="up" fill="ia_sleightofhand.tga" />
+            <UIFrame state="down" fill="ia_sleightofhand.tga" />
+            <UIFrame state="focused" fill="ia_sleightofhand.tga" />
+            <UIFrame state="hilited" fill="ia_sleightofhand.tga" />
+            <UIFrame state="hifocus" fill="ia_sleightofhand.tga" />
+            <UIFrame state="disabled" fill="ia_sleightofhand.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_STOLEN_EQUIPMENT" x="ALIGN_RIGHT" y="154" width="155" height="24" MouseUpSFX="gui_button"
+        OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_stolen&quot;,local:0,local:4)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+        <!-- Droppable -->
+        <UIButton x="ALIGN_LEFT" y="179" width="24" height="24" MouseUpSFX="gui_button"
+		OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_droppable&quot;,local:0,local:4)">
+            <UIFrame state="up" fill="ia_disarm.tga" />
+            <UIFrame state="down" fill="ia_disarm.tga" />
+            <UIFrame state="focused" fill="ia_disarm.tga" />
+            <UIFrame state="hilited" fill="ia_disarm.tga" />
+            <UIFrame state="hifocus" fill="ia_disarm.tga" />
+            <UIFrame state="disabled" fill="ia_disarm.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_DROPPABLE_EQUIPMENT" x="ALIGN_RIGHT" y="179" width="155" height="24" MouseUpSFX="gui_button"
+        OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_droppable&quot;,local:0,local:4)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+    </UIPane>
+    <UIFrame x="0" y="9" width="PARENT_WIDTH" height="PARENT_HEIGHT" topleft="frame_main_TL.tga" topright="frame_main_t_TR.tga"
+    bottomleft="frame_main_BL.tga" bottomright="frame_main_d_BR.tga" top="frame_main_T.tga" bottom="frame_main_b.tga"
+    left="frame_main_l.tga" right="frame_main_r.tga" fillstyle="stretch" fill="frame_main_bg.tga" border="64" />
+</UIPane>
+<!-- Radial Menu Standard-->
+<UIPane name="PANE_INVENTORY_RADIAL" x="ALIGN_RIGHT" y="175" width="230" height="375" hidden="true">
+	<!-- Selected Item Name -->
+	<UIPane x="ALIGN_CENTER" y="46" width="170" height="39" >
+	
+		<UIListBox width="PARENT_WIDTH" showpartialchild="true" xPadding="5" yPadding="2"
+			unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded="true" >
+			<UIText name="SELECTED_ITEM_NAME" height="DYNAMIC" fontfamily="Body_Font" style="2" valign="middle" align="center" />
+			<UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>
+		</UIListBox>	
+
+		<UIFrame name="INPUT_CONTAINER_FRAME" x="ALIGN_LEFT" y="ALIGN_TOP" height="PARENT_HEIGHT" topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" 								
+		bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"left="tp_frame_l.tga" 
+		right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border=3 />
+	</UIPane>
+    <UIPane x="ALIGN_CENTER" y="85" width="180" xPadding="30">
+        <!-- Examine -->
+        <UIButton x="ALIGN_LEFT" y="4" width="24" height="24" MouseUpSFX="gui_button"
+        OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_examine&quot;,local:0)">
+            <UIFrame state="up" fill="ia_assignexamine.tga" />
+            <UIFrame state="down" fill="ia_assignexamine.tga" />
+            <UIFrame state="focused" fill="ia_assignexamine.tga" />
+            <UIFrame state="hilited" fill="ia_assignexamine.tga" />
+            <UIFrame state="hifocus" fill="ia_assignexamine.tga" />
+            <UIFrame state="disabled" fill="ia_assignexamine.tga" />
+        </UIButton>
+		<UIButton name="RADIAL_EXAMINE"  x="ALIGN_RIGHT" y="4" width="155" height="24" MouseUpSFX="gui_button"
+		OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_examine&quot;,local:0)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+        <!-- Take -->
+        <UIButton x="ALIGN_LEFT" y="29" width="24" height="24" MouseUpSFX="gui_button"
+        OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_take&quot;,local:0)"
+        OnLeftClick1="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)" >
+            <UIFrame state="up" fill="ia_assignpickpocket.tga" />
+            <UIFrame state="down" fill="ia_assignpickpocket.tga" />
+            <UIFrame state="focused" fill="ia_assignpickpocket.tga" />
+            <UIFrame state="hilited" fill="ia_assignpickpocket.tga" />
+            <UIFrame state="hifocus" fill="ia_assignpickpocket.tga" />
+            <UIFrame state="disabled" fill="ia_assignpickpocket.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_TAKE" x="ALIGN_RIGHT" y="29" width="155" height="24" MouseUpSFX="gui_button"
+        OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_take&quot;,local:0)"
+        OnLeftClick1="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>		
+		<!-- Equip 1 -->
+        <UIButton x="ALIGN_LEFT" y="54" width="24" height="24" MouseUpSFX="gui_button"
+        OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_equip&quot;,local:0,local:1)"
+		OnLeftClick1="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)" >
+            <UIFrame state="up" fill="wand_equip.tga" />
+            <UIFrame state="down" fill="wand_equip.tga" />
+            <UIFrame state="focused" fill="wand_equip.tga" />
+            <UIFrame state="hilited" fill="wand_equip.tga" />
+            <UIFrame state="hifocus" fill="wand_equip.tga" />
+            <UIFrame state="disabled" fill="wand_equip.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_EQUIP_1" x="ALIGN_RIGHT" y="54" width="155" height="24" MouseUpSFX="gui_button"
+        OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_equip&quot;,local:0,local:1)"
+		OnLeftClick1="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"	>
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+        <!-- Equip 2 -->
+        <UIButton x="ALIGN_LEFT" y="79" width="24" height="24" MouseUpSFX="gui_button"
+        OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_equip&quot;,local:0,local:2)"
+		OnLeftClick1="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)" >
+            <UIFrame state="up" fill="wand_equipoffhand.tga" />
+            <UIFrame state="down" fill="wand_equipoffhand.tga" />
+            <UIFrame state="focused" fill="wand_equipoffhand.tga" />
+            <UIFrame state="hilited" fill="wand_equipoffhand.tga" />
+            <UIFrame state="hifocus" fill="wand_equipoffhand.tga" />
+            <UIFrame state="disabled" fill="wand_equipoffhand.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_EQUIP_2" x="ALIGN_RIGHT" y="79" width="155" height="24" MouseUpSFX="gui_button"
+        OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_equip&quot;,local:0,local:2)" 
+		OnLeftClick1="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Equip 3 -->
+        <UIButton x="ALIGN_LEFT" y="104" width="24" height="24" MouseUpSFX="gui_button"
+        OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_equip&quot;,local:0,local:2)"
+		OnLeftClick1="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)" >
+            <UIFrame state="up" fill="wand_equipbite.tga" />
+            <UIFrame state="down" fill="wand_equipbite.tga" />
+            <UIFrame state="focused" fill="wand_equipbite.tga" />
+            <UIFrame state="hilited" fill="wand_equipbite.tga" />
+            <UIFrame state="hifocus" fill="wand_equipbite.tga" />
+            <UIFrame state="disabled" fill="wand_equipbite.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_EQUIP_3" x="ALIGN_RIGHT" y="104" width="155" height="24" MouseUpSFX="gui_button"
+        OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_equip&quot;,local:0,local:2)" 
+		OnLeftClick1="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Local Var -->
+        <UIButton x="ALIGN_LEFT" y="129" width="24" height="24" MouseUpSFX="gui_button"
+        OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_show&quot;,local:0)">
+            <UIFrame state="up" fill="wand_editvar.tga" />
+            <UIFrame state="down" fill="wand_editvar.tga" />
+            <UIFrame state="focused" fill="wand_editvar.tga" />
+            <UIFrame state="hilited" fill="wand_editvar.tga" />
+            <UIFrame state="hifocus" fill="wand_editvar.tga" />
+            <UIFrame state="disabled" fill="wand_editvar.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_LOCAL_VAR" x="ALIGN_RIGHT" y="129" width="155" height="24" MouseUpSFX="gui_button"
+        OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_lvm_show&quot;,local:0)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+        <!-- Identified -->
+        <UIButton x="ALIGN_LEFT" y="154" width="24" height="24" MouseUpSFX="gui_button"
+		OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_identified&quot;,local:0)">
+            <UIFrame state="up" fill="is_identify.tga" />
+            <UIFrame state="down" fill="is_identify.tga" />
+            <UIFrame state="focused" fill="is_identify.tga" />
+            <UIFrame state="hilited" fill="is_identify.tga" />
+            <UIFrame state="hifocus" fill="is_identify.tga" />
+            <UIFrame state="disabled" fill="is_identify.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_IDENTIFIED" x="ALIGN_RIGHT" y="154" width="155" height="24" MouseUpSFX="gui_button"
+        OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_identified&quot;,local:0)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+        <!-- Plot -->
+        <UIButton x="ALIGN_LEFT" y="179" width="24" height="24" MouseUpSFX="gui_button"
+		OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_plot&quot;,local:0)" >
+            <UIFrame state="up" fill="it_qi_truenamescroll.tga" />
+            <UIFrame state="down" fill="it_qi_truenamescroll.tga" />
+            <UIFrame state="focused" fill="it_qi_truenamescroll.tga" />
+            <UIFrame state="hilited" fill="it_qi_truenamescroll.tga" />
+            <UIFrame state="hifocus" fill="it_qi_truenamescroll.tga" />
+            <UIFrame state="disabled" fill="it_qi_truenamescroll.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_PLOT" x="ALIGN_RIGHT" y="179" width="155" height="24" MouseUpSFX="gui_button"
+		OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_plot&quot;,local:0)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+        <!-- Cursed -->
+        <UIButton x="ALIGN_LEFT" y="204" width="24" height="24" MouseUpSFX="gui_button"
+		OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_cursed&quot;,local:0)" >
+            <UIFrame state="up" fill="ise_curse.tga" />
+            <UIFrame state="down" fill="ise_curse.tga" />
+            <UIFrame state="focused" fill="ise_curse.tga" />
+            <UIFrame state="hilited" fill="ise_curse.tga" />
+            <UIFrame state="hifocus" fill="ise_curse.tga" />
+            <UIFrame state="disabled" fill="ise_curse.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_CURSED" x="ALIGN_RIGHT" y="204" width="155" height="24" MouseUpSFX="gui_button"
+        OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_cursed&quot;,local:0)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+        <!-- Stolen -->
+        <UIButton x="ALIGN_LEFT" y="229" width="24" height="24" MouseUpSFX="gui_button"
+		OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_stolen&quot;,local:0)">
+            <UIFrame state="up" fill="ia_sleightofhand.tga" />
+            <UIFrame state="down" fill="ia_sleightofhand.tga" />
+            <UIFrame state="focused" fill="ia_sleightofhand.tga" />
+            <UIFrame state="hilited" fill="ia_sleightofhand.tga" />
+            <UIFrame state="hifocus" fill="ia_sleightofhand.tga" />
+            <UIFrame state="disabled" fill="ia_sleightofhand.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_STOLEN" x="ALIGN_RIGHT" y="229" width="155" height="24" MouseUpSFX="gui_button"
+        OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_stolen&quot;,local:0)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+        <!-- Droppable -->
+        <UIButton x="ALIGN_LEFT" y="254" width="24" height="24" MouseUpSFX="gui_button"
+		OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_droppable&quot;,local:0)">
+            <UIFrame state="up" fill="ia_disarm.tga" />
+            <UIFrame state="down" fill="ia_disarm.tga" />
+            <UIFrame state="focused" fill="ia_disarm.tga" />
+            <UIFrame state="hilited" fill="ia_disarm.tga" />
+            <UIFrame state="hifocus" fill="ia_disarm.tga" />
+            <UIFrame state="disabled" fill="ia_disarm.tga" />
+        </UIButton>
+        <UIButton name="RADIAL_DROPPABLE" x="ALIGN_RIGHT" y="254" width="155" height="24" MouseUpSFX="gui_button"
+        OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_droppable&quot;,local:0)" >
+			<UIText  align="left" valign="middle" fontfamily="Body_Font" style="1" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="menu_highlight.tga" />
+			<UIFrame state="focused"	fill="menu_highlight_active.tga" />
+			<UIFrame state="hilited"	fill="menu_highlight.tga" />
+			<UIFrame state="hifocus"	fill="menu_highlight_active.tga" />
+			<UIFrame state="disabled"	fill="b_empty.tga" />
+		</UIButton>	
+    </UIPane>
+    <UIFrame x="0" y="9" width="PARENT_WIDTH" height="PARENT_HEIGHT" topleft="frame_main_TL.tga" topright="frame_main_t_TR.tga"
+    bottomleft="frame_main_BL.tga" bottomright="frame_main_d_BR.tga" top="frame_main_T.tga" bottom="frame_main_b.tga"
+    left="frame_main_l.tga" right="frame_main_r.tga" fillstyle="stretch" fill="frame_main_bg.tga" border="64" />
+</UIPane>
+<!-- Main pane -->
+<UIPane x="ALIGN_LEFT" width="305" capturemouseclicks="false" capturemouseevents="false">
+	<UIPane x="ALIGN_CENTER" width="270" height="42" capturemouseclicks="false" capturemouseevents="false" >
+		<!-- Scene Title -->
+		<UIText strref="122292" x="60" y="ALIGN_CENTER" width="255" height="27" align="left" valign="middle"
+		fontfamily="Title_Font" style="2" />
+		<!-- Close Button -->
+		<UIButton x="ALIGN_RIGHT" y="ALIGN_CENTER" style="STYLE_CLOSE_BUTTON" 
+		OnLeftClick0="UIButton_Input_ScreenClose()"
+		OnLeftClick1="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_close&quot;)" />
+		
+		<UIPane x="ALIGN_CENTER" width="210" capturemouseclicks="false" capturemouseevents="false" >
+			<!-- Reload GUI -->
+			<UIButton x="ALIGN_RIGHT" y="ALIGN_CENTER" width="20" height="20" MouseUpSFX="gui_button"
+			OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_reload&quot;)"
+			OnLeftClick1="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+			OnLeftClick2="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+			OnLeftClick3="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+			OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+			OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+			OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+			OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+			OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+			OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+			OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+			OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+			OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+			OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+			OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+			OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+			OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+			OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+			OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+			OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+			OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"	>
+				<UIFrame state="base"		fill="ia_previous.tga" />
+				<UIFrame state="up"			fill="b_empty.tga" />
+				<UIFrame state="down"		fill="b_overlay_active.tga" />
+				<UIFrame state="focused"	fill="b_empty.tga" />
+				<UIFrame state="hilited"	fill="b_overlay.tga" />
+				<UIFrame state="hifocus"	fill="b_overlay.tga" />
+				<UIFrame state="disabled" 	fill="b_empty.tga" />
+			</UIButton>
+		</UIPane>
+	</UIPane>
+	<!-- Total Gold -->
+	<UIPane x="222" y="38" width="65" height="22"
+	OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1101,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+		<UIIcon img="icon_gold.tga" x="ALIGN_LEFT" y="ALIGN_CENTER" width="18" height="15"/>
+		<UIText name="TOT_GOLD" x="ALIGN_RIGHT" y="ALIGN_CENTER" align="right" valign="middle" fontfamily="Special_Font" style="1" />		
+	</UIPane>
+	<!-- Total Inventory Value -->
+	<UIPane x="222" y="55" width="65" height="22"
+	OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1100,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+		<UIIcon img="icon_mp_leader.tga" x="ALIGN_LEFT" y="ALIGN_CENTER" width="18" height="15" />
+		<UIText name="TOT_INVENTORY_VALUE" x="ALIGN_RIGHT" y="ALIGN_CENTER" align="right" valign="middle" fontfamily="Special_Font" style="1" />		
+	</UIPane>
+	<!-- Encumbrance -->
+	<UIPane x="222" y="71" width="65" height="22"
+	OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1102,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+		<UIIcon img="icon_weight.tga" x="ALIGN_LEFT" y="ALIGN_CENTER" width="18" height="15" />
+		<UIText name="ENCUMBRANCE" x="ALIGN_RIGHT" y="ALIGN_CENTER" align="right" valign="middle" fontfamily="Special_Font" style="1" />		
+	</UIPane>
+
+	<!-- Equip Pane -->
+	<UIPane name="INVENTORY_EQUIPPED" x="0" y="0" width="327" height="250" capturemouseclicks="false" capturemouseevents="false" >
+		<!-- Head -->
+		<UIIcon name="SLOT_TEXTURE_0_OVERLAY" img="b_overlay_active.tga" x="99" y="43" width="60" height="60" hidden="true" 
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1000,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+		<UIButton name="SLOT_TEXTURE_0" x="99" y="43" width="60" height="60" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:10,0)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1000,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Chest -->
+		<UIIcon name="SLOT_TEXTURE_1_OVERLAY" img="b_overlay_active.tga" x="99" y="107" width="60" height="60" hidden="true" 
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1001,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+		<UIButton name="SLOT_TEXTURE_1" x="99" y="107" width="60" height="60" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:11,1)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1001,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Boots -->
+		<UIIcon name="SLOT_TEXTURE_2_OVERLAY" img="b_overlay_active.tga" x="99" y="171" width="60" height="60" hidden="true" 
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1002,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />		
+		<UIButton name="SLOT_TEXTURE_2" x="99" y="171" width="60" height="60" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:12,2)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1002,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Amulet -->
+		<UIIcon name="SLOT_TEXTURE_9_OVERLAY" img="b_overlay_active.tga" x="55" y="46" width="40" height="40" hidden="true" 
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1009,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+		<UIButton name="SLOT_TEXTURE_9" x="55" y="46" width="40" height="40" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:19,9)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_18_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1009,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Cloak -->
+		<UIIcon name="SLOT_TEXTURE_6_OVERLAY" img="b_overlay_active.tga" x="163" y="46" width="40" height="40" hidden="true" 
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1006,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+		<UIButton name="SLOT_TEXTURE_6" x="163" y="46" width="40" height="40" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:16,6)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1006,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay_active.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Right Ring -->
+		<UIIcon name="SLOT_TEXTURE_8_OVERLAY" img="b_overlay_active.tga" x="12" y="154" width="40" height="40" hidden="true" />
+		<UIButton name="SLOT_TEXTURE_8" x="12" y="154" width="40" height="40" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:18,8)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1008,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Arms -->
+		<UIIcon name="SLOT_TEXTURE_3_OVERLAY" img="b_overlay_active.tga" x="55" y="154" width="40" height="40" hidden="true" 
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1003,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+		<UIButton name="SLOT_TEXTURE_3" x="55" y="154" width="40" height="40" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:13,3)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1003,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Belt -->
+		<UIIcon name="SLOT_TEXTURE_10_OVERLAY" img="b_overlay_active.tga" x="163" y="154" width="40" height="40" hidden="true" 
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1010,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+		<UIButton name="SLOT_TEXTURE_10" x="163" y="154" width="40" height="40" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:20,10)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1010,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Left Ring -->
+		<UIIcon name="SLOT_TEXTURE_7_OVERLAY" img="b_overlay_active.tga" x="206" y="154" width="40" height="40" hidden="true" />
+		<UIButton name="SLOT_TEXTURE_7" x="206" y="154" width="40" height="40" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:17,7)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1007,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Right Hand -->
+		<UIIcon name="SLOT_TEXTURE_4_OVERLAY" img="b_overlay_active.tga" x="34" y="90" width="60" height="60" hidden="true" 
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1004,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+		<UIButton name="SLOT_TEXTURE_4" x="34" y="90" width="60" height="60" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:14,4)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1004,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Left Hand -->
+		<UIIcon name="SLOT_TEXTURE_5_OVERLAY" img="b_overlay_active.tga" x="163" y="90" width="60" height="60" hidden="true" 
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1005,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+		<UIButton name="SLOT_TEXTURE_5" x="163" y="90" width="60" height="60" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:15,5)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1005,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Arrow -->
+		<UIIcon name="SLOT_TEXTURE_11_OVERLAY" img="b_overlay_active.tga" x="252" y="111" width="40" height="40" hidden="true" 
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1011,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+		<UIButton name="SLOT_TEXTURE_11" x="252" y="111" width="40" height="40" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:21,11)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1011,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Bullet -->
+		<UIIcon name="SLOT_TEXTURE_12_OVERLAY" img="b_overlay_active.tga" x="252" y="154" width="40" height="40" hidden="true" />
+		<UIButton name="SLOT_TEXTURE_12" x="252" y="154" width="40" height="40" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:22,12)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1012,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Bolt -->
+		<UIIcon name="SLOT_TEXTURE_13_OVERLAY" img="b_overlay_active.tga" x="252" y="197" width="40" height="40" hidden="true" 
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1013,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+		<UIButton name="SLOT_TEXTURE_13" x="252" y="197" width="40" height="40" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:23,13)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1013,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Bite (Actually Left Creature Weapon) -->
+		<UIIcon name="SLOT_TEXTURE_16_OVERLAY" img="b_overlay_active.tga" x="163" y="197" width="40" height="40" hidden="true" />
+		<UIButton name="SLOT_TEXTURE_16" x="163" y="197" width="40" height="40" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:26,16)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1016,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Creature Weapon Right -->
+		<UIIcon name="SLOT_TEXTURE_15_OVERLAY" img="b_overlay_active.tga" x="55" y="197" width="40" height="40" hidden="true" 
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1015,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+		<UIButton name="SLOT_TEXTURE_15" x="55" y="197" width="40" height="40" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:25,15)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1015,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Creature Weapon Left (Actually Bite) -->
+		<UIIcon name="SLOT_TEXTURE_14_OVERLAY" img="b_overlay_active.tga" x="12" y="197" width="40" height="40" hidden="true" />
+		<UIButton name="SLOT_TEXTURE_14" x="12" y="197" width="40" height="40" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:24,14)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1014,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	
+		<!-- Creature Hide -->
+		<UIIcon name="SLOT_TEXTURE_17_OVERLAY" img="b_overlay_active.tga" x="206" y="197" width="40" height="40" hidden="true" 
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1017,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" />
+		<UIButton name="SLOT_TEXTURE_17" x="206" y="197" width="40" height="40" MouseUpSFX="gui_button"
+		OnLeftClick0="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial_eq&quot;,local:27,17)"
+		OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+		OnLeftClick2="UIButton_Input_ShowObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"
+		OnLeftClick3="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+		OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+		OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+		OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+		OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+		OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+		OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+		OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+		OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+		OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+		OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+		OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+		OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+		OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+		OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+		OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+		OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+		OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"			
+		OnToolTip="UIObject_Tooltip_DisplayTooltipString(local:1017,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)" >
+			<UIText align="right" valign="bottom" fontfamily="Special_Font" style="1"/>
+			<UIFrame state="base"		fill="b_empty.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay.tga" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay.tga" />
+			<UIFrame state="hifocus"	fill="b_overlay.tga" />
+			<UIFrame state="disabled" 	fill="b_empty.tga" />
+		</UIButton>	 	
+	</UIPane>
+	<!-- Tab Menu -->
+	<UIPane x="ALIGN_CENTER" y="255" width="250" height="30">
+		<UIGrid rows="1" columns="5" x="ALIGN_CENTER" xPadding="15" yPadding="0">
+			<!-- Armors -->
+			<UIButton width="30" height="30" buttontype="radio" groupid="1" groupmemberid="1"
+			OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_show_tab&quot;,&quot;INVENTORY_ARMORS_TAB&quot;)"
+			OnToolTip="UIObject_Tooltip_DisplayTooltipStringRef(112775,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)">
+
+				<UIFrame state="up" fill="b_armor_normal.tga" />
+				<UIFrame state="down" fill="b_armor_hover_pressed.tga" />
+				<UIFrame state="focused" fill="b_armor_hover.tga" />
+				<UIFrame state="hilited" fill="b_armor_hover.tga" />
+				<UIFrame state="hifocus" fill="b_armor_hover_pressed.tga" />
+				<UIFrame state="disabled" fill="b_armor_normal.tga" />
+			</UIButton>
+			<!-- Weapons -->
+			<UIButton width="30" height="30" buttontype="radio" groupid="1" groupmemberid="2"
+			OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_show_tab&quot;,&quot;INVENTORY_WEAPONS_TAB&quot;)"
+			OnToolTip="UIObject_Tooltip_DisplayTooltipStringRef(112774,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)">
+
+				<UIFrame state="up" fill="b_weapon_normal.tga" />
+				<UIFrame state="down" fill="b_weapon_hover_pressed.tga" />
+				<UIFrame state="focused" fill="b_weapon_hover.tga" />
+				<UIFrame state="hilited" fill="b_weapon_hover.tga" />
+				<UIFrame state="hifocus" fill="b_weapon_hover_pressed.tga" />
+				<UIFrame state="disabled" fill="b_weapon_normal.tga" />
+			</UIButton>
+			<!-- Useables -->
+			<UIButton width="30" height="30" buttontype="radio" groupid="1" groupmemberid="3"
+			OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_show_tab&quot;,&quot;INVENTORY_USABLES_TAB&quot;)"
+			OnToolTip="UIObject_Tooltip_DisplayTooltipStringRef(112776,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)">
+
+				<UIFrame state="up" fill="b_useable_normal.tga" />
+				<UIFrame state="down" fill="b_useable_hover_pressed.tga" />
+				<UIFrame state="focused" fill="b_useable_hover.tga" />
+				<UIFrame state="hilited" fill="b_useable_hover.tga" />
+				<UIFrame state="hifocus" fill="b_useable_hover_pressed.tga" />
+				<UIFrame state="disabled" fill="b_useable_normal.tga" />
+			</UIButton>
+			<!-- Magic Objects (ring, amulet, wand, etc.) -->
+			<UIButton width="30" height="30" buttontype="radio" groupid="1" groupmemberid="4"
+			OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_show_tab&quot;,&quot;INVENTORY_MAGIC_OBJS_TAB&quot;)"
+			OnToolTip="UIObject_Tooltip_DisplayTooltipStringRef(112777,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)">
+
+				<UIFrame state="up" fill="b_trink_normal.tga" />
+				<UIFrame state="down" fill="b_trink_hover_pressed.tga" />
+				<UIFrame state="focused" fill="b_trink_hover.tga" />
+				<UIFrame state="hilited" fill="b_trink_hover.tga" />
+				<UIFrame state="hifocus" fill="b_trink_hover_pressed.tga" />
+				<UIFrame state="disabled" fill="b_trink_normal.tga" />
+			</UIButton>
+			<!-- Misc -->
+			<UIButton width="30" height="30" buttontype="radio" groupid="1" groupmemberid="5"
+			OnLeftClick="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_show_tab&quot;,&quot;INVENTORY_MISCS_TAB&quot;)"
+			OnToolTip="UIObject_Tooltip_DisplayTooltipStringRef(112778,&quot;OBJECT_X&quot;,&quot;OBJECT_Y&quot;,&quot;SCREEN_TOOLTIP_2&quot;)">
+
+				<UIFrame state="up" fill="b_misc_normal.tga" />
+				<UIFrame state="down" fill="b_misc_hover_pressed.tga" />
+				<UIFrame state="focused" fill="b_misc_hover.tga" />
+				<UIFrame state="hilited" fill="b_misc_hover.tga" />
+				<UIFrame state="hifocus" fill="b_misc_hover_pressed.tga" />
+				<UIFrame state="disabled" fill="b_misc_normal.tga" />
+			</UIButton>
+		</UIGrid>
+	</UIPane>
+
+	<!-- Tabs -->
+	<UIPane name="INVENTORY_ARMORS_TAB" x="ALIGN_CENTER" y="290" width="282" height="250" >
+		<UIListbox name="INVENTORY_ARMORS_LIST" yPadding="0" xPadding="0" showpartialchild="false" scrollbaronright="true"
+		unequalcontrols="false" scrollsegmentsize="80" selectonleftclick="true"
+		OnMouseDropReceived="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_give&quot;)">
+			<UIPane name="HIDDEN_ROW" x="0" y="0" width="250" height="1" tupple="true" hidden="true"></UIPane>
+			<UIPane x="0" y="0" width="250" height="40" tupple="true" prototype="true"
+			OnLeftClick0="UIObject_Misc_ExtractData(selected:INVENTORY_ARMORS_LIST,&quot;string&quot;,0,local:0)"
+			OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+			OnLeftClick2="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"			
+			OnLeftClick3="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial&quot;,local:0)" 
+			OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+			OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+			OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+			OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+			OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+			OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+			OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+			OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+			OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+			OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+			OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+			OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+			OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+			OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+			OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+			OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+			OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+			OnLeftClick21="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)"	>
+				<UIPane x="5" y="ALIGN_CENTER" width="48" height="32" >
+					<UIIcon name="NOT_IDENTIFIED_ICON" img="isv_inflictcrit.tga" x="ALIGN_LEFT" y="ALIGN_TOP" width="15" height="15" buttonoverlay="true" />
+					<UIIcon name="IDENTIFIED_ICON" img="is_identify.tga" x="ALIGN_LEFT" y="ALIGN_TOP" width="15" height="15" buttonoverlay="true" />
+					<UIIcon name="NOT_PLOT_ICON" img="isv_inflictcrit.tga" x="ALIGN_CENTER" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="PLOT_ICON" img="it_qi_truenamescroll.tga" x="ALIGN_CENTER" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="NOT_CURSED_ICON" img="isv_inflictcrit.tga" x="ALIGN_RIGHT" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="CURSED_ICON" img="ise_curse.tga" x="ALIGN_RIGHT" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="NOT_STOLEN_ICON" img="isv_inflictcrit.tga" x="ALIGN_LEFT" y="ALIGN_BOTTOM" width="15" height="15" />
+					<UIIcon name="STOLEN_ICON" img="ia_sleightofhand.tga" x="ALIGN_LEFT" y="ALIGN_BOTTOM" width="15" height="15" />
+					<UIIcon name="NOT_DROPPABLE_ICON" img="isv_inflictcrit.tga" x="ALIGN_CENTER" y="ALIGN_BOTTOM" width="15" height="15" />
+					<UIIcon name="DROPPABLE_ICON" img="ia_disarm.tga" x="ALIGN_CENTER" y="ALIGN_BOTTOM" width="15" height="15" />	
+					<UIIcon name="LEVEL_RESTRICTED_ICON" img="ia_exit.tga" x="ALIGN_RIGHT" y="ALIGN_BOTTOM" width="15" height="15" />	
+				</UIPane>
+				<UIButton x="0" y="0" width="58" height="40" >
+					<UIFrame state="up" fill="b_p_normal.tga" />
+					<UIFrame state="down" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="focused" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="hilited" fill="b_p_hover.tga" />
+					<UIFrame state="hifocus" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="disabled" fill="b_p_normal.tga" />
+				</UIButton>
+				<UIButton name="ITEM_TEXT" x="58" y="0" width="157" height="40" >					
+					<UIText x="40" indent="5" hangingindent="5" align="left" valign="middle" fontfamily="Body_Font" style="3" />
+					<UIFrame state="up" fill="b_i_normal.tga" />
+					<UIFrame state="down" fill="b_i_hover_pressed.tga" />
+					<UIFrame state="focused" fill="b_i_hover_pressed.tga" />
+					<UIFrame state="hilited" fill="b_i_hover.tga" />
+					<UIFrame state="hifocus" fill="b_i_hover_pressed.tga" />
+					<UIFrame state="disabled" fill="b_i_normal.tga" />
+				</UIButton>
+				<UIButton name="ITEM_VALUE" x="215" y="0" width="53" height="40" >	
+					<UIText align="right" valign="middle" fontfamily="Special_Font" style="1" />
+					<UIFrame state="up" fill="b_p_normal.tga" />
+					<UIFrame state="down" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="focused" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="hilited" fill="b_p_hover.tga" />
+					<UIFrame state="hifocus" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="disabled" fill="b_p_normal.tga" />
+				</UIButton>
+
+			</UIPane>
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>
+		</UIListbox>
+	</UIPane>
+	<UIPane name="INVENTORY_WEAPONS_TAB" x="ALIGN_CENTER" y="290" width="282" height="250" hidden="true">
+		<UIListbox name="INVENTORY_WEAPONS_LIST" yPadding="0" xPadding="0" showpartialchild="false" scrollbaronright="true"
+		unequalcontrols="false" scrollsegmentsize="80" selectonleftclick="true"
+		OnMouseDropReceived="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_give&quot;)">
+			<UIPane name="HIDDEN_ROW" x="0" y="0" width="307" height="1" tupple="true" hidden="true"></UIPane>
+			<UIPane x="0" y="0" width="307" height="40" tupple="true" prototype="true"
+			OnLeftClick0="UIObject_Misc_ExtractData(selected:INVENTORY_WEAPONS_LIST,&quot;string&quot;,0,local:0)"
+			OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL&quot;)" 
+			OnLeftClick2="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"			
+			OnLeftClick3="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial&quot;,local:0)" 
+			OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+			OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+			OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+			OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+			OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+			OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+			OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+			OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+			OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+			OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+			OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+			OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+			OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+			OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+			OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+			OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+			OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+			OnLeftClick21="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)" >
+				<UIPane x="5" y="ALIGN_CENTER" width="48" height="32" >
+					<UIIcon name="NOT_IDENTIFIED_ICON" img="isv_inflictcrit.tga" x="ALIGN_LEFT" y="ALIGN_TOP" width="15" height="15" buttonoverlay="true" />
+					<UIIcon name="IDENTIFIED_ICON" img="is_identify.tga" x="ALIGN_LEFT" y="ALIGN_TOP" width="15" height="15" buttonoverlay="true" />
+					<UIIcon name="NOT_PLOT_ICON" img="isv_inflictcrit.tga" x="ALIGN_CENTER" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="PLOT_ICON" img="it_qi_truenamescroll.tga" x="ALIGN_CENTER" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="NOT_CURSED_ICON" img="isv_inflictcrit.tga" x="ALIGN_RIGHT" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="CURSED_ICON" img="ise_curse.tga" x="ALIGN_RIGHT" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="NOT_STOLEN_ICON" img="isv_inflictcrit.tga" x="ALIGN_LEFT" y="ALIGN_BOTTOM" width="15" height="15" />
+					<UIIcon name="STOLEN_ICON" img="ia_sleightofhand.tga" x="ALIGN_LEFT" y="ALIGN_BOTTOM" width="15" height="15" />
+					<UIIcon name="NOT_DROPPABLE_ICON" img="isv_inflictcrit.tga" x="ALIGN_CENTER" y="ALIGN_BOTTOM" width="15" height="15" />
+					<UIIcon name="DROPPABLE_ICON" img="ia_disarm.tga" x="ALIGN_CENTER" y="ALIGN_BOTTOM" width="15" height="15" />	
+					<UIIcon name="LEVEL_RESTRICTED_ICON" img="ia_exit.tga" x="ALIGN_RIGHT" y="ALIGN_BOTTOM" width="15" height="15" />	
+				</UIPane>
+				<UIButton x="0" y="0" width="58" height="40" >
+					<UIFrame state="up" fill="b_p_normal.tga" />
+					<UIFrame state="down" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="focused" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="hilited" fill="b_p_hover.tga" />
+					<UIFrame state="hifocus" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="disabled" fill="b_p_normal.tga" />
+				</UIButton>
+				<UIButton name="ITEM_TEXT" x="58" y="0" width="157" height="40" >					
+					<UIText x="40" indent="5" hangingindent="5" align="left" valign="middle" fontfamily="Body_Font" style="3" />
+					<UIFrame state="up" fill="b_i_normal.tga" />
+					<UIFrame state="down" fill="b_i_hover_pressed.tga" />
+					<UIFrame state="focused" fill="b_i_hover_pressed.tga" />
+					<UIFrame state="hilited" fill="b_i_hover.tga" />
+					<UIFrame state="hifocus" fill="b_i_hover_pressed.tga" />
+					<UIFrame state="disabled" fill="b_i_normal.tga" />
+				</UIButton>
+				<UIButton name="ITEM_VALUE" x="215" y="0" width="53" height="40" >	
+					<UIText align="right" valign="middle" fontfamily="Special_Font" style="1" />
+					<UIFrame state="up" fill="b_p_normal.tga" />
+					<UIFrame state="down" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="focused" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="hilited" fill="b_p_hover.tga" />
+					<UIFrame state="hifocus" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="disabled" fill="b_p_normal.tga" />
+				</UIButton>
+			</UIPane>
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>
+		</UIListbox>
+	</UIPane>
+	<UIPane name="INVENTORY_USABLES_TAB" x="ALIGN_CENTER" y="290" width="282" height="250" hidden="true">
+		<UIListbox name="INVENTORY_USABLES_LIST" yPadding="0" xPadding="0" showpartialchild="false" scrollbaronright="true"
+		unequalcontrols="false" scrollsegmentsize="80" selectonleftclick="true"
+		OnMouseDropReceived="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_give&quot;)">
+			<UIPane name="HIDDEN_ROW" x="0" y="0" width="307" height="1" tupple="true" hidden="true"></UIPane>
+			<UIPane x="0" y="0" width="307" height="40" tupple="true" prototype="true"
+			OnLeftClick0="UIObject_Misc_ExtractData(selected:INVENTORY_USABLES_LIST,&quot;string&quot;,0,local:0)"
+			OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+			OnLeftClick2="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+			OnLeftClick3="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial&quot;,local:0)" 
+			OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+			OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+			OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+			OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+			OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+			OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+			OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+			OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+			OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+			OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+			OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+			OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+			OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+			OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+			OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+			OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+			OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+			OnLeftClick21="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)" >
+				<UIPane x="5" y="ALIGN_CENTER" width="48" height="32" >
+					<UIIcon name="NOT_IDENTIFIED_ICON" img="isv_inflictcrit.tga" x="ALIGN_LEFT" y="ALIGN_TOP" width="15" height="15" buttonoverlay="true" />
+					<UIIcon name="IDENTIFIED_ICON" img="is_identify.tga" x="ALIGN_LEFT" y="ALIGN_TOP" width="15" height="15" buttonoverlay="true" />
+					<UIIcon name="NOT_PLOT_ICON" img="isv_inflictcrit.tga" x="ALIGN_CENTER" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="PLOT_ICON" img="it_qi_truenamescroll.tga" x="ALIGN_CENTER" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="NOT_CURSED_ICON" img="isv_inflictcrit.tga" x="ALIGN_RIGHT" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="CURSED_ICON" img="ise_curse.tga" x="ALIGN_RIGHT" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="NOT_STOLEN_ICON" img="isv_inflictcrit.tga" x="ALIGN_LEFT" y="ALIGN_BOTTOM" width="15" height="15" />
+					<UIIcon name="STOLEN_ICON" img="ia_sleightofhand.tga" x="ALIGN_LEFT" y="ALIGN_BOTTOM" width="15" height="15" />
+					<UIIcon name="NOT_DROPPABLE_ICON" img="isv_inflictcrit.tga" x="ALIGN_CENTER" y="ALIGN_BOTTOM" width="15" height="15" />
+					<UIIcon name="DROPPABLE_ICON" img="ia_disarm.tga" x="ALIGN_CENTER" y="ALIGN_BOTTOM" width="15" height="15" />	
+					<UIIcon name="LEVEL_RESTRICTED_ICON" img="ia_exit.tga" x="ALIGN_RIGHT" y="ALIGN_BOTTOM" width="15" height="15" />	
+				</UIPane>
+				<UIButton x="0" y="0" width="58" height="40" >
+					<UIFrame state="up" fill="b_p_normal.tga" />
+					<UIFrame state="down" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="focused" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="hilited" fill="b_p_hover.tga" />
+					<UIFrame state="hifocus" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="disabled" fill="b_p_normal.tga" />
+				</UIButton>
+				<UIButton name="ITEM_TEXT" x="58" y="0" width="157" height="40" >					
+					<UIText x="40" indent="5" hangingindent="5" align="left" valign="middle" fontfamily="Body_Font" style="3" />
+					<UIFrame state="up" fill="b_i_normal.tga" />
+					<UIFrame state="down" fill="b_i_hover_pressed.tga" />
+					<UIFrame state="focused" fill="b_i_hover_pressed.tga" />
+					<UIFrame state="hilited" fill="b_i_hover.tga" />
+					<UIFrame state="hifocus" fill="b_i_hover_pressed.tga" />
+					<UIFrame state="disabled" fill="b_i_normal.tga" />
+				</UIButton>
+				<UIButton name="ITEM_VALUE" x="215" y="0" width="53" height="40" >	
+					<UIText align="right" valign="middle" fontfamily="Special_Font" style="1" />
+					<UIFrame state="up" fill="b_p_normal.tga" />
+					<UIFrame state="down" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="focused" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="hilited" fill="b_p_hover.tga" />
+					<UIFrame state="hifocus" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="disabled" fill="b_p_normal.tga" />
+				</UIButton>
+			</UIPane>
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>
+		</UIListbox>
+	</UIPane>
+	<UIPane name="INVENTORY_MAGIC_OBJS_TAB" x="ALIGN_CENTER" y="290" width="282" height="250" hidden="true">
+		<UIListbox name="INVENTORY_MAGIC_OBJS_LIST" yPadding="0" xPadding="0" showpartialchild="false" scrollbaronright="true"
+		unequalcontrols="false" scrollsegmentsize="80" selectonleftclick="true"
+		OnMouseDropReceived="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_give&quot;)">
+			<UIPane name="HIDDEN_ROW" x="0" y="0" width="307" height="1" tupple="true" hidden="true"></UIPane>
+			<UIPane x="0" y="0" width="307" height="40" tupple="true" prototype="true"
+			OnLeftClick0="UIObject_Misc_ExtractData(selected:INVENTORY_MAGIC_OBJS_LIST,&quot;string&quot;,0,local:0)"
+			OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+			OnLeftClick2="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+			OnLeftClick3="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial&quot;,local:0)" 
+			OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+			OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+			OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+			OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+			OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+			OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+			OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+			OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+			OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+			OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+			OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+			OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+			OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+			OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+			OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+			OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+			OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+			OnLeftClick21="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)" >
+				<UIPane x="5" y="ALIGN_CENTER" width="48" height="32" >
+					<UIIcon name="NOT_IDENTIFIED_ICON" img="isv_inflictcrit.tga" x="ALIGN_LEFT" y="ALIGN_TOP" width="15" height="15" buttonoverlay="true" />
+					<UIIcon name="IDENTIFIED_ICON" img="is_identify.tga" x="ALIGN_LEFT" y="ALIGN_TOP" width="15" height="15" buttonoverlay="true" />
+					<UIIcon name="NOT_PLOT_ICON" img="isv_inflictcrit.tga" x="ALIGN_CENTER" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="PLOT_ICON" img="it_qi_truenamescroll.tga" x="ALIGN_CENTER" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="NOT_CURSED_ICON" img="isv_inflictcrit.tga" x="ALIGN_RIGHT" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="CURSED_ICON" img="ise_curse.tga" x="ALIGN_RIGHT" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="NOT_STOLEN_ICON" img="isv_inflictcrit.tga" x="ALIGN_LEFT" y="ALIGN_BOTTOM" width="15" height="15" />
+					<UIIcon name="STOLEN_ICON" img="ia_sleightofhand.tga" x="ALIGN_LEFT" y="ALIGN_BOTTOM" width="15" height="15" />
+					<UIIcon name="NOT_DROPPABLE_ICON" img="isv_inflictcrit.tga" x="ALIGN_CENTER" y="ALIGN_BOTTOM" width="15" height="15" />
+					<UIIcon name="DROPPABLE_ICON" img="ia_disarm.tga" x="ALIGN_CENTER" y="ALIGN_BOTTOM" width="15" height="15" />	
+					<UIIcon name="LEVEL_RESTRICTED_ICON" img="ia_exit.tga" x="ALIGN_RIGHT" y="ALIGN_BOTTOM" width="15" height="15" />	
+				</UIPane>
+				<UIButton x="0" y="0" width="58" height="40" >
+					<UIFrame state="up" fill="b_p_normal.tga" />
+					<UIFrame state="down" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="focused" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="hilited" fill="b_p_hover.tga" />
+					<UIFrame state="hifocus" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="disabled" fill="b_p_normal.tga" />
+				</UIButton>
+				<UIButton name="ITEM_TEXT" x="58" y="0" width="157" height="40" >					
+					<UIText x="40" indent="5" hangingindent="5" align="left" valign="middle" fontfamily="Body_Font" style="3" />
+					<UIFrame state="up" fill="b_i_normal.tga" />
+					<UIFrame state="down" fill="b_i_hover_pressed.tga" />
+					<UIFrame state="focused" fill="b_i_hover_pressed.tga" />
+					<UIFrame state="hilited" fill="b_i_hover.tga" />
+					<UIFrame state="hifocus" fill="b_i_hover_pressed.tga" />
+					<UIFrame state="disabled" fill="b_i_normal.tga" />
+				</UIButton>
+				<UIButton name="ITEM_VALUE" x="215" y="0" width="53" height="40" >	
+					<UIText align="right" valign="middle" fontfamily="Special_Font" style="1" />
+					<UIFrame state="up" fill="b_p_normal.tga" />
+					<UIFrame state="down" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="focused" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="hilited" fill="b_p_hover.tga" />
+					<UIFrame state="hifocus" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="disabled" fill="b_p_normal.tga" />
+				</UIButton>
+			</UIPane>
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>
+		</UIListbox>
+	</UIPane>
+	<UIPane name="INVENTORY_MISCS_TAB" x="ALIGN_CENTER" y="290" width="282" height="250" hidden="true">
+		<UIListbox name="INVENTORY_MISCS_LIST" yPadding="0" xPadding="0" showpartialchild="false" scrollbaronright="true"
+		unequalcontrols="true" scrollsegmentsize="80" selectonleftclick="true"
+		OnMouseDropReceived="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_give&quot;)">
+			<UIPane name="HIDDEN_ROW" x="0" y="0" width="307" height="1" tupple="true" hidden="true"></UIPane>
+			<UIPane x="0" y="0" width="307" height="40" tupple="true" prototype="true"
+			OnLeftClick0="UIObject_Misc_ExtractData(selected:INVENTORY_MISCS_LIST,&quot;string&quot;,0,local:0)"
+			OnLeftClick1="UIButton_Input_ShowObject(&quot;PANE_INVENTORY_RADIAL&quot;)"
+			OnLeftClick2="UIButton_Input_HideObject(&quot;PANE_INVENTORY_RADIAL_EQUIP&quot;)"
+			OnLeftClick3="UIObject_Misc_ExecuteServerScript(&quot;gui_wand_pim_init_radial&quot;,local:0)" 
+			OnLeftClick4="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_0_OVERLAY&quot;)"
+			OnLeftClick5="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_1_OVERLAY&quot;)"
+			OnLeftClick6="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_2_OVERLAY&quot;)"
+			OnLeftClick7="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_3_OVERLAY&quot;)"
+			OnLeftClick8="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_4_OVERLAY&quot;)"
+			OnLeftClick9="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_5_OVERLAY&quot;)"
+			OnLeftClick10="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_6_OVERLAY&quot;)"
+			OnLeftClick11="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_7_OVERLAY&quot;)"
+			OnLeftClick12="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_8_OVERLAY&quot;)"
+			OnLeftClick13="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_9_OVERLAY&quot;)"
+			OnLeftClick14="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_10_OVERLAY&quot;)"
+			OnLeftClick15="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_11_OVERLAY&quot;)"
+			OnLeftClick16="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_12_OVERLAY&quot;)"
+			OnLeftClick17="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_13_OVERLAY&quot;)"
+			OnLeftClick18="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_14_OVERLAY&quot;)"
+			OnLeftClick19="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_15_OVERLAY&quot;)"
+			OnLeftClick20="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_16_OVERLAY&quot;)"
+			OnLeftClick21="UIButton_Input_HideObject(&quot;SLOT_TEXTURE_17_OVERLAY&quot;)" >
+				<UIPane x="5" y="ALIGN_CENTER" width="48" height="32" >
+					<UIIcon name="NOT_IDENTIFIED_ICON" img="isv_inflictcrit.tga" x="ALIGN_LEFT" y="ALIGN_TOP" width="15" height="15" buttonoverlay="true" />
+					<UIIcon name="IDENTIFIED_ICON" img="is_identify.tga" x="ALIGN_LEFT" y="ALIGN_TOP" width="15" height="15" buttonoverlay="true" />
+					<UIIcon name="NOT_PLOT_ICON" img="isv_inflictcrit.tga" x="ALIGN_CENTER" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="PLOT_ICON" img="it_qi_truenamescroll.tga" x="ALIGN_CENTER" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="NOT_CURSED_ICON" img="isv_inflictcrit.tga" x="ALIGN_RIGHT" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="CURSED_ICON" img="ise_curse.tga" x="ALIGN_RIGHT" y="ALIGN_TOP" width="15" height="15" />
+					<UIIcon name="NOT_STOLEN_ICON" img="isv_inflictcrit.tga" x="ALIGN_LEFT" y="ALIGN_BOTTOM" width="15" height="15" />
+					<UIIcon name="STOLEN_ICON" img="ia_sleightofhand.tga" x="ALIGN_LEFT" y="ALIGN_BOTTOM" width="15" height="15" />
+					<UIIcon name="NOT_DROPPABLE_ICON" img="isv_inflictcrit.tga" x="ALIGN_CENTER" y="ALIGN_BOTTOM" width="15" height="15" />
+					<UIIcon name="DROPPABLE_ICON" img="ia_disarm.tga" x="ALIGN_CENTER" y="ALIGN_BOTTOM" width="15" height="15" />	
+					<UIIcon name="LEVEL_RESTRICTED_ICON" img="ia_exit.tga" x="ALIGN_RIGHT" y="ALIGN_BOTTOM" width="15" height="15" />	
+				</UIPane>
+				<UIButton x="0" y="0" width="58" height="40" >
+					<UIFrame state="up" fill="b_p_normal.tga" />
+					<UIFrame state="down" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="focused" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="hilited" fill="b_p_hover.tga" />
+					<UIFrame state="hifocus" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="disabled" fill="b_p_normal.tga" />
+				</UIButton>
+				<UIButton name="ITEM_TEXT" x="58" y="0" width="157" height="40" >					
+					<UIText x="40" indent="5" hangingindent="5" align="left" valign="middle" fontfamily="Body_Font" style="3" />
+					<UIFrame state="up" fill="b_i_normal.tga" />
+					<UIFrame state="down" fill="b_i_hover_pressed.tga" />
+					<UIFrame state="focused" fill="b_i_hover_pressed.tga" />
+					<UIFrame state="hilited" fill="b_i_hover.tga" />
+					<UIFrame state="hifocus" fill="b_i_hover_pressed.tga" />
+					<UIFrame state="disabled" fill="b_i_normal.tga" />
+				</UIButton>
+				<UIButton name="ITEM_VALUE" x="215" y="0" width="53" height="40" >	
+					<UIText align="right" valign="middle" fontfamily="Special_Font" style="1" />
+					<UIFrame state="up" fill="b_p_normal.tga" />
+					<UIFrame state="down" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="focused" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="hilited" fill="b_p_hover.tga" />
+					<UIFrame state="hifocus" fill="b_p_hover_pressed.tga" />
+					<UIFrame state="disabled" fill="b_p_normal.tga" />
+				</UIButton>
+			</UIPane>
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>
+		</UIListbox>
+	</UIPane>
+
+	<!-- Background Image -->
+	<UIIcon img="equipment.tga" x="10" y="38" width="285" height="206"/>
+	<UIIcon img="store_top_bg.tga" x="ALIGN_CENTER" y="8" width="285" height="90" />
+	<UIIcon img="middle.tga" x="10" y="244" width="285" height="50" />
+	<UIIcon img="store_bg.tga" x="ALIGN_CENTER" y="294" width="287" height="245" />	
+
+	<UIFrame topleft="frame1_tl.tga" topright="frame1_tr.tga"
+	bottomleft="frame1_bl.tga" bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga" left="frame1_l.tga"
+	right="frame1_r.tga" border="32" />
+</UIPane>

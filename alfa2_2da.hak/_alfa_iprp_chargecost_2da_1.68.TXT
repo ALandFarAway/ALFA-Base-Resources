@@ -1,0 +1,18 @@
+AcadiusLost: 
+
+5/29/2009: Merged to SoZ 1.22.1588.  Changes for Cast spell itemproperty rebalance.
+
+
+1: SingleUse: cost to 0.278
+2: 5ch/use: cost to 0.5
+3: 4ch/use: cost to 0.625
+4: 3ch/use: cost to 0.833
+5: 2ch/use: cost to 1.25
+6: 1ch/use: cost to 2.5
+7: 0ch/use: cost to 20
+8: 1 use/day: cost to 1
+9: 2 use/day: cost to 2
+10: 3 use/day: cost to 3
+11: 4 use/day: cost to 4
+12: 5 use/day: cost to 5
+13: Unlimited Use: cost to 20

@@ -1,0 +1,6 @@
+AcadiusLost: 
+8/9/2009: Removed Alertness as a level 1 racial ability, replaced with SF: Spot.
+
+Necessary to avoid breakage of custom class/crossclass skills.
+
+8: Alertness to SkillFocus: Spot.

@@ -1,0 +1,7 @@
+AcadiusLost: 
+
+5/17/2009: Edited for UMD minimum rank fixes.
+
+
+Rows 1-19, SkillReq_Class to 1 for all (allows UMD attempts with just 1 rank of UMD for items
+  of up to 20,000 gp in value (should cover basic scrolls, low level wands,etc).

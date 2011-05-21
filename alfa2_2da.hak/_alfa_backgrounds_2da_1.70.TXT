@@ -1,0 +1,23 @@
+AcadiusLost: 
+
+7/26/2009: Edited from SoZ 1.23 final
+
+Shifted OEI backgrounds down to rows 72-90, inserted region-specific background feat references.
+
+1-58: ALFA regional background feats
+
+72-90: OEI backgrounds.
+
+75: Farmer removed (lore penalty)
+
+78: Militia removed (craft bonus)
+
+80: Tale Teller removed (Lore bonus)
+81: Troublemaker removed (Set Trap bonus)
+82: Wild Child removed (Lore penalty)
+83: Wizard's Apprentice removed (Lore bonus)
+84: Appraiser removed (Lore bonus)
+85: Confidant removed (Taunt)
+86: Foreigner removed (lore bonus)
+
+89: Talent removed (perform bonus)

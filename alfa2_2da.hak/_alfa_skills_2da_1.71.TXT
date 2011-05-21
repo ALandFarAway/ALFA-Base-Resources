@@ -1,0 +1,62 @@
+AcadiusLost: 
+
+8/9/2009, Inception.  Custom skills added.
+12/29/2009.  Update to fix use of Ride untrained.
+
+
+7: Lore (removed)
+
+11: Perform (removed)
+
+15: Set Trap (removed)
+
+18: Taunt (removed)
+
+22: Craft Trap (removed)
+
+25: Craft Armor (removed, replaced with custom row)
+26: Craft Weapon (removed, replaced with custom row)
+26: Craft Alchemy (removed, replaced with custom row)
+
+28: Ride (enabled, description to custom rows, flagged as usable untrained)
+
+--- start custom skills ----
+
+30: Balance
+31: Climb
+32: Decipher Script 
+33: Knowledge (Dungeoneering)
+34: Disguise
+35: Escape Artist
+36: Forgery
+37: Gather Information
+38: Handle Animal
+39: Jump
+40: Knowledge (Arcana)
+41: Knowledge (History)
+42: Knowledge (Nature)
+43: Knowledge (Religion)
+44: Knowledge (The Planes)
+45: Perform (Act)
+46: Perform (Dance)
+47: Perform (Oratory)
+48: Perform (String Instruments)
+49: Perform (Sing)
+50: Profession
+51: Sense Motive
+52: Speak Language
+53: Swim
+54: Use Rope
+55: Knowledge (Geography)
+56: Knowledge (Nobility)
+57: (redundant, not used)
+58: Knowledge (Architecture and Engineering)
+59: Knowledge (Local)
+60: Perform (Percussion)
+61: Perform (Keyboards)
+62: Perform (wind instruments)
+63: Perform (comedy)
+64: Craft (Alchemy) - new row
+65: Craft (Armorsmithing) - new row
+66: Craft (Bowmaking)
+67: Craft (Weaponsmithing) - new row

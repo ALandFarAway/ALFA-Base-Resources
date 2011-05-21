@@ -1,0 +1,10 @@
+2DA V2.0
+
+  LABEL            ReqType  ReqParam1         ReqParam2 
+0 BAB              BAB      5                 ****      
+1 Divine           DIVSPELL 4                 ****      
+2 DiplomacySkill   SKILL    12                8         
+3 SenseMotiveSkill SKILL    51                5         
+4 CombatCasting    FEAT     7                 ****      
+5 ScriptVar        VAR      nw_AllowWarpriest 0         
+6 PrC_Validation   FEAT     3500              ****      

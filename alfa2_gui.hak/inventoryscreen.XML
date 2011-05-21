@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8">
+
+<UIScene name="SCREEN_INVENTORY" OnAdd=UIScene_Misc_RequestInventoryUpdates("true") x=520 y=ALIGN_CENTER width=367 height=510 draggable="true" backoutkey="true" 
+	fadeout="0.3" fadein="0.3" idleexpiretime="1.0" priority="SCENE_INGAME" scriptloadable="true"
+	OnRemove0=UIScene_Misc_RequestInventoryUpdates("false")
+	OnRemove1=UIScene_Misc_ClearNewItemList() />
+
+	<!-- Close Button -->
+	<UIButton name="CloseButton" x=330 y=7 style="STYLE_CLOSE_BUTTON" 
+		OnLeftClick=UIButton_Input_ScreenClose()>
+	</UIButton>
+
+	<UIIcon name="CHAR_ICON" img="inventory_icon.tga" x=0 y=0 width=78 height=71 />
+	<UIText name="TITLE" x=80 y=8 width=250 height=27 align=left valign=middle fontfamily="Title_Font" style="2"
+	update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("PARTY","FULLNAME") />
+
+	<!-- Sort Inventory -->
+	<UIButton name="SORT_INVENTORY" x="320" y="304" width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+		OnLeftClick=UIButton_Input_SortInventory() 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(210756,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+		<UIFrame state="up"			fill="inv_sort_normal.tga" />
+		<UIFrame state="down"		fill="inv_sort_pressed.tga" />
+		<UIFrame state="focused"	fill="inv_sort_hover.tga" />
+		<UIFrame state="hilited"	fill="inv_sort_hover.tga" />
+		<UIFrame state="hifocus"	fill="inv_sort_pressed.tga" />
+		<UIFrame state="disabled"	fill="inv_sort_normal.tga" />
+	</UIButton>
+
+
+	<!-- Rotate and Update Buttons -->
+	<UIButton name="ROTATE_LEFT" x="67" y="265" width=24 height=24 repeatcallback="true" update="true"
+	OnLeftClick=UIButton_Input_Rotate3DCameraInventory("PAPER_DOLL","PLAYER_CREATURE","LEFT") >
+		<UIFrame state="up"			fill="b_rotl_normal.tga" />
+		<UIFrame state="down"		fill="b_rotl_hover_pressed.tga" />
+		<UIFrame state="focused"	fill="b_rotl_hover.tga" />
+		<UIFrame state="hilited"	fill="b_rotl_hover.tga" />
+		<UIFrame state="hifocus"	fill="b_rotl_hover_pressed.tga" />
+		<UIFrame state="disabled"	fill="b_rotl_disabled.tga" />
+	</UIButton>
+
+	<UIButton name="ROTATE_RIGHT" x="175" y="265" width=24 height=24 repeatcallback="true" update="true"
+		OnLeftClick=UIButton_Input_Rotate3DCameraInventory("PAPER_DOLL","PLAYER_CREATURE","RIGHT") >
+		<UIFrame state="up"			fill="b_rotr_normal.tga" />
+		<UIFrame state="down"		fill="b_rotr_hover_pressed.tga" />
+		<UIFrame state="focused"	fill="b_rotr_hover.tga" />
+		<UIFrame state="hilited"	fill="b_rotr_hover.tga" />
+		<UIFrame state="hifocus"	fill="b_rotr_hover_pressed.tga" />
+		<UIFrame state="disabled"	fill="b_rotr_disabled.tga" />
+	</UIButton>
+
+	<UI3DScene name="PAPER_DOLL" x=70 y=47 width=127 height=240 texture="inv_3d_bg.tga" 
+		cameralook_x="0.0" cameralook_y="0.0" cameralook_z="1.25" 
+		camerapos_x="0.25" camerapos_y="2.70" camerapos_z="1.70" 
+        ambground_intens=".4" ambgroundcolor_r=".7" ambgroundcolor_g=".55" ambgroundcolor_b=".4"           
+        ambsky_intens=".8" ambskycolor_r=".3" ambskycolor_g=".4" ambskycolor_b=".78"         
+        light_intens="0" lightdir_x="1.0" lightdir_y="1.0" lightdir_z="2.15" diffusecolor_r="1.10" diffusecolor_g="1.0" diffusecolor_b="1.0"	
+		OnMouseDropReceived=UI3DScene_OnDropReceived_EquipItem()
+		OnRender=UI3DScene_OnRender_DisplaySceneCreature() handleactiontarget="false" >
+        <!-- FILL LIGHT -->
+        <UIPointLight active="true" pos_x="0" pos_y="1" pos_z="3" radius="4" intensity=".4" 
+			color_r="1" color_g=".6" color_b="0" 
+			speccolor_r=".5" speccolor_g=".2" speccolor_b="0" />
+
+        <!-- LEFT SIDE -->
+        <UIPointLight active="true" pos_x="1" pos_y="1" pos_z="2.4" radius="3" intensity="2.0" 
+			color_r=".31" color_g=".42" color_b=".58" 
+			speccolor_r=".31" speccolor_g=".42" speccolor_b=".58" />
+
+        <!-- RIGHT SIDE -->
+        <UIPointLight active="true" pos_x="-2" pos_y="1" pos_z="2.5" radius="3" intensity="2.5" 
+			color_r=".6" color_g=".55" color_b=".5" 
+			speccolor_r=".6" speccolor_g=".55" speccolor_b=".5" />
+	</UI3DScene>
+
+	<!-- Character Hit Points -->
+	<UIIcon name="HP_ICON" img="icon_health.tga" x=243 y=48 width=29 height=29
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(2296,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") />
+	<UIText name="HP_RATIO"		x=274 y=48 width=85 height=29 valign=middle align=left multiline=false fontfamily="Body_Font" style=1 
+		update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("PARTY","HP_RATIO") />
+
+	<!-- Character Armor Class -->
+	<UIIcon name="AC_ICON" img="icon_ac.tga" x=243 y=78 width=29 height=29
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(7099,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") />
+	<UIText name="ARMOR_CLASS"	x=274 y=78 width=85 height=29 valign=middle align=left multiline=false fontfamily="Body_Font" style=1 
+		update=true OnUpdate=UIObject_OnUpdate_GetCharacterData("PARTY","ARMOR_CLASS") />
+
+	<!-- Character Gold -->
+	<UIIcon name="GOLD_ICON" img="icon_gold.tga" x=243 y=108 width=29 height=29
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(65759,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") />
+	<UIText name="PLAYER_GOLD"	x=274 y=108 width=85 height=29 valign=middle align=left multiline=false fontfamily="Body_Font" style=1 
+		update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("PARTY","PLAYER_GOLD") />
+
+	<!-- Character Encumberance -->
+	<UIIcon name="ENC_ICON" img="icon_weight.tga" x=243 y=138 width=36 height=29
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(183695,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") />
+	<UIText name="ENCUMBERANCE"	x=274 y=138 width=85 height=29 valign=middle align=left multiline=false fontfamily="Body_Font" style=1
+		update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("PARTY","ENCUMBERANCE") />
+
+
+	<!-- ***RIGHT EQUIPMENT SLOTS*** -->
+	<UIButton name="SLOT_HEAD" x=205 y=46 style="STYLE_EQUIP_BUTTON" hotbartype="HOTBAR_ITEM"
+		OnLeftDoubleClick=UIButton_Input_UnequipSlot("SLOT_HEAD")
+		OnMouseDropReceived=UIButton_OnDropReceived_SetEquipmentSlot("SLOT_HEAD")
+		OnRightClick=UIObject_OnRadial_DisplayInventoryRadial()
+		OnLeftClick=UIButton_Input_InventoryButtonMaybeExamine() 
+		OnSelected0=UIObject_Misc_ExtractData("self:","objectid",0,local:100)
+		OnSelected1=UIObject_Misc_ExecuteServerScript("gui_select_item",local:100)
+		update=true OnUpdate=UIButton_OnUpdate_UpdateEquipmentSlot("SLOT_HEAD") 
+		DefaultToolTip=110826 >
+	</UIButton>
+	<UIButton name="SLOT_CHEST" x=205 y=88 style="STYLE_EQUIP_BUTTON" hotbartype="HOTBAR_ITEM"
+		OnLeftDoubleClick=UIButton_Input_UnequipSlot("SLOT_CHEST")
+		OnMouseDropReceived=UIButton_OnDropReceived_SetEquipmentSlot("SLOT_CHEST")
+		OnRightClick=UIObject_OnRadial_DisplayInventoryRadial()
+		OnLeftClick=UIButton_Input_InventoryButtonMaybeExamine() 
+		OnSelected0=UIObject_Misc_ExtractData("self:","objectid",0,local:100)
+		OnSelected1=UIObject_Misc_ExecuteServerScript("gui_select_item",local:100)
+		update=true OnUpdate=UIButton_OnUpdate_UpdateEquipmentSlot("SLOT_CHEST") 
+		DefaultToolTip=110829 >
+	</UIButton>
+	<UIButton name="SLOT_WAIST" x=205 y=131 style="STYLE_EQUIP_BUTTON" hotbartype="HOTBAR_ITEM"
+		OnLeftDoubleClick=UIButton_Input_UnequipSlot("SLOT_WAIST")
+		OnMouseDropReceived=UIButton_OnDropReceived_SetEquipmentSlot("SLOT_WAIST")
+		OnRightClick=UIObject_OnRadial_DisplayInventoryRadial()
+		OnLeftClick=UIButton_Input_InventoryButtonMaybeExamine() 
+		OnSelected0=UIObject_Misc_ExtractData("self:","objectid",0,local:100)
+		OnSelected1=UIObject_Misc_ExecuteServerScript("gui_select_item",local:100)
+		update=true OnUpdate=UIButton_OnUpdate_UpdateEquipmentSlot("SLOT_WAIST") 
+		DefaultToolTip=110833 >
+	</UIButton>
+	<UIButton name="SLOT_FEET" x=205 y=174 style="STYLE_EQUIP_BUTTON" hotbartype="HOTBAR_ITEM"
+		OnLeftDoubleClick=UIButton_Input_UnequipSlot("SLOT_FEET")
+		OnMouseDropReceived=UIButton_OnDropReceived_SetEquipmentSlot("SLOT_FEET")
+		OnRightClick=UIObject_OnRadial_DisplayInventoryRadial()
+		OnLeftClick=UIButton_Input_InventoryButtonMaybeExamine() 
+		OnSelected0=UIObject_Misc_ExtractData("self:","objectid",0,local:100)
+		OnSelected1=UIObject_Misc_ExecuteServerScript("gui_select_item",local:100)
+		update=true OnUpdate=UIButton_OnUpdate_UpdateEquipmentSlot("SLOT_FEET") 
+		DefaultToolTip=110835 >
+	</UIButton>
+
+	<!-- ***LEFT EQUIPMENT SLOTS*** -->
+	<UIButton name="SLOT_NECK" x=23 y=73 style="STYLE_EQUIP_BUTTON" hotbartype="HOTBAR_ITEM"
+		OnLeftDoubleClick=UIButton_Input_UnequipSlot("SLOT_NECK")
+		OnMouseDropReceived=UIButton_OnDropReceived_SetEquipmentSlot("SLOT_NECK")
+		OnRightClick=UIObject_OnRadial_DisplayInventoryRadial()
+		OnLeftClick=UIButton_Input_InventoryButtonMaybeExamine() 
+		OnSelected0=UIObject_Misc_ExtractData("self:","objectid",0,local:100)
+		OnSelected1=UIObject_Misc_ExecuteServerScript("gui_select_item",local:100)
+		update=true OnUpdate=UIButton_OnUpdate_UpdateEquipmentSlot("SLOT_NECK") 
+		DefaultToolTip=110827 >
+	</UIButton>
+	<UIButton name="SLOT_BACK" x=23 y=116 style="STYLE_EQUIP_BUTTON" hotbartype="HOTBAR_ITEM"
+		OnLeftDoubleClick=UIButton_Input_UnequipSlot("SLOT_BACK")
+		OnMouseDropReceived=UIButton_OnDropReceived_SetEquipmentSlot("SLOT_BACK")
+		OnRightClick=UIObject_OnRadial_DisplayInventoryRadial()
+		OnLeftClick=UIButton_Input_InventoryButtonMaybeExamine() 
+		update=true OnUpdate=UIButton_OnUpdate_UpdateEquipmentSlot("SLOT_BACK") 
+		DefaultToolTip=110830 >
+	</UIButton>
+	<UIButton name="SLOT_WRIST" x=23 y=159 style="STYLE_EQUIP_BUTTON" hotbartype="HOTBAR_ITEM"
+		OnLeftDoubleClick=UIButton_Input_UnequipSlot("SLOT_WRIST")
+		OnMouseDropReceived=UIButton_OnDropReceived_SetEquipmentSlot("SLOT_WRIST")
+		OnRightClick=UIObject_OnRadial_DisplayInventoryRadial()
+		OnLeftClick=UIButton_Input_InventoryButtonMaybeExamine()
+		OnSelected0=UIObject_Misc_ExtractData("self:","objectid",0,local:100)
+		OnSelected1=UIObject_Misc_ExecuteServerScript("gui_select_item",local:100)		
+		update=true OnUpdate=UIButton_OnUpdate_UpdateEquipmentSlot("SLOT_WRIST") 
+		DefaultToolTip=110831 >
+	</UIButton>
+	<UIButton name="SLOT_RING_1" x=23 y=203 style="STYLE_EQUIP_BUTTON" hotbartype="HOTBAR_ITEM"
+		OnLeftDoubleClick=UIButton_Input_UnequipSlot("SLOT_RING_1")
+		OnMouseDropReceived=UIButton_OnDropReceived_SetEquipmentSlot("SLOT_RING_1")
+		OnRightClick=UIObject_OnRadial_DisplayInventoryRadial()
+		OnLeftClick=UIButton_Input_InventoryButtonMaybeExamine() 
+		OnSelected0=UIObject_Misc_ExtractData("self:","objectid",0,local:100)
+		OnSelected1=UIObject_Misc_ExecuteServerScript("gui_select_item",local:100)
+		update=true OnUpdate=UIButton_OnUpdate_UpdateEquipmentSlot("SLOT_RING_1") 
+		DefaultToolTip=110834 >
+	</UIButton>
+	<UIButton name="SLOT_RING_2" x=23 y=246 style="STYLE_EQUIP_BUTTON" hotbartype="HOTBAR_ITEM"
+		OnLeftDoubleClick=UIButton_Input_UnequipSlot("SLOT_RING_2")
+		OnMouseDropReceived=UIButton_OnDropReceived_SetEquipmentSlot("SLOT_RING_2")
+		OnRightClick=UIObject_OnRadial_DisplayInventoryRadial()
+		OnLeftClick=UIButton_Input_InventoryButtonMaybeExamine() 
+		OnSelected0=UIObject_Misc_ExtractData("self:","objectid",0,local:100)
+		OnSelected1=UIObject_Misc_ExecuteServerScript("gui_select_item",local:100)
+		update=true OnUpdate=UIButton_OnUpdate_UpdateEquipmentSlot("SLOT_RING_2") 
+		DefaultToolTip=110834 >
+	</UIButton>
+
+	<!-- ***WEAPON EQUIPMENT SLOTS*** -->
+	<UIButton name="SLOT_RIGHT_HAND" x=264 y=205 style="STYLE_EQUIP_BUTTON" hotbartype="HOTBAR_ITEM"
+		OnLeftDoubleClick=UIButton_Input_UnequipSlot("SLOT_RIGHT_HAND")
+		OnMouseDropReceived=UIButton_OnDropReceived_SetEquipmentSlot("SLOT_RIGHT_HAND")
+		OnRightClick=UIObject_OnRadial_DisplayInventoryRadial()
+		OnLeftClick=UIButton_Input_InventoryButtonMaybeExamine() 
+		OnSelected0=UIObject_Misc_ExtractData("self:","objectid",0,local:100)
+		OnSelected1=UIObject_Misc_ExecuteServerScript("gui_select_item",local:100)
+		update=true OnUpdate=UIButton_OnUpdate_UpdateEquipmentSlot("SLOT_RIGHT_HAND") 
+		DefaultToolTip=110836 >
+	</UIButton>
+	<UIButton name="SLOT_LEFT_HAND" x=307 y=205 style="STYLE_EQUIP_BUTTON" hotbartype="HOTBAR_ITEM"
+		OnLeftDoubleClick=UIButton_Input_UnequipSlot("SLOT_LEFT_HAND")
+		OnMouseDropReceived=UIButton_OnDropReceived_SetEquipmentSlot("SLOT_LEFT_HAND")
+		OnRightClick=UIObject_OnRadial_DisplayInventoryRadial()
+		OnLeftClick=UIButton_Input_InventoryButtonMaybeExamine() 
+		OnSelected0=UIObject_Misc_ExtractData("self:","objectid",0,local:100)
+		OnSelected1=UIObject_Misc_ExecuteServerScript("gui_select_item",local:100)
+		update=true OnUpdate=UIButton_OnUpdate_UpdateEquipmentSlot("SLOT_LEFT_HAND") 
+		DefaultToolTip=110837 >
+	</UIButton>
+	<UIButton name="SLOT_ARROW_AMMO" x=220 y=249 style="STYLE_EQUIP_BUTTON" hotbartype="HOTBAR_ITEM"
+		OnLeftDoubleClick=UIButton_Input_UnequipSlot("SLOT_ARROW_AMMO")
+		OnMouseDropReceived=UIButton_OnDropReceived_SetEquipmentSlot("SLOT_ARROW_AMMO")
+		OnRightClick=UIObject_OnRadial_DisplayInventoryRadial()
+		OnLeftClick=UIButton_Input_InventoryButtonMaybeExamine() 
+		OnSelected0=UIObject_Misc_ExtractData("self:","objectid",0,local:100)
+		OnSelected1=UIObject_Misc_ExecuteServerScript("gui_select_item",local:100)
+		update=true OnUpdate=UIButton_OnUpdate_UpdateEquipmentSlot("SLOT_ARROW_AMMO") 
+		DefaultToolTip=110840 >
+		<UIText align=right valign=bottom fontfamily="Special_Font" style="1"/>
+	</UIButton>
+	<UIButton name="SLOT_BULLET_AMMO" x=264 y=249 style="STYLE_EQUIP_BUTTON" hotbartype="HOTBAR_ITEM"
+		OnLeftDoubleClick=UIButton_Input_UnequipSlot("SLOT_BULLET_AMMO")
+		OnMouseDropReceived=UIButton_OnDropReceived_SetEquipmentSlot("SLOT_BULLET_AMMO")
+		OnRightClick=UIObject_OnRadial_DisplayInventoryRadial()
+		OnLeftClick=UIButton_Input_InventoryButtonMaybeExamine() 
+		OnSelected0=UIObject_Misc_ExtractData("self:","objectid",0,local:100)
+		OnSelected1=UIObject_Misc_ExecuteServerScript("gui_select_item",local:100)
+		update=true OnUpdate=UIButton_OnUpdate_UpdateEquipmentSlot("SLOT_BULLET_AMMO") 
+		DefaultToolTip=110841 >
+		<UIText align=right valign=bottom fontfamily="Special_Font" style="1"/>
+	</UIButton>
+	<UIButton name="SLOT_BOLT_AMMO" x=307 y=249 style="STYLE_EQUIP_BUTTON" hotbartype="HOTBAR_ITEM"
+		OnLeftDoubleClick=UIButton_Input_UnequipSlot("SLOT_BOLT_AMMO")
+		OnMouseDropReceived=UIButton_OnDropReceived_SetEquipmentSlot("SLOT_BOLT_AMMO")
+		OnRightClick=UIObject_OnRadial_DisplayInventoryRadial()
+		OnLeftClick=UIButton_Input_InventoryButtonMaybeExamine()
+		OnSelected0=UIObject_Misc_ExtractData("self:","objectid",0,local:100)
+		OnSelected1=UIObject_Misc_ExecuteServerScript("gui_select_item",local:100)		
+		update=true OnUpdate=UIButton_OnUpdate_UpdateEquipmentSlot("SLOT_BOLT_AMMO") 
+		DefaultToolTip=110842 >
+		<UIText align=right valign=bottom fontfamily="Special_Font" style="1"/>
+	</UIButton>
+
+	<!-- ***INVENTORY TABS*** -->
+	<UIPane name="TAB_CONTAINER" x=15 y=303 width=292 height=25 >
+		<UIButton name="ShowPage1" x=0 y=0 width=73 height=25 buttontype="radio" groupid=1 groupmemberid=1
+			OnSelected=UIButton_Input_SetRepositoryIndex("0") MouseDownSFX="gui_bagopen"
+			OnMouseDropReceived=UIButton_OnDropReceived_AddToRepository(0,"IG") >
+			<UIFrame state="up"			fill="b_bag_normal.tga" />
+			<UIFrame state="down"		fill="b_bag_pressed.tga" />
+			<UIFrame state="focused"	fill="b_bag_hover.tga" />
+			<UIFrame state="hilited"	fill="b_bag_hover.tga" />
+			<UIFrame state="hifocus"	fill="b_bag_pressed.tga" />
+			<UIFrame state="disabled"	fill="b_bag_normal.tga" />
+		</UIButton>
+		<UIButton name="ShowPage2" x=73 y=0 width=73 height=25 buttontype="radio" groupid=1 groupmemberid=2
+			OnSelected=UIButton_Input_SetRepositoryIndex("32") MouseDownSFX="gui_bagopen"
+			OnMouseDropReceived=UIButton_OnDropReceived_AddToRepository(32,"IG") >
+			<UIFrame state="up"			fill="b_bag_normal.tga" />
+			<UIFrame state="down"		fill="b_bag_pressed.tga" />
+			<UIFrame state="focused"	fill="b_bag_hover.tga" />
+			<UIFrame state="hilited"	fill="b_bag_hover.tga" />
+			<UIFrame state="hifocus"	fill="b_bag_pressed.tga" />
+			<UIFrame state="disabled"	fill="b_bag_normal.tga" />
+		</UIButton>
+		<UIButton name="ShowPage3" x=146 y=0 width=73 height=25 buttontype="radio" groupid=1 groupmemberid=3
+			OnSelected=UIButton_Input_SetRepositoryIndex("64") MouseDownSFX="gui_bagopen"
+			OnMouseDropReceived=UIButton_OnDropReceived_AddToRepository(64,"IG") >
+			<UIFrame state="up"			fill="b_bag_normal.tga" />
+			<UIFrame state="down"		fill="b_bag_pressed.tga" />
+			<UIFrame state="focused"	fill="b_bag_hover.tga" />
+			<UIFrame state="hilited"	fill="b_bag_hover.tga" />
+			<UIFrame state="hifocus"	fill="b_bag_pressed.tga" />
+			<UIFrame state="disabled"	fill="b_bag_normal.tga" />
+		</UIButton>
+		<UIButton name="ShowPage4" x=219 y=0 width=73 height=25 buttontype="radio" groupid=1 groupmemberid=4
+			OnSelected=UIButton_Input_SetRepositoryIndex("96") MouseDownSFX="gui_bagopen"
+			OnMouseDropReceived=UIButton_OnDropReceived_AddToRepository(96,"IG") >
+			<UIFrame state="up"			fill="b_bag_normal.tga" />
+			<UIFrame state="down"		fill="b_bag_pressed.tga" />
+			<UIFrame state="focused"	fill="b_bag_hover.tga" />
+			<UIFrame state="hilited"	fill="b_bag_hover.tga" />
+			<UIFrame state="hifocus"	fill="b_bag_pressed.tga" />
+			<UIFrame state="disabled"	fill="b_bag_normal.tga" />
+		</UIButton>
+	</UIPane>
+
+	<!-- ***INVENTORY GRID*** -->
+	<UIGrid name="IG" rows=4 columns=8 x=15 y=330 xPadding=2 yPadding=2
+	update=true OnUpdate=UIGrid_OnUpdate_UpdateInventoryGrid()>
+		<UIButton name="InvPrototypeButton" height=40 width=40 draggable=true prototype=true update=true handleactiontarget=true
+			hotbartype="HOTBAR_ITEM"
+			MouseDragSFX="gui_drag" MouseDropSFX="gui_drop"
+			OnLeftDoubleClick=UIButton_Input_InventoryButtonActivate() 
+			OnLeftClick=UIButton_Input_InventoryButtonMaybeExamine() 
+			OnMouseDrop0=UIObject_Misc_ExtractData("self:","objectid",0,local:100)
+			OnMouseDrop1=UIObject_Misc_ExecuteServerScript("gui_set_last_dragged_item",local:100)
+			OnMouseDropReceived=UIButton_OnDropReceived_SetInventorySlot()
+			OnMouseDropFailed=UIButton_OnDropFailed_DropInventoryItem()
+			OnUpdate=UIButton_OnUpdate_UpdateInventorySlot() 
+			OnMouseEnter=UIButton_Input_ClearNewItemStatus()
+			OnToolTip=UIObject_Tooltip_DisplayObject(OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+			OnRightClick=UIObject_OnRadial_DisplayInventoryRadial() >
+			<UIText align=right valign=bottom fontfamily="Special_Font" style="1"/>
+			<UIFrame state=base		fill="inv_slot.tga" />
+			<UIFrame state=up		fill="b_empty.tga" />
+			<UIFrame state=down		fill="b_overlay.tga" />
+			<UIFrame state=focused	fill="b_empty.tga" />
+			<UIFrame state=hilited	fill="b_overlay.tga" />
+			<UIFrame state=hifocus	fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+		</UIButton>
+	</UIGrid>
+
+	<UIFrame width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+		bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+		left="frame1_l.tga" right="frame1_r.tga" border=32 />	
+	<UIIcon name="DETAIL_TOP" img="inv_top_bg.tga" x=10 y=7 width=352 height=300 ignoreevents="true" />
+	<UIFrame x=10 y=288 width=347 height=215 fillstyle="tile" fill="bg_60_alpha.tga"/>
+	<UIFrame x=10 y=288 width=347 height=215 fillstyle="tile" fill="dark_rock_tile.tga"/>

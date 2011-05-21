@@ -1,0 +1,9 @@
+2DA V2.0
+
+  LABEL              ReqType ReqParam1      ReqParam2 
+0 Hide               SKILL   5              5         
+1 Knowledge:Religion SKILL   43             2         
+2 Cleave             FEAT    6              ****      
+3 Base_Attack        BAB     6              ****      
+4 ScriptVar          VAR     X1_AllowBlkGrd 1         
+5 PrC_Validation     FEAT    3500           ****      

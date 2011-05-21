@@ -1,0 +1,9 @@
+AcadiusLost: 
+
+3/1/2008, documenting baseitems.2da merge from NWN2 1.11 (hotfix)
+	added DMCB Yeoman's pack
+3/13/2010: Added Full Metal Packet (GodBeastX), 
+
+16: added DMCB
+17: Added ACME
+18: added GodBeastX

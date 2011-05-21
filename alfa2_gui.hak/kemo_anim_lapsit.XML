@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8">
+
+<UIScene name="KEMO_ANIM_LAPSIT" width=348 height=136 x=ALIGN_CENTER y=ALIGN_CENTER draggable="true" fadeout="0.3" fadein="0.3" backoutkey=true
+         scriptloadable=true priority="SCENE_SCRIPT" modal="true" idleexpiretime=0.1 />
+
+	<!-- ***SCENE TITLE*** -->
+	<UIText name="SceneTitle" text="Lap Sit Height" x=ALIGN_CENTER y=12 width=120 height=24 align=left valign=middle uppercase=true fontfamily="Title_Font" style="1" />
+
+	<UIPane name="S_CONTAINER" x=ALIGN_CENTER y=32 width=292 height=48 >
+		<UIText name="TEXT_S" x=ALIGN_LEFT y=0 align=left valign="middle" width=80 height=24
+			editable="false" selectable="false" multiline=false fontfamily="Body_Font" style=1/>
+
+		<UIButton name="BUT_S_VALUE" x=ALIGN_CENTER y=0 width=80 height=24 >
+			<UIText name="TEXT_S_VALUE" x=ALIGN_CENTER y=0 align=center valign="middle" 
+				editable="false" selectable="false" multiline=false fontfamily="Body_Font" style=1
+				update=true OnUpdate0=UIText_OnUpdate_DisplayScrollbarValue("scrollbar_S") 
+				OnUpdate1=UIObject_Misc_SetLocalVarString(local:1)/>
+		</UIButton>
+
+		<UIScrollBar name="scrollbar_S" style="STYLE_OPTION_SLIDER" x=0 y=24 width=292 height=24 minvalue=1 maxvalue=20 minsize=1 maxsize=20 >
+		</UIScrollBar>
+	</UIPane>
+
+
+	<!-- BUTTON CONTAINER -->
+	<UIPane name="BUTTON_CONTAINER" x=ALIGN_CENTER y=89 width=254 height=32 >
+		<!-- OK button -->
+		<UIButton name="okbutton" text="Sit" x=0 y=0 style="STYLE_SMALL_BUTTON" 						OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_anim_lap",local:1) />
+		<!-- Cancel Button -->
+		<UIButton name="cancelbutton" text="Close" x=130 y=0 style="STYLE_SMALL_BUTTON"
+			OnLeftClick=UIButton_Input_ScreenClose() />
+	</UIPane>
+
+	<!-- Main Window -->
+	<UIFrame width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+		bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+		left="frame1_l.tga" right="frame1_r.tga" border=32 />		
+	<UIFrame x=7 y=8 width=334 height=120 fillstyle="tile" fill="bg_60_alpha.tga"/>		

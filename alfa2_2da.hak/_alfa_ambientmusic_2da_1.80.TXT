@@ -1,0 +1,9 @@
+AcadiusLost: 
+
+5/9/2011: Initial add, edit by Paazin to incorporate BG music
+
+Padding to row 220: not much, but hey, they're done releasing expansions.
+
+220-253: BG1 tracks
+
+270-345: BG2 tracks

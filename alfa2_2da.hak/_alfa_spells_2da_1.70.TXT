@@ -1,0 +1,54 @@
+AcadiusLost: 
+
+inception: All spells castable On Dead
+3/19/2008, merged with 1.12(1249)
+11/25/2008, merged with 1.21.1549
+1/10/2009; RiotNrrd's fixes, part 1
+1/19/2009; RiotNrrd's fixes, part 2
+2/28/2009: Merged with SoZ 1.22.1587
+5/17/2009: Marged with SoZ 1.23Beta, added Riotnrrd's spells.
+5/30/2009: Merged in Riot's Spellfixes pt3
+7/25/2009: Merged with 1.23 final, added subdual feat row
+
+3:	ImpactScript to acr_s0_barkskin, Name/Desc to custom tlk
+6:	ImpactScript to acr_s0_bless, Name/Desc to custom tlk
+16:	ImpactScript to acr_s0_charmper, Name/Desc to custom tlk
+33:	ImpactScript to acr_s0_curminw, Name/Desc to custom tlk
+37:	Range to S, ImpactScript to acr_s0_daze, Name/Desc to custom tlk
+40:	TargetType to 0x2E
+41:	TargetingUI to 2, ImpactScript to acr_s0_dismagic, Name/Desc to custom tlk
+54:	Proj to 0, ProjSEF, LowProjSEF, ProjType, ProjSpawnPoint, ImpactSEF, LowImpactSEF to ****,
+		TargetingUI to 3, Range to T, ImpactScript to acr_s0_fear, Name/Desc to custom tlk
+78:	TargetingUI to 8, TargetType to 0x3F, ImpactScript to acr_s0_haste, Name/Desc to custom tlk
+94:	TargetingUI to 2, ImpactScript to acr_s0_lsdispel, Name/Desc to custom tlk
+102: 	Mage armor metamagic to 0x7a
+107:	(magic missile) Range to M, ProjectileType to Accelerating, Name/Desc to custom tlk
+115:	ImpactScript to acr_s0_acidarrow, Name/Desc to custom tlk
+143:	TargetType to 0x3A, ImpactScript to acr_s0_rayenfeeb, Name/Desc to custom tlk
+144:	Range to S, TargetType to 0x3A, ImpactScript to acr_s0_rayfrost, Name/Desc to custom tlk
+155:	ImpactScript to acr_s0_causefear, Name/Desc to custom tlk
+192: 	web to acr_s0_web (duration fixes), Name/Desc to custom tlk
+456:	TargetType to 0x09, ImpactScript to acr_s0_exretreat, Name/Desc to custom tlk
+854:	Range to M, ImpactScript to acr_s0_scare, Name/Desc to custom tlk
+871:	Shroud of Flame to Evocation
+1055-1057: (scorching ray) Range to S, TargetType to 0x3A(or E, for Many), Name/Desc to custom tlk
+
+1197-1199: (Lesser Orb spells) TargetingUI to 0
+1203-1209: (Orb spells) TargetingUI to 0
+
+3000	Blur
+3001	Disrupt_Undead  (Target to 0x3A)
+3002	Daze_Monster
+3003	Read_Magic
+3004	Detect_Magic	
+3005	Spider_Climb
+3006	Halt_Undead
+3007	Ray_of_Exhaustion
+3008	Snillocs_Snowball_Swarm
+3009	Summon Creature placeholder
+3010	Comprehend Languages
+
+3011	Subdual Activation (for InstantFeat implementation)
+
+
+

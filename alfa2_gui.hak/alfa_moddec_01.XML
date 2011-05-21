@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+	<UIScene name="alfa_PlayerDesc_01" width="310" height="680" x=0 y=0
+	idleexpiretime="0.1" scriptloadable=true priority="SCENE_SCRIPT" draggable=true autolayout=true capturemouseclicks="true" selectonleftclick=true update=true/>
+
+<!-- BUTTON CONTAINER -->
+
+<UIPane name="CONTAINER" x=ALIGN_CENTER y=85 width=300 height=50 capturemouseclicks="true" selectonleftclick=true draggable=false>
+
+	<UIText name="PlayerDescTitle" fontfamily="NWN2_Dialog"
+		x=10 y=1 align="center" width="270" height="30" color="white" selectable=false editable=false update=true allowspace=true 
+		multiline=false />
+	</UIPane>
+	
+<UIListBox name="PlayerDescListBox"
+        	   x=20 y=130
+                   xPadding=3 yPadding=3
+                   width=265 height=405
+                   showpartialchild=true
+		   unequalcontrols=true
+                   scrollsegmentsize=30
+                   hidescrollbarwhennotneeded=true >
+		<UIText name="PlayerDesc"
+                        width=PARENT_WIDTH
+                        height=DYNAMIC
+                        align=left valign=top
+                	allowspace=true
+                        
+                        editable=true
+                        sanitized=false
+                        multiline=true
+                        scaleytoparent=true
+                        scalewidthtoparent=true
+			fontfamily="International"
+                        selectable=true
+                        update=true
+			color=black
+                	OnUpdate=UIObject_Misc_SetLocalVarString(local:0) />
+		<UIScrollBar name="SB" style="STYLE_SB_THIN" />
+	</UIListBox>
+
+
+<!-- DisablePopups Button -->
+
+<UIPane name="BUTTON_CONTAINER" x=0 y=580 width=300 height=50 capturemouseclicks="true" selectonleftclick=true draggable=false>
+	
+	<UIButton name="OK" text="0K" x=20 y=10 style="STYLE_SMALL_BUTTON" height=32 width=100  
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_alfa_updatestring",local:0) 
+		OnLeftClick0=UIButton_Input_ScreenClose()> 
+		</UIButton>
+
+	<UIButton name="CANCEL" text="Cancel" x=170 y=10 style="STYLE_SMALL_BUTTON" height=32 width=100 
+            OnLeftClick=UIButton_Input_ScreenClose() > 
+		</UIButton>
+
+	</UIPane>
+
+	<!-- Background Image -->
+    <UIIcon name="DETAIL_TOP" img="alfa_GUI_Backdrop01.tga" x="0" y="0" width="310" height="680" />
+
+	
+
+  
+    
+
+	
+
+  
+    
