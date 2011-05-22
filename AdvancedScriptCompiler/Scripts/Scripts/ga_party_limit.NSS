@@ -1,0 +1,20 @@
+//::///////////////////////////////////////////////////////////////////////////
+//::
+//::	ga_party_size.nss
+//::
+//::	Set number of Roster NPC slots available in the Party Selection GUI
+//::
+//::///////////////////////////////////////////////////////////////////////////
+//::
+//::	Created by: BMA-OEI
+//::	Created on: 10/18/05
+//::
+//::///////////////////////////////////////////////////////////////////////////
+
+#include "ginc_debug"
+
+void main(int nSize)
+{
+	PrettyMessage("ga_party_limit: setting roster slot size to " + IntToString(nSize));
+	SetRosterNPCPartyLimit(nSize);
+}

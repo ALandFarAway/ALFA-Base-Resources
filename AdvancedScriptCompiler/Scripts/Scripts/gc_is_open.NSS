@@ -1,0 +1,20 @@
+//::///////////////////////////////////////////////////////////////////////////
+//::
+//::	gc_is_open.nss
+//::
+//::	Simply calls GetIsOpen() on supplied object tag and returns TRUE/FALSE. 
+//::
+//::///////////////////////////////////////////////////////////////////////////
+//::
+//::	Created by: Brian Fox
+//::	Created on: 8/25/05
+//::
+//::///////////////////////////////////////////////////////////////////////////
+#include "ginc_param_const"
+
+int StartingConditional( string sObjectTag )
+{
+	object oObjectToBeChecked = GetTarget( sObjectTag );
+
+	return GetIsOpen( oObjectToBeChecked );
+}
