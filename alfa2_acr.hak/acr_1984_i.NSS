@@ -33,6 +33,7 @@
 //  2009/02/11  AcadiusLost - Added log type for DM Validation from Quarantine
 //  2009/03/01  AcadiusLost - Added exception handling to avoid logging script-destroyed items OnUnAcquire
 //  2009/08/02  AcadiusLost - Added IPlogging OnLogout
+//	2011/06/26	Ronan		- Changed all log writes to be asynchronous.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -216,11 +217,11 @@ void ACR_LogEvent(object oPC, string sEventName, string sEventDescription, objec
     if (oDM != OBJECT_INVALID)
     {
         // include the DM character ID
-        ACR_SQLQuery("INSERT INTO logs (ServerID, CharacterID, DMCharacterID, Event, Description) VALUES (" + IntToString(ACR_SERVER_ID) + "," + IntToString(ACR_GetCharacterID(oPC))  + "," + IntToString(ACR_GetCharacterID(oDM)) + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')");
+        ACR_AsyncSQLQuery("INSERT INTO logs (ServerID, CharacterID, DMCharacterID, Event, Description) VALUES (" + IntToString(ACR_SERVER_ID) + "," + IntToString(ACR_GetCharacterID(oPC))  + "," + IntToString(ACR_GetCharacterID(oDM)) + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')");
     }
     else
     {
-        ACR_SQLQuery("INSERT INTO logs (ServerID, CharacterID, Event, Description) VALUES (" + IntToString(ACR_SERVER_ID) + "," + IntToString(ACR_GetCharacterID(oPC)) + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')");
+        ACR_AsyncSQLQuery("INSERT INTO logs (ServerID, CharacterID, Event, Description) VALUES (" + IntToString(ACR_SERVER_ID) + "," + IntToString(ACR_GetCharacterID(oPC)) + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')");
     }
 }
 

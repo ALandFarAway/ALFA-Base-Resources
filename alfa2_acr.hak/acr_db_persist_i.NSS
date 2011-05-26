@@ -3,10 +3,10 @@
 //  System Name : ALFA Core Rules
 //     Filename : acr_db_persist_i
 //    $Revision:: 609        $ current version of the file
-//        $Date:: 2009-10-11#$ date the file was created or modified
+//        $Date:: 2011-05-26#$ date the file was created or modified
 //       Author : Cipher
 //
-//    Var Prefix: N/A
+//    Var Prefix: ACR_SQL
 //  Dependencies: NWNX4, MySQL
 //
 //  Description
@@ -31,13 +31,16 @@
 //  2008/01/26 AcadiusLost  switched ResetDatabase to a function (code migrated from nwnx_system.nss)
 //  2009/01/19 AcadiusLost  Added update to Last field on updating existing pwdata rows.
 //  2009/10/11 AcadiusLost  Altered Charaters table to include Class4/level4
+//	2011/05/26 Ronan		Added asynchronous queries.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
 #include "nwnx_include"
 #include "acf_settings_i"
+#include "acr_queue_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -56,6 +59,12 @@ const string ACR_CDKEY = "ACR_CDKEY";
 //! local into to track timestamp failures
 const string ACR_DB_FAILURES = "ACR_DB_FAILURES";
 
+//! The async heartbeat delay
+const float _ACR_DB_SQL_ASYNC_WRITE_HEARTBEAT_DELAY = 12.0;
+
+//! Name of the async queue for local variable use.
+const string _ACR_DB_SQL_QUEUE = "ACR_SQL_Q|";
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -67,6 +76,16 @@ const string ACR_DB_FAILURES = "ACR_DB_FAILURES";
 ////////////////////////////////////////////////////////////////////////////////
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+//! This function starts the service which executes asynchronous queries.
+void ACR_StartAsyncService();
+
+//! This function executes an SQL statement asynchronously.
+//! The submitted query is not guarenteed to be executed immediately.
+//! This should ONLY be used for fire-and-forget writes.
+//!  - sSQL: The SQL string to execute
+//!  - Returns: Nothing
+void ACR_AsyncSQLQuery(string sSQL);
 
 //! This function executes an SQL statement.
 //!  - sSQL: The SQL string to execute
@@ -242,9 +261,20 @@ void ACR_AdjustTables();
 // Modified : 08/25/07 (kfw) : Added more useful error messages.
 void _ResetServer();
 
+//! Services the queue of asyncronous queries.
+void _ServiceAsyncQueries();
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+void ACR_StartAsyncService() {
+	DelayCommand(_ACR_DB_SQL_ASYNC_WRITE_HEARTBEAT_DELAY, _ServiceAsyncQueries());
+}
+
+void ACR_AsyncSQLQuery(string sSQL) {
+	PushQueueString(GetModule(), _ACR_DB_SQL_QUEUE, sSQL);
+}
 
 void ACR_SQLQuery(string sSQL)
 {
@@ -678,3 +708,24 @@ void _ResetServer() {
 	return;
 }
 
+// We could have more logic here, like longer delays if PCs
+// are in combat.
+void _ServiceAsyncQueries() {
+	DelayCommand(_ACR_DB_SQL_ASYNC_WRITE_HEARTBEAT_DELAY, _ServiceAsyncQueries());
+	object module = GetModule();
+	int length = GetQueueLength(module, _ACR_DB_SQL_QUEUE);
+		
+	if(!length) return;
+	
+	// We base it off the number in the queue so its impossible for constant combat to overflow it.
+	int maxServiced = 18 + length / 5;
+	// Your average packet size is about 4k, minus 20B for the header. The queries are about 150B each,
+	// so we might be able to fit 26 in a packet.
+	
+	string query = "";
+	int i;
+	for(i=0; i<length && i<maxServiced; i++) {
+		query = query + PopQueueString(module, _ACR_DB_SQL_QUEUE) + ";";
+	}
+	ACR_SQLQuery(query);
+}
