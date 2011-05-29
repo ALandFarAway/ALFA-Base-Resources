@@ -1,0 +1,17 @@
+#
+# This file lists directories to recurse into.
+#
+
+DIRS=                               \
+     alfa2_creatures.hak            \
+     alfa2_2da.hak                  \
+     alfa2_gui.hak                  \
+     alfa_fx.hak                    \
+     alfa_items.hak                 \
+     alfa_terrain.hak               
+
+BROKEN=                             \
+     alfa2_acr.hak                  \
+     alfa_placeables.hak            \
+     alfa_tiles.hak                 
+

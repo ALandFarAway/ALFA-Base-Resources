@@ -1,0 +1,16 @@
+#
+# This makefile represents the master include for all project sub-makefiles
+# that are a part of the build system.
+#
+
+
+
+BUILD_MSG=@echo
+
+#
+# Pull in project-wide settings.
+#
+
+!include project.mk
+!include NWScript.mk
+!include ERF.mk
