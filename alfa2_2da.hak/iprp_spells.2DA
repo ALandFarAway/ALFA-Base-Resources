@@ -1055,3 +1055,6 @@
 1051 Lesser_Orb_of_Cold_(9)           16779458 9         1         3240   1197       0         1       1          it_qi_orbhollow            
 1052 Lesser_Orb_of_Fire_(9)           16779459 9         1         3240   1199       0         1       1          it_qi_orbhousing06         
 1053 Ray_of_Enfeeblement_(9)          16779460 9         1         3240   143        0         1       1          it_s_rayenfeeblement       
+1054 ACR_ZSPAWN_ONE                   16790213 1         1         1      3021       1         1       1          acr_spawnone
+1055 ACR_ZSPAWN_2D4                   16790214 1         1         1      3022       1         1       1          acr_spawn2d4
+1052 ACR_ZSPAWN_2D8                   16790215 1         1         1      3033       1         1       1          acr_spawn2d8

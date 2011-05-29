@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<UIScene name="zspawn_b" x=210 y=0 width=40 height=40 priority=SCENE_INGAME_TARGET scriptloadable=true
+ignoreevents=FALSE capturemouseclicks=TRUE capturemouseevents=TRUE update=true UpdateRate=1.0/>
+
+<UIPane name="MAINBUTTON" x=0 y=0 width=40 height=40 ignoreevents=FALSE capturemouseclicks=TRUE caputuremouseevents=TRUE>
+	<UIButton name="MAINBUTTON"     x=0  y=0   width=40 height=40 ignoreevents=FALSE capturemouseclicks=TRUE
+	 OnLeftClick0=UIObject_Misc_ScreenClose()
+	 OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_zspawn_open")>
+		<UIIcon name="MAINICON"     x=0  y=0   width=40 height=40 img="acr_zspawn.tga"
+		 OnLeftClick0=UIObject_Misc_ScreenClose()
+		 OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_zspawn_open")/>
+	</UIButton>
+</UIPane>
