@@ -1,0 +1,11 @@
+2DA V2.0
+
+          FeatIndex              Label
+   0            40          toughness
+   1            36          spell_pen
+   2           401    great_spell_pen
+   3           169     spell_foc_evoc
+   4           397    gspell_foc_evoc
+   5           168     spell_foc_ench
+   6           396    gspell_foc_ench
+   7            29      quicken_spell

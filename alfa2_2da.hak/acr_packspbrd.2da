@@ -1,0 +1,37 @@
+2DA V2.0
+
+          SpellIndex                          Label
+   0            891      mass_cure_moderate_wounds
+   1            180             summon_creature_VI
+   2           1027                mass_cats_grace
+   3            879                energy_immunity
+   4             80         mass_cure_light_wounds
+   5             67           greater_dispel_magic
+   6            876                greater_heroism
+   7            110                       mind_fog
+   8            179              summon_creature_V
+   9             31           cure_critical_wounds
+  10             62            freedom_of_movement
+  11            126              neutralize_poison
+  12            177             summon_creature_IV
+  13            373                        war_cry
+  14             35            cure_serious_wounds
+  15             41                   dispel_magic
+  16            157               see_invisibility
+  17             78                          haste
+  18            176            summon_creature_III
+  19             34           cure_moderate_wounds
+  20            859                           rage
+  21            857                        heroism  
+  22            175             summon_creature_II
+  23              9                 bulls_strength
+  24             32              cure_light_wounds
+  25             94            lesser_dispel_magic
+  26            174              summon_creature_I
+  27            456            expeditious_retreat
+  28            442                        amplify
+  29             33              cure_minor_wounds
+  30            151                     resistance
+  31            100                          light
+  32             37                           daze
+  33            416                          flare

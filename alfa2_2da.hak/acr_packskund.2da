@@ -1,0 +1,24 @@
+2DA V2.0
+
+         SkillIndex              Label
+  0             17               Spot
+  1              6             Listen
+  2             14             Search
+  3              8       MoveSilently
+  4              5               Hide
+  5             21             Tumble
+  6              1      Concentration
+  7              2        DisableTrap
+  8              9           OpenLock
+  9             13      SleightOfHand
+ 10             29           Survival
+ 11              4               Heal
+ 12             16         Spellcraft
+ 13             12          Diplomacy
+ 14              7               Lore
+ 15             22          CraftTrap
+ 16             18              Taunt
+ 17             20           Appraise
+ 18             27       CraftAlchemy
+ 19             25         CraftArmor
+ 20             26        CraftWeapon
