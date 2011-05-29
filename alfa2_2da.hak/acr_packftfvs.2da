@@ -1,0 +1,15 @@
+2DA V2.0
+
+          FeatIndex              Label
+   0            40          toughness
+   1           382     luck_of_heroes
+   2          1090    augment_healing
+   3            28       power_attack
+   4            12       extend_spell
+   5             6             cleave
+   6           391       great_cleave
+   7            19   imp_power_attack
+   8          2082    fvs_acid_resist
+   9          2085    fvs_fire_resist
+  10          2083    fvs_cold_resist
+  11          2088     fvs_damage_red
