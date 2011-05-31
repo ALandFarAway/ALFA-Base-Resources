@@ -75,6 +75,7 @@
 // 	   2009/02/09 AcadiusLost - Switched to use GetFirstName() instead of GetName() to avoid lastname doubling. Also removed information-level debug logging
 //     2009/12/25 AcadiusLost - SPAWN_IS_ACTIVE fix, Chance to spawn % fix
 //     2011/04/19 Zelknolf - _WP_RESPAWN_DELAY_START has gotten an initialized value.
+//		2011/05/29 Ronan - Removed acf_spawn_i references in place of spawn settings set OnModuleLoad.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -87,7 +88,6 @@
 #include "acr_array_i"
 #include "acr_death_i"
 // #include "acr_weather_i"
-#include "acf_spawn_i"
 // #include "acr_game_const_i"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -446,6 +446,12 @@ const string _WP_LAST_DAY_CHECKED = "ACR_SPA_LDC";
 // The last location this spawn point decided to spawn at.
 const string _SPAWN_LAST_LOCATION = "ACR_SPA_LL";
 
+// Global spawn system settings
+const string _SPAWN_DESPAWN_DELAY_GF = "ACR_SPA_DD";
+const string _SPAWN_REFRESH_DELAY_GF = "ACR_SPA_RD";
+const string _SPAWN_PRESPAWN_SEAMLESS_GB = "ACR_SPA_PS";
+const string _SPAWN_PRESPAWN_PREDICTION_GB = "ACR_SPA_PP";
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -467,7 +473,30 @@ location _lSpawnLoc;
 
 //! Initializes the spawn system. Usually called from OnModuleLoad, this function
 //! must be run before the spawn system will function.
-void ACR_InitializeSpawns();
+void ACR_InitializeSpawns(float fDespawnDelay, float fRefreshDelay, int bPrespawnSeamless, int bPrespawnPrediction);
+
+// This is a timer which starts when the last PC exits an area. When the timer
+// runs out, that area is despawned.
+float GetDespawnDelay();
+
+// The number of seconds in between spawn refreshes on PC-occupied areas.
+float GetRefreshDelay();
+
+// Determines whether the spawn system should pre-spawn an area when a PC steps into 
+//  a seamless AT- this may affect performance, as the PC won't neccessarily travel to
+//  the area (if they back off the AT) but it should help fight spawn lag.
+int GetPrespawnsSeamless();
+
+//	Another performance tweak: this controls whether the spawn system should take into
+//  account the predicted Seamless AT arrival point of a PC in a neighboring area- it 
+//  is only useful if seamless prespawning is enabled (above), in which it protects
+//  against a potential for a spawn and a PC to be dropped next to each other without
+//  warning.  It may be disabled at a module team's discression for performance reasons
+//  if necessary.  Definitely disable this if _SPAWN_PRESPAWN_SEAMLESS = FALSE.
+//  note also, this check will be bypassed if a builder has set the spawn point to spawn
+//  even within sight of a PC. (ACR_SPAWN_IN_PC_SIGHT = 1)
+int GetPrespawnPrediction();
+
 
 //! Enables or disables (1 or 0) spawn point oWP.
 //! If bChangeState is true, the spawn point will try to spawn if it was
@@ -696,8 +725,13 @@ void _RunSpawnIsActiveLoop(object oArea);
 // *** BEGIN PUBLIC FUNCTIONS ***
 ////////////////////////////////////////////////////////////////////////////////
 
-void ACR_InitializeSpawns() {
-    int i;
+void ACR_InitializeSpawns(float fDespawnDelay, float fRefreshDelay, int bPrespawnSeamless, int bPrespawnPrediction) {
+	SetGlobalFloat(_SPAWN_DESPAWN_DELAY_GF, fDespawnDelay);
+	SetGlobalFloat(_SPAWN_REFRESH_DELAY_GF, fRefreshDelay);
+	SetGlobalInt(_SPAWN_PRESPAWN_SEAMLESS_GB, bPrespawnSeamless);
+	SetGlobalInt(_SPAWN_PRESPAWN_PREDICTION_GB, bPrespawnPrediction);
+
+	int i;
     object oSpawnWP;
 	// Create the debugging system.
     ACR_CreateDebugSystem(_SPAWN_SYSTEM_NAME, DEBUG_TARGET_NONE, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS);	
@@ -714,6 +748,14 @@ void ACR_InitializeSpawns() {
 	// Lets check that we actually got all the spawn points initialized.
     DelayCommand(fDelay + 6.0, _SpawnPointInitializationCheck(i));
 }
+
+float GetDespawnDelay() { return GetGlobalFloat(_SPAWN_DESPAWN_DELAY_GF); }
+
+float GetRefreshDelay() { return GetGlobalFloat(_SPAWN_REFRESH_DELAY_GF); }
+
+int GetPrespawnsSeamless() { return GetGlobalInt(_SPAWN_PRESPAWN_SEAMLESS_GB); }
+
+int GetPrespawnPrediction() { return GetGlobalInt(_SPAWN_PRESPAWN_PREDICTION_GB); }
 
 void ACR_SpawnOnAreaEnter(object oCreature) {
     object oArea = GetArea(oCreature);
@@ -1339,7 +1381,7 @@ int _GetShouldSpawnBeActive(object oWP, int nFlags) {
           if( (oPC != OBJECT_INVALID) && (GetDistanceBetween(oWP, oPC) <= PC_PERCEPTION_RANGE )) { // ACR_GetPCVisualRange() )) {
              ACR_PrintDebugMessage(GetName(oWP)+" inactive because: PC in sight.", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
              return 0;
-          } else if (_SPAWN_PRESPAWN_PREDICTION) {
+          } else if (GetPrespawnPrediction()) {
 		  // check for waypoints generated by the Seamless AT system, indicating a PC's likely arrival point.
 			 object oArrivalPoint = GetNearestObjectByTag("ACR_SA_WP", oWP);
 			 if( (oArrivalPoint != OBJECT_INVALID) && (GetDistanceBetween(oWP, oArrivalPoint) <= PC_PERCEPTION_RANGE )) { // ACR_GetPCVisualRange() )) {
@@ -1548,7 +1590,7 @@ void _StartSpawnAreaHeartbeat(object oArea, int nAreaFlags) {
     // The area is not active, lets change that.
     SetLocalInt(oArea, _SPAWN_AREA_FLAGS, nAreaFlags | _SPAWN_AREA_FLAG_ACTIVE);
     ACR_PrintDebugMessage("Starting " + GetName(oArea) + "'s spawn heartbeat.", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
-    DelayCommand(_SPAWN_REFRESH_DELAY, _SpawnAreaHeartbeat(oArea));
+    DelayCommand(GetRefreshDelay(), _SpawnAreaHeartbeat(oArea));
 }
 
 float _GetSecondsSinceSpawnRefresh(object oArea) {
@@ -1557,7 +1599,7 @@ float _GetSecondsSinceSpawnRefresh(object oArea) {
 
 void _DespawnAreaPoll(object oArea) {
     float nLastRefreshed = _GetSecondsSinceSpawnRefresh(oArea) + 1.0;
-    if( nLastRefreshed > _SPAWN_AREA_DESPAWN_DELAY) {
+    if( nLastRefreshed > GetDespawnDelay()) {
         _DespawnArea(oArea);
     }
 }
@@ -1570,7 +1612,7 @@ void _SpawnAreaHeartbeat(object oArea) {
         // If there aren't any PCs in the area, there is no reason to do
         // anything. Deactivate the area, start the timer to despawn it, and
         // set its state to deactivated.
-        DelayCommand( _SPAWN_AREA_DESPAWN_DELAY, _DespawnAreaPoll(oArea) );
+        DelayCommand( GetDespawnDelay(), _DespawnAreaPoll(oArea) );
         int nFlags = GetLocalInt(oArea, _SPAWN_AREA_FLAGS);
         SetLocalInt(oArea, _SPAWN_AREA_FLAGS, nFlags & ~_SPAWN_AREA_FLAG_ACTIVE);
         ACR_PrintDebugMessage(GetName(oArea) + "'s spawn heartbeat deactivated - no PCs in area.", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
@@ -1578,7 +1620,7 @@ void _SpawnAreaHeartbeat(object oArea) {
     }    
     // Otherwise, lets refresh the spawns and schedule the next heartbeat.
     _RefreshArea(oArea);
-    DelayCommand( _SPAWN_REFRESH_DELAY, _SpawnAreaHeartbeat(oArea) );
+    DelayCommand( GetRefreshDelay(), _SpawnAreaHeartbeat(oArea) );
 }
 
 void _BuffSelf() {
@@ -1662,7 +1704,7 @@ object _SpawnObject(string sResRef, int nObjectType, object oWP, location lLoc, 
 	      ACR_PrintDebugMessage("Object "+sResRef+" was not spawned by "+GetName(oWP)+" due to proximity of PC "+GetName(oNeighbor), _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
 	      return OBJECT_INVALID;
 	   }
-	   if (_SPAWN_PRESPAWN_PREDICTION) {
+	   if (GetPrespawnPrediction()) {
 	      object oTestWP = GetNearestObjectToLocation(OBJECT_TYPE_WAYPOINT, lLoc);
 		  int nWP_Index = 1;
 		  while ((oTestWP != OBJECT_INVALID) && (GetDistanceBetweenLocations(lLoc, GetLocation(oTestWP)) <= PC_PERCEPTION_RANGE)) { // ACR_GetPC_VisualRange() )) {

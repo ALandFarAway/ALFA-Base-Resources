@@ -53,7 +53,7 @@
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 #include "acr_debug_i"
-#include "acf_settings_i"
+#include "acr_settings_i"
 #include "acr_spelltrack_i"
 #include "acr_db_persist_i"
 #include "acr_1984_i"
@@ -237,7 +237,7 @@ void ACR_PCUpdateStatus(object oPC, int bLocation = TRUE)
 		}
 		// do the SQL DB update
         ACR_SQLQuery("UPDATE characters SET" +
-	    	"  ServerID=" + IntToString(ACR_SERVER_ID) +
+	    	"  ServerID=" + IntToString(ACR_GetServerId()) +
 		    ", Location='" + sLoc + "'" +
     	    ", Level=" + IntToString(GetHitDice(oPC)) +
     	    ", Deity='" + GetDeity(oPC) + "'" +
@@ -263,7 +263,7 @@ void ACR_PCUpdateStatus(object oPC, int bLocation = TRUE)
 	} else {
 	    // special save, with location omitted
         ACR_SQLQuery("UPDATE characters SET" +
-	    	"  ServerID=" + IntToString(ACR_SERVER_ID) +
+	    	"  ServerID=" + IntToString(ACR_GetServerId()) +
     	    ", Level=" + IntToString(GetHitDice(oPC)) +
     	    ", Deity='" + GetDeity(oPC) + "'" +
     	    ", HP=" + IntToString(GetMaxHitPoints(oPC)) +
@@ -407,7 +407,7 @@ void ACR_PCOnClientEnter(object oPC)
     if (ACR_SQLFetch() != SQL_SUCCESS)
     {
         ACR_SQLQuery("INSERT INTO characters (ServerID, PlayerID, Name, Level, Race, Subrace, Deity, Gender, HP, XP, GP, Ethics, Morals, Class1, Class2, Class3, Level1, Level2, Level3, STR, CON, DEX, `INT`, WIS, CHA, Damage, Deaths, IsOnline, IsDeleted, IsPlayable) VALUES (" +
-	 		IntToString(ACR_SERVER_ID) + "," +
+	 		IntToString(ACR_GetServerId()) + "," +
            	sPID + ",'" + 
            	ACR_SQLEncodeSpecialChars(sCharacterName) + "'," + 
            	IntToString(GetHitDice(oPC)) + "," +
@@ -504,13 +504,13 @@ void ACR_PCOnPCLoaded(object oPC)
     	ACR_SQLQuery("UPDATE characters, players SET characters.IsOnline=1, players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");		
 		
 		// Check to see if the PC is logging into the right server:
-   		if (nServerID != ACR_SERVER_ID) {
+   		if (nServerID != ACR_GetServerId()) {
 			object oModule = GetModule();
 			string sPassport = "";
 			object oDestWP = OBJECT_INVALID;
 			int bQuarantined = FALSE;
 			SendMessageToPC(oPC, "Your PC registers as being from ALFA server "+IntToString(nServerID)+", checking for a valid server portalling pass.");
-			if (ACR_PortalCheckPass(oPC, ACR_SERVER_ID)) {
+			if (ACR_PortalCheckPass(oPC, ACR_GetServerId())) {
 				// gather passport to determine destination waypoint
 				sPassport = GetLocalString(oPC, _ACR_PTL_PASSPORT);
 				oDestWP = GetLocalObject(oModule, sPassport);
@@ -526,7 +526,7 @@ void ACR_PCOnPCLoaded(object oPC)
 					// Passport looks fine, notify player, write portalling log
 					SendMessageToPC(oPC, "Passport accepted.  Welcome to "+GetName(GetModule())+".");
 					AssignCommand(oPC, ActionSpeakString("Passport accepted.  Welcome to "+GetName(GetModule())));
-					ACR_SetPersistentString(oPC, _ACR_PTL_RECORD, "Succesful server portal from ServerID "+IntToString(nServerID)+" to serverID "+IntToString(ACR_SERVER_ID));
+					ACR_SetPersistentString(oPC, _ACR_PTL_RECORD, "Succesful server portal from ServerID "+IntToString(nServerID)+" to serverID "+IntToString(ACR_GetServerId()));
 					ACR_DeletePersistentVariable(oPC, _ACR_PTL_PASSPORT);
 				}
 			} else {
@@ -558,7 +558,7 @@ void ACR_PCOnPCLoaded(object oPC)
 					} 
 					ePC = GetNextEffect(oPC);
 				}	
-				ACR_LogEvent(oPC, ACR_LOG_TRANSITION, "Successful Server Portal from Server "+IntToString(nServerID)+" to Server "+ACR_SERVER_NAME+".");
+				ACR_LogEvent(oPC, ACR_LOG_TRANSITION, "Successful Server Portal from Server "+IntToString(nServerID)+" to Server "+ACR_GetServerName()+".");
 				AssignCommand(oPC, JumpToObject(oDestWP, FALSE));
 			}
    		} else { 

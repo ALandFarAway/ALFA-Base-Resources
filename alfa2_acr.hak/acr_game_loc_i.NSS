@@ -19,13 +19,14 @@
 //  Revision History
 //   5/28/06: Ronan:  Inception
 //  10/31/07 AcadiusLost  Added player locator function to be called from Heeds.
+//	2011-05-28 Ronan: Removed acf_settings_i reference.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "acf_settings_i"
+#include "acr_settings_i"
 #include "acr_tools_i"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +63,7 @@ struct GameLocation {
 // Sets the game location lValue named sVarName on object oObject.
 // Returns the starting position if the stored location cannot be found on this
 // server.
-void SetLocalGameLocation(object oObject, string sVarName, location lValue, int nServerId = ACR_SERVER_ID);
+void SetLocalGameLocation(object oObject, string sVarName, location lValue);
 
 // Gets the game location named sVarName stored on oObject.
 struct GameLocation GetLocalGameLocation(object oObject, string sVarName);
@@ -91,12 +92,12 @@ struct GameLocation GetLocalGameLocation(object oObject, string sVarName) {
     return strNewLocation;
 }
 
-void SetLocalGameLocation(object oObject, string sVarName, location lValue, int nServerId = ACR_SERVER_ID) {
+void SetLocalGameLocation(object oObject, string sVarName, location lValue) {
     object oArea = GetAreaFromLocation(lValue);
     SetLocalLocation(oObject, sVarName + _ACR_GLC_LOCATION, lValue);
     SetLocalString(oObject, sVarName + _ACR_GLC_AREA_TAG, GetTag(oArea) );
     SetLocalString(oObject, sVarName + _ACR_GLC_AREA_RESREF, GetResRef(oArea));
-    SetLocalInt(oObject, sVarName + _ACR_GLC_SERVER_ID, nServerId);
+    SetLocalInt(oObject, sVarName + _ACR_GLC_SERVER_ID, ACR_GetServerId());
 }
 
 string GameLocationToString(struct GameLocation gloc) {

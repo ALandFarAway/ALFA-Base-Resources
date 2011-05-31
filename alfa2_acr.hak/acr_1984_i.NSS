@@ -41,7 +41,7 @@
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 #include "acr_db_persist_i"
-#include "acf_settings_i"
+#include "acr_settings_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -217,11 +217,11 @@ void ACR_LogEvent(object oPC, string sEventName, string sEventDescription, objec
     if (oDM != OBJECT_INVALID)
     {
         // include the DM character ID
-        ACR_AsyncSQLQuery("INSERT INTO logs (ServerID, CharacterID, DMCharacterID, Event, Description) VALUES (" + IntToString(ACR_SERVER_ID) + "," + IntToString(ACR_GetCharacterID(oPC))  + "," + IntToString(ACR_GetCharacterID(oDM)) + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')");
+        ACR_AsyncSQLQuery("INSERT INTO logs (ServerID, CharacterID, DMCharacterID, Event, Description) VALUES (" + IntToString(ACR_GetServerId()) + "," + IntToString(ACR_GetCharacterID(oPC))  + "," + IntToString(ACR_GetCharacterID(oDM)) + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')");
     }
     else
     {
-        ACR_AsyncSQLQuery("INSERT INTO logs (ServerID, CharacterID, Event, Description) VALUES (" + IntToString(ACR_SERVER_ID) + "," + IntToString(ACR_GetCharacterID(oPC)) + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')");
+        ACR_AsyncSQLQuery("INSERT INTO logs (ServerID, CharacterID, Event, Description) VALUES (" + IntToString(ACR_GetServerId()) + "," + IntToString(ACR_GetCharacterID(oPC)) + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')");
     }
 }
 
@@ -390,5 +390,5 @@ int ACR_GetHasIllegalProperties(object oItem)
 
 void ACR_LogModuleLoaded()
 {
-    ACR_SQLQuery("INSERT INTO logs (ServerID, CharacterID, Event, Description) VALUES (" + IntToString(ACR_SERVER_ID) + ", 0,'" + ACR_LOG_SERVER_LOAD + "','" + ACR_SQLEncodeSpecialChars(ACR_SERVER_NAME) + "')");
+    ACR_SQLQuery("INSERT INTO logs (ServerID, CharacterID, Event, Description) VALUES (" + IntToString(ACR_GetServerId()) + ", 0,'" + ACR_LOG_SERVER_LOAD + "','" + ACR_SQLEncodeSpecialChars(ACR_GetServerName()) + "')");
 }

@@ -42,7 +42,7 @@
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 #include "acr_xp_i"
-#include "acf_settings_i"
+#include "acr_settings_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -299,7 +299,7 @@ void ACR_RebuildJournalQuestEntries(object oPC)
     if (GetIsPC(oPC))
     {
         // retrieve the current quest states for this character
-        ACR_SQLQuery("SELECT PlotID, PlotState FROM " + ACR_QST_TABLE + " WHERE ServerID=" + IntToString(ACR_SERVER_ID) + " AND CharacterID=" + IntToString(ACR_GetCharacterID(oPC)));
+        ACR_SQLQuery("SELECT PlotID, PlotState FROM " + ACR_QST_TABLE + " WHERE ServerID=" + IntToString(ACR_GetServerId()) + " AND CharacterID=" + IntToString(ACR_GetCharacterID(oPC)));
 
         // loop through the results
         while (ACR_SQLFetch() == SQL_SUCCESS)
@@ -329,7 +329,7 @@ int ACR_RetrieveQuestState(string sPlotID, object oPC)
 			return (GetLocalInt(oPC, "ACR_"+sPlotID+"_STATE"));
 		} else {
             // retrieve the quest state for this character
-            ACR_SQLQuery("SELECT PlotState FROM " + ACR_QST_TABLE + " WHERE ServerID=" + IntToString(ACR_SERVER_ID) + " AND CharacterID=" + IntToString(ACR_GetCharacterID(oPC)) + " AND PlotID='" + sPlotID + "'");
+            ACR_SQLQuery("SELECT PlotState FROM " + ACR_QST_TABLE + " WHERE ServerID=" + IntToString(ACR_GetServerId()) + " AND CharacterID=" + IntToString(ACR_GetCharacterID(oPC)) + " AND PlotID='" + sPlotID + "'");
             // return the quest state, if the quest exists
             if (ACR_SQLFetch() == SQL_SUCCESS) { nState = StringToInt(ACR_SQLGetData(0)); }
 			SetLocalInt(oPC, "ACR_"+sPlotID+"_CACHE", TRUE); 
@@ -588,7 +588,7 @@ void _insertQuestEntry(string sPlotID, int nState, object oCreature, int bAllowO
     // ignore non player characters
     if (GetIsPC(oCreature))
     {
-        string sSQL, sServerID = IntToString(ACR_SERVER_ID), sCharacterID = IntToString(ACR_GetCharacterID(oCreature));
+        string sSQL, sServerID = IntToString(ACR_GetServerId()), sCharacterID = IntToString(ACR_GetCharacterID(oCreature));
         // retrieve the current state for this character's quest
 		// actually need to query this so we have the row number to update later
         ACR_SQLQuery("SELECT ID, PlotState FROM " + ACR_QST_TABLE + " WHERE ServerID=" + sServerID + " AND CharacterID=" + sCharacterID + " AND PlotID='" + sPlotID + "'");
@@ -619,7 +619,7 @@ void _deleteQuestEntry(string sPlotID, object oCreature)
     if (GetIsPC(oCreature))
     {
         // delete the quest entry for this player
-        ACR_SQLQuery("DELETE FROM " + ACR_QST_TABLE + " WHERE ServerID=" + IntToString(ACR_SERVER_ID) + " AND CharacterID=" + IntToString(ACR_GetCharacterID(oCreature)) + " AND PlotID='" + sPlotID + "'");
+        ACR_SQLQuery("DELETE FROM " + ACR_QST_TABLE + " WHERE ServerID=" + IntToString(ACR_GetServerId()) + " AND CharacterID=" + IntToString(ACR_GetCharacterID(oCreature)) + " AND PlotID='" + sPlotID + "'");
 		// also delete the cached version
 		DeleteLocalInt(oCreature, "ACR_"+sPlotID+"_CACHE");
 		DeleteLocalInt(oCreature, "ACR_"+sPlotID+"_STATE");

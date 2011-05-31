@@ -19,11 +19,12 @@
 //  2009/8/2  AcadiusLost: Distinguished HalfDrow from HalfElves, added bonus languages by faith,
 //					expanded bonus languages by class (and favored enemy) 
 //
+//	2011/05/29 Ronan: Removed ACR_GetServerRegion as it conflicts with acr_settings_i.nss.
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "acr_i"
 #include "acr_db_persist_i"
-#include "acf_settings_i"
+#include "acr_settings_i"
 #include "dmfi_inc_english"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -44,9 +45,6 @@ int ACR_GetCharacterRegion(object oPC);
 
 //!! Defines the character's starting region constant.
 void ACR_SetCharacterRegion(object oPC, int nRegion);
-
-//!! Returns the region constant of the current server.
-int ACR_GetServerRegion();
 
 //!! checks to see if a PC is from outside the server's region.
 int ACR_GetIsForeign(object oPC);
@@ -160,18 +158,6 @@ void ACR_SetCharacterRegion(object oPC, int nRegion) {
 		SetLocalInt(oPC, ACR_CHARACTER_REGION, nRegion);
 	} else {
 		SendMessageToPC(oPC, "Invalid background region selection.");
-	}
-}
-
-int ACR_GetServerRegion() {
-
-    // If this has been defined in acf_settings_i, just return the constant.
-	int nServerRegion = ACR_SERVER_REGION;
-	if (nServerRegion != 0) {
-	    return nServerRegion;
-	} else {
-		// for now, assume it's Amn if the region is undefined.
-	    return FEAT_REGION_AMN;
 	}
 }
 

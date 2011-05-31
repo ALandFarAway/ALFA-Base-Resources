@@ -21,7 +21,6 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "acr_i"
-#include "acf_settings_i"
 #include "acr_resting_i"
 #include "acr_tools_i"
 #include "acr_xp_i"

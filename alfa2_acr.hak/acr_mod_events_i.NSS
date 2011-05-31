@@ -70,6 +70,7 @@
 //  2009/08/03  AcadiusLost - Added IP-logging onLogin
 //  2009/08/08  AcadiusLost - Added handling for OnChat event (1.23)
 //  2009/12/29  AcadiusLost - Removed autoassignment of subdual widget OnPCLoaded (no longer needed)
+//	2011/05/29	Ronan		- Added OnModuleLoad parameters for global module settings.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -77,7 +78,6 @@
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 #include "acr_settings_i"
-#include "acf_settings_i"
 #include "acr_debug_i"
 #include "acr_time_i"
 #include "acr_xp_i"
@@ -96,6 +96,9 @@
 #include "acr_nonlethal_i"
 #include "acr_language_i"
 #include "acr_chat_i"
+
+#include "acf_spawn_i"
+#include "acf_settings_i"
 
 #include "x2_inc_switches"
 //#include "dmfi_inc_initial"
@@ -172,6 +175,9 @@ void ACR_SetModuleStatus(int nStatus);
 
 void ACR_ModuleOnModuleLoad()
 {
+	// Set global module settings.
+	SetServerData(ACR_SERVER_ID, ACR_SERVER_NAME, ACR_SERVER_REGION, ACR_SERVER_IP);
+
     object oModule = GetModule();
     
     // ORDER MATTERS !!
@@ -180,7 +186,7 @@ void ACR_ModuleOnModuleLoad()
     ACR_InitializeDebugging();
     ACR_CreateDebugSystem(_ONLOAD_DEBUG, DEBUG_TARGET_LOG | DEBUG_TARGET_DB, DEBUG_TARGET_LOG | DEBUG_TARGET_DB, DEBUG_TARGET_LOG | DEBUG_TARGET_DB);
     string sServerId = IntToString(ACR_SERVER_ID);
-    ACR_PrintDebugMessage("acr_mod_events_i: ALFA " + sServerId + " loading version " + ACR_VERSION + " of the ALFA Core Rules.", _ONLOAD_DEBUG, DEBUG_LEVEL_INFO);
+    ACR_PrintDebugMessage("acr_mod_events_i: ALFA " + sServerId + " loading the ALFA Core Rules.", _ONLOAD_DEBUG, DEBUG_LEVEL_INFO);
 
     // Check NWNX status
     if (! NWNXInstalled())
@@ -209,7 +215,7 @@ void ACR_ModuleOnModuleLoad()
     //ACR_InitializeGameConstants();
 
     // Initialize the spawn system.
-    ACR_InitializeSpawns();
+    ACR_InitializeSpawns(_SPAWN_AREA_DESPAWN_DELAY, _SPAWN_REFRESH_DELAY, _SPAWN_PRESPAWN_SEAMLESS, _SPAWN_PRESPAWN_PREDICTION);
 
     // Initialize the time system.
     ACR_InitializeTime();

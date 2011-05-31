@@ -48,7 +48,6 @@
 #include "X0_I0_PARTYWIDE"
 #include "x0_i0_position"
 #include "acr_spawn_i"
-#include "acf_spawn_i"
 #include "acr_tools_i"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -224,12 +223,12 @@ void ACR_SeamlessATEnter(object oPC) {
      
 	 // If prespawning prediction is enabled, we'll want to create a waypoint at the
 	 //  putative destination, so the spawn system knows not to drop a mob there.
-	 if (_SPAWN_PRESPAWN_PREDICTION) {
+	 if (GetPrespawnPrediction()) {
 	   ACR_SAT_PlaceWP(lDest);
 	 }
 	 
 	 // Tell the spawn system to get the next area ready. if enabled.
-	 if (_SPAWN_PRESPAWN_SEAMLESS) {
+	 if (GetPrespawnsSeamless()) {
 	   ACR_PreSpawnArea(oTargetArea);
 	 }
 	 
@@ -729,7 +728,7 @@ void ACR_CheckAT(object oPC) {
 		}
 	}
 	// if this switch is on, create a waypoint at the destination
-	if (_SPAWN_PRESPAWN_PREDICTION) {
+	if (GetPrespawnPrediction()) {
 		ACR_SAT_PlaceWP(lDest);
 	}
 	// Refresh the spawn system for the target area.

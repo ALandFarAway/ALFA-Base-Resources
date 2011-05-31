@@ -2,19 +2,18 @@
 //
 //  System Name : ALFA Core Rules
 //     Filename : acr_settings_i.nss
-//      Version : 0.1
-//         Date : 5/13/06
+//      Version : 1.0
+//         Date : 2011-05-29
 //       Author : Ronan
 //
-//  Local Variable Prefix = none
+//  Local Variable Prefix = ACR_SET
 //
 //
 //  Dependencies external of nwscript:
 //  The server number MUST be set correctly.
 //
 //  Description
-//  This script contains global ACR settings which may be version-specific,
-//  and should not be altered by an individual server team.
+//  This script retreives various global ACR settings.
 //
 //  Revision History
 ////////////////////////////////////////////////////////////////////////////////
@@ -27,8 +26,10 @@
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-// The version number of the ACR.
-const string ACR_VERSION = "0.1";
+const string _ACR_SETTINGS_SERVER_ID = "ACR_SET_SID";
+const string _ACR_SETTINGS_SERVER_NAME =  "ACR_SET_SNAME";
+const string _ACR_SETTINGS_SERVER_REGION = "ACR_SET_SREGION";
+const string _ACR_SETTINGS_SERVER_IP = "ACR_SET_IP";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -42,6 +43,38 @@ const string ACR_VERSION = "0.1";
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+// Returns the server's id.
+int ACR_GetServerId();
+
+// Returns the server's name.
+string ACR_GetServerName();
+
+// Returns the server's region.
+int ACR_GetServerRegion();
+
+// Returns the server's ip.
+string ACR_GetServerIp();
+
+// Called OnModuleLoad to read from acf_settings_i.
+void SetServerData(int nServerId, string sServerName, int nServerRegion, string sServerIp);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+int ACR_GetServerId() { return GetGlobalInt(_ACR_SETTINGS_SERVER_ID); }
+
+string ACR_GetServerName() { return GetGlobalString(_ACR_SETTINGS_SERVER_NAME); }
+
+int ACR_GetServerRegion() { return GetGlobalInt(_ACR_SETTINGS_SERVER_REGION); }
+
+// Shouldn't we be calling a NWNx function here?
+string ACR_GetServerIp() { return GetGlobalString(_ACR_SETTINGS_SERVER_IP); }
+
+void SetServerData(int nServerId, string sServerName, int nServerRegion, string sServerIp) {
+
+	SetGlobalInt(_ACR_SETTINGS_SERVER_ID, nServerId);
+	SetGlobalString(_ACR_SETTINGS_SERVER_NAME, sServerName);
+	SetGlobalInt(_ACR_SETTINGS_SERVER_REGION, nServerRegion);
+	SetGlobalString(_ACR_SETTINGS_SERVER_IP, sServerIp);
+}
