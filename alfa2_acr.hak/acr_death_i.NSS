@@ -837,7 +837,7 @@ void ACR_RestoreCorpsesOnModuleLoad()
 	// retrieve all the records of dead players with corpses in the game world
 	//  - only pull those that corrspond with the current server.
 	//ACR_SQLQuery("SELECT d1.Name, d1.Tag, d1.Value, d2.Value FROM pwdata as d1, pwdata as d2 WHERE d1.`Key`='" + ACR_DTH_LOCATION + "' and d1.Name=d2.Name and d1.Tag=d2.Tag and d2.`Key`='" + ACR_PLAYER_FLAGS + "' and d2.Value | " + IntToString(ACR_PLAYER_FLAG_DEAD));
-	ACR_SQLQuery("SELECT pwdata.Name, pwdata.Tag, pwdata.Value, characters.ID, characters.Status FROM characters JOIN players on players.ID=characters.PlayerID JOIN pwdata on pwdata.Name=characters.Name WHERE pwdata.Tag=players.CDKey and pwdata.`Key`='" + ACR_DTH_LOCATION + "' and characters.ServerID = '"+IntToString(ACR_SERVER_ID)+"' and characters.Status = characters.Status | " + IntToString(ACR_PLAYER_FLAG_DEAD));
+	ACR_SQLQuery("SELECT pwdata.Name, pwdata.Tag, pwdata.Value, characters.ID, characters.Status FROM characters JOIN players on players.ID=characters.PlayerID JOIN pwdata on pwdata.Name=characters.Name WHERE pwdata.Tag=players.CDKey and pwdata.`Key`='" + ACR_DTH_LOCATION + "' and characters.ServerID = '"+IntToString(ACR_GetServerId())+"' and characters.Status = characters.Status | " + IntToString(ACR_PLAYER_FLAG_DEAD));
 
     // loop through all the bodies at the morgue and recreate their corpses in the world
     while (ACR_SQLFetch() == SQL_SUCCESS)

@@ -48,6 +48,9 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_vfx_i.nss                         \
             $(OUTPUTDIR)\acr_wealth_i.nss                      \
             $(OUTPUTDIR)\acr_xp_i.nss                          \
+            $(OUTPUTDIR)\dmfi_inc_const.nss                    \
+            $(OUTPUTDIR)\nw_i0_spells.nss                      \
+            $(OUTPUTDIR)\nwn2_inc_spells.nss                   
 
 NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\abr_plc_oninventorydisreturns.ncs     \
@@ -98,8 +101,6 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_trg_portalstart.ncs               \
             $(OUTPUTDIR)\i_abr_it_firstaid_ac.ncs              \
             $(OUTPUTDIR)\i_acr_subdual_ac.ncs                  \
-            $(OUTPUTDIR)\nwn2_inc_spells.ncs                   \
-            $(OUTPUTDIR)\nw_i0_spells.ncs                      \
             $(OUTPUTDIR)\nw_s0_curcrwn.ncs                     \
             $(OUTPUTDIR)\nw_s0_curlgtw.ncs                     \
             $(OUTPUTDIR)\nw_s0_curmodw.ncs                     \
@@ -140,10 +141,13 @@ HAK_SOURCES=                                                   \
             $(NSS_INCLNSS)                                     
 
 
-all: $(NSS_OBJECTS) $(HAKFILE)
+all: scriptincludes $(NSS_OBJECTS) $(HAKFILE)
 
-script: $(NSS_OBJECTS) $(NSS_INCLNSS)
-	copy /y *.nss $(OUTPUTDIR)\
+script: scriptincludes $(NSS_OBJECTS)
+	@copy /y *.nss $(OUTPUTDIR)\ >NUL
+
+scriptincludes:
+	@copy /y *.nss $(OUTPUTDIR)\ >NUL
 
 clean:
 	@if exist $(OUTPUTDIR)\*.ncs del $(OUTPUTDIR)\*.ncs

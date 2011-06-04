@@ -257,7 +257,7 @@ int _GetMinutesBetween(string sFirstStamp, string sSecondStamp) {
 string _BuildPortalPass(int nDestServerID, int nPortalNumber=1) {
 
 	
-	string sServerID = IntToString(ACR_SERVER_ID);
+	string sServerID = IntToString(ACR_GetServerId());
 	if (GetStringLength(sServerID) == 1) {
 		sServerID = "00"+sServerID;
 	} else if (GetStringLength(sServerID) == 2) {

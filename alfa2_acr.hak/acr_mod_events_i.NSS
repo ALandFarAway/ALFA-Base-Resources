@@ -176,7 +176,7 @@ void ACR_SetModuleStatus(int nStatus);
 void ACR_ModuleOnModuleLoad()
 {
 	// Set global module settings.
-	SetServerData(ACR_SERVER_ID, ACR_SERVER_NAME, ACR_SERVER_REGION, ACR_SERVER_IP);
+	SetServerData(ACR_GetServerId(), ACR_SERVER_NAME, ACR_SERVER_REGION, ACR_SERVER_IP);
 
     object oModule = GetModule();
     
@@ -185,7 +185,7 @@ void ACR_ModuleOnModuleLoad()
     // Start the debuging system and create debugging ids for the module event scripts
     ACR_InitializeDebugging();
     ACR_CreateDebugSystem(_ONLOAD_DEBUG, DEBUG_TARGET_LOG | DEBUG_TARGET_DB, DEBUG_TARGET_LOG | DEBUG_TARGET_DB, DEBUG_TARGET_LOG | DEBUG_TARGET_DB);
-    string sServerId = IntToString(ACR_SERVER_ID);
+    string sServerId = IntToString(ACR_GetServerId());
     ACR_PrintDebugMessage("acr_mod_events_i: ALFA " + sServerId + " loading the ALFA Core Rules.", _ONLOAD_DEBUG, DEBUG_LEVEL_INFO);
 
     // Check NWNX status

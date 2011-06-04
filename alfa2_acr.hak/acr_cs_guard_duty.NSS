@@ -85,6 +85,6 @@ void main()
     location lWaypoint = GetLocation(oWaypoint);
     AssignCommand(OBJECT_SELF, DelayCommand(fCloseDelay, ActionMoveToLocation(lWaypoint)));
 
-    if (fDirection > 0.0) { AssignCommand(OBJECT_SELF, 2.0, SetFacing(fDirection); }
+    if (fDirection > 0.0) { AssignCommand(OBJECT_SELF, DelayCommand(2.0, SetFacing(fDirection))); }
 }
 
