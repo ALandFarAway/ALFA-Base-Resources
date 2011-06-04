@@ -71,6 +71,7 @@
 //  2009/08/08  AcadiusLost - Added handling for OnChat event (1.23)
 //  2009/12/29  AcadiusLost - Removed autoassignment of subdual widget OnPCLoaded (no longer needed)
 //	2011/05/29	Ronan		- Added OnModuleLoad parameters for global module settings.
+//      2011/06/04      Zelknolf        - Added hook for display of NPC creator GUI
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -300,6 +301,7 @@ void ACR_ModuleOnClientEnter()
     {
 	    // log the entry
 	    ACR_LogEvent(oPC, ACR_LOG_LOGIN, "Dungeon Master: " + ACR_SQLEncodeSpecialChars(GetName(oPC)) + " from IP: "+GetPCIPAddress(oPC));
+            DisplayGuiScreen(oPC, "zspawn_b", FALSE, "zspawn_b.xml");
     }
     else
     {
