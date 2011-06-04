@@ -50,6 +50,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_xp_i.nss                          \
             $(OUTPUTDIR)\dmfi_inc_const.nss                    \
             $(OUTPUTDIR)\nw_i0_spells.nss                      \
+            $(OUTPUTDIR)\acr_zspawn_i.nss                      \
             $(OUTPUTDIR)\nwn2_inc_spells.nss                   
 
 NSS_OBJECTS=                                                   \
@@ -129,6 +130,11 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\x0_s3_tangle.ncs                      \
             $(OUTPUTDIR)\x0_s3_thunder.ncs                     \
             $(OUTPUTDIR)\x2_s0_cureother.ncs                   \
+            $(OUTPUTDIR)\gui_zspawn_open.ncs                   \
+            $(OUTPUTDIR)\gui_zspawn_close.ncs                  \
+            $(OUTPUTDIR)\gui_zspawn_new.ncs                    \
+            $(OUTPUTDIR)\acr_zspawn_one.ncs                    \
+            $(OUTPUTDIR)\acr_zspawn_2d4.ncs                    \
             $(OUTPUTDIR)\x2_s3_onhitcast.ncs                   
 
 
@@ -141,6 +147,7 @@ HAK_SOURCES=                                                   \
             $(NSS_INCLNSS)                                     \
             .\*.TXT                                            \
             .\*.UTI                                            \
+	    .\*.UTC                                            \
             .\*.DLG                                            \
             .\*.UTW                                            \
             .\*.TGA                                            

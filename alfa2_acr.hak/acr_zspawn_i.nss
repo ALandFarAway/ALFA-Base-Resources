@@ -506,7 +506,7 @@ void UndeadEffects(object oCreature)
 
 void IncorporealEffects(object oCreature)
 {
-	ApplyEffectToObject(DURATION_TYPE_PERMANENT, SupernaturalEffect(EffectDamageReduction(50, DAMAGE_POWER_PLUS_ONE, DR_TYPE_MAGICBONUS)), oCreature);
+	ApplyEffectToObject(DURATION_TYPE_PERMANENT, SupernaturalEffect(EffectDamageReduction(50, DAMAGE_POWER_PLUS_ONE, 0, DR_TYPE_MAGICBONUS)), oCreature);
 	ApplyEffectToObject(DURATION_TYPE_PERMANENT, SupernaturalEffect(EffectConcealment(50)), oCreature);
 	int nDeflection = GetAbilityModifier(ABILITY_CHARISMA, oCreature);
 	if(nDeflection < 1) nDeflection = 1;
@@ -836,6 +836,13 @@ int SetRace(object oCreature, int nRace)
 		FeatAdd(oCreature, 228, FALSE); // darkvision
 		
 		UndeadEffects(oCreature);
+		
+		SetBaseAbilityScore(oCreature, ABILITY_STRENGTH, 13);
+		SetBaseAbilityScore(oCreature, ABILITY_DEXTERITY, 15);
+		SetBaseAbilityScore(oCreature, ABILITY_CONSTITUTION, 10);
+		SetBaseAbilityScore(oCreature, ABILITY_INTELLIGENCE, 13);
+		SetBaseAbilityScore(oCreature, ABILITY_WISDOM, 14);
+		SetBaseAbilityScore(oCreature, ABILITY_CHARISMA, 12);		
 
 		object oClaw1 = CreateItemOnObject("zitem_hand", oCreature); 
 		object oClaw2 = CreateItemOnObject("zitem_hand", oCreature);
@@ -868,6 +875,13 @@ int SetRace(object oCreature, int nRace)
 		
 		UndeadEffects(oCreature);
 		IncorporealEffects(oCreature);
+		
+		SetBaseAbilityScore(oCreature, ABILITY_STRENGTH, 14);
+		SetBaseAbilityScore(oCreature, ABILITY_DEXTERITY, 14);
+		SetBaseAbilityScore(oCreature, ABILITY_CONSTITUTION, 10);
+		SetBaseAbilityScore(oCreature, ABILITY_INTELLIGENCE, 6);
+		SetBaseAbilityScore(oCreature, ABILITY_WISDOM, 12);
+		SetBaseAbilityScore(oCreature, ABILITY_CHARISMA, 13);
 		
 		object oSkin  = CreateItemOnObject("zitem_skin", oCreature);
 		
