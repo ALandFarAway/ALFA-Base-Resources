@@ -2345,7 +2345,7 @@ all: $(HAKFILE)
 script:
 
 clean:
-	del /q $(HAKFILE) >NUL
+	@if exist $(HAKFILE) del /q $(HAKFILE) >NUL
 
 $(HAKFILE): $(HAK_SOURCES)
 	$(BUILD_MSG) (ERF) Creating - $(HAKFILE)

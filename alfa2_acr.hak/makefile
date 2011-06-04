@@ -143,14 +143,13 @@ HAK_SOURCES=                                                   \
 all: $(NSS_OBJECTS) $(HAKFILE)
 
 script: $(NSS_OBJECTS) $(NSS_INCLNSS)
-	echo copy $(NSS_INCLNSS) $(OUTPUTDIR)\ 
+	copy /y *.nss $(OUTPUTDIR)\
 
 clean:
-	echo del /q $(NSS_OBJECTS) >NUL
-	echo del /q $(NSS_OBJECTS:.ncs=.nss) >NUL
-	echo del /q $(NSS_OBJECTS:.ncs=.ndb) >NUL
-	echo del /q $(NSS_INCLNSS) >NUL
-	echo del /q $(HAKFILE) >NUL
+	@if exist $(OUTPUTDIR)\*.ncs del $(OUTPUTDIR)\*.ncs
+	@if exist $(OUTPUTDIR)\*.nss del $(OUTPUTDIR)\*.nss
+	@if exist $(OUTPUTDIR)\*.ndb del $(OUTPUTDIR)\*.ndb
+	@if exist $(HAKFILE) del /q $(HAKFILE) >NUL
 
 $(HAKFILE): $(HAK_SOURCES)
 	$(BUILD_MSG) (ERF) Creating - $(HAKFILE)

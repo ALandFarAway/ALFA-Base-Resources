@@ -6,6 +6,7 @@
 
 
 BUILD_MSG=@echo
+BUILD_MSGFILE=@type
 
 #
 # Pull in project-wide settings.
