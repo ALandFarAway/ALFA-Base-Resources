@@ -138,7 +138,12 @@ HAK_SOURCES=                                                   \
             $(NSS_OBJECTS)                                     \
             $(NSS_OBJECTS:.ncs=.nss)                           \
             $(NSS_OBJECTS:.ncs=.ndb)                           \
-            $(NSS_INCLNSS)                                     
+            $(NSS_INCLNSS)                                     \
+            .\*.TXT                                            \
+            .\*.UTI                                            \
+            .\*.DLG                                            \
+            .\*.UTW                                            \
+            .\*.TGA                                            
 
 
 all: scriptincludes $(NSS_OBJECTS) $(HAKFILE)
