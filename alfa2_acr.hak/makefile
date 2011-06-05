@@ -147,7 +147,7 @@ HAK_SOURCES=                                                   \
             $(NSS_INCLNSS)                                     \
             .\*.TXT                                            \
             .\*.UTI                                            \
-	    .\*.UTC                                            \
+            .\*.UTC                                            \
             .\*.DLG                                            \
             .\*.UTW                                            \
             .\*.TGA                                            
