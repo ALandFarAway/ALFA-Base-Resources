@@ -141,9 +141,8 @@ const string _WP_SPAWN_RESREF_RANDOM_ARRAY = "ACR_SPAWN_RANDOM_RESNAME_";
 // Store: 3
 // Waypoint: 4
 // Trigger: 5
-// Area of Effect: 6
-// Encounter: 7
-// Light: 8
+// Encounter: 6
+// Light: 7
 const string _WP_SPAWN_TYPE = "ACR_SPAWN_TYPE";
 
 // The minumum and maximum of creatures spawned. If they are not equal, a random number will be chosen.
@@ -1003,12 +1002,9 @@ void _AddSpawnPointFromWaypoint(object oWP) {
 			SetLocalInt(oWP, _WP_SPAWN_TYPE, OBJECT_TYPE_TRIGGER);
 			break;
 		case 6:
-			SetLocalInt(oWP, _WP_SPAWN_TYPE, OBJECT_TYPE_AREA_OF_EFFECT);
-			break;
-		case 7:
 			SetLocalInt(oWP, _WP_SPAWN_TYPE, OBJECT_TYPE_ENCOUNTER);
 			break;
-		case 8:
+		case 7:
 			SetLocalInt(oWP, _WP_SPAWN_TYPE, OBJECT_TYPE_LIGHT);
 			break;
     }
