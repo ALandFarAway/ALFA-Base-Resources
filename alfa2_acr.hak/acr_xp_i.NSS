@@ -43,6 +43,9 @@
 //  2009/05/14  AcadiusLost: RPXP heartbeat to 2/hour for the 14-minute hour test.
 //  2009/05/15  AcadiusLost: Migrated RPXP checks per hour into a constant.
 //  2009/05/30  AcadiusLost: RPXP checks to 1/hour (for 7 min-hour)
+//  2011/06/04  Basilica   : Moved RPXP DelayCommand continuations to the PC
+//                           object instead of the module object.  This fixes
+//                           the duplicate RPXP cycle problem once and for all.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -374,7 +377,7 @@ void ACR_XPOnClientLoaded(object oPC) {
     // SendMessageToPC(oPC, "Scheduled after "+IntToString(ACR_GetTimeStampInMinutes() + (60/_RPXP_CHECKS_PER_HOUR) - 5));
     // schedule first RP XP heartbeat.
 	// running 2 of these per game hour for now
-    DelayCommand((HoursToSeconds(1)/IntToFloat(_RPXP_CHECKS_PER_HOUR)), _RPXP_PHeartbeat(oPC));
+    AssignCommand(oPC, DelayCommand((HoursToSeconds(1)/IntToFloat(_RPXP_CHECKS_PER_HOUR)), _RPXP_PHeartbeat(oPC)));
     return;
 }
 

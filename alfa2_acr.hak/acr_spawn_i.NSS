@@ -76,6 +76,7 @@
 //     2009/12/25 AcadiusLost - SPAWN_IS_ACTIVE fix, Chance to spawn % fix
 //     2011/04/19 Zelknolf - _WP_RESPAWN_DELAY_START has gotten an initialized value.
 //		2011/05/29 Ronan - Removed acf_spawn_i references in place of spawn settings set OnModuleLoad.
+//		2011/06/09 Ronan - Added support for spawning lights, trigger, AoEs and encounters.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -140,8 +141,8 @@ const string _WP_SPAWN_RESREF_RANDOM_ARRAY = "ACR_SPAWN_RANDOM_RESNAME_";
 // Store: 3
 // Waypoint: 4
 // Trigger: 5
-// Area of Effect: 6
-// Encounter: 7
+// Encounter: 6
+// Light: 7
 const string _WP_SPAWN_TYPE = "ACR_SPAWN_TYPE";
 
 // The minumum and maximum of creatures spawned. If they are not equal, a random number will be chosen.
@@ -997,6 +998,15 @@ void _AddSpawnPointFromWaypoint(object oWP) {
         case 4:
             SetLocalInt(oWP, _WP_SPAWN_TYPE, OBJECT_TYPE_WAYPOINT);
             break;
+		case 5:
+			SetLocalInt(oWP, _WP_SPAWN_TYPE, OBJECT_TYPE_TRIGGER);
+			break;
+		case 6:
+			SetLocalInt(oWP, _WP_SPAWN_TYPE, OBJECT_TYPE_ENCOUNTER);
+			break;
+		case 7:
+			SetLocalInt(oWP, _WP_SPAWN_TYPE, OBJECT_TYPE_LIGHT);
+			break;
     }
 
     // Now we combine the numbers and min/maxes of the spawn resrefs and groups
