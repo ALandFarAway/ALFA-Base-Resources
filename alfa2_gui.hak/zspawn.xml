@@ -224,7 +224,7 @@ ignoreevents=FALSE capturemouseclicks=TRUE capturemouseevents=TRUE update=true U
 	<UIButton name="ROG_RADIAL"     x=80  y=250  width=20 height=20 style="SQUARE_CHECKBOX_BUTTON"
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:15,true)
 	 OnUnselected0=UIObject_Misc_SetLocalVarString(local:15,false)
-	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Ranger","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
+	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Rogue","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
 	<UIButton name="SOR_RADIAL"     x=150 y=250  width=20 height=20 style="SQUARE_CHECKBOX_BUTTON"
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:16,true)
 	 OnUnselected0=UIObject_Misc_SetLocalVarString(local:16,false)
