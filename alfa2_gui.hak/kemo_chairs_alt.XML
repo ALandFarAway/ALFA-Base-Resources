@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<!-- scene setup -->
+
+<UIScene name="KEMO_CHAIRS" x=ALIGN_RIGHT y=ALIGN_CENTER width=350 height=275 modal=false
+	fadeout="0.3" fadein="0.3" draggable=true backoutkey=false idleexpiretime="1.0f"
+	capturemouseclicks=false ignoremouseevents=true scriptloadable=true priority="SCENE_INGAME"
+	dragregion_x=0 dragregion_y=0 dragregion_width=160 dragregion_height=27 />
+
+<!-- title and close button -->
+
+<UIText text="KEMO Chairs" x=27 y=6 width=120 height=20 uppercase=true fontfamily="Body_Font" style="1" />
+<UIButton name="CloseButton" x=0 y=0 style="STYLE_CLOSE_BUTTON"
+	OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_kemo_chair_anim","close")
+	OnLeftClick1=UIButton_Input_ScreenClose()
+/>
+
+	<UIButton x=5 y=27 text="Sit down" style="STYLE_SMALL_BUTTON" width=125
+		OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_kemo_chair_anim","0")
+		OnLeftClick1=UIButton_Input_ScreenClose() />
+
+	<UIButton name="Resize" style="STYLE_SKILL_ICON" x=5 y=55
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_resize")
+		OnToolTip='UIObject_Tooltip_DisplayTooltipString("Resize PC",OBJECT_X,OBJECT_Y,"SCREEN_TOOLTIP_1")' >
+		<UIFrame state=base fill="is_enlarge.tga" />
+	</UIButton>
+	<UIButton name="Turn" style="STYLE_SKILL_ICON" x=45 y=55
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_kemo_turnchair")
+		OnToolTip='UIObject_Tooltip_DisplayTooltipString("Turn Chair",OBJECT_X,OBJECT_Y,"SCREEN_TOOLTIP_2")' >
+		<UIFrame state=base fill="ia_previous.tga" />
+	</UIButton>
+	<UIButton name="Portable" style="STYLE_SKILL_ICON" hidden=true x=85 y=55
+		OnToolTip='UIObject_Tooltip_DisplayTooltipString("Retrieve Portable Stool",OBJECT_X,OBJECT_Y,"SCREEN_TOOLTIP_3")'
+		OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_kemo_portablechair")
+		OnLeftClick1=UIButton_Input_ScreenClose() >
+		<UIFrame state=base fill="ia_recovertrap.tga" />
+	</UIButton>
+
+	<UIFrame x=0 y=0 width=135 height=27 capturemouseclicks=false
+		topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga"
+		bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga"
+		top="tp_frame_t.tga" bottom="tp_frame_b.tga" left="tp_frame_l.tga"
+		right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border=5 />
