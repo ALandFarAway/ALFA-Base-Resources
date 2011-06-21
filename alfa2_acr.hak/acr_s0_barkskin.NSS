@@ -21,6 +21,9 @@
 // Modified by Riotnrrd for ALFA 1/7/2009
 // Correctly calculates value of bonus
 
+// Modified by Ronan for ALFA 2011-06-14
+// Removed VFX
+
 #include "nwn2_inc_spells"
 
 #include "x2_inc_spellhook" 
@@ -52,7 +55,7 @@ void main()
     float fDuration = HoursToSeconds(nCasterLevel);
 
     //effect eVis = EffectVisualEffect(VFX_DUR_PROT_BARKSKIN);	// BDF - 6/20/06: this original constant is still valid, but we elect to use our new constants for consistency
-    effect eVis = EffectVisualEffect(VFX_DUR_SPELL_BARKSKIN);
+    //effect eVis = EffectVisualEffect(VFX_DUR_SPELL_BARKSKIN);
    
 	// BDF - 6/20/06: invalid for NWN2, all impact and cessation effects are now integrated in the visual effect (see visualeffects.2da)
 	//effect eHead = EffectVisualEffect(VFX_IMP_HEAD_NATURE);	
@@ -72,9 +75,9 @@ void main()
 	
     //Make sure the Armor Bonus is of type Natural
     eAC = EffectACIncrease(nBonus, AC_NATURAL_BONUS);
-    effect eLink = EffectLinkEffects(eVis, eAC);
     //eLink = EffectLinkEffects(eLink, eDur);	// NWN1 VFX
 
-    ApplyEffectToObject(nDurType, eLink, oTarget, fDuration);
+    ApplyEffectToObject(nDurType, eAC, oTarget, fDuration);
+	WarnWhenSpellExpires(oTarget, SPELL_BARKSKIN, "Your barkskin spell is about to expire!", fDuration);
     //ApplyEffectToObject(DURATION_TYPE_INSTANT, eHead, oTarget);	// BDF - 6/20/06: effect eHead is no longer valid
 }

@@ -13,6 +13,7 @@
 // ChazM 5/10/07 - Added EffectExhausted(), EffectSickened()
 // ChazM 5/15/07 - Added HealHarmTarget()
 // ChazM 6/7/07 - Added various HealHarm*() functions
+// Ronan 2011-06-21 - Added WarnWhenSpellExpires
 //void main(){}
 
 #include "nw_i0_spells"
@@ -1068,4 +1069,11 @@ int HealHarmNearby( int nMaxToHealHarm, effect eVis, effect eVis2, int nCasterLv
 	return nNumEffected;
 }
 
-//void main() {}
+void FloatMessageIfHasSpellEffect(object oCreature, int nSpellId, string sMessage, float fDuration) {
+	if(GetHasSpellEffect(nSpellId, oCreature))
+		FloatingTextStringOnCreature(sMessage, oCreature, TRUE, fDuration);
+}
+
+void WarnWhenSpellExpires(object oCreature, int nSpellId, string sMessage, float fDuration) {
+	DelayCommand(fDuration - 12.0, FloatMessageIfHasSpellEffect(oCreature, nSpellId, sMessage, 12.0));
+}
