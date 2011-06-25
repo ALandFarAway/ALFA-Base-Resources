@@ -23,11 +23,8 @@
 // 2011-06-14: Ronan -- Removed VFX and added a message when the skin is about to expire.
 
 #include "nwn2_inc_spells"
-
-
-#include "nw_i0_spells"
 #include "x2_inc_spellhook" 
-#include "acr_tools_i"
+#include "acr_spells_i"
 
 void main()
 {

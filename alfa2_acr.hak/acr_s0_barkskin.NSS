@@ -24,7 +24,7 @@
 // Modified by Ronan for ALFA 2011-06-14
 // Removed VFX
 
-#include "nwn2_inc_spells"
+#include "acr_spells_i"
 
 #include "x2_inc_spellhook" 
 

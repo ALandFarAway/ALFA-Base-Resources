@@ -22,7 +22,7 @@
 
 #include "nw_i0_spells"
 #include "x2_inc_spellhook" 
-#include "nwn2_inc_spells"
+#include "acr_spells_i"
 
 void main()
 {
