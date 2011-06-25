@@ -72,6 +72,7 @@
 //  2009/12/29  AcadiusLost - Removed autoassignment of subdual widget OnPCLoaded (no longer needed)
 //	2011/05/29	Ronan		- Added OnModuleLoad parameters for global module settings.
 //      2011/06/04      Zelknolf        - Added hook for display of NPC creator GUI
+//	2011/06/24	AcadiusLost	- merged in fix for clearing IsOnline bits in Characters table OnModuleLoad()
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -260,8 +261,8 @@ void ACR_ModuleOnModuleLoad()
 		}
 	}
 
-    // clear all online statuses
-    ACR_SQLQuery("UPDATE characters SET IsOnline=0");
+	//  EDIT: Only where ServerID = the ID of the server that has just finished loading.
+        ACR_SQLQuery("UPDATE characters SET IsOnline=0 WHERE ServerID=" + sSID);
 	
 	// Initialize chatlogging buffer
 	ACR_InitializeChat();
