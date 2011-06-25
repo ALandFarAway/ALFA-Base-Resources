@@ -40,6 +40,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_settings_i.nss                    \
             $(OUTPUTDIR)\acr_skills_i.nss                      \
             $(OUTPUTDIR)\acr_spawn_i.nss                       \
+            $(OUTPUTDIR)\acr_spells_i.nss                      \
             $(OUTPUTDIR)\acr_spelltrack_i.nss                  \
             $(OUTPUTDIR)\acr_time_i.nss                        \
             $(OUTPUTDIR)\acr_tools_i.nss                       \
@@ -51,7 +52,22 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\dmfi_inc_const.nss                    \
             $(OUTPUTDIR)\nw_i0_spells.nss                      \
             $(OUTPUTDIR)\acr_zspawn_i.nss                      \
-            $(OUTPUTDIR)\nwn2_inc_spells.nss                   
+            $(OUTPUTDIR)\nwn2_inc_spells.nss                   \
+            $(OUTPUTDIR)\dmfi_inc_command.nss                  \
+            $(OUTPUTDIR)\dmfi_inc_conv.nss                     \
+            $(OUTPUTDIR)\dmfi_inc_emotes.nss                   \
+            $(OUTPUTDIR)\dmfi_inc_english.nss                  \
+            $(OUTPUTDIR)\dmfi_inc_inc_com.nss                  \
+            $(OUTPUTDIR)\dmfi_inc_initial.nss                  \
+            $(OUTPUTDIR)\dmfi_inc_lang.nss                     \
+            $(OUTPUTDIR)\dmfi_inc_langexe.nss                  \
+            $(OUTPUTDIR)\dmfi_inc_sendtex.nss                  \
+            $(OUTPUTDIR)\dmfi_inc_tool.nss                     \
+            $(OUTPUTDIR)\kemo_includes.nss                     \
+            $(OUTPUTDIR)\nwnx_clock.nss                        \
+            $(OUTPUTDIR)\nwnx_include.nss                      \
+            $(OUTPUTDIR)\nwnx_sql.nss                          \
+            $(OUTPUTDIR)\nwnx_time.nss                         
 
 NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\abr_plc_oninventorydisreturns.ncs     \
@@ -88,6 +104,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s0_disruptundead.ncs              \
             $(OUTPUTDIR)\acr_s0_exretreat.ncs                  \
             $(OUTPUTDIR)\acr_s0_fear.ncs                       \
+            $(OUTPUTDIR)\acr_s0_grstonesk.ncs                  \
             $(OUTPUTDIR)\acr_s0_haltundead.ncs                 \
             $(OUTPUTDIR)\acr_s0_haste.ncs                      \
             $(OUTPUTDIR)\acr_s0_lsdispel.ncs                   \
@@ -98,10 +115,27 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s0_scare.ncs                      \
             $(OUTPUTDIR)\acr_s0_snillocsnowball.ncs            \
             $(OUTPUTDIR)\acr_s0_spiderclimb.ncs                \
+            $(OUTPUTDIR)\acr_s0_stoneskn.ncs                   \
             $(OUTPUTDIR)\acr_s0_web.ncs                        \
             $(OUTPUTDIR)\acr_trg_portalstart.ncs               \
+            $(OUTPUTDIR)\dmfi_conv_def.ncs                     \
+            $(OUTPUTDIR)\dmfi_conv_def_pc.ncs                  \
+            $(OUTPUTDIR)\dmfi_delayed_pcload.ncs               \
+            $(OUTPUTDIR)\dmfi_exe_tool.ncs                     \
+            $(OUTPUTDIR)\dmfi_mod_pcload.ncs                   \
+            $(OUTPUTDIR)\dmfi_plugin_cmd1.ncs                  \
+            $(OUTPUTDIR)\dmfi_plugin_cmd2.ncs                  \
+            $(OUTPUTDIR)\dmfi_plugin_emt1.ncs                  \
+            $(OUTPUTDIR)\dmfi_plugin_rule.ncs                  \
+            $(OUTPUTDIR)\gui_kemo_chair_anim.ncs               \
+            $(OUTPUTDIR)\gui_kemo_portablechair.ncs            \
+            $(OUTPUTDIR)\gui_kemo_resize.ncs                   \
+            $(OUTPUTDIR)\gui_kemo_turnchair.ncs                \
             $(OUTPUTDIR)\i_abr_it_firstaid_ac.ncs              \
             $(OUTPUTDIR)\i_acr_subdual_ac.ncs                  \
+            $(OUTPUTDIR)\i_kemoportablechair_ac.ncs            \
+            $(OUTPUTDIR)\kemo_animation_hb.ncs                 \
+            $(OUTPUTDIR)\kemo_chair.ncs                        \
             $(OUTPUTDIR)\nw_s0_curcrwn.ncs                     \
             $(OUTPUTDIR)\nw_s0_curlgtw.ncs                     \
             $(OUTPUTDIR)\nw_s0_curmodw.ncs                     \
@@ -112,6 +146,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s0_macurligt.ncs                   \
             $(OUTPUTDIR)\nw_s0_macurmod.ncs                    \
             $(OUTPUTDIR)\nw_s0_macurseri.ncs                   \
+            $(OUTPUTDIR)\nw_s0_magearm.ncs                     \
             $(OUTPUTDIR)\nw_s0_masheal.ncs                     \
             $(OUTPUTDIR)\nw_s0_regen.ncs                       \
             $(OUTPUTDIR)\nw_s0_rejuvcocoon.ncs                 \
@@ -123,6 +158,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nx_s0_mlsrvigor.ncs                   \
             $(OUTPUTDIR)\nx_s0_vigor.ncs                       \
             $(OUTPUTDIR)\nx_s0_vigorcycle.ncs                  \
+            $(OUTPUTDIR)\nx_s0_walldisp.ncs                    \
             $(OUTPUTDIR)\x0_s3_acid.ncs                        \
             $(OUTPUTDIR)\x0_s3_alchem.ncs                      \
             $(OUTPUTDIR)\x0_s3_choke.ncs                       \
@@ -141,18 +177,30 @@ NSS_OBJECTS=                                                   \
 
 HAKFILE=$(OUTPUTDIR)\alfa2_acr.hak
 
-HAK_SOURCES=                                                   \
-            $(NSS_OBJECTS)                                     \
-            $(NSS_OBJECTS:.ncs=.nss)                           \
-            $(NSS_OBJECTS:.ncs=.ndb)                           \
-            $(NSS_INCLNSS)                                     \
-            .\*.TXT                                            \
+NSS_OBJECTS_NL=$(NSS_OBJECTS:.ncs=.ncs^
+)
+NSS_INCLNSS_NL=$(NSS_INCLNSS:.nss=.nss^
+)
+
+#
+# Note, first line has .\ omitted so that it doesn't have a newline put on the
+# front.  This is because the script macros always have newlines at the end.
+#
+
+HAK_SOURCES_MISC=                                              \
+            *.TXT                                              \
             .\*.UTI                                            \
             .\*.UTC                                            \
             .\*.DLG                                            \
             .\*.UTW                                            \
             .\*.TGA                                            
 
+HAK_SOURCES_MISC_NL=$(HAK_SOURCES_MISC:.\=^
+)
+
+HAK_SOURCES=$(NSS_OBJECTS_NL) $(NSS_OBJECTS_NL:.ncs=.nss) $(NSS_OBJECTS_NL:.ncs=.ndb) $(NSS_INCLNSS_NL) $(HAK_SOURCES_MISC_NL)
+
+HAK_SOURCES_NL=$(HAK_SOURCES: =)
 
 all: scriptincludes $(NSS_OBJECTS) $(HAKFILE)
 
@@ -168,7 +216,15 @@ clean:
 	@if exist $(OUTPUTDIR)\*.ndb del $(OUTPUTDIR)\*.ndb
 	@if exist $(HAKFILE) del /q $(HAKFILE) >NUL
 
+$(HAKFILE): script $(HAK_SOURCES_MISC)
+	$(BUILD_MSG) (ERF) Creating - $(HAKFILE)
+	@$(MKERF_NWN2) -c $(HAKFILE) @<<$(ERFUTIL_RSP)
+-z
+$(HAK_SOURCES_NL)
+<<KEEP
+
+!if 0
 $(HAKFILE): $(HAK_SOURCES)
 	$(BUILD_MSG) (ERF) Creating - $(HAKFILE)
 	@$(MKERF_NWN2) -c $(HAKFILE) -z $(HAK_SOURCES)
-
+!endif
