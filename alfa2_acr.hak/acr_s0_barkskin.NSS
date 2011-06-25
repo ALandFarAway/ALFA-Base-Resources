@@ -25,7 +25,7 @@
 // Removed VFX
 
 #include "acr_spells_i"
-
+#include "nwn2_inc_metmag"
 #include "x2_inc_spellhook" 
 
 void main()
