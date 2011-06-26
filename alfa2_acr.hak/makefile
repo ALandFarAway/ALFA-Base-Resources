@@ -172,6 +172,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_zspawn_one.ncs                    \
             $(OUTPUTDIR)\acr_zspawn_2d4.ncs                    \
             $(OUTPUTDIR)\nw_s0_magearm.ncs                     \
+            $(OUTPUTDIR)\gui_atsign.ncs                        \
+            $(OUTPUTDIR)\gui_setlanguse.ncs                    \
             $(OUTPUTDIR)\x2_s3_onhitcast.ncs                   
 
 
