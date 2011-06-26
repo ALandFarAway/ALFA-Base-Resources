@@ -135,7 +135,7 @@ ignoreevents=FALSE capturemouseclicks=TRUE capturemouseevents=TRUE update=true U
 		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_setlanguse","shou") />
 	<UIButton name="sylvan"         x=205 y=185 height=15 width=200 text="Sylvan"  style="STYLE_CHARGEN_TAB" groupid=1 groupmemberid=43 hidden=TRUE
 		OnLeftClick0=UIObject_Misc_ScreenClose()
-		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_setlanguse","Sylvan") />
+		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_setlanguse","sylvan") />
 	<UIButton name="terran"         x=205 y=200 height=15 width=200 text="Terran"  style="STYLE_CHARGEN_TAB" groupid=1 groupmemberid=44 hidden=TRUE
 		OnLeftClick0=UIObject_Misc_ScreenClose()
 		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_setlanguse","terran") />
