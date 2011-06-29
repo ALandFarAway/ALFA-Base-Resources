@@ -99,6 +99,10 @@ const int ARMOR_TYPE_HEAVY = 4;
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+//! Removes all the effects on oObject which were created by oSource.
+//! Returns the number of effects removed.
+int RemoveAllEffectsFrom(object oObject, object oSource);
+
 // Gets the effective caster level oPC has in nClass's spell list.
 // Returns 0 on error.
 int GetClassCasterLevel(int nClass, object oPC);
@@ -262,6 +266,19 @@ string ACR_CleanCreatureNameTextForPlayers(string sRawInput);
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+int RemoveAllEffectsFrom(object oObject, object oSource) {
+	int nRemoved = 0;
+	effect eff = GetFirstEffect(oObject);
+	while(GetIsEffectValid(eff)) {
+		if(oSource == GetEffectCreator(eff)) {
+			RemoveEffect(oObject, eff);
+			nRemoved++;
+		}
+		eff = GetNextEffect(oObject);
+	}
+	return nRemoved;
+}
 
 int GetClassCasterLevel(int nClass, object oPC) {
     int nLevels = GetLevelByClass(nClass, oPC);
