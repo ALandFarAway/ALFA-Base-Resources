@@ -443,7 +443,7 @@ int DMFI_GetNetWorth(object oTarget)
    while(GetIsObjectValid(oItem))
    {
    	  // ALFA edit: only add value if it is positive.
-   	  i = GetGoldPieceValue(GetItemInSlot(nSlot, oTarget));
+   	  i = GetGoldPieceValue(oItem);
       if ( i > 0 ) {  n= n + i; }
       oItem = GetNextItemInInventory(oTarget);
    }
