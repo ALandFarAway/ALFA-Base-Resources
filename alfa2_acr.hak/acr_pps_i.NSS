@@ -59,6 +59,7 @@
 #include "acr_1984_i"
 #include "acr_i"
 #include "acr_portal_i"
+#include "dmfi_inc_inc_com"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -259,6 +260,7 @@ void ACR_PCUpdateStatus(object oPC, int bLocation = TRUE)
      	    ", `INT`=" + IntToString(GetAbilityScore(oPC, ABILITY_INTELLIGENCE)) +
      	    ", WIS=" + IntToString(GetAbilityScore(oPC, ABILITY_WISDOM)) +
      	    ", CHA=" + IntToString(GetAbilityScore(oPC, ABILITY_CHARISMA)) +
+			", Wealth=" + IntToString(DMFI_GetNetWorth(oPC)) +
      	    " WHERE ID=" + IntToString(nCID));
 	} else {
 	    // special save, with location omitted
@@ -284,6 +286,7 @@ void ACR_PCUpdateStatus(object oPC, int bLocation = TRUE)
      	    ", `INT`=" + IntToString(GetAbilityScore(oPC, ABILITY_INTELLIGENCE)) +
      	    ", WIS=" + IntToString(GetAbilityScore(oPC, ABILITY_WISDOM)) +
      	    ", CHA=" + IntToString(GetAbilityScore(oPC, ABILITY_CHARISMA)) +
+			", Wealth=" + IntToString(DMFI_GetNetWorth(oPC)) +
      	    " WHERE ID=" + IntToString(nCID));
 	}
 	//save effects
