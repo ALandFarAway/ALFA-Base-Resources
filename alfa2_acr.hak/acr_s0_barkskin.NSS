@@ -24,7 +24,6 @@
 // Modified by Ronan for ALFA 2011-06-14
 // Removed VFX
 
-#include "acr_spells_i"
 #include "nwn2_inc_metmag"
 #include "x2_inc_spellhook" 
 
@@ -74,10 +73,9 @@ void main()
 	if (nBonus > 5) nBonus = 5;
 	
     //Make sure the Armor Bonus is of type Natural
-    eAC = EffectACIncrease(nBonus, AC_NATURAL_BONUS);
+    eAC = EffectLinkEffects(EffectACIncrease(nBonus, AC_NATURAL_BONUS), EffectVisualEffect(VFX_DUR_SPELL_PROT_ALIGN));
     //eLink = EffectLinkEffects(eLink, eDur);	// NWN1 VFX
 
     ApplyEffectToObject(nDurType, eAC, oTarget, fDuration);
-	WarnWhenSpellExpires(oTarget, SPELL_BARKSKIN, "Your barkskin spell is about to expire!", fDuration);
     //ApplyEffectToObject(DURATION_TYPE_INSTANT, eHead, oTarget);	// BDF - 6/20/06: effect eHead is no longer valid
 }
