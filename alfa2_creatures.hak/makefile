@@ -4,7 +4,7 @@
 
 !include $(PROJECT_SOURCE_ROOT)\makefile.def
 
-HAKFILE=$(OUTPUTDIR)\alfa2_creatures.hak
+HAKFILE=$(OUTPUTDIR)\alfa_creatures.hak
 HAK_SOURCES=                                                   \
             .\*.TXT                                            \
             .\*.UTC                                            \
