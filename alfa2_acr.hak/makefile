@@ -115,6 +115,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s0_snillocsnowball.ncs            \
             $(OUTPUTDIR)\acr_s0_spiderclimb.ncs                \
             $(OUTPUTDIR)\acr_s0_web.ncs                        \
+            $(OUTPUTDIR)\acr_s2_wildshape.ncs                  \
             $(OUTPUTDIR)\acr_trg_portalstart.ncs               \
             $(OUTPUTDIR)\dmfi_conv_def.ncs                     \
             $(OUTPUTDIR)\dmfi_conv_def_pc.ncs                  \
