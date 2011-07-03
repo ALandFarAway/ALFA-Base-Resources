@@ -26,6 +26,8 @@ update: 8/19/2007: edit to hss_pc_tools.XML to add Praying for spells as Custom 
 	3/13/2010: Added Kemo's Descriptions, PC tools party macro change, DMFI target tool fix
         9/6/2010:  Added TKL Cardgame, Kemo's animations (PG-13 version), CreatureExamine fixes,
                 UI files for XP-Craft
+  7/2/2011: NPC GUI, KEMO Chairs, Language GUI, enhancements to spawn system (encounter, light), expanding text entry in the chat window, RPXP fix (double proc), quarantine fix, clearing run-specific data on load, DMFI fixes for wealth reports/ wealth logging, minus glass doppelganger, plus craft construct, new soundsets (flaming fist, amn guard, helmite cleric, villager), shadow touch attack, new perception ranges, goblins and kobolds small creatures, asynchronous log writes.
+
 
 
 ALFA Custom GUI by Cipher:

@@ -46,6 +46,7 @@ acr_xp_i (RPXP fix)
   3/13/2010: Added weapon VFX sytem to items_i, new icons for dieties, spelltrack/UMD fix, db_persist fix for class4, new icons for light sources.
   9/21/2010: Fixes to quest_i (item quests), items_i (earrings, OnEquip Gender Restrict), edited OEI grenadelike scripts, fixed first aid scripts for stabilized PCs
   5/9/2011: Fixes to declarations by Zelknolf (debug, spawn, resting), for for locations by Paazin (PPS)
+  7/2/2011: NPC GUI, KEMO Chairs, Language GUI, enhancements to spawn system (encounter, light), expanding text entry in the chat window, RPXP fix (double proc), quarantine fix, clearing run-specific data on load, DMFI fixes for wealth reports/ wealth logging, minus glass doppelganger, plus craft construct, new soundsets (flaming fist, amn guard, helmite cleric, villager), shadow touch attack, new perception ranges, goblins and kobolds small creatures, asynchronous log writes.
  
 Core scripts:
 
