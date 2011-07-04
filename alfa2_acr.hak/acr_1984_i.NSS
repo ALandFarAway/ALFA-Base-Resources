@@ -202,6 +202,7 @@ void ACR_LogModuleLoaded();
 
 void ACR_LogEvent(object oPC, string sEventName, string sEventDescription, object oDM = OBJECT_INVALID)
 {
+	object oModule = GetModule();
     // log the event
 	// add the area and party leader
 	if (GetIsObjectValid(GetArea(oPC))) {
@@ -217,11 +218,11 @@ void ACR_LogEvent(object oPC, string sEventName, string sEventDescription, objec
     if (oDM != OBJECT_INVALID)
     {
         // include the DM character ID
-        ACR_AsyncSQLQuery("INSERT INTO logs (ServerID, CharacterID, DMCharacterID, Event, Description) VALUES (" + IntToString(ACR_GetServerId()) + "," + IntToString(ACR_GetCharacterID(oPC))  + "," + IntToString(ACR_GetCharacterID(oDM)) + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')");
+        ACR_AsyncSQLQueryEx("INSERT INTO logs (ServerID, CharacterID, DMCharacterID, Event, Description) VALUES (" + IntToString(ACR_GetServerId()) + "," + IntToString(ACR_GetCharacterID(oPC))  + "," + IntToString(ACR_GetCharacterID(oDM)) + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')", oModule);
     }
     else
     {
-        ACR_AsyncSQLQuery("INSERT INTO logs (ServerID, CharacterID, Event, Description) VALUES (" + IntToString(ACR_GetServerId()) + "," + IntToString(ACR_GetCharacterID(oPC)) + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')");
+        ACR_AsyncSQLQueryEx("INSERT INTO logs (ServerID, CharacterID, Event, Description) VALUES (" + IntToString(ACR_GetServerId()) + "," + IntToString(ACR_GetCharacterID(oPC)) + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')", oModule);
     }
 }
 

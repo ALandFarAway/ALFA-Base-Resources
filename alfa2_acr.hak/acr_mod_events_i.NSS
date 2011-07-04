@@ -74,6 +74,7 @@
 //      2011/06/04      Zelknolf        - Added hook for display of NPC creator GUI
 //	2011/06/24	AcadiusLost	- merged in fix for clearing IsOnline bits in Characters table OnModuleLoad()
 //	2011/06/25	Ronan - Added in the service heartbeats for asynchronous SQL writes.
+// 2011/07/02  Basilica - Added persistent database callouts for cache management.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -296,7 +297,10 @@ void ACR_ModuleOnClientEnter()
 
     // initialize the player - RUN THIS BEFORE INITIALIZING OTHER SYSTEMS
     ACR_PCOnClientEnter(oPC);
-	
+
+    // notify database system of login
+    ACR_DBPersistOnIncomingPlayer(oPC);
+
 	//initialize for chatlogging
 	ACR_ChatOnClientEnter(oPC);
 
@@ -447,6 +451,9 @@ void ACR_ModuleOnClientLeave()
 
 	// clean up chatlogging pointers
 	ACR_ChatOnClientExit(oPC);
+
+	// notify database system of logout
+	ACR_DBPersistOnOutgoingPlayer(oPC);
 }
 
 void ACR_ModuleOnAcquireItem()

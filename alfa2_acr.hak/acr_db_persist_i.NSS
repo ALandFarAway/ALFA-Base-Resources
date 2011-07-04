@@ -31,7 +31,8 @@
 //  2008/01/26 AcadiusLost  switched ResetDatabase to a function (code migrated from nwnx_system.nss)
 //  2009/01/19 AcadiusLost  Added update to Last field on updating existing pwdata rows.
 //  2009/10/11 AcadiusLost  Altered Charaters table to include Class4/level4
-//	2011/05/26 Ronan		Added asynchronous queries.
+//  2011/05/26 Ronan        Added asynchronous queries.
+//  2011/07/02 Basilica     Added framework for persistent value caching
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -64,6 +65,23 @@ const float _ACR_DB_SQL_ASYNC_WRITE_HEARTBEAT_DELAY = 12.0;
 //! Name of the async queue for local variable use.
 const string _ACR_DB_SQL_QUEUE = "ACR_SQL_Q|";
 
+//! Name of the database control flags local on the module.
+const string _ACR_DB_CONTROL_FLAGS_VAR = "ACR_SQL_DB_CONTROL_FLAGS";
+
+//! Name of the pending query for query flushing
+const string _ACR_DB_SQL_PENDING_QUERY_VAR = "ACR_SQL_DB_PENDING_QUERY";
+
+//! Flags for _ServiceAsyncQueriesForObject
+const int _ACR_SQL_SAQ_FLUSHALL = 0x00000001;    // flush the whole queue 
+
+//! Flags for _GetDatabaseControlFlags / _SetDatabaseControlFlags
+const int _ACR_SQL_DBCTRL_DATABASE_OFFLINE = 0x00000001;  // database link down
+const int _ACR_SQL_DBCTRL_ASYNC_PENDING    = 0x00000002;  // have async queries
+
+//! Maximum length of a SQL query
+
+const int _ACR_SQL_QUERY_MAX_LEN = 16384;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -81,10 +99,20 @@ void ACR_StartAsyncService();
 
 //! This function executes an SQL statement asynchronously.
 //! The submitted query is not guarenteed to be executed immediately.
-//! This should ONLY be used for fire-and-forget writes.
+//! This should ONLY be used for fire-and-forget writes unless the user flushes
+//! the queue before reading the modified data back.
 //!  - sSQL: The SQL string to execute
 //!  - Returns: Nothing
 void ACR_AsyncSQLQuery(string sSQL);
+
+//! This function executes an SQL statement asynchronously.
+//! The submitted query is not guarenteed to be executed immediately.
+//! This should ONLY be used for fire-and-forget writes unless the user flushes
+//! the queue before reading the modified data back.
+//!  - sSQL: The SQL string to execute
+//!  - oQueueTo: Supplies the object whose queue is to be used
+//!  - Returns: Nothing
+void ACR_AsyncSQLQueryEx(string sSQL, object oQueueTo);
 
 //! This function executes an SQL statement.
 //!  - sSQL: The SQL string to execute
@@ -255,6 +283,16 @@ void ACR_ResetDatabase();
 //! Checks for presence of columns added post-Live, adjust tables if necessary
 void ACR_AdjustTables(); 
 
+//! This function is called when a player joins the server so that the cache
+//  spool may be mamanged.
+//!  - oPC: player who is logging on
+void ACR_DBPersistOnIncomingPlayer(object oPC);
+
+//! This function is called when a player leaves the server so that the cache
+//  spool may be managed.
+//!  - oPC: player who is logging off
+void ACR_DBPersistOnOutgoingPlayer(object oPC);
+
 //! Passes the reset command to the NWNx4 system plugin, taken from nwnx_system.nss
 // Authors  : Ingmar Stieger (Papillon)
 // Modified : 08/25/07 (kfw) : Added more useful error messages.
@@ -263,16 +301,71 @@ void _ResetServer();
 //! Services the queue of asyncronous queries.
 void _ServiceAsyncQueries();
 
+//! Service the queue of asynchronous queries (allows per-object queuing)
+//!  - oQueuedTo: Supplies the object that owns the queue spool
+//!  - nFlags: Supplies control flags (ACR_SQL_SAQ_*)
+//!  - nMaxServiced: Maximum elements to use in the queue (unused if flushall).
+//!  - oModule: Supplies the module object
+//!  - Returns: The number of elements dequeued is returned.
+int _ServiceAsyncQueriesForQueue(object oQueuedTo, int nFlags, int nMaxServiced, object oModule);
+
+//! Flush the query queue.  At least the queue for oQueueObject is guaranteed
+//  to be flushed.
+void _FlushQueryQueue(object oQueueObject);
+
+//! Run queues immediately for all queue objects.
+void _ExecuteQueryQueues(int nMaxServiced, object oModule);
+
+//! Initiate a new async query cycle and run the current queue down when the
+//  script returns control.
+void _RunQueryQueue();
+
+//! Get the number of queued queries for all queues
+//!  - Returns: The number of queued queries for all queues
+int _GetTotalQueuedQueryCount();
+
+//! Get the database control flags
+//!  - Returns: The database control flags (ACR_SQL_DBCTRL_*)
+int _GetDatabaseControlFlags();
+
+//! Set the database control flags
+//! - nControlFlags: The control flags to assign.
+void _SetDatabaseControlFlags(int nControlFlags);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
 void ACR_StartAsyncService() {
-	DelayCommand(_ACR_DB_SQL_ASYNC_WRITE_HEARTBEAT_DELAY, _ServiceAsyncQueries());
+	// If we already have pending new queries, there's nothing to do.
+	if ((_GetDatabaseControlFlags() & _ACR_SQL_DBCTRL_ASYNC_PENDING) != 0)
+		return;
+
+	object Module = GetModule();
+
+	// Begin unspooling any uncommitted queries if we need to
+	if (GetQueueLength(Module, _ACR_DB_SQL_QUEUE) != 0)
+		_RunQueryQueue();
 }
 
 void ACR_AsyncSQLQuery(string sSQL) {
-	PushQueueString(GetModule(), _ACR_DB_SQL_QUEUE, sSQL);
+	ACR_AsyncSQLQueryEx(sSQL, GetModule());
+}
+
+void ACR_AsyncSQLQueryEx(string sSQL, object oQueueTo)
+{
+	int PrevQueueLength;
+
+	// Only players may own their own query queue as we do not have rundown for
+	// other objects to flush the queue cleanly
+	if (!GetIsPC(oQueueTo))
+		oQueueTo = GetModule();
+
+	PushQueueString(oQueueTo, _ACR_DB_SQL_QUEUE, sSQL);
+
+	// If we don't have a run queue pending, kick one off now
+	if ((_GetDatabaseControlFlags() & _ACR_SQL_DBCTRL_ASYNC_PENDING) == 0)
+		_RunQueryQueue();
 }
 
 void ACR_SQLQuery(string sSQL)
@@ -308,9 +401,10 @@ void ACR_SetPersistentString(object oObject, string sVarName, string sValue, int
     if ((GetResRef(oObject) == "abr_pl_co_so_pccorpse") || (GetResRef(oObject) == "abr_it_mi_body")) { sTag = GetStringLeft(sTag, 8); }
 
     // insert the record or update the values if it already exists
-    ACR_SQLQuery("INSERT INTO pwdata (Name, Tag, `Key`, Value, Expiration) VALUES ('"
+    ACR_AsyncSQLQueryEx("INSERT INTO pwdata (Name, Tag, `Key`, Value, Expiration) VALUES ('"
 	 + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "','" + sTag + "','" + ACR_SQLEncodeSpecialChars(sVarName) + "', '"
-     + sValue + "', " + IntToString(iExpiration) + ") ON DUPLICATE KEY UPDATE Value='" + sValue + "', Expiration=" + IntToString(iExpiration) + ", Last=NOW()");
+     + sValue + "', " + IntToString(iExpiration) + ") ON DUPLICATE KEY UPDATE Value='" + sValue + "', Expiration=" + IntToString(iExpiration) + ", Last=NOW()",
+	  oObject);
 }
 
 string ACR_GetPersistentString(object oObject, string sVarName)
@@ -319,6 +413,11 @@ string ACR_GetPersistentString(object oObject, string sVarName)
     string sTag = (GetIsPC(oObject)) ? ACR_GetPCPublicCDKey(oObject) : GetTag(oObject);
 	// if this is a corpse placeable, drop the CharID suffix to allow it to read the player variable.
     if ((GetResRef(oObject) == "abr_pl_co_so_pccorpse") || (GetResRef(oObject) == "abr_it_mi_body")) { sTag = GetStringLeft(sTag, 8); }
+	 // flush queue for the object so that any pending writes are visible
+	 // TODO:  This can and should go away when we start caching these values
+	 //        on the object itself.  There is no reason to hit the database
+	 //        each time for them.
+	 _FlushQueryQueue(oObject);
     // retrieve the record from the database
     ACR_SQLQuery("SELECT Value FROM pwdata WHERE Name='" + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "' and Tag='" + sTag + "' and `Key`='" + ACR_SQLEncodeSpecialChars(sVarName) + "'");
 
@@ -405,7 +504,11 @@ void ACR_DeletePersistentVariable(object oObject, string sVarName)
     string sTag = (GetIsPC(oObject)) ? ACR_GetPCPublicCDKey(oObject) : GetTag(oObject);
 	// if this is a corpse placeable, drop the CharID suffix to allow it to read the player variable.
     if ((GetResRef(oObject) == "abr_pl_co_so_pccorpse") || (GetResRef(oObject) == "abr_it_mi_body")) { sTag = GetStringLeft(sTag, 8); }
-	
+	 // flush queue for the object so that any pending writes are visible
+	 // TODO:  This can and should go away when we start caching these values
+	 //        on the object itself.  There is no reason to hit the database
+	 //        each time for them.
+	 _FlushQueryQueue(oObject);
     // retrieve the record from the database
     ACR_SQLQuery("DELETE FROM pwdata WHERE Name='" + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "' and Tag='" + sTag + "' and `Key`='" + ACR_SQLEncodeSpecialChars(sVarName) + "'");
 }
@@ -672,6 +775,7 @@ void ACR_ResetDatabase()  {
 
     object oMod = GetModule();
 	string sModName = GetName(oMod);
+	_SetDatabaseControlFlags(_GetDatabaseControlFlags() | _ACR_SQL_DBCTRL_DATABASE_OFFLINE);
     AssignCommand(oMod, SpeakString("Connection to the SQL database has been lost.   Please log out now.", TALKVOLUME_SHOUT));
 	DelayCommand(90.0, AssignCommand(oMod, SpeakString("Server will drop you in 30 seconds.", TALKVOLUME_SHOUT)));
 	DelayCommand(120.0, _ResetServer());
@@ -691,6 +795,36 @@ void ACR_AdjustTables() {
 	return;
 }
 
+
+void ACR_DBPersistOnIncomingPlayer(object oPC)
+{
+	// If we already have pending new queries, there's nothing to do.
+	if ((_GetDatabaseControlFlags() & _ACR_SQL_DBCTRL_ASYNC_PENDING) != 0)
+		return;
+
+	// Begin unspooling any uncommitted queries if we need to
+	if (GetQueueLength(oPC, _ACR_DB_SQL_QUEUE) != 0)
+		_RunQueryQueue();
+}
+
+void ACR_DBPersistOnOutgoingPlayer(object oPC)
+{
+	// Flush all uncommitted queries
+	_FlushQueryQueue(oPC);
+
+	// Check whether there is more than the departing player on the server
+	GetFirstPC();
+
+	if (GetNextPC() != OBJECT_INVALID)
+		return;
+
+	// The last player is leaving, flush the queue on the module as we might be
+	// shutting down cleanly.  Note that we could try and combine this with the
+	// above query but it's the last player anyway, so it's not a performance
+	// path.
+	_FlushQueryQueue(GetModule());
+}
+
 void _ResetServer() {
 	// Variables.
 	object oModule			= GetModule( );
@@ -698,33 +832,198 @@ void _ResetServer() {
 	// Boot all the players from the server first, so they don't timeout.
 	while( GetIsPC( oPC ) ){
 		// Boot this player.
+		_FlushQueryQueue( oPC );
 		BootPC( oPC );
 		// Get the next player in our server player list.
 		oPC = GetNextPC( );
-	}	
+	}
 	// Reset the server in 1 round's time.
+	_FlushQueryQueue( GetModule( ) );
 	DelayCommand( 6.0, NWNXSetString( "SYSTEM", "RESET", "", 0, "" ) );	
 	return;
 }
 
 // We could have more logic here, like longer delays if PCs
 // are in combat.
-void _ServiceAsyncQueries() {
-	DelayCommand(_ACR_DB_SQL_ASYNC_WRITE_HEARTBEAT_DELAY, _ServiceAsyncQueries());
-	object module = GetModule();
-	int length = GetQueueLength(module, _ACR_DB_SQL_QUEUE);
-		
-	if(!length) return;
-	
-	// We base it off the number in the queue so its impossible for constant combat to overflow it.
-	int maxServiced = 18 + length / 5;
+void _ServiceAsyncQueries()
+{
+	int MaxServiced;
+	object Module = GetModule();
+	int TotalQueueLength = _GetTotalQueuedQueryCount();
+
+	// If we have nothing in the queue then stop the continuation, so that the
+	// next write happens quickly
+	if (TotalQueueLength == 0)
+	{
+		_SetDatabaseControlFlags(_GetDatabaseControlFlags() & (~_ACR_SQL_DBCTRL_ASYNC_PENDING));
+		return;
+	}
+
+	// Figure out how many queue entries we want to dispatch this time around
+	MaxServiced = 18 + TotalQueueLength / 5;
+
+	if (MaxServiced > TotalQueueLength)
+		MaxServiced = TotalQueueLength;
 	// Your average packet size is about 4k, minus 20B for the header. The queries are about 150B each,
 	// so we might be able to fit 26 in a packet.
-	
-	string query = "";
+
+	// Run the queues for each of the objects that have queues
+	_ExecuteQueryQueues(MaxServiced, Module);
+
+	// Start the next continuation up
+
+	if (OBJECT_SELF != Module)
+		AssignCommand(Module, DelayCommand(_ACR_DB_SQL_ASYNC_WRITE_HEARTBEAT_DELAY, _ServiceAsyncQueries()));
+	else
+		DelayCommand(_ACR_DB_SQL_ASYNC_WRITE_HEARTBEAT_DELAY, _ServiceAsyncQueries());
+}
+
+int _ServiceAsyncQueriesForQueue(object oQueuedTo, int nFlags, int nMaxServiced, object oModule)
+{
 	int i;
-	for(i=0; i<length && i<maxServiced; i++) {
-		query = query + PopQueueString(module, _ACR_DB_SQL_QUEUE) + ";";
+	int Length;
+	int MaxQueries;
+	int QueriesLeft;
+	string Query;
+
+	Length = GetQueueLength(oQueuedTo, _ACR_DB_SQL_QUEUE);
+	
+	// Nothing to do if the queue spool is empty
+	if (Length == 0)
+		return 0;
+
+	// If we're to flush the entire queue, do it, otherwise perform a gated 
+	// flush of the queue
+	if ((nFlags & _ACR_SQL_SAQ_FLUSHALL) != 0)
+	{
+		MaxQueries = Length;
 	}
-	ACR_SQLQuery(query);
+	else
+	{
+		MaxQueries = nMaxServiced;
+
+		if (MaxQueries > Length)
+			MaxQueries = Length;
+	}
+
+	// If this is a per-player queue and the database connection has failed, do
+	// not try and issue queries but instead keep them in the local queue
+	if ((oQueuedTo != oModule) &&
+		(Length != 0) &&
+		(MaxQueries != 0) &&
+		((_GetDatabaseControlFlags() & _ACR_SQL_DBCTRL_DATABASE_OFFLINE) != 0))
+	{
+		WriteTimestampedLogEntry("acr_db_persist_i!_ServiceAsyncQueriesForQueue(): Database access is disabled, spooling queries for " +
+			GetName(oQueuedTo) + "...");
+		MaxQueries = 0;
+	}
+
+	Query = GetLocalString(oModule, _ACR_DB_SQL_PENDING_QUERY_VAR);
+
+	// Drain the queue
+	for (i = 0; i < MaxQueries; i += 1)
+	{
+		Query = Query + PopQueueString(oQueuedTo, _ACR_DB_SQL_QUEUE) + ";";
+
+		if (GetStringLength(Query) > _ACR_SQL_QUERY_MAX_LEN)
+		{
+			ACR_SQLQuery(Query);
+			Query = "";
+		}
+	}
+
+	if (GetStringLength(Query) > 0)
+	{
+		SetLocalString(oModule, _ACR_DB_SQL_PENDING_QUERY_VAR, Query);
+	}
+	else
+	{
+		DeleteLocalString(oModule, _ACR_DB_SQL_PENDING_QUERY_VAR);
+	}
+
+	return i;
+}
+
+void _FlushQueryQueue(object oQueueObject)
+{
+	// Only players may own their own query queue as we do not have rundown for
+	// other objects to flush the queue cleanly
+	if (!GetIsPC(oQueueObject))
+		oQueueObject = GetModule();
+
+	if (GetQueueLength(oQueueObject, _ACR_DB_SQL_QUEUE) == 0)
+		return;
+
+	_ExecuteQueryQueues(_GetTotalQueuedQueryCount(), GetModule());
+}
+
+void _ExecuteQueryQueues(int nMaxServiced, object oModule)
+{
+	int Processed;
+	string Query;
+	object QueueObject;
+
+	// Run the module's queue
+	Processed = _ServiceAsyncQueriesForQueue(oModule, 0, nMaxServiced, oModule);
+	nMaxServiced -= Processed;
+
+	// If we still have more queue data to run
+	if (nMaxServiced != 0)
+	{
+		// Run the queue for each other object with a queue, i.e. each player
+		for (QueueObject = GetFirstPC(); QueueObject != OBJECT_INVALID; QueueObject = GetNextPC())
+		{
+			Processed = _ServiceAsyncQueriesForQueue(QueueObject, 0, nMaxServiced, oModule);
+			nMaxServiced -= Processed;
+
+			// If we haven't anything in the queue anymore, exit early
+			if (nMaxServiced == 0)
+				break;
+		}
+	}
+
+	// Finally, execute the combined query if there was one
+	Query = GetLocalString(oModule, _ACR_DB_SQL_PENDING_QUERY_VAR);
+
+	if (GetStringLength(Query) > 0)
+	{
+		ACR_SQLQuery(Query);
+		DeleteLocalString(oModule, _ACR_DB_SQL_PENDING_QUERY_VAR);
+	}
+}
+
+void _RunQueryQueue()
+{
+	// Record that we will have a continuation pending
+	_SetDatabaseControlFlags(_GetDatabaseControlFlags() | _ACR_SQL_DBCTRL_ASYNC_PENDING);
+
+	// Run the queue down when the script returns control all the way, which
+	// lets us collect any additional queries that the script might add to the
+	// queue right away
+	AssignCommand(GetModule(), _ServiceAsyncQueries());
+}
+
+int _GetTotalQueuedQueryCount()
+{
+	object Player;
+	int QueryCount;
+
+	QueryCount = GetQueueLength(GetModule(), _ACR_DB_SQL_QUEUE);
+
+	for (Player = GetFirstPC(); Player != OBJECT_INVALID; Player = GetNextPC())
+	{
+		QueryCount += GetQueueLength(Player, _ACR_DB_SQL_QUEUE);
+	}
+
+	return QueryCount;
+}
+
+int _GetDatabaseControlFlags()
+{
+	return GetLocalInt(GetModule(), _ACR_DB_CONTROL_FLAGS_VAR);
+}
+
+void _SetDatabaseControlFlags(int nControlFlags)
+{
+	SetLocalInt(GetModule(), _ACR_DB_CONTROL_FLAGS_VAR, nControlFlags);
 }
