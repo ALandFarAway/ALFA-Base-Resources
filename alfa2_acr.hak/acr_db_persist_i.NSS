@@ -971,7 +971,9 @@ void _ExecuteQueryQueues(int nMaxServiced, object oModule)
 	if (nMaxServiced != 0)
 	{
 		// Run the queue for each other object with a queue, i.e. each player
-		for (QueueObject = GetFirstPC(); QueueObject != OBJECT_INVALID; QueueObject = GetNextPC())
+		//for (QueueObject = GetFirstPC(); QueueObject != OBJECT_INVALID; QueueObject = GetNextPC())
+		QueueObject = GetFirstPC();
+		while(QueueObject != OBJECT_INVALID)
 		{
 			Processed = _ServiceAsyncQueriesForQueue(QueueObject, 0, nMaxServiced, oModule);
 			nMaxServiced -= Processed;
@@ -979,6 +981,8 @@ void _ExecuteQueryQueues(int nMaxServiced, object oModule)
 			// If we haven't anything in the queue anymore, exit early
 			if (nMaxServiced == 0)
 				break;
+			
+			QueueObject = GetNextPC();
 		}
 	}
 
@@ -1010,9 +1014,12 @@ int _GetTotalQueuedQueryCount()
 
 	QueryCount = GetQueueLength(GetModule(), _ACR_DB_SQL_QUEUE);
 
-	for (Player = GetFirstPC(); Player != OBJECT_INVALID; Player = GetNextPC())
+	//for (Player = GetFirstPC(); Player != OBJECT_INVALID; Player = GetNextPC())
+	Player = GetFirstPC();
+	while(Player != OBJECT_INVALID)
 	{
 		QueryCount += GetQueueLength(Player, _ACR_DB_SQL_QUEUE);
+		Player = GetNextPC();
 	}
 
 	return QueryCount;
