@@ -430,6 +430,7 @@ void ACR_SetPersistentString(object oObject, string sVarName, string sValue, int
     if ((GetResRef(oObject) == "abr_pl_co_so_pccorpse") || (GetResRef(oObject) == "abr_it_mi_body")) { sTag = GetStringLeft(sTag, 8); }
 
     _MaintainACRPersistCache(oObject, sTag);
+    SetLocalString(oObject, _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX + sVarName, sValue);
     // insert the record or update the values if it already exists
     ACR_AsyncSQLQueryEx("INSERT INTO pwdata (Name, Tag, `Key`, Value, Expiration) VALUES ('"
 	 + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "','" + sTag + "','" + ACR_SQLEncodeSpecialChars(sVarName) + "', '"
