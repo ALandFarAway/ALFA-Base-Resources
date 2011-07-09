@@ -71,6 +71,18 @@ const string _ACR_DB_CONTROL_FLAGS_VAR = "ACR_SQL_DB_CONTROL_FLAGS";
 //! Name of the pending query for query flushing
 const string _ACR_DB_SQL_PENDING_QUERY_VAR = "ACR_SQL_DB_PENDING_QUERY";
 
+//! Name of the server boot timestamp variable (on cached objects)
+const string _ACR_DB_SQL_SERVER_BOOT_TIME_VAR = "ACR_SQL_DB_SERVER_BOOT_TIME";
+
+//! Name of the server boot timestamp variable (on module)
+const string _ACR_DB_SQL_SERVER_BOOT_TIME_MOD_VAR = "ACR_SQL_DB_SERVER_BOOT_TIME_MODULE";
+
+//! Prefix string for ACR persist cache locals
+const string _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX = "_ACRPERSISTCACHE_";
+
+//! Length of persist cache string
+const int _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX_LEN = 17;
+
 //! Flags for _ServiceAsyncQueriesForObject
 const int _ACR_SQL_SAQ_FLUSHALL = 0x00000001;    // flush the whole queue 
 
@@ -293,6 +305,15 @@ void ACR_DBPersistOnIncomingPlayer(object oPC);
 //!  - oPC: player who is logging off
 void ACR_DBPersistOnOutgoingPlayer(object oPC);
 
+//! This function returns the real timestamp of the database server's clock,
+//  standard time_t epoch.
+//!  - Returns: Seconds since 1970.
+int ACR_GetUTCTime();
+
+//! This function returns the start time of the module in UTC time.
+//!  - Returns: The module start time (seconds since 1970).
+int ACR_GetModuleStartTime();
+
 //! Passes the reset command to the NWNx4 system plugin, taken from nwnx_system.nss
 // Authors  : Ingmar Stieger (Papillon)
 // Modified : 08/25/07 (kfw) : Added more useful error messages.
@@ -329,8 +350,16 @@ int _GetTotalQueuedQueryCount();
 int _GetDatabaseControlFlags();
 
 //! Set the database control flags
-//! - nControlFlags: The control flags to assign.
+//!  - nControlFlags: The control flags to assign.
 void _SetDatabaseControlFlags(int nControlFlags);
+
+//! Maintain the ACR cache for an object.
+//!  - oCacheObject: Supplies the object whose cache is to be maintained
+//!  - sTag: Supplies the "tag" of the object for database queries.
+void _MaintainACRPersistCache(object oCacheObject, string sTag);
+
+//! Return the UTC time start time of the module.
+int _GetModuleStartTime();
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -400,6 +429,7 @@ void ACR_SetPersistentString(object oObject, string sVarName, string sValue, int
 	// if this is a corpse placeable, drop the CharID suffix to allow it to read the player variable.
     if ((GetResRef(oObject) == "abr_pl_co_so_pccorpse") || (GetResRef(oObject) == "abr_it_mi_body")) { sTag = GetStringLeft(sTag, 8); }
 
+    _MaintainACRPersistCache(oObject, sTag);
     // insert the record or update the values if it already exists
     ACR_AsyncSQLQueryEx("INSERT INTO pwdata (Name, Tag, `Key`, Value, Expiration) VALUES ('"
 	 + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "','" + sTag + "','" + ACR_SQLEncodeSpecialChars(sVarName) + "', '"
@@ -413,15 +443,8 @@ string ACR_GetPersistentString(object oObject, string sVarName)
     string sTag = (GetIsPC(oObject)) ? ACR_GetPCPublicCDKey(oObject) : GetTag(oObject);
 	// if this is a corpse placeable, drop the CharID suffix to allow it to read the player variable.
     if ((GetResRef(oObject) == "abr_pl_co_so_pccorpse") || (GetResRef(oObject) == "abr_it_mi_body")) { sTag = GetStringLeft(sTag, 8); }
-	 // flush queue for the object so that any pending writes are visible
-	 // TODO:  This can and should go away when we start caching these values
-	 //        on the object itself.  There is no reason to hit the database
-	 //        each time for them.
-	 _FlushQueryQueue(oObject);
-    // retrieve the record from the database
-    ACR_SQLQuery("SELECT Value FROM pwdata WHERE Name='" + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "' and Tag='" + sTag + "' and `Key`='" + ACR_SQLEncodeSpecialChars(sVarName) + "'");
-
-    return (ACR_SQLFetch() == SQL_SUCCESS) ? ACR_SQLGetData(0) : "";
+    _MaintainACRPersistCache(oObject, sTag);
+    return GetLocalString(oObject, _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX + sVarName);
 }
 
 void ACR_SetPersistentInt(object oObject, string sVarName, int iValue, int iExpiration = 0)
@@ -476,6 +499,11 @@ void ACR_SetPersistentObject(object oObject, string sVarName, object oItem, stri
     string sSQL = "INSERT INTO pwobject (Name, Tag, `Key`, Value, Expiration) VALUES ('"
 	 + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "','" + sTag + "','" + ACR_SQLEncodeSpecialChars(sVarName) + "',%s,"
      + IntToString(iExpiration) + ") ON DUPLICATE KEY UPDATE Value=%s, Expiration=" + IntToString(iExpiration);
+	 // flush queue for the object so that any pending writes are visible
+	 // TODO:  This can and should go away when we start caching these values
+	 //        on the object itself.  There is no reason to hit the database
+	 //        each time for them.
+	 _FlushQueryQueue(oObject);
 
     SetLocalString(GetModule(), "NWNX!SQL!SETSCORCOSQL", sSQL);
     //StoreCampaignObject("NWNX", "-", oItem);
@@ -492,6 +520,11 @@ object ACR_GetPersistentObject(object oObject, string sVarName, string sDatabase
 
     // retrieve the record from the database
     string sSQL = "SELECT Value FROM pwobject WHERE Name='" + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "' and Tag='" + sTag + "' and `Key`='" + ACR_SQLEncodeSpecialChars(sVarName) + "'";
+	 // flush queue for the object so that any pending writes are visible
+	 // TODO:  This can and should go away when we start caching these values
+	 //        on the object itself.  There is no reason to hit the database
+	 //        each time for them.
+	 _FlushQueryQueue(oObject);
 
     SetLocalString(GetModule(), "NWNX!SQL!SETSCORCOSQL", sSQL);
     //return RetrieveCampaignObject("NWNX", "-", GetLocation(oObject), oObject);
@@ -504,13 +537,10 @@ void ACR_DeletePersistentVariable(object oObject, string sVarName)
     string sTag = (GetIsPC(oObject)) ? ACR_GetPCPublicCDKey(oObject) : GetTag(oObject);
 	// if this is a corpse placeable, drop the CharID suffix to allow it to read the player variable.
     if ((GetResRef(oObject) == "abr_pl_co_so_pccorpse") || (GetResRef(oObject) == "abr_it_mi_body")) { sTag = GetStringLeft(sTag, 8); }
-	 // flush queue for the object so that any pending writes are visible
-	 // TODO:  This can and should go away when we start caching these values
-	 //        on the object itself.  There is no reason to hit the database
-	 //        each time for them.
-	 _FlushQueryQueue(oObject);
+    _MaintainACRPersistCache(oObject, sTag);
+    DeleteLocalString(oObject, _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX + sVarName);
     // retrieve the record from the database
-    ACR_SQLQuery("DELETE FROM pwdata WHERE Name='" + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "' and Tag='" + sTag + "' and `Key`='" + ACR_SQLEncodeSpecialChars(sVarName) + "'");
+    ACR_AsyncSQLQueryEx("DELETE FROM pwdata WHERE Name='" + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "' and Tag='" + sTag + "' and `Key`='" + ACR_SQLEncodeSpecialChars(sVarName) + "'", oObject);
 }
 
 string ACR_VectorToString(vector vVector)
@@ -825,6 +855,33 @@ void ACR_DBPersistOnOutgoingPlayer(object oPC)
 	_FlushQueryQueue(GetModule());
 }
 
+int ACR_GetUTCTime()
+{
+	ACR_SQLQuery("SELECT UNIX_TIMESTAMP();");
+
+	if (ACR_SQLFetch() != SQL_SUCCESS)
+		return 0;
+	else
+		return StringToInt(ACR_SQLGetData(0));
+}
+
+int ACR_GetModuleStartTime()
+{
+	object Module = GetModule();
+	int StartTime = GetLocalInt(Module, _ACR_DB_SQL_SERVER_BOOT_TIME_MOD_VAR);
+
+	// If the cache isn't yet valid, then make it so.  The first call is during
+	// module initialization.
+
+	if (StartTime == 0)
+	{
+		StartTime = ACR_GetModuleStartTime();
+		SetLocalInt(Module, _ACR_DB_SQL_SERVER_BOOT_TIME_MOD_VAR, StartTime);
+	}
+
+	return StartTime;
+}
+
 void _ResetServer() {
 	// Variables.
 	object oModule			= GetModule( );
@@ -1034,3 +1091,57 @@ void _SetDatabaseControlFlags(int nControlFlags)
 {
 	SetLocalInt(GetModule(), _ACR_DB_CONTROL_FLAGS_VAR, nControlFlags);
 }
+
+void _MaintainACRPersistCache(object oCacheObject, string sTag)
+{
+	int CacheModuleStartTime = GetLocalInt(oCacheObject, _ACR_DB_SQL_SERVER_BOOT_TIME_VAR);
+	int i;
+	int ModuleStartTime = ACR_GetModuleStartTime();
+	int VarCount;
+
+	// If the cache belongs to this module start cycle then the cache is valid.
+	if (ModuleStartTime == CacheModuleStartTime)
+		return;
+
+	// We have to clear out all of the persist cache data on the object, if any
+	// existed (i.e. saved item).  Then we'll need to update the cache from the
+	// database.
+
+	VarCount = GetVariableCount(oCacheObject);
+
+	for (i = VarCount; i != 0; i -= 1)
+	{
+		string VarName = GetVariableName(oCacheObject, i-1);
+		string VarPrefix = GetSubString(VarName, 0, _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX_LEN);
+
+		// Skip past the variable if it is not one of the cache ones.
+		if (VarPrefix != _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX)
+			continue;
+
+		// Delete the variable and stay on the current variable position as it
+		// will point to the next variable now.  It's an old cache.
+		DeleteLocalString(oCacheObject, VarName);
+		i += 1;
+	}
+
+	// Now retrieve all of the persist items from the database and cache them.
+	VarCount = 0;
+
+	ACR_SQLQuery("SELECT `Key`, Value FROM pwdata WHERE Name='" + ACR_SQLEncodeSpecialChars(GetName(oCacheObject)) + "' AND Tag='" + sTag + "'");
+	while (ACR_SQLFetch() == SQL_SUCCESS)
+	{
+		SetLocalString(oCacheObject,
+			_ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX + ACR_SQLGetData(0),
+			ACR_SQLGetData(1));
+	}
+
+	// If we returned the query successfully and there were rows, mark the cache
+	// as valid.
+	//
+	// N.B.  It would be legal to have a cache with no rows as valid but we
+	//       cannot distinguish between failed queries and no rows with the SQL
+	//       API that NWNX4 provides.
+	if (VarCount != 0)
+		SetLocalInt(oCacheObject, _ACR_DB_SQL_SERVER_BOOT_TIME_VAR, ModuleStartTime);
+}
+
