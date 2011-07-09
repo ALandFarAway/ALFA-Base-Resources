@@ -1130,6 +1130,7 @@ void _MaintainACRPersistCache(object oCacheObject, string sTag)
 	ACR_SQLQuery("SELECT `Key`, Value FROM pwdata WHERE Name='" + ACR_SQLEncodeSpecialChars(GetName(oCacheObject)) + "' AND Tag='" + sTag + "'");
 	while (ACR_SQLFetch() == SQL_SUCCESS)
 	{
+		VarCount += 1;
 		SetLocalString(oCacheObject,
 			_ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX + ACR_SQLGetData(0),
 			ACR_SQLGetData(1));
