@@ -358,6 +358,10 @@ void _SetDatabaseControlFlags(int nControlFlags);
 //!  - sTag: Supplies the "tag" of the object for database queries.
 void _MaintainACRPersistCache(object oCacheObject, string sTag);
 
+//! Clear the ACR cache for an object.
+//  oCacheObject: Supplies the object whose cache is to be cleared.
+void _ClearACRPersistCache(object oCacheObject);
+
 //! Return the UTC time start time of the module.
 int _GetModuleStartTime();
 
@@ -829,6 +833,10 @@ void ACR_AdjustTables() {
 
 void ACR_DBPersistOnIncomingPlayer(object oPC)
 {
+	// Dump the cache for the player as their data may have been written to on
+	// another server.
+	_ClearACRPersistCache(oPC);
+
 	// If we already have pending new queries, there's nothing to do.
 	if ((_GetDatabaseControlFlags() & _ACR_SQL_DBCTRL_ASYNC_PENDING) != 0)
 		return;
@@ -1096,7 +1104,6 @@ void _SetDatabaseControlFlags(int nControlFlags)
 void _MaintainACRPersistCache(object oCacheObject, string sTag)
 {
 	int CacheModuleStartTime = GetLocalInt(oCacheObject, _ACR_DB_SQL_SERVER_BOOT_TIME_VAR);
-	int i;
 	int ModuleStartTime = ACR_GetModuleStartTime();
 	int VarCount;
 
@@ -1108,22 +1115,7 @@ void _MaintainACRPersistCache(object oCacheObject, string sTag)
 	// existed (i.e. saved item).  Then we'll need to update the cache from the
 	// database.
 
-	VarCount = GetVariableCount(oCacheObject);
-
-	for (i = VarCount; i != 0; i -= 1)
-	{
-		string VarName = GetVariableName(oCacheObject, i-1);
-		string VarPrefix = GetSubString(VarName, 0, _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX_LEN);
-
-		// Skip past the variable if it is not one of the cache ones.
-		if (VarPrefix != _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX)
-			continue;
-
-		// Delete the variable and stay on the current variable position as it
-		// will point to the next variable now.  It's an old cache.
-		DeleteLocalString(oCacheObject, VarName);
-		i += 1;
-	}
+	_ClearACRPersistCache(oCacheObject);
 
 	// Now retrieve all of the persist items from the database and cache them.
 	VarCount = 0;
@@ -1147,3 +1139,31 @@ void _MaintainACRPersistCache(object oCacheObject, string sTag)
 		SetLocalInt(oCacheObject, _ACR_DB_SQL_SERVER_BOOT_TIME_VAR, ModuleStartTime);
 }
 
+void _ClearACRPersistCache(object oCacheObject)
+{
+	int i;
+	int VarCount;
+
+	// We have to clear out all of the persist cache data on the object, if any
+	// existed (i.e. saved item).  Then we'll need to update the cache from the
+	// database.
+
+	VarCount = GetVariableCount(oCacheObject);
+
+	for (i = VarCount; i != 0; i -= 1)
+	{
+		string VarName = GetVariableName(oCacheObject, i-1);
+		string VarPrefix = GetSubString(VarName, 0, _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX_LEN);
+
+		// Skip past the variable if it is not one of the cache ones.
+		if (VarPrefix != _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX)
+			continue;
+
+		// Delete the variable and stay on the current variable position as it
+		// will point to the next variable now.  It's an old cache.
+		DeleteLocalString(oCacheObject, VarName);
+		i += 1;
+	}
+
+	DeleteLocalInt(oCacheObject, _ACR_DB_SQL_SERVER_BOOT_TIME_VAR);
+}
