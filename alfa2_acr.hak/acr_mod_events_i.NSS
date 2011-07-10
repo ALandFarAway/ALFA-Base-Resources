@@ -181,7 +181,7 @@ void ACR_SetModuleStatus(int nStatus);
 void ACR_ModuleOnModuleLoad()
 {
 	// Set global module settings.
-	SetServerData(ACR_GetServerId(), ACR_SERVER_NAME, ACR_SERVER_REGION, ACR_SERVER_IP);
+	SetServerData(ACR_SERVER_ID, ACR_SERVER_NAME, ACR_SERVER_REGION, ACR_SERVER_IP);
 
     object oModule = GetModule();
     
