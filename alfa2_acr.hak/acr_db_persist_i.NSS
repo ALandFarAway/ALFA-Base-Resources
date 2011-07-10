@@ -884,7 +884,7 @@ int ACR_GetModuleStartTime()
 
 	if (StartTime == 0)
 	{
-		StartTime = ACR_GetModuleStartTime();
+		StartTime = ACR_GetUTCTime();
 		SetLocalInt(Module, _ACR_DB_SQL_SERVER_BOOT_TIME_MOD_VAR, StartTime);
 	}
 
