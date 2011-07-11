@@ -144,8 +144,6 @@ void ACR_InitializeTime() {
 	int nExternalServerID = 0;
 	int nExternalTimestamp = 0;
 	int nStoredTime = 0;
-	// Query start time once to set it early on during module initialization
-	ACR_GetModuleStartTime();
 	// for now, examine all the mod timestamps in the database, pick the most "current" one.
 	ACR_SQLQuery("SELECT pwdata.Value, pwdata.Last, pwdata.Name, servers.ID, servers.Name FROM pwdata JOIN servers ON pwdata.Name = servers.Name WHERE pwdata.Key = '"+ACR_MODULE_TIME+"'");
 	while (ACR_SQLFetch() == SQL_SUCCESS) {

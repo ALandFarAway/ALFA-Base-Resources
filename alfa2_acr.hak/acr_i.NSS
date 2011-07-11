@@ -24,6 +24,7 @@
 //  2008/12/29  AcadiusLost  Stopgap measure for mystery status reads on PC ID=0
 //  2009/07/07  AcadiusLost  1.23 updates for custom skills
 //  2009/07/28  AcadiusLost  Additional PGtF regional feat constants added.
+//  2011/07/10  Basilica     Changed to cache player status
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -354,12 +355,14 @@ int ACR_GetIsCorpseDecayed(object oCorpse);
 
 void ACR_SetPlayerStatusFlags(object oPC, int nStatus)
 {
-	ACR_SQLQuery("UPDATE characters SET Status=Status | " + IntToString(nStatus) + " WHERE id=" + IntToString(ACR_GetCharacterID(oPC)));
+	SetLocalInt(oPC, ACR_PLAYERSTATUS_CACHE_VAR, ACR_GetPlayerStatusFlags(oPC) | nStatus);
+	ACR_AsyncSQLQueryEx("UPDATE characters SET Status=Status | " + IntToString(nStatus) + " WHERE id=" + IntToString(ACR_GetCharacterID(oPC)), oPC);
 }
 
 void ACR_UnsetPlayerStatusFlags(object oPC, int nStatus)
 {
-	ACR_SQLQuery("UPDATE characters SET Status=Status & ~(" + IntToString(nStatus) + ") WHERE id=" + IntToString(ACR_GetCharacterID(oPC)));
+	SetLocalInt(oPC, ACR_PLAYERSTATUS_CACHE_VAR, ACR_GetPlayerStatusFlags(oPC) & ~(nStatus));
+	ACR_AsyncSQLQueryEx("UPDATE characters SET Status=Status & ~(" + IntToString(nStatus) + ") WHERE id=" + IntToString(ACR_GetCharacterID(oPC)), oPC);
 }
 
 int ACR_GetPlayerStatusFlags(object oPC)
@@ -370,9 +373,7 @@ int ACR_GetPlayerStatusFlags(object oPC)
 		WriteTimestampedLogEntry("Invalid status query on "+GetName(oPC)+" with PCPlayerName= "+GetPCPlayerName(oPC)+" in area "+GetName(GetArea(oPC))+".");
 		return 0;
 	}
-	ACR_SQLQuery("SELECT Status FROM characters WHERE id=" + IntToString(nPCID));
-
-	return (ACR_SQLFetch() == SQL_SUCCESS) ? StringToInt(ACR_SQLGetData(0)) : 0;
+	return GetLocalInt(oPC, ACR_PLAYERSTATUS_CACHE_VAR);
 }
 
 int ACR_GetIsPlayerDead(object oPC)

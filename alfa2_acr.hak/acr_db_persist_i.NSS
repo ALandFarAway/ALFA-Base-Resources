@@ -53,6 +53,9 @@ const int SQL_SUCCESS = 1;
 //! Character ID for optimizing database access
 const string ACR_CID = "ACR_CID";
 
+//! Status cache variable name.
+const string ACR_PLAYERSTATUS_CACHE_VAR = "ACR_PLAYERSTATUS_CACHE";
+
 //! CD Key to facilitate accecss even on exit events
 const string ACR_CDKEY = "ACR_CDKEY";
 
@@ -335,15 +338,27 @@ int _ServiceAsyncQueriesForQueue(object oQueuedTo, int nFlags, int nMaxServiced,
 void _FlushQueryQueue(object oQueueObject);
 
 //! Run queues immediately for all queue objects.
-void _ExecuteQueryQueues(int nMaxServiced, object oModule);
+//!  - nMaxServiced: Supplies the maximum number of elements to run from the
+//                   queue.
+//!  - oModule: Supplies the module object as returned by GetModule().
+//!  - oExtraQueueObject: Supplies an additional object whose queue should be
+//                        checked, e.g. during player logout.  May be
+//                        OBJECT_INVALID.
+//!  - bAccumulate: Supplies TRUE if the function should opportunistically not
+//                  clear out _ACR_DB_SQL_PENDING_QUERY_VAR but leave the final
+//                  query to the caller.  The caller then is responsible for
+//                  issuing the final query.
+void _ExecuteQueryQueues(int nMaxServiced, object oModule, object oQueueObject, int bAccumulate);
 
 //! Initiate a new async query cycle and run the current queue down when the
 //  script returns control.
 void _RunQueryQueue();
 
 //! Get the number of queued queries for all queues
+//!  - oExtraQueueObject: Supplies an additional object whose queue should be
+//                        checked, e.g. during player logout.
 //!  - Returns: The number of queued queries for all queues
-int _GetTotalQueuedQueryCount();
+int _GetTotalQueuedQueryCount(object oQueueObject);
 
 //! Get the database control flags
 //!  - Returns: The database control flags (ACR_SQL_DBCTRL_*)
@@ -362,14 +377,33 @@ void _MaintainACRPersistCache(object oCacheObject, string sTag);
 //  oCacheObject: Supplies the object whose cache is to be cleared.
 void _ClearACRPersistCache(object oCacheObject);
 
-//! Return the UTC time start time of the module.
-int _GetModuleStartTime();
+//! Calculate the typical number of queries to service for running the queue.
+//!  - nTotalQueueLength: Suppiles the number of elements in all queues.
+//!  - Returns: The target number of queries to dequeue.
+//
+int _CalculateTargetMaxQueriesServiced(int nTotalQueueLength);
+
+//! This function executes an SQL statement without running the pending SQL
+//  queue.  It should only be used by the pending SQL queue code.
+//!  - sSQL: The SQL string to execute
+//!  - Returns: Nothing
+void _SQLQueryInternal(string sSQL);
+
+//! Check whether a query returns values in a resultset or not (only basic
+//  queries supported).
+//
+//!  - sSQL: The SQL string to inspect.
+//!  - Returns: TRUE if the query returns a value (assumes TRUE if unrecognized
+//              SQL syntax).
+int _SQLQueryReturnsValues(string sSQL);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
 void ACR_StartAsyncService() {
+	// Cache the start time if it hasn't yet been set.
+	ACR_GetModuleStartTime();
 	// If we already have pending new queries, there's nothing to do.
 	if ((_GetDatabaseControlFlags() & _ACR_SQL_DBCTRL_ASYNC_PENDING) != 0)
 		return;
@@ -403,7 +437,30 @@ void ACR_AsyncSQLQueryEx(string sSQL, object oQueueTo)
 
 void ACR_SQLQuery(string sSQL)
 {
-	NWNXSetString("SQL", "EXEC", sSQL, 0, "");
+	// If the query returns a value, then we can't combine it opportunistically.
+	if (_SQLQueryReturnsValues(sSQL))
+	{
+		_SQLQueryInternal(sSQL);
+		return;
+	}
+
+	// Since we are going to have to make a query, go ahead and prepend the
+	// queue (to the degree that we can).
+	int MaxServiced;
+	object Module = GetModule();
+	int TotalQueueLength = _GetTotalQueuedQueryCount(OBJECT_INVALID);
+	string Query;
+
+	MaxServiced = _CalculateTargetMaxQueriesServiced(TotalQueueLength);
+
+	// Run the queues for each of the objects that have queues, but don't issue
+	// the final query (leave that to the next call).
+	_ExecuteQueryQueues(MaxServiced, Module, OBJECT_INVALID, TRUE);
+
+	// Prepend the unspooled queries to the query we are about to run
+	Query = GetLocalString(Module, _ACR_DB_SQL_PENDING_QUERY_VAR) + sSQL;
+	_SQLQueryInternal(Query);
+	DeleteLocalString(Module, _ACR_DB_SQL_PENDING_QUERY_VAR);
 }
 
 int ACR_SQLFetch(string mode = " ")
@@ -636,6 +693,11 @@ string ACR_GetPCPublicCDKey(object oPC)
 void ACR_SetCharacterID(object oPC, int nID)
 {
 	SetLocalInt(oPC, ACR_CID, nID);
+
+	ACR_SQLQuery("SELECT Status FROM characters WHERE id=" + IntToString(nID));
+
+	if (ACR_SQLFetch() == SQL_SUCCESS)
+		SetLocalInt(oPC, ACR_PLAYERSTATUS_CACHE_VAR, StringToInt(ACR_SQLGetData(0)));
 }
 
 int ACR_GetCharacterID(object oPC)
@@ -915,7 +977,7 @@ void _ServiceAsyncQueries()
 {
 	int MaxServiced;
 	object Module = GetModule();
-	int TotalQueueLength = _GetTotalQueuedQueryCount();
+	int TotalQueueLength = _GetTotalQueuedQueryCount(OBJECT_INVALID);
 
 	// If we have nothing in the queue then stop the continuation, so that the
 	// next write happens quickly
@@ -925,16 +987,10 @@ void _ServiceAsyncQueries()
 		return;
 	}
 
-	// Figure out how many queue entries we want to dispatch this time around
-	MaxServiced = 18 + TotalQueueLength / 5;
-
-	if (MaxServiced > TotalQueueLength)
-		MaxServiced = TotalQueueLength;
-	// Your average packet size is about 4k, minus 20B for the header. The queries are about 150B each,
-	// so we might be able to fit 26 in a packet.
+	MaxServiced = _CalculateTargetMaxQueriesServiced(TotalQueueLength);
 
 	// Run the queues for each of the objects that have queues
-	_ExecuteQueryQueues(MaxServiced, Module);
+	_ExecuteQueryQueues(MaxServiced, Module, OBJECT_INVALID, FALSE);
 
 	// Start the next continuation up
 
@@ -993,7 +1049,7 @@ int _ServiceAsyncQueriesForQueue(object oQueuedTo, int nFlags, int nMaxServiced,
 
 		if (GetStringLength(Query) > _ACR_SQL_QUERY_MAX_LEN)
 		{
-			ACR_SQLQuery(Query);
+			_SQLQueryInternal(Query);
 			Query = "";
 		}
 	}
@@ -1020,10 +1076,10 @@ void _FlushQueryQueue(object oQueueObject)
 	if (GetQueueLength(oQueueObject, _ACR_DB_SQL_QUEUE) == 0)
 		return;
 
-	_ExecuteQueryQueues(_GetTotalQueuedQueryCount(), GetModule());
+	_ExecuteQueryQueues(_GetTotalQueuedQueryCount(oQueueObject), GetModule(), oQueueObject, FALSE);
 }
 
-void _ExecuteQueryQueues(int nMaxServiced, object oModule)
+void _ExecuteQueryQueues(int nMaxServiced, object oModule, object oExtraQueueObject, int bAccumulate)
 {
 	int Processed;
 	string Query;
@@ -1032,6 +1088,9 @@ void _ExecuteQueryQueues(int nMaxServiced, object oModule)
 	// Run the module's queue
 	Processed = _ServiceAsyncQueriesForQueue(oModule, 0, nMaxServiced, oModule);
 	nMaxServiced -= Processed;
+
+	if (oModule == oExtraQueueObject)
+		oExtraQueueObject = OBJECT_INVALID;
 
 	// If we still have more queue data to run
 	if (nMaxServiced != 0)
@@ -1044,6 +1103,9 @@ void _ExecuteQueryQueues(int nMaxServiced, object oModule)
 			Processed = _ServiceAsyncQueriesForQueue(QueueObject, 0, nMaxServiced, oModule);
 			nMaxServiced -= Processed;
 
+			if (QueueObject == oExtraQueueObject)
+				oExtraQueueObject = OBJECT_INVALID;
+
 			// If we haven't anything in the queue anymore, exit early
 			if (nMaxServiced == 0)
 				break;
@@ -1052,12 +1114,25 @@ void _ExecuteQueryQueues(int nMaxServiced, object oModule)
 		}
 	}
 
+	// If we didn't observe the extra queue object in the list, handle it now.
+	if (oExtraQueueObject != OBJECT_INVALID)
+	{
+		Processed = _ServiceAsyncQueriesForQueue(oExtraQueueObject, 0, nMaxServiced, oModule);
+		nMaxServiced -= Processed;
+
+		oExtraQueueObject = OBJECT_INVALID;
+	}
+
+	// If the caller is assuming responsibility for the final write, stop here.
+	if (bAccumulate)
+		return;
+
 	// Finally, execute the combined query if there was one
 	Query = GetLocalString(oModule, _ACR_DB_SQL_PENDING_QUERY_VAR);
 
 	if (GetStringLength(Query) > 0)
 	{
-		ACR_SQLQuery(Query);
+		_SQLQueryInternal(Query);
 		DeleteLocalString(oModule, _ACR_DB_SQL_PENDING_QUERY_VAR);
 	}
 }
@@ -1073,19 +1148,36 @@ void _RunQueryQueue()
 	AssignCommand(GetModule(), _ServiceAsyncQueries());
 }
 
-int _GetTotalQueuedQueryCount()
+int _GetTotalQueuedQueryCount(object oExtraQueueObject)
 {
+	object Module;
 	object Player;
 	int QueryCount;
 
-	QueryCount = GetQueueLength(GetModule(), _ACR_DB_SQL_QUEUE);
+	Module = GetModule();
+	QueryCount = GetQueueLength(Module, _ACR_DB_SQL_QUEUE);
+
+	if (oExtraQueueObject == Module)
+		oExtraQueueObject = OBJECT_INVALID;
 
 	//for (Player = GetFirstPC(); Player != OBJECT_INVALID; Player = GetNextPC())
 	Player = GetFirstPC();
 	while(Player != OBJECT_INVALID)
 	{
 		QueryCount += GetQueueLength(Player, _ACR_DB_SQL_QUEUE);
+
+		if (oExtraQueueObject == Player)
+			oExtraQueueObject = OBJECT_INVALID;
+
 		Player = GetNextPC();
+	}
+
+	// Tally the extra queue object if it wasn't already accounted for.
+	if (oExtraQueueObject != OBJECT_INVALID)
+	{
+		QueryCount += GetQueueLength(oExtraQueueObject, _ACR_DB_SQL_QUEUE);
+
+		oExtraQueueObject = OBJECT_INVALID;
 	}
 
 	return QueryCount;
@@ -1167,3 +1259,34 @@ void _ClearACRPersistCache(object oCacheObject)
 
 	DeleteLocalInt(oCacheObject, _ACR_DB_SQL_SERVER_BOOT_TIME_VAR);
 }
+
+int _CalculateTargetMaxQueriesServiced(int nTotalQueueLength)
+{
+	int MaxServiced;
+
+	// Figure out how many queue entries we want to dispatch this time around
+	MaxServiced = 18 + nTotalQueueLength / 5;
+
+	if (MaxServiced > nTotalQueueLength)
+		MaxServiced = nTotalQueueLength;
+	// Your average packet size is about 4k, minus 20B for the header. The queries are about 150B each,
+	// so we might be able to fit 26 in a packet.
+
+	return MaxServiced;
+}
+
+void _SQLQueryInternal(string sSQL)
+{
+	NWNXSetString("SQL", "EXEC", sSQL, 0, "");
+}
+
+int _SQLQueryReturnsValues(string sSQL)
+{
+	string Verb = GetStringUpperCase(GetSubString(sSQL, 0, 6));
+
+	if (Verb == "INSERT" || Verb == "UPDATE" || Verb == "CREATE")
+		return FALSE;
+	else
+		return TRUE;
+}
+
