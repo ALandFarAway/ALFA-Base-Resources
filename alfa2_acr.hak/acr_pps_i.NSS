@@ -237,7 +237,7 @@ void ACR_PCUpdateStatus(object oPC, int bLocation = TRUE)
 			SetLocalString(oPC, ACR_PPS_LOCATION, sLoc);
 		}
 		// do the SQL DB update
-        ACR_SQLQuery("UPDATE characters SET" +
+        ACR_AsyncSQLQueryEx("UPDATE characters SET" +
 	    	"  ServerID=" + IntToString(ACR_GetServerId()) +
 		    ", Location='" + sLoc + "'" +
     	    ", Level=" + IntToString(GetHitDice(oPC)) +
@@ -261,10 +261,10 @@ void ACR_PCUpdateStatus(object oPC, int bLocation = TRUE)
      	    ", WIS=" + IntToString(GetAbilityScore(oPC, ABILITY_WISDOM)) +
      	    ", CHA=" + IntToString(GetAbilityScore(oPC, ABILITY_CHARISMA)) +
 			", Wealth=" + IntToString(DMFI_GetNetWorth(oPC)) +
-     	    " WHERE ID=" + IntToString(nCID));
+     	    " WHERE ID=" + IntToString(nCID), oPC);
 	} else {
 	    // special save, with location omitted
-        ACR_SQLQuery("UPDATE characters SET" +
+        ACR_AsyncSQLQueryEx("UPDATE characters SET" +
 	    	"  ServerID=" + IntToString(ACR_GetServerId()) +
     	    ", Level=" + IntToString(GetHitDice(oPC)) +
     	    ", Deity='" + GetDeity(oPC) + "'" +
@@ -287,7 +287,7 @@ void ACR_PCUpdateStatus(object oPC, int bLocation = TRUE)
      	    ", WIS=" + IntToString(GetAbilityScore(oPC, ABILITY_WISDOM)) +
      	    ", CHA=" + IntToString(GetAbilityScore(oPC, ABILITY_CHARISMA)) +
 			", Wealth=" + IntToString(DMFI_GetNetWorth(oPC)) +
-     	    " WHERE ID=" + IntToString(nCID));
+     	    " WHERE ID=" + IntToString(nCID), oPC);
 	}
 	//save effects
 }
@@ -460,7 +460,7 @@ void ACR_PCOnClientEnter(object oPC)
 	else 
 	{
 		// else player is valid.  Mark them as online.
-		ACR_SQLQuery("UPDATE characters SET IsOnline=1 WHERE ID=" + sCharID);
+		ACR_AsyncSQLQueryEx("UPDATE characters SET IsOnline=1 WHERE ID=" + sCharID, oPC);
 	}
    	// assign the database ID to this PC
 	ACR_SetCharacterID(oPC, StringToInt(sCharID));
@@ -504,7 +504,7 @@ void ACR_PCOnPCLoaded(object oPC)
 	   	location lLocation = ACR_StringToLocation(sLocation);
 		
 		// update the character and player status fields
-    	ACR_SQLQuery("UPDATE characters, players SET characters.IsOnline=1, players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");		
+    	ACR_AsyncSQLQueryEx("UPDATE characters, players SET characters.IsOnline=1, players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID", oPC);		
 		
 		// Check to see if the PC is logging into the right server:
    		if (nServerID != ACR_GetServerId()) {
@@ -662,7 +662,7 @@ void ACR_PCOnClientLeave(object oPC)
 		ACR_SetPersistentInt(oPC, "ACR_1984_NUM_BLEED_LOGS", nBleedLogs);	
 	}
     // set the character online status
-    ACR_SQLQuery("UPDATE characters SET IsOnline=0 WHERE ID=" + IntToString(ACR_GetCharacterID(oPC)));
+    ACR_AsyncSQLQueryEx("UPDATE characters SET IsOnline=0 WHERE ID=" + IntToString(ACR_GetCharacterID(oPC)), oPC);
 }
 
 void ACR_PPSValidatePC(object oTarget) {
