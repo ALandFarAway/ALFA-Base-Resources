@@ -99,34 +99,34 @@ void CureObject( object oTarget, effect eVis, effect eVis2, int nCasterLvl, int 
 	            //Apply damage effect and VFX impact
 	            DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eKill, oTarget));
 	            DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, oTarget));
-			 	// ALFA ACR edit for Subdual
-			 	DelayCommand(fDelay, ACR_NLD_HealNLD(oTarget, nModify));
 	        }
 	    }
 	}
 	else
 	{
 	    // * May 2003: Heal Neutrals as well
-		if (spellsIsTarget(oTarget, SPELL_TARGET_ALLALLIES, OBJECT_SELF))
+		if (!spellsIsTarget(oTarget, SPELL_TARGET_STANDARDHOSTILE, OBJECT_SELF))
 		{
-	        //Fire cast spell at event for the specified target
-	        SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, GetSpellId(), FALSE));
-	        nModify = d8();
-	        //Enter Metamagic conditions
-	        nModify = ApplyMetamagicVariableMods(nModify, 8);
+	        	//Fire cast spell at event for the specified target
+	        	SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, GetSpellId(), FALSE));
+	        	nModify = d8();
+	        	//Enter Metamagic conditions
+	        	nModify = ApplyMetamagicVariableMods(nModify, 8);
 	
-	        if ( GetHasFeat(FEAT_AUGMENT_HEALING) && !GetIsObjectValid(GetSpellCastItem()) )
-	        {
-	            int nSpellLvl = GetSpellLevel(GetSpellId());
-	            nModify = nModify + (2 * nSpellLvl);
-	        }
-	        //Set healing effect
-	        nModify = nModify + nBonus;
-	        eHeal = EffectHeal(nModify);
-	        //Apply heal effect and VFX impact
-	        DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eHeal, oTarget));
-	        DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis2, oTarget));
-	    }
+	        	if ( GetHasFeat(FEAT_AUGMENT_HEALING) && !GetIsObjectValid(GetSpellCastItem()) )
+	        	{	
+	            		int nSpellLvl = GetSpellLevel(GetSpellId());
+	            		nModify = nModify + (2 * nSpellLvl);
+	        	}
+	        	//Set healing effect
+	        	nModify = nModify + nBonus;
+	        	eHeal = EffectHeal(nModify);
+	        	//Apply heal effect and VFX impact
+	        	DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eHeal, oTarget));
+	        	DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis2, oTarget));
+	 		// ALFA ACR edit for Subdual
+	 		DelayCommand(fDelay, ACR_NLD_HealNLD(oTarget, nModify));
+	    	}
 	}
 
 }
@@ -135,16 +135,20 @@ int CureFaction( int nMaxToCure, effect eVis, effect eVis2, int nCasterLvl, int 
 {
 	int nNumCured = 0;
 	int bPCOnly=FALSE;
-	object oTarget = GetFirstFactionMember( OBJECT_SELF, bPCOnly );
+    //Get first target in shape
+    object oTarget = GetFirstObjectInShape(SHAPE_SPHERE, RADIUS_SIZE_LARGE, GetSpellTargetLocation());
     while ( GetIsObjectValid(oTarget) && nNumCured < nMaxToCure )
     {
-	if (GetRacialType(oTarget) != RACIAL_TYPE_UNDEAD)
-	{
-		CureObject( oTarget, eVis, eVis2, nCasterLvl, nMetaMagic );
-		nNumCured++;
-	}
-		oTarget = GetNextFactionMember( OBJECT_SELF, bPCOnly );
-	}
+		if ( GetFactionEqual( oTarget, OBJECT_SELF ) )
+		{
+ 			CureObject( oTarget, eVis, eVis2, nCasterLvl, nMetaMagic );
+			nNumCured++;
+		}
+
+
+        //Get next target in the shape
+        oTarget = GetNextObjectInShape(SHAPE_SPHERE, RADIUS_SIZE_LARGE, GetSpellTargetLocation());
+    }
 
 	return nNumCured;
 }
