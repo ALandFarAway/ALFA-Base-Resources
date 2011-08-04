@@ -307,6 +307,9 @@ void _garbageCollection(object oPC);
 //!  - nDuration: number of rest cycles (days) the player has been offline
 void _ProcessOffCameraRest(object oPC, int nDuration);
 
+//! Returns the fortitude save DC for resting in armor, or 0 if no save is needed.
+int _getArmorRestDC(object oPC);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -737,6 +740,10 @@ void _playerRestoreSpells(object oCaster, string sClasses, int nHitPoints)
     FloatingTextStringOnCreature("You have successfully memorized your spells for the day.", oCaster, FALSE);
 }
 
+int _getArmorRestDC(object oPC) {
+    return GetItemACValue(GetItemInSlot(INVENTORY_SLOT_CHEST, oPC));
+}
+
 void _playerRestStart(object oPC)
 {
     // store the player's current ability scores prior to resting so we know the excess healing to remove
@@ -749,6 +756,13 @@ void _playerRestStart(object oPC)
 
     // sleep
     _applySleepEffects(oPC);
+    
+    // Warn the player if he's resting in armor.
+    int nDC = _getArmorRestDC(oPC);
+    if(nDC) {
+        FloatingTextStringOnCreature("Warning: you're resting in armor, and must pass a " + IntToString(nDC) + " fortitude save or become fatigued.", oPC, FALSE);
+    }
+    
 
     // cancel full rest if this is a nap when the time is up
     if (GetLocalInt(oPC, ACR_REST_FLAGS) & ACR_REST_FLAG_NAPPING) { DelayCommand(ACR_REST_NAP_DURATION, AssignCommand(oPC, ClearAllActions())); }
@@ -855,8 +869,11 @@ void _applySleepEffects(object oPC)
     float fDuration = (GetLocalInt(oPC, ACR_REST_FLAGS) & ACR_REST_FLAG_NAPPING) ? ACR_REST_NAP_DURATION : ACR_REST_DURATION;
 
     // create the audio and visual effects
-    effect eBlind = ExtraordinaryEffect(EffectBlindness());
-    effect eSnore = ExtraordinaryEffect(EffectVisualEffect(VFX_IMP_SLEEP));
+    effect eVis = ExtraordinaryEffect(EffectVisualEffect(VFX_IMP_SLEEP));
+    int nRace = GetRacialType(oPC);
+    if(nRace != RACIAL_TYPE_ELF && nRace != RACIAL_TYPE_HALFELF)
+        eVis = EffectLinkEffects(ExtraordinaryEffect(EffectBlindness()), eVis);
+    
 
     // create the effective AB bonus effect for attacking players
     // +1 to offset the NWN lower stat boundary of 3 - sleeping results it total dexterity loss
@@ -869,7 +886,7 @@ void _applySleepEffects(object oPC)
     effect eHelpless2 = ExtraordinaryEffect(EffectACDecrease(nDodge));
 
     // link the sleep effects so they are applied and removed simultaneously
-    effect eLink = EffectLinkEffects(eHelpless2, EffectLinkEffects(eHelpless1, EffectLinkEffects(eBonusAB, EffectLinkEffects(eSnore, eBlind))));
+    effect eLink = EffectLinkEffects(eHelpless2, EffectLinkEffects(eHelpless1, EffectLinkEffects(eBonusAB, eVis)));
 
     // apply the linked effects to the player resting
     ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eLink, oPC, fDuration);
@@ -1002,12 +1019,9 @@ void _healFromRest(object oCreature, int nOriginalHitPoints)
         effect eDamage = EffectDamage(nCurrentHP - nMaxHitPoints, DAMAGE_TYPE_NEGATIVE, DAMAGE_POWER_NORMAL, TRUE);
         ApplyEffectToObject(DURATION_TYPE_INSTANT, eDamage, oCreature);
 	}
-	
-    // retrieve what was being worn while sleeping       
-	object oArmor = GetItemInSlot(INVENTORY_SLOT_CHEST, oCreature);
 
     // retrieve the item's AC value
-    int nItemACValue = GetItemACValue(oArmor);
+    int nItemACValue = _getArmorRestDC(oCreature);
 
     // check for fatigue - sleeping in armor (if this isn't a longterm offcamera rest)
     // creatures w/o the endurance feat or that are wearing heavy armor will suffer from fatigue if they fail a fortitude save

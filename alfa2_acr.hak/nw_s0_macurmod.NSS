@@ -111,7 +111,7 @@ void CureObject( object oTarget, effect eVis, effect eVis2, int nCasterLvl, int 
 	else
 	{
 	    // * May 2003: Heal Neutrals as well
-		if (spellsIsTarget(oTarget, SPELL_TARGET_ALLALLIES, OBJECT_SELF))
+		if (!spellsIsTarget(oTarget, SPELL_TARGET_STANDARDHOSTILE, OBJECT_SELF))
 		{
 	        //Fire cast spell at event for the specified target
 	        SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, GetSpellId(), FALSE));
@@ -141,16 +141,18 @@ int CureFaction( int nMaxToCure, effect eVis, effect eVis2, int nCasterLvl, int 
 {
 	int nNumCured = 0;
 	int bPCOnly=FALSE;
-	object oTarget = GetFirstFactionMember( OBJECT_SELF, bPCOnly );
+    object oTarget = GetFirstObjectInShape(SHAPE_SPHERE, RADIUS_SIZE_LARGE, GetSpellTargetLocation());
     while ( GetIsObjectValid(oTarget) && nNumCured < nMaxToCure )
     {
-	if (GetRacialType(oTarget) != RACIAL_TYPE_UNDEAD)
-	{
-		CureObject( oTarget, eVis, eVis2, nCasterLvl, nMetaMagic );
-		nNumCured++;
-	}
-		oTarget = GetNextFactionMember( OBJECT_SELF, bPCOnly );
-	}
+		if ( GetFactionEqual( oTarget, OBJECT_SELF ) ) // We've already done faction checks
+		{
+ 			CureObject( oTarget, eVis, eVis2, nCasterLvl, nMetaMagic );
+			nNumCured++;
+		}
+
+        //Get next target in the shape
+        oTarget = GetNextObjectInShape(SHAPE_SPHERE, RADIUS_SIZE_LARGE, GetSpellTargetLocation());
+    }
 
 	return nNumCured;
 }
