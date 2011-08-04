@@ -306,3 +306,4 @@ int ACR_GetTimeStampInHours(int bStartOfDay = FALSE)
 
     return nTimeStamp;
 }
+
