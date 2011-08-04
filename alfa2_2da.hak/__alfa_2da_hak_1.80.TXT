@@ -37,7 +37,6 @@ AcadiusLost: 5/9/2011, documenting 2da hak (updated release), merged to SoZ 1.23
 9/19/2010 - Added 2da fixes for Deep Sewers, Deep Chasms (tile variations, extra rows, strrefs), des_crft_spells and iprp_castspell fixes, new iprp for gender restricto
 9/23/2010 - Fixed broken placeables.2da due to misnumbered position in RWS Underwater set
 5/9/2010 - Added ambientmusic.2da (BG1/2 music), updates for placeables, terrainmaterials, doortypes, additional iprp_spells rows
-  7/2/2011: NPC GUI, KEMO Chairs, Language GUI, enhancements to spawn system (encounter, light), expanding text entry in the chat window, RPXP fix (double proc), quarantine fix, clearing run-specific data on load, DMFI fixes for wealth reports/ wealth logging, minus glass doppelganger, plus craft construct, new soundsets (flaming fist, amn guard, helmite cleric, villager), shadow touch attack, new perception ranges, goblins and kobolds small creatures, asynchronous log writes.
 
 
 Ambientmusic.2da <- additional rows for BG1 & BG2 music

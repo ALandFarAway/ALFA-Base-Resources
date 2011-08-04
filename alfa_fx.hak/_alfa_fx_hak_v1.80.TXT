@@ -14,8 +14,6 @@ AcadiusLost:
 9/6/2010, Added TKL Cardgame v2, VFX Earrings
 9/16/2010, Added RWS Underwater pack, Kemo's Custom Animations (PG-13 version)
 5/9/2011, Added Hoegbo's Skydomes, removed alternative Mirror Image VFX, Gribo's Bagpipe animations, ship VFX
-  7/2/2011: NPC GUI, KEMO Chairs, Language GUI, enhancements to spawn system (encounter, light), expanding text entry in the chat window, RPXP fix (double proc), quarantine fix, clearing run-specific data on load, DMFI fixes for wealth reports/ wealth logging, minus glass doppelganger, plus craft construct, new soundsets (flaming fist, amn guard, helmite cleric, villager), shadow touch attack, new perception ranges, goblins and kobolds small creatures, asynchronous log writes.
-
 
 
 Heed's PC Tools, v0.91 by Heed:

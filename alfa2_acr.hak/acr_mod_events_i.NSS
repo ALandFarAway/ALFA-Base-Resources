@@ -99,6 +99,7 @@
 #include "acr_skills_i"
 #include "acr_nonlethal_i"
 #include "acr_language_i"
+#include "acr_chat_i"
 
 #include "acf_spawn_i"
 #include "acf_settings_i"
@@ -1221,11 +1222,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 	}
 	
 	if(sLangPick == "common" || sLangPick == "")
-	{
-		if(GetStringLeft(sText, 4) == "@com")
-			sText = GetStringRight(sText, GetStringLength(sText)-4);
 		return TRUE;
-	}
 	
 	object oTool = _GetDMFITool(oSpeaker);
 	string sNewString = DMFI_ProcessLanguage(sText, sLangPick, oTool);
@@ -1250,7 +1247,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 	if(nMode == CHAT_MODE_TALK)
 	{
 		string sMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#FFFFFF>["+_CapitalizeWord(sLangPick)+"] "+sText;
-		location lSelf = GetLocation(oSpeaker);
+		location lSelf = GetLocation(OBJECT_SELF);
 		object oListener = GetFirstObjectInShape(SHAPE_SPHERE, 20.0f, lSelf);
 		while(GetIsObjectValid(oListener))
 		{
@@ -1272,7 +1269,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 	if(nMode == CHAT_MODE_WHISPER)
 	{
 		string sMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#808080>["+_CapitalizeWord(sLangPick)+", Whisper] "+sText;
-		location lSelf = GetLocation(oSpeaker);
+		location lSelf = GetLocation(OBJECT_SELF);
 		object oListener = GetFirstObjectInShape(SHAPE_SPHERE, 3.0f, lSelf);
 		while(GetIsObjectValid(oListener))
 		{

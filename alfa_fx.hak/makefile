@@ -7,7 +7,6 @@
 HAKFILE=$(OUTPUTDIR)\alfa_fx.hak
 HAK_SOURCES=                                                   \
             .\*.SEF                                            \
-            .\*.SSF                                            \
             .\*.WAV                                            \
             .\*.PFX                                            \
             .\*.SEF                                            \
