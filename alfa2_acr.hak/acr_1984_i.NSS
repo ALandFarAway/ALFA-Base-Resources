@@ -33,7 +33,8 @@
 //  2009/02/11  AcadiusLost - Added log type for DM Validation from Quarantine
 //  2009/03/01  AcadiusLost - Added exception handling to avoid logging script-destroyed items OnUnAcquire
 //  2009/08/02  AcadiusLost - Added IPlogging OnLogout
-//	2011/06/26	Ronan		- Changed all log writes to be asynchronous.
+//  2011/06/26  Ronan       - Changed all log writes to be asynchronous.
+//  2011/08/05  Basilica    - Actually log server startup, allow log writes to not include a character (uses CharacterID == 0).
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -98,7 +99,8 @@ const string ACR_LOG_VALIDATED = "Validated";
 ////////////////////////////////////////////////////////////////////////////////
 
 //! Log a specific event
-//!  - oPC: the character that triggered the event
+//!  - oPC: the character that triggered the event; supply OBJECT_INVALID to
+//          make the log entry not specific to any character.
 //!  - sEventName: the name of the event - heading or classification
 //!  - sEventDescription: the description of the event
 //!  - oDM: optional DM object for logging DM events
@@ -203,6 +205,13 @@ void ACR_LogModuleLoaded();
 void ACR_LogEvent(object oPC, string sEventName, string sEventDescription, object oDM = OBJECT_INVALID)
 {
 	object oModule = GetModule();
+	int nCharacterID;
+
+	if (oPC == OBJECT_INVALID)
+		nCharacterID = ACR_CHARACTER_ID_NONE;
+	else
+		nCharacterID = ACR_GetCharacterID(oPC);
+
     // log the event
 	// add the area and party leader
 	if (GetIsObjectValid(GetArea(oPC))) {
@@ -218,11 +227,11 @@ void ACR_LogEvent(object oPC, string sEventName, string sEventDescription, objec
     if (oDM != OBJECT_INVALID)
     {
         // include the DM character ID
-        ACR_AsyncSQLQueryEx("INSERT INTO logs (ServerID, CharacterID, DMCharacterID, Event, Description) VALUES (" + IntToString(ACR_GetServerId()) + "," + IntToString(ACR_GetCharacterID(oPC))  + "," + IntToString(ACR_GetCharacterID(oDM)) + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')", oModule);
+        ACR_AsyncSQLQueryEx("INSERT INTO logs (ServerID, CharacterID, DMCharacterID, Event, Description) VALUES (" + IntToString(ACR_GetServerId()) + "," + IntToString(nCharacterID)  + "," + IntToString(ACR_GetCharacterID(oDM)) + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')", oModule);
     }
     else
     {
-        ACR_AsyncSQLQueryEx("INSERT INTO logs (ServerID, CharacterID, Event, Description) VALUES (" + IntToString(ACR_GetServerId()) + "," + IntToString(ACR_GetCharacterID(oPC)) + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')", oModule);
+        ACR_AsyncSQLQueryEx("INSERT INTO logs (ServerID, CharacterID, Event, Description) VALUES (" + IntToString(ACR_GetServerId()) + "," + IntToString(nCharacterID) + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')", oModule);
     }
 }
 

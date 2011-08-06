@@ -33,6 +33,7 @@
 //  2009/10/11 AcadiusLost  Altered Charaters table to include Class4/level4
 //  2011/05/26 Ronan        Added asynchronous queries.
 //  2011/07/02 Basilica     Added framework for persistent value caching
+//  2011/08/05 Basilica     Added distinguished character id value ACR_CHARACTER_ID_NONE.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -52,6 +53,10 @@ const int SQL_SUCCESS = 1;
 
 //! Character ID for optimizing database access
 const string ACR_CID = "ACR_CID";
+
+//! Character ID constant to indicate that no actual record exists in the
+//  characters table.
+const int ACR_CHARACTER_ID_NONE = 0;
 
 //! Status cache variable name.
 const string ACR_PLAYERSTATUS_CACHE_VAR = "ACR_PLAYERSTATUS_CACHE";

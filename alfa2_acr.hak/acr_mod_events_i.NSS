@@ -274,6 +274,8 @@ void ACR_ModuleOnModuleLoad()
 
     // This should be the last time in this function.
     ACR_PrintDebugMessage("acr_mod_events_i: ALFA server " + sServerId + " loaded.", _ONLOAD_DEBUG, DEBUG_LEVEL_INFO);
+
+	ACR_LogEvent(OBJECT_INVALID, ACR_SERVER_LOAD, "Server " + sServerId + " loaded module " + GetName(GetModule()) + ".");
 }
 
 void ACR_ModuleOnModuleStart()
