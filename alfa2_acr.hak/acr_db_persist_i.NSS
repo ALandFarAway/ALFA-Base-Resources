@@ -317,6 +317,9 @@ int ACR_GetUTCTime();
 //!  - Returns: The module start time (seconds since 1970).
 int ACR_GetModuleStartTime();
 
+//! This function ensures that the query queue for a player is fully flushed.
+void ACR_FlushQueryQueue(object oQueueObject);
+
 //! Passes the reset command to the NWNx4 system plugin, taken from nwnx_system.nss
 // Authors  : Ingmar Stieger (Papillon)
 // Modified : 08/25/07 (kfw) : Added more useful error messages.
@@ -1077,6 +1080,11 @@ void _FlushQueryQueue(object oQueueObject)
 		return;
 
 	_ExecuteQueryQueues(_GetTotalQueuedQueryCount(oQueueObject), GetModule(), oQueueObject, FALSE);
+}
+
+void ACR_FlushQueryQueue(object oQueueObject)
+{
+	_FlushQueryQueue(oQueueObject);
 }
 
 void _ExecuteQueryQueues(int nMaxServiced, object oModule, object oExtraQueueObject, int bAccumulate)

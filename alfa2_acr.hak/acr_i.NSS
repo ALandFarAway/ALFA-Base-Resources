@@ -275,6 +275,16 @@ const int ACR_PLAYER_FLAG_DECAYED     = 0x100;
 
 const int ACR_PLAYER_FLAG_ALL         = 0xFFF;
 
+//
+// The following flags must immediately hit the database so that they can be
+// referenced by the death system (which bypasses the cache as it works on the
+// placeholder item or placeable).
+//
+
+int ACR_PLAYER_FLAG_UNCACHEABLE_FLAGS = ACR_PLAYER_FLAG_DEAD      |
+                                        ACR_PLAYER_FLAG_MUTILATED |
+                                        ACR_PLAYER_FLAG_DECAYED;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -355,8 +365,26 @@ int ACR_GetIsCorpseDecayed(object oCorpse);
 
 void ACR_SetPlayerStatusFlags(object oPC, int nStatus)
 {
+	int FlushRequired;
+	int OldStatus = ACR_GetPlayerStatusFlags(oPC);
+
+	//
+	// Ensure that if we are modifying the dead flag that it is immediately set
+	// so that the death system can query it at any time.  The death system will
+	// issue set/get flags operations on the placeholder corpse objects and so
+	// it can't use the cache.
+	//
+
+	if ((OldStatus & ACR_PLAYER_FLAG_UNCACHEABLE_FLAGS) != (nStatus & ACR_PLAYER_FLAG_UNCACHEABLE_FLAGS))
+		FlushRequired = TRUE;
+	else
+		FlushRequired = FALSE;
+
 	SetLocalInt(oPC, ACR_PLAYERSTATUS_CACHE_VAR, ACR_GetPlayerStatusFlags(oPC) | nStatus);
 	ACR_AsyncSQLQueryEx("UPDATE characters SET Status=Status | " + IntToString(nStatus) + " WHERE id=" + IntToString(ACR_GetCharacterID(oPC)), oPC);
+
+	if (FlushRequired)
+		ACR_FlushQueryQueue(oPC);
 }
 
 void ACR_UnsetPlayerStatusFlags(object oPC, int nStatus)
@@ -373,7 +401,18 @@ int ACR_GetPlayerStatusFlags(object oPC)
 		WriteTimestampedLogEntry("Invalid status query on "+GetName(oPC)+" with PCPlayerName= "+GetPCPlayerName(oPC)+" in area "+GetName(GetArea(oPC))+".");
 		return 0;
 	}
-	return GetLocalInt(oPC, ACR_PLAYERSTATUS_CACHE_VAR);
+
+	//
+	// Only use the cache if we are a PC.  Otherwise we must talk to the
+	// database directly so that the death system can always get the death
+	// status at any time.
+	//
+
+	if (GetIsPC(oPC))
+		return GetLocalInt(oPC, ACR_PLAYERSTATUS_CACHE_VAR);
+
+	ACR_SQLQuery("SELECT Status FROM characters WHERE id=" + IntToString(nPCID));
+	return (ACR_SQLFetch() == SQL_SUCCESS) ? StringToInt(ACR_SQLGetData(0)) : 0;
 }
 
 int ACR_GetIsPlayerDead(object oPC)
