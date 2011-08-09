@@ -67,7 +67,8 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\nwnx_clock.nss                        \
             $(OUTPUTDIR)\nwnx_include.nss                      \
             $(OUTPUTDIR)\nwnx_sql.nss                          \
-            $(OUTPUTDIR)\nwnx_time.nss                         
+            $(OUTPUTDIR)\nwnx_time.nss                         \
+            $(OUTPUTDIR)\acr_vanity_i.nss                         
 
 NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\abr_plc_oninventorydisreturns.ncs     \
@@ -173,7 +174,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s0_magearm.ncs                     \
             $(OUTPUTDIR)\gui_atsign.ncs                        \
             $(OUTPUTDIR)\gui_setlanguse.ncs                    \
-            $(OUTPUTDIR)\x2_s3_onhitcast.ncs                   
+            $(OUTPUTDIR)\x2_s3_onhitcast.ncs                   \
+            $(OUTPUTDIR)\acr_disguise.ncs                   
 
 
 HAKFILE=$(OUTPUTDIR)\alfa2_acr.hak
