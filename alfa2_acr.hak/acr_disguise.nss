@@ -5,7 +5,7 @@ void CheckHairDye(location lPrimaryLoc, object oTarget, object oDisguiseKit, int
 	if(GetDistanceBetweenLocations(lPrimaryLoc, GetLocation(oTarget)) > 1.0f)
 	{
 		SendMessageToPC(OBJECT_SELF, "Your victim moved! I mean, that person is too wiggly to work on. Get them to hold still.");
-		SendMessageToPC(oTarget, "You goy away! I mean, if you'd like to have your hair dyed, you're going to have to hold still.");
+		SendMessageToPC(oTarget, "You got away! I mean, if you'd like to have your hair dyed, you're going to have to hold still.");
 		return;
 	}
 	
