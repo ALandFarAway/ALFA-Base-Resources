@@ -296,6 +296,7 @@ void EquipCreature(object oCreature, int nGear)
 	
 	WeaponToLevel(oMainHand, nLevel);
 	SetIdentified(oMainHand, TRUE);
+	SetDroppableFlag(oMainHand, FALSE);
 	AssignCommand(oCreature, ActionEquipItem(oMainHand, INVENTORY_SLOT_RIGHTHAND));
 	
 	if(nShield == 2)
@@ -311,6 +312,7 @@ void EquipCreature(object oCreature, int nGear)
 	if(GetIsObjectValid(oOffHand))
 	{
 		SetIdentified(oOffHand, TRUE);
+		SetDroppableFlag(oOffHand, FALSE);
 		AssignCommand(oCreature, ActionEquipItem(oOffHand, INVENTORY_SLOT_LEFTHAND));
 	}
 	
@@ -323,6 +325,7 @@ void EquipCreature(object oCreature, int nGear)
 	else                 oArmor = CreateItemOnObject("zitem_robes", oCreature);
 	ArmorToLevel(oArmor, nLevel);
 	SetIdentified(oArmor, TRUE);
+	SetDroppableFlag(oArmor, FALSE);
 	AssignCommand(oCreature, ActionEquipItem(oArmor, INVENTORY_SLOT_CHEST));
 	
 	object oHelm;
@@ -330,6 +333,7 @@ void EquipCreature(object oCreature, int nGear)
 	else            oHelm = CreateItemOnObject("zitem_helm2", oCreature);
 	HelmetToLevel(oHelm, nLevel);
 	SetIdentified(oHelm, TRUE);
+	SetDroppableFlag(oHelm, FALSE);
 	AssignCommand(oCreature, ActionEquipItem(oHelm, INVENTORY_SLOT_HEAD));
 	
 	object oGloves;
@@ -337,6 +341,7 @@ void EquipCreature(object oCreature, int nGear)
 	else            oGloves = CreateItemOnObject("zitem_glove2", oCreature);
 	GlovesToLevel(oGloves, nLevel);
 	SetIdentified(oGloves, TRUE);
+	SetDroppableFlag(oGloves, FALSE);
 	AssignCommand(oCreature, ActionEquipItem(oGloves, INVENTORY_SLOT_ARMS));
 	
 	object oBoots;
@@ -344,16 +349,19 @@ void EquipCreature(object oCreature, int nGear)
 	else            oBoots = CreateItemOnObject("zitem_boot2", oCreature);
 	BootsToLevel(oBoots, nLevel);
 	SetIdentified(oBoots, TRUE);
+	SetDroppableFlag(oBoots, FALSE);
 	AssignCommand(oCreature, ActionEquipItem(oBoots, INVENTORY_SLOT_BOOTS));
 	
 	object oBelt = CreateItemOnObject("zitem_belt", oCreature);
 	BeltToLevel(oBelt, nLevel);
 	SetIdentified(oBelt, TRUE);
+	SetDroppableFlag(oBelt, FALSE);
 	AssignCommand(oCreature, ActionEquipItem(oBelt, INVENTORY_SLOT_BELT));
 	
 	object oCloak = CreateItemOnObject("zitem_cloak", oCreature);
 	CloakToLevel(oCloak, nLevel);
 	SetIdentified(oCloak, TRUE);
+	SetDroppableFlag(oCloak, FALSE);
 	AssignCommand(oCreature, ActionEquipItem(oCloak, INVENTORY_SLOT_CLOAK));
 	
 	object oRing = CreateItemOnObject("nw_it_mring021", oCreature);
@@ -362,12 +370,15 @@ void EquipCreature(object oCreature, int nGear)
 	RingTwoToLevel(oRing2, nLevel);
 	SetIdentified(oRing, TRUE);
 	SetIdentified(oRing2, TRUE);
+	SetDroppableFlag(oRing, FALSE);
+	SetDroppableFlag(oRing2, FALSE);
 	AssignCommand(oCreature, ActionEquipItem(oRing, INVENTORY_SLOT_LEFTRING));
 	AssignCommand(oCreature, ActionEquipItem(oRing2, INVENTORY_SLOT_RIGHTRING));
 	
 	object oAmulet = CreateItemOnObject("nw_it_mneck020", oCreature);
 	AmuletToLevel(oAmulet, nLevel);
-	AmuletToLevel(oAmulet, TRUE);
+	SetIdentified(oAmulet, TRUE);
+	SetDroppableFlag(oAmulet, FALSE);
 	AssignCommand(oCreature, ActionEquipItem(oAmulet, INVENTORY_SLOT_NECK));
 }
 
