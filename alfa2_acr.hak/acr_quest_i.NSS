@@ -534,7 +534,12 @@ void ACR_QuestItemOnAcquire(object oPC, object oItem)
             int nXP = 0; nState++;
 
             // award quest XP if the quest has reached its end state
-            if (nState >= nUpper) { nXP = GetJournalQuestExperience(sQuest); }
+            // make sure not to re-award xp (note: xp check should be made persistent)
+            if ((nState >= nUpper) && (!GetLocalInt(oPC,ACR_QST_NAME+"_XP")))
+            {
+                SetLocalInt(oPC,ACR_QST_NAME+"_XP",1);
+                nXP = GetJournalQuestExperience(sQuest);
+            }
 
             // update the quest state
             ACR_AddPersistentJournalQuestEntry(sQuest, nState, oPC, bPartyQuest, FALSE, FALSE, nXP);
