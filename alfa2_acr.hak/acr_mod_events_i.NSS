@@ -650,6 +650,479 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 {
 	//iterate the RPXP function to indicate an active PC
 	SetLocalInt(oSpeaker, _RPXP_ACTIVITY, TRUE);
+
+	if(GetStringLeft(sText, 1) == "#")
+	{
+		string sCommand = GetStringLowerCase(sText);
+		
+		string sMessage = "";
+		
+		if(sCommand == "#fort" || sCommand == "#fortitude")
+		{
+			int nRoll = d20();
+			int nMod = GetFortitudeSavingThrow(oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Fortitude Save : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#ref" || sCommand == "#reflex")
+		{
+			int nRoll = d20();
+			int nMod = GetReflexSavingThrow(oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Reflex Save : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#will")
+		{
+			int nRoll = d20();
+			int nMod = GetWillSavingThrow(oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Will Save : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#str" || sCommand == "#strength")
+		{
+			int nRoll = d20();
+			int nMod = GetAbilityModifier(ABILITY_STRENGTH, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Strength Check : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#dex" || sCommand == "#dexterity")
+		{
+			int nRoll = d20();
+			int nMod = GetAbilityModifier(ABILITY_DEXTERITY, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Dexterity Check : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#con" || sCommand == "#constitution")
+		{
+			int nRoll = d20();
+			int nMod = GetAbilityModifier(ABILITY_CONSTITUTION, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Constitution Check : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#int" || sCommand == "#intelligence")
+		{
+			int nRoll = d20();
+			int nMod = GetAbilityModifier(ABILITY_INTELLIGENCE, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Intelligence Check : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#wis" || sCommand == "#wisdom")
+		{
+			int nRoll = d20();
+			int nMod = GetAbilityModifier(ABILITY_WISDOM, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Wisdom Check : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#cha" || sCommand == "#charisma")
+		{
+			int nRoll = d20();
+			int nMod = GetAbilityModifier(ABILITY_CHARISMA, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Charisma Check : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#app" || sCommand == "#appraise")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(SKILL_APPRAISE, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Appraise : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#bal" || sCommand == "#balance")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(30, oSpeaker); // balance
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Balance : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#bluff")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(SKILL_BLUFF, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Bluff : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#climb")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(31, oSpeaker); // climb
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Climb : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#con" || sCommand == "#concentration")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(SKILL_CONCENTRATION, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Concentration : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#alch" || sCommand == "#alchemy" || sCommand == "#craft alchemy" || sCommand == "#craft (alchemy)" || sCommand == "#craft: alchemy")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(64, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Craft (Alchemy) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#arm" || sCommand == "#armor" || sCommand == "#craft armor" || sCommand == "#craft (armor)" || sCommand == "#craft: armor")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(65, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Craft (Armorer) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#bowyer" || sCommand == "#craft bow" || sCommand == "#craft (bow)" || sCommand == "#craft: bow")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(66, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Craft (Bowyer) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#weap" || sCommand == "#weapon" || sCommand == "#craft weapon" || sCommand == "#craft (weapon)" || sCommand == "#craft: weapon")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(67, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Craft (Weaponsmith) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#script" || sCommand == "#decipher" || sCommand == "#decipher script")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(32, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Decipher Script : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#dip" || sCommand == "#diplo" || sCommand == "#diplomacy")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(SKILL_DIPLOMACY, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Diplomacy : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#trap" || sCommand == "#disarm" || sCommand == "#disable" || sCommand == "#disable device" || sCommand == "#dd")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(SKILL_DISABLE_TRAP, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Disable Device : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#disguise")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(34, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Disguise : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#escape" || sCommand == "#escape artist")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(35, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Escape Artist : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#forge" || sCommand == "#forgery")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(36, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Forgery : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#gather" || sCommand == "#information" || sCommand == "#info" || sCommand == "#gather info" || sCommand == "#gather information")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(37, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Gather Information : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#handle animal")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(38, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Handle Animal : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#heal")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(SKILL_HEAL, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Heal : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#hide")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(SKILL_HIDE, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Hide : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#jump")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(39, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Jump : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#arc" || sCommand == "#arcana" || sCommand == "#knowledge arcana" || sCommand == "#knowledge (arcana)" || sCommand == "#knowledge: arcana")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(40, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (Arcana) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#arch" || sCommand == "#architect" || sCommand == "#knowledge arch" || sCommand == "#knowledge (architecture and engineering)" || sCommand == "#knowledge: architecture and engineering")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(58, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (Architecture and Engineering) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#dung" || sCommand == "#dungeon" || sCommand == "#knowledge dungeoneering" || sCommand == "#knowledge (dungeoneering)" || sCommand == "#knowledge: dungeoneering")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(33, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (Dungeoneering) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#geo" || sCommand == "#geography" || sCommand == "#knowledge geography" || sCommand == "#knowledge (geography)" || sCommand == "#knowledge: geography")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(55, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (Geography) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#hist" || sCommand == "#histroy" || sCommand == "#knowledge history" || sCommand == "#knowledge (history)" || sCommand == "#knowledge: history")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(41, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (History) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#local" || sCommand == "#knowledge local" || sCommand == "#knowledge (local)" || sCommand == "#knowledge: local")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(59, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (Local) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#nat" || sCommand == "#nature" || sCommand == "#knowledge nature" || sCommand == "#knowledge (nature)" || sCommand == "#knowledge: nature")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(42, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (Nature) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#nob" || sCommand == "#nobility" || sCommand == "#knowledge nobility" || sCommand == "#knowledge (nobility and royalty)" || sCommand == "#knowledge: nobility and royalty")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(42, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (Nature) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#rel" || sCommand == "#religion" || sCommand == "#knowledge religion" || sCommand == "#knowledge (religion)" || sCommand == "#knowledge: religion")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(43, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (Religion) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#planes" || sCommand == "#the planes" || sCommand == "#knowledge planes" || sCommand == "#knowledge (the planes)" || sCommand == "#knowledge: the planes")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(44, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (The Planes) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#list" || sCommand == "#listen")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(SKILL_LISTEN, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Listen : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#ms" || sCommand == "#sneak" || sCommand == "#move silently")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(SKILL_MOVE_SILENTLY, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Move Silently : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#ol" || sCommand == "#lock" || sCommand == "#open lock" || sCommand == "#pick lock" || sCommand == "#open locks")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(SKILL_OPEN_LOCK, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Open Lock : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#parry")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(SKILL_PARRY, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Parry : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#act" || sCommand == "#acting" || sCommand == "#perform acting" || sCommand == "#perform (acting)" || sCommand == "#perform: acting")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(45, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Acting) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#comedy" || sCommand == "#perform comedy" || sCommand == "#perform (comedy)" || sCommand == "#perform: comedy")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(63, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Comedy) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#dance" || sCommand == "#perform dance" || sCommand == "#perform (dance)" || sCommand == "#perform: dance")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(46, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Dance) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#keyboard" || sCommand == "#perform keyboard" || sCommand == "#perform (keyboard)" || sCommand == "#perform: keyboard")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(61, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Keyboard) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#oratory" || sCommand == "#perform oratory" || sCommand == "#perform (oratory)" || sCommand == "#perform: oratory")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(47, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Oratory) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#drums" || sCommand == "#perform drums" || sCommand == "#perform (drums)" || sCommand == "#perform: drums")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(60, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Drums) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#string" || sCommand == "#perform string" || sCommand == "#perform (string)" || sCommand == "#perform: string")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(48, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (String Instruments) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#wind" || sCommand == "#woodwind" || sCommand == "#perform wind" || sCommand == "#perform (wind)" || sCommand == "#perform: wind")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(62, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Wind Instruments) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#sing" || sCommand == "#perform sing" || sCommand == "#perform (sing)" || sCommand == "#perform: sing")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(62, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Sing) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#profession")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(62, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Sing) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#ride")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(28, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Ride : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#search")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(SKILL_SEARCH, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Search : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#sense motive" || sCommand == "#sm")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(51, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Search : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#sleight of hand" || sCommand == "#soh" || sCommand == "#pick pockets" || sCommand == "#pp")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(13, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Sleight of Hands : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#spellcraft" || sCommand == "#sc")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(SKILL_SPELLCRAFT, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Spellcraft : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#spot")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(SKILL_SPOT, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Spot : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#surv" || sCommand == "#survival")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(SKILL_SURVIVAL, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Survival : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#swim")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(53, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Swim : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#tumb" || sCommand == "#tumble")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(SKILL_TUMBLE, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Tumble : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#umd" || sCommand == "#use magic device")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(SKILL_USE_MAGIC_DEVICE, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Use Magic Device : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else if(sCommand == "#use rope")
+		{
+			int nRoll = d20();
+			int nMod = GetSkillRank(54, oSpeaker);
+			int nFinal = nRoll + nMod;
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Use Rope : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+		}
+		else 
+		{
+			SendMessageToPC(oSpeaker, "I don't understand the command: "+sCommand+".");
+			return FALSE;
+		}
+		
+		object oPC = GetFirstPC();
+		while(GetIsObjectValid(oPC))
+		{
+			if(GetIsDM(oPC) ||
+			   GetIsDMPossessed(oPC) ||
+			   ( GetArea(oPC) == GetArea(oSpeaker) && GetDistanceBetween(oPC, oSpeaker) < 40.0f ) ||
+			   oPC == oSpeaker)
+				SendMessageToPC(oPC, sMessage);
+			oPC = GetNextPC();
+		}
+		return FALSE;	
+	}
 	
 	if(nMode == CHAT_MODE_SERVER)
 		return TRUE;
