@@ -20,6 +20,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_death_i.nss                       \
             $(OUTPUTDIR)\acr_debug_i.nss                       \
             $(OUTPUTDIR)\acr_door_i.nss                        \
+            $(OUTPUTDIR)\acr_effects_i.nss                     \
             $(OUTPUTDIR)\acr_events_i.nss                      \
             $(OUTPUTDIR)\acr_game_loc_i.nss                    \
             $(OUTPUTDIR)\acr_i.nss                             \

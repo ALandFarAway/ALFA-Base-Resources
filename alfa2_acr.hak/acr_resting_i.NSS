@@ -72,6 +72,7 @@
 #include "acr_pps_i"
 #include "acr_time_i"
 #include "acr_nonlethal_i"
+#include "acr_effects_i"
 
 // REMOVE THESE WHEN INCLUDED OR ADDED TO NWSCRIPT
 int FEAT_ENDURANCE = 12;
@@ -82,6 +83,8 @@ int FEAT_ENDURANCE = 12;
 
 //! Enable/Disable the Rest System
 const int ACR_REST_ENABLED = TRUE;
+
+const string ACR_REST_EFFECT_SOURCE = "ACR_REST";
 
 //! Local variable definitions
 const string ACR_REST_FLAGS = "ACR_REST_FLAGS";
@@ -889,7 +892,7 @@ void _applySleepEffects(object oPC)
     effect eLink = EffectLinkEffects(eHelpless2, EffectLinkEffects(eHelpless1, EffectLinkEffects(eBonusAB, eVis)));
 
     // apply the linked effects to the player resting
-    ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eLink, oPC, fDuration);
+    ApplyEffectFromSource(ACR_EFFECT_SOURCE_RESTING, DURATION_TYPE_TEMPORARY, eLink, oPC, fDuration);
 
     // stop the rest button from flashing
     SetPanelButtonFlash(oPC, PANEL_BUTTON_REST, 0);
@@ -897,15 +900,7 @@ void _applySleepEffects(object oPC)
 
 void _removeSleepEffects(object oPC)
 {
-    // check the effects on the PC
-    effect eEffect = GetFirstEffect(oPC);
-
-    // remove all BLINDNESS effects from the PC
-    while (GetIsEffectValid(eEffect))
-    {
-        if (GetEffectType(eEffect) == EFFECT_TYPE_BLINDNESS) { RemoveEffect(oPC, eEffect); }
-        eEffect = GetNextEffect(oPC);
-    }
+    RemoveAllEffectsFromSource(oPC, ACR_EFFECT_SOURCE_RESTING);
 }
 
 object _getPCFamiliar(object oPC)
