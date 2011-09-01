@@ -249,20 +249,29 @@ void ACR_ModuleOnModuleLoad()
 	string sSID = IntToString(ACR_SERVER_ID);
 	// grab the server name from the module properties so it will be updated.
 	string sServerName = GetName(oModule);
+
+	// Try and discover the external address of the server from the database
+	// connection.  If that fails, fall back to the hardcoded default in the
+	// configuration file.
+	string sExtAddress = ACR_GetServerAddressFromDatabase();
+
+	if (sExtAddress == "")
+		sExtAddress = ACR_SERVER_IP;
+
     // check that the server information is in the database
     ACR_SQLQuery("SELECT * FROM servers WHERE ID=" + sSID);
 
     // create the record if it does not already exist
     if (ACR_SQLFetch() != SQL_SUCCESS)
     {
-        ACR_SQLQuery("INSERT INTO servers (ID, Name, IPAddress) VALUES(" + sSID + ",'" + ACR_SQLEncodeSpecialChars(sServerName) + "','" + ACR_SERVER_IP + "')"); 
+        ACR_SQLQuery("INSERT INTO servers (ID, Name, IPAddress) VALUES(" + sSID + ",'" + ACR_SQLEncodeSpecialChars(sServerName) + "','" + sExtAddress + "')"); 
     }
 	else
 	{	
 		// update server name and ip address if they've changed
-		if (ACR_SQLGetData(1) != sServerName || ACR_SQLGetData(2) != ACR_SERVER_IP)
+		if (ACR_SQLGetData(1) != sServerName || ACR_SQLGetData(2) != sExtAddress)
 		{
-			ACR_SQLQuery("UPDATE servers SET Name='" + ACR_SQLEncodeSpecialChars(sServerName) + "', IPAddress='" + ACR_SERVER_IP + "' WHERE ID=" + sSID);
+			ACR_SQLQuery("UPDATE servers SET Name='" + ACR_SQLEncodeSpecialChars(sServerName) + "', IPAddress='" + sExtAddress + "' WHERE ID=" + sSID);
 		}
 	}
 
@@ -275,7 +284,7 @@ void ACR_ModuleOnModuleLoad()
     // This should be the last time in this function.
     ACR_PrintDebugMessage("acr_mod_events_i: ALFA server " + sServerId + " loaded.", _ONLOAD_DEBUG, DEBUG_LEVEL_INFO);
 
-	ACR_LogEvent(OBJECT_INVALID, ACR_SERVER_LOAD, "Server " + sServerId + " loaded module " + GetName(GetModule()) + ".");
+	ACR_LogEvent(OBJECT_INVALID, ACR_LOG_SERVER_LOAD, "Server " + sServerId + " loaded module " + GetName(GetModule()) + ".");
 }
 
 void ACR_ModuleOnModuleStart()

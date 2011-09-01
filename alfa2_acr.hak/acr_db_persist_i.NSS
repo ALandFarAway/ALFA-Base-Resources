@@ -34,6 +34,7 @@
 //  2011/05/26 Ronan        Added asynchronous queries.
 //  2011/07/02 Basilica     Added framework for persistent value caching
 //  2011/08/05 Basilica     Added distinguished character id value ACR_CHARACTER_ID_NONE.
+//  2011/08/31 Basilica     Added ACR_GetServerAddressFromDatabase.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -324,6 +325,12 @@ int ACR_GetModuleStartTime();
 
 //! This function ensures that the query queue for a player is fully flushed.
 void ACR_FlushQueryQueue(object oQueueObject);
+
+//! This function returns the external address of the server based on the
+//  connection address observed on the database for the SQL connection.
+//! - Returns: The public address (which may be a hostname or raw IP) of the
+//             server.  The server data port is not detected nor returned.
+string ACR_GetServerAddressFromDatabase();
 
 //! Passes the reset command to the NWNx4 system plugin, taken from nwnx_system.nss
 // Authors  : Ingmar Stieger (Papillon)
@@ -1090,6 +1097,32 @@ void _FlushQueryQueue(object oQueueObject)
 void ACR_FlushQueryQueue(object oQueueObject)
 {
 	_FlushQueryQueue(oQueueObject);
+}
+
+string ACR_GetServerAddressFromDatabase()
+{
+	ACR_SQLQuery("SELECT host from information_schema.processlist where id = connection_id()");
+
+	if (ACR_SQLFetch() == SQL_SUCCESS)
+	{
+		string Address = ACR_SQLGetData(0);
+		int i;
+
+		i = FindSubString(Address, ":");
+
+		if (i != -1)
+			Address = GetStringLeft(Address, i);
+
+		WriteTimestampedLogEntry("ACR_GetServerAddressFromDatabase(): Detected server external address as " + Address + ".");
+
+		return Address;
+	}
+	else
+	{
+		WriteTimestampedLogEntry("ACR_GetServerAddressFromDatabase(): Failed to determine server external address!");
+
+		return "";
+	}
 }
 
 void _ExecuteQueryQueues(int nMaxServiced, object oModule, object oExtraQueueObject, int bAccumulate)
