@@ -69,6 +69,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\nwnx_include.nss                      \
             $(OUTPUTDIR)\nwnx_sql.nss                          \
             $(OUTPUTDIR)\nwnx_time.nss                         \
+            $(OUTPUTDIR)\nw_i0_invocatns.nss                   \
             $(OUTPUTDIR)\acr_vanity_i.nss                         
 
 NSS_OBJECTS=                                                   \
@@ -177,6 +178,49 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_setlanguse.ncs                    \
             $(OUTPUTDIR)\x2_s3_onhitcast.ncs                   \
             $(OUTPUTDIR)\acr_s0_dimdoor.ncs                    \
+            $(OUTPUTDIR)\nw_s0_ibeguinfl.ncs                   \
+            $(OUTPUTDIR)\nw_s0_ibeshblst.ncs                   \
+            $(OUTPUTDIR)\nw_s0_ibewiblst.ncs                   \
+            $(OUTPUTDIR)\nw_s0_ibrimblst.ncs                   \
+            $(OUTPUTDIR)\nw_s0_icharm.ncs                      \
+            $(OUTPUTDIR)\nw_s0_ichiltent.ncs                   \
+            $(OUTPUTDIR)\nw_s0_ichiltenta.ncs                  \
+            $(OUTPUTDIR)\nw_s0_ichiltentc.ncs                  \
+            $(OUTPUTDIR)\nw_s0_icursedes.ncs                   \
+            $(OUTPUTDIR)\nw_s0_idarkfors.ncs                   \
+            $(OUTPUTDIR)\nw_s0_idarkness.ncs                   \
+            $(OUTPUTDIR)\nw_s0_ideadwalk.ncs                   \
+            $(OUTPUTDIR)\nw_s0_idevmagic.ncs                   \
+            $(OUTPUTDIR)\nw_s0_idranblst.ncs                   \
+            $(OUTPUTDIR)\nw_s0_idrkonlck.ncs                   \
+            $(OUTPUTDIR)\nw_s0_idvlsight.ncs                   \
+            $(OUTPUTDIR)\nw_s0_ieldblast.ncs                   \
+            $(OUTPUTDIR)\nw_s0_ieldchain.ncs                   \
+            $(OUTPUTDIR)\nw_s0_ieldcone.ncs                    \
+            $(OUTPUTDIR)\nw_s0_ielddoom.ncs                    \
+            $(OUTPUTDIR)\nw_s0_ieldspear.ncs                   \
+            $(OUTPUTDIR)\nw_s0_ientrward.ncs                   \
+            $(OUTPUTDIR)\nw_s0_ifleescen.ncs                   \
+            $(OUTPUTDIR)\nw_s0_ifrgtblst.ncs                   \
+            $(OUTPUTDIR)\nw_s0_ihellblst.ncs                   \
+            $(OUTPUTDIR)\nw_s0_ihideous2.ncs                   \
+            $(OUTPUTDIR)\nw_s0_ihideousb.ncs                   \
+            $(OUTPUTDIR)\nw_s0_ileapsbnd.ncs                   \
+            $(OUTPUTDIR)\nw_s0_inoxiblst.ncs                   \
+            $(OUTPUTDIR)\nw_s0_iretinvis.ncs                   \
+            $(OUTPUTDIR)\nw_s0_iseeunsen.ncs                   \
+            $(OUTPUTDIR)\nw_s0_itenplage.ncs                   \
+            $(OUTPUTDIR)\nw_s0_itenplagea.ncs                  \
+            $(OUTPUTDIR)\nw_s0_itenplageb.ncs                  \
+            $(OUTPUTDIR)\nw_s0_itenplagec.ncs                  \
+            $(OUTPUTDIR)\nw_s0_iuttrblst.ncs                   \
+            $(OUTPUTDIR)\nw_s0_ivitrblst.ncs                   \
+            $(OUTPUTDIR)\nw_s0_ivoradisp.ncs                   \
+            $(OUTPUTDIR)\nw_s0_iwalkunsn.ncs                   \
+            $(OUTPUTDIR)\nw_s0_iwallflam.ncs                   \
+            $(OUTPUTDIR)\nw_s0_iwallflama.ncs                  \
+            $(OUTPUTDIR)\nw_s0_iwallflamc.ncs                  \
+            $(OUTPUTDIR)\nw_s0_iwordchng.ncs                   \
             $(OUTPUTDIR)\acr_disguise.ncs                   
 
 
