@@ -176,7 +176,9 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_atsign.ncs                        \
             $(OUTPUTDIR)\gui_setlanguse.ncs                    \
             $(OUTPUTDIR)\x2_s3_onhitcast.ncs                   \
+            $(OUTPUTDIR)\acr_s0_dimdoor.ncs                    \
             $(OUTPUTDIR)\acr_disguise.ncs                   
+
 
 
 HAKFILE=$(OUTPUTDIR)\alfa2_acr.hak
