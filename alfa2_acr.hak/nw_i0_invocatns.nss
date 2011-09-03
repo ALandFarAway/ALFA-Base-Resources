@@ -460,11 +460,9 @@ int DoEssenceFrightfulBlast(object oCaster, object oTarget, int bCalledFromShape
                 effect eSave = EffectSavingThrowDecrease(SAVING_THROW_ALL, 2); // shaken is all saves
                 effect eMind = EffectVisualEffect( VFX_DUR_SPELL_FEAR );
                 //effect eDur = EffectVisualEffect(VFX_DUR_CESSATE_NEGATIVE);	// handled by VFX_DUR_SPELL_FEAR
-                effect eDamagePenalty = EffectDamageDecrease(2);
                 effect eAttackPenalty = EffectAttackDecrease(2);
                 effect eLink = EffectLinkEffects(eMind, eScare);
-                effect eLink2 = EffectLinkEffects(eSave, eDamagePenalty);
-                eLink2 = EffectLinkEffects(eLink2, eAttackPenalty);
+                effect eLink2 = EffectLinkEffects(eSave, eAttackPenalty);
                 eLink2 = EffectLinkEffects(eLink2, eLink);
 
                 // Spell Effects not allowed to stack...
