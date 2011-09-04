@@ -709,6 +709,12 @@ void ACR_SetCharacterID(object oPC, int nID)
 {
 	SetLocalInt(oPC, ACR_CID, nID);
 
+	// If this isn't a player, don't try and initialize the cache as nobody will
+	// be using it anyway.  Even more importantly, corpse restoration assumes
+	// that invoking ACR_SetCharacterID will not reset the current query rowset.
+	if (!GetIsPC(oPC))
+		return;
+
 	ACR_SQLQuery("SELECT Status FROM characters WHERE id=" + IntToString(nID));
 
 	if (ACR_SQLFetch() == SQL_SUCCESS)
