@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
 //  System Name : ALFA Core Rules
-//     Filename : acf_settings_i.nss
+//     Filename : acr_queue_i.nss
 //      Version : 0.1
 //         Date : 2011-05-26
 //       Author : Ronan
