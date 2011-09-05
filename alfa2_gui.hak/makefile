@@ -9,6 +9,7 @@ HAK_SOURCES=                                                   \
             .\*.XML                                            \
             .\*.TGA                                            \
             .\*.MDB                                            \
+            .\*.SEF                                            \
             .\*.TXT                                            
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
