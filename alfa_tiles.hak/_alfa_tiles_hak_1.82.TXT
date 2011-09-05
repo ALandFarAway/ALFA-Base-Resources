@@ -12,6 +12,8 @@ AcadiusLost: 9/16/2010
 5/18/2009: Added Riotnrrd's fix for dark ruins tile walkmesh
 9/16/2010: Added RWS Deep Halls Anniv. edition, RWS Deep Mines, Fixes to Dark Ruins, RWS Grand Citadels, Fixes to Deep Sewers
 9/19/2010: Fixes to Deep Chasms, Pocket Ships
+  9/5/2011: Init OLM, Hair Dyes, chat dice, dimension door, minotaurs, gibberlings, basilisks, monodrones, new rapiers, short spears, short staves, Edwin soundest, KEMO blueprints, language UI fix, zspawn drops, resting in armor warning, item retrieval exploit closed, ACR fatigue = NWN2 fatigue, mass cure AoE fix, ray of frost -> evocation, frightful blast: panicked -> shaken, gloves do blunt damage, fix to soundsets from 1.81, Selunite paladin, expanding async database writes, non-PCs don’t get status cache.
+
 
 
 Deep Halls Tileset, by Robinson Workshop ( http://www.robinsonworkshop.com/phpBB2/ )
