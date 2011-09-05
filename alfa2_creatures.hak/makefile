@@ -18,6 +18,7 @@ HAK_SOURCES=                                                   \
             .\*.FXA                                            \
             .\*.XML                                            \
             .\*.SEF                                            \
+            .\*.FXA                                            \
             .\*.DDS                                            
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
