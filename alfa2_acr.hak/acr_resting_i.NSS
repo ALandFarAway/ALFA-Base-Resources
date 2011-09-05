@@ -64,6 +64,7 @@
 //  2009/08/15  AcadiusLost: Cleaned up debugging info from Offline resting.
 //
 //  2011/04/19  Zelknolf: Fixing function declarations
+//  2011/09/04  Paazin: Remove Fatigue code and place it into acr_effects_i
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -194,17 +195,6 @@ void ACR_SetHealBonus(object oPC, int nHeal);
 //!  - oPC: player to whom the healing bonus applies
 //!  - Returns: integer value representing the amount to be healed
 int ACR_GetHealBonus(object oPC);
-
-//! This function sets the fatigue status on the target creature
-//!  - oPC: player who's fatigue status is being adjusted
-//!  - bStatus: the new fatigue status to apply
-//!  - Returns: nothing
-void ACR_SetIsFatigued(object oPC, int bStatus);
-
-//! This function retrieves the fatigue status on the target creature
-//!  - oPC: player who's fatigue status is being queried
-//!  - Returns: nothing
-int ACR_GetIsFatigued(object oPC);
 
 //! Pray for spells - this is how divine spell casters restore their spell uses
 //!  - oCaster: player praying for spells
@@ -481,26 +471,6 @@ void ACR_SetHealBonus(object oPC, int nHeal)
 int ACR_GetHealBonus(object oPC)
 {
     return ACR_GetPersistentInt(oPC, ACR_REST_HEAL_BONUS);
-}
-
-void ACR_SetIsFatigued(object oPC, int bStatus)
-{
-    // check if fatigue is being activated or deactivated
-    if (bStatus)
-    {
-        // set the persistent fatigue status
-        ACR_SetPersistentInt(oPC, ACR_REST_FLAGS, ACR_GetPersistentInt(oPC, ACR_REST_FLAGS) | ACR_REST_FLAG_FATIGUED);
-    }
-    else
-    {
-        // unset the persistent fatigue status
-        ACR_SetPersistentInt(oPC, ACR_REST_FLAGS, ACR_GetPersistentInt(oPC, ACR_REST_FLAGS) & ~(ACR_REST_FLAG_FATIGUED));
-    }
-}
-
-int ACR_GetIsFatigued(object oPC)
-{
-    return (ACR_GetPersistentInt(oPC, ACR_REST_FLAGS) & ACR_REST_FLAG_FATIGUED);
 }
 
 void ACR_PrayForSpells(object oCaster)
@@ -1022,22 +992,14 @@ void _healFromRest(object oCreature, int nOriginalHitPoints)
     // creatures w/o the endurance feat or that are wearing heavy armor will suffer from fatigue if they fail a fortitude save
     if (nDaysRest < 1 && nItemACValue && !FortitudeSave(oCreature, nItemACValue) && (nItemACValue > 5 || !GetHasFeat(FEAT_ENDURANCE, oCreature)))
     {
-        // -2 to strength until next rest
-        effect eStrPenalty = ExtraordinaryEffect(EffectAbilityDecrease(ABILITY_STRENGTH, 2));
-        ApplyEffectToObject(DURATION_TYPE_PERMANENT, eStrPenalty, oCreature);
-
-        // -2 to dexterity until next rest
-        effect eDexPenalty = ExtraordinaryEffect(EffectAbilityDecrease(ABILITY_DEXTERITY, 2));
-        ApplyEffectToObject(DURATION_TYPE_PERMANENT, eDexPenalty, oCreature);
-
         // flag the fatigued status for persistence
-        ACR_SetPersistentInt(oCreature, ACR_REST_FLAGS, ACR_GetPersistentInt(oCreature, ACR_REST_FLAGS) | ACR_REST_FLAG_FATIGUED);
+        ACR_SetIsFatigued(oCreature, 1);
         FloatingTextStringOnCreature(ACR_REST_MSG_FATIGUED, oCreature, FALSE);
     }
     else
 	{
         // remove the persistent fatigued status - longterm offcamera rest should always remove the persistent fatigued status
-        ACR_SetPersistentInt(oCreature, ACR_REST_FLAGS, ACR_GetPersistentInt(oCreature, ACR_REST_FLAGS) & ~(ACR_REST_FLAG_FATIGUED));
+        ACR_SetIsFatigued(oCreature, 0);
     }
 
     // reset long term care and herbal/medicinal healing bonuses

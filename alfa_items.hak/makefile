@@ -10,6 +10,7 @@ HAK_SOURCES=                                                   \
             .\*.GR2                                            \
             .\*.TGA                                            \
             .\*.TXT                                            \
+            .\*.UTI                                            \
             .\*.MDB                                            
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^

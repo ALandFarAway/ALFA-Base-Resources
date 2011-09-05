@@ -612,11 +612,12 @@
 608 ****                      ****                  ****           ****   0    
 609 ****                      ****                  ****           ****   0    
 610 ****                      ****                  ****           ****   0    
-611 FlamingFist               vs_nflamingfist        ****           0      3
-612 AmnGuard                  vs_namnguard           ****           0      3
-613 HelmCleric                vs_nhelmcleric         ****           0      3
-614 FVillager                 vs_nfvillager          ****           1      3
-616 ****                      ****                  ****           ****   0    
+611 FlamingFist               vs_nflamingfist       ****           0      3
+612 AmnGuard                  vs_namnguard          ****           0      3
+613 HelmCleric                vs_nhelmcleric        ****           0      3
+614 FVillager                 vs_nfvillager         ****           1      3
+615 EdwinM                    vs_nedwin_m           ****           0      3
+616 EdwinF                    vs_nedwin_f           ****           1      3
 617 ****                      ****                  ****           ****   0    
 618 ****                      ****                  ****           ****   0    
 619 ****                      ****                  ****           ****   0    
