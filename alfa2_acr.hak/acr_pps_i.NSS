@@ -471,7 +471,7 @@ void ACR_PCOnClientEnter(object oPC)
 
 void ACR_PCOnPCLoaded(object oPC)
 {
-    string sCID = IntToString(ACR_GetCharacterID(oPC)), sLocation;
+	string sCID = IntToString(ACR_GetCharacterID(oPC)), sLocation, sServerID;
 	
 	vector vPosLoc = GetPosition(oPC), vPosStart = GetPositionFromLocation(GetStartingLocation());
 	///////////////////////////////////////////
@@ -479,7 +479,7 @@ void ACR_PCOnPCLoaded(object oPC)
 	///////////////////////////////////////////
 
 	// retrieve the character ID from the database
-    ACR_SQLQuery("SELECT ServerID, XP, GP, STR, CON, DEX, `INT`, WIS, CHA, Damage, Location FROM characters WHERE ID=" + sCID);
+	ACR_SQLQuery("SELECT ServerID, XP, GP, STR, CON, DEX, `INT`, WIS, CHA, Damage, Location FROM characters WHERE ID=" + sCID);
 
 	// exit if the character information cannot be retrieved (possible database failure)
 	if (ACR_SQLFetch() != SQL_SUCCESS)
@@ -489,9 +489,10 @@ void ACR_PCOnPCLoaded(object oPC)
        	BootPC(oPC); return;
 	}
 	sLocation = ACR_SQLGetData(10);
+	sServerID = ACR_SQLGetData(0);
 	// restore status if this is not a newly created character
-	if (sLocation != "") {
-		int nServerID = StringToInt(ACR_SQLGetData(0));
+	if (sLocation != "" && sServerID != "") {
+		int nServerID = StringToInt(sServerID);
 	   	int nXP  = StringToInt(ACR_SQLGetData(1));
    		int nGP  = StringToInt(ACR_SQLGetData(2));
    		int nSTR = StringToInt(ACR_SQLGetData(3));
@@ -504,7 +505,7 @@ void ACR_PCOnPCLoaded(object oPC)
 	   	location lLocation = ACR_StringToLocation(sLocation);
 		
 		// update the character and player status fields
-    	ACR_SQLQuery("UPDATE characters, players SET characters.IsOnline=1, players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");		
+		ACR_SQLQuery("UPDATE characters, players SET characters.IsOnline=1, players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");		
 		
 		// Check to see if the PC is logging into the right server:
    		if (nServerID != ACR_GetServerId()) {
@@ -600,29 +601,30 @@ void ACR_PCOnPCLoaded(object oPC)
             nDelta = GetAbilityScore(oPC, ABILITY_DEXTERITY) - nDEX;
            	ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectAbilityDecrease(ABILITY_DEXTERITY, nDelta), oPC);
        	}
-       	if (GetAbilityScore(oPC, ABILITY_CONSTITUTION) > nCON)
-       	{
+       	if (GetAbilityScore(oPC, ABILITY_CONSTITUTION) > nCON) 
+        {
             nDelta = GetAbilityScore(oPC, ABILITY_CONSTITUTION) - nCON;
            	ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectAbilityDecrease(ABILITY_CONSTITUTION, nDelta), oPC);
        	}
-       	if (GetAbilityScore(oPC, ABILITY_INTELLIGENCE) > nINT)
-       	{
+       	if (GetAbilityScore(oPC, ABILITY_INTELLIGENCE) > nINT) 
+        {
             nDelta = GetAbilityScore(oPC, ABILITY_INTELLIGENCE) - nINT;
            	ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectAbilityDecrease(ABILITY_INTELLIGENCE, nDelta), oPC);
        	}
-       	if (GetAbilityScore(oPC, ABILITY_WISDOM) > nWIS)
-       	{
+       	if (GetAbilityScore(oPC, ABILITY_WISDOM) > nWIS) 
+        {
             nDelta = GetAbilityScore(oPC, ABILITY_WISDOM) - nWIS;
            	ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectAbilityDecrease(ABILITY_WISDOM, nDelta), oPC);
        	}
-       	if (GetAbilityScore(oPC, ABILITY_CHARISMA) > nCHA)
-       	{
+       	if (GetAbilityScore(oPC, ABILITY_CHARISMA) > nCHA) 
+        {
             nDelta = GetAbilityScore(oPC, ABILITY_CHARISMA) - nCHA;
            	ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectAbilityDecrease(ABILITY_CHARISMA, nDelta), oPC);
        	}
 
        	// restore hit points - do this at the conclusion of the script to make sure it doesn't preempt location restores
-       	if (nDamage > 0) {
+       	if (nDamage > 0) 
+        {
             effect eDamage = EffectDamage(nDamage);
            	DelayCommand(0.3, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDamage, oPC));
        	}
@@ -633,8 +635,8 @@ void ACR_PCOnPCLoaded(object oPC)
    	} else {
 		// New PC not previously in the database.
 		// no previous location on record.
-	    // update the character and player status fields
-    	ACR_SQLQuery("UPDATE characters, players SET characters.Location='" + ACR_LocationToString(GetLocation(oPC)) + "', players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");
+		// update the character and player status fields
+		ACR_SQLQuery("UPDATE characters, players SET characters.Location='" + ACR_LocationToString(GetLocation(oPC)) + "', players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");
 	}
 
     // schedule the auto save (since this only exports after a PPS_CYCLE, start counting after 60 seconds)

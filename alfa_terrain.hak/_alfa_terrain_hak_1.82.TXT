@@ -3,6 +3,7 @@ AcadiusLost: 5/9/2011
 8/10/2007, documenting alfa_terrain.hak merge from NWN2 1.06 final (no hotfix)
 11/04/2007: Added Drow Caves
 5/9/2011: Added CODI Sigil textures
+  9/5/2011: Init OLM, Hair Dyes, chat dice, dimension door, minotaurs, gibberlings, basilisks, monodrones, new rapiers, short spears, short staves, Edwin soundest, KEMO blueprints, language UI fix, zspawn drops, resting in armor warning, item retrieval exploit closed, ACR fatigue = NWN2 fatigue, mass cure AoE fix, ray of frost -> evocation, frightful blast: panicked -> shaken, gloves do blunt damage, fix to soundsets from 1.81, Selunite paladin, expanding async database writes, non-PCs don’t get status cache.
 
 
  GF's Snow and custom textures.
