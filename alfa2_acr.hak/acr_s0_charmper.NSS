@@ -43,11 +43,12 @@ void main()
     //Declare major variables
     object oTarget = GetSpellTargetObject();
     effect eVis = EffectVisualEffect(VFX_DUR_SPELL_CHARM_PERSON);
-    effect eCharm = EffectCharmed();
-    eCharm = GetScaledEffect(eCharm, oTarget);
 
     //Link persistant effects
-    effect eLink = EffectLinkEffects(eVis, eCharm);
+    effect eLink;
+    if(GetIsPC(oTarget))
+        eLink = eVis;
+        else eLink = EffectLinkEffects(eVis, EffectCharmed());
 
     int nMetaMagic = GetMetaMagicFeat();
     int nCasterLevel = GetCasterLevel(OBJECT_SELF);
