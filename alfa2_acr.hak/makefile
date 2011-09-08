@@ -14,6 +14,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_1984_i.nss                        \
             $(OUTPUTDIR)\acr_area_i.nss                        \
             $(OUTPUTDIR)\acr_array_i.nss                       \
+            $(OUTPUTDIR)\acr_bladesinger_i.nss                 \
             $(OUTPUTDIR)\acr_chat_i.nss                        \
             $(OUTPUTDIR)\acr_creature_i.nss                    \
             $(OUTPUTDIR)\acr_db_persist_i.nss                  \
@@ -22,6 +23,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_door_i.nss                        \
             $(OUTPUTDIR)\acr_effects_i.nss                     \
             $(OUTPUTDIR)\acr_events_i.nss                      \
+            $(OUTPUTDIR)\acr_feat_i.nss                        \
             $(OUTPUTDIR)\acr_game_loc_i.nss                    \
             $(OUTPUTDIR)\acr_i.nss                             \
             $(OUTPUTDIR)\acr_items_i.nss                       \
@@ -89,6 +91,9 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_cs_has_item.ncs                   \
             $(OUTPUTDIR)\acr_cs_skcheck.ncs                    \
             $(OUTPUTDIR)\acr_cs_svcheck.ncs                    \
+            $(OUTPUTDIR)\acr_feat_lesserspellsong.nss          \
+            $(OUTPUTDIR)\acr_feat_songofcelerity.nss           \
+            $(OUTPUTDIR)\acr_feat_songoffury.nss               \
             $(OUTPUTDIR)\acr_quest_progress.ncs                \
             $(OUTPUTDIR)\acr_quest_reward.ncs                  \
             $(OUTPUTDIR)\acr_quest_update.ncs                  \
