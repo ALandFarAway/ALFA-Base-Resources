@@ -1,8 +1,8 @@
 2DA V2.0
 
-                  LABEL     ReqType     ReqParam1     ReqParam2
- 0       Knowledge(arcana)       SKILL            21             6
- 1     Knowledge(religion)       SKILL            29             6
- 2              Arcane    ARCSPELL             2          ****
- 3              Divine    DIVSPELL             2          ****
- 4           ScriptVar         VARnw_AllowMystic             0
+   LABEL               ReqType  ReqParam1 ReqParam2 
+0  Knowledge(arcana)   SKILL    21        6         
+1  Knowledge(religion) SKILL    29        6         
+2  Arcane              ARCSPELL 2         ****      
+3  Divine              DIVSPELL 2         ****      
+4  PrC_Validation      FEAT     3500      ****      
