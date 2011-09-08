@@ -1,0 +1,12 @@
+2DA V2.0
+
+     FeatLabel                              FeatIndex List GrantedOnLevel OnMenu       
+1    FEAT_MysticTheurge_SPELLCASTING_Cleric  3595      2    1              0     
+2    FEAT_MysticTheurge_SPELLCASTING_Wizard  3594      2    1              0
+3    FEAT_MysticTheurge_SPELLCASTING_Druid   3596      2    1              0  
+4    FEAT_MysticTheurge_SPELLCASTING_SS      3599      2    1              0 
+5    FEAT_MysticTheurge_SPELLCASTING_FS      3600      2    1              0 
+6    FEAT_MYSTICTHEURGE_SPELLCASTING_PALADIN 3597      2    1              0
+7    FEAT_MysticTheurge_SPELLCASTING_RANGER  3598      2    1              0  
+8    FEAT_MysticTheurge_SPELLCASTING_Bard    3608      2    1              0 
+9    FEAT_MysticTheurge_SPELLCASTING_Sorcerer 3610     2    1              0 
