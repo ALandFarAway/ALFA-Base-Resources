@@ -17,6 +17,7 @@
 //
 //  Revision History
 //  2011/09/04  Paazin: Remove Fatigue code from acr_restting_i and place it into acr_effects_i
+//  2011/09/08  Ronan: Added a function to re-apply AC bonuses from a single source because this comes up so often.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -37,8 +38,14 @@ const int ACR_EFFECT_SOURCE_SHIELD_SPELL = 2;
 const int ACR_EFFECT_SOURCE_RESTING = 3;
 const int ACR_EFFECT_SOURCE_COMBAT_ACTION = 4;
 
+// Bladesinger stuff:
+const int ACR_EFFECT_SOURCE_BLADESONG_STYLE = 5;
+const int ACR_EFFECT_SOURCE_LESSER_SPELLSONG = 6;
+
 const string ACR_EFFECT_FLAGS = "ACR_EFFECT_FLAGS";
 const int ACR_EFFECT_FLAG_FATIGUED = 0x01;
+
+const string ACR_EFFECT_LAST = "ACR_EFF_LAST_";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -83,6 +90,15 @@ effect ACR_GetFatigueEffectOnPlayer(object player);
 
 //! Wrapper for the standard NWN2 EffectFatigue effect, returns the effect
 effect ACR_EffectFatigue();
+
+//! If nAmount differs from the last nAmount passed to this function on oCreature from
+//! nSource, all effects from nSource are removed and replaced by eEffect.
+//! If nAmount is zero, no effects are applied.
+void ChangeEffectFromSource(int nSource, object oCreature, int nAmount, effect eEffect);
+
+//! Removes and re-applies an AC bonus (or penalty; nAmount) on oCreature from nsource, 
+//! if that bonus differs from the last applied. nType is AC_*_BONUS.
+void ReapplyACEffect(int nSource, object oCreature, int nAmount, int nType);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -171,4 +187,20 @@ effect ACR_GetFatigueEffectOnPlayer(object player)
 effect ACR_EffectFatigue()
 {
 	return EffectFatigue();
+}
+
+void ChangeEffectFromSource(int nSource, object oCreature, int nAmount, effect eEffect) {
+	if(nAmount == GetLocalInt(oCreature, ACR_EFFECT_LAST + IntToString(nSource))) return;
+	
+	RemoveAllEffectsFromSource(oCreature, nSource);
+	
+	if(nAmount != 0)
+		ApplyEffectFromSource(nSource, DURATION_TYPE_PERMANENT, eEffect, oCreature);
+	
+	SetLocalInt(oCreature, ACR_EFFECT_LAST + IntToString(nSource), nAmount);
+}
+
+void ReapplyACEffect(int nSource, object oCreature, int nAmount, int nType) {
+	effect eAC = (nAmount > 0) ? EffectACIncrease(nAmount, nType) : EffectACDecrease(-nAmount, nType);
+	ChangeEffectFromSource(nSource, oCreature, nAmount, eAC);
 }
