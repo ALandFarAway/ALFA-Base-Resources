@@ -91,9 +91,9 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_cs_has_item.ncs                   \
             $(OUTPUTDIR)\acr_cs_skcheck.ncs                    \
             $(OUTPUTDIR)\acr_cs_svcheck.ncs                    \
-            $(OUTPUTDIR)\acr_feat_lesserspellsong.nss          \
-            $(OUTPUTDIR)\acr_feat_songofcelerity.nss           \
-            $(OUTPUTDIR)\acr_feat_songoffury.nss               \
+            $(OUTPUTDIR)\acr_feat_lesserspellsong.ncs          \
+            $(OUTPUTDIR)\acr_feat_songofcelerity.ncs           \
+            $(OUTPUTDIR)\acr_feat_songoffury.ncs               \
             $(OUTPUTDIR)\acr_quest_progress.ncs                \
             $(OUTPUTDIR)\acr_quest_reward.ncs                  \
             $(OUTPUTDIR)\acr_quest_update.ncs                  \
