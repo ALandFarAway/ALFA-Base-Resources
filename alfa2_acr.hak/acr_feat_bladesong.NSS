@@ -1,5 +1,5 @@
 #include "acr_bladesinger_i"
 
 void main() {
-	BladesongHeartbeat(GetLastSpellCaster());
+	BladesongHeartbeat(OBJECT_SELF);
 }

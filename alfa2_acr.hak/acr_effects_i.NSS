@@ -96,10 +96,6 @@ effect ACR_EffectFatigue();
 //! If nAmount is zero, no effects are applied.
 void ChangeEffectFromSource(int nSource, object oCreature, int nAmount, effect eEffect);
 
-//! Removes and re-applies an AC bonus (or penalty; nAmount) on oCreature from nsource, 
-//! if that bonus differs from the last applied. nType is AC_*_BONUS.
-void ReapplyACEffect(int nSource, object oCreature, int nAmount, int nType);
-
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -198,9 +194,4 @@ void ChangeEffectFromSource(int nSource, object oCreature, int nAmount, effect e
 		ApplyEffectFromSource(nSource, DURATION_TYPE_PERMANENT, eEffect, oCreature);
 	
 	SetLocalInt(oCreature, ACR_EFFECT_LAST + IntToString(nSource), nAmount);
-}
-
-void ReapplyACEffect(int nSource, object oCreature, int nAmount, int nType) {
-	effect eAC = (nAmount > 0) ? EffectACIncrease(nAmount, nType) : EffectACDecrease(-nAmount, nType);
-	ChangeEffectFromSource(nSource, oCreature, nAmount, eAC);
 }

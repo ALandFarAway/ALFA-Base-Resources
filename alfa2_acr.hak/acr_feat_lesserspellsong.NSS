@@ -1,5 +1,5 @@
 #include "acr_bladesinger_i"
 
 void main() {
-	LesserSpellsongHeartbeat(GetLastSpellCaster());
+	LesserSpellsongHeartbeat(OBJECT_SELF);
 }

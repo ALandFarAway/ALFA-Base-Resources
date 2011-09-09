@@ -25,6 +25,7 @@
 #include "acr_db_persist_i"
 #include "acr_feat_i"
 #include "acr_i"
+#include "acr_tools_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -65,8 +66,7 @@ void _BladesongHeartbeat(object oCreature) {
 	if(GetHasFeat(FEAT_BLADESINGER_BLADESONG_STYLE, oCreature, TRUE)) {
 		DelayCommand(ACR_FEAT_HEARTBEAT_DELAY, _BladesongHeartbeat(oCreature));
 		int nMod = _GetBladesongACBonus(oCreature);
-		
-		ReapplyACEffect(ACR_EFFECT_SOURCE_BLADESONG_STYLE, oCreature, nMod, AC_DODGE_BONUS);
+		ChangeEffectFromSource(ACR_EFFECT_SOURCE_BLADESONG_STYLE, oCreature, nMod, SupernaturalEffect(EffectACIncrease(nMod, AC_DODGE_BONUS)));
 	}
 }
 
@@ -80,10 +80,9 @@ void _LesserSpellsongHeartbeat(object oCreature) {
 		DelayCommand(ACR_FEAT_HEARTBEAT_DELAY, _LesserSpellsongHeartbeat(oCreature));
 		object oItem = GetItemInSlot(INVENTORY_SLOT_CHEST, oCreature);
 		if(GetArmorRank(oItem) == ARMOR_RANK_LIGHT) {
-			int nSpellFailure = StringToInt(Get2DAString("baseitems.2da", "ArcaneSpellFailure", GetBaseItemType(oItem)));
-			// FIX ME !! Take item properties into account.
-			ChangeEffectFromSource(ACR_EFFECT_SOURCE_LESSER_SPELLSONG, oCreature, nSpellFailure, EffectArcaneSpellFailure(-nSpellFailure));
-		}
+			int nSpellFailure = GetTotalSpellFailure(oItem);
+			ChangeEffectFromSource(ACR_EFFECT_SOURCE_LESSER_SPELLSONG, oCreature, nSpellFailure, SupernaturalEffect(EffectArcaneSpellFailure(-nSpellFailure)));
+		} else RemoveAllEffectsFromSource(oCreature, ACR_EFFECT_SOURCE_LESSER_SPELLSONG);
 	}
 }
 
@@ -109,7 +108,8 @@ int _GetBladesongACBonus(object oCreature) {
 	if(!GetHasFeat(FEAT_BLADESINGER_BLADESONG_STYLE, oCreature)) return 0;
 	
 	int nWeaponType = GetBaseItemType(GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oCreature));
-	if(nWeaponType != BASE_ITEM_RAPIER || nWeaponType != BASE_ITEM_LONGSWORD) return 0;
+	if(nWeaponType != BASE_ITEM_RAPIER && nWeaponType != BASE_ITEM_LONGSWORD) return 0;
+	if(GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oCreature) != OBJECT_INVALID) return 0;
 	
 	if(GetArmorRank(GetItemInSlot(INVENTORY_SLOT_CHEST, oCreature)) != ARMOR_RANK_NONE) return 0;
 	
