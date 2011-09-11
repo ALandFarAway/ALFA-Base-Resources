@@ -750,9 +750,19 @@ void ACR_InitializeSpawns(float fDespawnDelay, float fRefreshDelay, int bPrespaw
     DelayCommand(fDelay + 6.0, _SpawnPointInitializationCheck(i));
 }
 
-float GetDespawnDelay() { return GetGlobalFloat(_SPAWN_DESPAWN_DELAY_GF); }
+float GetDespawnDelay() 
+{ 
+	float fReturn = GetGlobalFloat(_SPAWN_DESPAWN_DELAY_GF); 
+	if(fReturn < 1.0f) return 60.0f; // prevent overly quick delays if something happens to our global
+	return fReturn;
+}
 
-float GetRefreshDelay() { return GetGlobalFloat(_SPAWN_REFRESH_DELAY_GF); }
+float GetRefreshDelay() 
+{
+	float fReturn = GetGlobalFloat(_SPAWN_REFRESH_DELAY_GF);
+	if(fReturn < 1.0f) return 60.0f; // prevent overly quick delays if something happens to our global
+	return fReturn;
+}
 
 int GetPrespawnsSeamless() { return GetGlobalInt(_SPAWN_PRESPAWN_SEAMLESS_GB); }
 
