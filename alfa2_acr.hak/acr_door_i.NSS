@@ -305,7 +305,7 @@ void ACR_DoorOnLock() {
 }
 
 void ACR_DoorOnOpen() {
-    int nStatus = _InitializeDoor(OBJECT_SELF);
+	int nStatus = _InitializeDoor(OBJECT_SELF);
 	object oOpener = GetLastOpenedBy();
 	object oAT =  GetTransitionTarget(OBJECT_SELF);
 	
@@ -332,17 +332,14 @@ void ACR_DoorOnOpen() {
 	}
 	
 	// Check for auto-close settings.
-    float fDelay = GetLocalFloat(OBJECT_SELF, _AUTO_CLOSE_DELAY_LF);
-    if(fDelay > 0.0) {
+	float fDelay = GetLocalFloat(OBJECT_SELF, _AUTO_CLOSE_DELAY_LF);
+	if(fDelay > 0.0) {
 		//SendMessageToPC(oPC, "Door closing in: " + FloatToString(fDelay, 3, 0) + " seconds.");
-    	DelayCommand( fDelay, _AutoClose(OBJECT_SELF, fDelay, nStatus) );
-    }
-	
-	// Is the door on the other side of the AT open?
-	if(!GetIsOpen(oAT)) {
-		// If not, open it.
-    	ActionOpenDoor(oAT);
+		DelayCommand( fDelay, _AutoClose(OBJECT_SELF, fDelay, nStatus) );
 	}
+	
+	if(GetIsObjectValid(oAT) && !GetIsOpen(oAT)) // Is the door on the other side of the AT open?	
+		ActionOpenDoor(oAT);
 }
 
 void ACR_DoorOnPhysicalAttacked() {
@@ -502,7 +499,10 @@ int ACR_DoorGetIsAutoLocked(object oDoor) {
 }
 
 void ACR_CloseDoor(object oDoor) {
-    ActionCloseDoor(oDoor);
+	ActionCloseDoor(oDoor);
+
+	if(GetIsObjectValid(oAT) && GetIsOpen(oAT)) // Is the door on the other side of the AT open?	
+		ActionCloseDoor(oAT);
 }
 
 
