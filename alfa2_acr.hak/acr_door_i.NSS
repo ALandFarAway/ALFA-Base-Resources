@@ -230,7 +230,7 @@ void ACR_DoorOnClose() {
 
 	// Sync up with the door on the other side of the AT, if any.
 	object oAT = GetTransitionTarget(OBJECT_SELF);	
-    if(GetIsOpen(oAT)) {
+    if(GetIsObjectValid(oAT) && GetIsOpen(oAT)) {
 		ActionCloseDoor(oAT);
     }
 }
@@ -500,9 +500,6 @@ int ACR_DoorGetIsAutoLocked(object oDoor) {
 
 void ACR_CloseDoor(object oDoor) {
 	ActionCloseDoor(oDoor);
-
-	if(GetIsObjectValid(oAT) && GetIsOpen(oAT)) // Is the door on the other side of the AT open?	
-		ActionCloseDoor(oAT);
 }
 
 
