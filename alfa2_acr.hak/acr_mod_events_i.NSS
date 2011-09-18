@@ -1056,7 +1056,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 			int nRoll = d20();
 			int nMod = GetSkillRank(51, oSpeaker);
 			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Search : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
+			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Sense Motive : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
 		}
 		else if(sCommand == "#sleight of hand" || sCommand == "#soh" || sCommand == "#pick pockets" || sCommand == "#pp")
 		{
