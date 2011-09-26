@@ -99,6 +99,7 @@
 #include "acr_skills_i"
 #include "acr_nonlethal_i"
 #include "acr_language_i"
+#include "acr_feat_events_i"
 
 #include "acf_spawn_i"
 #include "acf_settings_i"
@@ -635,6 +636,8 @@ void ACR_ModuleOnPlayerEquip() {
 	// handle nonlethal damage modes
 	ACR_NLD_OnWeaponSwitch(oPC, oItem);
 
+	// Do feat-specific stuff.
+	ACR_FeatOnEquipItem(oPC, oItem);
 }
 
 void ACR_ModuleOnPlayerUnequip() {
@@ -646,6 +649,9 @@ void ACR_ModuleOnPlayerUnequip() {
 	
 	// Subdual / nonlethal handling
     DelayCommand(0.1, ACR_NLD_OnWeaponSwitch(oPC, oItem, FALSE));
+	
+	// Do feat-specific stuff.
+	ACR_FeatOnEquipItem(oPC, oItem);	
 }
 
 void ACR_ModuleOnCutsceneAbort() {
