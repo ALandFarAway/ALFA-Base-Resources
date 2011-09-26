@@ -74,9 +74,9 @@ void RefreshSongOfCelerity(object oCreature);
 
 void _BladesongHeartbeat(object oCreature) {
 	if(ACR_ContinueCustomFeatHeartbeat(oCreature, FEAT_BLADESINGER_BLADESONG_STYLE)) {
-		DelayCommand(ACR_FEAT_HEARTBEAT_DELAY, _BladesongHeartbeat(oCreature));
 		RefreshBladesong(oCreature);
-	}
+		AssignCommand(GetModule(), DelayCommand(ACR_FEAT_HEARTBEAT_DELAY, _BladesongHeartbeat(oCreature)));
+	} else RemoveAllEffectsFromSource(oCreature, ACR_EFFECT_SOURCE_BLADESONG_STYLE);
 }
 
 void StartBladesongHeartbeat(object oCreature) {
@@ -85,7 +85,6 @@ void StartBladesongHeartbeat(object oCreature) {
 }
 
 void RefreshBladesong(object oCreature) {
-	if(!GetHasFeat(FEAT_BLADESINGER_BLADESONG_STYLE, oCreature, TRUE)) return;
 
 	int nMod = _GetBladesongACBonus(oCreature);
 
@@ -99,7 +98,7 @@ void RefreshBladesong(object oCreature) {
 
 void _LesserSpellsongHeartbeat(object oCreature) {
 	if(ACR_ContinueCustomFeatHeartbeat(oCreature, FEAT_BLADESINGER_LESSER_SPELLSONG)) {
-		DelayCommand(ACR_FEAT_HEARTBEAT_DELAY, _LesserSpellsongHeartbeat(oCreature));
+		AssignCommand(GetModule(), DelayCommand(ACR_FEAT_HEARTBEAT_DELAY, _LesserSpellsongHeartbeat(oCreature)));
 		object oItem = GetItemInSlot(INVENTORY_SLOT_CHEST, oCreature);
 		if(GetArmorRank(oItem) == ARMOR_RANK_LIGHT) {
 			int nSpellFailure = GetTotalSpellFailure(oItem);
@@ -127,18 +126,13 @@ void BladesingerSpellhook(object oCaster, int nMetaMagic) {
 // Bit easier to write readable performant code using return statements in a
 // seperate function.
 int _GetBladesongACBonus(object oCreature) {
-	if(!GetHasFeat(FEAT_BLADESINGER_BLADESONG_STYLE, oCreature)) return 0;
-	
 	int nWeaponType = GetBaseItemType(GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oCreature));
 	if(nWeaponType != BASE_ITEM_RAPIER && nWeaponType != BASE_ITEM_LONGSWORD) return 0;
 	if(GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oCreature) != OBJECT_INVALID) return 0;
 	
-	//if(GetArmorRank(GetItemInSlot(INVENTORY_SLOT_CHEST, oCreature)) != ARMOR_RANK_NONE) return 0;
-	//Duplicated weapon check for armour - checks that armour is none or light now (Blindhamsterman)
-        int nArmourType = GetArmorRank(GetItemInSlot(INVENTORY_SLOT_CHEST, oCreature));	
-        if(nArmourType != ARMOR_RANK_NONE || nArmourType != ARMOR_RANK_LIGHT) return 0;
+	int nArmourType = GetArmorRank(GetItemInSlot(INVENTORY_SLOT_CHEST, oCreature));	
+	if(nArmourType != ARMOR_RANK_NONE && nArmourType != ARMOR_RANK_LIGHT) return 0;
 
-	
 	int nIntMod = GetAbilityModifier(ABILITY_INTELLIGENCE, oCreature);
 	int nBSLevel = GetLevelByClass(CLASS_BLADESINGER, oCreature);
 	int nMod = (nBSLevel > nIntMod) ? nIntMod : nBSLevel;
