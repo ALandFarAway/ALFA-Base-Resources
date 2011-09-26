@@ -133,10 +133,10 @@ int _GetBladesongACBonus(object oCreature) {
 	if(nWeaponType != BASE_ITEM_RAPIER && nWeaponType != BASE_ITEM_LONGSWORD) return 0;
 	if(GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oCreature) != OBJECT_INVALID) return 0;
 	
-//if(GetArmorRank(GetItemInSlot(INVENTORY_SLOT_CHEST, oCreature)) != ARMOR_RANK_NONE) return 0;
-//Duplicated weapon check for armour - checks that armour is none or light now (Blindhamsterman)
-         int nArmourType = GetArmorRank(GetItemInSlot(INVENTORY_SLOT_CHEST, oCreature);	
-         if(nArmourType != ARMOR_RANK_NONE || nArmourType != ARMOR_RANK_LIGHT) return 0;
+	//if(GetArmorRank(GetItemInSlot(INVENTORY_SLOT_CHEST, oCreature)) != ARMOR_RANK_NONE) return 0;
+	//Duplicated weapon check for armour - checks that armour is none or light now (Blindhamsterman)
+        int nArmourType = GetArmorRank(GetItemInSlot(INVENTORY_SLOT_CHEST, oCreature));	
+        if(nArmourType != ARMOR_RANK_NONE || nArmourType != ARMOR_RANK_LIGHT) return 0;
 
 	
 	int nIntMod = GetAbilityModifier(ABILITY_INTELLIGENCE, oCreature);
