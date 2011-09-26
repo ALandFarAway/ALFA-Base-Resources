@@ -39,8 +39,8 @@
 
 // Classes:
 
-const int CLASS_BLADESINGER = 106;
-const int CLASS_LOREMASTER = 108;
+const int CLASS_BLADESINGER = 104;
+const int CLASS_LOREMASTER = 106;
 const int CLASS_MYSTICTHEURGE = 44;
 
 // Spells and spell-like abilities:

@@ -14,7 +14,6 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_1984_i.nss                        \
             $(OUTPUTDIR)\acr_area_i.nss                        \
             $(OUTPUTDIR)\acr_array_i.nss                       \
-            $(OUTPUTDIR)\acr_bladesinger_i.nss                 \
             $(OUTPUTDIR)\acr_chat_i.nss                        \
             $(OUTPUTDIR)\acr_creature_i.nss                    \
             $(OUTPUTDIR)\acr_db_persist_i.nss                  \
@@ -23,6 +22,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_door_i.nss                        \
             $(OUTPUTDIR)\acr_effects_i.nss                     \
             $(OUTPUTDIR)\acr_events_i.nss                      \
+            $(OUTPUTDIR)\acr_feat_events_i.nss                 \
             $(OUTPUTDIR)\acr_feat_i.nss                        \
             $(OUTPUTDIR)\acr_game_loc_i.nss                    \
             $(OUTPUTDIR)\acr_i.nss                             \
@@ -35,6 +35,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_placeable_i.nss                   \
             $(OUTPUTDIR)\acr_portal_i.nss                      \
             $(OUTPUTDIR)\acr_pps_i.nss                         \
+            $(OUTPUTDIR)\acr_prc_bladesinger_i.nss             \
             $(OUTPUTDIR)\acr_quest_i.nss                       \
             $(OUTPUTDIR)\acr_queue_i.nss                       \
             $(OUTPUTDIR)\acr_resting_i.nss                     \

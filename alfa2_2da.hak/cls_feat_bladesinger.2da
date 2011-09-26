@@ -1,20 +1,18 @@
 2DA V2.0
 
-     FeatLabel                              FeatIndex List GrantedOnLevel OnMenu 
-0    ArmProfLgt                             3         3    1              0      
-1    FEAT_ARMORED_CASTER_BLADESINGER        3593      3    6              0      
-2    SkillFocusConc                         173       3    3              0             
-3    FEAT_BLADESINGER_SPELLCASTING_BARD     3587      2    1              0      
-4    FEAT_BLADESINGER_SPELLCASTING_SORCERER 3588      2    1              0      
-5    FEAT_BLADESINGER_SPELLCASTING_WIZARD   3589      2    1              0      
-6    FEAT_EPIC_SPELL_ENTROPIC_HUSK          1992      0    21             2      
-7    FEAT_EPIC_SPELL_EPIC_GATE              1993      0    21             2      
-8    FEAT_EPIC_SPELL_MASS_FOWL              1994      0    21             2      
-9    FEAT_EPIC_SPELL_VAMPIRIC_FEAST         1995      0    21             2      
-10   FEAT_EPIC_SPELL_HELLBALL               876       0    21             2                 
-11   FEAT_EXTEND_SPELL                      12        3    2              0           
-12   FEAT_BLADESINGER_BLADESONG_STYLE       3590      3    1              0      
-13   FEAT_BLADESINGER_SONG_CELERITY         3591      3    4              0   
-14   FEAT_BLADESINGER_SONG_FURY             3592      3    10             0 
-
-  
+   FeatLabel                              FeatIndex List GrantedOnLevel OnMenu 
+0  ArmProfLgt                             3         3    1              0      
+1  FEAT_ARMORED_CASTER_BLADESINGER        3593      3    6              0      
+2  SkillFocusConc                         173       3    3              0      
+3  FEAT_BLADESINGER_SPELLCASTING_BARD     3587      2    1              0      
+4  FEAT_BLADESINGER_SPELLCASTING_SORCERER 3588      2    1              0      
+5  FEAT_BLADESINGER_SPELLCASTING_WIZARD   3589      2    1              0      
+6  FEAT_EPIC_SPELL_ENTROPIC_HUSK          1992      0    21             2      
+7  FEAT_EPIC_SPELL_EPIC_GATE              1993      0    21             2      
+8  FEAT_EPIC_SPELL_MASS_FOWL              1994      0    21             2      
+9  FEAT_EPIC_SPELL_VAMPIRIC_FEAST         1995      0    21             2      
+10 FEAT_EPIC_SPELL_HELLBALL               876       0    21             2      
+11 FEAT_EXTEND_SPELL                      12        3    2              0      
+12 FEAT_BLADESINGER_BLADESONG_STYLE       3590      3    1              0      
+13 FEAT_BLADESINGER_SONG_CELERITY         3591      3    4              0      
+14 FEAT_BLADESINGER_SONG_FURY             3592      3    10             0      

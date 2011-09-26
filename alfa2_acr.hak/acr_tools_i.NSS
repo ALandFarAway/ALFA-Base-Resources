@@ -187,8 +187,12 @@ string GetBaseItemTypeName(object oItem);
 // Fix in NWN2?
 
 // Returns oItem's spell failure % before any item properties are taken into
-// account. Returns -1 if oItem is not armor.
+// account. Returns 0 if oItem is not armor.
 int GetBaseSpellFailure(object oItem);
+
+// Returns oItem's spell failure, taking items into account.
+// Returns 0 if oItem is not armor.
+int GetTotalSpellFailure(object oItem);
 
 // Returns a string of the type of armor oArmor is. Possible results are:
 // "padded", "leather", "studded leather", "chain shirt", "hide", "scail mail",
@@ -658,9 +662,25 @@ string GetBaseItemTypeName(object oItem) {
 
 int GetBaseSpellFailure(object oItem) {
     if(!GetIsObjectValid(oItem) || GetBaseItemType(oItem) != BASE_ITEM_ARMOR) {
-        return -1;
+        return 0;
     }
-    return GetArcaneSpellFailure(oItem) + GetHighestItemPropertyParam1(oItem, ITEM_PROPERTY_ARCANE_SPELL_FAILURE);
+    return StringToInt(Get2DAString("armorrulestats", "ARCANEFAILURE%", GetArmorRulesType(oItem)));
+}
+
+int GetTotalSpellFailure(object oItem) {
+	int nSpellFailure = GetBaseSpellFailure(oItem);
+	if(!nSpellFailure) return 0;
+	
+	itemproperty ip = GetFirstItemProperty(oItem);
+	while(GetIsItemPropertyValid(ip)) {
+		if(GetItemPropertyType(ip) == ITEM_PROPERTY_ARCANE_SPELL_FAILURE) {
+			int nCostValue = GetItemPropertyCostTableValue(ip);
+			nSpellFailure += (nCostValue <= 9) ? (nCostValue * 5 - 50) : (nCostValue * 5 - 45);
+		}
+		ip = GetNextItemProperty(oItem);
+	}
+	
+	return nSpellFailure;
 }
 
 string GetArmorTypeName(object oArmor) {

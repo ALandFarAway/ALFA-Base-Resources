@@ -6,13 +6,14 @@
 //         Date : 2011-09-08
 //       Author : Ronan
 //
-//  Local Variable Prefix = ACR_FEAT
+//  Local Variable Prefix = none
 //
 //
 //  Dependencies external of nwscript: none
 //
 //  Description
-//  This script contains all the ACR hooks for handling custom feats.
+//  This script contains all the even hooks for custom feats. Its seperated from
+//	acr_feat_i to prevent some circular includes.
 //
 //  Revision History
 ////////////////////////////////////////////////////////////////////////////////
@@ -21,16 +22,12 @@
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "acr_queue_i"
+#include "acr_prc_bladesinger_i"
+#include "acr_feat_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-
-const float ACR_FEAT_HEARTBEAT_DELAY = 6.0;
-
-const string ACR_FEAT_HEARTBEAT_FLAG = "ACR_FEAT_HB_";
-const string ACR_FEAT_HEARTBEAT_QUEUE = "ACR_FEAT_HB_QUEUE";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -44,33 +41,14 @@ const string ACR_FEAT_HEARTBEAT_QUEUE = "ACR_FEAT_HB_QUEUE";
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-//! Returns TRUE if oCreature's nFeat's custom script isn't running, and flags
-//! that it is running (so future calls will return FALSE). Should only be called
-//! from custom Persistent feat scripts.
-int ACR_EnterCustomFeatHeartbeat(object oCreature, int nFeat);
-
-//! Returns TRUE if oCreature's nFeat's custom heartbeart script should continue.
-//! Returns FALSE if it shouldn't.
-int ACR_ContinueCustomFeatHeartbeat(object oCreature, int nFeat);
+//! Handles ALFA's custom feats which hook into the OnEquipItem event. Should not
+//! be called outside module event scripts.
+void ACR_FeatOnEquipItem(object oCreature, object oItem);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-int ACR_EnterCustomFeatHeartbeat(object oCreature, int nFeat) {
-	string sFeat = IntToString(nFeat);
-	if(GetLocalInt(oCreature, ACR_FEAT_HEARTBEAT_FLAG + sFeat))
-		return FALSE;
-	
-	SetLocalInt(oCreature, ACR_FEAT_HEARTBEAT_FLAG + IntToString(nFeat), TRUE);
-	
-	return TRUE;
-}
-
-int ACR_ContinueCustomFeatHeartbeat(object oCreature, int nFeat) {
-	if(!GetIsObjectValid(oCreature) || GetIsDead(oCreature, TRUE) || !GetHasFeat(nFeat, oCreature, TRUE)) {
-		DeleteLocalInt(oCreature, ACR_FEAT_HEARTBEAT_FLAG + IntToString(nFeat));
-		return FALSE;
-	}
-	return TRUE;
+void ACR_FeatOnEquipItem(object oCreature, object oItem) {
+	RefreshBladesong(oCreature);
 }

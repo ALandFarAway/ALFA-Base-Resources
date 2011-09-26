@@ -1,5 +1,5 @@
-#include "acr_bladesinger_i"
+#include "acr_prc_bladesinger_i"
 
 void main() {
-	RefreshSongOfCelerity(GetLastSpellCaster());
+	RefreshSongOfCelerity(OBJECT_SELF);
 }

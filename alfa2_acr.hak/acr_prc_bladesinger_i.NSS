@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
 //  System Name : ALFA Core Rules
-//     Filename : acr_bladesinger_i
+//     Filename : acr_prc_bladesinger_i
 //      Version : 0.5
 //         Date : 2011-09-08
 //       Author : Ronan
@@ -25,6 +25,7 @@
 #include "acr_db_persist_i"
 #include "acr_feat_i"
 #include "acr_i"
+#include "acr_tools_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -42,19 +43,29 @@
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void BladesongHeartbeat(object oCreature);
+//! A heartbeat for refreshing the effects of Bladesong.
+void StartBladesongHeartbeat(object oCreature);
 
-void LesserSpellsongHeartbeat(object oCreature);
+//! A heartbeat for refreshing the effects of Lesser Spellsong.
+//! We make it a heartbeat for NPCs with the PRC.
+void StartLesserSpellsongHeartbeat(object oCreature);
 
-void SongOfFuryHeartbeat(object oCreature);
+//! Refreshes Bladesong effects on a creature.
+void RefreshBladesong(object oCreature);
 
+//! Heartbeat for Song of Fury.
+//! We make it a heartbeat for NPCs with the PRC.
+void StartSongOfFuryHeartbeat(object oCreature);
+
+//! Called from the spellhook when a Bladesinger casts a spell.
 void BladesingerSpellhook(object oCaster, int nMetaMagic);
 
-// At 1st Level while unarmoured, and weilding a Rapier or Longsword in one
-// hand (and nothing in the other) the Bladesinger Gains a Dodge Bonus to
-// their AC equal to their level but not exceeding their intelligence bonus.
+//! At 1st Level while unarmoured, and weilding a Rapier or Longsword in one
+//! hand (and nothing in the other) the Bladesinger Gains a Dodge Bonus to
+//! their AC equal to their level but not exceeding their intelligence bonus.
 int _GetBladesongACBonus(object oCreature);
 
+//! Refreshes Song of Celerity and the feats it (temporarily) grants.
 void RefreshSongOfCelerity(object oCreature);
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,37 +73,47 @@ void RefreshSongOfCelerity(object oCreature);
 ////////////////////////////////////////////////////////////////////////////////
 
 void _BladesongHeartbeat(object oCreature) {
-	if(GetHasFeat(FEAT_BLADESINGER_BLADESONG_STYLE, oCreature, TRUE)) {
+	if(ACR_ContinueCustomFeatHeartbeat(oCreature, FEAT_BLADESINGER_BLADESONG_STYLE)) {
 		DelayCommand(ACR_FEAT_HEARTBEAT_DELAY, _BladesongHeartbeat(oCreature));
-		int nMod = _GetBladesongACBonus(oCreature);
-		
-		ReapplyACEffect(ACR_EFFECT_SOURCE_BLADESONG_STYLE, oCreature, nMod, AC_DODGE_BONUS);
+		RefreshBladesong(oCreature);
 	}
 }
 
-void BladesongHeartbeat(object oCreature) {
+void StartBladesongHeartbeat(object oCreature) {
 	if(ACR_EnterCustomFeatHeartbeat(oCreature, FEAT_BLADESINGER_BLADESONG_STYLE))
 		_BladesongHeartbeat(oCreature);
 }
 
+void RefreshBladesong(object oCreature) {
+	if(!GetHasFeat(FEAT_BLADESINGER_BLADESONG_STYLE, oCreature, TRUE)) return;
+
+	int nMod = _GetBladesongACBonus(oCreature);
+
+	ChangeEffectFromSource(
+		ACR_EFFECT_SOURCE_BLADESONG_STYLE, 
+		oCreature,
+		nMod,
+		SupernaturalEffect(EffectACIncrease(nMod, AC_DODGE_BONUS))
+	);
+}
+
 void _LesserSpellsongHeartbeat(object oCreature) {
-	if(GetHasFeat(FEAT_BLADESINGER_LESSER_SPELLSONG, oCreature, TRUE)) {
+	if(ACR_ContinueCustomFeatHeartbeat(oCreature, FEAT_BLADESINGER_LESSER_SPELLSONG)) {
 		DelayCommand(ACR_FEAT_HEARTBEAT_DELAY, _LesserSpellsongHeartbeat(oCreature));
 		object oItem = GetItemInSlot(INVENTORY_SLOT_CHEST, oCreature);
 		if(GetArmorRank(oItem) == ARMOR_RANK_LIGHT) {
-			int nSpellFailure = StringToInt(Get2DAString("baseitems.2da", "ArcaneSpellFailure", GetBaseItemType(oItem)));
-			// FIX ME !! Take item properties into account.
-			ChangeEffectFromSource(ACR_EFFECT_SOURCE_LESSER_SPELLSONG, oCreature, nSpellFailure, EffectArcaneSpellFailure(-nSpellFailure));
-		}
+			int nSpellFailure = GetTotalSpellFailure(oItem);
+			ChangeEffectFromSource(ACR_EFFECT_SOURCE_LESSER_SPELLSONG, oCreature, nSpellFailure, SupernaturalEffect(EffectArcaneSpellFailure(-nSpellFailure)));
+		} else RemoveAllEffectsFromSource(oCreature, ACR_EFFECT_SOURCE_LESSER_SPELLSONG);
 	}
 }
 
-void LesserSpellsongHeartbeat(object oCreature) {
+void StartLesserSpellsongHeartbeat(object oCreature) {
 	if(ACR_EnterCustomFeatHeartbeat(oCreature, FEAT_BLADESINGER_LESSER_SPELLSONG))
 		_LesserSpellsongHeartbeat(oCreature);
 }
 
-void SongOfFuryHeartbeat(object oCreature) {
+void StartSongOfFuryHeartbeat(object oCreature) {
 }
 
 void BladesingerSpellhook(object oCaster, int nMetaMagic) {
@@ -109,7 +130,8 @@ int _GetBladesongACBonus(object oCreature) {
 	if(!GetHasFeat(FEAT_BLADESINGER_BLADESONG_STYLE, oCreature)) return 0;
 	
 	int nWeaponType = GetBaseItemType(GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oCreature));
-	if(nWeaponType != BASE_ITEM_RAPIER || nWeaponType != BASE_ITEM_LONGSWORD) return 0;
+	if(nWeaponType != BASE_ITEM_RAPIER && nWeaponType != BASE_ITEM_LONGSWORD) return 0;
+	if(GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oCreature) != OBJECT_INVALID) return 0;
 	
 //if(GetArmorRank(GetItemInSlot(INVENTORY_SLOT_CHEST, oCreature)) != ARMOR_RANK_NONE) return 0;
 //Duplicated weapon check for armour - checks that armour is none or light now (Blindhamsterman)
@@ -126,6 +148,8 @@ int _GetBladesongACBonus(object oCreature) {
 }
 
 void RefreshSongOfCelerity(object oCreature) {
+	// Fix when the Spellhook is in the haks.
+	/*
 	if(GetHasFeat(FEAT_BLADESINGER_SONG_CELERITY, oCreature, FALSE)) {
 		FeatAdd(oCreature, FEAT_EPIC_AUTOMATIC_QUICKEN_1, FALSE, FALSE, FALSE);
 		FeatAdd(oCreature, FEAT_EPIC_AUTOMATIC_QUICKEN_2, FALSE, FALSE, FALSE);
@@ -134,5 +158,5 @@ void RefreshSongOfCelerity(object oCreature) {
 		FeatRemove(oCreature, FEAT_EPIC_AUTOMATIC_QUICKEN_1);
 		FeatRemove(oCreature, FEAT_EPIC_AUTOMATIC_QUICKEN_2);
 		FeatRemove(oCreature, FEAT_EPIC_AUTOMATIC_QUICKEN_3);
-	}
+	}*/
 }
