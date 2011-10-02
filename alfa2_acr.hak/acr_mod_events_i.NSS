@@ -1120,17 +1120,21 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 			return FALSE;
 		}
 		
-		object oPC = GetFirstPC();
-		while(GetIsObjectValid(oPC))
+
+		location lSelf = GetLocation(oSpeaker);
+		object oListener = GetFirstObjectInShape(SHAPE_SPHERE, 20.0f, lSelf);
+		while(GetIsObjectValid(oListener))
 		{
-			if(GetIsDM(oPC) ||
-			   GetIsDMPossessed(oPC) ||
-			   ( GetArea(oPC) == GetArea(oSpeaker) && GetDistanceBetween(oPC, oSpeaker) < 40.0f ) ||
-			   oPC == oSpeaker)
-				SendMessageToPC(oPC, sMessage);
-			oPC = GetNextPC();
+			SendMessageToPC(oListener, sMessage);
+			oListener = GetNextObjectInShape(SHAPE_SPHERE, 20.0f, lSelf);
 		}
-		return FALSE;	
+		oListener = GetFirstPC();
+		while(GetIsObjectValid(oListener))
+		{
+			SendMessageToPC(oListener, sMessage);
+			oListener = GetNextPC();
+		}
+		return FALSE;
 	}
 	
 	if(nMode == CHAT_MODE_SERVER)
