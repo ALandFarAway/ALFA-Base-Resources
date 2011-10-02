@@ -472,6 +472,7 @@ void ACR_ModuleOnAcquireItem()
     object oAcquiredFrom = GetModuleItemAcquiredFrom();
     object oAcquiredBy = GetModuleItemAcquiredBy();
     int nItemStackSize = GetModuleItemAcquiredStackSize(), bLogEvent = TRUE;
+    string sTag;
 
 	// SendMessageToAllDMs("Acquired Item: "+GetName(oItem)+" by "+GetName(oAcquiredBy)+" with valid: "+IntToString(GetIsObjectValid(oAcquiredBy))+ " in area "+GetName(GetArea(oAcquiredBy))+" with valid: "+IntToString(GetIsObjectValid(GetArea(oAcquiredBy))));
  
@@ -504,7 +505,9 @@ void ACR_ModuleOnAcquireItem()
 	*/
 	
     // log item acquisitions
-	if (GetTag(oItem) == "acr_nld_fist") {
+    	sTag = GetTag(oItem);
+
+	if ((sTag == "acr_nld_fist") || (sTag == "acr_ignore_acquire")) {
 	    // don't need to log this, OOC from toggling subdual mode
 	} else if (bLogEvent) {
 		ACR_LogOnAcquired(oItem, oAcquiredBy, GetStolenFlag(oItem));

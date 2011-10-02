@@ -99,6 +99,12 @@ void _ApplyAdaptionEffects(object oPC);
 //!! Clears VFX and ethereality for rebuild process
 void _StripAdaptionEffects(object oPC);
 
+//!! Broadcast message to all dms
+void _BroadcastToDMs(string sText);
+
+//!! Color a block of text
+string _Colorize(string sText, string sColor);
+
 //
 //  Function bodies
 //
@@ -107,6 +113,68 @@ int ACR_SkillCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int
 
 	int nBaseRank = GetSkillRank(nSkillID, oPC, TRUE);
 	int nModifiedRank = GetSkillRank(nSkillID, oPC, FALSE);
+	string sMsg,sSkill,sColor="EFD4AC";
+
+	switch (nSkillID) {
+		case SKILL_CONCENTRATION: sSkill = "Concentration"; break;
+		case SKILL_DISABLE_TRAP: sSkill = "DisableDevice"; break;
+		case SKILL_HEAL: sSkill = "Heal"; break;
+		case SKILL_HIDE: sSkill = "Hide"; break;
+		case SKILL_LISTEN: sSkill = "Listen"; break;
+		case SKILL_MOVE_SILENTLY: sSkill = "MoveSilently"; break;
+		case SKILL_OPEN_LOCK: sSkill = "OpenLock"; break;
+		case SKILL_PARRY: sSkill = "Parry"; break;
+		case SKILL_DIPLOMACY: sSkill = "Diplomacy"; break;
+		case SKILL_SLEIGHT_OF_HAND: sSkill = "SleightOfHand"; break;
+		case SKILL_SEARCH: sSkill = "Search"; break;
+		case SKILL_SPELLCRAFT: sSkill = "Spellcraft"; break;
+		case SKILL_SPOT: sSkill = "Spot"; break;
+		case SKILL_USE_MAGIC_DEVICE: sSkill = "UseMagicDevice"; break;
+		case SKILL_APPRAISE: sSkill = "Appraise"; break;
+		case SKILL_TUMBLE: sSkill = "Tumble"; break;
+		case SKILL_BLUFF: sSkill = "Bluff"; break;
+		case SKILL_INTIMIDATE: sSkill = "Intimidate"; break;
+		case SKILL_RIDE: sSkill = "Ride"; break;
+		case SKILL_SURVIVAL: sSkill = "Survival"; break;
+		case SKILL_BALANCE: sSkill = "Balance"; break;
+		case SKILL_CLIMB: sSkill = "Climb"; break;
+		case SKILL_DECIPHER_SCRIPT: sSkill = "DecipherScript"; break;
+		case SKILL_KNOWLEDGE_DUNGEONEERING: sSkill = "Knowledge(dungeoneering)"; break;
+		case SKILL_DISGUISE: sSkill = "Disguise"; break;
+		case SKILL_ESCAPE_ARTIST: sSkill = "EscapeArtist"; break;
+		case SKILL_FORGERY: sSkill = "Forgery"; break;
+		case SKILL_GATHER_INFORMATION: sSkill = "GatherInformation"; break;
+		case SKILL_HANDLE_ANIMAL: sSkill = "HandleAnimal"; break;
+		case SKILL_JUMP: sSkill = "Jump"; break;
+		case SKILL_KNOWLEDGE_ARCANA: sSkill = "Knowledge(arcana)"; break;
+		case SKILL_KNOWLEDGE_HISTORY: sSkill = "Knowledge(history)"; break;
+		case SKILL_KNOWLEDGE_NATURE: sSkill = "Knowledge(nature)"; break;
+		case SKILL_KNOWLEDGE_RELIGION: sSkill = "Knowledge(religion)"; break;
+		case SKILL_KNOWLEDGE_THE_PLANES: sSkill = "Knowledge(theplanes)"; break;
+		case SKILL_PERFORM_ACT: sSkill = "Perform(act)"; break;
+		case SKILL_PERFORM_DANCE: sSkill = "Perform(dance)"; break;
+		case SKILL_PERFORM_ORATORY: sSkill = "Perform(oratory)"; break;
+		case SKILL_PERFORM_STRING_INSTRUMENTS: sSkill = "Perform(string instruments)"; break;
+		case SKILL_PERFORM_SING: sSkill = "Perform(sing)"; break;
+		case SKILL_PROFESSION: sSkill = "Profession"; break;
+		case SKILL_SENSE_MOTIVE: sSkill = "SenseMotive"; break;
+		case SKILL_SPEAK_LANGUAGE: sSkill = "SpeakLanguage"; break;
+		case SKILL_SWIM: sSkill = "Swim"; break;
+		case SKILL_USE_ROPE: sSkill = "UseRope"; break;
+		case SKILL_KNOWLEDGE_GEOGRAPHY: sSkill = "Knowledge(geography)"; break;
+		case SKILL_KNOWLEDGE_NOBILITY: sSkill = "Knowledge(nobility)"; break;
+		case SKILL_KNOWLEDGE_ENGINEERING: sSkill = "Knowledge(engineering)"; break;
+		case SKILL_KNOWLEDGE_LOCAL: sSkill = "Knowledge(local)"; break;
+		case SKILL_PERFORM_PERCUSSION: sSkill = "Perform(percussion)"; break;
+		case SKILL_PERFORM_KEYBOARD: sSkill = "Perform(keyboards)"; break;
+		case SKILL_PERFORM_WIND_INSTRUMENTS: sSkill = "Perform(wind instruments)"; break;
+		case SKILL_PERFORM_COMEDY: sSkill = "Perform(comedy)"; break;
+		case SKILL_CRAFT__ALCHEMY: sSkill = "Craft(Alchemy)"; break;
+		case SKILL_CRAFT_ARMORSMITHING: sSkill = "Craft(Armorsmithing)"; break;
+		case SKILL_CRAFT_BOWMAKING: sSkill = "Craft(Bowmaking)"; break;
+		case SKILL_CRAFT_WEAPONSMITHING: sSkill = "Craft(Weaponsmithing)"; break;
+	}
+
 	if (nBaseRank < 1) {
 		// Skill is being attempted untrained, check for autofail
 		if ((nSkillID == 2) || (nSkillID == 9) || (nSkillID == 13) || (nSkillID == 16) || (nSkillID == 19) || (nSkillID == 21) || (nSkillID == 32) || (nSkillID == 33) || (nSkillID == 38) || (nSkillID == 16) || ((nSkillID >= 40) && (nSkillID <= 44)) || (nSkillID == 50) || (nSkillID == 52) || ((nSkillID >= 55) && (nSkillID <= 59))) {
@@ -206,21 +274,47 @@ int ACR_SkillCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int
 	int nRoll = d20();
 	int nResult = nRoll + nModifiedRank + nModifier;
 	
+	sMsg = _Colorize("ACR Skill ",sColor)+sSkill+_Colorize(": Rolled a ",sColor)+IntToString(nRoll)+_Colorize(" + "+IntToString(nModifiedRank)+" modified skill ranks, total = ",sColor)+IntToString(nResult)+".";
 	if (nDC == 0) {
 		//openended check
-		if (bBroadcast) {SendChatMessage(oPC, oPC, CHAT_MODE_TALK, "<color=#EFD4AC>ACR Skills: Rolled a </c>"+IntToString(nRoll)+"<color=#EFD4AC> + "+IntToString(nModifiedRank)+" modified skill ranks, total = </c>"+IntToString(nResult)+".", TRUE);
-		} else if (bShowRoll) { SendMessageToPC(oPC, "<color=#EFD4AC>ACR Skills: Rolled a </c>"+IntToString(nRoll)+"<color=#EFD4AC> + "+IntToString(nModifiedRank)+" modified skill ranks, total = </c>"+IntToString(nResult)+"."); }
+		if (bBroadcast) {
+			SendChatMessage(oPC, oPC, CHAT_MODE_TALK, sMsg, TRUE);
+		}
+		else if (bShowRoll) {
+			SendMessageToPC(oPC, sMsg);
+		}
+		_BroadcastToDMs("[" + GetName(oPC) + "]" + sMsg);
 		return nResult;
 	}
 	if (nResult >= nDC) {
-		if (bShowRoll) { SendMessageToPC(oPC, "<color=#EFD4AC>ACR Skills: Rolled a </c>"+IntToString(nRoll)+"<color=#EFD4AC> + "+IntToString(nModifiedRank)+" modified skill ranks, total = </c>"+IntToString(nResult)+"; SUCCESSFUL."); }
+		if (bShowRoll) {
+			SendMessageToPC(oPC, sMsg+"; SUCCESSFUL.");
+		}
 		return TRUE;
-	} else {
-		if (bShowRoll) { SendMessageToPC(oPC, "<color=#EFD4AC>ACR Skills: Rolled a </c>"+IntToString(nRoll)+"<color=#EFD4AC> + "+IntToString(nModifiedRank)+" modified skill ranks, total = </c>"+IntToString(nResult)+"; FAILED."); }
+	}
+	else {
+		if (bShowRoll) {
+			SendMessageToPC(oPC, sMsg+"; FAILED.");
+		}
 		return FALSE;
 	}
 }
 
+void _BroadcastToDMs(string sText)
+{
+	object pc = GetFirstPC();
+	while (GetIsObjectValid(pc)) {
+		if (GetIsDM(pc))
+			SendMessageToPC(pc, sText);
+
+		pc = GetNextPC();
+	}
+}
+
+string _Colorize(string sText, string sColor)
+{
+	return "<color=#"+sColor+">"+sText+"</c>";
+}
 
 //credit to demux
 string ACR_GetBicFileName(object oPC)
