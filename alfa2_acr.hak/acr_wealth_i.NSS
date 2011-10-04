@@ -28,6 +28,7 @@
 //  2008/08/30  AcadiusLost  Changed over to ACR_RandomFloat()
 //  2008/11/17  AcadiusLost  Added exceptions to allow plot items to drop regardless.
 //  2009/12/25  Danielmn   Shifted repriced gems into correct categories
+//  2011/10/04  AcadiusLost  Adjustment to 35% drop chance, 1.25x net value
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,10 +42,11 @@
 
 // Anchor value to generate gp amount for spawn loot.
 //   -> anchor pushed to 20 from 5, to match the 75% swipe
-const float ACR_WLT_SPAWNLOOT_ANCHOR = 20.0;
+//   -> ancher adjusted to 17.86, to match the new 65% swipe
+const float ACR_WLT_SPAWNLOOT_ANCHOR = 17.86;
 const float ACR_WLT_SPAWNLOOT_MEAN = 1.0;
 const float ACR_WLT_SPAWNLOOT_STDEV = 0.5;
-const int ACR_WLT_SPAWNLOOT_PERCENT = 25;
+const int ACR_WLT_SPAWNLOOT_PERCENT = 35;
 const int ACR_WLT_SPAWNGOLD_PERCENT = 25;
 
 // Local integer names for spawn blueprints, to pass drop parameters.
