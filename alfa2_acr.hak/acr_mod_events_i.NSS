@@ -1134,7 +1134,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 		oListener = GetFirstPC();
 		while(GetIsObjectValid(oListener))
 		{
-			if(GetIsDM(oListener))
+			if(GetIsDM(oListener) || GetIsDMPossessed(oListener))
 				SendMessageToPC(oListener, sMessage);
 			oListener = GetNextPC();
 		}
