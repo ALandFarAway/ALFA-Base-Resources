@@ -33,7 +33,7 @@ draggable="true" dragregion_x=0 dragregion_y=0 dragregion_width=120 dragregion_h
 
 		<UIButton name="CloseButton" x=132 y=0 style="STYLE_CLOSE_BUTTON" 
  		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Close",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
- 		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_trgtool","close") />
+ 		OnLeftClick=UIButton_Input_ScreenClose("SCREEN_DMFI_TRGTOOL") />
 
 		<UIIcon name="BCK_DMFITRG" img="dmfi_trgbck.tga" x=0 y=0 width=160 height=71 capturemouseclicks=false />
 
@@ -47,7 +47,7 @@ draggable="true" dragregion_x=0 dragregion_y=0 dragregion_width=120 dragregion_h
 		<UIPane name="DMFI_ROOT2" x=0 y=70 width=160 height=350 hidden=true capturemouseclicks=false      alpha="0.65"         capturemouseevents=false >
 
 		 <UIListbox name="DMFI_LISTBOX2" x=2 y=1 width=287 height=800 yPadding=0 xPadding=0
-		    showpartialchild=true scrollbaronright=true unequalcontrols=true scrollsegmentsize=234 selectonleftclick=false >
+		    showpartialchild=true scrollbaronright=true unequalcontrols=true scrollsegmentsize=234 selectonleftclick=false capturemouseclicks=false >
 
 <-- DMFI SERVER TOOLS -->
 
@@ -425,7 +425,7 @@ draggable="true" dragregion_x=0 dragregion_y=0 dragregion_width=120 dragregion_h
 	        <UIPane name="DMFI_ROOT1" x=0 y=70 width=160 height=350 hidden=false capturemouseclicks=false    alpha="0.65"           capturemouseevents=false >
 
           <UIListbox name="DMFI_LISTBOX1" x=2 y=1 width=287 height=800 yPadding=0 xPadding=0
-		    showpartialchild=true scrollbaronright=true unequalcontrols=true scrollsegmentsize=234 selectonleftclick=false >
+		    showpartialchild=true scrollbaronright=true unequalcontrols=true scrollsegmentsize=234 selectonleftclick=false capturemouseclicks=false >
 
           
 
