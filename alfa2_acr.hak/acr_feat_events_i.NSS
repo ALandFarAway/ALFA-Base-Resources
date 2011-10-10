@@ -45,10 +45,24 @@
 //! be called outside module event scripts.
 void ACR_FeatOnEquipItem(object oCreature, object oItem);
 
+//! Handles ALFA's custom feats which hook into the OnClientLeave event. Should
+//! not be called outside module event scripts.
+void ACR_FeatOnClientEnter(object oPC);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
 void ACR_FeatOnEquipItem(object oCreature, object oItem) {
 	RefreshBladesong(oCreature);
+	RefreshSpellsong(oCreature);
+}
+
+void ACR_FeatOnUnequipItem(object oCreature, object oItem) {
+	RefreshBladesong(oCreature);
+	RefreshSpellsong(oCreature);
+}
+
+void ACR_FeatOnClientEnter(object oPC) {
+	DeleteAllLocalIntsWithString(oPC, ACR_FEAT_HEARTBEAT_FLAG);
 }

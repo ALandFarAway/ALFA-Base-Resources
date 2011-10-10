@@ -5,5 +5,4 @@
 // By: Ronan
 
 void main() {
-	StartSongOfFuryHeartbeat(OBJECT_SELF);
 }

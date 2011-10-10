@@ -33,19 +33,17 @@
 
 const int ACR_EFFECT_SOURCE_START = 100000;
 
-const int ACR_EFFECT_SOURCE_MAGE_ARMOR_SPELL = 1;
-const int ACR_EFFECT_SOURCE_SHIELD_SPELL = 2;
-const int ACR_EFFECT_SOURCE_RESTING = 3;
-const int ACR_EFFECT_SOURCE_COMBAT_ACTION = 4;
+const int ACR_EFFECT_SOURCE_RESTING = 1;
+const int ACR_EFFECT_SOURCE_COMBAT_ACTION = 2;
 
-// Bladesinger stuff:
-const int ACR_EFFECT_SOURCE_BLADESONG_STYLE = 5;
-const int ACR_EFFECT_SOURCE_LESSER_SPELLSONG = 6;
+const int ACR_EFFECT_SOURCE_FEAT_OFFSET = 100000;
+const int ACR_EFFECT_SOURCE_FEAT_END = 199999;
+
+const int ACR_EFFECT_SOURCE_SPELL_OFFSET = 200000;
+const int ACR_EFFECT_SOURCE_SPELL_END = 299999;
 
 const string ACR_EFFECT_FLAGS = "ACR_EFFECT_FLAGS";
 const int ACR_EFFECT_FLAG_FATIGUED = 0x01;
-
-const string ACR_EFFECT_LAST = "ACR_EFF_LAST_";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -59,14 +57,28 @@ const string ACR_EFFECT_LAST = "ACR_EFF_LAST_";
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-//! Functions like ApplyEffectsToObject, but applies this effects from a specific source named sSource.
+//! Functions like ApplyEffectsToObject, but applies effects from a specific source named sSource.
+//! For spell sources, add ACR_EFFECT_SOURCE_SPELL_OFFSET to the SpellId.
+//! For feat sources, add ACR_EFFECT_SOURCE_FEAT_OFFSET to the FeatId.
 void ApplyEffectFromSource(int nSource, int nDurationType, effect eEffect, object oTarget, float fDuration=0.0f);
 
 //! Removes all effects sSource placed on oTarget.
+//! For spell sources, add ACR_EFFECT_SOURCE_SPELL_OFFSET to the SpellId.
+//! For feat sources, add ACR_EFFECT_SOURCE_FEAT_OFFSET to the FeatId.
 void RemoveAllEffectsFromSource(object oTarget, int nSource);
+
+//! Removes all effects placed on oTarget by sources in the specified range.
+void RemoveAllEffectsFromSourceRange(object oTarget, int nSourceMin, int nSourceMax);
+
+//! Removes all effects placed on oTarget by feats.
+void RemoveAllFeatEffects(object oTarget);
 
 //! Returns true if the effect is from nSourceId.
 int GetIsTrackingEffectFor(effect eEffect, int nSourceId);
+
+//! Returns the source id of eEffect.
+//! Returns 0 if eEffect is not a tracking effect.
+int GetTrackingEffectSource(effect eEffect);
 
 //! Returns true if the effect is a tracking effect.
 int GetIsTrackingEffect(effect eEffect, int nSourceId);
@@ -93,8 +105,9 @@ effect ACR_EffectFatigue();
 
 //! If nAmount differs from the last nAmount passed to this function on oCreature from
 //! nSource, all effects from nSource are removed and replaced by eEffect.
-//! If nAmount is zero, no effects are applied.
-void ChangeEffectFromSource(int nSource, object oCreature, int nAmount, effect eEffect);
+//! For spell sources, add ACR_EFFECT_SOURCE_SPELL_OFFSET to the SpellId.
+//! For feat sources, add ACR_EFFECT_SOURCE_FEAT_OFFSET to the FeatId.
+void ChangeEffectFromSource(int nSource, object oCreature, effect eEffect);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -113,18 +126,34 @@ int GetIsTrackingEffect(effect eEffect, int nSourceId) {
 }
 
 int GetIsTrackingEffectFor(effect eEffect, int nSourceId) {
-	return GetEffectType(eEffect) == EFFECT_TYPE_VISUALEFFECT && GetEffectInteger(eEffect, 0) == (ACR_EFFECT_SOURCE_START + nSourceId);
+	if(!nSourceId) return 0;
+	return nSourceId == GetTrackingEffectSource(eEffect);
+}
+
+int GetTrackingEffectSource(effect eEffect) {
+	if(GetEffectType(eEffect) != EFFECT_TYPE_VISUALEFFECT) return 0;
+	int nSource = GetEffectInteger(eEffect, 0);
+	return (nSource > ACR_EFFECT_SOURCE_START) ? (nSource - ACR_EFFECT_SOURCE_START) : 0;
 }
 
 void RemoveAllEffectsFromSource(object oTarget, int nSource) {
+	RemoveAllEffectsFromSourceRange(oTarget, nSource, nSource);
+}
+
+void RemoveAllEffectsFromSourceRange(object oTarget, int nSourceMin, int nSourceMax) {
 
 	effect eff = GetFirstEffect(oTarget);
 	while(GetIsEffectValid(eff)) {
-		if(GetIsTrackingEffectFor(eff, nSource)) {
+		int nSource = GetTrackingEffectSource(eff);
+		if(nSource >= nSourceMin && nSource <= nSourceMax) {
 			RemoveEffect(oTarget, eff);
 		}
 		eff = GetNextEffect(oTarget);
 	}
+}
+
+void RemoveAllFeatEffects(object oTarget) {
+	RemoveAllEffectsFromSourceRange(oTarget, ACR_EFFECT_SOURCE_FEAT_OFFSET, ACR_EFFECT_SOURCE_FEAT_END);
 }
 
 int CountTrackingEffectsFor(object oTarget, int nSource) {
@@ -185,13 +214,8 @@ effect ACR_EffectFatigue()
 	return EffectFatigue();
 }
 
-void ChangeEffectFromSource(int nSource, object oCreature, int nAmount, effect eEffect) {
-	if(nAmount == GetLocalInt(oCreature, ACR_EFFECT_LAST + IntToString(nSource))) return;
-	
+void ChangeEffectFromSource(int nSource, object oCreature, effect eEffect) {	
 	RemoveAllEffectsFromSource(oCreature, nSource);
 	
-	if(nAmount != 0)
-		ApplyEffectFromSource(nSource, DURATION_TYPE_PERMANENT, eEffect, oCreature);
-	
-	SetLocalInt(oCreature, ACR_EFFECT_LAST + IntToString(nSource), nAmount);
+	ApplyEffectFromSource(nSource, DURATION_TYPE_PERMANENT, eEffect, oCreature);
 }

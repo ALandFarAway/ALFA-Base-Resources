@@ -333,6 +333,9 @@ void ACR_ModuleOnClientEnter()
         ACR_DeathOnClientEnter(oPC);
 		ACR_SkillsOnClientEnter(oPC);
     }
+	
+	// Do custom feat stuff.
+	ACR_FeatOnClientEnter(oPC);
 }
 
 void ACR_ModuleOnPCLoaded()
@@ -651,7 +654,7 @@ void ACR_ModuleOnPlayerUnequip() {
     DelayCommand(0.1, ACR_NLD_OnWeaponSwitch(oPC, oItem, FALSE));
 	
 	// Do feat-specific stuff.
-	ACR_FeatOnEquipItem(oPC, oItem);	
+	ACR_FeatOnUnequipItem(oPC, oItem);	
 }
 
 void ACR_ModuleOnCutsceneAbort() {

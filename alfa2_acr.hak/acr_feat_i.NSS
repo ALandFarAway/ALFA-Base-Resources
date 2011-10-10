@@ -22,6 +22,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "acr_queue_i"
+#include "acr_effects_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -53,24 +54,29 @@ int ACR_EnterCustomFeatHeartbeat(object oCreature, int nFeat);
 //! Returns FALSE if it shouldn't.
 int ACR_ContinueCustomFeatHeartbeat(object oCreature, int nFeat);
 
+void _ContinueCustomFeatHeartbeat(object oCreature, int nFeat, string sScript);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-int ACR_EnterCustomFeatHeartbeat(object oCreature, int nFeat) {
+void ACR_StartCustomFeatHeartbeat(object oCreature, int nFeat) {
 	string sFeat = IntToString(nFeat);
 	if(GetLocalInt(oCreature, ACR_FEAT_HEARTBEAT_FLAG + sFeat))
-		return FALSE;
+		return;
 	
 	SetLocalInt(oCreature, ACR_FEAT_HEARTBEAT_FLAG + IntToString(nFeat), TRUE);
-	
-	return TRUE;
+	string sScript = GetFeatSpellScript(nFeat);
+	_ContinueCustomFeatHeartbeat(oCreature, nFeat, sScript);
 }
 
-int ACR_ContinueCustomFeatHeartbeat(object oCreature, int nFeat) {
-	if(!GetIsObjectValid(oCreature) || GetIsDead(oCreature, TRUE) || !GetHasFeat(nFeat, oCreature, TRUE)) {
+void _ContinueCustomFeatHeartbeat(object oCreature, int nFeat, string sScript) {
+	if(!GetHasFeat(nFeat, oCreature, TRUE)) {
+		RemoveAllEffectsFromSource(oCreature, ACR_EFFECT_SOURCE_FEAT_OFFSET + nFeat);
 		DeleteLocalInt(oCreature, ACR_FEAT_HEARTBEAT_FLAG + IntToString(nFeat));
-		return FALSE;
+		return;
 	}
-	return TRUE;
+
+	DelayCommand(ACR_FEAT_HEARTBEAT_DELAY, _ContinueCustomFeatHeartbeat(oCreature, nFeat, sScript));
+	ExecuteScript(sScript + "_hb", oCreature);
 }

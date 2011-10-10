@@ -72,47 +72,41 @@ void RefreshSongOfCelerity(object oCreature);
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void _BladesongHeartbeat(object oCreature) {
-	if(ACR_ContinueCustomFeatHeartbeat(oCreature, FEAT_BLADESINGER_BLADESONG_STYLE)) {
-		RefreshBladesong(oCreature);
-		AssignCommand(GetModule(), DelayCommand(ACR_FEAT_HEARTBEAT_DELAY, _BladesongHeartbeat(oCreature)));
-	} else RemoveAllEffectsFromSource(oCreature, ACR_EFFECT_SOURCE_BLADESONG_STYLE);
-}
-
-void StartBladesongHeartbeat(object oCreature) {
-	if(ACR_EnterCustomFeatHeartbeat(oCreature, FEAT_BLADESINGER_BLADESONG_STYLE))
-		_BladesongHeartbeat(oCreature);
-}
-
 void RefreshBladesong(object oCreature) {
 
 	int nMod = _GetBladesongACBonus(oCreature);
 
 	ChangeEffectFromSource(
-		ACR_EFFECT_SOURCE_BLADESONG_STYLE, 
+		FEAT_BLADESINGER_BLADESONG_STYLE + ACR_EFFECT_SOURCE_FEAT_OFFSET, 
 		oCreature,
-		nMod,
 		SupernaturalEffect(EffectACIncrease(nMod, AC_DODGE_BONUS))
 	);
 }
 
-void _LesserSpellsongHeartbeat(object oCreature) {
-	if(ACR_ContinueCustomFeatHeartbeat(oCreature, FEAT_BLADESINGER_LESSER_SPELLSONG)) {
-		AssignCommand(GetModule(), DelayCommand(ACR_FEAT_HEARTBEAT_DELAY, _LesserSpellsongHeartbeat(oCreature)));
-		object oItem = GetItemInSlot(INVENTORY_SLOT_CHEST, oCreature);
-		if(GetArmorRank(oItem) == ARMOR_RANK_LIGHT) {
-			int nSpellFailure = GetTotalSpellFailure(oItem);
-			ChangeEffectFromSource(ACR_EFFECT_SOURCE_LESSER_SPELLSONG, oCreature, nSpellFailure, SupernaturalEffect(EffectArcaneSpellFailure(-nSpellFailure)));
-		} else RemoveAllEffectsFromSource(oCreature, ACR_EFFECT_SOURCE_LESSER_SPELLSONG);
-	}
+void RefreshSpellsong(object oCreature) {
+	object oItem = GetItemInSlot(INVENTORY_SLOT_CHEST, oCreature);
+	if(GetArmorRank(oItem) == ARMOR_RANK_LIGHT) {
+		int nSpellFailure = GetTotalSpellFailure(oItem);
+		ChangeEffectFromSource(
+			FEAT_BLADESINGER_SPELLSONG + ACR_EFFECT_SOURCE_FEAT_OFFSET,
+			oCreature,
+			SupernaturalEffect(EffectArcaneSpellFailure(-nSpellFailure))
+		);
+	} else RemoveAllEffectsFromSource(oCreature, FEAT_BLADESINGER_SPELLSONG + ACR_EFFECT_SOURCE_FEAT_OFFSET);
 }
 
-void StartLesserSpellsongHeartbeat(object oCreature) {
-	if(ACR_EnterCustomFeatHeartbeat(oCreature, FEAT_BLADESINGER_LESSER_SPELLSONG))
-		_LesserSpellsongHeartbeat(oCreature);
-}
-
-void StartSongOfFuryHeartbeat(object oCreature) {
+void RefreshSongOfCelerity(object oCreature) {
+	// Fix when the Spellhook is in the haks.
+	/*
+	if(GetHasFeat(FEAT_BLADESINGER_SONG_CELERITY, oCreature, FALSE)) {
+		FeatAdd(oCreature, FEAT_EPIC_AUTOMATIC_QUICKEN_1, FALSE, FALSE, FALSE);
+		FeatAdd(oCreature, FEAT_EPIC_AUTOMATIC_QUICKEN_2, FALSE, FALSE, FALSE);
+		FeatAdd(oCreature, FEAT_EPIC_AUTOMATIC_QUICKEN_3, FALSE, FALSE, FALSE);
+	} else {
+		FeatRemove(oCreature, FEAT_EPIC_AUTOMATIC_QUICKEN_1);
+		FeatRemove(oCreature, FEAT_EPIC_AUTOMATIC_QUICKEN_2);
+		FeatRemove(oCreature, FEAT_EPIC_AUTOMATIC_QUICKEN_3);
+	}*/
 }
 
 void BladesingerSpellhook(object oCaster, int nMetaMagic) {
@@ -139,18 +133,4 @@ int _GetBladesongACBonus(object oCreature) {
 	if(nMod < 0) nMod = 0;
 	
 	return nMod;
-}
-
-void RefreshSongOfCelerity(object oCreature) {
-	// Fix when the Spellhook is in the haks.
-	/*
-	if(GetHasFeat(FEAT_BLADESINGER_SONG_CELERITY, oCreature, FALSE)) {
-		FeatAdd(oCreature, FEAT_EPIC_AUTOMATIC_QUICKEN_1, FALSE, FALSE, FALSE);
-		FeatAdd(oCreature, FEAT_EPIC_AUTOMATIC_QUICKEN_2, FALSE, FALSE, FALSE);
-		FeatAdd(oCreature, FEAT_EPIC_AUTOMATIC_QUICKEN_3, FALSE, FALSE, FALSE);
-	} else {
-		FeatRemove(oCreature, FEAT_EPIC_AUTOMATIC_QUICKEN_1);
-		FeatRemove(oCreature, FEAT_EPIC_AUTOMATIC_QUICKEN_2);
-		FeatRemove(oCreature, FEAT_EPIC_AUTOMATIC_QUICKEN_3);
-	}*/
 }

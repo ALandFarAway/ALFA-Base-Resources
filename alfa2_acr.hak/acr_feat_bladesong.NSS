@@ -1,5 +1,5 @@
-#include "acr_prc_bladesinger_i"
+#include "acr_feat_i"
 
 void main() {
-	StartBladesongHeartbeat(OBJECT_SELF);
+	ACR_StartCustomFeatHeartbeat(OBJECT_SELF, GetSpellFeatId());
 }

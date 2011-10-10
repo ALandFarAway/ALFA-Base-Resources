@@ -267,6 +267,12 @@ int GetIsPlayer(object oCreature);
 //! Returns a string for the name of a creature with { } bracketed text removed.
 string ACR_CleanCreatureNameTextForPlayers(string sRawInput);
 
+//! Delete all local variables on oObject with sString in their name.
+int DeleteAllLocalsWithString(object oOjbect, string sString);
+
+//! Returns the spell script for nFeat, or "" if there is none.
+string GetFeatSpellScript(int nFeat);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -884,4 +890,28 @@ string ACR_CleanCreatureNameTextForPlayers(string sRawInput) {
 		sEnd = GetStringRight(sRawInput, nOOCend-1);
 	}
 	return sFront+sEnd;
+}
+
+int DeleteAllLocalIntsWithString(object oObject, string sString) {
+	string sName;
+	int i, count;
+	
+	for(i=0; TRUE; i++) {
+		sName = GetVariableName(oObject, i);
+		if(sName == "") return count;
+		if(FindSubString(sName, sString) != -1) {
+			DeleteLocalInt(oObject, sName);
+			count++;
+			i--;
+		}
+	}
+	return count;
+}
+
+string GetFeatSpellScript(int nFeat) {
+	int nSpellId = StringToInt(Get2DAString("feat", "SPELLID", nFeat));
+	if(!nSpellId) return "";
+	string sScript = Get2DAString("spells", "ImpactScript", nSpellId);
+	if(sScript == "****") return "";
+	return sScript;
 }

@@ -16,7 +16,9 @@ H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_cs_has_item.ncs
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_cs_skcheck.ncs
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_cs_svcheck.ncs
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_bladesong.ncs
-H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_lesserspellsong.ncs
+H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_bladesong_hb.ncs
+H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_spellsong.ncs
+H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_spellsong_hb.ncs
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_songofcelerity.ncs
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_songoffury.ncs
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_quest_progress.ncs
@@ -169,7 +171,9 @@ H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_cs_has_item.nss
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_cs_skcheck.nss
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_cs_svcheck.nss
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_bladesong.nss
-H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_lesserspellsong.nss
+H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_bladesong_hb.nss
+H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_spellsong.nss
+H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_spellsong_hb.nss
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_songofcelerity.nss
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_songoffury.nss
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_quest_progress.nss
@@ -322,7 +326,9 @@ H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_cs_has_item.ndb
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_cs_skcheck.ndb
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_cs_svcheck.ndb
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_bladesong.ndb
-H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_lesserspellsong.ndb
+H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_bladesong_hb.ndb
+H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_spellsong.ndb
+H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_spellsong_hb.ndb
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_songofcelerity.ndb
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_feat_songoffury.ndb
 H:\alfa_dev\ALFA2_~2.HAK\\..\\release\\acr_quest_progress.ndb
