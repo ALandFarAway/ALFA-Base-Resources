@@ -1,8 +1,8 @@
 2DA V2.0
 
    LABEL                           ReqType    ReqParam1 ReqParam2 
-0  Arcane                          ARCSPELLOR 3         ****      
-1  Divine                          DIVSPELLOR 3         ****      
+0  Arcane                          ARCSPELL   3         ****      
+1  Divine                          DIVSPELL   3         ****      
 2  Knowledge(arcana)               SKILL      21        10        
 3  Knowledge(religion)             SKILL      29        10        
 4  FEAT_STILL_SPELL                FEATOR     37        ****      
