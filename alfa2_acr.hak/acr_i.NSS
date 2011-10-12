@@ -25,6 +25,7 @@
 //  2009/07/07  AcadiusLost  1.23 updates for custom skills
 //  2009/07/28  AcadiusLost  Additional PGtF regional feat constants added.
 //  2011/07/10  Basilica     Changed to cache player status
+//  2011/09/08  Ronan     Added Bladesinger, Loremaster and Mystic Theurge constants.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -35,6 +36,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+// Classes:
+
+const int CLASS_BLADESINGER = 104;
+const int CLASS_LOREMASTER = 106;
+const int CLASS_MYSTICTHEURGE = 44;
+
+// Spells and spell-like abilities:
+
+const int SPELL_LOREMASTER_GREATERLORE = 3018;
+const int SPELL_LOREMASTER_TRUELORE = 3019;
 
 // Skills:
 
@@ -172,6 +184,44 @@ const int FEAT_REGION_WATERDEEP = 3558;
 const int FEAT_REGION_WESTERN_HEARTLANDS = 3559;
 const int FEAT_REGION_WIZARDS_REACH = 3571;
 const int FEAT_REGION_OTHER = 3560;
+
+// Bladesinger feats:
+const int FEAT_BLADESINGER_SPELLCASTING_BARD = 3587;
+const int FEAT_BLADESINGER_SPELLCASTING_SORCERER = 3588;
+const int FEAT_BLADESINGER_SPELLCASTING_WIZARD = 3589;
+const int FEAT_BLADESINGER_BLADESONG_STYLE = 3590;
+const int FEAT_BLADESINGER_SONG_CELERITY = 3591;
+const int FEAT_BLADESINGER_SONG_FURY = 3592;
+const int FEAT_BLADESINGER_SPELLSONG = 3593;
+const int FEAT_BLADESINGER_SONG_CELERITY_2 = 3617;
+
+// Loremaster feats:
+const int FEAT_LOREMASTER_SPELLCASTING_WIZARD = 3601;
+const int FEAT_LOREMASTER_SPELLCASTING_CLERIC = 3602;
+const int FEAT_LOREMASTER_SPELLCASTING_DRUID = 3603;
+const int FEAT_LOREMASTER_SPELLCASTING_PALADIN = 3604;
+const int FEAT_LOREMASTER_SPELLCASTING_RANGER = 3605;
+const int FEAT_LOREMASTER_SPELLCASTING_SS = 3606;
+const int FEAT_LOREMASTER_SPELLCASTING_FS = 3607;
+const int FEAT_LOREMASTER_SPELLCASTING_BARD = 3609;
+const int FEAT_LOREMASTER_SPELLCASTING_SORCERER = 3611;
+
+const int FEAT_LORE = 3612;
+const int FEAT_BONUSLANGUAGE1 = 3613;
+const int FEAT_BONUSLANGUAGE2 = 3616;
+const int FEAT_GREATERLORE = 3614;
+const int FEAT_TRUELORE = 3615;
+
+// Mystic Theurge feats:
+const int FEAT_MYSTICTHEURGE_SPELLCASTING_WIZARD = 3594;
+const int FEAT_MYSTICTHEURGE_SPELLCASTING_CLERIC = 3595;
+const int FEAT_MYSTICTHEURGE_SPELLCASTING_DRUID = 3596;
+const int FEAT_MYSTICTHEURGE_SPELLCASTING_PALADIN = 3597;
+const int FEAT_MYSTICTHEURGE_SPELLCASTING_RANGER = 3598;
+const int FEAT_MYSTICTHEURGE_SPELLCASTING_SS = 3599;
+const int FEAT_MYSTICTHEURGE_SPELLCASTING_FS = 3600;
+const int FEAT_MYSTICTHEURGE_SPELLCASTING_BARD = 3608;
+const int FEAT_MYSTICTHEURGE_SPELLCASTING_SORCERER = 3610;
 
 // Item materials:
 int    GMATERIAL_INVALID = -1;

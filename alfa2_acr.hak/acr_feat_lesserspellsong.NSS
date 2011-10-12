@@ -1,0 +1,5 @@
+#include "acr_prc_bladesinger_i"
+
+void main() {
+	StartLesserSpellsongHeartbeat(OBJECT_SELF);
+}

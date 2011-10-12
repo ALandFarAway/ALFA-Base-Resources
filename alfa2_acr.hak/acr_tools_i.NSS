@@ -187,8 +187,12 @@ string GetBaseItemTypeName(object oItem);
 // Fix in NWN2?
 
 // Returns oItem's spell failure % before any item properties are taken into
-// account. Returns -1 if oItem is not armor.
+// account. Returns 0 if oItem is not armor.
 int GetBaseSpellFailure(object oItem);
+
+// Returns oItem's spell failure, taking items into account.
+// Returns 0 if oItem is not armor.
+int GetTotalSpellFailure(object oItem);
 
 // Returns a string of the type of armor oArmor is. Possible results are:
 // "padded", "leather", "studded leather", "chain shirt", "hide", "scail mail",
@@ -262,6 +266,12 @@ int GetIsPlayer(object oCreature);
 
 //! Returns a string for the name of a creature with { } bracketed text removed.
 string ACR_CleanCreatureNameTextForPlayers(string sRawInput);
+
+//! Delete all local variables on oObject with sString in their name.
+int DeleteAllLocalsWithString(object oOjbect, string sString);
+
+//! Returns the spell script for nFeat, or "" if there is none.
+string GetFeatSpellScript(int nFeat);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -658,9 +668,25 @@ string GetBaseItemTypeName(object oItem) {
 
 int GetBaseSpellFailure(object oItem) {
     if(!GetIsObjectValid(oItem) || GetBaseItemType(oItem) != BASE_ITEM_ARMOR) {
-        return -1;
+        return 0;
     }
-    return GetArcaneSpellFailure(oItem) + GetHighestItemPropertyParam1(oItem, ITEM_PROPERTY_ARCANE_SPELL_FAILURE);
+    return StringToInt(Get2DAString("armorrulestats", "ARCANEFAILURE%", GetArmorRulesType(oItem)));
+}
+
+int GetTotalSpellFailure(object oItem) {
+	int nSpellFailure = GetBaseSpellFailure(oItem);
+	if(!nSpellFailure) return 0;
+	
+	itemproperty ip = GetFirstItemProperty(oItem);
+	while(GetIsItemPropertyValid(ip)) {
+		if(GetItemPropertyType(ip) == ITEM_PROPERTY_ARCANE_SPELL_FAILURE) {
+			int nCostValue = GetItemPropertyCostTableValue(ip);
+			nSpellFailure += (nCostValue <= 9) ? (nCostValue * 5 - 50) : (nCostValue * 5 - 45);
+		}
+		ip = GetNextItemProperty(oItem);
+	}
+	
+	return nSpellFailure;
 }
 
 string GetArmorTypeName(object oArmor) {
@@ -864,4 +890,28 @@ string ACR_CleanCreatureNameTextForPlayers(string sRawInput) {
 		sEnd = GetStringRight(sRawInput, nOOCend-1);
 	}
 	return sFront+sEnd;
+}
+
+int DeleteAllLocalIntsWithString(object oObject, string sString) {
+	string sName;
+	int i, count;
+	
+	for(i=0; TRUE; i++) {
+		sName = GetVariableName(oObject, i);
+		if(sName == "") return count;
+		if(FindSubString(sName, sString) != -1) {
+			DeleteLocalInt(oObject, sName);
+			count++;
+			i--;
+		}
+	}
+	return count;
+}
+
+string GetFeatSpellScript(int nFeat) {
+	int nSpellId = StringToInt(Get2DAString("feat", "SPELLID", nFeat));
+	if(!nSpellId) return "";
+	string sScript = Get2DAString("spells", "ImpactScript", nSpellId);
+	if(sScript == "****") return "";
+	return sScript;
 }

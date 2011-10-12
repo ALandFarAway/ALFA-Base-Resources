@@ -22,6 +22,8 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_door_i.nss                        \
             $(OUTPUTDIR)\acr_effects_i.nss                     \
             $(OUTPUTDIR)\acr_events_i.nss                      \
+            $(OUTPUTDIR)\acr_feat_events_i.nss                 \
+            $(OUTPUTDIR)\acr_feat_i.nss                        \
             $(OUTPUTDIR)\acr_game_loc_i.nss                    \
             $(OUTPUTDIR)\acr_i.nss                             \
             $(OUTPUTDIR)\acr_items_i.nss                       \
@@ -33,6 +35,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_placeable_i.nss                   \
             $(OUTPUTDIR)\acr_portal_i.nss                      \
             $(OUTPUTDIR)\acr_pps_i.nss                         \
+            $(OUTPUTDIR)\acr_prc_bladesinger_i.nss             \
             $(OUTPUTDIR)\acr_quest_i.nss                       \
             $(OUTPUTDIR)\acr_queue_i.nss                       \
             $(OUTPUTDIR)\acr_resting_i.nss                     \
@@ -89,6 +92,12 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_cs_has_item.ncs                   \
             $(OUTPUTDIR)\acr_cs_skcheck.ncs                    \
             $(OUTPUTDIR)\acr_cs_svcheck.ncs                    \
+            $(OUTPUTDIR)\acr_feat_bladesong.ncs                \
+            $(OUTPUTDIR)\acr_feat_bladesong_hb.ncs             \
+            $(OUTPUTDIR)\acr_feat_spellsong.ncs                \
+            $(OUTPUTDIR)\acr_feat_spellsong_hb.ncs             \
+            $(OUTPUTDIR)\acr_feat_songofcelerity.ncs           \
+            $(OUTPUTDIR)\acr_feat_songoffury.ncs               \
             $(OUTPUTDIR)\acr_quest_progress.ncs                \
             $(OUTPUTDIR)\acr_quest_reward.ncs                  \
             $(OUTPUTDIR)\acr_quest_update.ncs                  \

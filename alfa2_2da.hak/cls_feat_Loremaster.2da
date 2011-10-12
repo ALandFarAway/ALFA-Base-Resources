@@ -1,0 +1,47 @@
+2DA V2.0
+
+     FeatLabel                              FeatIndex List GrantedOnLevel OnMenu       
+1    FEAT_LOREMASTER_SPELLCASTING_Cleric    3602      2    1              0     
+2    FEAT_LOREMASTER_SPELLCASTING_Wizard    3601      2    1              0
+3    FEAT_LOREMASTER_SPELLCASTING_Druid     3603      2    1              0  
+4    FEAT_LOREMASTER_SPELLCASTING_SS        3606      2    1              0 
+5    FEAT_LOREMASTER_SPELLCASTING_FS        3607      2    1              0 
+6    FEAT_LOREMASTER_SPELLCASTING_PALADIN   3604      2    1              0
+7    FEAT_LOREMASTER_SPELLCASTING_RANGER    3605      2    1              0  
+8    FEAT_LOREMASTER_SPELLCASTING_BARD      3609      2    1              0
+9    FEAT_LOREMASTER_SPELLCASTING_SORCERER  3611      2    1              0
+10   FEAT_EPIC_SPELL_ENTROPIC_HUSK          1992      0    21             2      
+11   FEAT_EPIC_SPELL_EPIC_GATE              1993      0    21             2      
+12   FEAT_EPIC_SPELL_MASS_FOWL              1994      0    21             2      
+13   FEAT_EPIC_SPELL_VAMPIRIC_FEAST         1995      0    21             2      
+14   FEAT_EPIC_SPELL_HELLBALL               876       0    21             2
+15   FEAT_LIGHTNING_REFLEXES                24        3    1              0
+16   FEAT_GREAT_FORTITUDE		    14        3    3              0
+17   FEAT_DODGE				    10        3    5              0
+18   FEAT_LORE				    3612      3    2              0
+19   FEAT_BONUSLANGUAGE1	 	    3613      3    4              0
+20   FEAT_BONUSLANGUAGE2		    3616      3    8              0
+21   FEAT_GREATERLORE			    3614      3    6              0
+22   FEAT_TRUELORE			    3615      3    10             0
+23   FEAT_EXTRA_SLOT_BARD_LEVEL1            1284      3    7              0
+24   FEAT_EXTRA_SLOT_BARD_LEVEL2            1285      3    9              0
+25   FEAT_EXTRA_SLOT_CLERIC_LEVEL1          1290      3    7              0
+26   FEAT_EXTRA_SLOT_CLERIC_LEVEL2          1291      3    9              0
+27   FEAT_EXTRA_SLOT_DRUID_LEVEL1           1299      3    7              0
+28   FEAT_EXTRA_SLOT_DRUID_LEVEL2           1230      3    9              0
+29   FEAT_EXTRA_SLOT_PALADIN_LEVEL1         1307      3    7              0
+30   FEAT_EXTRA_SLOT_PALADIN_LEVEL2         1308      3    9              0
+31   FEAT_EXTRA_SLOT_RANGER_LEVEL1          1310      3    7              0
+32   FEAT_EXTRA_SLOT_RANGER_LEVEL2          1311      3    9              0
+33   FEAT_EXTRA_SLOT_SORCERER_LEVEL1        1314      3    7              0
+34   FEAT_EXTRA_SLOT_SORCERER_LEVEL2        1315      3    9              0
+35   FEAT_EXTRA_SLOT_WIZARD_LEVEL1          1323      3    7              0
+36   FEAT_EXTRA_SLOT_WIZARD_LEVEL2          1324      3    9              0
+37   FEAT_EXTRA_SLOT_SPIRIT_SHAMAN_LEVEL1   2006      3    7              0
+38   FEAT_EXTRA_SLOT_SPIRIT_SHAMAN_LEVEL2   2007      3    9              0
+39   FEAT_EXTRA_SLOT_FAVORED_SOUL_LEVEL1    2070      3    7              0
+40   FEAT_EXTRA_SLOT_FAVORED_SOUL_LEVEL2    2071      3    9              0
+
+
+
+

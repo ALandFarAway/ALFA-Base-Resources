@@ -1,0 +1,17 @@
+2DA V2.0
+
+   LABEL              ReqType  ReqParam1 ReqParam2 
+0  Arcane             ARCSPELL 1         ****      
+2  CombatExpertise    FEAT     389       ****      
+3  WeapFocRapier      FEATOR   104       ****      
+4  WeapFocLSw         FEATOR   106       ****      
+5  Elf                RACE     1         ****      
+6  Half-Elf           RACE     4         ****      
+7  Base_Attack        BAB      5         ****      
+8  ConcentrationSkill SKILL    1         4         
+9  TumbleSkill        SKILL    21        2         
+10 Dodge              FEAT     10        ****      
+11 Perform(dance)     SKILL    46        2         
+12 Perform(sing)      SKILL    49        2         
+13 Balance            SKILL    30        2         
+14 PrC_Validation     FEAT     3500      ****      

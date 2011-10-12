@@ -1,0 +1,8 @@
+2DA V2.0
+
+  LABEL               ReqType  ReqParam1 ReqParam2 
+0 Knowledge(arcana)   SKILL    40        6         
+1 Knowledge(religion) SKILL    43        6         
+2 Arcane              ARCSPELL 2         ****      
+3 Divine              DIVSPELL 2         ****      
+4 PrC_Validation      FEAT     3500      ****      
