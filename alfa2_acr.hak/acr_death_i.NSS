@@ -829,8 +829,8 @@ void ACR_DeathOnPCLoaded(object oPC)
 
 void ACR_RestoreCorpsesOnModuleLoad()
 {
-    location lLocation; object oCorpse; string sCorpseName, sTag, sCID; int nStatus; int nDecayed;
-	object oDeathMod = GetModule();	
+    location lLocation; object oCorpse; string sDatabaseName,sCorpseName, sTag, sCID; int nStatus; int nDecayed;
+	object oNewBody,oDeathMod = GetModule();	
     // create the debug system ID for reporting if it doesn't exist
     ACR_CreateDebugSystem(ACR_DTH_DEBUG_ID, DEBUG_TARGET_TALK, DEBUG_TARGET_LOG, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS);
 	
@@ -858,7 +858,9 @@ void ACR_RestoreCorpsesOnModuleLoad()
 
         // set the id and database name on the corpse object to link to its persistent inventory
         ACR_SetCharacterID(oCorpse, StringToInt(sCID));
-		ACR_SetDatabaseName(oCorpse, sTag + "_" + sCID);
+	sDatabaseName = sTag + "_" + sCID;
+
+	ACR_SetDatabaseName(oCorpse, sDatabaseName);
 		
 		// set the name and description of the corpse
 		sCorpseName = ACR_SQLGetData(0); SetFirstName(oCorpse, sCorpseName);
@@ -879,6 +881,14 @@ void ACR_RestoreCorpsesOnModuleLoad()
 		{
 			SetDescription(oCorpse, "These are the remains of " + sCorpseName + ".");
 		}
+
+	object oNewBody = CreateItemOnObject(ACR_DTH_BODY_RESREF, oCorpse, 1, sTag);
+	// set the name, description, and database
+	SetFirstName(oNewBody, GetName(oCorpse)); SetDescription(oNewBody, GetDescription(oCorpse));
+	ACR_SetDatabaseName(oNewBody, sDatabaseName);
+
+	// set the character ID on the corpse and token (for setting/clearing status flags)
+	ACR_SetCharacterID(oNewBody, ACR_GetCharacterID(oCorpse));
     }
 	// now, go back and delete locations for any decayed corpses.
 	while (nDecayed > 0) {
