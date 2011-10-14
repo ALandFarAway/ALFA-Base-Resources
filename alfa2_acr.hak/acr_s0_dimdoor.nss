@@ -39,16 +39,19 @@ void main()
 				{
 					nTargets--;
 					DelayCommand(fDelay, AssignCommand(oPC, JumpToLocation(lTarget)));
+					SetLocalInt(oPC, "DIMENSION_DOOR_USED", 1);
 				}
 				else if(nSize == 4 && nTargets > 1)
 				{
 					nTargets -= 2;
 					DelayCommand(fDelay, AssignCommand(oPC, JumpToLocation(lTarget)));
+					SetLocalInt(oPC, "DIMENSION_DOOR_USED", 1);
 				}
 			}
 			else
 			{
 				DelayCommand(fDelay, AssignCommand(OBJECT_SELF, JumpToLocation(lTarget)));
+				SetLocalInt(OBJECT_SELF, "DIMENSION_DOOR_USED", 1);
 			}
 		}
 		oPC = GetNextObjectInShape(SHAPE_SPHERE, 5.0f, GetLocation(OBJECT_SELF), TRUE);
