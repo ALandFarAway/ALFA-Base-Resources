@@ -6,6 +6,17 @@ void main()
 {
 	location lChair = GetLocation(OBJECT_SELF);
 	object oPC = GetLastUsedBy();
+	object oDM = OBJECT_INVALID;
+	if(GetIsDMPossessed(oPC))
+	{
+		object oMaybeDM = GetFirstPC();
+		while(GetIsObjectValid(oPC))
+		{
+			if(GetControlledCharacter(oPC) == oMaybeDM)
+				oDM = oMaybeDM;
+			oMaybeDM = GetNextPC();
+		}
+	}
 	string sChairType = GetTag(OBJECT_SELF);
 	string sAnim;
 	string sTag = GetTag(OBJECT_SELF);
@@ -52,11 +63,17 @@ void main()
 		GetRacialType(oPC) == 32 || 
 		GetRacialType(oPC) == RACIAL_TYPE_DWARF)
 		{
-			DisplayGuiScreen(oPC,"KEMO_CHAIRS_ALT",FALSE,"kemo_chairs_alt.xml");
+			if(GetIsObjectValid(oDM)) 
+				DisplayGuiScreen(oDM,"KEMO_CHAIRS_ALT",FALSE,"kemo_chairs_alt.xml");
+			else
+				DisplayGuiScreen(oPC,"KEMO_CHAIRS_ALT",FALSE,"kemo_chairs_alt.xml");
 		}
 	else
 	{
-		DisplayGuiScreen(oPC,"KEMO_CHAIRS",FALSE,"kemo_chairs.xml");
+		if(GetIsObjectValid(oDM)) 
+			DisplayGuiScreen(oDM,"KEMO_CHAIRS",FALSE,"kemo_chairs.xml");
+		else
+			DisplayGuiScreen(oPC,"KEMO_CHAIRS",FALSE,"kemo_chairs.xml");
 		SetGUIObjectHidden(oPC,"KEMO_CHAIRS","Benches",1);
 		if (FindSubString(sTag,"bench") > 0 ||
 			FindSubString(sTag,"booth") > 0 ||
