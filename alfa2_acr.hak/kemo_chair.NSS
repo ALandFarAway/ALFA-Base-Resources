@@ -10,7 +10,7 @@ void main()
 	if(GetIsDMPossessed(oPC))
 	{
 		object oMaybeDM = GetFirstPC();
-		while(GetIsObjectValid(oPC))
+		while(GetIsObjectValid(oMaybeDM))
 		{
 			if(GetControlledCharacter(oPC) == oMaybeDM)
 				oDM = oMaybeDM;

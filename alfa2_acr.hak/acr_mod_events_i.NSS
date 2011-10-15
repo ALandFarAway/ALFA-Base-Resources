@@ -909,7 +909,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 			int nFinal = nRoll + nMod;
 			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (Geography) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
 		}
-		else if(sCommand == "#hist" || sCommand == "#histroy" || sCommand == "#knowledge history" || sCommand == "#knowledge (history)" || sCommand == "#knowledge: history")
+		else if(sCommand == "#hist" || sCommand == "#history" || sCommand == "#knowledge history" || sCommand == "#knowledge (history)" || sCommand == "#knowledge: history")
 		{
 			int nRoll = d20();
 			int nMod = GetSkillRank(41, oSpeaker);

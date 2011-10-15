@@ -9,7 +9,7 @@
 void main(string sPose)
 {
 	//object oPC = GetPCSpeaker();
-	object oPC = OBJECT_SELF;
+	object oPC = GetControlledCharacter(OBJECT_SELF);
 	
 	if (sPose == "close")
 	{
