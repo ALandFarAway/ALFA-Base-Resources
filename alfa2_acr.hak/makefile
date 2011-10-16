@@ -230,6 +230,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s0_iwallflama.ncs                  \
             $(OUTPUTDIR)\nw_s0_iwallflamc.ncs                  \
             $(OUTPUTDIR)\nw_s0_iwordchng.ncs                   \
+            $(OUTPUTDIR)\nw_s0_impmagarm.ncs                   \
+            $(OUTPUTDIR)\x0_s0_shield.ncs                      \
             $(OUTPUTDIR)\acr_disguise.ncs                   
 
 

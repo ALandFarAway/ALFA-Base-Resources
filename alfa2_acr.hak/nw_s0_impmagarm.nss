@@ -52,19 +52,19 @@ void main()
 		}	
 	}
 	
-	int nMageArmorBonus = 4 - nBaseAC;
+	int nMageArmorBonus = 6 - nBaseAC;
 	effect eMageArmor, eDur, eLink;
 	
 	if(nMageArmorBonus < 1)
 	{
 		//=== This spell isn't helping right now. That's okay; the VFX will keep us warm at night ===//
-		eLink = EffectVisualEffect(100000);
+		eLink = EffectVisualEffect(100002);
 	}
 	else
 	{
 		nMageArmorBonus += nEnhancedAC;
 		eMageArmor = EffectACIncrease(nMageArmorBonus, AC_ARMOUR_ENCHANTMENT_BONUS);		
-		eDur = EffectVisualEffect(100000);
+		eDur = EffectVisualEffect(100002);
 		eLink = EffectLinkEffects(eMageArmor, eDur);
 	}
 	
@@ -85,7 +85,7 @@ void CheckArmor(object oArmor, object oTarget, float fDuration)
 	while(GetIsEffectValid(eEffect))
 	{
 		if(GetEffectType(eEffect)         == EFFECT_TYPE_VISUALEFFECT &&
-		   GetEffectInteger(eEffect, 0)   == 100000 &&
+		   GetEffectInteger(eEffect, 0)   == 100002 &&
 		   GetEffectSubType(eEffect)      == SUBTYPE_MAGICAL &&
 		   GetEffectDurationType(eEffect) == DURATION_TYPE_TEMPORARY)
 		     bDispelled = FALSE;
@@ -111,18 +111,18 @@ void CheckArmor(object oArmor, object oTarget, float fDuration)
 	while(GetIsEffectValid(eEffect))
 	{		
 		if(GetEffectType(eEffect)         == EFFECT_TYPE_VISUALEFFECT &&
-		   GetEffectInteger(eEffect, 0)   == 100000 &&
+		   GetEffectInteger(eEffect, 0)   == 100002 &&
 		   GetEffectSubType(eEffect)      == SUBTYPE_MAGICAL &&
 		   GetEffectDurationType(eEffect) == DURATION_TYPE_TEMPORARY)
 		     RemoveEffect(oTarget, eEffect);		
 		eEffect = GetNextEffect(oTarget);
 	}
 	
+	object oArmor = GetItemInSlot(INVENTORY_SLOT_CHEST, oTarget);
 	
 	int nBaseAC = 0;
 	int nEnhancedAC = 0;
 	int nCasterLevel = GetCasterLevel(oTarget);
-	float fDuration = HoursToSeconds(nCasterLevel);	
 	
 	if(GetIsObjectValid(oArmor))
 	{
@@ -141,7 +141,7 @@ void CheckArmor(object oArmor, object oTarget, float fDuration)
 		}	
 	}
 	
-	int nMageArmorBonus = 4 - nBaseAC;
+	int nMageArmorBonus = 6 - nBaseAC;
 	effect eMageArmor, eDur, eLink;
 	
 	if(nMageArmorBonus < 1)
@@ -155,7 +155,7 @@ void CheckArmor(object oArmor, object oTarget, float fDuration)
 		eMageArmor = EffectACIncrease(nMageArmorBonus, AC_ARMOUR_ENCHANTMENT_BONUS);		
 	}
 	
-	eDur = EffectVisualEffect(100000);
+	eDur = EffectVisualEffect(100002);
 	eLink = EffectLinkEffects(eMageArmor, eDur);
 	
 	ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eLink, oTarget, fDuration);	

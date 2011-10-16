@@ -20,26 +20,30 @@
 #include "nw_i0_spells"
 #include "x2_inc_spellhook" 
 
-void CheckArmor(object oArmor, object oTarget, float fDuration);
+void CheckArmor(object oShield, object oTarget, float fDuration);
 
 void main()
 {
 	if (!X2PreSpellCastCode()) return;
 	
 	object oTarget = GetSpellTargetObject();
-	object oArmor = GetItemInSlot(INVENTORY_SLOT_CHEST, oTarget);
+	object oShield = GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oTarget);
 	
 	int nBaseAC = 0;
 	int nEnhancedAC = 0;
 	int nCasterLevel = GetCasterLevel(oTarget);
-	float fDuration = HoursToSeconds(nCasterLevel);	
+	float fDuration = TurnsToSeconds(nCasterLevel);	
 	
 		
-	if(GetIsObjectValid(oArmor))
+	if(GetIsObjectValid(oShield))
 	{
-		int nArmorType = GetArmorRulesType(oArmor);
-		nBaseAC = StringToInt(Get2DAString("armorrulestats", "ACBONUS", nArmorType));
-		itemproperty ipArmor = GetFirstItemProperty(oArmor);
+		if(GetBaseItemType(oShield) == 14)
+			nBaseAC = 1;
+		if(GetBaseItemType(oShield) == 56)
+			nBaseAC = 2;
+		if(GetBaseItemType(oShield) == 57)
+			nBaseAC = 4;
+		itemproperty ipArmor = GetFirstItemProperty(oShield);
 		while(GetIsItemPropertyValid(ipArmor))
 		{
 			if(GetItemPropertyType(ipArmor) == ITEM_PROPERTY_AC_BONUS)
@@ -48,7 +52,7 @@ void main()
 				if(nEnhancedAC < nEnhancement)
 					nEnhancedAC = nEnhancement;		
 			}
-			ipArmor = GetNextItemProperty(oArmor);
+			ipArmor = GetNextItemProperty(oShield);
 		}	
 	}
 	
@@ -58,23 +62,23 @@ void main()
 	if(nMageArmorBonus < 1)
 	{
 		//=== This spell isn't helping right now. That's okay; the VFX will keep us warm at night ===//
-		eLink = EffectVisualEffect(100000);
+		eLink = EffectVisualEffect(100003);
 	}
 	else
 	{
 		nMageArmorBonus += nEnhancedAC;
-		eMageArmor = EffectACIncrease(nMageArmorBonus, AC_ARMOUR_ENCHANTMENT_BONUS);		
-		eDur = EffectVisualEffect(100000);
+		eMageArmor = EffectACIncrease(nMageArmorBonus, AC_SHIELD_ENCHANTMENT_BONUS);		
+		eDur = EffectVisualEffect(100003);
 		eLink = EffectLinkEffects(eMageArmor, eDur);
 	}
 	
 
 	
 	ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eLink, oTarget, fDuration);
-	DelayCommand(6.0f, CheckArmor(oArmor, oTarget, fDuration));
+	DelayCommand(6.0f, CheckArmor(oShield, oTarget, fDuration));
 }
 
-void CheckArmor(object oArmor, object oTarget, float fDuration)
+void CheckArmor(object oShield, object oTarget, float fDuration)
 {
 	fDuration -= 6.0f;
 		
@@ -85,7 +89,7 @@ void CheckArmor(object oArmor, object oTarget, float fDuration)
 	while(GetIsEffectValid(eEffect))
 	{
 		if(GetEffectType(eEffect)         == EFFECT_TYPE_VISUALEFFECT &&
-		   GetEffectInteger(eEffect, 0)   == 100000 &&
+		   GetEffectInteger(eEffect, 0)   == 100003 &&
 		   GetEffectSubType(eEffect)      == SUBTYPE_MAGICAL &&
 		   GetEffectDurationType(eEffect) == DURATION_TYPE_TEMPORARY)
 		     bDispelled = FALSE;
@@ -100,9 +104,9 @@ void CheckArmor(object oArmor, object oTarget, float fDuration)
 		return;
 
 	//=== Armor has not changed. No need to calculate. ===//				
-	if(oArmor == GetItemInSlot(INVENTORY_SLOT_CHEST, oTarget))
+	if(oShield == GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oTarget))
 	{
-		DelayCommand(6.0f, CheckArmor(oArmor, oTarget, fDuration));
+		DelayCommand(6.0f, CheckArmor(oShield, oTarget, fDuration));
 		return;
 	}
 	
@@ -111,24 +115,28 @@ void CheckArmor(object oArmor, object oTarget, float fDuration)
 	while(GetIsEffectValid(eEffect))
 	{		
 		if(GetEffectType(eEffect)         == EFFECT_TYPE_VISUALEFFECT &&
-		   GetEffectInteger(eEffect, 0)   == 100000 &&
+		   GetEffectInteger(eEffect, 0)   == 100003 &&
 		   GetEffectSubType(eEffect)      == SUBTYPE_MAGICAL &&
 		   GetEffectDurationType(eEffect) == DURATION_TYPE_TEMPORARY)
 		     RemoveEffect(oTarget, eEffect);		
 		eEffect = GetNextEffect(oTarget);
 	}
 	
+	object oShield = GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oTarget);
 	
 	int nBaseAC = 0;
 	int nEnhancedAC = 0;
 	int nCasterLevel = GetCasterLevel(oTarget);
-	float fDuration = HoursToSeconds(nCasterLevel);	
 	
-	if(GetIsObjectValid(oArmor))
+	if(GetIsObjectValid(oShield))
 	{
-		int nArmorType = GetArmorRulesType(oArmor);
-		nBaseAC = StringToInt(Get2DAString("armorrulestats", "ACBONUS", nArmorType));
-		itemproperty ipArmor = GetFirstItemProperty(oArmor);
+		if(GetBaseItemType(oShield) == 14)
+			nBaseAC = 1;
+		if(GetBaseItemType(oShield) == 56)
+			nBaseAC = 2;
+		if(GetBaseItemType(oShield) == 57)
+			nBaseAC = 4;
+		itemproperty ipArmor = GetFirstItemProperty(oShield);
 		while(GetIsItemPropertyValid(ipArmor))
 		{
 			if(GetItemPropertyType(ipArmor) == ITEM_PROPERTY_AC_BONUS)
@@ -137,7 +145,7 @@ void CheckArmor(object oArmor, object oTarget, float fDuration)
 				if(nEnhancedAC < nEnhancement)
 					nEnhancedAC = nEnhancement;		
 			}
-			ipArmor = GetNextItemProperty(oArmor);
+			ipArmor = GetNextItemProperty(oShield);
 		}	
 	}
 	
@@ -152,12 +160,12 @@ void CheckArmor(object oArmor, object oTarget, float fDuration)
 	else
 	{
 		nMageArmorBonus += nEnhancedAC;
-		eMageArmor = EffectACIncrease(nMageArmorBonus, AC_ARMOUR_ENCHANTMENT_BONUS);		
+		eMageArmor = EffectACIncrease(nMageArmorBonus, AC_SHIELD_ENCHANTMENT_BONUS);		
 	}
 	
-	eDur = EffectVisualEffect(100000);
+	eDur = EffectVisualEffect(100003);
 	eLink = EffectLinkEffects(eMageArmor, eDur);
 	
 	ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eLink, oTarget, fDuration);	
-	DelayCommand(6.0f, CheckArmor(oArmor, oTarget, fDuration));	
+	DelayCommand(6.0f, CheckArmor(oShield, oTarget, fDuration));	
 }
