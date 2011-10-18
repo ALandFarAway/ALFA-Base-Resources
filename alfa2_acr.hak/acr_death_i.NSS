@@ -564,7 +564,7 @@ void ACR_CorpseOnDisturbed(object oBody, object oTaker, object oGiver)
 		    // no need to log the item in this case, nor warn about selflooting- it's a rez mechanism;
 		} else if (GetPCPublicCDKey(oTaker) == GetTag(oGiver)) {
 		    ACR_LogEvent(oTaker, ACR_LOG_LOOTSELF, ACR_SQLEncodeSpecialChars(GetPCPlayerName(oTaker))+" looted previous PC: "+ACR_SQLEncodeSpecialChars(GetName(oGiver))+" with PC: "+ACR_SQLEncodeSpecialChars(GetName(oTaker)));
-			SendMessageToPC(oTaker, "YOU HAVE LOOTED A CORPSE OF A PREVIOUS PC OF YOURS.  THIS IS FORBIDDEN.  CONTACT A DM IMMEDIATELY!");
+			FloatingTextStringOnCreature("YOU HAVE LOOTED A CORPSE OF A PREVIOUS PC OF YOURS.  THIS IS FORBIDDEN.  CONTACT A DM IMMEDIATELY!", oTaker, TRUE, 30.0);
 			SendMessageToAllDMs(GetName(oTaker)+" has just looted his/herself in area "+GetName(GetArea(OBJECT_SELF))+", previous PC(corpse) was named "+GetName(oGiver));
 		}    
 	    // check if the item disturbed is a corpse token
