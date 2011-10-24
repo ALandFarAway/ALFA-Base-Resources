@@ -85,6 +85,7 @@
 #include "acr_tools_i"
 #include "acr_1984_i"
 #include "acr_db_persist_i"
+#include "acr_mobloot_i"
 //#include "nw_i0_plot"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -351,6 +352,8 @@ void ACR_PlayerOnDeath(object oPC, object oKiller)
 
     // log the kill if the killer is a PC
     if (GetIsPC(oKiller)) { ACR_LogEvent(oKiller, ACR_LOG_KILL, "Character: " + ACR_SQLEncodeSpecialChars(GetName(oKiller)) + " killed player: " + ACR_SQLEncodeSpecialChars(GetName(oPC))); }
+
+    ACR_CheckLootByMob(oPC);
 	
     // delay processing to add a little dramatics
     DelayCommand(3.0, FadeToBlack(oPC, FADE_SPEED_SLOWEST));
