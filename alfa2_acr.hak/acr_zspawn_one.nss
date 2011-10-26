@@ -444,10 +444,10 @@ void main()
 		{
 			int nPriLevel = GetLevelByClass(nClass, oSpawn);
 			int nSecLevel = GetLevelByClass(nSecClass, oSpawn);	
-			if(nSecLevel < nPriLevel)
-				LevelUpHenchman(oSpawn, nSecClass, TRUE, GetPackageForClass(nSecClass));
-			else
-				LevelUpHenchman(oSpawn, nClass, TRUE, GetPackageForClass(nClass));
+			if(nSecLevel < nPriLevel) {
+				LevelUpHenchman(oSpawn, nSecClass, TRUE, GetPackageForClass(nSecClass));}
+			else {
+				LevelUpHenchman(oSpawn, nClass, TRUE, GetPackageForClass(nClass));}
 			nLevel--;
 		}
 	}
@@ -458,12 +458,12 @@ void main()
 			int nPriLevel = GetLevelByClass(nClass, oSpawn);
 			int nSecLevel = GetLevelByClass(nSecClass, oSpawn);	
 			int nTerLevel = GetLevelByClass(nTerClass, oSpawn);
-			if(nTerLevel < nSecLevel)
-				LevelUpHenchman(oSpawn, nTerClass, TRUE, GetPackageForClass(nTerClass));
-			if(nSecLevel < nPriLevel)
-				LevelUpHenchman(oSpawn, nSecClass, TRUE, GetPackageForClass(nSecClass));
-			else
-				LevelUpHenchman(oSpawn, nClass, TRUE, GetPackageForClass(nClass));
+			if(nTerLevel < nSecLevel) {
+				LevelUpHenchman(oSpawn, nTerClass, TRUE, GetPackageForClass(nTerClass));}
+			else if(nSecLevel < nPriLevel) {
+				LevelUpHenchman(oSpawn, nSecClass, TRUE, GetPackageForClass(nSecClass));}
+			else {
+				LevelUpHenchman(oSpawn, nClass, TRUE, GetPackageForClass(nClass));}
 			nLevel--;
 		}	
 	}
