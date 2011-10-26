@@ -287,55 +287,55 @@ void main()
 			oSpawn = CreateCreatureOfClass(CLASS_TYPE_HUMANOID, nGender, GetLocation(OBJECT_SELF));
 			LevelUpHenchman(oSpawn, CLASS_TYPE_HUMANOID, TRUE, GetPackageForClass(CLASS_TYPE_HUMANOID));
 			LevelUpHenchman(oSpawn, CLASS_TYPE_HUMANOID, TRUE, GetPackageForClass(CLASS_TYPE_HUMANOID));
-			nLevel = nLevel - 2;
-			float fCR = IntToFloat(nLevel);
+			nSpawnLevel = nSpawnLevel - 2;
+			float fCR = IntToFloat(nSpawnLevel);
 			SetLocalFloat(oSpawn, "CR", fCR);
 		}
 		else if(nRace == 13 || nRace == 14) // Gnolls and lizardfolk do, too
 		{	
 			oSpawn = CreateCreatureOfClass(CLASS_TYPE_HUMANOID, nGender, GetLocation(OBJECT_SELF));
 			LevelUpHenchman(oSpawn, CLASS_TYPE_HUMANOID, TRUE, GetPackageForClass(CLASS_TYPE_HUMANOID));
-			nLevel = nLevel - 1;
-			float fCR = IntToFloat(nLevel);
+			nSpawnLevel = nSpawnLevel - 1;
+			float fCR = IntToFloat(nSpawnLevel);
 			SetLocalFloat(oSpawn, "CR", fCR);
 		}
 		else if(nRace == 15) // Skeletons are level 1. Always always.
 		{
 			oSpawn = CreateCreatureOfClass(CLASS_TYPE_UNDEAD, nGender, GetLocation(OBJECT_SELF));	
 			SetLocalFloat(oSpawn, "CR", 0.33);
-			nLevel = 0;
+			nSpawnLevel = 0;
 		}
 		else if(nRace == 16) // Zombies are level 2. Always always.
 		{
 			oSpawn = CreateCreatureOfClass(CLASS_TYPE_UNDEAD, nGender, GetLocation(OBJECT_SELF));	
 			LevelUpHenchman(oSpawn, CLASS_TYPE_UNDEAD, TRUE, GetPackageForClass(CLASS_TYPE_UNDEAD));
 			SetLocalFloat(oSpawn, "CR", 0.5);		
-			nLevel = 0;
+			nSpawnLevel = 0;
 		}	
 		else if(nRace == 17) // Ghouls cap at leve 3. They're ghasts otherwise.
 		{
 			oSpawn = CreateCreatureOfClass(CLASS_TYPE_UNDEAD, nGender, GetLocation(OBJECT_SELF));
 			LevelUpHenchman(oSpawn, CLASS_TYPE_UNDEAD, TRUE, GetPackageForClass(CLASS_TYPE_UNDEAD));
-			if(nLevel >= 3) LevelUpHenchman(oSpawn, CLASS_TYPE_UNDEAD, TRUE, GetPackageForClass(CLASS_TYPE_UNDEAD));
-			float fCR = IntToFloat(nLevel-1);
+			if(nSpawnLevel >= 3) LevelUpHenchman(oSpawn, CLASS_TYPE_UNDEAD, TRUE, GetPackageForClass(CLASS_TYPE_UNDEAD));
+			float fCR = IntToFloat(nSpawnLevel-1);
 			if(fCR > 2.0) fCR = 2.0;
 			SetLocalFloat(oSpawn, "CR", fCR);
-			nLevel = 0;
+			nSpawnLevel = 0;
 		}
 		else if(nRace == 18) // Shadows run from levels 3 to 9.
 		{
 			oSpawn = CreateCreatureOfClass(CLASS_TYPE_UNDEAD, nGender, GetLocation(OBJECT_SELF));
 			nClass = CLASS_TYPE_UNDEAD;
-			if(nLevel > 9) nLevel = 9;
-			if(nLevel < 3) nLevel = 3;
-			float fCR = IntToFloat(nLevel);
+			if(nSpawnLevel > 9) nSpawnLevel = 9;
+			if(nSpawnLevel < 3) nSpawnLevel = 3;
+			float fCR = IntToFloat(nSpawnLevel);
 			if(fCR > 8.0) fCR = 8.0;
 			SetLocalFloat(oSpawn, "CR", fCR);
 		}
 		else
 		{
 			oSpawn = CreateCreatureOfClass(nClass, nGender, GetLocation(OBJECT_SELF));
-			float fCR = IntToFloat(nLevel);
+			float fCR = IntToFloat(nSpawnLevel);
 			SetLocalFloat(oSpawn, "CR", fCR);
 		}
 			
