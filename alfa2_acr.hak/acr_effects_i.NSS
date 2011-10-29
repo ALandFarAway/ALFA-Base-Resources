@@ -44,6 +44,7 @@ const int ACR_EFFECT_SOURCE_SPELL_END = 299999;
 
 const string ACR_EFFECT_FLAGS = "ACR_EFFECT_FLAGS";
 const int ACR_EFFECT_FLAG_FATIGUED = 0x01;
+const int ACR_EFFECT_FLAG_EXHAUSTED = 0x02;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -92,16 +93,30 @@ int CountTrackingEffectsFor(object oTarget, int nSource);
 //!  - Returns: nothing
 void ACR_SetIsFatigued(object oPC, int bStatus);
 
+//! This function sets the exhausted status on the target creature
+//!  - oPC: player who's exhausted status is being adjusted
+//!  - bStatus: the new exhausted status to apply
+//!  - Returns: nothing
+void ACR_SetIsExhausted(object oPC, int bStatus);
+
 //! This function retrieves the fatigue status on the target creature
 //!  - oPC: player who's fatigue status is being queried
 //!  - Returns: nothing
 int ACR_GetIsFatigued(object oPC);
+
+//! This function retrieves the exhausted status on the target creature
+//!  - oPC: player who's exhausted status is being queried
+//!  - Returns: nothing
+int ACR_GetIsExhausted(object oPC);
 
 //! Find Fatigue effect on a player and return it, otherwise return an empty effect
 effect ACR_GetFatigueEffectOnPlayer(object player);
 
 //! Wrapper for the standard NWN2 EffectFatigue effect, returns the effect
 effect ACR_EffectFatigue();
+
+//! Wrapper for the standard NWN2 EffectExhausted effect, returns the effect
+effect ACR_EffectExhausted();
 
 //! If nAmount differs from the last nAmount passed to this function on oCreature from
 //! nSource, all effects from nSource are removed and replaced by eEffect.
@@ -175,6 +190,11 @@ int ACR_GetIsFatigued(object oPC)
 	return (ACR_GetPersistentInt(oPC, ACR_EFFECT_FLAGS) & ACR_EFFECT_FLAG_FATIGUED);
 }
 
+int ACR_GetIsExhausted(object oPC)
+{
+	return (ACR_GetPersistentInt(oPC, ACR_EFFECT_FLAGS) & ACR_EFFECT_FLAG_EXHAUSTED);
+}
+
 void ACR_SetIsFatigued(object oPC, int bStatus)
 {
     // check if fatigue is being activated or deactivated
@@ -188,6 +208,22 @@ void ACR_SetIsFatigued(object oPC, int bStatus)
     {
         // unset the persistent fatigue status
         ACR_SetPersistentInt(oPC, ACR_EFFECT_FLAGS, ACR_GetPersistentInt(oPC, ACR_EFFECT_FLAGS) & ~(ACR_EFFECT_FLAG_FATIGUED));
+	RemoveEffect(oPC, ACR_GetFatigueEffectOnPlayer(oPC));
+    }
+}
+void ACR_SetIsExhausted(object oPC, int bStatus)
+{
+    // check if fatigue is being activated or deactivated
+    if (bStatus)
+    {
+        // set the persistent fatigue status
+        ACR_SetPersistentInt(oPC, ACR_EFFECT_FLAGS, ACR_GetPersistentInt(oPC, ACR_EFFECT_FLAGS) | ACR_EFFECT_FLAG_EXHAUSTED);
+	ApplyEffectToObject(DURATION_TYPE_PERMANENT, ACR_EffectFatigue(), oPC);
+    }
+    else
+    {
+        // unset the persistent fatigue status
+        ACR_SetPersistentInt(oPC, ACR_EFFECT_FLAGS, ACR_GetPersistentInt(oPC, ACR_EFFECT_FLAGS) & ~(ACR_EFFECT_FLAG_EXHAUSTED));
 	RemoveEffect(oPC, ACR_GetFatigueEffectOnPlayer(oPC));
     }
 }
@@ -212,6 +248,11 @@ effect ACR_GetFatigueEffectOnPlayer(object player)
 effect ACR_EffectFatigue()
 {
 	return EffectFatigue();
+}
+
+effect ACR_EffectExhausted()
+{
+	return EffectExhausted();
 }
 
 void ChangeEffectFromSource(int nSource, object oCreature, effect eEffect) {	
