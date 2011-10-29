@@ -73,6 +73,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\nwnx_sql.nss                          \
             $(OUTPUTDIR)\nwnx_time.nss                         \
             $(OUTPUTDIR)\nw_i0_invocatns.nss                   \
+            $(OUTPUTDIR)\acr_mobloot_i.nss                     \
             $(OUTPUTDIR)\acr_vanity_i.nss                         
 
 NSS_OBJECTS=                                                   \

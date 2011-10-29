@@ -11,7 +11,7 @@
 
 /* Includes */
 int MIN_INTELLIGENCE = 5;
-int CHANCE_TO_LOOT = 25;
+int CHANCE_TO_LOOT = 50;
 int nMobLootDebug = 0;
 
 void MobLootDebug(string str);
@@ -25,14 +25,20 @@ void ACR_CheckLootByMob(object oPC);
 // CHANCE_TO_LOOT, the mob gets the loot
 void ACR_CheckLootByMob(object oPC)
 {
-
+    int nType;
+    object oKiller;
+    int nDieRoll;
+    
     return;
 
     // Who got killed?
     MobLootDebug(GetName(oPC) + " killed");
 
     // Who killed her?
-    object oKiller = GetLocalObject(oPC, "ACR_DTH_LAST_DAMAGER");
+    oKiller = GetLocalObject(oPC, "ACR_DTH_LAST_DAMAGER");
+
+    nType = GetRacialType(oKiller);
+
 
     if (GetIsPC(oKiller) || GetIsPC(GetMaster(oKiller)))
     {
@@ -50,16 +56,22 @@ void ACR_CheckLootByMob(object oPC)
         return;
     }
 
-     MobLootDebug("smart enough - int: " + IntToString(nCreatureInt));
+    MobLootDebug("smart enough - int: " + IntToString(nCreatureInt));
 
     // Is it lucky enough?
-    int nDieRoll = Random(100) + 1;
-    if (nDieRoll > CHANCE_TO_LOOT)
-    {
-        MobLootDebug("not lucky enough - roll: " + IntToString(nDieRoll));
-        return;
+    if (nType == RACIAL_TYPE_ANIMAL ||
+	nType == RACIAL_TYPE_BEAST ||
+        nType == RACIAL_TYPE_CONSTRUCT ||
+        nType == RACIAL_TYPE_ELEMENTAL ||
+        nType == RACIAL_TYPE_OOZE ||
+        nType == RACIAL_TYPE_VERMIN) {
+	    
+	    if (Random(100) > CHANCE_TO_LOOT)
+	    {
+        	MobLootDebug("not lucky enough - roll: " + IntToString(nDieRoll));
+	        return;
+	    }
     }
-
     MobLootDebug("got lucky - roll:" + IntToString(nDieRoll));
     // There goes my stuff!!
     CreatureLoot(oKiller, oPC);
@@ -93,6 +105,9 @@ void CreatureLoot(object oKiller, object oPC)
 //
 void TransferItem(object oItem, object oCreature, object oVictim)
 {
+    if (Random(100) > CHANCE_TO_LOOT)
+	    return;
+
     if (oItem != OBJECT_INVALID)
     {
         MobLootDebug(GetName(oCreature) + " looted " + GetName(oItem) +
