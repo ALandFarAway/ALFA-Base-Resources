@@ -747,7 +747,7 @@ void ACR_InitializeSpawns(float fDespawnDelay, float fRefreshDelay, int bPrespaw
     ACR_PrintDebugMessage(IntToString(i) + " spawn points initialized.", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
 	
 	// Lets check that we actually got all the spawn points initialized.
-    DelayCommand(fDelay + 6.0, _SpawnPointInitializationCheck(i));
+    DelayCommand(fDelay + 60.0, _SpawnPointInitializationCheck(i));
 }
 
 float GetDespawnDelay() 
