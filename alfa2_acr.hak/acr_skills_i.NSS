@@ -1190,33 +1190,12 @@ void _StripDivineFeats(object oPC) {
 	FeatRemove(oPC, FEAT_REMOVE_DISEASE);
 }
 
-void _ApplyAdaptionEffects(object oPC) {
-
-	//effect eAdapt = SetEffectSpellId(EffectNWN2SpecialEffectFile("fx_hss_afk_01"), -999);
-	//effect eAdapt2 = SetEffectSpellId(EffectNWN2SpecialEffectFile("fx_hss_afk_03"), -999);
-	effect eAdapt = EffectEthereal();
-	effect eAdapt2 = EffectVisualEffect(VFX_DUR_SHINING_SHIELD);
-	effect eAdapt3 = EffectCutsceneImmobilize();
-	eAdapt = EffectLinkEffects(eAdapt2, eAdapt);
-	eAdapt = EffectLinkEffects(eAdapt3, eAdapt);
-	//eAdapt = EffectLinkEffects(eAdapt, eAdapt5);
-	//eAdapt = SupernaturalEffect(EffectLinkEffects(eAdapt, eAdapt5));
-	eAdapt = SupernaturalEffect(eAdapt);
-	
-	DelayCommand(0.5, AssignCommand(GetArea(oPC), ApplyEffectToObject(DURATION_TYPE_PERMANENT, eAdapt, oPC)));
+void _ApplyAdaptionEffects(object oPC)
+{
+	ACR_SetAdaptionEffect(oPC, 1);
 }
 
-void _StripAdaptionEffects(object oPC) {
-
-	object oArea = GetArea(oPC);
-	effect eTest = GetFirstEffect(oPC);
-	int nEffectType = GetEffectType(eTest);
-	while (GetIsEffectValid(eTest)) {
-		//SendMessageToPC(oPC, "Checking effect: "+IntToString(nEffectType)+", owned by "+GetName(GetEffectCreator(eTest)));
-		if ((nEffectType == EFFECT_TYPE_CUTSCENEIMMOBILIZE) || (nEffectType == EFFECT_TYPE_ETHEREAL) || (nEffectType == EFFECT_TYPE_VISUALEFFECT)) {
-			RemoveEffect(oPC, eTest);
-			//SendMessageToPC(oPC, "Removing effect: "+IntToString(nEffectType)+".");
-		}
-		eTest = GetNextEffect(oPC);
-	}
+void _StripAdaptionEffects(object oPC)
+{
+	ACR_SetAdaptionEffect(oPC, 0);
 }

@@ -36,6 +36,9 @@ const int ACR_EFFECT_SOURCE_START = 100000;
 const int ACR_EFFECT_SOURCE_RESTING = 1;
 const int ACR_EFFECT_SOURCE_COMBAT_ACTION = 2;
 
+const int ACR_EFFECT_SOURCE_FATIGUE = 10;
+const int ACR_EFFECT_SOURCE_OOC_ADAPTION = 11;
+
 const int ACR_EFFECT_SOURCE_FEAT_OFFSET = 100000;
 const int ACR_EFFECT_SOURCE_FEAT_END = 199999;
 
@@ -99,6 +102,12 @@ void ACR_SetIsFatigued(object oPC, int bStatus);
 //!  - Returns: nothing
 void ACR_SetIsExhausted(object oPC, int bStatus);
 
+//! This function sets the adaption status on the target creature
+//!  - oPC: player who's adaption status is being adjusted
+//!  - bStatus: the new adaption status to apply
+//!  - Returns: nothing
+void ACR_SetAdaption(object oPC, int bStatus);
+
 //! This function retrieves the fatigue status on the target creature
 //!  - oPC: player who's fatigue status is being queried
 //!  - Returns: nothing
@@ -109,14 +118,14 @@ int ACR_GetIsFatigued(object oPC);
 //!  - Returns: nothing
 int ACR_GetIsExhausted(object oPC);
 
-//! Find Fatigue effect on a player and return it, otherwise return an empty effect
-effect ACR_GetFatigueEffectOnPlayer(object player);
-
 //! Wrapper for the standard NWN2 EffectFatigue effect, returns the effect
 effect ACR_EffectFatigue();
 
 //! Wrapper for the standard NWN2 EffectExhausted effect, returns the effect
 effect ACR_EffectExhausted();
+
+//! ACR Adaption effect to be used during skill/feat adjustment, returns the effect
+effect ACR_AdaptionEffect();
 
 //! If nAmount differs from the last nAmount passed to this function on oCreature from
 //! nSource, all effects from nSource are removed and replaced by eEffect.
@@ -136,14 +145,17 @@ void ApplyEffectFromSource(int nSource, int nDurationType, effect eEffect, objec
 		fDuration);
 }
 
+
 int GetIsTrackingEffect(effect eEffect, int nSourceId) {
 	return GetEffectType(eEffect) == EFFECT_TYPE_VISUALEFFECT && GetEffectInteger(eEffect, 0) > ACR_EFFECT_SOURCE_START;
 }
+
 
 int GetIsTrackingEffectFor(effect eEffect, int nSourceId) {
 	if(!nSourceId) return 0;
 	return nSourceId == GetTrackingEffectSource(eEffect);
 }
+
 
 int GetTrackingEffectSource(effect eEffect) {
 	if(GetEffectType(eEffect) != EFFECT_TYPE_VISUALEFFECT) return 0;
@@ -151,9 +163,11 @@ int GetTrackingEffectSource(effect eEffect) {
 	return (nSource > ACR_EFFECT_SOURCE_START) ? (nSource - ACR_EFFECT_SOURCE_START) : 0;
 }
 
+
 void RemoveAllEffectsFromSource(object oTarget, int nSource) {
 	RemoveAllEffectsFromSourceRange(oTarget, nSource, nSource);
 }
+
 
 void RemoveAllEffectsFromSourceRange(object oTarget, int nSourceMin, int nSourceMax) {
 
@@ -167,9 +181,11 @@ void RemoveAllEffectsFromSourceRange(object oTarget, int nSourceMin, int nSource
 	}
 }
 
+
 void RemoveAllFeatEffects(object oTarget) {
 	RemoveAllEffectsFromSourceRange(oTarget, ACR_EFFECT_SOURCE_FEAT_OFFSET, ACR_EFFECT_SOURCE_FEAT_END);
 }
+
 
 int CountTrackingEffectsFor(object oTarget, int nSource) {
 
@@ -185,15 +201,18 @@ int CountTrackingEffectsFor(object oTarget, int nSource) {
 	return count;
 }
 
+
 int ACR_GetIsFatigued(object oPC)
 {
 	return (ACR_GetPersistentInt(oPC, ACR_EFFECT_FLAGS) & ACR_EFFECT_FLAG_FATIGUED);
 }
 
+
 int ACR_GetIsExhausted(object oPC)
 {
 	return (ACR_GetPersistentInt(oPC, ACR_EFFECT_FLAGS) & ACR_EFFECT_FLAG_EXHAUSTED);
 }
+
 
 void ACR_SetIsFatigued(object oPC, int bStatus)
 {
@@ -202,58 +221,70 @@ void ACR_SetIsFatigued(object oPC, int bStatus)
     {
         // set the persistent fatigue status
         ACR_SetPersistentInt(oPC, ACR_EFFECT_FLAGS, ACR_GetPersistentInt(oPC, ACR_EFFECT_FLAGS) | ACR_EFFECT_FLAG_FATIGUED);
-	ApplyEffectToObject(DURATION_TYPE_PERMANENT, ACR_EffectFatigue(), oPC);
+	ApplyEffectFromSource(ACR_EFFECT_SOURCE_FATIGUE, DURATION_TYPE_PERMANENT, ACR_EffectFatigue(), oPC);
     }
     else
     {
         // unset the persistent fatigue status
         ACR_SetPersistentInt(oPC, ACR_EFFECT_FLAGS, ACR_GetPersistentInt(oPC, ACR_EFFECT_FLAGS) & ~(ACR_EFFECT_FLAG_FATIGUED));
-	RemoveEffect(oPC, ACR_GetFatigueEffectOnPlayer(oPC));
+	RemoveAllEffectsFromSource(oPC, ACR_EFFECT_SOURCE_FATIGUE);
     }
 }
+
+
 void ACR_SetIsExhausted(object oPC, int bStatus)
 {
-    // check if fatigue is being activated or deactivated
+    // check if exhausted is being activated or deactivated
     if (bStatus)
     {
         // set the persistent fatigue status
         ACR_SetPersistentInt(oPC, ACR_EFFECT_FLAGS, ACR_GetPersistentInt(oPC, ACR_EFFECT_FLAGS) | ACR_EFFECT_FLAG_EXHAUSTED);
-	ApplyEffectToObject(DURATION_TYPE_PERMANENT, ACR_EffectFatigue(), oPC);
+	ApplyEffectFromSource(ACR_EFFECT_SOURCE_FATIGUE, DURATION_TYPE_PERMANENT, ACR_EffectFatigue(), oPC);
     }
     else
     {
-        // unset the persistent fatigue status
+        // unset the persistent exhausted status
         ACR_SetPersistentInt(oPC, ACR_EFFECT_FLAGS, ACR_GetPersistentInt(oPC, ACR_EFFECT_FLAGS) & ~(ACR_EFFECT_FLAG_EXHAUSTED));
-	RemoveEffect(oPC, ACR_GetFatigueEffectOnPlayer(oPC));
+	RemoveAllEffectsFromSource(oPC, ACR_EFFECT_SOURCE_FATIGUE);
     }
 }
 
-effect ACR_GetFatigueEffectOnPlayer(object player)
-{
-	effect e = GetFirstEffect(player),null_effect;
-	while (GetIsEffectValid(e)) {
-	
-		// This should be the only extraordinary effect that decreases movement speed
-		if (		(GetEffectType(e) == EFFECT_TYPE_MOVEMENT_SPEED_DECREASE)
-			&&	(GetEffectSubType(e) == SUBTYPE_EXTRAORDINARY)
-			&&	(GetEffectDurationType(e) == DURATION_TYPE_PERMANENT))
-			return e;
-		
-		e = GetNextEffect(player);
-	}
 
-	return null_effect;
+void ACR_SetAdaptionEffect(object oPC, int bStatus)
+{
+	if (bStatus)
+		ApplyEffectFromSource(ACR_EFFECT_SOURCE_OOC_ADAPTION, DURATION_TYPE_PERMANENT, ACR_AdaptionEffect(), oPC);
+	else
+		RemoveAllEffectsFromSource(oPC, ACR_EFFECT_SOURCE_OOC_ADAPTION);
 }
+
 
 effect ACR_EffectFatigue()
 {
 	return EffectFatigue();
 }
 
+
 effect ACR_EffectExhausted()
 {
 	return EffectExhausted();
 }
+
+
+effect ACR_AdaptionEffect()
+{
+	effect e1,e2,e3;
+	e1 = EffectEthereal();
+	e2 = EffectVisualEffect(VFX_DUR_SHINING_SHIELD);
+	e3 = EffectCutsceneImmobilize();
+	e1 = EffectLinkEffects(e2, e1);
+	e1 = EffectLinkEffects(e3, e1);
+
+	e1 = SupernaturalEffect(e1);
+
+	return e1;
+}
+
 
 void ChangeEffectFromSource(int nSource, object oCreature, effect eEffect) {	
 	RemoveAllEffectsFromSource(oCreature, nSource);
