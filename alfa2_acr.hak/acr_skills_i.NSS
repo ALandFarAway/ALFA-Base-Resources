@@ -235,13 +235,28 @@ int ACR_SkillCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int
 
 int ACR_SimpleRoll(object oPC, int nNum, int nType, int bShowRoll=FALSE, int bBroadcast=FALSE)
 {
-	string sMsg;
-	int i,res=nNum;
+	string str = "",sMsg = "";
+	int i,res,sum=0;
 
-	for (i=0; i<nNum; ++i)
-		res += Random(nType);
+	sMsg += Colorize(GetName(oPC), CHECK_COLOUR1);
+       	str += " : " + IntToString(nNum)+"d"+IntToString(nType)+" : (";
 
-	sMsg = _FormatSimpleRoll(GetName(oPC),IntToString(nNum),IntToString(nType),IntToString(res));
+	for (i=0; i<nNum; ++i) {
+		res = Random(nType) + 1;
+		sum += res;
+
+		if (i > 0)
+			str += " + "+IntToString(res);
+		else if (nNum > 1)
+			str += IntToString(res);
+	}
+
+	if (nNum > 1)
+		str += " = ";
+
+	str += IntToString(sum) + ")";
+
+	sMsg += Colorize(str, CHECK_COLOUR2);
 
 	// Show everyone in a TALK
 	if (bBroadcast) 
@@ -262,7 +277,7 @@ int _HandleRoll(object oPC, string sSkill, int nModifier, int nDC=0, int bShowRo
 	nRoll = d20();
 
 	if (!bUntrained)
-		bResult = (nRoll + nModifier) >= nDC;
+		bResult = ((nRoll + nModifier) >= nDC);
 
 	sMsg = _FormatCheck(sSkill, nRoll, nModifier, GetName(oPC), nDC, bUntrained);
 	
@@ -282,7 +297,6 @@ int _HandleRoll(object oPC, string sSkill, int nModifier, int nDC=0, int bShowRo
 	if (bShowRoll) 
 		SendMessageToPC(oPC, sMsg);
 		
-
 	return bResult;
 }
 
@@ -1009,13 +1023,8 @@ int _LookupSynergy(int nSkillID, object oPC, int bShowRoll)
 
 string _FormatSimpleRoll(string sName, string sNum, string sType, string sResult)
 {
-	string sMsg = "";
-	
-	sMsg += Colorize(sName, CHECK_COLOUR1) + Colorize(" : ", CHECK_COLOUR2);
 
-	sMsg += Colorize(sNum+"d"+sType+" : ", CHECK_COLOUR2);
 
-	sMsg += Colorize(sResult, CHECK_COLOUR2);
 
 	return sMsg;
 }
@@ -1023,30 +1032,34 @@ string _FormatSimpleRoll(string sName, string sNum, string sType, string sResult
 
 string _FormatCheck(string sSkill, int nRoll, int nMod, string sName="", int nDC=0, int bUntrained=FALSE)
 {
-	string sMsg = "",sRes = "success";
+	string str="",sMsg = "",sRes = "success";
 	
 	if (((nRoll+nMod) < nDC) || bUntrained)
 		sRes = "failure";
 		
-	if (sName != "")
-		sMsg += Colorize(sName, CHECK_COLOUR1) + Colorize(" : ", CHECK_COLOUR2);
+	if (sName != "") {
+		sMsg += Colorize(sName, CHECK_COLOUR1);
+		str += " : ";
+	}
 
-	sMsg += Colorize(sSkill+" : ", CHECK_COLOUR2);
+	str += sSkill+" : ";
 
-	if (nDC > 0)
-		 sMsg += Colorize("*"+sRes+"* : ", CHECK_COLOUR2);
+	if ((nDC > 0) || bUntrained)
+		str += "*"+sRes+"* : ";
 
 	if (bUntrained)
-		sMsg += Colorize("Skill requires training to use.", CHECK_COLOUR2);
+		str += "Skill requires training to use.";
 	else
-		sMsg += Colorize("(" + IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nRoll+nMod), CHECK_COLOUR2);
+		str += "(" + IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nRoll+nMod);
 
 	if (!bUntrained) {
 		if (nDC > 0)
-			sMsg += Colorize(" vs. DC: "+IntToString(nDC), CHECK_COLOUR2);
+			str += " vs. DC: "+IntToString(nDC);
 
-		sMsg += Colorize(")", CHECK_COLOUR2);
+		str += ")";
 	}
+
+	sMsg += Colorize(str, CHECK_COLOUR2);
 
 	return sMsg;
 }
