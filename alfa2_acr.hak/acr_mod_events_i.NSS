@@ -180,10 +180,10 @@ void ACR_SetModuleStatus(int nStatus);
 void _ParseRoll(object pc, string cmd);
 
 //! Parse a new language
-void _ParseLang(object pc, string text);
+string _ParseLang(object pc, string text);
 
 //! Parse a new language
-void _HandleLang(object pc, string text, string lang);
+int _HandleLang(object pc, string text, int mode, string lang);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -717,7 +717,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 	}
 	
 
-	return _HandleLang(oSpeaker, sText, sLangPick);
+	return _HandleLang(oSpeaker, sText, nMode, sLangPick);
 }
 
 
@@ -744,14 +744,14 @@ void _ParseRoll(object pc, string cmd)
 	
 	// kludge to handle nasty stuff like "craft: "
 	
-	if (TestStringAgainstPattern("(craft|knowledge|perform)**")) {
+	if (TestStringAgainstPattern("(craft|knowledge|perform)**",cmd)) {
 
 		tmp = "craft";
 		if (_CompareLeft(cmd,tmp)) {
 			len = GetStringLength(cmd);
 			offset = GetStringLength(tmp);
 
-			cmd = GetStringRight(str,len-offset);
+			cmd = GetStringRight(cmd,len-offset);
 		}
 		
 		tmp = "knowledge";
@@ -759,7 +759,7 @@ void _ParseRoll(object pc, string cmd)
 			len = GetStringLength(cmd);
 			offset = GetStringLength(tmp);
 
-			cmd = GetStringRight(str,len-offset);
+			cmd = GetStringRight(cmd,len-offset);
 		}
 
 		tmp = "perform";
@@ -767,7 +767,7 @@ void _ParseRoll(object pc, string cmd)
 			len = GetStringLength(cmd);
 			offset = GetStringLength(tmp);
 
-			cmd = GetStringRight(str,len-offset);
+			cmd = GetStringRight(cmd,len-offset);
 		}
 
 		// eat characters
@@ -780,7 +780,7 @@ void _ParseRoll(object pc, string cmd)
 
 			len = GetStringLength(cmd);
 
-			cmd = GetStringRight(str,len-1);
+			cmd = GetStringRight(cmd,len-1);
 		} while (b);
 	}
 
@@ -800,7 +800,7 @@ void _ParseRoll(object pc, string cmd)
 		// add bonus for improved initiative feat(s)
 		mod += (GetHasFeat(FEAT_IMPROVED_INITIATIVE,pc) ? 4 : 0);
 		mod += (GetHasFeat(FEAT_THUG,pc) ? 2 : 0);
-		mod += (GetHasFeat(FEAT_BLOODIED,pc) ? 2 : 0);
+		mod += (GetHasFeat(FEAT_BLOODED,pc) ? 2 : 0);
 		
 		ACR_StatCheck(ABILITY_DEXTERITY, pc, 0, TRUE, TRUE, mod);
 	}
@@ -993,14 +993,14 @@ void _ParseRoll(object pc, string cmd)
 	}
 	else 
 	{
-		SendMessageToPC(oSpeaker, "I don't understand the command \""+text+"\"");
+		SendMessageToPC(pc, "I don't understand the command '"+text+"'");
 	}
 }
 
 
-int _ParseLang(object oSpeaker, string sText)
+string _ParseLang(object oSpeaker, string sText)
 {
-	string sLandPick, c, sNewPick, sErr;
+	string sLangPick, c, sNewPick, sErr;
 
 	sErr = GetLocalString(oSpeaker, "DefaultLanguage");
 	sNewPick = GetStringLowerCase(GetStringLeft(sText, 4));
@@ -1564,7 +1564,7 @@ int _ParseLang(object oSpeaker, string sText)
 }
 
 
-int _HandleLang(object oSpeaker, string sText, string sLangPick)
+int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 {
 	if (sLangPick == "common" || sLangPick == "")
 	{

@@ -927,7 +927,7 @@ string GetFeatSpellScript(int nFeat) {
 void BroadcastToDMs(string sText)
 {
 	object o;
-	for (o = GetFirstPC(); GetIsObjectValid(o); o = GetNextPC())
+	for (ObjectToInt(o = GetFirstPC()); GetIsObjectValid(o); ObjectToInt(o = GetNextPC()))
 		if (GetIsDM(o) || GetIsDMPossessed(o))
 			SendMessageToPC(o, sText);
 }

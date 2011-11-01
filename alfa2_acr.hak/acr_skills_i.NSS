@@ -47,12 +47,16 @@ int ACR_SkillCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int
 //!! Official save check function for ALFA
 //!!   modifiers it can; returns 0 (FALSE) or 1 (TRUE).  
 //!! If no DC is provided, the function will return the roll result.
-int ACR_SaveCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0);
+int ACR_SaveCheck(int nSaveID, object oPC, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0);
 
 //!! Official stat check function for ALFA
 //!!   modifiers it can; returns 0 (FALSE) or 1 (TRUE).  
 //!! If no DC is provided, the function will return the roll result.
-int ACR_StatCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0);
+int ACR_StatCheck(int nStatID, object oPC, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0);
+
+//!! Official generic dice roll function for ALFA
+//!! the function will return the roll result.
+int ACR_SimpleRoll(object oPC, int nNum, int nType, int bShowRoll=FALSE, int bBroadcast=FALSE);
 
 //!! Returns a prediction for a PC's .bic file name for LETO modification.
 //!!  adapted from a NWN1-NWNx2 letoscript function from demux
@@ -116,11 +120,23 @@ void _StripAdaptionEffects(object oPC);
 //!! Simple helper function to convert sid->str
 string _SkillIdToString(int nSkillID);
 
+//!! Simple helper function to convert sid->str
+string _StatIdToString(int nStatID);
+
+//!! Simple helper function to convert sid->str
+string _SaveIdToString(int nSaveID);
+
+//!! Handle roll logic and output
+int _HandleRoll(object oPC, string sSkill, int nModifier, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int bUntrained=FALSE);
+
 //!! Examine synergy for specific object and skill and return value
-int _LookupSynergy(int nSkillID, object oPC);
+int _LookupSynergy(int nSkillID, object oPC, int bShowRoll);
 
 //!! Format check nicely given roll specifics
 string _FormatCheck(string sSkill, int nRoll, int nMod, string sName="", int nDc=0, int bUntrained=FALSE);
+
+//!! Format roll nicely given roll specifics
+string _FormatSimpleRoll(string sName, string sNum, string sType, string sResult);
 
 //!! Send roll message to nearby players and dms
 void _SendRollMessage(object oPC, string sMsg, int bPrivate=FALSE);
@@ -134,7 +150,7 @@ int ACR_StatCheck(int nStatID, object oPC, int nDC=0, int bShowRoll=FALSE, int b
 	int nRank;
 	string sStat;
 
-	sStat = _StatIdToString(sStatID);
+	sStat = _StatIdToString(nStatID);
 
 	nRank = GetAbilityModifier(nStatID, oPC) + nModifier;
 
@@ -149,7 +165,7 @@ int ACR_SaveCheck(int nSaveID, object oPC, int nDC=0, int bShowRoll=FALSE, int b
 	int nRank;
 	string sSave;
 
-	sSave = _SaveIdToString(sSaveID);
+	sSave = _SaveIdToString(nSaveID);
 
 	switch (nSaveID) {
 		case SAVING_THROW_WILL:
@@ -177,12 +193,12 @@ int ACR_SkillCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int
 	int nBaseRank,nModifiedRank,bUntrained=FALSE;
 	string sSkill;
 
-	sSkill = _SkillIdToString(sSkillID);
+	sSkill = _SkillIdToString(nSkillID);
 	nBaseRank = GetSkillRank(nSkillID, oPC, TRUE);
 
 	if (nBaseRank < 1) {
 		// Skill is being attempted untrained, check for autofail
-		switch (sSkillID) {
+		switch (nSkillID) {
 			case SKILL_DISABLE_TRAP:
 			case SKILL_OPEN_LOCK:
 			case SKILL_SLEIGHT_OF_HAND:
@@ -209,7 +225,7 @@ int ACR_SkillCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int
 		}
 	}
 
-	nModifiedRank = GetSkillRank(nSkillID, oPC, FALSE) + _LookupSynergy(nSkillID, oPC) + nModifier;
+	nModifiedRank = GetSkillRank(nSkillID, oPC, FALSE) + _LookupSynergy(nSkillID, oPC, bShowRoll) + nModifier;
 
 	// return roll
 
@@ -246,9 +262,9 @@ int _HandleRoll(object oPC, string sSkill, int nModifier, int nDC=0, int bShowRo
 	nRoll = d20();
 
 	if (!bUntrained)
-		bResult = (nRoll + nModifiedRank) >= nDC;
+		bResult = (nRoll + nModifier) >= nDC;
 
-	sMsg = _FormatCheck(sSkill, nRoll, nModifiedRank, GetName(oPC), nDC, bUntrained);
+	sMsg = _FormatCheck(sSkill, nRoll, nModifier, GetName(oPC), nDC, bUntrained);
 	
 	// openended check
 	if (nDC == 0) {
@@ -259,7 +275,7 @@ int _HandleRoll(object oPC, string sSkill, int nModifier, int nDC=0, int bShowRo
 		else if (bShowRoll) 
 			_SendRollMessage(oPC, sMsg, TRUE);
 		
-		return bResult;
+		return (nRoll + nModifier);
 	}
 
 	// dc (scripted) check, only show player
@@ -788,15 +804,15 @@ int _IsClassSkill(int nSkill, object oTarget) {
 
 string _StatIdToString(int nStatID)
 {
-	string sSave = "INVALID STAT"
+	string sStat = "INVALID STAT";
 
 	switch (nStatID) {
-		case ABLITY_STRENGTH: sSkill = "Strength"; break;
-		case ABLITY_DEXTERITY: sSkill = "Dexterity"; break;
-		case ABLITY_CONSTITUTION: sSkill = "Constitution"; break;
-		case ABLITY_INTELLIGENCE: sSkill = "Intelligence"; break;
-		case ABLITY_WISDOM: sSkill = "Wisdom"; break;
-		case ABLITY_CHARISMA: sSkill = "Charisma"; break;
+		case ABILITY_STRENGTH: sStat = "Strength"; break;
+		case ABILITY_DEXTERITY: sStat = "Dexterity"; break;
+		case ABILITY_CONSTITUTION: sStat = "Constitution"; break;
+		case ABILITY_INTELLIGENCE: sStat = "Intelligence"; break;
+		case ABILITY_WISDOM: sStat = "Wisdom"; break;
+		case ABILITY_CHARISMA: sStat = "Charisma"; break;
 	}
 
 	return sStat;
@@ -805,12 +821,12 @@ string _StatIdToString(int nStatID)
 
 string _SaveIdToString(int nSaveID)
 {
-	string sSave = "INVALID SAVE"
+	string sSave = "INVALID SAVE";
 
 	switch (nSaveID) {
-		case SAVING_THROW_FORT: sSkill = "Fortitude"; break;
-		case SAVING_THROW_REFLEX: sSkill = "Reflex"; break;
-		case SAVING_THROW_WILL: sSkill = "Will"; break;
+		case SAVING_THROW_FORT: sSave = "Fortitude"; break;
+		case SAVING_THROW_REFLEX: sSave = "Reflex"; break;
+		case SAVING_THROW_WILL: sSave = "Will"; break;
 	}
 
 	return sSave;
@@ -883,7 +899,7 @@ string _SkillIdToString(int nSkillID)
 	return sSkill;
 }
 
-int _LookupSynergy(int nSkillID, object oPC)
+int _LookupSynergy(int nSkillID, object oPC, int bShowRoll)
 {
 	int nModifiedRank = 0;
 
@@ -1005,11 +1021,11 @@ string _FormatSimpleRoll(string sName, string sNum, string sType, string sResult
 }
 
 
-string _FormatCheck(string sSkill, int nRoll, int nMod, string sName="", int nDc=0, int bUntrained=FALSE)
+string _FormatCheck(string sSkill, int nRoll, int nMod, string sName="", int nDC=0, int bUntrained=FALSE)
 {
 	string sMsg = "",sRes = "success";
 	
-	if (((nRoll+nMod) < dc) || bUntrained)
+	if (((nRoll+nMod) < nDC) || bUntrained)
 		sRes = "failure";
 		
 	if (sName != "")
@@ -1024,7 +1040,7 @@ string _FormatCheck(string sSkill, int nRoll, int nMod, string sName="", int nDc
 
 	if (!bUntrained) {
 		if (nDC > 0)
-			sMsg += Colorize(" vs. DC: "+IntToString(nDc), CHECK_COLOUR2);
+			sMsg += Colorize(" vs. DC: "+IntToString(nDC), CHECK_COLOUR2);
 
 		sMsg += Colorize(")", CHECK_COLOUR2);
 	}
@@ -1045,7 +1061,7 @@ void _SendRollMessage(object oPC, string sMsg, int bPrivate=FALSE)
 		return;
 	}
 
-	for (o = GetFirstObjectInShape(SHAPE_SPHERE, 20.0f, loc); GetIsObjectValid(o); o = GetNextObjectInShape(SHAPE_SPHERE, 20.0f, loc))
+	for (ObjectToInt(o = GetFirstObjectInShape(SHAPE_SPHERE, 20.0f, loc)); GetIsObjectValid(o); ObjectToInt(o = GetNextObjectInShape(SHAPE_SPHERE, 20.0f, loc)))
 		SendMessageToPC(o, sMsg);
 }
 
