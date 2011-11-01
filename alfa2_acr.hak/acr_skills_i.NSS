@@ -1031,7 +1031,10 @@ string _FormatCheck(string sSkill, int nRoll, int nMod, string sName="", int nDC
 	if (sName != "")
 		sMsg += Colorize(sName, CHECK_COLOUR1) + Colorize(" : ", CHECK_COLOUR2);
 
-	sMsg += Colorize(sSkill+" : *"+sRes+"* : ", CHECK_COLOUR2);
+	sMsg += Colorize(sSkill+" : ", CHECK_COLOUR2);
+
+	if (nDC > 0)
+		 sMsg += Colorize("*"+sRes+"* : ", CHECK_COLOUR2);
 
 	if (bUntrained)
 		sMsg += Colorize("Skill requires training to use.", CHECK_COLOUR2);
