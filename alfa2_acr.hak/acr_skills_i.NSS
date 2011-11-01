@@ -135,9 +135,6 @@ int _LookupSynergy(int nSkillID, object oPC, int bShowRoll);
 //!! Format check nicely given roll specifics
 string _FormatCheck(string sSkill, int nRoll, int nMod, string sName="", int nDc=0, int bUntrained=FALSE);
 
-//!! Format roll nicely given roll specifics
-string _FormatSimpleRoll(string sName, string sNum, string sType, string sResult);
-
 //!! Send roll message to nearby players and dms
 void _SendRollMessage(object oPC, string sMsg, int bPrivate=FALSE);
 
@@ -1018,15 +1015,6 @@ int _LookupSynergy(int nSkillID, object oPC, int bShowRoll)
 		break;
 	}
 	return nModifiedRank;
-}
-
-
-string _FormatSimpleRoll(string sName, string sNum, string sType, string sResult)
-{
-
-
-
-	return sMsg;
 }
 
 
