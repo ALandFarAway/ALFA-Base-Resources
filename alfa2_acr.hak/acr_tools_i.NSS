@@ -273,6 +273,13 @@ int DeleteAllLocalsWithString(object oOjbect, string sString);
 //! Returns the spell script for nFeat, or "" if there is none.
 string GetFeatSpellScript(int nFeat);
 
+//!! Broadcast message to all dms
+void BroadcastToDMs(string sText);
+
+//!! Color a block of text
+string Colorize(string sText, string sColor);
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -915,3 +922,18 @@ string GetFeatSpellScript(int nFeat) {
 	if(sScript == "****") return "";
 	return sScript;
 }
+
+
+void BroadcastToDMs(string sText)
+{
+	object o;
+	for (o = GetFirstPC(); GetIsObjectValid(o); o = GetNextPC())
+		if (GetIsDM(o) || GetIsDMPossessed(o))
+			SendMessageToPC(o, sText);
+}
+
+string Colorize(string sText, string sColor)
+{
+	return "<color=#"+sColor+">"+sText+"</c>";
+}
+

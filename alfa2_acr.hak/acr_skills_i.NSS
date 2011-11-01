@@ -33,12 +33,26 @@
 // Number of the final row of skills.2da, used to iterate through all possible custom skills.
 const int ACR_SKILLS_NUMBER = 67;
 
+const string CHECK_COLOUR1 = "98FFFF";
+const string CHECK_COLOUR2 = "0166FF";
+
+
 // Public functions
 
 //!! Official skill check function for ALFA, takes into account skill synergy and whatever circumstance
 //!!   modifiers it can; returns 0 (FALSE) or 1 (TRUE).  
 //!! If no DC is provided, the function will return the roll result.
 int ACR_SkillCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0);
+
+//!! Official save check function for ALFA
+//!!   modifiers it can; returns 0 (FALSE) or 1 (TRUE).  
+//!! If no DC is provided, the function will return the roll result.
+int ACR_SaveCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0);
+
+//!! Official stat check function for ALFA
+//!!   modifiers it can; returns 0 (FALSE) or 1 (TRUE).  
+//!! If no DC is provided, the function will return the roll result.
+int ACR_StatCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0);
 
 //!! Returns a prediction for a PC's .bic file name for LETO modification.
 //!!  adapted from a NWN1-NWNx2 letoscript function from demux
@@ -99,221 +113,161 @@ void _ApplyAdaptionEffects(object oPC);
 //!! Clears VFX and ethereality for rebuild process
 void _StripAdaptionEffects(object oPC);
 
-//!! Broadcast message to all dms
-void _BroadcastToDMs(string sText);
+//!! Simple helper function to convert sid->str
+string _SkillIdToString(int nSkillID);
 
-//!! Color a block of text
-string _Colorize(string sText, string sColor);
+//!! Examine synergy for specific object and skill and return value
+int _LookupSynergy(int nSkillID, object oPC);
+
+//!! Format check nicely given roll specifics
+string _FormatCheck(string sSkill, int nRoll, int nMod, string sName="", int nDc=0, int bUntrained=FALSE);
+
+//!! Send roll message to nearby players and dms
+void _SendRollMessage(object oPC, string sMsg, int bPrivate=FALSE);
 
 //
 //  Function bodies
 //
 
-int ACR_SkillCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0) {
+int ACR_StatCheck(int nStatID, object oPC, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0)
+{
+	int nRank;
+	string sStat;
 
-	int nBaseRank = GetSkillRank(nSkillID, oPC, TRUE);
-	int nModifiedRank = GetSkillRank(nSkillID, oPC, FALSE);
-	string sMsg,sSkill,sColor="EFD4AC";
+	sStat = _StatIdToString(sStatID);
 
-	switch (nSkillID) {
-		case SKILL_CONCENTRATION: sSkill = "Concentration"; break;
-		case SKILL_DISABLE_TRAP: sSkill = "DisableDevice"; break;
-		case SKILL_HEAL: sSkill = "Heal"; break;
-		case SKILL_HIDE: sSkill = "Hide"; break;
-		case SKILL_LISTEN: sSkill = "Listen"; break;
-		case SKILL_MOVE_SILENTLY: sSkill = "MoveSilently"; break;
-		case SKILL_OPEN_LOCK: sSkill = "OpenLock"; break;
-		case SKILL_PARRY: sSkill = "Parry"; break;
-		case SKILL_DIPLOMACY: sSkill = "Diplomacy"; break;
-		case SKILL_SLEIGHT_OF_HAND: sSkill = "SleightOfHand"; break;
-		case SKILL_SEARCH: sSkill = "Search"; break;
-		case SKILL_SPELLCRAFT: sSkill = "Spellcraft"; break;
-		case SKILL_SPOT: sSkill = "Spot"; break;
-		case SKILL_USE_MAGIC_DEVICE: sSkill = "UseMagicDevice"; break;
-		case SKILL_APPRAISE: sSkill = "Appraise"; break;
-		case SKILL_TUMBLE: sSkill = "Tumble"; break;
-		case SKILL_BLUFF: sSkill = "Bluff"; break;
-		case SKILL_INTIMIDATE: sSkill = "Intimidate"; break;
-		case SKILL_RIDE: sSkill = "Ride"; break;
-		case SKILL_SURVIVAL: sSkill = "Survival"; break;
-		case SKILL_BALANCE: sSkill = "Balance"; break;
-		case SKILL_CLIMB: sSkill = "Climb"; break;
-		case SKILL_DECIPHER_SCRIPT: sSkill = "DecipherScript"; break;
-		case SKILL_KNOWLEDGE_DUNGEONEERING: sSkill = "Knowledge(dungeoneering)"; break;
-		case SKILL_DISGUISE: sSkill = "Disguise"; break;
-		case SKILL_ESCAPE_ARTIST: sSkill = "EscapeArtist"; break;
-		case SKILL_FORGERY: sSkill = "Forgery"; break;
-		case SKILL_GATHER_INFORMATION: sSkill = "GatherInformation"; break;
-		case SKILL_HANDLE_ANIMAL: sSkill = "HandleAnimal"; break;
-		case SKILL_JUMP: sSkill = "Jump"; break;
-		case SKILL_KNOWLEDGE_ARCANA: sSkill = "Knowledge(arcana)"; break;
-		case SKILL_KNOWLEDGE_HISTORY: sSkill = "Knowledge(history)"; break;
-		case SKILL_KNOWLEDGE_NATURE: sSkill = "Knowledge(nature)"; break;
-		case SKILL_KNOWLEDGE_RELIGION: sSkill = "Knowledge(religion)"; break;
-		case SKILL_KNOWLEDGE_THE_PLANES: sSkill = "Knowledge(theplanes)"; break;
-		case SKILL_PERFORM_ACT: sSkill = "Perform(act)"; break;
-		case SKILL_PERFORM_DANCE: sSkill = "Perform(dance)"; break;
-		case SKILL_PERFORM_ORATORY: sSkill = "Perform(oratory)"; break;
-		case SKILL_PERFORM_STRING_INSTRUMENTS: sSkill = "Perform(string instruments)"; break;
-		case SKILL_PERFORM_SING: sSkill = "Perform(sing)"; break;
-		case SKILL_PROFESSION: sSkill = "Profession"; break;
-		case SKILL_SENSE_MOTIVE: sSkill = "SenseMotive"; break;
-		case SKILL_SPEAK_LANGUAGE: sSkill = "SpeakLanguage"; break;
-		case SKILL_SWIM: sSkill = "Swim"; break;
-		case SKILL_USE_ROPE: sSkill = "UseRope"; break;
-		case SKILL_KNOWLEDGE_GEOGRAPHY: sSkill = "Knowledge(geography)"; break;
-		case SKILL_KNOWLEDGE_NOBILITY: sSkill = "Knowledge(nobility)"; break;
-		case SKILL_KNOWLEDGE_ENGINEERING: sSkill = "Knowledge(engineering)"; break;
-		case SKILL_KNOWLEDGE_LOCAL: sSkill = "Knowledge(local)"; break;
-		case SKILL_PERFORM_PERCUSSION: sSkill = "Perform(percussion)"; break;
-		case SKILL_PERFORM_KEYBOARD: sSkill = "Perform(keyboards)"; break;
-		case SKILL_PERFORM_WIND_INSTRUMENTS: sSkill = "Perform(wind instruments)"; break;
-		case SKILL_PERFORM_COMEDY: sSkill = "Perform(comedy)"; break;
-		case SKILL_CRAFT__ALCHEMY: sSkill = "Craft(Alchemy)"; break;
-		case SKILL_CRAFT_ARMORSMITHING: sSkill = "Craft(Armorsmithing)"; break;
-		case SKILL_CRAFT_BOWMAKING: sSkill = "Craft(Bowmaking)"; break;
-		case SKILL_CRAFT_WEAPONSMITHING: sSkill = "Craft(Weaponsmithing)"; break;
+	nRank = GetAbilityModifier(nStatID, oPC) + nModifier;
+
+	// return roll
+
+	return _HandleRoll(oPC, sStat, nRank, nDC, bShowRoll, bBroadcast);
+}
+
+
+int ACR_SaveCheck(int nSaveID, object oPC, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0)
+{
+	int nRank;
+	string sSave;
+
+	sSave = _SaveIdToString(sSaveID);
+
+	switch (nSaveID) {
+		case SAVING_THROW_WILL:
+			nRank = GetWillSavingThrow(oPC);
+			break;
+		case SAVING_THROW_REFLEX:
+			nRank = GetReflexSavingThrow(oPC);
+			break;
+		case SAVING_THROW_FORT:
+			nRank = GetFortitudeSavingThrow(oPC);
+			break;
 	}
+	nRank += nModifier;
+
+	// TODO: handle extra save bonuses by examining all effects
+
+	// return roll
+
+	return _HandleRoll(oPC, sSave, nRank, nDC, bShowRoll, bBroadcast);
+}
+
+
+int ACR_SkillCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0)
+{
+	int nBaseRank,nModifiedRank,bUntrained=FALSE;
+	string sSkill;
+
+	sSkill = _SkillIdToString(sSkillID);
+	nBaseRank = GetSkillRank(nSkillID, oPC, TRUE);
 
 	if (nBaseRank < 1) {
 		// Skill is being attempted untrained, check for autofail
-		if ((nSkillID == 2) || (nSkillID == 9) || (nSkillID == 13) || (nSkillID == 16) || (nSkillID == 19) || (nSkillID == 21) || (nSkillID == 32) || (nSkillID == 33) || (nSkillID == 38) || (nSkillID == 16) || ((nSkillID >= 40) && (nSkillID <= 44)) || (nSkillID == 50) || (nSkillID == 52) || ((nSkillID >= 55) && (nSkillID <= 59))) {
-			// Skill is not usable untrained.  Report if appropriate, and return FALSE
-			if (bShowRoll) { SendMessageToPC(oPC, "ACR Skills: Use of this skill requires training."); }
-			return FALSE;
+		switch (sSkillID) {
+			case SKILL_DISABLE_TRAP:
+			case SKILL_OPEN_LOCK:
+			case SKILL_SLEIGHT_OF_HAND:
+			case SKILL_SPELLCRAFT:
+			case SKILL_USE_MAGIC_DEVICE:
+			case SKILL_TUMBLE:
+			case SKILL_DECIPHER_SCRIPT:
+			case SKILL_KNOWLEDGE_DUNGEONEERING:
+			case SKILL_HANDLE_ANIMAL:
+			case SKILL_KNOWLEDGE_ARCANA:
+			case SKILL_KNOWLEDGE_HISTORY:
+			case SKILL_KNOWLEDGE_NATURE:
+			case SKILL_KNOWLEDGE_RELIGION:
+			case SKILL_KNOWLEDGE_THE_PLANES:
+			case SKILL_PROFESSION:
+			case SKILL_SPEAK_LANGUAGE:
+			case SKILL_KNOWLEDGE_GEOGRAPHY:
+			case SKILL_KNOWLEDGE_NOBILITY:
+			case SKILL_KNOWLEDGE_ENGINEERING:
+			case SKILL_KNOWLEDGE_LOCAL:
+				// Skill is not usable untrained.  Report if appropriate, and return FALSE
+				bUntrained = TRUE;
+			default:
 		}
 	}
-	// Apply any circumstance or synergy modifiers here.
-	if (nSkillID == SKILL_BALANCE) {
-		if (GetSkillRank(SKILL_TUMBLE, oPC, TRUE) >= 5) {
-			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Tumble ranks"); }
-			nModifiedRank = nModifiedRank+2;
-		}
-	} else if (nSkillID == SKILL_CLIMB) {
-		if (GetRacialType(oPC) == RACIAL_TYPE_HALFLING) {
-			if (bShowRoll) { SendMessageToPC(oPC, "Racial bonus applied from halfling heritage"); }
-			nModifiedRank = nModifiedRank+2;		
-		}
-	} else if (nSkillID == SKILL_DIPLOMACY) {
-		// Diplomacy is synergized by Race:HalfElf, Bluff, Knowledge(Nobility), and Sense Motive.
-		if (GetSkillRank(SKILL_BLUFF, oPC, TRUE) >= 5) {
-			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Bluff ranks"); }
-			nModifiedRank = nModifiedRank+2;
-		}
-		if (GetSkillRank(SKILL_KNOWLEDGE_NOBILITY, oPC, TRUE) >= 5) {
-			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Knowledge (Nobility) ranks"); }
-			nModifiedRank = nModifiedRank+2;
-		}
-		if (GetSkillRank(SKILL_SENSE_MOTIVE, oPC, TRUE) >= 5) {
-			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Sense Motive ranks"); }
-			nModifiedRank = nModifiedRank+2;
-		}
-	} else if (nSkillID == SKILL_GATHER_INFORMATION) {
-		if (GetSkillRank(SKILL_KNOWLEDGE_LOCAL, oPC, TRUE) >= 5) {
-			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Knowledge(Local) ranks"); }
-			nModifiedRank = nModifiedRank+2;
-		}
-		if (GetSubRace(oPC) == RACIAL_SUBTYPE_HALFELF) {
-			if (bShowRoll) { SendMessageToPC(oPC, "Racial bonus applied from half-elven heritage"); }
-			nModifiedRank = nModifiedRank+2;		
-		}
-	} else if (nSkillID == SKILL_INTIMIDATE) {
-		if (GetSkillRank(SKILL_BLUFF, oPC, TRUE) >= 5) {
-			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Bluff ranks"); }
-			nModifiedRank = nModifiedRank+2;
-		}
-	} else if (nSkillID == SKILL_JUMP) {
-		if (GetSkillRank(SKILL_TUMBLE, oPC, TRUE) >= 5) {
-			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Tumble ranks"); }
-			nModifiedRank = nModifiedRank+2;
-		}
-		if (GetRacialType(oPC) == RACIAL_TYPE_HALFLING) {
-			if (bShowRoll) { SendMessageToPC(oPC, "Racial bonus applied from halfling heritage"); }
-			nModifiedRank = nModifiedRank+2;		
-		}
-	} else if (nSkillID == SKILL_KNOWLEDGE_NATURE) {
-		if (GetSkillRank(SKILL_SURVIVAL, oPC, TRUE) >= 5) {
-			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Survival ranks"); }
-			nModifiedRank = nModifiedRank+2;
-		}
-	} else if (nSkillID == SKILL_RIDE) {
-		if (GetSkillRank(SKILL_HANDLE_ANIMAL, oPC, TRUE) >= 5) {
-			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Handle Animal ranks"); }
-			nModifiedRank = nModifiedRank+2;
-		}
-	} else if (nSkillID == SKILL_SLEIGHT_OF_HAND) {
-		if (GetSkillRank(SKILL_BLUFF, oPC, TRUE) >= 5) {
-			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Bluff ranks"); }
-			nModifiedRank = nModifiedRank+2;
-		}
-	} else if (nSkillID == SKILL_SPELLCRAFT) {
-		if (GetSkillRank(SKILL_KNOWLEDGE_ARCANA, oPC, TRUE) >= 5) {
-			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Knowledge(Arcana) ranks"); }
-			nModifiedRank = nModifiedRank+2;
-		}
-	} else if (nSkillID == SKILL_SURVIVAL) {
-		// Survival is synergized by Dungeoneering when underground, and Knowledge(Nature) when aboveground/Natural.
-		if (!GetIsAreaAboveGround(GetArea(oPC))) {
-			if (GetSkillRank(SKILL_KNOWLEDGE_DUNGEONEERING, oPC, TRUE) >= 5) {
-				if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Knowledge(Dungeoneering) ranks"); }
-				nModifiedRank = nModifiedRank+2;
-			}
-		} else if (GetIsAreaNatural(GetArea(oPC))) {
-			if (GetSkillRank(SKILL_KNOWLEDGE_NATURE, oPC, TRUE) >= 5) {
-				if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Knowledge(Nature) ranks"); }
-				nModifiedRank = nModifiedRank+2;
-			}
-		}
-	} else if (nSkillID == SKILL_TUMBLE) {
-		if (GetSkillRank(SKILL_JUMP, oPC, TRUE) >= 5) {
-			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Jump ranks"); }
-			nModifiedRank = nModifiedRank+2;
-		}	
-	}
-	// on to the roll itself.
-	int nRoll = d20();
-	int nResult = nRoll + nModifiedRank + nModifier;
+
+	nModifiedRank = GetSkillRank(nSkillID, oPC, FALSE) + _LookupSynergy(nSkillID, oPC) + nModifier;
+
+	// return roll
+
+	return _HandleRoll(oPC, sSkill, nModifiedRank, nDC, bShowRoll, bBroadcast, bUntrained);
+}
+
+
+int ACR_SimpleRoll(object oPC, int nNum, int nType, int bShowRoll=FALSE, int bBroadcast=FALSE)
+{
+	string sMsg;
+	int i,res=nNum;
+
+	for (i=0; i<nNum; ++i)
+		res += Random(nType);
+
+	sMsg = _FormatSimpleRoll(GetName(oPC),IntToString(nNum),IntToString(nType),IntToString(res));
+
+	// Show everyone in a TALK
+	if (bBroadcast) 
+		_SendRollMessage(oPC, sMsg);
+	// Show only player+DM
+	else if (bShowRoll) 
+		_SendRollMessage(oPC, sMsg, TRUE);
+
+	return res;
+}
+
+
+int _HandleRoll(object oPC, string sSkill, int nModifier, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int bUntrained=FALSE)
+{
+	int nRoll, bResult = FALSE;
+	string sMsg;
+
+	nRoll = d20();
+
+	if (!bUntrained)
+		bResult = (nRoll + nModifiedRank) >= nDC;
+
+	sMsg = _FormatCheck(sSkill, nRoll, nModifiedRank, GetName(oPC), nDC, bUntrained);
 	
-	sMsg = _Colorize("ACR Skill ",sColor)+sSkill+_Colorize(": Rolled a ",sColor)+IntToString(nRoll)+_Colorize(" + "+IntToString(nModifiedRank)+" modified skill ranks, total = ",sColor)+IntToString(nResult)+".";
+	// openended check
 	if (nDC == 0) {
-		//openended check
-		if (bBroadcast) {
-			SendChatMessage(oPC, oPC, CHAT_MODE_TALK, sMsg, FALSE);
-		}
-		else if (bShowRoll) {
-			SendMessageToPC(oPC, sMsg);
-		}
-		_BroadcastToDMs("[" + GetName(oPC) + "]" + sMsg);
-		return nResult;
+		// Show everyone in a TALK
+		if (bBroadcast) 
+			_SendRollMessage(oPC, sMsg);
+		// Show only player+DM
+		else if (bShowRoll) 
+			_SendRollMessage(oPC, sMsg, TRUE);
+		
+		return bResult;
 	}
-	if (nResult >= nDC) {
-		if (bShowRoll) {
-			SendMessageToPC(oPC, sMsg+"; SUCCESSFUL.");
-		}
-		return TRUE;
-	}
-	else {
-		if (bShowRoll) {
-			SendMessageToPC(oPC, sMsg+"; FAILED.");
-		}
-		return FALSE;
-	}
-}
 
-void _BroadcastToDMs(string sText)
-{
-	object pc = GetFirstPC();
-	while (GetIsObjectValid(pc)) {
-		if (GetIsDM(pc))
-			SendMessageToPC(pc, sText);
+	// dc (scripted) check, only show player
+	if (bShowRoll) 
+		SendMessageToPC(oPC, sMsg);
+		
 
-		pc = GetNextPC();
-	}
-}
-
-string _Colorize(string sText, string sColor)
-{
-	return "<color=#"+sColor+">"+sText+"</c>";
+	return bResult;
 }
 
 //credit to demux
@@ -831,6 +785,269 @@ int _IsClassSkill(int nSkill, object oTarget) {
 	return StringToInt(Get2DAString(sClassSkill2da, "ClassSkill", nSkill));
 }
 
+
+string _StatIdToString(int nStatID)
+{
+	string sSave = "INVALID STAT"
+
+	switch (nStatID) {
+		case ABLITY_STRENGTH: sSkill = "Strength"; break;
+		case ABLITY_DEXTERITY: sSkill = "Dexterity"; break;
+		case ABLITY_CONSTITUTION: sSkill = "Constitution"; break;
+		case ABLITY_INTELLIGENCE: sSkill = "Intelligence"; break;
+		case ABLITY_WISDOM: sSkill = "Wisdom"; break;
+		case ABLITY_CHARISMA: sSkill = "Charisma"; break;
+	}
+
+	return sStat;
+}
+
+
+string _SaveIdToString(int nSaveID)
+{
+	string sSave = "INVALID SAVE"
+
+	switch (nSaveID) {
+		case SAVING_THROW_FORT: sSkill = "Fortitude"; break;
+		case SAVING_THROW_REFLEX: sSkill = "Reflex"; break;
+		case SAVING_THROW_WILL: sSkill = "Will"; break;
+	}
+
+	return sSave;
+}
+
+
+string _SkillIdToString(int nSkillID)
+{
+	string sSkill = "INVALID SKILL";
+
+	switch (nSkillID) {
+		case SKILL_CONCENTRATION: sSkill = "Concentration"; break;
+		case SKILL_DISABLE_TRAP: sSkill = "Disable Device"; break;
+		case SKILL_HEAL: sSkill = "Heal"; break;
+		case SKILL_HIDE: sSkill = "Hide"; break;
+		case SKILL_LISTEN: sSkill = "Listen"; break;
+		case SKILL_MOVE_SILENTLY: sSkill = "Move Silently"; break;
+		case SKILL_OPEN_LOCK: sSkill = "Open Lock"; break;
+		case SKILL_PARRY: sSkill = "Parry"; break;
+		case SKILL_DIPLOMACY: sSkill = "Diplomacy"; break;
+		case SKILL_SLEIGHT_OF_HAND: sSkill = "Sleight of Hand"; break;
+		case SKILL_SEARCH: sSkill = "Search"; break;
+		case SKILL_SPELLCRAFT: sSkill = "Spellcraft"; break;
+		case SKILL_SPOT: sSkill = "Spot"; break;
+		case SKILL_USE_MAGIC_DEVICE: sSkill = "Use Magic Device"; break;
+		case SKILL_APPRAISE: sSkill = "Appraise"; break;
+		case SKILL_TUMBLE: sSkill = "Tumble"; break;
+		case SKILL_BLUFF: sSkill = "Bluff"; break;
+		case SKILL_INTIMIDATE: sSkill = "Intimidate"; break;
+		case SKILL_RIDE: sSkill = "Ride"; break;
+		case SKILL_SURVIVAL: sSkill = "Survival"; break;
+		case SKILL_BALANCE: sSkill = "Balance"; break;
+		case SKILL_CLIMB: sSkill = "Climb"; break;
+		case SKILL_DECIPHER_SCRIPT: sSkill = "Decipher Script"; break;
+		case SKILL_KNOWLEDGE_DUNGEONEERING: sSkill = "Knowledge (dungeoneering)"; break;
+		case SKILL_DISGUISE: sSkill = "Disguise"; break;
+		case SKILL_ESCAPE_ARTIST: sSkill = "Escape Artist"; break;
+		case SKILL_FORGERY: sSkill = "Forgery"; break;
+		case SKILL_GATHER_INFORMATION: sSkill = "Gather Information"; break;
+		case SKILL_HANDLE_ANIMAL: sSkill = "Handle Animal"; break;
+		case SKILL_JUMP: sSkill = "Jump"; break;
+		case SKILL_KNOWLEDGE_ARCANA: sSkill = "Knowledge (arcana)"; break;
+		case SKILL_KNOWLEDGE_HISTORY: sSkill = "Knowledge (history)"; break;
+		case SKILL_KNOWLEDGE_NATURE: sSkill = "Knowledge (nature)"; break;
+		case SKILL_KNOWLEDGE_RELIGION: sSkill = "Knowledge (religion)"; break;
+		case SKILL_KNOWLEDGE_THE_PLANES: sSkill = "Knowledge (the planes)"; break;
+		case SKILL_PERFORM_ACT: sSkill = "Perform (act)"; break;
+		case SKILL_PERFORM_DANCE: sSkill = "Perform (dance)"; break;
+		case SKILL_PERFORM_ORATORY: sSkill = "Perform (oratory)"; break;
+		case SKILL_PERFORM_STRING_INSTRUMENTS: sSkill = "Perform (string instruments)"; break;
+		case SKILL_PERFORM_SING: sSkill = "Perform (sing)"; break;
+		case SKILL_PROFESSION: sSkill = "Profession"; break;
+		case SKILL_SENSE_MOTIVE: sSkill = "Sense Motive"; break;
+		case SKILL_SPEAK_LANGUAGE: sSkill = "Speak Language"; break;
+		case SKILL_SWIM: sSkill = "Swim"; break;
+		case SKILL_USE_ROPE: sSkill = "Use Rope"; break;
+		case SKILL_KNOWLEDGE_GEOGRAPHY: sSkill = "Knowledge (geography)"; break;
+		case SKILL_KNOWLEDGE_NOBILITY: sSkill = "Knowledge (nobility)"; break;
+		case SKILL_KNOWLEDGE_ENGINEERING: sSkill = "Knowledge (engineering)"; break;
+		case SKILL_KNOWLEDGE_LOCAL: sSkill = "Knowledge (local)"; break;
+		case SKILL_PERFORM_PERCUSSION: sSkill = "Perform (percussion)"; break;
+		case SKILL_PERFORM_KEYBOARD: sSkill = "Perform (keyboards)"; break;
+		case SKILL_PERFORM_WIND_INSTRUMENTS: sSkill = "Perform (wind instruments)"; break;
+		case SKILL_PERFORM_COMEDY: sSkill = "Perform (comedy)"; break;
+		case SKILL_CRAFT__ALCHEMY: sSkill = "Craft (alchemy)"; break;
+		case SKILL_CRAFT_ARMORSMITHING: sSkill = "Craft (Armorsmithing)"; break;
+		case SKILL_CRAFT_BOWMAKING: sSkill = "Craft (bowmaking)"; break;
+		case SKILL_CRAFT_WEAPONSMITHING: sSkill = "Craft (weaponsmithing)"; break;
+	}
+	return sSkill;
+}
+
+int _LookupSynergy(int nSkillID, object oPC)
+{
+	int nModifiedRank = 0;
+
+	// Apply any circumstance or synergy modifiers here.
+	switch (nSkillID) {
+	case SKILL_BALANCE:
+		if (GetSkillRank(SKILL_TUMBLE, oPC, TRUE) >= 5) {
+			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Tumble ranks"); }
+			nModifiedRank += 2;
+		}
+		break;
+	case SKILL_CLIMB:
+		if (GetRacialType(oPC) == RACIAL_TYPE_HALFLING) {
+			if (bShowRoll) { SendMessageToPC(oPC, "Racial bonus applied from halfling heritage"); }
+			nModifiedRank += 2;		
+		}
+		break;
+	case SKILL_DIPLOMACY:
+		// Diplomacy is synergized by Race:HalfElf, Bluff, Knowledge(Nobility), and Sense Motive.
+		if (GetSkillRank(SKILL_BLUFF, oPC, TRUE) >= 5) {
+			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Bluff ranks"); }
+			nModifiedRank += 2;
+		}
+		if (GetSkillRank(SKILL_KNOWLEDGE_NOBILITY, oPC, TRUE) >= 5) {
+			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Knowledge (Nobility) ranks"); }
+			nModifiedRank += 2;
+		}
+		if (GetSkillRank(SKILL_SENSE_MOTIVE, oPC, TRUE) >= 5) {
+			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Sense Motive ranks"); }
+			nModifiedRank += 2;
+		}
+		break;
+	case SKILL_GATHER_INFORMATION:
+		if (GetSkillRank(SKILL_KNOWLEDGE_LOCAL, oPC, TRUE) >= 5) {
+			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Knowledge(Local) ranks"); }
+			nModifiedRank += 2;
+		}
+		if (GetSubRace(oPC) == RACIAL_SUBTYPE_HALFELF) {
+			if (bShowRoll) { SendMessageToPC(oPC, "Racial bonus applied from half-elven heritage"); }
+			nModifiedRank += 2;		
+		}
+		break;
+	case SKILL_INTIMIDATE:
+		if (GetSkillRank(SKILL_BLUFF, oPC, TRUE) >= 5) {
+			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Bluff ranks"); }
+			nModifiedRank += 2;
+		}
+		break;
+	case SKILL_JUMP:
+		if (GetSkillRank(SKILL_TUMBLE, oPC, TRUE) >= 5) {
+			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Tumble ranks"); }
+			nModifiedRank += 2;
+		}
+		if (GetRacialType(oPC) == RACIAL_TYPE_HALFLING) {
+			if (bShowRoll) { SendMessageToPC(oPC, "Racial bonus applied from halfling heritage"); }
+			nModifiedRank += 2;		
+		}
+		break;
+	case SKILL_KNOWLEDGE_NATURE:
+		if (GetSkillRank(SKILL_SURVIVAL, oPC, TRUE) >= 5) {
+			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Survival ranks"); }
+			nModifiedRank += 2;
+		}
+		break;
+	case SKILL_RIDE:
+		if (GetSkillRank(SKILL_HANDLE_ANIMAL, oPC, TRUE) >= 5) {
+			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Handle Animal ranks"); }
+			nModifiedRank += 2;
+		}
+		break;
+	case SKILL_SLEIGHT_OF_HAND:
+		if (GetSkillRank(SKILL_BLUFF, oPC, TRUE) >= 5) {
+			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Bluff ranks"); }
+			nModifiedRank += 2;
+		}
+		break;
+	case SKILL_SPELLCRAFT:
+		if (GetSkillRank(SKILL_KNOWLEDGE_ARCANA, oPC, TRUE) >= 5) {
+			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Knowledge(Arcana) ranks"); }
+			nModifiedRank += 2;
+		}
+		break;
+	case SKILL_SURVIVAL:
+		// Survival is synergized by Dungeoneering when underground, and Knowledge(Nature) when aboveground/Natural.
+		if (!GetIsAreaAboveGround(GetArea(oPC))) {
+			if (GetSkillRank(SKILL_KNOWLEDGE_DUNGEONEERING, oPC, TRUE) >= 5) {
+				if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Knowledge(Dungeoneering) ranks"); }
+				nModifiedRank += 2;
+			}
+		} else if (GetIsAreaNatural(GetArea(oPC))) {
+			if (GetSkillRank(SKILL_KNOWLEDGE_NATURE, oPC, TRUE) >= 5) {
+				if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Knowledge(Nature) ranks"); }
+				nModifiedRank += 2;
+			}
+		}
+		break;
+	case SKILL_TUMBLE:
+		if (GetSkillRank(SKILL_JUMP, oPC, TRUE) >= 5) {
+			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Jump ranks"); }
+			nModifiedRank += 2;
+		}
+		break;
+	}
+	return nModifiedRank;
+}
+
+
+string _FormatSimpleRoll(string sName, string sNum, string sType, string sResult)
+{
+	string sMsg = "";
+	
+	sMsg += Colorize(sName, CHECK_COLOUR1) + Colorize(" : ", CHECK_COLOUR2);
+
+	sMsg += Colorize(sNum+"d"+sType+" : ", CHECK_COLOUR2);
+
+	sMsg += Colorize(sResult, CHECK_COLOUR2);
+
+	return sMsg;
+}
+
+
+string _FormatCheck(string sSkill, int nRoll, int nMod, string sName="", int nDc=0, int bUntrained=FALSE)
+{
+	string sMsg = "",sRes = "success";
+	
+	if (((nRoll+nMod) < dc) || bUntrained)
+		sRes = "failure";
+		
+	if (sName != "")
+		sMsg += Colorize(sName, CHECK_COLOUR1) + Colorize(" : ", CHECK_COLOUR2);
+
+	sMsg += Colorize(sSkill+" : *"+sRes+"* : ", CHECK_COLOUR2);
+
+	if (bUntrained)
+		sMsg += Colorize("Skill requires training to use.", CHECK_COLOUR2);
+	else
+		sMsg += Colorize("(" + IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nRoll+nMod), CHECK_COLOUR2);
+
+	if (!bUntrained) {
+		if (nDC > 0)
+			sMsg += Colorize(" vs. DC: "+IntToString(nDc), CHECK_COLOUR2);
+
+		sMsg += Colorize(")", CHECK_COLOUR2);
+	}
+
+	return sMsg;
+}
+
+
+void _SendRollMessage(object oPC, string sMsg, int bPrivate=FALSE)
+{
+	location loc = GetLocation(oPC);
+	object o;
+
+	BroadcastToDMs(sMsg);
+
+	if (bPrivate) {
+		SendMessageToPC(oPC, sMsg);
+		return;
+	}
+
+	for (o = GetFirstObjectInShape(SHAPE_SPHERE, 20.0f, loc); GetIsObjectValid(o); o = GetNextObjectInShape(SHAPE_SPHERE, 20.0f, loc))
+		SendMessageToPC(o, sMsg);
+}
 
 int ACR_SkillsCheckIsPCAdapted(object oPC) {
 	

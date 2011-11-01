@@ -174,6 +174,17 @@ int ACR_GetModuleStatus(int nStatus);
 //! - returns: Nothing
 void ACR_SetModuleStatus(int nStatus);
 
+// Private
+
+//! Parse a roll command
+void _ParseRoll(object pc, string cmd);
+
+//! Parse a new language
+void _ParseLang(object pc, string text);
+
+//! Parse a new language
+void _HandleLang(object pc, string text, string lang);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -669,1059 +680,893 @@ void ACR_ModuleOnCutsceneAbort() {
 
 int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 {
-	//iterate the RPXP function to indicate an active PC
+	int len;
+	string sMessage, sCommand, c, sLangPick;
+
+	// iterate the RPXP function to indicate an active PC
 	SetLocalInt(oSpeaker, _RPXP_ACTIVITY, TRUE);
 
-	if(GetStringLeft(sText, 1) == "#")
-	{
-		string sCommand = GetStringLowerCase(sText);
-		
-		string sMessage = "";
-		
-		if(sCommand == "#fort" || sCommand == "#fortitude")
-		{
-			int nRoll = d20();
-			int nMod = GetFortitudeSavingThrow(oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Fortitude Save : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#ref" || sCommand == "#reflex")
-		{
-			int nRoll = d20();
-			int nMod = GetReflexSavingThrow(oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Reflex Save : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#will")
-		{
-			int nRoll = d20();
-			int nMod = GetWillSavingThrow(oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Will Save : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#str" || sCommand == "#strength")
-		{
-			int nRoll = d20();
-			int nMod = GetAbilityModifier(ABILITY_STRENGTH, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Strength Check : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#dex" || sCommand == "#dexterity")
-		{
-			int nRoll = d20();
-			int nMod = GetAbilityModifier(ABILITY_DEXTERITY, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Dexterity Check : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#con" || sCommand == "#constitution")
-		{
-			int nRoll = d20();
-			int nMod = GetAbilityModifier(ABILITY_CONSTITUTION, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Constitution Check : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#int" || sCommand == "#intelligence")
-		{
-			int nRoll = d20();
-			int nMod = GetAbilityModifier(ABILITY_INTELLIGENCE, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Intelligence Check : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#wis" || sCommand == "#wisdom")
-		{
-			int nRoll = d20();
-			int nMod = GetAbilityModifier(ABILITY_WISDOM, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Wisdom Check : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#cha" || sCommand == "#charisma")
-		{
-			int nRoll = d20();
-			int nMod = GetAbilityModifier(ABILITY_CHARISMA, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Charisma Check : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#app" || sCommand == "#appraise")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(SKILL_APPRAISE, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Appraise : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#bal" || sCommand == "#balance")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(30, oSpeaker); // balance
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Balance : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#bluff")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(SKILL_BLUFF, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Bluff : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#climb")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(31, oSpeaker); // climb
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Climb : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#con" || sCommand == "#concentration")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(SKILL_CONCENTRATION, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Concentration : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#alch" || sCommand == "#alchemy" || sCommand == "#craft alchemy" || sCommand == "#craft (alchemy)" || sCommand == "#craft: alchemy")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(64, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Craft (Alchemy) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#arm" || sCommand == "#armor" || sCommand == "#craft armor" || sCommand == "#craft (armor)" || sCommand == "#craft: armor")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(65, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Craft (Armorer) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#bowyer" || sCommand == "#craft bow" || sCommand == "#craft (bow)" || sCommand == "#craft: bow")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(66, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Craft (Bowyer) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#weap" || sCommand == "#weapon" || sCommand == "#craft weapon" || sCommand == "#craft (weapon)" || sCommand == "#craft: weapon")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(67, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Craft (Weaponsmith) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#script" || sCommand == "#decipher" || sCommand == "#decipher script")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(32, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Decipher Script : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#dip" || sCommand == "#diplo" || sCommand == "#diplomacy")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(SKILL_DIPLOMACY, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Diplomacy : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#trap" || sCommand == "#disarm" || sCommand == "#disable" || sCommand == "#disable device" || sCommand == "#dd")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(SKILL_DISABLE_TRAP, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Disable Device : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#disguise")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(34, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Disguise : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#escape" || sCommand == "#escape artist")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(35, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Escape Artist : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#forge" || sCommand == "#forgery")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(36, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Forgery : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#gather" || sCommand == "#information" || sCommand == "#info" || sCommand == "#gather info" || sCommand == "#gather information")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(37, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Gather Information : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#handle animal")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(38, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Handle Animal : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#heal")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(SKILL_HEAL, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Heal : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#hide")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(SKILL_HIDE, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Hide : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#jump")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(39, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Jump : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#arc" || sCommand == "#arcana" || sCommand == "#knowledge arcana" || sCommand == "#knowledge (arcana)" || sCommand == "#knowledge: arcana")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(40, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (Arcana) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#arch" || sCommand == "#architect" || sCommand == "#knowledge arch" || sCommand == "#knowledge (architecture and engineering)" || sCommand == "#knowledge: architecture and engineering")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(58, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (Architecture and Engineering) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#dung" || sCommand == "#dungeon" || sCommand == "#knowledge dungeoneering" || sCommand == "#knowledge (dungeoneering)" || sCommand == "#knowledge: dungeoneering")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(33, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (Dungeoneering) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#geo" || sCommand == "#geography" || sCommand == "#knowledge geography" || sCommand == "#knowledge (geography)" || sCommand == "#knowledge: geography")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(55, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (Geography) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#hist" || sCommand == "#history" || sCommand == "#knowledge history" || sCommand == "#knowledge (history)" || sCommand == "#knowledge: history")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(41, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (History) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#local" || sCommand == "#knowledge local" || sCommand == "#knowledge (local)" || sCommand == "#knowledge: local")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(59, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (Local) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#nat" || sCommand == "#nature" || sCommand == "#knowledge nature" || sCommand == "#knowledge (nature)" || sCommand == "#knowledge: nature")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(42, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (Nature) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#nob" || sCommand == "#nobility" || sCommand == "#knowledge nobility" || sCommand == "#knowledge (nobility and royalty)" || sCommand == "#knowledge: nobility and royalty")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(42, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (Nature) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#rel" || sCommand == "#religion" || sCommand == "#knowledge religion" || sCommand == "#knowledge (religion)" || sCommand == "#knowledge: religion")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(43, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (Religion) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#planes" || sCommand == "#the planes" || sCommand == "#knowledge planes" || sCommand == "#knowledge (the planes)" || sCommand == "#knowledge: the planes")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(44, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Knowledge (The Planes) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#list" || sCommand == "#listen")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(SKILL_LISTEN, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Listen : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#ms" || sCommand == "#sneak" || sCommand == "#move silently")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(SKILL_MOVE_SILENTLY, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Move Silently : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#ol" || sCommand == "#lock" || sCommand == "#open lock" || sCommand == "#pick lock" || sCommand == "#open locks")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(SKILL_OPEN_LOCK, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Open Lock : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#parry")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(SKILL_PARRY, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Parry : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#act" || sCommand == "#acting" || sCommand == "#perform acting" || sCommand == "#perform (acting)" || sCommand == "#perform: acting")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(45, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Acting) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#comedy" || sCommand == "#perform comedy" || sCommand == "#perform (comedy)" || sCommand == "#perform: comedy")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(63, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Comedy) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#dance" || sCommand == "#perform dance" || sCommand == "#perform (dance)" || sCommand == "#perform: dance")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(46, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Dance) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#keyboard" || sCommand == "#perform keyboard" || sCommand == "#perform (keyboard)" || sCommand == "#perform: keyboard")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(61, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Keyboard) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#oratory" || sCommand == "#perform oratory" || sCommand == "#perform (oratory)" || sCommand == "#perform: oratory")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(47, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Oratory) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#drums" || sCommand == "#perform drums" || sCommand == "#perform (drums)" || sCommand == "#perform: drums")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(60, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Drums) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#string" || sCommand == "#perform string" || sCommand == "#perform (string)" || sCommand == "#perform: string")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(48, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (String Instruments) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#wind" || sCommand == "#woodwind" || sCommand == "#perform wind" || sCommand == "#perform (wind)" || sCommand == "#perform: wind")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(62, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Wind Instruments) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#sing" || sCommand == "#perform sing" || sCommand == "#perform (sing)" || sCommand == "#perform: sing")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(62, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Sing) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#profession")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(62, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Perform (Sing) : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#ride")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(28, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Ride : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#search")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(SKILL_SEARCH, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Search : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#sense motive" || sCommand == "#sm")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(51, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Sense Motive : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#sleight of hand" || sCommand == "#soh" || sCommand == "#pick pockets" || sCommand == "#pp")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(13, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Sleight of Hands : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#spellcraft" || sCommand == "#sc")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(SKILL_SPELLCRAFT, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Spellcraft : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#spot")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(SKILL_SPOT, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Spot : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#surv" || sCommand == "#survival")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(SKILL_SURVIVAL, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Survival : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#swim")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(53, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Swim : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#tumb" || sCommand == "#tumble")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(SKILL_TUMBLE, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Tumble : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#umd" || sCommand == "#use magic device")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(SKILL_USE_MAGIC_DEVICE, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Use Magic Device : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else if(sCommand == "#use rope")
-		{
-			int nRoll = d20();
-			int nMod = GetSkillRank(54, oSpeaker);
-			int nFinal = nRoll + nMod;
-			sMessage = "<color=#8699D3>"+GetName(oSpeaker)+"</color><color=#203F91> : Use Rope : "+IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nFinal)+".";
-		}
-		else 
-		{
-			SendMessageToPC(oSpeaker, "I don't understand the command: "+sCommand+".");
-			return FALSE;
-		}
-		
+	switch (nMode) {
+		case CHAT_MODE_SERVER:
+		case CHAT_MODE_SHOUT:
+		case CHAT_MODE_SILENT_SHOUT:
+		case CHAT_MODE_TELL:
+			return TRUE;
+	}
 
-		location lSelf = GetLocation(oSpeaker);
-		object oListener = GetFirstObjectInShape(SHAPE_SPHERE, 20.0f, lSelf);
-		while(GetIsObjectValid(oListener))
-		{
-			SendMessageToPC(oListener, sMessage);
-			oListener = GetNextObjectInShape(SHAPE_SPHERE, 20.0f, lSelf);
-		}
-		oListener = GetFirstPC();
-		while(GetIsObjectValid(oListener))
-		{
-			if(GetIsDM(oListener) || GetIsDMPossessed(oListener))
-				SendMessageToPC(oListener, sMessage);
-			oListener = GetNextPC();
-		}
+	len = GetStringLength(sText);
+
+	c = GetStringLeft(sText, 1);
+
+	// roll command
+	if (c == "#" || c == "!")
+	{
+		sCommand = GetStringRight(GetStringLowerCase(sText), len-1);
+		
+		_ParseRoll(oSpeaker, sCommand);
+		
 		return FALSE;
 	}
-	
-	if(nMode == CHAT_MODE_SERVER)
-		return TRUE;
-	if(nMode == CHAT_MODE_SHOUT)
-		return TRUE;
-	if(nMode == CHAT_MODE_SILENT_SHOUT)
-		return TRUE;
-	if(nMode == CHAT_MODE_TELL)
-		return TRUE;
 
-	// for now, this is all we'll place here.
-	string sLangPick = GetLocalString(oSpeaker, "DefaultLanguage");
-	if(GetStringLeft(sText, 1) == "@")
-	{ // the player is attempting to specify a different language.
-		string sNewPick = GetStringLowerCase(GetStringLeft(sText, 4));
+	sLangPick = GetLocalString(oSpeaker, "DefaultLanguage");
+
+	// the player is attempting to specify a different language.
+	if (c == "@") {
+		sLangPick = _ParseLang(oSpeaker, sText);
 		sText = GetStringRight(sText, GetStringLength(sText)-4);
-		if(sNewPick == "@com")
-		{
-			sLangPick = "common";
-		}
-		else if(sNewPick == "@anm")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_ANIMAL) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_ANIMAL;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Animal.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@ass")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_ASSASSIN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_ASSASSIN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Assassin.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@aby")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_ASSASSIN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_ASSASSIN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Abyssal.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@alz")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_ALZHEDO) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_ALZHEDO;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Alzhedo.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@aqu")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_AQUAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_AQUAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Aquan.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@aur")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_AURAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_AURAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Auran.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@alg")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_ALGARONDAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_ALGARONDAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Algarondan.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@can")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_CANT) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_CANT;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Thieves' Cant.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@cel")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_CELESTIAL) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_CELESTIAL;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Celestial.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@che")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_CHESSENTAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_CHESSENTAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Chessentan.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@cho")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_CHONDATHAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_CHONDATHAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Chondathan.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@chu")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_CHULTAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_CHULTAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Chultan.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@dwa")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_DWARF) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_DWARF;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Dwarven.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@dro")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_DROW) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_DROW;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Drow.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@drs")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_DROWSIGN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_DROWSIGN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Drow Sign.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@dru")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_DRUIDIC) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_DRUIDIC;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Druidic.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@dra")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_DRACONIC) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_DRACONIC;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Draconic.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@dam")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_DAMARAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_DAMARAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Damaran.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@dmb")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_DAMBRATHAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_DAMBRATHAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Dambrathan.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@dur")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_DURPARI) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_DURPARI;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Durpari.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@elf")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_ELVEN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_ELVEN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Elven.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@gno")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_GNOME) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_GNOME;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Gnomish.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@gob")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_GOBLIN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_GOBLIN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Goblin.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@gia")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_GIANT) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_GIANT;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Giant.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@gnl")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_GNOLL) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_GNOLL;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Gnoll.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@hlf")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_HALFLING) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_HALFLING;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Halfling.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@ign")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_IGNAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_IGNAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Ignan.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@hdr")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_HALARDRIM) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_HALARDRIM;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Halardrim.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@hlr")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_HALRUAAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_HALRUAAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Halruaan.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@ill")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_ILLUSKAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_ILLUSKAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Illuskan.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@ims")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_IMASKAR) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_IMASKAR;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Imaskar.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@inf")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_INFERNAL) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_INFERNAL;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Infernal.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@l37")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_LEETSPEAK) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_LEETSPEAK;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Leet.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@lan")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_LANTANESE) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_LANTANESE;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Lantanese.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@lor")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_LOROSS) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_LOROSS;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Loross.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@mid")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_MIDANI) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_MIDANI;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Midani.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@mul")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_MULHORANDI) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_MULHORANDI;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Mulhorandi.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@nth")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_NETHERESE) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_NETHERESE;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Netherese.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@rsh")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_RASHEMI) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_RASHEMI;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Rashemi.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@ser")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_SERUSAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_SERUSAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Serusan.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@sha")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_SHAARAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_SHAARAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Sharran.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@sho")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_SHOU) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_SHOU;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Shou.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@syl")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_SYLVAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_SYLVAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Sylvan.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@ter")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_TERRAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_TERRAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Terran.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@tre")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_TREANT) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_TREANT;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Treant.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@tsh")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_TASHALAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_TASHALAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Tashalan.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@tui")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_TUIGAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_TUIGAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Tuigan.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@tur")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_TURMIC) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_TURMIC;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Turmic.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@orc")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_ORC) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_ORC;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Orc.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@nex")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_NEXALAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_NEXALAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Nexalan.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@yti")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_YUANTI) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_YUANTI;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Yuan-Ti.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@und")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_UNDERCOMMON) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_UNDERCOMMON;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Undercommon.");
-				return FALSE;
-			}
-		}
-		if(sNewPick == "@ulu")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_ULUIK) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_ULUIK;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Uluik.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@unt")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_UNTHERIC) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_UNTHERIC;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Untheric.");
-				return FALSE;
-			}
-		}
-		else if(sNewPick == "@vas")
-		{
-			if(_IsLanguageKnown(oSpeaker, LNG_VAASAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-				sLangPick = LNG_VAASAN;
-			else
-			{
-				SendMessageToPC(oSpeaker, "You don't know how to speak Vaasan.");
-				return FALSE;
-			}
-		}
 	}
 	
-	if(sLangPick == "common" || sLangPick == "")
+
+	return _HandleLang(oSpeaker, sText, sLangPick);
+}
+
+
+int ACR_GetModuleStatus(int nStatus) {
+    return (GetLocalInt(GetModule(), ACR_MOD_STATUS) & nStatus);
+}
+
+void ACR_SetModuleStatus(int nStatus) {
+    object oModule = GetModule();
+    SetLocalInt(oModule, ACR_MOD_STATUS, GetLocalInt(oModule, ACR_MOD_STATUS) | nStatus);
+}
+
+int _CompareLeft(string str, string ref)
+{
+	int len = GetStringLength(ref);
+
+	return (GetStringLeft(str,len) == ref);
+}
+
+void _ParseRoll(object pc, string cmd)
+{
+	int b,len,offset,mod = 0;
+	string tmp,text=cmd;
+	
+	// kludge to handle nasty stuff like "craft: "
+	
+	if (TestStringAgainstPattern("(craft|knowledge|perform)**")) {
+
+		tmp = "craft";
+		if (_CompareLeft(cmd,tmp)) {
+			len = GetStringLength(cmd);
+			offset = GetStringLength(tmp);
+
+			cmd = GetStringRight(str,len-offset);
+		}
+		
+		tmp = "knowledge";
+		if (_CompareLeft(cmd,tmp)) {
+			len = GetStringLength(cmd);
+			offset = GetStringLength(tmp);
+
+			cmd = GetStringRight(str,len-offset);
+		}
+
+		tmp = "perform";
+		if (_CompareLeft(cmd,tmp)) {
+			len = GetStringLength(cmd);
+			offset = GetStringLength(tmp);
+
+			cmd = GetStringRight(str,len-offset);
+		}
+
+		// eat characters
+		do {
+			b = _CompareLeft(cmd, " ") + _CompareLeft(cmd, "-") + _CompareLeft(cmd, "(") + _CompareLeft(cmd, ":");
+			
+			// no alterations needed
+			if (!b)
+				break;
+
+			len = GetStringLength(cmd);
+
+			cmd = GetStringRight(str,len-1);
+		} while (b);
+	}
+
+	// saves
+	if (_CompareLeft(cmd,"for")) {
+		ACR_SaveCheck(SAVING_THROW_FORT, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"ref")) {
+		ACR_SaveCheck(SAVING_THROW_REFLEX, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"wil")) {
+		ACR_SaveCheck(SAVING_THROW_WILL, pc, 0, TRUE, TRUE);
+	}
+
+	// initiative
+	else if (_CompareLeft(cmd,"ini")) {
+		// add bonus for improved initiative feat(s)
+		mod += (GetHasFeat(FEAT_IMPROVED_INITIATIVE,pc) ? 4 : 0);
+		mod += (GetHasFeat(FEAT_THUG,pc) ? 2 : 0);
+		mod += (GetHasFeat(FEAT_BLOODIED,pc) ? 2 : 0);
+		
+		ACR_StatCheck(ABILITY_DEXTERITY, pc, 0, TRUE, TRUE, mod);
+	}
+
+	// abilities
+	else if (_CompareLeft(cmd,"str") || cmd == "str") {
+		ACR_StatCheck(ABILITY_STRENGTH, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"dex")) {
+		ACR_StatCheck(ABILITY_DEXTERITY, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"cons") || cmd == "con") { 
+		ACR_StatCheck(ABILITY_CONSTITUTION, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"int")) {
+		ACR_StatCheck(ABILITY_INTELLIGENCE, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"wis")) {
+		ACR_StatCheck(ABILITY_WISDOM, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"cha")) {
+		ACR_StatCheck(ABILITY_CHARISMA, pc, 0, TRUE, TRUE);
+	}
+
+	// skills
+	else if (_CompareLeft(cmd,"app")) {
+		ACR_SkillCheck(SKILL_APPRAISE, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"bal")) {
+		ACR_SkillCheck(SKILL_BALANCE, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"blu")) {
+		ACR_SkillCheck(SKILL_BLUFF, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"cli")) {
+		ACR_SkillCheck(SKILL_CLIMB, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"conc")) {
+		ACR_SkillCheck(SKILL_CONCENTRATION, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"alc")) {
+		ACR_SkillCheck(SKILL_CRAFT__ALCHEMY, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"arm")) {
+		ACR_SkillCheck(SKILL_CRAFT_ARMORSMITHING, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"bow")) {
+		ACR_SkillCheck(SKILL_CRAFT_BOWMAKING, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"wea")) {
+		ACR_SkillCheck(SKILL_CRAFT_WEAPONSMITHING, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"scr") || _CompareLeft(cmd,"dec")) {
+		ACR_SkillCheck(SKILL_DECIPHER_SCRIPT, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"dip")) {
+		ACR_SkillCheck(SKILL_DIPLOMACY, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"tra") || _CompareLeft(cmd,"disa") || cmd == "dd") {
+		ACR_SkillCheck(SKILL_DISABLE_TRAP, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"disg") || cmd == "dis") {
+		ACR_SkillCheck(SKILL_DISGUISE, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"esc") || _CompareLeft(cmd,"art") || cmd == "ea") {
+		ACR_SkillCheck(SKILL_ESCAPE_ARTIST, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"for")) {
+		ACR_SkillCheck(SKILL_FORGERY, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"gat") || _CompareLeft(cmd,"inf") || cmd == "gi") {
+		ACR_SkillCheck(SKILL_GATHER_INFORMATION, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"han")) {
+		ACR_SkillCheck(SKILL_HANDLE_ANIMAL, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"hea")) {
+		ACR_SkillCheck(SKILL_HEAL, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"hid")) {
+		ACR_SkillCheck(SKILL_HIDE, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"jum")) {
+		ACR_SkillCheck(SKILL_JUMP, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"arca") || cmd == "arc") {
+		ACR_SkillCheck(SKILL_KNOWLEDGE_ARCANA, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"arch") || _CompareLeft(cmd,"eng")) {
+		ACR_SkillCheck(SKILL_KNOWLEDGE_ENGINEERING, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"dun")) {
+		ACR_SkillCheck(SKILL_KNOWLEDGE_DUNGEONEERING, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"geo")) {
+		ACR_SkillCheck(SKILL_KNOWLEDGE_GEOGRAPHY, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"his")) {
+		ACR_SkillCheck(SKILL_KNOWLEDGE_NATURE, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"loc")) {
+		ACR_SkillCheck(SKILL_KNOWLEDGE_LOCAL, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"nat")) {
+		ACR_SkillCheck(SKILL_KNOWLEDGE_NATURE, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"nob") || _CompareLeft(cmd,"roy")) {
+		ACR_SkillCheck(SKILL_KNOWLEDGE_NOBILITY, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"rel")) {
+		ACR_SkillCheck(SKILL_KNOWLEDGE_RELIGION, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"pla") || _CompareLeft(cmd,"the p")) {
+		ACR_SkillCheck(SKILL_KNOWLEDGE_THE_PLANES, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"lis")) {
+		ACR_SkillCheck(SKILL_LISTEN, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"mov") || _CompareLeft(cmd,"sne") || cmd == "ms") {
+		ACR_SkillCheck(SKILL_MOVE_SILENTLY, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"pick l") || _CompareLeft(cmd,"loc") || _CompareLeft(cmd,"ope") || cmd == "ol") {
+		ACR_SkillCheck(SKILL_OPEN_LOCK, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"par")) {
+		ACR_SkillCheck(SKILL_PARRY, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"act")) {
+		ACR_SkillCheck(SKILL_PERFORM_ACT, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"com")) {
+		ACR_SkillCheck(SKILL_PERFORM_ACT, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"dan")) {
+		ACR_SkillCheck(SKILL_PERFORM_DANCE, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"key")) {
+		ACR_SkillCheck(SKILL_PERFORM_KEYBOARD, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"ora")) {
+		ACR_SkillCheck(SKILL_PERFORM_ORATORY, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"dru") || _CompareLeft(cmd,"per")) {
+		ACR_SkillCheck(SKILL_PERFORM_PERCUSSION, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"stri") || cmd == "si") {
+		ACR_SkillCheck(SKILL_PERFORM_STRING_INSTRUMENTS, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"win") || _CompareLeft(cmd,"woo") || cmd == "wi") {
+		ACR_SkillCheck(SKILL_PERFORM_WIND_INSTRUMENTS, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"sin")) {
+		ACR_SkillCheck(SKILL_PERFORM_SING, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"pro")) {
+		ACR_SkillCheck(SKILL_PROFESSION, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"rid")) {
+		ACR_SkillCheck(SKILL_RIDE, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"sea")) {
+		ACR_SkillCheck(SKILL_SEARCH, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"sen") || cmd == "sm") {
+		ACR_SkillCheck(SKILL_SENSE_MOTIVE, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"sle") || _CompareLeft(cmd,"pock p") || cmd == "pp" || cmd == "soh") {
+		ACR_SkillCheck(SKILL_SLEIGHT_OF_HAND, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"spe") || cmd == "sc") {
+		ACR_SkillCheck(SKILL_SPELLCRAFT, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"spo")) {
+		ACR_SkillCheck(SKILL_SPOT, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"sur")) {
+		ACR_SkillCheck(SKILL_SURVIVAL, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"swi")) {
+		ACR_SkillCheck(SKILL_SWIM, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"tum")) {
+		ACR_SkillCheck(SKILL_TUMBLE, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"use m") || _CompareLeft(cmd,"mag") || _CompareLeft(cmd,"dev") || cmd == "umd") {
+		ACR_SkillCheck(SKILL_USE_MAGIC_DEVICE, pc, 0, TRUE, TRUE);
+	}
+	else if (_CompareLeft(cmd,"rop") || _CompareLeft(cmd,"use r") || cmd == "ur") {
+		ACR_SkillCheck(SKILL_USE_ROPE, pc, 0, TRUE, TRUE);
+	}
+	else 
+	{
+		SendMessageToPC(oSpeaker, "I don't understand the command \""+text+"\"");
+	}
+}
+
+
+int _ParseLang(object oSpeaker, string sText)
+{
+	string sLandPick, c, sNewPick, sErr;
+
+	sErr = GetLocalString(oSpeaker, "DefaultLanguage");
+	sNewPick = GetStringLowerCase(GetStringLeft(sText, 4));
+
+	if(sNewPick == "@com")
+	{
+		sLangPick = "common";
+	}
+	else if(sNewPick == "@anm")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_ANIMAL) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_ANIMAL;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Animal.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@ass")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_ASSASSIN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_ASSASSIN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Assassin.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@aby")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_ASSASSIN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_ASSASSIN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Abyssal.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@alz")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_ALZHEDO) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_ALZHEDO;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Alzhedo.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@aqu")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_AQUAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_AQUAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Aquan.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@aur")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_AURAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_AURAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Auran.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@alg")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_ALGARONDAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_ALGARONDAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Algarondan.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@can")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_CANT) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_CANT;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Thieves' Cant.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@cel")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_CELESTIAL) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_CELESTIAL;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Celestial.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@che")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_CHESSENTAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_CHESSENTAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Chessentan.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@cho")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_CHONDATHAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_CHONDATHAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Chondathan.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@chu")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_CHULTAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_CHULTAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Chultan.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@dwa")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_DWARF) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_DWARF;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Dwarven.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@dro")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_DROW) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_DROW;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Drow.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@drs")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_DROWSIGN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_DROWSIGN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Drow Sign.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@dru")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_DRUIDIC) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_DRUIDIC;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Druidic.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@dra")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_DRACONIC) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_DRACONIC;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Draconic.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@dam")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_DAMARAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_DAMARAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Damaran.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@dmb")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_DAMBRATHAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_DAMBRATHAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Dambrathan.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@dur")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_DURPARI) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_DURPARI;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Durpari.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@elf")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_ELVEN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_ELVEN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Elven.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@gno")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_GNOME) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_GNOME;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Gnomish.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@gob")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_GOBLIN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_GOBLIN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Goblin.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@gia")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_GIANT) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_GIANT;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Giant.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@gnl")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_GNOLL) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_GNOLL;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Gnoll.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@hlf")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_HALFLING) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_HALFLING;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Halfling.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@ign")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_IGNAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_IGNAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Ignan.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@hdr")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_HALARDRIM) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_HALARDRIM;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Halardrim.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@hlr")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_HALRUAAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_HALRUAAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Halruaan.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@ill")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_ILLUSKAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_ILLUSKAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Illuskan.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@ims")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_IMASKAR) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_IMASKAR;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Imaskar.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@inf")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_INFERNAL) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_INFERNAL;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Infernal.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@l37")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_LEETSPEAK) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_LEETSPEAK;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Leet.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@lan")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_LANTANESE) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_LANTANESE;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Lantanese.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@lor")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_LOROSS) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_LOROSS;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Loross.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@mid")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_MIDANI) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_MIDANI;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Midani.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@mul")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_MULHORANDI) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_MULHORANDI;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Mulhorandi.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@nth")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_NETHERESE) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_NETHERESE;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Netherese.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@rsh")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_RASHEMI) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_RASHEMI;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Rashemi.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@ser")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_SERUSAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_SERUSAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Serusan.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@sha")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_SHAARAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_SHAARAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Sharran.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@sho")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_SHOU) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_SHOU;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Shou.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@syl")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_SYLVAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_SYLVAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Sylvan.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@ter")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_TERRAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_TERRAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Terran.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@tre")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_TREANT) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_TREANT;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Treant.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@tsh")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_TASHALAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_TASHALAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Tashalan.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@tui")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_TUIGAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_TUIGAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Tuigan.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@tur")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_TURMIC) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_TURMIC;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Turmic.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@orc")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_ORC) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_ORC;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Orc.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@nex")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_NEXALAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_NEXALAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Nexalan.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@yti")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_YUANTI) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_YUANTI;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Yuan-Ti.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@und")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_UNDERCOMMON) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_UNDERCOMMON;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Undercommon.");
+			return sErr;
+		}
+	}
+	if(sNewPick == "@ulu")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_ULUIK) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_ULUIK;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Uluik.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@unt")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_UNTHERIC) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_UNTHERIC;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Untheric.");
+			return sErr;
+		}
+	}
+	else if(sNewPick == "@vas")
+	{
+		if(_IsLanguageKnown(oSpeaker, LNG_VAASAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
+			sLangPick = LNG_VAASAN;
+		else
+		{
+			SendMessageToPC(oSpeaker, "You don't know how to speak Vaasan.");
+			return sErr;
+		}
+	}
+
+	return sLangPick;
+}
+
+
+int _HandleLang(object oSpeaker, string sText, string sLangPick)
+{
+	if (sLangPick == "common" || sLangPick == "")
 	{
 		if(GetStringLeft(sText, 4) == "@com")
 			sText = GetStringRight(sText, GetStringLength(sText)-4);
@@ -1731,7 +1576,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 	object oTool = _GetDMFITool(oSpeaker);
 	string sNewString = DMFI_ProcessLanguage(sText, sLangPick, oTool);
 	
-	if(nMode == CHAT_MODE_PARTY)
+	if (nMode == CHAT_MODE_PARTY)
 	{
 		string sMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#FFFFFF>["+_CapitalizeWord(sLangPick)+", Party] "+sText;
 		object oListener = GetFirstPC();
@@ -1748,7 +1593,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 		SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
 		return FALSE;
 	}
-	if(nMode == CHAT_MODE_TALK)
+	else if (nMode == CHAT_MODE_TALK)
 	{
 		string sMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#FFFFFF>["+_CapitalizeWord(sLangPick)+"] "+sText;
 		location lSelf = GetLocation(oSpeaker);
@@ -1770,7 +1615,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 		SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
 		return FALSE;
 	}
-	if(nMode == CHAT_MODE_WHISPER)
+	else if (nMode == CHAT_MODE_WHISPER)
 	{
 		string sMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#808080>["+_CapitalizeWord(sLangPick)+", Whisper] "+sText;
 		location lSelf = GetLocation(oSpeaker);
@@ -1794,14 +1639,4 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 	}
 
 	return TRUE;
-}
-
-
-int ACR_GetModuleStatus(int nStatus) {
-    return (GetLocalInt(GetModule(), ACR_MOD_STATUS) & nStatus);
-}
-
-void ACR_SetModuleStatus(int nStatus) {
-    object oModule = GetModule();
-    SetLocalInt(oModule, ACR_MOD_STATUS, GetLocalInt(oModule, ACR_MOD_STATUS) | nStatus);
 }
