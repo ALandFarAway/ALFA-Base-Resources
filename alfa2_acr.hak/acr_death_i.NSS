@@ -365,7 +365,7 @@ void ACR_PlayerOnDeath(object oPC, object oKiller)
 void ACR_PlayerOnDying(object oPC, object oLastAttacker)
 {
     // apply the dying animation - need to make it permanent so it sticks
-    ClearAllActions(TRUE);
+    AssignCommand(oPC, ClearAllActions(TRUE));
 
 	// Deactivate any action modes that might interfere
 	SetActionMode(oPC, ACTION_MODE_PARRY, FALSE);
