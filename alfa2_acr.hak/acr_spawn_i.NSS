@@ -1845,8 +1845,12 @@ void _RespawnPoll(object oWP) {
 
 
 void _SpawnPointInitializationCheck(int nNum) {
-    object oModule = GetModule();
-    int nInit = GetLocalInt(oModule, _SPAWN_WAYPOINT_ARRAY_LENGTH);
+    int nInit = 0;
+    object oArea;
+
+	for ((ObjectToInt)oArea = GetFirstArea(); oArea != OBJECT_INVALID; (ObjectToInt)oArea = GetNextArea())
+		nInit += GetLocalInt(oArea, _SPAWN_WAYPOINT_ARRAY_LENGTH);
+
     if(nInit != nNum) {
         ACR_PrintDebugMessage("Spawn initialization error! " + IntToString(nNum) + " spawn points scheduled for initialization, but only " + IntToString(nInit) + " initialized! Uninitialized spawn points will NOT work. Please contact ALFA's tech team with this information.", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_FATAL);
     } else {
