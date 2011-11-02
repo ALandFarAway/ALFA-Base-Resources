@@ -1848,7 +1848,7 @@ void _SpawnPointInitializationCheck(int nNum) {
     int nInit = 0;
     object oArea;
 
-	for ((ObjectToInt)oArea = GetFirstArea(); oArea != OBJECT_INVALID; (ObjectToInt)oArea = GetNextArea())
+	for (ObjectToInt(oArea = GetFirstArea()); oArea != OBJECT_INVALID; ObjectToInt(oArea = GetNextArea()))
 		nInit += GetLocalInt(oArea, _SPAWN_WAYPOINT_ARRAY_LENGTH);
 
     if(nInit != nNum) {
