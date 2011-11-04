@@ -1,5 +1,5 @@
 /******************************************************************
- * Name: alfa_mobloot
+ * Name: acr_mobloot_i
  * ---
  * Author: Cereborn
  * Date: 02/28/03
@@ -10,9 +10,11 @@
  ******************************************************************/
 
 /* Includes */
+#include "acr_1984_i"
+
 int MIN_INTELLIGENCE = 5;
 int CHANCE_TO_LOOT = 50;
-int nMobLootDebug = 0;
+int nMobLootDebug = 1;
 
 void MobLootDebug(string str);
 void TransferAllItems(object oCreature, object oVictim);
@@ -27,7 +29,6 @@ void ACR_CheckLootByMob(object oPC)
 {
     int nType;
     object oKiller;
-    int nDieRoll;
     
     return;
 
@@ -68,11 +69,12 @@ void ACR_CheckLootByMob(object oPC)
 	    
 	    if (Random(100) > CHANCE_TO_LOOT)
 	    {
-        	MobLootDebug("not lucky enough - roll: " + IntToString(nDieRoll));
+        	MobLootDebug("not lucky enough");
 	        return;
 	    }
     }
-    MobLootDebug("got lucky - roll:" + IntToString(nDieRoll));
+    MobLootDebug("got lucky");
+
     // There goes my stuff!!
     CreatureLoot(oKiller, oPC);
 }
@@ -81,9 +83,7 @@ void CreatureLoot(object oKiller, object oPC)
 {
     // Make sure the killer is still alive
     if (GetIsDead(oKiller))
-    {
         return;
-    }
 
     // add pickup animation
     AssignCommand(oKiller, ActionMoveToObject(oPC, TRUE));
@@ -92,10 +92,11 @@ void CreatureLoot(object oKiller, object oPC)
 
     // Go for the gold!
     int nAmtGold = GetGold(oPC);
-    if(nAmtGold)
+    if (nAmtGold > 0)
     {
+    	MobLootDebug("took "+IntToString(nAmtGold)+" gold");
+	ACR_LogEvent(oPC, ACR_LOG_DROP, "Gold loss to Monster, "+IntToString(nAmtGold)+" gp.");
         TakeGoldFromCreature(nAmtGold, oPC, TRUE);
-        GiveGoldToCreature(oKiller, nAmtGold);
     }
 
     // Grab the goods
@@ -110,6 +111,7 @@ void TransferItem(object oItem, object oCreature, object oVictim)
 
     if (oItem != OBJECT_INVALID)
     {
+	ACR_LogOnUnacquired(oItem, oVictim, FALSE);
         MobLootDebug(GetName(oCreature) + " looted " + GetName(oItem) +
            " from " + GetName(oVictim));
 
@@ -151,7 +153,7 @@ void TransferAllItems(object oCreature, object oVictim)
         // Check for stuff that shouldn't get looted, like visas and death tokens
         int nOkayToTransfer = TRUE;
 
-        if (GetPlotFlag( oItem ))
+        if (GetPlotFlag(oItem) || GetItemCursedFlag(oItem))
         {
             nOkayToTransfer = FALSE;
             MobLootDebug("suppress plot items");
@@ -159,9 +161,7 @@ void TransferAllItems(object oCreature, object oVictim)
 
         //+++
         if (nOkayToTransfer)
-        {
             TransferItem(oItem, oCreature, oVictim);
-        }
 
         oItem = GetNextItemInInventory(oVictim);
     }
@@ -172,7 +172,6 @@ void MobLootDebug(string str)
     if (nMobLootDebug)
     {
         SendMessageToAllDMs(str);
-        SendMessageToPC(GetFirstPC(), str);
         WriteTimestampedLogEntry(str);
     }
 }

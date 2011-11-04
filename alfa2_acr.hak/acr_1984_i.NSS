@@ -308,7 +308,7 @@ void ACR_LogOnUnacquired(object oItem, object oGiver, int bStolen=FALSE)
 			return;
 		} else {
 			// Item was likely script-destroyed. nothing to log here
-			SendMessageToPC(oGiver, "Script-lost item: "+GetName(oItem));
+			// SendMessageToPC(oGiver, "Script-lost item: "+GetName(oItem));
 			return;
 		}
 	} 
