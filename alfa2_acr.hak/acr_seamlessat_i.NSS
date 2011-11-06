@@ -554,33 +554,7 @@ int ACR_SAT_ChooseSize(float fPosition) {
    }
 }
 
-int ACR_SAT_CheckSafe(location lSafe, object oChar) {
 
- int iCreature = 1;
- object oCreature = GetNearestCreatureToLocation(CREATURE_TYPE_IS_ALIVE, TRUE, lSafe, iCreature);
- vector vDest = GetPositionFromLocation(lSafe);
- vector vCreat = GetPosition(oCreature);
- float fRange = 0.0f;
- while ( oCreature != OBJECT_INVALID) {
-//    SendMessageToAllDMs("Testing distance to "+GetName(oCreature));
-	// pythagorean theorem to the rescue for calculating z-independent distance.
-	fRange = sqrt((vCreat.x-vDest.x)*(vCreat.x-vDest.x) + (vCreat.y-vDest.y)*(vCreat.y-vDest.y));
-	// SendMessageToPC(oChar, "Distance to "+GetName(oCreature)+" calc. as "+FloatToString(fRange)+" versus GetDistance of "+FloatToString(GetDistanceBetweenLocations(lSafe, GetLocation(oCreature))));
-	if ( fRange > fDangerRadius) {
-//       SendMessageToAllDMs("Creature beyond 25.0 of computed target");
-    	return TRUE;
-    } else if (GetIsReactionTypeHostile(oCreature, oChar)) {
-       	ACR_SAT_ReconInfo(oCreature, oChar);
-       	return FALSE;
-    } else {
-      iCreature = iCreature + 1;
-      oCreature = GetNearestCreatureToLocation(CREATURE_TYPE_IS_ALIVE, TRUE, lSafe, iCreature);
-	  vCreat = GetPosition(oCreature);
-    }
- }
- return TRUE;
-}
-/*
 int ACR_SAT_CheckSafe(location lSafe, object oChar)
 {
 
@@ -598,7 +572,7 @@ int ACR_SAT_CheckSafe(location lSafe, object oChar)
 
   return TRUE;
 }
-*/
+
 
 int ACR_SAT_ReconInfo(object oCreature, object oPC)
 {
