@@ -139,6 +139,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\dmfi_plugin_cmd2.ncs                  \
             $(OUTPUTDIR)\dmfi_plugin_emt1.ncs                  \
             $(OUTPUTDIR)\dmfi_plugin_rule.ncs                  \
+            $(OUTPUTDIR)\acr_getnearestcreaturetolocation.ncs  \
             $(OUTPUTDIR)\gui_kemo_chair_anim.ncs               \
             $(OUTPUTDIR)\gui_kemo_portablechair.ncs            \
             $(OUTPUTDIR)\gui_kemo_resize.ncs                   \
