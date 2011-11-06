@@ -556,31 +556,64 @@ int ACR_SAT_ChooseSize(float fPosition) {
 
 int ACR_SAT_CheckSafe(location lSafe, object oChar) {
 
-  object oCreature = GetNearestCreatureToLocation(CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_ENEMY, lSafe, 1, CREATURE_TYPE_IS_ALIVE, TRUE);
-  location lCreat = GetLocation(oCreature);
-  float fRange;
-
-  if (oCreature == OBJECT_INVALID)
-	  return TRUE;
-
-  if (GetDistanceBetweenLocations(lSafe, lCreat) > fDangerRadius)
-	  return TRUE;
-
-  ACR_SAT_ReconInfo(oCreature, oChar);
-
-  return FALSE;
+ int iCreature = 1;
+ object oCreature = GetNearestCreatureToLocation(CREATURE_TYPE_IS_ALIVE, TRUE, lSafe, iCreature);
+ vector vDest = GetPositionFromLocation(lSafe);
+ vector vCreat = GetPosition(oCreature);
+ float fRange = 0.0f;
+ while ( oCreature != OBJECT_INVALID) {
+//    SendMessageToAllDMs("Testing distance to "+GetName(oCreature));
+	// pythagorean theorem to the rescue for calculating z-independent distance.
+	fRange = sqrt((vCreat.x-vDest.x)*(vCreat.x-vDest.x) + (vCreat.y-vDest.y)*(vCreat.y-vDest.y));
+	// SendMessageToPC(oChar, "Distance to "+GetName(oCreature)+" calc. as "+FloatToString(fRange)+" versus GetDistance of "+FloatToString(GetDistanceBetweenLocations(lSafe, GetLocation(oCreature))));
+	if ( fRange > fDangerRadius) {
+//       SendMessageToAllDMs("Creature beyond 25.0 of computed target");
+    	return TRUE;
+    } else if (GetIsReactionTypeHostile(oCreature, oChar)) {
+       	ACR_SAT_ReconInfo(oCreature, oChar);
+       	return FALSE;
+    } else {
+      iCreature = iCreature + 1;
+      oCreature = GetNearestCreatureToLocation(CREATURE_TYPE_IS_ALIVE, TRUE, lSafe, iCreature);
+	  vCreat = GetPosition(oCreature);
+    }
+ }
+ return TRUE;
 }
- 
+/*
+int ACR_SAT_CheckSafe(location lSafe, object oChar)
+{
 
-int ACR_SAT_ReconInfo(object oCreature, object oPC) {
+  object oCreature;
+  location lCreat;
+  float fRange;
+  
+  for (ObjectToInt(oCreature = GetFirstObjectInShape(SHAPE_SPHERE, fDangerRadius, lSafe, TRUE, OBJECT_TYPE_CREATURE)); oCreature != OBJECT_INVALID; ObjectToInt(oCreature = GetNextObjectInShape(SHAPE_SPHERE, fDangerRadius, lSafe, TRUE, OBJECT_TYPE_CREATURE))) {
+  
+    if ((!GetIsDead(oCreature)) && (GetIsReactionTypeHostile(oCreature,oChar))) {
+      ACR_SAT_ReconInfo(oCreature, oChar);
+      return FALSE;
+    }
+  }
 
-  object oNextCreature = GetNearestCreature(CREATURE_TYPE_IS_ALIVE, TRUE, oCreature, 1);
-  int iCreatNum = 1;
-  int iCreatIndex = 1;
-  string sReport = "You sight ";
-  string sNum = "a ";
-  string sPrimary = ACR_CleanCreatureNameTextForPlayers(GetName(oCreature));
-  string sSecondary = "";
+  return TRUE;
+}
+*/
+
+int ACR_SAT_ReconInfo(object oCreature, object oPC)
+{
+  object oNextCreature;
+  int iCreatIndex,iCreatNum;
+  string sReport,sNum,sPrimary,sSecondary;
+  location lDanger;
+
+  iCreatIndex=1;
+  iCreatNum = 1;
+  sReport = "You sight ";
+  sNum = "a ";
+  sPrimary = ACR_CleanCreatureNameTextForPlayers(GetName(oCreature));
+  sSecondary = "";
+  lDanger = GetLocation(oCreature);
 
   if(GetLocalInt(oPC, "ACR_SAT_WARNED") == TRUE) {
      // PC has already been recently warned about ATing ahead, let them proceed
@@ -591,31 +624,32 @@ int ACR_SAT_ReconInfo(object oCreature, object oPC) {
   }
   
   if (GetIsSkillSuccessful(oPC, SKILL_SPOT, iSpotDC)) {
-     while ((oNextCreature != OBJECT_INVALID) && (oNextCreature != oPC)) {
-        if (GetName(oNextCreature) == sPrimary) {
-           iCreatNum = iCreatNum + 1;
-        } else {
-           sSecondary = sSecondary + " and a "+ACR_CleanCreatureNameTextForPlayers(GetName(oNextCreature));
-        }
-        iCreatIndex = iCreatIndex +1;
-        oNextCreature = GetNearestCreature(CREATURE_TYPE_IS_ALIVE, TRUE, oCreature, iCreatIndex);
-        if (GetDistanceBetween(oNextCreature, oCreature) > fReportRadius) {
-           oNextCreature = OBJECT_INVALID;
-        }
-     }
-     if (iCreatNum > 1) {
-        sNum = IntToString(iCreatNum)+" ";
-        sPrimary = sPrimary+"s";
-        }
-     sReport = sReport+sNum+sPrimary+sSecondary+" ahead.";
-     SetLocalInt(oPC, "ACR_SAT_WARNED", TRUE);
-     SendMessageToPC(oPC, sReport);
-	 DelayCommand(fWarningReset, _ClearWarnedFlag(oPC));
-     return TRUE;
-  } else {
-     SendMessageToPC(oPC, "You see something just ahead, best not to transition here.");
-     SetLocalInt(oPC, "ACR_SAT_WARNED", TRUE);
-	 DelayCommand(fWarningReset, _ClearWarnedFlag(oPC));
+    for (ObjectToInt(oNextCreature = GetFirstObjectInShape(SHAPE_SPHERE, fReportRadius, lDanger, TRUE, OBJECT_TYPE_CREATURE));
+          (oNextCreature != OBJECT_INVALID) && (oNextCreature != oPC);
+          ObjectToInt(oNextCreature = GetNextObjectInShape(SHAPE_SPHERE, fReportRadius, lDanger, TRUE, OBJECT_TYPE_CREATURE))) {
+
+      if (GetIsDead(oNextCreature))
+        continue;
+      if (GetName(oNextCreature) == sPrimary)
+        iCreatNum++;
+      else
+        sSecondary = sSecondary + " and a "+ACR_CleanCreatureNameTextForPlayers(GetName(oNextCreature));
+      iCreatIndex++;
+    }
+    if (iCreatNum > 1) {
+      sNum = IntToString(iCreatNum)+" ";
+      sPrimary = sPrimary+"s";
+    }
+    sReport = sReport+sNum+sPrimary+sSecondary+" ahead.";
+    SetLocalInt(oPC, "ACR_SAT_WARNED", TRUE);
+    SendMessageToPC(oPC, sReport);
+    DelayCommand(fWarningReset, _ClearWarnedFlag(oPC));
+    return TRUE;
+  }
+  else {
+    SendMessageToPC(oPC, "You see something just ahead, best not to transition here.");
+    SetLocalInt(oPC, "ACR_SAT_WARNED", TRUE);
+    DelayCommand(fWarningReset, _ClearWarnedFlag(oPC));
   }
   return FALSE;
 }
