@@ -1122,7 +1122,14 @@ void _DespawnArea(object oArea) {
     // if the area has been reactivated during the despawn delay window, cancel the queued despawn
 	int nDespawnAreaFlags = GetLocalInt(oArea, _SPAWN_AREA_FLAGS);
     if(nDespawnAreaFlags & _SPAWN_AREA_FLAG_ACTIVE) { return; }
-	// otherwise, despawn the area.    
+	// check for PCs anyway, in case some slipped through the cracks. If they're present, the area is active and heartbeats restart.
+    if(GetArePCsInArea(oArea)) {
+		_RunSpawnIsActiveLoop(oArea);
+		_RefreshArea(oArea);
+		_StartSpawnAreaHeartbeat(oArea, nAreaFlags);
+		return;
+    }     
+	// otherwise, despawn the area.
     ACR_PrintDebugMessage(GetName(oArea) + " is being despawned.", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
     int i;
     int nNumSpawns = GetLocalInt(oArea, _SPAWN_WAYPOINT_ARRAY_LENGTH);
