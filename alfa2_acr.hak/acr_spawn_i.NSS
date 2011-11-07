@@ -1126,7 +1126,7 @@ void _DespawnArea(object oArea) {
     if(GetArePCsInArea(oArea)) {
 		_RunSpawnIsActiveLoop(oArea);
 		_RefreshArea(oArea);
-		_StartSpawnAreaHeartbeat(oArea, nAreaFlags);
+		_StartSpawnAreaHeartbeat(oArea, nDespawnAreaFlags);
 		return;
     }     
 	// otherwise, despawn the area.
