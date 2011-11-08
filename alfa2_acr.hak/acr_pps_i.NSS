@@ -204,7 +204,6 @@ void ACR_PCAutoSave(object oPC)
 		if (nCycleIndex == ACR_PPS_CACHE_CYCLE) {
 			// it's time for an export/external update
         	// save the player to the vault
-			SendMessageToAllDMs("Auto-exporting PC: "+GetName(oPC));
         	ACR_PCSave(oPC);
 			// restart the counter
 			SetLocalInt(oPC, ACR_PPS_COUNT, 0);

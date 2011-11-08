@@ -340,6 +340,8 @@ void ACR_PlayerOnDeath(object oPC, object oKiller)
 		
 	// increment death counter
 	ACR_SQLQuery("UPDATE characters SET Deaths=Deaths+1 WHERE ID=" + IntToString(ACR_GetCharacterID(oPC)));
+
+    ACR_CheckLootByMob(oPC);
 	
     // clear the action queue, including combat state, so we can manage inventory txfrs
     AssignCommand(oPC, ClearAllActions(TRUE));
@@ -353,8 +355,6 @@ void ACR_PlayerOnDeath(object oPC, object oKiller)
     // log the kill if the killer is a PC
     if (GetIsPC(oKiller)) { ACR_LogEvent(oKiller, ACR_LOG_KILL, "Character: " + ACR_SQLEncodeSpecialChars(GetName(oKiller)) + " killed player: " + ACR_SQLEncodeSpecialChars(GetName(oPC))); }
 
-    ACR_CheckLootByMob(oPC);
-	
     // delay processing to add a little dramatics
     DelayCommand(3.0, FadeToBlack(oPC, FADE_SPEED_SLOWEST));
     DelayCommand(3.2, _playerOnDeath(oPC, oKiller));

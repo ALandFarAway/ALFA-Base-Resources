@@ -279,6 +279,7 @@ void BroadcastToDMs(string sText);
 //!! Color a block of text
 string Colorize(string sText, string sColor);
 
+object ACR_GetNearestCreatureToLocation(object oPC, int nFirstCriteriaType, int nFirstCriteriaValue,  location lLocation, int nNth=1, int nSecondCriteriaType=-1, int nSecondCriteriaValue=-1, int nThirdCriteriaType=-1,  int nThirdCriteriaValue=-1);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -937,3 +938,21 @@ string Colorize(string sText, string sColor)
 	return "<color=#"+sColor+">"+sText+"</c>";
 }
 
+object ACR_GetNearestCreatureToLocation(object oPC, int nFirstCriteriaType, int nFirstCriteriaValue,  location lLocation, int nNth=1, int nSecondCriteriaType=-1, int nSecondCriteriaValue=-1, int nThirdCriteriaType=-1,  int nThirdCriteriaValue=-1) {
+
+	if(GetAreaFromLocation(lLocation) == OBJECT_INVALID) return OBJECT_INVALID;
+
+	AddScriptParameterInt(nFirstCriteriaType);
+	AddScriptParameterInt(nFirstCriteriaValue);
+	SetLocalLocation(oPC, "ACR_GETNEARESTHOSTILE_LOC", lLocation);
+	AddScriptParameterInt(nNth);
+	AddScriptParameterInt(nSecondCriteriaType);
+	AddScriptParameterInt(nSecondCriteriaValue);
+	AddScriptParameterInt(nThirdCriteriaType);
+	AddScriptParameterInt(nThirdCriteriaValue);
+	
+	ExecuteScriptEnhanced("acr_getnearestcreaturetolocation", oPC, TRUE);
+	object oNearest = GetLocalObject(oPC, "ACR_GETNEARESTHOSTILE_OBJ");
+	DeleteLocalObject(oPC, "ACR_GETNEARESTHOSTILE_OBJ");
+	return oNearest;
+}
