@@ -139,7 +139,7 @@ const string ACR_DTH_DEBUG_ID = "acr_dth_i";
 const float _ACR_DTH_HOSTILE_DELAY = 30.0f;
 
 //!  sets how wide an area effect the hostility removal stretches.
-const float _ACR_DTH_RADIUS = 30.0f;
+const float _ACR_DTH_RADIUS = 60.0f;
 
 //!  sets the "floor" for single-hit into the negatives, all damage beyond is ignored.
 const int _ACR_DTH_FLOOR = -6;
