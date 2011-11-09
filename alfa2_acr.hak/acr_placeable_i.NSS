@@ -53,6 +53,11 @@ const string _WEIGHT_LI = "ACR_PLC_WEIGHT";
 // Local integer, not for external use.
 const string _OBJECT_STATUS = "ACR_PLC_S";
 
+// define time needed for pchest saving
+const float _ACR_PCHEST_SAVE_TIME = 2.0f;
+const float _ACR_PCHEST_SAVE_DELAY = 0.1f;
+
+
 const int _INITIALIZED_BIT = BIT_31;
 const int _AUTOLOCK_BIT = BIT_30;
 const int _BROKEN_BIT = BIT_29;
@@ -121,6 +126,12 @@ void ACR_PlaceableOnBreakAttempt(object oObject, object oPC, int nRollModifier =
 //! Gets this object's strength DC to break open.
 int _GetObjectBreakOpenDC(object oObject, int nStatus);
 
+//! Save pchest contents
+void _SavePchestStart(object oChest, object oCloser);
+
+//! Finish saving process
+void _SavePchestEnd(object oChest, object oCloser);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -134,11 +145,16 @@ void ACR_PlaceableOnClose() {
 
     if( (GetLocalInt(OBJECT_SELF, _OBJECT_STATUS) & _AUTOLOCK_BIT) && GetLockLockable(OBJECT_SELF) ) { SetLocked(OBJECT_SELF, 1); }
 
-    // manage persistent storage objects
-    if (ACR_GetIsPersistentStorageObject(OBJECT_SELF)) { ACR_PersistentStorageOnClose(OBJECT_SELF, oCloser); }
-
     // apply any effects on the placeable
     ACR_VFXOnClose(oCloser, OBJECT_SELF);
+
+    // manage persistent storage objects
+    if (ACR_GetIsPersistentStorageObject(OBJECT_SELF)) {
+	
+        SetUseableFlag(OBJECT_SELF, 0);
+
+        DelayCommand(_ACR_PCHEST_SAVE_DELAY, _SavePchestStart(OBJECT_SELF, oCloser));
+    }
 }
 
 void ACR_PlaceableOnConversation() {
@@ -338,4 +354,23 @@ int _GetObjectBreakOpenDC(object oObject, int nStatus) {
 //    }
 
     return nBreakDC;
+}
+
+void _SavePchestStart(object oChest, object oCloser)
+{
+    int res;
+    SendMessageToPC(oCloser, "Saving contents...");
+
+    res = ACR_PersistentStorageOnClose(OBJECT_SELF, oCloser);
+
+    // if there is an error saving, don't allow the pchest to be accessible again
+    if (res)
+        DelayCommand(_ACR_PCHEST_SAVE_TIME, _SavePchestEnd(OBJECT_SELF, oCloser));
+}
+
+void _SavePchestEnd(object oChest, object oCloser)
+{
+    SetUseableFlag(oChest, 1);
+
+    SendMessageToPC(oCloser, "Saving done.");
 }
