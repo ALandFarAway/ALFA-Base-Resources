@@ -102,7 +102,7 @@ void _CreatureLoot(object oKiller, object oPC)
     {
 	ACR_LogEvent(oPC, ACR_LOG_DROP, "Gold loss to Monster, "+IntToString(nAmtGold)+" gp.");
         ACR_PrintDebugMessage("Gold loss to Monster, "+IntToString(nAmtGold)+" gp.", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
-        TakeGoldFromCreature(nAmtGold, oPC, TRUE);
+        AssignCommand(oPC,TakeGoldFromCreature(nAmtGold, oPC, TRUE));
     }
 
     // Grab the goods
@@ -112,24 +112,24 @@ void _CreatureLoot(object oKiller, object oPC)
 //
 void _TransferItem(object oItem, object oCreature, object oVictim)
 {
+    if (oItem == OBJECT_INVALID)
+	    return;
+
     if (Random(100) > _MOBLOOT_LOOT_CHANCE) {
         ACR_PrintDebugMessage("Skipping " + GetName(oItem) + " (" + GetTag(oItem) + ")", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
         return;
     }
 
-    if (oItem != OBJECT_INVALID)
-    {
-	ACR_LogOnUnacquired(oItem, oVictim, FALSE);
-        ACR_PrintDebugMessage(GetName(oCreature) + " looted " + GetName(oItem) +
-           " from " + GetName(oVictim), _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
+    ACR_LogOnUnacquired(oItem, oVictim, FALSE);
+    ACR_PrintDebugMessage(GetName(oCreature) + " looted " + GetName(oItem) +
+       " from " + GetName(oVictim), _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
 
-        //+++ AssignCommand(oCreature, ActionTakeItem(oItem, oVictim));
-        //
-        //ActionTakeItem doesn't seem to be a very reliable method.  Time
-        // to bring out the big guns...
-        CopyObject(oItem, GetLocation(oCreature), oCreature);
-        DestroyObject(oItem);
-    }
+    //+++ AssignCommand(oCreature, ActionTakeItem(oItem, oVictim));
+    //
+    //ActionTakeItem doesn't seem to be a very reliable method.  Time
+    // to bring out the big guns...
+    CopyObject(oItem, GetLocation(oCreature), oCreature);
+    DestroyObject(oItem);
 }
 
 // This Function Removes All Items from a Creature

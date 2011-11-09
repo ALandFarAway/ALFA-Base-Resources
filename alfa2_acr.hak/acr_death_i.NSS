@@ -341,10 +341,10 @@ void ACR_PlayerOnDeath(object oPC, object oKiller)
 	// increment death counter
 	ACR_SQLQuery("UPDATE characters SET Deaths=Deaths+1 WHERE ID=" + IntToString(ACR_GetCharacterID(oPC)));
 
-    ACR_CheckLootByMob(oPC);
-	
     // clear the action queue, including combat state, so we can manage inventory txfrs
     AssignCommand(oPC, ClearAllActions(TRUE));
+
+    ACR_CheckLootByMob(oPC);
 	
 	// best way to work out who the killer was, is to check the pointer set OnDying(), or in the instakill protection.
     oKiller = GetLocalObject(oPC, _ACR_DTH_DAMAGER);
