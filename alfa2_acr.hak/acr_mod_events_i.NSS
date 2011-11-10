@@ -806,7 +806,7 @@ void _ParseRoll(object pc, string cmd)
 	}
 
 	// abilities
-	else if (_CompareLeft(cmd,"str") || cmd == "str") {
+	else if (_CompareLeft(cmd,"stre") || cmd == "str") {
 		ACR_StatCheck(ABILITY_STRENGTH, pc, 0, TRUE, TRUE);
 	}
 	else if (_CompareLeft(cmd,"dex")) {
@@ -932,7 +932,7 @@ void _ParseRoll(object pc, string cmd)
 		ACR_SkillCheck(SKILL_PERFORM_ACT, pc, 0, TRUE, TRUE);
 	}
 	else if (_CompareLeft(cmd,"com")) {
-		ACR_SkillCheck(SKILL_PERFORM_ACT, pc, 0, TRUE, TRUE);
+		ACR_SkillCheck(SKILL_PERFORM_COMEDY, pc, 0, TRUE, TRUE);
 	}
 	else if (_CompareLeft(cmd,"dan")) {
 		ACR_SkillCheck(SKILL_PERFORM_DANCE, pc, 0, TRUE, TRUE);
