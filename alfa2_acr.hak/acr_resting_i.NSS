@@ -985,6 +985,10 @@ void _healFromRest(object oCreature, int nOriginalHitPoints)
         ApplyEffectToObject(DURATION_TYPE_INSTANT, eDamage, oCreature);
 	}
 
+    // remove the persistent fatigued status - longterm offcamera rest should always remove the persistent fatigued status
+    ACR_SetIsFatigued(oCreature, 0);
+    ACR_SetIsExhausted(oCreature, 0);
+
     // retrieve the item's AC value
     int nItemACValue = _getArmorRestDC(oCreature);
 
@@ -995,11 +999,6 @@ void _healFromRest(object oCreature, int nOriginalHitPoints)
         // flag the fatigued status for persistence
         ACR_SetIsFatigued(oCreature, 1);
         FloatingTextStringOnCreature(ACR_REST_MSG_FATIGUED, oCreature, FALSE);
-    }
-    else
-	{
-        // remove the persistent fatigued status - longterm offcamera rest should always remove the persistent fatigued status
-        ACR_SetIsFatigued(oCreature, 0);
     }
 
     // reset long term care and herbal/medicinal healing bonuses

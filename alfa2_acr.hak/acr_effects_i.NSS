@@ -118,6 +118,11 @@ int ACR_GetIsFatigued(object oPC);
 //!  - Returns: nothing
 int ACR_GetIsExhausted(object oPC);
 
+//! Add fatigue/exhaustion to oPC dependent on current state
+//!  - oPC: creature to exhaust
+//!  - Returns: 1,2,3 (new level of exhaustion)
+int ACR_AddFatigueToCreature(object oPC);
+
 //! Wrapper for the standard NWN2 EffectFatigue effect, returns the effect
 effect ACR_EffectFatigue();
 
@@ -211,6 +216,23 @@ int ACR_GetIsFatigued(object oPC)
 int ACR_GetIsExhausted(object oPC)
 {
 	return (ACR_GetPersistentInt(oPC, ACR_EFFECT_FLAGS) & ACR_EFFECT_FLAG_EXHAUSTED);
+}
+
+
+int ACR_AddFatigueToCreature(object oPC)
+{
+	if (ACR_GetIsFatigued(oPC)) {
+		ACR_SetIsFatigued(oPC, 0);
+		ACR_SetIsExhausted(oPC, 1);
+		return 2;
+	}
+	else if (!ACR_GetIsExhausted(oPC)){
+		ACR_SetIsExhausted(oPC, 0);
+		ACR_SetIsFatigued(oPC, 1);
+		return 1;
+	}
+
+	return 3;
 }
 
 
