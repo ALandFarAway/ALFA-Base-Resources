@@ -39,6 +39,11 @@
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+// The last area object id is stored in this local on a PC so as to only fire
+// the actual ACR_AreaOnClientEnter event once per area, even if the PC is
+// joined to a party.
+const string ACR_AREA_LAST_AREA_CLIENTENTER_VAR = "ACR_AREA_LAST_AREA_CLIENTENTER_VAR";
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -101,6 +106,19 @@ void ACR_AreaOnExit() {
 void ACR_AreaOnClientEnter() {
     // Fires after OnEnter, when the client finishes loading the area, it seems.
 	object oObject = GetEnteringObject();
+	object Area = GetArea(oObject);
+
+	if (Area == GetLocalObject(oObject, ACR_AREA_LAST_AREA_CLIENTENTER_VAR))
+	{
+		// We may receive this event again if another party member has finished
+		// area loading and we were still waiting to clear the loading screen,
+		// even if this wasn't a party transition.  Only perform significant
+		// processing the first time around.
+
+		return;
+	}
+
+	SetLocalObject(oObject, ACR_AREA_LAST_AREA_CLIENTENTER_VAR, Area);
 
 	if(GetIsPC(oObject) || GetIsDMPossessed(oObject)) {
         // Code which only runs for PCs goes here.
