@@ -162,7 +162,7 @@ int ACR_GetFRHoliday();
 
 //! Converts given rl date to fr date
 //!  - Returns: FR date
-string ACR_ConvertDate(int year=-1, int month=-1, int day=-1);
+string ACR_ConvertDate(int year=0, int month=0, int day=0);
 
 // Private functions
 
@@ -368,24 +368,24 @@ void _CalcDate()
 	int i,j,len,year,month,day,holiday;
 
 	str = ACR_ConvertDate();
-	j=0;
+	j=-1;
 
-	i=j;
+	i=j+1;
 	j = FindSubString(str,",",i);
 	sub = GetSubString(str,i,j-i);
 	year = StringToInt(sub);
 
-	i=j;
+	i=j+1;
 	j = FindSubString(str,",",i);
 	sub = GetSubString(str,i,j-i);
 	month = StringToInt(sub);
 
-	i=j;
+	i=j+1;
 	j = FindSubString(str,",",i);
 	sub = GetSubString(str,i,j-i);
 	day = StringToInt(sub);
 
-	i=j;
+	i=j+1;
 	j = GetStringLength(str);
 	sub = GetSubString(str,i,j-i);
 	holiday = StringToInt(sub);
@@ -570,7 +570,7 @@ int ACR_GetDayOfTenday(int day = -1)
 	if (day == 0)
 		return 0;
 
-	return (day%10) + 1;
+	return (day%10);
 }
 
 int ACR_GetFRWeekday()
@@ -680,34 +680,34 @@ string ACR_FRDateToString(int full=1,int informal=0, int year=0, int month=0, in
 			holiday_str = "Midwinter";
 			break;
 		case 2:
-			tenday_str = "Spring Equinox";
+			holiday_str = "Spring Equinox";
 			break;
 		case 3:
-			tenday_str = "Greengrass";
+			holiday_str = "Greengrass";
 			break;
 		case 4:
-			tenday_str = "Summer Solstice";
+			holiday_str = "Summer Solstice";
 			break;
 		case 5:
-			tenday_str = "Midsummer";
+			holiday_str = "Midsummer";
 			break;
 		case 6:
-			tenday_str = "Shieldmeet";
+			holiday_str = "Shieldmeet";
 			break;
 		case 7:
-			tenday_str = "Autumn Equinox";
+			holiday_str = "Autumn Equinox";
 			break;
 		case 8:
-			tenday_str = "Highharvestide";
+			holiday_str = "Highharvestide";
 			break;
 		case 9:
-			tenday_str = "Feast of the Moon";
+			holiday_str = "Feast of the Moon";
 			break;
 		case 10:
-			tenday_str = "Winter Solstice";
+			holiday_str = "Winter Solstice";
 			break;
 		default:
-			tenday_str = "";
+			holiday_str = "";
 	}
 
 	day_str = IntToString(day);
