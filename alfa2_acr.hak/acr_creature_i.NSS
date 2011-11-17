@@ -64,6 +64,9 @@ const string _CRE_NO_AI = "ACR_CRE_NO_AI";
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+// Puts oCreature in modes that let it run.
+void _startRunning(object oCreature = OBJECT_SELF);
+
 // The ACR's Creature event handler.
 void ACR_CreatureOnSpawnIn();
 
@@ -110,10 +113,43 @@ void ACR_CreatureIdentify(object oPC, object oTarget);
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+void _startRunning(object oCreature = OBJECT_SELF) {
+	if(!GetHasFeat(FEAT_KEEN_SENSE, oCreature, TRUE))
+		SetActionMode(OBJECT_SELF, ACTION_MODE_DETECT, FALSE);
+	
+	SetActionMode(OBJECT_SELF, ACTION_MODE_STEALTH, FALSE);
+}
+
 void ACR_CreatureOnSpawnIn()
 {
     // apply any effects on the creature
     ACR_VFXOnSpawn(OBJECT_SELF);
+	
+	// Process item spawn in:
+	object oItem = GetFirstItemInInventory();
+	while(oItem != OBJECT_INVALID) {
+		SetIdentified(oItem, TRUE);
+		oItem = GetNextItemInInventory();
+	}
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_ARMS), TRUE);
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_ARROWS), TRUE);
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_BELT), TRUE);
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_BOLTS), TRUE);
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_BOOTS), TRUE);
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_BULLETS), TRUE);
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_CARMOUR), TRUE);
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_CHEST), TRUE);
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_CLOAK), TRUE);
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_CWEAPON_B), TRUE);
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_CWEAPON_L), TRUE);
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_CWEAPON_R), TRUE);
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_HEAD), TRUE);
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_LEFTHAND), TRUE);
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_LEFTRING), TRUE);
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_NECK), TRUE);
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_RIGHTHAND), TRUE);
+	SetIdentified(GetItemInSlot(INVENTORY_SLOT_RIGHTRING), TRUE);
+	
     
     // Scavenged code from nw_c2_default9.nss 
     // ---------- Begin scavenged code --------------------
@@ -151,6 +187,11 @@ void ACR_CreatureOnSpawnIn()
 void ACR_CreatureOnSpellCastAt()
 {
     object oCaster = GetLastSpellCaster();
+	
+	if(GetLastSpellHarmful()) {
+		// I've probably been spotted. Get out of modes that keep me from running.
+		_startRunning();
+	}
 
     // apply any effects on the creature
     //ACR_VFXOnSpellCastAt(oCaster, OBJECT_SELF);
@@ -163,6 +204,9 @@ void ACR_CreatureOnSpellCastAt()
 void ACR_CreatureOnPhysicallyAttacked()
 {
     object oAttacker = GetLastAttacker();
+	
+	// I've probably been spotted. Get out of modes that keep me from running.
+	_startRunning();
     
     // apply any effects on the creature
     //ACR_VFXOnAttack(oAttacker, OBJECT_SELF);
@@ -177,6 +221,9 @@ void ACR_CreatureOnDamaged()
     object oDamager = GetLastDamager();
 
     //DoNonlethalOnDamaged();
+	
+	// I've probably been spotted. Get out of modes that keep me from running.
+	_startRunning();
     
     // apply any effects on the creature
     //ACR_VFXOnDamage(oDamager, OBJECT_SELF);
