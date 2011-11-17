@@ -75,6 +75,9 @@ const int MIN_INT = -2147483648;
 const float MAX_FLOAT = 340282300000000000000000000000000000000.0;
 const float MIN_FLOAT = -340282300000000000000000000000000000000.0;
 
+const float MAX_RND_FLOAT = 32767.0;
+const int MAX_RND_INT = 32767;
+
 const int INT_SIZE = 32;
 
 const int DAYS_PER_MONTH = 28;
@@ -163,6 +166,10 @@ int SetLocalBit(object oObject, string sVarName, int nBit, int nValue);
 // Generates a random float value between fMin and fMax.
 // Does not error checking on inputs.
 float ACR_RandomFloat(float fMin = 0.0, float fMax = 1.0);
+
+//! Returns a randomized value on a gaussian (normal) distribution using the polar form of the Box-Muller Transformation.
+//! taking into account mean fMean and standard deviation fStd
+float ACR_RandomNormal(float fMean, float fStd);
 
 // Makes a new interger out of nNum, starting at bit nStartBit and ending at
 // nEndBit.  Returned value is an unsigned integer only.
@@ -429,10 +436,33 @@ int SetLocalBit(object oObject, string sVarName, int nBit, int nValue) {
     return nNum;
 }
 
-float ACR_RandomFloat(float fMin = 0.0, float fMax = 1.0) {
-    float fRandomPercent = (IntToFloat(Random(32767)) / 32767.0);
-	// SendMessageToAllDMs("+Random%="+FloatToString(fRandomPercent));
-    return ((fMax - fMin) * fRandomPercent + fMin);
+// lifted from ftp://ftp.taygeta.com/pub/c/boxmuller.c by AcadiusLost.
+float ACR_RandomNormal(float fMean, float fStd)
+{
+    float x1, x2, w;
+
+    // was already generated
+    if (GetGlobalInt("ACR_RND_CACHED")) {
+        SetGlobalInt("ACR_RND_CACHED",0);
+        return fMean + (GetGlobalFloat("ACR_RND") * fStd);
+    }
+
+    do {
+        x1 = 2.0 * ACR_RandomFloat() - 1.0;
+        x2 = 2.0 * ACR_RandomFloat() - 1.0;
+        w = x1 * x1 + x2 * x2;
+    } while (w >= 1.0);
+	
+    w = sqrt((-2.0 * log(w))/w);
+    SetGlobalInt("ACR_RND_CACHED",1);
+    SetGlobalFloat("ACR_RND",x2 * w);
+
+    return fMean + (x1 * w * fStd);
+}
+
+float ACR_RandomFloat(float fMin = 0.0, float fMax = 1.0)
+{
+    return ((fMax - fMin) * (IntToFloat(Random(MAX_RND_INT)) / MAX_RND_FLOAT) + fMin);
 }
 
 int GetPiecewiseInteger(int nNum, int nStartBit, int nEndBit) {
