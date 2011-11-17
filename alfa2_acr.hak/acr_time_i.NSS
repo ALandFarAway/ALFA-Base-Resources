@@ -201,10 +201,10 @@ void ACR_InitializeTime() {
 	if (nStoredTime == 0) {
 		// no server timestamps could be found (new schema?)
 		// start from canon start date.
-        SetCalendar(1373, 1, 1);
+        SetCalendar(TIME_YEAR_START, 1, 1);
 		ACR_SetPersistentInt(oMod, ACR_MODULE_TIME, ACR_GetTimeStampInMinutes());
 		ACR_StoreTime();
-		WriteTimestampedLogEntry("Restarted canon calander at Jan 1, 1373; as no record could be found.");
+		WriteTimestampedLogEntry("Restarted canon calander at Jan 1, TIME_YEAR_START; as no record could be found.");
 	} else {
 	    // Work out date from timestamp (total faerun minutes since DR)
 	    int nYear = nStoredTime / 483840;
