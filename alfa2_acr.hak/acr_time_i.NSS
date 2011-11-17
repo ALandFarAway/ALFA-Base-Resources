@@ -42,7 +42,7 @@ const float HOUR_TO_SECONDS = 3600.0;
 
 // The date in which our time counter begins counting seconds to keep track of
 // Realms time.
-const int TIME_YEAR_START = 1373;
+const int TIME_YEAR_START = 1375;
 
 const int ALFA2_YEAR_START = 2008;
 
@@ -147,6 +147,9 @@ string ACR_FRDateToString(int full=1,int informal=0, int year=0, int month=0, in
 
 //! Returns current FR year
 int ACR_GetFRYear();
+
+//! Returns name of FR Year
+string ACR_GetFRYearName(int year=0);
 
 //! Returns current FR month
 int ACR_GetFRMonth();
@@ -552,6 +555,115 @@ int ACR_GetFRYear()
 	return GetGlobalInt("ACR_FR_Year");
 }
 
+string ACR_GetFRYearName(int year=0)
+{
+	string str = "Year of";
+	if (year == 0)
+		year = ACR_GetFRYear();
+
+	str += " ";
+
+	switch (year) {
+		case 1370:
+			str += "the Tankard";
+			break;
+		case 1371:
+			str += "the Unstrung Harp";
+			break;
+		case 1372:
+			str += "Wild Magic";
+			break;
+		case 1373:
+			str += "Rogue Dragons";
+			break;
+		case 1374:
+			str += "Lightning Storms";
+			break;
+		case 1375:
+			str += "Risen Elfkin";
+			break;
+		case 1376:
+			str += "the Bent Blade";
+			break;
+		case 1377:
+			str += "the Haunting";
+			break;
+		case 1378:
+			str += "the Cauldron";
+			break;
+		case 1379:
+			str += "the Lost Keep";
+			break;
+		case 1380:
+			str += "the Blazing Hand";
+			break;
+		case 1381:
+			str += "Starving";
+			break;
+		case 1382:
+			str += "the Black Blazon";
+			break;
+		case 1383:
+			str += "the Vindicated Warrior";
+			break;
+		case 1384:
+			str += "Three Streams Blooded";
+			break;
+		case 1385:
+			str += "Blue Fire";
+			break;
+		case 1386:
+			str += "the Halflings' Lament";
+			break;
+		case 1387:
+			str += "the Emerald Ermine";
+			break;
+		case 1388:
+			str += "the Tanarukka";
+			break;
+		case 1389:
+			str += "the Forgiven Foes";
+			break;
+		case 1390:
+			str += "the Walking Man";
+			break;
+		case 1391:
+			str += "the Wrathful Eye";
+			break;
+		case 1392:
+			str += "the Scroll";
+			break;
+		case 1393:
+			str += "the Ring";
+			break;
+		case 1394:
+			str += "Deaths Unmourned";
+			break;
+		case 1395:
+			str += "Silent Death";
+			break;
+		case 1396:
+			str += "the Secret";
+			break;
+		case 1397:
+			str += "the Quill";
+			break;
+		case 1398:
+			str += "the Voyage";
+			break;
+		case 1399:
+			str += "the Fallen Friends";
+			break;
+		case 1400:
+			str += "Lost Ships";
+			break;
+		default:
+			str += "invalid year";
+	}
+
+	return str;
+}
+
 int ACR_GetFRMonth()
 {
 	return GetGlobalInt("ACR_FR_Month");
@@ -720,7 +832,8 @@ string ACR_FRDateToString(int full=1,int informal=0, int year=0, int month=0, in
 		if (tenday_str != "")
 			str += tenday_str + ", " + month_str + " " + day_str + ", ";
 
-		str += year_str;
+		str += ACR_GetFRYearName(year);
+		str += " ("+year_str+" DR)";
 	}
 	else {
 		month_str = IntToString(month);
@@ -731,7 +844,7 @@ string ACR_FRDateToString(int full=1,int informal=0, int year=0, int month=0, in
 		if (tenday_str != "")
 			str += day_str + "/" + month_str + "/";
 
-		str += year_str;
+		str += GetStringRight(year_str,2);
 	}
 
 	return str;
