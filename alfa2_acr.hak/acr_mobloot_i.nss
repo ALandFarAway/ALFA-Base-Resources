@@ -12,15 +12,19 @@
 /* Includes */
 #include "acr_1984_i"
 #include "acr_debug_i"
+#include "acr_i"
 
 const int _MOBLOOT_MIN_INT = 5;
-int _MOBLOOT_LOOT_CHANCE = 50;
+const float _MOBLOOT_DELAY = 30.0f;
+const float _MOBLOOT_DISTANCE = 60.0f;
+const int _MOBLOOT_LOOT_CHANCE = 50;
 
 const string _MOBLOOT_SYSTEM_NAME = "acr_mobloot_i";
 
 void _TransferAllItems(object oCreature, object oVictim);
 void _TransferItem(object oItem, object oCreature, object oVictim);
-void _CreatureLoot(object oCreature, object oVictim);
+void _CreatureCheckLoot(object oCreature, string sVictim);
+void _CreatureLoot(object oCreature, string sVictim);
 void ACR_CheckLootByMob(object oPC);
 
 // This gets called in player death.  If we can figure out the killer, it has
@@ -28,150 +32,143 @@ void ACR_CheckLootByMob(object oPC);
 // CHANCE_TO_LOOT, the mob gets the loot
 void ACR_CheckLootByMob(object oPC)
 {
-    int nType;
-    object oKiller;
-    string s,k;
-    
-    return;
+	int nType;
+	object oKiller;
+	string s,k;
 
-    ACR_CreateDebugSystem(_MOBLOOT_SYSTEM_NAME, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS);
+	return;
+	
+	ACR_CreateDebugSystem(_MOBLOOT_SYSTEM_NAME, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS);
 
-    s = GetName(oPC);
+	s = GetName(oPC);
 
-    // Who killed her?
-    oKiller = GetLocalObject(oPC, "ACR_DTH_LAST_DAMAGER");
+	// Who killed her?
+	oKiller = GetLocalObject(oPC, "ACR_DTH_LAST_DAMAGER");
 
-    k = GetName(oKiller);
+	k = GetName(oKiller);
 
-    ACR_PrintDebugMessage(s + " killed by " + k, _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
+	ACR_PrintDebugMessage(s + " killed by " + k, _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
 
 
-    if (GetIsPC(oKiller) || GetIsPC(GetMaster(oKiller)))
-    {
+	if (GetIsPC(oKiller) || GetIsPC(GetMaster(oKiller)))
+	{
 	ACR_PrintDebugMessage(s + " pked", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
-        return;
-    }
+		return;
+	}
 
-    // Is it smart enough?
-    int nCreatureInt = GetAbilityScore(oKiller, ABILITY_INTELLIGENCE);
-    if (nCreatureInt < _MOBLOOT_MIN_INT)
-    {
+	// Is it smart enough?
+	int nCreatureInt = GetAbilityScore(oKiller, ABILITY_INTELLIGENCE);
+	if (nCreatureInt < _MOBLOOT_MIN_INT)
+	{
 	ACR_PrintDebugMessage(IntToString(nCreatureInt) + " too low to loot", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
-        return;
-    }
+		return;
+	}
 
-    nType = GetRacialType(oKiller);
+	nType = GetRacialType(oKiller);
 
 
-    // Is it lucky enough?
-    if (nType == RACIAL_TYPE_ANIMAL ||
-	nType == RACIAL_TYPE_BEAST ||
-        nType == RACIAL_TYPE_CONSTRUCT ||
-        nType == RACIAL_TYPE_ELEMENTAL ||
-        nType == RACIAL_TYPE_OOZE ||
-        nType == RACIAL_TYPE_VERMIN) {
-	    
-	    if (Random(100) > _MOBLOOT_LOOT_CHANCE)
-	    {
-	        ACR_PrintDebugMessage("Wrong type to loot.", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
-	        return;
-	    }
-    }
+	// If non-standard type, there's a chance of it looting
+	if (nType == RACIAL_TYPE_ANIMAL ||
+		nType == RACIAL_TYPE_BEAST ||
+		nType == RACIAL_TYPE_CONSTRUCT ||
+		nType == RACIAL_TYPE_ELEMENTAL ||
+		nType == RACIAL_TYPE_OOZE ||
+		nType == RACIAL_TYPE_VERMIN) {
+		
+		if (Random(100) > _MOBLOOT_LOOT_CHANCE)
+		{
+			ACR_PrintDebugMessage("Wrong type to loot.", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
+			return;
+		}
+	}
 
-    // There goes my stuff!!
-    _CreatureLoot(oKiller, oPC);
+	// There goes my stuff!!
+	DelayCommand(_MOBLOOT_DELAY, AssignCommand(oKiller, _CreatureCheckLoot(oKiller, GetName(oPC))));
 }
 
-void _CreatureLoot(object oKiller, object oPC)
+// check every once in a while to see if other PCs are around me. if so, stop looting
+void _CreatureCheckLoot(object oKiller, string sPC)
 {
-    // Make sure the killer is still alive
-    if (GetIsDead(oKiller)) {
-        ACR_PrintDebugMessage("Looter is dead", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
-        return;
-    }
-
-
-    // add pickup animation
-    AssignCommand(oKiller, ActionMoveToObject(oPC, TRUE));
-    AssignCommand(oKiller, ActionPlayAnimation(ANIMATION_LOOPING_GET_LOW,
-       1.0, 2.0));
-
-    // Go for the gold!
-    int nAmtGold = GetGold(oPC);
-    if (nAmtGold > 0)
-    {
-	ACR_LogEvent(oPC, ACR_LOG_DROP, "Gold loss to Monster, "+IntToString(nAmtGold)+" gp.");
-        ACR_PrintDebugMessage("Gold loss to Monster, "+IntToString(nAmtGold)+" gp.", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
-        AssignCommand(oPC,TakeGoldFromCreature(nAmtGold, oPC, TRUE));
-    }
-
-    // Grab the goods
-    _TransferAllItems(oKiller, oPC);
+	object oNextPC;
+	oNextPC = GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_IS_PC, oKiller);
+	if (GetDistanceBetween(oKiller, oNextPC) < _MOBLOOT_DISTANCE) {
+		DelayCommand(_MOBLOOT_DELAY, _CreatureCheckLoot(oKiller, sPC));
+		return;
+	}
+	_CreatureLoot(oKiller, sPC);
 }
 
-//
+void _CreatureLoot(object oKiller, string sPC)
+{
+	object oPC;
+	int i=1;
+
+	// Make sure the killer is still alive
+	if (GetIsDead(oKiller)) {
+		ACR_PrintDebugMessage("Looter is dead", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
+		return;
+	}
+
+	while ((oPC = GetNearestObjectByTag(ACR_DTH_CORPSE_RESREF)) != OBJECT_INVALID) {
+		if (sPC != GetName(oPC))
+			++i;
+		else
+			break;
+	}
+
+	// Can't find corpse, leave.
+	if (oPC == OBJECT_INVALID)
+		return;
+
+	// add pickup animation
+	AssignCommand(oKiller, ActionMoveToObject(oPC, TRUE));
+	AssignCommand(oKiller, ActionPlayAnimation(ANIMATION_LOOPING_GET_LOW,
+	   1.0, 2.0));
+
+	// Grab the goods
+	_TransferAllItems(oKiller, oPC);
+}
+
 void _TransferItem(object oItem, object oCreature, object oVictim)
 {
-    if (oItem == OBJECT_INVALID)
-	    return;
+	if (oItem == OBJECT_INVALID)
+		return;
 
-    if (Random(100) > _MOBLOOT_LOOT_CHANCE) {
-        ACR_PrintDebugMessage("Skipping " + GetName(oItem) + " (" + GetTag(oItem) + ")", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
-        return;
-    }
+	if (Random(100) > _MOBLOOT_LOOT_CHANCE) {
+		ACR_PrintDebugMessage("Skipping " + GetName(oItem) + " (" + GetTag(oItem) + ")", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
+		return;
+	}
 
-    ACR_LogOnUnacquired(oItem, oVictim, FALSE);
-    ACR_PrintDebugMessage(GetName(oCreature) + " looted " + GetName(oItem) +
-       " from " + GetName(oVictim), _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
+	ACR_LogOnUnacquired(oItem, oVictim, FALSE);
+	ACR_PrintDebugMessage(GetName(oCreature) + " looted " + GetName(oItem) + " from " + GetName(oVictim), _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
 
-    //+++ AssignCommand(oCreature, ActionTakeItem(oItem, oVictim));
-    //
-    //ActionTakeItem doesn't seem to be a very reliable method.  Time
-    // to bring out the big guns...
-    CopyObject(oItem, GetLocation(oCreature), oCreature);
-    DestroyObject(oItem);
+	CopyObject(oItem, GetLocation(oCreature), oCreature);
+	DestroyObject(oItem);
 }
 
 // This Function Removes All Items from a Creature
 void _TransferAllItems(object oCreature, object oVictim)
 {
-    object oItem;
+	object oItem;
 
-    ACR_PrintDebugMessage("Looting GetName(oVictim)...", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
+	ACR_PrintDebugMessage("Looting "+GetName(oVictim)+"...", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
 
-    _TransferItem(GetItemInSlot(INVENTORY_SLOT_ARMS, oVictim), oCreature, oVictim);
-    _TransferItem(GetItemInSlot(INVENTORY_SLOT_ARROWS, oVictim), oCreature, oVictim);
-    _TransferItem(GetItemInSlot(INVENTORY_SLOT_BELT, oVictim), oCreature, oVictim);
-    _TransferItem(GetItemInSlot(INVENTORY_SLOT_BOLTS, oVictim), oCreature, oVictim);
-    _TransferItem(GetItemInSlot(INVENTORY_SLOT_BOOTS, oVictim), oCreature, oVictim);
-    _TransferItem(GetItemInSlot(INVENTORY_SLOT_BULLETS, oVictim), oCreature, oVictim);
-    _TransferItem(GetItemInSlot(INVENTORY_SLOT_CHEST, oVictim), oCreature, oVictim);
-    _TransferItem(GetItemInSlot(INVENTORY_SLOT_CLOAK, oVictim), oCreature, oVictim);
-    _TransferItem(GetItemInSlot(INVENTORY_SLOT_HEAD, oVictim), oCreature, oVictim);
-    _TransferItem(GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oVictim), oCreature, oVictim);
-    _TransferItem(GetItemInSlot(INVENTORY_SLOT_LEFTRING, oVictim), oCreature, oVictim);
-    _TransferItem(GetItemInSlot(INVENTORY_SLOT_NECK, oVictim), oCreature, oVictim);
-    _TransferItem(GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oVictim), oCreature, oVictim);
-    _TransferItem(GetItemInSlot(INVENTORY_SLOT_RIGHTRING, oVictim), oCreature, oVictim);
+	oItem = GetFirstItemInInventory(oVictim);
+	while (oItem != OBJECT_INVALID)
+	{
+		// Check for stuff that shouldn't get looted, like visas and death tokens
+		int nOkayToTransfer = TRUE;
 
+		if (GetPlotFlag(oItem) || GetItemCursedFlag(oItem))
+		{
+			nOkayToTransfer = FALSE;
+			ACR_PrintDebugMessage("Suppress plot item " + GetName(oItem) + " (" + GetTag(oItem) + ")", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
+		}
 
-    oItem = GetFirstItemInInventory(oVictim);
-    while (oItem != OBJECT_INVALID)
-    {
-        // Check for stuff that shouldn't get looted, like visas and death tokens
-        int nOkayToTransfer = TRUE;
+		if (nOkayToTransfer)
+			_TransferItem(oItem, oCreature, oVictim);
 
-        if (GetPlotFlag(oItem) || GetItemCursedFlag(oItem))
-        {
-            nOkayToTransfer = FALSE;
-            ACR_PrintDebugMessage("Suppress plot item " + GetName(oItem) + " (" + GetTag(oItem) + ")", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
-        }
-
-        //+++
-        if (nOkayToTransfer)
-            _TransferItem(oItem, oCreature, oVictim);
-
-        oItem = GetNextItemInInventory(oVictim);
-    }
+		oItem = GetNextItemInInventory(oVictim);
+	}
 }
 
