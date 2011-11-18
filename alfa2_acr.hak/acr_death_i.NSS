@@ -106,12 +106,6 @@ const int ACR_DTH_PERCENT_CHANCE = 10;
 //! ResRef of invisible undertakers (used for randomized weapon drops)
 const string ACR_DTH_UNDERTAKER_RESREF = "abr_cr_sp_undertaker";
 
-//! ResRef of the player corpse placeable (container)
-const string ACR_DTH_CORPSE_RESREF = "abr_pl_co_so_pccorpse";
-
-//! ResRef of the player corpse item (inventory)
-const string ACR_DTH_BODY_RESREF = "abr_it_mi_body";
-
 //! Tag of morgue area and waypoint
 const string ACR_DTH_MORGUE_AR_TAG = "abr_ar_morgue";
 const string ACR_DTH_MORGUE_WP_TAG = "abr_wp_morgue";
