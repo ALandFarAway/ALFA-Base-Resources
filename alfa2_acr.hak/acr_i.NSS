@@ -325,6 +325,10 @@ const int ACR_PLAYER_FLAG_DECAYED     = 0x100;
 
 const int ACR_PLAYER_FLAG_ALL         = 0xFFF;
 
+//! Misc constants/tags
+//! NWN gold
+const string ACR_NWN_GOLD_TAG         = "NWN_IT_GOLD001";
+
 //
 // The following flags must immediately hit the database so that they can be
 // referenced by the death system (which bypasses the cache as it works on the
