@@ -17,7 +17,8 @@
 const int _MOBLOOT_MIN_INT = 5;
 const float _MOBLOOT_DELAY = 30.0f;
 const float _MOBLOOT_DISTANCE = 60.0f;
-const int _MOBLOOT_LOOT_CHANCE = 50;
+const int _MOBLOOT_LOOT_ITEM_CHANCE = 50;
+const int _MOBLOOT_LOOT_CREATURE_CHANCE = 20;
 
 const string _MOBLOOT_SYSTEM_NAME = "acr_mobloot_i";
 
@@ -28,16 +29,15 @@ void _CreatureLoot(object oCreature, string sVictim);
 void ACR_CheckLootByMob(object oPC);
 
 // This gets called in player death.  If we can figure out the killer, it has
-// an intelligence of MIN_INTELLIGENCE or higher, and can roll at or below
-// CHANCE_TO_LOOT, the mob gets the loot
+// an intelligence of MIN_INTELLIGENCE or higher
 void ACR_CheckLootByMob(object oPC)
 {
-	int nType;
+	int nType,nInt;
 	object oKiller;
 	string s,k;
 
 	return;
-	
+
 	ACR_CreateDebugSystem(_MOBLOOT_SYSTEM_NAME, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS);
 
 	s = GetName(oPC);
@@ -50,17 +50,16 @@ void ACR_CheckLootByMob(object oPC)
 	ACR_PrintDebugMessage(s + " killed by " + k, _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
 
 
-	if (GetIsPC(oKiller) || GetIsPC(GetMaster(oKiller)))
-	{
-	ACR_PrintDebugMessage(s + " pked", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
+	if (GetIsPC(oKiller) || GetIsPC(GetMaster(oKiller))) {
+		ACR_PrintDebugMessage(s + " pked", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
 		return;
 	}
 
 	// Is it smart enough?
-	int nCreatureInt = GetAbilityScore(oKiller, ABILITY_INTELLIGENCE);
-	if (nCreatureInt < _MOBLOOT_MIN_INT)
-	{
-	ACR_PrintDebugMessage(IntToString(nCreatureInt) + " too low to loot", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
+	nInt = GetAbilityScore(oKiller, ABILITY_INTELLIGENCE);
+
+	if (nInt < _MOBLOOT_MIN_INT) {
+		ACR_PrintDebugMessage(IntToString(nInt) + " too low to loot", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
 		return;
 	}
 
@@ -75,9 +74,9 @@ void ACR_CheckLootByMob(object oPC)
 		nType == RACIAL_TYPE_OOZE ||
 		nType == RACIAL_TYPE_VERMIN) {
 		
-		if (Random(100) > _MOBLOOT_LOOT_CHANCE)
+		if (Random(100)+1 > _MOBLOOT_LOOT_CREATURE_CHANCE)
 		{
-			ACR_PrintDebugMessage("Wrong type to loot.", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
+			ACR_PrintDebugMessage("Wrong creature type to loot.", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
 			return;
 		}
 	}
@@ -131,10 +130,16 @@ void _CreatureLoot(object oKiller, string sPC)
 
 void _TransferItem(object oItem, object oCreature, object oVictim)
 {
+	int nGold=0;
+
 	if (oItem == OBJECT_INVALID)
 		return;
+	
+	// Always loot gold
+	if (GetTag(oItem) == ACR_NWN_GOLD_TAG)
+		nGold = 1;
 
-	if (Random(100) > _MOBLOOT_LOOT_CHANCE) {
+	if (!nGold && (Random(100)+1 > _MOBLOOT_LOOT_ITEM_CHANCE)) {
 		ACR_PrintDebugMessage("Skipping " + GetName(oItem) + " (" + GetTag(oItem) + ")", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
 		return;
 	}
@@ -150,22 +155,21 @@ void _TransferItem(object oItem, object oCreature, object oVictim)
 void _TransferAllItems(object oCreature, object oVictim)
 {
 	object oItem;
+	int nTransfer;
 
 	ACR_PrintDebugMessage("Looting "+GetName(oVictim)+"...", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
 
 	oItem = GetFirstItemInInventory(oVictim);
-	while (oItem != OBJECT_INVALID)
-	{
+	while (oItem != OBJECT_INVALID) {
 		// Check for stuff that shouldn't get looted, like visas and death tokens
-		int nOkayToTransfer = TRUE;
+		nTransfer = TRUE;
 
-		if (GetPlotFlag(oItem) || GetItemCursedFlag(oItem))
-		{
-			nOkayToTransfer = FALSE;
+		if (GetPlotFlag(oItem) || GetItemCursedFlag(oItem)) {
+			nTransfer = FALSE;
 			ACR_PrintDebugMessage("Suppress plot item " + GetName(oItem) + " (" + GetTag(oItem) + ")", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
 		}
 
-		if (nOkayToTransfer)
+		if (nTransfer)
 			_TransferItem(oItem, oCreature, oVictim);
 
 		oItem = GetNextItemInInventory(oVictim);
