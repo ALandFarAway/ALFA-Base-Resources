@@ -60,6 +60,8 @@ const string _ACR_LOOT_MULTIPLIER = "ACR_LOOT_MULTIPLIER";
 
 // This structure contains wealth information for a PC
 struct PCWealthStruct {
+
+	
     int wealth;
     int averageLevel;
     int highLevel;
@@ -87,10 +89,6 @@ void ACR_GenerateTreasure(object oCreature, int nLootValue);
 //! otherwise assigns a default.
 int _GetLootMultiplier(object oSpawn);
 
-//! Returns a randomized value on a gaussian (normal) distribution using the polar form of the Box-Muller Transformation.
-//! taking into account mean fMean and standard deviation fStDev.
-float _RandomizeNormalCurve(float fMean, float ftdDev);
-
 //! This function generates loot drops on a specific creature
 void _generateTreasure(object oCreature, int nLootValue, int nItems=0);
 
@@ -100,7 +98,7 @@ void _generateTreasure(object oCreature, int nLootValue, int nItems=0);
 
 int ACR_GetRandomDropValue(object oMob)
 {
-    int nType = GetRacialType(oMob);
+    int nType = GetRacialType(oMob), nCalc;
 
     // skip the creatures that drop and carry nothing
     if (nType == RACIAL_TYPE_ANIMAL ||
@@ -124,9 +122,16 @@ int ACR_GetRandomDropValue(object oMob)
 
     // should subtract droppable gear from this for the final version, though perhaps better done after the
     // randomization and multiplier.  
-    float fRand = _RandomizeNormalCurve(ACR_WLT_SPAWNLOOT_MEAN, ACR_WLT_SPAWNLOOT_STDEV);
+    float fRand = ACR_RandomNormal(ACR_WLT_SPAWNLOOT_MEAN, ACR_WLT_SPAWNLOOT_STDEV);
 
-    return FloatToInt(fCreatMulti * fBaseDrop * fRand);
+    nCalc = FloatToInt(fCreatMulti * fBaseDrop * fRand);
+    
+    // record "lucky" drops
+    if ((fRand - ACR_WLT_SPAWNLOOT_MEAN)/ACR_WLT_SPAWNLOOT_STDEV >= 2.0f)
+	    WriteTimestampedLogEntry(GetName(oMob) + " ["+GetTag(oMob)+"] killed by "+GetName(GetLastKiller())+" in "+GetName(GetArea(oMob))+" ["+GetTag(GetArea(oMob))+"] dropped loot 2 stdev from mean ("+IntToString(nCalc)+")");
+    
+
+    return nCalc;
 }
 
 void ACR_GenerateTreasure(object oCreature, int nLootValue)
@@ -248,22 +253,6 @@ int _GetLootMultiplier(object oSpawn) {
             (GetSubRace(oSpawn) == RACIAL_SUBTYPE_BEAST) ||
             (GetRacialType(oSpawn) == RACIAL_TYPE_VERMIN) ||
             (GetRacialType(oSpawn) == RACIAL_TYPE_INCORPOREAL)) ? 0 : 1;
-}
-
-float _RandomizeNormalCurve(float fMean, float fStDev) {
-    // lifted from ftp://ftp.taygeta.com/pub/c/boxmuller.c by AcadiusLost.
-
-    float x1, x2, w, y1;
-    do {
-        x1 = 2.0 * ACR_RandomFloat() - 1.0;
-        x2 = 2.0 * ACR_RandomFloat() - 1.0;
-        w = x1 * x1 + x2 * x2;
-    } while (w >= 1.0);
-	
-    w = sqrt((-2.0 * log(w))/w);
-    y1 = x1 * w;
-	
-    return (fMean + (y1 * fStDev));
 }
 
 void _generateTreasure(object oCreature, int nLootValue, int nItems=0)

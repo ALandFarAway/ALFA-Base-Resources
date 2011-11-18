@@ -14,6 +14,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_1984_i.nss                        \
             $(OUTPUTDIR)\acr_area_i.nss                        \
             $(OUTPUTDIR)\acr_array_i.nss                       \
+            $(OUTPUTDIR)\acr_list_i.nss                        \
             $(OUTPUTDIR)\acr_chat_i.nss                        \
             $(OUTPUTDIR)\acr_creature_i.nss                    \
             $(OUTPUTDIR)\acr_db_persist_i.nss                  \

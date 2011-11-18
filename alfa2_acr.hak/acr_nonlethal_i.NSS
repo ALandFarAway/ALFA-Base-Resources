@@ -584,6 +584,7 @@ void ACR_ApplyNonlethalDamageToCreature(object oTarget, int nSubdualDamage)
     int nNLDTotal = _GetNLDTotal(oTarget);
     int nHPMax = GetMaxHitPoints(oTarget);
     int nCap = nHPMax + 10;
+    SendMessageToPC(oTarget,"<c=orange>You take </c> "+IntToString(nSubdualDamage)+" <c=orange> points of non-lethal damage.</c>");
     nNLDTotal = ((nNLDTotal + nSubdualDamage) > nCap) ? nCap :
             nNLDTotal + nSubdualDamage;
     _SetNLDTotal(oTarget, nNLDTotal);

@@ -42,7 +42,9 @@ const float HOUR_TO_SECONDS = 3600.0;
 
 // The date in which our time counter begins counting seconds to keep track of
 // Realms time.
-const int TIME_YEAR_START = 1373;
+const int TIME_YEAR_START = 1375;
+
+const int ALFA2_YEAR_START = 2008;
 
 /*const int _TIME_SECONDS_START = 0;
 const int _TIME_SECONDS_END = 5;
@@ -87,6 +89,10 @@ float ACR_GameMinutesToRealSeconds(float nMinutes);
 //! Returns the number of real-time seconds in nHours game-seconds.
 float ACR_GameSecondsToRealSeconds(float nSeconds);
 
+//! Gets the game clock as an integer counting the number of milliseconds passed since
+//! the server started.
+int ACR_GetGameMillisecondsSinceStart();
+
 //! Gets the game clock as an integer counting the number of seconds passed since
 //! the server started.
 int ACR_GetGameSecondsSinceStart();
@@ -118,8 +124,8 @@ float ACR_GetSecondsUntilNextHour(int nHour);
 //! Returns the ratio of game to real time the module was started with.
 float ACR_GetGameToRealTimeRatio();
 
-//! Returns the current day of the tenday (from 1 to 10).
-int ACR_GetDayOfTenday();
+//! Finds out day of the tenday (from 1 to 10).
+int ACR_GetDayOfTenday(int day=-1);
 
 //! Stores the current time passage persistently
 void ACR_StoreTime();
@@ -132,6 +138,39 @@ int ACR_GetTimeStampInMinutes();
 //!  - bStartOfDay: Calculate time up through hour 0.
 //!  - Returns: number of hours
 int ACR_GetTimeStampInHours(int bStartOfDay = FALSE);
+
+//! Converts given date to readable string
+//!  - full: Full or short date
+//!  - informal: informal or formal month names
+//!  - Returns: readable string of date
+string ACR_FRDateToString(int full=1,int informal=0, int year=0, int month=0, int day=0, int holiday=0);
+
+//! Returns current FR year
+int ACR_GetFRYear();
+
+//! Returns name of FR Year
+string ACR_GetFRYearName(int year=0);
+
+//! Returns current FR month
+int ACR_GetFRMonth();
+
+//! Returns current FR day
+int ACR_GetFRDay();
+
+//! Returns current FR tenday
+int ACR_GetFRTenday();
+
+//! Returns current FR holiday
+int ACR_GetFRHoliday();
+
+//! Converts given rl date to fr date
+//!  - Returns: FR date
+string ACR_ConvertDate(int year=0, int month=0, int day=0);
+
+// Private functions
+
+//! Calculate and set proper FR date from RL date
+void _CalcDate();
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -162,10 +201,10 @@ void ACR_InitializeTime() {
 	if (nStoredTime == 0) {
 		// no server timestamps could be found (new schema?)
 		// start from canon start date.
-        SetCalendar(1373, 1, 1);
+        SetCalendar(TIME_YEAR_START, 1, 1);
 		ACR_SetPersistentInt(oMod, ACR_MODULE_TIME, ACR_GetTimeStampInMinutes());
 		ACR_StoreTime();
-		WriteTimestampedLogEntry("Restarted canon calander at Jan 1, 1373; as no record could be found.");
+		WriteTimestampedLogEntry("Restarted canon calander at Jan 1, TIME_YEAR_START; as no record could be found.");
 	} else {
 	    // Work out date from timestamp (total faerun minutes since DR)
 	    int nYear = nStoredTime / 483840;
@@ -198,47 +237,50 @@ float ACR_GameSecondsToRealSeconds(float nSeconds) {
     return nSeconds / ACR_GetGameToRealTimeRatio();
 }
 
-int ACR_GetGameSecondsSinceStart() {
-    int nYears = GetCalendarYear() - TIME_YEAR_START;
-    int nMonths = nYears * 12 + GetCalendarMonth() - 1;
-    int nDays = nMonths * DAYS_PER_MONTH + GetCalendarDay() - 1;
-    int nHours = nDays * 24 + GetTimeHour();
-    int nMinutes = nHours * 60 + GetTimeMinute();
+int ACR_GetGameMillisecondsSinceStart()
+{
+    int nSeconds = ACR_GetGameSecondsSinceStart();
+    int nMilSeconds = nSeconds * 1000 + GetTimeMillisecond();
+    return nMilSeconds;
+}
+
+int ACR_GetGameSecondsSinceStart()
+{
+    int nMinutes = ACR_GetGameMinutesSinceStart();
     int nSeconds = nMinutes * 60 + GetTimeSecond();
     return nSeconds;
 }
 
-int ACR_GetGameMinutesSinceStart() {
-    int nYears = GetCalendarYear() - TIME_YEAR_START;
-    int nMonths = nYears * 12 + GetCalendarMonth() - 1;
-    int nDays = nMonths * DAYS_PER_MONTH + GetCalendarDay() - 1;
-    int nHours = nDays * 24 + GetTimeHour();
+int ACR_GetGameMinutesSinceStart()
+{
+    int nHours = ACR_GetGameHoursSinceStart();
     int nMinutes = nHours * 60 + GetTimeMinute();
     return nMinutes;
 }
 
-int ACR_GetGameHoursSinceStart() {
-    int nYears = GetCalendarYear() - TIME_YEAR_START;
-    int nMonths = nYears * 12 + GetCalendarMonth() - 1;
-    int nDays = nMonths * DAYS_PER_MONTH + GetCalendarDay() - 1;
+int ACR_GetGameHoursSinceStart()
+{
+    int nDays = ACR_GetGameDaysSinceStart();
     int nHours = nDays * 24 + GetTimeHour();
     return nHours;
 }
 
-int ACR_GetGameDaysSinceStart() {
-    int nYears = GetCalendarYear() - TIME_YEAR_START;
-    int nMonths = nYears * 12 + GetCalendarMonth() - 1;
+int ACR_GetGameDaysSinceStart()
+{
+    int nMonths = ACR_GetGameMonthsSinceStart();
     int nDays = nMonths * DAYS_PER_MONTH + GetCalendarDay() - 1;
     return nDays;
 }
 
-int ACR_GetGameMonthsSinceStart() {
-    int nYears = GetCalendarYear() - TIME_YEAR_START;
+int ACR_GetGameMonthsSinceStart()
+{
+    int nYears = ACR_GetGameYearsSinceStart();
     int nMonths = nYears * 12 + GetCalendarMonth() - 1;
     return nMonths;
 }
 
-int ACR_GetGameYearsSinceStart() {
+int ACR_GetGameYearsSinceStart()
+{
     int nYears = GetCalendarYear() - TIME_YEAR_START;
     return nYears;
 }
@@ -258,14 +300,12 @@ float ACR_GetGameToRealTimeRatio() {
     return 3600.0 / HoursToSeconds(1);
 }
 
-int ACR_GetDayOfTenday() {
-    return (ACR_GetGameDaysSinceStart() % 10) + 1;
-}
-
 void ACR_StoreTime()
 {
-    object oMod = GetModule();
-    int nLastTimestamp = ACR_GetPersistentInt(oMod, ACR_MODULE_TIME);
+	object oMod = GetModule();
+	int date,day,month,year;
+
+	int nLastTimestamp = ACR_GetPersistentInt(oMod, ACR_MODULE_TIME);
 	if (nLastTimestamp == 0) {
 	    int nNumberOfFails = GetLocalInt(oMod, ACR_DB_FAILURES);
 		if (nNumberOfFails > 2) { 
@@ -275,7 +315,25 @@ void ACR_StoreTime()
 	} else {
 	    SetLocalInt(oMod, ACR_DB_FAILURES, 0);
 	}
-    ACR_SetPersistentInt(oMod, ACR_MODULE_TIME, ACR_GetTimeStampInMinutes());
+
+	ACR_SetPersistentInt(oMod, ACR_MODULE_TIME, ACR_GetTimeStampInMinutes());
+
+	// Handling for rl -> fr date conversion
+	ACR_SQLQuery("SELECT CURDATE() + 0");
+
+	if (ACR_SQLFetch() == SQL_SUCCESS) {
+		date = StringToInt(ACR_SQLGetData(0));
+		day = date % 100;
+		month = (date / 100) % 100;
+		year = (date / 10000);
+
+		SetGlobalInt("ACR_Day", day);
+		SetGlobalInt("ACR_Month", month);
+		SetGlobalInt("ACR_Year", year);
+	}
+
+	_CalcDate();
+
 	DelayCommand(420.0, ACR_StoreTime());
 }
 
@@ -307,3 +365,487 @@ int ACR_GetTimeStampInHours(int bStartOfDay = FALSE)
     return nTimeStamp;
 }
 
+void _CalcDate()
+{
+	string str,sub;
+	int i,j,len,year,month,day,holiday;
+
+	str = ACR_ConvertDate();
+	j=-1;
+
+	i=j+1;
+	j = FindSubString(str,",",i);
+	sub = GetSubString(str,i,j-i);
+	year = StringToInt(sub);
+
+	i=j+1;
+	j = FindSubString(str,",",i);
+	sub = GetSubString(str,i,j-i);
+	month = StringToInt(sub);
+
+	i=j+1;
+	j = FindSubString(str,",",i);
+	sub = GetSubString(str,i,j-i);
+	day = StringToInt(sub);
+
+	i=j+1;
+	j = GetStringLength(str);
+	sub = GetSubString(str,i,j-i);
+	holiday = StringToInt(sub);
+
+
+	SetGlobalInt("ACR_FR_Year", year);
+	SetGlobalInt("ACR_FR_Month", month);
+	SetGlobalInt("ACR_FR_Day", day);
+	SetGlobalInt("ACR_FR_Holiday", holiday);
+}
+
+string ACR_ConvertDate(int year=0, int month=0, int day=0)
+{
+	int holiday = 0, leap;
+
+	// Harptos Calendar
+	// ----------------
+	//
+	// 30	- Hammer [Deepwinter]
+	// 1	- Midwinter
+	// 30	- Aluriak [The Claw(s) of Winter/The Cold]
+	// 30	- Ches (18, Spring Equinox) [The Claw of the Sunsets]
+	// 30	- Tarsakh [The Claw of the Storms]
+	// 1	- Greengrass
+	// 30	- Mirtul [The Melting]
+	// 30	- Kythorn (20, Summer Solstice) [The Time of Flowers]
+	// 30	- Flamerule [Summertide]
+	// 1	- Midsummer
+	// 1 	- Shieldmeet (leap only)
+	// 30	- Eleasias [Highsun]
+	// 30	- Eleint (21, Autumn Equinox) [The Fading]
+	// 1	- Highharvestide
+	// 30	- Marpenoth [Leafall]
+	// 30	- Uktar [The Rotting]
+	// 1	- Feast of the Moon
+	// 30	- Nightal (20, Winter Solstice) [The Drawing Down]
+	
+	if (year == 0)
+		year = GetGlobalInt("ACR_Year");
+	if (month == 0)
+		month = GetGlobalInt("ACR_Month");
+	if (day == 0)
+		day = GetGlobalInt("ACR_Day");
+
+	leap = !((year - ALFA2_YEAR_START) % 4);
+
+	day += month > 11 ? 30 : 0;
+	day += month > 10 ? 31 : 0;
+	day += month > 9 ? 30 : 0;
+	day += month > 8 ? 31 : 0;
+	day += month > 7 ? 31 : 0;
+	day += month > 6 ? 30 : 0;
+	day += month > 5 ? 31 : 0;
+	day += month > 4 ? 30 : 0;
+	day += month > 3 ? 31 : 0;
+	day += month > 2 ? 28 + leap : 0;
+	day += month > 1 ? 31 : 0;
+
+	if (day <= 30) {
+		month = 1;
+	}
+	// midwinter
+	else if (day == 30 + 1) {
+		month = 0;
+		day = 0;
+		holiday = 1;
+	}
+	else if (day <= 31 + 30) {
+		month = 2;
+		day -= 31;
+	}
+	else if (day <= 61 + 30) {
+		month = 3;
+		day -= 61;
+		if (day == 18)
+			holiday = 2;
+	}
+	else if (day <= 91 + 30) {
+		month = 4;
+		day -= 91;
+	}
+	// greengrass
+	else if (day <= 121 + 1) {
+		month = 0;
+		day = 0;
+		holiday = 3;
+	}
+	else if (day <= 122 + 30) {
+		month = 5;
+		day -= 122;
+	}
+	else if (day <= 152 + 30) {
+		month = 6;
+		day -= 152;
+		if (day == 20)
+			holiday = 4;
+	}
+	else if (day <= 182 + 30) {
+		month = 7;
+		day -= 182;
+	}
+	// midsummer
+	else if (day <= 212 + 1) {
+		month = 0;
+		day = 0;
+		holiday = 5;
+	}
+	// shieldmeet, leap
+	else if (leap && (day <= 213 + 1)) {
+		month = 0;
+		day = 0;
+		holiday = 6;
+	}
+	// calculate w/ leap offset
+	else {
+		if (leap)
+			day--;
+
+		if (day <= 213 + 30) {
+			month = 8;
+			day -= 213;
+		}
+		else if (day <= 243 + 30) {
+			month = 9;
+			day -= 243;
+			if (day == 21)
+				holiday = 7;
+		}
+		// highharvestide
+		else if (day <= 273 + 1) {
+			month = 0;
+			day = 0;
+			holiday = 8;
+		}
+		else if (day <= 274 + 30) {
+			month = 10;
+			day -= 274;
+		}
+		else if (day <= 304 + 30) {
+			month = 11;
+			day -= 304;
+		}
+		// feast of the moon
+		else if (day <= 334 + 1) {
+			month = 0;
+			day = 0;
+			holiday = 9;
+		}
+		else {
+			month = 12;
+			day -= 335;
+			if (day == 20)
+				holiday = 10;
+		}
+	}
+
+	year -= (ALFA2_YEAR_START - TIME_YEAR_START);
+
+	return IntToString(year)+","+IntToString(month)+","+IntToString(day)+","+IntToString(holiday);
+}
+
+int ACR_GetFRYear()
+{
+	return GetGlobalInt("ACR_FR_Year");
+}
+
+string ACR_GetFRYearName(int year=0)
+{
+	string str = "Year of";
+	if (year == 0)
+		year = ACR_GetFRYear();
+
+	str += " ";
+
+	switch (year) {
+		case 1370:
+			str += "the Tankard";
+			break;
+		case 1371:
+			str += "the Unstrung Harp";
+			break;
+		case 1372:
+			str += "Wild Magic";
+			break;
+		case 1373:
+			str += "Rogue Dragons";
+			break;
+		case 1374:
+			str += "Lightning Storms";
+			break;
+		case 1375:
+			str += "Risen Elfkin";
+			break;
+		case 1376:
+			str += "the Bent Blade";
+			break;
+		case 1377:
+			str += "the Haunting";
+			break;
+		case 1378:
+			str += "the Cauldron";
+			break;
+		case 1379:
+			str += "the Lost Keep";
+			break;
+		case 1380:
+			str += "the Blazing Hand";
+			break;
+		case 1381:
+			str += "Starving";
+			break;
+		case 1382:
+			str += "the Black Blazon";
+			break;
+		case 1383:
+			str += "the Vindicated Warrior";
+			break;
+		case 1384:
+			str += "Three Streams Blooded";
+			break;
+		case 1385:
+			str += "Blue Fire";
+			break;
+		case 1386:
+			str += "the Halflings' Lament";
+			break;
+		case 1387:
+			str += "the Emerald Ermine";
+			break;
+		case 1388:
+			str += "the Tanarukka";
+			break;
+		case 1389:
+			str += "the Forgiven Foes";
+			break;
+		case 1390:
+			str += "the Walking Man";
+			break;
+		case 1391:
+			str += "the Wrathful Eye";
+			break;
+		case 1392:
+			str += "the Scroll";
+			break;
+		case 1393:
+			str += "the Ring";
+			break;
+		case 1394:
+			str += "Deaths Unmourned";
+			break;
+		case 1395:
+			str += "Silent Death";
+			break;
+		case 1396:
+			str += "the Secret";
+			break;
+		case 1397:
+			str += "the Quill";
+			break;
+		case 1398:
+			str += "the Voyage";
+			break;
+		case 1399:
+			str += "the Fallen Friends";
+			break;
+		case 1400:
+			str += "Lost Ships";
+			break;
+		default:
+			str += "invalid year";
+	}
+
+	return str;
+}
+
+int ACR_GetFRMonth()
+{
+	return GetGlobalInt("ACR_FR_Month");
+}
+
+int ACR_GetFRDay()
+{
+	return GetGlobalInt("ACR_FR_Day");
+}
+
+int ACR_GetDayOfTenday(int day = -1)
+{
+	if (day == -1)
+		day = GetGlobalInt("ACR_FR_Day");
+
+	if (day == 0)
+		return 0;
+
+	return (day%10);
+}
+
+int ACR_GetFRWeekday()
+{
+	return ACR_GetDayOfTenday();
+}
+
+int ACR_GetFRHoliday()
+{
+	return GetGlobalInt("ACR_FR_Holiday");
+}
+
+string ACR_FRDateToString(int full=1,int informal=0, int year=0, int month=0, int day=0, int holiday=0)
+{
+	int tenday;
+	string str="",tenday_str,day_str,year_str,month_str,holiday_str;
+
+	if (year == 0) {
+		year = GetGlobalInt("ACR_FR_Year");
+		month = GetGlobalInt("ACR_FR_Month");
+		day = GetGlobalInt("ACR_FR_Day");
+		holiday = GetGlobalInt("ACR_FR_Holiday");
+	}
+
+	tenday = ACR_GetDayOfTenday(day);
+
+
+	switch (tenday) {
+		case 1:
+			tenday_str = "First-day";
+			break;
+		case 2:
+			tenday_str = "Second-day";
+			break;
+		case 3:
+			tenday_str = "Third-day";
+			break;
+		case 4:
+			tenday_str = "Fourth-day";
+			break;
+		case 5:
+			tenday_str = "Fifth-day";
+			break;
+		case 6:
+			tenday_str = "Sixth-day";
+			break;
+		case 7:
+			tenday_str = "Seventh-day";
+			break;
+		case 8:
+			tenday_str = "Eighth-day";
+			break;
+		case 9:
+			tenday_str = "Ninth-day";
+			break;
+		case 10:
+			tenday_str = "Tenth-day";
+			break;
+		default:
+			tenday_str = "";
+	}
+
+	switch (month) {
+		case 1:
+			month_str = informal ? "Deepwinter" : "Hammer";
+			break;
+		case 2:
+			month_str = informal ? "The Claw of Winter" : "Aluriak";
+			break;
+		case 3:
+			month_str = informal ? "The Claw of the Sunsets" : "Ches";
+			break;
+		case 4:
+			month_str = informal ? "The Claw of the Storms" : "Tarsakh";
+			break;
+		case 5:
+			month_str = informal ? "The Melting" : "Mirtul";
+			break;
+		case 6:
+			month_str = informal ? "The Time of Flowers" : "Kythorn";
+			break;
+		case 7:
+			month_str = informal ? "Summertide" : "Flamerule";
+			break;
+		case 8:
+			month_str = informal ? "Highsun" : "Eleasias";
+			break;
+		case 9:
+			month_str = informal ? "The Fading" : "Eleint";
+			break;
+		case 10:
+			month_str = informal ? "Leafall" : "Marpenoth";
+			break;
+		case 11:
+			month_str = informal ? "The Rotting" : "Uktar";
+			break;
+		case 12:
+			month_str = informal ? "The Drawing Down" : "Nightal";
+			break;
+		default:
+			month_str = "";
+	}
+
+	
+	switch (holiday) {
+		case 1:
+			holiday_str = "Midwinter";
+			break;
+		case 2:
+			holiday_str = "Spring Equinox";
+			break;
+		case 3:
+			holiday_str = "Greengrass";
+			break;
+		case 4:
+			holiday_str = "Summer Solstice";
+			break;
+		case 5:
+			holiday_str = "Midsummer";
+			break;
+		case 6:
+			holiday_str = "Shieldmeet";
+			break;
+		case 7:
+			holiday_str = "Autumn Equinox";
+			break;
+		case 8:
+			holiday_str = "Highharvestide";
+			break;
+		case 9:
+			holiday_str = "Feast of the Moon";
+			break;
+		case 10:
+			holiday_str = "Winter Solstice";
+			break;
+		default:
+			holiday_str = "";
+	}
+
+	day_str = IntToString(day);
+	year_str = IntToString(year);
+
+	if (full) {
+		if (holiday_str != "")
+			str += holiday_str + " ";
+
+		if (tenday_str != "")
+			str += tenday_str + ", " + month_str + " " + day_str + ", ";
+
+		str += ACR_GetFRYearName(year);
+		str += " ("+year_str+" DR)";
+	}
+	else {
+		month_str = IntToString(month);
+
+		if (holiday_str != "")
+			str += holiday_str + " ";
+
+		if (tenday_str != "")
+			str += day_str + "/" + month_str + "/";
+
+		str += GetStringRight(year_str,2);
+	}
+
+	return str;
+}
