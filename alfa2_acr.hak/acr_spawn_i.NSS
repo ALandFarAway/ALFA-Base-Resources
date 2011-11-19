@@ -695,9 +695,9 @@ float _GetSecondsSinceSpawnRefresh(object oArea);
 //! at oWP. nFlags is passed to prevent redundant GetLocalInt() calls.
 object _SpawnObject(string sResRef, int nObjectType, object oWP, location lLoc, int nFlags, int nAlternate=FALSE);
 
-//! Semi-intelligently buffs OBJECT_SELF with all of its hour/level (or longer)
+//! Semi-intelligently buffs oCreature with all of its hour/level (or longer)
 //! duration buffs.
-void _BuffSelf();
+void ActivateLongTermBuffs(object oCreature);
 
 //! Randomizes a location within a given range, used for both RANDOM_RANGE and RANDOM_RADIUS
 //!  called from the _SpawnPoint() function
@@ -1650,76 +1650,87 @@ void _SpawnAreaHeartbeat(object oArea) {
     DelayCommand( GetRefreshDelay(), _SpawnAreaHeartbeat(oArea) );
 }
 
-void _BuffSelf() {
-    // FIX ME !!
-    // Add NWN2 spells.
+void _QuickBuff(object oCaster, int nSpell, object oTarget = OBJECT_INVALID) {
+	if(oTarget == OBJECT_INVALID) oTarget = oCaster;
+	AssignCommand(oCaster, ActionCastSpellAtObject(nSpell, oCaster, METAMAGIC_ANY, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE));
+}
+
+void ActivateLongTermBuffs(object oCaster) {
 
     // Cast protection from good/evil based on alignment.
-    if(GetAlignmentLawChaos(OBJECT_SELF) == ALIGNMENT_EVIL) {
-        ActionCastSpellAtObject(SPELL_PROTECTION_FROM_GOOD, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
+    if(GetAlignmentGoodEvil(oCaster) == ALIGNMENT_EVIL) {
+		_QuickBuff(oCaster, SPELL_PROTECTION_FROM_GOOD);
     } else {
-        ActionCastSpellAtObject(SPELL_PROTECTION_FROM_EVIL, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
+		_QuickBuff(oCaster, SPELL_PROTECTION_FROM_EVIL);
     }
-
-    // Cast protection from law/chaos based on alignment.
-    if(GetAlignmentLawChaos(OBJECT_SELF) == ALIGNMENT_CHAOTIC) {
-        ActionCastSpellAtObject(SPELL_PROTECTION_FROM_LAW, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    }
-	//  **FIX ME** after MotB, hopefully they'll stop switching the name of the protection from chaos constant.
-	//
-	// else {
-    //    ActionCastSpellAtObject(SPELL_PROTECTION__FROM_CHAOS, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    //}
 
     // Buff armor, if the creature has any.
     object oItem = GetItemInSlot(INVENTORY_SLOT_CHEST);
     if(oItem != OBJECT_INVALID) {
-        ActionCastSpellAtObject(SPELL_MAGIC_VESTMENT, oItem, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
+		_QuickBuff(oCaster, SPELL_MAGIC_VESTMENT, oItem);
     }
 
     // Buff the shield, if the creature has one.
-    object oLeftHandItem = GetItemInSlot(INVENTORY_SLOT_LEFTHAND);
-    object oRightHandItem = GetItemInSlot(INVENTORY_SLOT_RIGHTHAND);
+    object oLeftHandItem = GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oCaster);
+    object oRightHandItem = GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oCaster);
     int nLeftItemType = GetBaseItemType(oLeftHandItem);
     int nRightItemType = GetBaseItemType(oRightHandItem);
     if(GetIsItemShield(oLeftHandItem)) {
-        ActionCastSpellAtObject(SPELL_MAGIC_VESTMENT, oItem, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
+		_QuickBuff(oCaster, SPELL_MAGIC_VESTMENT, oLeftHandItem);
     }
 
     // FIX ME!! Weapon-buffing should be more intelligent. But we need to be
-    // able to tell what a weapon is in NWN2.
-    ActionCastSpellAtObject(SPELL_KEEN_EDGE, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_GREATER_MAGIC_WEAPON, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_MAGIC_WEAPON, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_BLADE_THIRST, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
+    // able to tell what a weapon is.
+	_QuickBuff(oCaster, SPELL_KEEN_EDGE);
+	if(GetHasSpell(SPELL_GREATER_MAGIC_WEAPON, oCaster))
+		_QuickBuff(oCaster, SPELL_GREATER_MAGIC_WEAPON);
+		else _QuickBuff(oCaster, SPELL_MAGIC_WEAPON);
+	_QuickBuff(oCaster, SPELL_WEAPON_OF_IMPACT);
 
-    ActionCastSpellAtObject(SPELL_BARKSKIN, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_BULLS_STRENGTH, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_CAMOFLAGE, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_CATS_GRACE, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_DARKVISION, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-//    ActionCastSpellAtObject(SPELL_ENDURANCE, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_ENDURE_ELEMENTS, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_FOXS_CUNNING, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_FREEDOM_OF_MOVEMENT, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_MAGE_ARMOR, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_MASS_CAMOFLAGE, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_MIND_BLANK, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_ONE_WITH_THE_LAND, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-//    ActionCastSpellAtObject(SPELL_OWLS_INSIGHT, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_OWLS_WISDOM, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_PREMONITION, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_PROTECTION_FROM_SPELLS, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-//    ActionCastSpellAtObject(SPELL_RESIST_ELEMENTS, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_SEE_INVISIBILITY, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_STONESKIN, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_GREATER_BULLS_STRENGTH, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_GREATER_CATS_GRACE, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_GREATER_EAGLE_SPLENDOR, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-//    ActionCastSpellAtObject(SPELL_GREATER_ENDURANCE, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_GREATER_FOXS_CUNNING, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_GREATER_OWLS_WISDOM, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
-    ActionCastSpellAtObject(SPELL_GREATER_STONESKIN, OBJECT_SELF, METAMAGIC_NONE, FALSE, 0, PROJECTILE_PATH_TYPE_DEFAULT, TRUE);
+	_QuickBuff(oCaster, SPELL_BARKSKIN);
+	_QuickBuff(oCaster, SPELL_SPIDERSKIN);
+	_QuickBuff(oCaster, SPELL_CONVICTION);
+	
+	if(GetHasSpell(SPELL_PROTECTION_FROM_ENERGY, oCaster))
+		_QuickBuff(oCaster, SPELL_PROTECTION_FROM_ENERGY);
+		else _QuickBuff(oCaster, SPELL_ENDURE_ELEMENTS);
+	
+	_QuickBuff(oCaster, SPELL_FREEDOM_OF_MOVEMENT);
+	_QuickBuff(oCaster, SPELL_HEROISM);
+	
+	if(GetHasSpell(SPELL_IMPROVED_MAGE_ARMOR, oCaster))
+		_QuickBuff(oCaster, SPELL_IMPROVED_MAGE_ARMOR);
+		else _QuickBuff(oCaster, SPELL_MAGE_ARMOR);	
+	
+	if(GetHasSpell(SPELL_GREATER_PLANAR_BINDING, oCaster))
+		_QuickBuff(oCaster, SPELL_GREATER_PLANAR_BINDING);
+		else if(GetHasSpell(SPELL_PLANAR_BINDING, oCaster))
+			_QuickBuff(oCaster, SPELL_PLANAR_BINDING);
+			else if(GetHasSpell(SPELL_PLANAR_ALLY, oCaster))
+				_QuickBuff(oCaster, SPELL_PLANAR_ALLY);
+			 	else _QuickBuff(oCaster, SPELL_LESSER_PLANAR_BINDING);
+		
+	_QuickBuff(oCaster, SPELL_GREATER_RESISTANCE);
+	_QuickBuff(oCaster, SPELL_MIND_BLANK);
+	_QuickBuff(oCaster, SPELL_ONE_WITH_THE_LAND);
+	_QuickBuff(oCaster, SPELL_PREMONITION);
+	_QuickBuff(oCaster, SPELL_PROTECTION_FROM_SPELLS);
+	_QuickBuff(oCaster, SPELL_PROTECTION_FROM_ARROWS);
+	_QuickBuff(oCaster, SPELL_GREATER_BULLS_STRENGTH);
+	_QuickBuff(oCaster, SPELL_GREATER_CATS_GRACE);
+	_QuickBuff(oCaster, SPELL_GREATER_EAGLE_SPLENDOR);
+	_QuickBuff(oCaster, SPELL_GREATER_BEARS_ENDURANCE);
+	_QuickBuff(oCaster, SPELL_GREATER_FOXS_CUNNING);
+	_QuickBuff(oCaster, SPELL_GREATER_OWLS_WISDOM);
+	
+	if(GetHasSpell(SPELL_PREMONITION, oCaster))
+		_QuickBuff(oCaster, SPELL_PREMONITION);
+		else if(GetHasSpell(SPELL_GREATER_STONESKIN, oCaster))
+			_QuickBuff(oCaster, SPELL_GREATER_STONESKIN);
+			else _QuickBuff(oCaster, SPELL_STONESKIN);
+	
+	// Delay party buffs a bit in case this guy has buddies spawning in next to him.
+	DelayCommand(6.0, _QuickBuff(oCaster, SPELL_MASS_CAMOFLAGE));
 }
 
 object _SpawnObject(string sResRef, int nObjectType, object oWP, location lLoc, int nFlags, int nAlternate) {
@@ -1777,7 +1788,7 @@ object _SpawnObject(string sResRef, int nObjectType, object oWP, location lLoc, 
 
     // If this creature should buff himself, do it.
     if(nFlags & _SPAWN_BUFFED) {
-        AssignCommand(oSpawned, _BuffSelf());
+        ActivateLongTermBuffs(oSpawned);
     }
 
     // Play the spawn animation.

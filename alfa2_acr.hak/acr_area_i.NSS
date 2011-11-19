@@ -66,7 +66,9 @@ void ACR_AreaOnEnter();
 void ACR_AreaOnExit();
 
 // Handles an area's OnClientEnter event for the ACR.
-void ACR_AreaOnClientEnter();
+// ! Returns:  TRUE if the OnClientEnter event should be processed, else FALSE
+//             if the caller should stop handling the event immediately.
+int ACR_AreaOnClientEnter();
 
 // Handles an area's OnUserDefined event for the ACR.
 void ACR_AreaOnUserDefined();
@@ -103,7 +105,7 @@ void ACR_AreaOnExit() {
     // Code which runs for PCs and NPCs goes here.
 }
 
-void ACR_AreaOnClientEnter() {
+int ACR_AreaOnClientEnter() {
     // Fires after OnEnter, when the client finishes loading the area, it seems.
 	object oObject = GetEnteringObject();
 	object Area = GetArea(oObject);
@@ -115,7 +117,7 @@ void ACR_AreaOnClientEnter() {
 		// even if this wasn't a party transition.  Only perform significant
 		// processing the first time around.
 
-		return;
+		return FALSE;
 	}
 
 	SetLocalObject(oObject, ACR_AREA_LAST_AREA_CLIENTENTER_VAR, Area);
@@ -127,6 +129,7 @@ void ACR_AreaOnClientEnter() {
     } else {
         // Code which only runs for NPCs goes here.
     }
+	 return TRUE;
 }
 
 void ACR_AreaOnUserDefined() {

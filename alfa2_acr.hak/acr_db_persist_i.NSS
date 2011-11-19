@@ -103,6 +103,16 @@ const int _ACR_SQL_DBCTRL_ASYNC_PENDING    = 0x00000002;  // have async queries
 
 const int _ACR_SQL_QUERY_MAX_LEN = 16384;
 
+
+//! Death system resrefs/tags
+
+//! ResRef of the player corpse placeable (container)
+const string ACR_DTH_CORPSE_RESREF = "abr_pl_co_so_pccorpse";
+
+//! ResRef of the player corpse item (inventory)
+const string ACR_DTH_BODY_RESREF = "abr_it_mi_body";
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -503,7 +513,7 @@ void ACR_SetPersistentString(object oObject, string sVarName, string sValue, int
     // PC's don't have tags so use CD key instead
     string sTag = (GetIsPC(oObject)) ? ACR_GetPCPublicCDKey(oObject) : GetTag(oObject);
 	// if this is a corpse placeable, drop the CharID suffix to allow it to read the player variable.
-    if ((GetResRef(oObject) == "abr_pl_co_so_pccorpse") || (GetResRef(oObject) == "abr_it_mi_body")) { sTag = GetStringLeft(sTag, 8); }
+    if ((GetResRef(oObject) == ACR_DTH_CORPSE_RESREF) || (GetResRef(oObject) == ACR_DTH_BODY_RESREF)) { sTag = GetStringLeft(sTag, 8); }
 
     _MaintainACRPersistCache(oObject, sTag);
     SetLocalString(oObject, _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX + sVarName, sValue);
@@ -519,7 +529,7 @@ string ACR_GetPersistentString(object oObject, string sVarName)
     // PC's don't have tags so use CD key instead
     string sTag = (GetIsPC(oObject)) ? ACR_GetPCPublicCDKey(oObject) : GetTag(oObject);
 	// if this is a corpse placeable, drop the CharID suffix to allow it to read the player variable.
-    if ((GetResRef(oObject) == "abr_pl_co_so_pccorpse") || (GetResRef(oObject) == "abr_it_mi_body")) { sTag = GetStringLeft(sTag, 8); }
+    if ((GetResRef(oObject) == ACR_DTH_CORPSE_RESREF) || (GetResRef(oObject) == ACR_DTH_BODY_RESREF)) { sTag = GetStringLeft(sTag, 8); }
     _MaintainACRPersistCache(oObject, sTag);
     return GetLocalString(oObject, _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX + sVarName);
 }
@@ -570,7 +580,7 @@ void ACR_SetPersistentObject(object oObject, string sVarName, object oItem, stri
     string sTag = (GetIsPC(oObject)) ? ACR_GetPCPublicCDKey(oObject) : GetTag(oObject);
 	
 	// if this is a corpse placeable, drop the CharID suffix to allow it to read the player variable.
-    if ((GetResRef(oObject) == "abr_pl_co_so_pccorpse") || (GetResRef(oObject) == "abr_it_mi_body")) { sTag = GetStringLeft(sTag, 8); }
+    if ((GetResRef(oObject) == ACR_DTH_CORPSE_RESREF) || (GetResRef(oObject) == ACR_DTH_BODY_RESREF)) { sTag = GetStringLeft(sTag, 8); }
 
     // generate the SQL - insert the record or update the values if it already exists
     string sSQL = "INSERT INTO pwobject (Name, Tag, `Key`, Value, Expiration) VALUES ('"
@@ -593,7 +603,7 @@ object ACR_GetPersistentObject(object oObject, string sVarName, string sDatabase
     string sTag = (GetIsPC(oObject)) ? ACR_GetPCPublicCDKey(oObject) : GetTag(oObject);
 	
 	// if this is a corpse placeable, drop the CharID suffix to allow it to read the player variable.
-    if ((GetResRef(oObject) == "abr_pl_co_so_pccorpse") || (GetResRef(oObject) == "abr_it_mi_body")) { sTag = GetStringLeft(sTag, 8); }
+    if ((GetResRef(oObject) == ACR_DTH_CORPSE_RESREF) || (GetResRef(oObject) == ACR_DTH_BODY_RESREF)) { sTag = GetStringLeft(sTag, 8); }
 
     // retrieve the record from the database
     string sSQL = "SELECT Value FROM pwobject WHERE Name='" + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "' and Tag='" + sTag + "' and `Key`='" + ACR_SQLEncodeSpecialChars(sVarName) + "'";
@@ -613,7 +623,7 @@ void ACR_DeletePersistentVariable(object oObject, string sVarName)
     // PC's don't have tags so use CD key instead
     string sTag = (GetIsPC(oObject)) ? ACR_GetPCPublicCDKey(oObject) : GetTag(oObject);
 	// if this is a corpse placeable, drop the CharID suffix to allow it to read the player variable.
-    if ((GetResRef(oObject) == "abr_pl_co_so_pccorpse") || (GetResRef(oObject) == "abr_it_mi_body")) { sTag = GetStringLeft(sTag, 8); }
+    if ((GetResRef(oObject) == ACR_DTH_CORPSE_RESREF) || (GetResRef(oObject) == ACR_DTH_BODY_RESREF)) { sTag = GetStringLeft(sTag, 8); }
     _MaintainACRPersistCache(oObject, sTag);
     DeleteLocalString(oObject, _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX + sVarName);
     // retrieve the record from the database
