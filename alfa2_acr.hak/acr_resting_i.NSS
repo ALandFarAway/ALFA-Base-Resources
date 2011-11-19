@@ -642,6 +642,14 @@ int _playerCanRest(object oPC)
         if (GetIsAreaNatural(GetArea(oPC))) 
         {
             object oTent2 = GetNearestObjectByTag(ACR_REST_TENT_TAG, oPC);
+            int nSurvDC = 15;
+            if(GetIsAreaAboveGround(GetArea(oPC)) == FALSE)
+            {
+                if(GetSkillRank(33, oPC, TRUE) >= 5)
+                    nSurvDC -= 2;
+                if(GetSkillRank(42, oPC, TRUE) >= 5)
+                    nSurvDC -= 2;
+            }
             if(GetIsObjectValid(oTent2)) 
             {
                 if (GetDistanceBetween(oPC, oTent2) < 8.0) 
@@ -652,9 +660,9 @@ int _playerCanRest(object oPC)
                 }
 
             }
-            else if (GetIsSkillSuccessful(oPC, 29, 15, TRUE)) 
+            else if (GetIsSkillSuccessful(oPC, 29, nSurvDC, TRUE)) 
             {
-                // druids and rangers don't need tents
+                // don't need special shelter if you have survival ranks.
                 SendMessageToPC(oPC, "Your knowledge of survival allows you to create a makeshift shelter comfortable enough for gainful rest.");
                 return 1;
             }
