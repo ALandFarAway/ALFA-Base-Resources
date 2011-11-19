@@ -1061,3 +1061,4 @@
 1057 DISGUISE_TAKE_10                 16790216 1         1         1      3024       1         1       1          it_qi_caretakerveil        
 1058 DISGUISE_ROLL_D20                16790217 1         1         1      3025       1         1       1          it_qi_caretakerveil        
 1059 DIMENSION_DOOR                   16778290 7         4         10080  3026       0         1       1          is_dimdoor                 
+1060 SHADOW_EVOCATION                 16778477 9         5         16200  3032       0         0       1          is_shadowevoc              
