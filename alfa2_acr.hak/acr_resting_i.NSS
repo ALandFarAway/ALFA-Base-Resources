@@ -636,27 +636,39 @@ int _playerCanRest(object oPC)
 	}
 	
 	// still exit if the player is not in a rest zone (even though they are tired enough to rest)
-    if (GetLocalInt(oPC, ACR_REST_ZONE) == ACR_REST_ZONE_ILLEGAL) {
-		// check for other enabling conditions for resting, that might compensate for lack of a rest trigger
-		if (GetIsAreaNatural(GetArea(oPC)) && GetIsAreaAboveGround(GetArea(oPC))) {
-			if ((GetLevelByClass(CLASS_TYPE_DRUID, oPC) > 0) || (GetLevelByClass(CLASS_TYPE_RANGER, oPC) > 0)) {
-			    // druids and rangers don't need tents
-				SendMessageToPC(oPC, "Your natural affinity with the wilds allows you to make an impromptu camp.");
-				return 1;
-			} else {
-			    object oTent2 = GetNearestObjectByTag(ACR_REST_TENT_TAG, oPC);
-				if ((oTent2 != OBJECT_INVALID) && (GetDistanceBetween(oPC, oTent2) < 8.0)) {
-				    // tent is set up nearby, allow rest.
-				    SendMessageToPC(oPC, "Thanks to the shelter of the tent, you may rest here.");
-				    return 1;
-				} else {
-				    return -1;
-				}
-			}
-		} else { 
-		    return -1;
-		}	
-	}
+    if (GetLocalInt(oPC, ACR_REST_ZONE) == ACR_REST_ZONE_ILLEGAL) 
+    {
+        // check for other enabling conditions for resting, that might compensate for lack of a rest trigger
+        if (GetIsAreaNatural(GetArea(oPC))) 
+        {
+            object oTent2 = GetNearestObjectByTag(ACR_REST_TENT_TAG, oPC);
+            if(GetIsObjectValid(oTent2)) 
+            {
+                if (GetDistanceBetween(oPC, oTent2) < 8.0) 
+                {
+                    // tent is set up nearby, allow rest.
+                    SendMessageToPC(oPC, "Thanks to the shelter of the tent, you may rest here.");
+                    return 1;
+                }
+
+            }
+            else if (GetIsSkillSuccessful(oPC, 29, 15, TRUE)) 
+            {
+                // druids and rangers don't need tents
+                SendMessageToPC(oPC, "Your knowledge of survival allows you to create a makeshift shelter comfortable enough for gainful rest.");
+                return 1;
+            }
+            else
+            {
+                return -1; 
+            }
+
+        }
+        else 
+        { 
+            return -1;
+        }	
+    }
     // player can rest
     return 1;
 }
