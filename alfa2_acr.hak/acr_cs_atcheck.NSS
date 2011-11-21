@@ -36,7 +36,7 @@
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-int StartingConditional(int nAbility, int nValue, int bBaseScore=FALSE)
+int StartingConditional(int nAbility, int nValue, int bBaseScore)
 {
     object oPC = GetPCSpeaker();
 
