@@ -4,16 +4,16 @@
 //:: Copyright (c) 2001 Bioware Corp.
 //:://////////////////////////////////////////////
 /*
-    Fires a stream of fiery arrows at the selected
-    target that do 4d6 damage per arrow.  1 Arrow
-    per 4 levels is created.
+// You breathe forth a cone of acidic droplets. The
+// cone inflicts 1d6 points of acid damage per caster
+// level (maximum 10d6).
 */
 //:://////////////////////////////////////////////
-//:: Created By: Preston Watamaniuk
-//:: Created On: Sept 20, 2001
-//:: Updated By: Georg Zoeller, Aug 18 2003: Uncapped
+//:: Created By: Andrew Nobbs
+//:: Created On: Nov, 22 2002
 //:://////////////////////////////////////////////
 // Modified by NESchampion 3 November 2011
+//float SpellDelay (object oTarget, int nShape);
 
 #include "NW_I0_SPELLS"
 #include "x0_i0_spells"
@@ -69,63 +69,65 @@ void main()
 				fMaxDelay = fDelay;
 			}
             //Make SR check, and appropriate saving throw(s).
-            //if(!MyResistSpell(OBJECT_SELF, oTarget, fDelay) && (oTarget != OBJECT_SELF))
-            if(oTarget != OBJECT_SELF && !MyResistSpell(OBJECT_SELF, oTarget, fDelay)) //FIX: prevents caster from getting SR check against himself
-            {
-				if(!MySavingThrow(SAVING_THROW_WILL, oTarget, GetSpellSaveDC(), SAVING_THROW_TYPE_NONE))
-				{
-                	//Detemine damage
-                	nDamage = d6(nCasterLevel);
-                	//Enter Metamagic conditions
-                	if (nMetaMagic == METAMAGIC_MAXIMIZE)
-                	{
-                	    nDamage = 6 * nCasterLevel;//Damage is at max
-                	}
-                	else if (nMetaMagic == METAMAGIC_EMPOWER)
-                	{
-                	    nDamage = nDamage + (nDamage/2); //Damage/Healing is +50%
-                	}
-                	//Adjust damage according to Reflex Save, Evasion or Improved Evasion
-                	nDamage = GetReflexAdjustedDamage(nDamage, oTarget, GetSpellSaveDC(), SAVING_THROW_TYPE_ACID);
+            if(!MyResistSpell(OBJECT_SELF, oTarget, fDelay) && (oTarget != OBJECT_SELF))
+			{
+           		if(oTarget != OBJECT_SELF && !MyResistSpell(OBJECT_SELF, oTarget, fDelay)) //FIX: prevents caster from getting SR check against himself
+            	{
+					if(!MySavingThrow(SAVING_THROW_WILL, oTarget, GetSpellSaveDC(), SAVING_THROW_TYPE_NONE))
+					{
+                		//Detemine damage
+                		nDamage = d6(nCasterLevel);
+                		//Enter Metamagic conditions
+                		if (nMetaMagic == METAMAGIC_MAXIMIZE)
+                		{
+                		    nDamage = 6 * nCasterLevel;//Damage is at max
+                		}
+                		else if (nMetaMagic == METAMAGIC_EMPOWER)
+                		{
+                		    nDamage = nDamage + (nDamage/2); //Damage/Healing is +50%
+                		}
+                		//Adjust damage according to Reflex Save, Evasion or Improved Evasion
+                		nDamage = GetReflexAdjustedDamage(nDamage, oTarget, GetSpellSaveDC(), SAVING_THROW_TYPE_ACID);
 
-                	// Apply effects to the currently selected target.
-                	effect eAcid = EffectDamage(nDamage, DAMAGE_TYPE_ACID);
-                	effect eVis = EffectVisualEffect(VFX_HIT_SPELL_ACID);
-                	if(nDamage > 0)
-                	{
-                    	//Apply delayed effects
-                    	DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, oTarget));
-                    	DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eAcid, oTarget));
-                	}
-				}
-				else
-				{
-					//Detemine damage
-                	nDamage = d6(nCasterLevel);
-                	//Enter Metamagic conditions
-                	if (nMetaMagic == METAMAGIC_MAXIMIZE)
-                	{
-                	    nDamage = 6 * nCasterLevel;//Damage is at max
-                	}
-                	else if (nMetaMagic == METAMAGIC_EMPOWER)
-                	{
-                	    nDamage = nDamage + (nDamage/2); //Damage/Healing is +50%
-                	}
-                	//Adjust damage according to Reflex Save, Evasion or Improved Evasion
-                	nDamage = GetReflexAdjustedDamage(nDamage, oTarget, GetSpellSaveDC(), SAVING_THROW_TYPE_ACID);
-					nDamage = nDamage/5;
+                		// Apply effects to the currently selected target.
+                		effect eAcid = EffectDamage(nDamage, DAMAGE_TYPE_ACID);
+                		effect eVis = EffectVisualEffect(VFX_HIT_SPELL_ACID);
+                		if(nDamage > 0)
+                		{
+                   		 	//Apply delayed effects
+                   		 	DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, oTarget));
+                 		   	DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eAcid, oTarget));
+                		}
+					}
+					else
+					{
+						//Detemine damage
+                		nDamage = d6(nCasterLevel);
+                		//Enter Metamagic conditions
+                		if (nMetaMagic == METAMAGIC_MAXIMIZE)
+                		{
+                		    nDamage = 6 * nCasterLevel;//Damage is at max
+                		}
+                		else if (nMetaMagic == METAMAGIC_EMPOWER)
+                		{
+                		    nDamage = nDamage + (nDamage/2); //Damage/Healing is +50%
+                		}
+                		//Adjust damage according to Reflex Save, Evasion or Improved Evasion
+                		nDamage = GetReflexAdjustedDamage(nDamage, oTarget, GetSpellSaveDC(), SAVING_THROW_TYPE_ACID);
+						nDamage = nDamage/5;
 
-                	// Apply effects to the currently selected target.
-                	effect eAcid = EffectDamage(nDamage, DAMAGE_TYPE_ACID);
-                	effect eVis = EffectVisualEffect(VFX_HIT_SPELL_ACID);
-                	if(nDamage > 0)
-                	{
-                    	//Apply delayed effects
-                    	DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, oTarget));
-                    	DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eAcid, oTarget));
-                	}
-				}
-            }
+                		// Apply effects to the currently selected target.
+                		effect eAcid = EffectDamage(nDamage, DAMAGE_TYPE_ACID);
+                		effect eVis = EffectVisualEffect(VFX_HIT_SPELL_ACID);
+                		if(nDamage > 0)
+                		{
+                    		//Apply delayed effects
+                    		DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, oTarget));
+                    		DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eAcid, oTarget));
+                		}
+					}
+            	}
+			}
         }
         //Select the next target within the spell shape.
         oTarget = GetNextObjectInShape(SHAPE_SPELLCONE, 8.0, lTargetLocation, TRUE, OBJECT_TYPE_CREATURE | OBJECT_TYPE_DOOR | OBJECT_TYPE_PLACEABLE);
