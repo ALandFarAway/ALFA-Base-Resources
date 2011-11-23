@@ -42,9 +42,10 @@ const float HOUR_TO_SECONDS = 3600.0;
 
 // The date in which our time counter begins counting seconds to keep track of
 // Realms time.
-const int TIME_YEAR_START = 1375;
+const int TIME_YEAR_START = 1373;
 
-const int ALFA2_YEAR_START = 2008;
+const int ALFA2_FR_YEAR_START = 1375;
+const int ALFA2_RL_YEAR_START = 2008;
 
 /*const int _TIME_SECONDS_START = 0;
 const int _TIME_SECONDS_END = 5;
@@ -221,7 +222,7 @@ void ACR_InitializeTime() {
 		SetTime(nHour, nMinute, 0, 0);
 		ACR_StoreTime();
 		// log the information to the serverlog.
-		WriteTimestampedLogEntry("Syncronized to "+sExternalServer+" with ID="+IntToString(nExternalServerID)+", written to the SQL database with RL timestamp: "+sSQLtime);
+		WriteTimestampedLogEntry("Synchronized to "+sExternalServer+" with ID="+IntToString(nExternalServerID)+", written to the SQL database with RL timestamp: "+sSQLtime);
 	}
 }
 
@@ -433,7 +434,7 @@ string ACR_ConvertDate(int year=0, int month=0, int day=0)
 	if (day == 0)
 		day = GetGlobalInt("ACR_Day");
 
-	leap = !((year - ALFA2_YEAR_START) % 4);
+	leap = !((year - ALFA2_RL_YEAR_START) % 4);
 
 	day += month > 11 ? 30 : 0;
 	day += month > 10 ? 31 : 0;
@@ -545,7 +546,7 @@ string ACR_ConvertDate(int year=0, int month=0, int day=0)
 		}
 	}
 
-	year -= (ALFA2_YEAR_START - TIME_YEAR_START);
+	year -= (ALFA2_RL_YEAR_START - ALFA2_FR_YEAR_START);
 
 	return IntToString(year)+","+IntToString(month)+","+IntToString(day)+","+IntToString(holiday);
 }

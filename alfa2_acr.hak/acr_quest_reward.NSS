@@ -39,7 +39,7 @@
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void main(string sQuest, int nGold, int bPartyWide=FALSE, int bXP=FALSE)
+void main(string sQuest, int nGold, int bPartyWide, int bXP)
 {
 	object oPC = GetPCSpeaker();
 	object oItem = GetLocalObject(oPC, sQuest);
