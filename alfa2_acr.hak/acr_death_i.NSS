@@ -119,6 +119,9 @@ const string ACR_DTH_LOCATION = "ACR_DTH_LOCATION";
 //! Local variable for player time of death
 const string ACR_DTH_TIMESTAMP = "ACR_DTH_TIMESTAMP";
 
+//! Local variable for player instant of death
+const string ACR_DTH_INSTANT   = "ACR_DTH_INSTANT";
+
 //! Local variable for player hitpoint tracker
 const string ACR_DTH_HITPOINTS = "ACR_DTH_HITPOINTS";
 
@@ -457,7 +460,7 @@ void ACR_CorpseOnMutilate(object oCorpse, object oMutilator)
 void ACR_CorpseOnResurrect(object oCaster, object oCorpse, int nSpellId)
 {
     // make sure a ressurection spell has been cast
-    if (nSpellId != SPELL_RAISE_DEAD && nSpellId != SPELL_RESURRECTION && nSpellId != SPELL_TRUE_RESURRECTION) { return; }
+    if (nSpellId != SPELL_RAISE_DEAD && nSpellId != SPELL_RESURRECTION && nSpellId != SPELL_TRUE_RESURRECTION && nSpellId != 1157) { return; }
 
     // make sure a corpse has been targetted
     if (! ACR_GetIsCorpse(oCorpse)) { return; }
@@ -496,8 +499,10 @@ void ACR_CorpseOnResurrect(object oCaster, object oCorpse, int nSpellId)
         // heal the player if this is a resurrection spell
         if (nSpellId != SPELL_RAISE_DEAD) { ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectHeal(GetMaxHitPoints(oPC) - 1), oPC); }
 
-        // apply the death penalties only if the caster is not a DM
-        if (! (GetIsDM(oCaster) || GetIsDMPossessed(oCaster))) { _applyDeathPenalty(oPC); }
+        // apply the death penalties only if the caster is not a DM. 1157 is recall spirit
+        if ((!GetIsDM(oCaster) || 
+            GetIsDMPossessed(oCaster)) &&
+            nSpellId != 1157) { _applyDeathPenalty(oPC); }
 
         // clear the death flags on the player - necessary to be freed from the morgue
         ACR_UnsetPlayerStatusFlags(oPC, ACR_PLAYER_FLAG_DEAD | ACR_PLAYER_FLAG_MUTILATED);
@@ -1292,9 +1297,10 @@ void _playerOnDeath(object oPC, object oKiller)
 
     // record the time of death (in days) to track corpse decay
     ACR_SetPersistentInt(oCorpse, ACR_DTH_TIMESTAMP, (GetCalendarYear() * 336) + (GetCalendarMonth() * 28) + GetCalendarDay());
+    ACR_SetPersistentInt(oCorpse, ACR_DTH_INSTANT, (GetTimeHour() * 3600) + (GetTimeMinute() * 60) + GetTimeSecond());
 
-	// set the character ID on the corpse and token (for setting/clearing status flags)
-	ACR_SetCharacterID(oBody, ACR_GetCharacterID(oPC)); ACR_SetCharacterID(oCorpse, ACR_GetCharacterID(oPC));
+    // set the character ID on the corpse and token (for setting/clearing status flags)
+    ACR_SetCharacterID(oBody, ACR_GetCharacterID(oPC)); ACR_SetCharacterID(oCorpse, ACR_GetCharacterID(oPC));
 
     // update the player status - set death flag, clear all others
     ACR_SetPlayerStatusFlags(oPC, ACR_PLAYER_FLAG_DEAD);
