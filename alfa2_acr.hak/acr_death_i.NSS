@@ -502,7 +502,7 @@ void ACR_CorpseOnResurrect(object oCaster, object oCorpse, int nSpellId)
         // apply the death penalties only if the caster is not a DM. 1157 is recall spirit
         if ((!GetIsDM(oCaster) || 
             GetIsDMPossessed(oCaster)) &&
-            nSpellID != 1157) { _applyDeathPenalty(oPC); }
+            nSpellId != 1157) { _applyDeathPenalty(oPC); }
 
         // clear the death flags on the player - necessary to be freed from the morgue
         ACR_UnsetPlayerStatusFlags(oPC, ACR_PLAYER_FLAG_DEAD | ACR_PLAYER_FLAG_MUTILATED);
