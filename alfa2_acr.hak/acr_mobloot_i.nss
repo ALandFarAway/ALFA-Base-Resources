@@ -89,8 +89,11 @@ void ACR_CheckLootByMob(object oPC)
 void _CreatureCheckLoot(object oKiller, string sPC)
 {
 	object oNextPC;
+
 	oNextPC = GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_IS_PC, oKiller);
-	if (GetDistanceBetween(oKiller, oNextPC) < _MOBLOOT_DISTANCE) {
+
+	if ((oNextPC != OBJECT_INVALID) && (GetDistanceBetween(oKiller, oNextPC) < _MOBLOOT_DISTANCE)) {
+		ACR_PrintDebugMessage("Delaying checking for corpse of "+sPC, _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
 		DelayCommand(_MOBLOOT_DELAY, _CreatureCheckLoot(oKiller, sPC));
 		return;
 	}
@@ -108,7 +111,7 @@ void _CreatureLoot(object oKiller, string sPC)
 		return;
 	}
 
-	while ((oPC = GetNearestObjectByTag(ACR_DTH_CORPSE_RESREF)) != OBJECT_INVALID) {
+	while ((oPC = GetNearestObjectByTag(ACR_DTH_CORPSE_RESREF, oKiller, i)) != OBJECT_INVALID) {
 		if (sPC != GetName(oPC))
 			++i;
 		else
@@ -116,8 +119,10 @@ void _CreatureLoot(object oKiller, string sPC)
 	}
 
 	// Can't find corpse, leave.
-	if (oPC == OBJECT_INVALID)
+	if (oPC == OBJECT_INVALID) {
+		ACR_PrintDebugMessage("Corpse vanished", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
 		return;
+	}
 
 	// add pickup animation
 	AssignCommand(oKiller, ActionMoveToObject(oPC, TRUE));
