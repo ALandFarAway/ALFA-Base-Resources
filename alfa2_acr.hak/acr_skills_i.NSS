@@ -21,7 +21,8 @@
 /////////////////////////////////////////////////////////////////////////////////
 
 #include "acr_i"
-#include "acr_resting_i"
+#include "acr_pps_i"
+#include "acr_effects_i"
 #include "acr_tools_i"
 #include "acr_xp_i"
 #include "acr_db_persist_i"
@@ -711,7 +712,8 @@ void ACR_SkillsOnPCLevelUp(object oLeveled) {
 			// start up deferred systems
 			// ExecuteScript("dmfi_mod_pcload", GetModule());
 			ACR_XPOnClientLoaded(oLeveled);
-			ACR_RestOnClientEnter(oLeveled);
+			// No reason why this should be here:
+			// ACR_RestOnClientEnter(oLeveled);
 		}
 	}
 }
