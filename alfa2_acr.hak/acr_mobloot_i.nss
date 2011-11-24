@@ -111,7 +111,7 @@ void _CreatureLoot(object oKiller, string sPC)
 		return;
 	}
 
-	while ((oPC = GetNearestObjectByTag(ACR_DTH_CORPSE_RESREF, oKiller, i)) != OBJECT_INVALID) {
+	while ((oPC = GetNearestObject(OBJECT_TYPE_PLACEABLE, oKiller, i)) != OBJECT_INVALID) {
 		if (sPC != GetName(oPC))
 			++i;
 		else
