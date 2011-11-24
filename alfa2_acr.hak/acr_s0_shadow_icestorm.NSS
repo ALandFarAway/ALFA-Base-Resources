@@ -58,36 +58,74 @@ void main()
             SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, SPELL_ICE_STORM));
             if (!MyResistSpell(OBJECT_SELF, oTarget, fDelay))
     	    {
-				//Make Will save to disbelieve
-                if(!MySavingThrow(SAVING_THROW_WILL, oTarget, GetSpellSaveDC(), SAVING_THROW_TYPE_NONE))
-                {
-                	//Roll damage for each target
-                	nDamage = d6(3);
-                	nDamage2 = d6(2);
-                	nDamage3 = d6(nVariable);
-                	//Resolve metamagic
-        	    	if (nMetaMagic == METAMAGIC_MAXIMIZE)
+				//Caster automatically disbelieves.
+				if(oTarget != OBJECT_SELF)
+				{
+					//Make Will save to disbelieve
+               		if(!MySavingThrow(SAVING_THROW_WILL, oTarget, GetSpellSaveDC(), SAVING_THROW_TYPE_NONE))
                 	{
-                	    nDamage = 18;
-                	    nDamage2 = 12;
-                	    nDamage3 = 6 * nVariable;
-                	}
-    	        	else if (nMetaMagic == METAMAGIC_EMPOWER)
-                	{
-                	   nDamage = nDamage + (nDamage / 2);
-                	   nDamage2 = nDamage2 + (nDamage2 / 2);
-                	   nDamage3 = nDamage3 + (nDamage3 / 2);
-                	}
-               		nDamage2 = nDamage2 + nDamage3;
-                	//Set the damage effect
-                	eDam = EffectDamage(nDamage, DAMAGE_TYPE_BLUDGEONING);
-                	eDam2 = EffectDamage(nDamage2, DAMAGE_TYPE_COLD);
-                	// Apply effects to the currently selected target.
-                	DelayCommand(0.0f, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam, oTarget));
-                	DelayCommand(0.0f, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam2, oTarget));
-                	//This visual effect is applied to the target object not the location as above.  This visual effect
-                	//represents the impact that erupts on the target not on the ground.
-                	ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, oTarget);
+                		//Roll damage for each target
+                		nDamage = d6(3);
+               		 	nDamage2 = d6(2);
+                		nDamage3 = d6(nVariable);
+                		//Resolve metamagic
+        	    		if (nMetaMagic == METAMAGIC_MAXIMIZE)
+                		{
+                		    nDamage = 18;
+                		    nDamage2 = 12;
+                		    nDamage3 = 6 * nVariable;
+                		}
+    	        		else if (nMetaMagic == METAMAGIC_EMPOWER)
+                		{
+                		   nDamage = nDamage + (nDamage / 2);
+                		   nDamage2 = nDamage2 + (nDamage2 / 2);
+                		   nDamage3 = nDamage3 + (nDamage3 / 2);
+                		}
+               			nDamage2 = nDamage2 + nDamage3;
+                		//Set the damage effect
+                		eDam = EffectDamage(nDamage, DAMAGE_TYPE_BLUDGEONING);
+                		eDam2 = EffectDamage(nDamage2, DAMAGE_TYPE_COLD);
+               		 	// Apply effects to the currently selected target.
+                		DelayCommand(0.0f, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam, oTarget));
+                		DelayCommand(0.0f, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam2, oTarget));
+                		//This visual effect is applied to the target object not the location as above.  This visual effect
+                		//represents the impact that erupts on the target not on the ground.
+               		 	ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, oTarget);
+					}
+					else
+					{
+						//Roll damage for each target
+                		nDamage = d6(3);
+                		nDamage2 = d6(2);
+                		nDamage3 = d6(nVariable);
+                		//Resolve metamagic
+        	    		if (nMetaMagic == METAMAGIC_MAXIMIZE)
+                		{
+                		    nDamage = 18;
+                		    nDamage2 = 12;
+                		    nDamage3 = 6 * nVariable;
+                		}
+    	        		else if (nMetaMagic == METAMAGIC_EMPOWER)
+                		{
+                		   nDamage = nDamage + (nDamage / 2);
+                		   nDamage2 = nDamage2 + (nDamage2 / 2);
+                		   nDamage3 = nDamage3 + (nDamage3 / 2);
+                		}
+               			nDamage2 = nDamage2 + nDamage3;
+						//Reduce for disbelief
+						nDamage = nDamage/5;
+						nDamage2 = nDamage2/5;
+					
+               		 	//Set the damage effect
+                		eDam = EffectDamage(nDamage, DAMAGE_TYPE_BLUDGEONING);
+               		 	eDam2 = EffectDamage(nDamage2, DAMAGE_TYPE_COLD);
+              		  	// Apply effects to the currently selected target.
+               		 	DelayCommand(0.0f, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam, oTarget));
+                		DelayCommand(0.0f, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam2, oTarget));
+                		//This visual effect is applied to the target object not the location as above.  This visual effect
+                		//represents the impact that erupts on the target not on the ground.
+                		ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, oTarget);
+					}
 				}
 				else
 				{
@@ -112,12 +150,11 @@ void main()
 					//Reduce for disbelief
 					nDamage = nDamage/5;
 					nDamage2 = nDamage2/5;
-					
-                	//Set the damage effect
+					//Set the damage effect
                 	eDam = EffectDamage(nDamage, DAMAGE_TYPE_BLUDGEONING);
-                	eDam2 = EffectDamage(nDamage2, DAMAGE_TYPE_COLD);
-                	// Apply effects to the currently selected target.
-                	DelayCommand(0.0f, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam, oTarget));
+               		eDam2 = EffectDamage(nDamage2, DAMAGE_TYPE_COLD);
+              		// Apply effects to the currently selected target.
+               		DelayCommand(0.0f, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam, oTarget));
                 	DelayCommand(0.0f, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam2, oTarget));
                 	//This visual effect is applied to the target object not the location as above.  This visual effect
                 	//represents the impact that erupts on the target not on the ground.

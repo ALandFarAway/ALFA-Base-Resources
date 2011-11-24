@@ -254,7 +254,7 @@ int ACR_HasCasterClass(object oPC, string sType = "ALL")
     {
         // check for levels in arcane casting base classes that require no spell preparation
         return (GetLevelByClass(CLASS_TYPE_BARD, oPC) || GetLevelByClass(CLASS_TYPE_SORCERER, oPC) || 
-		        GetLevelByClass(CLASS_TYPE_FAVORED_SOUL) || GetLevelByClass(CLASS_TYPE_SPIRIT_SHAMAN))
+                GetLevelByClass(CLASS_TYPE_FAVORED_SOUL, oPC) || GetLevelByClass(CLASS_TYPE_SPIRIT_SHAMAN, oPC))
         ? TRUE : FALSE;
     }
     else if (sType == "DIVINE")
@@ -270,7 +270,7 @@ int ACR_HasCasterClass(object oPC, string sType = "ALL")
         return (GetLevelByClass(CLASS_TYPE_BARD, oPC)   || GetLevelByClass(CLASS_TYPE_SORCERER, oPC) ||
                 GetLevelByClass(CLASS_TYPE_WIZARD, oPC) || GetLevelByClass(CLASS_TYPE_CLERIC, oPC) ||
                 GetLevelByClass(CLASS_TYPE_RANGER, oPC) || GetLevelByClass(CLASS_TYPE_PALADIN, oPC) ||
-				GetLevelByClass(CLASS_TYPE_FAVORED_SOUL) || GetLevelByClass(CLASS_TYPE_SPIRIT_SHAMAN) ||
+                GetLevelByClass(CLASS_TYPE_FAVORED_SOUL, oPC) || GetLevelByClass(CLASS_TYPE_SPIRIT_SHAMAN, oPC) ||
                 GetLevelByClass(CLASS_TYPE_DRUID, oPC))
         ? TRUE : FALSE;
     }
