@@ -43,9 +43,9 @@
 39 Mithral_LightShield    1       100         0       0              25     1009  162068       178723   186067          None   
 40 Mithral_HeavyShield    2       100         0       5              50     1020  162068       162171   186068          None   
 41 Mithral_TowerShield    4       4           -7      40             225    1030  162068       162178   186069          None   
-42 padding                ****    ****        ****    ****           ****   ****  ****         ****     ****            None   
-43 padding                ****    ****        ****    ****           ****   ****  ****         ****     ****            None   
-44 padding                ****    ****        ****    ****           ****   ****  ****         ****     ****            None   
+42 Darkwood_LightShield   1       100         0       5              25     184   2287         ****     5443            None   
+43 Darkwood_HeavyShield   2       100         0       15             50     230   2286         ****     5458            None   
+44 Darkwood_TowerShield   4       2           -8      50             225    405   1717         ****     5459            None   
 45 padding                ****    ****        ****    ****           ****   ****  ****         ****     ****            None   
 46 padding                ****    ****        ****    ****           ****   ****  ****         ****     ****            None   
 47 padding                ****    ****        ****    ****           ****   ****  ****         ****     ****            None   
