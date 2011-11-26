@@ -831,38 +831,41 @@ void ACR_DeathOnPCLoaded(object oPC)
 
 void ACR_RestoreCorpsesOnModuleLoad()
 {
-    location lLocation; object oCorpse; string sDatabaseName,sCorpseName, sTag, sCID; int nStatus; int nDecayed;
-	object oNewBody,oDeathMod = GetModule();	
-    // create the debug system ID for reporting if it doesn't exist
-    ACR_CreateDebugSystem(ACR_DTH_DEBUG_ID, DEBUG_TARGET_TALK, DEBUG_TARGET_LOG, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS);
+	location lLocation;
+	string sDatabaseName, sCorpseName, sTag, sCID;
+	int nStatus, nDecayed;
+	object oCorpse, oItem, oNewBody, oDeathMod = GetModule();	
+	// create the debug system ID for reporting if it doesn't exist
+	ACR_CreateDebugSystem(ACR_DTH_DEBUG_ID, DEBUG_TARGET_TALK, DEBUG_TARGET_LOG, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS);
 	
 	// retrieve all the records of dead players with corpses in the game world
 	//  - only pull those that corrspond with the current server.
 	//ACR_SQLQuery("SELECT d1.Name, d1.Tag, d1.Value, d2.Value FROM pwdata as d1, pwdata as d2 WHERE d1.`Key`='" + ACR_DTH_LOCATION + "' and d1.Name=d2.Name and d1.Tag=d2.Tag and d2.`Key`='" + ACR_PLAYER_FLAGS + "' and d2.Value | " + IntToString(ACR_PLAYER_FLAG_DEAD));
 	ACR_SQLQuery("SELECT pwdata.Name, pwdata.Tag, pwdata.Value, characters.ID, characters.Status FROM characters JOIN players on players.ID=characters.PlayerID JOIN pwdata on pwdata.Name=characters.Name WHERE pwdata.Tag=players.CDKey and pwdata.`Key`='" + ACR_DTH_LOCATION + "' and characters.ServerID = '"+IntToString(ACR_GetServerId())+"' and characters.Status = characters.Status | " + IntToString(ACR_PLAYER_FLAG_DEAD));
 
-    // loop through all the bodies at the morgue and recreate their corpses in the world
-    while (ACR_SQLFetch() == SQL_SUCCESS)
-    {
+	// loop through all the bodies at the morgue and recreate their corpses in the world
+	while (ACR_SQLFetch() == SQL_SUCCESS)
+	{
 		// DO NOT RUN ANOTHER QUERY IN THIS WHILE LOOP - IT WILL RESET THE RESULTS
 		
-        // get the last resting place of the corpse
-        lLocation = ACR_StringToLocation(ACR_SQLGetData(2));
+		// get the last resting place of the corpse
+		lLocation = ACR_StringToLocation(ACR_SQLGetData(2));
 
-        // ignore locations that are not valid - corpses in PC inventories should be left alone
-        // corpses traveling in PC inventories will be recreated when the bodies are put down
-        if (!GetIsObjectValid(GetAreaFromLocation(lLocation))) { continue; }
+		// ignore locations that are not valid - corpses in PC inventories should be left alone
+		// corpses traveling in PC inventories will be recreated when the bodies are put down
+		if (!GetIsObjectValid(GetAreaFromLocation(lLocation)))
+			continue;
 
 		sTag = ACR_SQLGetData(1); sCID = ACR_SQLGetData(3); nStatus = StringToInt(ACR_SQLGetData(4));
 		
-        // recreate the corpse placeable at its last resting place
-        oCorpse = CreateObject(OBJECT_TYPE_PLACEABLE, ACR_DTH_CORPSE_RESREF, lLocation, FALSE, sTag);
+		// recreate the corpse placeable at its last resting place
+		oCorpse = CreateObject(OBJECT_TYPE_PLACEABLE, ACR_DTH_CORPSE_RESREF, lLocation, FALSE, sTag);
 
-        // set the id and database name on the corpse object to link to its persistent inventory
-        ACR_SetCharacterID(oCorpse, StringToInt(sCID));
-	sDatabaseName = sTag + "_" + sCID;
+		// set the id and database name on the corpse object to link to its persistent inventory
+		ACR_SetCharacterID(oCorpse, StringToInt(sCID));
+		sDatabaseName = sTag + "_" + sCID;
 
-	ACR_SetDatabaseName(oCorpse, sDatabaseName);
+		ACR_SetDatabaseName(oCorpse, sDatabaseName);
 		
 		// set the name and description of the corpse
 		sCorpseName = ACR_SQLGetData(0); SetFirstName(oCorpse, sCorpseName);
@@ -873,28 +876,40 @@ void ACR_RestoreCorpsesOnModuleLoad()
 			// info for another quick loop afterwards.  Build a pointer array for this.
 			nDecayed = nDecayed +1;
 			SetLocalObject(oDeathMod, "ACR_DTH_DECAYED_"+IntToString(nDecayed), oCorpse);
-            SetDescription(oCorpse, "This corpse has decayed.");
+			SetDescription(oCorpse, "This corpse has decayed.");
 		}
 		else if (nStatus & ACR_PLAYER_FLAG_MUTILATED)
 		{
-    	    SetDescription(oCorpse, "This corpse has been mutilated beyond recognition.");
+			SetDescription(oCorpse, "This corpse has been mutilated beyond recognition.");
 		}
 		else
 		{
 			SetDescription(oCorpse, "These are the remains of " + sCorpseName + ".");
 		}
+		ACR_PreLoadStorageObject(oCorpse);
 
-	object oNewBody = CreateItemOnObject(ACR_DTH_BODY_RESREF, oCorpse, 1, sTag);
-	// set the name, description, and database
-	SetFirstName(oNewBody, GetName(oCorpse)); SetDescription(oNewBody, GetDescription(oCorpse));
-	ACR_SetDatabaseName(oNewBody, sDatabaseName);
 
-	// set the character ID on the corpse and token (for setting/clearing status flags)
-	ACR_SetCharacterID(oNewBody, ACR_GetCharacterID(oCorpse));
-    }
+		// Remove potential extras of the BODY item (due to database problems, etc.), then recreate afresh.
+		for (ObjectToInt(oItem =GetFirstItemInInventory(oCorpse)); GetIsObjectValid(oItem); ObjectToInt(oItem = GetNextItemInInventory(oCorpse)))
+		{
+			if (GetResRef(oItem) == ACR_DTH_BODY_RESREF)
+				DestroyObject(oItem);
+		}
+
+
+		object oNewBody = CreateItemOnObject(ACR_DTH_BODY_RESREF, oCorpse, 1, sTag);
+		// set the name, description, and database
+		SetFirstName(oNewBody, GetName(oCorpse)); SetDescription(oNewBody, GetDescription(oCorpse));
+		ACR_SetDatabaseName(oNewBody, sDatabaseName);
+
+		// set the character ID on the corpse and token (for setting/clearing status flags)
+		ACR_SetCharacterID(oNewBody, ACR_GetCharacterID(oCorpse));
+
+	}
+
 	// now, go back and delete locations for any decayed corpses.
 	while (nDecayed > 0) {
-	    oCorpse = GetLocalObject(oDeathMod, "ACR_DTH_DECAYED_"+IntToString(nDecayed));
+		oCorpse = GetLocalObject(oDeathMod, "ACR_DTH_DECAYED_"+IntToString(nDecayed));
 		// delete the corpse location so the corpse will be expunged from the game
 		ACR_DeletePersistentVariable(oCorpse, ACR_DTH_LOCATION);
 		// label the corpse appropriately
@@ -905,8 +920,8 @@ void ACR_RestoreCorpsesOnModuleLoad()
 		nDecayed = nDecayed - 1;
 	}
 	
-    // cache the morgue waypoint on the module for faster access
-    SetLocalObject(GetModule(), ACR_DTH_WAYPOINT, GetWaypointByTag(ACR_DTH_MORGUE_WP_TAG));
+	// cache the morgue waypoint on the module for faster access
+	SetLocalObject(GetModule(), ACR_DTH_WAYPOINT, GetWaypointByTag(ACR_DTH_MORGUE_WP_TAG));
 }
 
 int ACR_GetIsCorpse(object oObject)
