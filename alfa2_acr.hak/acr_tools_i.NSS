@@ -957,10 +957,18 @@ string GetFeatSpellScript(int nFeat) {
 
 void BroadcastToDMs(string sText)
 {
-	object o;
-	for (ObjectToInt(o = GetFirstPC()); GetIsObjectValid(o); ObjectToInt(o = GetNextPC()))
-		if (GetIsDM(o) || GetIsDMPossessed(o))
+	object o,p;
+
+	for (ObjectToInt(o = GetFirstPC()); GetIsObjectValid(o); ObjectToInt(o = GetNextPC())) {
+		if (GetIsDM(o) || GetIsDMPossessed(o)) {
 			SendMessageToPC(o, sText);
+
+			p = GetControlledCharacter(o);
+
+			if (p != OBJECT_INVALID)
+				SendMessageToPC(p, sText);
+		}
+	}
 }
 
 string Colorize(string sText, string sColor)
