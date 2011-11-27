@@ -1583,7 +1583,7 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 		while(GetIsObjectValid(oListener))
 		{
 
-			if(GetFactionEqual(oSpeaker, oListener) || GetIsDM(oListener) || (GetIsDMPossessed(oListener) && (oListener = GetControlledCharacter(oListener))) || oListener == oSpeaker)
+			if(GetFactionEqual(oSpeaker, oListener) || GetIsDM(oListener) || (GetIsDMPossessed(oListener) && ((oListener = GetControlledCharacter(oListener)) != OBJECT_INVALID)) || oListener == oSpeaker)
 			{
 				if(_IsLanguageKnown(oListener, sLangPick) || GetIsDM(oListener) || GetIsDMPossessed(oListener))
 					SendMessageToPC(oListener, sMessage);
@@ -1608,7 +1608,7 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 		while(GetIsObjectValid(oListener))
 		{
 
-			if((GetIsDM(oListener) || (GetIsDMPossessed(oListener) && (oListener = GetControlledCharacter(oListener)))) && GetArea(oSpeaker) == GetArea(oListener) && GetDistanceBetween(oSpeaker, oListener) <= 20.0f)
+			if((GetIsDM(oListener) || (GetIsDMPossessed(oListener) && ((oListener = GetControlledCharacter(oListener)) != OBJECT_INVALID))) && GetArea(oSpeaker) == GetArea(oListener) && GetDistanceBetween(oSpeaker, oListener) <= 20.0f)
 				SendMessageToPC(oListener, sMessage);
 			oListener = GetNextPC();
 		}
@@ -1631,7 +1631,7 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 		while(GetIsObjectValid(oListener))
 		{
 
-			if((GetIsDM(oListener) || (GetIsDMPossessed(oListener) && (oListener = GetControlledCharacter(oListener)))) && GetArea(oSpeaker) == GetArea(oListener) && GetDistanceBetween(oSpeaker, oListener) <= 3.0f)
+			if((GetIsDM(oListener) || (GetIsDMPossessed(oListener) && ((oListener = GetControlledCharacter(oListener))  != OBJECT_INVALID))) && GetArea(oSpeaker) == GetArea(oListener) && GetDistanceBetween(oSpeaker, oListener) <= 3.0f)
 				SendMessageToPC(oListener, sMessage);
 			oListener = GetNextPC();
 		}
