@@ -960,9 +960,10 @@ void BroadcastToDMs(string sText)
 	object o,p;
 
 	for (ObjectToInt(o = GetFirstPC()); GetIsObjectValid(o); ObjectToInt(o = GetNextPC())) {
-		if (GetIsDM(o) || GetIsDMPossessed(o)) {
+		if (GetIsDM(o))
 			SendMessageToPC(o, sText);
 
+		if (GetIsDMPossessed(o)) {
 			p = GetControlledCharacter(o);
 
 			if (p != OBJECT_INVALID)
