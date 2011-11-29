@@ -1,4 +1,5 @@
 #include "nwnx_objectattributes_include"
+#include "acr_tools_i"
 
 // This function returns the polymorph effect number
 // to produce a dummy effect that will shift a target
@@ -1169,42 +1170,113 @@ int GetRandomHeadModel(int nRace, int nGender)
 	return 1;
 }
 
-string GetRandomTint(int nRace, int nColumn, int nFeature=-1)
+string GetRandomTint(int nSubrace, int nColumn, int nElement=-1)
 {
 	string s2DA;
 	string sColumn;
-	if(nFeature == -1 || nFeature == ACR_FEATURE_TYPE_RANDOM)
-		nFeature = Random(ACR_NUM_DEFAULT_FEATURE_COLOURS);
+	if (nElement == -1 || nElement == ACR_FEATURE_TYPE_RANDOM)
+		nElement = Random(ACR_NUM_DEFAULT_FEATURE_COLOURS);
 	
-	if(nRace == 1)
-		s2DA = "color_shielddwarf";
-	else if(nRace == 2)
-		s2DA = "color_moonelf";
-	else if(nRace == 3)
-		s2DA = "color_rockgnome";
-	else if(nRace == 4)
-		s2DA = "color_halfelf";
-	else if(nRace == 5)
-		s2DA = "color_lightfoot";
-	else if(nRace == 6)
-		s2DA = "color_halforc";
-	else if(nRace == 7)
-		s2DA = "color_human";
+	switch (nSubrace) {
+		case RACIAL_SUBTYPE_SHIELD_DWARF:
+			s2DA = "color_shielddwarf";
+			break;
+		case RACIAL_SUBTYPE_GOLD_DWARF:
+			s2DA = "color_golddwarf";
+			break;
+		case RACIAL_SUBTYPE_GRAY_DWARF:
+			s2DA = "color_graydwarf";
+			break;
+		case RACIAL_SUBTYPE_MOON_ELF:
+			s2DA = "color_moonelf";
+			break;
+		case RACIAL_SUBTYPE_SUN_ELF:
+			s2DA = "color_sunelf";
+			break;
+		case RACIAL_SUBTYPE_WILD_ELF:
+			s2DA = "color_wildelf";
+			break;
+		case RACIAL_SUBTYPE_WOOD_ELF:
+			s2DA = "color_woodelf";
+			break;
+		case RACIAL_SUBTYPE_DROW:
+			s2DA = "color_drow";
+			break;
+		case RACIAL_SUBTYPE_ROCK_GNOME:
+			s2DA = "color_rockgnome";
+			break;
+		case RACIAL_SUBTYPE_SVIRFNEBLIN:
+			s2DA = "color_deepgnome";
+			break;
+		case RACIAL_SUBTYPE_HALFELF:
+			s2DA = "color_halfelf";
+			break;
+		case RACIAL_SUBTYPE_HALFDROW:
+			s2DA = "color_halfdrow";
+			break;
+		case RACIAL_SUBTYPE_LIGHTFOOT_HALF:
+			s2DA = "color_lightfoot";
+			break;
+		case RACIAL_SUBTYPE_GHOSTWISE_HALF:
+			s2DA = "color_ghostwise";
+			break;
+		case RACIAL_SUBTYPE_STRONGHEART_HALF:
+			s2DA = "color_strongheart";
+			break;
+		case RACIAL_SUBTYPE_HALFORC:
+			s2DA = "color_halforc";
+			break;
+		case RACIAL_SUBTYPE_HUMAN:
+			s2DA = "color_human";
+			break;
+		case RACIAL_SUBTYPE_AASIMAR:
+			s2DA = "color_aasimar";
+			break;
+		case RACIAL_SUBTYPE_TIEFLING:
+			s2DA = "color_tiefling";
+			break;
+		case RACIAL_SUBTYPE_AIR_GENASI:
+			s2DA = "color_airgen";
+			break;
+		case RACIAL_SUBTYPE_EARTH_GENASI:
+			s2DA = "color_earthgen";
+			break;
+		case RACIAL_SUBTYPE_FIRE_GENASI:
+			s2DA = "color_firegen";
+			break;
+		case RACIAL_SUBTYPE_WATER_GENASI:
+			s2DA = "color_watergen";
+			break;
+		case RACIAL_SUBTYPE_GRAYORC:
+			s2DA = "color_grayorc";
+			break;
+		case RACIAL_SUBTYPE_YUANTI:
+			s2DA = "color_yuanti";
+			break;
+	}
 	
-	if(nColumn == 1)
-		sColumn = "hair_1";
-	else if(nColumn == 2)
-		sColumn = "hair_2";
-	else if(nColumn == 3)
-		sColumn = "hair_acc";
-	else if(nColumn == 4)
-		sColumn = "skin";
-	else if(nColumn == 5)
-		sColumn = "eyes";
-	else if(nColumn == 6)
-		sColumn = "body_hair";
+	switch (nColumn) {
+		case 1:
+			sColumn = "hair_1";
+			break;
+		case 2:
+			sColumn = "hair_2";
+			break;
+		case 3:
+			sColumn = "hair_acc";
+			break;
+		case 4:
+			sColumn = "skin";
+			break;
+		case 5:
+			sColumn = "eyes";
+			break;
+		case 6:
+			sColumn = "body_hair";
+			break;
+	}
 	
-	return Get2DAString(s2DA, sColumn, nFeature);
+	return Get2DAString(s2DA, sColumn, nElement);
 }
 
 void SetAlignment(object oCreature, int nAlignment)
@@ -1317,11 +1389,12 @@ float HexStringToFloat(string sString)
 
 
 //! Randomize appearance of a playable creature
-void ACR_RandomizeAppearance(object oSpawn,int nHead = ACR_FEATURE_TYPE_RANDOM,int nHair = ACR_FEATURE_TYPE_RANDOM,int nHair1 = ACR_FEATURE_TYPE_RANDOM,int nHair2 = ACR_FEATURE_TYPE_RANDOM,int nHair3 = ACR_FEATURE_TYPE_RANDOM, int nBHair = ACR_FEATURE_TYPE_RANDOM,int nSkin = ACR_FEATURE_TYPE_RANDOM,int nEyes = ACR_FEATURE_TYPE_RANDOM)
+void ACR_RandomizeAppearance(object oSpawn,int nHead = ACR_FEATURE_TYPE_RANDOM,int nHair = ACR_FEATURE_TYPE_RANDOM,int nHair1 = ACR_FEATURE_TYPE_RANDOM,int nHair2 = ACR_FEATURE_TYPE_RANDOM,int nAHair = ACR_FEATURE_TYPE_RANDOM, int nBHair = ACR_FEATURE_TYPE_RANDOM,int nSkin = ACR_FEATURE_TYPE_RANDOM,int nEyes = ACR_FEATURE_TYPE_RANDOM,float fFHair=0.5)
 {
-	int nHeadModel,nHairModel,nRandHair,nRace,nGender;
+	int nHeadModel,nHairModel,nRandHair,nRace,nSubrace,nGender;
 
 	nRace = GetRacialType(oSpawn);
+	nSubrace = GetSubRace(oSpawn);
 	nGender = GetGender(oSpawn);
 	
 	
@@ -1346,48 +1419,65 @@ void ACR_RandomizeAppearance(object oSpawn,int nHead = ACR_FEATURE_TYPE_RANDOM,i
 	if (nBHair == ACR_FEATURE_TYPE_RANDOM)
 		nBHair = nRandHair;
 
-	string sHair1 = GetRandomTint(nRace, 1, nHair1);
-	string sHair2 = GetRandomTint(nRace, 2, nHair2);
-	string sHair3 = GetRandomTint(nRace, 3, nHair3);
-	string sSkin  = GetRandomTint(nRace, 4, nSkin);
-	string sEyes  = GetRandomTint(nRace, 5, nEyes);
-	string sBHair = GetRandomTint(nRace, 6, nBHair);
+	string sHair1 = GetRandomTint(nSubrace, 1, nHair1);
+	string sHair2 = GetRandomTint(nSubrace, 2, nHair2);
+	string sAHair = GetRandomTint(nSubrace, 3, nAHair);
+	string sSkin  = GetRandomTint(nSubrace, 4, nSkin);
+	string sEyes  = GetRandomTint(nSubrace, 5, nEyes);
+	string sBHair = GetRandomTint(nSubrace, 6, nBHair);
 
 	float fHair1r = HexStringToFloat(GetStringLeft(sHair1, 2)) / 255.0f;
 	float fHair1g = HexStringToFloat(GetStringLeft(GetStringRight(sHair1, 4), 2)) / 255.0f;
 	float fHair1b = HexStringToFloat(GetStringRight(sHair1, 2)) / 255.0f;
+
 	float fHair2r = HexStringToFloat(GetStringLeft(sHair2, 2)) / 255.0f;
 	float fHair2g = HexStringToFloat(GetStringLeft(GetStringRight(sHair2, 4), 2)) / 255.0f;
 	float fHair2b = HexStringToFloat(GetStringRight(sHair2, 2)) / 255.0f;	
-	float fHair3r = HexStringToFloat(GetStringLeft(sHair3, 2)) / 255.0f;
-	float fHair3g = HexStringToFloat(GetStringLeft(GetStringRight(sHair3, 4), 2)) / 255.0f;
-	float fHair3b = HexStringToFloat(GetStringRight(sHair3, 2)) / 255.0f;
+
+	float fAHairr = HexStringToFloat(GetStringLeft(sAHair, 2)) / 255.0f;
+	float fAHairg = HexStringToFloat(GetStringLeft(GetStringRight(sAHair, 4), 2)) / 255.0f;
+	float fAHairb = HexStringToFloat(GetStringRight(sAHair, 2)) / 255.0f;
+
 	float fSkinr  = HexStringToFloat(GetStringLeft(sSkin, 2)) / 255.0f;
 	float fSking  = HexStringToFloat(GetStringLeft(GetStringRight(sSkin, 4), 2)) / 255.0f;
-	float fSkinb  = HexStringToFloat(GetStringRight(sSkin, 2)) /255.0f;
+	float fSkinb  = HexStringToFloat(GetStringRight(sSkin, 2)) / 255.0f;
+
 	float fEyesr  = HexStringToFloat(GetStringLeft(sEyes, 2)) / 255.0f;
 	float fEyesg  = HexStringToFloat(GetStringLeft(GetStringRight(sEyes, 4), 2)) / 255.0f;
 	float fEyesb  = HexStringToFloat(GetStringRight(sEyes, 2)) / 255.0f;	
+
 	float fBHairr = HexStringToFloat(GetStringLeft(sEyes, 2)) / 255.0f;
 	float fBHairg = HexStringToFloat(GetStringLeft(GetStringRight(sEyes, 4), 2)) / 255.0f;
 	float fBHairb = HexStringToFloat(GetStringRight(sEyes, 2)) / 255.0f;
 
+	// Models
 	XPObjectAttributesSetHeadVariation(oSpawn, nHeadModel);
 	XPObjectAttributesSetHairVariation(oSpawn, nHairModel);
 
-	if(d2() == 1)	
+	// Facial hair
+	if (ACR_RandomFloat() >= fFHair)	
 		XPObjectAttributesSetFacialHairVariation(oSpawn, TRUE);
 	else
 		XPObjectAttributesSetFacialHairVariation(oSpawn, FALSE);
 
+	// Hair tint
 	XPObjectAttributesSetHairTint(oSpawn, 
 		CreateXPObjectAttributes_TintSet(
-			CreateXPObjectAttributes_Color(fHair3r, fHair3g, fHair3b, 1.0f),
+			CreateXPObjectAttributes_Color(fAHairr, fAHairg, fAHairb, 1.0f),
 			CreateXPObjectAttributes_Color(fHair1r, fHair1g, fHair1b, 1.0f),
 			CreateXPObjectAttributes_Color(fHair2r, fHair2g, fHair2b, 1.0f)));
+
+	// Head tint
 	XPObjectAttributesSetHeadTint(oSpawn, 
 		CreateXPObjectAttributes_TintSet(
 			CreateXPObjectAttributes_Color(fSkinr,  fSking,  fSkinb, 1.0f),
 			CreateXPObjectAttributes_Color(fEyesr,  fEyesg,  fEyesb, 1.0f),
 			CreateXPObjectAttributes_Color(fBHairr, fBHairg, fBHairb, 1.0f)));
+
+	// Body tint
+	XPObjectAttributesSetBodyTint(oSpawn,
+		CreateXPObjectAttributes_TintSet(
+			CreateXPObjectAttributes_Color(fSkinr,  fSking,  fSkinb, 1.0f),
+			CreateXPObjectAttributes_Color(fAHairr, fAHairg, fAHairb, 1.0f),
+			CreateXPObjectAttributes_Color(fEyesr,  fEyesg,  fEyesb, 1.0f)));
 }
