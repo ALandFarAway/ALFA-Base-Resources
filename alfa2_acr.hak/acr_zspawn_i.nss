@@ -46,6 +46,9 @@ int GEAR_KITS_MUNDANE = 4;
 int GEAR_KITS_LOW     = 5;
 int GEAR_KITS_NORMAL  = 6;
 
+const int ACR_NUM_DEFAULT_FEATURE_COLOURS	= 18;
+const int ACR_FEATURE_TYPE_RANDOM		= 999;
+
 int RacialTypeToPolymorph(int nRacialType)
 {
 /* 
@@ -1166,12 +1169,12 @@ int GetRandomHeadModel(int nRace, int nGender)
 	return 1;
 }
 
-string GetRandomTint(int nRace, int nColumn, int nRandHair=-1)
+string GetRandomTint(int nRace, int nColumn, int nFeature=-1)
 {
 	string s2DA;
 	string sColumn;
-	if(nRandHair == -1 || nRandHair == 999)
-		nRandHair = Random(18);
+	if(nFeature == -1 || nFeature == ACR_FEATURE_TYPE_RANDOM)
+		nFeature = Random(ACR_NUM_DEFAULT_FEATURE_COLOURS);
 	
 	if(nRace == 1)
 		s2DA = "color_shielddwarf";
@@ -1201,7 +1204,7 @@ string GetRandomTint(int nRace, int nColumn, int nRandHair=-1)
 	else if(nColumn == 6)
 		sColumn = "body_hair";
 	
-	return Get2DAString(s2DA, sColumn, nRandHair);
+	return Get2DAString(s2DA, sColumn, nFeature);
 }
 
 void SetAlignment(object oCreature, int nAlignment)
@@ -1250,4 +1253,141 @@ void SetAlignment(object oCreature, int nAlignment)
 		AdjustAlignment(oCreature, ALIGNMENT_CHAOTIC, 100);
 		AdjustAlignment(oCreature, ALIGNMENT_EVIL, 100);
 	}
+}
+
+//! Converts datastring to int representation
+int DataStringToInt(string sString)
+{
+	if(sString == "1")      return 1;
+	else if(sString == "2") return 2; 
+	else if(sString == "3") return 3;
+	else if(sString == "4") return 4;
+	else if(sString == "5") return 5;
+	else if(sString == "6") return 6;
+	else if(sString == "7") return 7;
+	else if(sString == "8") return 8;
+	else if(sString == "9") return 9;
+	else if(sString == "A") return 10;
+	else if(sString == "B") return 11;
+	else if(sString == "C") return 12;
+	else if(sString == "D") return 13;
+	else if(sString == "E") return 14;
+	else if(sString == "F") return 15;
+	else if(sString == "G") return 16;
+	else if(sString == "H") return 17;
+	else if(sString == "I") return 18;
+	else if(sString == "J") return 19;
+	else if(sString == "K") return 20;
+	else if(sString == "L") return 21;
+	else if(sString == "M") return 22;
+	else if(sString == "N") return 23;
+	else if(sString == "O") return 24;
+	else if(sString == "P") return 25;
+	else if(sString == "Q") return 26;
+	else if(sString == "R") return 27;
+	else if(sString == "S") return 28;
+	else if(sString == "T") return 29;
+	else if(sString == "U") return 30;
+	return 1;
+}
+
+//! Turns a hex string into a floating point
+float HexStringToFloat(string sString)
+{
+	int nResult = 0;
+	int nMultiplier = 1;
+	while(sString != "")
+	{
+		string sDigit = GetStringRight(sString, 1);
+		if(GetStringLength(sString) == 1)
+			sString = "";
+		else
+			sString = GetStringLeft(sString, GetStringLength(sString) - 1);
+		if(sDigit == "F")      nResult += nMultiplier * 15;
+		else if(sDigit == "E") nResult += nMultiplier * 14;
+		else if(sDigit == "D") nResult += nMultiplier * 13;
+		else if(sDigit == "C") nResult += nMultiplier * 12;
+		else if(sDigit == "B") nResult += nMultiplier * 11;
+		else if(sDigit == "A") nResult += nMultiplier * 10;
+		else                   nResult += nMultiplier * StringToInt(sDigit);
+		nMultiplier = nMultiplier * 16;
+	}
+	return IntToFloat(nResult);
+}
+
+
+//! Randomize appearance of a playable creature
+void ACR_RandomizeAppearance(object oSpawn,int nHead = ACR_FEATURE_TYPE_RANDOM,int nHair = ACR_FEATURE_TYPE_RANDOM,int nHair1 = ACR_FEATURE_TYPE_RANDOM,int nHair2 = ACR_FEATURE_TYPE_RANDOM,int nHair3 = ACR_FEATURE_TYPE_RANDOM, int nBHair = ACR_FEATURE_TYPE_RANDOM,int nSkin = ACR_FEATURE_TYPE_RANDOM,int nEyes = ACR_FEATURE_TYPE_RANDOM)
+{
+	int nHeadModel,nHairModel,nRandHair,nRace,nGender;
+
+	nRace = GetRacialType(oSpawn);
+	nGender = GetGender(oSpawn);
+	
+	
+	if (nHead != ACR_FEATURE_TYPE_RANDOM && nHead != 0)
+		nHeadModel = nHead;
+	else
+		nHeadModel = GetRandomHeadModel(nRace, nGender);	
+
+	if (nHair != ACR_FEATURE_TYPE_RANDOM)
+		nHairModel = nHair;
+	else
+		nHairModel = GetRandomHairModel(nRace, nGender);
+		
+	nRandHair = Random(ACR_NUM_DEFAULT_FEATURE_COLOURS);
+
+	if (nHair1 == ACR_FEATURE_TYPE_RANDOM)
+		nHair1 = nRandHair;
+
+	if (nHair2 == ACR_FEATURE_TYPE_RANDOM)
+		nHair2 = nRandHair;
+
+	if (nBHair == ACR_FEATURE_TYPE_RANDOM)
+		nBHair = nRandHair;
+
+	string sHair1 = GetRandomTint(nRace, 1, nHair1);
+	string sHair2 = GetRandomTint(nRace, 2, nHair2);
+	string sHair3 = GetRandomTint(nRace, 3, nHair3);
+	string sSkin  = GetRandomTint(nRace, 4, nSkin);
+	string sEyes  = GetRandomTint(nRace, 5, nEyes);
+	string sBHair = GetRandomTint(nRace, 6, nBHair);
+
+	float fHair1r = HexStringToFloat(GetStringLeft(sHair1, 2)) / 255.0f;
+	float fHair1g = HexStringToFloat(GetStringLeft(GetStringRight(sHair1, 4), 2)) / 255.0f;
+	float fHair1b = HexStringToFloat(GetStringRight(sHair1, 2)) / 255.0f;
+	float fHair2r = HexStringToFloat(GetStringLeft(sHair2, 2)) / 255.0f;
+	float fHair2g = HexStringToFloat(GetStringLeft(GetStringRight(sHair2, 4), 2)) / 255.0f;
+	float fHair2b = HexStringToFloat(GetStringRight(sHair2, 2)) / 255.0f;	
+	float fHair3r = HexStringToFloat(GetStringLeft(sHair3, 2)) / 255.0f;
+	float fHair3g = HexStringToFloat(GetStringLeft(GetStringRight(sHair3, 4), 2)) / 255.0f;
+	float fHair3b = HexStringToFloat(GetStringRight(sHair3, 2)) / 255.0f;
+	float fSkinr  = HexStringToFloat(GetStringLeft(sSkin, 2)) / 255.0f;
+	float fSking  = HexStringToFloat(GetStringLeft(GetStringRight(sSkin, 4), 2)) / 255.0f;
+	float fSkinb  = HexStringToFloat(GetStringRight(sSkin, 2)) /255.0f;
+	float fEyesr  = HexStringToFloat(GetStringLeft(sEyes, 2)) / 255.0f;
+	float fEyesg  = HexStringToFloat(GetStringLeft(GetStringRight(sEyes, 4), 2)) / 255.0f;
+	float fEyesb  = HexStringToFloat(GetStringRight(sEyes, 2)) / 255.0f;	
+	float fBHairr = HexStringToFloat(GetStringLeft(sEyes, 2)) / 255.0f;
+	float fBHairg = HexStringToFloat(GetStringLeft(GetStringRight(sEyes, 4), 2)) / 255.0f;
+	float fBHairb = HexStringToFloat(GetStringRight(sEyes, 2)) / 255.0f;
+
+	XPObjectAttributesSetHeadVariation(oSpawn, nHeadModel);
+	XPObjectAttributesSetHairVariation(oSpawn, nHairModel);
+
+	if(d2() == 1)	
+		XPObjectAttributesSetFacialHairVariation(oSpawn, TRUE);
+	else
+		XPObjectAttributesSetFacialHairVariation(oSpawn, FALSE);
+
+	XPObjectAttributesSetHairTint(oSpawn, 
+		CreateXPObjectAttributes_TintSet(
+			CreateXPObjectAttributes_Color(fHair3r, fHair3g, fHair3b, 1.0f),
+			CreateXPObjectAttributes_Color(fHair1r, fHair1g, fHair1b, 1.0f),
+			CreateXPObjectAttributes_Color(fHair2r, fHair2g, fHair2b, 1.0f)));
+	XPObjectAttributesSetHeadTint(oSpawn, 
+		CreateXPObjectAttributes_TintSet(
+			CreateXPObjectAttributes_Color(fSkinr,  fSking,  fSkinb, 1.0f),
+			CreateXPObjectAttributes_Color(fEyesr,  fEyesg,  fEyesb, 1.0f),
+			CreateXPObjectAttributes_Color(fBHairr, fBHairg, fBHairb, 1.0f)));
 }
