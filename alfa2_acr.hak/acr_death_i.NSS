@@ -477,6 +477,8 @@ void ACR_CorpseOnResurrect(object oCaster, object oCorpse, int nSpellId)
     // make sure a corpse has been targetted
     if (! ACR_GetIsCorpse(oCorpse)) { return; }
 
+	ACR_LogEvent(oCaster, ACR_LOG_REZ, GetName(oCaster) + " has cast a rez spell with id " + IntToString(nSpellId) + " at player corpse " + GetName(oCorpse));
+
     object oPC; location lLocation = GetLocation(oCaster);
 
     // check if raise dead is being attempted on a mutilated corpse
