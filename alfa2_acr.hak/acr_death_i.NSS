@@ -144,6 +144,10 @@ const int _ACR_DTH_FLOOR = -6;
 //!  Stores the last creature to have damaged a dying PC- usually will turn out to be the Killer.
 const string _ACR_DTH_DAMAGER = "ACR_DTH_LAST_DAMAGER";
 
+//! Constants relating to Recall Spirit.
+const string _ACR_DTH_RECALLABLE = "ACR_DTH_RECALLABLE_";
+const float ACR_DTH_RECALL_SPIRIT_WINDOW = 12.0;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -267,6 +271,9 @@ object ACR_GetPlayerFromCorpse(object oCorpse);
 //  - oPC: the player to stabilize
 //  - Returns: noting
 void ACR_StabilizePlayer(object oPC);
+
+//! This function returns TRUE if oCorpse can be recalled via Recall Spirit.
+int ACR_CanCorpseBeRecalled(object oCorpse);
 
 // *** PRIVATE FUNCTIONS ***
 
@@ -460,7 +467,12 @@ void ACR_CorpseOnMutilate(object oCorpse, object oMutilator)
 void ACR_CorpseOnResurrect(object oCaster, object oCorpse, int nSpellId)
 {
     // make sure a ressurection spell has been cast
-    if (nSpellId != SPELL_RAISE_DEAD && nSpellId != SPELL_RESURRECTION && nSpellId != SPELL_TRUE_RESURRECTION && nSpellId != 1157) { return; }
+    if (nSpellId != SPELL_RAISE_DEAD && nSpellId != SPELL_RESURRECTION && nSpellId != SPELL_TRUE_RESURRECTION && nSpellId != SPELL_RECALL_SPIRIT) { return; }
+	
+	if(nSpellId == SPELL_RECALL_SPIRIT && !ACR_CanCorpseBeRecalled(oCorpse)) {
+		SendMessageToPC(oCaster, "Recall spirit only works on bodies less than " + FloatToString(ACR_DTH_RECALL_SPIRIT_WINDOW, 2, 0) + " seconds old.");
+		return;
+	}
 
     // make sure a corpse has been targetted
     if (! ACR_GetIsCorpse(oCorpse)) { return; }
@@ -497,12 +509,15 @@ void ACR_CorpseOnResurrect(object oCaster, object oCorpse, int nSpellId)
         BlackScreen(oPC);
 
         // heal the player if this is a resurrection spell
-        if (nSpellId != SPELL_RAISE_DEAD) { ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectHeal(GetMaxHitPoints(oPC) - 1), oPC); }
+        if (nSpellId == SPELL_RESURRECTION || nSpellId == SPELL_TRUE_RESURRECTION) { ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectHeal(GetMaxHitPoints(oPC) - 1), oPC); }
+		
+	if (nSpellId != SPELL_RECALL_SPIRIT) {
+		SetHitPoints(oPC, 0, DAMAGE_TYPE_NEGATIVE);
+		DelayCommand(1.0, ACR_StabilizePlayer(oPC));
+	}
 
-        // apply the death penalties only if the caster is not a DM. 1157 is recall spirit
-        if ((!GetIsDM(oCaster) || 
-            GetIsDMPossessed(oCaster)) &&
-            nSpellId != 1157) { _applyDeathPenalty(oPC); }
+        // apply the death penalties only if the caster is not a DM
+        if (nSpellId != SPELL_RECALL_SPIRIT && nSpellId != SPELL_TRUE_RESURRECTION && !(GetIsDM(oCaster) || GetIsDMPossessed(oCaster))) { _applyDeathPenalty(oPC); }
 
         // clear the death flags on the player - necessary to be freed from the morgue
         ACR_UnsetPlayerStatusFlags(oPC, ACR_PLAYER_FLAG_DEAD | ACR_PLAYER_FLAG_MUTILATED);
@@ -990,6 +1005,10 @@ void ACR_StabilizePlayer(object oPC)
 	
 	// in order to trigger the stop to bleeding, reduce the stored HP tally (so the PC appears partially healed.)
 	SetLocalInt(oPC, ACR_DTH_HITPOINTS, GetCurrentHitPoints(oPC) - 1);
+}
+
+int ACR_CanCorpseBeRecalled(object oCorpse) {
+	return GetLocalInt(GetModule(), _ACR_DTH_RECALLABLE + ACR_GetDatabaseName(oCorpse));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
