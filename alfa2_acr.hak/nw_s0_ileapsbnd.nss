@@ -48,10 +48,12 @@ void main()
     fDuration = ApplyMetamagicDurationMods(fDuration);
     int nDurType = ApplyMetamagicDurationTypeMods(DURATION_TYPE_TEMPORARY);
 
-    effect eDex = EffectAbilityIncrease(ABILITY_DEXTERITY, 4);
-    effect eTumble = EffectSkillIncrease(SKILL_TUMBLE, 4);
+    effect eBalance = EffectSkillIncrease(SKILL_BALANCE, 6);
+    effect eJump    = EffectSkillIncrease(SKILL_JUMP, 6);
+    effect eTumble  = EffectSkillIncrease(SKILL_TUMBLE, 6);
     effect eDur = EffectVisualEffect(VFX_DUR_INVOCATION_LEAPS_BOUNDS);
-    effect eLink = EffectLinkEffects(eDex, eTumble);
+    effect eLink = EffectLinkEffects(eJump, eBalance);
+    eLink = EffectLinkEffects(eLink, eTumble);
     eLink = EffectLinkEffects(eLink, eDur);
 
     RemoveEffectsFromSpell(oTarget, GetSpellId());
