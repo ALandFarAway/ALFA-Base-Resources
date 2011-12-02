@@ -37,6 +37,9 @@
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+// Item tags:
+const string ACR_NWN_GOLD_TAG = "NWN_IT_GOLD001";
+
 // Classes:
 
 const int CLASS_BLADESINGER = 104;
@@ -45,8 +48,19 @@ const int CLASS_MYSTICTHEURGE = 44;
 
 // Spells and spell-like abilities:
 
+const int SPELL_RECALL_SPIRIT = 1157;
 const int SPELL_LOREMASTER_GREATERLORE = 3018;
 const int SPELL_LOREMASTER_TRUELORE = 3019;
+
+const int SPELL_ELDRITCH_BLAST_1 = 844;
+const int SPELL_ELDRITCH_BLAST_2 = 949;
+const int SPELL_ELDRITCH_BLAST_3 = 950;
+const int SPELL_ELDRITCH_BLAST_4 = 951;
+const int SPELL_ELDRITCH_BLAST_5 = 952;
+const int SPELL_ELDRITCH_BLAST_6 = 953;
+const int SPELL_ELDRITCH_BLAST_7 = 954;
+const int SPELL_ELDRITCH_BLAST_8 = 955;
+const int SPELL_ELDRITCH_BLAST_9 = 956;
 
 // Skills:
 
@@ -324,10 +338,6 @@ const int ACR_PLAYER_FLAG_MUTILATED   = 0x080;
 const int ACR_PLAYER_FLAG_DECAYED     = 0x100;
 
 const int ACR_PLAYER_FLAG_ALL         = 0xFFF;
-
-//! Misc constants/tags
-//! NWN gold
-const string ACR_NWN_GOLD_TAG         = "NWN_IT_GOLD001";
 
 //
 // The following flags must immediately hit the database so that they can be

@@ -74,6 +74,7 @@
 #include "acr_time_i"
 #include "acr_nonlethal_i"
 #include "acr_effects_i"
+#include "acr_skills_i"
 
 // REMOVE THESE WHEN INCLUDED OR ADDED TO NWSCRIPT
 int FEAT_ENDURANCE = 12;
@@ -135,6 +136,14 @@ const int ACR_REST_MIN_BONUS = 1;
 const int ACR_REST_ZONE_ILLEGAL  = 0;
 const int ACR_REST_ZONE_INTERIOR = 1;
 const int ACR_REST_ZONE_EXTERIOR = 2;
+
+//! Rest Return Values
+const int ACR_REST_TYPE_VALID		= 1;
+const int ACR_REST_TYPE_INVALID		= -1;
+const int ACR_REST_TYPE_NOTTIRED	= 0;
+
+//! Maximum tent distance
+const float ACR_REST_MAX_TENT_DIST	= 8.0f;
 
 //! Rest Durations
 const float ACR_REST_PRAY_DURATION = 0.25;     // IG hours - converted to seconds
@@ -342,7 +351,7 @@ void ACR_OnPlayerRest(object oPC, int nRestEvent)
             switch (_playerCanRest(oPC))
             {
                 // the player can rest
-                case 1:
+                case ACR_REST_TYPE_VALID:
 					
                     // start player resting
                     _playerRestStart(oPC);
@@ -352,7 +361,7 @@ void ACR_OnPlayerRest(object oPC, int nRestEvent)
                     break;
 
                 // the player isn't tired
-                case 0:
+                case ACR_REST_TYPE_NOTTIRED:
                     // stop the player from resting
                     AssignCommand(oPC, ClearAllActions());
 
@@ -362,7 +371,7 @@ void ACR_OnPlayerRest(object oPC, int nRestEvent)
                     break;
 
                 // the player can't rest
-                case -1:
+                case ACR_REST_TYPE_INVALID:
                 default:
                     // stop the player from resting
                     AssignCommand(oPC, ClearAllActions());
@@ -593,92 +602,63 @@ void ACR_RestTriggerExit(object oDeparted)
 
 int _playerCanRest(object oPC)
 {
-	// do the simpler, local checks first before hitting the database for the rest cycle/time check
-	
+    object oTent;
+    int nLastRestTimeStamp,nReturn=ACR_REST_TYPE_VALID;
+
+    // do the simpler, local checks first before hitting the database for the rest cycle/time check
+    
     // exit if the player is unconscious
-    if (GetCurrentHitPoints(oPC) < 0) { return -1; }
+    if (GetCurrentHitPoints(oPC) < 0)
+    {
+        return ACR_REST_TYPE_INVALID;
+    }
 
-	if (GetLocalInt(GetArea(oPC), ACR_IS_TRAVELMAP) == TRUE) {
-		// block if oCaster is on the travel map.
-		SendMessageToPC(oPC, "You cannot rest on the travel map.  Use the DMFI cancel button to drop to a fullscale area and make camp.");
-		return -1;
-	}
-	
-    // get the time the PC last rested
-    int nLastRestTimeStamp = ACR_GetPersistentInt(oPC, ACR_REST_TIMER);
-
-    // check if enough time hasn't elapsed between attempts, and if the area is valid.
-    if ((ACR_GetTimeStampInHours() - nLastRestTimeStamp) < ACR_REST_CYCLE)
-	{
-		SendMessageToPC(oPC, "You must wait another " + IntToString(ACR_REST_CYCLE - (ACR_GetTimeStampInHours() - nLastRestTimeStamp)) + " hours."); 
-		if (GetLocalInt(oPC, ACR_REST_ZONE) == ACR_REST_ZONE_ILLEGAL) { 
-		    // check for other enabling conditions for informational purposes
-			if (GetIsAreaNatural(GetArea(oPC)) && GetIsAreaAboveGround(GetArea(oPC))) {
-			    if ((GetLevelByClass(CLASS_TYPE_DRUID, oPC) > 0) || (GetLevelByClass(CLASS_TYPE_RANGER, oPC) > 0)) {
-			        // druids and rangers don't need tents
-					SendMessageToPC(oPC, "Your natural affinity with the wilds would allow you to make an impromptu camp.");
-					return 0;
-			    } else {
-			        object oTent = GetNearestObjectByTag(ACR_REST_TENT_TAG, oPC);
-				    if ((oTent != OBJECT_INVALID) && (GetDistanceBetween(oPC, oTent) < 8.0)) {
-				        // tent is set up nearby, allow rest.
-					    SendMessageToPC(oPC, "Thanks to the shelter of the tent, you could rest here.");
-					    return 0;
-					} else {
-					    return -1;
-					}
-				}
-			} // 
-		    return -1; 
-		} else {
-	        return 0;
-		}
-	}
-	
-	// still exit if the player is not in a rest zone (even though they are tired enough to rest)
+    // block if is on the travel map.
+    if (GetLocalInt(GetArea(oPC), ACR_IS_TRAVELMAP) == TRUE)
+    {
+        SendMessageToPC(oPC, "You cannot rest on the travel map.  Use the DMFI cancel button to drop to a fullscale area and make camp.");
+        return ACR_REST_TYPE_INVALID;
+    }
+    
+    // still exit if the player is not in a rest zone (even though they are tired enough to rest)
     if (GetLocalInt(oPC, ACR_REST_ZONE) == ACR_REST_ZONE_ILLEGAL) 
     {
+        nReturn = ACR_REST_TYPE_INVALID;
+
         // check for other enabling conditions for resting, that might compensate for lack of a rest trigger
         if (GetIsAreaNatural(GetArea(oPC))) 
         {
-            object oTent2 = GetNearestObjectByTag(ACR_REST_TENT_TAG, oPC);
-            int nSurvDC = 15;
-            if(GetIsAreaAboveGround(GetArea(oPC)) == FALSE)
-            {
-                if(GetSkillRank(33, oPC, TRUE) >= 5)
-                    nSurvDC -= 2;
-                if(GetSkillRank(42, oPC, TRUE) >= 5)
-                    nSurvDC -= 2;
-            }
-            if(GetIsObjectValid(oTent2)) 
-            {
-                if (GetDistanceBetween(oPC, oTent2) < 8.0) 
-                {
-                    // tent is set up nearby, allow rest.
-                    SendMessageToPC(oPC, "Thanks to the shelter of the tent, you may rest here.");
-                    return 1;
-                }
+            oTent = GetNearestObjectByTag(ACR_REST_TENT_TAG, oPC);
 
-            }
-            else if (GetIsSkillSuccessful(oPC, 29, nSurvDC, TRUE)) 
+            // tent is set up nearby, allow rest.
+            if (GetIsObjectValid(oTent) && (GetDistanceBetween(oPC, oTent) < ACR_REST_MAX_TENT_DIST)) 
             {
-                // don't need special shelter if you have survival ranks.
+                SendMessageToPC(oPC, "Thanks to the shelter of the tent, you may rest here.");
+                nReturn = ACR_REST_TYPE_VALID;
+            }
+            // don't need special shelter if you have survival ranks.
+            else if (ACR_SkillCheck(SKILL_SURVIVAL, oPC, 15, TRUE))
+            {
                 SendMessageToPC(oPC, "Your knowledge of survival allows you to create a makeshift shelter comfortable enough for gainful rest.");
-                return 1;
+                nReturn = ACR_REST_TYPE_VALID;
             }
-            else
-            {
-                return -1; 
-            }
-
         }
-        else 
-        { 
-            return -1;
-        }	
     }
-    // player can rest
-    return 1;
+
+    // get the time the PC last rested (only if still valid)
+    if (nReturn == ACR_REST_TYPE_VALID)
+    {
+        nLastRestTimeStamp = ACR_GetPersistentInt(oPC, ACR_REST_TIMER);
+
+        // check if enough time hasn't elapsed between attempts, and if the area is valid.
+        if ((ACR_GetTimeStampInHours() - nLastRestTimeStamp) < ACR_REST_CYCLE)
+        {
+            SendMessageToPC(oPC, "You must wait another " + IntToString(ACR_REST_CYCLE - (ACR_GetTimeStampInHours() - nLastRestTimeStamp)) + " hours to rest."); 
+            nReturn = ACR_REST_TYPE_NOTTIRED;
+        }
+    }
+
+    return nReturn;
 }
 
 int _playerHasBedroll(object oPC)
