@@ -46,6 +46,10 @@ const int CLASS_BLADESINGER = 104;
 const int CLASS_LOREMASTER = 106;
 const int CLASS_MYSTICTHEURGE = 44;
 
+// Racial types:
+
+const int RACIAL_TYPE_PLANT = 22;
+
 // Spells and spell-like abilities:
 
 const int SPELL_RECALL_SPIRIT = 1157;

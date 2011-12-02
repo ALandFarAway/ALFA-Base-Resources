@@ -280,10 +280,19 @@ int DeleteAllLocalsWithString(object oOjbect, string sString);
 //! Returns the spell script for nFeat, or "" if there is none.
 string GetFeatSpellScript(int nFeat);
 
-//!! Broadcast message to all dms
+//! Broadcast message to all dms
 void BroadcastToDMs(string sText);
 
-//!! Color a block of text
+//! Is this letter a vowel?
+int IsVowel(string s);
+
+//! Return article for noun
+string GetArticle(string s);
+
+//! Pluralize noun
+string Pluralize(string s);
+
+//! Color a block of text
 string Colorize(string sText, string sColor);
 
 object ACR_GetNearestCreatureToLocation(object oPC, int nFirstCriteriaType, int nFirstCriteriaValue,  location lLocation, int nNth=1, int nSecondCriteriaType=-1, int nSecondCriteriaValue=-1, int nThirdCriteriaType=-1,  int nThirdCriteriaValue=-1);
@@ -782,20 +791,32 @@ int GetKnowlegeSkillOfRace(int nRace) {
         case RACIAL_TYPE_FEY:
         case RACIAL_TYPE_GIANT:
         case RACIAL_TYPE_HUMANOID_MONSTROUS:
-        case RACIAL_TYPE_HUMANOID_GOBLINOID:
-        case RACIAL_TYPE_HUMANOID_ORC:
-        case RACIAL_TYPE_HUMANOID_REPTILIAN:
         case RACIAL_TYPE_SHAPECHANGER:
-        // FIX ME!! Racial type plant?
+        case RACIAL_TYPE_PLANT:
         case RACIAL_TYPE_VERMIN:
             return SKILL_KNOWLEDGE_NATURE;
 
         case RACIAL_TYPE_UNDEAD:
+        case RACIAL_TYPE_INCORPOREAL:
             return SKILL_KNOWLEDGE_RELIGION;
 
         case RACIAL_TYPE_OUTSIDER:
         case RACIAL_TYPE_ELEMENTAL:
             return SKILL_KNOWLEDGE_THE_PLANES;
+
+        case RACIAL_TYPE_HUMANOID_GOBLINOID:
+        case RACIAL_TYPE_HUMANOID_ORC:
+        case RACIAL_TYPE_HUMANOID_REPTILIAN:
+	case RACIAL_TYPE_DWARF:
+	case RACIAL_TYPE_ELF:
+	case RACIAL_TYPE_GNOME:
+	case RACIAL_TYPE_GRAYORC:
+	case RACIAL_TYPE_HALFELF:
+	case RACIAL_TYPE_HALFLING:
+	case RACIAL_TYPE_HALFORC:
+	case RACIAL_TYPE_HUMAN:
+	case RACIAL_TYPE_YUANTI:
+	    return SKILL_KNOWLEDGE_LOCAL;
     }
     return -1;
 }
@@ -970,6 +991,24 @@ void BroadcastToDMs(string sText)
 				SendMessageToPC(p, sText);
 		}
 	}
+}
+
+int IsVowel(string s)
+{
+	s = GetStringUpperCase(s);
+	return ((s == "A") || (s == "E") ||
+		(s == "I") || (s == "O") ||
+		(s == "U"));
+}
+
+string GetArticle(string s)
+{
+	return ((IsVowel(GetStringLeft(s,1))) ? "an" : "a");
+}
+
+string Pluralize(string s)
+{
+	return s + ( GetStringRight(s,1) == "s" ? "es" : "s" );
 }
 
 string Colorize(string sText, string sColor)
