@@ -36,7 +36,7 @@ void ACR_CheckLootByMob(object oPC)
 	object oKiller;
 	string s,k;
 
-	return;
+	if(!GetLocalInt(GetModule(),"MOBLOOT_ENABLED")) return;
 
 	ACR_CreateDebugSystem(_MOBLOOT_SYSTEM_NAME, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS);
 
