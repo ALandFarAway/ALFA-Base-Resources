@@ -236,6 +236,38 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s0_iwordchng.ncs                   \
             $(OUTPUTDIR)\nw_s0_impmagarm.ncs                   \
             $(OUTPUTDIR)\x0_s0_shield.ncs                      \
+            $(OUTPUTDIR)\acr_s0_shadow_acidfog.ncs             \
+            $(OUTPUTDIR)\acr_s0_shadow_acidfoga.ncs            \
+            $(OUTPUTDIR)\acr_s0_shadow_acidfogb.ncs            \
+            $(OUTPUTDIR)\acr_s0_shadow_acidfogc.ncs            \
+            $(OUTPUTDIR)\acr_s0_shadow_arc_lightning.ncs       \
+            $(OUTPUTDIR)\acr_s0_shadow_evards.ncs              \
+            $(OUTPUTDIR)\acr_s0_shadow_evardsa.ncs             \
+            $(OUTPUTDIR)\acr_s0_shadow_evardsc.ncs             \
+            $(OUTPUTDIR)\acr_s0_shadow_orbsound.ncs            \
+            $(OUTPUTDIR)\acr_s0_shadow_vitsphere.ncs           \
+            $(OUTPUTDIR)\nw_s0_grshconj.ncs                    \
+            $(OUTPUTDIR)\acr_s0_shadow_darkness.ncs            \
+            $(OUTPUTDIR)\acr_s0_shadow_darknessa.ncs           \
+            $(OUTPUTDIR)\acr_s0_shadow_darknessb.ncs           \
+            $(OUTPUTDIR)\acr_s0_shadowevoc.ncs                 \
+            $(OUTPUTDIR)\acr_s0_shadow_icestorm.ncs            \
+            $(OUTPUTDIR)\acr_s0_shadow_lghtnbolt.ncs           \
+            $(OUTPUTDIR)\acr_s0_shadow_orbelecless.ncs         \
+            $(OUTPUTDIR)\acr_s0_shadow_wallfire.ncs            \
+            $(OUTPUTDIR)\acr_s0_shadow_acidbrth.ncs            \
+            $(OUTPUTDIR)\acr_s0_shadow_flmarrow.ncs            \
+            $(OUTPUTDIR)\acr_s0_shadow_grease.ncs              \
+            $(OUTPUTDIR)\acr_s0_shadow_greasea.ncs             \
+            $(OUTPUTDIR)\acr_s0_shadow_greaseb.ncs             \
+            $(OUTPUTDIR)\acr_s0_shadow_greasec.ncs             \
+            $(OUTPUTDIR)\acr_s0_shadow_magmiss.ncs             \
+            $(OUTPUTDIR)\acr_s0_shadow_stinkcld.ncs            \
+            $(OUTPUTDIR)\acr_s0_shadow_stinkclda.ncs           \
+            $(OUTPUTDIR)\acr_s0_shadow_stinkcldc.ncs           \
+            $(OUTPUTDIR)\acr_s0_shadow_wallfirea.ncs           \
+            $(OUTPUTDIR)\acr_s0_shadow_wallfirec.ncs           \
+            $(OUTPUTDIR)\nw_s0_shadconj.ncs                    \
             $(OUTPUTDIR)\acr_disguise.ncs                   
 
 
