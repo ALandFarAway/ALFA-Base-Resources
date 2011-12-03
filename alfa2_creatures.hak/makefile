@@ -13,7 +13,6 @@ HAK_SOURCES=                                                   \
             .\*.MDB                                            \
             .\*.GR2                                            \
             .\*.TGA                                            \
-            .\*.JPG                                            \
             .\*.SSF                                            \
             .\*.FXA                                            \
             .\*.XML                                            \
