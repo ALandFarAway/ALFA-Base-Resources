@@ -4,6 +4,7 @@ update: 8/07/2009: Inception.  Exodus heads, no flower, wild elf hair, curly hai
 	3/8/2010: Added RWS Creatures pack, Snake, Gray Render, BouncyRock's creatures, Oblivion To NWN2 hair
         9/6/2010: Added Xal's heads, MotB revert for elven heads, RWS creatures updates
   9/5/2011: Init OLM, Hair Dyes, chat dice, dimension door, minotaurs, gibberlings, basilisks, monodrones, new rapiers, short spears, short staves, Edwin soundest, KEMO blueprints, language UI fix, zspawn drops, resting in armor warning, item retrieval exploit closed, ACR fatigue = NWN2 fatigue, mass cure AoE fix, ray of frost -> evocation, frightful blast: panicked -> shaken, gloves do blunt damage, fix to soundsets from 1.81, Selunite paladin, expanding async database writes, non-PCs don’t get status cache.
+   12/2/2011: Release notes are now maintained through Drupal.
 
 
 

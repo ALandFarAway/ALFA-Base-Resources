@@ -11,6 +11,7 @@ AcadiusLost:
 09/16/2010: added RWS Deep Halls Anniv. Ed, RWS Towers, RWS Merchants, RWS Grand Citadels, RWS Underwater set
 05/05/2011: added RWS Adobe, CODI Sigil, Gribo's Tree Platform, FR Diety banners, RWS Cave Entrances
   9/5/2011: Init OLM, Hair Dyes, chat dice, dimension door, minotaurs, gibberlings, basilisks, monodrones, new rapiers, short spears, short staves, Edwin soundest, KEMO blueprints, language UI fix, zspawn drops, resting in armor warning, item retrieval exploit closed, ACR fatigue = NWN2 fatigue, mass cure AoE fix, ray of frost -> evocation, frightful blast: panicked -> shaken, gloves do blunt damage, fix to soundsets from 1.81, Selunite paladin, expanding async database writes, non-PCs don’t get status cache.
+   12/2/2011: Release notes are now maintained through Drupal.
 
 
 Arched Bridges, by TD_Méphisto:

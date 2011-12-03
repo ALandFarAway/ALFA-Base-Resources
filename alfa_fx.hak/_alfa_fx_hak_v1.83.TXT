@@ -16,6 +16,7 @@ AcadiusLost:
 5/9/2011, Added Hoegbo's Skydomes, removed alternative Mirror Image VFX, Gribo's Bagpipe animations, ship VFX
   7/2/2011: NPC GUI, KEMO Chairs, Language GUI, enhancements to spawn system (encounter, light), expanding text entry in the chat window, RPXP fix (double proc), quarantine fix, clearing run-specific data on load, DMFI fixes for wealth reports/ wealth logging, minus glass doppelganger, plus craft construct, new soundsets (flaming fist, amn guard, helmite cleric, villager), shadow touch attack, new perception ranges, goblins and kobolds small creatures, asynchronous log writes.
   9/5/2011: Init OLM, Hair Dyes, chat dice, dimension door, minotaurs, gibberlings, basilisks, monodrones, new rapiers, short spears, short staves, Edwin soundest, KEMO blueprints, language UI fix, zspawn drops, resting in armor warning, item retrieval exploit closed, ACR fatigue = NWN2 fatigue, mass cure AoE fix, ray of frost -> evocation, frightful blast: panicked -> shaken, gloves do blunt damage, fix to soundsets from 1.81, Selunite paladin, expanding async database writes, non-PCs don’t get status cache.
+   12/2/2011: Release notes are now maintained through Drupal.
 
 
 
