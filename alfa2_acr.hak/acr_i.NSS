@@ -38,7 +38,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Item tags:
-const string ACR_NWN_GOLD_TAG = "NWN_IT_GOLD001";
+const string ACR_NWN_GOLD_TAG = "NW_IT_GOLD001";
 
 // Classes:
 
