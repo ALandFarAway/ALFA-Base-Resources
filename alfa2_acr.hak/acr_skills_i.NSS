@@ -143,6 +143,23 @@ void _SendRollMessage(object oPC, string sMsg, int bPrivate=FALSE);
 //  Function bodies
 //
 
+int ACR_InitCheck(object oPC, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0)
+{
+	int nRank;
+
+	// add bonus for improved initiative feat(s)
+	nModifier += (GetHasFeat(FEAT_IMPROVED_INITIATIVE,oPC) ? 4 : 0);
+	nModifier += (GetHasFeat(FEAT_THUG,oPC) ? 2 : 0);
+	nModifier += (GetHasFeat(FEAT_BLOODED,oPC) ? 2 : 0);
+		
+
+	nRank = GetAbilityModifier(ABILITY_DEXTERITY, oPC) + nModifier;
+
+	// return roll
+
+	return _HandleRoll(oPC, "Initiative", nRank, nDC, bShowRoll, bBroadcast);
+}
+
 int ACR_StatCheck(int nStatID, object oPC, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0)
 {
 	int nRank;
