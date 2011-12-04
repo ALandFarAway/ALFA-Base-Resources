@@ -1542,3 +1542,244 @@ void _ReInitializeDMFITool(object oPC, object oTool) {
 		//	DMFI_InitializeLanguage(oPC, oTool);
 		//}
 }
+
+string ACR_LangIDToString(string s_id)
+{
+	if (s_id == LNG_COMMON)
+		return "Common";
+	else if (s_id == LNG_ANIMAL)
+		return "Animal";
+	else if (s_id == LNG_ASSASSIN)
+		return "Assassin";
+	else if (s_id == LNG_ASSASSIN)
+		return "Abyssal";
+	else if (s_id == LNG_ALZHEDO)
+		return "Alzhedo";
+	else if (s_id == LNG_AQUAN)
+		return "Aquan";
+	else if (s_id == LNG_AURAN)
+		return "Auran";
+	else if (s_id == LNG_ALGARONDAN)
+		return "Algarondan";
+	else if (s_id == LNG_CANT)
+		return "Thieves' Cant";
+	else if (s_id == LNG_CELESTIAL)
+		return "Celestial";
+	else if (s_id == LNG_CHESSENTAN)
+		return "Chessentan";
+	else if (s_id == LNG_CHONDATHAN)
+		return "Chondathan";
+	else if (s_id == LNG_CHULTAN)
+		return "Chultan";
+	else if (s_id == LNG_DWARF)
+		return "Dwarven";
+	else if (s_id == LNG_DROW)
+		return "Drow";
+	else if (s_id == LNG_DROWSIGN)
+		return "Drow Sign";
+	else if (s_id == LNG_DRUIDIC)
+		return "Druidic";
+	else if (s_id == LNG_DRACONIC)
+		return "Draconic";
+	else if (s_id == LNG_DAMARAN)
+		return "Damaran";
+	else if (s_id == LNG_DAMBRATHAN)
+		return "Dambrathan";
+	else if (s_id == LNG_DURPARI)
+		return "Durpari";
+	else if (s_id == LNG_ELVEN)
+		return "Elven";
+	else if (s_id == LNG_GNOME)
+		return "Gnomish";
+	else if (s_id == LNG_GOBLIN)
+		return "Goblin";
+	else if (s_id == LNG_GIANT)
+		return "Giant";
+	else if (s_id == LNG_GNOLL)
+		return "Gnoll";
+	else if (s_id == LNG_HALFLING)
+		return "Halfling";
+	else if (s_id == LNG_IGNAN)
+		return "Ignan";
+	else if (s_id == LNG_HALARDRIM)
+		return "Halardrim";
+	else if (s_id == LNG_HALRUAAN)
+		return "Halruaan";
+	else if (s_id == LNG_ILLUSKAN)
+		return "Illuskan";
+	else if (s_id == LNG_IMASKAR)
+		return "Imaskar";
+	else if (s_id == LNG_INFERNAL)
+		return "Infernal";
+	else if (s_id == LNG_LEETSPEAK)
+		return "Leet";
+	else if (s_id == LNG_LANTANESE)
+		return "Lantanese";
+	else if (s_id == LNG_LOROSS)
+		return "Loross";
+	else if (s_id == LNG_MIDANI)
+		return "Midani";
+	else if (s_id == LNG_MULHORANDI)
+		return "Mulhorandi";
+	else if (s_id == LNG_NETHERESE)
+		return "Netherese";
+	else if (s_id == LNG_RASHEMI)
+		return "Rashemi";
+	else if (s_id == LNG_SERUSAN)
+		return "Serusan";
+	else if (s_id == LNG_SHAARAN)
+		return "Sharran";
+	else if (s_id == LNG_SHOU)
+		return "Shou";
+	else if (s_id == LNG_SYLVAN)
+		return "Sylvan";
+	else if (s_id == LNG_TERRAN)
+		return "Terran";
+	else if (s_id == LNG_TREANT)
+		return "Treant";
+	else if (s_id == LNG_TASHALAN)
+		return "Tashalan";
+	else if (s_id == LNG_TUIGAN)
+		return "Tuigan";
+	else if (s_id == LNG_TURMIC)
+		return "Turmic";
+	else if (s_id == LNG_ORC)
+		return "Orc";
+	else if (s_id == LNG_NEXALAN)
+		return "Nexalan";
+	else if (s_id == LNG_YUANTI)
+		return "Yuan-Ti";
+	else if (s_id == LNG_UNDERCOMMON)
+		return "Undercommon";
+	else if (s_id == LNG_ULUIK)
+		return "Uluik";
+	else if (s_id == LNG_UNTHERIC)
+		return "Untheric";
+	else if (s_id == LNG_VAASAN)
+		return "Vaasan";
+
+	return "Invalid Language";
+}
+
+
+string ACR_LangAbbToLangID(string sLang)
+{
+	sLang = GetStringLowerCase(GetStringLeft(sLang,3));
+
+	if (sLang == "com")
+		 return LNG_COMMON;
+	else if (sLang == "anm")
+		 return LNG_ANIMAL;
+	else if (sLang == "ass")
+		 return LNG_ASSASSIN;
+	else if (sLang == "aby")
+		 return LNG_ASSASSIN;
+	else if (sLang == "alz")
+		 return LNG_ALZHEDO;
+	else if (sLang == "aqu")
+		 return LNG_AQUAN;
+	else if (sLang == "aur")
+		 return LNG_AURAN;
+	else if (sLang == "alg")
+		 return LNG_ALGARONDAN;
+	else if (sLang == "can")
+		 return LNG_CANT;
+	else if (sLang == "cel")
+		 return LNG_CELESTIAL;
+	else if (sLang == "che")
+		 return LNG_CHESSENTAN;
+	else if (sLang == "cho")
+		 return LNG_CHONDATHAN;
+	else if (sLang == "chu")
+		 return LNG_CHULTAN;
+	else if (sLang == "dwa")
+		 return LNG_DWARF;
+	else if (sLang == "dro")
+		 return LNG_DROW;
+	else if (sLang == "drs")
+		 return LNG_DROWSIGN;
+	else if (sLang == "dru")
+		 return LNG_DRUIDIC;
+	else if (sLang == "dra")
+		 return LNG_DRACONIC;
+	else if (sLang == "dam")
+		 return LNG_DAMARAN;
+	else if (sLang == "dmb")
+		 return LNG_DAMBRATHAN;
+	else if (sLang == "dur")
+		 return LNG_DURPARI;
+	else if (sLang == "elf")
+		 return LNG_ELVEN;
+	else if (sLang == "gno")
+		 return LNG_GNOME;
+	else if (sLang == "gob")
+		 return LNG_GOBLIN;
+	else if (sLang == "gia")
+		 return LNG_GIANT;
+	else if (sLang == "gnl")
+		 return LNG_GNOLL;
+	else if (sLang == "hlf")
+		 return LNG_HALFLING;
+	else if (sLang == "ign")
+		 return LNG_IGNAN;
+	else if (sLang == "hdr")
+		 return LNG_HALARDRIM;
+	else if (sLang == "hlr")
+		 return LNG_HALRUAAN;
+	else if (sLang == "ill")
+		 return LNG_ILLUSKAN;
+	else if (sLang == "ims")
+		 return LNG_IMASKAR;
+	else if (sLang == "inf")
+		 return LNG_INFERNAL;
+	else if (sLang == "l37")
+		 return LNG_LEETSPEAK;
+	else if (sLang == "lan")
+		 return LNG_LANTANESE;
+	else if (sLang == "lor")
+		 return LNG_LOROSS;
+	else if (sLang == "mid")
+		 return LNG_MIDANI;
+	else if (sLang == "mul")
+		 return LNG_MULHORANDI;
+	else if (sLang == "nth")
+		 return LNG_NETHERESE;
+	else if (sLang == "rsh")
+		 return LNG_RASHEMI;
+	else if (sLang == "ser")
+		 return LNG_SERUSAN;
+	else if (sLang == "sha")
+		 return LNG_SHAARAN;
+	else if (sLang == "sho")
+		 return LNG_SHOU;
+	else if (sLang == "syl")
+		 return LNG_SYLVAN;
+	else if (sLang == "ter")
+		 return LNG_TERRAN;
+	else if (sLang == "tre")
+		 return LNG_TREANT;
+	else if (sLang == "tsh")
+		 return LNG_TASHALAN;
+	else if (sLang == "tui")
+		 return LNG_TUIGAN;
+	else if (sLang == "tur")
+		 return LNG_TURMIC;
+	else if (sLang == "orc")
+		 return LNG_ORC;
+	else if (sLang == "nex")
+		 return LNG_NEXALAN;
+	else if (sLang == "yti")
+		 return LNG_YUANTI;
+	else if (sLang == "und")
+		 return LNG_UNDERCOMMON;
+	else if (sLang == "ulu")
+		 return LNG_ULUIK;
+	else if (sLang == "unt")
+		 return LNG_UNTHERIC;
+	else if (sLang == "vas")
+		 return LNG_VAASAN;
+	
+	return "invalidlanguage";
+}
+
+

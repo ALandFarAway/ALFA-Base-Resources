@@ -680,8 +680,8 @@ void ACR_ModuleOnCutsceneAbort() {
 
 int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 {
-	int len;
-	string sMessage, sCommand, c, sLangPick;
+	int len,n;
+	string sMessage, sCommand, c, sLangPick, sLeft, sRight;
 
 	// iterate the RPXP function to indicate an active PC
 	SetLocalInt(oSpeaker, _RPXP_ACTIVITY, TRUE);
@@ -711,9 +711,16 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 	sLangPick = GetLocalString(oSpeaker, "DefaultLanguage");
 
 	// the player is attempting to specify a different language.
-	if (c == "@") {
+	if (c == "@" || TestStringAgainstPattern("**@**",sText)) {
 		sLangPick = _ParseLang(oSpeaker, sText);
-		sText = GetStringRight(sText, GetStringLength(sText)-4);
+
+		n = FindSubString(sText,"@");
+		sLeft = GetStringLeft(sText, n);
+
+		n = FindSubString(sText," ",n);
+		sRight = GetSubString(sText, len-n, n);
+
+		sText = sLeft+sRight;
 	}
 	
 
@@ -739,7 +746,7 @@ int _CompareLeft(string str, string ref)
 
 void _ParseRoll(object pc, string cmd)
 {
-	int b,len,offset,mod = 0;
+	int b,len,offset;
 	string tmp,text=cmd;
 	
 	// kludge to handle nasty stuff like "craft: "
@@ -797,12 +804,8 @@ void _ParseRoll(object pc, string cmd)
 
 	// initiative
 	else if (_CompareLeft(cmd,"ini")) {
-		// add bonus for improved initiative feat(s)
-		mod += (GetHasFeat(FEAT_IMPROVED_INITIATIVE,pc) ? 4 : 0);
-		mod += (GetHasFeat(FEAT_THUG,pc) ? 2 : 0);
-		mod += (GetHasFeat(FEAT_BLOODED,pc) ? 2 : 0);
-		
-		ACR_StatCheck(ABILITY_DEXTERITY, pc, 0, TRUE, TRUE, mod);
+
+		ACR_InitCheck(pc, 0, TRUE, TRUE);
 	}
 
 	// abilities
@@ -1000,564 +1003,19 @@ void _ParseRoll(object pc, string cmd)
 
 string _ParseLang(object oSpeaker, string sText)
 {
-	string sLangPick, c, sNewPick, sErr;
+	string sLangPick;
+	int n;
 
-	sErr = GetLocalString(oSpeaker, "DefaultLanguage");
-	sNewPick = GetStringLowerCase(GetStringLeft(sText, 4));
+	n = FindSubString(sText,"@");
 
-	if(sNewPick == "@com")
-	{
-		sLangPick = "common";
-	}
-	else if(sNewPick == "@anm")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_ANIMAL) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_ANIMAL;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Animal.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@ass")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_ASSASSIN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_ASSASSIN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Assassin.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@aby")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_ASSASSIN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_ASSASSIN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Abyssal.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@alz")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_ALZHEDO) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_ALZHEDO;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Alzhedo.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@aqu")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_AQUAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_AQUAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Aquan.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@aur")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_AURAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_AURAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Auran.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@alg")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_ALGARONDAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_ALGARONDAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Algarondan.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@can")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_CANT) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_CANT;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Thieves' Cant.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@cel")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_CELESTIAL) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_CELESTIAL;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Celestial.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@che")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_CHESSENTAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_CHESSENTAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Chessentan.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@cho")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_CHONDATHAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_CHONDATHAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Chondathan.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@chu")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_CHULTAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_CHULTAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Chultan.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@dwa")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_DWARF) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_DWARF;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Dwarven.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@dro")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_DROW) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_DROW;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Drow.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@drs")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_DROWSIGN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_DROWSIGN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Drow Sign.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@dru")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_DRUIDIC) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_DRUIDIC;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Druidic.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@dra")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_DRACONIC) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_DRACONIC;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Draconic.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@dam")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_DAMARAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_DAMARAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Damaran.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@dmb")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_DAMBRATHAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_DAMBRATHAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Dambrathan.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@dur")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_DURPARI) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_DURPARI;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Durpari.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@elf")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_ELVEN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_ELVEN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Elven.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@gno")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_GNOME) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_GNOME;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Gnomish.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@gob")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_GOBLIN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_GOBLIN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Goblin.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@gia")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_GIANT) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_GIANT;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Giant.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@gnl")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_GNOLL) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_GNOLL;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Gnoll.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@hlf")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_HALFLING) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_HALFLING;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Halfling.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@ign")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_IGNAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_IGNAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Ignan.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@hdr")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_HALARDRIM) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_HALARDRIM;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Halardrim.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@hlr")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_HALRUAAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_HALRUAAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Halruaan.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@ill")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_ILLUSKAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_ILLUSKAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Illuskan.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@ims")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_IMASKAR) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_IMASKAR;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Imaskar.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@inf")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_INFERNAL) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_INFERNAL;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Infernal.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@l37")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_LEETSPEAK) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_LEETSPEAK;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Leet.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@lan")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_LANTANESE) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_LANTANESE;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Lantanese.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@lor")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_LOROSS) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_LOROSS;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Loross.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@mid")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_MIDANI) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_MIDANI;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Midani.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@mul")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_MULHORANDI) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_MULHORANDI;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Mulhorandi.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@nth")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_NETHERESE) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_NETHERESE;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Netherese.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@rsh")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_RASHEMI) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_RASHEMI;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Rashemi.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@ser")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_SERUSAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_SERUSAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Serusan.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@sha")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_SHAARAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_SHAARAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Sharran.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@sho")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_SHOU) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_SHOU;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Shou.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@syl")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_SYLVAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_SYLVAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Sylvan.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@ter")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_TERRAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_TERRAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Terran.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@tre")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_TREANT) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_TREANT;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Treant.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@tsh")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_TASHALAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_TASHALAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Tashalan.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@tui")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_TUIGAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_TUIGAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Tuigan.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@tur")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_TURMIC) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_TURMIC;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Turmic.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@orc")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_ORC) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_ORC;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Orc.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@nex")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_NEXALAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_NEXALAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Nexalan.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@yti")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_YUANTI) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_YUANTI;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Yuan-Ti.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@und")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_UNDERCOMMON) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_UNDERCOMMON;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Undercommon.");
-			return sErr;
-		}
-	}
-	if(sNewPick == "@ulu")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_ULUIK) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_ULUIK;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Uluik.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@unt")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_UNTHERIC) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_UNTHERIC;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Untheric.");
-			return sErr;
-		}
-	}
-	else if(sNewPick == "@vas")
-	{
-		if(_IsLanguageKnown(oSpeaker, LNG_VAASAN) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))
-			sLangPick = LNG_VAASAN;
-		else
-		{
-			SendMessageToPC(oSpeaker, "You don't know how to speak Vaasan.");
-			return sErr;
-		}
+	// @Abcdef -> abc
+	sText = GetStringLowerCase(GetStringRight(GetSubString(sText, 4, n),3));
+
+	sLangPick = ACR_LangAbbToLangID(sText);
+
+	if (!_IsLanguageKnown(oSpeaker, sLangPick) && !GetIsDM(oSpeaker) && !GetIsDMPossessed(oSpeaker)) {
+		SendMessageToPC(oSpeaker, "You don't know how to speak "+ACR_LangIDToString(sLangPick)+".");
+		return GetLocalString(oSpeaker, "DefaultLanguage");
 	}
 
 	return sLangPick;
@@ -1568,8 +1026,6 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 {
 	if (sLangPick == "common" || sLangPick == "")
 	{
-		if(GetStringLeft(sText, 4) == "@com")
-			sText = GetStringRight(sText, GetStringLength(sText)-4);
 		return TRUE;
 	}
 	
