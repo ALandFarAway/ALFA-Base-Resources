@@ -428,13 +428,13 @@ void ACR_CreatureIdentify(object oPC, object oTarget)
 		if (TestStringAgainstPattern("**CR(*w|*n)**",sTmp)) {
 		
 			// imprecise, best 'guess' for cr formats
-			if      ((p = FindSubString(sTmp, ", CR")) != -1) ;
-			else if ((p = FindSubString(sTmp, "- CR")) != -1) ;
-			else if ((p = FindSubString(sTmp, ": CR")) != -1) ;
-			else if  ((p = FindSubString(sTmp, ":CR")) != -1) ;
-			else if  ((p = FindSubString(sTmp, "-CR")) != -1) ;
-			else if  ((p = FindSubString(sTmp, ",CR")) != -1) ;
-			else if  ((p = FindSubString(sTmp, " CR")) != -1) ;
+			if      ((p = FindSubString(sTmp, ", CR")) != -1) {}
+			else if ((p = FindSubString(sTmp, "- CR")) != -1) {}
+			else if ((p = FindSubString(sTmp, ": CR")) != -1) {}
+			else if  ((p = FindSubString(sTmp, ":CR")) != -1) {}
+			else if  ((p = FindSubString(sTmp, "-CR")) != -1) {}
+			else if  ((p = FindSubString(sTmp, ",CR")) != -1) {}
+			else if  ((p = FindSubString(sTmp, " CR")) != -1) {}
 			// Panic, this is ONLY a cr no name
 			else {
 				sName = sOld;
