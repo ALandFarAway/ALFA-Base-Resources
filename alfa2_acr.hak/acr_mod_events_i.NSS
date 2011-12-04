@@ -680,8 +680,8 @@ void ACR_ModuleOnCutsceneAbort() {
 
 int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 {
-	int len,n;
-	string sMessage, sCommand, c, sLangPick, sLeft, sRight;
+	int len;
+	string sMessage, sCommand, c, sLangPick;
 
 	// iterate the RPXP function to indicate an active PC
 	SetLocalInt(oSpeaker, _RPXP_ACTIVITY, TRUE);
@@ -714,13 +714,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 	if (c == "@" || TestStringAgainstPattern("**@**",sText)) {
 		sLangPick = _ParseLang(oSpeaker, sText);
 
-		n = FindSubString(sText,"@");
-		sLeft = GetStringLeft(sText, n);
-
-		n = FindSubString(sText," ",n);
-		sRight = GetSubString(sText, len-n, n);
-
-		sText = sLeft+sRight;
+		sText = _RemoveLangTag(sText);
 	}
 	
 
@@ -1009,7 +1003,7 @@ string _ParseLang(object oSpeaker, string sText)
 	n = FindSubString(sText,"@");
 
 	// @Abcdef -> abc
-	sText = GetStringLowerCase(GetStringRight(GetSubString(sText, 4, n),3));
+	sText = GetStringLowerCase(GetStringRight(GetSubString(sText, n, 4),3));
 
 	sLangPick = ACR_LangAbbToLangID(sText);
 

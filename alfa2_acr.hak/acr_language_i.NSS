@@ -1782,4 +1782,18 @@ string ACR_LangAbbToLangID(string sLang)
 	return "invalidlanguage";
 }
 
+string _RemoveLangTag(string sText)
+{
+	string sLeft,sRight;
+	int n,len;
 
+	len = GetStringLength(sText);
+
+	n = FindSubString(sText,"@");
+	sLeft = GetStringLeft(sText, n);
+
+	n = FindSubString(sText," ",n);
+	sRight = GetSubString(sText, n, len-n);
+
+	return sLeft+sRight;
+}
