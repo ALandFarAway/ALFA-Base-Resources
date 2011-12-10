@@ -61,7 +61,7 @@ Improvements over the stock nwnnsscomp include:
 - Response files, listing one argument per line, are now supported with the
   @ResponseFile option.
 - In version 1.69 or lower, the compiler issues a warning diagnostic if a
-  function has greater than 32 arguments.  The standard compilre fails to
+  function has greater than 32 arguments.  The standard compiler fails to
   compile such scripts.
 - The compiler now issues an error diagnostic if an identifier is declared with
   multiple incompatible types (i.e. as both a struct and variable).  Previously
@@ -119,6 +119,12 @@ Improvements over the stock nwnnsscomp include:
   declarations.
 - Diagnostics relating to duplicate identifier definitions now generally
   contain a source location pointer to the first definition.
+- Script disassembly IR output now includes the literal values of constant
+  variables referenced.
+- New warning NSC6021 issued in compatibility mode when a nested assigment
+  where the RHS expression being assigned is itself an assignment, e.g.
+  "a = b = c;", is encountered.  This does not parse properly in the
+  standard compiler.
 
 Run NWNScriptCompiler -? for a listing of command line options and their
 meanings.  Existing nwnnsscomp options are preserved and kept functional.

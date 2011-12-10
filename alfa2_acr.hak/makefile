@@ -290,7 +290,8 @@ HAK_SOURCES_MISC=                                              \
             .\*.UTC                                            \
             .\*.DLG                                            \
             .\*.UTW                                            \
-            .\*.TGA                                            
+            .\*.TGA                                            \
+            .\*.GFF                                            
 
 HAK_SOURCES_MISC_NL=$(HAK_SOURCES_MISC:.\=^
 )
