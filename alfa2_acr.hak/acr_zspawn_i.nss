@@ -915,259 +915,133 @@ int SetRace(object oCreature, int nRace)
 	return -1;
 }
 
-int GetRandomHairModel(int nRace, int nGender)
+int GetRandomHairModel(int nSubrace, int nGender)
 {
-	if(nRace == 1) // dwarf
-	{
-		if(nGender == GENDER_FEMALE)
-		{
-			int nRandom = Random(21);
-			if(nRandom <= 19) return nRandom;
-			else              return 94;
-		}
-		else
-		{
-			int nRandom = Random(24);
-			if(nRandom <= 19) return nRandom;
-			else              nRandom += 60;
-			if(nRandom <= 82) return nRandom;
-			else              return 94;
-		}
+	int res = 1;
+
+	switch (nSubrace) {
+
+		case RACIAL_SUBTYPE_SHIELD_DWARF:
+		case RACIAL_SUBTYPE_GOLD_DWARF: 
+			res = UniformRandomOverInterval("[1-19,80-82,94][1-19,73,94]", nGender);
+			break;
+		case RACIAL_SUBTYPE_GRAY_DWARF:
+			res = 17;
+			break;
+		case RACIAL_SUBTYPE_MOON_ELF:
+		case RACIAL_SUBTYPE_SUN_ELF: 
+		case RACIAL_SUBTYPE_WOOD_ELF:
+		case RACIAL_SUBTYPE_DROW: 
+			res = UniformRandomOverInterval("[1-17,61-64,66-75,80-82,94][1-17,50-52,61-64,66-78,80-82,85-90,94]", nGender);
+			break;
+		case RACIAL_SUBTYPE_WILD_ELF:  
+			res = UniformRandomOverInterval("[1-3,75,80,81,83]");
+			break;
+		case RACIAL_SUBTYPE_ROCK_GNOME:
+			res = UniformRandomOverInterval("[1-17,94][1-17,50-52,73,80-82,94]", nGender);
+			break;
+		case RACIAL_SUBTYPE_SVIRFNEBLIN:
+			res = 17;
+			break;
+		case RACIAL_SUBTYPE_HUMAN:
+		case RACIAL_SUBTYPE_HALFELF:
+		case RACIAL_SUBTYPE_HALFDROW:
+			res = UniformRandomOverInterval("[1-17,37,38,63,66,70-75,80-82,94][1-17,23,24,50-52,61-64,66-78,80-82,85-90,94]", nGender);
+			break;
+		case RACIAL_SUBTYPE_LIGHTFOOT_HALF:
+		case RACIAL_SUBTYPE_GHOSTWISE_HALF:
+		case RACIAL_SUBTYPE_STRONGHEART_HALF:
+			res = UniformRandomOverInterval("[1-19,66,74,75,94][1-17,19,51-56,23,24,50-52,66,73-78,80,94]", nGender);
+			break;
+		case RACIAL_SUBTYPE_HALFORC:
+		case RACIAL_SUBTYPE_GRAYORC:
+			res = UniformRandomOverInterval("[1-19,94]");
+			break;
+		case RACIAL_SUBTYPE_YUANTI:
+			res = UniformRandomOverInterval("[1-17]");
+			break;
+		case RACIAL_SUBTYPE_WATER_GENASI:
+		case RACIAL_SUBTYPE_FIRE_GENASI:
+		case RACIAL_SUBTYPE_EARTH_GENASI:
+		case RACIAL_SUBTYPE_AIR_GENASI:
+			res = UniformRandomOverInterval("[1-3]");
+			break;
+		case RACIAL_SUBTYPE_TIEFLING:
+			res = UniformRandomOverInterval("[1-18,94][1-19,73,94]", nGender);
+			break;
+		case RACIAL_SUBTYPE_AASIMAR:
+			res = UniformRandomOverInterval("[1-17,37,38,63,66,70-75,80-82,94][1-17,23,24,50-52,61-64,67-78,80-82,85-90,94]", nGender);
+			break;
 	}
-	else if(nRace == 2) // elf
-	{
-		if(nGender == GENDER_FEMALE)
-		{
-			int nRandom = Random(49);
-			if(nRandom <= 17) return nRandom;
-			else              nRandom += 32;
-			if(nRandom <= 52) return nRandom;
-			else              nRandom += 8;
-			if(nRandom <= 78) return nRandom;
-			else              nRandom += 1;
-			if(nRandom <= 82) return nRandom;
-			else              nRandom += 2;
-			if(nRandom <= 90) return nRandom;
-			else              return 94;
-		}
-		else
-		{
-			int nRandom = Random(35);
-			if(nRandom <= 17) return nRandom;
-			else              nRandom += 43;
-			if(nRandom <= 64) return nRandom;
-			else              nRandom += 1;
-			if(nRandom <= 75) return nRandom;
-			else              nRandom += 4;
-			if(nRandom <= 82) return nRandom;
-			else              return 94;
-		}
-	}
-	else if(nRace == 3) // gnome
-	{
-		if(nGender == GENDER_FEMALE)
-		{
-			int nRandom = Random(25);
-			if(nRandom <= 17) return nRandom;
-			else              nRandom += 32;
-			if(nRandom <= 52) return nRandom;
-			else              nRandom += 27;
-			if(nRandom <= 82) return nRandom;
-			else              return 94;
-		}
-		else
-		{
-			int nRandom = Random(19);
-			if(nRandom <= 17) return nRandom;
-			else              return 94;
-		}
-	}
-	else if(nRace == 4) // half elf
-	{
-		if(nGender == GENDER_FEMALE)
-		{
-			int nRandom = Random(51);
-			if(nRandom <= 17) return nRandom;
-			else              nRandom += 5;
-			if(nRandom <= 24) return nRandom;
-			else              nRandom += 25;
-			if(nRandom <= 52) return nRandom;
-			else              nRandom += 17;
-			if(nRandom <= 82) return nRandom;
-			else              nRandom += 2;
-			if(nRandom <= 90) return nRandom;
-			else              return 94;
-		}
-		else
-		{
-			int nRandom = Random(37);
-			if(nRandom <= 17) return nRandom;
-			else              nRandom += 19;
-			if(nRandom <= 24) return nRandom;
-			else              nRandom += 25;
-			if(nRandom <= 52) return nRandom;
-			else              nRandom += 8;
-			if(nRandom <= 78) return nRandom;
-			else              nRandom += 1;
-			if(nRandom <= 82) return nRandom;
-			else              nRandom += 2;
-			if(nRandom <= 90) return nRandom;
-			else              return 94;
-		}	
-	}
-	else if(nRace == 5) // halfling
-	{
-		if(nGender == GENDER_FEMALE)
-		{
-			int nRandom = Random(40);
-			if(nRandom <= 17) return nRandom;
-			else              nRandom += 1;
-			if(nRandom == 19) return nRandom;
-			else              nRandom += 31;
-			if(nRandom <= 56) return nRandom;
-			else              nRandom += 9;
-			if(nRandom <= 78) return nRandom;
-			else              nRandom += 1;
-			if(nRandom == 80) return nRandom;
-			else              return 94;
-		}
-		else
-		{
-			int nRandom = Random(31);
-			if(nRandom <= 17) return nRandom;
-			else              nRandom += 46;
-			if(nRandom <= 69) return nRandom;
-			else              nRandom += 1;
-			if(nRandom <= 75) return nRandom;
-			else              nRandom += 4;
-			if(nRandom == 80) return 80;
-			else              return 94;
-		}	
-	}
-	else if(nRace == 6) // half-orc
-	{
-		int nRandom = Random(21);
-		if(nRandom <= 19) return nRandom;
-		else              return 94;
-	}
-	else if(nRace == 7) // human
-	{
-		if(nGender == GENDER_FEMALE)
-		{
-			int nRandom = Random(50);
-			if(nRandom <= 17) return nRandom;
-			else              nRandom += 5;
-			if(nRandom <= 24) return nRandom;
-			else              nRandom += 25;
-			if(nRandom <= 52) return nRandom;
-			else              nRandom += 8;
-			if(nRandom <= 64) return nRandom;
-			else              nRandom += 1;
-			if(nRandom <= 78) return nRandom;
-			else              nRandom += 1;
-			if(nRandom <= 82) return nRandom;
-			else              nRandom += 2;
-			if(nRandom <= 90) return nRandom;
-			else              return 94;
-		}
-		else
-		{
-			int nRandom = Random(37);
-			if(nRandom <= 17) return nRandom;
-			else              nRandom += 19;
-			if(nRandom <= 38) return nRandom;
-			else              nRandom += 22;
-			if(nRandom <= 63) return nRandom;
-			else              nRandom += 2;
-			if(nRandom <= 75) return nRandom;
-			else              nRandom += 4;
-			if(nRandom <= 82) return nRandom;
-			else              return 94;
-			
-		}	
-	}
-	return 1;
+
+	return res;
 }
 
-int GetRandomHeadModel(int nRace, int nGender)
+int GetRandomHeadModel(int nSubrace, int nGender)
 {
-	if(nRace == 1) // dwarf
-	{
-		return d6();
+	int res = 1;
+
+	switch (nSubrace) {
+		case RACIAL_SUBTYPE_SHIELD_DWARF:
+			res = UniformRandomOverInterval("[1-6]");
+			break;
+		case RACIAL_SUBTYPE_GOLD_DWARF:
+		case RACIAL_SUBTYPE_GRAY_DWARF:
+			res = UniformRandomOverInterval("[1-3]");
+			break;
+		case RACIAL_SUBTYPE_MOON_ELF:
+			res = UniformRandomOverInterval("[1-7,10][1-8]", nGender);
+			break;
+		case RACIAL_SUBTYPE_SUN_ELF: 
+			res = UniformRandomOverInterval("[1-3][1-2,4-5]", nGender);
+			break;
+		case RACIAL_SUBTYPE_WILD_ELF:
+		case RACIAL_SUBTYPE_WOOD_ELF:
+			res = UniformRandomOverInterval("[1-3]");
+			break;
+		case RACIAL_SUBTYPE_DROW:
+			res = UniformRandomOverInterval("[1-3][1-5]", nGender);
+			break;
+		case RACIAL_SUBTYPE_ROCK_GNOME:
+			res = UniformRandomOverInterval("[1-8,10][1-4,7]", nGender);
+			break;
+		case RACIAL_SUBTYPE_SVIRFNEBLIN:
+			res = UniformRandomOverInterval("[1-5][1-4]", nGender);
+			break;
+		case RACIAL_SUBTYPE_HALFELF:
+			res = UniformRandomOverInterval("[1-6]");
+			break;
+		case RACIAL_SUBTYPE_HALFDROW:
+			res = UniformRandomOverInterval("[1-3]");
+			break;
+		case RACIAL_SUBTYPE_LIGHTFOOT_HALF:
+		case RACIAL_SUBTYPE_GHOSTWISE_HALF:
+			res = UniformRandomOverInterval("[1-6]");
+			break;
+		case RACIAL_SUBTYPE_STRONGHEART_HALF:
+			res = UniformRandomOverInterval("[1-7][1-5]", nGender);
+			break;
+		case RACIAL_SUBTYPE_HALFORC:
+			res = UniformRandomOverInterval("[1-6][1-7]", nGender);
+			break;
+		case RACIAL_SUBTYPE_HUMAN:
+			res = UniformRandomOverInterval("[1-10,12-20,22-24,40-42][1-6,8-11,14,15,20,25,58-60,88,95]", nGender);
+			break;
+		case RACIAL_SUBTYPE_YUANTI:
+		case RACIAL_SUBTYPE_GRAYORC:
+		case RACIAL_SUBTYPE_WATER_GENASI:
+		case RACIAL_SUBTYPE_FIRE_GENASI:
+		case RACIAL_SUBTYPE_EARTH_GENASI:
+		case RACIAL_SUBTYPE_AIR_GENASI:
+			res = UniformRandomOverInterval("[1-3]");
+			break;
+		case RACIAL_SUBTYPE_AASIMAR:
+		case RACIAL_SUBTYPE_TIEFLING:
+			res = UniformRandomOverInterval("[1-5]");
+			break;
 	}
-	else if(nRace == 2) // elf
-	{
-		if(nGender == GENDER_FEMALE)
-		{
-			return d8();
-		}
-		else
-		{
-			int nRandom = d8();
-			if(nRandom == 8) return 10;
-			else             return nRandom;		
-		}	
-	}
-	else if(nRace == 3) // gnome
-	{
-		if(nGender == GENDER_FEMALE)
-		{
-			int nRandom = Random(5) + 1;
-			if(nRandom == 5) return 7;
-			else             return nRandom;
-		}
-		else
-		{
-			int nRandom = Random(9) + 1;
-			if(nRandom == 9) return 10;
-			else             return nRandom;
-		}
-	}
-	else if(nRace == 4) // half elf
-	{
-		return d6();	
-	}
-	else if(nRace == 5) // halfling
-	{
-		return d6();	
-	}
-	else if(nRace == 6) // half-orc
-	{
-		if(nGender == GENDER_FEMALE)
-		{
-			return Random(7) + 1;
-		}
-		else
-		{
-			return d6();
-		}	
-	}
-	else if(nRace == 7) // human
-	{
-		if(nGender == GENDER_FEMALE)
-		{
-			int nRandom = Random(20) + 1;
-			if(nRandom <= 15) return nRandom;
-			else              nRandom += 42;
-			if(nRandom <= 60) return nRandom;
-			else              nRandom += 21;
-			if(nRandom <= 88) return 88;
-			else              return 95;
-		}
-		else
-		{
-			int nRandom = Random(25) + 1;
-			if(nRandom <= 10) return nRandom;
-			else              nRandom += 1;
-			if(nRandom <= 20) return nRandom;
-			else              nRandom += 1;
-			if(nRandom <= 24) return nRandom;
-			else              nRandom += 15;
-			if(nRandom <= 42) return nRandom;
-			else              return 1;
-		}	
-	}	
-	return 1;
+
+	return res;
 }
 
 string GetRandomTint(int nSubrace, int nColumn, int nElement=-1)
@@ -1327,86 +1201,33 @@ void SetAlignment(object oCreature, int nAlignment)
 	}
 }
 
-//! Converts datastring to int representation
-int DataStringToInt(string sString)
-{
-	if(sString == "1")      return 1;
-	else if(sString == "2") return 2; 
-	else if(sString == "3") return 3;
-	else if(sString == "4") return 4;
-	else if(sString == "5") return 5;
-	else if(sString == "6") return 6;
-	else if(sString == "7") return 7;
-	else if(sString == "8") return 8;
-	else if(sString == "9") return 9;
-	else if(sString == "A") return 10;
-	else if(sString == "B") return 11;
-	else if(sString == "C") return 12;
-	else if(sString == "D") return 13;
-	else if(sString == "E") return 14;
-	else if(sString == "F") return 15;
-	else if(sString == "G") return 16;
-	else if(sString == "H") return 17;
-	else if(sString == "I") return 18;
-	else if(sString == "J") return 19;
-	else if(sString == "K") return 20;
-	else if(sString == "L") return 21;
-	else if(sString == "M") return 22;
-	else if(sString == "N") return 23;
-	else if(sString == "O") return 24;
-	else if(sString == "P") return 25;
-	else if(sString == "Q") return 26;
-	else if(sString == "R") return 27;
-	else if(sString == "S") return 28;
-	else if(sString == "T") return 29;
-	else if(sString == "U") return 30;
-	return 1;
-}
-
-//! Turns a hex string into a floating point
-float HexStringToFloat(string sString)
-{
-	int nResult = 0;
-	int nMultiplier = 1;
-	while(sString != "")
-	{
-		string sDigit = GetStringRight(sString, 1);
-		if(GetStringLength(sString) == 1)
-			sString = "";
-		else
-			sString = GetStringLeft(sString, GetStringLength(sString) - 1);
-		if(sDigit == "F")      nResult += nMultiplier * 15;
-		else if(sDigit == "E") nResult += nMultiplier * 14;
-		else if(sDigit == "D") nResult += nMultiplier * 13;
-		else if(sDigit == "C") nResult += nMultiplier * 12;
-		else if(sDigit == "B") nResult += nMultiplier * 11;
-		else if(sDigit == "A") nResult += nMultiplier * 10;
-		else                   nResult += nMultiplier * StringToInt(sDigit);
-		nMultiplier = nMultiplier * 16;
-	}
-	return IntToFloat(nResult);
-}
-
 
 //! Randomize appearance of a playable creature
-void ACR_RandomizeAppearance(object oSpawn,int nHead = ACR_FEATURE_TYPE_RANDOM,int nHair = ACR_FEATURE_TYPE_RANDOM,int nHair1 = ACR_FEATURE_TYPE_RANDOM,int nHair2 = ACR_FEATURE_TYPE_RANDOM,int nAHair = ACR_FEATURE_TYPE_RANDOM, int nBHair = ACR_FEATURE_TYPE_RANDOM,int nSkin = ACR_FEATURE_TYPE_RANDOM,int nEyes = ACR_FEATURE_TYPE_RANDOM,float fFHair=0.5)
+void ACR_RandomizeAppearance(object oSpawn,int nHead = ACR_FEATURE_TYPE_RANDOM,int nHair = ACR_FEATURE_TYPE_RANDOM,int nHair1 = ACR_FEATURE_TYPE_RANDOM,int nHair2 = ACR_FEATURE_TYPE_RANDOM,int nAHair = ACR_FEATURE_TYPE_RANDOM, int nBHair = ACR_FEATURE_TYPE_RANDOM,int nSkin = ACR_FEATURE_TYPE_RANDOM,int nEyes = ACR_FEATURE_TYPE_RANDOM,float fFHair=0.5,int bChangeApp=TRUE)
 {
-	int nHeadModel,nHairModel,nRandHair,nRace,nSubrace,nGender;
+	int nHeadModel,nHairModel,nRandHair,nRace,nSubrace,nGender,nAppearance;
 
 	nRace = GetRacialType(oSpawn);
 	nSubrace = GetSubRace(oSpawn);
 	nGender = GetGender(oSpawn);
+
+	if (bChangeApp) {
+		nAppearance = GetSubraceAppearance(nSubrace);
+
+		if (nAppearance != APPEARANCE_TYPE_INVALID)
+			SetCreatureAppearanceType(oSpawn, nAppearance);
+	}
 	
 	
 	if (nHead != ACR_FEATURE_TYPE_RANDOM && nHead != 0)
 		nHeadModel = nHead;
 	else
-		nHeadModel = GetRandomHeadModel(nRace, nGender);	
+		nHeadModel = GetRandomHeadModel(nSubrace, nGender);	
 
 	if (nHair != ACR_FEATURE_TYPE_RANDOM)
 		nHairModel = nHair;
 	else
-		nHairModel = GetRandomHairModel(nRace, nGender);
+		nHairModel = GetRandomHairModel(nSubrace, nGender);
 		
 	nRandHair = Random(ACR_NUM_DEFAULT_FEATURE_COLOURS);
 

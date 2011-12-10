@@ -1034,3 +1034,200 @@ object ACR_GetNearestCreatureToLocation(object oPC, int nFirstCriteriaType, int 
 	DeleteLocalObject(oPC, "ACR_GETNEARESTHOSTILE_OBJ");
 	return oNearest;
 }
+
+
+//! Converts datastring to int representation
+int DataStringToInt(string sString)
+{
+	if(sString == "1")      return 1;
+	else if(sString == "2") return 2; 
+	else if(sString == "3") return 3;
+	else if(sString == "4") return 4;
+	else if(sString == "5") return 5;
+	else if(sString == "6") return 6;
+	else if(sString == "7") return 7;
+	else if(sString == "8") return 8;
+	else if(sString == "9") return 9;
+	else if(sString == "A") return 10;
+	else if(sString == "B") return 11;
+	else if(sString == "C") return 12;
+	else if(sString == "D") return 13;
+	else if(sString == "E") return 14;
+	else if(sString == "F") return 15;
+	else if(sString == "G") return 16;
+	else if(sString == "H") return 17;
+	else if(sString == "I") return 18;
+	else if(sString == "J") return 19;
+	else if(sString == "K") return 20;
+	else if(sString == "L") return 21;
+	else if(sString == "M") return 22;
+	else if(sString == "N") return 23;
+	else if(sString == "O") return 24;
+	else if(sString == "P") return 25;
+	else if(sString == "Q") return 26;
+	else if(sString == "R") return 27;
+	else if(sString == "S") return 28;
+	else if(sString == "T") return 29;
+	else if(sString == "U") return 30;
+	return 1;
+}
+
+//! Turns a hex string into a floating point
+float HexStringToFloat(string sString)
+{
+	int nResult = 0;
+	int nMultiplier = 1;
+	while(sString != "")
+	{
+		string sDigit = GetStringRight(sString, 1);
+		if(GetStringLength(sString) == 1)
+			sString = "";
+		else
+			sString = GetStringLeft(sString, GetStringLength(sString) - 1);
+		if(sDigit == "F")      nResult += nMultiplier * 15;
+		else if(sDigit == "E") nResult += nMultiplier * 14;
+		else if(sDigit == "D") nResult += nMultiplier * 13;
+		else if(sDigit == "C") nResult += nMultiplier * 12;
+		else if(sDigit == "B") nResult += nMultiplier * 11;
+		else if(sDigit == "A") nResult += nMultiplier * 10;
+		else                   nResult += nMultiplier * StringToInt(sDigit);
+		nMultiplier = nMultiplier * 16;
+	}
+	return IntToFloat(nResult);
+}
+
+int GetSubraceAppearance(int subrace)
+{
+	switch (subrace) {
+
+		case RACIAL_SUBTYPE_SHIELD_DWARF:
+			return APPEARANCE_TYPE_DWARF;
+		case RACIAL_SUBTYPE_GOLD_DWARF: 
+			return APPEARANCE_TYPE_DWARF_GOLD;
+		case RACIAL_SUBTYPE_GRAY_DWARF:
+			return APPEARANCE_TYPE_DWARF_GRAY;
+		case RACIAL_SUBTYPE_MOON_ELF:
+			return APPEARANCE_TYPE_ELF;
+		case RACIAL_SUBTYPE_SUN_ELF: 
+			return APPEARANCE_TYPE_ELF_SUN;
+		case RACIAL_SUBTYPE_WOOD_ELF:
+			return APPEARANCE_TYPE_ELF;
+		case RACIAL_SUBTYPE_DROW: 
+			return APPEARANCE_TYPE_ELF_DROW;
+		case RACIAL_SUBTYPE_WILD_ELF:  
+			return APPEARANCE_TYPE_ELF_WILD;
+		case RACIAL_SUBTYPE_ROCK_GNOME:
+			return APPEARANCE_TYPE_GNOME;
+		case RACIAL_SUBTYPE_SVIRFNEBLIN:
+			return APPEARANCE_TYPE_GNOME_DEEP;
+		case RACIAL_SUBTYPE_HUMAN:
+			return APPEARANCE_TYPE_HUMAN;
+		case RACIAL_SUBTYPE_HALFELF:
+			return APPEARANCE_TYPE_HALF_ELF;
+		case RACIAL_SUBTYPE_HALFDROW:
+			return APPEARANCE_TYPE_HALF_DROW;
+		case RACIAL_SUBTYPE_LIGHTFOOT_HALF:
+		case RACIAL_SUBTYPE_GHOSTWISE_HALF:
+			return APPEARANCE_TYPE_HALFLING;
+		case RACIAL_SUBTYPE_STRONGHEART_HALF:
+			return APPEARANCE_TYPE_HALFLING_STRONG;
+		case RACIAL_SUBTYPE_HALFORC:
+			return APPEARANCE_TYPE_HALF_ORC;
+		case RACIAL_SUBTYPE_GRAYORC:
+			return APPEARANCE_TYPE_ORC_GRAY;
+		case RACIAL_SUBTYPE_YUANTI:
+			return APPEARANCE_TYPE_YUANTI;
+		case RACIAL_SUBTYPE_WATER_GENASI:
+			return APPEARANCE_TYPE_GENASI_WATER;
+		case RACIAL_SUBTYPE_FIRE_GENASI:
+			return APPEARANCE_TYPE_GENASI_FIRE;
+		case RACIAL_SUBTYPE_EARTH_GENASI:
+			return APPEARANCE_TYPE_GENASI_EARTH;
+		case RACIAL_SUBTYPE_AIR_GENASI:
+			return APPEARANCE_TYPE_GENASI_AIR;
+		case RACIAL_SUBTYPE_TIEFLING:
+			return APPEARANCE_TYPE_TIEFLING;
+		case RACIAL_SUBTYPE_AASIMAR:
+			return APPEARANCE_TYPE_AASIMAR;
+	}
+
+	return APPEARANCE_TYPE_INVALID;
+}
+
+//! Read in the form "[(i-j,|k,)+]"
+//! then choose a random int within that interval
+int UniformRandomOverInterval(string s, int gtype=0)
+{
+	string c;
+	int val, i, j, k, group=-1, range, rval, ret, in_group=0, ignore=0;
+
+	// parse
+	while ((c = GetSubString(s,i++,1)) != "") {
+	
+		if (ignore) {}
+		else if (!in_group) {
+			if (c == "[") {
+				group++;
+				k = 0;
+				val = 0;
+
+				in_group = 1;
+
+				// ignore this enclosure until we reach the next
+				if (group != gtype)
+					ignore = 1;
+			}
+			continue;
+		}
+		else if (c == "]" || c == ",") {
+			if (!range)
+				rval = val;
+			
+			// malformed, force exit
+			if (rval > val)
+				break;
+
+			for (j=rval; j<=val; (++j) + (++k))
+				SetLocalArrayInt(OBJECT_SELF,"int_"+IntToString(group),k,j);
+
+			range = 0;
+			val = 0;
+
+	
+			if (c == "]") {
+				SetLocalArrayInt(OBJECT_SELF,"int_"+IntToString(group),-1,k);
+
+				// found, exit
+				if (group == gtype)
+					break;
+			}
+		}
+		else if (c == "-") {
+			rval = val;
+			range = 1;
+			val = 0;
+		}
+		else if (TestStringAgainstPattern("*n", c)) 
+			val = val*10 + StringToInt(c);
+
+		if (c == "]") {
+			ignore = 0;
+			in_group = 0;
+		}
+	}
+
+	// generate
+	k = Random(GetLocalArrayInt(OBJECT_SELF, "int_"+IntToString(gtype), -1));
+	ret = GetLocalArrayInt(OBJECT_SELF, "int_"+IntToString(gtype), k);
+
+	// cleanup
+	for (i=-1; i<=group; ++i) {
+		k = GetLocalArrayInt(OBJECT_SELF, "int_"+IntToString(i), -1) + 1;
+		DeleteLocalArrayInts(OBJECT_SELF, "int_"+IntToString(i), k, -1);
+	}
+
+	if (ret == 0)
+		ret = 1;
+
+	return ret;
+}
