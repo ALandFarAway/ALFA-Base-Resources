@@ -1,5 +1,5 @@
 
-void main(int nFirstCriteriaType, int nFirstCriteriaValue, int nNth=1, int nSecondCriteriaType=-1, int nSecondCriteriaValue=-1, int nThirdCriteriaType=-1,  int nThirdCriteriaValue=-1) {
+void main(int nFirstCriteriaType, int nFirstCriteriaValue, int nNth, int nSecondCriteriaType, int nSecondCriteriaValue, int nThirdCriteriaType,  int nThirdCriteriaValue) {
 	
 	object oNearest = GetNearestCreatureToLocation(
 		nFirstCriteriaType,
