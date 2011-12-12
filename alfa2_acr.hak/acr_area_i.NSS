@@ -44,6 +44,14 @@
 // joined to a party.
 const string ACR_AREA_LAST_AREA_CLIENTENTER_VAR = "ACR_AREA_LAST_AREA_CLIENTENTER_VAR";
 
+const float ACR_AREA_TRANSITION_SEARCH_RADIUS = 5.0f;
+
+const float ACR_AREA_TRANSITION_SIGMA_EXP = 1.1f;
+const float ACR_AREA_TRANSITION_SIGMA_INIT = 0.5f;
+const float ACR_AREA_TRANSITION_SIGMA_MAX = 10.0f;
+
+const float ACR_AREA_TRANSITION_ZDIFF_MAX = 1.0f;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -137,17 +145,88 @@ void ACR_AreaOnUserDefined() {
 }
 
 
-void ACR_OnAreaTransitionClick() {
-    object oClicker = GetClickingObject();
-    object oTarget = GetTransitionTarget(OBJECT_SELF);
-    object oTargetArea = GetArea(oTarget);
+void ACR_OnAreaTransitionClick()
+{
+	object oClicker, oTarget, oTargetArea;
+	location lTarget, l, lClicker;
+	vector vtarg, v, tmp;
+	float face,sigma = ACR_AREA_TRANSITION_SIGMA_INIT;
+
+	oClicker = GetClickingObject();
+	oTarget = GetTransitionTarget(OBJECT_SELF);
+	oTargetArea = GetArea(oTarget);
+	lTarget = GetLocation(oTarget);
+	lClicker = GetLocation(oClicker);
+
+	// We need to confirm that this goes somewhere
+	lTarget = CalcSafeLocation(oClicker, lTarget, ACR_AREA_TRANSITION_SEARCH_RADIUS, FALSE, FALSE);
+	
+	// Simple search failed, AT destination is invalid
+	if (lTarget == lClicker) {
+
+		// A decent destination is cached, exit
+		if (l != GetLocalLocation(OBJECT_SELF, "ACR_TRANSITION_TARGET")) {
+			lTarget = GetLocalLocation(OBJECT_SELF, "ACR_TRANSITION_TARGET");
+		}
+		// destination object is valid but not location
+		else if (oTarget != OBJECT_INVALID) {
+			WriteTimestampedLogEntry("AT destination search invoked for "+GetTag(GetArea(oClicker))+"->"+GetTag(oTargetArea));
+			vtarg = GetPosition(oTarget);
+
+			// search
+			while (lTarget == lClicker) {
+	
+				v = vtarg;
+		
+				tmp.x = v.x;
+				tmp.y = v.y;
+				tmp.z = 0.0f;
+		
+				// random perturbation, mean x variance sigma^2
+				v.x = ACR_RandomNormal(v.x,sigma);
+				v.y = ACR_RandomNormal(v.y,sigma);
+				v.z = 0.0f;
+		
+				// orientation away from door
+				tmp.x = v.x - tmp.x;
+				tmp.y = v.y - tmp.y;
+		
+				face = VectorToAngle(tmp);
+
+				lTarget = CalcSafeLocation(oClicker, Location(oTargetArea,v,face), ACR_AREA_TRANSITION_SEARCH_RADIUS, FALSE, FALSE);
+
+				tmp = GetPositionFromLocation(lTarget);
+
+				// reject anything that has a large zdiff
+				// e.g. we are being ported down/up to a strange location
+				if (fabs(tmp.z - vtarg.z) > ACR_AREA_TRANSITION_ZDIFF_MAX)
+					lTarget = lClicker;
+		
+				if (lTarget == lClicker) {
+					// increase exponentially
+					sigma *= ACR_AREA_TRANSITION_SIGMA_EXP;
+
+					// Cancel out if beyond some limit
+					if (sigma > ACR_AREA_TRANSITION_SIGMA_MAX)
+						break;
+		
+				}
+				// correct, let's just cache
+				else
+					SetLocalLocation(OBJECT_SELF, "ACR_TRANSITION_TARGET", lTarget);
+		
+			}
+		}
+	}
+			
+
 
 	if (GetIsPC(oClicker)) {
 		// NPCs don't need AT warnings/feedback
 		// this function handles transitioning as well.
-		ACR_CheckAT(oClicker);
+		ACR_CheckAT(oClicker, lTarget);
 	} else {
-		AssignCommand(oClicker,JumpToObject(oTarget));
+		AssignCommand(oClicker,JumpToLocation(lTarget));
 	}
     // Set the AT screen randomly.
     //SetAreaTransitionBMP(AREA_TRANSITION_RANDOM);
