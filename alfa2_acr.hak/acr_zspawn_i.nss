@@ -1,6 +1,8 @@
 #include "nwnx_objectattributes_include"
 #include "acr_tools_i"
 
+#define _DEBUG_ZS
+
 // This function returns the polymorph effect number
 // to produce a dummy effect that will shift a target
 // creature to nRacialType
@@ -946,7 +948,7 @@ int GetRandomHairModel(int nSubrace, int nGender)
 		case RACIAL_SUBTYPE_HUMAN:
 		case RACIAL_SUBTYPE_HALFELF:
 		case RACIAL_SUBTYPE_HALFDROW:
-			res = UniformRandomOverInterval("[1-17,37,38,63,66,70-75,80-82,94][1-17,23,24,50-52,61-64,66-78,80-82,85-90,94]", nGender);
+			res = UniformRandomOverInterval("[1-17,37,38,63,66,71-75,80-82,94][1-17,23,24,50-52,61-64,66-78,80-82,85-90,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_LIGHTFOOT_HALF:
 		case RACIAL_SUBTYPE_GHOSTWISE_HALF:
@@ -970,7 +972,7 @@ int GetRandomHairModel(int nSubrace, int nGender)
 			res = UniformRandomOverInterval("[1-18,94][1-19,73,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_AASIMAR:
-			res = UniformRandomOverInterval("[1-17,37,38,63,66,70-75,80-82,94][1-17,23,24,50-52,61-64,67-78,80-82,85-90,94]", nGender);
+			res = UniformRandomOverInterval("[1-17,37,38,63,66,71-75,80-82,94][1-17,23,24,50-52,61-64,67-78,80-82,85-90,94]", nGender);
 			break;
 	}
 
@@ -1228,7 +1230,7 @@ void ACR_RandomizeAppearance(object oSpawn,int nHead = ACR_FEATURE_TYPE_RANDOM,i
 		nHairModel = nHair;
 	else
 		nHairModel = GetRandomHairModel(nSubrace, nGender);
-		
+
 	nRandHair = Random(ACR_NUM_DEFAULT_FEATURE_COLOURS);
 
 	if (nHair1 == ACR_FEATURE_TYPE_RANDOM)
@@ -1247,6 +1249,18 @@ void ACR_RandomizeAppearance(object oSpawn,int nHead = ACR_FEATURE_TYPE_RANDOM,i
 	string sEyes  = GetRandomTint(nSubrace, 5, nEyes);
 	string sBHair = GetRandomTint(nSubrace, 6, nBHair);
 
+#ifdef _DEBUG_ZS
+	SetLocalInt(oSpawn, "ZS_APP_TYPE", nAppearance);
+	SetLocalInt(oSpawn, "ZS_MODEL_HEAD", nHeadModel);
+	SetLocalInt(oSpawn, "ZS_MODEL_HAIR", nHairModel);
+	SetLocalString(oSpawn, "ZS_TINT_HAIR1", sHair1);
+	SetLocalString(oSpawn, "ZS_TINT_HAIR2", sHair2);
+	SetLocalString(oSpawn, "ZS_TINT_AHAIR", sAHair);
+	SetLocalString(oSpawn, "ZS_TINT_BHAIR", sBHair);
+	SetLocalString(oSpawn, "ZS_TINT_EYES", sEyes);
+	SetLocalString(oSpawn, "ZS_TINT_SKIN", sSkin);
+#endif
+		
 	float fHair1r = HexStringToFloat(GetStringLeft(sHair1, 2)) / 255.0f;
 	float fHair1g = HexStringToFloat(GetStringLeft(GetStringRight(sHair1, 4), 2)) / 255.0f;
 	float fHair1b = HexStringToFloat(GetStringRight(sHair1, 2)) / 255.0f;
