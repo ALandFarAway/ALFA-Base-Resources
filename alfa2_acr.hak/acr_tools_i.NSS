@@ -92,6 +92,13 @@ const int ARMOR_TYPE_HEAVY = 4;
 
 const float MATH_CONSTANT_E = 2.718281828459045235360287471352662497757247093699959574966;
 
+location LOCATION_INVALID;
+
+
+const float ACR_LOCATION_SEARCH_RADIUS = 2.0f;
+
+const float ACR_AREA_TRANSITION_ZDIFF_MAX = 1.0f;
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -302,6 +309,9 @@ string Pluralize(string s);
 string Colorize(string sText, string sColor);
 
 object ACR_GetNearestCreatureToLocation(object oPC, int nFirstCriteriaType, int nFirstCriteriaValue,  location lLocation, int nNth=1, int nSecondCriteriaType=-1, int nSecondCriteriaValue=-1, int nThirdCriteriaType=-1,  int nThirdCriteriaValue=-1);
+
+//! Expanded CalcSafeLocation that should be a little more reliable
+location ACR_CalcSafeLocation(object oClicker, location lTarget);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -1248,3 +1258,68 @@ int UniformRandomOverInterval(string s, int gtype=0)
 	return ret;
 }
 
+
+location ACR_CalcSafeLocation(object oClicker, location lTarget)
+{
+	object t_area, o;
+	location t_l, c_l;
+	vector t_v, c_v, t_prime_v;
+	float t_face, c_face, f_sqrt = sqrt(2.0f);
+	int i,j;
+
+	c_l = GetLocation(oClicker);
+	t_area = GetAreaFromLocation(lTarget);
+
+	if (t_area == OBJECT_INVALID)
+		return LOCATION_INVALID;
+		
+	t_v = GetPositionFromLocation(lTarget);
+	t_face = GetFacingFromLocation(lTarget);
+	t_prime_v = AngleToVector(t_face);
+
+	t_prime_v.z = 0.0f;
+	c_v.z = 0.0f;
+
+	o = GetNearestCreatureToLocation(CREATURE_TYPE_IS_ALIVE, CREATURE_ALIVE_BOTH, lTarget);
+
+	for (i = 1; i <= 3; ++i) {
+		
+		for (j = 0; j < 8; ++j) {
+			// rotate pi/4 about z:
+			t_prime_v.x = (t_prime_v.x - t_prime_v.y)/f_sqrt;
+			t_prime_v.y = (t_prime_v.x + t_prime_v.y)/f_sqrt;
+
+			t_prime_v = VectorNormalize(t_prime_v);
+
+			// multiply by increments of 1/2
+			c_v.x = t_v.x + t_prime_v.x/2 * i;
+			c_v.y = t_v.y + t_prime_v.y/2 * i;
+
+			// orientation away from door
+			c_face = VectorToAngle(t_prime_v);
+
+			t_l = Location(t_area, c_v, c_face);
+
+			// invalid, just re-search
+			if (!GetIsLocationValid(t_l))
+				continue;
+
+			if (o != OBJECT_INVALID) {
+				t_l = CalcSafeLocation(o, t_l, ACR_LOCATION_SEARCH_RADIUS, FALSE, FALSE);
+			}
+
+			c_v = GetPositionFromLocation(t_l);
+
+			// reject anything that has a large zdiff
+			// e.g. we are being ported down/up to a strange location
+			if (fabs(c_v.z - t_v.z) > ACR_AREA_TRANSITION_ZDIFF_MAX)
+				t_l = c_l;
+
+			// this is ok
+			if (t_l != c_l)
+				return t_l;
+		}
+	}
+
+	return LOCATION_INVALID;
+}
