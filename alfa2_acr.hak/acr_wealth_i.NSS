@@ -44,8 +44,13 @@
 //   -> anchor pushed to 20 from 5, to match the 75% swipe
 //   -> ancher adjusted to 17.86, to match the new 65% swipe
 const float ACR_WLT_SPAWNLOOT_ANCHOR = 17.86;
+
 const float ACR_WLT_SPAWNLOOT_MEAN = 1.0;
 const float ACR_WLT_SPAWNLOOT_STDEV = 0.5;
+
+const float ACR_WLT_SPAWNLOOT_MU = -0.11157177565710487788314754515491;
+const float ACR_WLT_SPAWNLOOT_SIGMA = 0.47238072707743883543358270528734;
+
 const int ACR_WLT_SPAWNLOOT_PERCENT = 35;
 const int ACR_WLT_SPAWNGOLD_PERCENT = 25;
 
@@ -99,6 +104,7 @@ void _generateTreasure(object oCreature, int nLootValue, int nItems=0);
 int ACR_GetRandomDropValue(object oMob)
 {
     int nType = GetRacialType(oMob), nCalc;
+    float fRand, fCR, fCreatMulti, fBaseDrop, fMu, fSigma;
 
     // skip the creatures that drop and carry nothing
     if (nType == RACIAL_TYPE_ANIMAL ||
@@ -112,24 +118,39 @@ int ACR_GetRandomDropValue(object oMob)
     // default is 25, so 75% of the time the random loot function will skip the mob.
     if (Random(100) > ACR_WLT_SPAWNLOOT_PERCENT) { return 0; }
 
-    float fCR = GetChallengeRating(oMob);
-    float fCreatMulti = IntToFloat(_GetLootMultiplier(oMob));
+    fCR = GetChallengeRating(oMob);
+    fCreatMulti = IntToFloat(_GetLootMultiplier(oMob));
 
     // if the multiplier is set at or determined to be 0, don't waste time with the math.
     if (fCreatMulti == 0.0) { return 0; }
 
-    float fBaseDrop = ACR_WLT_SPAWNLOOT_ANCHOR * (fCR + GetLocalFloat(oMob, _ACR_LOOT_CR_MOD));
+    fBaseDrop = ACR_WLT_SPAWNLOOT_ANCHOR * (fCR + GetLocalFloat(oMob, _ACR_LOOT_CR_MOD));
+
+    // to fit distribution w/ requirements, we find mu/sigma:
+    // stdev = 0.5
+    // mean = 1
+    //
+    // mu = log(mean^2/sqrt(stdev^2 + mean^2))
+    // mu = -0.11157177565710487788314754515491
+    //
+    // sigma = sqrt(log(stdev^2/mean^2 + 1.0))
+    // sigma = 0.47238072707743883543358270528734
+
+    fRand = ACR_RandomLogNormal(ACR_WLT_SPAWNLOOT_MU, ACR_WLT_SPAWNLOOT_SIGMA);
+
+    // record 1% and 99%
+    //
+    // cdf: 0.5 * (1-erf((mu-log(x0))/(sqrt(2) * sigma)))
+    if (fRand > 2.68411)
+	    WriteTimestampedLogEntry(GetName(oMob) + " ["+GetTag(oMob)+"] killed by "+GetName(GetLastKiller())+" in "+GetName(GetArea(oMob))+" ["+GetTag(GetArea(oMob))+"] dropped 1% top loot ("+IntToString(nCalc)+")");
+    else if (fRand < 0.29805)
+	    WriteTimestampedLogEntry(GetName(oMob) + " ["+GetTag(oMob)+"] killed by "+GetName(GetLastKiller())+" in "+GetName(GetArea(oMob))+" ["+GetTag(GetArea(oMob))+"] dropped 1% bottom loot ("+IntToString(nCalc)+")");
+    
+    nCalc = FloatToInt(fCreatMulti * fBaseDrop * fRand);
+    
 
     // should subtract droppable gear from this for the final version, though perhaps better done after the
     // randomization and multiplier.  
-    float fRand = ACR_RandomNormal(ACR_WLT_SPAWNLOOT_MEAN, ACR_WLT_SPAWNLOOT_STDEV);
-
-    nCalc = FloatToInt(fCreatMulti * fBaseDrop * fRand);
-    
-    // record "lucky" drops
-    if ((fRand - ACR_WLT_SPAWNLOOT_MEAN)/ACR_WLT_SPAWNLOOT_STDEV >= 2.0f)
-	    WriteTimestampedLogEntry(GetName(oMob) + " ["+GetTag(oMob)+"] killed by "+GetName(GetLastKiller())+" in "+GetName(GetArea(oMob))+" ["+GetTag(GetArea(oMob))+"] dropped loot 2 stdev from mean ("+IntToString(nCalc)+")");
-    
 
     return nCalc;
 }

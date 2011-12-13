@@ -90,6 +90,9 @@ const int ARMOR_TYPE_LIGHT = 2;
 const int ARMOR_TYPE_MEDIUM = 3;
 const int ARMOR_TYPE_HEAVY = 4;
 
+const float MATH_CONSTANT_E = 2.718281828459045235360287471352662497757247093699959574966;
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -163,13 +166,16 @@ float IncrementLocalFloat(object oObject, string sVarName, float fIncrement);
 // Otherwise, sets the bit to 0.
 int SetLocalBit(object oObject, string sVarName, int nBit, int nValue);
 
-// Generates a random float value between fMin and fMax.
-// Does not error checking on inputs.
+//! Exponential function
+float exp(float f);
+
+//! Generates a random float value between fMin and fMax.
+//! Does not error checking on inputs.
 float ACR_RandomFloat(float fMin = 0.0, float fMax = 1.0);
 
 //! Returns a randomized value on a gaussian (normal) distribution using the polar form of the Box-Muller Transformation.
 //! taking into account mean fMean and standard deviation fStd
-float ACR_RandomNormal(float fMean, float fStd);
+float ACR_RandomNormal(float fMean=0.0f, float fStd=1.0f);
 
 // Makes a new interger out of nNum, starting at bit nStartBit and ending at
 // nEndBit.  Returned value is an unsigned integer only.
@@ -445,8 +451,13 @@ int SetLocalBit(object oObject, string sVarName, int nBit, int nValue) {
     return nNum;
 }
 
+float exp(float f)
+{
+	return pow(MATH_CONSTANT_E, f);
+}
+
 // lifted from ftp://ftp.taygeta.com/pub/c/boxmuller.c by AcadiusLost.
-float ACR_RandomNormal(float fMean, float fStd)
+float ACR_RandomNormal(float fMean=0.0f, float fStd=1.0f)
 {
     float x1, x2, w;
 
@@ -467,6 +478,11 @@ float ACR_RandomNormal(float fMean, float fStd)
     SetGlobalFloat("ACR_RND",x2 * w);
 
     return fMean + (x1 * w * fStd);
+}
+
+float ACR_RandomLogNormal(float fMean, float fStd)
+{
+	return exp(fMean + fStd * ACR_RandomNormal());
 }
 
 float ACR_RandomFloat(float fMin = 0.0, float fMax = 1.0)
@@ -1231,3 +1247,4 @@ int UniformRandomOverInterval(string s, int gtype=0)
 
 	return ret;
 }
+
