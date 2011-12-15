@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/nwnx4/!svn/ver/93/branches/skywing-dev/src/plugins/xp_objectattributes
+END
+xp_objectattributes.def
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/nwnx4/!svn/ver/93/branches/skywing-dev/src/plugins/xp_objectattributes/xp_objectattributes.def
+END
+xp_objectattributes.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/nwnx4/!svn/ver/93/branches/skywing-dev/src/plugins/xp_objectattributes/xp_objectattributes.cpp
+END
+xp_objectattributes.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/nwnx4/!svn/ver/93/branches/skywing-dev/src/plugins/xp_objectattributes/xp_objectattributes.vcproj
+END
+PluginCore.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/nwnx4/!svn/ver/93/branches/skywing-dev/src/plugins/xp_objectattributes/PluginCore.cpp
+END
+xp_objectattributes.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/nwnx4/!svn/ver/93/branches/skywing-dev/src/plugins/xp_objectattributes/xp_objectattributes.h
+END
