@@ -1186,8 +1186,7 @@ int GetSubraceAppearance(int subrace)
 }
 
 //! Read in the form "[(i-j,|k,)+]"
-//! then choose a random int within that interval
-int UniformRandomOverInterval(string s, int gtype=0)
+object _ParseInterval(string s, int gtype)
 {
 	string c;
 	int val, i, j, k, group=-1, range, rval, ret, in_group=0, ignore=0;
@@ -1197,6 +1196,7 @@ int UniformRandomOverInterval(string s, int gtype=0)
 	
 		if (ignore) {}
 		else if (!in_group) {
+			// start of new group
 			if (c == "[") {
 				group++;
 				k = 0;
@@ -1225,10 +1225,11 @@ int UniformRandomOverInterval(string s, int gtype=0)
 			val = 0;
 
 	
+			// end of group
 			if (c == "]") {
 				SetLocalArrayInt(OBJECT_SELF,"int_"+IntToString(group),-1,k);
 
-				// found, exit
+				// found, let's exit
 				if (group == gtype)
 					break;
 			}
@@ -1247,16 +1248,53 @@ int UniformRandomOverInterval(string s, int gtype=0)
 		}
 	}
 
+	return OBJECT_SELF;
+}
+
+// cleanup
+void _CleanupInterval(int max)
+{
+	int i,k;
+
+	k = GetLocalArrayInt(OBJECT_SELF, "int_"+IntToString(i), -1) + 1;
+	DeleteLocalArrayInts(OBJECT_SELF, "int_"+IntToString(i), k, -1);
+}
+
+//! Read in the form "[(i-j,|k,)+]"
+//! then spit out to a list "#([0-9]+#)*)"
+string IntervalToList(string s,int gtype=0)
+{
+	int i,k;
+	string ret = "#";
+
+	_ParseInterval(s, gtype);
+
+	// generate
+	k = GetLocalArrayInt(OBJECT_SELF, "int_"+IntToString(gtype), -1);
+
+	for (i=0; i<k; ++i)
+		ret += IntToString(GetLocalArrayInt(OBJECT_SELF, "int_"+IntToString(gtype), i)) + "#";
+
+	_CleanupInterval(gtype);
+
+	return ret;
+}
+
+//! Read in the form "[(i-j,|k,)+]"
+//! then choose a random int within that interval
+int UniformRandomOverInterval(string s, int gtype=0)
+{
+	int i, k, ret;
+
+	_ParseInterval(s, gtype);
+
 	// generate
 	k = Random(GetLocalArrayInt(OBJECT_SELF, "int_"+IntToString(gtype), -1));
 	ret = GetLocalArrayInt(OBJECT_SELF, "int_"+IntToString(gtype), k);
 
-	// cleanup
-	for (i=-1; i<=group; ++i) {
-		k = GetLocalArrayInt(OBJECT_SELF, "int_"+IntToString(i), -1) + 1;
-		DeleteLocalArrayInts(OBJECT_SELF, "int_"+IntToString(i), k, -1);
-	}
+	_CleanupInterval(gtype);
 
+	// default to 1, not 0
 	if (ret == 0)
 		ret = 1;
 
@@ -1328,3 +1366,4 @@ location ACR_CalcSafeLocation(object oClicker, location lTarget)
 
 	return LOCATION_INVALID;
 }
+
