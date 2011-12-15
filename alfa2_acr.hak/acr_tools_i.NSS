@@ -32,6 +32,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "acr_i"
+#include "ginc_math"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -1101,7 +1102,10 @@ int DataStringToInt(string sString)
 //! Turns a hex string into a floating point
 float HexStringToFloat(string sString)
 {
-	int nResult = 0;
+	/*
+	 * Scrap implementation to just use HexStringToInt()
+	 * defined in ginc_math
+	 *
 	int nMultiplier = 1;
 	while(sString != "")
 	{
@@ -1119,7 +1123,8 @@ float HexStringToFloat(string sString)
 		else                   nResult += nMultiplier * StringToInt(sDigit);
 		nMultiplier = nMultiplier * 16;
 	}
-	return IntToFloat(nResult);
+	*/
+	return IntToFloat(HexStringToInt(sString));
 }
 
 int GetSubraceAppearance(int subrace)
