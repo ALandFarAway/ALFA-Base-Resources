@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<UIScene name="SCREEN_MODULELOAD" modal=true fadeout="1.0" idleexpiretime="30.0" width=SCREEN_WIDTH height=SCREEN_HEIGHT priority="SCENE_FE_FULLSCREEN" fullscreen=true
+		 OnAdd=UIScene_OnAdd_RegisterStatusUpdateObject("statuslistbox") 
+		 OnRemove=UIScene_OnAdd_RegisterStatusUpdateObject("","true") 
+		 OnDestroy=UIScene_OnDestroy_UnregisterStatusUpdateObject("statuslistbox") />
+
+	<!-- Title Pane -->
+    <UIPane name="TitlePane" x=ALIGN_CENTER y=ALIGN_TOP width=984 height="74" capturemouseclicks="false" ignoreevents="true" >
+        <UIText name="TITLE_TEXT" strref="66235" x=ALIGN_CENTER y=12 width=356 height=30 align="center" valign="middle" 
+	        fontfamily="Special_Font" style="4" />
+        <UIIcon img="main_sub_titles.tga" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT"/>
+    </UIPane>
+
+	<!-- Loading Output Container -->
+	<UIPane name="OUTPUT_CONTAINER" x=15 y=645 width=460 height=60 usescalar=true >
+		<UIListBox name="statuslistbox" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT xPadding=0 yPadding=0 showpartialchild=true  
+			OnResize=UIListBox_OnResize_ScrollToBottom()
+			scrollbaronright=true unequalcontrols=true scrollsegmentsize=17 hidescrollbarwhennotneeded=true hidescrollbar=true snaptobottom=true
+			scaleheighttoparent=true scalewidthtoparent=true>
+			<UIText name=repliestext width=PARENT_WIDTH height=DYNAMIC highlightcolor=FFFFFF sizetofit=true align=left 
+				prototype=true fontfamily="Body_Font" style=1 />
+			<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
+		</UIListBox>
+	</UIPane>
+
+	<UIPane name="BOTTOM_BAR" width=980 height=103 x=ALIGN_CENTER y=ALIGN_BOTTOM >
+		<UIProgressBar x=98 y=45 width=768 height=55 name="LoadBar0" img="loading_bar_fill.tga" />
+		<UIIcon x=0 y=0 width=980 height=103 img="loading_bar_bg.tga" />
+	</UIPane>
+
+	<!-- Background name of this GUI is REQUIRED to be BACKGROUND_REPLACE-->
+	<UIIcon name="BACKGROUND_REPLACE" x=0 y=ALIGN_CENTER width=1024 height=512 img="generic_default_01.tga" scalewithscene=true />
+	<UIIcon name="BACKGROUND" x=0 y=0 width=1024 height=768 img="ls_background_nx2.tga" scalewithscene=true />
