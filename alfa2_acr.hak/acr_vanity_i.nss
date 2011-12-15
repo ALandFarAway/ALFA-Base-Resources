@@ -1,4 +1,5 @@
 #include "nwnx_objectattributes_include"
+#include "acr_tools_i"
 #include "acr_pps_i"
 
 // This function applies a hair dye oDye to the subject oTarget, using the skill
@@ -12,11 +13,11 @@ string GetRawBaseTintSet(object oCharacter);
 
 string GetRawSkinTintSet(object oCharacter);
 
-string RawHairToHairHighlight(string sRawHair);
+string RawToTintSet0(string sRawHair);
 
-string RawHairToHairLowlight(string sRawHair);
+string RawToTintSet1(string sRawHair);
 
-string RawHairToHairAccessory(string sRawHair);
+string RawToTintSet2(string sRawHair);
 
 string RawSkinToSkin(string sRawBody);
 
@@ -30,32 +31,87 @@ string RawTintToTint2(string sRawTint);
 
 string RawTintToTint3(string sRawTint);
 
-int HexStringToInt(string sString);
+
+struct XPObjectAttributes_Color RawAttribToTint(string sRaw)
+{
+	struct XPObjectAttributes_Color col;
+
+	// 8 characters, defined as:
+	//
+	// rrggbbaa
+	//
+	// convert from 0-255 -> 0-1
+	
+	col.r = HexStringToFloat(GetStringLeft(sRaw, 2)) / 255.0f;
+	col.g = HexStringToFloat(GetStringRight(GetStringLeft(sRaw, 4), 2)) / 255.0f;
+	col.b = HexStringToFloat(GetStringRight(GetStringLeft(sRaw, 6), 2)) / 255.0f;
+	col.a = HexStringToFloat(GetStringRight(GetStringLeft(sRaw, 8), 2)) / 255.0f;
+
+	return col;
+}
+
+
+struct XPObjectAttributes_TintSet RawAttribToTintSet(string sRaw)
+{
+	struct XPObjectAttributes_TintSet tints;
+	string s0, s1, s2;
+
+	s0 = RawToTintSet0(sRaw);
+	s1 = RawToTintSet1(sRaw);
+	s2 = RawToTintSet2(sRaw);
+
+	tints.Tint0 = RawAttribToTint(s2);
+	tints.Tint1 = RawAttribToTint(s1);
+	tints.Tint2 = RawAttribToTint(s0);
+
+	return tints;
+}
+
+struct XPObjectAttributes_TintSet GetHairTintSet(object o)
+{
+	return RawAttribToTintSet(GetRawHairTintSet(o));
+}
+
+struct XPObjectAttributes_TintSet GetBaseTintSet(object o)
+{
+	return RawAttribToTintSet(GetRawBaseTintSet(o));
+}
+
+struct XPObjectAttributes_TintSet GetSkinTintSet(object o)
+{
+	return RawAttribToTintSet(GetRawSkinTintSet(o));
+}
+
 
 void DoHairDye(object oDye, object oBeautician, object oTarget, int nRoll = FALSE)
 {
+	struct XPObjectAttributes_Color dye;
+	struct XPObjectAttributes_TintSet tints;
+
 //=== The dye's tag contains the dye's 'true' color. ===//
-	string sDye = GetStringRight(GetTag(oDye), 6);
+	string sDye = GetStringRight(GetTag(oDye), 6) + "00";
 	
 //=== This information lives inside of the character object-- we need NWNx4 to harvest it ===//
-	string sHair = GetRawHairTintSet(oTarget);
-	string sHairHighlight = RawHairToHairHighlight(sHair);
-	string sHairLowlight  = RawHairToHairLowlight(sHair);
-	string sHairAccessory = RawHairToHairAccessory(sHair);
+	tints = GetHairTintSet(oTarget);
+	dye = RawAttribToTint(sDye);
 
 //=== Need to convert the input (hex strings) into something we can do math on (integers) ===//
-	int nHLRed    = HexStringToInt(GetStringLeft(sHairHighlight, 2));
-	int nHLGreen  = HexStringToInt(GetStringLeft(GetStringRight(sHairHighlight, 4), 2));
-	int nHLBlue   = HexStringToInt(GetStringRight(sHairHighlight, 2));
-	int nLLRed    = HexStringToInt(GetStringLeft(sHairLowlight, 2));
-	int nLLGreen  = HexStringToInt(GetStringLeft(GetStringRight(sHairLowlight, 4), 2));
-	int nLLBlue   = HexStringToInt(GetStringRight(sHairLowlight, 2));	
-	int nAccRed   = HexStringToInt(GetStringLeft(sHairAccessory, 2));
-	int nAccGreen = HexStringToInt(GetStringLeft(GetStringRight(sHairAccessory, 4), 2));
-	int nAccBlue  = HexStringToInt(GetStringRight(sHairAccessory, 2));		
-	int nDyeRed   = HexStringToInt(GetStringLeft(sDye, 2));
-	int nDyeGreen = HexStringToInt(GetStringLeft(GetStringRight(sDye, 4), 2));
-	int nDyeBlue  = HexStringToInt(GetStringRight(sDye, 2));
+
+	int nHLRed    = FloatToInt(255.0f * tints.Tint0.r);
+	int nHLGreen  = FloatToInt(255.0f * tints.Tint0.g);
+	int nHLBlue   = FloatToInt(255.0f * tints.Tint0.b);
+
+	int nLLRed    = FloatToInt(255.0f * tints.Tint1.r);
+	int nLLGreen  = FloatToInt(255.0f * tints.Tint1.g);
+	int nLLBlue   = FloatToInt(255.0f * tints.Tint1.b);
+
+	int nAccRed   = FloatToInt(255.0f * tints.Tint2.r);
+	int nAccGreen = FloatToInt(255.0f * tints.Tint2.g);
+	int nAccBlue  = FloatToInt(255.0f * tints.Tint2.b);
+
+	int nDyeRed   = FloatToInt(255.0f * dye.r);
+	int nDyeGreen = FloatToInt(255.0f * dye.g);
+	int nDyeBlue  = FloatToInt(255.0f * dye.b);
 	
 //=== Figure out what the skill roll was. ===//	
 	int nSkillRoll = 10;
@@ -240,20 +296,37 @@ string GetRawSkinTintSet(object oCharacter)
 	return sTintSet;
 }
 
-string RawHairToHairAccessory(string sRawHair)
+string RawToTintSet2(string sRawHair)
 {
-	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 15), 6);
+	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 13), 8);
+}
+
+string RawToTintSet1(string sRawHair)
+{
+	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 25), 8);
+}
+
+string RawToTintSet0(string sRawHair)
+{
+	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 37), 8);
+}
+
+
+string RawairToHairAccessory(string sRawHair)
+{
+	return RawToTintSet2(sRawHair);
 }
 
 string RawHairToHairLowlight(string sRawHair)
 {
-	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 27), 6);
+	return RawToTintSet1(sRawHair);
 }
 
 string RawHairToHairHighlight(string sRawHair)
 {
-	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 39), 6);
+	return RawToTintSet0(sRawHair);
 }
+
 
 string GetNaturalHairColor(object oCharacter)
 {
@@ -299,27 +372,4 @@ string GetNaturalHairColor(object oCharacter)
 	}
 	
 	return sHair;
-}
-
-int HexStringToInt(string sString)
-{
-	int nResult = 0;
-	int nMultiplier = 1;
-	while(sString != "")
-	{
-		string sDigit = GetStringRight(sString, 1);
-		if(GetStringLength(sString) == 1)
-			sString = "";
-		else
-			sString = GetStringLeft(sString, GetStringLength(sString) - 1);
-		if(sDigit == "F" || sDigit == "f")      nResult += nMultiplier * 15;
-		else if(sDigit == "E" || sDigit == "e") nResult += nMultiplier * 14;
-		else if(sDigit == "D" || sDigit == "d") nResult += nMultiplier * 13;
-		else if(sDigit == "C" || sDigit == "c") nResult += nMultiplier * 12;
-		else if(sDigit == "B" || sDigit == "b") nResult += nMultiplier * 11;
-		else if(sDigit == "A" || sDigit == "a") nResult += nMultiplier * 10;
-		else                   nResult += nMultiplier * StringToInt(sDigit);
-		nMultiplier = nMultiplier * 16;
-	}
-	return nResult;	
 }
