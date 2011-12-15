@@ -314,6 +314,21 @@ object ACR_GetNearestCreatureToLocation(object oPC, int nFirstCriteriaType, int 
 //! Expanded CalcSafeLocation that should be a little more reliable
 location ACR_CalcSafeLocation(object oClicker, location lTarget);
 
+//LIST MANAGEMENT
+//note about lists : List have to be like "#1#5#26#99# ..." in order to work properly. See nwnx_craft_set_constatns for details
+
+//loops forwards entries in the given list and the current value  
+int XPCraft_GetNextEntryInList(string sList, int iCurrentEntry);
+//loops backwards entries in the given list and the current value   
+int XPCraft_GetPreviousEntryInList(string sList, int iCurrentEntry);
+//Get the fist value in the given list 
+int XPCraft_GetFirstEntryInList(string sList);
+//get the last value in the given list 
+int XPCraft_GetLastEntryInList(string sList);
+//Check if an element is in a list (returns TRUE if found, else FALSE if not).
+int XPCraft_IsElementInList(string sList, int nElement);
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -1365,5 +1380,109 @@ location ACR_CalcSafeLocation(object oClicker, location lTarget)
 	}
 
 	return LOCATION_INVALID;
+}
+
+
+
+/*****************************************************************************/
+//LIST MANAGEMENT
+
+int XPCraft_GetNextEntryInList(string sList, int iCurrentEntry)
+{
+	string sCurrentEntry = "#"+ IntToString(iCurrentEntry) + "#";
+	int iCurrentOffset = FindSubString(sList,sCurrentEntry);
+	
+	if(iCurrentOffset==-1)
+	{//Current entry doesn't exist in the list
+		return iCurrentEntry;
+	}
+	iCurrentOffset += GetStringLength(sCurrentEntry);//position after the current entry
+
+	//looking for the following sharp
+	int iFollowingSharpOffset = FindSubString(GetStringRight(sList,GetStringLength(sList)-iCurrentOffset),"#");
+
+	
+	if(iFollowingSharpOffset==-1)
+	{//no following sharp, current entry is the last one -> loop by returning the first entry in the list
+		return XPCraft_GetFirstEntryInList(sList);
+	}
+	else
+	{
+		return StringToInt(GetSubString(sList,iCurrentOffset,iFollowingSharpOffset-iCurrentOffset));
+	}
+}
+
+
+int XPCraft_GetPreviousEntryInList(string sList, int iCurrentEntry)
+{
+	string sCurrentEntry = "#"+ IntToString(iCurrentEntry) + "#";
+	int iCurrentOffset = FindSubString(sList,sCurrentEntry);
+	
+	if(iCurrentOffset==-1)
+	{//Current entry doesn't exist in the list
+		return iCurrentEntry;
+	}
+	
+	//looking for the previous sharp
+	int iPreviousSharpOffset = iCurrentOffset;
+	string sChar;
+	do
+	{
+		iPreviousSharpOffset--;
+		sChar = GetSubString(sList,	iPreviousSharpOffset,1);			
+	
+	}while((sChar!="")&& (sChar!="#"));
+	
+	if(sChar=="")
+	{//no previous sharp, current entry is the first one -> loop by returning the last entry in the list
+		return XPCraft_GetLastEntryInList(sList);		
+	}
+	
+	iPreviousSharpOffset++;
+	return StringToInt(GetSubString(sList,iPreviousSharpOffset,iCurrentOffset-iPreviousSharpOffset));
+}
+
+
+int XPCraft_GetFirstEntryInList(string sList)
+{
+	//looking for the second sharp
+	int iFollowingSharpOffset = FindSubString(GetStringRight(sList,GetStringLength(sList)-1),"#");
+	return StringToInt(GetSubString(sList,1,iFollowingSharpOffset));	
+}
+
+
+int XPCraft_GetLastEntryInList(string sList)
+{
+	//parsing backwards, looking for the second-last sharp 
+	int iStringLength = GetStringLength(sList)-1;
+	int iPreviousSharpOffset = iStringLength;
+	string sChar;
+	do
+	{
+		iPreviousSharpOffset--;
+		sChar = GetSubString(sList,	iPreviousSharpOffset,1);			
+	
+	}while((sChar!="")&& (sChar!="#"));
+	
+	if(sChar=="")
+	{//no sharp found (that case should never happend if lists have a correct pattern)	
+		return 0;		
+	}
+	
+	iPreviousSharpOffset++;
+	return StringToInt(GetSubString(sList,iPreviousSharpOffset,iStringLength-iPreviousSharpOffset));	
+}
+
+int XPCraft_IsElementInList(string sList, int nElement)
+{
+	//
+	// Examine the #-delimited list, searching for a particular element within
+	// it (assumed to be a list of integers delimited by # characters).
+	//
+
+	if (FindSubString(sList, "#" + IntToString(nElement) + "#", 0) < 0)
+		return FALSE;
+	else
+		return TRUE;
 }
 
