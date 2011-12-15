@@ -118,7 +118,9 @@ void CheckArmor(object oArmor, object oTarget, float fDuration)
 		eEffect = GetNextEffect(oTarget);
 	}
 	
-	
+        object oArmor = GetItemInSlot(INVENTORY_SLOT_CHEST, oTarget);	
+
+
 	int nBaseAC = 0;
 	int nEnhancedAC = 0;
 	int nCasterLevel = GetCasterLevel(oTarget);
