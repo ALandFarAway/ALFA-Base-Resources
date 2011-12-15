@@ -42,6 +42,7 @@ struct XPObjectAttributes_Color
 
 struct XPObjectAttributes_TintSet
 {
+	/*
 	float Tint0_r;
 	float Tint0_g;
 	float Tint0_b;
@@ -54,6 +55,7 @@ struct XPObjectAttributes_TintSet
 	float Tint2_g;
 	float Tint2_b;
 	float Tint2_a;
+	*/
 
 	//
 	// Nested structures in structures cause a code generation issues with the
@@ -61,9 +63,9 @@ struct XPObjectAttributes_TintSet
 	// TintSet structure itself.
 	//
 
-//	struct XPObjectAttributes_Color Tint0;
-//	struct XPObjectAttributes_Color Tint1;
-//	struct XPObjectAttributes_Color Tint2;
+	struct XPObjectAttributes_Color Tint0;
+	struct XPObjectAttributes_Color Tint1;
+	struct XPObjectAttributes_Color Tint2;
 };
 
 void
@@ -552,22 +554,40 @@ Environment:
 	//
 
 	StringTintSet  = "NWN2_TintSet[";
+
+	Color = TintSet.Tint0;
+
+	/*
 	Color.r        = TintSet.Tint0_r; // Workaround Bioware compiler bugs.
 	Color.g        = TintSet.Tint0_g;
 	Color.b        = TintSet.Tint0_b;
 	Color.a        = TintSet.Tint0_a;
+	*/
+
 	StringTintSet += XPObjectAttributespFormatColorAsString( Color );
 	StringTintSet += ", ";
+
+	Color = TintSet.Tint1;
+
+	/*
 	Color.r        = TintSet.Tint1_r;
 	Color.g        = TintSet.Tint1_g;
 	Color.b        = TintSet.Tint1_b;
 	Color.a        = TintSet.Tint1_a;
+	*/
+
 	StringTintSet += XPObjectAttributespFormatColorAsString( Color );
 	StringTintSet += ", ";
+
+	Color = TintSet.Tint2;
+
+	/*
 	Color.r        = TintSet.Tint2_r;
 	Color.g        = TintSet.Tint2_g;
 	Color.b        = TintSet.Tint2_b;
 	Color.a        = TintSet.Tint2_a;
+	*/
+
 	StringTintSet += XPObjectAttributespFormatColorAsString( Color );
 	StringTintSet += "]";
 
@@ -684,10 +704,10 @@ Environment:
 {
 	struct XPObjectAttributes_TintSet TintSet;
 
-//	TintSet.Tint0 = Tint0;
-//	TintSet.Tint1 = Tint1;
-//	TintSet.Tint2 = Tint2;
-
+	TintSet.Tint0 = Tint0;
+	TintSet.Tint1 = Tint1;
+	TintSet.Tint2 = Tint2;
+/*
 	TintSet.Tint0_r = Tint0.r;
 	TintSet.Tint0_g = Tint0.g;
 	TintSet.Tint0_b = Tint0.b;
@@ -702,6 +722,6 @@ Environment:
 	TintSet.Tint2_g = Tint2.g;
 	TintSet.Tint2_b = Tint2.b;
 	TintSet.Tint2_a = Tint2.a;
-
+*/
 	return TintSet;
 }
