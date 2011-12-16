@@ -51,6 +51,7 @@ string RawTintToTint2(string sRawTint);
 
 string RawTintToTint3(string sRawTint);
 
+void ResetModel(object o);
 
 struct XPObjectAttributes_Color RawAttribToTint(string sRaw)
 {
@@ -65,7 +66,8 @@ struct XPObjectAttributes_Color RawAttribToTint(string sRaw)
 	col.r = HexStringToFloat(GetStringLeft(sRaw, 2)) / 255.0f;
 	col.g = HexStringToFloat(GetStringRight(GetStringLeft(sRaw, 4), 2)) / 255.0f;
 	col.b = HexStringToFloat(GetStringRight(GetStringLeft(sRaw, 6), 2)) / 255.0f;
-	col.a = HexStringToFloat(GetStringRight(GetStringLeft(sRaw, 8), 2)) / 255.0f;
+//	col.a = HexStringToFloat(GetStringRight(GetStringLeft(sRaw, 8), 2)) / 255.0f;
+	col.a = 1.0f;
 
 	return col;
 }
@@ -73,18 +75,18 @@ struct XPObjectAttributes_Color RawAttribToTint(string sRaw)
 
 struct XPObjectAttributes_TintSet RawAttribToTintSet(string sRaw)
 {
-	struct XPObjectAttributes_TintSet tints;
+	struct XPObjectAttributes_Color tint0,tint1,tint2;
 	string s0, s1, s2;
 
 	s0 = RawToTintSet0(sRaw);
 	s1 = RawToTintSet1(sRaw);
 	s2 = RawToTintSet2(sRaw);
 
-	tints.Tint0 = RawAttribToTint(s2);
-	tints.Tint1 = RawAttribToTint(s1);
-	tints.Tint2 = RawAttribToTint(s0);
+	tint0 = RawAttribToTint(s2);
+	tint1 = RawAttribToTint(s1);
+	tint2 = RawAttribToTint(s0);
 
-	return tints;
+	return CreateXPObjectAttributes_TintSet(tint0, tint1, tint2);
 }
 
 struct XPObjectAttributes_TintSet GetHairTintSet(object o)
@@ -117,17 +119,17 @@ void DoHairDye(object oDye, object oBeautician, object oTarget, int nRoll = FALS
 
 //=== Need to convert the input (hex strings) into something we can do math on (integers) ===//
 
-	int nHLRed    = FloatToInt(255.0f * tints.Tint0.r);
-	int nHLGreen  = FloatToInt(255.0f * tints.Tint0.g);
-	int nHLBlue   = FloatToInt(255.0f * tints.Tint0.b);
+	int nHLRed    = FloatToInt(255.0f * tints.Tint0_r);
+	int nHLGreen  = FloatToInt(255.0f * tints.Tint0_g);
+	int nHLBlue   = FloatToInt(255.0f * tints.Tint0_b);
 
-	int nLLRed    = FloatToInt(255.0f * tints.Tint1.r);
-	int nLLGreen  = FloatToInt(255.0f * tints.Tint1.g);
-	int nLLBlue   = FloatToInt(255.0f * tints.Tint1.b);
+	int nLLRed    = FloatToInt(255.0f * tints.Tint1_r);
+	int nLLGreen  = FloatToInt(255.0f * tints.Tint1_g);
+	int nLLBlue   = FloatToInt(255.0f * tints.Tint1_b);
 
-	int nAccRed   = FloatToInt(255.0f * tints.Tint2.r);
-	int nAccGreen = FloatToInt(255.0f * tints.Tint2.g);
-	int nAccBlue  = FloatToInt(255.0f * tints.Tint2.b);
+	int nAccRed   = FloatToInt(255.0f * tints.Tint2_r);
+	int nAccGreen = FloatToInt(255.0f * tints.Tint2_g);
+	int nAccBlue  = FloatToInt(255.0f * tints.Tint2_b);
 
 	int nDyeRed   = FloatToInt(255.0f * dye.r);
 	int nDyeGreen = FloatToInt(255.0f * dye.g);
@@ -287,6 +289,7 @@ void DoHairDye(object oDye, object oBeautician, object oTarget, int nRoll = FALS
 			CreateXPObjectAttributes_Color(fFinalAccRed, fFinalAccGreen, fFinalAccBlue, 1.0f),
 			CreateXPObjectAttributes_Color(fFinalLLRed,  fFinalLLGreen,  fFinalLLBlue,  1.0f),
 			CreateXPObjectAttributes_Color(fFinalHLRed,  fFinalHLGreen,  fFinalHLBlue,  1.0f)));	
+	ResetModel(oTarget);
 }
 
 string GetRawHairTintSet(object oCharacter)
@@ -318,17 +321,17 @@ string GetRawSkinTintSet(object oCharacter)
 
 string RawToTintSet2(string sRawHair)
 {
-	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 13), 8);
+	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 15), 8);
 }
 
 string RawToTintSet1(string sRawHair)
 {
-	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 25), 8);
+	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 27), 8);
 }
 
 string RawToTintSet0(string sRawHair)
 {
-	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 37), 8);
+	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 39), 8);
 }
 
 
@@ -525,7 +528,7 @@ int GetRandomHeadModel(int nSubrace, int nGender=0)
 // this is a superset of the random listing
 string GetValidHairModels(int nSubrace, int nGender=0)
 {
-	string res;
+	string res = "#1#";
 
 	switch (nSubrace) {
 
@@ -586,7 +589,7 @@ string GetValidHairModels(int nSubrace, int nGender=0)
 // this is a superset of the random listing
 string GetValidHeadModels(int nSubrace, int nGender=0)
 {
-	string res;
+	string res = "#1#";
 
 	switch (nSubrace) {
 		case RACIAL_SUBTYPE_SHIELD_DWARF:
@@ -871,23 +874,80 @@ void ACR_RandomizeAppearance(object oSpawn,int nHead = ACR_FEATURE_TYPE_RANDOM,i
 			CreateXPObjectAttributes_Color(fEyesr,  fEyesg,  fEyesb, 1.0f)));
 }
 
-void SetNextValidHeadModel(object o, int dir=1)
+
+void ResetModel(object o)
 {
-	string lst;
+	effect e;
+	SetScriptHidden(o,1);
+	e = EffectPolymorph(POLYMORPH_TYPE_CHICKEN,1);
+	ApplyEffectToObject(DURATION_TYPE_TEMPORARY, e, o, 0.0f);
+	DelayCommand(0.1f,SetScriptHidden(o,0));
+}
+
+void SetFacialHair(object o, int arg=1)
+{
+	SendMessageToPC(o,"Selected facial hair "+IntToString(arg));
+
+	XPObjectAttributesSetFacialHairVariation(o, arg);
+	ResetModel(o);
+}
+
+void SetNextValidModel(object o, int dir=1, int type=0)
+{
+	string lst,s_cur,s_lst_tag,s_cur_tag;
 	int cur;
 
-	lst = GetLocalString(o, "ACR_APP_VALID_HEADS");
-	cur = GetLocalInt(o, "ACR_APP_CUR_HEAD");
+	switch (type) {
+		// head
+		case 0:
+			s_lst_tag = "ACR_APP_VALID_HEADS";
+			s_cur_tag = "ACR_APP_CUR_HEAD";
+			break;
+		// hair
+		case 1:
+			s_lst_tag = "ACR_APP_VALID_HAIRS";
+			s_cur_tag = "ACR_APP_CUR_HAIR";
+			break;
+		// wing
+		case 2:
+			s_lst_tag = "ACR_APP_VALID_WINGS";
+			s_cur_tag = "ACR_APP_CUR_WING";
+			break;
+		// tail
+		case 3:
+			s_lst_tag = "ACR_APP_VALID_TAILS";
+			s_cur_tag = "ACR_APP_CUR_TAIL";
+			break;
+	}
+
+	lst = GetLocalString(o, s_lst_tag);
+	s_cur = GetLocalString(o, s_cur_tag);
 
 	// set initial
 	if (lst == "") {
-		lst = GetValidHeadModels(GetSubRace(o), GetGender(o));
-		SetLocalString(o, "ACR_APP_VALID_HEADS", lst);
+
+		switch (type) {
+			case 0:
+				lst = GetValidHeadModels(GetSubRace(o), GetGender(o));
+				break;
+			case 1:
+				lst = GetValidHairModels(GetSubRace(o), GetGender(o));
+				break;
+			case 2:
+				lst = IntervalToList("[0-26]");
+				break;
+			case 3:
+				lst = IntervalToList("[0-11]");
+				break;
+		}
+
+		SetLocalString(o, s_lst_tag, lst);
 	}
 
-	// set initial
-	if (cur == 0)
+	if (s_cur == "")
 		cur = 1;
+	else
+		cur = StringToInt(s_cur);
 
 	// dir=1 forward, else reverse
 	if (dir)
@@ -895,34 +955,46 @@ void SetNextValidHeadModel(object o, int dir=1)
 	else
 		cur = XPCraft_GetPreviousEntryInList(lst, cur);
 
-	XPObjectAttributesSetHeadVariation(o, cur);
+	SetLocalString(o, s_cur_tag, IntToString(cur));
+
+	switch (type) {
+		case 0:
+			XPObjectAttributesSetHeadVariation(o, cur);
+			break;
+		case 1:
+			XPObjectAttributesSetHairVariation(o, cur);
+			break;
+		case 2:
+			XPObjectAttributesSetWingVariation(o, cur);
+			break;
+		case 3:
+			XPObjectAttributesSetTailVariation(o, cur);
+			break;
+	}
+
+	ResetModel(o);
+
+	DelayCommand(0.1f, SendMessageToPC(o,"Selected model "+IntToString(cur)));
+}
+
+void SetNextValidHeadModel(object o, int dir=1)
+{
+	SetNextValidModel(o,dir,0);
 }
 
 void SetNextValidHairModel(object o, int dir=1)
 {
-	string lst;
-	int cur;
+	SetNextValidModel(o,dir,1);
+}
 
-	lst = GetLocalString(o, "ACR_APP_VALID_HAIRS");
-	cur = GetLocalInt(o, "ACR_APP_CUR_HAIR");
+void SetNextValidWingModel(object o, int dir=1)
+{
+	SetNextValidModel(o,dir,2);
+}
 
-	// set initial
-	if (lst == "") {
-		lst = GetValidHeadModels(GetSubRace(o), GetGender(o));
-		SetLocalString(o, "ACR_APP_VALID_HAIRS", lst);
-	}
-
-	// set initial
-	if (cur == 0)
-		cur = 1;
-
-	// dir=1 forward, else reverse
-	if (dir)
-		cur = XPCraft_GetNextEntryInList(lst, cur);
-	else
-		cur = XPCraft_GetPreviousEntryInList(lst, cur);
-
-	XPObjectAttributesSetHairVariation(o, cur);
+void SetNextValidTailModel(object o, int dir=1)
+{
+	SetNextValidModel(o,dir,3);
 }
 
 void ApplyTintToType(object o)
@@ -948,6 +1020,27 @@ void ApplyTintToType(object o)
 			break;
 	}
 
+#if _DEBUG_ZS
+	SendMessageToPC(o,"0: ("+
+			FloatToString(tints.Tint0_r)+","+
+			FloatToString(tints.Tint0_g)+","+
+			FloatToString(tints.Tint0_b)+","+
+			FloatToString(tints.Tint0_a)+")");
+
+	SendMessageToPC(o,"1: ("+
+			FloatToString(tints.Tint1_r)+","+
+			FloatToString(tints.Tint1_g)+","+
+			FloatToString(tints.Tint1_b)+","+
+			FloatToString(tints.Tint1_a)+")");
+
+	SendMessageToPC(o,"2: ("+
+			FloatToString(tints.Tint2_r)+","+
+			FloatToString(tints.Tint2_g)+","+
+			FloatToString(tints.Tint2_b)+","+
+			FloatToString(tints.Tint2_a)+")");
+#endif
+
+
 	r = GetLocalInt(o, "ACR_APP_TINT_R") / 255.0f;
 	g = GetLocalInt(o, "ACR_APP_TINT_G") / 255.0f;
 	b = GetLocalInt(o, "ACR_APP_TINT_B") / 255.0f;
@@ -958,21 +1051,68 @@ void ApplyTintToType(object o)
 		case ACR_APP_TYPE_HAIR_ACC:
 		case ACR_APP_TYPE_HEAD_SKIN:
 		case ACR_APP_TYPE_BASE_SKIN:
-			tints.Tint0 = CreateXPObjectAttributes_Color(r,g,b,a);
+			tints.Tint0_r = r;
+			tints.Tint0_g = g;
+			tints.Tint0_b = b;
+			tints.Tint0_a = a;
 			break;
 		case ACR_APP_TYPE_HAIR_LO:
 		case ACR_APP_TYPE_HEAD_EYE:
 		case ACR_APP_TYPE_BASE_HAIR:
-			tints.Tint1 = CreateXPObjectAttributes_Color(r,g,b,a);
+			tints.Tint1_r = r;
+			tints.Tint1_g = g;
+			tints.Tint1_b = b;
+			tints.Tint1_a = a;
 			break;
 		case ACR_APP_TYPE_HAIR_HI:
 		case ACR_APP_TYPE_HEAD_HAIR:
 		case ACR_APP_TYPE_BASE_EYE:
-			tints.Tint2 = CreateXPObjectAttributes_Color(r,g,b,a);
+			tints.Tint2_r = r;
+			tints.Tint2_g = g;
+			tints.Tint2_b = b;
+			tints.Tint2_a = a;
 			break;
 	}
 
-	XPObjectAttributesSetBodyTint(o, tints);
-}
+#if _DEBUG_ZS
+	SendMessageToPC(o,"0: ("+
+			FloatToString(tints.Tint0_r)+","+
+			FloatToString(tints.Tint0_g)+","+
+			FloatToString(tints.Tint0_b)+","+
+			FloatToString(tints.Tint0_a)+")");
 
+	SendMessageToPC(o,"1: ("+
+			FloatToString(tints.Tint1_r)+","+
+			FloatToString(tints.Tint1_g)+","+
+			FloatToString(tints.Tint1_b)+","+
+			FloatToString(tints.Tint1_a)+")");
+
+	SendMessageToPC(o,"2: ("+
+			FloatToString(tints.Tint2_r)+","+
+			FloatToString(tints.Tint2_g)+","+
+			FloatToString(tints.Tint2_b)+","+
+			FloatToString(tints.Tint2_a)+")");
+#endif
+
+
+	switch (GetLocalInt(o, "ACR_APP_TYPE")) {
+		case ACR_APP_TYPE_HAIR_ACC:
+		case ACR_APP_TYPE_HAIR_LO:
+		case ACR_APP_TYPE_HAIR_HI:
+			XPObjectAttributesSetHairTint(o, tints);
+			break;
+		case ACR_APP_TYPE_HEAD_SKIN:
+		case ACR_APP_TYPE_HEAD_EYE:
+		case ACR_APP_TYPE_HEAD_HAIR:
+			XPObjectAttributesSetHeadTint(o, tints);
+			break;
+		case ACR_APP_TYPE_BASE_SKIN:
+		case ACR_APP_TYPE_BASE_HAIR:
+		case ACR_APP_TYPE_BASE_EYE:
+			XPObjectAttributesSetBodyTint(o, tints);
+			break;
+	}
+
+	ResetModel(o);
+}
 
