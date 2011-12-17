@@ -1,5 +1,4 @@
 #include "nwnx_objectattributes_include"
-#include "acr_tools_i"
 #include "acr_pps_i"
 
 
@@ -27,91 +26,24 @@ const int ACR_APP_TYPE_BASE_EYE			= 0x033;
 // the functionality to handle all other aspects of the effect.
 void DoHairDye(object oDye, object oBeautician, object oTarget, int nRoll = FALSE);
 
-string GetRawHairTintSet(object oCharacter);
-
-string GetRawBaseTintSet(object oCharacter);
-
-string GetRawSkinTintSet(object oCharacter);
-
-string RawToTintSet0(string sRawHair);
-
-string RawToTintSet1(string sRawHair);
-
-string RawToTintSet2(string sRawHair);
-
-string RawSkinToSkin(string sRawBody);
-
-string RawSkinToEyes(string sRawBody);
-
-string RawSkinToBodyHair(string sRawBody);
-
-string RawTintToTint1(string sRawTint);
-
-string RawTintToTint2(string sRawTint);
-
-string RawTintToTint3(string sRawTint);
 
 void ResetModel(object o);
+string GetNaturalHairColor(object oCharacter);
 
-struct XPObjectAttributes_Color RawAttribToTint(string sRaw)
+void DyeHairRaw(string sDye, object oBeautician, object oTarget, int nRoll = FALSE)
 {
-	struct XPObjectAttributes_Color col;
-
-	// 8 characters, defined as:
-	//
-	// rrggbbaa
-	//
-	// convert from 0-255 -> 0-1
-	
-	col.r = HexStringToFloat(GetStringLeft(sRaw, 2)) / 255.0f;
-	col.g = HexStringToFloat(GetStringRight(GetStringLeft(sRaw, 4), 2)) / 255.0f;
-	col.b = HexStringToFloat(GetStringRight(GetStringLeft(sRaw, 6), 2)) / 255.0f;
-//	col.a = HexStringToFloat(GetStringRight(GetStringLeft(sRaw, 8), 2)) / 255.0f;
-	col.a = 1.0f;
-
-	return col;
-}
-
-
-struct XPObjectAttributes_TintSet RawAttribToTintSet(string sRaw)
-{
-	struct XPObjectAttributes_Color tint0,tint1,tint2;
-	string s0, s1, s2;
-
-	s0 = RawToTintSet0(sRaw);
-	s1 = RawToTintSet1(sRaw);
-	s2 = RawToTintSet2(sRaw);
-
-	tint0 = RawAttribToTint(s2);
-	tint1 = RawAttribToTint(s1);
-	tint2 = RawAttribToTint(s0);
-
-	return CreateXPObjectAttributes_TintSet(tint0, tint1, tint2);
-}
-
-struct XPObjectAttributes_TintSet GetHairTintSet(object o)
-{
-	return RawAttribToTintSet(GetRawHairTintSet(o));
-}
-
-struct XPObjectAttributes_TintSet GetBaseTintSet(object o)
-{
-	return RawAttribToTintSet(GetRawBaseTintSet(o));
-}
-
-struct XPObjectAttributes_TintSet GetSkinTintSet(object o)
-{
-	return RawAttribToTintSet(GetRawSkinTintSet(o));
-}
-
-
-void DoHairDye(object oDye, object oBeautician, object oTarget, int nRoll = FALSE)
-{
-	struct XPObjectAttributes_Color dye;
+	struct XPObjectAttributes_Color dye,dye_ll;
 	struct XPObjectAttributes_TintSet tints;
+	int ll = 0;
 
-//=== The dye's tag contains the dye's 'true' color. ===//
-	string sDye = GetStringRight(GetTag(oDye), 6) + "00";
+	// Special case (hack) for hair dye remover
+	if (sDye == "######") {
+		string sNat = GetNaturalHairColor(oTarget);
+		sDye = RawHairToHairHighlight(sNat);
+		dye_ll = RawAttribToTint(RawHairToHairLowlight(sNat));
+		ll = 1;
+	}
+
 	
 //=== This information lives inside of the character object-- we need NWNx4 to harvest it ===//
 	tints = GetHairTintSet(oTarget);
@@ -135,6 +67,18 @@ void DoHairDye(object oDye, object oBeautician, object oTarget, int nRoll = FALS
 	int nDyeGreen = FloatToInt(255.0f * dye.g);
 	int nDyeBlue  = FloatToInt(255.0f * dye.b);
 	
+	int nDyeRed_ll   = FloatToInt(255.0f * dye.r);
+	int nDyeGreen_ll = FloatToInt(255.0f * dye.g);
+	int nDyeBlue_ll  = FloatToInt(255.0f * dye.b);
+
+	// different dye for LL
+	if (ll) {
+		nDyeRed_ll   = FloatToInt(255.0f * dye_ll.r);
+		nDyeGreen_ll = FloatToInt(255.0f * dye_ll.g);
+		nDyeBlue_ll  = FloatToInt(255.0f * dye_ll.b);
+	}
+
+
 //=== Figure out what the skill roll was. ===//	
 	int nSkillRoll = 10;
 	if(nRoll) nSkillRoll = d20(1);
@@ -162,9 +106,6 @@ void DoHairDye(object oDye, object oBeautician, object oTarget, int nRoll = FALS
 		nFinalLLRed   = nFinalHLRed   - 20;
 		nFinalLLBlue  = nFinalHLBlue  - 20;
 		nFinalLLGreen = nFinalHLGreen - 20;
-		if(nFinalLLRed   < 0) nFinalLLRed   = 0;
-		if(nFinalLLGreen < 0) nFinalLLGreen = 0;
-		if(nFinalLLBlue  < 0) nFinalLLBlue  = 0;
 	}
 	else if(nSkillFinal < 10) // serious failure; either ineffective or washed out.
 	{
@@ -173,21 +114,19 @@ void DoHairDye(object oDye, object oBeautician, object oTarget, int nRoll = FALS
 			nFinalHLRed   = nHLRed   - (nHLRed/10)   + (nDyeRed/10);
 			nFinalHLGreen = nHLGreen - (nHLGreen/10) + (nDyeGreen/10);
 			nFinalHLBlue  = nHLBlue  - (nHLBlue/10)  + (nDyeBlue/10);
-			nFinalLLRed   = nLLRed   - (nLLRed/10)   + (nDyeRed/10);
-			nFinalLLGreen = nLLGreen - (nLLGreen/10) + (nDyeGreen/10);
-			nFinalLLBlue  = nLLBlue  - (nLLBlue/10)  + (nDyeBlue/10);
+			nFinalLLRed   = nLLRed   - (nLLRed/10)   + (nDyeRed_ll/10);
+			nFinalLLGreen = nLLGreen - (nLLGreen/10) + (nDyeGreen_ll/10);
+			nFinalLLBlue  = nLLBlue  - (nLLBlue/10)  + (nDyeBlue_ll/10);
 		}
 		else // calculate washed out
 		{
 			nFinalHLRed   = nHLRed/10   + (nDyeRed * 2)   - (nDyeRed/5);
 			nFinalHLGreen = nHLGreen/10 + (nDyeGreen * 2) - (nDyeGreen/5);
 			nFinalHLBlue  = nHLBlue/10  + (nDyeBlue * 2)  - (nDyeBlue/5);
-			nFinalLLRed   = nLLRed/10   + (nDyeRed * 2)   - (nDyeRed/5);
-			nFinalLLGreen = nLLGreen/10 + (nDyeGreen * 2) - (nDyeGreen/5);
-			nFinalLLBlue  = nLLBlue/10  + (nDyeBlue * 2)  - (nDyeBlue/5);
-			if(nFinalHLRed   > 255) nFinalHLRed   = 255;
-			if(nFinalHLGreen > 255) nFinalHLGreen = 255;
-			if(nFinalHLBlue  > 255) nFinalHLBlue  = 255;
+			nFinalLLRed   = nLLRed/10   + (nDyeRed * 2)   - (nDyeRed_ll/5);
+			nFinalLLGreen = nLLGreen/10 + (nDyeGreen * 2) - (nDyeGreen_ll/5);
+			nFinalLLBlue  = nLLBlue/10  + (nDyeBlue * 2)  - (nDyeBlue_ll/5);
+
 			if(nFinalLLRed   > 235) nFinalLLRed   = 235;
 			if(nFinalLLGreen > 235) nFinalLLGreen = 235;
 			if(nFinalLLBlue  > 235) nFinalLLBlue  = 235;
@@ -206,21 +145,19 @@ void DoHairDye(object oDye, object oBeautician, object oTarget, int nRoll = FALS
 			nFinalHLRed   = nHLRed   - (nHLRed/4)   + (nDyeRed/4);
 			nFinalHLGreen = nHLGreen - (nHLGreen/4) + (nDyeGreen/4);
 			nFinalHLBlue  = nHLBlue  - (nHLBlue/4)  + (nDyeBlue/4);
-			nFinalLLRed   = nLLRed   - (nLLRed/4)   + (nDyeRed/4);
-			nFinalLLGreen = nLLGreen - (nLLGreen/4) + (nDyeGreen/4);
-			nFinalLLBlue  = nLLBlue  - (nLLBlue/4)  + (nDyeBlue/4);
+			nFinalLLRed   = nLLRed   - (nLLRed/4)   + (nDyeRed_ll/4);
+			nFinalLLGreen = nLLGreen - (nLLGreen/4) + (nDyeGreen_ll/4);
+			nFinalLLBlue  = nLLBlue  - (nLLBlue/4)  + (nDyeBlue_ll/4);
 		}
 		else // calculate washed out.
 		{
 			nFinalHLRed   = nHLRed/4   + nDyeRed   + (nDyeRed/2);
 			nFinalHLGreen = nHLGreen/4 + nDyeGreen + (nDyeGreen/2);
 			nFinalHLBlue  = nHLBlue/4  + nDyeBlue  + (nDyeBlue/2);
-			nFinalLLRed   = nLLRed/4   + nDyeRed   + (nDyeRed/2);
-			nFinalLLGreen = nLLGreen/4 + nDyeGreen + (nDyeGreen/2);
-			nFinalLLBlue  = nLLBlue/4  + nDyeBlue  + (nDyeBlue/2);
-			if(nFinalHLRed   > 255) nFinalHLRed   = 255;
-			if(nFinalHLGreen > 255) nFinalHLGreen = 255;
-			if(nFinalHLBlue  > 255) nFinalHLBlue  = 255;
+			nFinalLLRed   = nLLRed/4   + nDyeRed_ll   + (nDyeRed_ll/2);
+			nFinalLLGreen = nLLGreen/4 + nDyeGreen_ll + (nDyeGreen_ll/2);
+			nFinalLLBlue  = nLLBlue/4  + nDyeBlue_ll  + (nDyeBlue_ll/2);
+
 			if(nFinalLLRed   > 235) nFinalLLRed   = 235;
 			if(nFinalLLGreen > 235) nFinalLLGreen = 235;
 			if(nFinalLLBlue  > 235) nFinalLLBlue  = 235;
@@ -237,40 +174,45 @@ void DoHairDye(object oDye, object oBeautician, object oTarget, int nRoll = FALS
 		nFinalHLRed   = nHLRed/2   + nDyeRed/2;
 		nFinalHLGreen = nHLGreen/2 + nDyeGreen/2;
 		nFinalHLBlue  = nHLBlue/2  + nDyeBlue/2;
-		nFinalLLRed   = nLLRed/2   + nDyeRed/2;
-		nFinalLLGreen = nLLGreen/2 + nDyeGreen/2;
-		nFinalLLBlue  = nLLBlue/2  + nDyeBlue/2;	
+		nFinalLLRed   = nLLRed/2   + nDyeRed_ll/2;
+		nFinalLLGreen = nLLGreen/2 + nDyeGreen_ll/2;
+		nFinalLLBlue  = nLLBlue/2  + nDyeBlue_ll/2;	
 	}
 	else if(nSkillFinal < 25) // Greate success. Calculate 75/25 dye/hair.
 	{
 		nFinalHLRed   = nHLRed/4   + nDyeRed   - nDyeRed/4;
 		nFinalHLGreen = nHLGreen/4 + nDyeGreen - nDyeGreen/4;
 		nFinalHLBlue  = nHLBlue/4  + nDyeBlue  - nDyeBlue/4;
-		nFinalLLRed   = nLLRed/4   + nDyeRed   - nDyeRed/4;
-		nFinalLLGreen = nLLGreen/4 + nDyeGreen - nDyeGreen/4;
-		nFinalLLBlue  = nLLBlue/4  + nDyeBlue  - nDyeBlue/4;	
+		nFinalLLRed   = nLLRed/4   + nDyeRed_ll   - nDyeRed_ll/4;
+		nFinalLLGreen = nLLGreen/4 + nDyeGreen_ll - nDyeGreen_ll/4;
+		nFinalLLBlue  = nLLBlue/4  + nDyeBlue_ll  - nDyeBlue_ll/4;	
 	}
 	else if(nSkillFinal < 30) // Winning significantly. Calculate 90/10.
 	{
 		nFinalHLRed   = nHLRed/10   + nDyeRed   - nDyeRed/10;
 		nFinalHLGreen = nHLGreen/10 + nDyeGreen - nDyeGreen/10;
 		nFinalHLBlue  = nHLBlue/10  + nDyeBlue  - nDyeBlue/10;
-		nFinalLLRed   = nLLRed/10   + nDyeRed   - nDyeRed/10;
-		nFinalLLGreen = nLLGreen/10 + nDyeGreen - nDyeGreen/10;
-		nFinalLLBlue  = nLLBlue/10  + nDyeBlue  - nDyeBlue/10;	
+		nFinalLLRed   = nLLRed/10   + nDyeRed_ll   - nDyeRed_ll/10;
+		nFinalLLGreen = nLLGreen/10 + nDyeGreen_ll - nDyeGreen_ll/10;
+		nFinalLLBlue  = nLLBlue/10  + nDyeBlue_ll  - nDyeBlue_ll/10;	
 	}
 	else // Jeeeeeezuhs. Let 'em have the dye already.
 	{
 		nFinalHLRed   = nDyeRed;
 		nFinalHLGreen = nDyeGreen;
 		nFinalHLBlue  = nDyeBlue;
-		nFinalLLRed   = nDyeRed - 20;
-		nFinalLLGreen = nDyeGreen - 20;
-		nFinalLLBlue  = nDyeBlue - 20;
-		if(nFinalLLRed   < 0) nFinalLLRed   = 0;
-		if(nFinalLLGreen < 0) nFinalLLGreen = 0;
-		if(nFinalLLBlue  < 0) nFinalLLBlue  = 0;
+		nFinalLLRed   = nDyeRed_ll;
+		nFinalLLGreen = nDyeGreen_ll;
+		nFinalLLBlue  = nDyeBlue_ll;
 	}
+
+	if (nFinalHLRed   > 255) nFinalHLRed   = 255;
+	if (nFinalHLGreen > 255) nFinalHLGreen = 255;
+	if (nFinalHLBlue  > 255) nFinalHLBlue  = 255;
+
+	if (nFinalLLRed   < 0) nFinalLLRed   = 0;
+	if (nFinalLLGreen < 0) nFinalLLGreen = 0;
+	if (nFinalLLBlue  < 0) nFinalLLBlue  = 0;
 	
 //==== Need to convert our math (integers 0-255) to Skywing's math (float 0.0 - 1.0) ===//	
 	float fFinalAccRed   = IntToFloat(nAccRed)   / 255.0f;	
@@ -292,67 +234,16 @@ void DoHairDye(object oDye, object oBeautician, object oTarget, int nRoll = FALS
 	ResetModel(oTarget);
 }
 
-string GetRawHairTintSet(object oCharacter)
+void DoHairDye(object oDye, object oBeautician, object oTarget, int nRoll = FALSE)
 {
-	string sTintSet = NWNXGetString("OBJECTATTRIBUTES", 
-									"GetHairTint",
-									"",
-									ObjectToInt( oCharacter ));
-	return sTintSet;
+	//=== The dye's tag contains the dye's 'true' color. ===//
+	string sDye = GetStringRight(GetTag(oDye), 6);
+	DyeHairRaw(sDye, oBeautician, oTarget, nRoll);
 }
-
-string GetRawBaseTintSet(object oCharacter)
-{
-	string sTintSet = NWNXGetString("OBJECTATTRIBUTES", 
-									"GetBaseTint",
-									"",
-									ObjectToInt( oCharacter ));
-	return sTintSet;
-}
-
-string GetRawSkinTintSet(object oCharacter)
-{
-	string sTintSet = NWNXGetString("OBJECTATTRIBUTES", 
-									"GetSkinTint",
-									"",
-									ObjectToInt( oCharacter ));
-	return sTintSet;
-}
-
-string RawToTintSet2(string sRawHair)
-{
-	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 15), 8);
-}
-
-string RawToTintSet1(string sRawHair)
-{
-	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 27), 8);
-}
-
-string RawToTintSet0(string sRawHair)
-{
-	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 39), 8);
-}
-
-
-string RawairToHairAccessory(string sRawHair)
-{
-	return RawToTintSet2(sRawHair);
-}
-
-string RawHairToHairLowlight(string sRawHair)
-{
-	return RawToTintSet1(sRawHair);
-}
-
-string RawHairToHairHighlight(string sRawHair)
-{
-	return RawToTintSet0(sRawHair);
-}
-
 
 string GetNaturalHairColor(object oCharacter)
 {
+
 //=== We don't want to ping the database for an NPC; zspawn enables DMs to fiddle with hair colors much more cheaply. ===//
 	if(!GetIsPC(oCharacter) || GetIsDMPossessed(oCharacter))
 	{
@@ -383,17 +274,17 @@ string GetNaturalHairColor(object oCharacter)
 			string sCurrentHair = GetRawHairTintSet(oCharacter);
 			ACR_SQLQuery("UPDATE characters SET NaturalHair='"+sCurrentHair+"' WHERE ID='"+sCID+"'");
 			sHair = sCurrentHair;
-			SetLocalString(oTool, "ACR_VANITY_NATHAIR", sHair);
 		}
 		
 //=== Fetch succeeded. Harvest data and copy to the data item. ===//		
 		else
 		{
 			sHair = ACR_SQLGetData(0);
-			SetLocalString(oTool, "ACR_VANITY_NATHAIR", sHair);
 		}
+
+		SetLocalString(oTool, "ACR_VANITY_NATHAIR", sHair);
 	}
-	
+
 	return sHair;
 }
 

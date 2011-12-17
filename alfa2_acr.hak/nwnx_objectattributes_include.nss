@@ -13,6 +13,33 @@ Abstract:
 
 --*/
 
+#include "acr_tools_i"
+
+string GetRawHairTintSet(object oCharacter);
+
+string GetRawBaseTintSet(object oCharacter);
+
+string GetRawSkinTintSet(object oCharacter);
+
+string RawToTintSet0(string sRawHair);
+
+string RawToTintSet1(string sRawHair);
+
+string RawToTintSet2(string sRawHair);
+
+string RawSkinToSkin(string sRawBody);
+
+string RawSkinToEyes(string sRawBody);
+
+string RawSkinToBodyHair(string sRawBody);
+
+string RawTintToTint1(string sRawTint);
+
+string RawTintToTint2(string sRawTint);
+
+string RawTintToTint3(string sRawTint);
+
+
 //
 // Public definitions.
 //
@@ -705,3 +732,116 @@ Environment:
 
 	return TintSet;
 }
+
+
+string GetRawHairTintSet(object oCharacter)
+{
+	string sTintSet = NWNXGetString("OBJECTATTRIBUTES", 
+									"GetHairTint",
+									"",
+									ObjectToInt( oCharacter ));
+	return sTintSet;
+}
+
+string GetRawBaseTintSet(object oCharacter)
+{
+	string sTintSet = NWNXGetString("OBJECTATTRIBUTES", 
+									"GetBaseTint",
+									"",
+									ObjectToInt( oCharacter ));
+	return sTintSet;
+}
+
+string GetRawSkinTintSet(object oCharacter)
+{
+	string sTintSet = NWNXGetString("OBJECTATTRIBUTES", 
+									"GetSkinTint",
+									"",
+									ObjectToInt( oCharacter ));
+	return sTintSet;
+}
+
+string RawToTintSet2(string sRawHair)
+{
+	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 15), 8);
+}
+
+string RawToTintSet1(string sRawHair)
+{
+	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 27), 8);
+}
+
+string RawToTintSet0(string sRawHair)
+{
+	return GetStringLeft(GetStringRight(sRawHair, GetStringLength(sRawHair) - 39), 8);
+}
+
+
+string RawairToHairAccessory(string sRawHair)
+{
+	return RawToTintSet2(sRawHair);
+}
+
+string RawHairToHairLowlight(string sRawHair)
+{
+	return RawToTintSet1(sRawHair);
+}
+
+string RawHairToHairHighlight(string sRawHair)
+{
+	return RawToTintSet0(sRawHair);
+}
+
+struct XPObjectAttributes_Color RawAttribToTint(string sRaw)
+{
+	struct XPObjectAttributes_Color col;
+
+	// 8 characters, defined as:
+	//
+	// rrggbbaa
+	//
+	// convert from 0-255 -> 0-1
+	
+	col.r = HexStringToFloat(GetStringLeft(sRaw, 2)) / 255.0f;
+	col.g = HexStringToFloat(GetStringRight(GetStringLeft(sRaw, 4), 2)) / 255.0f;
+	col.b = HexStringToFloat(GetStringRight(GetStringLeft(sRaw, 6), 2)) / 255.0f;
+//	col.a = HexStringToFloat(GetStringRight(GetStringLeft(sRaw, 8), 2)) / 255.0f;
+	col.a = 1.0f;
+
+	return col;
+}
+
+
+struct XPObjectAttributes_TintSet RawAttribToTintSet(string sRaw)
+{
+	struct XPObjectAttributes_Color tint0,tint1,tint2;
+	string s0, s1, s2;
+
+	s0 = RawToTintSet0(sRaw);
+	s1 = RawToTintSet1(sRaw);
+	s2 = RawToTintSet2(sRaw);
+
+	tint0 = RawAttribToTint(s2);
+	tint1 = RawAttribToTint(s1);
+	tint2 = RawAttribToTint(s0);
+
+	return CreateXPObjectAttributes_TintSet(tint0, tint1, tint2);
+}
+
+struct XPObjectAttributes_TintSet GetHairTintSet(object o)
+{
+	return RawAttribToTintSet(GetRawHairTintSet(o));
+}
+
+struct XPObjectAttributes_TintSet GetBaseTintSet(object o)
+{
+	return RawAttribToTintSet(GetRawBaseTintSet(o));
+}
+
+struct XPObjectAttributes_TintSet GetSkinTintSet(object o)
+{
+	return RawAttribToTintSet(GetRawSkinTintSet(o));
+}
+
+
+
