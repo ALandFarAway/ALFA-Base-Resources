@@ -477,6 +477,14 @@ int SetLocalBit(object oObject, string sVarName, int nBit, int nValue) {
     return nNum;
 }
 
+float atan2(float y, float x)
+{
+	if (fabs(y) < EPSILON)
+		return 0.0;
+
+	return 2*atan((sqrt(x*x+y*y)-x)/y);
+}
+
 float exp(float f)
 {
 	return pow(MATH_CONSTANT_E, f);
