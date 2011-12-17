@@ -874,7 +874,7 @@ void ACR_SetIsSpawnPointEnabled(object oWP, int bEnabled, int bChangeCurrentStat
 }
 
 void ACR_DestroySpawnPoint(object oWP, int bDespawnChildren = 0) {
-   // no code for this yet, not sure when it would be needed.
+    SetLocalInt(oWP, _SPAWN_FLAGS, GetLocalInt(oWP, _SPAWN_FLAGS) | _SPAWN_DISALLOWED);
 }
 
 void ACR_DisallowSpawn(object oWP = OBJECT_SELF) {
