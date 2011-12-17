@@ -800,6 +800,7 @@ void ACR_CreateSQLTables()
 		"`IsOnline` bool NOT NULL default false," +
 		"`IsDeleted` bool NOT NULL default false," +
 		"`IsPlayable` bool NOT NULL default true," +
+		"`NaturalHair` varchar(128) NOT NULL," +
 		"PRIMARY KEY (`ID`), UNIQUE KEY (`PlayerID`, `Name`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 	
