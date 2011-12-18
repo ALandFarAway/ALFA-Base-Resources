@@ -547,7 +547,7 @@ string GetValidHeadModels(int nSubrace, int nGender=0)
 
 string GetRandomTint(int nSubrace, int nColumn, int nElement=ACR_FEATURE_TYPE_RANDOM)
 {
-	string s2DA;
+	string s2DA, sRet;
 	string sColumn;
 	if (nElement == -1 || nElement == ACR_FEATURE_TYPE_RANDOM)
 		nElement = Random(ACR_NUM_DEFAULT_FEATURE_COLOURS);
@@ -651,7 +651,17 @@ string GetRandomTint(int nSubrace, int nColumn, int nElement=ACR_FEATURE_TYPE_RA
 			break;
 	}
 	
-	return Get2DAString(s2DA, sColumn, nElement);
+	sRet = Get2DAString(s2DA, sColumn, nElement);
+
+	if (sRet == "") {
+		int i = (Random(256) << 16);
+		i += (Random(256) << 8);
+		i += Random(256);
+
+		sRet = GetStringRight(IntToHexString(i),6);
+	}
+
+	return sRet;
 }
 
 
