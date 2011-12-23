@@ -75,7 +75,8 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\nwnx_time.nss                         \
             $(OUTPUTDIR)\nw_i0_invocatns.nss                   \
             $(OUTPUTDIR)\acr_mobloot_i.nss                     \
-            $(OUTPUTDIR)\acr_vanity_i.nss                         
+            $(OUTPUTDIR)\acr_vanity_i.nss                      \
+            $(OUTPUTDIR)\hench_i0_strings.nss                   
 
 NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\abr_plc_oninventorydisreturns.ncs     \
