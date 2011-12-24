@@ -269,6 +269,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s0_shadow_wallfirea.ncs           \
             $(OUTPUTDIR)\acr_s0_shadow_wallfirec.ncs           \
             $(OUTPUTDIR)\nw_s0_shadconj.ncs                    \
+            $(OUTPUTDIR)\nw_s0_harm.ncs                        \
             $(OUTPUTDIR)\acr_disguise.ncs                   
 
 
