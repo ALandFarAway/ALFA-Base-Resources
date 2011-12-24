@@ -73,9 +73,13 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\nwnx_include.nss                      \
             $(OUTPUTDIR)\nwnx_sql.nss                          \
             $(OUTPUTDIR)\nwnx_time.nss                         \
+            $(OUTPUTDIR)\nwnx_objectattributes_include.nss     \
+            $(OUTPUTDIR)\nwnx_craft.nss                        \
+            $(OUTPUTDIR)\nwnx_craft_system.nss                 \
             $(OUTPUTDIR)\nw_i0_invocatns.nss                   \
             $(OUTPUTDIR)\acr_mobloot_i.nss                     \
             $(OUTPUTDIR)\acr_vanity_i.nss                      \
+            $(OUTPUTDIR)\ginc_companion.nss                    \
             $(OUTPUTDIR)\hench_i0_strings.nss                   
 
 NSS_OBJECTS=                                                   \
@@ -270,6 +274,40 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s0_shadow_wallfirec.ncs           \
             $(OUTPUTDIR)\nw_s0_shadconj.ncs                    \
             $(OUTPUTDIR)\nw_s0_harm.ncs                        \
+            $(OUTPUTDIR)\nw_c2_default1.ncs                    \
+            $(OUTPUTDIR)\nw_c2_default2.ncs                    \
+            $(OUTPUTDIR)\nw_c2_default3.ncs                    \
+            $(OUTPUTDIR)\nw_c2_default4.ncs                    \
+            $(OUTPUTDIR)\nw_c2_default5.ncs                    \
+            $(OUTPUTDIR)\nw_c2_default6.ncs                    \
+            $(OUTPUTDIR)\nw_c2_default7.ncs                    \
+            $(OUTPUTDIR)\nw_c2_default8.ncs                    \
+            $(OUTPUTDIR)\nw_c2_default9.ncs                    \
+            $(OUTPUTDIR)\nw_c2_defaulta.ncs                    \
+            $(OUTPUTDIR)\nw_c2_defaultb.ncs                    \
+            $(OUTPUTDIR)\nw_c2_defaultd.ncs                    \
+            $(OUTPUTDIR)\nw_c2_defaulte.ncs                    \
+            $(OUTPUTDIR)\nwnx_craft_set_constants.ncs          \
+            $(OUTPUTDIR)\nwnx_craft_init.ncs                   \
+            $(OUTPUTDIR)\gui_color_tls.ncs                     \
+            $(OUTPUTDIR)\d_nwnx_craft_action.ncs               \
+            $(OUTPUTDIR)\d_nwnx_craft_condition.ncs            \
+            $(OUTPUTDIR)\d_nwnx_craft_escape_dialog.ncs        \
+            $(OUTPUTDIR)\d_nwnx_craft_item_init.ncs            \
+            $(OUTPUTDIR)\gb_assoc_attack.ncs                   \
+            $(OUTPUTDIR)\gb_assoc_block.ncs                    \
+            $(OUTPUTDIR)\gb_assoc_combat.ncs                   \
+            $(OUTPUTDIR)\gb_assoc_conv.ncs                     \
+            $(OUTPUTDIR)\gb_assoc_damage.ncs                   \
+            $(OUTPUTDIR)\gb_assoc_death.ncs                    \
+            $(OUTPUTDIR)\gb_assoc_distrb.ncs                   \
+            $(OUTPUTDIR)\gb_assoc_heart.ncs                    \
+            $(OUTPUTDIR)\gb_assoc_percep.ncs                   \
+            $(OUTPUTDIR)\gb_assoc_rest.ncs                     \
+            $(OUTPUTDIR)\gb_assoc_spawn.ncs                    \
+            $(OUTPUTDIR)\gb_assoc_spell.ncs                    \
+            $(OUTPUTDIR)\gb_assoc_usrdef.ncs                   \
+            $(OUTPUTDIR)\gui_hss_pc_tool.ncs                   \
             $(OUTPUTDIR)\acr_disguise.ncs                   
 
 
