@@ -447,7 +447,7 @@ string GetValidHairModels(int nSubrace, int nGender=0)
 		case RACIAL_SUBTYPE_HUMAN:
 		case RACIAL_SUBTYPE_HALFELF:
 		case RACIAL_SUBTYPE_HALFDROW:
-			res = IntervalToList("[1-17,37,38,63,66,71-75,80-82,94][1-17,23,24,50-52,61-64,66-78,80-82,85-90,94]", nGender);
+			res = IntervalToList("[1-17,37,38,61-63,66-75,80-82,94][1-17,23,24,50-52,61-64,66-78,80-82,85-90,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_LIGHTFOOT_HALF:
 		case RACIAL_SUBTYPE_GHOSTWISE_HALF:
@@ -654,6 +654,8 @@ string GetRandomTint(int nSubrace, int nColumn, int nElement=ACR_FEATURE_TYPE_RA
 	
 	sRet = Get2DAString(s2DA, sColumn, nElement);
 
+	// Just spit out a random tinting if there is none so far
+	// Note: this can result in "rainbow" goblins...
 	if (sRet == "") {
 		int i = (Random(256) << 16);
 		i += (Random(256) << 8);
