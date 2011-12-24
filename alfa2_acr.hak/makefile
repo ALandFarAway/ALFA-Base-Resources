@@ -69,6 +69,10 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\dmfi_inc_sendtex.nss                  \
             $(OUTPUTDIR)\dmfi_inc_tool.nss                     \
             $(OUTPUTDIR)\kemo_includes.nss                     \
+            $(OUTPUTDIR)\tkl_cardgame_descriptions.nss         \
+            $(OUTPUTDIR)\tkl_cardgame_include.nss              \
+            $(OUTPUTDIR)\tkl_performer_include.nss             \
+            $(OUTPUTDIR)\tkl_performer_settings.nss            \
             $(OUTPUTDIR)\nwnx_clock.nss                        \
             $(OUTPUTDIR)\nwnx_include.nss                      \
             $(OUTPUTDIR)\nwnx_sql.nss                          \
@@ -156,6 +160,12 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\i_kemoportablechair_ac.ncs            \
             $(OUTPUTDIR)\kemo_animation_hb.ncs                 \
             $(OUTPUTDIR)\kemo_chair.ncs                        \
+            $(OUTPUTDIR)\gui_kemo_anim.ncs                     \
+            $(OUTPUTDIR)\gui_kemo_anim_lap.ncs                 \
+            $(OUTPUTDIR)\gui_kemo_animation.ncs                \
+            $(OUTPUTDIR)\gui_kemo_bio.ncs                      \
+            $(OUTPUTDIR)\gui_kemo_nudge.ncs                    \
+            $(OUTPUTDIR)\gui_kemo_repeat.ncs                   \
             $(OUTPUTDIR)\nw_s0_curcrwn.ncs                     \
             $(OUTPUTDIR)\nw_s0_curlgtw.ncs                     \
             $(OUTPUTDIR)\nw_s0_curmodw.ncs                     \
@@ -194,6 +204,20 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s0_magearm.ncs                     \
             $(OUTPUTDIR)\gui_atsign.ncs                        \
             $(OUTPUTDIR)\gui_setlanguse.ncs                    \
+            $(OUTPUTDIR)\tkl_cardgame_chair.ncs                \
+            $(OUTPUTDIR)\tkl_performer_lute.ncs                \
+            $(OUTPUTDIR)\tkl_performer_drum.ncs                \
+            $(OUTPUTDIR)\tkl_performer_flute.ncs               \
+            $(OUTPUTDIR)\tkl_performer_score.ncs               \
+            $(OUTPUTDIR)\tkl_performer_ue.ncs                  \
+            $(OUTPUTDIR)\tkl_performer_npc_actions.ncs         \
+            $(OUTPUTDIR)\gui_tkl_cardgame.ncs                  \
+            $(OUTPUTDIR)\gui_tkl_cardgame_bank.ncs             \
+            $(OUTPUTDIR)\gui_tkl_cardgame_pot.ncs              \
+            $(OUTPUTDIR)\gui_tkl_performer.ncs                 \
+            $(OUTPUTDIR)\gui_tkl_performer_cancel.ncs          \
+            $(OUTPUTDIR)\gui_tkl_performer_input.ncs           \
+            $(OUTPUTDIR)\gui_tkl_performer_message.ncs         \
             $(OUTPUTDIR)\x2_s3_onhitcast.ncs                   \
             $(OUTPUTDIR)\acr_s0_dimdoor.ncs                    \
             $(OUTPUTDIR)\nw_s0_ibeguinfl.ncs                   \

@@ -213,7 +213,7 @@ void ACR_ItemOnEquip(object oItem, object oPC) {
 		}
 	} else if (nItemType == BASE_ITEM_MANDOLIN) { 
 	    // activate the TKL performer package
-		ExecuteScript("tkl_peformer_lute", oPC);
+		ExecuteScript("tkl_performer_lute", oPC);
 		// Also handle VFX
 		sTest = GetLocalString(oPC, "Lute");
 		if (sTest == "fx_at_backmandolin01") {
