@@ -268,19 +268,20 @@ string GetNaturalHairColor(object oCharacter)
 		string sCID = IntToString(ACR_GetCharacterID(oCharacter));
 		ACR_SQLQuery("SELECT NaturalHair FROM characters WHERE ID='"+sCID+"'");
 		
-//=== Fetch failed. GetData won't give us good numbers, so we update the column in the table and use current colors ===//
+//=== Fetch succeeded. Harvest data and copy to the data item. ===//		
 		if(ACR_SQLFetch() != SQL_SUCCESS)
+		{
+			sHair = ACR_SQLGetData(0);
+		}
+
+//=== Fetch failed. GetData won't give us good numbers, so we update the column in the table and use current colors ===//
+		if (sHair == "")
 		{
 			string sCurrentHair = GetRawHairTintSet(oCharacter);
 			ACR_SQLQuery("UPDATE characters SET NaturalHair='"+sCurrentHair+"' WHERE ID='"+sCID+"'");
 			sHair = sCurrentHair;
 		}
 		
-//=== Fetch succeeded. Harvest data and copy to the data item. ===//		
-		else
-		{
-			sHair = ACR_SQLGetData(0);
-		}
 
 		SetLocalString(oTool, "ACR_VANITY_NATHAIR", sHair);
 	}
