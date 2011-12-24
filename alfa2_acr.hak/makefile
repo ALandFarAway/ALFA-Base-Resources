@@ -84,6 +84,9 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_mobloot_i.nss                     \
             $(OUTPUTDIR)\acr_vanity_i.nss                      \
             $(OUTPUTDIR)\ginc_companion.nss                    \
+            $(OUTPUTDIR)\hench_i0_assoc.nss                    \
+            $(OUTPUTDIR)\hench_i0_attack.nss                   \
+            $(OUTPUTDIR)\hench_i0_melee.nss                    \
             $(OUTPUTDIR)\hench_i0_strings.nss                   
 
 NSS_OBJECTS=                                                   \
@@ -332,6 +335,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gb_assoc_spell.ncs                    \
             $(OUTPUTDIR)\gb_assoc_usrdef.ncs                   \
             $(OUTPUTDIR)\gui_hss_pc_tool.ncs                   \
+            $(OUTPUTDIR)\hench_o0_ai.ncs                       \
             $(OUTPUTDIR)\acr_disguise.ncs                   
 
 
