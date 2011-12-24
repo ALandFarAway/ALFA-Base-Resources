@@ -318,15 +318,15 @@ location ACR_CalcSafeLocation(object oClicker, location lTarget);
 //note about lists : List have to be like "#1#5#26#99# ..." in order to work properly. See nwnx_craft_set_constatns for details
 
 //loops forwards entries in the given list and the current value  
-int XPCraft_GetNextEntryInList(string sList, int iCurrentEntry);
+int GetNextEntryInStringList(string sList, int iCurrentEntry);
 //loops backwards entries in the given list and the current value   
-int XPCraft_GetPreviousEntryInList(string sList, int iCurrentEntry);
+int GetPreviousEntryInStringList(string sList, int iCurrentEntry);
 //Get the fist value in the given list 
-int XPCraft_GetFirstEntryInList(string sList);
+int GetFirstEntryInStringList(string sList);
 //get the last value in the given list 
-int XPCraft_GetLastEntryInList(string sList);
+int GetLastEntryInStringList(string sList);
 //Check if an element is in a list (returns TRUE if found, else FALSE if not).
-int XPCraft_IsElementInList(string sList, int nElement);
+int IsElementInStringList(string sList, int nElement);
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1395,7 +1395,7 @@ location ACR_CalcSafeLocation(object oClicker, location lTarget)
 /*****************************************************************************/
 //LIST MANAGEMENT
 
-int XPCraft_GetNextEntryInList(string sList, int iCurrentEntry)
+int GetNextEntryInStringList(string sList, int iCurrentEntry)
 {
 	string sCurrentEntry = "#"+ IntToString(iCurrentEntry) + "#";
 	int iCurrentOffset = FindSubString(sList,sCurrentEntry);
@@ -1412,7 +1412,7 @@ int XPCraft_GetNextEntryInList(string sList, int iCurrentEntry)
 	
 	if(iFollowingSharpOffset==-1)
 	{//no following sharp, current entry is the last one -> loop by returning the first entry in the list
-		return XPCraft_GetFirstEntryInList(sList);
+		return GetFirstEntryInStringList(sList);
 	}
 	else
 	{
@@ -1421,7 +1421,7 @@ int XPCraft_GetNextEntryInList(string sList, int iCurrentEntry)
 }
 
 
-int XPCraft_GetPreviousEntryInList(string sList, int iCurrentEntry)
+int GetPreviousEntryInStringList(string sList, int iCurrentEntry)
 {
 	string sCurrentEntry = "#"+ IntToString(iCurrentEntry) + "#";
 	int iCurrentOffset = FindSubString(sList,sCurrentEntry);
@@ -1443,7 +1443,7 @@ int XPCraft_GetPreviousEntryInList(string sList, int iCurrentEntry)
 	
 	if(sChar=="")
 	{//no previous sharp, current entry is the first one -> loop by returning the last entry in the list
-		return XPCraft_GetLastEntryInList(sList);		
+		return GetLastEntryInStringList(sList);		
 	}
 	
 	iPreviousSharpOffset++;
@@ -1451,7 +1451,7 @@ int XPCraft_GetPreviousEntryInList(string sList, int iCurrentEntry)
 }
 
 
-int XPCraft_GetFirstEntryInList(string sList)
+int GetFirstEntryInStringList(string sList)
 {
 	//looking for the second sharp
 	int iFollowingSharpOffset = FindSubString(GetStringRight(sList,GetStringLength(sList)-1),"#");
@@ -1459,7 +1459,7 @@ int XPCraft_GetFirstEntryInList(string sList)
 }
 
 
-int XPCraft_GetLastEntryInList(string sList)
+int GetLastEntryInStringList(string sList)
 {
 	//parsing backwards, looking for the second-last sharp 
 	int iStringLength = GetStringLength(sList)-1;
@@ -1481,7 +1481,7 @@ int XPCraft_GetLastEntryInList(string sList)
 	return StringToInt(GetSubString(sList,iPreviousSharpOffset,iStringLength-iPreviousSharpOffset));	
 }
 
-int XPCraft_IsElementInList(string sList, int nElement)
+int IsElementInStringList(string sList, int nElement)
 {
 	//
 	// Examine the #-delimited list, searching for a particular element within
