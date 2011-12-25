@@ -1325,65 +1325,106 @@ int UniformRandomOverInterval(string s, int gtype=0)
 }
 
 
-location ACR_CalcSafeLocation(object oClicker, location lTarget)
+location _RotateVectorAndCompare(location td_l, location c_l, float theta, float dist_incr, object o=OBJECT_INVALID)
 {
-	object t_area, o;
+	float f_cos,f_sin;
 	location t_l, c_l;
 	vector t_v, c_v, t_prime_v;
-	float t_face, c_face, f_sqrt = sqrt(2.0f);
-	int i,j;
+	float t_face, c_face;
 
-	c_l = GetLocation(oClicker);
-	t_area = GetAreaFromLocation(lTarget);
+	WriteTimestampedLogEntry("Theta: "+FloatToString(theta) +  " Dist: "+FloatToString(dist_incr));
 
-	if (t_area == OBJECT_INVALID)
-		return LOCATION_INVALID;
-		
-	t_v = GetPositionFromLocation(lTarget);
-	t_face = GetFacingFromLocation(lTarget);
+	t_v = GetPositionFromLocation(td_l);
+	t_face = GetFacingFromLocation(td_l);
 	t_prime_v = AngleToVector(t_face);
 
 	t_prime_v.z = 0.0f;
 	c_v.z = 0.0f;
 
+	f_cos = cos(theta);
+	f_sin = sin(theta);
+
+	// rotate newly formed vector theta about z:
+	t_prime_v.x = f_cos*t_prime_v.x - f_sin*t_prime_v.y;
+	t_prime_v.y = f_sin*t_prime_v.x + f_cos*t_prime_v.y;
+
+	t_prime_v = VectorNormalize(t_prime_v);
+
+	// multiply by dist_incr
+	c_v.x = t_v.x + (t_prime_v.x*dist_incr);
+	c_v.y = t_v.y + (t_prime_v.y*dist_incr);
+
+	// orientation away from door
+	c_face = VectorToAngle(t_prime_v);
+
+	t_l = Location(GetAreaFromLocation(td_l), c_v, c_face);
+
+	// invalid
+	if (!GetIsLocationValid(t_l))
+		return LOCATION_INVALID;
+
+	// check some random creature, if it's walkable
+	if (o != OBJECT_INVALID) {
+		t_l = CalcSafeLocation(o, t_l, ACR_LOCATION_SEARCH_RADIUS, FALSE, FALSE);
+	}
+
+	c_v = GetPositionFromLocation(t_l);
+
+	// reject anything that has a large zdiff
+	// e.g. we are being ported down/up to a strange location
+	if (fabs(c_v.z - t_v.z) > ACR_AREA_TRANSITION_ZDIFF_MAX)
+		t_l = c_l;
+
+	// not line of sight, retry
+	if (!LineOfSightVector(c_v, t_v))
+		t_l = c_l;
+
+	// this is ok
+	if (t_l != c_l) {
+		WriteTimestampedLogEntry("Success");
+		return t_l;
+	}
+
+
+	return LOCATION_INVALID;
+}
+
+
+location ACR_CalcSafeLocation(object oClicker, location lTarget)
+{
+	object o;
+	location c_l, l;
+	int i,j;
+	float dist_incr=1.0,theta_incr = 45.0;
+
+	c_l = GetLocation(oClicker);
+
+
+	if (GetAreaFromLocation(lTarget) == OBJECT_INVALID)
+		return LOCATION_INVALID;
+
+
 	o = GetNearestCreatureToLocation(CREATURE_TYPE_IS_ALIVE, CREATURE_ALIVE_BOTH, lTarget);
 
 	for (i = 1; i <= 3; ++i) {
 		
+		l = _RotateVectorAndCompare(lTarget, c_l, 45.0, dist_incr*i, o);
+
+		if (l != LOCATION_INVALID)
+			return l;
+
+		l = _RotateVectorAndCompare(lTarget, c_l, 315.0, dist_incr*i, o);
+
+		if (l != LOCATION_INVALID)
+			return l;
+
+		// now try complete rotation
 		for (j = 0; j < 8; ++j) {
-			// rotate pi/4 about z:
-			t_prime_v.x = (t_prime_v.x - t_prime_v.y)/f_sqrt;
-			t_prime_v.y = (t_prime_v.x + t_prime_v.y)/f_sqrt;
+			l = _RotateVectorAndCompare(lTarget, c_l, theta_incr*j, dist_incr*i, o);
 
-			t_prime_v = VectorNormalize(t_prime_v);
+			if (l != LOCATION_INVALID)
+				return l;
 
-			// multiply by increments of 1/2
-			c_v.x = t_v.x + t_prime_v.x/2 * i;
-			c_v.y = t_v.y + t_prime_v.y/2 * i;
-
-			// orientation away from door
-			c_face = VectorToAngle(t_prime_v);
-
-			t_l = Location(t_area, c_v, c_face);
-
-			// invalid, just re-search
-			if (!GetIsLocationValid(t_l))
-				continue;
-
-			if (o != OBJECT_INVALID) {
-				t_l = CalcSafeLocation(o, t_l, ACR_LOCATION_SEARCH_RADIUS, FALSE, FALSE);
-			}
-
-			c_v = GetPositionFromLocation(t_l);
-
-			// reject anything that has a large zdiff
-			// e.g. we are being ported down/up to a strange location
-			if (fabs(c_v.z - t_v.z) > ACR_AREA_TRANSITION_ZDIFF_MAX)
-				t_l = c_l;
-
-			// this is ok
-			if (t_l != c_l)
-				return t_l;
 		}
 	}
 
