@@ -170,7 +170,7 @@ void ACR_SAT_MovePC(object oPC, location lDest, string sAT);
 void ACR_SAT_PlaceWP(location lArrival);
 
 //!! Handles safety check and confirmation for normal ATs and doors
-void ACR_CheckAT(object oPC, location lDest);
+void ACR_CheckAT(object oPC, object oDest, location lDest);
 
 // *** PRIVATE FUNCTIONS ***
 
@@ -700,17 +700,23 @@ void ACR_SAT_PlaceWP(location lArrival) {
 }
 
 
-void ACR_CheckAT(object oPC, location lDest)
+void ACR_CheckAT(object oPC, object oDest, location lDest)
 {
 
 	object oTransition = OBJECT_SELF;
 	object oDestination = GetTransitionTarget(oTransition);
 	string sWarned = IntToString(ACR_GetCharacterID(oPC))+"_WARNED";
 	object oTargetArea = GetArea(oDestination);
+	int bToObject = (oDest != OBJECT_INVALID);
+
 	// if this PC has already been warned about this AT in the last minute, just AT them and clean up.
 	if (GetLocalInt(oTransition, sWarned) == TRUE) {
 		ACR_NotifyTransition(oPC, lDest);
-		AssignCommand(oPC, JumpToLocation(lDest));
+
+		if (bToObject)
+			AssignCommand(oPC, JumpToObject(oDest));
+		else
+			AssignCommand(oPC, JumpToLocation(lDest));
 		DeleteLocalInt(oTransition, sWarned);
 		return;
 	}
@@ -731,20 +737,23 @@ void ACR_CheckAT(object oPC, location lDest)
 		ACR_SAT_PlaceWP(lDest);
 	}
 	// Refresh the spawn system for the target area.
-    if(GetArea(oDestination) != OBJECT_INVALID) {
-        ACR_PreSpawnArea(oTargetArea);
+	if(GetArea(oDestination) != OBJECT_INVALID) {
+		ACR_PreSpawnArea(oTargetArea);
 	}
 	// check for trouble
 	if (ACR_SAT_CheckSafe(lDest, oPC)) {
         // way is clear of hostiles, move PC instantly.
 		ACR_NotifyTransition(oPC, lDest);
-	    AssignCommand(oPC, JumpToLocation(lDest));
-    } else {
-        // hostile is within danger radius of destination, make the PC click again to continue
+		if (bToObject)
+			AssignCommand(oPC, JumpToObject(oDest));
+		else
+			AssignCommand(oPC, JumpToLocation(lDest));
+	} else {
+		// hostile is within danger radius of destination, make the PC click again to continue
 		SendMessageToPC(oPC, "Click the AT again to proceed if you wish.");
-    	SetLocalInt(oTransition, sWarned, TRUE);
+		SetLocalInt(oTransition, sWarned, TRUE);
 		DelayCommand(fWarningReset, DeleteLocalInt(oTransition, sWarned));
-    }
+	}
 }
 
 void _ClearWarnedFlag(object oWarnedPC) {

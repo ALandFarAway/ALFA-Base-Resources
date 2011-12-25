@@ -140,6 +140,7 @@ void ACR_AreaOnUserDefined() {
 void ACR_OnAreaTransitionClick()
 {
 	object oClicker, oTarget, oTargetArea;
+	int bValid = TRUE;
 	location lTarget;
 
 	oClicker = GetClickingObject();
@@ -164,15 +165,22 @@ void ACR_OnAreaTransitionClick()
 				SetLocalLocation(OBJECT_SELF, "ACR_TRANSITION_TARGET", lTarget);
 			
 		}
+		bValid = FALSE;
 	}
 			
 
 	if (GetIsPC(oClicker)) {
 		// NPCs don't need AT warnings/feedback
 		// this function handles transitioning as well.
-		ACR_CheckAT(oClicker, lTarget);
+		if (bValid)
+			ACR_CheckAT(oClicker, oTarget, lTarget);
+		else
+			ACR_CheckAT(oClicker, OBJECT_INVALID, lTarget);
 	} else {
-		AssignCommand(oClicker,JumpToLocation(lTarget));
+		if (bValid)
+			AssignCommand(oClicker, JumpToObject(oTarget));
+		else
+			AssignCommand(oClicker, JumpToLocation(lTarget));
 	}
 
 	// Set the AT screen randomly.
