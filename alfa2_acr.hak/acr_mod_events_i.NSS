@@ -896,7 +896,7 @@ void _ParseRoll(object pc, string cmd)
 		ACR_SkillCheck(SKILL_KNOWLEDGE_GEOGRAPHY, pc, 0, TRUE, TRUE);
 	}
 	else if (_CompareLeft(cmd,"his")) {
-		ACR_SkillCheck(SKILL_KNOWLEDGE_NATURE, pc, 0, TRUE, TRUE);
+		ACR_SkillCheck(SKILL_KNOWLEDGE_HISTORY, pc, 0, TRUE, TRUE);
 	}
 	else if (_CompareLeft(cmd,"loc")) {
 		ACR_SkillCheck(SKILL_KNOWLEDGE_LOCAL, pc, 0, TRUE, TRUE);

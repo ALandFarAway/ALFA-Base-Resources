@@ -76,6 +76,11 @@ void ACR_AreaOnUserDefined();
 // Event handler for a creature clicking on any sort of area transition.
 void ACR_OnAreaTransitionClick();
 
+// Handles the display of loading screens in accordance with knowledge skills and
+// the conventions set forth by the DM teams. It defaults to one of the 60ish
+// generic screens on failure.
+void ACR_SetLoadingScreen(object oClicker);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -172,6 +177,7 @@ void ACR_OnAreaTransitionClick()
 	if (GetIsPC(oClicker)) {
 		// NPCs don't need AT warnings/feedback
 		// this function handles transitioning as well.
+		ACR_SetLoadingScreen(object oClicker);
 		if (bValid)
 			ACR_CheckAT(oClicker, oTarget, lTarget);
 		else
@@ -185,4 +191,66 @@ void ACR_OnAreaTransitionClick()
 
 	// Set the AT screen randomly.
 	//SetAreaTransitionBMP(AREA_TRANSITION_RANDOM);
+}
+
+void ACR_SetLoadingScreen(object oClicker)
+{
+    string sScreen = "";
+    int nCheck = Random(11);
+    if(nCheck == 0) // coming soon
+    {
+        sScreen = "ALFA_projects_0"+IntToString(d6(1));
+    }
+    else if(nCheck == 1) // Knowledge: Arcana
+    {
+    }
+    else if(nCheck == 2) // Knowledge: Architecture and Engineering
+    {
+    }
+    else if(nCheck == 3) // Knowledge: Dungeoneering
+    {
+    }
+    else if(nCheck == 4) // Knowledge: Geography
+    {
+    }
+    else if(nCheck == 5) // Knowledge: History
+    {
+        if(GetSkillRank(SKILL_KNOWLEDGE_HISTORY, oClicker, TRUE) > 0 ||
+           GetAbilityScore(oClicker, ABILITY_INTELLIGENCE, TRUE) >= 10)
+        {
+            sScreen = "FR_his_com_";
+            string sNumber = IntToString(Random(10)+1);
+            if(GetStringLength(sNumber) == 1) sScreen = sScreen + "0";
+            sScreen = sScreen + sNumber;
+        }
+    }
+    else if(nCheck == 6) // Knowledge: Local
+    {
+    }
+    else if(nCheck == 7) // Knowledge: Nature
+    {
+    }
+    else if(nCheck == 8) // Knowledge: Nobility and Royalty
+    {
+    }
+    else if(nCheck == 9) // Knowledge: Religion
+    {
+        if(GetSkillRank(SKILL_KNOWLEDGE_RELIGION, oClicker, TRUE) > 0 ||
+           GetAbilityScore(oClicker, ABILITY_INTELLIGENCE, TRUE) >= 10)
+        {
+            sScreen = "FR_rel_com_";
+            string sNumber = IntToString(Random(15)+1);
+            if(GetStringLength(sNumber) == 1) sScreen = sScreen + "0";
+            sScreen = sScreen + sNumber;
+        }
+    }
+    else if(nCheck == 10) // Knowledge: The Planes
+    {
+    }
+
+    if(sScreen != "")
+        AssignCommand(oClicker, SetAreaTransitionBMP(AREA_TRANSITION_USER_DEFINED, sScreen));
+
+//=== The generic screens are defined in loadscreens.2da, and don't need to be specified ===//
+    return;
 }
