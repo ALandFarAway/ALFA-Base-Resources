@@ -177,7 +177,7 @@ void ACR_OnAreaTransitionClick()
 	if (GetIsPC(oClicker)) {
 		// NPCs don't need AT warnings/feedback
 		// this function handles transitioning as well.
-		ACR_SetLoadingScreen(oClicker);
+		// ACR_SetLoadingScreen(oClicker);
 		if (bValid)
 			ACR_CheckAT(oClicker, oTarget, lTarget);
 		else
