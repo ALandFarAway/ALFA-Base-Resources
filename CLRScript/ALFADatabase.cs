@@ -330,14 +330,16 @@ namespace ALFA
         /// <summary>
         /// This routine fetches the next rowset from the database.
         /// </summary>
-        /// <returns>None.  On failure, an exception is raised.</returns>
-        public void ACR_SQLFetch()
+        /// <returns>Returns true if the query succeeded.</returns>
+        public bool ACR_SQLFetch()
         {
             //const int SQL_ERROR = 0;
             const int SQL_SUCCESS = 1;
 
             if (Script.NWNXGetInt("SQL", "FETCH", " ", 0) != SQL_SUCCESS)
-                throw new ApplicationException("SQL Fetch failed.");
+                return false;
+            else
+                return true;
         }
 
         /// <summary>

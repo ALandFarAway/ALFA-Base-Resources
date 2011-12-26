@@ -47,8 +47,11 @@ namespace TestClrScript
             string Message;
 
             Database.ACR_SQLQuery(String.Format("SELECT Name FROM servers WHERE ID = {0}", Database.ACR_GetServerID()));
-            Database.ACR_SQLFetch();
-            ServerDescription = Database.ACR_SQLGetData();
+
+            if (Database.ACR_SQLFetch())
+                ServerDescription = Database.ACR_SQLGetData();
+            else
+                ServerDescription = "<Database error>";
 
             Message = String.Format("This server (id {0}) is at {1} and is named {2}", Database.ACR_GetServerID(), Database.ACR_GetServerAddressFromDatabase(), ServerDescription);
 
