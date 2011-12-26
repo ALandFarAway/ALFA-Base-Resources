@@ -338,13 +338,20 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\hench_o0_ai.ncs                       \
             $(OUTPUTDIR)\acr_disguise.ncs                   
 
+#
+# Note, CLR scripts must be listed once here and once in makeclrscripts.
+#
 
+CLRSCRIPT_OBJECTS=$(OUTPUTDIR)\TestClrScript.ncs               
 
 HAKFILE=$(OUTPUTDIR)\alfa2_acr.hak
 
 NSS_OBJECTS_NL=$(NSS_OBJECTS:.ncs=.ncs^
 )
 NSS_INCLNSS_NL=$(NSS_INCLNSS:.nss=.nss^
+)
+
+CLRSCRIPT_OBJECTS_NL=$(CLRSCRIPT_OBJECTS:.ncs=.ncs^
 )
 
 #
@@ -364,17 +371,20 @@ HAK_SOURCES_MISC=                                              \
 HAK_SOURCES_MISC_NL=$(HAK_SOURCES_MISC:.\=^
 )
 
-HAK_SOURCES=$(NSS_OBJECTS_NL) $(NSS_OBJECTS_NL:.ncs=.nss) $(NSS_OBJECTS_NL:.ncs=.ndb) $(NSS_INCLNSS_NL) $(HAK_SOURCES_MISC_NL)
+HAK_SOURCES=$(NSS_OBJECTS_NL) $(NSS_OBJECTS_NL:.ncs=.nss) $(NSS_OBJECTS_NL:.ncs=.ndb) $(CLRSCRIPT_OBJECTS_NL) $(NSS_INCLNSS_NL) $(HAK_SOURCES_MISC_NL)
 
 HAK_SOURCES_NL=$(HAK_SOURCES: =)
 
-all: scriptincludes $(NSS_OBJECTS) $(HAKFILE)
+all: scriptincludes makeclrscripts $(NSS_OBJECTS) $(HAKFILE)
 
 script: scriptincludes $(NSS_OBJECTS)
 	@copy /y *.nss $(OUTPUTDIR)\ >NUL
 
 scriptincludes:
 	@copy /y *.nss $(OUTPUTDIR)\ >NUL
+
+makeclrscripts:
+	$(MSBUILD) TestClrScript\TestClrScript.csproj $(MSBUILD_FLAGS)
 
 clean:
 	@if exist $(OUTPUTDIR)\*.ncs del $(OUTPUTDIR)\*.ncs

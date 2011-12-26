@@ -1,0 +1,69 @@
+Creating a New CLR Script
+=========================
+
+This tutorial walks through the steps involved in creating a new C#-based CLR
+script.
+
+There are several steps involved:
+
+1) Create a new C# class library project.  Choose any framework version
+   between .NET 2.0 and .NET 4.0, as desired.
+
+2) Add the required referenced assemblies.
+
+   For a .NET 2.0 project, add the following referenced assemblies:
+   * CLRv2.0.50727\NWNScriptJITIntrinsics.dll
+   * CLRv2.0.50727\NWScriptManagedInterface.dll
+
+   For a .NET 4.0 project, add the following referenced assemblies:
+   * CLRv4.0.30319\NWNScriptJITIntrinsics.dll
+   * CLRv4.0.30319\NWScriptManagedInterface.dll
+
+3) Add the common supporting framework source files (recommended).  These
+   source files simplify common tasks in creating CLR scripts in C#.
+
+   * NWScriptActions.cs
+   * NWScriptConstants.cs
+   * NWScriptSupport.cs
+
+   These source files do not have any project-specific references, so they can
+   be shared across multiple projects.
+
+4) Copy the CLRScript.cs file (or Clr20Script.cs file) from either the
+   CLRScript project (for .NET 4.0 projects), or the Clr20Script project (for
+   .NET 2.0 projects).  This file serves as the starting building block for the
+   new script.
+
+5) Copy the StandardEntrypoints.cs file from either the CLRScript or
+   Clr20Script base projects as appropriate.  This file supplies standard code
+   that is merged into your script class.
+
+5) Add the post-build task to package the script into a NWScript .ncs file.
+   This post-build task allows the managed script assembly to be loaded by the
+   NWScript Accelerator runtime.  The packaged script can be referneced any
+   place that a normal script could be referenced, including on blueprints for
+   game objects.
+
+   The typical post-build event command line is:
+
+   ..\..\..\PackageScript.cmd "$(TargetPath)" "$(TargetName).ncs"
+
+   Upon successful build, a .ncs file is placed in the bin\release or
+   bin\debug directory.  Place this .ncs file in your module or HAK file once
+   you are ready to run your script.
+
+6) Rename the CLRScript namespace and CLRScript class in StandardEntrypoints.cs
+   and CLRScript.cs to the desired script name.
+
+7) If the script will take parameters in the entry point function (for example,
+   dialog StartingConditional scripts, or module OnChat scripts, or scripts
+   that are invoked via the ExecuteScriptEnhanced action service), declare the
+   appropriate types for each parameter in the ScriptParameterTypes array.
+
+8) Add the desired customizations to the script.  Execution begins at the
+   ScriptMain function once library setup has completed each time the script is
+   called.
+
+   Each action service exposed by nwscript.nss is available as a method on the
+   CLRScriptBase class, which is a base class of the main script class.
+
