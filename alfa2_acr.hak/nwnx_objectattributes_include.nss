@@ -17,9 +17,9 @@ Abstract:
 
 string GetRawHairTintSet(object oCharacter);
 
-string GetRawBaseTintSet(object oCharacter);
+string GetRawBodyTintSet(object oCharacter);
 
-string GetRawSkinTintSet(object oCharacter);
+string GetRawHeadTintSet(object oCharacter);
 
 string RawToTintSet0(string sRawHair);
 
@@ -27,11 +27,11 @@ string RawToTintSet1(string sRawHair);
 
 string RawToTintSet2(string sRawHair);
 
-string RawSkinToSkin(string sRawBody);
+string RawHeadToSkin(string sRawBody);
 
-string RawSkinToEyes(string sRawBody);
+string RawHeadToEyes(string sRawBody);
 
-string RawSkinToBodyHair(string sRawBody);
+string RawHeadToBodyHair(string sRawBody);
 
 string RawTintToTint1(string sRawTint);
 
@@ -743,19 +743,19 @@ string GetRawHairTintSet(object oCharacter)
 	return sTintSet;
 }
 
-string GetRawBaseTintSet(object oCharacter)
+string GetRawBodyTintSet(object oCharacter)
 {
 	string sTintSet = NWNXGetString("OBJECTATTRIBUTES", 
-									"GetBaseTint",
+									"GetBodyTint",
 									"",
 									ObjectToInt( oCharacter ));
 	return sTintSet;
 }
 
-string GetRawSkinTintSet(object oCharacter)
+string GetRawHeadTintSet(object oCharacter)
 {
 	string sTintSet = NWNXGetString("OBJECTATTRIBUTES", 
-									"GetSkinTint",
+									"GetHeadTint",
 									"",
 									ObjectToInt( oCharacter ));
 	return sTintSet;
@@ -833,14 +833,14 @@ struct XPObjectAttributes_TintSet GetHairTintSet(object o)
 	return RawAttribToTintSet(GetRawHairTintSet(o));
 }
 
-struct XPObjectAttributes_TintSet GetBaseTintSet(object o)
+struct XPObjectAttributes_TintSet GetBodyTintSet(object o)
 {
-	return RawAttribToTintSet(GetRawBaseTintSet(o));
+	return RawAttribToTintSet(GetRawBodyTintSet(o));
 }
 
-struct XPObjectAttributes_TintSet GetSkinTintSet(object o)
+struct XPObjectAttributes_TintSet GetHeadTintSet(object o)
 {
-	return RawAttribToTintSet(GetRawSkinTintSet(o));
+	return RawAttribToTintSet(GetRawHeadTintSet(o));
 }
 
 
