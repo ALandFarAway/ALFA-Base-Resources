@@ -3,7 +3,7 @@
 # files.
 #
 
-MSBUILD_FLAGS=/p:Configuration=Release /verbosity:quiet
+MSBUILD_FLAGS=/p:Configuration=Release /verbosity:quiet /nologo
 
 #
 # The CLRv2 version of MSBuild doesn't set MSBuildToolsPath automatically, so
