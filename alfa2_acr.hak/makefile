@@ -336,7 +336,9 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gb_assoc_usrdef.ncs                   \
             $(OUTPUTDIR)\gui_hss_pc_tool.ncs                   \
             $(OUTPUTDIR)\hench_o0_ai.ncs                       \
-            $(OUTPUTDIR)\acr_disguise.ncs                   
+            $(OUTPUTDIR)\acr_disguise.ncs                      \
+            $(OUTPUTDIR)\gui_scliext_identify.ncs              \
+            $(OUTPUTDIR)\gui_scliext_dm_pollarea.ncs           
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts.
