@@ -35,6 +35,7 @@ namespace TestClrScript
         {
             ScriptHost = Other.ScriptHost;
             OBJECT_SELF = Other.OBJECT_SELF;
+            Database = Other.Database;
 
             LoadScriptGlobals(Other.SaveScriptGlobals());
         }
@@ -63,6 +64,6 @@ namespace TestClrScript
             return DefaultReturnCode;
         }
 
-        private static ALFA.Database Database;
+        private ALFA.Database Database;
     }
 }
