@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{66A9BB91-94AE-4BEC-97F8-5028E1DFD710}</ProjectGuid>
+    <ProjectGuid>{FE7A3DBB-AAD7-447E-A993-10451C53B6A5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestClrScript</RootNamespace>
-    <AssemblyName>TestClrScript</AssemblyName>
+    <RootNamespace>ScriptLoader</RootNamespace>
+    <AssemblyName>ScriptLoader</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestClrScript.cs" />
+    <Compile Include="ScriptLoader.cs" />
     <Compile Include="..\..\CLRScript\ALFADatabase.cs" />
     <Compile Include="..\..\CLRScript\ALFAScriptLoader.cs" />
     <Compile Include="..\..\CLRScript\NWScriptActions.cs" />

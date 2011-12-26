@@ -342,7 +342,8 @@ NSS_OBJECTS=                                                   \
 # Note, CLR scripts must be listed once here and once in makeclrscripts.
 #
 
-CLRSCRIPT_OBJECTS=$(OUTPUTDIR)\TestClrScript.ncs               
+CLRSCRIPT_OBJECTS=$(OUTPUTDIR)\TestClrScript.ncs               \
+                  $(OUTPUTDIR)\ScriptLoader.ncs                
 
 HAKFILE=$(OUTPUTDIR)\alfa2_acr.hak
 
@@ -385,6 +386,7 @@ scriptincludes:
 
 makeclrscripts:
 	$(MSBUILD) TestClrScript\TestClrScript.csproj $(MSBUILD_FLAGS)
+	$(MSBUILD) ScriptLoader\ScriptLoader.csproj $(MSBUILD_FLAGS)
 
 clean:
 	@if exist $(OUTPUTDIR)\*.ncs del $(OUTPUTDIR)\*.ncs

@@ -10,6 +10,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.IO;
 using CLRScriptFramework;
 using NWScript;
 using NWScript.ManagedInterfaceLayer.NWScriptManagedInterface;
@@ -35,7 +36,7 @@ namespace ALFA
         /// <param name="ScriptName">Supplies the name of the script to load.</param>
         /// <param name="ForceLoadScript">If true, forcibly attempt to load
         /// the script.</param>
-        /// <param name="CallerScript">Suppiles the script object owned by the
+        /// <param name="CallerScript">Supplies the script object owned by the
         /// caller.</param>
         /// <returns>The script object for the newly loaded script.  On failure
         /// an exception is raised.</returns>
@@ -112,6 +113,152 @@ namespace ALFA
             //
 
             return ScriptObject;
+        }
+
+        /// <summary>
+        /// This routine loads a CLR script assembly from disk and creates an
+        /// initial script object from it.
+        /// </summary>
+        /// <param name="ScriptFileName">Supplies the file name of the script
+        /// assembly to load.</param>
+        /// <param name="CallerScript">Supplies the script object owned by the
+        /// caller.</param>
+        /// <returns>The script object for the newly loaded script.  On failure
+        /// an exception is raised.</returns>
+        public static IGeneratedScriptProgram LoadScriptFromDisk(string ScriptFileName, CLRScriptBase CallerScript)
+        {
+            AppDomain CurrentDomain = AppDomain.CurrentDomain;
+            Assembly ScriptAsm;
+            Type ScriptObjectType;
+            IGeneratedScriptProgram ScriptObject;
+
+            //
+            // Load the target assembly up from disk in preparation for
+            // instantiation.
+            //
+
+            byte[] FileContents = File.ReadAllBytes(ScriptFileName);
+
+            //
+            // Establish a temporary assembly resolve handler to handle the
+            // reference to the interface assembly.
+            //
+
+            CurrentDomain.AssemblyResolve += new ResolveEventHandler(LoadScriptFromDisk_AssemblyResolve);
+
+            try
+            {
+                ScriptAsm = CurrentDomain.Load(FileContents);
+
+                //
+                // Locate the script object type and create an instance of the
+                // script object.
+                //
+
+                ScriptObjectType = (from AsmType in ScriptAsm.GetTypes()
+                                    where AsmType.IsVisible &&
+                                    AsmType.GetInterface("IGeneratedScriptProgram") != null
+                                    select AsmType).FirstOrDefault();
+
+                if (ScriptObjectType == null)
+                    throw new ApplicationException("Unable to resolve script object type for assembly " + ScriptFileName);
+
+                ScriptObject = (IGeneratedScriptProgram)ScriptAsm.CreateInstance(
+                    ScriptObjectType.FullName,
+                    false,
+                    BindingFlags.CreateInstance,
+                    null,
+                    new object[] { CallerScript.ScriptHost.Intrinsics, CallerScript.ScriptHost.Host },
+                    null,
+                    null);
+            }
+            finally
+            {
+                CurrentDomain.AssemblyResolve -= new ResolveEventHandler(LoadScriptFromDisk_AssemblyResolve);
+            }
+
+            return ScriptObject;
+        }
+
+        /// <summary>
+        /// This method handles assembly resolution for
+        /// NWScriptManagedInterfaceAssembly when loading a CLR script from
+        /// LoadScript
+        /// </summary>
+        /// <param name="sender">Supplies the sender object.</param>
+        /// <param name="args">Supplies the event arguments.</param>
+        /// <returns></returns>
+        static Assembly LoadScriptFromDisk_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            if (args.Name != "NWScriptManagedInterface, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null")
+                return null;
+
+            return Assembly.GetAssembly(typeof(ManagedNWScript));
+        }
+
+        /// <summary>
+        /// This methods generates a default argument array for a script object
+        /// and returns it.  All arguments have empty values.
+        /// </summary>
+        /// <param name="ScriptObject">Supplies the script object of the script
+        /// to generate default arguments for.</param>
+        /// <param name="CallerScript">Supplies the script object owned by the
+        /// caller.</param>
+        /// <returns>The argument array is returned.</returns>
+        public static object[] GetDefaultParametersForScript(IGeneratedScriptProgram ScriptObject, CLRScriptBase CallerScript)
+        {
+            Type ScriptObjectType = ScriptObject.GetType();
+            FieldInfo ParametersField = ScriptObjectType.GetField("ScriptParameterTypes");
+            Type[] ParameterTypes;
+            object[] DefaultParameters;
+
+            if (ParametersField == null)
+                return new object[] { };
+
+            ParameterTypes = (Type[])ParametersField.GetValue(ScriptObject);
+
+            DefaultParameters = new object[ParameterTypes.Length];
+
+            //
+            // Construct a default argument for each parameter to the script's
+            // main function.
+            //
+
+            for (int i = 0; i < ParameterTypes.Length; i += 1)
+            {
+                if (ParameterTypes[i] == typeof(string))
+                    DefaultParameters[i] = "";
+                else if (ParameterTypes[i] == typeof(Int32))
+                    DefaultParameters[i] = (Int32)0;
+                else if (ParameterTypes[i] == typeof(UInt32))
+                    DefaultParameters[i] = CLRScriptBase.OBJECT_INVALID;
+                else if (ParameterTypes[i] == typeof(Single))
+                    DefaultParameters[i] = (Single)0.0f;
+                else if (ParameterTypes[i] == typeof(NWScriptEngineStructure0))
+                    DefaultParameters[i] = CallerScript.ScriptHost.Intrinsics.Intrinsic_CreateEngineStructure0();
+                else if (ParameterTypes[i] == typeof(NWScriptEngineStructure1))
+                    DefaultParameters[i] = CallerScript.ScriptHost.Intrinsics.Intrinsic_CreateEngineStructure1();
+                else if (ParameterTypes[i] == typeof(NWScriptEngineStructure2))
+                    DefaultParameters[i] = CallerScript.ScriptHost.Intrinsics.Intrinsic_CreateEngineStructure2();
+                else if (ParameterTypes[i] == typeof(NWScriptEngineStructure3))
+                    DefaultParameters[i] = CallerScript.ScriptHost.Intrinsics.Intrinsic_CreateEngineStructure3();
+                else if (ParameterTypes[i] == typeof(NWScriptEngineStructure4))
+                    DefaultParameters[i] = CallerScript.ScriptHost.Intrinsics.Intrinsic_CreateEngineStructure4();
+                else if (ParameterTypes[i] == typeof(NWScriptEngineStructure5))
+                    DefaultParameters[i] = CallerScript.ScriptHost.Intrinsics.Intrinsic_CreateEngineStructure5();
+                else if (ParameterTypes[i] == typeof(NWScriptEngineStructure6))
+                    DefaultParameters[i] = CallerScript.ScriptHost.Intrinsics.Intrinsic_CreateEngineStructure6();
+                else if (ParameterTypes[i] == typeof(NWScriptEngineStructure7))
+                    DefaultParameters[i] = CallerScript.ScriptHost.Intrinsics.Intrinsic_CreateEngineStructure7();
+                else if (ParameterTypes[i] == typeof(NWScriptEngineStructure8))
+                    DefaultParameters[i] = CallerScript.ScriptHost.Intrinsics.Intrinsic_CreateEngineStructure8();
+                else if (ParameterTypes[i] == typeof(NWScriptEngineStructure9))
+                    DefaultParameters[i] = CallerScript.ScriptHost.Intrinsics.Intrinsic_CreateEngineStructure9();
+                else
+                    throw new ApplicationException("Script takes invalid arguments to ExecuteScript entrypoint.");
+            }
+
+            return DefaultParameters;
         }
 
         /// <summary>

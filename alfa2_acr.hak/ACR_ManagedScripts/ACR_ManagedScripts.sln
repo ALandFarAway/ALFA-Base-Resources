@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestClrScript", "..\TestClrScript\TestClrScript.csproj", "{66A9BB91-94AE-4BEC-97F8-5028E1DFD710}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptLoader", "..\ScriptLoader\ScriptLoader.csproj", "{FE7A3DBB-AAD7-447E-A993-10451C53B6A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{66A9BB91-94AE-4BEC-97F8-5028E1DFD710}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66A9BB91-94AE-4BEC-97F8-5028E1DFD710}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66A9BB91-94AE-4BEC-97F8-5028E1DFD710}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE7A3DBB-AAD7-447E-A993-10451C53B6A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE7A3DBB-AAD7-447E-A993-10451C53B6A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE7A3DBB-AAD7-447E-A993-10451C53B6A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE7A3DBB-AAD7-447E-A993-10451C53B6A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
