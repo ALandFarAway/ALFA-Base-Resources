@@ -144,7 +144,7 @@ void ACR_AreaOnUserDefined() {
 
 void ACR_OnAreaTransitionClick()
 {
-	object oClicker, oTarget, oTargetArea;
+	object oClicker, oTarget, oTargetArea, oTmp = OBJECT_INVALID;
 	int bValid = TRUE;
 	location lTarget;
 
@@ -163,7 +163,12 @@ void ACR_OnAreaTransitionClick()
 		// destination object is valid but not location
 		else if (oTarget != OBJECT_INVALID) {
 			WriteTimestampedLogEntry("AT destination search invoked for "+GetTag(GetArea(oClicker))+"->"+GetTag(oTargetArea));
-			lTarget = ACR_CalcSafeLocation(oClicker, GetLocation(oTarget));
+
+			// If we are transitioning to a door, make note of this for the search
+			if (GetObjectType(oTarget) == OBJECT_TYPE_DOOR)
+				oTmp = oTarget;
+
+			lTarget = ACR_CalcSafeLocation(oClicker, GetLocation(oTarget), oTmp);
 		
 
 			if (LOCATION_INVALID != lTarget) 

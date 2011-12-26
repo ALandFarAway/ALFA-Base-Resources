@@ -311,8 +311,8 @@ string Colorize(string sText, string sColor);
 
 object ACR_GetNearestCreatureToLocation(object oPC, int nFirstCriteriaType, int nFirstCriteriaValue,  location lLocation, int nNth=1, int nSecondCriteriaType=-1, int nSecondCriteriaValue=-1, int nThirdCriteriaType=-1,  int nThirdCriteriaValue=-1);
 
-//! Expanded CalcSafeLocation that should be a little more reliable
-location ACR_CalcSafeLocation(object oClicker, location lTarget);
+//! Find a "safe" location to throw a NPC, in case the AT is entirely broken
+location ACR_CalcSafeLocation(object oClicker, location lTarget, object oDoor=OBJECT_INVALID);
 
 //LIST MANAGEMENT
 //note about lists : List have to be like "#1#5#26#99# ..." in order to work properly. See nwnx_craft_set_constatns for details
@@ -1390,12 +1390,13 @@ location _RotateVectorAndCompare(location td_l, location c_l, float theta, float
 }
 
 
-location ACR_CalcSafeLocation(object oClicker, location lTarget)
+location ACR_CalcSafeLocation(object oClicker, location lTarget, object oDoor=OBJECT_INVALID)
 {
 	object o;
 	location c_l, l;
 	int i,j;
-	float dist_incr=1.0,theta_incr = 45.0;
+	float f,dist_incr=0.75,theta_incr = 45.0;
+	vector v;
 
 	c_l = GetLocation(oClicker);
 
@@ -1403,17 +1404,30 @@ location ACR_CalcSafeLocation(object oClicker, location lTarget)
 	if (GetAreaFromLocation(lTarget) == OBJECT_INVALID)
 		return LOCATION_INVALID;
 
-
 	o = GetNearestCreatureToLocation(CREATURE_TYPE_IS_ALIVE, CREATURE_ALIVE_BOTH, lTarget);
+	
+	// if this is from a door, move the search point to actually
+	// be at the _center_ of said door rather than at one of the corners
+	if (oDoor != OBJECT_INVALID) {
+		f = IntToFloat((FloatToInt(GetFacingFromLocation(lTarget)) + 270) % 360);
+		WriteTimestampedLogEntry("f: "+FloatToString(f));
 
-	for (i = 1; i <= 3; ++i) {
+		v = VectorNormalize(AngleToVector(f)) * GetScale(oDoor, SCALE_X);
+		PrintVector(v, 1);
+		v = GetPositionFromLocation(lTarget)+v;
+		PrintVector(v, 1);
+
+		lTarget = Location(GetAreaFromLocation(lTarget), v, f);
+	}
+
+	for (i = 1; i <= 4; ++i) {
 		
-		l = _RotateVectorAndCompare(lTarget, c_l, 45.0, dist_incr*i, o);
+		l = _RotateVectorAndCompare(lTarget, c_l, 90.0, dist_incr*i, o);
 
 		if (l != LOCATION_INVALID)
 			return l;
 
-		l = _RotateVectorAndCompare(lTarget, c_l, 315.0, dist_incr*i, o);
+		l = _RotateVectorAndCompare(lTarget, c_l, 270.0, dist_incr*i, o);
 
 		if (l != LOCATION_INVALID)
 			return l;
