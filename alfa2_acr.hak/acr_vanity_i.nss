@@ -915,12 +915,12 @@ void ApplyTintToType(object o)
 		case ACR_APP_TYPE_HEAD_SKIN:
 		case ACR_APP_TYPE_HEAD_EYE:
 		case ACR_APP_TYPE_HEAD_HAIR:
-			tints = GetSkinTintSet(o);
+			tints = GetHeadTintSet(o);
 			break;
 		case ACR_APP_TYPE_BASE_SKIN:
 		case ACR_APP_TYPE_BASE_HAIR:
 		case ACR_APP_TYPE_BASE_EYE:
-			tints = GetBaseTintSet(o);
+			tints = GetBodyTintSet(o);
 			break;
 	}
 
