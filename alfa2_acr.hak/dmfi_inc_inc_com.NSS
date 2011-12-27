@@ -420,12 +420,12 @@ void DMFI_Follow(object oPC)
         else if (GetDistanceBetween(oPC, oFollow)>12.0)
 		{
 			AssignCommand(oPC, ClearAllActions(TRUE));
-            AssignCommand(oPC, ActionForceMoveToObject(oFollow, TRUE, 1.5));
+            AssignCommand(oPC, ActionForceMoveToObject(oFollow, TRUE, 3.0));
 		}		
-		else if (GetDistanceBetween(oPC, oFollow)>3.0)
+		else if (GetDistanceBetween(oPC, oFollow)>5.0)
         { // use Force Follow to smooth out camera
             AssignCommand(oPC, ClearAllActions(TRUE));
-            AssignCommand(oPC, ActionForceMoveToObject(oFollow, FALSE, 1.5));
+            AssignCommand(oPC, ActionForceMoveToObject(oFollow, FALSE, 3.0));
         }
         DelayCommand(3.0, DMFI_Follow(oPC));
     }

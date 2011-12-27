@@ -335,6 +335,23 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gb_assoc_spell.ncs                    \
             $(OUTPUTDIR)\gb_assoc_usrdef.ncs                   \
             $(OUTPUTDIR)\gui_hss_pc_tool.ncs                   \
+            $(OUTPUTDIR)\gui_cre_identify.ncs                  \
+            $(OUTPUTDIR)\gui_dmc_crexamine.ncs                 \
+            $(OUTPUTDIR)\gui_dmc_crselect.ncs                  \
+            $(OUTPUTDIR)\gui_dmc_crspawn.ncs                   \
+            $(OUTPUTDIR)\gui_dmc_crunselect.ncs                \
+            $(OUTPUTDIR)\gui_dmc_givexp.ncs                    \
+            $(OUTPUTDIR)\gui_dmc_setxp.ncs                     \
+            $(OUTPUTDIR)\gui_dmfi_battle.ncs                   \
+            $(OUTPUTDIR)\gui_dmfi_dmlist.ncs                   \
+            $(OUTPUTDIR)\gui_dmfi_dmtool.ncs                   \
+            $(OUTPUTDIR)\gui_dmfi_dmui.ncs                     \
+            $(OUTPUTDIR)\gui_dmfi_dmlist.ncs                   \
+            $(OUTPUTDIR)\gui_dmfi_mngrtool.ncs                 \
+            $(OUTPUTDIR)\gui_dmfi_playerui.ncs                 \
+            $(OUTPUTDIR)\gui_dmfi_skills.ncs                   \
+            $(OUTPUTDIR)\gui_dmfi_text.ncs                     \
+            $(OUTPUTDIR)\gui_dmfi_trgtool.ncs                  \
             $(OUTPUTDIR)\hench_o0_ai.ncs                       \
             $(OUTPUTDIR)\acr_disguise.ncs                      \
             $(OUTPUTDIR)\gui_scliext_identify.ncs              \
