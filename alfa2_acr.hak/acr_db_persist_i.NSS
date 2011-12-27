@@ -35,6 +35,7 @@
 //  2011/07/02 Basilica     Added framework for persistent value caching
 //  2011/08/05 Basilica     Added distinguished character id value ACR_CHARACTER_ID_NONE.
 //  2011/08/31 Basilica     Added ACR_GetServerAddressFromDatabase.
+//  2011/12/26 Basilica     Added ACR_GetPlayerID and ACR_SetPlayerID.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,6 +55,9 @@ const int SQL_SUCCESS = 1;
 
 //! Character ID for optimizing database access
 const string ACR_CID = "ACR_CID";
+
+//! Player ID for optimizing database access
+const string ACR_PID = "ACR_PID";
 
 //! Character ID constant to indicate that no actual record exists in the
 //  characters table.
@@ -296,13 +300,19 @@ string ACR_GetPCPublicCDKey(object oPC);
 //! This function sets the database ID of the character - used to optimize database access
 //!  - oPC: player whose character ID to set
 //!  - nID: database ID of the character
+//!  - nPID: database ID of the character's player
 //!  - Returns: nothing
-void ACR_SetCharacterID(object oPC, int nID);
+void ACR_SetCharacterID(object oPC, int nID, int nPID);
 
 //! This function retrieves the database ID of the character
 //!  - oPC: player whose character ID to retrieve
 //!  - Returns: oPC's character ID
 int ACR_GetCharacterID(object oPC);
+
+//! This function retrieves the database ID of the character's player
+//!  - oPC: player whose player ID to retrieve
+//!  - Returns: oPC's player ID
+int ACR_GetPlayerID(object oPC);
 
 //! This function creates the SQL database tables
 //!   - Returns: nothing
@@ -715,9 +725,10 @@ string ACR_GetPCPublicCDKey(object oPC)
 	return GetLocalString(oPC, ACR_CDKEY);
 }
 
-void ACR_SetCharacterID(object oPC, int nID)
+void ACR_SetCharacterID(object oPC, int nID, int nPID)
 {
 	SetLocalInt(oPC, ACR_CID, nID);
+	SetLocalInt(oPC, ACR_PID, nPID);
 
 	// If this isn't a player, don't try and initialize the cache as nobody will
 	// be using it anyway.  Even more importantly, corpse restoration assumes
@@ -734,6 +745,11 @@ void ACR_SetCharacterID(object oPC, int nID)
 int ACR_GetCharacterID(object oPC)
 {
 	return GetLocalInt(oPC, ACR_CID);
+}
+
+int ACR_GetPlayerID(object oPC)
+{
+	return GetLocalInt(oPC, ACR_PID);
 }
 
 void ACR_CreateSQLTables()

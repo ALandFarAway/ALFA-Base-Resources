@@ -400,6 +400,18 @@ namespace ALFA
         }
 
         /// <summary>
+        /// This routine returns the database player ID for a player given
+        /// their PC object id.
+        /// </summary>
+        /// <param name="PCObject">Supplies the object ID of the player to</param>
+        /// query.
+        /// <returns>The database player ID of the player is returned.</returns>
+        public int ACR_GetPlayerID(UInt32 PCObject)
+        {
+            return Script.GetLocalInt(PCObject, "ACR_PID");
+        }
+
+        /// <summary>
         /// This routine returns the database server ID of the current server.
         /// </summary>
         /// <returns>The server ID is returned.</returns>

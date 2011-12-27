@@ -728,7 +728,8 @@ void ACR_CorpseOnUnacquire(object oBody, object oLostBy)
 	ACR_SetDatabaseName(oNewBody, sDatabaseName);
 
 	// set the character ID on the corpse and token (for setting/clearing status flags)
-	ACR_SetCharacterID(oNewBody, ACR_GetCharacterID(oBody)); ACR_SetCharacterID(oCorpse, ACR_GetCharacterID(oBody));
+	ACR_SetCharacterID(oNewBody, ACR_GetCharacterID(oBody), ACR_GetPlayerID(oBody));
+	ACR_SetCharacterID(oCorpse, ACR_GetCharacterID(oBody), ACR_GetPlayerID(oBody));
 	
 	// destroy the discarded body (original corpse token)
 	DestroyObject(oBody);
@@ -850,7 +851,7 @@ void ACR_RestoreCorpsesOnModuleLoad()
 {
 	location lLocation;
 	string sDatabaseName, sCorpseName, sTag, sCID;
-	int nStatus, nDecayed;
+	int nStatus, nDecayed, nPID;
 	object oCorpse, oItem, oNewBody, oDeathMod = GetModule();	
 	// create the debug system ID for reporting if it doesn't exist
 	ACR_CreateDebugSystem(ACR_DTH_DEBUG_ID, DEBUG_TARGET_TALK, DEBUG_TARGET_LOG, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS);
@@ -858,7 +859,7 @@ void ACR_RestoreCorpsesOnModuleLoad()
 	// retrieve all the records of dead players with corpses in the game world
 	//  - only pull those that corrspond with the current server.
 	//ACR_SQLQuery("SELECT d1.Name, d1.Tag, d1.Value, d2.Value FROM pwdata as d1, pwdata as d2 WHERE d1.`Key`='" + ACR_DTH_LOCATION + "' and d1.Name=d2.Name and d1.Tag=d2.Tag and d2.`Key`='" + ACR_PLAYER_FLAGS + "' and d2.Value | " + IntToString(ACR_PLAYER_FLAG_DEAD));
-	ACR_SQLQuery("SELECT pwdata.Name, pwdata.Tag, pwdata.Value, characters.ID, characters.Status FROM characters JOIN players on players.ID=characters.PlayerID JOIN pwdata on pwdata.Name=characters.Name WHERE pwdata.Tag=players.CDKey and pwdata.`Key`='" + ACR_DTH_LOCATION + "' and characters.ServerID = '"+IntToString(ACR_GetServerId())+"' and characters.Status = characters.Status | " + IntToString(ACR_PLAYER_FLAG_DEAD));
+	ACR_SQLQuery("SELECT pwdata.Name, pwdata.Tag, pwdata.Value, characters.ID, characters.Status, characters.PlayerID FROM characters JOIN players on players.ID=characters.PlayerID JOIN pwdata on pwdata.Name=characters.Name WHERE pwdata.Tag=players.CDKey and pwdata.`Key`='" + ACR_DTH_LOCATION + "' and characters.ServerID = '"+IntToString(ACR_GetServerId())+"' and characters.Status = characters.Status | " + IntToString(ACR_PLAYER_FLAG_DEAD));
 
 	// loop through all the bodies at the morgue and recreate their corpses in the world
 	while (ACR_SQLFetch() == SQL_SUCCESS)
@@ -873,13 +874,13 @@ void ACR_RestoreCorpsesOnModuleLoad()
 		if (!GetIsObjectValid(GetAreaFromLocation(lLocation)))
 			continue;
 
-		sTag = ACR_SQLGetData(1); sCID = ACR_SQLGetData(3); nStatus = StringToInt(ACR_SQLGetData(4));
+		sTag = ACR_SQLGetData(1); sCID = ACR_SQLGetData(3); nStatus = StringToInt(ACR_SQLGetData(4)); nPID = StringToInt(ACR_SQLGetData(5));
 		
 		// recreate the corpse placeable at its last resting place
 		oCorpse = CreateObject(OBJECT_TYPE_PLACEABLE, ACR_DTH_CORPSE_RESREF, lLocation, FALSE, sTag);
 
 		// set the id and database name on the corpse object to link to its persistent inventory
-		ACR_SetCharacterID(oCorpse, StringToInt(sCID));
+		ACR_SetCharacterID(oCorpse, StringToInt(sCID), nPID);
 		sDatabaseName = sTag + "_" + sCID;
 
 		ACR_SetDatabaseName(oCorpse, sDatabaseName);
@@ -920,7 +921,7 @@ void ACR_RestoreCorpsesOnModuleLoad()
 		ACR_SetDatabaseName(oNewBody, sDatabaseName);
 
 		// set the character ID on the corpse and token (for setting/clearing status flags)
-		ACR_SetCharacterID(oNewBody, ACR_GetCharacterID(oCorpse));
+		ACR_SetCharacterID(oNewBody, ACR_GetCharacterID(oCorpse), ACR_GetPlayerID(oCorpse));
 
 	}
 
@@ -1336,7 +1337,8 @@ void _playerOnDeath(object oPC, object oKiller)
     ACR_SetPersistentInt(oCorpse, ACR_DTH_INSTANT, (GetTimeHour() * 3600) + (GetTimeMinute() * 60) + GetTimeSecond());
 
     // set the character ID on the corpse and token (for setting/clearing status flags)
-    ACR_SetCharacterID(oBody, ACR_GetCharacterID(oPC)); ACR_SetCharacterID(oCorpse, ACR_GetCharacterID(oPC));
+    ACR_SetCharacterID(oBody, ACR_GetCharacterID(oPC), ACR_GetPlayerID(oPC));
+	 ACR_SetCharacterID(oCorpse, ACR_GetCharacterID(oPC), ACR_GetPlayerID(oPC));
 
     // update the player status - set death flag, clear all others
     ACR_SetPlayerStatusFlags(oPC, ACR_PLAYER_FLAG_DEAD);
