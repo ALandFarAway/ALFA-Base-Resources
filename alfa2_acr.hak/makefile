@@ -415,7 +415,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\wand_init.ncs                         
 
 #
-# Note, CLR scripts must be listed once here and once in makeclrscripts.
+# Note, CLR scripts must be listed once here and once in makeclrscripts and
+# for both bin and obj subdirectories in clean.
 #
 
 CLRSCRIPT_OBJECTS=$(OUTPUTDIR)\TestClrScript.ncs               \
@@ -469,6 +470,10 @@ clean:
 	@if exist $(OUTPUTDIR)\*.nss del $(OUTPUTDIR)\*.nss
 	@if exist $(OUTPUTDIR)\*.ndb del $(OUTPUTDIR)\*.ndb
 	@if exist $(HAKFILE) del /q $(HAKFILE) >NUL
+	@if exist TestClrScript\bin rd /s /q TestClrScript\bin
+	@if exist TestClrScript\obj rd /s /q TestClrScript\obj
+	@if exist ScriptLoader\bin rd /s /q ScriptLoader\bin
+	@if exist ScriptLoader\obj rd /s /q ScriptLoader\obj
 
 $(HAKFILE): script $(HAK_SOURCES_MISC)
 	$(BUILD_MSG) (ERF) Creating - $(HAKFILE)
