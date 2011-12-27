@@ -470,6 +470,7 @@ clean:
 	@if exist $(OUTPUTDIR)\*.nss del $(OUTPUTDIR)\*.nss
 	@if exist $(OUTPUTDIR)\*.ndb del $(OUTPUTDIR)\*.ndb
 	@if exist $(HAKFILE) del /q $(HAKFILE) >NUL
+	@if exist $(OUTPUTDIR)\CLRBUILDLOG del $(OUTPUTDIR)\CLRBUILDLOG
 	@if exist TestClrScript\bin rd /s /q TestClrScript\bin
 	@if exist TestClrScript\obj rd /s /q TestClrScript\obj
 	@if exist ScriptLoader\bin rd /s /q ScriptLoader\bin
