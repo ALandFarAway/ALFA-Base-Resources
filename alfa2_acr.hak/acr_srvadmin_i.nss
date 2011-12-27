@@ -216,14 +216,14 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 		TargetPC = GetFirstPC();
 		while (TargetPC != OBJECT_INVALID)
 		{
-			TargetPC = GetNextPC();
-
 			if (GetStringLowerCase(GetPCPlayerName(TargetPC)) == AccountName)
 			{
 				BootPC(TargetPC);
 				Found = TRUE;
 				break;
 			}
+
+			TargetPC = GetNextPC();
 		}
 
 		ACR_SrvAdmin_LogCommand(oPC, sCmd);
