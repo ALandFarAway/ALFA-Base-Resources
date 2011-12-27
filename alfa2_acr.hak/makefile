@@ -87,7 +87,12 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\hench_i0_assoc.nss                    \
             $(OUTPUTDIR)\hench_i0_attack.nss                   \
             $(OUTPUTDIR)\hench_i0_melee.nss                    \
-            $(OUTPUTDIR)\hench_i0_strings.nss                   
+            $(OUTPUTDIR)\hench_i0_strings.nss                  \
+            $(OUTPUTDIR)\wand_inc_conf.nss                     \
+            $(OUTPUTDIR)\wand_inc_language.nss                 \
+            $(OUTPUTDIR)\wand_inc_language_it.nss              \
+            $(OUTPUTDIR)\wand_inc_misc.nss                     \
+            $(OUTPUTDIR)\wand_inc.nss                           
 
 NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\abr_plc_oninventorydisreturns.ncs     \
@@ -352,10 +357,62 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_dmfi_skills.ncs                   \
             $(OUTPUTDIR)\gui_dmfi_text.ncs                     \
             $(OUTPUTDIR)\gui_dmfi_trgtool.ncs                  \
+            $(OUTPUTDIR)\gui_dmfi_vfxcustom.ncs                \
             $(OUTPUTDIR)\hench_o0_ai.ncs                       \
             $(OUTPUTDIR)\acr_disguise.ncs                      \
             $(OUTPUTDIR)\gui_scliext_identify.ncs              \
-            $(OUTPUTDIR)\gui_scliext_dm_pollarea.ncs           
+            $(OUTPUTDIR)\gui_scliext_dm_pollarea.ncs           \
+            $(OUTPUTDIR)\gui_it_pickupequip.ncs                \
+            $(OUTPUTDIR)\gui_option_hench_change.ncs           \
+            $(OUTPUTDIR)\gui_set_last_dragged_item.ncs         \
+            $(OUTPUTDIR)\gui_wand_init_dmfi_h.ncs              \
+            $(OUTPUTDIR)\gui_wand_init_dmfi_v.ncs              \
+            $(OUTPUTDIR)\gui_wand_init_h.ncs                   \
+            $(OUTPUTDIR)\gui_wand_init_v.ncs                   \
+            $(OUTPUTDIR)\gui_wand_lvm_close.ncs                \
+            $(OUTPUTDIR)\gui_wand_lvm_del_float.ncs            \
+            $(OUTPUTDIR)\gui_wand_lvm_del_int.ncs              \
+            $(OUTPUTDIR)\gui_wand_lvm_del_loc.ncs              \
+            $(OUTPUTDIR)\gui_wand_lvm_del_obj.ncs              \
+            $(OUTPUTDIR)\gui_wand_lvm_del_str.ncs              \
+            $(OUTPUTDIR)\gui_wand_lvm_do_float.ncs             \
+            $(OUTPUTDIR)\gui_wand_lvm_do_int.ncs               \
+            $(OUTPUTDIR)\gui_wand_lvm_do_loc.ncs               \
+            $(OUTPUTDIR)\gui_wand_lvm_do_obj.ncs               \
+            $(OUTPUTDIR)\gui_wand_lvm_do_str.ncs               \
+            $(OUTPUTDIR)\gui_wand_lvm_init.ncs                 \
+            $(OUTPUTDIR)\gui_wand_lvm_init_area.ncs            \
+            $(OUTPUTDIR)\gui_wand_lvm_init_float.ncs           \
+            $(OUTPUTDIR)\gui_wand_lvm_init_int.ncs             \
+            $(OUTPUTDIR)\gui_wand_lvm_init_loc.ncs             \
+            $(OUTPUTDIR)\gui_wand_lvm_init_obj.ncs             \
+            $(OUTPUTDIR)\gui_wand_lvm_init_str.ncs             \
+            $(OUTPUTDIR)\gui_wand_lvm_new_tab.ncs              \
+            $(OUTPUTDIR)\gui_wand_lvm_obj_input_lost_foc.ncs   \
+            $(OUTPUTDIR)\gui_wand_lvm_reload.ncs               \
+            $(OUTPUTDIR)\gui_wand_lvm_show.ncs                 \
+            $(OUTPUTDIR)\gui_wand_lvm_target_loc.ncs           \
+            $(OUTPUTDIR)\gui_wand_lvm_target_obj.ncs           \
+            $(OUTPUTDIR)\gui_wand_pim_close.ncs                \
+            $(OUTPUTDIR)\gui_wand_pim_cursed.ncs               \
+            $(OUTPUTDIR)\gui_wand_pim_droppable.ncs            \
+            $(OUTPUTDIR)\gui_wand_pim_equip.ncs                \
+            $(OUTPUTDIR)\gui_wand_pim_examine.ncs              \
+            $(OUTPUTDIR)\gui_wand_pim_give.ncs                 \
+            $(OUTPUTDIR)\gui_wand_pim_identified.ncs           \
+            $(OUTPUTDIR)\gui_wand_pim_init.ncs                 \
+            $(OUTPUTDIR)\gui_wand_pim_init_radial.ncs          \
+            $(OUTPUTDIR)\gui_wand_pim_init_radial_eq.ncs       \
+            $(OUTPUTDIR)\gui_wand_pim_plot.ncs                 \
+            $(OUTPUTDIR)\gui_wand_pim_reload.ncs               \
+            $(OUTPUTDIR)\gui_wand_pim_show.ncs                 \
+            $(OUTPUTDIR)\gui_wand_pim_show_tab.ncs             \
+            $(OUTPUTDIR)\gui_wand_pim_stolen.ncs               \
+            $(OUTPUTDIR)\gui_wand_pim_take.ncs                 \
+            $(OUTPUTDIR)\gui_wand_pim_unequip.ncs              \
+            $(OUTPUTDIR)\gui_wand_turn_horizontal.ncs          \
+            $(OUTPUTDIR)\gui_wand_turn_vertical.ncs            \
+            $(OUTPUTDIR)\wand_init.ncs                         
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts.
