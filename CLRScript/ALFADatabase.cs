@@ -403,12 +403,58 @@ namespace ALFA
         /// This routine returns the database player ID for a player given
         /// their PC object id.
         /// </summary>
-        /// <param name="PCObject">Supplies the object ID of the player to</param>
-        /// query.
+        /// <param name="PCObject">Supplies the object ID of the player to
+        /// query.</param>
         /// <returns>The database player ID of the player is returned.</returns>
         public int ACR_GetPlayerID(UInt32 PCObject)
         {
             return Script.GetLocalInt(PCObject, "ACR_PID");
+        }
+
+        /// <summary>
+        /// This routine determines whether a player is a server admin for the
+        /// current server.
+        /// </summary>
+        /// <param name="PCObject">Supplies the object ID of the player to
+        /// query.</param>
+        /// <returns>True if the player is a server admin.</returns>
+        public bool ACR_IsServerAdmin(UInt32 PCObject)
+        {
+            const int ACR_SRVADMIN_INDETERMINITE = 0;
+            const int ACR_SRVADMIN_IS_ADMIN = 1;
+            const int ACR_SRVADMIN_NOT_ADMIN = 2;
+
+            switch (Script.GetLocalInt(PCObject, "ACR_SRVADMIN"))
+            {
+                
+                case ACR_SRVADMIN_INDETERMINITE:
+                    //
+                    // We don't yet know if the player is an admin, ask the
+                    // database and save the result.  If we get any rows back,
+                    // then we're an admin.
+                    //
+
+                    ACR_SQLQuery(String.Format("SELECT PlayerID FROM server_admins WHERE ServerID={0} AND PlayerID={1}", ACR_GetServerID(), ACR_GetPlayerID(PCObject)));
+
+                    if (ACR_SQLFetch())
+                    {
+                        Script.SetLocalInt(PCObject, "ACR_SRVADMIN", ACR_SRVADMIN_IS_ADMIN);
+                        return true;
+                    }
+                    else
+                    {
+                        Script.SetLocalInt(PCObject, "ACR_SRVADMIN", ACR_SRVADMIN_NOT_ADMIN);
+                        return false;
+                    }
+
+                case ACR_SRVADMIN_IS_ADMIN:
+                    return true;
+
+                default:
+                case ACR_SRVADMIN_NOT_ADMIN:
+                    return false;
+
+            }
         }
 
         /// <summary>

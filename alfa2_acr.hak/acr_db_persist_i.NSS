@@ -44,6 +44,7 @@
 
 #include "nwnx_include"
 #include "acr_queue_i"
+#include "acr_settings_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -58,6 +59,14 @@ const string ACR_CID = "ACR_CID";
 
 //! Player ID for optimizing database access
 const string ACR_PID = "ACR_PID";
+
+//! State variable for whether a character is a server admin
+const string ACR_SRVADMIN = "ACR_SRVADMIN";
+
+//! Values for ACR_SRVADMIN local on PC object.
+const int ACR_SRVADMIN_INDETERMINITE = 0;  // Need to query database
+const int ACR_SRVADMIN_IS_ADMIN = 1;       // Is an admin
+const int ACR_SRVADMIN_NOT_ADMIN = 2;      // Is not an admin
 
 //! Character ID constant to indicate that no actual record exists in the
 //  characters table.
@@ -313,6 +322,11 @@ int ACR_GetCharacterID(object oPC);
 //!  - oPC: player whose player ID to retrieve
 //!  - Returns: oPC's player ID
 int ACR_GetPlayerID(object oPC);
+
+//! This function determines whether the player is a server admin on this server
+//!  - oPC: player whose admin status should be checked
+//!  - Returns: TRUE if the player is a server admin on this server
+int ACR_IsServerAdmin(object oPC);
 
 //! This function creates the SQL database tables
 //!   - Returns: nothing
@@ -752,6 +766,43 @@ int ACR_GetPlayerID(object oPC)
 	return GetLocalInt(oPC, ACR_PID);
 }
 
+int ACR_IsServerAdmin(object oPC)
+{
+	switch (GetLocalInt(oPC, ACR_SRVADMIN))
+	{
+
+	case ACR_SRVADMIN_INDETERMINITE:
+		//
+		// We don't yet know if the player is an admin, ask the database and save
+		// the result.  If we get any rows back, then we're an admin.
+		// 
+
+		ACR_SQLQuery("SELECT PlayerID FROM server_admins WHERE ServerID=" + IntToString(ACR_GetServerId()) + " AND PlayerID=" + IntToString(ACR_GetPlayerID(oPC)));
+
+		if (ACR_SQLFetch() == SQL_SUCCESS)
+		{
+			SetLocalInt(oPC, ACR_SRVADMIN, ACR_SRVADMIN_IS_ADMIN);
+			return TRUE;
+		}
+		else
+		{
+			SetLocalInt(oPC, ACR_SRVADMIN, ACR_SRVADMIN_NOT_ADMIN);
+			return FALSE;
+		}
+		break;
+
+	case ACR_SRVADMIN_IS_ADMIN:
+		return TRUE;
+
+	default:
+	case ACR_SRVADMIN_NOT_ADMIN:
+		return FALSE;
+
+	}
+
+	return FALSE;
+}
+
 void ACR_CreateSQLTables()
 {
 	// since this is called on each modloaded(), insert call to alter tables if necessary here.
@@ -913,6 +964,12 @@ void ACR_CreateSQLTables()
         "`Uses` varchar(128) default NULL," +
         "PRIMARY KEY (`ID`), UNIQUE KEY (`CharacterID`, `Class`)" +
     ") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
+
+	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `server_admins` (" +
+		"`ServerID` smallint(5) UNSIGNED NOT NULL," +
+		"`PlayerID` mediumint(8) UNSIGNED NOT NULL," +
+		"PRIMARY KEY (`ServerID`, `PlayerID`)" +
+	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 		
 }
 
