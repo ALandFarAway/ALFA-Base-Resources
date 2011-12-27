@@ -59,6 +59,26 @@ namespace TestClrScript
             foreach (uint PCObject in GetPlayers(true))
             {
                 SendMessageToPC(PCObject, Message);
+                SendMessageToPC(PCObject, "Install directory: " + SystemInfo.GetGameInstallationDirectory());
+                SendMessageToPC(PCObject, "Home directory: " + SystemInfo.GetHomeDirectory());
+
+                if (SystemInfo.GetModuleResourceName() != null)
+                    SendMessageToPC(PCObject, "Module resource name: " + SystemInfo.GetModuleResourceName());
+            }
+
+            string ModName = SystemInfo.GetModuleResourceName();
+
+            if (ModName == null)
+                ModName = "alfa";
+
+            ResourceManager ResMan = new ResourceManager(ModName);
+
+            foreach (OEIShared.IO.IResourceEntry ResEntry in ResMan.GetResourcesByType(ResourceManager.ResUTI))
+            {
+                foreach (uint PCObject in GetPlayers(true))
+                {
+                    SendMessageToPC(PCObject, String.Format("Found resource {0} in repository {1}", ResEntry.FullName, ResEntry.Repository.Name));
+                }
             }
 
             return DefaultReturnCode;
