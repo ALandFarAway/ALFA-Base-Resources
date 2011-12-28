@@ -35,6 +35,7 @@
 //  2009/08/02  AcadiusLost - Added IPlogging OnLogout
 //  2011/06/26  Ronan       - Changed all log writes to be asynchronous.
 //  2011/08/05  Basilica    - Actually log server startup, allow log writes to not include a character (uses CharacterID == 0).
+//  2011/12/26  Basilica    - Added server admin command log type.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -85,6 +86,7 @@ const string ACR_LOG_SUBDUAL = "Subdual";
 const string ACR_LOG_OVERCR = "Over-CR combat kill";
 const string ACR_LOG_SERVER_LOAD = "Server Loaded";
 const string ACR_LOG_VALIDATED = "Validated";
+const string ACR_LOG_SERVER_ADMIN_COMMAND = "Server Admin Command";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -197,6 +199,11 @@ int ACR_GetHasIllegalProperties(object oItem);
 //! Log when a module is loaded, so we get an idea of where/when crashes or 
 //!  server resets are happening.  
 void ACR_LogModuleLoaded();
+
+//! Log a server admin command
+//!  - oPC: the PC that issued the server admin command
+//!  - sCmd: The server admin command that was issued
+void ACR_LogServerAdminCommand(object oPC, string sCmd);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -402,3 +409,9 @@ void ACR_LogModuleLoaded()
 {
     ACR_SQLQuery("INSERT INTO logs (ServerID, CharacterID, Event, Description) VALUES (" + IntToString(ACR_GetServerId()) + ", 0,'" + ACR_LOG_SERVER_LOAD + "','" + ACR_SQLEncodeSpecialChars(ACR_GetServerName()) + "')");
 }
+
+void ACR_LogServerAdminCommand(object oPC, string sCmd)
+{
+	ACR_LogEvent(oPC, ACR_LOG_SERVER_ADMIN_COMMAND, sCmd);
+}
+

@@ -92,7 +92,8 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\wand_inc_language.nss                 \
             $(OUTPUTDIR)\wand_inc_language_it.nss              \
             $(OUTPUTDIR)\wand_inc_misc.nss                     \
-            $(OUTPUTDIR)\wand_inc.nss                           
+            $(OUTPUTDIR)\wand_inc.nss                          \
+            $(OUTPUTDIR)\acr_srvadmin_i.nss                     
 
 NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\abr_plc_oninventorydisreturns.ncs     \
@@ -462,14 +463,17 @@ scriptincludes:
 	@copy /y *.nss $(OUTPUTDIR)\ >NUL
 
 makeclrscripts:
-	$(MSBUILD) TestClrScript\TestClrScript.csproj $(MSBUILD_FLAGS)
-	$(MSBUILD) ScriptLoader\ScriptLoader.csproj $(MSBUILD_FLAGS)
+	$(BUILD_MSG) (CSProj) Building - TestClrScript
+	@$(MSBUILD) TestClrScript\TestClrScript.csproj $(MSBUILD_FLAGS)
+	$(BUILD_MSG) (CSProj) Building - ScriptLoader
+	@$(MSBUILD) ScriptLoader\ScriptLoader.csproj $(MSBUILD_FLAGS)
 
 clean:
 	@if exist $(OUTPUTDIR)\*.ncs del $(OUTPUTDIR)\*.ncs
 	@if exist $(OUTPUTDIR)\*.nss del $(OUTPUTDIR)\*.nss
 	@if exist $(OUTPUTDIR)\*.ndb del $(OUTPUTDIR)\*.ndb
 	@if exist $(HAKFILE) del /q $(HAKFILE) >NUL
+	@if exist $(OUTPUTDIR)\CLRBUILDLOG del $(OUTPUTDIR)\CLRBUILDLOG
 	@if exist TestClrScript\bin rd /s /q TestClrScript\bin
 	@if exist TestClrScript\obj rd /s /q TestClrScript\obj
 	@if exist ScriptLoader\bin rd /s /q ScriptLoader\bin
