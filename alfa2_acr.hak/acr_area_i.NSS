@@ -153,6 +153,7 @@ void ACR_OnAreaTransitionClick()
 	oTargetArea = GetArea(oTarget);
 	lTarget = GetLocation(oTarget);
 
+#if 0
 	// confirm that this goes somewhere
 	if (!GetIsLocationValid(lTarget)) {
 
@@ -177,6 +178,7 @@ void ACR_OnAreaTransitionClick()
 		}
 		bValid = FALSE;
 	}
+#endif
 			
 
 	if (GetIsPC(oClicker)) {
