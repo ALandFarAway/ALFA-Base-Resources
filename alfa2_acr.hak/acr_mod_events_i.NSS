@@ -75,6 +75,7 @@
 //	2011/06/24	AcadiusLost	- merged in fix for clearing IsOnline bits in Characters table OnModuleLoad()
 //	2011/06/25	Ronan - Added in the service heartbeats for asynchronous SQL writes.
 // 2011/07/02  Basilica - Added persistent database callouts for cache management.
+// 2011/12/26  Basilica - Added server admin command directives.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -100,6 +101,7 @@
 #include "acr_nonlethal_i"
 #include "acr_language_i"
 #include "acr_feat_events_i"
+#include "acr_srvadmin_i"
 
 #include "acf_spawn_i"
 #include "acf_settings_i"
@@ -688,8 +690,19 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 
 	switch (nMode) {
 		case CHAT_MODE_SERVER:
-		case CHAT_MODE_SHOUT:
+			// Local server console said something, check for server admin cmd
 		case CHAT_MODE_SILENT_SHOUT:
+			// DM channel command, check for server admin cmd
+			len = GetStringLength(sText);
+			c = GetStringLowerCase(GetStringLeft(sText, 4));
+
+			if (c == "#sa " || c == "!sa ")
+			{
+				if (ACR_SrvAdmin_OnChat(oSpeaker, GetStringRight(sText, len-4)))
+					return FALSE;
+				return TRUE;
+			}
+		case CHAT_MODE_SHOUT:
 		case CHAT_MODE_TELL:
 			return TRUE;
 	}
@@ -701,6 +714,15 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 	// roll command
 	if (c == "#" || c == "!")
 	{
+		// Check first for server admin cmd, which needs unedited casing
+		c = GetStringLowerCase(GetStringLeft(sText, 4));
+
+		if (c == "#sa " || c == "!sa ")
+		{
+			ACR_SrvAdmin_OnChat(oSpeaker, GetStringRight(sText, len-4));
+			return FALSE;
+		}
+
 		sCommand = GetStringRight(GetStringLowerCase(sText), len-1);
 		
 		_ParseRoll(oSpeaker, sCommand);

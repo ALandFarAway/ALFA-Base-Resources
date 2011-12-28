@@ -44,7 +44,8 @@ const string _ACR_SETTINGS_SERVER_IP = "ACR_SET_IP";
 ////////////////////////////////////////////////////////////////////////////////
 
 // Returns the server's id.
-int ACR_GetServerId();
+int ACR_GetServerId(); // for compatibility with modules
+int ACR_GetServerID();
 
 // Returns the server's name.
 string ACR_GetServerName();
@@ -63,6 +64,7 @@ void SetServerData(int nServerId, string sServerName, int nServerRegion, string 
 ////////////////////////////////////////////////////////////////////////////////
 
 int ACR_GetServerId() { return GetGlobalInt(_ACR_SETTINGS_SERVER_ID); }
+int ACR_GetServerID() { return ACR_GetServerId(); }
 
 string ACR_GetServerName() { return GetGlobalString(_ACR_SETTINGS_SERVER_NAME); }
 

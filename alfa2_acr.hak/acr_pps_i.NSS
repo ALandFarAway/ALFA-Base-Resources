@@ -462,7 +462,7 @@ void ACR_PCOnClientEnter(object oPC)
 		ACR_SQLQuery("UPDATE characters SET IsOnline=1 WHERE ID=" + sCharID);
 	}
    	// assign the database ID to this PC
-	ACR_SetCharacterID(oPC, StringToInt(sCharID));
+	ACR_SetCharacterID(oPC, StringToInt(sCharID), StringToInt(sPID));
 
 	// store the player's CD Key so it can be retrieved even on exit events
 	ACR_SetPCPublicCDKey(oPC);
