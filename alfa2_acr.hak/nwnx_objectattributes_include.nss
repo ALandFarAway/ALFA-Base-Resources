@@ -843,5 +843,17 @@ struct XPObjectAttributes_TintSet GetHeadTintSet(object o)
 	return RawAttribToTintSet(GetRawHeadTintSet(o));
 }
 
+string RawHeadToSkin(string sRawBody)
+{
+    return RawToTintSet0(sRawBody);
+}
 
+string RawHeadToEyes(string sRawBody)
+{
+    return RawToTintSet1(sRawBody);
+}
 
+string RawHeadToBodyHair(string sRawBody)
+{
+    return RawToTintSet2(sRawBody);
+}
