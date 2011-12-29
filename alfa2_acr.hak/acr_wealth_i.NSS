@@ -122,7 +122,7 @@ int ACR_GetRandomDropValue(object oMob)
     fCreatMulti = IntToFloat(_GetLootMultiplier(oMob));
 
     // if the multiplier is set at or determined to be 0, don't waste time with the math.
-    if (fCreatMulti == 0.0) { return 0; }
+    if (fabs(fCreatMulti) < EPSILON) { return 0; }
 
     fBaseDrop = ACR_WLT_SPAWNLOOT_ANCHOR * (fCR + GetLocalFloat(oMob, _ACR_LOOT_CR_MOD));
 
@@ -141,12 +141,14 @@ int ACR_GetRandomDropValue(object oMob)
     // record 1% and 99%
     //
     // cdf: 0.5 * (1-erf((mu-log(x0))/(sqrt(2) * sigma)))
+    
+    nCalc = FloatToInt(fCreatMulti * fBaseDrop * fRand);
+    
+
     if (fRand > 2.68411)
 	    WriteTimestampedLogEntry(GetName(oMob) + " ["+GetTag(oMob)+"] killed by "+GetName(GetLastKiller())+" in "+GetName(GetArea(oMob))+" ["+GetTag(GetArea(oMob))+"] dropped 1% top loot ("+IntToString(nCalc)+")");
     else if (fRand < 0.29805)
 	    WriteTimestampedLogEntry(GetName(oMob) + " ["+GetTag(oMob)+"] killed by "+GetName(GetLastKiller())+" in "+GetName(GetArea(oMob))+" ["+GetTag(GetArea(oMob))+"] dropped 1% bottom loot ("+IntToString(nCalc)+")");
-    
-    nCalc = FloatToInt(fCreatMulti * fBaseDrop * fRand);
     
 
     // should subtract droppable gear from this for the final version, though perhaps better done after the
