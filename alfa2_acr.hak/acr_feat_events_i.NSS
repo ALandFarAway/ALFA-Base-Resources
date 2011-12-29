@@ -54,13 +54,12 @@ void ACR_FeatOnClientEnter(object oPC);
 ////////////////////////////////////////////////////////////////////////////////
 
 void ACR_FeatOnEquipItem(object oCreature, object oItem) {
-	RefreshBladesong(oCreature);
-	RefreshSpellsong(oCreature);
+	if(GetHasFeat(oCreature, FEAT_BLADESINGER_BLADESONG_STYLE, TRUE) RefreshBladesong(oCreature);
+	if(GetHasFeat(oCreature, FEAT_BLADESINGER_SPELLSONG, TRUE) RefreshSpellsong(oCreature);
 }
 
 void ACR_FeatOnUnequipItem(object oCreature, object oItem) {
-	RefreshBladesong(oCreature);
-	RefreshSpellsong(oCreature);
+	ACR_FeatOnEquipItem(oCreature, oItem);
 }
 
 void ACR_FeatOnClientEnter(object oPC) {
