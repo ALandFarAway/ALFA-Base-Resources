@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestClrScript", "..\TestClr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptLoader", "..\ScriptLoader\ScriptLoader.csproj", "{FE7A3DBB-AAD7-447E-A993-10451C53B6A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LatencyMonitor", "..\LatencyMonitor\LatencyMonitor.csproj", "{51E6A159-1AD5-4C29-8663-A4F28AE8A3DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{FE7A3DBB-AAD7-447E-A993-10451C53B6A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE7A3DBB-AAD7-447E-A993-10451C53B6A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE7A3DBB-AAD7-447E-A993-10451C53B6A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51E6A159-1AD5-4C29-8663-A4F28AE8A3DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51E6A159-1AD5-4C29-8663-A4F28AE8A3DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51E6A159-1AD5-4C29-8663-A4F28AE8A3DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51E6A159-1AD5-4C29-8663-A4F28AE8A3DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

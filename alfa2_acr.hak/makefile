@@ -421,7 +421,8 @@ NSS_OBJECTS=                                                   \
 #
 
 CLRSCRIPT_OBJECTS=$(OUTPUTDIR)\TestClrScript.ncs               \
-                  $(OUTPUTDIR)\ScriptLoader.ncs                
+                  $(OUTPUTDIR)\ScriptLoader.ncs                \
+                  $(OUTPUTDIR)\LatencyMonitor.ncs              
 
 HAKFILE=$(OUTPUTDIR)\alfa2_acr.hak
 
@@ -467,6 +468,8 @@ makeclrscripts:
 	@$(MSBUILD) TestClrScript\TestClrScript.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ScriptLoader
 	@$(MSBUILD) ScriptLoader\ScriptLoader.csproj $(MSBUILD_FLAGS)
+	$(BUILD_MSG) (CSProj) Building - LatencyMonitor
+	@$(MSBUILD) LatencyMonitor\LatencyMonitor.csproj $(MSBUILD_FLAGS)
 
 clean:
 	@if exist $(OUTPUTDIR)\*.ncs del $(OUTPUTDIR)\*.ncs
@@ -478,6 +481,8 @@ clean:
 	@if exist TestClrScript\obj rd /s /q TestClrScript\obj
 	@if exist ScriptLoader\bin rd /s /q ScriptLoader\bin
 	@if exist ScriptLoader\obj rd /s /q ScriptLoader\obj
+	@if exist LatencyMonitor\bin rd /s /q LatencyMonitor\bin
+	@if exist LatencyMonitor\obj rd /s /q LatencyMonitor\obj
 
 $(HAKFILE): script $(HAK_SOURCES_MISC)
 	$(BUILD_MSG) (ERF) Creating - $(HAKFILE)

@@ -149,6 +149,16 @@ namespace ALFA
                     LocalPort = IPAddress.NetworkToHostOrder((short)UdpRow.dwLocalPort);
 
                     //
+                    // Use loopback (disable deprecation warning) if we have no
+                    // bound address.
+                    //
+
+#pragma warning disable 618
+                    if (UdpRow.dwLocalAddr == 0)
+                        UdpRow.dwLocalAddr = (uint)(ulong)IPAddress.Loopback.Address;
+#pragma warning restore 618
+
+                    //
                     // Cache the data and return a new endpoint object for the
                     // address.
                     //

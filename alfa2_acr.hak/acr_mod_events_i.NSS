@@ -76,6 +76,7 @@
 //	2011/06/25	Ronan - Added in the service heartbeats for asynchronous SQL writes.
 // 2011/07/02  Basilica - Added persistent database callouts for cache management.
 // 2011/12/26  Basilica - Added server admin command directives.
+// 2012/01/02  Basilica - Added latency monitor support.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -299,6 +300,12 @@ void ACR_ModuleOnModuleLoad()
     ACR_PrintDebugMessage("acr_mod_events_i: ALFA server " + sServerId + " loaded.", _ONLOAD_DEBUG, DEBUG_LEVEL_INFO);
 
 	ACR_LogEvent(OBJECT_INVALID, ACR_LOG_SERVER_LOAD, "Server " + sServerId + " loaded module " + GetName(GetModule()) + ".");
+
+	// Start the latency monitor script up.  The latency monitor requires CLR
+	// script support to function.  See LatencyMonitor\LatencyMonitor.cs for
+	// more details on how to use server latency measurements.
+
+	ExecuteScript("latencymonitor", OBJECT_SELF);
 }
 
 void ACR_ModuleOnModuleStart()
