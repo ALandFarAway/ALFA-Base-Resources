@@ -52,9 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LatencyMonitor.cs" />
-    <Compile Include="..\..\CLRScript\ALFADatabase.cs" />
-    <Compile Include="..\..\CLRScript\ALFAResourceManager.cs" />
-    <Compile Include="..\..\CLRScript\ALFAScriptLoader.cs" />
     <Compile Include="..\..\CLRScript\ALFASystemInfo.cs" />
     <Compile Include="..\..\CLRScript\NWScriptActions.cs" />
     <Compile Include="..\..\CLRScript\NWScriptConstants.cs" />
