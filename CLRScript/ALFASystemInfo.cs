@@ -168,6 +168,18 @@ namespace ALFA
             throw new ApplicationException("Endpoint not found.");
         }
 
+        /// <summary>
+        /// This function sets the GameObjUpdate interval.  The default is 200
+        /// milliseconds.
+        /// </summary>
+        /// <param name="Script">Supplies the caller's script object.</param>
+        /// <param name="GameObjUpdateTime">Supplies the new game object update
+        /// time, in milliseconds.</param>
+        public void SetGameObjUpdateTime(CLRScriptBase Script, int GameObjUpdateTime)
+        {
+            Script.NWNXSetInt("BUGFIX", "GAMEOBJUPDATETIME", "", 0, GameObjUpdateTime * 1000);
+        }
+
         //
         // The following are private interop members.
         //
