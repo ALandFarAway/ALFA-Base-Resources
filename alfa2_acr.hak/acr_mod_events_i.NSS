@@ -321,6 +321,10 @@ void ACR_ModuleOnClientEnter()
 
     // initialize the player - RUN THIS BEFORE INITIALIZING OTHER SYSTEMS
     ACR_PCOnClientEnter(oPC);
+    
+    // Zero out the RP XP timer. Though this looks ill-placed, we need it to detect redundant
+    // tickers.
+    SetLocalInt(oPC, _RPXP_HB, 0);
 
     // notify database system of login
     ACR_DBPersistOnIncomingPlayer(oPC);

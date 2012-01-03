@@ -369,15 +369,18 @@ void ACR_XPOnClientLoaded(object oPC) {
     // start the RP XP psudoheartbeats for the player
     SetLocalInt(oPC, _RPXP_ACTIVITY, FALSE);
     SetLocalString(oPC, _RPXP_LOCATION, ACR_LocationToString(GetLocation(oPC)));
-    SetLocalInt(oPC, _RPXP_HB, 0);
-    // set blocking condition for overlapping heartbeats, record when the next authentic RPXP HB is scheduled
-    SetLocalInt(oPC, "RPXP_OVERLAP", TRUE);
-    SetLocalInt(oPC, "RPXP_SCHEDULE", (ACR_GetTimeStampInMinutes() + (60/_RPXP_CHECKS_PER_HOUR) - 5));
-	// SendMessageToPC(oPC, "Currently "+IntToString(ACR_GetTimeStampInMinutes()));
-    // SendMessageToPC(oPC, "Scheduled after "+IntToString(ACR_GetTimeStampInMinutes() + (60/_RPXP_CHECKS_PER_HOUR) - 5));
-    // schedule first RP XP heartbeat.
-	// running 2 of these per game hour for now
-    AssignCommand(oPC, DelayCommand((HoursToSeconds(1)/IntToFloat(_RPXP_CHECKS_PER_HOUR)), _RPXP_PHeartbeat(oPC)));
+
+    if(!GetLocalInt(oPC, _RPXP_HB))
+    {
+        // set blocking condition for overlapping heartbeats, record when the next authentic RPXP HB is scheduled
+        SetLocalInt(oPC, "RPXP_OVERLAP", TRUE);
+        SetLocalInt(oPC, "RPXP_SCHEDULE", (ACR_GetTimeStampInMinutes() + (60/_RPXP_CHECKS_PER_HOUR) - 5));
+        // SendMessageToPC(oPC, "Currently "+IntToString(ACR_GetTimeStampInMinutes()));
+        // SendMessageToPC(oPC, "Scheduled after "+IntToString(ACR_GetTimeStampInMinutes() + (60/_RPXP_CHECKS_PER_HOUR) - 5));
+        // schedule first RP XP heartbeat.
+        // running 2 of these per game hour for now
+        AssignCommand(oPC, DelayCommand((HoursToSeconds(1)/IntToFloat(_RPXP_CHECKS_PER_HOUR)), _RPXP_PHeartbeat(oPC)));
+    }
     return;
 }
 
