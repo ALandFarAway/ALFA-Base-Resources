@@ -122,13 +122,6 @@ namespace CLRScriptFramework
         protected static List<FieldInfo> GlobalFields;
 
         /// <summary>
-        /// The following field refers to the derived class's
-        /// ICLRScriptImplementation interface, for purposes of calling standard
-        /// methods.
-        /// </summary>
-        protected ICLRScriptImplementation ScriptImplementation;
-
-        /// <summary>
         /// This routine sets up a saved script situation for a store state
         /// request.
         /// </summary>
@@ -160,6 +153,8 @@ namespace CLRScriptFramework
             //       resume from a script situation, versus an invocation at
             //       the entry point.
             //
+
+            ICLRScriptImplementation ScriptImplementation = (ICLRScriptImplementation)this;
 
             ScriptHost.Host.Intrinsic_StoreState(ScriptImplementation.SaveScriptGlobals(), null, 1, ResumeMethodId, ScriptImplementation.CloneScriptProgram());
         }
