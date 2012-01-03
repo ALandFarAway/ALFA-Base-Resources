@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using CLRScriptFramework;
 using NWScript;
 using NWScript.ManagedInterfaceLayer.NWScriptManagedInterface;
@@ -83,6 +84,122 @@ namespace ALFA
 
             return null;
         }
-    }
+
+        /// <summary>
+        /// This routine determines the UDP listener endpoint for the server.
+        /// </summary>
+        /// <param name="Script">Supplies the caller's script object.</param>
+        /// <returns>The listener endpoint for the server.</returns>
+        public static IPEndPoint GetServerUdpListener(CLRScriptBase Script)
+        {
+            int CurrentProcessId = Process.GetCurrentProcess().Id;
+            uint TableSize = 0;
+            IntPtr Table = IntPtr.Zero;
+            uint Status = NO_ERROR;
+            int LocalPort;
+
+            //
+            // If we have cached the data, return it from the cache.
+            //
+            // It is important to check the cache if we spin up a secondary
+            // UDP socket (and that the cache is first set before that is done)
+            // or else we might return the wrong listener.
+            //
+
+            if ((LocalPort = Script.GetGlobalInt("ACR_SERVERLISTENER_PORT")) != 0)
+            {
+                return new IPEndPoint((long)(UInt32)Script.GetGlobalInt("ACR_SERVERLISTENER_ADDRESS"), LocalPort);
+            }
+
+            //
+            // Find the first UDP listener owned by this process and assume
+            // that it's the right one.
+            //
+
+            try
+            {
+                do
+                {
+                    if (Table != IntPtr.Zero)
+                    {
+                        Marshal.FreeHGlobal(Table);
+                        Table = IntPtr.Zero;
+                    }
+
+                    if (TableSize != 0)
+                    {
+                        Table = Marshal.AllocHGlobal((int)TableSize);
+                    }
+
+                    Status = GetExtendedUdpTable(Table, ref TableSize, 1, AF_INET, UDP_TABLE_CLASS.UDP_TABLE_OWNER_PID, 0);
+                } while (Status == ERROR_INSUFFICIENT_BUFFER);
+
+                MIB_UDPTABLE_OWNER_PID UdpTable = (MIB_UDPTABLE_OWNER_PID) Marshal.PtrToStructure(Table, typeof(MIB_UDPTABLE_OWNER_PID));
+
+                for (uint Row = 0; Row < UdpTable.dwNumEntries; Row += 1)
+                {
+                    IntPtr TableOffset = Marshal.OffsetOf(typeof(MIB_UDPTABLE_OWNER_PID), "table");
+                    int RowSize = Marshal.SizeOf(typeof(MIB_UDPROW_OWNER_PID));
+                    IntPtr RowOffset = IntPtr.Add(TableOffset, (int)(RowSize * Row));
+                    MIB_UDPROW_OWNER_PID UdpRow = (MIB_UDPROW_OWNER_PID)Marshal.PtrToStructure(IntPtr.Add(Table, (int)RowOffset), typeof(MIB_UDPROW_OWNER_PID));
+
+                    if (UdpRow.dwOwningPid != (uint)CurrentProcessId)
+                        continue;
+
+                    LocalPort = IPAddress.NetworkToHostOrder((short)UdpRow.dwLocalPort);
+
+                    //
+                    // Cache the data and return a new endpoint object for the
+                    // address.
+                    //
+
+                    Script.SetGlobalInt("ACR_SERVERLISTENER_PORT", LocalPort);
+                    Script.SetGlobalInt("ACR_SERVERLISTENER_ADDRESS", (int)UdpRow.dwLocalAddr);
+
+                    return new IPEndPoint((long)(ulong)UdpRow.dwLocalAddr, LocalPort);
+                }
+            }
+            finally
+            {
+                if (Table != IntPtr.Zero)
+                    Marshal.FreeHGlobal(Table);
+            }
+
+            throw new ApplicationException("Endpoint not found.");
+        }
+
+        //
+        // The following are private interop members.
+        //
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct MIB_UDPROW_OWNER_PID
+        {
+            public UInt32 dwLocalAddr;
+            public UInt32 dwLocalPort;
+            public UInt32 dwOwningPid;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct MIB_UDPTABLE_OWNER_PID
+        {
+            public UInt32 dwNumEntries;
+            public MIB_UDPROW_OWNER_PID table;
+        }
+
+        private const UInt32 AF_INET = 2;
+        private const UInt32 NO_ERROR = 0;
+        private const UInt32 ERROR_INSUFFICIENT_BUFFER = 122;
+
+        private enum UDP_TABLE_CLASS
+        {
+            UDP_TABLE_BASIC,
+            UDP_TABLE_OWNER_PID,
+            UDP_TABLE_OWNER_MODULE
+        }
+
+        [DllImport("iphlpapi.dll", ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.StdCall)]
+        private static extern UInt32 GetExtendedUdpTable(IntPtr pUdpTable, ref UInt32 pdwSize, Int32 bOrder, UInt32 ulAf, UDP_TABLE_CLASS TableClass, UInt32 Reserved);
+    }   
 }
 
