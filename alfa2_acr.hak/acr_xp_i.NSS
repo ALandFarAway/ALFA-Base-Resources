@@ -370,6 +370,14 @@ void ACR_XPOnClientLoaded(object oPC) {
     SetLocalInt(oPC, _RPXP_ACTIVITY, FALSE);
     SetLocalString(oPC, _RPXP_LOCATION, ACR_LocationToString(GetLocation(oPC)));
 
+/*
+  We're checking this against the zeroing of the variable that came on the instant of login. If it's
+  not -still- zero, then we have another heartbeat running and counting already, and we don't need
+  to initiate one. If it's zero, we don't know that we've killed all of the heartbeats, so we also
+  have the old check to look for a heartbeat that fires between this moment and the actual scheduled
+  heartbeat, as tracked by RPXP_SCHEDULE.
+*/
+  
     if(!GetLocalInt(oPC, _RPXP_HB))
     {
         // set blocking condition for overlapping heartbeats, record when the next authentic RPXP HB is scheduled
