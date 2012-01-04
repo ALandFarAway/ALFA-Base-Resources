@@ -22,9 +22,45 @@ using NWItemProperty = NWScript.NWScriptEngineStructure4;
 namespace ALFA
 {
     /// <summary>
+    /// This interface encapsulates the raw ALFA ACR Database API.
+    /// </summary>
+    public interface IALFADatabase
+    {
+        /// <summary>
+        /// This routine fetches the next rowset from the database.
+        /// </summary>
+        /// <returns>Returns true if the query succeeded.</returns>
+        bool ACR_SQLFetch();
+
+        /// <summary>
+        /// This routine returns the first column of data from the current SQL
+        /// rowset.
+        /// </summary>
+        /// <returns>The column data is returned</returns>
+        string ACR_SQLGetData();
+
+        /// <summary>
+        /// This routine returns the specified column of data form the current
+        /// SQL rowset.
+        /// </summary>
+        /// <param name="ColumnIndex">Supplies the zero-based column index to
+        /// retrieve.</param>
+        /// <returns>The column data is returned.</returns>
+        string ACR_SQLGetData(int ColumnIndex);
+
+        /// <summary>
+        /// This routine performs a synchronous SQL query.  If there were
+        /// pending asynchronous queries in the queue, the pending queries are
+        /// drained first.
+        /// </summary>
+        /// <param name="SQL">Supplies the SQL query text to execute.</param>
+        void ACR_SQLQuery(string SQL);
+    }
+
+    /// <summary>
     /// This class encapsulates database access for ALFA CLR scripts.
     /// </summary>
-    public class Database
+    public class Database : IALFADatabase
     {
 
         /// <summary>
