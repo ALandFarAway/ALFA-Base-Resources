@@ -110,6 +110,19 @@ namespace ALFA
         }
 
         /// <summary>
+        /// This helper method loads an assembly from the NWNX4 installation
+        /// directory.
+        /// </summary>
+        /// <param name="AssemblyName">Supplies the DLL file name of the
+        /// assembly to load.  The assembly should be present in the NWNX4
+        /// installation directory.</param>
+        /// <returns>The loaded assembly is returned.</returns>
+        public static Assembly LoadAssemblyFromNWNX4(string AssemblyName)
+        {
+            return Assembly.LoadFrom(GetNWNX4InstallationDirectory() + AssemblyName);
+        }
+
+        /// <summary>
         /// This routine determines the UDP listener endpoint for the server.
         /// </summary>
         /// <param name="Script">Supplies the caller's script object.</param>
