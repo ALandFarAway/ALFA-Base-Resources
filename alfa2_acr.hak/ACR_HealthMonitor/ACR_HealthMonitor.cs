@@ -206,7 +206,7 @@ namespace ACR_HealthMonitor
             // be careful to protect against it being continually run.
             //
 
-            if (LastDiagnosisTick - Tick < DIAGNOSIS_MIN_TIME)
+            if (Tick - LastDiagnosisTick < DIAGNOSIS_MIN_TIME)
                 return;
 
             LastDiagnosisTick = Tick;
