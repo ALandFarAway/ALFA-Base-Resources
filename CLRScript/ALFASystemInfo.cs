@@ -26,6 +26,10 @@ using NWItemProperty = NWScript.NWScriptEngineStructure4;
 namespace ALFA
 {
 
+    /// <summary>
+    /// This class encapsulates general system information about the game
+    /// environment and configuration.
+    /// </summary>
     public class SystemInfo
     {
 

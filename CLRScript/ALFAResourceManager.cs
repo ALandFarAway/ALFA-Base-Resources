@@ -29,6 +29,11 @@ using NWItemProperty = NWScript.NWScriptEngineStructure4;
 namespace ALFA
 {
 
+    /// <summary>
+    /// This class implements a resource loader that is compatible with the
+    /// game's internal resource loader.  It can be used to load up files out
+    /// of the currently loaded module, haks, or game data zip files.
+    /// </summary>
     public class ResourceManager
     {
 

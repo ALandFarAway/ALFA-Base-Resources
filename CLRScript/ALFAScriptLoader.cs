@@ -24,6 +24,12 @@ using NWItemProperty = NWScript.NWScriptEngineStructure4;
 namespace ALFA
 {
 
+    /// <summary>
+    /// This class provides supporting functions for loading NWScript script
+    /// assemblies and retrieving methods for native NWScript functions out of
+    /// those assemblies.  It allows CLR scripts to call functions that are
+    /// written in native NWScript.
+    /// </summary>
     public class ScriptLoader
     {
 
