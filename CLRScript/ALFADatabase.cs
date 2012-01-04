@@ -27,6 +27,13 @@ namespace ALFA
     public interface IALFADatabase
     {
         /// <summary>
+        /// This routine escapes characters for a SQL query.
+        /// </summary>
+        /// <param name="s">Supplies the string to escape.</param>
+        /// <returns>The escaped string is returned.</returns>
+        string ACR_SQLEncodeSpecialChars(string s);
+
+        /// <summary>
         /// This routine fetches the next rowset from the database.
         /// </summary>
         /// <returns>Returns true if the query succeeded.</returns>
@@ -47,6 +54,12 @@ namespace ALFA
         /// retrieve.</param>
         /// <returns>The column data is returned.</returns>
         string ACR_SQLGetData(int ColumnIndex);
+
+        /// <summary>
+        /// This routine returns the number of rows affected by a query.
+        /// </summary>
+        /// <returns>The row count is returned.</returns>
+        int ACR_SQLGetAffectedRows();
 
         /// <summary>
         /// This routine performs a synchronous SQL query.  If there were
