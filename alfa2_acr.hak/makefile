@@ -423,7 +423,8 @@ NSS_OBJECTS=                                                   \
 CLRSCRIPT_OBJECTS=$(OUTPUTDIR)\TestClrScript.ncs               \
                   $(OUTPUTDIR)\ScriptLoader.ncs                \
                   $(OUTPUTDIR)\LatencyMonitor.ncs              \
-                  $(OUTPUTDIR)\ACR_HealthMonitor.ncs           
+                  $(OUTPUTDIR)\ACR_HealthMonitor.ncs           \
+                  $(OUTPUTDIR)\ACR_ServerCommunicator.ncs      
 
 HAKFILE=$(OUTPUTDIR)\alfa2_acr.hak
 
@@ -473,6 +474,8 @@ makeclrscripts:
 	@$(MSBUILD) LatencyMonitor\LatencyMonitor.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_HealthMonitor
 	@$(MSBUILD) ACR_HealthMonitor\ACR_HealthMonitor.csproj $(MSBUILD_FLAGS)
+	$(BUILD_MSG) (CSProj) Building - ACR_ServerCommunicator
+	@$(MSBUILD) ACR_ServerCommunicator\ACR_ServerCommunicator.csproj $(MSBUILD_FLAGS)
 
 clean:
 	@if exist $(OUTPUTDIR)\*.ncs del $(OUTPUTDIR)\*.ncs
@@ -488,6 +491,8 @@ clean:
 	@if exist LatencyMonitor\obj rd /s /q LatencyMonitor\obj
 	@if exist ACR_HealthMonitor\bin rd /s /q ACR_HealthMonitor\bin
 	@if exist ACR_HealthMonitor\obj rd /s /q ACR_HealthMonitor\obj
+	@if exist ACR_ServerCommunicator\bin rd /s /q ACR_ServerCommunicator\bin
+	@if exist ACR_ServerCommunicator\obj rd /s /q ACR_ServerCommunicator\obj
 
 $(HAKFILE): script $(HAK_SOURCES_MISC)
 	$(BUILD_MSG) (ERF) Creating - $(HAKFILE)
