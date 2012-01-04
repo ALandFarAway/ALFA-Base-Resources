@@ -68,8 +68,8 @@ namespace ACR_HealthMonitor
             // WriteTimestampedLogEntry(String.Format("LatencyMeasurements[{0}] = {1}", MeasurementIndex, CurrentLatency));
 
             //
-            // Consider measurement values as high latency.  Usually these are
-            // due to the measurement timing out entirely (2000ms+) anyway.
+            // Consider measurement failures as high latency.  Usually these
+            // are due to the measurement timing out entirely (2000ms+) anyway.
             //
 
             if (CurrentLatency == -1)
