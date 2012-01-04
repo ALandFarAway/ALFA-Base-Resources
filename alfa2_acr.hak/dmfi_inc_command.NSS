@@ -154,34 +154,33 @@ int DMFI_RunCommandCode(object oTool, object oPC, string sOriginal)
 							
 		}
 	}			
-	else if (sHeard== PRM_FOLLOW + PRM_ + PRM_ON)
-    {
-	  
-	  if (DMFI_FOLLOWOFF)
-	  {
-        if ((GetObjectType(oTarget)==OBJECT_TYPE_CREATURE) && (oTarget!=oPC))
+    else if (sHeard== PRM_FOLLOW + PRM_ + PRM_ON)
+    {  
+        if (DMFI_FOLLOWOFF)
         {
-            SetLocalObject(oTool, DMFI_FOLLOW, oTarget);
-            DMFI_Follow(oPC);
-            SendText(oPC, TXT_FOLLOW_ON + GetName(oTarget), TRUE, COLOR_GREEN);
-			DisplayGuiScreen(oPC, SCREEN_DMFI_FOLLOWOFF, FALSE, "dmfifollowoff.xml");
-        }
+            if ((GetObjectType(oTarget)==OBJECT_TYPE_CREATURE) && (oTarget!=oPC) && (GetIsPC(GetControlledCharacter(oTarget)) == TRUE))
+            {
+                SetLocalObject(oTool, DMFI_FOLLOW, oTarget);
+                DMFI_Follow(oPC);
+                SendText(oPC, TXT_FOLLOW_ON + GetName(oTarget), TRUE, COLOR_GREEN);
+                DisplayGuiScreen(oPC, SCREEN_DMFI_FOLLOWOFF, FALSE, "dmfifollowoff.xml");
+            }
+            else
+            {
+                SendText(oPC, TXT_CREATURE, TRUE, COLOR_RED);
+            }
+        }	
         else
         {
-		    SendText(oPC, TXT_CREATURE, TRUE, COLOR_RED);
-		}
-	  }	
-	  else
-	  {
-	    if ((GetObjectType(oTarget)==OBJECT_TYPE_CREATURE) && (oTarget!=oPC))
-        {
-            AssignCommand(oPC, ClearAllActions(TRUE));
-            AssignCommand(oPC, ActionForceMoveToObject(oTarget, TRUE, 1.5));
-			SendText(oPC, TXT_FOLLOW_ON + GetName(oTarget), TRUE, COLOR_GREEN);	
-		}
-		else 
-			SendText(oPC, TXT_CREATURE, TRUE, COLOR_RED);
-	  }	
+            if ((GetObjectType(oTarget)==OBJECT_TYPE_CREATURE) && (oTarget!=oPC) && (GetIsPC(GetControlledCharacter(oTarget)) == TRUE))
+            {
+                AssignCommand(oPC, ClearAllActions(TRUE));
+                AssignCommand(oPC, ActionForceMoveToObject(oTarget, TRUE, 1.5));
+                SendText(oPC, TXT_FOLLOW_ON + GetName(oTarget), TRUE, COLOR_GREEN);	
+            }
+            else 
+                SendText(oPC, TXT_CREATURE, TRUE, COLOR_RED);
+        }	
     }
     else if (sHeard== PRM_FOLLOW + PRM_ + PRM_OFF)
     {
