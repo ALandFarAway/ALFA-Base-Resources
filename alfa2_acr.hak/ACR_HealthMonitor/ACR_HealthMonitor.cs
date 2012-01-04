@@ -209,6 +209,8 @@ namespace ACR_HealthMonitor
             if (LastDiagnosisTick - Tick < DIAGNOSIS_MIN_TIME)
                 return;
 
+            LastDiagnosisTick = Tick;
+
             WriteTimestampedLogEntry("ACR_HealthMonitor.ProcessMeasuredLatency(): *** Health diagnosis begins ***");
             WriteTimestampedLogEntry("== Active players ==\n");
 
