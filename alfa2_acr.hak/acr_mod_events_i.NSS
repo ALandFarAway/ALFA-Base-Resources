@@ -179,6 +179,9 @@ void ACR_SetModuleStatus(int nStatus);
 
 // Private
 
+//! Start up latency and health monitoring for the server
+void ACR_ModuleInitHealthChecks();
+
 //! Parse a roll command
 void _ParseRoll(object pc, string cmd);
 
@@ -299,13 +302,8 @@ void ACR_ModuleOnModuleLoad()
     // This should be the last time in this function.
     ACR_PrintDebugMessage("acr_mod_events_i: ALFA server " + sServerId + " loaded.", _ONLOAD_DEBUG, DEBUG_LEVEL_INFO);
 
+	ACR_ModuleInitHealthChecks();
 	ACR_LogEvent(OBJECT_INVALID, ACR_LOG_SERVER_LOAD, "Server " + sServerId + " loaded module " + GetName(GetModule()) + ".");
-
-	// Start the latency monitor script up.  The latency monitor requires CLR
-	// script support to function.  See LatencyMonitor\LatencyMonitor.cs for
-	// more details on how to use server latency measurements.
-
-	ExecuteScript("latencymonitor", OBJECT_SELF);
 }
 
 void ACR_ModuleOnModuleStart()
@@ -1123,3 +1121,58 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 
 	return TRUE;
 }
+
+void ACR_ModuleInitHealthChecks()
+{
+	object AreaObject;
+	object Obj;
+	int ThisObjectId;
+	int HighestObjectId = ObjectToInt(GetModule());
+
+	// Start the latency monitor script up.  The latency monitor requires CLR
+	// script support to function.  See LatencyMonitor\LatencyMonitor.cs for
+	// more details on how to use server latency measurements.
+
+	ExecuteScript("latencymonitor", OBJECT_SELF);
+
+	// Connect the latency monitor to the health monitor script.
+
+	SetGlobalString("ACR_SERVER_LATENCY_SCRIPT", "acr_healthmonitor");
+
+	// Figure out the highest current object id and record it so that we can
+	// identify how many dynamically created objects are in the area.  The
+	// health monitor subsystem uses this capability.
+	//
+	// TODO:  This could be much better replaced by simply creating a dummy
+	//        object here, recording its object id, and deleting the dummy
+	//        object.  When we have a dummy object template arranged, we
+	//        can switch to that and delete the loop below.
+
+	AreaObject = GetFirstArea();
+
+	while (AreaObject != OBJECT_INVALID)
+	{
+		ThisObjectId = ObjectToInt(AreaObject);
+
+		if (ThisObjectId > HighestObjectId)
+			HighestObjectId = ThisObjectId;
+
+		Obj = GetFirstObjectInArea(AreaObject);
+
+		while (Obj != OBJECT_INVALID)
+		{
+			ThisObjectId = ObjectToInt(Obj);
+
+			if (ThisObjectId > HighestObjectId)
+				HighestObjectId = ThisObjectId;
+
+			Obj = GetNextObjectInArea(AreaObject);
+		}
+
+		AreaObject = GetNextArea();
+	}
+
+	WriteTimestampedLogEntry("Dynamically created objects start at ObjectId=" + IntToString(ThisObjectId));
+	SetGlobalInt("ACR_FIRST_DYNAMIC_OBJECT_ID", ThisObjectId);
+}
+
