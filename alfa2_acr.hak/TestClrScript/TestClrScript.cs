@@ -60,6 +60,7 @@ namespace TestClrScript
                 SendMessageToPC(PCObject, Message);
                 SendMessageToPC(PCObject, "Install directory: " + SystemInfo.GetGameInstallationDirectory());
                 SendMessageToPC(PCObject, "Home directory: " + SystemInfo.GetHomeDirectory());
+                SendMessageToPC(PCObject, "NWNX4 directory: " + SystemInfo.GetNWNX4InstallationDirectory());
 
                 if (SystemInfo.GetModuleResourceName() != null)
                     SendMessageToPC(PCObject, "Module resource name: " + SystemInfo.GetModuleResourceName());

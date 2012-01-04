@@ -41,10 +41,34 @@ namespace ALFA
             for (int i = 0; i < Args.Length; i += 1)
             {
                 if (Args[i] == "-installdir" && i + 1 < Args.Length)
-                    return Args[i + 1] + "\\";
+                    return Args[i + 1] + Path.DirectorySeparatorChar;
             }
 
-            return Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+            return Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + Path.DirectorySeparatorChar;
+        }
+
+        /// <summary>
+        /// This method gets the directory where NWNX4 is installed.  The path
+        /// has a trailing path separator.
+        /// </summary>
+        /// <returns>The NWNX4 installation directory is returned.</returns>
+        public static string GetNWNX4InstallationDirectory()
+        {
+            ProcessModule NWScriptPluginModule = null;
+
+            foreach (ProcessModule Module in Process.GetCurrentProcess().Modules)
+            {
+                if (Module.ModuleName == "xp_AuroraServerNWScript.dll")
+                {
+                    NWScriptPluginModule = Module;
+                    break;
+                }
+            }
+
+            if (NWScriptPluginModule == null)
+                throw new ApplicationException("Couldn't locate xp_AuroraServerNWScript.dll in loaded module list!");
+
+            return Path.GetDirectoryName(NWScriptPluginModule.FileName) + Path.DirectorySeparatorChar;
         }
 
         /// <summary>
