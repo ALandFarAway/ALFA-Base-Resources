@@ -274,6 +274,100 @@ namespace ALFA
         }
 
         /// <summary>
+        /// This structure contains SQL connection settings, used for the
+        /// establishment of auxiliary MySQL connections to the central
+        /// database server (e.g. for true asynchronous queries on a different
+        /// thread).
+        /// </summary>
+        public class SQLConnectionSettings
+        {
+            /// <summary>
+            /// The database server hostname.
+            /// </summary>
+            public string Server;
+
+            /// <summary>
+            /// The database server user.
+            /// </summary>
+            public string User;
+
+            /// <summary>
+            /// The database server password.
+            /// </summary>
+            public string Password;
+
+            /// <summary>
+            /// The database server schema.
+            /// </summary>
+            public string Schema;
+        }
+
+        /// <summary>
+        /// Get the database connection settings from the SQL plugin, e.g. for
+        /// use in setting up an auxiliary database connection.
+        /// 
+        /// Throws an exception if the settings could not be found.
+        /// </summary>
+        /// <returns>The database connection settings are returned.</returns>
+        public static SQLConnectionSettings GetSQLConnectionSettings()
+        {
+            SQLConnectionSettings Settings = new SQLConnectionSettings();
+            string[] Lines = File.ReadAllLines(GetNWNX4InstallationDirectory() + "xp_mysql.ini");
+            string[] Keywords = {"server", "user", "password", "schema"};
+
+            foreach (string Line in Lines)
+            {
+                foreach (string Keyword in Keywords)
+                {
+                    if (!Line.StartsWith(Keyword))
+                        continue;
+
+                    //
+                    // Skip to the equals sign and check that the intervening
+                    // characters were all whitespace.
+                    //
+
+                    int Equals = Line.IndexOf('=');
+
+                    if (Equals == -1 || Equals < Keyword.Length)
+                        continue;
+
+                    for (int i = Keyword.Length; i < Equals; i += 1)
+                    {
+                        if (!Char.IsWhiteSpace(Line[i]))
+                        {
+                            Equals = -1;
+                            break;
+                        }
+                    }
+
+                    if (Equals == -1)
+                        continue;
+
+                    //
+                    // Now get the value and set it in the structure.
+                    //
+
+                    string Value = Line.Substring(Equals + 1).TrimStart(new char[] { '\t', ' '});
+                    FieldInfo Field = typeof(SQLConnectionSettings).GetField(Keyword, BindingFlags.Public | BindingFlags.IgnoreCase | BindingFlags.Instance);
+                    
+                    Field.SetValue(Settings, Value);
+                }
+            }
+
+            if (String.IsNullOrWhiteSpace(Settings.Server))
+                throw new ApplicationException("No database server specified in the configuraiton file.");
+            if (String.IsNullOrWhiteSpace(Settings.User))
+                throw new ApplicationException("No database user specified in the configuration file.");
+            if (String.IsNullOrWhiteSpace(Settings.Password))
+                throw new ApplicationException("No database password specified in the configuration file.");
+            if (String.IsNullOrWhiteSpace(Settings.Schema))
+                throw new ApplicationException("No database schema specified in the configuration file.");
+
+            return Settings;
+        }
+
+        /// <summary>
         /// The first object id corresponding to dynamically created objects,
         /// that is, objects that are created after server startup, is recorded
         /// here.
