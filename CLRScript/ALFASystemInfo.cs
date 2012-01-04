@@ -185,10 +185,87 @@ namespace ALFA
         /// <param name="Script">Supplies the caller's script object.</param>
         /// <param name="GameObjUpdateTime">Supplies the new game object update
         /// time, in milliseconds.</param>
-        public void SetGameObjUpdateTime(CLRScriptBase Script, int GameObjUpdateTime)
+        public static void SetGameObjUpdateTime(CLRScriptBase Script, int GameObjUpdateTime)
         {
+            Script.SetGlobalInt("ACR_GAMEOBJUPDATE_TIME", GameObjUpdateTime);
             Script.NWNXSetInt("BUGFIX", "GAMEOBJUPDATETIME", "", 0, GameObjUpdateTime * 1000);
         }
+
+        /// <summary>
+        /// This function gets the current GameObjUpdate interval.
+        /// </summary>
+        /// <param name="Script">Supplies the caller's script object.</param>
+        /// <returns>The current GameObjUpdate interval, in milliseconds, is
+        /// returned.</returns>
+        public static int GetGameObjUpdateTime(CLRScriptBase Script)
+        {
+            int Interval = Script.GetGlobalInt("ACR_GAMEOBJUPDATE_TIME");
+
+            //
+            // Assume default if it has not been set yet.
+            //
+
+            if (Interval == 0)
+                Interval = DEFAULT_GAMEOBJUPDATE_TIME;
+
+            return Interval;
+        }
+
+        /// <summary>
+        /// Get the first object id corresponding to dynamic objects.  All
+        /// object ids below this object id are static objects (excluding PC
+        /// objects).
+        /// </summary>
+        /// <param name="Script">Supplies the caller's script object.</param>
+        /// <returns>The first dynamic object id is returned.</returns>
+        public static uint GetFirstDynamicObjectId(CLRScriptBase Script)
+        {
+            if (FirstDynamicObjectId == ManagedNWScript.OBJECT_INVALID)
+                FirstDynamicObjectId = (uint)Script.GetGlobalInt("ACR_FIRST_DYNAMIC_OBJECT_ID");
+
+            return FirstDynamicObjectId;
+        }
+
+        /// <summary>
+        /// Check whether an object is a dynamic object, i.e. one created after
+        /// module startup.
+        /// </summary>
+        /// <param name="Script">Supplies the caller's script object.</param>
+        /// <param name="ObjectId">Supplies the object id to check.</param>
+        /// <returns>True if the object is dynamically created.</returns>
+        public static bool IsDynamicObject(CLRScriptBase Script, uint ObjectId)
+        {
+            //
+            // Check for PCs first as they start start at 7FFFFFFF and count
+            // down.
+            //
+
+            if (Script.GetIsPC(ObjectId) != CLRScriptBase.FALSE)
+                return true;
+
+            if (ObjectId == ManagedNWScript.OBJECT_INVALID)
+                return false;
+
+            return (ObjectId > GetFirstDynamicObjectId(Script));
+        }
+
+        /// <summary>
+        /// The first object id corresponding to dynamically created objects,
+        /// that is, objects that are created after server startup, is recorded
+        /// here.
+        /// </summary>
+        private static uint FirstDynamicObjectId = ManagedNWScript.OBJECT_INVALID;
+
+        /// <summary>
+        /// The default GameObjUpdate time is 200ms.  This is the value that
+        /// the server uses unless modified.
+        /// </summary>
+        public const int DEFAULT_GAMEOBJUPDATE_TIME = 200;
+        /// <summary>
+        /// GameObjUpdate times above this value impact player experience in
+        /// such a way that they should generally be avoided.
+        /// </summary>
+        public const int MAX_RECOMMENDED_GAMEOBJUPDATE_TIME = 600;
 
         //
         // The following are private interop members.
