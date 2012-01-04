@@ -33,8 +33,7 @@ namespace TestClrScript
 
         private TestClrScript([In] TestClrScript Other)
         {
-            ScriptHost = Other.ScriptHost;
-            OBJECT_SELF = Other.OBJECT_SELF;
+            InitScript(Other);
             Database = Other.Database;
 
             LoadScriptGlobals(Other.SaveScriptGlobals());

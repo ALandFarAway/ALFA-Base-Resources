@@ -34,8 +34,7 @@ namespace ScriptLoader
 
         private ScriptLoader([In] ScriptLoader Other)
         {
-            ScriptHost = Other.ScriptHost;
-            OBJECT_SELF = Other.OBJECT_SELF;
+            InitScript(Other);
 
             LoadScriptGlobals(Other.SaveScriptGlobals());
         }
