@@ -122,6 +122,16 @@ namespace CLRScriptFramework
         protected static List<FieldInfo> GlobalFields;
 
         /// <summary>
+        /// The following script program object can optionally be set to
+        /// delegate unrecognized script situation ids.  This capability can be
+        /// useful if, for example, we want to call a NWScript script that sets
+        /// up its own script situations.  In that case, we would need to be
+        /// able to dispatch those script situation resumes on the right script
+        /// object.
+        /// </summary>
+        public IGeneratedScriptProgram DelegateScriptObject = null;
+
+        /// <summary>
         /// This routine sets up a saved script situation for a store state
         /// request.
         /// </summary>
@@ -134,8 +144,13 @@ namespace CLRScriptFramework
             // method ID is used to look up the delegate when we are entered to
             // resume a script situation.
             //
+            // Script situation IDs created by CLR script code always have the
+            // top bit set.  Conversely, script situation IDs that are used by
+            // JIT'd NWScript scripts don't have this bit set.  This allows the
+            // resume dispatcher to distinguish between the two.
+            //
 
-            UInt32 ResumeMethodId = NextActionDelegateId++;
+            UInt32 ResumeMethodId = NextActionDelegateId++ | 0x80000000;
 
             ActionDelegateTable[ResumeMethodId] = Action;
 
@@ -184,19 +199,42 @@ namespace CLRScriptFramework
             UInt32 OldOBJECT_SELF = OBJECT_SELF;
 
             //
-            // Assign a new OBJECT_SELF temporarily, for the invocation, and
-            // dispatch to the delegate.
+            // If this was a script situation set up by CLR script code, run
+            // the delegate.
             //
 
-            try
+            if ((ScriptSituationId & 0x80000000) != 0)
             {
-                OBJECT_SELF = ObjectSelf;
-                ActionDelegateTable[ScriptSituationId].Invoke();
+                //
+                // Assign a new OBJECT_SELF temporarily, for the invocation, and
+                // dispatch to the delegate.
+                //
+
+                try
+                {
+                    OBJECT_SELF = ObjectSelf;
+                    ActionDelegateTable[ScriptSituationId].Invoke();
+                }
+                finally
+                {
+                    OBJECT_SELF = OldOBJECT_SELF;
+                    ActionDelegateTable.Remove(ScriptSituationId);
+                }
             }
-            finally
+            else if (DelegateScriptObject != null)
             {
-                OBJECT_SELF = OldOBJECT_SELF;
-                ActionDelegateTable.Remove(ScriptSituationId);
+                //
+                // This is a script situation setup by NWScript code and we
+                // have established a delegate script object (which is expected
+                // to be a NWScript script object).  Dispatch the request on
+                // the delegate script object.
+                //
+
+                DelegateScriptObject.ExecuteScriptSituation(ScriptSituationId, Locals, ObjectSelf);
+            }
+            else
+            {
+                throw new ApplicationException("Unable to dispatch script situation " + ScriptSituationId);
             }
         }
 
@@ -342,6 +380,18 @@ namespace CLRScriptFramework
             //
 
             OBJECT_SELF = OBJECT_INVALID;
+        }
+
+        /// <summary>
+        /// This function is called from the user's copy constructor.  Its
+        /// purpose is to initialize internal library support data.
+        /// </summary>
+        /// <param name="Other>Supplies the instance to copy data from.</param>
+        protected void InitScript(CLRScriptBase Other)
+        {
+            ScriptHost = Other.ScriptHost;
+            OBJECT_SELF = Other.OBJECT_SELF;
+            DelegateScriptObject = Other.DelegateScriptObject;
         }
 
         /// <summary>
