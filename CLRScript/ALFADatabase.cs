@@ -503,7 +503,10 @@ namespace ALFA
         private void DemandInitialize()
         {
             if (DBLibraryScript != null)
+            {
+                RegisterScriptSituationDelegate(DBLibraryScript);
                 return;
+            }
 
             //
             // Link to the module load script, as it will always be already
@@ -518,6 +521,31 @@ namespace ALFA
             ACR_SQLQuery_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_SQLQuery");
 
             DBLibraryScript = ScriptObject;
+
+            RegisterScriptSituationDelegate(ScriptObject);
+        }
+
+        /// <summary>
+        /// This method sets the user's script object to delegate unrecognized
+        /// script situations to the NWScript library script, allowing a delay
+        /// continuation started by called NWScript code to function properly.
+        /// </summary>
+        /// <param name="DelegateScript"></param>
+        private void RegisterScriptSituationDelegate(IGeneratedScriptProgram DelegateScript)
+        {
+            //
+            // Dispatch delay continuations from the DBLibraryScript over to
+            // NWScript code.
+            //
+
+            if (Script.DelegateScriptObject != DelegateScript)
+            {
+                if (Script.DelegateScriptObject != null)
+                    throw new ApplicationException("Duplicate delegate script registration.");
+
+                Script.DelegateScriptObject = DelegateScript;
+            }
+
         }
 
         /// <summary>
