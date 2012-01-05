@@ -72,7 +72,10 @@
     <Compile Include="GameServer.cs" />
     <Compile Include="GameWorldManager.cs" />
     <Compile Include="IGameEntity.cs" />
+    <Compile Include="ServerJoinEvent.cs" />
+    <Compile Include="ServerPartEvent.cs" />
     <Compile Include="StandardEntrypoints.cs" />
+    <Compile Include="UnsupportedIPCRequestEvent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

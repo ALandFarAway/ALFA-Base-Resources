@@ -38,8 +38,12 @@ namespace ACR_ServerCommunicator
         /// <summary>
         /// Create a new GameWorldManager.
         /// </summary>
-        public GameWorldManager()
+        /// <param name="LocalServerId">Supplies the server id of the local
+        /// server.</param>
+        public GameWorldManager(int LocalServerId)
         {
+            this.LocalServerId = LocalServerId;
+
             EventQueue = new GameEventQueue(this);
             QueryDispatchThread = new Thread(QueryDispatchThreadRoutine);
 
@@ -392,6 +396,54 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method is called when a server is discovered to have come
+        /// online.  The server is inserted already.
+        /// </summary>
+        /// <param name="Server">Supplies the server that is now considered to
+        /// be online.</param>
+        private void OnServerJoin(GameServer Server)
+        {
+            EventQueue.EnqueueEvent(new ServerJoinEvent(Server));
+        }
+
+        /// <summary>
+        /// This method is called when a server is discovered to have gone
+        /// offline.
+        /// </summary>
+        /// <param name="Server">Suplies the server that is now considered to
+        /// be offline.</param>
+        private void OnServerPart(GameServer Server)
+        {
+            EventQueue.EnqueueEvent(new ServerPartEvent(Server));
+        }
+
+        /// <summary>
+        /// This method is called when a chat tell IPC event is received.
+        /// </summary>
+        /// <param name="Sender">Supplies the sender.</param>
+        /// <param name="Recipient">Supplies the recipient.</param>
+        /// <param name="Message">Supplies the message text.</param>
+        private void OnChatTell(GameCharacter Sender, GameCharacter Recipient, string Message)
+        {
+            EventQueue.EnqueueEvent(new ChatTellEvent(Sender, Recipient, Message));
+        }
+
+        /// <summary>
+        /// This method is called when an unsupported IPC event code is
+        /// received.
+        /// </summary>
+        /// <param name="RecordId">Supplies the associated record ID.</param>
+        /// <param name="P0">Supplies the P0 parameter.</param>
+        /// <param name="P1">Supplies the P1 parameter.</param>
+        /// <param name="P2">Supplies the P2 parameter.</param>
+        /// <param name="EventType">Supplies the IPC event type.</param>
+        /// <param name="P3">Supplies the P3 parameter.</param>
+        private void OnUnsupportedIPCEventType(int RecordId, int P0, int P1, int P2, int EventType, string P3)
+        {
+            EventQueue.EnqueueEvent(new UnsupportedIPCRequestEvent(RecordId, P0, P1, P2, EventType, P3));
+        }
+
+        /// <summary>
         /// This method is called when a player has had all of its data loaded
         /// from the database.  The player is inserted already.
         /// </summary>
@@ -409,6 +461,8 @@ namespace ACR_ServerCommunicator
         /// loaded.</param>
         private void OnServerLoaded(GameServer Server)
         {
+            if (Server.Online)
+                EventQueue.EnqueueEvent(new ServerJoinEvent(Server));
         }
 
         /// <summary>
@@ -696,7 +750,7 @@ namespace ACR_ServerCommunicator
                     // being online, send the appropriate part and join events.
                     //
 
-                    if (Character.Server != null)
+                    if (Character.Server != null && Character.Online)
                         OnCharacterPart(Character);
 
                     Character.Server = Server;
@@ -729,6 +783,98 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void SynchronizeOnlineServers()
         {
+            //
+            // Query the current server list and synchronize with our internal
+            // state.
+            //
+            // There are several steps here:
+            //
+            // 1) Mark all online servers as "not visited".
+            // 2) Retrieve the server list from the database.  For each server
+            //    that wasn't already marked as online, mark it as online.
+            //    Also, flag any server that is in the list from the database
+            //    as "visited".
+            // 3) Sweep the online server list for servers that are still
+            //    flagged as "not visited".  These servers are those that have
+            //    gone offline in the interim time.  Note that we don't yet
+            //    update the player list, as that is handled by the player list
+            //    synchronization tep.
+            //
+
+            //
+            // First - query the database.  This query returns a list of all
+            // servers that have checked in during the past ten minutes.  We
+            // treat any server that has not checked in within at least that
+            // long as being offline.
+            //
+
+            Database.ACR_SQLQuery(
+                "SELECT " +
+                    "`servers`.`ID` AS server_id " +
+                "FROM `servers` " +
+                "INNER JOIN `pwdata` ON `pwdata`.`Name` = `servers`.`Name` " +
+                "WHERE pwdata.`Key` = 'ACR_TIME_SERVERTIME' " +
+                "AND pwdata.`Last` >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 10 MINUTE) "
+                );
+
+            //
+            // Clear visited.
+            //
+            // N.B.  The Visited flag is only managed on the query thread or
+            //       prior to list insertion during initial server creation.
+            //
+            //       Thus, while we must lock to protect the integrity of the
+            //       list, there's no need to worry about another thread
+            //       altering the Visited state after we drop the lock.
+            //
+
+            lock (this)
+            {
+                foreach (GameServer Server in Servers)
+                {
+                    Server.Visited = false;
+                }
+            }
+
+            //
+            // Read each database row, then take the lock and update entries.
+            //
+
+            while (Database.ACR_SQLFetch())
+            {
+                int ServerId = Convert.ToInt32(Database.ACR_SQLGetData(0));
+
+                lock (this)
+                {
+                    GameServer Server = ReferenceServerById(ServerId);
+
+                    Server.Visited = true;
+
+                    if (!Server.Online)
+                    {
+                        Server.Online = true;
+                        OnServerJoin(Server);
+                    }
+                }
+            }
+
+            //
+            // Sweep offline servers.
+            //
+
+            lock (this)
+            {
+                var NowOfflineServers = (from S in Servers
+                                         where S.Visited == false &&
+                                         S.Online == true
+                                         select S);
+
+                foreach (GameServer Server in NowOfflineServers)
+                {
+                    Server.Online = false;
+                    OnServerPart(Server);
+                }
+            }
 
         }
 
@@ -737,8 +883,106 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void SynchronizeIPCEventQueue()
         {
+            int HighestRecordId = 0;
 
+            //
+            // Retrieve any new IPC events from the database.
+            //
+
+            Database.ACR_SQLQuery(String.Format(
+                "SELECT " +
+                    "`server_ipc_events`.`ID` as record_id, " +
+                    "`server_ipc_events`.`SourcePlayerID` as source_player_id, " +
+                    "`server_ipc_events`.`SourceServerID` as source_server_id, " +
+                    "`server_ipc_events`.`DestinationPlayerID` as destination_player_id, " +
+                    "`server_ipc_events`.`DestinationServerID` as destination_server_id, " +
+                    "`server_ipc_events`.`EventType` as event_type, " +
+                    "`server_ipc_events`.`EventText` as event_text " +
+                "FROM `server_ipc_events` " +
+                "WHERE destination_server_id = {0} " +
+                "GROUP BY record_id " +
+                "ORDER BY record_id ",
+                LocalServerId
+                ));
+
+            //
+            // Dispatch each of them.
+            //
+
+            while (Database.ACR_SQLFetch())
+            {
+                int RecordId = Convert.ToInt32(Database.ACR_SQLGetData(0));
+                int SourcePlayerId = Convert.ToInt32(Database.ACR_SQLGetData(1));
+                int SourceServerId = Convert.ToInt32(Database.ACR_SQLGetData(2));
+                int DestinationPlayerId = Convert.ToInt32(Database.ACR_SQLGetData(3));
+                int DestinationServerId = Convert.ToInt32(Database.ACR_SQLGetData(4));
+                int EventType = Convert.ToInt32(Database.ACR_SQLGetData(5));
+                string EventText = Database.ACR_SQLGetData(6);
+
+                HighestRecordId = RecordId;
+
+                switch (EventType)
+                {
+
+                    case ACR_SERVER_IPC_EVENT_CHAT_TELL:
+                        lock (this)
+                        {
+                            GamePlayer SenderPlayer = ReferencePlayerById(SourcePlayerId);
+                            GamePlayer RecipientPlayer = ReferencePlayerById(DestinationPlayerId);
+
+                            if (SenderPlayer == null || RecipientPlayer == null)
+                            {
+                                EventQueue.EnqueueEvent(new DiagnosticLogEvent(String.Format(
+                                    "GameWorldManager.SynchronizeIPCEventQueue: Source {0} or destination {1} player IDs invalid for ACR_SERVER_IPC_EVENT_CHAT_TELL.", SourcePlayerId, DestinationPlayerId)));
+                                continue;
+
+                            }
+
+                            GameCharacter SenderCharacter = SenderPlayer.GetOnlineCharacter();
+                            GameCharacter RecipientCharacter = RecipientPlayer.GetOnlineCharacter();
+
+                            if (SenderCharacter == null || RecipientCharacter == null)
+                            {
+                                EventQueue.EnqueueEvent(new DiagnosticLogEvent(String.Format(
+                                    "GameWorldManager.SynchronizeIPCEventQueue: Source {0} or destination {1} player has already gone offline for ACR_SERVER_IPC_EVENT_CHAT_TELL.", SourcePlayerId, DestinationPlayerId)));
+                                continue;
+                            }
+
+                            OnChatTell(SenderCharacter, RecipientCharacter, EventText);
+                        }
+                        break;
+
+                    default:
+                        lock (this)
+                        {
+                            OnUnsupportedIPCEventType(RecordId, SourcePlayerId, SourceServerId, DestinationPlayerId, EventType, EventText);
+                        }
+                        break;
+
+                }
+            }
+
+            //
+            // Now delete all of the records that we processed.
+            //
+
+            if (HighestRecordId != 0)
+            {
+                Database.ACR_SQLQuery(String.Format(
+                    "DELETE FROM `server_ipc_events` WHERE `DestinationServerID` = {0} AND `ID` < {1}",
+                    LocalServerId,
+                    HighestRecordId));
+            }
         }
+
+        /// <summary>
+        /// Chat tell IPC events use this event type.  For this event, there
+        /// are five parameters.  The source and destination IDs represent the
+        /// routing information for the chat tell originator and destination,
+        /// and the event text represents the chat text to deliver.
+        /// </summary>
+        public const int ACR_SERVER_IPC_EVENT_CHAT_TELL = 0;
+
 
         /// <summary>
         /// The count, in milliseconds, between database polling attempts in
@@ -795,5 +1039,10 @@ namespace ACR_ServerCommunicator
         /// The current polling cycle for the database is stored here.
         /// </summary>
         private int DatabasePollCycle = 0;
+
+        /// <summary>
+        /// The server id of the local (current) server is stored here.
+        /// </summary>
+        private int LocalServerId = 0;
     }
 }

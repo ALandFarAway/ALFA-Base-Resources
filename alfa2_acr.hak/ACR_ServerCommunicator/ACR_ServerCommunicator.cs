@@ -115,7 +115,7 @@ namespace ACR_ServerCommunicator
         private void InitializeServerCommunicator()
         {
             Database = new ALFA.Database(this);
-            WorldManager = new GameWorldManager();
+            WorldManager = new GameWorldManager(Database.ACR_GetServerID());
 
             //
             // Create the database tables as necessary.
