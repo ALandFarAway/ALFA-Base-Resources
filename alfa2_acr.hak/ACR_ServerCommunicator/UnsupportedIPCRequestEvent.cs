@@ -29,7 +29,7 @@ namespace ACR_ServerCommunicator
         {
             this.RecordId = RecordId;
             this.P0 = P0;
-            this.P0 = P1;
+            this.P1 = P1;
             this.P2 = P2;
             this.EventType = EventType;
             this.P3 = P3;

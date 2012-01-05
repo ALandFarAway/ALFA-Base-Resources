@@ -909,69 +909,74 @@ namespace ACR_ServerCommunicator
             // Dispatch each of them.
             //
 
-            while (Database.ACR_SQLFetch())
+            try
             {
-                int RecordId = Convert.ToInt32(Database.ACR_SQLGetData(0));
-                int SourcePlayerId = Convert.ToInt32(Database.ACR_SQLGetData(1));
-                int SourceServerId = Convert.ToInt32(Database.ACR_SQLGetData(2));
-                int DestinationPlayerId = Convert.ToInt32(Database.ACR_SQLGetData(3));
-                int DestinationServerId = Convert.ToInt32(Database.ACR_SQLGetData(4));
-                int EventType = Convert.ToInt32(Database.ACR_SQLGetData(5));
-                string EventText = Database.ACR_SQLGetData(6);
+               while (Database.ACR_SQLFetch())
+               {
+                   int RecordId = Convert.ToInt32(Database.ACR_SQLGetData(0));
+                   int SourcePlayerId = Convert.ToInt32(Database.ACR_SQLGetData(1));
+                   int SourceServerId = Convert.ToInt32(Database.ACR_SQLGetData(2));
+                   int DestinationPlayerId = Convert.ToInt32(Database.ACR_SQLGetData(3));
+                   int DestinationServerId = Convert.ToInt32(Database.ACR_SQLGetData(4));
+                   int EventType = Convert.ToInt32(Database.ACR_SQLGetData(5));
+                   string EventText = Database.ACR_SQLGetData(6);
 
-                HighestRecordId = RecordId;
+                   HighestRecordId = RecordId;
 
-                switch (EventType)
-                {
+                   switch (EventType)
+                   {
 
-                    case ACR_SERVER_IPC_EVENT_CHAT_TELL:
-                        lock (this)
-                        {
-                            GamePlayer SenderPlayer = ReferencePlayerById(SourcePlayerId);
-                            GamePlayer RecipientPlayer = ReferencePlayerById(DestinationPlayerId);
+                       case ACR_SERVER_IPC_EVENT_CHAT_TELL:
+                           lock (this)
+                           {
+                               GamePlayer SenderPlayer = ReferencePlayerById(SourcePlayerId);
+                               GamePlayer RecipientPlayer = ReferencePlayerById(DestinationPlayerId);
 
-                            if (SenderPlayer == null || RecipientPlayer == null)
-                            {
-                                EventQueue.EnqueueEvent(new DiagnosticLogEvent(String.Format(
-                                    "GameWorldManager.SynchronizeIPCEventQueue: Source {0} or destination {1} player IDs invalid for ACR_SERVER_IPC_EVENT_CHAT_TELL.", SourcePlayerId, DestinationPlayerId)));
-                                continue;
+                               if (SenderPlayer == null || RecipientPlayer == null)
+                               {
+                                   EventQueue.EnqueueEvent(new DiagnosticLogEvent(String.Format(
+                                       "GameWorldManager.SynchronizeIPCEventQueue: Source {0} or destination {1} player IDs invalid for ACR_SERVER_IPC_EVENT_CHAT_TELL.", SourcePlayerId, DestinationPlayerId)));
+                                   continue;
 
-                            }
+                               }
 
-                            GameCharacter SenderCharacter = SenderPlayer.GetOnlineCharacter();
-                            GameCharacter RecipientCharacter = RecipientPlayer.GetOnlineCharacter();
+                               GameCharacter SenderCharacter = SenderPlayer.GetOnlineCharacter();
+                               GameCharacter RecipientCharacter = RecipientPlayer.GetOnlineCharacter();
 
-                            if (SenderCharacter == null || RecipientCharacter == null)
-                            {
-                                EventQueue.EnqueueEvent(new DiagnosticLogEvent(String.Format(
-                                    "GameWorldManager.SynchronizeIPCEventQueue: Source {0} or destination {1} player has already gone offline for ACR_SERVER_IPC_EVENT_CHAT_TELL.", SourcePlayerId, DestinationPlayerId)));
-                                continue;
-                            }
+                               if (SenderCharacter == null || RecipientCharacter == null)
+                               {
+                                   EventQueue.EnqueueEvent(new DiagnosticLogEvent(String.Format(
+                                       "GameWorldManager.SynchronizeIPCEventQueue: Source {0} or destination {1} player has already gone offline for ACR_SERVER_IPC_EVENT_CHAT_TELL.", SourcePlayerId, DestinationPlayerId)));
+                                   continue;
+                               }
 
-                            OnChatTell(SenderCharacter, RecipientCharacter, EventText);
-                        }
-                        break;
+                               OnChatTell(SenderCharacter, RecipientCharacter, EventText);
+                           }
+                           break;
 
-                    default:
-                        lock (this)
-                        {
-                            OnUnsupportedIPCEventType(RecordId, SourcePlayerId, SourceServerId, DestinationPlayerId, EventType, EventText);
-                        }
-                        break;
+                       default:
+                           lock (this)
+                           {
+                               OnUnsupportedIPCEventType(RecordId, SourcePlayerId, SourceServerId, DestinationPlayerId, EventType, EventText);
+                           }
+                           break;
 
-                }
+                   }
+               }
             }
-
-            //
-            // Now delete all of the records that we processed.
-            //
-
-            if (HighestRecordId != 0)
+            finally
             {
-                Database.ACR_SQLQuery(String.Format(
-                    "DELETE FROM `server_ipc_events` WHERE `DestinationServerID` = {0} AND `ID` < {1}",
-                    LocalServerId,
-                    HighestRecordId));
+               //
+               // Now delete all of the records that we processed.
+               //
+
+               if (HighestRecordId != 0)
+               {
+                   Database.ACR_SQLQuery(String.Format(
+                       "DELETE FROM `server_ipc_events` WHERE `DestinationServerID` = {0} AND `ID` < {1}",
+                       LocalServerId,
+                       HighestRecordId));
+               }
             }
         }
 
