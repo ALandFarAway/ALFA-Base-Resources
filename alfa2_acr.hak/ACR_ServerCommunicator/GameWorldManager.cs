@@ -692,12 +692,15 @@ namespace ACR_ServerCommunicator
                         continue;
 
                     //
-                    // The character changed servers, send the appropriate part
-                    // and join events.
+                    // The character changed servers or came online from not
+                    // being online, send the appropriate part and join events.
                     //
 
-                    OnCharacterPart(Character);
+                    if (Character.Server != null)
+                        OnCharacterPart(Character);
+
                     Character.Server = Server;
+                    Character.Online = true;
                     OnCharacterJoin(Character);
                 }
             }
