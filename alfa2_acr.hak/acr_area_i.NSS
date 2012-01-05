@@ -262,7 +262,7 @@ void ACR_SetLoadingScreen(object oClicker)
         sScreen += sAdd;
     }
 
-    SetAreaTransitionBMP(AREA_TRANSITION_USER_DEFINED, sScreen);
+    AssignCommand(oClicker, SetAreaTransitionBMP(AREA_TRANSITION_USER_DEFINED, sScreen));
 
 //=== The generic screens are defined in loadscreens.2da, and don't need to be specified ===//
     return;
