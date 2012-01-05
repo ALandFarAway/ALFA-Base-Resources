@@ -182,6 +182,9 @@ void ACR_SetModuleStatus(int nStatus);
 //! Start up latency and health monitoring for the server
 void ACR_ModuleInitHealthChecks();
 
+//! Wrapper for ACR_ModuleInitHealthChecks().
+void ACR_StartModuleInitHealthChecks();
+
 //! Parse a roll command
 void _ParseRoll(object pc, string cmd);
 
@@ -302,7 +305,7 @@ void ACR_ModuleOnModuleLoad()
     // This should be the last time in this function.
     ACR_PrintDebugMessage("acr_mod_events_i: ALFA server " + sServerId + " loaded.", _ONLOAD_DEBUG, DEBUG_LEVEL_INFO);
 
-	ACR_ModuleInitHealthChecks();
+	DelayCommand(0.1f, ACR_StartModuleInitHealthChecks());
 	ACR_LogEvent(OBJECT_INVALID, ACR_LOG_SERVER_LOAD, "Server " + sServerId + " loaded module " + GetName(GetModule()) + ".");
 }
 
@@ -1143,6 +1146,9 @@ void ACR_ModuleInitHealthChecks()
 	// identify how many dynamically created objects are in the area.  The
 	// health monitor subsystem uses this capability.
 	//
+	// NOTE:  The loop below may generate a too many instructions error if
+	//        not using the NWScript plugin in JIT mode.
+	//
 	// TODO:  This could be much better replaced by simply creating a dummy
 	//        object here, recording its object id, and deleting the dummy
 	//        object.  When we have a dummy object template arranged, we
@@ -1176,3 +1182,11 @@ void ACR_ModuleInitHealthChecks()
 	SetGlobalInt("ACR_FIRST_DYNAMIC_OBJECT_ID", ThisObjectId);
 }
 
+void ACR_StartModuleInitHealthChecks()
+{
+	// This function is just here so that a more obvious name shows up in the
+	// stack trace if you boot the server when not in JIT mode and hit a TMI.
+	// A TMI here means that you should boot the server in JIT mode.
+
+	ACR_ModuleInitHealthChecks();
+}
