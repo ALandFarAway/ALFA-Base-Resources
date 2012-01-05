@@ -48,7 +48,7 @@ namespace ACR_ServerCommunicator
 
             string Message = String.Format(
                 "<c=#CC6600>{0} {1} joined {2}</c>",
-                IsDM ? "Player" : "DM",
+                IsDM ? "DM" : "Player",
                 Character.Name,
                 Server.Name);
 

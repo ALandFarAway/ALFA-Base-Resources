@@ -68,7 +68,7 @@ namespace ACR_ServerCommunicator
         /// <summary>
         /// The associated event queue.
         /// </summary>
-        private Queue<IGameEventQueueEvent> EventQueue;
+        private Queue<IGameEventQueueEvent> EventQueue = new Queue<IGameEventQueueEvent>();
     }
 
     /// <summary>

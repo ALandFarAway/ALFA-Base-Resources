@@ -39,7 +39,7 @@ namespace ACR_ServerCommunicator
         public void DispatchEvent(CLRScriptBase Script, ALFA.Database Database)
         {
             //
-            // If the event was for a player logging on to the local server,
+            // If the event was for a player logging off of the local server,
             // then don't re-broadcast it.
             //
 
@@ -48,7 +48,7 @@ namespace ACR_ServerCommunicator
 
             string Message = String.Format(
                 "<c=#CC6600>{0} {1} left {2}</c>",
-                IsDM ? "Player" : "DM",
+                IsDM ? "DM" : "Player",
                 Character.Name,
                 Server.Name);
 
