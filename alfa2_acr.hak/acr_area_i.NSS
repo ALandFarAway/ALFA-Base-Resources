@@ -256,7 +256,7 @@ void ACR_SetLoadingScreen(object oClicker)
     if(sScreen == "")
     {
         sScreen = "alfa_generic_";
-        sAdd = IntToString(Random(58) + 1);
+        string sAdd = IntToString(Random(58) + 1);
         if(GetStringLength(sAdd) == 1)
             sScreen += "0";
         sScreen += sAdd;
