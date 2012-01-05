@@ -33,7 +33,7 @@ const string ACR_SERVER_IPC_SERVERCOM_SCRIPT                    = "acr_servercom
 
 // Commands for the IPC C# script:
 
-// This command requests that initialization be pefroemd for module startup.
+// This command requests that initialization be performed for module startup.
 const string ACR_SERVER_IPC_INITIALIZE                          = "INITIALIZE";
 
 // This command requests that an IPC event be signaled.
