@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ALFA;
+using CLRScriptFramework;
 
 namespace ACR_ServerCommunicator
 {
@@ -38,7 +39,7 @@ namespace ACR_ServerCommunicator
         /// </summary>
         public GameWorldManager()
         {
-            DatabaseLink = new ALFA.MySQLDatabase();
+            EventQueue = new GameEventQueue(this);
         }
 
         /// <summary>
@@ -334,6 +335,26 @@ namespace ACR_ServerCommunicator
             get { return CharacterList; }
         }
 
+        /// <summary>
+        /// Run the event queue down.  All events in the queue are given a
+        /// chance to run.
+        /// </summary>
+        /// <param name="Script">Supplies the script object.</param>
+        /// <param name="Database">Supplies the database connection.</param>
+        public void RunQueue(CLRScriptBase Script, ALFA.Database Database)
+        {
+            EventQueue.RunQueue(Script, Database);
+        }
+
+        /// <summary>
+        /// Check whether the event queue is empty.
+        /// </summary>
+        /// <returns>True if the queue is empty.</returns>
+        public bool IsEventQueueEmpty()
+        {
+            return EventQueue.Empty();
+        }
+
 
         /// <summary>
         /// This method is called when a character is discovered to have come
@@ -343,16 +364,18 @@ namespace ACR_ServerCommunicator
         /// considered to be online.</param>
         private void OnCharacterJoin(GameCharacter Character)
         {
+            EventQueue.EnqueueEvent(new CharacterJoinEvent(Character, Character.Player.IsDM, Character.Server));
         }
 
         /// <summary>
         /// This method is called when a character is discovered to have gone
-        /// offliine.
+        /// offline.
         /// </summary>
         /// <param name="Character">Supplies the character that is now
         /// considered to be offline.</param>
         private void OnCharacterPart(GameCharacter Character)
         {
+            EventQueue.EnqueueEvent(new CharacterPartEvent(Character, Character.Player.IsDM, Character.Server));
         }
 
         /// <summary>
@@ -463,23 +486,29 @@ namespace ACR_ServerCommunicator
         /// <summary>
         /// The database connection object.
         /// </summary>
-        private ALFA.MySQLDatabase DatabaseLink = null;
+        private ALFA.MySQLDatabase DatabaseLink = new ALFA.MySQLDatabase();
 
         /// <summary>
         /// The list of known servers is stored here.
         /// </summary>
-        private List<GameServer> ServerList = null;
+        private List<GameServer> ServerList = new List<GameServer>();
 
         /// <summary>
         /// The list of known players is stored here.  The list may be
         /// incomplete and is expanded on demand.
         /// </summary>
-        private List<GamePlayer> PlayerList = null;
+        private List<GamePlayer> PlayerList = new List<GamePlayer>();
 
         /// <summary>
         /// The list of known characters is stored here.  The list may be
         /// incomplete and is expanded on demand.
         /// </summary>
-        private List<GameCharacter> CharacterList = null;
+        private List<GameCharacter> CharacterList = new List<GameCharacter>();
+
+        /// <summary>
+        /// The event queue for pending game events that require service from
+        /// within an in-script is stored here.
+        /// </summary>
+        private GameEventQueue EventQueue = null;
     }
 }

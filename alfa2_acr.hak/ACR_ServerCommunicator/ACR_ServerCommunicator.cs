@@ -114,9 +114,8 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void InitializeServerCommunicator()
         {
-            MainScriptObject = this;
             Database = new ALFA.Database(this);
-            GameWorldState = new GameWorldManager();
+            WorldManager = new GameWorldManager();
 
             //
             // Create the database tables as necessary.
@@ -194,9 +193,9 @@ namespace ACR_ServerCommunicator
         /// <returns>The object id, else 0 if the lookup failed.</returns>
         private int ResolveCharacterNameToPlayerId(string CharacterName)
         {
-            lock (GameWorldState)
+            lock (WorldManager)
             {
-                GameCharacter Character = GameWorldState.ReferenceCharacterByName(CharacterName);
+                GameCharacter Character = WorldManager.ReferenceCharacterByName(CharacterName);
 
                 if (Character == null)
                     return 0;
@@ -215,9 +214,9 @@ namespace ACR_ServerCommunicator
         /// <returns>The object id, else 0 if the lookup failed.</returns>
         private int ResolvePlayerName(string PlayerName)
         {
-            lock (GameWorldState)
+            lock (WorldManager)
             {
-                GamePlayer Player = GameWorldState.ReferencePlayerByName(PlayerName);
+                GamePlayer Player = WorldManager.ReferencePlayerByName(PlayerName);
 
                 if (Player == null)
                     return 0;
@@ -235,9 +234,9 @@ namespace ACR_ServerCommunicator
         /// <returns>The player's logged on server id, else 0.</returns>
         private int ResolvePlayerIdToServerId(int PlayerId)
         {
-            lock (GameWorldState)
+            lock (WorldManager)
             {
-                GamePlayer Player = GameWorldState.ReferencePlayerById(PlayerId);
+                GamePlayer Player = WorldManager.ReferencePlayerById(PlayerId);
 
                 if (Player == null)
                     return 0;
@@ -274,6 +273,16 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void DrainCommandQueue()
         {
+            lock (WorldManager)
+            {
+                if (WorldManager.IsEventQueueEmpty())
+                    return;
+
+                if (Database == null)
+                    Database = new ALFA.Database(this);
+
+                WorldManager.RunQueue(this, Database);
+            }
         }
 
         /// <summary>
@@ -288,12 +297,6 @@ namespace ACR_ServerCommunicator
         private const int ACR_SERVER_IPC_MAX_EVENT_LENGTH = 256;
 
         /// <summary>
-        /// The "main" script object, that is, the one that runs the command
-        /// dispatch loop, is stored here.
-        /// </summary>
-        private static ACR_ServerCommunicator MainScriptObject = null;
-
-        /// <summary>
         /// If false, the script has not run initialization yet.
         /// </summary>
         private static bool ScriptInitialized = false;
@@ -301,11 +304,10 @@ namespace ACR_ServerCommunicator
         /// <summary>
         /// The game world state manager is stored here.
         /// </summary>
-        private static GameWorldManager GameWorldState = null;
+        private static GameWorldManager WorldManager = null;
 
         /// <summary>
-        /// The interop SQL database instance is stored here.  Note that this
-        /// object is only setup on the main script instance.
+        /// The interop SQL database instance is stored here.
         /// </summary>
         private ALFA.Database Database = null;
     }
