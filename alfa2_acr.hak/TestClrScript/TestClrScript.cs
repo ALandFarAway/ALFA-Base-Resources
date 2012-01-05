@@ -28,6 +28,7 @@ namespace TestClrScript
         public TestClrScript([In] NWScriptJITIntrinsics Intrinsics, [In] INWScriptProgram Host)
         {
             Database = new ALFA.Database(this);
+            SQLDatabase = new ALFA.MySQLDatabase();
             InitScript(Intrinsics, Host);
         }
 
@@ -35,6 +36,7 @@ namespace TestClrScript
         {
             InitScript(Other);
             Database = Other.Database;
+            SQLDatabase = Other.SQLDatabase;
 
             LoadScriptGlobals(Other.SaveScriptGlobals());
         }
@@ -64,6 +66,16 @@ namespace TestClrScript
 
                 if (SystemInfo.GetModuleResourceName() != null)
                     SendMessageToPC(PCObject, "Module resource name: " + SystemInfo.GetModuleResourceName());
+
+                //
+                // Demonstrate using the MySQL connection pool and not the
+                // interop database.
+                //
+
+                SQLDatabase.ACR_SQLQuery("SELECT Count(*) FROM servers");
+
+                if (SQLDatabase.ACR_SQLFetch())
+                    SendMessageToPC(PCObject, String.Format("There are {0} servers.", SQLDatabase.ACR_SQLGetData()));
             }
 
             string ModName = SystemInfo.GetModuleResourceName();
@@ -71,6 +83,7 @@ namespace TestClrScript
             if (ModName == null)
                 ModName = "alfa";
 
+/*
             ResourceManager ResMan = new ResourceManager(ModName);
 
             foreach (OEIShared.IO.IResourceEntry ResEntry in ResMan.GetResourcesByType(ResourceManager.ResUTI))
@@ -80,10 +93,12 @@ namespace TestClrScript
                     SendMessageToPC(PCObject, String.Format("Found resource {0} in repository {1}", ResEntry.FullName, ResEntry.Repository.Name));
                 }
             }
+*/
 
             return DefaultReturnCode;
         }
 
         private ALFA.Database Database;
+        private ALFA.MySQLDatabase SQLDatabase;
     }
 }
