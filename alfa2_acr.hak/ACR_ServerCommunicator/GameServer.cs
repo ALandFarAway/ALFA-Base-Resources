@@ -45,6 +45,14 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// Re-compute the online status for the server.
+        /// </summary>
+        public void RefreshOnlineStatus()
+        {
+
+        }
+
+        /// <summary>
         /// Set the hostname and port based on parsing an address string, which
         /// may be either 'hostname' or 'hostname:port'.  The default port of
         /// 5121 is used if no port was set.
@@ -103,9 +111,22 @@ namespace ACR_ServerCommunicator
         public int ServerPort { get; set; }
 
         /// <summary>
+        /// Whether the server appears to actually be online and checking in to
+        /// the central database.
+        /// </summary>
+        public bool Online { get; set; }
+
+        /// <summary>
         /// Characters logged on to the server are listed here.
         /// </summary>
         public List<GameCharacter> Characters { get; set; }
+
+        /// <summary>
+        /// The Visited flag can be toggled to keep track of whether the object
+        /// had been touched over a sequence of operations.  It may be used by
+        /// external requestors.
+        /// </summary>
+        public bool Visited { get; set; }
 
         /// <summary>
         /// The associated game world manager.

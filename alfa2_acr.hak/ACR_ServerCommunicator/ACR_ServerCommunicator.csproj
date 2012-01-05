@@ -65,6 +65,7 @@
     <Compile Include="CharacterJoinEvent.cs" />
     <Compile Include="CharacterPartEvent.cs" />
     <Compile Include="ChatTellEvent.cs" />
+    <Compile Include="DiagnosticLogEvent.cs" />
     <Compile Include="GameCharacter.cs" />
     <Compile Include="GameEventQueue.cs" />
     <Compile Include="GamePlayer.cs" />

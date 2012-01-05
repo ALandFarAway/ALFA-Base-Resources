@@ -18,6 +18,7 @@ namespace ACR_ServerCommunicator
             this.WorldManager = WorldManager;
             Player = null;
             Server = null;
+            Visited = false;
         }
 
         /// <summary>
@@ -82,6 +83,13 @@ namespace ACR_ServerCommunicator
         /// The server that the character is logged in to.
         /// </summary>
         public GameServer Server { get; set; }
+
+        /// <summary>
+        /// The Visited flag can be toggled to keep track of whether the object
+        /// had been touched over a sequence of operations.  It may be used by
+        /// external requestors.
+        /// </summary>
+        public bool Visited { get; set; }
 
         /// <summary>
         /// Whether the character is currently online or not.

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using ALFA;
 using CLRScriptFramework;
 
@@ -40,6 +41,9 @@ namespace ACR_ServerCommunicator
         public GameWorldManager()
         {
             EventQueue = new GameEventQueue(this);
+            QueryDispatchThread = new Thread(QueryDispatchThreadRoutine);
+
+            QueryDispatchThread.Start();
         }
 
         /// <summary>
@@ -336,6 +340,15 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This property returns the list of all online characters across all
+        /// known servers.
+        /// </summary>
+        public IEnumerable<GameCharacter> OnlineCharacters
+        {
+            get { return OnlineCharacterList; }
+        }
+
+        /// <summary>
         /// Run the event queue down.  All events in the queue are given a
         /// chance to run.
         /// </summary>
@@ -430,13 +443,42 @@ namespace ACR_ServerCommunicator
                         if (Server == null)
                             throw new ApplicationException(String.Format("Character {0} is online but references invalid server id {1}", Character.CharacterId, ServerId));
 
+                        //
+                        // If the character is coming online, but its associated server is
+                        // not actually online, then mark the character as offline.
+                        //
+
+                        if (Character.Online && !Character.Server.Online)
+                        {
+                            Character.Online = false;
+                            return;
+                        }
+
+                        //
+                        // Mark the character as visited so that if we come in
+                        // on the main thread during the middle of a character
+                        // synchronization cycle, we won't immediate offline
+                        // the character.
+                        //
+
+                        Character.Visited = true;
                         Character.Server = Server;
                         Character.Server.Characters.Add(Character);
 
                         try
                         {
-                            Character.Player.UpdateOnlineCharacter();
-                            OnCharacterJoin(Character);
+                            OnlineCharacterList.Add(Character);
+
+                            try
+                            {
+                                Character.Player.UpdateOnlineCharacter();
+                                OnCharacterJoin(Character);
+                            }
+                            catch
+                            {
+                                OnlineCharacterList.Remove(Character);
+                                throw;
+                            }
                         }
                         catch
                         {
@@ -479,9 +521,234 @@ namespace ACR_ServerCommunicator
         /// </param>
         private void InsertNewServer(GameServer Server)
         {
+            //
+            // Mark the server as visited so that if we come in on the main
+            // thread during the middle of a server synchronization cycle, we
+            // won't immediate offline the server.
+            //
+
+            Server.Visited = true;
+            Server.RefreshOnlineStatus();
+
             ServerList.Add(Server);
             OnServerLoaded(Server);
         }
+
+        /// <summary>
+        /// This thread routine periodically queries the database for new
+        /// events and updates the local state cache as appropriate.  It also
+        /// enqueues game events to the game event queue as required.
+        /// </summary>
+        private void QueryDispatchThreadRoutine()
+        {
+            for (; ; )
+            {
+                //
+                // Run the query cycle and log any exceptions.
+                //
+
+                try
+                {
+                    RunQueryCycle();
+                }
+                catch (Exception e)
+                {
+                    //
+                    // Try and log the exception.  If that fails, don't take
+                    // any other actions.
+
+                    try
+                    {
+                        EventQueue.EnqueueEvent(new DiagnosticLogEvent(String.Format(
+                            "GameWorldManager.QueryDispatchThreadRoutine: Exception {0} running query cycle.", e)));
+                    }
+                    catch
+                    {
+
+                    }
+                }
+
+                Thread.Sleep(DATABASE_POLLING_INTERVAL);
+            }
+        }
+
+        /// <summary>
+        /// This method polls the database for changes and updates the game
+        /// world state as appropriate.
+        /// </summary>
+        private void RunQueryCycle()
+        {
+            DatabasePollCycle += 1;
+
+            //
+            // Always synchronize the character list.
+            //
+
+            SynchronizeOnlineCharacters();
+
+            //
+            // Always synchronize the IPC queue.
+            //
+
+            SynchronizeIPCEventQueue();
+
+            //
+            // Every POLLING_CYCLES_TO_SERVER_SYNC cycles, update the online
+            // status of known servers.
+            //
+
+            if (DatabasePollCycle % POLLING_CYCLES_TO_SERVER_SYNC == 0)
+                SynchronizeOnlineServers();
+        }
+
+        /// <summary>
+        /// This method synchronizes the online character list with the central
+        /// database.  Character join or part events are generated, as is
+        /// appropriate.
+        /// </summary>
+        private void SynchronizeOnlineCharacters()
+        {
+            //
+            // Query the current player list and synchronize with our internal
+            // state.
+            //
+            // There are several steps here:
+            //
+            // 1) Mark all online characters as "not visited".
+            // 2) Retrieve the character list from the database.  For each
+            //    character that wasn't already marked as online, or which has
+            //    changed servers, update the state and fire the character join
+            //    event.  Also, flag any character that is in the list from the
+            //    database as "visited".
+            // 3) Sweep the online character list for characters that are still
+            //    flagged as "not visited".  These characters are those that
+            //    have gone offline in the interim time and which need to have
+            //    the character part event fired.
+            //
+
+            //
+            // First - query the database.  This query returns a list of all
+            // online characters from all servers that have checked in in the
+            // past ten minutes.  We treat any server that has not checked in
+            // within at least that long as having no online players.
+            //
+
+            Database.ACR_SQLQuery(
+                "SELECT " +
+                    "`characters`.`ID` AS character_id, " +
+                    "`players`.`IsDM` AS character_is_dm, " +
+                    "`servers`.`ID` AS character_server_id " +
+                "FROM `characters` " +
+                "INNER JOIN `players` ON `players`.`ID` = `characters`.`PlayerID` " +
+                "INNER JOIN `servers` ON `servers`.`ID` = `characters`.`ServerID` " +
+                "INNER JOIN `pwdata` ON `pwdata`.`Name` = `servers`.`Name` " +
+                "WHERE `characters`.`IsOnline` = 1 " +
+                "AND pwdata.`Key` = 'ACR_TIME_SERVERTIME' " +
+                "AND pwdata.`Last` >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 10 MINUTE) "
+                );
+
+            //
+            // Clear visited.
+            //
+            // N.B.  The Visited flag is only managed on the query thread or
+            //       prior to list insertion during initial character creation.
+            //
+            //       Thus, while we must lock to protect the integrity of the
+            //       list, there's no need to worry about another thread
+            //       altering the Visited state after we drop the lock.
+            //
+
+            lock (this)
+            {
+                foreach (GameCharacter Character in OnlineCharacters)
+                {
+                    Character.Visited = false;
+                }
+            }
+
+            //
+            // Read each database row, then take the lock and update entries.
+            //
+
+            while (Database.ACR_SQLFetch())
+            {
+                int CharacterId = Convert.ToInt32(Database.ACR_SQLGetData(0));
+                bool IsDM = Convert.ToInt32(Database.ACR_SQLGetData(1)) != 0;
+                int ServerId = Convert.ToInt32(Database.ACR_SQLGetData(2));
+
+                lock (this)
+                {
+                    GameCharacter Character = ReferenceCharacterById(CharacterId);
+                    GameServer Server = ReferenceServerById(ServerId);
+
+                    //
+                    // Update the DM state of the character.
+                    //
+
+                    Character.Visited = true;
+                    Character.Player.IsDM = IsDM;
+
+                    if (Character.Server == Server)
+                        continue;
+
+                    //
+                    // The character changed servers, send the appropriate part
+                    // and join events.
+                    //
+
+                    OnCharacterPart(Character);
+                    Character.Server = Server;
+                    OnCharacterJoin(Character);
+                }
+            }
+
+            //
+            // Sweep offline characters.
+            //
+
+            lock (this)
+            {
+                var NowOfflineCharacters = (from C in OnlineCharacters
+                                            where C.Visited == false
+                                            select C);
+
+                foreach (GameCharacter Character in NowOfflineCharacters)
+                {
+                    Character.Online = false;
+                    OnlineCharacterList.Remove(Character);
+                    OnCharacterPart(Character);
+                }
+            }
+        }
+
+        /// <summary>
+        /// This method synchronizes the online status of the server list.
+        /// </summary>
+        private void SynchronizeOnlineServers()
+        {
+
+        }
+
+        /// <summary>
+        /// This method synchronizes the IPC event queue for the server.
+        /// </summary>
+        private void SynchronizeIPCEventQueue()
+        {
+
+        }
+
+        /// <summary>
+        /// The count, in milliseconds, between database polling attempts in
+        /// the context of the query dispatch thread.
+        /// </summary>
+        private const int DATABASE_POLLING_INTERVAL = 1000;
+
+        /// <summary>
+        /// The number of polling cycles between a server online status
+        /// synchronization attempt.
+        /// </summary>
+        private const int POLLING_CYCLES_TO_SERVER_SYNC = 60;
+
 
         /// <summary>
         /// The database connection object.
@@ -506,9 +773,24 @@ namespace ACR_ServerCommunicator
         private List<GameCharacter> CharacterList = new List<GameCharacter>();
 
         /// <summary>
+        /// The list of characters that are online is stored here.
+        /// </summary>
+        private List<GameCharacter> OnlineCharacterList = new List<GameCharacter>();
+
+        /// <summary>
         /// The event queue for pending game events that require service from
         /// within an in-script is stored here.
         /// </summary>
         private GameEventQueue EventQueue = null;
+
+        /// <summary>
+        /// The thread object for the query dispatch thread is stored here.
+        /// </summary>
+        private Thread QueryDispatchThread = null;
+
+        /// <summary>
+        /// The current polling cycle for the database is stored here.
+        /// </summary>
+        private int DatabasePollCycle = 0;
     }
 }
