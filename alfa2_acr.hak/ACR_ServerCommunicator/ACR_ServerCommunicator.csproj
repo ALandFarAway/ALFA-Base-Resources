@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\CLRScript\CLRv4.0.30319\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="NWNScriptJITIntrinsics, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\CLRScript\CLRv4.0.30319\NWNScriptJITIntrinsics.dll</HintPath>
     </Reference>
@@ -52,13 +55,27 @@
   <ItemGroup>
     <Compile Include="ACR_ServerCommunicator.cs" />
     <Compile Include="..\..\CLRScript\ALFADatabase.cs" />
+    <Compile Include="..\..\CLRScript\ALFAMySQLDatabase.cs" />
     <Compile Include="..\..\CLRScript\ALFAScriptLoader.cs" />
     <Compile Include="..\..\CLRScript\ALFASystemInfo.cs" />
     <Compile Include="..\..\CLRScript\NWScriptActions.cs" />
     <Compile Include="..\..\CLRScript\NWScriptConstants.cs" />
     <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="CharacterJoinEvent.cs" />
+    <Compile Include="CharacterPartEvent.cs" />
+    <Compile Include="ChatTellEvent.cs" />
+    <Compile Include="DiagnosticLogEvent.cs" />
+    <Compile Include="GameCharacter.cs" />
+    <Compile Include="GameEventQueue.cs" />
+    <Compile Include="GamePlayer.cs" />
+    <Compile Include="GameServer.cs" />
+    <Compile Include="GameWorldManager.cs" />
+    <Compile Include="IGameEntity.cs" />
+    <Compile Include="ServerJoinEvent.cs" />
+    <Compile Include="ServerPartEvent.cs" />
     <Compile Include="StandardEntrypoints.cs" />
+    <Compile Include="UnsupportedIPCRequestEvent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

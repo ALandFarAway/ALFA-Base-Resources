@@ -33,7 +33,7 @@ const string ACR_SERVER_IPC_SERVERCOM_SCRIPT                    = "acr_servercom
 
 // Commands for the IPC C# script:
 
-// This command requests that initialization be pefroemd for module startup.
+// This command requests that initialization be performed for module startup.
 const string ACR_SERVER_IPC_INITIALIZE                          = "INITIALIZE";
 
 // This command requests that an IPC event be signaled.
@@ -106,6 +106,28 @@ void ACR_SendCrossServerTellByPlayer(object Sender, string PlayerName, string Te
 //!  - Message: Supplies the error message.
 void ACR_SendFeedbackError(object Target, string Message);
 
+//! Deliver a server tell to a local player.  This is used when a server to
+//  server tell is initiated, but it is then discovered that the destination of
+//  the tell is actually on the local server.
+//!  - Sender: Supplies the sender object.
+//!  - PlayerID: Supplies the player id of the player to deliver the message
+//               to.
+//!  - Message: Supplies the tell text to deliver.
+void ACR_DeliverLocalTell(object Sender, int PlayerID, string Message);
+
+//! Deliver the confirmation message to the local sender of a cross server
+//  tell.
+//!  - Sender: Supplies the local sender.
+//!  - Recipient: Supplies the recipient designator text.
+//!  - Message: Supplies the tell text that was delivered.
+void ACR_DeliverCrossServerTellConfirmation(object Sender, string Recipient, string Message);
+
+//! Given a player ID for a player on the local server, return the PC object
+//  for that player.
+//!  - PlayerID: Supplies the player id of a player on this server.
+//!  - Returns: The PC object of the player, else OBJECT_INVALID.
+object ACR_GetLocalPlayerByPlayerID(int PlayerID);
+
 //! Translate a character name to player id.
 //!  - CharacterName: Supplies the character name to translate.
 //!  - Returns: The player ID, else 0 if there was no mapping.
@@ -157,6 +179,14 @@ void ACR_SendCrossServerTellByCharacter(object Sender, string CharacterName, str
 		return;
 	}
 
+	// If we are delivering the message to a player on this server, send it
+	// directly.  Otherwise, use the IPC queue.
+	if (ServerID == ACR_GetServerID())
+	{
+		ACR_DeliverLocalTell(Sender, PlayerID, Message);
+		return;
+	}
+
 	if (GetStringLength(TellText) > ACR_SERVER_IPC_MAX_EVENT_LENGTH)
 	{
 		TellText = GetStringLeft(TellText, ACR_SERVER_IPC_MAX_EVENT_LENGTH);
@@ -171,6 +201,7 @@ void ACR_SendCrossServerTellByCharacter(object Sender, string CharacterName, str
 	IPCEvent.EventText = TellText;
 
 	ACR_SignalServerIPCEvent(IPCEvent);
+	ACR_DeliverCrossServerTellConfirmation(Sender, CharacterName, TellText);
 }
 
 void ACR_SendCrossServerTellByPlayer(object Sender, string PlayerName, string TellText)
@@ -193,6 +224,14 @@ void ACR_SendCrossServerTellByPlayer(object Sender, string PlayerName, string Te
 		return;
 	}
 
+	// If we are delivering the message to a player on this server, send it
+	// directly.  Otherwise, use the IPC queue.
+	if (ServerID == ACR_GetServerID())
+	{
+		ACR_DeliverLocalTell(Sender, PlayerID, Message);
+		return;
+	}
+
 	if (GetStringLength(TellText) > ACR_SERVER_IPC_MAX_EVENT_LENGTH)
 	{
 		TellText = GetStringLeft(TellText, ACR_SERVER_IPC_MAX_EVENT_LENGTH);
@@ -207,13 +246,53 @@ void ACR_SendCrossServerTellByPlayer(object Sender, string PlayerName, string Te
 	IPCEvent.EventText = TellText;
 
 	ACR_SignalServerIPCEvent(IPCEvent);
+	ACR_DeliverCrossServerTellConformation(Sender, PlayerName, TellText);
 }
 
 void ACR_SendFeedbackError(object Target, string Message)
 {
+	if (Sender == OBJECT_INVALID)
+		return;
+
 	SendChatMessage(OBJECT_INVALID, CHAT_MODE_SERVER, "<c=red>Error: " + Message + "</c>");
 }
 
+void ACR_DeliverCrossServerTellConfirmation(object Sender, string Recipient, string Message)
+{
+	if (Sender == OBJECT_INVALID)
+		return;
+
+	SendChatMessage(OBJECT_INVALID, CHAT_MODE_SERVER, "<c=green>" + Recipient + ": [Tell] " + Message + "</c>");
+}
+
+void ACR_DeliverLocalTell(object Sender, int PlayerID, string Message)
+{
+	object DestinationPlayer = ACR_GetLocalPlayerByPlayerID(PlayerID);
+
+	if (DestinationPlayer == OBJECT_INVALID)
+	{
+		ACR_SendFeedbackError(Sender, "Internal error - attempted to re-route tell to local player, but player wasn't actually on this server.");
+		return;
+	}
+
+	SendChatMessage(Sender, DestinationPlayer, CHAT_MODE_TELL, Message, TRUE);
+	SendChatMessage(DestinationPlayer, Sender, CHAT_MODE_TELL, Message, TRUE);
+}
+
+object ACR_GetLocalPlayerByPlayerID(int PlayerID)
+{
+	object PlayerObject = GetFirstPC();
+
+	while (PlayerObject != OBJECT_INVALID)
+	{
+		if (ACR_GetPlayerID(PlayerObject) == PlayerID)
+			return PlayerObject;
+
+		PlayerObject = GetNextPC();
+	}
+
+	return OBJECT_INVALID;
+}
 
 int ACR_GetPlayerIDByCharacterName(string CharacterName)
 {

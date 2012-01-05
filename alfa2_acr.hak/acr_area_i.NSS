@@ -180,32 +180,31 @@ void ACR_OnAreaTransitionClick()
 	}
 #endif
 			
+    if (GetIsPC(oClicker)) {
+        // NPCs don't need AT warnings/feedback
+        // this function handles transitioning as well.
+        if (bValid)
+            ACR_CheckAT(oClicker, oTarget, lTarget);
+        else
+            ACR_CheckAT(oClicker, OBJECT_INVALID, lTarget);
+    } else {
+        if (bValid)
+            AssignCommand(oClicker, JumpToObject(oTarget));
+        else
+            AssignCommand(oClicker, JumpToLocation(lTarget));
+    }
 
-	if (GetIsPC(oClicker)) {
-		// NPCs don't need AT warnings/feedback
-		// this function handles transitioning as well.
-		ACR_SetLoadingScreen(oClicker);
-		if (bValid)
-			ACR_CheckAT(oClicker, oTarget, lTarget);
-		else
-			ACR_CheckAT(oClicker, OBJECT_INVALID, lTarget);
-	} else {
-		if (bValid)
-			AssignCommand(oClicker, JumpToObject(oTarget));
-		else
-			AssignCommand(oClicker, JumpToLocation(lTarget));
-	}
-
-	// Set the AT screen randomly.
+    // Set the AT screen randomly.
+    ACR_SetLoadingScreen(oClicker);
 }
 
 void ACR_SetLoadingScreen(object oClicker)
 {
-    string sScreen = "";
+    int nScreen;
     int nCheck = Random(11);
     if(nCheck == 0) // coming soon
     {
-        sScreen = "ALFA_projects_0"+IntToString(d6(1));
+        nScreen = Random(6) + 151;
     }
     else if(nCheck == 1) // Knowledge: Arcana
     {
@@ -221,14 +220,7 @@ void ACR_SetLoadingScreen(object oClicker)
     }
     else if(nCheck == 5) // Knowledge: History
     {
-        if(GetSkillRank(SKILL_KNOWLEDGE_HISTORY, oClicker, TRUE) > 0 ||
-           GetAbilityScore(oClicker, ABILITY_INTELLIGENCE, TRUE) >= 10)
-        {
-            sScreen = "FR_his_com_";
-            string sNumber = IntToString(Random(10)+1);
-            if(GetStringLength(sNumber) == 1) sScreen = sScreen + "0";
-            sScreen = sScreen + sNumber;
-        }
+        nScreen = Random(10) + 601;
     }
     else if(nCheck == 6) // Knowledge: Local
     {
@@ -241,23 +233,18 @@ void ACR_SetLoadingScreen(object oClicker)
     }
     else if(nCheck == 9) // Knowledge: Religion
     {
-        if(GetSkillRank(SKILL_KNOWLEDGE_RELIGION, oClicker, TRUE) > 0 ||
-           GetAbilityScore(oClicker, ABILITY_INTELLIGENCE, TRUE) >= 10)
-        {
-            sScreen = "FR_rel_com_";
-            string sNumber = IntToString(Random(15)+1);
-            if(GetStringLength(sNumber) == 1) sScreen = sScreen + "0";
-            sScreen = sScreen + sNumber;
-        }
+        nScreen = Random(15) + 1001;
     }
     else if(nCheck == 10) // Knowledge: The Planes
     {
     }
+    
+    if(nScreen == 0)
+    {
+        nScreen = Random(58) + 2;
+    }
 
-    if(sScreen != "")
-        AssignCommand(oClicker, SetAreaTransitionBMP(AREA_TRANSITION_USER_DEFINED, sScreen));
-    else
-        SetAreaTransitionBMP(AREA_TRANSITION_RANDOM);
+    AssignCommand(oClicker, SetAreaTransitionBMP(nScreen));
 
 //=== The generic screens are defined in loadscreens.2da, and don't need to be specified ===//
     return;
