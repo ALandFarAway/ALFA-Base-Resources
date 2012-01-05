@@ -184,7 +184,7 @@ void ACR_OnAreaTransitionClick()
 	if (GetIsPC(oClicker)) {
 		// NPCs don't need AT warnings/feedback
 		// this function handles transitioning as well.
-		// ACR_SetLoadingScreen(oClicker);
+		ACR_SetLoadingScreen(oClicker);
 		if (bValid)
 			ACR_CheckAT(oClicker, oTarget, lTarget);
 		else
@@ -197,7 +197,6 @@ void ACR_OnAreaTransitionClick()
 	}
 
 	// Set the AT screen randomly.
-	//SetAreaTransitionBMP(AREA_TRANSITION_RANDOM);
 }
 
 void ACR_SetLoadingScreen(object oClicker)
@@ -257,6 +256,8 @@ void ACR_SetLoadingScreen(object oClicker)
 
     if(sScreen != "")
         AssignCommand(oClicker, SetAreaTransitionBMP(AREA_TRANSITION_USER_DEFINED, sScreen));
+    else
+        SetAreaTransitionBMP(AREA_TRANSITION_RANDOM);
 
 //=== The generic screens are defined in loadscreens.2da, and don't need to be specified ===//
     return;
