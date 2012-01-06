@@ -22,7 +22,7 @@ namespace ACR_ServerCommunicator
         /// <param name="Sender">Supplies the sender.</param>
         /// <param name="Recipient">Supplies the recipient.</param>
         /// <param name="Message">Supplies the message text.</param>
-        public ChatTellEvent(GameCharacter Sender, GameCharacter Recipient, string Message)
+        public ChatTellEvent(GameCharacter Sender, GamePlayer Recipient, string Message)
         {
             this.Sender = Sender;
             this.Recipient = Recipient;
@@ -38,7 +38,7 @@ namespace ACR_ServerCommunicator
         {
             foreach (uint PlayerObject in Script.GetPlayers(true))
             {
-                if (Database.ACR_GetCharacterID(PlayerObject) != Recipient.CharacterId)
+                if (Database.ACR_GetPlayerID(PlayerObject) != Recipient.PlayerId)
                     continue;
 
                 string FormattedMessage = String.Format(
@@ -64,7 +64,7 @@ namespace ACR_ServerCommunicator
         /// <summary>
         /// The message recipient.
         /// </summary>
-        private GameCharacter Recipient;
+        private GamePlayer Recipient;
 
         /// <summary>
         /// The message text.

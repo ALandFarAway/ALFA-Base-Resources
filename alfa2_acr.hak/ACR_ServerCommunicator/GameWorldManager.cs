@@ -453,7 +453,7 @@ namespace ACR_ServerCommunicator
         /// <param name="Sender">Supplies the sender.</param>
         /// <param name="Recipient">Supplies the recipient.</param>
         /// <param name="Message">Supplies the message text.</param>
-        private void OnChatTell(GameCharacter Sender, GameCharacter Recipient, string Message)
+        private void OnChatTell(GameCharacter Sender, GamePlayer Recipient, string Message)
         {
             EventQueue.EnqueueEvent(new ChatTellEvent(Sender, Recipient, Message));
         }
@@ -1079,7 +1079,7 @@ namespace ACR_ServerCommunicator
                                    continue;
                                }
 
-                               OnChatTell(SenderCharacter, RecipientCharacter, EventText);
+                               OnChatTell(SenderCharacter, RecipientPlayer, EventText);
                            }
                            break;
 
@@ -1104,7 +1104,7 @@ namespace ACR_ServerCommunicator
                    DatabaseLinkQueryThread.ACR_SQLQuery(String.Format(
                        "DELETE FROM `server_ipc_events` WHERE `DestinationServerID` = {0} AND `ID` < {1}",
                        LocalServerId,
-                       HighestRecordId));
+                       HighestRecordId + 1));
                }
             }
         }
