@@ -92,6 +92,14 @@ namespace ACR_ServerCommunicator
 
                 ReturnCode = ResolvePlayerIdToServerId(PlayerId);
             }
+            else if (RequestType == "LIST_ONLINE_USERS")
+            {
+                uint PlayerObject = OBJECT_SELF;
+
+                ListOnlineUsers(PlayerObject);
+
+                ReturnCode = 0;
+            }
             else
             {
                 throw new ApplicationException("Invalid IPC script command " + RequestType);
@@ -247,6 +255,27 @@ namespace ACR_ServerCommunicator
                     return 0;
 
                 return Server.ServerId;
+            }
+        }
+
+        /// <summary>
+        /// Send a textural description of the online player list to player on
+        /// the local server.
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the player object id for the
+        /// player to send the player list to.</param> 
+        private void ListOnlineUsers(uint PlayerObject)
+        {
+            lock (WorldManager)
+            {
+                var OnlineServers = from S in WorldManager.Servers
+                                    where S.Online &&
+                                    S.Characters.Count > 0
+                                    select S;
+
+                foreach (GameServer Server in OnlineServers)
+                {
+                }
             }
         }
 

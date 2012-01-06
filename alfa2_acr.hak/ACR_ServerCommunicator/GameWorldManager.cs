@@ -753,6 +753,18 @@ namespace ACR_ServerCommunicator
                     if (Character.Server != null && Character.Online)
                         OnCharacterPart(Character);
 
+                    //
+                    // If the user's server is still marked as offline, mark it
+                    // as online now.  It has to have checked in for it to have
+                    // been returned in the query as it is.
+                    //
+
+                    if (!Server.Online)
+                    {
+                        Server.Online = true;
+                        OnServerJoin(Server);
+                    }
+
                     Character.Server = Server;
                     Character.Online = true;
                     OnCharacterJoin(Character);
