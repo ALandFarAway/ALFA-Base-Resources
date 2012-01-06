@@ -377,12 +377,6 @@ namespace ACR_ServerCommunicator
         public bool PauseUpdates { get; set; }
         
         /// <summary>
-        /// If true, debug mode is enabled (logs events to server log for
-        /// troubleshooting presence).
-        /// </summary>
-        public const bool DEBUG_MODE = false;
-
-        /// <summary>
         /// Run the event queue down.  All events in the queue are given a
         /// chance to run.
         /// </summary>

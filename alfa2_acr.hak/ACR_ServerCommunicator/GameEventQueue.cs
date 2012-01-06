@@ -43,8 +43,9 @@ namespace ACR_ServerCommunicator
         /// <param name="Database">Supplies the database connection.</param>
         public void RunQueue(ACR_ServerCommunicator Script, ALFA.Database Database)
         {
-            if (GameWorldManager.DEBUG_MODE)
-                Script.WriteTimestampedLogEntry(String.Format("Running queue of {0} entries", EventQueue.Count));
+#if DEBUG_MODE
+            Script.WriteTimestampedLogEntry(String.Format("Running queue of {0} entries", EventQueue.Count));
+#endif
 
             while (!Empty())
             {

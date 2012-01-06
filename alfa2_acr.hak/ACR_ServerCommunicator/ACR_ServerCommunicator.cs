@@ -436,11 +436,13 @@ namespace ACR_ServerCommunicator
                 ListOnlineUsers(SenderObjectId);
                 return TRUE;
             }
+#if DEBUG_MODE
             else if (CookedText.Equals("showstate", StringComparison.InvariantCultureIgnoreCase) && GameWorldManager.DEBUG_MODE)
             {
                 ShowInternalState(SenderObjectId);
                 return TRUE;
             }
+#endif
             else
             {
                 return FALSE;
@@ -958,12 +960,18 @@ namespace ACR_ServerCommunicator
                 return;
             }
 
+
+#if DEBUG_MODE
+            //
+            // Debug mode always sends through the IPC queue for better
+            // testing.
+            //
+#else
             //
             // If this is a local server tell, dispatch it locally.
             //
 
-            if (DestinationServer.ServerId == Database.ACR_GetServerID() &&
-                GameWorldManager.DEBUG_MODE == false)
+            if (DestinationServer.ServerId == Database.ACR_GetServerID())
             {
                 foreach (uint PlayerObject in GetPlayers(true))
                 {
@@ -979,13 +987,13 @@ namespace ACR_ServerCommunicator
                     //
 
                     SendChatMessage(SenderObjectId, PlayerObject, CHAT_MODE_TELL, Message, TRUE);
-                    SendChatMessage(PlayerObject, SenderObjectId, CHAT_MODE_TELL, Message, FALSE);
                     return;
                 }
 
                 SendFeedbackError(SenderObjectId, "Internal error - attempted to re-route tell to local player, but player wasn't actually on this server.");
                 return;
             }
+#endif
 
             //
             // Otherwise, enqueue it.
