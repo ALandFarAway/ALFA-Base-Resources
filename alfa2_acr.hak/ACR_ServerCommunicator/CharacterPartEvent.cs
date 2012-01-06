@@ -61,6 +61,9 @@ namespace ACR_ServerCommunicator
                     Message,
                     CLRScriptBase.FALSE);
             }
+
+            if (GameWorldManager.DEBUG_MODE)
+                Script.WriteTimestampedLogEntry(Message);
         }
 
         /// <summary>

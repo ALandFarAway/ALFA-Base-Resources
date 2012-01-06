@@ -43,6 +43,7 @@ namespace ACR_ServerCommunicator
         public GameWorldManager(int LocalServerId)
         {
             this.LocalServerId = LocalServerId;
+            this.PauseUpdates = false;
 
             EventQueue = new GameEventQueue(this);
             QueryDispatchThread = new Thread(QueryDispatchThreadRoutine);
@@ -353,6 +354,19 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This property indicates whether updates to the game state by the
+        /// query thread should be paused.  It may be used to temporarly halt
+        /// updates for debugging or diagnostic purposes.
+        /// </summary>
+        public bool PauseUpdates { get; set; }
+        
+        /// <summary>
+        /// If true, debug mode is enabled (logs events to server log for
+        /// troubleshooting presence).
+        /// </summary>
+        public const bool DEBUG_MODE = true;
+
+        /// <summary>
         /// Run the event queue down.  All events in the queue are given a
         /// chance to run.
         /// </summary>
@@ -603,7 +617,8 @@ namespace ACR_ServerCommunicator
 
                 try
                 {
-                    RunQueryCycle();
+                    if (!PauseUpdates)
+                        RunQueryCycle();
                 }
                 catch (Exception e)
                 {

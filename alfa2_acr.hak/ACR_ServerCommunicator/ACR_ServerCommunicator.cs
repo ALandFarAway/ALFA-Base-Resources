@@ -272,10 +272,25 @@ namespace ACR_ServerCommunicator
                                     where S.Online &&
                                     S.Characters.Count > 0
                                     select S;
+                StringBuilder Message = new StringBuilder();
+                int UserCount = 0;
+
+                foreach (GameServer Server in OnlineServers)
+                    UserCount += Server.Characters.Count;
+
+                Message.AppendFormat("{0} users on {1} servers:", UserCount, OnlineServers.Count<GameServer>());
 
                 foreach (GameServer Server in OnlineServers)
                 {
+                    Message.AppendFormat("\n-- Server {0} --\n", Server.ServerName);
+
+                    foreach (GameCharacter Character in Server.Characters)
+                    {
+                        Message.AppendFormat("\n{0} ({1}){2}", Character.CharacterName, Character.Player.PlayerName, Character.Player.IsDM ? " [DM]" : "");
+                    }
                 }
+
+                SendMessageToPC(PlayerObject, Message.ToString());
             }
         }
 
@@ -302,6 +317,12 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void DrainCommandQueue()
         {
+            //
+            // If we were requested by script to pause updates, then stop now.
+            //
+
+            WorldManager.PauseUpdates = (GetGlobalInt("ACR_SERVER_IPC_PAUSED") != 0);
+
             lock (WorldManager)
             {
                 if (WorldManager.IsEventQueueEmpty())
