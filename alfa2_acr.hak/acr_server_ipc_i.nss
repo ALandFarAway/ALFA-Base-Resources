@@ -48,6 +48,9 @@ const string ACR_SERVER_IPC_RESOLVE_PLAYER_NAME                 = "RESOLVE_PLAYE
 // This command resolves a player id to an active server id.
 const string ACR_SERVER_IPC_RESOLVE_PLAYER_ID_TO_SERVER_ID      = "RESOLVE_PLAYER_ID_TO_SERVER_ID";
 
+// This command lists online players to the current PC.
+const string ACR_SERVER_IPC_LIST_ONLINE_USERS                   = "LIST_ONLINE_USERS";
+
 
 // IPC event codes:
 
@@ -101,6 +104,10 @@ void ACR_SendCrossServerTellByCharacter(object Sender, string CharacterName, str
 //!  - TellText: Supplies the tell text to send.
 void ACR_SendCrossServerTellByPlayer(object Sender, string PlayerName, string TellText);
 
+//! Request that a text mode player list be sent to a user.
+//!  - Sender: Supplies the PC to send the player list to.
+void ACR_SendOnlineUserList(object Player);
+
 //! Send a feedback error message to a player.
 //!  - Target: Supplies the player to send the message to.
 //!  - Message: Supplies the error message.
@@ -152,8 +159,9 @@ int ACR_GetPlayerLoggedOnServerID(int PlayerID);
 //!  - P3: Supplies the fourth command-specific parameter.
 //!  - P4: Supplies the fifth command-specific parameter.
 //!  - P5: Supplies the sixth command-specific parameter.
+//!  - ObjectSelf: Supplies the OBJECT_SELF to run the script on.
 //!  - Returns: The command-specific return code is returned.
-int ACR_CallIPCScript(string Command, int P0, int P1, int P2, int P3, int P4, string P5);
+int ACR_CallIPCScript(string Command, int P0, int P1, int P2, int P3, int P4, string P5, object ObjectSelf = OBJECT_SELF);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -247,6 +255,23 @@ void ACR_SendCrossServerTellByPlayer(object Sender, string PlayerName, string Te
 
 	ACR_SignalServerIPCEvent(IPCEvent);
 	ACR_DeliverCrossServerTellConformation(Sender, PlayerName, TellText);
+}
+
+void ACR_SendOnlineUserList(object Player)
+{
+	if (!GetIsPC(Player))
+		return;
+
+	ACR_CallIPCScript(
+		Player,
+		ACR_SERVER_IPC_LIST_ONLINE_USERS,
+		0,
+		0,
+		0,
+		0,
+		0,
+		"",
+		Player);
 }
 
 void ACR_SendFeedbackError(object Target, string Message)
@@ -354,7 +379,7 @@ void ACR_ServerIPC_OnModuleLoad()
 		"");
 }
 
-int ACR_CallIPCScript(string Command, int P0, int P1, int P2, int P3, int P4, string P5)
+int ACR_CallIPCScript(string Command, int P0, int P1, int P2, int P3, int P4, string P5, object ObjectSelf = OBJECT_SELF)
 {
 	AddScriptParameterString(Command);
 	AddScriptParameterInt(P0);
@@ -364,6 +389,6 @@ int ACR_CallIPCScript(string Command, int P0, int P1, int P2, int P3, int P4, st
 	AddScriptParameterInt(P4);
 	AddScriptParameterString(P5);
 
-	return ExecuteScriptEnhanced(ACR_SERVER_IPC_SERVERCOM_SCRIPT, OBJECT_SELF, TRUE);
+	return ExecuteScriptEnhanced(ACR_SERVER_IPC_SERVERCOM_SCRIPT, ObjectSelf, TRUE);
 }
 
