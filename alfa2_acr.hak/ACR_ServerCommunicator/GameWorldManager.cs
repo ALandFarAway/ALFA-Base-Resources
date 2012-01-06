@@ -88,7 +88,7 @@ namespace ACR_ServerCommunicator
 
             Character.CharacterId = Convert.ToInt32(Database.ACR_SQLGetData(0));
             Character.PlayerId = Convert.ToInt32(Database.ACR_SQLGetData(1));
-            Character.Online = Convert.ToInt32(Database.ACR_SQLGetData(2)) != 0;
+            Character.Online = Convert.ToBoolean(Database.ACR_SQLGetData(2));
             ServerId = Convert.ToInt32(Database.ACR_SQLGetData(3));
             Character.CharacterName = Database.ACR_SQLGetData(4);
 
@@ -135,7 +135,7 @@ namespace ACR_ServerCommunicator
             Character.CharacterName = Database.ACR_SQLGetData(0);
             Character.CharacterId = CharacterId;
             Character.PlayerId = Convert.ToInt32(Database.ACR_SQLGetData(1));
-            Character.Online = Convert.ToInt32(Database.ACR_SQLGetData(2)) != 0;
+            Character.Online = Convert.ToBoolean(Database.ACR_SQLGetData(2));
             ServerId = Convert.ToInt32(Database.ACR_SQLGetData(3));
 
             InsertNewCharacter(Character, ServerId);
@@ -177,7 +177,7 @@ namespace ACR_ServerCommunicator
             Player = new GamePlayer(this);
 
             Player.PlayerId = Convert.ToInt32(Database.ACR_SQLGetData(0));
-            Player.IsDM = Convert.ToInt32(Database.ACR_SQLGetData(1)) != 0;
+            Player.IsDM = Convert.ToBoolean(Database.ACR_SQLGetData(1));
             Player.PlayerName = Database.ACR_SQLGetData(2);
 
             InsertNewPlayer(Player);
@@ -220,7 +220,7 @@ namespace ACR_ServerCommunicator
 
             Player.PlayerName = Database.ACR_SQLGetData(0);
             Player.PlayerId = PlayerId;
-            Player.IsDM = Convert.ToInt32(Database.ACR_SQLGetData(1)) != 0;
+            Player.IsDM = Convert.ToBoolean(Database.ACR_SQLGetData(1));
 
             InsertNewPlayer(Player);
 
@@ -511,6 +511,8 @@ namespace ACR_ServerCommunicator
                         if (Server == null)
                             throw new ApplicationException(String.Format("Character {0} is online but references invalid server id {1}", Character.CharacterId, ServerId));
 
+                        Character.Server = Server;
+
                         //
                         // If the character is coming online, but its associated server is
                         // not actually online, then mark the character as offline.
@@ -742,7 +744,7 @@ namespace ACR_ServerCommunicator
             while (Database.ACR_SQLFetch())
             {
                 int CharacterId = Convert.ToInt32(Database.ACR_SQLGetData(0));
-                bool IsDM = Convert.ToInt32(Database.ACR_SQLGetData(1)) != 0;
+                bool IsDM = Convert.ToBoolean(Database.ACR_SQLGetData(1));
                 int ServerId = Convert.ToInt32(Database.ACR_SQLGetData(2));
 
                 lock (this)
@@ -926,7 +928,7 @@ namespace ACR_ServerCommunicator
                     "`server_ipc_events`.`EventType` as event_type, " +
                     "`server_ipc_events`.`EventText` as event_text " +
                 "FROM `server_ipc_events` " +
-                "WHERE destination_server_id = {0} " +
+                "WHERE `server_ipc_events`.`DestinationServerID` = {0} " +
                 "GROUP BY record_id " +
                 "ORDER BY record_id ",
                 LocalServerId
