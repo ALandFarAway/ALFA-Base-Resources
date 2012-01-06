@@ -47,7 +47,7 @@ namespace ALFA
         string ACR_SQLGetData();
 
         /// <summary>
-        /// This routine returns the specified column of data form the current
+        /// This routine returns the specified column of data from the current
         /// SQL rowset.
         /// </summary>
         /// <param name="ColumnIndex">Supplies the zero-based column index to
@@ -402,7 +402,7 @@ namespace ALFA
         }
 
         /// <summary>
-        /// This routine returns the specified column of data form the current
+        /// This routine returns the specified column of data from the current
         /// SQL rowset.
         /// </summary>
         /// <param name="ColumnIndex">Supplies the zero-based column index to

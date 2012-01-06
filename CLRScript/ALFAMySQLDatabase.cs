@@ -71,7 +71,7 @@ namespace ALFA
         }
 
         /// <summary>
-        /// This routine returns the specified column of data form the current
+        /// This routine returns the specified column of data from the current
         /// SQL rowset.
         /// </summary>
         /// <param name="ColumnIndex">Supplies the zero-based column index to
@@ -227,7 +227,7 @@ namespace ALFA
         }
 
         /// <summary>
-        /// This routine returns the specified column of data form the current
+        /// This routine returns the specified column of data from the current
         /// SQL rowset.
         /// </summary>
         /// <param name="ColumnIndex">Supplies the zero-based column index to
@@ -272,7 +272,7 @@ namespace ALFA
         {
             SystemInfo.SQLConnectionSettings ConnectionSettings = SystemInfo.GetSQLConnectionSettings();
 
-            ConnectionString = String.Format("Server={0};Uid={1};Password={2};Database={3};Max Pool Size=2",
+            ConnectionString = String.Format("Server={0};Uid={1};Password={2};Database={3};Max Pool Size=3",
                 ConnectionSettings.Server,
                 ConnectionSettings.User,
                 ConnectionSettings.Password,

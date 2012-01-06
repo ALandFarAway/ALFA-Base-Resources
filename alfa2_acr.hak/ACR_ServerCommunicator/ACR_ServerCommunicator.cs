@@ -181,6 +181,9 @@ namespace ACR_ServerCommunicator
             if (EventText.Length > ACR_SERVER_IPC_MAX_EVENT_LENGTH)
                 throw new ApplicationException("IPC event text too long:" + EventText);
 
+            if (Database == null)
+                Database = new ALFA.Database(this);
+
             Database.ACR_SQLQuery(String.Format(
                 "INSERT INTO `server_ipc_events` (`ID`, `SourcePlayerID`, `SourceServerID`, `DestinationPlayerID`, `EventType`, `EventText`) VALUES (0, {0}, {1}, {2}, {3}, {5}, '{6}')",
                 SourcePlayerId,
@@ -201,9 +204,16 @@ namespace ACR_ServerCommunicator
         /// <returns>The object id, else 0 if the lookup failed.</returns>
         private int ResolveCharacterNameToPlayerId(string CharacterName)
         {
+            if (Database == null)
+                Database = new ALFA.Database(this);
+
             lock (WorldManager)
             {
+                WorldManager.SetMainThreadDatabase(Database);
+
                 GameCharacter Character = WorldManager.ReferenceCharacterByName(CharacterName);
+
+                WorldManager.SetMainThreadDatabase(null);
 
                 if (Character == null)
                     return 0;
@@ -222,9 +232,16 @@ namespace ACR_ServerCommunicator
         /// <returns>The object id, else 0 if the lookup failed.</returns>
         private int ResolvePlayerName(string PlayerName)
         {
+            if (Database == null)
+                Database = new ALFA.Database(this);
+
             lock (WorldManager)
             {
+                WorldManager.SetMainThreadDatabase(Database);
+
                 GamePlayer Player = WorldManager.ReferencePlayerByName(PlayerName);
+
+                WorldManager.SetMainThreadDatabase(null);
 
                 if (Player == null)
                     return 0;
@@ -242,9 +259,16 @@ namespace ACR_ServerCommunicator
         /// <returns>The player's logged on server id, else 0.</returns>
         private int ResolvePlayerIdToServerId(int PlayerId)
         {
+            if (Database == null)
+                Database = new ALFA.Database(this);
+
             lock (WorldManager)
             {
+                WorldManager.SetMainThreadDatabase(Database);
+
                 GamePlayer Player = WorldManager.ReferencePlayerById(PlayerId);
+
+                WorldManager.SetMainThreadDatabase(null);
 
                 if (Player == null)
                     return 0;
@@ -331,7 +355,9 @@ namespace ACR_ServerCommunicator
                 if (Database == null)
                     Database = new ALFA.Database(this);
 
+                WorldManager.SetMainThreadDatabase(Database);
                 WorldManager.RunQueue(this, Database);
+                WorldManager.SetMainThreadDatabase(null);
             }
         }
 

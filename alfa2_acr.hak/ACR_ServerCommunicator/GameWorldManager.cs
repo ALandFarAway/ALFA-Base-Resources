@@ -312,12 +312,28 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// Set the database object to use on the main thread.
+        /// </summary>
+        /// <param name="MainThreadDatabase">Supplies the database that the
+        /// current script provides on the main thread.</param>
+        public void SetMainThreadDatabase(ALFA.Database MainThreadDatabase)
+        {
+            this.DatabaseLinkMainThread = MainThreadDatabase;
+        }
+
+        /// <summary>
         /// This property returns the database object that other objects may
         /// use.
         /// </summary>
         public ALFA.IALFADatabase Database
         {
-            get { return DatabaseLink; }
+            get
+            {
+                if (Thread.CurrentThread == QueryDispatchThread)
+                    return DatabaseLinkQueryThread;
+                else
+                    return DatabaseLinkMainThread;
+            }
         }
 
         /// <summary>
@@ -668,9 +684,20 @@ namespace ACR_ServerCommunicator
             // status of known servers.
             //
 
-            if (DatabasePollCycle % POLLING_CYCLES_TO_SERVER_SYNC == 0)
+            if ((DatabasePollCycle - 1) % POLLING_CYCLES_TO_SERVER_SYNC == 0)
                 SynchronizeOnlineServers();
         }
+
+        /// <summary>
+        /// This structure contains rowset data for a synchronization round of
+        /// the online character query.
+        /// </summary>
+        private struct SynchronizeOnlineCharactersRow
+        {
+            public int CharacterId;
+            public bool IsDM;
+            public int ServerId;
+        };
 
         /// <summary>
         /// This method synchronizes the online character list with the central
@@ -704,7 +731,9 @@ namespace ACR_ServerCommunicator
             // within at least that long as having no online players.
             //
 
-            Database.ACR_SQLQuery(
+            List<SynchronizeOnlineCharactersRow> Rowset = new List<SynchronizeOnlineCharactersRow>();
+
+            DatabaseLinkQueryThread.ACR_SQLQuery(
                 "SELECT " +
                     "`characters`.`ID` AS character_id, " +
                     "`players`.`IsDM` AS character_is_dm, " +
@@ -738,17 +767,32 @@ namespace ACR_ServerCommunicator
             }
 
             //
-            // Read each database row, then take the lock and update entries.
+            // Read each database row.
             //
 
-            while (Database.ACR_SQLFetch())
+            while (DatabaseLinkQueryThread.ACR_SQLFetch())
             {
-                int CharacterId = Convert.ToInt32(Database.ACR_SQLGetData(0));
-                bool IsDM = Convert.ToBoolean(Database.ACR_SQLGetData(1));
-                int ServerId = Convert.ToInt32(Database.ACR_SQLGetData(2));
+                SynchronizeOnlineCharactersRow Row;
 
-                lock (this)
+                Row.CharacterId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(0));
+                Row.IsDM = Convert.ToBoolean(DatabaseLinkQueryThread.ACR_SQLGetData(1));
+                Row.ServerId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(2));
+
+                Rowset.Add(Row);
+            }
+
+            lock (this)
+            {
+                //
+                // Update entries.
+                //
+
+                foreach (SynchronizeOnlineCharactersRow Row in Rowset)
                 {
+                    int CharacterId = Row.CharacterId;
+                    bool IsDM = Row.IsDM;
+                    int ServerId = Row.ServerId;
+
                     GameCharacter Character = ReferenceCharacterById(CharacterId);
                     GameServer Server = ReferenceServerById(ServerId);
 
@@ -786,26 +830,34 @@ namespace ACR_ServerCommunicator
                     Character.Online = true;
                     OnCharacterJoin(Character);
                 }
-            }
 
-            //
-            // Sweep offline characters.
-            //
+                //
+                // Sweep offline characters.
+                //
 
-            lock (this)
-            {
                 var NowOfflineCharacters = (from C in OnlineCharacters
                                             where C.Visited == false
                                             select C);
 
-                foreach (GameCharacter Character in NowOfflineCharacters)
+                List<GameCharacter> ObjectsToRemove = new List<GameCharacter>(NowOfflineCharacters);
+
+                foreach (GameCharacter Character in ObjectsToRemove)
                 {
+                    OnCharacterPart(Character);
                     Character.Online = false;
                     OnlineCharacterList.Remove(Character);
-                    OnCharacterPart(Character);
                 }
             }
         }
+
+        /// <summary>
+        /// This structure contains rowset data for a synchronization round of
+        /// the online server query.
+        /// </summary>
+        private struct SynchronizeOnlineServersRow
+        {
+            public int ServerId;
+        };
 
         /// <summary>
         /// This method synchronizes the online status of the server list.
@@ -837,7 +889,9 @@ namespace ACR_ServerCommunicator
             // long as being offline.
             //
 
-            Database.ACR_SQLQuery(
+            List<SynchronizeOnlineServersRow> Rowset = new List<SynchronizeOnlineServersRow>();
+
+            DatabaseLinkQueryThread.ACR_SQLQuery(
                 "SELECT " +
                     "`servers`.`ID` AS server_id " +
                 "FROM `servers` " +
@@ -866,15 +920,28 @@ namespace ACR_ServerCommunicator
             }
 
             //
-            // Read each database row, then take the lock and update entries.
+            // Read each database row.
             //
 
-            while (Database.ACR_SQLFetch())
+            while (DatabaseLinkQueryThread.ACR_SQLFetch())
             {
-                int ServerId = Convert.ToInt32(Database.ACR_SQLGetData(0));
+                SynchronizeOnlineServersRow Row;
 
-                lock (this)
+                Row.ServerId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(0));
+
+                Rowset.Add(Row);
+            }
+
+            lock (this)
+            {
+                //
+                // Update entries.
+                //
+
+                foreach (SynchronizeOnlineServersRow Row in Rowset)
                 {
+                    int ServerId = Row.ServerId;
+
                     GameServer Server = ReferenceServerById(ServerId);
 
                     Server.Visited = true;
@@ -885,20 +952,19 @@ namespace ACR_ServerCommunicator
                         OnServerJoin(Server);
                     }
                 }
-            }
 
-            //
-            // Sweep offline servers.
-            //
+                //
+                // Sweep offline servers.
+                //
 
-            lock (this)
-            {
                 var NowOfflineServers = (from S in Servers
                                          where S.Visited == false &&
                                          S.Online == true
                                          select S);
 
-                foreach (GameServer Server in NowOfflineServers)
+                List<GameServer> ObjectsToRemove = new List<GameServer>(NowOfflineServers);
+
+                foreach (GameServer Server in ObjectsToRemove)
                 {
                     Server.Online = false;
                     OnServerPart(Server);
@@ -906,6 +972,22 @@ namespace ACR_ServerCommunicator
             }
 
         }
+
+        /// <summary>
+        /// This structure contains rowset data for a synchronization round of
+        /// the online character query.
+        /// </summary>
+        private struct SynchronizeIPCEventQueueRow
+        {
+            public int RecordId;
+            public int SourcePlayerId;
+            public int SourceServerId;
+            public int DestinationPlayerId;
+            public int DestinationServerId;
+            public int EventType;
+            public string EventText;
+        };
+
 
         /// <summary>
         /// This method synchronizes the IPC event queue for the server.
@@ -918,7 +1000,9 @@ namespace ACR_ServerCommunicator
             // Retrieve any new IPC events from the database.
             //
 
-            Database.ACR_SQLQuery(String.Format(
+            List<SynchronizeIPCEventQueueRow> Rowset = new List<SynchronizeIPCEventQueueRow>();
+
+            DatabaseLinkQueryThread.ACR_SQLQuery(String.Format(
                 "SELECT " +
                     "`server_ipc_events`.`ID` as record_id, " +
                     "`server_ipc_events`.`SourcePlayerID` as source_player_id, " +
@@ -930,25 +1014,41 @@ namespace ACR_ServerCommunicator
                 "FROM `server_ipc_events` " +
                 "WHERE `server_ipc_events`.`DestinationServerID` = {0} " +
                 "GROUP BY record_id " +
-                "ORDER BY record_id ",
+                "ORDER BY record_id " +
+                "LIMIT 1000 ",
                 LocalServerId
                 ));
 
             //
-            // Dispatch each of them.
+            // Fetch and dispatch each of them.
             //
 
             try
             {
-               while (Database.ACR_SQLFetch())
+               while (DatabaseLinkQueryThread.ACR_SQLFetch())
                {
-                   int RecordId = Convert.ToInt32(Database.ACR_SQLGetData(0));
-                   int SourcePlayerId = Convert.ToInt32(Database.ACR_SQLGetData(1));
-                   int SourceServerId = Convert.ToInt32(Database.ACR_SQLGetData(2));
-                   int DestinationPlayerId = Convert.ToInt32(Database.ACR_SQLGetData(3));
-                   int DestinationServerId = Convert.ToInt32(Database.ACR_SQLGetData(4));
-                   int EventType = Convert.ToInt32(Database.ACR_SQLGetData(5));
-                   string EventText = Database.ACR_SQLGetData(6);
+                   SynchronizeIPCEventQueueRow Row;
+
+                   Row.RecordId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(0));
+                   Row.SourcePlayerId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(1));
+                   Row.SourceServerId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(2));
+                   Row.DestinationPlayerId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(3));
+                   Row.DestinationServerId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(4));
+                   Row.EventType = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(5));
+                   Row.EventText = DatabaseLinkQueryThread.ACR_SQLGetData(6);
+
+                   Rowset.Add(Row);
+               }
+
+               foreach (SynchronizeIPCEventQueueRow Row in Rowset)
+               {
+                   int RecordId = Row.RecordId;
+                   int SourcePlayerId = Row.SourcePlayerId;
+                   int SourceServerId = Row.SourceServerId;
+                   int DestinationPlayerId = Row.DestinationPlayerId;
+                   int DestinationServerId = Row.DestinationServerId;
+                   int EventType = Row.EventType;
+                   string EventText = Row.EventText;
 
                    HighestRecordId = RecordId;
 
@@ -1001,7 +1101,7 @@ namespace ACR_ServerCommunicator
 
                if (HighestRecordId != 0)
                {
-                   Database.ACR_SQLQuery(String.Format(
+                   DatabaseLinkQueryThread.ACR_SQLQuery(String.Format(
                        "DELETE FROM `server_ipc_events` WHERE `DestinationServerID` = {0} AND `ID` < {1}",
                        LocalServerId,
                        HighestRecordId));
@@ -1031,10 +1131,21 @@ namespace ACR_ServerCommunicator
         private const int POLLING_CYCLES_TO_SERVER_SYNC = 60;
 
 
+        //
+        // Note, multiple database objects are used to allow the main thread,
+        // query thread, and query thread polling loop to not contend on a
+        // single rowset.
+        //
+
         /// <summary>
-        /// The database connection object.
+        /// The database connection object for the main thread.
         /// </summary>
-        private ALFA.MySQLDatabase DatabaseLink = new ALFA.MySQLDatabase();
+        private ALFA.Database DatabaseLinkMainThread = null;
+
+        /// <summary>
+        /// The database connection object for the query thread.
+        /// </summary>
+        private ALFA.MySQLDatabase DatabaseLinkQueryThread = new ALFA.MySQLDatabase();
 
         /// <summary>
         /// The list of known servers is stored here.
