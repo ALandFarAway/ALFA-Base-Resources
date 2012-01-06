@@ -437,7 +437,7 @@ namespace ACR_ServerCommunicator
                 return TRUE;
             }
 #if DEBUG_MODE
-            else if (CookedText.Equals("showstate", StringComparison.InvariantCultureIgnoreCase) && GameWorldManager.DEBUG_MODE)
+            else if (CookedText.Equals("showstate", StringComparison.InvariantCultureIgnoreCase))
             {
                 ShowInternalState(SenderObjectId);
                 return TRUE;
@@ -489,6 +489,8 @@ namespace ACR_ServerCommunicator
                     }
                 });
             });
+
+            DelayCommand(6.0f, delegate() { SetLocalInt(PlayerObject, "ACR_SERVER_IPC_CLIENT_ENTERED", FALSE); });
         }
 
         /// <summary>
@@ -594,7 +596,7 @@ namespace ACR_ServerCommunicator
                         {
                             GameCharacter Character = WorldManager.ReferenceCharacterByName(NamePart);
 
-                            if (Character != null)
+                            if (Character != null && Character.Online)
                                 Player = Character.Player;
                             else
                                 Player = null;
@@ -1019,7 +1021,7 @@ namespace ACR_ServerCommunicator
                 OBJECT_INVALID,
                 SenderObjectId,
                 CHAT_MODE_SERVER,
-                String.Format("<c=#30DDCC>{0}: [ServerTell] {1}</c>", RecipientPlayer.GetOnlineCharacter().CharacterName, Message),
+                String.Format("<c=#FFCC99>{0}: </c><c=#30DDCC>[ServerTell] {1}</c>", RecipientPlayer.GetOnlineCharacter().CharacterName, Message),
                 FALSE);
         }
 

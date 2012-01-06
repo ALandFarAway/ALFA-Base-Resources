@@ -65,7 +65,7 @@ namespace ACR_ServerCommunicator
             //
 
             GameCharacter Character = (from C in Characters
-                                       where C.CharacterName == CharacterName
+                                       where C.CharacterName.Equals(CharacterName, StringComparison.InvariantCultureIgnoreCase)
                                        select C).FirstOrDefault();
 
             if (Character != null)
@@ -157,7 +157,7 @@ namespace ACR_ServerCommunicator
             //
 
             GamePlayer Player = (from P in Players
-                                 where P.PlayerName == PlayerName
+                                 where P.PlayerName.Equals(PlayerName, StringComparison.InvariantCultureIgnoreCase)
                                  select P).FirstOrDefault();
 
             if (Player != null)
@@ -241,7 +241,7 @@ namespace ACR_ServerCommunicator
             //
 
             GameServer Server = (from S in Servers
-                                 where S.ServerName == ServerName
+                                 where S.ServerName.Equals(ServerName, StringComparison.InvariantCultureIgnoreCase)
                                  select S).FirstOrDefault();
 
             if (Server != null)

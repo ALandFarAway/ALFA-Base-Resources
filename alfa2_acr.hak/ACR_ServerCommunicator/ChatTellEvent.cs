@@ -42,7 +42,7 @@ namespace ACR_ServerCommunicator
                     continue;
 
                 string FormattedMessage = String.Format(
-                    "<c=#30DDCC>{0}: [ServerTell] {1}</c>",
+                    "<c=#FFCC99>{0}: </c><c=#30DDCC>[ServerTell] {1}</c>",
                     Sender.CharacterName,
                     Message);
 
