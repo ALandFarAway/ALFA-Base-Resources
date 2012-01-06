@@ -41,7 +41,7 @@ namespace ACR_ServerCommunicator
         /// </summary>
         /// <param name="Script">Supplies the script object.</param>
         /// <param name="Database">Supplies the database connection.</param>
-        public void RunQueue(CLRScriptBase Script, ALFA.Database Database)
+        public void RunQueue(ACR_ServerCommunicator Script, ALFA.Database Database)
         {
             if (GameWorldManager.DEBUG_MODE)
                 Script.WriteTimestampedLogEntry(String.Format("Running queue of {0} entries", EventQueue.Count));
@@ -86,6 +86,6 @@ namespace ACR_ServerCommunicator
         /// </summary>
         /// <param name="Script">Supplies the script object.</param>
         /// <param name="Database">Supplies the database connection.</param>
-        void DispatchEvent(CLRScriptBase Script, ALFA.Database Database);
+        void DispatchEvent(ACR_ServerCommunicator Script, ALFA.Database Database);
     }
 }

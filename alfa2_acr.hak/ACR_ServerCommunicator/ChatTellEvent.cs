@@ -34,7 +34,7 @@ namespace ACR_ServerCommunicator
         /// </summary>
         /// <param name="Script">Supplies the script object.</param>
         /// <param name="Database">Supplies the database connection.</param>
-        public void DispatchEvent(CLRScriptBase Script, ALFA.Database Database)
+        public void DispatchEvent(ACR_ServerCommunicator Script, ALFA.Database Database)
         {
             foreach (uint PlayerObject in Script.GetPlayers(true))
             {
@@ -42,10 +42,11 @@ namespace ACR_ServerCommunicator
                     continue;
 
                 string FormattedMessage = String.Format(
-                    "<c=green>{0}: [Tell] {1}",
+                    "<c=#30DDCC>{0}: [ServerTell] {1}</c>",
                     Sender.CharacterName,
                     Message);
 
+                Script.SetLastTellFromPlayerId(PlayerObject, Sender.Player.PlayerId);
                 Script.SendChatMessage(
                     CLRScriptBase.OBJECT_INVALID,
                     PlayerObject,

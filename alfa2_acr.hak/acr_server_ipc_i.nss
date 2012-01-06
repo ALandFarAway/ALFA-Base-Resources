@@ -27,6 +27,10 @@
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+// Define to 1 to enable server IPC support.
+
+#define SERVER_IPC_ENABLED 1
+
 // The IPC C# script name.
 const string ACR_SERVER_IPC_SERVERCOM_SCRIPT                    = "acr_servercommunicator";
 
@@ -51,6 +55,11 @@ const string ACR_SERVER_IPC_RESOLVE_PLAYER_ID_TO_SERVER_ID      = "RESOLVE_PLAYE
 // This command lists online players to the current PC.
 const string ACR_SERVER_IPC_LIST_ONLINE_USERS                   = "LIST_ONLINE_USERS";
 
+// This command handles chat events for IPC commands.
+const string ACR_SERVER_IPC_HANDLE_CHAT_EVENT                   = "HANDLE_CHAT_EVENT";
+
+// This command handles client enter events.
+const string ACR_SERVER_IPC_HANDLE_CLIENT_ENTER                 = "HANDLE_CLIENT_ENTER";
 
 // IPC event codes:
 
@@ -91,6 +100,14 @@ void ACR_SignalServerIPCEvent(struct ACR_SERVER_IPC_EVENT IPCEvent);
 
 //! Handle module load and start up the IPC subsystem.
 void ACR_ServerIPC_OnModuleLoad();
+
+//! Handle client enter and send the banner to the player if needed.
+void ACR_ServerIPC_OnClientEnter(object EnteringPC);
+
+//! Handle chat events for server IPC subsystem commands.
+//!  - Returns: TRUE if the event was handled locally and should not be
+//              processed by the server further.
+int ACR_ServerIPC_OnChat(object Speaker, int Mode, string Text);
 
 //! Signal a cross server chat tell by character name.
 //!  - Sender: Supplies the PC that sent the message, else OBJECT_INVALID.
@@ -300,7 +317,7 @@ void ACR_DeliverLocalTell(object Sender, int PlayerID, string Message)
 	}
 
 	SendChatMessage(Sender, DestinationPlayer, CHAT_MODE_TELL, Message, TRUE);
-	SendChatMessage(DestinationPlayer, Sender, CHAT_MODE_TELL, Message, TRUE);
+	SendChatMessage(DestinationPlayer, Sender, CHAT_MODE_TELL, Message, FALSE);
 }
 
 object ACR_GetLocalPlayerByPlayerID(int PlayerID)
@@ -368,6 +385,7 @@ void ACR_SignalServerIPCEvent(struct ACR_SERVER_IPC_EVENT IPCEvent)
 
 void ACR_ServerIPC_OnModuleLoad()
 {
+#if SERVER_IPC_ENABLED
 	ACR_CallIPCScript(
 		ACR_SERVER_IPC_INITIALIZE,
 		0,
@@ -376,6 +394,39 @@ void ACR_ServerIPC_OnModuleLoad()
 		0,
 		0,
 		"");
+#endif
+}
+
+void ACR_ServerIPC_OnClientEnter(object EnteringPC)
+{
+#if SERVER_IPC_ENABLED
+	ACR_CallIPCScript(
+		ACR_SERVER_IPC_HANDLE_CLIENT_ENTER,
+		0,
+		0,
+		0,
+		0,
+		0,
+		"",
+		EnteringPC);
+#endif
+}
+
+int ACR_ServerIPC_OnChat(object Speaker, int Mode, string Text)
+{
+#if SERVER_IPC_ENABLED
+	return ACR_CallIPCScript(
+		ACR_SERVER_IPC_HANDLE_CHAT_EVENT,
+		Mode,
+		0,
+		0,
+		0,
+		0,
+		Text,
+		Speaker);
+#else
+	return FALSE;
+#endif
 }
 
 int ACR_CallIPCScript(string Command, int P0, int P1, int P2, int P3, int P4, string P5, object ObjectSelf = OBJECT_SELF)

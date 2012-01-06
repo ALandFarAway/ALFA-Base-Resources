@@ -40,7 +40,7 @@ namespace ACR_ServerCommunicator
         /// </summary>
         /// <param name="Script">Supplies the script object.</param>
         /// <param name="Database">Supplies the database connection.</param>
-        public void DispatchEvent(CLRScriptBase Script, ALFA.Database Database)
+        public void DispatchEvent(ACR_ServerCommunicator Script, ALFA.Database Database)
         {
             string FormattedMessage = String.Format(
                 "ACR_ServerCommunicator: Received unsupported IPC event {0}: {1}.{2}.{3}.{4}.  Record ID was {5}.",

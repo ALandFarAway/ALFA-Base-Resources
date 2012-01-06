@@ -88,7 +88,7 @@ namespace ACR_ServerCommunicator
 
             Character.CharacterId = Convert.ToInt32(Database.ACR_SQLGetData(0));
             Character.PlayerId = Convert.ToInt32(Database.ACR_SQLGetData(1));
-            Character.Online = Convert.ToBoolean(Database.ACR_SQLGetData(2));
+            Character.Online = ConvertToBoolean(Database.ACR_SQLGetData(2));
             ServerId = Convert.ToInt32(Database.ACR_SQLGetData(3));
             Character.CharacterName = Database.ACR_SQLGetData(4);
 
@@ -135,7 +135,7 @@ namespace ACR_ServerCommunicator
             Character.CharacterName = Database.ACR_SQLGetData(0);
             Character.CharacterId = CharacterId;
             Character.PlayerId = Convert.ToInt32(Database.ACR_SQLGetData(1));
-            Character.Online = Convert.ToBoolean(Database.ACR_SQLGetData(2));
+            Character.Online = ConvertToBoolean(Database.ACR_SQLGetData(2));
             ServerId = Convert.ToInt32(Database.ACR_SQLGetData(3));
 
             InsertNewCharacter(Character, ServerId);
@@ -177,7 +177,7 @@ namespace ACR_ServerCommunicator
             Player = new GamePlayer(this);
 
             Player.PlayerId = Convert.ToInt32(Database.ACR_SQLGetData(0));
-            Player.IsDM = Convert.ToBoolean(Database.ACR_SQLGetData(1));
+            Player.IsDM = ConvertToBoolean(Database.ACR_SQLGetData(1));
             Player.PlayerName = Database.ACR_SQLGetData(2);
 
             InsertNewPlayer(Player);
@@ -220,7 +220,7 @@ namespace ACR_ServerCommunicator
 
             Player.PlayerName = Database.ACR_SQLGetData(0);
             Player.PlayerId = PlayerId;
-            Player.IsDM = Convert.ToBoolean(Database.ACR_SQLGetData(1));
+            Player.IsDM = ConvertToBoolean(Database.ACR_SQLGetData(1));
 
             InsertNewPlayer(Player);
 
@@ -380,7 +380,7 @@ namespace ACR_ServerCommunicator
         /// If true, debug mode is enabled (logs events to server log for
         /// troubleshooting presence).
         /// </summary>
-        public const bool DEBUG_MODE = true;
+        public const bool DEBUG_MODE = false;
 
         /// <summary>
         /// Run the event queue down.  All events in the queue are given a
@@ -388,7 +388,7 @@ namespace ACR_ServerCommunicator
         /// </summary>
         /// <param name="Script">Supplies the script object.</param>
         /// <param name="Database">Supplies the database connection.</param>
-        public void RunQueue(CLRScriptBase Script, ALFA.Database Database)
+        public void RunQueue(ACR_ServerCommunicator Script, ALFA.Database Database)
         {
             EventQueue.RunQueue(Script, Database);
         }
@@ -686,7 +686,61 @@ namespace ACR_ServerCommunicator
 
             if ((DatabasePollCycle - 1) % POLLING_CYCLES_TO_SERVER_SYNC == 0)
                 SynchronizeOnlineServers();
+
+#if DEBUG_MODE
+            ConsistencyCheck();
+#endif
         }
+
+#if DEBUG_MODE
+        /// <summary>
+        /// This debug routine verifies the consistency of the game world data
+        /// model.
+        /// </summary>
+        private void ConsistencyCheck()
+        {
+            foreach (GameCharacter Character in OnlineCharacters)
+            {
+                GameServer Server = Character.Server;
+
+                if (Character.Online == false)
+                    throw new ApplicationException("Offline character " + Character.Name + " is in the global online list.");
+
+                if (Server == null)
+                    throw new ApplicationException("Character " + Character.CharacterName + " is online at no server.");
+
+                var CharsInList = (from C in Server.Characters
+                                   where C == Character
+                                   select C);
+
+                if (CharsInList.Count<GameCharacter>() != 1)
+                {
+                    throw new ApplicationException("Character " + Character.Name + " is in its parent servers character list an incorrect number of times: " + CharsInList.Count<GameCharacter>().ToString());
+                }
+            }
+
+            foreach (GameServer Server in Servers)
+            {
+                foreach (GameCharacter Character in Server.Characters)
+                {
+                    if (Character.Online == false)
+                        throw new ApplicationException("Offline character " + Character.Name + " is in server " + Server.Name + " online character list.");
+
+                    if (Character.Server != Server)
+                        throw new ApplicationException("Offline character " + Character.Name + " is in server " + Server.Name + " online character list, but claims to be in server " + (Character.Server == null ? "none" : Character.Server.Name) + " online list.");
+
+                    var CharsInList = (from C in OnlineCharacters
+                                       where C == Character
+                                       select C);
+
+                    if (CharsInList.Count<GameCharacter>() != 1)
+                    {
+                        throw new ApplicationException("GameServer " + Server.Name + " has online character " + Character.Name + " which is not in the global online list the correct number of times: " + CharsInList.Count<GameCharacter>().ToString());
+                    }
+                }
+            }
+        }
+#endif
 
         /// <summary>
         /// This structure contains rowset data for a synchronization round of
@@ -775,7 +829,7 @@ namespace ACR_ServerCommunicator
                 SynchronizeOnlineCharactersRow Row;
 
                 Row.CharacterId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(0));
-                Row.IsDM = Convert.ToBoolean(DatabaseLinkQueryThread.ACR_SQLGetData(1));
+                Row.IsDM = ConvertToBoolean(DatabaseLinkQueryThread.ACR_SQLGetData(1));
                 Row.ServerId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(2));
 
                 Rowset.Add(Row);
@@ -812,7 +866,13 @@ namespace ACR_ServerCommunicator
                     //
 
                     if (Character.Server != null && Character.Online)
+                    {
                         OnCharacterPart(Character);
+                        Character.Server.Characters.Remove(Character);
+                        Character.Server = null;
+                        OnlineCharacterList.Remove(Character);
+                        Character.Online = false;
+                    }
 
                     //
                     // If the user's server is still marked as offline, mark it
@@ -827,6 +887,28 @@ namespace ACR_ServerCommunicator
                     }
 
                     Character.Server = Server;
+
+                    try
+                    {
+                        Character.Server.Characters.Add(Character);
+
+                        try
+                        {
+                            OnlineCharacterList.Add(Character);
+                        }
+                        catch
+                        {
+                            Character.Server.Characters.Remove(Character);
+                            throw;
+                        }
+                    }
+                    catch
+                    {
+                        Character.Server = null;
+                        Character.Online = false;
+                        throw;
+                    }
+
                     Character.Online = true;
                     OnCharacterJoin(Character);
                 }
@@ -844,6 +926,10 @@ namespace ACR_ServerCommunicator
                 foreach (GameCharacter Character in ObjectsToRemove)
                 {
                     OnCharacterPart(Character);
+
+                    if (Character.Server != null)
+                        Character.Server.Characters.Remove(Character);
+
                     Character.Online = false;
                     OnlineCharacterList.Remove(Character);
                 }
@@ -1107,6 +1193,23 @@ namespace ACR_ServerCommunicator
                        HighestRecordId + 1));
                }
             }
+        }
+
+        /// <summary>
+        /// Convert a database string to a Boolean value.
+        /// </summary>
+        /// <param name="Str">Supplies the database string.</param>
+        /// <returns>The corresponding Boolean value is returned.</returns>
+        public static bool ConvertToBoolean(string Str)
+        {
+            Str = Str.ToLowerInvariant();
+
+            if (Str.StartsWith("t"))
+                return true;
+            else if (Str.StartsWith("f"))
+                return false;
+            else
+                return Convert.ToInt32(Str) != 0;
         }
 
         /// <summary>

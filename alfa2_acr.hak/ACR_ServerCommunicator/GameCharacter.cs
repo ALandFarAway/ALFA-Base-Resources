@@ -39,7 +39,7 @@ namespace ACR_ServerCommunicator
 
             CharacterName = Database.ACR_SQLGetData(0);
             PlayerId = Convert.ToInt32(Database.ACR_SQLGetData(1));
-            IsOnline = Convert.ToBoolean(Database.ACR_SQLGetData(2));
+            IsOnline = GameWorldManager.ConvertToBoolean(Database.ACR_SQLGetData(2));
         }
 
         /// <summary>

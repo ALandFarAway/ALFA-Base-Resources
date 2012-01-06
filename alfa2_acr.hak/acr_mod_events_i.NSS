@@ -77,6 +77,7 @@
 // 2011/07/02  Basilica - Added persistent database callouts for cache management.
 // 2011/12/26  Basilica - Added server admin command directives.
 // 2012/01/02  Basilica - Added latency monitor support.
+// 2012/01/05  Basilica - Added server IPC callouts.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -103,6 +104,7 @@
 #include "acr_language_i"
 #include "acr_feat_events_i"
 #include "acr_srvadmin_i"
+#include "acr_server_ipc_i"
 
 #include "acf_spawn_i"
 #include "acf_settings_i"
@@ -124,6 +126,10 @@ const string ACR_MOD_HOLYSYMBOL = "ACR_MOD_HOLYSYMBOL";
 const string ACR_MOD_STARTINGGOLD = "ACR_MOD_STARTINGGOLD";
 const string ACR_MOD_STARTARMORX = "ACR_MOD_STARTARMORX";
 const string ACR_MOD_FIRSTAID_IT = "ACR_MOD_FIRSTAID_IT";
+
+const string ACR_MOD_LAST_TELL_TO = "ACR_MOD_LAST_TELL_TO";
+const string ACR_MOD_LAST_TELL_FROM = "ACR_MOD_LAST_TELL_FROM";
+
 
 //! ACR_MOD_STATUS Module Status Flags (bitmask)
 const int ACR_MOD_NWNX_FAILED = 0x01;
@@ -302,6 +308,9 @@ void ACR_ModuleOnModuleLoad()
 	// Initialize chatlogging buffer
 	ACR_InitializeChat();
 
+	// Initialize server IPC support
+	ACR_ServerIPC_OnModuleLoad();
+
     // This should be the last time in this function.
     ACR_PrintDebugMessage("acr_mod_events_i: ALFA server " + sServerId + " loaded.", _ONLOAD_DEBUG, DEBUG_LEVEL_INFO);
 
@@ -361,6 +370,9 @@ void ACR_ModuleOnClientEnter()
 	
 	// Do custom feat stuff.
 	ACR_FeatOnClientEnter(oPC);
+
+	// Let the IPC subsystem know of the login event.
+	ACR_ServerIPC_OnClientEnter(oPC);
 }
 
 void ACR_ModuleOnPCLoaded()
@@ -715,7 +727,12 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 				return TRUE;
 			}
 		case CHAT_MODE_SHOUT:
+			return TRUE;
 		case CHAT_MODE_TELL:
+			// Record the last tell to and last tell from player ids for the
+			// re-tell and reply commands.
+			SetLocalInt(oSpeaker, ACR_MOD_LAST_TELL_TO, ACR_GetPlayerID(oTarget));
+			SetLocalInt(oTarget, ACR_MOD_LAST_TELL_FROM, ACR_GetPlayerID(oSpeaker));
 			return TRUE;
 	}
 
@@ -732,6 +749,10 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 		if (c == "#sa " || c == "!sa ")
 		{
 			ACR_SrvAdmin_OnChat(oSpeaker, GetStringRight(sText, len-4));
+			return FALSE;
+		}
+		else if (ACR_ServerIPC_OnChat(oSpeaker, nMode, sText))
+		{
 			return FALSE;
 		}
 

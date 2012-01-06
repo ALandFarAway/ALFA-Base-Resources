@@ -39,7 +39,7 @@ namespace ACR_ServerCommunicator
             }
 
             PlayerName = Database.ACR_SQLGetData(0);
-            IsDM = Convert.ToBoolean(Database.ACR_SQLGetData(1));
+            IsDM = GameWorldManager.ConvertToBoolean(Database.ACR_SQLGetData(1));
         }
 
         /// <summary>

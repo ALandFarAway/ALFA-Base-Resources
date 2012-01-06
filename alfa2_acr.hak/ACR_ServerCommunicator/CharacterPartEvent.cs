@@ -36,7 +36,7 @@ namespace ACR_ServerCommunicator
         /// </summary>
         /// <param name="Script">Supplies the script object.</param>
         /// <param name="Database">Supplies the database connection.</param>
-        public void DispatchEvent(CLRScriptBase Script, ALFA.Database Database)
+        public void DispatchEvent(ACR_ServerCommunicator Script, ALFA.Database Database)
         {
             //
             // If the event was for a player logging off of the local server,
@@ -47,9 +47,10 @@ namespace ACR_ServerCommunicator
                 return;
 
             string Message = String.Format(
-                "<c=#CC6600>{0} {1} left {2}</c>",
-                IsDM ? "DM" : "Player",
+                "{0}<c=#FF6600> {1} ({2}) left {3}.</c>",
+                IsDM ? "<c=#99CCFF>[DM] </c>" : "",
                 Character.Name,
+                Character.Player.Name,
                 Server.Name);
 
             foreach (uint PlayerObject in Script.GetPlayers(true))
@@ -62,8 +63,9 @@ namespace ACR_ServerCommunicator
                     CLRScriptBase.FALSE);
             }
 
-            if (GameWorldManager.DEBUG_MODE)
-                Script.WriteTimestampedLogEntry(Message);
+#if DEBUG_MODE
+            Script.WriteTimestampedLogEntry(Message);
+#endif
         }
 
         /// <summary>

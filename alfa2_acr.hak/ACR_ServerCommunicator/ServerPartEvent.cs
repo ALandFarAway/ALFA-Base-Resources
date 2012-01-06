@@ -30,7 +30,7 @@ namespace ACR_ServerCommunicator
         /// </summary>
         /// <param name="Script">Supplies the script object.</param>
         /// <param name="Database">Supplies the database connection.</param>
-        public void DispatchEvent(CLRScriptBase Script, ALFA.Database Database)
+        public void DispatchEvent(ACR_ServerCommunicator Script, ALFA.Database Database)
         {
             //
             // If the event was for the local server, then don't re-broadcast
@@ -46,16 +46,12 @@ namespace ACR_ServerCommunicator
 
             foreach (uint PlayerObject in Script.GetPlayers(true))
             {
-                Script.SendChatMessage(
-                    CLRScriptBase.OBJECT_INVALID,
-                    PlayerObject,
-                    CLRScriptBase.CHAT_MODE_SERVER,
-                    Message,
-                    CLRScriptBase.FALSE);
+                Script.SendMessageToPC(PlayerObject, Message);
             }
 
-            if (GameWorldManager.DEBUG_MODE)
-                Script.WriteTimestampedLogEntry(Message);
+#if DEBUG_MODE
+            Script.WriteTimestampedLogEntry(Message);
+#endif
         }
 
         /// <summary>
