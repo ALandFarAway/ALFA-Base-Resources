@@ -87,7 +87,7 @@ struct ACR_SERVER_IPC_EVENT
 
 //! Signal an IPC event.
 //!  - IPCEvent: Supplies the IPC event data for the event to signal.
-void ACR_SignalServerIPCEvent(ACR_SERVER_IPC_EVENT IPCEvent);
+void ACR_SignalServerIPCEvent(struct ACR_SERVER_IPC_EVENT IPCEvent);
 
 //! Handle module load and start up the IPC subsystem.
 void ACR_ServerIPC_OnModuleLoad();
@@ -171,7 +171,7 @@ void ACR_SendCrossServerTellByCharacter(object Sender, string CharacterName, str
 {
 	int PlayerID = ACR_GetPlayerIDByCharacterName(CharacterName);
 	int ServerID;
-	ACR_SERVER_IPC_EVENT IPCEvent;
+	struct ACR_SERVER_IPC_EVENT IPCEvent;
 
 	if (PlayerID == 0)
 	{
@@ -191,7 +191,7 @@ void ACR_SendCrossServerTellByCharacter(object Sender, string CharacterName, str
 	// directly.  Otherwise, use the IPC queue.
 	if (ServerID == ACR_GetServerID())
 	{
-		ACR_DeliverLocalTell(Sender, PlayerID, Message);
+		ACR_DeliverLocalTell(Sender, PlayerID, TellText);
 		return;
 	}
 
@@ -216,7 +216,7 @@ void ACR_SendCrossServerTellByPlayer(object Sender, string PlayerName, string Te
 {
 	int PlayerID = ACR_GetPlayerIDByPlayerName(PlayerName);
 	int ServerID;
-	ACR_SERVER_IPC_EVENT IPCEvent;
+	struct ACR_SERVER_IPC_EVENT IPCEvent;
 
 	if (PlayerID == 0)
 	{
@@ -236,7 +236,7 @@ void ACR_SendCrossServerTellByPlayer(object Sender, string PlayerName, string Te
 	// directly.  Otherwise, use the IPC queue.
 	if (ServerID == ACR_GetServerID())
 	{
-		ACR_DeliverLocalTell(Sender, PlayerID, Message);
+		ACR_DeliverLocalTell(Sender, PlayerID, TellText);
 		return;
 	}
 
@@ -254,7 +254,7 @@ void ACR_SendCrossServerTellByPlayer(object Sender, string PlayerName, string Te
 	IPCEvent.EventText = TellText;
 
 	ACR_SignalServerIPCEvent(IPCEvent);
-	ACR_DeliverCrossServerTellConformation(Sender, PlayerName, TellText);
+	ACR_DeliverCrossServerTellConfirmation(Sender, PlayerName, TellText);
 }
 
 void ACR_SendOnlineUserList(object Player)
@@ -263,7 +263,6 @@ void ACR_SendOnlineUserList(object Player)
 		return;
 
 	ACR_CallIPCScript(
-		Player,
 		ACR_SERVER_IPC_LIST_ONLINE_USERS,
 		0,
 		0,
@@ -276,10 +275,10 @@ void ACR_SendOnlineUserList(object Player)
 
 void ACR_SendFeedbackError(object Target, string Message)
 {
-	if (Sender == OBJECT_INVALID)
+	if (Target == OBJECT_INVALID)
 		return;
 
-	SendChatMessage(OBJECT_INVALID, CHAT_MODE_SERVER, "<c=red>Error: " + Message + "</c>");
+	SendChatMessage(OBJECT_INVALID, Target, CHAT_MODE_SERVER, "<c=red>Error: " + Message + "</c>");
 }
 
 void ACR_DeliverCrossServerTellConfirmation(object Sender, string Recipient, string Message)
@@ -287,7 +286,7 @@ void ACR_DeliverCrossServerTellConfirmation(object Sender, string Recipient, str
 	if (Sender == OBJECT_INVALID)
 		return;
 
-	SendChatMessage(OBJECT_INVALID, CHAT_MODE_SERVER, "<c=green>" + Recipient + ": [Tell] " + Message + "</c>");
+	SendChatMessage(OBJECT_INVALID, Sender, CHAT_MODE_SERVER, "<c=green>" + Recipient + ": [Tell] " + Message + "</c>");
 }
 
 void ACR_DeliverLocalTell(object Sender, int PlayerID, string Message)
@@ -355,7 +354,7 @@ int ACR_GetPlayerLoggedOnServerID(int PlayerID)
 		"");
 }
 
-void ACR_SignalServerIPCEvent(ACR_SERVER_IPC_EVENT IPCEvent)
+void ACR_SignalServerIPCEvent(struct ACR_SERVER_IPC_EVENT IPCEvent)
 {
 	ACR_CallIPCScript(
 		ACR_SERVER_IPC_SIGNAL_IPC_EVENT,
