@@ -205,7 +205,15 @@ namespace ALFA
         /// <returns>Returns true if the query succeeded.</returns>
         public bool ACR_SQLFetch()
         {
-            return DataReader.Read();
+            bool Status = DataReader.Read();
+
+            if (Status == false)
+            {
+                DataReader.Dispose();
+                DataReader = null;
+            }
+
+            return Status;
         }
 
         /// <summary>
@@ -247,6 +255,12 @@ namespace ALFA
         /// <param name="SQL">Supplies the SQL query text to execute.</param>
         public void ACR_SQLQuery(string SQL)
         {
+            if (DataReader != null)
+            {
+                DataReader.Dispose();
+                DataReader = null;
+            }
+
             DataReader = MySqlHelper.ExecuteReader(ConnectionString, SQL);
         }
 
@@ -258,7 +272,7 @@ namespace ALFA
         {
             SystemInfo.SQLConnectionSettings ConnectionSettings = SystemInfo.GetSQLConnectionSettings();
 
-            ConnectionString = String.Format("Server={0};Uid={1};Password={2};Database={3}",
+            ConnectionString = String.Format("Server={0};Uid={1};Password={2};Database={3};Max Pool Size=2",
                 ConnectionSettings.Server,
                 ConnectionSettings.User,
                 ConnectionSettings.Password,
