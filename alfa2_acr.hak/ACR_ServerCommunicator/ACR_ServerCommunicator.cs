@@ -599,7 +599,12 @@ namespace ACR_ServerCommunicator
                             if (Character != null && Character.Online)
                                 Player = Character.Player;
                             else
+                            {
                                 Player = null;
+                                SendFeedbackError(SenderObjectId, "That player is not logged on.");
+                                WorldManager.SetMainThreadDatabase(null);
+                                return;
+                            }
 
                             /*
                             string First;
