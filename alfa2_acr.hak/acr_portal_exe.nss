@@ -26,6 +26,8 @@
 
 #include "acr_portal_i"
 
+#define SEAMLESS_SERVER_PORTAL_ENABLED 0
+
 //!  Private function to wrap a check and conditional booting
 void _ReCheckPCPortaller(object oPC);
 
@@ -48,8 +50,15 @@ void main(string sFunction) {
 	
 		SendMessageToPC(oPC, "Generating a new pass.");
 		ACR_SetPersistentString(oPC, _ACR_PTL_PASSPORT, _BuildPortalPass(nDestID, nPortalNum));
+#if SEAMLESS_SERVER_PORTAL_ENABLED
+
 #if SERVER_IPC_ENABLED
 		ACR_StartServerToServerPortal(nDestID, nPortalNum, oPC);
+#else
+		// if the PC has not logged out in 60 seconds, and is still holding a portal pass, boot them.
+		DelayCommand(60.0, _ReCheckPCPortaller(oPC));
+#endif
+
 #else
 		// if the PC has not logged out in 60 seconds, and is still holding a portal pass, boot them.
 		DelayCommand(60.0, _ReCheckPCPortaller(oPC));
