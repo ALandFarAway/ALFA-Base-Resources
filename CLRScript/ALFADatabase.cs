@@ -446,6 +446,36 @@ namespace ALFA
         }
 
         /// <summary>
+        /// This routine flushes the query queue for an object.  It is useful,
+        /// for example, in server portal scenarios.  Normally, the query queue
+        /// is flushed automatically.
+        /// </summary>
+        /// <param name="ObjectToFlush">Supplies the object whose query queue
+        /// should be flushed.</param>
+        public void ACR_FlushQueryQueue(uint ObjectToFlush)
+        {
+            DemandInitialize();
+
+            ACR_FlushQueryQueue_Method.Invoke(DBLibraryScript, new object[] { ObjectToFlush });
+        }
+
+        /// <summary>
+        /// This routine performs a character save.
+        /// </summary>
+        /// <param name="PCToSave">Supplies the object id of the player to
+        /// save.</param>
+        /// <param name="Export">If true, save the character file to disk too.
+        /// </param>
+        /// <param name="SaveLocation">If true, update the location of the
+        /// player in the database.</param>
+        public void ACR_PCSave(uint PCToSave, bool Export, bool SaveLocation)
+        {
+            DemandInitialize();
+
+            ACR_PCSave_Method.Invoke(DBLibraryScript, new object[] { PCToSave, Export ? CLRScriptBase.TRUE : CLRScriptBase.FALSE, SaveLocation ? CLRScriptBase.TRUE : CLRScriptBase.FALSE });
+        }
+
+        /// <summary>
         /// This routine performs a synchronous SQL query.  If there were
         /// pending asynchronous queries in the queue, the pending queries are
         /// drained first.
@@ -591,6 +621,8 @@ namespace ALFA
             ACR_GetServerAddressFromDatabase_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetServerAddressFromDatabase");
             ACR_SetPersistentString_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_SetPersistentString");
             ACR_SQLQuery_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_SQLQuery");
+            ACR_FlushQueryQueue_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_FlushQueryQueue");
+            ACR_PCSave_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_PCSave");
 
             DBLibraryScript = ScriptObject;
 
@@ -640,5 +672,7 @@ namespace ALFA
         private static MethodInfo ACR_GetServerAddressFromDatabase_Method;
         private static MethodInfo ACR_SetPersistentString_Method;
         private static MethodInfo ACR_SQLQuery_Method;
+        private static MethodInfo ACR_FlushQueryQueue_Method;
+        private static MethodInfo ACR_PCSave_Method;
     }
 }
