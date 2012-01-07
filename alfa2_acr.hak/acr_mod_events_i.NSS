@@ -200,6 +200,12 @@ string _ParseLang(object pc, string text);
 //! Parse a new language
 int _HandleLang(object pc, string text, int mode, string lang);
 
+//! Force linkage to functions that CLR scripts will want to call in the
+//  context of acf_mod_onmoduleload.nss.  Note that this function is never
+//  really run but must make a reference to every symbol that should be force
+//  included so that it can be resolved at runtime.
+void ACR_ModuleInit_ForceLinkageForCLRScripts();
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -316,6 +322,12 @@ void ACR_ModuleOnModuleLoad()
 
 	DelayCommand(0.1f, ACR_StartModuleInitHealthChecks());
 	ACR_LogEvent(OBJECT_INVALID, ACR_LOG_SERVER_LOAD, "Server " + sServerId + " loaded module " + GetName(GetModule()) + ".");
+
+	// The following function call is never called.  This is intentional; the
+	// purpose of this line is to ensure that the compiler cannot elide any
+	// symbols referenced by ACR_ModuleInit_ForceLinkageForCLRScripts.
+	if (Random(2) == 42)
+		ACR_ModuleInit_ForceLinkageForCLRScripts();
 }
 
 void ACR_ModuleOnModuleStart()
@@ -1210,4 +1222,18 @@ void ACR_StartModuleInitHealthChecks()
 	// A TMI here means that you should boot the server in JIT mode.
 
 	ACR_ModuleInitHealthChecks();
+}
+
+void ACR_ModuleInit_ForceLinkageForCLRScripts()
+{
+	// This code never runs.  It is simply here to force the compiler to include
+	// certain symbols that CLR script code requires.
+
+	ACR_AsyncSQLQueryEx("", OBJECT_INVALID);
+	ACR_GetPersistentString(OBJECT_INVALID, "");
+	ACR_GetServerAddressFromDatabase();
+	ACR_SetPersistentString(OBJECT_INVALID, "", "");
+	ACR_SQLQuery("");
+	ACR_FlushQueryQueue(OBJECT_INVALID);
+	ACR_PCSave(OBJECT_INVALID);
 }
