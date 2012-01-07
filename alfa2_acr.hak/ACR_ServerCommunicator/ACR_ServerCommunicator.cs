@@ -1078,7 +1078,7 @@ namespace ACR_ServerCommunicator
                 GetBicFileName(PlayerObjectId).Substring(12) + ".bic",
                 0) == FALSE)
             {
-                WriteTimestampedLogEntry("ACR_ServerCommunicator.DisableNextCharacterSave(): FAILED to disable character save for " + GetName(PlayerObjectId) + "!");
+                WriteTimestampedLogEntry("ACR_ServerCommunicator.DisableCharacterSave(): FAILED to disable character save for " + GetName(PlayerObjectId) + "!");
                 return false;
             }
 

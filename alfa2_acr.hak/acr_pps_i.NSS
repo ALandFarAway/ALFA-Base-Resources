@@ -686,7 +686,10 @@ void ACR_PCExportSingleCharacter(object oPC)
 	}
 
 	ExportSingleCharacter(oPC);
+
+#if 0
 	WriteTimestampedLogEntry("ACR_PCExportSingleCharacter(): Save character file for " + GetName(oPC) + " (local flags = " + IntToString(ACR_GetPCLocalFlags(oPC)) + ").");
+#endif
 }
 
 void ACR_PPSValidatePC(object oTarget) {
