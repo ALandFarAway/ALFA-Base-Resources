@@ -29,6 +29,7 @@
 
 #include "acr_time_i"
 #include "acr_settings_i"
+#include "acr_server_ipc_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -123,7 +124,10 @@ string _CheckSQLForTimeStamp();
 ////////////////////////////////////////////////////////////////////////////////
 
 int ACR_PortalCheckServer(int nServerID) {
-	
+
+#if SERVER_IPC_ENABLED
+	return ACR_GetIsServerOnline(nServer);
+#else
 	string sDestID = IntToString(nServerID);
 	// join the Servers and pwdata tables to get the timestamp corresponding to nServerID.	
 	ACR_SQLQuery("SELECT pwdata.Value, pwdata.Last, pwdata.Name, servers.ID, servers.Name FROM pwdata JOIN servers ON pwdata.Name = servers.Name WHERE servers.ID = '"+sDestID+"' AND pwdata.Key = '"+ACR_MODULE_TIME+"'");
@@ -137,7 +141,7 @@ int ACR_PortalCheckServer(int nServerID) {
 		SetLocalString(GetModule(), _ACR_PTL_TIMESTAMP, sLastTimestampUpdate);
 		return TRUE;
 	}
-
+#endif
 }
 
 int ACR_PortalCheckCooldown(object oTraveller) {
