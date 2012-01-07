@@ -222,7 +222,7 @@ namespace ACR_ServerCommunicator
                 throw new ApplicationException("IPC event text too long:" + EventText);
 
             InsertIPCEventDatabase.ACR_SQLQuery(String.Format(
-                "INSERT INTO `server_ipc_events` (`ID`, `SourcePlayerID`, `SourceServerID`, `DestinationPlayerID`, `EventType`, `EventText`) VALUES (0, {0}, {1}, {2}, {3}, '{5}')",
+                "INSERT INTO `server_ipc_events` (`ID`, `SourcePlayerID`, `SourceServerID`, `DestinationPlayerID`, `DestinationServerID`, `EventType`, `EventText`) VALUES (0, {0}, {1}, {2}, {3}, {4}, '{5}')",
                 SourcePlayerId,
                 SourceServerId,
                 DestinationPlayerId,
