@@ -220,6 +220,7 @@ namespace ACR_ServerCommunicator
             //
 
             CommandDispatchLoop();
+            UpdateServerExternalAddress();
         }
 
         /// <summary>
@@ -1492,6 +1493,27 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method periodically runs as a DelayCommand continuation.  Its
+        /// purpose is to refresh the database's view of our network address,
+        /// so that server-to-server portals still function if the external
+        /// address changes without a server process restart.
+        /// </summary>
+        private void UpdateServerExternalAddress()
+        {
+            ALFA.Database Database = GetDatabase();
+
+            Database.ACR_SQLQuery(String.Format(
+                "UPDATE `servers` SET `IPAddress` = '{0}' WHERE `ID` = {1}",
+                Database.ACR_GetServerAddressFromDatabase(),
+                Database.ACR_GetServerID()));
+
+            DelayCommand(UPDATE_SERVER_EXTERNAL_ADDRESS_INTERVAL, delegate()
+            {
+                UpdateServerExternalAddress();
+            });
+        }
+
+        /// <summary>
         /// This method drains items from the IPC thread command queue, i.e.
         /// those actions that must be performed in a script context because
         /// they need to call script APIs.
@@ -1557,6 +1579,12 @@ namespace ACR_ServerCommunicator
         /// The interval between command dispatch polling cycles is set here.
         /// </summary>
         private const float COMMAND_DISPATCH_INTERVAL = 0.3f;
+
+        /// <summary>
+        /// The interval at which the server's externally visible network
+        /// address is automatically refreshed in the database.
+        /// </summary>
+        private const float UPDATE_SERVER_EXTERNAL_ADDRESS_INTERVAL = 60.0f * 60.0f;
 
         /// <summary>
         /// The maximum length of a server IPC event is set here.  This is the
