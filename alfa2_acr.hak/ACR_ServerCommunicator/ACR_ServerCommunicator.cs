@@ -221,14 +221,21 @@ namespace ACR_ServerCommunicator
             if (EventText.Length > ACR_SERVER_IPC_MAX_EVENT_LENGTH)
                 throw new ApplicationException("IPC event text too long:" + EventText);
 
-            InsertIPCEventDatabase.ACR_SQLExecute(String.Format(
-                "INSERT INTO `server_ipc_events` (`ID`, `SourcePlayerID`, `SourceServerID`, `DestinationPlayerID`, `DestinationServerID`, `EventType`, `EventText`) VALUES (0, {0}, {1}, {2}, {3}, {4}, '{5}')",
-                SourcePlayerId,
-                SourceServerId,
-                DestinationPlayerId,
-                DestinationServerId,
-                EventType,
-                InsertIPCEventDatabase.ACR_SQLEncodeSpecialChars(EventText)));
+            GameWorldManager.IPC_EVENT Event = new GameWorldManager.IPC_EVENT();
+
+            Event.SourcePlayerId = SourcePlayerId;
+            Event.SourceServerId = SourceServerId;
+            Event.DestinationPlayerId = DestinationPlayerId;
+            Event.DestinationServerId = DestinationServerId;
+            Event.EventType = EventType;
+            Event.EventText = EventText;
+
+            lock (WorldManager)
+            {
+                WorldManager.SignalIPCEvent(Event);
+            }
+
+            WorldManager.SignalIPCEventWakeup();
         }
 
         /// <summary>
@@ -1190,13 +1197,6 @@ namespace ACR_ServerCommunicator
         /// The game world state manager is stored here.
         /// </summary>
         private static GameWorldManager WorldManager = null;
-
-        /// <summary>
-        /// The database object that is used to insert IPC events is stored
-        /// here.  This is generally NOT the main ALFA.Database so that its
-        /// contents are not subject to logging.
-        /// </summary>
-        private static MySQLDatabase InsertIPCEventDatabase = new ALFA.MySQLDatabase();
 
         /// <summary>
         /// The interop SQL database instance is stored here.

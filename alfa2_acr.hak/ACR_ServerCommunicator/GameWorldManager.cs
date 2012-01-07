@@ -324,6 +324,42 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// Signal an IPC event on a remote server by adding the event to the
+        /// outbound event queue.
+        /// </summary>
+        /// <param name="Event">Supplies the event to signal.</param>
+        public void SignalIPCEvent(IPC_EVENT Event)
+        {
+            IPCEventQueue.Enqueue(Event);
+        }
+
+        /// <summary>
+        /// Signal that the query thread should wake up to process IPC events
+        /// soon.  This may reduce the time until the next outbound event is
+        /// sent.
+        /// 
+        /// Note that, unlike most members, this method does not require any
+        /// particular synchronization.
+        /// </summary>
+        public void SignalIPCEventWakeup()
+        {
+            QueryThreadWakeupEvent.Set();
+        }
+
+        /// <summary>
+        /// This structure contains the raw data for an IPC event queue entry.
+        /// </summary>
+        public class IPC_EVENT
+        {
+            public int SourcePlayerId;
+            public int SourceServerId;
+            public int DestinationPlayerId;
+            public int DestinationServerId;
+            public int EventType;
+            public string EventText;
+        }
+
+        /// <summary>
         /// This property returns the list of active servers.
         /// </summary>
         public IEnumerable<GameServer> Servers
@@ -642,7 +678,7 @@ namespace ACR_ServerCommunicator
                     }
                 }
 
-                Thread.Sleep(DATABASE_POLLING_INTERVAL);
+                QueryThreadWakeupEvent.WaitOne(DATABASE_POLLING_INTERVAL);
             }
         }
 
@@ -655,16 +691,24 @@ namespace ACR_ServerCommunicator
             DatabasePollCycle += 1;
 
             //
-            // Always synchronize the character list.
+            // Coalesce and transmit outbound IPC requests.
             //
 
-            SynchronizeOnlineCharacters();
+            TransmitOutboundIPCEvents();
 
             //
             // Always synchronize the IPC queue.
             //
 
             SynchronizeIPCEventQueue();
+
+            //
+            // Every POLLING_CYCLES_TO_CHARACTER_SYNC cycles, update the online
+            // status of characters in the online character list.
+            //
+
+            if ((DatabasePollCycle - 1) % POLLING_CYCLES_TO_CHARACTER_SYNC == 0)
+                SynchronizeOnlineCharacters();
 
             //
             // Every POLLING_CYCLES_TO_SERVER_SYNC cycles, update the online
@@ -1188,6 +1232,43 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method transmits locally buffered, outboud IPC events to the
+        /// routing entity (e.g. the database).
+        /// </summary>
+        private void TransmitOutboundIPCEvents()
+        {
+            IALFADatabase Database = DatabaseLinkQueryThread;
+
+            lock (this)
+            {
+                if (IPCEventQueue.Count == 0)
+                    return;
+
+                StringBuilder Query = new StringBuilder(512);
+
+                while (IPCEventQueue.Count != 0)
+                {
+                    while (Query.Length < TARGET_MAX_QUERY_LENGTH && IPCEventQueue.Count != 0)
+                    {
+                        IPC_EVENT Event = IPCEventQueue.Dequeue();
+
+                        Query.AppendFormat(
+                            "INSERT INTO `server_ipc_events` (`ID`, `SourcePlayerID`, `SourceServerID`, `DestinationPlayerID`, `DestinationServerID`, `EventType`, `EventText`) VALUES (0, {0}, {1}, {2}, {3}, {4}, '{5}');",
+                            Event.SourcePlayerId,
+                            Event.SourceServerId,
+                            Event.DestinationPlayerId,
+                            Event.DestinationServerId,
+                            Event.EventType,
+                            Database.ACR_SQLEncodeSpecialChars(Event.EventText));
+                    }
+
+                    Database.ACR_SQLExecute(Query.ToString());
+                    Query.Clear();
+                }
+            }
+        }
+
+        /// <summary>
         /// Convert a database string to a Boolean value.
         /// </summary>
         /// <param name="Str">Supplies the database string.</param>
@@ -1224,6 +1305,19 @@ namespace ACR_ServerCommunicator
         /// synchronization attempt.
         /// </summary>
         private const int POLLING_CYCLES_TO_SERVER_SYNC = 60;
+
+        /// <summary>
+        /// The number of polling cycles between a character synchronization
+        /// attempt.
+        /// </summary>
+        private const int POLLING_CYCLES_TO_CHARACTER_SYNC = 3;
+
+        /// <summary>
+        /// The maximum target value for combined IPC event queries is stored
+        /// here.  This dictates how much data will be coalesced into a single
+        /// SQL statement during TransmitOutboundIPCEvents().
+        /// </summary>
+        private const int TARGET_MAX_QUERY_LENGTH = 16384;
 
 
         /// <summary>
@@ -1273,5 +1367,19 @@ namespace ACR_ServerCommunicator
         /// The server id of the local (current) server is stored here.
         /// </summary>
         private int LocalServerId = 0;
+
+        /// <summary>
+        /// The queue of outbound IPC events awaiting data transmission is
+        /// stored here.
+        /// </summary>
+        private Queue<IPC_EVENT> IPCEventQueue = new Queue<IPC_EVENT>();
+
+        /// <summary>
+        /// The early wakeup event for the query thread, which is used to
+        /// reduce latency for outbound IPC events, is stored here.  The event
+        /// is typically set after pushing an element onto the IPCEventQueue in
+        /// order to reduce the processing delay.
+        /// </summary>
+        private EventWaitHandle QueryThreadWakeupEvent = new EventWaitHandle(false, EventResetMode.AutoReset);
     }
 }
