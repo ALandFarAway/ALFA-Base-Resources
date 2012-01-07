@@ -40,12 +40,17 @@ namespace ACR_ServerCommunicator
                 return;
 
             string Message = String.Format(
-                "<c=#00FF00>Server {0} is now online.</c>",
+                "<c=yellow>Server {0} is now online.</c>",
                 Server.Name);
 
             foreach (uint PlayerObject in Script.GetPlayers(true))
             {
-                Script.SendMessageToPC(PlayerObject, Message);
+                Script.SendChatMessage(
+                    CLRScriptBase.OBJECT_INVALID,
+                    PlayerObject,
+                    CLRScriptBase.CHAT_MODE_SERVER,
+                    Message,
+                    CLRScriptBase.FALSE);
             }
 
 #if DEBUG_MODE
