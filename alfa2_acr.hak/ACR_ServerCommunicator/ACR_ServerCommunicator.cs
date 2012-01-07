@@ -527,7 +527,7 @@ namespace ACR_ServerCommunicator
             SetLocalInt(PlayerObject, "ACR_SERVER_IPC_CLIENT_ENTERED", TRUE);
             GetDatabase().ACR_SetPCLocalFlags(PlayerObject, 0);
 
-            DelayCommand(3.0f, delegate()
+            DelayCommand(20.0f, delegate()
             {
                 AssignCommand(PlayerObject, delegate()
                 {
