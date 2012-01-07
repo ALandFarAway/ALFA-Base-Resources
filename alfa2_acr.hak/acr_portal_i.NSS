@@ -92,6 +92,14 @@ int ACR_PortalCheckCooldown(object oTraveller);
 //!  oInquirer: the DM (presumably) who wants to know.
 void ACR_PortalInformationReport(object oTraveller, object oInquirer);
 
+//! Function to check if a player is fully saved and not waiting to be written
+//  to the central vault.
+//  NOTE:  This function must be called from a DelayCommand AFTER calling
+//         character save!  Otherwise, it will not report the correct result.
+//!  Returns: TRUE if the player is saved, else FALSE if the player is still
+//            waiting to have their character uploaded.
+int ACR_PortalIsCharacterSpoolFlushed(object oPC);
+
 //
 //  Private functions
 //
@@ -219,6 +227,11 @@ void ACR_PortalInformationReport(object oTraveller, object oInquirer) {
 	SendMessageToPC(oInquirer, "       ");		
 }
 
+
+int ACR_PortalIsCharacterSpoolFlushed(object oPC)
+{
+	return NWNXGetInt("VAULT", "CHECK SPOOL", GetBicFileName(oPC), 0);
+}
 
 
 
