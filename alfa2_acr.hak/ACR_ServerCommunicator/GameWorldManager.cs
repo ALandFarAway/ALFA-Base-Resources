@@ -993,6 +993,7 @@ namespace ACR_ServerCommunicator
         private struct SynchronizeOnlineServersRow
         {
             public int ServerId;
+            public string AddressString;
         };
 
         /// <summary>
@@ -1031,7 +1032,8 @@ namespace ACR_ServerCommunicator
 
             Database.ACR_SQLQuery(
                 "SELECT " +
-                    "`servers`.`ID` AS server_id " +
+                    "`servers`.`ID` AS server_id, " +
+                    "`servers`.`IPAddress` as ip_address " +
                 "FROM `servers` " +
                 "INNER JOIN `pwdata` ON `pwdata`.`Name` = `servers`.`Name` " +
                 "WHERE pwdata.`Key` = 'ACR_TIME_SERVERTIME' " +
@@ -1066,6 +1068,7 @@ namespace ACR_ServerCommunicator
                 SynchronizeOnlineServersRow Row;
 
                 Row.ServerId = Convert.ToInt32(Database.ACR_SQLGetData(0));
+                Row.AddressString = Database.ACR_SQLGetData(1);
 
                 Rowset.Add(Row);
             }
@@ -1079,6 +1082,7 @@ namespace ACR_ServerCommunicator
                 foreach (SynchronizeOnlineServersRow Row in Rowset)
                 {
                     int ServerId = Row.ServerId;
+                    string AddressString = Row.AddressString;
 
                     GameServer Server = ReferenceServerById(ServerId, Database);
 
@@ -1089,6 +1093,8 @@ namespace ACR_ServerCommunicator
                         Server.Online = true;
                         OnServerJoin(Server);
                     }
+
+                    Server.SetHostnameAndPort(AddressString);
                 }
 
                 //

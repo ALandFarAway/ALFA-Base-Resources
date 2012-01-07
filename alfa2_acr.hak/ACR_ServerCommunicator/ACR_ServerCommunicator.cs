@@ -146,6 +146,18 @@ namespace ACR_ServerCommunicator
                     }
                     break;
 
+                case REQUEST_TYPE.ACTIVATE_SERVER_TO_SERVER_PORTAL:
+                    {
+                        int ServerId = (int)ScriptParameters[1];
+                        int PortalId = (int)ScriptParameters[2];
+                        uint PlayerObjectId = OBJECT_SELF;
+
+                        ActivateServerToServerPortal(ServerId, PortalId, PlayerObjectId);
+
+                        ReturnCode = 0;
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid IPC script command " + RequestType.ToString());
 
@@ -496,6 +508,8 @@ namespace ACR_ServerCommunicator
                 return;
 
             SetLocalInt(PlayerObject, "ACR_SERVER_IPC_CLIENT_ENTERED", TRUE);
+            SetLocalInt(PlayerObject, "ACR_PORTAL_IN_PROGRESS", FALSE);
+            SetLocalInt(PlayerObject, "ACR_PORTAL_COMMITTED", FALSE);
 
             DelayCommand(3.0f, delegate()
             {
@@ -537,7 +551,142 @@ namespace ACR_ServerCommunicator
             {
                 GameServer Server = WorldManager.ReferenceServerById(ServerId, GetDatabase());
 
+                if (Server == null)
+                    return false;
+
                 return Server.Online;
+            }
+        }
+
+        /// <summary>
+        /// Activate a server-to-server portal transfer to a remote server.
+        /// </summary>
+        /// <param name="ServerId">Supplies the destination server id.</param>
+        /// <param name="PortalId">Supplies the associated portal id.</param>
+        /// <param name="PlayerObjectId">Supplies the object id of the player
+        /// to transfer across the server to server portal.</param>
+        private void ActivateServerToServerPortal(int ServerId, int PortalId, uint PlayerObjectId)
+        {
+            lock (WorldManager)
+            {
+                GameServer Server = WorldManager.ReferenceServerById(ServerId, GetDatabase());
+
+                //
+                // Check our state first.
+                //
+
+                if (Server == null)
+                {
+                    SendFeedbackError(PlayerObjectId, "Portal failed (destination server unknown).");
+                    return;
+                }
+
+                if (Server.Online == false)
+                {
+                    SendFeedbackError(PlayerObjectId, "Portal failed (destination server offline).");
+                    return;
+                }
+
+                //
+                // If we're a DM, there is no server vault character to
+                // transfer.  Save any database state and just start things
+                // off.
+                //
+
+                if (GetIsDM(PlayerObjectId) != FALSE)
+                {
+                    SendMessageToPC(PlayerObjectId, "Initiating DM portal...");
+                    GetDatabase().ACR_PCSave(PlayerObjectId, true, true);
+                    GetDatabase().ACR_FlushQueryQueue(PlayerObjectId);
+                    ActivatePortal(
+                        PlayerObjectId,
+                        Server.ServerHostname,
+                        WorldManager.Configuration.PlayerPassword,
+                        "",
+                        TRUE);
+                    return;
+                }
+
+                //
+                // Disable actions on the player while we are waiting for them
+                // to transfer.  This is intended to help prevent a player from
+                // causing the canonical save from missing something important,
+                // like an item dropped on the ground.
+                //
+
+                int WasCommandable = GetCommandable(PlayerObjectId);
+                SetCommandable(FALSE, PlayerObjectId);
+                SetLocalInt(PlayerObjectId, "ACR_PORTAL_IN_PROGRESS", FALSE);
+
+                if (IsInConversation(PlayerObjectId) != FALSE)
+                    AssignCommand(PlayerObjectId, delegate() { ActionPauseConversation(); });
+
+                //
+                // Set up a fallback DelayCommand continuation set to send a
+                // failure error to the player and exit the portal loop.
+                //
+
+                AssignCommand(PlayerObjectId, delegate()
+                {
+                    DelayCommand(60.0f, delegate()
+                    {
+                        //
+                        // Let the player know that we failed.
+                        //
+
+                        SendMessageToPC(PlayerObjectId, "Portal failed (timed out).");
+
+                        if (GetLocalInt(PlayerObjectId, "ACR_PORTAL_COMMITTED") == FALSE)
+                        {
+                            //
+                            // We are aborting the portal before we are fully
+                            // committed.  Unwind back from the non-commandable
+                            // state and tell the player that they can retry if
+                            // desired.
+                            //
+
+                            SendMessageToPC(PlayerObjectId, "You may re-try the portal if desired.  Contact the tech team if the issue persists.");
+                            SetLocalInt(PlayerObjectId, "ACR_PORTAL_IN_PROGRESS", FALSE);
+
+                            if (GetCommandable(PlayerObjectId) == FALSE)
+                                SetCommandable(WasCommandable, PlayerObjectId);
+
+                            if (IsInConversation(PlayerObjectId) != FALSE)
+                                ActionResumeConversation();
+                        }
+                        else
+                        {
+                            SendMessageToPC(PlayerObjectId, "Please reconnect.");
+
+                            //
+                            // We have already committed to portaling, as we
+                            // have sent the portal request.  There's no way to
+                            // know if the client is still waiting or gave up,
+                            // so the only way to recover for certain is to
+                            // disconnect the player.
+                            //
+
+                            DelayCommand(3.0f, delegate() { BootPC(PlayerObjectId); });
+                        }
+                    });
+                });
+
+                //
+                // Initiate a full player save.
+                //
+
+                GetDatabase().ACR_PCSave(PlayerObjectId, true, true);
+
+                //
+                // Enlist the player in periodic status updates so that they
+                // know what's happening.
+                //
+
+                SetLocalInt(PlayerObjectId, "ACR_PORTAL_IN_PROGRESS", TRUE);
+                AssignCommand(PlayerObjectId, delegate()
+                {
+                    PortalStatusCheck(PlayerObjectId, Server);
+                });
             }
         }
 
@@ -764,6 +913,93 @@ namespace ACR_ServerCommunicator
                 CHAT_MODE_SERVER,
                 "<c=red>Error: " + Message + "</c>",
                 FALSE);
+        }
+
+        /// <summary>
+        /// This method periodically notifies the player of the current portal
+        /// status until the portal attempt completes (or is aborted).
+        /// </summary>
+        /// <param name="PlayerObjectId">Supplies the player to enlist in
+        /// portal status update notifications.</param>
+        /// <param name="Server">Supplies the destination server.</param>
+        private void PortalStatusCheck(uint PlayerObjectId, GameServer Server)
+        {
+            DelayCommand(1.0f, delegate()
+            {
+                //
+                // Bail out if the portal attempt is aborted, e.g. if we have
+                // timed out.
+                //
+
+                if (GetLocalInt(PlayerObjectId, "ACR_PORTAL_IN_PROGRESS") == FALSE)
+                    return;
+
+                //
+                // If the character is no longer spooled, then complete the
+                // portal sequence.
+                //
+
+                if (!IsCharacterSpooled(PlayerObjectId))
+                {
+                    //
+                    // Force pending database writes relating to the player to
+                    // complete.
+                    //
+
+                    GetDatabase().ACR_FlushQueryQueue(PlayerObjectId);
+
+                    //
+                    // Now retrieve the portal configuration information from
+                    // the data system and transfer the player.
+                    //
+                    // Note that there is no going back from this point.  If
+                    // the client does not disconnect on its own, we will boot
+                    // the client later on (because we can never know if the
+                    // client would try and log on to the remote server or if
+                    // it has given up after having sent the request).
+                    //
+
+                    SendMessageToPC(PlayerObjectId, "Transferring to server " + Server.Name + "...");
+                    SetLocalInt(PlayerObjectId, "ACR_PORTAL_COMMITTED", TRUE);
+
+                    lock (WorldManager)
+                    {
+                        ActivatePortal(
+                            PlayerObjectId,
+                            Server.ServerHostname,
+                            WorldManager.Configuration.PlayerPassword,
+                            "",
+                            TRUE);
+                    }
+
+                    return;
+                }
+
+                //
+                // Otherwise, send a notification to the player and start the
+                // next continuation.
+                //
+
+                SendMessageToPC(PlayerObjectId, "Character transfer in progress...");
+                PortalStatusCheck(PlayerObjectId, Server);
+            });
+        }
+
+        /// <summary>
+        /// This method checks if the player object has a character file that
+        /// is still in the spool, waiting for remote upload.
+        /// </summary>
+        /// <param name="PlayerObjectId">Supplies the player object id of the
+        /// player to check</param>
+        /// <returns>True if the player still has a character spooled.
+        /// </returns>
+        private bool IsCharacterSpooled(uint PlayerObjectId)
+        {
+            return NWNXGetInt(
+                "SERVERVAULT",
+                "CHECK SPOOL",
+                GetBicFileName(PlayerObjectId).Substring(12) + ".bic",
+                0) == FALSE;
         }
 
         /// <summary>
@@ -1199,7 +1435,8 @@ namespace ACR_ServerCommunicator
             LIST_ONLINE_USERS,
             HANDLE_CHAT_EVENT,
             HANDLE_CLIENT_ENTER,
-            IS_SERVER_ONLINE
+            IS_SERVER_ONLINE,
+            ACTIVATE_SERVER_TO_SERVER_PORTAL
         }
 
         /// <summary>

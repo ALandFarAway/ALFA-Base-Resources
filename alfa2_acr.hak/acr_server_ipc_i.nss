@@ -64,6 +64,9 @@ const int ACR_SERVER_IPC_HANDLE_CLIENT_ENTER                 = 7;
 // This command returns whether a server is online (by server id).
 const int ACR_SERVER_IPC_IS_SERVER_ONLINE                    = 8;
 
+// This command activates a server to server portal.
+const int ACR_SERVER_IPC_ACTIVATE_SERVER_TO_SERVER_PORTAL    = 9;
+
 // IPC event codes:
 
 // The chat tell event is used to transport tells cross-server.
@@ -176,6 +179,14 @@ int ACR_GetPlayerLoggedOnServerID(int PlayerID);
 //! - Returns: TRUE if the server is online and responding (has pinged the
 //             database within the past 10 minutes or so).
 int ACR_GetIsServerOnline(int ServerID);
+
+//! Initiate the server to server portalling process for a player.  The
+//  process doesn't complete immediately, but may take some time.  The
+//  player should already have a passport assigned.
+//! - ServerID: Supplies the destination server id.
+//! - PortalID: Supplies the portal id.
+//! - PlayerObject: Supplies the player object to portal.
+void ACR_StartServerToServerPortal(int ServerID, int PortalID, object PlayerObject);
 
 //! Make a raw call to the IPC C# control script.
 //!  - Command: Supplies the command to request (e.g. ACR_SERVER_IPC_SIGNAL_IPC_EVENT).
@@ -390,6 +401,19 @@ int ACR_GetIsServerOnline(int ServerID)
 		0,
 		0,
 		"");
+}
+
+void ACR_StartServerToServerPortal(int ServerID, int PortalID, object PlayerObject)
+{
+	ACR_CallIPCScript(
+		ACR_SERVER_IPC_ACTIVATE_SERVER_TO_SERVER_PORTAL,
+		ServerID,
+		PortalID,
+		0,
+		0,
+		0,
+		"",
+		PlayerObject);
 }
 
 void ACR_SignalServerIPCEvent(struct ACR_SERVER_IPC_EVENT IPCEvent)

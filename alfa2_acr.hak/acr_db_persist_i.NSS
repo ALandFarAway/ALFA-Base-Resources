@@ -884,7 +884,7 @@ void ACR_CreateSQLTables()
 	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `ipaddress` (" +
 		"`ID` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT," +
 		"`CDKey` varchar(8) NOT NULL," +
-		"`IPAddress` varchar(16) NOT NULL," +
+		"`IPAddress` varchar(256) NOT NULL," +
 		"`IsBanned` bool NOT NULL default false," +
 		"PRIMARY KEY (`ID`), UNIQUE KEY (`CDKey`, `IPAddress`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
