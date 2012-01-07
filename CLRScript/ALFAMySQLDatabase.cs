@@ -103,6 +103,19 @@ namespace ALFA
         }
 
         /// <summary>
+        /// This routine performs a synchronous SQL query.  If there were
+        /// pending asynchronous queries in the queue, the pending queries are
+        /// drained first.
+        /// 
+        /// The query must not return any results.
+        /// </summary>
+        /// <param name="SQL">Supplies the SQL query text to execute.</param>
+        public void ACR_SQLExecute(string SQL)
+        {
+            Implementation.ACR_SQLExecute(SQL);
+        }
+
+        /// <summary>
         /// This method links to the MySQL assembly, ensuring that the
         /// assembly is loaded.  If necessary the assembly is loaded from the
         /// NWNX4 installation directory.
@@ -265,6 +278,22 @@ namespace ALFA
         }
 
         /// <summary>
+        /// This routine performs a synchronous SQL query.  If there were
+        /// pending asynchronous queries in the queue, the pending queries are
+        /// drained first.
+        /// 
+        /// The query must not return any results.
+        /// </summary>
+        /// <param name="SQL">Supplies the SQL query text to execute.</param>
+        public void ACR_SQLExecute(string SQL)
+        {
+            using (MySqlDataReader Reader = MySqlHelper.ExecuteReader(ConnectionString, SQL))
+            {
+
+            }
+        }
+
+        /// <summary>
         /// This method sets up the database connection string based on the
         /// default connection information set for the MySQL plugin.
         /// </summary>
@@ -272,7 +301,7 @@ namespace ALFA
         {
             SystemInfo.SQLConnectionSettings ConnectionSettings = SystemInfo.GetSQLConnectionSettings();
 
-            ConnectionString = String.Format("Server={0};Uid={1};Password={2};Database={3};Max Pool Size=3",
+            ConnectionString = String.Format("Server={0};Uid={1};Password={2};Database={3};Max Pool Size=4;Pooling=true",
                 ConnectionSettings.Server,
                 ConnectionSettings.User,
                 ConnectionSettings.Password,

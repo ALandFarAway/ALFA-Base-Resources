@@ -68,6 +68,16 @@ namespace ALFA
         /// </summary>
         /// <param name="SQL">Supplies the SQL query text to execute.</param>
         void ACR_SQLQuery(string SQL);
+
+        /// <summary>
+        /// This routine performs a synchronous SQL query.  If there were
+        /// pending asynchronous queries in the queue, the pending queries are
+        /// drained first.
+        /// 
+        /// The query must not return any results.
+        /// </summary>
+        /// <param name="SQL">Supplies the SQL query text to execute.</param>
+        void ACR_SQLExecute(string SQL);
     }
 
     /// <summary>
@@ -433,6 +443,19 @@ namespace ALFA
             DemandInitialize();
 
             ACR_SQLQuery_Method.Invoke(DBLibraryScript, new object[] { SQL });
+        }
+
+        /// <summary>
+        /// This routine performs a synchronous SQL query.  If there were
+        /// pending asynchronous queries in the queue, the pending queries are
+        /// drained first.
+        /// 
+        /// The query must not return any results.
+        /// </summary>
+        /// <param name="SQL">Supplies the SQL query text to execute.</param>
+        public void ACR_SQLExecute(string SQL)
+        {
+            ACR_SQLQuery(SQL);
         }
 
         /// <summary>
