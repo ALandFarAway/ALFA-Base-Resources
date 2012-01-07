@@ -504,12 +504,18 @@ namespace ACR_ServerCommunicator
         /// </param>
         private void HandleClientEnter(uint PlayerObject)
         {
+            //
+            // Remove a character save block if one was set, in case the
+            // player returns to a server they had portalled from previously.
+            //
+
+            EnableCharacterSave(PlayerObject);
+
             if (GetLocalInt(PlayerObject, "ACR_SERVER_IPC_CLIENT_ENTERED") != FALSE)
                 return;
 
             SetLocalInt(PlayerObject, "ACR_SERVER_IPC_CLIENT_ENTERED", TRUE);
-            SetLocalInt(PlayerObject, "ACR_PORTAL_IN_PROGRESS", FALSE);
-            SetLocalInt(PlayerObject, "ACR_PORTAL_COMMITTED", FALSE);
+            GetDatabase().ACR_SetPCLocalFlags(PlayerObject, 0);
 
             DelayCommand(3.0f, delegate()
             {
@@ -610,6 +616,12 @@ namespace ACR_ServerCommunicator
                     return;
                 }
 
+                if ((GetDatabase().ACR_GetPCLocalFlags(PlayerObjectId) & ALFA.Database.ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS) != 0)
+                {
+                    SendMessageToPC(PlayerObjectId, "A portal attempt is already in progress.");
+                    return;
+                }
+
                 //
                 // Disable actions on the player while we are waiting for them
                 // to transfer.  This is intended to help prevent a player from
@@ -619,7 +631,6 @@ namespace ACR_ServerCommunicator
 
                 int WasCommandable = GetCommandable(PlayerObjectId);
                 SetCommandable(FALSE, PlayerObjectId);
-                SetLocalInt(PlayerObjectId, "ACR_PORTAL_IN_PROGRESS", FALSE);
 
                 if (IsInConversation(PlayerObjectId) != FALSE)
                     AssignCommand(PlayerObjectId, delegate() { ActionPauseConversation(); });
@@ -639,7 +650,7 @@ namespace ACR_ServerCommunicator
 
                         SendMessageToPC(PlayerObjectId, "Portal failed (timed out).");
 
-                        if (GetLocalInt(PlayerObjectId, "ACR_PORTAL_COMMITTED") == FALSE)
+                        if ((GetDatabase().ACR_GetPCLocalFlags(PlayerObjectId) & ALFA.Database.ACR_PC_LOCAL_FLAG_PORTAL_COMMITTED) == 0)
                         {
                             //
                             // We are aborting the portal before we are fully
@@ -648,8 +659,11 @@ namespace ACR_ServerCommunicator
                             // desired.
                             //
 
+                            GetDatabase().ACR_SetPCLocalFlags(
+                                PlayerObjectId,
+                                GetDatabase().ACR_GetPCLocalFlags(PlayerObjectId) & ~(ALFA.Database.ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS));
+
                             SendMessageToPC(PlayerObjectId, "You may re-try the portal if desired.  Contact the tech team if the issue persists.");
-                            SetLocalInt(PlayerObjectId, "ACR_PORTAL_IN_PROGRESS", FALSE);
 
                             if (GetCommandable(PlayerObjectId) == FALSE)
                                 SetCommandable(WasCommandable, PlayerObjectId);
@@ -675,17 +689,24 @@ namespace ACR_ServerCommunicator
                 });
 
                 //
-                // Initiate a full player save.
+                // Initiate a full player save.  This must be done BEFORE we
+                // enter into PortalStatusCheck, so that the export request is
+                // acted on beforehand and the character goes into the queue
+                // for remote transfer.
                 //
 
                 GetDatabase().ACR_PCSave(PlayerObjectId, true, true);
 
                 //
                 // Enlist the player in periodic status updates so that they
-                // know what's happening.
+                // know what's happening.  This also checks whether the vault
+                // transfer has finished for the ACR_PCSave above, so that we
+                // can complete the transfer transaction entirely.
                 //
 
-                SetLocalInt(PlayerObjectId, "ACR_PORTAL_IN_PROGRESS", TRUE);
+                GetDatabase().ACR_SetPCLocalFlags(
+                    PlayerObjectId,
+                    GetDatabase().ACR_GetPCLocalFlags(PlayerObjectId) | ALFA.Database.ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS);
                 AssignCommand(PlayerObjectId, delegate()
                 {
                     PortalStatusCheck(PlayerObjectId, Server);
@@ -934,7 +955,7 @@ namespace ACR_ServerCommunicator
                 // timed out.
                 //
 
-                if (GetLocalInt(PlayerObjectId, "ACR_PORTAL_IN_PROGRESS") == FALSE)
+                if ((GetDatabase().ACR_GetPCLocalFlags(PlayerObjectId) & ALFA.Database.ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS) == 0)
                     return;
 
                 //
@@ -952,6 +973,39 @@ namespace ACR_ServerCommunicator
                     GetDatabase().ACR_FlushQueryQueue(PlayerObjectId);
 
                     //
+                    // Disable the next internal character save for this player
+                    // object.  This prevents the autosave on logout from
+                    // contending with the remote server's initial character
+                    // read.
+                    //
+                    // N.B.  Normally, this is not a problem, as the server
+                    //       vault subsystem uses file locking internally.  But
+                    //       ALFA uses SSHFS, which does not support any sort
+                    //       of file locking at all (all requestors are let on
+                    //       through).
+                    //
+                    //       Thus, to avoid the remote server getting into a
+                    //       state where it reads a character being transferred
+                    //       from the final autosave on logout, we suppress the
+                    //       final autosave.
+                    //
+                    //       Script-initiated saves are already suppressed by
+                    //       the ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS PC local
+                    //       flag bit, which just leaves the server's internal
+                    //       save.
+                    //
+
+                    if (!DisableCharacterSave(PlayerObjectId))
+                    {
+                        SendMessageToPC(PlayerObjectId, "Unable to setup for server character transfer - internal error.  Please notify the tech team.");
+                        SendMessageToPC(PlayerObjectId, "Aborting portal attempt due to error...");
+                        GetDatabase().ACR_SetPCLocalFlags(
+                            PlayerObjectId,
+                            GetDatabase().ACR_GetPCLocalFlags(PlayerObjectId) & ~(ALFA.Database.ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS));
+                        return;
+                    }
+
+                    //
                     // Now retrieve the portal configuration information from
                     // the data system and transfer the player.
                     //
@@ -963,7 +1017,10 @@ namespace ACR_ServerCommunicator
                     //
 
                     SendMessageToPC(PlayerObjectId, "Transferring to server " + Server.Name + "...");
-                    SetLocalInt(PlayerObjectId, "ACR_PORTAL_COMMITTED", TRUE);
+
+                    GetDatabase().ACR_SetPCLocalFlags(
+                        PlayerObjectId,
+                        GetDatabase().ACR_GetPCLocalFlags(PlayerObjectId) | ALFA.Database.ACR_PC_LOCAL_FLAG_PORTAL_COMMITTED);
 
                     lock (WorldManager)
                     {
@@ -1003,6 +1060,51 @@ namespace ACR_ServerCommunicator
                 "CHECK SPOOL",
                 GetBicFileName(PlayerObjectId).Substring(12) + ".bic",
                 0) == FALSE;
+        }
+
+        /// <summary>
+        /// This method asks the vault plugin to blackhole the next character
+        /// save for a given file name.  The blackhole is removed at login time
+        /// by the client enter handler.
+        /// </summary>
+        /// <param name="PlayerObjectId">Supplies the PC object whose saves are
+        /// to be suppressed.</param>
+        /// <returns>Returns true if the request succeeded.</returns>
+        private bool DisableCharacterSave(uint PlayerObjectId)
+        {
+            if (NWNXGetInt(
+                "SERVERVAULT",
+                "SUPPRESS CHARACTER SAVE",
+                GetBicFileName(PlayerObjectId).Substring(12) + ".bic",
+                0) == FALSE)
+            {
+                WriteTimestampedLogEntry("ACR_ServerCommunicator.DisableNextCharacterSave(): FAILED to disable character save for " + GetName(PlayerObjectId) + "!");
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// This method asks the vault plugin to remove any blackhole to stop
+        /// character saves for a given file name.
+        /// </summary>
+        /// <param name="PlayerObjectId">Supplies the PC object whose saves are
+        /// to be reinstated.</param>
+        /// <returns>Returns true if the request succeeded.</returns>
+        private bool EnableCharacterSave(uint PlayerObjectId)
+        {
+            if (NWNXGetInt(
+                "SERVERVAULT",
+                "ENABLE CHARACTER SAVE",
+                GetBicFileName(PlayerObjectId).Substring(12) + ".bic",
+                0) == FALSE)
+            {
+                WriteTimestampedLogEntry("ACR_ServerCommunicator.EnableCharacterSave(): FAILED to enable character save for " + GetName(PlayerObjectId) + "!");
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>

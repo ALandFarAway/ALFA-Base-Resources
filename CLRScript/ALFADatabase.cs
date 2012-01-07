@@ -514,6 +514,26 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Return the current PC local flags value for a PC.
+        /// </summary>
+        /// <param name="PCObject">Supplies the PC object.</param>
+        /// <returns>The PC Local Flags value.</returns>
+        public int ACR_GetPCLocalFlags(UInt32 PCObject)
+        {
+            return Script.GetLocalInt(PCObject, "ACR_PC_LOCAL_FLAGS");
+        }
+
+        /// <summary>
+        /// Assigns the current PC local flags value for a PC.
+        /// </summary>
+        /// <param name="PCObject">Supplies the PC object.</param>
+        /// <param name="Flags">Supplies the new Local Flags value.</param>
+        public void ACR_SetPCLocalFlags(UInt32 PCObject, int Flags)
+        {
+            Script.SetLocalInt(PCObject, "ACR_PC_LOCAL_FLAGS", Flags);
+        }
+
+        /// <summary>
         /// This routine determines whether a player is a server admin for the
         /// current server.
         /// </summary>
@@ -595,6 +615,22 @@ namespace ALFA
         {
             return String.Format("X{0}Y{1}Z{2}", v.x, v.y, v.z);
         }
+
+
+
+        //
+        // PC Local Flags.
+        //
+
+        /// <summary>
+        /// Portal request is live and in progress.
+        /// </summary>
+        public const int ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS = 0x00000001;
+        /// <summary>
+        /// Portal request has reached the stage where it cannot be rolled back
+        /// without disconnecting the player forcibly.
+        /// </summary>
+        public const int ACR_PC_LOCAL_FLAG_PORTAL_COMMITTED = 0x00000002;
 
 
 

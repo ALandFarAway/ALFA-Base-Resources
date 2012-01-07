@@ -43,6 +43,7 @@
 #include "acr_tools_i"
 #include "acr_debug_i"
 #include "acr_1984_i"
+#include "acr_pps_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -243,7 +244,7 @@ int ACR_PersistentStorageOnClose(object oStorage, object oPC)
     for (i=0; i<nDisturbers; i++)
     {
         object oDisturber = GetLocalArrayObject(oStorage, _ACR_PSO_DISTURBERS_LOA, i);
-        ExportSingleCharacter(oDisturber);
+        ACR_PCExportSingleCharacter(oDisturber);
 		
         // Update oStorage's list of transactions?!?
         DeleteLocalArrayObject(oStorage, _ACR_PSO_DISTURBERS_LOA, i);
