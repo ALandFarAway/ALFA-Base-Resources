@@ -169,7 +169,7 @@ namespace ACR_ServerCommunicator
             // Create the database tables as necessary.
             //
 
-            Database.ACR_SQLQuery(
+            Database.ACR_SQLExecute(
                 "CREATE TABLE IF NOT EXISTS `server_ipc_events` ( " +
                 "`ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, " +
                 "`SourcePlayerID` mediumint(8) UNSIGNED NOT NULL, " +
@@ -186,7 +186,7 @@ namespace ACR_ServerCommunicator
             // up fresh.
             //
 
-            Database.ACR_SQLQuery(String.Format(
+            Database.ACR_SQLExecute(String.Format(
                 "DELETE FROM `server_ipc_events` WHERE DestinationServerID={0}",
                 Database.ACR_GetServerID()));
 
@@ -221,14 +221,14 @@ namespace ACR_ServerCommunicator
             if (EventText.Length > ACR_SERVER_IPC_MAX_EVENT_LENGTH)
                 throw new ApplicationException("IPC event text too long:" + EventText);
 
-            InsertIPCEventDatabase.ACR_SQLQuery(String.Format(
+            InsertIPCEventDatabase.ACR_SQLExecute(String.Format(
                 "INSERT INTO `server_ipc_events` (`ID`, `SourcePlayerID`, `SourceServerID`, `DestinationPlayerID`, `DestinationServerID`, `EventType`, `EventText`) VALUES (0, {0}, {1}, {2}, {3}, {4}, '{5}')",
                 SourcePlayerId,
                 SourceServerId,
                 DestinationPlayerId,
                 DestinationServerId,
                 EventType,
-                EventText));
+                InsertIPCEventDatabase.ACR_SQLEncodeSpecialChars(EventText)));
         }
 
         /// <summary>
@@ -362,6 +362,26 @@ namespace ACR_ServerCommunicator
                         Character.Server.Name));
                 }
 
+                string Name;
+                GamePlayer Player;
+
+                Player = WorldManager.ReferencePlayerById(GetLastTellFromPlayerId(PlayerObject), GetDatabase());
+
+                if (Player != null)
+                    Name = Player.PlayerName;
+                else
+                    Name = "<None>";
+
+                SendMessageToPC(PlayerObject, "Reply-To: " + Name);
+
+                Player = WorldManager.ReferencePlayerById(GetLastTellToPlayerId(PlayerObject), GetDatabase());
+
+                if (Player != null)
+                    Name = Player.Name;
+                else
+                    Name = "<None>";
+
+                SendMessageToPC(PlayerObject, "Retell-To: " + Name);
             }
         }
 
@@ -1014,7 +1034,7 @@ namespace ACR_ServerCommunicator
                 OBJECT_INVALID,
                 SenderObjectId,
                 CHAT_MODE_SERVER,
-                String.Format("<c=#FFCC99>{0}: </c><c=#30DDCC>[ServerTell] {1}</c>", RecipientPlayer.GetOnlineCharacter().CharacterName, Message),
+                String.Format("<c=#FFCC99>{0}: </c><c=#30DDCC>[ServerTell] {1}</c>", GetName(SenderObjectId), Message),
                 FALSE);
         }
 
