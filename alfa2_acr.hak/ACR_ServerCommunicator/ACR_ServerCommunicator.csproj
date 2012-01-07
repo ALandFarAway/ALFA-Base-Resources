@@ -70,6 +70,7 @@
     <Compile Include="GameEventQueue.cs" />
     <Compile Include="GamePlayer.cs" />
     <Compile Include="GameServer.cs" />
+    <Compile Include="GameWorldConfiguration.cs" />
     <Compile Include="GameWorldManager.cs" />
     <Compile Include="IGameEntity.cs" />
     <Compile Include="ServerJoinEvent.cs" />

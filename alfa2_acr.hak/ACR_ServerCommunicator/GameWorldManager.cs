@@ -398,6 +398,15 @@ namespace ACR_ServerCommunicator
         /// updates for debugging or diagnostic purposes.
         /// </summary>
         public bool PauseUpdates { get; set; }
+
+        /// <summary>
+        /// This property contains the configuration settings for the game
+        /// world that are drawn from the database.
+        /// </summary>
+        public GameWorldConfiguration Configuration
+        {
+            get { return ConfigurationStore; }
+        }
         
         /// <summary>
         /// Run the event queue down.  All events in the queue are given a
@@ -717,6 +726,14 @@ namespace ACR_ServerCommunicator
 
             if ((DatabasePollCycle - 1) % POLLING_CYCLES_TO_SERVER_SYNC == 0)
                 SynchronizeOnlineServers();
+
+            //
+            // Every POLLING_CYCLE_TO_CONFIG_SYNC cycles, update the
+            // configuration store.
+            //
+
+            if ((DatabasePollCycle - 1) % POLLING_CYCLES_TO_CONFIG_SYNC == 0)
+                SynchronizeConfiguration();
 
 #if DEBUG_MODE
             ConsistencyCheck();
@@ -1269,6 +1286,20 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method synchronizes the configuration settings block with the
+        /// database.
+        /// </summary>
+        public void SynchronizeConfiguration()
+        {
+            IALFADatabase Database = DatabaseLinkQueryThread;
+
+            lock (this)
+            {
+                ConfigurationStore.ReadConfigurationFromDatabase(Database);
+            }
+        }
+
+        /// <summary>
         /// Convert a database string to a Boolean value.
         /// </summary>
         /// <param name="Str">Supplies the database string.</param>
@@ -1311,6 +1342,12 @@ namespace ACR_ServerCommunicator
         /// attempt.
         /// </summary>
         private const int POLLING_CYCLES_TO_CHARACTER_SYNC = 3;
+
+        /// <summary>
+        /// The number of pollling cycles between a configuration
+        /// synchronization attempt.
+        /// </summary>
+        private const int POLLING_CYCLES_TO_CONFIG_SYNC = 60 * 60;
 
         /// <summary>
         /// The maximum target value for combined IPC event queries is stored
@@ -1381,5 +1418,11 @@ namespace ACR_ServerCommunicator
         /// order to reduce the processing delay.
         /// </summary>
         private EventWaitHandle QueryThreadWakeupEvent = new EventWaitHandle(false, EventResetMode.AutoReset);
+
+        /// <summary>
+        /// This object stores the configuration data for the game world.  The
+        /// configuration elements contained herein are backed by the database.
+        /// </summary>
+        private GameWorldConfiguration ConfigurationStore = new GameWorldConfiguration();
     }
 }
