@@ -128,6 +128,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s0_blur.ncs                       \
             $(OUTPUTDIR)\acr_s0_causefear.ncs                  \
             $(OUTPUTDIR)\acr_s0_charmper.ncs                   \
+            $(OUTPUTDIR)\acr_s0_combust.ncs                    \
             $(OUTPUTDIR)\acr_s0_complang.ncs                   \
             $(OUTPUTDIR)\acr_s0_curminw.ncs                    \
             $(OUTPUTDIR)\acr_s0_daze.ncs                       \
@@ -145,6 +146,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s0_rayfrost.ncs                   \
             $(OUTPUTDIR)\acr_s0_readmagic.ncs                  \
             $(OUTPUTDIR)\acr_s0_scare.ncs                      \
+            $(OUTPUTDIR)\acr_s0_seeinvis.ncs                   \
             $(OUTPUTDIR)\acr_s0_snillocsnowball.ncs            \
             $(OUTPUTDIR)\acr_s0_spiderclimb.ncs                \
             $(OUTPUTDIR)\acr_s0_web.ncs                        \
