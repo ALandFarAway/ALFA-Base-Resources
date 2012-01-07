@@ -476,6 +476,19 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Get the version string of the ACR release that the module was
+        /// compiled against.  For example, "1.84".
+        /// </summary>
+        /// <returns>The ACR version string that the DB Library Script was
+        /// compiled against is returned.</returns>
+        public string ACR_GetVersion()
+        {
+            DemandInitialize();
+
+            return (string)ACR_GetVersion_Method.Invoke(DBLibraryScript, null);
+        }
+
+        /// <summary>
         /// This routine performs a synchronous SQL query.  If there were
         /// pending asynchronous queries in the queue, the pending queries are
         /// drained first.
@@ -659,6 +672,7 @@ namespace ALFA
             ACR_SQLQuery_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_SQLQuery");
             ACR_FlushQueryQueue_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_FlushQueryQueue");
             ACR_PCSave_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_PCSave");
+            ACR_GetVersion_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetVersion");
 
             DBLibraryScript = ScriptObject;
 
@@ -710,5 +724,6 @@ namespace ALFA
         private static MethodInfo ACR_SQLQuery_Method;
         private static MethodInfo ACR_FlushQueryQueue_Method;
         private static MethodInfo ACR_PCSave_Method;
+        private static MethodInfo ACR_GetVersion_Method;
     }
 }

@@ -410,6 +410,9 @@ namespace ACR_ServerCommunicator
 
                 SendMessageToPC(PlayerObject, "Retell-To: " + Name);
             }
+
+            SendMessageToPC(PlayerObject, "ACR version: " + GetDatabase().ACR_GetVersion());
+            SendMessageToPC(PlayerObject, "IPC subsystem version: " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
         }
 
         /// <summary>
@@ -487,6 +490,12 @@ namespace ACR_ServerCommunicator
                 return TRUE;
             }
 #endif
+            else if (CookedText.Equals("version"))
+            {
+                SendMessageToPC(SenderObjectId, "ACR version: " + GetDatabase().ACR_GetVersion());
+                SendMessageToPC(SenderObjectId, "IPC subsystem version: " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                return TRUE;
+            }
             else
             {
                 return FALSE;

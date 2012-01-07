@@ -105,6 +105,7 @@
 #include "acr_feat_events_i"
 #include "acr_srvadmin_i"
 #include "acr_server_ipc_i"
+#include "acr_version_i"
 
 #include "acf_spawn_i"
 #include "acf_settings_i"
@@ -1236,4 +1237,5 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts()
 	ACR_SQLQuery("");
 	ACR_FlushQueryQueue(OBJECT_INVALID);
 	ACR_PCSave(OBJECT_INVALID);
+	ACR_GetVersion();
 }

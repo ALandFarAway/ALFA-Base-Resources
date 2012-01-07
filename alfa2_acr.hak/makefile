@@ -94,7 +94,8 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\wand_inc_misc.nss                     \
             $(OUTPUTDIR)\wand_inc.nss                          \
             $(OUTPUTDIR)\acr_srvadmin_i.nss                    \
-            $(OUTPUTDIR)\acr_server_ipc_i.nss                   
+            $(OUTPUTDIR)\acr_server_ipc_i.nss                  \
+            $(OUTPUTDIR)\acr_version_i.nss                      
 
 NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\abr_plc_oninventorydisreturns.ncs     \
