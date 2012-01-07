@@ -595,6 +595,8 @@ namespace ACR_ServerCommunicator
 
                 if (GetIsDM(PlayerObjectId) != FALSE)
                 {
+                    SendMessageToPC(PlayerObjectId, "DM portals are not supported.  You must manually log out and connect to the desired server.");
+                    /*
                     SendMessageToPC(PlayerObjectId, "Initiating DM portal...");
                     GetDatabase().ACR_PCSave(PlayerObjectId, true, true);
                     GetDatabase().ACR_FlushQueryQueue(PlayerObjectId);
@@ -604,6 +606,7 @@ namespace ACR_ServerCommunicator
                         WorldManager.Configuration.PlayerPassword,
                         "",
                         TRUE);
+                     */
                     return;
                 }
 
