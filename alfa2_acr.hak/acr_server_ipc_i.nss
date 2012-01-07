@@ -61,6 +61,9 @@ const int ACR_SERVER_IPC_HANDLE_CHAT_EVENT                   = 6;
 // This command handles client enter events.
 const int ACR_SERVER_IPC_HANDLE_CLIENT_ENTER                 = 7;
 
+// This command returns whether a server is online (by server id).
+const int ACR_SERVER_IPC_IS_SERVER_ONLINE                    = 8;
+
 // IPC event codes:
 
 // The chat tell event is used to transport tells cross-server.
@@ -167,6 +170,12 @@ int ACR_GetPlayerIDByPlayerName(string PlayerName);
 //!  - Returns: The server ID of the players logged on server, else 0 if they
 //              were not logged on.
 int ACR_GetPlayerLoggedOnServerID(int PlayerID);
+
+//! Check whether a server is online and responding.
+//! - ServerID: Supplies the server id to query.
+//! - Returns: TRUE if the server is online and responding (has pinged the
+//             database within the past 10 minutes or so).
+int ACR_GetIsServerOnline(int ServerID);
 
 //! Make a raw call to the IPC C# control script.
 //!  - Command: Supplies the command to request (e.g. ACR_SERVER_IPC_SIGNAL_IPC_EVENT).
@@ -364,6 +373,18 @@ int ACR_GetPlayerLoggedOnServerID(int PlayerID)
 	return ACR_CallIPCScript(
 		ACR_SERVER_IPC_RESOLVE_PLAYER_ID_TO_SERVER_ID,
 		PlayerID,
+		0,
+		0,
+		0,
+		0,
+		"");
+}
+
+int ACR_GetIsServerOnline(int ServerID)
+{
+	return ACR_CallIPCScript(
+		ACR_SERVER_IPC_IS_SERVER_ONLINE,
+		ServerID,
 		0,
 		0,
 		0,

@@ -138,6 +138,14 @@ namespace ACR_ServerCommunicator
                     }
                     break;
 
+                case REQUEST_TYPE.IS_SERVER_ONLINE:
+                    {
+                        int ServerId = (int)ScriptParameters[1];
+
+                        ReturnCode = IsServerOnline(ServerId) ? TRUE : FALSE;
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid IPC script command " + RequestType.ToString());
 
@@ -515,6 +523,22 @@ namespace ACR_ServerCommunicator
             });
 
             DelayCommand(6.0f, delegate() { SetLocalInt(PlayerObject, "ACR_SERVER_IPC_CLIENT_ENTERED", FALSE); });
+        }
+
+        /// <summary>
+        /// Check whether a server is online.
+        /// </summary>
+        /// <param name="ServerId">Supplies the server id of the server to
+        /// query.</param>
+        /// <returns>True if the server is online.</returns>
+        private bool IsServerOnline(int ServerId)
+        {
+            lock (WorldManager)
+            {
+                GameServer Server = WorldManager.ReferenceServerById(ServerId, GetDatabase());
+
+                return Server.Online;
+            }
         }
 
         /// <summary>
@@ -1174,7 +1198,8 @@ namespace ACR_ServerCommunicator
             RESOLVE_PLAYER_ID_TO_SERVER_ID,
             LIST_ONLINE_USERS,
             HANDLE_CHAT_EVENT,
-            HANDLE_CLIENT_ENTER
+            HANDLE_CLIENT_ENTER,
+            IS_SERVER_ONLINE
         }
 
         /// <summary>
