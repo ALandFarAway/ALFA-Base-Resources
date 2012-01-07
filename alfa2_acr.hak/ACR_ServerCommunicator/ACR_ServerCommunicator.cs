@@ -39,12 +39,12 @@ namespace ACR_ServerCommunicator
         }
 
         public static Type[] ScriptParameterTypes =
-        { typeof(string), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(string) };
+        { typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(string) };
 
         public Int32 ScriptMain([In] object[] ScriptParameters, [In] Int32 DefaultReturnCode)
         {
             Int32 ReturnCode;
-            string RequestType = (string)ScriptParameters[0];
+            int RequestType = (int)ScriptParameters[0];
 
             //
             // If we haven't yet done one time initialization, do so now.
@@ -60,68 +60,87 @@ namespace ACR_ServerCommunicator
             // Now dispatch the command request.
             //
 
-            if (RequestType == "INITIALIZE")
+            switch ((REQUEST_TYPE)RequestType)
             {
-                ReturnCode = 0;
-            }
-            else if (RequestType == "SIGNAL_IPC_EVENT")
-            {
-                int SourcePlayerId = (int)ScriptParameters[1];
-                int SourceServerId = (int)ScriptParameters[2];
-                int DestinationPlayerId = (int)ScriptParameters[3];
-                int DestinationServerId = (int)ScriptParameters[4];
-                int EventType = (int)ScriptParameters[5];
-                string EventText = (string)ScriptParameters[6];
 
-                SignalIPCEvent(SourcePlayerId, SourceServerId, DestinationPlayerId, DestinationServerId, EventType, EventText);
+                case REQUEST_TYPE.INITIALIZE:
+                    {
+                        ReturnCode = 0;
+                    }
+                    break;
 
-                ReturnCode = 0;
-            }
-            else if (RequestType == "RESOLVE_CHARACTER_NAME_TO_PLAYER_ID")
-            {
-                string CharacterName = (string)ScriptParameters[6];
+                case REQUEST_TYPE.SIGNAL_IPC_EVENT:
+                    {
+                        int SourcePlayerId = (int)ScriptParameters[1];
+                        int SourceServerId = (int)ScriptParameters[2];
+                        int DestinationPlayerId = (int)ScriptParameters[3];
+                        int DestinationServerId = (int)ScriptParameters[4];
+                        int EventType = (int)ScriptParameters[5];
+                        string EventText = (string)ScriptParameters[6];
 
-                ReturnCode = ResolveCharacterNameToPlayerId(CharacterName);
-            }
-            else if (RequestType == "RESOLVE_PLAYER_NAME")
-            {
-                string PlayerName = (string)ScriptParameters[6];
+                        SignalIPCEvent(SourcePlayerId, SourceServerId, DestinationPlayerId, DestinationServerId, EventType, EventText);
 
-                ReturnCode = ResolvePlayerName(PlayerName);
-            }
-            else if (RequestType == "RESOLVE_PLAYER_ID_TO_SERVER_ID")
-            {
-                int PlayerId = (int)ScriptParameters[1];
+                        ReturnCode = 0;
+                    }
+                    break;
 
-                ReturnCode = ResolvePlayerIdToServerId(PlayerId);
-            }
-            else if (RequestType == "LIST_ONLINE_USERS")
-            {
-                uint PlayerObject = OBJECT_SELF;
+                case REQUEST_TYPE.RESOLVE_CHARACTER_NAME_TO_PLAYER_ID:
+                    {
+                        string CharacterName = (string)ScriptParameters[6];
 
-                ListOnlineUsers(PlayerObject);
+                        ReturnCode = ResolveCharacterNameToPlayerId(CharacterName);
+                    }
+                    break;
 
-                ReturnCode = 0;
-            }
-            else if (RequestType == "HANDLE_CHAT_EVENT")
-            {
-                int ChatMode = (int)ScriptParameters[1];
-                string ChatText = (string)ScriptParameters[6];
-                uint SenderObjectId = OBJECT_SELF;
+                case REQUEST_TYPE.RESOLVE_PLAYER_NAME:
+                    {
+                        string PlayerName = (string)ScriptParameters[6];
 
-                ReturnCode = HandleChatEvent(ChatMode, ChatText, SenderObjectId);
-            }
-            else if (RequestType == "HANDLE_CLIENT_ENTER")
-            {
-                uint SenderObjectId = OBJECT_SELF;
+                        ReturnCode = ResolvePlayerName(PlayerName);
+                    }
+                    break;
 
-                HandleClientEnter(SenderObjectId);
+                case REQUEST_TYPE.RESOLVE_PLAYER_ID_TO_SERVER_ID:
+                    {
+                        int PlayerId = (int)ScriptParameters[1];
 
-                ReturnCode = 0;
-            }
-            else
-            {
-                throw new ApplicationException("Invalid IPC script command " + RequestType);
+                        ReturnCode = ResolvePlayerIdToServerId(PlayerId);
+                    }
+                    break;
+
+                case REQUEST_TYPE.LIST_ONLINE_USERS:
+                    {
+                        uint PlayerObject = OBJECT_SELF;
+
+                        ListOnlineUsers(PlayerObject);
+
+                        ReturnCode = 0;
+                    }
+                    break;
+
+                case REQUEST_TYPE.HANDLE_CHAT_EVENT:
+                    {
+                        int ChatMode = (int)ScriptParameters[1];
+                        string ChatText = (string)ScriptParameters[6];
+                        uint SenderObjectId = OBJECT_SELF;
+
+                        ReturnCode = HandleChatEvent(ChatMode, ChatText, SenderObjectId);
+                    }
+                    break;
+
+                case REQUEST_TYPE.HANDLE_CLIENT_ENTER:
+                    {
+                        uint SenderObjectId = OBJECT_SELF;
+
+                        HandleClientEnter(SenderObjectId);
+
+                        ReturnCode = 0;
+                    }
+                    break;
+
+                default:
+                    throw new ApplicationException("Invalid IPC script command " + RequestType.ToString());
+
             }
 
             //
@@ -141,7 +160,9 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void InitializeServerCommunicator()
         {
-            Database = new ALFA.Database(this);
+            if (Database == null)
+                Database = new ALFA.Database(this);
+
             WorldManager = new GameWorldManager(Database.ACR_GetServerID());
 
             //
@@ -200,9 +221,6 @@ namespace ACR_ServerCommunicator
             if (EventText.Length > ACR_SERVER_IPC_MAX_EVENT_LENGTH)
                 throw new ApplicationException("IPC event text too long:" + EventText);
 
-            if (Database == null)
-                Database = new ALFA.Database(this);
-
             InsertIPCEventDatabase.ACR_SQLQuery(String.Format(
                 "INSERT INTO `server_ipc_events` (`ID`, `SourcePlayerID`, `SourceServerID`, `DestinationPlayerID`, `EventType`, `EventText`) VALUES (0, {0}, {1}, {2}, {3}, '{5}')",
                 SourcePlayerId,
@@ -223,16 +241,9 @@ namespace ACR_ServerCommunicator
         /// <returns>The object id, else 0 if the lookup failed.</returns>
         private int ResolveCharacterNameToPlayerId(string CharacterName)
         {
-            if (Database == null)
-                Database = new ALFA.Database(this);
-
             lock (WorldManager)
             {
-                WorldManager.SetMainThreadDatabase(Database);
-
-                GameCharacter Character = WorldManager.ReferenceCharacterByName(CharacterName);
-
-                WorldManager.SetMainThreadDatabase(null);
+                GameCharacter Character = WorldManager.ReferenceCharacterByName(CharacterName, GetDatabase());
 
                 if (Character == null)
                     return 0;
@@ -251,16 +262,9 @@ namespace ACR_ServerCommunicator
         /// <returns>The object id, else 0 if the lookup failed.</returns>
         private int ResolvePlayerName(string PlayerName)
         {
-            if (Database == null)
-                Database = new ALFA.Database(this);
-
             lock (WorldManager)
             {
-                WorldManager.SetMainThreadDatabase(Database);
-
-                GamePlayer Player = WorldManager.ReferencePlayerByName(PlayerName);
-
-                WorldManager.SetMainThreadDatabase(null);
+                GamePlayer Player = WorldManager.ReferencePlayerByName(PlayerName, GetDatabase());
 
                 if (Player == null)
                     return 0;
@@ -278,16 +282,9 @@ namespace ACR_ServerCommunicator
         /// <returns>The player's logged on server id, else 0.</returns>
         private int ResolvePlayerIdToServerId(int PlayerId)
         {
-            if (Database == null)
-                Database = new ALFA.Database(this);
-
             lock (WorldManager)
             {
-                WorldManager.SetMainThreadDatabase(Database);
-
-                GamePlayer Player = WorldManager.ReferencePlayerById(PlayerId);
-
-                WorldManager.SetMainThreadDatabase(null);
+                GamePlayer Player = WorldManager.ReferencePlayerById(PlayerId, GetDatabase());
 
                 if (Player == null)
                     return 0;
@@ -584,17 +581,12 @@ namespace ACR_ServerCommunicator
 
             lock (WorldManager)
             {
-                if (Database == null)
-                    Database = new ALFA.Database(this);
-
-                WorldManager.SetMainThreadDatabase(Database);
-
                 switch (TellType)
                 {
 
                     case TELL_TYPE.ToChar:
                         {
-                            GameCharacter Character = WorldManager.ReferenceCharacterByName(NamePart);
+                            GameCharacter Character = WorldManager.ReferenceCharacterByName(NamePart, GetDatabase());
 
                             if (Character != null && Character.Online)
                                 Player = Character.Player;
@@ -602,7 +594,6 @@ namespace ACR_ServerCommunicator
                             {
                                 Player = null;
                                 SendFeedbackError(SenderObjectId, "That player is not logged on.");
-                                WorldManager.SetMainThreadDatabase(null);
                                 return;
                             }
 
@@ -674,7 +665,7 @@ namespace ACR_ServerCommunicator
                             // Look it up by account name.
                             //
 
-                            Player = WorldManager.ReferencePlayerByName(NamePart);
+                            Player = WorldManager.ReferencePlayerByName(NamePart, GetDatabase());
                             /*
                             Player = GetPlayerByAccountName(NamePart);
                              * */
@@ -688,7 +679,6 @@ namespace ACR_ServerCommunicator
                         break;
 
                     default:
-                        WorldManager.SetMainThreadDatabase(null);
                         return;
 
                 }
@@ -702,12 +692,10 @@ namespace ACR_ServerCommunicator
                     SetLastTellToPlayerId(SenderObjectId, Player.PlayerId);
                     SendServerToServerTell(
                         SenderObjectId,
-                        WorldManager.ReferencePlayerById(Database.ACR_GetPlayerID(SenderObjectId)),
+                        WorldManager.ReferencePlayerById(GetDatabase().ACR_GetPlayerID(SenderObjectId), GetDatabase()),
                         Player,
                         MessagePart);
                 }
-
-                WorldManager.SetMainThreadDatabase(null);
             }
         }
 
@@ -808,7 +796,7 @@ namespace ACR_ServerCommunicator
             uint LocalPlayerObject = GetLocalPlayerByName(First, Last);
 
             if (LocalPlayerObject != OBJECT_INVALID)
-                return WorldManager.ReferencePlayerById(Database.ACR_GetPlayerID(LocalPlayerObject));
+                return WorldManager.ReferencePlayerById(GetDatabase().ACR_GetPlayerID(LocalPlayerObject), GetDatabase());
 
             string Name = First;
 
@@ -818,7 +806,7 @@ namespace ACR_ServerCommunicator
                 Name += Last;
             }
 
-            GameCharacter Character = WorldManager.ReferenceCharacterByName(Name);
+            GameCharacter Character = WorldManager.ReferenceCharacterByName(Name, GetDatabase());
 
             if (Character == null)
                 return null;
@@ -854,9 +842,9 @@ namespace ACR_ServerCommunicator
             uint LocalPlayerObject = GetLocalPlayerByAccountName(AccountName);
 
             if (LocalPlayerObject != OBJECT_INVALID)
-                return WorldManager.ReferencePlayerById(Database.ACR_GetPlayerID(LocalPlayerObject));
+                return WorldManager.ReferencePlayerById(GetDatabase().ACR_GetPlayerID(LocalPlayerObject), GetDatabase());
 
-            GamePlayer Player = WorldManager.ReferencePlayerByName(AccountName);
+            GamePlayer Player = WorldManager.ReferencePlayerByName(AccountName, GetDatabase());
 
             if (Player == null)
                 return null;
@@ -895,7 +883,7 @@ namespace ACR_ServerCommunicator
             uint LocalPlayerObject = GetLocalPlayerByFirstName(FirstName);
 
             if (LocalPlayerObject != OBJECT_INVALID)
-                return WorldManager.ReferencePlayerById(Database.ACR_GetPlayerID(LocalPlayerObject));
+                return WorldManager.ReferencePlayerById(GetDatabase().ACR_GetPlayerID(LocalPlayerObject), GetDatabase());
 
             return null;
         }
@@ -1043,12 +1031,7 @@ namespace ACR_ServerCommunicator
         {
             lock (WorldManager)
             {
-                if (Database == null)
-                    Database = new ALFA.Database(this);
-
-                WorldManager.SetMainThreadDatabase(Database);
-
-                GamePlayer Sender = WorldManager.ReferencePlayerById(Database.ACR_GetPlayerID(SenderObjectId));
+                GamePlayer Sender = WorldManager.ReferencePlayerById(GetDatabase().ACR_GetPlayerID(SenderObjectId), GetDatabase());
                 GamePlayer Recipient;
                 int RecipientId;
 
@@ -1073,7 +1056,7 @@ namespace ACR_ServerCommunicator
                     }
                 }
 
-                Recipient = WorldManager.ReferencePlayerById(RecipientId);
+                Recipient = WorldManager.ReferencePlayerById(RecipientId, GetDatabase());
 
                 if (Recipient == null)
                 {
@@ -1088,8 +1071,6 @@ namespace ACR_ServerCommunicator
                 }
 
                 SendServerToServerTell(SenderObjectId, Sender, Recipient, Message);
-
-                WorldManager.SetMainThreadDatabase(null);
             }
         }
 
@@ -1127,13 +1108,21 @@ namespace ACR_ServerCommunicator
                 if (WorldManager.IsEventQueueEmpty())
                     return;
 
-                if (Database == null)
-                    Database = new ALFA.Database(this);
-
-                WorldManager.SetMainThreadDatabase(Database);
                 WorldManager.RunQueue(this, Database);
-                WorldManager.SetMainThreadDatabase(null);
             }
+        }
+
+        /// <summary>
+        /// Get the associated database object, creating it on demand if
+        /// required.
+        /// </summary>
+        /// <returns>The database connection object.</returns>
+        private ALFA.Database GetDatabase()
+        {
+            if (Database == null)
+                Database = new ALFA.Database(this);
+
+            return Database;
         }
 
         /// <summary>
@@ -1144,7 +1133,22 @@ namespace ACR_ServerCommunicator
             ToChar,           // t "character name"
             ToPlayer,         // tp "player name"
             ToCharFirstName   // o "characterfirstname"
-        };
+        }
+
+        /// <summary>
+        /// Define type codes for requests to ScriptMain.
+        /// </summary>
+        private enum REQUEST_TYPE
+        {
+            INITIALIZE,
+            SIGNAL_IPC_EVENT,
+            RESOLVE_CHARACTER_NAME_TO_PLAYER_ID,
+            RESOLVE_PLAYER_NAME,
+            RESOLVE_PLAYER_ID_TO_SERVER_ID,
+            LIST_ONLINE_USERS,
+            HANDLE_CHAT_EVENT,
+            HANDLE_CLIENT_ENTER
+        }
 
         /// <summary>
         /// The interval between command dispatch polling cycles is set here.

@@ -27,10 +27,10 @@ namespace ACR_ServerCommunicator
         /// <summary>
         /// Retrieve the properties of the server from the database.
         /// </summary>
-        public void PopulateFromDatabase()
+        /// <param name="Database">Supplies the database connection to use for
+        /// queries, if required.  The active rowset may be consumed.</param>
+        public void PopulateFromDatabase(IALFADatabase Database)
         {
-            IALFADatabase Database = WorldManager.Database;
-
             Database.ACR_SQLQuery(String.Format(
                 "SELECT `Name`, `IPAddress` FROM `servers` WHERE `ID` = {0}",
                 ServerId));
@@ -47,9 +47,25 @@ namespace ACR_ServerCommunicator
         /// <summary>
         /// Re-compute the online status for the server.
         /// </summary>
-        public void RefreshOnlineStatus()
+        /// <param name="Database">Supplies the database connection to use for
+        /// queries, if required.  The active rowset may be consumed.</param>
+        public void RefreshOnlineStatus(IALFADatabase Database)
         {
+            Database.ACR_SQLQuery(String.Format(
+                "SELECT " +
+                    "`servers`.`ID` AS server_id " +
+                "FROM `servers` " +
+                "INNER JOIN `pwdata` ON `pwdata`.`Name` = `servers`.`Name` " +
+                "WHERE `servers`.`ID` = {0} " +
+                "AND pwdata.`Key` = 'ACR_TIME_SERVERTIME' " +
+                "AND pwdata.`Last` >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 10 MINUTE) ",
+                ServerId
+                ));
 
+            if (Database.ACR_SQLFetch())
+                Online = true;
+            else
+                Online = false;
         }
 
         /// <summary>

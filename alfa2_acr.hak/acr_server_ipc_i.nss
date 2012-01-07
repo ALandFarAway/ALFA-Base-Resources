@@ -32,45 +32,45 @@
 #define SERVER_IPC_ENABLED 0
 
 // The IPC C# script name.
-const string ACR_SERVER_IPC_SERVERCOM_SCRIPT                    = "acr_servercommunicator";
+const string ACR_SERVER_IPC_SERVERCOM_SCRIPT                 = "acr_servercommunicator";
 
 
 // Commands for the IPC C# script:
 
 // This command requests that initialization be performed for module startup.
-const string ACR_SERVER_IPC_INITIALIZE                          = "INITIALIZE";
+const int ACR_SERVER_IPC_INITIALIZE                          = 0;
 
 // This command requests that an IPC event be signaled.
-const string ACR_SERVER_IPC_SIGNAL_IPC_EVENT                    = "SIGNAL_IPC_EVENT";
+const int ACR_SERVER_IPC_SIGNAL_IPC_EVENT                    = 1;
 
 // This command resolves a character name to a player id.
-const string ACR_SERVER_IPC_RESOLVE_CHARACTER_NAME_TO_PLAYER_ID = "RESOLVE_CHARACTER_NAME_TO_PLAYER_ID";
+const int ACR_SERVER_IPC_RESOLVE_CHARACTER_NAME_TO_PLAYER_ID = 2;
 
 // This command resolves a player name to a player id.
-const string ACR_SERVER_IPC_RESOLVE_PLAYER_NAME                 = "RESOLVE_PLAYER_NAME";
+const int ACR_SERVER_IPC_RESOLVE_PLAYER_NAME                 = 3;
 
 // This command resolves a player id to an active server id.
-const string ACR_SERVER_IPC_RESOLVE_PLAYER_ID_TO_SERVER_ID      = "RESOLVE_PLAYER_ID_TO_SERVER_ID";
+const int ACR_SERVER_IPC_RESOLVE_PLAYER_ID_TO_SERVER_ID      = 4;
 
 // This command lists online players to the current PC.
-const string ACR_SERVER_IPC_LIST_ONLINE_USERS                   = "LIST_ONLINE_USERS";
+const int ACR_SERVER_IPC_LIST_ONLINE_USERS                   = 5;
 
 // This command handles chat events for IPC commands.
-const string ACR_SERVER_IPC_HANDLE_CHAT_EVENT                   = "HANDLE_CHAT_EVENT";
+const int ACR_SERVER_IPC_HANDLE_CHAT_EVENT                   = 6;
 
 // This command handles client enter events.
-const string ACR_SERVER_IPC_HANDLE_CLIENT_ENTER                 = "HANDLE_CLIENT_ENTER";
+const int ACR_SERVER_IPC_HANDLE_CLIENT_ENTER                 = 7;
 
 // IPC event codes:
 
 // The chat tell event is used to transport tells cross-server.
-const int ACR_SERVER_IPC_EVENT_CHAT_TELL                        = 0;
+const int ACR_SERVER_IPC_EVENT_CHAT_TELL                     = 0;
 
 
 
 // Maximum length of an IPC event text field.
 
-const int ACR_SERVER_IPC_MAX_EVENT_LENGTH                       = 256;
+const int ACR_SERVER_IPC_MAX_EVENT_LENGTH                    = 256;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -178,7 +178,7 @@ int ACR_GetPlayerLoggedOnServerID(int PlayerID);
 //!  - P5: Supplies the sixth command-specific parameter.
 //!  - ObjectSelf: Supplies the OBJECT_SELF to run the script on.
 //!  - Returns: The command-specific return code is returned.
-int ACR_CallIPCScript(string Command, int P0, int P1, int P2, int P3, int P4, string P5, object ObjectSelf = OBJECT_SELF);
+int ACR_CallIPCScript(int Command, int P0, int P1, int P2, int P3, int P4, string P5, object ObjectSelf = OBJECT_SELF);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -429,9 +429,9 @@ int ACR_ServerIPC_OnChat(object Speaker, int Mode, string Text)
 #endif
 }
 
-int ACR_CallIPCScript(string Command, int P0, int P1, int P2, int P3, int P4, string P5, object ObjectSelf = OBJECT_SELF)
+int ACR_CallIPCScript(int Command, int P0, int P1, int P2, int P3, int P4, string P5, object ObjectSelf = OBJECT_SELF)
 {
-	AddScriptParameterString(Command);
+	AddScriptParameterInt(Command);
 	AddScriptParameterInt(P0);
 	AddScriptParameterInt(P1);
 	AddScriptParameterInt(P2);

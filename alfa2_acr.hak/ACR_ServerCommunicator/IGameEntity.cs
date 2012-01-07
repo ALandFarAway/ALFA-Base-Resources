@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ALFA;
 
 namespace ACR_ServerCommunicator
 {
@@ -25,6 +26,8 @@ namespace ACR_ServerCommunicator
         /// Populate the contents of the entity from the database.  It is
         /// assumed that the entity id has been set already.
         /// </summary>
-        void PopulateFromDatabase();
+        /// <param name="Database">Supplies the database connection to use for
+        /// queries, if required.  The active rowset may be consumed.</param>
+        void PopulateFromDatabase(IALFADatabase Database);
     }
 }

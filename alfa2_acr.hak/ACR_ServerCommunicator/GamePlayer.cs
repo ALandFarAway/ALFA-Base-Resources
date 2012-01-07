@@ -25,10 +25,10 @@ namespace ACR_ServerCommunicator
         /// <summary>
         /// Retrieve the properties of the player from the database.
         /// </summary>
-        public void PopulateFromDatabase()
+        /// <param name="Database">Supplies the database connection to use for
+        /// queries, if required.  The active rowset may be consumed.</param>
+        public void PopulateFromDatabase(IALFADatabase Database)
         {
-            IALFADatabase Database = WorldManager.Database;
-
             Database.ACR_SQLQuery(String.Format(
                 "SELECT `Name`, `IsDM` FROM `players` WHERE `ID` = {0}",
                 PlayerId));

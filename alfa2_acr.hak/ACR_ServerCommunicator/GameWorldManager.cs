@@ -56,9 +56,11 @@ namespace ACR_ServerCommunicator
         /// data was not yet available, it is retrieved from the database.
         /// </summary>
         /// <param name="CharacterName">Supplies the object name.</param>
+        /// <param name="Database">Supplies the database connection to use for
+        /// queries, if required.  The active rowset may be consumed.</param>
         /// <returns>The object data is returned, else null if the object did
         /// not exist.</returns>
-        public GameCharacter ReferenceCharacterByName(string CharacterName)
+        public GameCharacter ReferenceCharacterByName(string CharacterName, IALFADatabase Database)
         {
             //
             // Check if the object is already known first.
@@ -92,7 +94,7 @@ namespace ACR_ServerCommunicator
             ServerId = Convert.ToInt32(Database.ACR_SQLGetData(3));
             Character.CharacterName = Database.ACR_SQLGetData(4);
 
-            InsertNewCharacter(Character, ServerId);
+            InsertNewCharacter(Character, ServerId, Database);
 
             return Character;
         }
@@ -102,9 +104,11 @@ namespace ACR_ServerCommunicator
         /// data was not yet available, it is retrieved from the database.
         /// </summary>
         /// <param name="CharacterId">Supplies the object id.</param>
+        /// <param name="Database">Supplies the database connection to use for
+        /// queries, if required.  The active rowset may be consumed.</param>
         /// <returns>The object data is returned, else null if the object did
         /// not exist.</returns>
-        public GameCharacter ReferenceCharacterById(int CharacterId)
+        public GameCharacter ReferenceCharacterById(int CharacterId, IALFADatabase Database)
         {
             //
             // Check if the object is already known first.
@@ -138,7 +142,7 @@ namespace ACR_ServerCommunicator
             Character.Online = ConvertToBoolean(Database.ACR_SQLGetData(2));
             ServerId = Convert.ToInt32(Database.ACR_SQLGetData(3));
 
-            InsertNewCharacter(Character, ServerId);
+            InsertNewCharacter(Character, ServerId, Database);
 
             return Character;
         }
@@ -148,9 +152,11 @@ namespace ACR_ServerCommunicator
         /// was not yet available, it is retrieved from the database.
         /// </summary>
         /// <param name="PlayerName">Supplies the object name.</param>
+        /// <param name="Database">Supplies the database connection to use for
+        /// queries, if required.  The active rowset may be consumed.</param>
         /// <returns>The object data is returned, else null if the object did
         /// not exist.</returns>
-        public GamePlayer ReferencePlayerByName(string PlayerName)
+        public GamePlayer ReferencePlayerByName(string PlayerName, IALFADatabase Database)
         {
             //
             // Check if the object is already known first.
@@ -180,7 +186,7 @@ namespace ACR_ServerCommunicator
             Player.IsDM = ConvertToBoolean(Database.ACR_SQLGetData(1));
             Player.PlayerName = Database.ACR_SQLGetData(2);
 
-            InsertNewPlayer(Player);
+            InsertNewPlayer(Player, Database);
 
             return Player;
         }
@@ -190,9 +196,11 @@ namespace ACR_ServerCommunicator
         /// was not yet available, it is retrieved from the database.
         /// </summary>
         /// <param name="PlayerId">Supplies the object id.</param>
+        /// <param name="Database">Supplies the database connection to use for
+        /// queries, if required.  The active rowset may be consumed.</param>
         /// <returns>The object data is returned, else null if the object did
         /// not exist.</returns>
-        public GamePlayer ReferencePlayerById(int PlayerId)
+        public GamePlayer ReferencePlayerById(int PlayerId, IALFADatabase Database)
         {
             //
             // Check if the object is already known first.
@@ -222,7 +230,7 @@ namespace ACR_ServerCommunicator
             Player.PlayerId = PlayerId;
             Player.IsDM = ConvertToBoolean(Database.ACR_SQLGetData(1));
 
-            InsertNewPlayer(Player);
+            InsertNewPlayer(Player, Database);
 
             return Player;
         }
@@ -232,9 +240,11 @@ namespace ACR_ServerCommunicator
         /// was not yet available, it is retrieved from the database.
         /// </summary>
         /// <param name="ServerName">Supplies the object name.</param>
+        /// <param name="Database">Supplies the database connection to use for
+        /// queries, if required.  The active rowset may be consumed.</param>
         /// <returns>The object data is returned, else null if the object did
         /// not exist.</returns>
-        public GameServer ReferenceServerByName(string ServerName)
+        public GameServer ReferenceServerByName(string ServerName, IALFADatabase Database)
         {
             //
             // Check if the object is already known first.
@@ -264,7 +274,7 @@ namespace ACR_ServerCommunicator
             Server.SetHostnameAndPort(Database.ACR_SQLGetData(1));
             Server.ServerName = Database.ACR_SQLGetData(2);
 
-            InsertNewServer(Server);
+            InsertNewServer(Server, Database);
 
             return Server;
         }
@@ -274,9 +284,11 @@ namespace ACR_ServerCommunicator
         /// was not yet available, it is retrieved from the database.
         /// </summary>
         /// <param name="ServerId">Supplies the object id.</param>
+        /// <param name="Database">Supplies the database connection to use for
+        /// queries, if required.  The active rowset may be consumed.</param>
         /// <returns>The object data is returned, else null if the object did
         /// not exist.</returns>
-        public GameServer ReferenceServerById(int ServerId)
+        public GameServer ReferenceServerById(int ServerId, IALFADatabase Database)
         {
             //
             // Check if the object is already known first.
@@ -306,34 +318,9 @@ namespace ACR_ServerCommunicator
             Server.ServerId = ServerId;
             Server.SetHostnameAndPort(Database.ACR_SQLGetData(1));
 
-            InsertNewServer(Server);
+            InsertNewServer(Server, Database);
 
             return Server;
-        }
-
-        /// <summary>
-        /// Set the database object to use on the main thread.
-        /// </summary>
-        /// <param name="MainThreadDatabase">Supplies the database that the
-        /// current script provides on the main thread.</param>
-        public void SetMainThreadDatabase(ALFA.Database MainThreadDatabase)
-        {
-            this.DatabaseLinkMainThread = MainThreadDatabase;
-        }
-
-        /// <summary>
-        /// This property returns the database object that other objects may
-        /// use.
-        /// </summary>
-        public ALFA.IALFADatabase Database
-        {
-            get
-            {
-                if (Thread.CurrentThread == QueryDispatchThread)
-                    return DatabaseLinkQueryThread;
-                else
-                    return DatabaseLinkMainThread;
-            }
         }
 
         /// <summary>
@@ -497,11 +484,13 @@ namespace ACR_ServerCommunicator
         /// </param>
         /// <param name="ServerId">Supplies the server id that the player is
         /// logged on to (only meaningful if the character is online).</param>
-        private void InsertNewCharacter(GameCharacter Character, int ServerId)
+        /// <param name="Database">Supplies the database connection to use for
+        /// queries, if required.  The active rowset may be consumed.</param>
+        private void InsertNewCharacter(GameCharacter Character, int ServerId, IALFADatabase Database)
         {
             GameServer Server;
 
-            Character.Player = ReferencePlayerById(Character.PlayerId);
+            Character.Player = ReferencePlayerById(Character.PlayerId, Database);
 
             if (Character.Player == null)
                 throw new ApplicationException(String.Format("Character {0} references invalid player id {1}", Character.CharacterId, Character.PlayerId));
@@ -516,7 +505,7 @@ namespace ACR_ServerCommunicator
                 {
                     if (Character.Online)
                     {
-                        Server = ReferenceServerById(ServerId);
+                        Server = ReferenceServerById(ServerId, Database);
 
                         if (Server == null)
                             throw new ApplicationException(String.Format("Character {0} is online but references invalid server id {1}", Character.CharacterId, ServerId));
@@ -587,7 +576,9 @@ namespace ACR_ServerCommunicator
         /// </summary>
         /// <param name="Player">Supplies the player object to insert.
         /// </param>
-        private void InsertNewPlayer(GamePlayer Player)
+        /// <param name="Database">Supplies the database connection to use for
+        /// queries, if required.  The active rowset may be consumed.</param>
+        private void InsertNewPlayer(GamePlayer Player, IALFADatabase Database)
         {
             PlayerList.Add(Player);
             OnPlayerLoaded(Player);
@@ -599,7 +590,9 @@ namespace ACR_ServerCommunicator
         /// </summary>
         /// <param name="Server">Supplies the server object to insert.
         /// </param>
-        private void InsertNewServer(GameServer Server)
+        /// <param name="Database">Supplies the database connection to use for
+        /// queries, if required.  The active rowset may be consumed.</param>
+        private void InsertNewServer(GameServer Server, IALFADatabase Database)
         {
             //
             // Mark the server as visited so that if we come in on the main
@@ -608,7 +601,7 @@ namespace ACR_ServerCommunicator
             //
 
             Server.Visited = true;
-            Server.RefreshOnlineStatus();
+            Server.RefreshOnlineStatus(Database);
 
             ServerList.Add(Server);
             OnServerLoaded(Server);
@@ -754,6 +747,8 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void SynchronizeOnlineCharacters()
         {
+            IALFADatabase Database = DatabaseLinkQueryThread;
+
             //
             // Query the current player list and synchronize with our internal
             // state.
@@ -781,7 +776,7 @@ namespace ACR_ServerCommunicator
 
             List<SynchronizeOnlineCharactersRow> Rowset = new List<SynchronizeOnlineCharactersRow>();
 
-            DatabaseLinkQueryThread.ACR_SQLQuery(
+            Database.ACR_SQLQuery(
                 "SELECT " +
                     "`characters`.`ID` AS character_id, " +
                     "`players`.`IsDM` AS character_is_dm, " +
@@ -818,13 +813,13 @@ namespace ACR_ServerCommunicator
             // Read each database row.
             //
 
-            while (DatabaseLinkQueryThread.ACR_SQLFetch())
+            while (Database.ACR_SQLFetch())
             {
                 SynchronizeOnlineCharactersRow Row;
 
-                Row.CharacterId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(0));
-                Row.IsDM = ConvertToBoolean(DatabaseLinkQueryThread.ACR_SQLGetData(1));
-                Row.ServerId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(2));
+                Row.CharacterId = Convert.ToInt32(Database.ACR_SQLGetData(0));
+                Row.IsDM = ConvertToBoolean(Database.ACR_SQLGetData(1));
+                Row.ServerId = Convert.ToInt32(Database.ACR_SQLGetData(2));
 
                 Rowset.Add(Row);
             }
@@ -841,8 +836,8 @@ namespace ACR_ServerCommunicator
                     bool IsDM = Row.IsDM;
                     int ServerId = Row.ServerId;
 
-                    GameCharacter Character = ReferenceCharacterById(CharacterId);
-                    GameServer Server = ReferenceServerById(ServerId);
+                    GameCharacter Character = ReferenceCharacterById(CharacterId, Database);
+                    GameServer Server = ReferenceServerById(ServerId, Database);
 
                     //
                     // Update the DM state of the character.
@@ -944,6 +939,8 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void SynchronizeOnlineServers()
         {
+            IALFADatabase Database = DatabaseLinkQueryThread;
+
             //
             // Query the current server list and synchronize with our internal
             // state.
@@ -971,7 +968,7 @@ namespace ACR_ServerCommunicator
 
             List<SynchronizeOnlineServersRow> Rowset = new List<SynchronizeOnlineServersRow>();
 
-            DatabaseLinkQueryThread.ACR_SQLQuery(
+            Database.ACR_SQLQuery(
                 "SELECT " +
                     "`servers`.`ID` AS server_id " +
                 "FROM `servers` " +
@@ -1003,11 +1000,11 @@ namespace ACR_ServerCommunicator
             // Read each database row.
             //
 
-            while (DatabaseLinkQueryThread.ACR_SQLFetch())
+            while (Database.ACR_SQLFetch())
             {
                 SynchronizeOnlineServersRow Row;
 
-                Row.ServerId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(0));
+                Row.ServerId = Convert.ToInt32(Database.ACR_SQLGetData(0));
 
                 Rowset.Add(Row);
             }
@@ -1022,7 +1019,7 @@ namespace ACR_ServerCommunicator
                 {
                     int ServerId = Row.ServerId;
 
-                    GameServer Server = ReferenceServerById(ServerId);
+                    GameServer Server = ReferenceServerById(ServerId, Database);
 
                     Server.Visited = true;
 
@@ -1074,6 +1071,7 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void SynchronizeIPCEventQueue()
         {
+            IALFADatabase Database = DatabaseLinkQueryThread;
             int HighestRecordId = 0;
 
             //
@@ -1082,7 +1080,7 @@ namespace ACR_ServerCommunicator
 
             List<SynchronizeIPCEventQueueRow> Rowset = new List<SynchronizeIPCEventQueueRow>();
 
-            DatabaseLinkQueryThread.ACR_SQLQuery(String.Format(
+            Database.ACR_SQLQuery(String.Format(
                 "SELECT " +
                     "`server_ipc_events`.`ID` as record_id, " +
                     "`server_ipc_events`.`SourcePlayerID` as source_player_id, " +
@@ -1105,17 +1103,17 @@ namespace ACR_ServerCommunicator
 
             try
             {
-               while (DatabaseLinkQueryThread.ACR_SQLFetch())
+               while (Database.ACR_SQLFetch())
                {
                    SynchronizeIPCEventQueueRow Row;
 
-                   Row.RecordId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(0));
-                   Row.SourcePlayerId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(1));
-                   Row.SourceServerId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(2));
-                   Row.DestinationPlayerId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(3));
-                   Row.DestinationServerId = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(4));
-                   Row.EventType = Convert.ToInt32(DatabaseLinkQueryThread.ACR_SQLGetData(5));
-                   Row.EventText = DatabaseLinkQueryThread.ACR_SQLGetData(6);
+                   Row.RecordId = Convert.ToInt32(Database.ACR_SQLGetData(0));
+                   Row.SourcePlayerId = Convert.ToInt32(Database.ACR_SQLGetData(1));
+                   Row.SourceServerId = Convert.ToInt32(Database.ACR_SQLGetData(2));
+                   Row.DestinationPlayerId = Convert.ToInt32(Database.ACR_SQLGetData(3));
+                   Row.DestinationServerId = Convert.ToInt32(Database.ACR_SQLGetData(4));
+                   Row.EventType = Convert.ToInt32(Database.ACR_SQLGetData(5));
+                   Row.EventText = Database.ACR_SQLGetData(6);
 
                    Rowset.Add(Row);
                }
@@ -1138,8 +1136,8 @@ namespace ACR_ServerCommunicator
                        case ACR_SERVER_IPC_EVENT_CHAT_TELL:
                            lock (this)
                            {
-                               GamePlayer SenderPlayer = ReferencePlayerById(SourcePlayerId);
-                               GamePlayer RecipientPlayer = ReferencePlayerById(DestinationPlayerId);
+                               GamePlayer SenderPlayer = ReferencePlayerById(SourcePlayerId, Database);
+                               GamePlayer RecipientPlayer = ReferencePlayerById(DestinationPlayerId, Database);
 
                                if (SenderPlayer == null || RecipientPlayer == null)
                                {
@@ -1181,7 +1179,7 @@ namespace ACR_ServerCommunicator
 
                if (HighestRecordId != 0)
                {
-                   DatabaseLinkQueryThread.ACR_SQLQuery(String.Format(
+                   Database.ACR_SQLQuery(String.Format(
                        "DELETE FROM `server_ipc_events` WHERE `DestinationServerID` = {0} AND `ID` < {1}",
                        LocalServerId,
                        HighestRecordId + 1));
@@ -1227,17 +1225,6 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private const int POLLING_CYCLES_TO_SERVER_SYNC = 60;
 
-
-        //
-        // Note, multiple database objects are used to allow the main thread,
-        // query thread, and query thread polling loop to not contend on a
-        // single rowset.
-        //
-
-        /// <summary>
-        /// The database connection object for the main thread.
-        /// </summary>
-        private ALFA.Database DatabaseLinkMainThread = null;
 
         /// <summary>
         /// The database connection object for the query thread.
