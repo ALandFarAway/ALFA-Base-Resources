@@ -294,6 +294,16 @@ namespace ALFA
         }
 
         /// <summary>
+        /// This routine advances to the next result set of a multi-result
+        /// query.
+        /// </summary>
+        /// <returns>True if the operation succeeded.</returns>
+        private bool ACR_SQLNextResult()
+        {
+            return DataReader.NextResult();
+        }
+
+        /// <summary>
         /// This method sets up the database connection string based on the
         /// default connection information set for the MySQL plugin.
         /// </summary>
@@ -301,7 +311,7 @@ namespace ALFA
         {
             SystemInfo.SQLConnectionSettings ConnectionSettings = SystemInfo.GetSQLConnectionSettings();
 
-            ConnectionString = String.Format("Server={0};Uid={1};Password={2};Database={3};Max Pool Size=4;Pooling=true",
+            ConnectionString = String.Format("Server={0};Uid={1};Password={2};Database={3};Max Pool Size=3;Pooling=true;Allow Batch=true",
                 ConnectionSettings.Server,
                 ConnectionSettings.User,
                 ConnectionSettings.Password,
