@@ -1393,31 +1393,40 @@ namespace ACR_ServerCommunicator
 #endif
 
             //
-            // Otherwise, enqueue it.
+            // Otherwise, enqueue it, breaking large tells up into multiple
+            // smaller tells if need be.
             //
 
-            if (Message.Length > ACR_SERVER_IPC_MAX_EVENT_LENGTH)
+            while (!String.IsNullOrEmpty(Message))
             {
-                Message = Message.Substring(ACR_SERVER_IPC_MAX_EVENT_LENGTH);
+                string MessagePart;
 
-                SendFeedbackError(SenderObjectId,
-                    String.Format("Message sent, but truncated to {0} characters: '{1}'.", ACR_SERVER_IPC_MAX_EVENT_LENGTH, Message));
+                if (Message.Length > ACR_SERVER_IPC_MAX_EVENT_LENGTH)
+                {
+                    MessagePart = Message.Substring(0, ACR_SERVER_IPC_MAX_EVENT_LENGTH);
+                    Message = Message.Substring(ACR_SERVER_IPC_MAX_EVENT_LENGTH);
+                }
+                else
+                {
+                    MessagePart = Message;
+                    Message = null;
+                }
+
+                SignalIPCEvent(
+                    SenderPlayer.PlayerId,
+                    Database.ACR_GetServerID(),
+                    RecipientPlayer.PlayerId,
+                    DestinationServer.ServerId,
+                    GameWorldManager.ACR_SERVER_IPC_EVENT_CHAT_TELL,
+                    MessagePart);
+                SetLocalInt(SenderObjectId, "ACR_XP_RPXP_ACTIVE", TRUE);
+                SendChatMessage(
+                    OBJECT_INVALID,
+                    SenderObjectId,
+                    CHAT_MODE_SERVER,
+                    String.Format("<c=#FFCC99>{0}: </c><c=#30DDCC>[ServerTell] {1}</c>", GetName(SenderObjectId), MessagePart),
+                    FALSE);
             }
-
-            SignalIPCEvent(
-                SenderPlayer.PlayerId,
-                Database.ACR_GetServerID(),
-                RecipientPlayer.PlayerId,
-                DestinationServer.ServerId,
-                GameWorldManager.ACR_SERVER_IPC_EVENT_CHAT_TELL,
-                Message);
-            SetLocalInt(SenderObjectId, "ACR_XP_RPXP_ACTIVE", TRUE);
-            SendChatMessage(
-                OBJECT_INVALID,
-                SenderObjectId,
-                CHAT_MODE_SERVER,
-                String.Format("<c=#FFCC99>{0}: </c><c=#30DDCC>[ServerTell] {1}</c>", GetName(SenderObjectId), Message),
-                FALSE);
         }
 
         /// <summary>
