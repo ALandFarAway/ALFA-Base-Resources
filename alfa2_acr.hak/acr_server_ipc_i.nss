@@ -29,7 +29,7 @@
 
 // Define to 1 to enable server IPC support.
 
-#define SERVER_IPC_ENABLED 0
+#define SERVER_IPC_ENABLED 1
 
 // The IPC C# script name.
 const string ACR_SERVER_IPC_SERVERCOM_SCRIPT                 = "acr_servercommunicator";
