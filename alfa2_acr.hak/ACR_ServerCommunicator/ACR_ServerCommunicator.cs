@@ -618,7 +618,7 @@ namespace ACR_ServerCommunicator
                     GetDatabase().ACR_FlushQueryQueue(PlayerObjectId);
                     ActivatePortal(
                         PlayerObjectId,
-                        Server.ServerHostname,
+                        String.Format("{0}:{1}", Server.ServerHostname, Server.ServerPort),
                         WorldManager.Configuration.PlayerPassword,
                         "",
                         TRUE);
@@ -1036,7 +1036,7 @@ namespace ACR_ServerCommunicator
                     {
                         ActivatePortal(
                             PlayerObjectId,
-                            Server.ServerHostname,
+                            String.Format("{0}:{1}", Server.ServerHostname, Server.ServerPort),
                             WorldManager.Configuration.PlayerPassword,
                             "",
                             TRUE);
