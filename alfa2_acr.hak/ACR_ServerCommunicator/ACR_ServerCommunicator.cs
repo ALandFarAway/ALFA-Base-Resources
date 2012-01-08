@@ -1502,7 +1502,7 @@ namespace ACR_ServerCommunicator
         {
             ALFA.Database Database = GetDatabase();
 
-            Database.ACR_SQLQuery(String.Format(
+            Database.ACR_SQLExecute(String.Format(
                 "UPDATE `servers` SET `IPAddress` = '{0}' WHERE `ID` = {1}",
                 Database.ACR_GetServerAddressFromDatabase(),
                 Database.ACR_GetServerID()));
