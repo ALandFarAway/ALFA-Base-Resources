@@ -39,7 +39,7 @@ namespace ACR_ServerCommunicator
 
                 Script.WriteTimestampedLogEntry("DisconnectPlayerEvent.DispatchEvent: Disconnecting player " + Script.GetPCPlayerName(PlayerObject) + " due to IPC request.");
                 Script.BootPC(PlayerObject);
-                break;
+                return;
             }
 
             Script.WriteTimestampedLogEntry("DisconnectPlayerEvent.DispatchEvent: No player '" + Player.PlayerName + "' found locally connected to disconnect.");
