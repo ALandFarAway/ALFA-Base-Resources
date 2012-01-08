@@ -1510,10 +1510,14 @@ namespace ACR_ServerCommunicator
         private void UpdateServerExternalAddress()
         {
             ALFA.Database Database = GetDatabase();
+            string NetworkAddress = String.Format(
+                "{0}:{1}",
+                Database.ACR_GetServerAddressFromDatabase(),
+                SystemInfo.GetServerUdpListener(this).Port);
 
             Database.ACR_SQLExecute(String.Format(
                 "UPDATE `servers` SET `IPAddress` = '{0}' WHERE `ID` = {1}",
-                Database.ACR_GetServerAddressFromDatabase(),
+                NetworkAddress,
                 Database.ACR_GetServerID()));
 
             DelayCommand(UPDATE_SERVER_EXTERNAL_ADDRESS_INTERVAL, delegate()
