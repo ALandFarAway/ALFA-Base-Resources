@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8">
+<?xml version="1.0" encoding="utf-8">
 
-<UIScene name="SCREEN_MESSAGE_MP_1" width=398 height=138 x=112 y=575 minwidth=314 minheight=118 capturemouseclicks="false" priority="SCENE_INGAME"
+<UIScene name="SCREEN_MESSAGE_MP_2" width=398 height=138 x=112 y=457 minwidth=314 minheight=118 capturemouseclicks="false" priority="SCENE_INGAME"
 	dragresizable="true" dragresize_x=0 dragresize_y=20 dragresizeborder="6" capturemouseevents="true" scriptloadable="true"
 	draggable="true" dragregion_x=0 dragregion_y=0 dragregion_width=100 dragregion_height=20 />
 
@@ -8,7 +8,7 @@
 		OnUpdate=UIObject_OnUpdate_FadeAlpha("0.25")
 		OnMouseEnter=UIObject_Input_SetFadeAlpha("1.0")
 		OnMouseLeave=UIObject_Input_SetFadeAlpha("0.0") >
-		<UIText strref=2392 align=center valign=middle x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT fontfamily="Default" />
+		<UIText strref="208638" align=center valign=middle x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT fontfamily="Default" />
 		<UIFrame width=PARENT_WIDDTH height=PARENT_HEIGHT topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
 			bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
 			left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
@@ -35,51 +35,8 @@
 		<UIIcon name="IMECandidateWindowBG" img="fx_white.tga" color="FF0F2F2F" alpha="1.0" x="128" y="64" width="188" height="32" scaleytoparent="false" />
 	<!-- End 3 group Sequence -->
 
-	<!--
-	(L) for ‘say’
-	(W) for ‘whisper’
-	(P) for ‘party’
-	(D) for ‘dm’
-	(S) for ‘shout’
-			CHATMODE_TALK,    0
-			CHATMODE_WHISPER, 1
-			CHATMODE_PARTY,   2
-			CHATMODE_DM,      3
-			CHATMODE_SHOUT,   4
-	-->
-
-	<UIPane name="NO_PANE_NO_GAIN" x=6 y=26 width="18" height="108" >
-		<UIGrid name="CHAT_GRID" rows=6 columns=1 x=0 y=0 xPadding=0 yPadding=0 >
-
-			<UIButton name="LOCAL SAY" buttontype=radio groupid=1 groupmemberid=1 
-				OnSelected=UIButton_Input_SetChatMode(0) style="CHAT_MODE_BUTTON"  text="L"
-				OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(184736,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") />
-
-			<UIButton name="WHISPER" buttontype=radio groupid=1 groupmemberid=2 
-				OnSelected=UIButton_Input_SetChatMode(1) style="CHAT_MODE_BUTTON"  text="W"
-				OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(184737,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") />
-
-			<UIButton name="PARTY" buttontype="radio" groupid="1" groupmemberid="3" 
-				OnSelected=UIButton_Input_SetChatMode(2) style="CHAT_MODE_BUTTON"  text="P"
-				OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(184738,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") />
-
-			<UIButton name="DUNGEON MASTER" buttontype="radio" groupid="1" groupmemberid="4" 
-				OnSelected=UIButton_Input_SetChatMode(3) style="CHAT_MODE_BUTTON"  text="D"
-				OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(184739,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") />
-
-			<UIButton name="SHOUT" buttontype="radio" groupid="1" groupmemberid="5"
-				OnSelected=UIButton_Input_SetChatMode(4) style="CHAT_MODE_BUTTON"  text="S"
-				OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(184740,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") />
-
-			<UIButton name="LANGUAGE" style="CHAT_MODE_BUTTON" text="@"
-				OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_atsign")
-				OnToolTip='UIObject_Tooltip_DisplayTooltipString("Select Language","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
-
-		</UIGrid>
-	</UIPane>
-
 	<!-- Chat Listbox -->
-	<UIListBox name="messagelistbox" x=24 y=26 xPadding=5 yPadding=2 showpartialchild="true" width=375 height=70
+	<UIListBox name="messagelistbox" x=24 y=26 xPadding=5 yPadding=2 showpartialchild="true" width=375 height=106
 		OnResize=UIListBox_OnResize_ScrollToBottom()
 		OnRadialRequest=UIObject_OnRadial_DisplayQuickchatRadial()
 		scrollbaronright="false" unequalcontrols="true" scrollsegmentsize="16" hidescrollbarwhennotneeded="true" snaptobottom="true"
@@ -90,23 +47,6 @@
 
 		<UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>
 	</UIListBox>
-
-	<!-- Input Listbox -->
-	<UIPane name="INPUT_CONTAINER" x="24" y="96" width="375" height="36" >
-		<UIListBox name="INPUT_LISTBOX" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" showpartialchild="true"
-		unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded="true" >
-
-			<!-- WAS filter="alphanumeric" and not allowspace="true" -->
-			<UIText name="inputbox" allowspace="true" width="PARENT_WIDTH" height="DYNAMIC" align="left" valign="top" 
-			fontfamily="International" multiline="true" returnrestricted="true" editable="true" selectable="true"
-			maxlength="4000" OnReturn="UIText_OnReturn_ParseChatInput()" 
-			update=true OnUpdate="UIText_OnUpdate_ParseChatInput()"
-			/>
-
-			<UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>
-		</UIListBox>
-		<UIIcon name="inputbg" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" img="fx_white.tga" color="2F000000" alpha="0.75" />
-	</UIPane>
 
 	<!-- Background Image -->
 	<UIIcon name="messagebackground" x="0" y="20" img="fx_white.tga" width=PARENT_WIDTH height=PARENT_HEIGHT color="2F000000" alpha="0.60" />

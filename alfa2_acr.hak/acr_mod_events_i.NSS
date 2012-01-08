@@ -1043,6 +1043,21 @@ void _ParseRoll(object pc, string cmd)
 	else if (_CompareLeft(cmd,"rop") || _CompareLeft(cmd,"use r") || cmd == "ur") {
 		ACR_SkillCheck(SKILL_USE_ROPE, pc, 0, TRUE, TRUE);
 	}
+
+	// Bardic knowledge
+	else if (_CompareLeft(cmd,"bar")) {
+		int nRank = GetLevelByClass(CLASS_BARD, oPC);
+		if(nRank == 0)
+		{
+			SendMessageToPC(pc, "You are not a bard.");
+			return;
+		}
+		nRank += GetAbilityModifier(ABILITY_INTELLIGENCE, oPC);
+		if(GetSkillRank(SKILL_KNOWLEDGE_HISTORY, oPC, TRUE) >= 5)
+			nRank+= 2;
+
+		_HandleRoll(pc, "Bardic Knowledge", nRank, 0, TRUE, TRUE);
+	}
 	else 
 	{
 		SendMessageToPC(pc, "I don't understand the command '"+text+"'");
