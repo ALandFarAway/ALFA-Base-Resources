@@ -485,6 +485,24 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method is called when a broadcast notification is received.
+        /// </summary>
+        /// <param name="Message">Supplies the message text.</param>
+        private void OnBroadcastNotification(string Message)
+        {
+            EventQueue.EnqueueEvent(new BroadcastNotificationEvent(Message));
+        }
+
+        /// <summary>
+        /// This method is called when a disconnect player request is received.
+        /// </summary>
+        /// <param name="Player">Supplies the player to disconnect.</param>
+        private void OnDisconnectPlayer(GamePlayer Player)
+        {
+            EventQueue.EnqueueEvent(new DisconnectPlayerEvent(Player));
+        }
+
+        /// <summary>
         /// This method is called when an unsupported IPC event code is
         /// received.
         /// </summary>
@@ -1228,6 +1246,29 @@ namespace ACR_ServerCommunicator
                            }
                            break;
 
+                       case ACR_SERVER_IPC_EVENT_BROADCAST_NOTIFICATION:
+                           lock (this)
+                           {
+                               OnBroadcastNotification(EventText);
+                           }
+                           break;
+
+                       case ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER:
+                           lock (this)
+                           {
+                               GamePlayer Player = ReferencePlayerById(DestinationPlayerId, Database);
+
+                               if (Player == null)
+                               {
+                                   EventQueue.EnqueueEvent(new DiagnosticLogEvent(String.Format(
+                                       "GameWorldManager.SynchronizeIPCEventQueue: Target player {0} for ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER is an invalid player id reference.", DestinationPlayerId)));
+                                   continue;
+                               }
+
+                               OnDisconnectPlayer(Player);
+                           }
+                           break;
+
                        default:
                            lock (this)
                            {
@@ -1329,6 +1370,23 @@ namespace ACR_ServerCommunicator
         /// and the event text represents the chat text to deliver.
         /// </summary>
         public const int ACR_SERVER_IPC_EVENT_CHAT_TELL = 0;
+
+        /// <summary>
+        /// Broadcast notifications use this event type.  For this event, there
+        /// are three parameters.  The source and destination server IDs
+        /// represent routing information, and the event text represents the
+        /// notification text to deliver.
+        /// </summary>
+        public const int ACR_SERVER_IPC_EVENT_BROADCAST_NOTIFICATION = 1;
+
+        /// <summary>
+        /// Disconnect player requests use this event type.  For this event,
+        /// there are three parameters.  The source and destination server IDs
+        /// represent routing information, and the destination player ID
+        /// represents the player ID of the player to disconnect from the
+        /// destination server.
+        /// </summary>
+        public const int ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER = 2;
 
 
         /// <summary>

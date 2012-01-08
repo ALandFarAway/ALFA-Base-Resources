@@ -62,10 +62,12 @@
     <Compile Include="..\..\CLRScript\NWScriptConstants.cs" />
     <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="BroadcastNotificationEvent.cs" />
     <Compile Include="CharacterJoinEvent.cs" />
     <Compile Include="CharacterPartEvent.cs" />
     <Compile Include="ChatTellEvent.cs" />
     <Compile Include="DiagnosticLogEvent.cs" />
+    <Compile Include="DisconnectPlayerEvent.cs" />
     <Compile Include="GameCharacter.cs" />
     <Compile Include="GameEventQueue.cs" />
     <Compile Include="GamePlayer.cs" />
