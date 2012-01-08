@@ -398,6 +398,15 @@ namespace ACR_ServerCommunicator
         /// updates for debugging or diagnostic purposes.
         /// </summary>
         public bool PauseUpdates { get; set; }
+
+        /// <summary>
+        /// This property contains the configuration settings for the game
+        /// world that are drawn from the database.
+        /// </summary>
+        public GameWorldConfiguration Configuration
+        {
+            get { return ConfigurationStore; }
+        }
         
         /// <summary>
         /// Run the event queue down.  All events in the queue are given a
@@ -473,6 +482,24 @@ namespace ACR_ServerCommunicator
         private void OnChatTell(GameCharacter Sender, GamePlayer Recipient, string Message)
         {
             EventQueue.EnqueueEvent(new ChatTellEvent(Sender, Recipient, Message));
+        }
+
+        /// <summary>
+        /// This method is called when a broadcast notification is received.
+        /// </summary>
+        /// <param name="Message">Supplies the message text.</param>
+        private void OnBroadcastNotification(string Message)
+        {
+            EventQueue.EnqueueEvent(new BroadcastNotificationEvent(Message));
+        }
+
+        /// <summary>
+        /// This method is called when a disconnect player request is received.
+        /// </summary>
+        /// <param name="Player">Supplies the player to disconnect.</param>
+        private void OnDisconnectPlayer(GamePlayer Player)
+        {
+            EventQueue.EnqueueEvent(new DisconnectPlayerEvent(Player));
         }
 
         /// <summary>
@@ -717,6 +744,14 @@ namespace ACR_ServerCommunicator
 
             if ((DatabasePollCycle - 1) % POLLING_CYCLES_TO_SERVER_SYNC == 0)
                 SynchronizeOnlineServers();
+
+            //
+            // Every POLLING_CYCLE_TO_CONFIG_SYNC cycles, update the
+            // configuration store.
+            //
+
+            if ((DatabasePollCycle - 1) % POLLING_CYCLES_TO_CONFIG_SYNC == 0)
+                SynchronizeConfiguration();
 
 #if DEBUG_MODE
             ConsistencyCheck();
@@ -976,6 +1011,7 @@ namespace ACR_ServerCommunicator
         private struct SynchronizeOnlineServersRow
         {
             public int ServerId;
+            public string AddressString;
         };
 
         /// <summary>
@@ -1014,7 +1050,8 @@ namespace ACR_ServerCommunicator
 
             Database.ACR_SQLQuery(
                 "SELECT " +
-                    "`servers`.`ID` AS server_id " +
+                    "`servers`.`ID` AS server_id, " +
+                    "`servers`.`IPAddress` as ip_address " +
                 "FROM `servers` " +
                 "INNER JOIN `pwdata` ON `pwdata`.`Name` = `servers`.`Name` " +
                 "WHERE pwdata.`Key` = 'ACR_TIME_SERVERTIME' " +
@@ -1049,6 +1086,7 @@ namespace ACR_ServerCommunicator
                 SynchronizeOnlineServersRow Row;
 
                 Row.ServerId = Convert.ToInt32(Database.ACR_SQLGetData(0));
+                Row.AddressString = Database.ACR_SQLGetData(1);
 
                 Rowset.Add(Row);
             }
@@ -1062,6 +1100,7 @@ namespace ACR_ServerCommunicator
                 foreach (SynchronizeOnlineServersRow Row in Rowset)
                 {
                     int ServerId = Row.ServerId;
+                    string AddressString = Row.AddressString;
 
                     GameServer Server = ReferenceServerById(ServerId, Database);
 
@@ -1072,6 +1111,8 @@ namespace ACR_ServerCommunicator
                         Server.Online = true;
                         OnServerJoin(Server);
                     }
+
+                    Server.SetHostnameAndPort(AddressString);
                 }
 
                 //
@@ -1205,6 +1246,29 @@ namespace ACR_ServerCommunicator
                            }
                            break;
 
+                       case ACR_SERVER_IPC_EVENT_BROADCAST_NOTIFICATION:
+                           lock (this)
+                           {
+                               OnBroadcastNotification(EventText);
+                           }
+                           break;
+
+                       case ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER:
+                           lock (this)
+                           {
+                               GamePlayer Player = ReferencePlayerById(DestinationPlayerId, Database);
+
+                               if (Player == null)
+                               {
+                                   EventQueue.EnqueueEvent(new DiagnosticLogEvent(String.Format(
+                                       "GameWorldManager.SynchronizeIPCEventQueue: Target player {0} for ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER is an invalid player id reference.", DestinationPlayerId)));
+                                   continue;
+                               }
+
+                               OnDisconnectPlayer(Player);
+                           }
+                           break;
+
                        default:
                            lock (this)
                            {
@@ -1269,6 +1333,20 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method synchronizes the configuration settings block with the
+        /// database.
+        /// </summary>
+        public void SynchronizeConfiguration()
+        {
+            IALFADatabase Database = DatabaseLinkQueryThread;
+
+            lock (this)
+            {
+                ConfigurationStore.ReadConfigurationFromDatabase(Database);
+            }
+        }
+
+        /// <summary>
         /// Convert a database string to a Boolean value.
         /// </summary>
         /// <param name="Str">Supplies the database string.</param>
@@ -1293,6 +1371,23 @@ namespace ACR_ServerCommunicator
         /// </summary>
         public const int ACR_SERVER_IPC_EVENT_CHAT_TELL = 0;
 
+        /// <summary>
+        /// Broadcast notifications use this event type.  For this event, there
+        /// are three parameters.  The source and destination server IDs
+        /// represent routing information, and the event text represents the
+        /// notification text to deliver.
+        /// </summary>
+        public const int ACR_SERVER_IPC_EVENT_BROADCAST_NOTIFICATION = 1;
+
+        /// <summary>
+        /// Disconnect player requests use this event type.  For this event,
+        /// there are three parameters.  The source and destination server IDs
+        /// represent routing information, and the destination player ID
+        /// represents the player ID of the player to disconnect from the
+        /// destination server.
+        /// </summary>
+        public const int ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER = 2;
+
 
         /// <summary>
         /// The count, in milliseconds, between database polling attempts in
@@ -1311,6 +1406,12 @@ namespace ACR_ServerCommunicator
         /// attempt.
         /// </summary>
         private const int POLLING_CYCLES_TO_CHARACTER_SYNC = 3;
+
+        /// <summary>
+        /// The number of pollling cycles between a configuration
+        /// synchronization attempt.
+        /// </summary>
+        private const int POLLING_CYCLES_TO_CONFIG_SYNC = 60 * 60;
 
         /// <summary>
         /// The maximum target value for combined IPC event queries is stored
@@ -1381,5 +1482,11 @@ namespace ACR_ServerCommunicator
         /// order to reduce the processing delay.
         /// </summary>
         private EventWaitHandle QueryThreadWakeupEvent = new EventWaitHandle(false, EventResetMode.AutoReset);
+
+        /// <summary>
+        /// This object stores the configuration data for the game world.  The
+        /// configuration elements contained herein are backed by the database.
+        /// </summary>
+        private GameWorldConfiguration ConfigurationStore = new GameWorldConfiguration();
     }
 }

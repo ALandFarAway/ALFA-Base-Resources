@@ -146,6 +146,18 @@ namespace ACR_ServerCommunicator
                     }
                     break;
 
+                case REQUEST_TYPE.ACTIVATE_SERVER_TO_SERVER_PORTAL:
+                    {
+                        int ServerId = (int)ScriptParameters[1];
+                        int PortalId = (int)ScriptParameters[2];
+                        uint PlayerObjectId = OBJECT_SELF;
+
+                        ActivateServerToServerPortal(ServerId, PortalId, PlayerObjectId);
+
+                        ReturnCode = 0;
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid IPC script command " + RequestType.ToString());
 
@@ -208,6 +220,7 @@ namespace ACR_ServerCommunicator
             //
 
             CommandDispatchLoop();
+            UpdateServerExternalAddress();
         }
 
         /// <summary>
@@ -398,6 +411,9 @@ namespace ACR_ServerCommunicator
 
                 SendMessageToPC(PlayerObject, "Retell-To: " + Name);
             }
+
+            SendMessageToPC(PlayerObject, "ACR version: " + GetDatabase().ACR_GetVersion());
+            SendMessageToPC(PlayerObject, "IPC subsystem version: " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
         }
 
         /// <summary>
@@ -475,6 +491,12 @@ namespace ACR_ServerCommunicator
                 return TRUE;
             }
 #endif
+            else if (CookedText.Equals("version"))
+            {
+                SendMessageToPC(SenderObjectId, "ACR version: " + GetDatabase().ACR_GetVersion());
+                SendMessageToPC(SenderObjectId, "IPC subsystem version: " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                return TRUE;
+            }
             else
             {
                 return FALSE;
@@ -492,12 +514,20 @@ namespace ACR_ServerCommunicator
         /// </param>
         private void HandleClientEnter(uint PlayerObject)
         {
+            //
+            // Remove a character save block if one was set, in case the
+            // player returns to a server they had portalled from previously.
+            //
+
+            EnableCharacterSave(PlayerObject);
+
             if (GetLocalInt(PlayerObject, "ACR_SERVER_IPC_CLIENT_ENTERED") != FALSE)
                 return;
 
             SetLocalInt(PlayerObject, "ACR_SERVER_IPC_CLIENT_ENTERED", TRUE);
+            GetDatabase().ACR_SetPCLocalFlags(PlayerObject, 0);
 
-            DelayCommand(3.0f, delegate()
+            DelayCommand(20.0f, delegate()
             {
                 AssignCommand(PlayerObject, delegate()
                 {
@@ -537,7 +567,160 @@ namespace ACR_ServerCommunicator
             {
                 GameServer Server = WorldManager.ReferenceServerById(ServerId, GetDatabase());
 
+                if (Server == null)
+                    return false;
+
                 return Server.Online;
+            }
+        }
+
+        /// <summary>
+        /// Activate a server-to-server portal transfer to a remote server.
+        /// </summary>
+        /// <param name="ServerId">Supplies the destination server id.</param>
+        /// <param name="PortalId">Supplies the associated portal id.</param>
+        /// <param name="PlayerObjectId">Supplies the object id of the player
+        /// to transfer across the server to server portal.</param>
+        private void ActivateServerToServerPortal(int ServerId, int PortalId, uint PlayerObjectId)
+        {
+            lock (WorldManager)
+            {
+                GameServer Server = WorldManager.ReferenceServerById(ServerId, GetDatabase());
+
+                //
+                // Check our state first.
+                //
+
+                if (Server == null)
+                {
+                    SendFeedbackError(PlayerObjectId, "Portal failed (destination server unknown).");
+                    return;
+                }
+
+                if (Server.Online == false)
+                {
+                    SendFeedbackError(PlayerObjectId, "Portal failed (destination server offline).");
+                    return;
+                }
+
+                //
+                // If we're a DM, there is no server vault character to
+                // transfer.  Save any database state and just start things
+                // off.
+                //
+
+                if (GetIsDM(PlayerObjectId) != FALSE)
+                {
+                    SendMessageToPC(PlayerObjectId, "DM portals are not supported.  You must manually log out and connect to the desired server.");
+                    /*
+                    SendMessageToPC(PlayerObjectId, "Initiating DM portal...");
+                    GetDatabase().ACR_PCSave(PlayerObjectId, true, true);
+                    GetDatabase().ACR_FlushQueryQueue(PlayerObjectId);
+                    ActivatePortal(
+                        PlayerObjectId,
+                        String.Format("{0}:{1}", Server.ServerHostname, Server.ServerPort),
+                        WorldManager.Configuration.PlayerPassword,
+                        "",
+                        TRUE);
+                     */
+                    return;
+                }
+
+                if ((GetDatabase().ACR_GetPCLocalFlags(PlayerObjectId) & ALFA.Database.ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS) != 0)
+                {
+                    SendMessageToPC(PlayerObjectId, "A portal attempt is already in progress.");
+                    return;
+                }
+
+                //
+                // Disable actions on the player while we are waiting for them
+                // to transfer.  This is intended to help prevent a player from
+                // causing the canonical save from missing something important,
+                // like an item dropped on the ground.
+                //
+
+                int WasCommandable = GetCommandable(PlayerObjectId);
+                SetCommandable(FALSE, PlayerObjectId);
+
+                if (IsInConversation(PlayerObjectId) != FALSE)
+                    AssignCommand(PlayerObjectId, delegate() { ActionPauseConversation(); });
+
+                //
+                // Set up a fallback DelayCommand continuation set to send a
+                // failure error to the player and exit the portal loop.
+                //
+
+                AssignCommand(PlayerObjectId, delegate()
+                {
+                    DelayCommand(60.0f, delegate()
+                    {
+                        //
+                        // Let the player know that we failed.
+                        //
+
+                        SendMessageToPC(PlayerObjectId, "Portal failed (timed out).");
+
+                        if ((GetDatabase().ACR_GetPCLocalFlags(PlayerObjectId) & ALFA.Database.ACR_PC_LOCAL_FLAG_PORTAL_COMMITTED) == 0)
+                        {
+                            //
+                            // We are aborting the portal before we are fully
+                            // committed.  Unwind back from the non-commandable
+                            // state and tell the player that they can retry if
+                            // desired.
+                            //
+
+                            GetDatabase().ACR_SetPCLocalFlags(
+                                PlayerObjectId,
+                                GetDatabase().ACR_GetPCLocalFlags(PlayerObjectId) & ~(ALFA.Database.ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS));
+
+                            SendMessageToPC(PlayerObjectId, "You may re-try the portal if desired.  Contact the tech team if the issue persists.");
+
+                            if (GetCommandable(PlayerObjectId) == FALSE)
+                                SetCommandable(WasCommandable, PlayerObjectId);
+
+                            if (IsInConversation(PlayerObjectId) != FALSE)
+                                ActionResumeConversation();
+                        }
+                        else
+                        {
+                            SendMessageToPC(PlayerObjectId, "Please reconnect.");
+
+                            //
+                            // We have already committed to portaling, as we
+                            // have sent the portal request.  There's no way to
+                            // know if the client is still waiting or gave up,
+                            // so the only way to recover for certain is to
+                            // disconnect the player.
+                            //
+
+                            DelayCommand(3.0f, delegate() { BootPC(PlayerObjectId); });
+                        }
+                    });
+                });
+
+                //
+                // Initiate a full player save.  This must be done BEFORE we
+                // enter into PortalStatusCheck, so that the export request is
+                // acted on beforehand and the character goes into the queue
+                // for remote transfer.
+                //
+
+                GetDatabase().ACR_PCSave(PlayerObjectId, true, true);
+
+                //
+                // Enlist the player in periodic status updates so that they
+                // know what's happening.  This also checks whether the vault
+                // transfer has finished for the ACR_PCSave above, so that we
+                // can complete the transfer transaction entirely.
+                //
+
+                GetDatabase().ACR_SetPCLocalFlags(
+                    PlayerObjectId,
+                    GetDatabase().ACR_GetPCLocalFlags(PlayerObjectId) | ALFA.Database.ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS);
+                AssignCommand(PlayerObjectId, delegate()
+                {
+                    PortalStatusCheck(PlayerObjectId, Server);
+                });
             }
         }
 
@@ -764,6 +947,174 @@ namespace ACR_ServerCommunicator
                 CHAT_MODE_SERVER,
                 "<c=red>Error: " + Message + "</c>",
                 FALSE);
+        }
+
+        /// <summary>
+        /// This method periodically notifies the player of the current portal
+        /// status until the portal attempt completes (or is aborted).
+        /// </summary>
+        /// <param name="PlayerObjectId">Supplies the player to enlist in
+        /// portal status update notifications.</param>
+        /// <param name="Server">Supplies the destination server.</param>
+        private void PortalStatusCheck(uint PlayerObjectId, GameServer Server)
+        {
+            DelayCommand(1.0f, delegate()
+            {
+                //
+                // Bail out if the portal attempt is aborted, e.g. if we have
+                // timed out.
+                //
+
+                if ((GetDatabase().ACR_GetPCLocalFlags(PlayerObjectId) & ALFA.Database.ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS) == 0)
+                    return;
+
+                //
+                // If the character is no longer spooled, then complete the
+                // portal sequence.
+                //
+
+                if (!IsCharacterSpooled(PlayerObjectId))
+                {
+                    //
+                    // Force pending database writes relating to the player to
+                    // complete.
+                    //
+
+                    GetDatabase().ACR_FlushQueryQueue(PlayerObjectId);
+
+                    //
+                    // Disable the next internal character save for this player
+                    // object.  This prevents the autosave on logout from
+                    // contending with the remote server's initial character
+                    // read.
+                    //
+                    // N.B.  Normally, this is not a problem, as the server
+                    //       vault subsystem uses file locking internally.  But
+                    //       ALFA uses SSHFS, which does not support any sort
+                    //       of file locking at all (all requestors are let on
+                    //       through).
+                    //
+                    //       Thus, to avoid the remote server getting into a
+                    //       state where it reads a character being transferred
+                    //       from the final autosave on logout, we suppress the
+                    //       final autosave.
+                    //
+                    //       Script-initiated saves are already suppressed by
+                    //       the ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS PC local
+                    //       flag bit, which just leaves the server's internal
+                    //       save.
+                    //
+
+                    if (!DisableCharacterSave(PlayerObjectId))
+                    {
+                        SendMessageToPC(PlayerObjectId, "Unable to setup for server character transfer - internal error.  Please notify the tech team.");
+                        SendMessageToPC(PlayerObjectId, "Aborting portal attempt due to error...");
+                        GetDatabase().ACR_SetPCLocalFlags(
+                            PlayerObjectId,
+                            GetDatabase().ACR_GetPCLocalFlags(PlayerObjectId) & ~(ALFA.Database.ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS));
+                        return;
+                    }
+
+                    //
+                    // Now retrieve the portal configuration information from
+                    // the data system and transfer the player.
+                    //
+                    // Note that there is no going back from this point.  If
+                    // the client does not disconnect on its own, we will boot
+                    // the client later on (because we can never know if the
+                    // client would try and log on to the remote server or if
+                    // it has given up after having sent the request).
+                    //
+
+                    SendMessageToPC(PlayerObjectId, "Transferring to server " + Server.Name + "...");
+
+                    GetDatabase().ACR_SetPCLocalFlags(
+                        PlayerObjectId,
+                        GetDatabase().ACR_GetPCLocalFlags(PlayerObjectId) | ALFA.Database.ACR_PC_LOCAL_FLAG_PORTAL_COMMITTED);
+
+                    lock (WorldManager)
+                    {
+                        ActivatePortal(
+                            PlayerObjectId,
+                            String.Format("{0}:{1}", Server.ServerHostname, Server.ServerPort),
+                            WorldManager.Configuration.PlayerPassword,
+                            "",
+                            TRUE);
+                    }
+
+                    return;
+                }
+
+                //
+                // Otherwise, send a notification to the player and start the
+                // next continuation.
+                //
+
+                SendMessageToPC(PlayerObjectId, "Character transfer in progress...");
+                PortalStatusCheck(PlayerObjectId, Server);
+            });
+        }
+
+        /// <summary>
+        /// This method checks if the player object has a character file that
+        /// is still in the spool, waiting for remote upload.
+        /// </summary>
+        /// <param name="PlayerObjectId">Supplies the player object id of the
+        /// player to check</param>
+        /// <returns>True if the player still has a character spooled.
+        /// </returns>
+        private bool IsCharacterSpooled(uint PlayerObjectId)
+        {
+            return NWNXGetInt(
+                "SERVERVAULT",
+                "CHECK SPOOL",
+                GetBicFileName(PlayerObjectId).Substring(12) + ".bic",
+                0) == FALSE;
+        }
+
+        /// <summary>
+        /// This method asks the vault plugin to blackhole the next character
+        /// save for a given file name.  The blackhole is removed at login time
+        /// by the client enter handler.
+        /// </summary>
+        /// <param name="PlayerObjectId">Supplies the PC object whose saves are
+        /// to be suppressed.</param>
+        /// <returns>Returns true if the request succeeded.</returns>
+        private bool DisableCharacterSave(uint PlayerObjectId)
+        {
+            if (NWNXGetInt(
+                "SERVERVAULT",
+                "SUPPRESS CHARACTER SAVE",
+                GetBicFileName(PlayerObjectId).Substring(12) + ".bic",
+                0) == FALSE)
+            {
+                WriteTimestampedLogEntry("ACR_ServerCommunicator.DisableCharacterSave(): FAILED to disable character save for " + GetName(PlayerObjectId) + "!");
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// This method asks the vault plugin to remove any blackhole to stop
+        /// character saves for a given file name.
+        /// </summary>
+        /// <param name="PlayerObjectId">Supplies the PC object whose saves are
+        /// to be reinstated.</param>
+        /// <returns>Returns true if the request succeeded.</returns>
+        private bool EnableCharacterSave(uint PlayerObjectId)
+        {
+            if (NWNXGetInt(
+                "SERVERVAULT",
+                "ENABLE CHARACTER SAVE",
+                GetBicFileName(PlayerObjectId).Substring(12) + ".bic",
+                0) == FALSE)
+            {
+                WriteTimestampedLogEntry("ACR_ServerCommunicator.EnableCharacterSave(): FAILED to enable character save for " + GetName(PlayerObjectId) + "!");
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -1042,31 +1393,40 @@ namespace ACR_ServerCommunicator
 #endif
 
             //
-            // Otherwise, enqueue it.
+            // Otherwise, enqueue it, breaking large tells up into multiple
+            // smaller tells if need be.
             //
 
-            if (Message.Length > ACR_SERVER_IPC_MAX_EVENT_LENGTH)
+            while (!String.IsNullOrEmpty(Message))
             {
-                Message = Message.Substring(ACR_SERVER_IPC_MAX_EVENT_LENGTH);
+                string MessagePart;
 
-                SendFeedbackError(SenderObjectId,
-                    String.Format("Message sent, but truncated to {0} characters: '{1}'.", ACR_SERVER_IPC_MAX_EVENT_LENGTH, Message));
+                if (Message.Length > ACR_SERVER_IPC_MAX_EVENT_LENGTH)
+                {
+                    MessagePart = Message.Substring(0, ACR_SERVER_IPC_MAX_EVENT_LENGTH);
+                    Message = Message.Substring(ACR_SERVER_IPC_MAX_EVENT_LENGTH);
+                }
+                else
+                {
+                    MessagePart = Message;
+                    Message = null;
+                }
+
+                SignalIPCEvent(
+                    SenderPlayer.PlayerId,
+                    Database.ACR_GetServerID(),
+                    RecipientPlayer.PlayerId,
+                    DestinationServer.ServerId,
+                    GameWorldManager.ACR_SERVER_IPC_EVENT_CHAT_TELL,
+                    MessagePart);
+                SetLocalInt(SenderObjectId, "ACR_XP_RPXP_ACTIVE", TRUE);
+                SendChatMessage(
+                    OBJECT_INVALID,
+                    SenderObjectId,
+                    CHAT_MODE_SERVER,
+                    String.Format("<c=#FFCC99>{0}: </c><c=#30DDCC>[ServerTell] {1}</c>", GetName(SenderObjectId), MessagePart),
+                    FALSE);
             }
-
-            SignalIPCEvent(
-                SenderPlayer.PlayerId,
-                Database.ACR_GetServerID(),
-                RecipientPlayer.PlayerId,
-                DestinationServer.ServerId,
-                GameWorldManager.ACR_SERVER_IPC_EVENT_CHAT_TELL,
-                Message);
-            SetLocalInt(SenderObjectId, "ACR_XP_RPXP_ACTIVE", TRUE);
-            SendChatMessage(
-                OBJECT_INVALID,
-                SenderObjectId,
-                CHAT_MODE_SERVER,
-                String.Format("<c=#FFCC99>{0}: </c><c=#30DDCC>[ServerTell] {1}</c>", GetName(SenderObjectId), Message),
-                FALSE);
         }
 
         /// <summary>
@@ -1142,6 +1502,31 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method periodically runs as a DelayCommand continuation.  Its
+        /// purpose is to refresh the database's view of our network address,
+        /// so that server-to-server portals still function if the external
+        /// address changes without a server process restart.
+        /// </summary>
+        private void UpdateServerExternalAddress()
+        {
+            ALFA.Database Database = GetDatabase();
+            string NetworkAddress = String.Format(
+                "{0}:{1}",
+                Database.ACR_GetServerAddressFromDatabase(),
+                SystemInfo.GetServerUdpListener(this).Port);
+
+            Database.ACR_SQLExecute(String.Format(
+                "UPDATE `servers` SET `IPAddress` = '{0}' WHERE `ID` = {1}",
+                NetworkAddress,
+                Database.ACR_GetServerID()));
+
+            DelayCommand(UPDATE_SERVER_EXTERNAL_ADDRESS_INTERVAL, delegate()
+            {
+                UpdateServerExternalAddress();
+            });
+        }
+
+        /// <summary>
         /// This method drains items from the IPC thread command queue, i.e.
         /// those actions that must be performed in a script context because
         /// they need to call script APIs.
@@ -1199,13 +1584,20 @@ namespace ACR_ServerCommunicator
             LIST_ONLINE_USERS,
             HANDLE_CHAT_EVENT,
             HANDLE_CLIENT_ENTER,
-            IS_SERVER_ONLINE
+            IS_SERVER_ONLINE,
+            ACTIVATE_SERVER_TO_SERVER_PORTAL
         }
 
         /// <summary>
         /// The interval between command dispatch polling cycles is set here.
         /// </summary>
         private const float COMMAND_DISPATCH_INTERVAL = 0.3f;
+
+        /// <summary>
+        /// The interval at which the server's externally visible network
+        /// address is automatically refreshed in the database.
+        /// </summary>
+        private const float UPDATE_SERVER_EXTERNAL_ADDRESS_INTERVAL = 60.0f * 60.0f;
 
         /// <summary>
         /// The maximum length of a server IPC event is set here.  This is the

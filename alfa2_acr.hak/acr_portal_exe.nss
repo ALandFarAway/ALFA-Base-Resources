@@ -21,9 +21,12 @@
 //   0.2: 2/01/2009  AcadiusLost: Added operand for portal number (to account for multiple portals)
 //   0.3: 2/08/2009, AcadiusLost  Shifted to infer nDestID and bAdjacency from locals on the PC.
 //   0.4: 2/13/2009, AcadiusLost: Added controls for PCs who stay logged in after getting a server pass.
+//   0.5: 1/07/2012, Basilica     Cleanup and readiness for seamless server to server portals.
 //
 
 #include "acr_portal_i"
+
+#define SEAMLESS_SERVER_PORTAL_ENABLED 0
 
 //!  Private function to wrap a check and conditional booting
 void _ReCheckPCPortaller(object oPC);
@@ -47,8 +50,19 @@ void main(string sFunction) {
 	
 		SendMessageToPC(oPC, "Generating a new pass.");
 		ACR_SetPersistentString(oPC, _ACR_PTL_PASSPORT, _BuildPortalPass(nDestID, nPortalNum));
+#if SEAMLESS_SERVER_PORTAL_ENABLED
+
+#if SERVER_IPC_ENABLED
+		ACR_StartServerToServerPortal(nDestID, nPortalNum, oPC);
+#else
 		// if the PC has not logged out in 60 seconds, and is still holding a portal pass, boot them.
 		DelayCommand(60.0, _ReCheckPCPortaller(oPC));
+#endif
+
+#else
+		// if the PC has not logged out in 60 seconds, and is still holding a portal pass, boot them.
+		DelayCommand(60.0, _ReCheckPCPortaller(oPC));
+#endif
 	}
 
 }

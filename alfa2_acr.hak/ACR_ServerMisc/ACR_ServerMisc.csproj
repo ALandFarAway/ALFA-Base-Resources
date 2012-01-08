@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{70C3C5E1-4A02-4206-86E9-C1FBEB167303}</ProjectGuid>
+    <ProjectGuid>{3046731E-6658-4868-8C67-F0BFEDAC41EB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ACR_ServerCommunicator</RootNamespace>
-    <AssemblyName>ACR_ServerCommunicator</AssemblyName>
+    <RootNamespace>ACR_ServerMisc</RootNamespace>
+    <AssemblyName>ACR_ServerMisc</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;DEBUG_MODE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -27,14 +27,11 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;DEBUG_MODE</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MySql.Data">
-      <HintPath>..\..\CLRScript\CLRv4.0.30319\MySql.Data.dll</HintPath>
-    </Reference>
     <Reference Include="NWNScriptJITIntrinsics, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\CLRScript\CLRv4.0.30319\NWNScriptJITIntrinsics.dll</HintPath>
     </Reference>
@@ -53,32 +50,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ACR_ServerCommunicator.cs" />
+    <Compile Include="ACR_ServerMisc.cs" />
     <Compile Include="..\..\CLRScript\ALFADatabase.cs" />
-    <Compile Include="..\..\CLRScript\ALFAMySQLDatabase.cs" />
     <Compile Include="..\..\CLRScript\ALFAScriptLoader.cs" />
     <Compile Include="..\..\CLRScript\ALFASystemInfo.cs" />
     <Compile Include="..\..\CLRScript\NWScriptActions.cs" />
     <Compile Include="..\..\CLRScript\NWScriptConstants.cs" />
     <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="BroadcastNotificationEvent.cs" />
-    <Compile Include="CharacterJoinEvent.cs" />
-    <Compile Include="CharacterPartEvent.cs" />
-    <Compile Include="ChatTellEvent.cs" />
-    <Compile Include="DiagnosticLogEvent.cs" />
-    <Compile Include="DisconnectPlayerEvent.cs" />
-    <Compile Include="GameCharacter.cs" />
-    <Compile Include="GameEventQueue.cs" />
-    <Compile Include="GamePlayer.cs" />
-    <Compile Include="GameServer.cs" />
-    <Compile Include="GameWorldConfiguration.cs" />
-    <Compile Include="GameWorldManager.cs" />
-    <Compile Include="IGameEntity.cs" />
-    <Compile Include="ServerJoinEvent.cs" />
-    <Compile Include="ServerPartEvent.cs" />
     <Compile Include="StandardEntrypoints.cs" />
-    <Compile Include="UnsupportedIPCRequestEvent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

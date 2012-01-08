@@ -17,6 +17,7 @@
 //   0.1: 1/19/2009, AcadiusLost inception.
 //   0.2: 2/08/2009, AcadiusLost  Shifted to infer nDestID and bAdjacency from locals on the PC.
 //   0.3: 2/11/2009, AcadiusLost  Added CheckCorpse function
+//   0.4: 1/07/2012, Basilica     Cleanup and readiness for seamless server to server portals.
 
 #include "acr_portal_i"
 #include "acr_death_i"
@@ -30,10 +31,9 @@ int StartingConditional(string sFunction) {
 
 	object oPC = GetPCSpeaker();
 	int nDestID = GetLocalInt(oPC, "ACR_PORTAL_DEST_SERVER");
-	string sServerID = GetGlobalInt(_ACR_SETTINGS_SERVER_ID);
 	string sDestID = IntToString(nDestID);
 	int bAdjacency = GetLocalInt(oPC, "ACR_PORTAL_ADJACENT");
-	// SendMessageToPC(oPC, "Querying SQL DB; funtion "+sFunction);
+	// SendMessageToPC(oPC, "Querying SQL DB; function "+sFunction);
 	
 	if (sFunction == "CheckServer") {
 		// call the server check function

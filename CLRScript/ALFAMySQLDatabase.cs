@@ -28,8 +28,15 @@ namespace ALFA
     /// <summary>
     /// This class encapsulates database access for ALFA CLR scripts that uses
     /// an independent MySQL connection.
+    ///
+    /// N.B.  Most code should NOT use a MySQLDatabase object, because doing so
+    ///       may monopolize a valuable connection pool connection.
+    ///
+    ///       Use ALFA.ALFADatabase instead for most SQL accesses UNLESS they
+    ///       must be done from a dedicated thread context, like the
+    ///       ACR_ServerCommunicator GameWorldManager query thread.
     /// </summary>
-    public class MySQLDatabase : IALFADatabase
+    public class MySQLDatabase : IALFADatabase, IDisposable
     {
 
         /// <summary>
@@ -116,6 +123,28 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Dispose the object.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Dispose the object.
+        /// </summary>
+        /// <param name="Disposing">Supplies true if called from Dispose.</param>
+        private void Dispose(bool Disposing)
+        {
+            if (Implementation != null)
+            {
+                Implementation.Dispose();
+                Implementation = null;
+            }
+        }
+
+        /// <summary>
         /// This method links to the MySQL assembly, ensuring that the
         /// assembly is loaded.  If necessary the assembly is loaded from the
         /// NWNX4 installation directory.
@@ -191,7 +220,7 @@ namespace ALFA
     /// This wrapper class shields callers of MySQLDatabase from needing to
     /// immediately demand that the MySql.Data.dll assembly be loaded.
     /// </summary>
-    internal class MySQLDatabaseInternal
+    internal class MySQLDatabaseInternal : IDisposable
     {
 
         /// <summary>
@@ -316,6 +345,28 @@ namespace ALFA
                 ConnectionSettings.User,
                 ConnectionSettings.Password,
                 ConnectionSettings.Schema);
+        }
+
+        /// <summary>
+        /// Dispose the object.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Dispose the object.
+        /// </summary>
+        /// <param name="Disposing">Supplies true if called from Dispose.</param>
+        private void Dispose(bool Disposing)
+        {
+            if (DataReader != null)
+            {
+                DataReader.Dispose();
+                DataReader = null;
+            }
         }
 
         /// <summary>

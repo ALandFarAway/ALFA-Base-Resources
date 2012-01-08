@@ -7,7 +7,7 @@
 //       Author : Basilica
 //
 //    Var Prefix: SRVADMIN
-//  Dependencies: NWNX, MYSQL, CLRSCRIPT(acr_srvadmin)
+//  Dependencies: NWNX, MYSQL, CLRSCRIPT(ScriptLoader, ACR_ServerMisc)
 //
 //  Description
 //  This file contains logic for allowing server admins (both players and local
@@ -15,6 +15,7 @@
 //
 //  Revision History
 //  2011/12/26  Basilica    - Created.
+//  2012/01/07  Basilica    - Added #sa runupdater command.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -24,6 +25,7 @@
 #include "acr_settings_i"
 #include "acr_db_persist_i"
 #include "acr_1984_i"
+#include "acr_server_misc_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -43,6 +45,7 @@ const string ACR_SRVADMIN_BOOT_PREFIX         = "boot ";
 const string ACR_SRVADMIN_DUMPVARS_PREFIX     = "dumpvars ";
 const string ACR_SRVADMIN_DUMPAREAS_PREFIX    = "dumpareas";
 const string ACR_SRVADMIN_DUMPAREAOBJECTS_PREFIX = "dumpareaobjects ";
+const string ACR_SRVADMIN_RUNUPDATER_PREFIX   = "runupdater";
 
 const string ACR_SRVADMIN_SCRIPT_NAME         = "acr_srvadmin";
 const string ACR_SRVADMIN_SCRIPTLOADER_NAME   = "scriptloader";
@@ -279,6 +282,17 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 
 		return TRUE;
 	}
+	else if (LowerCmd == ACR_SRVADMIN_RUNUPDATER_PREFIX)
+	{
+		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+
+		if (ACR_ExecuteServerUpdaterScript())
+			ACR_SrvAdmin_SendFeedback(oPC, "Successfully launched updater.");
+		else
+			ACR_SrvAdmin_SendFeedback(oPC, "Failed to launch updater.");
+
+		return TRUE;
+	}
 	else
 	{
 		ACR_SrvAdmin_SendFeedback(oPC, "Unrecognized command.  Legal commands include:");
@@ -296,6 +310,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 		ACR_SrvAdmin_SendFeedback(oPC, " - dumpvars <object> : Dump variables on an object (by hex object id, tag, #module, #self, or #area).");
 		ACR_SrvAdmin_SendFeedback(oPC, " - dumpareas : Dump a list of areas in the module.");
 		ACR_SrvAdmin_SendFeedback(oPC, " - dumpareaobjects <area> : Dump objects in an area (area specified by hex object id, tag, #module, #self, or #area).");
+		ACR_SrvAdmin_SendFeedback(oPC, " - runupdater : Run the ACR_UpdaterScript.cmd batch file in the NWNX4 installation directory (if it exists).");
 
 		return TRUE;
 	}

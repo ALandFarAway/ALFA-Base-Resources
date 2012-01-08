@@ -126,6 +126,14 @@ const string ACR_DTH_CORPSE_RESREF = "abr_pl_co_so_pccorpse";
 const string ACR_DTH_BODY_RESREF = "abr_it_mi_body";
 
 
+//! PC Local Flags bits.
+
+//! Portal request is live and in progress.
+const int ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS = 0x00000001;
+//! Portal request has reached the stage where it cannot be rolled back without
+//  disconnecting the player forcibly.
+const int ACR_PC_LOCAL_FLAG_PORTAL_COMMITTED   = 0x00000002;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -327,6 +335,16 @@ int ACR_GetPlayerID(object oPC);
 //!  - oPC: player whose admin status should be checked
 //!  - Returns: TRUE if the player is a server admin on this server
 int ACR_IsServerAdmin(object oPC);
+
+//! This function returns the current PC local flags for a PC.
+//!  - oPC: player whose local flags should be retrieved
+//!  - Returns: the local flags value.
+int ACR_GetPCLocalFlags(object oPC);
+
+//! This function assigns the PC local flags for a PC.
+//!  - oPC: player whose local flags should be assigned
+//!  - nFlags: Local flags to assign (overwrites entirely).
+void ACR_SetPCLocalFlags(object oPC, int nFlags);
 
 //! This function creates the SQL database tables
 //!   - Returns: nothing
@@ -803,6 +821,16 @@ int ACR_IsServerAdmin(object oPC)
 	return FALSE;
 }
 
+int ACR_GetPCLocalFlags(object oPC)
+{
+	return GetLocalInt(oPC, "ACR_PC_LOCAL_FLAGS");
+}
+
+void ACR_SetPCLocalFlags(object oPC, int nFlags)
+{
+	SetLocalInt(oPC, "ACR_PC_LOCAL_FLAGS", nFlags);
+}
+
 void ACR_CreateSQLTables()
 {
 	// since this is called on each modloaded(), insert call to alter tables if necessary here.
@@ -884,7 +912,7 @@ void ACR_CreateSQLTables()
 	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `ipaddress` (" +
 		"`ID` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT," +
 		"`CDKey` varchar(8) NOT NULL," +
-		"`IPAddress` varchar(16) NOT NULL," +
+		"`IPAddress` varchar(256) NOT NULL," +
 		"`IsBanned` bool NOT NULL default false," +
 		"PRIMARY KEY (`ID`), UNIQUE KEY (`CDKey`, `IPAddress`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");

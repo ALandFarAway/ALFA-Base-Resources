@@ -29,7 +29,7 @@
 
 // Define to 1 to enable server IPC support.
 
-#define SERVER_IPC_ENABLED 0
+#define SERVER_IPC_ENABLED 1
 
 // The IPC C# script name.
 const string ACR_SERVER_IPC_SERVERCOM_SCRIPT                 = "acr_servercommunicator";
@@ -64,11 +64,20 @@ const int ACR_SERVER_IPC_HANDLE_CLIENT_ENTER                 = 7;
 // This command returns whether a server is online (by server id).
 const int ACR_SERVER_IPC_IS_SERVER_ONLINE                    = 8;
 
+// This command activates a server to server portal.
+const int ACR_SERVER_IPC_ACTIVATE_SERVER_TO_SERVER_PORTAL    = 9;
+
 // IPC event codes:
 
 // The chat tell event is used to transport tells cross-server.
 const int ACR_SERVER_IPC_EVENT_CHAT_TELL                     = 0;
 
+// The broadcast notification event is used to transport a broadcast
+// announcement cross-server.
+const int ACR_SERVER_IPC_EVENT_BROADCAST_NOTIFICATION        = 1;
+
+// The disconnect player event is used to disconnect a remote player.
+const int ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER             = 2;
 
 
 // Maximum length of an IPC event text field.
@@ -124,6 +133,16 @@ void ACR_SendCrossServerTellByCharacter(object Sender, string CharacterName, str
 //!  - TellText: Supplies the tell text to send.
 void ACR_SendCrossServerTellByPlayer(object Sender, string PlayerName, string TellText);
 
+//! Send a broadcast message to the desired server.
+//!  - ServerID: Supplies the server ID of the recipient server.
+//!  - Message: Supplies the message to broadcast.
+void ACR_SendBroadcastNotification(int ServerID, string Message);
+
+//! Send a disconnect player request to the desired server.
+//!  - ServerID: Supplies the server ID of the recipient server.
+//!  - PlayerID: Supplies the player ID of the player to disconnect.
+void ACR_SendDisconnectPlayer(int ServerID, int PlayerID);
+
 //! Request that a text mode player list be sent to a user.
 //!  - Sender: Supplies the PC to send the player list to.
 void ACR_SendOnlineUserList(object Player);
@@ -176,6 +195,14 @@ int ACR_GetPlayerLoggedOnServerID(int PlayerID);
 //! - Returns: TRUE if the server is online and responding (has pinged the
 //             database within the past 10 minutes or so).
 int ACR_GetIsServerOnline(int ServerID);
+
+//! Initiate the server to server portalling process for a player.  The
+//  process doesn't complete immediately, but may take some time.  The
+//  player should already have a passport assigned.
+//! - ServerID: Supplies the destination server id.
+//! - PortalID: Supplies the portal id.
+//! - PlayerObject: Supplies the player object to portal.
+void ACR_StartServerToServerPortal(int ServerID, int PortalID, object PlayerObject);
 
 //! Make a raw call to the IPC C# control script.
 //!  - Command: Supplies the command to request (e.g. ACR_SERVER_IPC_SIGNAL_IPC_EVENT).
@@ -281,6 +308,39 @@ void ACR_SendCrossServerTellByPlayer(object Sender, string PlayerName, string Te
 
 	ACR_SignalServerIPCEvent(IPCEvent);
 	ACR_DeliverCrossServerTellConfirmation(Sender, PlayerName, TellText);
+}
+
+void ACR_SendBroadcastNotification(int ServerID, string Message)
+{
+	struct ACR_SERVER_IPC_EVENT IPCEvent;
+
+	if (GetStringLength(Message) > ACR_SERVER_IPC_MAX_EVENT_LENGTH)
+	{
+		Message = GetStringLeft(Message, ACR_SERVER_IPC_MAX_EVENT_LENGTH);
+	}
+
+	IPCEvent.SourcePlayerID = 0;
+	IPCEvent.SourceServerID = ACR_GetServerID();
+	IPCEvent.DestinationPlayerID = 0;
+	IPCEvent.DestinationServerID = ServerID;
+	IPCEvent.EventType = ACR_SERVER_IPC_EVENT_BROADCAST_NOTIFICATION;
+	IPCEvent.EventText = Message;
+
+	ACR_SignalServerIPCEvent(IPCEvent);
+}
+
+void ACR_SendDisconnectPlayer(int ServerID, int PlayerID)
+{
+	struct ACR_SERVER_IPC_EVENT IPCEvent;
+
+	IPCEvent.SourcePlayerID = 0;
+	IPCEvent.SourceServerID = ACR_GetServerID();
+	IPCEvent.DestinationPlayerID = PlayerID;
+	IPCEvent.DestinationServerID = ServerID;
+	IPCEvent.EventType = ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER;
+	IPCEvent.EventText = "";
+
+	ACR_SignalServerIPCEvent(IPCEvent);
 }
 
 void ACR_SendOnlineUserList(object Player)
@@ -390,6 +450,19 @@ int ACR_GetIsServerOnline(int ServerID)
 		0,
 		0,
 		"");
+}
+
+void ACR_StartServerToServerPortal(int ServerID, int PortalID, object PlayerObject)
+{
+	ACR_CallIPCScript(
+		ACR_SERVER_IPC_ACTIVATE_SERVER_TO_SERVER_PORTAL,
+		ServerID,
+		PortalID,
+		0,
+		0,
+		0,
+		"",
+		PlayerObject);
 }
 
 void ACR_SignalServerIPCEvent(struct ACR_SERVER_IPC_EVENT IPCEvent)

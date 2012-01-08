@@ -446,6 +446,49 @@ namespace ALFA
         }
 
         /// <summary>
+        /// This routine flushes the query queue for an object.  It is useful,
+        /// for example, in server portal scenarios.  Normally, the query queue
+        /// is flushed automatically.
+        /// </summary>
+        /// <param name="ObjectToFlush">Supplies the object whose query queue
+        /// should be flushed.</param>
+        public void ACR_FlushQueryQueue(uint ObjectToFlush)
+        {
+            DemandInitialize();
+
+            ACR_FlushQueryQueue_Method.Invoke(DBLibraryScript, new object[] { ObjectToFlush });
+        }
+
+        /// <summary>
+        /// This routine performs a character save.
+        /// </summary>
+        /// <param name="PCToSave">Supplies the object id of the player to
+        /// save.</param>
+        /// <param name="Export">If true, save the character file to disk too.
+        /// </param>
+        /// <param name="SaveLocation">If true, update the location of the
+        /// player in the database.</param>
+        public void ACR_PCSave(uint PCToSave, bool Export, bool SaveLocation)
+        {
+            DemandInitialize();
+
+            ACR_PCSave_Method.Invoke(DBLibraryScript, new object[] { PCToSave, Export ? CLRScriptBase.TRUE : CLRScriptBase.FALSE, SaveLocation ? CLRScriptBase.TRUE : CLRScriptBase.FALSE });
+        }
+
+        /// <summary>
+        /// Get the version string of the ACR release that the module was
+        /// compiled against.  For example, "1.84".
+        /// </summary>
+        /// <returns>The ACR version string that the DB Library Script was
+        /// compiled against is returned.</returns>
+        public string ACR_GetVersion()
+        {
+            DemandInitialize();
+
+            return (string)ACR_GetVersion_Method.Invoke(DBLibraryScript, null);
+        }
+
+        /// <summary>
         /// This routine performs a synchronous SQL query.  If there were
         /// pending asynchronous queries in the queue, the pending queries are
         /// drained first.
@@ -481,6 +524,26 @@ namespace ALFA
         public int ACR_GetPlayerID(UInt32 PCObject)
         {
             return Script.GetLocalInt(PCObject, "ACR_PID");
+        }
+
+        /// <summary>
+        /// Return the current PC local flags value for a PC.
+        /// </summary>
+        /// <param name="PCObject">Supplies the PC object.</param>
+        /// <returns>The PC Local Flags value.</returns>
+        public int ACR_GetPCLocalFlags(UInt32 PCObject)
+        {
+            return Script.GetLocalInt(PCObject, "ACR_PC_LOCAL_FLAGS");
+        }
+
+        /// <summary>
+        /// Assigns the current PC local flags value for a PC.
+        /// </summary>
+        /// <param name="PCObject">Supplies the PC object.</param>
+        /// <param name="Flags">Supplies the new Local Flags value.</param>
+        public void ACR_SetPCLocalFlags(UInt32 PCObject, int Flags)
+        {
+            Script.SetLocalInt(PCObject, "ACR_PC_LOCAL_FLAGS", Flags);
         }
 
         /// <summary>
@@ -568,6 +631,22 @@ namespace ALFA
 
 
 
+        //
+        // PC Local Flags.
+        //
+
+        /// <summary>
+        /// Portal request is live and in progress.
+        /// </summary>
+        public const int ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS = 0x00000001;
+        /// <summary>
+        /// Portal request has reached the stage where it cannot be rolled back
+        /// without disconnecting the player forcibly.
+        /// </summary>
+        public const int ACR_PC_LOCAL_FLAG_PORTAL_COMMITTED = 0x00000002;
+
+
+
         /// <summary>
         /// This method performs demand initialization of the database system
         /// on the first database call.
@@ -591,6 +670,9 @@ namespace ALFA
             ACR_GetServerAddressFromDatabase_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetServerAddressFromDatabase");
             ACR_SetPersistentString_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_SetPersistentString");
             ACR_SQLQuery_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_SQLQuery");
+            ACR_FlushQueryQueue_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_FlushQueryQueue");
+            ACR_PCSave_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_PCSave");
+            ACR_GetVersion_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetVersion");
 
             DBLibraryScript = ScriptObject;
 
@@ -640,5 +722,8 @@ namespace ALFA
         private static MethodInfo ACR_GetServerAddressFromDatabase_Method;
         private static MethodInfo ACR_SetPersistentString_Method;
         private static MethodInfo ACR_SQLQuery_Method;
+        private static MethodInfo ACR_FlushQueryQueue_Method;
+        private static MethodInfo ACR_PCSave_Method;
+        private static MethodInfo ACR_GetVersion_Method;
     }
 }

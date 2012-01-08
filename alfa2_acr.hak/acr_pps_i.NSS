@@ -149,6 +149,12 @@ void ACR_PCUpdateStatus(object oPC, int bLocation = TRUE);
 //!  Called by the DM Quarantine wand.
 void ACR_PPSValidatePC(object oTarget);
 
+//! Function to wrapper ExportSingleCharacter.  If the portal subsystem is
+//  in the middle of a transaction for the player, does not save the PC so that
+//  we have a consistent snapshot to work around SSHFS limitations with file
+//  locking.
+//!  Called by ACR_PCSave, and by ACR_PersistentStorageOnClose.
+void ACR_PCExportSingleCharacter(object oPC);
 
 //! *** PRIVATE FUNCTIONS ***
 
@@ -191,7 +197,7 @@ void ACR_PCSave(object oPC, int bExport = TRUE, int bSaveLocation = TRUE)
 
     // save the player to the vault
     if (bExport) { 
-		ExportSingleCharacter(oPC); 
+		ACR_PCExportSingleCharacter(oPC); 
 	}
 }
 
@@ -664,6 +670,26 @@ void ACR_PCOnClientLeave(object oPC)
 	}
     // set the character online status
     ACR_SQLQuery("UPDATE characters SET IsOnline=0 WHERE ID=" + IntToString(ACR_GetCharacterID(oPC)));
+}
+
+void ACR_PCExportSingleCharacter(object oPC)
+{
+	// The portal system has to inhibit saves at certain points to work around a
+	// set of limitations in SSHFS.  For full details, see
+	// ACR_ServerCommunicator\ACR_ServerCommunicator.cs, PortalStatusCheck() and
+	// ActivateServerToServerPortal().
+
+	if (ACR_GetPCLocalFlags(oPC) & (ACR_PC_LOCAL_FLAG_PORTAL_COMMITTED | ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS))
+	{
+		WriteTimestampedLogEntry("ACR_PCExportSingleCharacter(): Inhibiting script-initiated save for " + GetName(oPC) + " because a portal transaction is in progress for that player.");
+		return;
+	}
+
+	ExportSingleCharacter(oPC);
+
+#if 0
+	WriteTimestampedLogEntry("ACR_PCExportSingleCharacter(): Save character file for " + GetName(oPC) + " (local flags = " + IntToString(ACR_GetPCLocalFlags(oPC)) + ").");
+#endif
 }
 
 void ACR_PPSValidatePC(object oTarget) {

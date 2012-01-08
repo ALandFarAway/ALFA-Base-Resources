@@ -94,7 +94,9 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\wand_inc_misc.nss                     \
             $(OUTPUTDIR)\wand_inc.nss                          \
             $(OUTPUTDIR)\acr_srvadmin_i.nss                    \
-            $(OUTPUTDIR)\acr_server_ipc_i.nss                   
+            $(OUTPUTDIR)\acr_server_ipc_i.nss                  \
+            $(OUTPUTDIR)\acr_version_i.nss                     \
+            $(OUTPUTDIR)\acr_server_misc_i.nss                  
 
 NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\abr_plc_oninventorydisreturns.ncs     \
@@ -427,7 +429,8 @@ CLRSCRIPT_OBJECTS=$(OUTPUTDIR)\TestClrScript.ncs               \
                   $(OUTPUTDIR)\ScriptLoader.ncs                \
                   $(OUTPUTDIR)\LatencyMonitor.ncs              \
                   $(OUTPUTDIR)\ACR_HealthMonitor.ncs           \
-                  $(OUTPUTDIR)\ACR_ServerCommunicator.ncs      
+                  $(OUTPUTDIR)\ACR_ServerCommunicator.ncs      \
+                  $(OUTPUTDIR)\ACR_ServerMisc.ncs              
 
 HAKFILE=$(OUTPUTDIR)\alfa2_acr.hak
 
@@ -479,6 +482,8 @@ makeclrscripts:
 	@$(MSBUILD) ACR_HealthMonitor\ACR_HealthMonitor.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_ServerCommunicator
 	@$(MSBUILD) ACR_ServerCommunicator\ACR_ServerCommunicator.csproj $(MSBUILD_FLAGS)
+	$(BUILD_MSG) (CSProj) Building - ACR_ServerMisc
+	@$(MSBUILD) ACR_ServerMisc\ACR_ServerMisc.csproj $(MSBUILD_FLAGS)
 
 clean:
 	@if exist $(OUTPUTDIR)\*.ncs del $(OUTPUTDIR)\*.ncs
@@ -496,6 +501,8 @@ clean:
 	@if exist ACR_HealthMonitor\obj rd /s /q ACR_HealthMonitor\obj
 	@if exist ACR_ServerCommunicator\bin rd /s /q ACR_ServerCommunicator\bin
 	@if exist ACR_ServerCommunicator\obj rd /s /q ACR_ServerCommunicator\obj
+	@if exist ACR_ServerMisc\bin rd /s /q ACR_ServerMisc\bin
+	@if exist ACR_ServerMisc\obj rd /s /q ACR_ServerMisc\obj
 
 $(HAKFILE): script $(HAK_SOURCES_MISC)
 	$(BUILD_MSG) (ERF) Creating - $(HAKFILE)

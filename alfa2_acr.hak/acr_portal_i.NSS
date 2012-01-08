@@ -10,7 +10,8 @@
 //
 //
 //  Dependencies external of nwscript:
-//   acr_time_i, NWNx4, xp_mysql plugin, connection to a valid MySQL database.
+//   acr_time_i, NWNx4, xp_mysql plugin, connection to a valid MySQL database,
+//   vault plugin for seamless portal support.
 //
 //  Description
 //	  This file includes the functions which enable succesful portalling between
@@ -21,6 +22,7 @@
 //   0.2: 2/09/2009, AcadiusLost: various fixes
 //   0.3: 2/11/2009, AcadiusLost: Added NormalizePC() and ReportInformation()
 //	 0.4: 2/12/2009, AcadiusLost: Fixed check for correct destination on server
+//	 0.5: 1/6/2012, Basilica: Added beginnings of seamless portal support.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +128,7 @@ string _CheckSQLForTimeStamp();
 int ACR_PortalCheckServer(int nServerID) {
 
 #if SERVER_IPC_ENABLED
-	return ACR_GetIsServerOnline(nServer);
+	return ACR_GetIsServerOnline(nServerID);
 #else
 	string sDestID = IntToString(nServerID);
 	// join the Servers and pwdata tables to get the timestamp corresponding to nServerID.	
@@ -218,6 +220,7 @@ void ACR_PortalInformationReport(object oTraveller, object oInquirer) {
 	SendMessageToPC(oInquirer, "       ");
 	SendMessageToPC(oInquirer, "       ");		
 }
+
 
 
 
