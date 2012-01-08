@@ -340,7 +340,7 @@ namespace ALFA
         {
             SystemInfo.SQLConnectionSettings ConnectionSettings = SystemInfo.GetSQLConnectionSettings();
 
-            ConnectionString = String.Format("Server={0};Uid={1};Password={2};Database={3};Max Pool Size=4;Pooling=true;Allow Batch=true",
+            ConnectionString = String.Format("Server={0};Uid={1};Password={2};Database={3};Max Pool Size=3;Pooling=true;Allow Batch=true",
                 ConnectionSettings.Server,
                 ConnectionSettings.User,
                 ConnectionSettings.Password,
