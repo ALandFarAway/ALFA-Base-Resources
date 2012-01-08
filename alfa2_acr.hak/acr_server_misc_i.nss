@@ -1,0 +1,91 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+//  System Name : ALFA Core Rules
+//     Filename : acr_server_misc_i
+//    $Revision:: 1          $ current version of the file
+//        $Date:: 2012-01-08#$ date the file was created or modified
+//       Author : Basilica
+//
+//    Var Prefix: SERVER_MISC
+//  Dependencies: NWNX, MYSQL, CLRSCRIPT(acr_servermisc)
+//
+//  Description
+//  This file contains logic for interfacing with the miscellaneous support
+//  C# script (acr_servermisc).
+//
+//  Revision History
+//  2012/01/08  Basilica    - Created.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+// Includes ////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+// Constants ///////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+// The server misc support script name.
+const string ACR_SERVER_MISC_SUPPORT_SCRIPT                  = "acr_servermisc";
+
+
+// Commands for the server misc C# script:
+
+// This command runs the updater script for the server, if one is defined.
+const int ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT             = 0;
+
+////////////////////////////////////////////////////////////////////////////////
+// Structures //////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+// Global Variables ////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+// Function Prototypes /////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+//! Execute the server's updater script, if one is defined.
+//!  - Returns: TRUE if the updater was launched.
+int ACR_ExecuteServerUpdaterScript();
+
+//! Make a raw call to the support script.
+//!  - Command: Supplies the command to request (e.g. ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT).
+//!  - P0: Supplies the first command-specific parameter.
+//!  - P1: Supplies the second command-specific parameter.
+//!  - P2: Supplies the third command-specific parameter.
+//!  - P3: Supplies the fourth command-specific parameter.
+//!  - P4: Supplies the fifth command-specific parameter.
+//!  - ObjectSelf: Supplies the OBJECT_SELF to run the script on.
+//!  - Returns: The command-specific return code is returned.
+int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, object P4, object ObjectSelf = OBJECT_SELF);
+
+////////////////////////////////////////////////////////////////////////////////
+// Function Definitions ////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+int ACR_ExecuteServerUpdaterScript()
+{
+	return ACR_CallServerMiscScript(
+		ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT,
+		0,
+		0,
+		"",
+		"",
+		OBJECT_INVALID);
+}
+
+int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, object P4, object ObjectSelf = OBJECT_SELF)
+{
+	AddScriptParameterInt(Command);
+	AddScriptParameterInt(P0);
+	AddScriptParameterInt(P1);
+	AddScriptParameterString(P2);
+	AddScriptParameterString(P3);
+	AddScriptParameterObject(P4);
+
+	return ExecuteScriptEnhanced(ACR_SERVER_MISC_SUPPORT_SCRIPT, ObjectSelf, TRUE);
+}
+
