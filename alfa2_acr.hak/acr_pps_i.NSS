@@ -47,6 +47,7 @@
 //  2009/04/06  AcadiusLost  Added login update of Characters.IsOnline for better SQL population tracking.
 //  2009/05/06  AcadiusLost  Added update OnClientEnter of the IsDM field of the players table.
 //  2011/05/09  Paazin       Fix for location persistency when Start Location is not at Z-axis = 0.0
+//  2012/01/08  Basilica     Don't mark players as online if they are in quarantine.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -464,18 +465,23 @@ void ACR_PCOnClientEnter(object oPC)
     }
 	else 
 	{
-		// else player is valid.  Mark them as online.
-		ACR_SQLQuery("UPDATE characters SET IsOnline=1 WHERE ID=" + sCharID);
 	}
    	// assign the database ID to this PC
 	ACR_SetCharacterID(oPC, StringToInt(sCharID), StringToInt(sPID));
 
 	// store the player's CD Key so it can be retrieved even on exit events
 	ACR_SetPCPublicCDKey(oPC);
+
+	// Note that we have not marked the player as online yet UNLESS this was the
+	// initial login for a new character.  We will defer thhis until we have, at
+	// OnPCLoaded, decided that the player will not go into quarantine.  This
+	// stops quarantined players from being marked as online at server A while
+	// they are actually logged on to quarantine at server B.
 }
 
 void ACR_PCOnPCLoaded(object oPC)
 {
+	int bUpdateLocation = FALSE;
 	string sCID = IntToString(ACR_GetCharacterID(oPC)), sLocation, sServerID;
 	
 	vector vPosLoc = GetPosition(oPC), vPosStart = GetPositionFromLocation(GetStartingLocation());
@@ -508,9 +514,6 @@ void ACR_PCOnPCLoaded(object oPC)
    		int nCHA = StringToInt(ACR_SQLGetData(8));
    		int nDamage = StringToInt(ACR_SQLGetData(9));
 	   	location lLocation = ACR_StringToLocation(sLocation);
-		
-		// update the character and player status fields
-		ACR_SQLQuery("UPDATE characters, players SET characters.IsOnline=1, players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");		
 		
 		// Check to see if the PC is logging into the right server:
    		if (nServerID != ACR_GetServerId()) {
@@ -641,8 +644,19 @@ void ACR_PCOnPCLoaded(object oPC)
 		// New PC not previously in the database.
 		// no previous location on record.
 		// update the character and player status fields
-		ACR_SQLQuery("UPDATE characters, players SET characters.Location='" + ACR_LocationToString(GetLocation(oPC)) + "', players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");
+		bUpdateLocation = TRUE;
 	}
+
+
+	// Mark the player as online in the database and make their DM status
+	// current.  If this is the first login, set the location too.
+	// Note that if we have gotten this far, the player is NOT in quarantine and
+	// will actually be logging on.
+
+	if (bUpdateLocation)
+		ACR_SQLQuery("UPDATE characters, players SET characters.Location='" + ACR_LocationToString(GetLocation(oPC)) + "', players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");
+	else
+		ACR_SQLQuery("UPDATE characters, players SET characters.IsOnline=1, players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");		
 
     // schedule the auto save (since this only exports after a PPS_CYCLE, start counting after 60 seconds)
     DelayCommand(60.0, ACR_PCAutoSave(oPC));
