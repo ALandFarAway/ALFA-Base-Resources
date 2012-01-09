@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ALFA;
+using NWScript;
 
 namespace ACR_ServerCommunicator
 {
@@ -29,7 +30,7 @@ namespace ACR_ServerCommunicator
         public void PopulateFromDatabase(IALFADatabase Database)
         {
             Database.ACR_SQLQuery(String.Format(
-                "SELECT `Name`, `PlayerID`, `IsOnline` FROM `characters` WHERE `ID` = {0}",
+                "SELECT `Name`, `PlayerID`, `IsOnline`, `Location` FROM `characters` WHERE `ID` = {0}",
                 CharacterId));
 
             if (!Database.ACR_SQLFetch())
@@ -40,6 +41,7 @@ namespace ACR_ServerCommunicator
             CharacterName = Database.ACR_SQLGetData(0);
             PlayerId = Convert.ToInt32(Database.ACR_SQLGetData(1));
             IsOnline = GameWorldManager.ConvertToBoolean(Database.ACR_SQLGetData(2));
+            LocationString = Database.ACR_SQLGetData(3);
         }
 
         /// <summary>
@@ -83,6 +85,12 @@ namespace ACR_ServerCommunicator
         /// The server that the character is logged in to.
         /// </summary>
         public GameServer Server { get; set; }
+
+        /// <summary>
+        /// The location data string containing the area, position, and facing
+        /// of the character.
+        /// </summary>
+        public string LocationString { get; set; }
 
         /// <summary>
         /// The Visited flag can be toggled to keep track of whether the object

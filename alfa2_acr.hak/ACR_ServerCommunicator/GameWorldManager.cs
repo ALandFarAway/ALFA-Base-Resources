@@ -80,7 +80,7 @@ namespace ACR_ServerCommunicator
             int ServerId;
 
             Database.ACR_SQLQuery(String.Format(
-                "SELECT `ID`, `PlayerID`, `IsOnline`, `ServerID`, `Name` FROM `characters` WHERE `Name` = '{0}'",
+                "SELECT `ID`, `PlayerID`, `IsOnline`, `ServerID`, `Name`, `Location` FROM `characters` WHERE `Name` = '{0}'",
                 Database.ACR_SQLEncodeSpecialChars(CharacterName)));
 
             if (!Database.ACR_SQLFetch())
@@ -93,6 +93,7 @@ namespace ACR_ServerCommunicator
             Character.Online = ConvertToBoolean(Database.ACR_SQLGetData(2));
             ServerId = Convert.ToInt32(Database.ACR_SQLGetData(3));
             Character.CharacterName = Database.ACR_SQLGetData(4);
+            Character.LocationString = Database.ACR_SQLGetData(5);
 
             InsertNewCharacter(Character, ServerId, Database);
 
@@ -128,7 +129,7 @@ namespace ACR_ServerCommunicator
             int ServerId;
 
             Database.ACR_SQLQuery(String.Format(
-                "SELECT `Name`, `PlayerID`, `IsOnline`, `ServerID` FROM `characters` WHERE `ID` = {0}",
+                "SELECT `Name`, `PlayerID`, `IsOnline`, `ServerID`, `Location` FROM `characters` WHERE `ID` = {0}",
                 CharacterId));
 
             if (!Database.ACR_SQLFetch())
@@ -141,6 +142,7 @@ namespace ACR_ServerCommunicator
             Character.PlayerId = Convert.ToInt32(Database.ACR_SQLGetData(1));
             Character.Online = ConvertToBoolean(Database.ACR_SQLGetData(2));
             ServerId = Convert.ToInt32(Database.ACR_SQLGetData(3));
+            Character.LocationString = Database.ACR_SQLGetData(4);
 
             InsertNewCharacter(Character, ServerId, Database);
 
@@ -836,6 +838,7 @@ namespace ACR_ServerCommunicator
         private struct SynchronizeOnlineCharactersRow
         {
             public int CharacterId;
+            public string LocationString;
             public bool IsDM;
             public int ServerId;
         };
@@ -879,6 +882,7 @@ namespace ACR_ServerCommunicator
             Database.ACR_SQLQuery(
                 "SELECT " +
                     "`characters`.`ID` AS character_id, " +
+                    "`characters`.`Location` as character_location, " +
                     "`players`.`IsDM` AS character_is_dm, " +
                     "`servers`.`ID` AS character_server_id " +
                 "FROM `characters` " +
@@ -918,8 +922,9 @@ namespace ACR_ServerCommunicator
                 SynchronizeOnlineCharactersRow Row;
 
                 Row.CharacterId = Convert.ToInt32(Database.ACR_SQLGetData(0));
-                Row.IsDM = ConvertToBoolean(Database.ACR_SQLGetData(1));
-                Row.ServerId = Convert.ToInt32(Database.ACR_SQLGetData(2));
+                Row.LocationString = Database.ACR_SQLGetData(1);
+                Row.IsDM = ConvertToBoolean(Database.ACR_SQLGetData(2));
+                Row.ServerId = Convert.ToInt32(Database.ACR_SQLGetData(3));
 
                 Rowset.Add(Row);
             }
@@ -933,6 +938,7 @@ namespace ACR_ServerCommunicator
                 foreach (SynchronizeOnlineCharactersRow Row in Rowset)
                 {
                     int CharacterId = Row.CharacterId;
+                    string LocationString = Row.LocationString;
                     bool IsDM = Row.IsDM;
                     int ServerId = Row.ServerId;
 
@@ -945,6 +951,7 @@ namespace ACR_ServerCommunicator
 
                     Character.Visited = true;
                     Character.Player.IsDM = IsDM;
+                    Character.LocationString = LocationString;
 
                     if (Character.Server == Server)
                         continue;
