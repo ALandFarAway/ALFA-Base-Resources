@@ -799,8 +799,8 @@ void _playerStartQuarantinePortalDialog(int nDesiredServerID)
 	// target will be cleared.
 	ActionStartConversation(OBJECT_SELF, "acr_convo_quarantine_portal", TRUE, TRUE, TRUE, TRUE);
 
-	SendMessageToPC(OBJECT_SELF, "Initiating automatic transfer to correct server in 15 seconds (cancel dialog to abort)...");
-	DelayCommand(15.0, _playerStartQuarantineAutoPortal(nDesiredServerID));
+	SendMessageToPC(OBJECT_SELF, "Initiating automatic transfer to correct server in 20 seconds (cancel dialog to abort)...");
+	DelayCommand(20.0, _playerStartQuarantineAutoPortal(nDesiredServerID));
 }
 
 void _playerStartQuarantineAutoPortal(int nDesiredServerID)
