@@ -706,6 +706,11 @@ namespace ALFA
         /// without disconnecting the player forcibly.
         /// </summary>
         public const int ACR_PC_LOCAL_FLAG_PORTAL_COMMITTED = 0x00000002;
+        /// <summary>
+        /// Help text sent to player about cross server tells and how they
+        /// work.
+        /// </summary>
+        public const int ACR_PC_LOCAL_FLAG_SERVER_TELL_HELP = 0x00000004;
 
 
 
