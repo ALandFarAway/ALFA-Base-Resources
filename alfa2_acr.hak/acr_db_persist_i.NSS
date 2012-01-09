@@ -133,6 +133,8 @@ const int ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS = 0x00000001;
 //! Portal request has reached the stage where it cannot be rolled back without
 //  disconnecting the player forcibly.
 const int ACR_PC_LOCAL_FLAG_PORTAL_COMMITTED   = 0x00000002;
+//! Help text sent to player about cross server tells and how they work.
+const int ACR_PC_LOCAL_FLAG_SERVER_TELL_HELP   = 0x00000004;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////

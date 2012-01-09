@@ -47,7 +47,7 @@ namespace ACR_ServerCommunicator
                 return;
 
             string Message = String.Format(
-                "{0}<c=#FF6600>{1} ({2}) joined {3}.</c>",
+                "{0}<c=Orange>{1} ({2}) joined {3}.</c>",
                 IsDM ? "<c=#99CCFF>[DM] </c>": "",
                 Character.Name,
                 Character.Player.Name,
@@ -55,6 +55,9 @@ namespace ACR_ServerCommunicator
 
             foreach (uint PlayerObject in Script.GetPlayers(true))
             {
+                if (!Script.IsCrossServerNotificationEnabled(PlayerObject))
+                    continue;
+
                 Script.SendChatMessage(
                     CLRScriptBase.OBJECT_INVALID,
                     PlayerObject,

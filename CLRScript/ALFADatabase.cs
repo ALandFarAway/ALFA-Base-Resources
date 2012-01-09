@@ -284,6 +284,20 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Delete a persistent record.
+        /// </summary>
+        /// <param name="Object">Supplies the object whose persistent store is
+        /// to be accessed.</param>
+        /// <param name="VarName">Supplies the variable keyword to remove.
+        /// </param>
+        public void ACR_DeletePersistentVariable(UInt32 Object, string VarName)
+        {
+            DemandInitialize();
+
+            ACR_DeletePersistentVariable_Method.Invoke(DBLibraryScript, new object[] { Object, VarName });
+        }
+
+        /// <summary>
         /// Convert a string to a vector.
         /// </summary>
         /// <param name="sVector">Supplies the string to convert.</param>
@@ -313,6 +327,17 @@ namespace ALFA
             v.y = fY;
             v.z = fZ;
             return v;
+        }
+
+        /// <summary>
+        /// This structure contains raw data for a stored position in the
+        /// database.
+        /// </summary>
+        public class LOCATION_DATA
+        {
+            public string AreaTag;
+            public Vector3 Position;
+            public float Facing;
         }
 
         /// <summary>
@@ -361,6 +386,43 @@ namespace ALFA
             vPosition.z = 0.0f;
 
             return Script.Location(CLRScriptBase.OBJECT_INVALID, vPosition, 0.0f);
+        }
+
+        /// <summary>
+        /// This routine converts a string to its component location data
+        /// fields.
+        /// </summary>
+        /// <param name="sLocation">Supplies the string to convert.</param>
+        /// <returns>The converted location data fields.</returns>
+        public LOCATION_DATA ACR_StringToLocationData(string sLocation)
+        {
+            LOCATION_DATA LocationData = new LOCATION_DATA();
+
+            int iPos, iCount, iLen = Script.GetStringLength(sLocation);
+
+            if (iLen > 0)
+            {
+                iPos = Script.FindSubString(sLocation, "#A#", 0) + 3;
+                iCount = Script.FindSubString(Script.GetSubString(sLocation, iPos, iLen - iPos), "#", 0);
+                LocationData.AreaTag = Script.GetSubString(sLocation, iPos, iCount);
+
+                iPos = Script.FindSubString(sLocation, "#X#", 0) + 3;
+                iCount = Script.FindSubString(Script.GetSubString(sLocation, iPos, iLen - iPos), "#", 0);
+                LocationData.Position.y = Script.StringToFloat(Script.GetSubString(sLocation, iPos, iCount));
+
+                iPos = Script.FindSubString(sLocation, "#Y#", 0) + 3;
+                iCount = Script.FindSubString(Script.GetSubString(sLocation, iPos, iLen - iPos), "#", 0);
+                LocationData.Position.y = Script.StringToFloat(Script.GetSubString(sLocation, iPos, iCount));
+
+                iPos = Script.FindSubString(sLocation, "#Z#", 0) + 3;
+                iCount = Script.FindSubString(Script.GetSubString(sLocation, iPos, iLen - iPos), "#", 0);
+                LocationData.Position.z = Script.StringToFloat(Script.GetSubString(sLocation, iPos, iCount));
+
+                iPos = Script.FindSubString(sLocation, "#O#", 0) + 3;
+                LocationData.Facing = Script.StringToFloat(Script.GetSubString(sLocation, iPos, iLen - iPos));
+            }
+
+            return LocationData;
         }
         
         /// <summary>
@@ -644,6 +706,11 @@ namespace ALFA
         /// without disconnecting the player forcibly.
         /// </summary>
         public const int ACR_PC_LOCAL_FLAG_PORTAL_COMMITTED = 0x00000002;
+        /// <summary>
+        /// Help text sent to player about cross server tells and how they
+        /// work.
+        /// </summary>
+        public const int ACR_PC_LOCAL_FLAG_SERVER_TELL_HELP = 0x00000004;
 
 
 
@@ -669,6 +736,7 @@ namespace ALFA
             ACR_GetPersistentString_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetPersistentString");
             ACR_GetServerAddressFromDatabase_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetServerAddressFromDatabase");
             ACR_SetPersistentString_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_SetPersistentString");
+            ACR_DeletePersistentVariable_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_DeletePersistentVariable");
             ACR_SQLQuery_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_SQLQuery");
             ACR_FlushQueryQueue_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_FlushQueryQueue");
             ACR_PCSave_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_PCSave");
@@ -721,6 +789,7 @@ namespace ALFA
         private static MethodInfo ACR_GetPersistentString_Method;
         private static MethodInfo ACR_GetServerAddressFromDatabase_Method;
         private static MethodInfo ACR_SetPersistentString_Method;
+        private static MethodInfo ACR_DeletePersistentVariable_Method;
         private static MethodInfo ACR_SQLQuery_Method;
         private static MethodInfo ACR_FlushQueryQueue_Method;
         private static MethodInfo ACR_PCSave_Method;
