@@ -79,6 +79,9 @@ const int ACR_SERVER_IPC_EVENT_BROADCAST_NOTIFICATION        = 1;
 // The disconnect player event is used to disconnect a remote player.
 const int ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER             = 2;
 
+// The purge cached character event is used to remove a stale character cached
+// in a server local vault cache after central character deletion.
+const int ACR_SERVER_IPC_EVENT_PURGE_CACHED_CHARACTER        = 3;
 
 // Maximum length of an IPC event text field.
 
@@ -142,6 +145,15 @@ void ACR_SendBroadcastNotification(int ServerID, string Message);
 //!  - ServerID: Supplies the server ID of the recipient server.
 //!  - PlayerID: Supplies the player ID of the player to disconnect.
 void ACR_SendDisconnectPlayer(int ServerID, int PlayerID);
+
+//! Send a purge cached character request to the desired server.
+//!  - ServerID: Supplies the server ID of the recipient server.
+//!  - PlayerID: Supplies the player ID of the player whose vault cache should
+//               be modified.
+//!  - CharacterFileName: Supplies the character file name ("character.bic")
+//                        that should be removed from the target server's vault
+//                        cache (NOT the central vault itself).
+void ACR_SendPurgeCachedCharacter(int ServerID, int PlayerID, string CharacterFileName);
 
 //! Request that a text mode player list be sent to a user.
 //!  - Sender: Supplies the PC to send the player list to.
@@ -339,6 +351,20 @@ void ACR_SendDisconnectPlayer(int ServerID, int PlayerID)
 	IPCEvent.DestinationServerID = ServerID;
 	IPCEvent.EventType = ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER;
 	IPCEvent.EventText = "";
+
+	ACR_SignalServerIPCEvent(IPCEvent);
+}
+
+void ACR_SendPurgeCachedCharacter(int ServerID, int PlayerID, string CharacterFileName)
+{
+	struct ACR_SERVER_IPC_EVENT IPCEvent;
+
+	IPCEvent.SourcePlayerID = 0;
+	IPCEvent.SourceServerID = ACR_GetServerID();
+	IPCEvent.DestinationPlayerID = PlayerID;
+	IPCEvent.DestinationServerID = ServerID;
+	IPCEvent.EventType = ACR_SERVER_IPC_EVENT_PURGE_CACHED_CHARACTER;
+	IPCEvent.EventText = CharacterFileName;
 
 	ACR_SignalServerIPCEvent(IPCEvent);
 }

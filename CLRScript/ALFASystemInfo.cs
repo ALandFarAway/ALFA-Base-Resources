@@ -385,6 +385,128 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Read an INI file setting from a NWNX4 plugin INI.  The INI must
+        /// follow the Windows INI format of [Sections] with Setting=Value .
+        /// 
+        /// Note that some plugins, such as xp_mysql, do NOT use this format
+        /// and cannot use this function.
+        /// 
+        /// The maximum string length read from the INI file by this function
+        /// is MAX_PATH.
+        /// </summary>
+        /// <param name="IniFileName">Supplies the INI file name, such as
+        /// "AuroraServerVault.ini".  The file name should not include a path
+        /// component.</param>
+        /// <param name="SectionName">Supplies the section name, such as
+        /// "Settings".</param>
+        /// <param name="SettingName">Supplies the setting name, such as
+        /// "LocalServerVaultPath".</param>
+        /// <param name="DefaultValue">Supplies the default value to return if
+        /// the setting didn't exist.</param>
+        /// <returns>The value text (or default value) is returned.</returns>
+        public static string GetNWNX4IniString(string IniFileName, string SectionName, string SettingName, string DefaultValue)
+        {
+            return GetNWNX4IniString(IniFileName, SectionName, SettingName, DefaultValue, MAX_PATH);
+        }
+
+        /// <summary>
+        /// Read an INI file setting from a NWNX4 plugin INI.  The INI must
+        /// follow the Windows INI format of [Sections] with Setting=Value .
+        /// 
+        /// Note that some plugins, such as xp_mysql, do NOT use this format
+        /// and cannot use this function.
+        /// </summary>
+        /// <param name="IniFileName">Supplies the INI file name, such as
+        /// "AuroraServerVault.ini".  The file name should not include a path
+        /// component.</param>
+        /// <param name="SectionName">Supplies the section name, such as
+        /// "Settings".</param>
+        /// <param name="SettingName">Supplies the setting name, such as
+        /// "LocalServerVaultPath".</param>
+        /// <param name="DefaultValue">Supplies the default value to return if
+        /// the setting didn't exist.</param>
+        /// <param name="MaxValueSize">Supplies the maximum length of the
+        /// string value to read from the INI file.  This must be at least as
+        /// long as the DefaultValue length.</param>
+        /// <returns>The value text (or default value) is returned.</returns>
+        public static string GetNWNX4IniString(string IniFileName, string SectionName, string SettingName, string DefaultValue, int MaxValueSize)
+        {
+            if (MaxValueSize < DefaultValue.Length + 1)
+                throw new ApplicationException("MaxValueLength is shorter than the default value length.");
+
+            StringBuilder ReturnedString = new StringBuilder(MaxValueSize);
+
+            GetPrivateProfileStringW(
+                SectionName,
+                SettingName,
+                DefaultValue,
+                ReturnedString,
+                (uint)MaxValueSize,
+                GetNWNX4InstallationDirectory() + IniFileName);
+
+            return ReturnedString.ToString();
+        }
+
+        /// <summary>
+        /// Get the local server vault path for an account, given an account
+        /// name.
+        /// 
+        /// Note that the server must be using the server vault plugin for this
+        /// function to work.
+        /// </summary>
+        /// <param name="AccountName"></param>
+        /// <returns>Returns the vault path for the account, with a path
+        /// separator on the end, else null if vault path could not be found.
+        /// </returns>
+        public static string GetServerVaultPathForAccount(string AccountName)
+        {
+            string VaultPath = GetNWNX4IniString(
+                "AuroraServerVault.ini",
+                "Settings",
+                "LocalServerVaultPath",
+                "");
+
+            if (String.IsNullOrEmpty(VaultPath))
+                return null;
+
+            return String.Format("{0}{1}{2}{3}", VaultPath, Path.DirectorySeparatorChar, AccountName, Path.DirectorySeparatorChar);
+        }
+
+        /// <summary>
+        /// Check whether a file name has dangerous characters, such as path
+        /// characters or references to special device names.
+        /// </summary>
+        /// <param name="FileName">Supplies the file name to check.</param>
+        /// <returns>True if the file name is safe.</returns>
+        public static bool IsSafeFileName(string FileName)
+        {
+            if (FileName.IndexOf("..") != -1)
+                return false;
+            else if (FileName.IndexOf(Path.DirectorySeparatorChar) != -1)
+                return false;
+            else if (FileName.IndexOf(Path.AltDirectorySeparatorChar) != -1)
+                return false;
+            else if (FileName.IndexOfAny(Path.GetInvalidFileNameChars()) != -1)
+                return false;
+            else if (FileName == "PRN")
+                return false;
+            else if (FileName == "AUX")
+                return false;
+            else if (FileName == "CON")
+                return false;
+            else if (FileName == "NUL")
+                return false;
+            else if (FileName == "CONIN$")
+                return false;
+            else if (FileName == "CONOUT$")
+                return false;
+            else if (FileName == "CLOCK$")
+                return false;
+
+            return true;
+        }
+
+        /// <summary>
         /// The first object id corresponding to dynamically created objects,
         /// that is, objects that are created after server startup, is recorded
         /// here.
@@ -425,6 +547,8 @@ namespace ALFA
         private const UInt32 NO_ERROR = 0;
         private const UInt32 ERROR_INSUFFICIENT_BUFFER = 122;
 
+        private const int MAX_PATH = 260;
+
         private enum UDP_TABLE_CLASS
         {
             UDP_TABLE_BASIC,
@@ -434,6 +558,9 @@ namespace ALFA
 
         [DllImport("iphlpapi.dll", ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.StdCall)]
         private static extern UInt32 GetExtendedUdpTable(IntPtr pUdpTable, ref UInt32 pdwSize, Int32 bOrder, UInt32 ulAf, UDP_TABLE_CLASS TableClass, UInt32 Reserved);
+
+        [DllImport("kernel32.dll", ExactSpelling = true, SetLastError = true, CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        private static extern UInt32 GetPrivateProfileStringW(string lpAppName, string lpKeyName, string lpDefault, StringBuilder lpReturnedString, UInt32 nSize, string lpFileName);
     }   
 }
 

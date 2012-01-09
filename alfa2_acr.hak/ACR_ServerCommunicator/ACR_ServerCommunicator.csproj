@@ -75,6 +75,7 @@
     <Compile Include="GameWorldConfiguration.cs" />
     <Compile Include="GameWorldManager.cs" />
     <Compile Include="IGameEntity.cs" />
+    <Compile Include="PurgeCachedCharacterEvent.cs" />
     <Compile Include="ServerJoinEvent.cs" />
     <Compile Include="ServerPartEvent.cs" />
     <Compile Include="StandardEntrypoints.cs" />

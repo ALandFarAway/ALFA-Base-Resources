@@ -503,6 +503,27 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method is called when a purge cached character request is
+        /// received.
+        /// </summary>
+        /// <param name="Player">Supplies the player whose cached vault
+        /// contents are to be modified.</param>
+        /// <param name="CharacterFileName">Supplies the file name of the
+        /// character file to remove from the local cache.  Special file names
+        /// and path characters are forbidden.</param>
+        private void OnPurgeCachedCharacter(GamePlayer Player, string CharacterFileName)
+        {
+            if (!SystemInfo.IsSafeFileName(CharacterFileName))
+            {
+                EventQueue.EnqueueEvent(new DiagnosticLogEvent(String.Format(
+                    "GameWorldManager.OnPurgeCachedCharacter: Invalid file name '{0}'.", CharacterFileName)));
+                return;
+            }
+
+            EventQueue.EnqueueEvent(new PurgeCachedCharacterEvent(Player, CharacterFileName));
+        }
+
+        /// <summary>
         /// This method is called when an unsupported IPC event code is
         /// received.
         /// </summary>
@@ -1269,6 +1290,22 @@ namespace ACR_ServerCommunicator
                            }
                            break;
 
+                       case ACR_SERVER_IPC_EVENT_PURGE_CACHED_CHARACTER:
+                           lock (this)
+                           {
+                               GamePlayer Player = ReferencePlayerById(DestinationPlayerId, Database);
+
+                               if (Player == null)
+                               {
+                                   EventQueue.EnqueueEvent(new DiagnosticLogEvent(String.Format(
+                                       "GameWorldManager.SynchronizeIPCEventQueue: Target player {0} for ACR_SERVER_IPC_EVENT_PURGE_CACHED_CHARACTER is an invalid player id reference.", DestinationPlayerId)));
+                                   continue;
+                               }
+
+                               OnPurgeCachedCharacter(Player, EventText);
+                           }
+                           break;
+
                        default:
                            lock (this)
                            {
@@ -1387,6 +1424,19 @@ namespace ACR_ServerCommunicator
         /// destination server.
         /// </summary>
         public const int ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER = 2;
+
+        /// <summary>
+        /// Requests to remove a locally cached character use this event type.
+        /// For this event, there are four parameters.  The source and
+        /// destination server IDs represent routing information, and the
+        /// destination player ID represents the player whose vault contents
+        /// should be modified.  The event text represents the file name of the
+        /// locally cached character file to be purged.
+        /// 
+        /// Note that only the local vault cache, NOT the central server vault,
+        /// is modified by this IPC event.
+        /// </summary>
+        public const int ACR_SERVER_IPC_EVENT_PURGE_CACHED_CHARACTER = 3;
 
 
         /// <summary>
