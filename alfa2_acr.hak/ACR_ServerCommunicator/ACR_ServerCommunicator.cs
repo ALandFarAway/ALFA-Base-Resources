@@ -1539,6 +1539,17 @@ namespace ACR_ServerCommunicator
 
             WorldManager.PauseUpdates = (GetGlobalInt("ACR_SERVER_IPC_PAUSED") != 0);
 
+            //
+            // Opportunistically avoid taking the lock if we think that there
+            // won't be a reason to.  This allows the world manager to batch up
+            // large amounts of data fetches while under the lock, and then
+            // avoid needlessly blocking the main thread until things have
+            // become (more) quiescent.
+            //
+
+            if (!WorldManager.IsEventPending())
+                return;
+
             lock (WorldManager)
             {
                 if (WorldManager.IsEventQueueEmpty())

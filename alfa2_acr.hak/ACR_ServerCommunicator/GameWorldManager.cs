@@ -419,6 +419,7 @@ namespace ACR_ServerCommunicator
         public void RunQueue(ACR_ServerCommunicator Script, ALFA.Database Database)
         {
             EventQueue.RunQueue(Script, Database);
+            EventsQueued = false;
         }
 
         /// <summary>
@@ -430,6 +431,37 @@ namespace ACR_ServerCommunicator
             return EventQueue.Empty();
         }
 
+        /// <summary>
+        /// Check whether an event might be pending, without taking the lock.
+        /// 
+        /// Note that this is purely an advisory mechanism; the caller must
+        /// repeatedly check as they may lose the race for when the event
+        /// pending flag is set.  The purpose of this function is to allow the
+        /// main thread to avoid needlessly blocking on the query thread.
+        /// </summary>
+        /// <returns>True if an event is pending and awaiting processing.
+        /// </returns>
+        public bool IsEventPending()
+        {
+            return EventsQueued;
+        }
+
+
+        /// <summary>
+        /// This routine wrappers the process of enqueuing an event, and also
+        /// sets the events queued flag if necessary.
+        /// </summary>
+        /// <param name="Event">Supplies the event to queue to the main game
+        /// thread.</param>
+        private void EnqueueEvent(IGameEventQueueEvent Event)
+        {
+            EventQueue.EnqueueEvent(Event);
+
+            if (BlockEventsQueued)
+                EventQueueModified = true;
+            else
+                EventsQueued = true;
+        }
 
         /// <summary>
         /// This method is called when a character is discovered to have come
@@ -439,7 +471,7 @@ namespace ACR_ServerCommunicator
         /// considered to be online.</param>
         private void OnCharacterJoin(GameCharacter Character)
         {
-            EventQueue.EnqueueEvent(new CharacterJoinEvent(Character, Character.Player.IsDM, Character.Server));
+            EnqueueEvent(new CharacterJoinEvent(Character, Character.Player.IsDM, Character.Server));
         }
 
         /// <summary>
@@ -450,7 +482,7 @@ namespace ACR_ServerCommunicator
         /// considered to be offline.</param>
         private void OnCharacterPart(GameCharacter Character)
         {
-            EventQueue.EnqueueEvent(new CharacterPartEvent(Character, Character.Player.IsDM, Character.Server));
+            EnqueueEvent(new CharacterPartEvent(Character, Character.Player.IsDM, Character.Server));
         }
 
         /// <summary>
@@ -461,7 +493,7 @@ namespace ACR_ServerCommunicator
         /// be online.</param>
         private void OnServerJoin(GameServer Server)
         {
-            EventQueue.EnqueueEvent(new ServerJoinEvent(Server));
+            EnqueueEvent(new ServerJoinEvent(Server));
         }
 
         /// <summary>
@@ -472,7 +504,7 @@ namespace ACR_ServerCommunicator
         /// be offline.</param>
         private void OnServerPart(GameServer Server)
         {
-            EventQueue.EnqueueEvent(new ServerPartEvent(Server));
+            EnqueueEvent(new ServerPartEvent(Server));
         }
 
         /// <summary>
@@ -483,7 +515,7 @@ namespace ACR_ServerCommunicator
         /// <param name="Message">Supplies the message text.</param>
         private void OnChatTell(GameCharacter Sender, GamePlayer Recipient, string Message)
         {
-            EventQueue.EnqueueEvent(new ChatTellEvent(Sender, Recipient, Message));
+            EnqueueEvent(new ChatTellEvent(Sender, Recipient, Message));
         }
 
         /// <summary>
@@ -492,7 +524,7 @@ namespace ACR_ServerCommunicator
         /// <param name="Message">Supplies the message text.</param>
         private void OnBroadcastNotification(string Message)
         {
-            EventQueue.EnqueueEvent(new BroadcastNotificationEvent(Message));
+            EnqueueEvent(new BroadcastNotificationEvent(Message));
         }
 
         /// <summary>
@@ -501,7 +533,7 @@ namespace ACR_ServerCommunicator
         /// <param name="Player">Supplies the player to disconnect.</param>
         private void OnDisconnectPlayer(GamePlayer Player)
         {
-            EventQueue.EnqueueEvent(new DisconnectPlayerEvent(Player));
+            EnqueueEvent(new DisconnectPlayerEvent(Player));
         }
 
         /// <summary>
@@ -517,12 +549,12 @@ namespace ACR_ServerCommunicator
         {
             if (!SystemInfo.IsSafeFileName(CharacterFileName))
             {
-                EventQueue.EnqueueEvent(new DiagnosticLogEvent(String.Format(
+                EnqueueEvent(new DiagnosticLogEvent(String.Format(
                     "GameWorldManager.OnPurgeCachedCharacter: Invalid file name '{0}'.", CharacterFileName)));
                 return;
             }
 
-            EventQueue.EnqueueEvent(new PurgeCachedCharacterEvent(Player, CharacterFileName));
+            EnqueueEvent(new PurgeCachedCharacterEvent(Player, CharacterFileName));
         }
 
         /// <summary>
@@ -537,7 +569,7 @@ namespace ACR_ServerCommunicator
         /// <param name="P3">Supplies the P3 parameter.</param>
         private void OnUnsupportedIPCEventType(int RecordId, int P0, int P1, int P2, int EventType, string P3)
         {
-            EventQueue.EnqueueEvent(new UnsupportedIPCRequestEvent(RecordId, P0, P1, P2, EventType, P3));
+            EnqueueEvent(new UnsupportedIPCRequestEvent(RecordId, P0, P1, P2, EventType, P3));
         }
 
         /// <summary>
@@ -559,7 +591,7 @@ namespace ACR_ServerCommunicator
         private void OnServerLoaded(GameServer Server)
         {
             if (Server.Online)
-                EventQueue.EnqueueEvent(new ServerJoinEvent(Server));
+                EnqueueEvent(new ServerJoinEvent(Server));
         }
 
         /// <summary>
@@ -703,13 +735,31 @@ namespace ACR_ServerCommunicator
             for (; ; )
             {
                 //
-                // Run the query cycle and log any exceptions.
+                // Run the query cycle and log any exceptions.  Also, block
+                // ad-hoc modificatiosn to EventsQueued while we are running
+                // the query cycle (as we're prone to long blocking cycles
+                // there).
                 //
 
                 try
                 {
+                    BlockEventsQueued = true;
+
                     if (!PauseUpdates)
                         RunQueryCycle();
+
+                    BlockEventsQueued = false;
+
+                    //
+                    // If we had held back on notifying the main thread that it
+                    // should try and dequeue events, notify it now.
+                    //
+
+                    if (EventQueueModified)
+                    {
+                        EventQueueModified = false;
+                        EventsQueued = true;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -719,7 +769,7 @@ namespace ACR_ServerCommunicator
 
                     try
                     {
-                        EventQueue.EnqueueEvent(new DiagnosticLogEvent(String.Format(
+                        EnqueueEvent(new DiagnosticLogEvent(String.Format(
                             "GameWorldManager.QueryDispatchThreadRoutine: Exception {0} running query cycle.", e)));
                     }
                     catch
@@ -1254,7 +1304,7 @@ namespace ACR_ServerCommunicator
 
                                if (SenderPlayer == null || RecipientPlayer == null)
                                {
-                                   EventQueue.EnqueueEvent(new DiagnosticLogEvent(String.Format(
+                                   EnqueueEvent(new DiagnosticLogEvent(String.Format(
                                        "GameWorldManager.SynchronizeIPCEventQueue: Source {0} or destination {1} player IDs invalid for ACR_SERVER_IPC_EVENT_CHAT_TELL.", SourcePlayerId, DestinationPlayerId)));
                                    continue;
 
@@ -1265,7 +1315,7 @@ namespace ACR_ServerCommunicator
 
                                if (SenderCharacter == null || RecipientCharacter == null)
                                {
-                                   EventQueue.EnqueueEvent(new DiagnosticLogEvent(String.Format(
+                                   EnqueueEvent(new DiagnosticLogEvent(String.Format(
                                        "GameWorldManager.SynchronizeIPCEventQueue: Source {0} or destination {1} player has already gone offline for ACR_SERVER_IPC_EVENT_CHAT_TELL.", SourcePlayerId, DestinationPlayerId)));
                                    continue;
                                }
@@ -1288,7 +1338,7 @@ namespace ACR_ServerCommunicator
 
                                if (Player == null)
                                {
-                                   EventQueue.EnqueueEvent(new DiagnosticLogEvent(String.Format(
+                                   EnqueueEvent(new DiagnosticLogEvent(String.Format(
                                        "GameWorldManager.SynchronizeIPCEventQueue: Target player {0} for ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER is an invalid player id reference.", DestinationPlayerId)));
                                    continue;
                                }
@@ -1304,7 +1354,7 @@ namespace ACR_ServerCommunicator
 
                                if (Player == null)
                                {
-                                   EventQueue.EnqueueEvent(new DiagnosticLogEvent(String.Format(
+                                   EnqueueEvent(new DiagnosticLogEvent(String.Format(
                                        "GameWorldManager.SynchronizeIPCEventQueue: Target player {0} for ACR_SERVER_IPC_EVENT_PURGE_CACHED_CHARACTER is an invalid player id reference.", DestinationPlayerId)));
                                    continue;
                                }
@@ -1531,6 +1581,36 @@ namespace ACR_ServerCommunicator
         /// stored here.
         /// </summary>
         private Queue<IPC_EVENT> IPCEventQueue = new Queue<IPC_EVENT>();
+
+        /// <summary>
+        /// The events queued flag, which allows a caller to quickly check if
+        /// there are events to remove before taking the lock, is stored here.
+        /// 
+        /// Note that it is ok if the caller misses events one cycle.  They
+        /// will check again, as we are polling and not operating in an event
+        /// driven fashion.
+        /// 
+        /// The purpose of the flag is to avoid blocking the server main thread
+        /// if the query thread happened to do a query under a lock.  While the
+        /// query thread attempts to avoid this, it can happen when referencing
+        /// a game entity by id for the first time, e.g. when pulling down the
+        /// character list initially.
+        /// </summary>
+        private volatile bool EventsQueued = false;
+
+        /// <summary>
+        /// If true, don't actually set EventsQueued immediately.  Used to
+        /// allow a batch of data to be processed before we unblock the main
+        /// thread, so that it does not spend a long time blocking on the
+        /// query thread when it is inserting multiple events under the
+        /// lock.
+        /// </summary>
+        private bool BlockEventsQueued = false;
+
+        /// <summary>
+        /// Set to true whenever the event queue is modified.
+        /// </summary>
+        private bool EventQueueModified = false;
 
         /// <summary>
         /// The early wakeup event for the query thread, which is used to
