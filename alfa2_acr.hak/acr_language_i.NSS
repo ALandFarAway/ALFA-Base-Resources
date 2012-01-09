@@ -172,7 +172,7 @@ int ACR_GetIsForeign(object oPC) {
 
 
 void ACR_InitializeLanguages(object oPC, int nRegion) {
-	// Adapted from the DMFI langugage initialization code.
+	// Adapted from the DMFI language initialization code.
 	
 
 }
@@ -191,7 +191,7 @@ void ACR_LanguagesOnLevelUp(object oLeveled) {
 	if (GetSkillRank(0, oLeveled, TRUE) < 2) {
 		return;
 	}
-	// check to see if the PC has enough bonus langugages for their int bonus and skill 
+	// check to see if the PC has enough bonus languages for their int bonus and skill 
 	int nPriorLangs = GetLocalInt(_GetDMFITool(oLeveled), "ACR_LANG_BONUSLANGUAGES");
 	int nInitialBonusMod = GetLocalInt(_GetDMFITool(oLeveled), "ACR_LANG_INT_BONUS");
 	if (nInitialBonusMod < 0) {
