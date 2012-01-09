@@ -61,6 +61,7 @@
 #include "acr_i"
 #include "acr_portal_i"
 #include "dmfi_inc_inc_com"
+#include "acr_server_ipc_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -91,6 +92,9 @@ const string ACR_PPS_QUARANTINE_WP_TAG = "acr_quarantine_wp";
 
 //! Quarantine LocalInt
 const string ACR_PPS_QUARANTINED = "ACR_PPS_QUARANTINED";
+
+//! Quarantine Autoportal Localint
+const string ACR_PPS_QUARANTINED_AUTOPORTAL_TARGET = "ACR_PPS_QUARANTINED_AUTOPORTAL_TARGET";
 
 //! Debug ID string for debug messaging
 const string ACR_PPS_DEBUG_ID = "acr_pps_i";
@@ -168,6 +172,22 @@ void _playerRestoreLocation(object oPC, location lLocation, int nCount = 0);
 //!  - oPC: player to immobilize
 //!  - Returns: nothing
 void _playerFreeze(object oPC);
+
+//! This function starts the portal from quarantine conversation, if the PC is
+//  not already in a conversation (like the adaptation conversation).
+//
+//  This function acts on OBJECT_SELF.
+//!  - nDesiredServerID: Supplies the "home" server that the PC should be moved
+//                       over to.
+//!  - Returns: nothing
+void _playerStartQuarantinePortalDialog(int nDesiredServerID);
+
+//! This function initiates quarantine auto-portal if it has not been canceled 
+//  by the PC (or by validation).
+//!  - nDesiredServerID: Supplies the "home" server that the PC should be moved
+//                       over to.
+//!  - Returns: nothing
+void _playerStartQuarantineAutoPortal(int nDesiredServerID);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -485,6 +505,9 @@ void ACR_PCOnPCLoaded(object oPC)
 	string sCID = IntToString(ACR_GetCharacterID(oPC)), sLocation, sServerID;
 	
 	vector vPosLoc = GetPosition(oPC), vPosStart = GetPositionFromLocation(GetStartingLocation());
+
+	DeleteLocalInt(oPC, ACR_PPS_QUARANTINED_AUTOPORTAL_TARGET);
+
 	///////////////////////////////////////////
 	// *** STEP 2: RESTORE PLAYER STATUS *** //
 	///////////////////////////////////////////
@@ -558,6 +581,7 @@ void ACR_PCOnPCLoaded(object oPC)
        			// deposit the player in quarantine
        			AssignCommand(oPC, JumpToObject(GetLocalObject(oModule, ACR_PPS_QUARANTINE_WP), FALSE)); 
 				DelayCommand(0.5, (_playerFreeze(oPC)));
+				DelayCommand(0.6, AssignCommand(oPC, _playerStartQuarantinePortalDialog(nServerID)));
 				return;
 			} else {
 				// not Quarantined; jump to the destination and proceed to status restoration
@@ -754,3 +778,40 @@ void _playerFreeze(object oPC)
     effect eFreeze = EffectCutsceneImmobilize();
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, eFreeze, oPC);
 }
+
+void _playerStartQuarantinePortalDialog(int nDesiredServerID)
+{
+	// If the player is already in a dialog, such as the skill adaptation dialog,
+	// then don't present them with the quarantine portal menu.
+	if (IsInConversation(OBJECT_SELF))
+		return;
+
+	// Don't try and shunt the player if their home server is offline.
+	if (!ACR_GetIsServerOnline(nDesiredServerID))
+	{
+		SendMessageToPC(OBJECT_SELF, "Your character's home server appears to be offline, not initiating automatic transfer.");
+		return;
+	}
+
+	// Start the quarantine portal conversation up.
+	SetLocalInt(OBJECT_SELF, ACR_PPS_QUARANTINED_AUTOPORTAL_TARGET, nDesiredServerID);
+	// Start the conversation.  If the user cancels out, then the autoportal
+	// target will be cleared.
+	ActionStartConversation(OBJECT_SELF, "acr_convo_quarantine_portal", TRUE, TRUE, TRUE, TRUE);
+
+	SendMessageToPC(OBJECT_SELF, "Initiating automatic transfer to correct server in 15 seconds (cancel dialog to abort)...");
+	DelayCommand(15.0, _playerStartQuarantineAutoPortal(nDesiredServerID));
+}
+
+void _playerStartQuarantineAutoPortal(int nDesiredServerID)
+{
+	if (GetLocalInt(OBJECT_SELF, ACR_PPS_QUARANTINED_AUTOPORTAL_TARGET) != nDesiredServerID)
+	{
+		SendMessageToPC(OBJECT_SELF, "Quarantine auto-portal cancelled.");
+		return;
+	}
+
+	SendMessageToPC(OBJECT_SELF, "Transferring you to your correct home server (" + IntToString(nDesiredServerID) + ").");
+	ACR_StartServerToServerPortal(nDesiredServerID, -1, OBJECT_SELF);
+}
+
