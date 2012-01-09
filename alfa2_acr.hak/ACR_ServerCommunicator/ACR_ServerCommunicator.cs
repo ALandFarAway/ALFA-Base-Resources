@@ -497,6 +497,18 @@ namespace ACR_ServerCommunicator
                 SendMessageToPC(SenderObjectId, "IPC subsystem version: " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
                 return TRUE;
             }
+            else if (CookedText.Equals("notify off"))
+            {
+                SendMessageToPC(SenderObjectId, "Cross-server event notifications disabled.");
+                SetCrossServerNotificationsEnabled(SenderObjectId, false);
+                return TRUE;
+            }
+            else if (CookedText.Equals("notify on"))
+            {
+                SendMessageToPC(SenderObjectId, "Cross-server event notifications enabled.");
+                SetCrossServerNotificationsEnabled(SenderObjectId, true);
+                return TRUE;
+            }
             else
             {
                 return FALSE;
@@ -526,6 +538,19 @@ namespace ACR_ServerCommunicator
 
             SetLocalInt(PlayerObject, "ACR_SERVER_IPC_CLIENT_ENTERED", TRUE);
             GetDatabase().ACR_SetPCLocalFlags(PlayerObject, 0);
+
+            //
+            // Remind the player that they have cross server event
+            // notifications turned off if they did turn them off.
+            //
+
+            if (!IsCrossServerNotificationEnabled(PlayerObject))
+            {
+                DelayCommand(6.0f, delegate()
+                {
+                    SendMessageToPC(PlayerObject, "Notifications for player log in and log out from other servers are currently disabled.  Type \"#notify on\" to turn them on.");
+                });
+            }
 
             DelayCommand(20.0f, delegate()
             {
@@ -1336,6 +1361,36 @@ namespace ACR_ServerCommunicator
         {
             return GetLocalInt(PlayerObject, "ACR_MOD_LAST_TELL_FROM");
         }
+
+        /// <summary>
+        /// Get whether a player wishes to receive cross server event
+        /// notifications.
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the PC object to query.</param>
+        /// <returns>True if the PC should receive cross server event
+        /// notifications.</returns>
+        public bool IsCrossServerNotificationEnabled(uint PlayerObject)
+        {
+            return GetDatabase().ACR_GetPersistentInt(PlayerObject, "ACR_DISABLE_CROSS_SERVER_NOTIFICATIONS") == FALSE;
+        }
+
+        /// <summary>
+        /// Sets whether a player wishes to receive cross server event
+        /// notifications.
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the PC object to adjust the
+        /// notification state of.</param>
+        /// <param name="Enabled">Supplies true if the PC wishes to receive
+        /// cross server notifications, else false if the PC doesn't want to
+        /// receive them.</param>
+        public void SetCrossServerNotificationsEnabled(uint PlayerObject, bool Enabled)
+        {
+            if (Enabled == false)
+                GetDatabase().ACR_SetPersistentInt(PlayerObject, "ACR_DISABLE_CROSS_SERVER_NOTIFICATIONS", TRUE);
+            else
+                GetDatabase().ACR_DeletePersistentVariable(PlayerObject, "ACR_DISABLE_CROSS_SERVER_NOTIFICATIONS");
+        }
+
 
         /// <summary>
         /// This method initiates a server-to-server tell.

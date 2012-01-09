@@ -1253,4 +1253,6 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts()
 	ACR_FlushQueryQueue(OBJECT_INVALID);
 	ACR_PCSave(OBJECT_INVALID);
 	ACR_GetVersion();
+	ACR_DeletePersistentVariable(OBJECT_INVALID, "");
 }
+

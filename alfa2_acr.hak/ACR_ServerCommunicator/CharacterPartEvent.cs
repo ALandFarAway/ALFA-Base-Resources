@@ -55,6 +55,9 @@ namespace ACR_ServerCommunicator
 
             foreach (uint PlayerObject in Script.GetPlayers(true))
             {
+                if (!Script.IsCrossServerNotificationEnabled(PlayerObject))
+                    continue;
+
                 Script.SendChatMessage(
                     CLRScriptBase.OBJECT_INVALID,
                     PlayerObject,
