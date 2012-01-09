@@ -46,7 +46,7 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
-        /// The associated player;
+        /// The associated player.
         /// </summary>
         private GamePlayer Player;
     }

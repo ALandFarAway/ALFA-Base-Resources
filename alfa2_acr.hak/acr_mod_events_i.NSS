@@ -1059,14 +1059,14 @@ void _ParseRoll(object pc, string cmd)
 
 	// Bardic knowledge
 	else if (_CompareLeft(cmd,"bar")) {
-		int nRank = GetLevelByClass(CLASS_BARD, oPC);
+		int nRank = GetLevelByClass(CLASS_TYPE_BARD, pc);
 		if(nRank == 0)
 		{
 			SendMessageToPC(pc, "You are not a bard.");
 			return;
 		}
-		nRank += GetAbilityModifier(ABILITY_INTELLIGENCE, oPC);
-		if(GetSkillRank(SKILL_KNOWLEDGE_HISTORY, oPC, TRUE) >= 5)
+		nRank += GetAbilityModifier(ABILITY_INTELLIGENCE, pc);
+		if(GetSkillRank(SKILL_KNOWLEDGE_HISTORY, pc, TRUE) >= 5)
 			nRank+= 2;
 
 		_HandleRoll(pc, "Bardic Knowledge", nRank, 0, TRUE, TRUE);
