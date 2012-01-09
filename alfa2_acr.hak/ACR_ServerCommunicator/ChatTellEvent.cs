@@ -64,7 +64,7 @@ namespace ACR_ServerCommunicator
                 {
                     Script.SendMessageToPC(
                         PlayerObject,
-                        "To respond to a [ServerTell] from a player on a different server, type: #re <message>, or #t \"character name\" <message>, or #tp \"player name\" <message>.  Quotes are optional unless the name has spaces.");
+                        "To respond to a [ServerTell] from a player on a different server, type: #re <message>, or #t \"character name\" <message>, or #tp \"player name\" <message>.  Quotes are optional unless the name has spaces.  The #rt <message> command will send a tell to the last player that you had sent a tell to.");
                     Database.ACR_SetPCLocalFlags(
                         PlayerObject,
                         Database.ACR_GetPCLocalFlags(PlayerObject) | ALFA.Database.ACR_PC_LOCAL_FLAG_SERVER_TELL_HELP);
