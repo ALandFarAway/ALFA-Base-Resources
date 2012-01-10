@@ -53,7 +53,7 @@ const string TXT_MESSAGE_DELIVERED = "DMFI Message Sent: ";
 
 //Languages
 const string TXT_ALL_LANGUAGES = "ALL LANGUAGES GRANTED TO DMs.";
-const string TXT_LANGUAGE= "DMFI Langugage Granted: ";
+const string TXT_LANGUAGE= "DMFI Language Granted: ";
 const string TXT_LANGUAGE_KNOWN = "DMFI Language Already Known: ";
 const string TXT_LANGUAGE_LIST = "DMFI Languages known by target: ";
 const string TXT_LANGUAGE_REMOVED = "DMFI Language Removed: ";
