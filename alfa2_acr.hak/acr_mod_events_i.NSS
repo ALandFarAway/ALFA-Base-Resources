@@ -78,6 +78,7 @@
 // 2011/12/26  Basilica - Added server admin command directives.
 // 2012/01/02  Basilica - Added latency monitor support.
 // 2012/01/05  Basilica - Added server IPC callouts.
+// 2012/01/09  Basilica - CE integration.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -106,6 +107,7 @@
 #include "acr_srvadmin_i"
 #include "acr_server_ipc_i"
 #include "acr_version_i"
+#include "acr_scliext_i"
 
 #include "acf_spawn_i"
 #include "acf_settings_i"
@@ -469,6 +471,8 @@ void ACR_ModuleOnPCLoaded()
         	DelayCommand(1.5, ACR_RestOnClientEnter(oPC));
 		}
 	}
+
+	ACR_SCliExtOnPCLoaded(oPC);
 }
 
 void ACR_ModuleOnClientLeave()

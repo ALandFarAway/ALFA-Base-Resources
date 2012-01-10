@@ -20,7 +20,7 @@ void main( int nFlagsAndProtocolVersion, int nClientExtensionVersion )
 	if (nClientExtensionVersion < ACR_MakeClientExtensionVersion(ACR_SCLIEXT_LATEST_VERSION))
 	{
 		DelayCommand(15.0f,
-			SendMessageToPC(OBJECT_SELF, "You appear to be running an older version of the Client Extension, and a newer version is available (recommended).  View http://www.alandfaraway.org/forums/viewtopic.php?f=231&t=43769 (ALFA Forums, ALFA General, New Players, Skywing's NWN2 Client Extension) for details on how to upgrade."));
+			SendMessageToPC(OBJECT_SELF, "You appear to be running an older version of the Client Extension, and a newer version is available (recommended).  View " + ACR_SCLIEXT_URL_AND_FORUM_INFO + " for details on how to upgrade."));
 	}
 
 	//
