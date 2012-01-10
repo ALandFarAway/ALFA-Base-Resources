@@ -167,7 +167,7 @@ int DMFI_RunCommandCode(object oTool, object oPC, string sOriginal)
             }
             else
             {
-                SendText(oPC, TXT_CREATURE, TRUE, COLOR_RED);
+                SendText(oPC, TXT_CREATURE_PC_ONLY, TRUE, COLOR_RED);
             }
         }	
         else
@@ -179,7 +179,7 @@ int DMFI_RunCommandCode(object oTool, object oPC, string sOriginal)
                 SendText(oPC, TXT_FOLLOW_ON + GetName(oTarget), TRUE, COLOR_GREEN);	
             }
             else 
-                SendText(oPC, TXT_CREATURE, TRUE, COLOR_RED);
+                SendText(oPC, TXT_CREATURE_PC_ONLY, TRUE, COLOR_RED);
         }	
     }
     else if (sHeard== PRM_FOLLOW + PRM_ + PRM_OFF)
