@@ -62,6 +62,8 @@ const string ACR_SCLIEXT_URL = "http://www.alandfaraway.org/forums/viewtopic.php
 // URL with forum location description.
 const string ACR_SCLIEXT_URL_AND_FORUM_INFO = "http://www.alandfaraway.org/forums/viewtopic.php?f=231&t=43769 (ALFA Forums, New Players forum under ALFA General, Skywing's NWN2 Client Extension sticky thread)";
 
+const string ACR_SCLIEXT_DISABLE_EXISTANCE_CHECK = "ACR_SCLIEXT_DISABLE_EXISTANCE_CHECK";
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -133,6 +135,9 @@ void ACR_CheckForClientExtensionInstalled(object PC)
 	// Check if the player has the CE installed.  We already checked the version
 	// in gui_scliext_identify if it was installed.
 	if (ACR_GetPlayerClientExtensionVersion(PC) != 0)
+		return;
+
+	if (GetLocalInt(GetModule(), ACR_SCLIEXT_DISABLE_EXISTANCE_CHECK) != FALSE)
 		return;
 
 	SendMessageToPC(PC, "ALFA recommends installing the Client Extension for the best possible player (and DM) experience.  The Client Extension improves client stability, and adds new client features, such as improved client logging and better chat handling.");
