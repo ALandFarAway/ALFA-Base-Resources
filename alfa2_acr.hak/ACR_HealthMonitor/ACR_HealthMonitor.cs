@@ -50,6 +50,7 @@ namespace ACR_HealthMonitor
             {
                 FirstRun = false;
                 Database.ACR_SetPersistentInt(GetModule(), "ACR_HEALTHMONITOR_STATUS", (int)HealthStatus);
+                Database.ACR_SetPersistentInt(GetModule(), "ACR_HEALTHMONITOR_VAULT_STATUS", (int)VaultStatus);
 
                 LatencyMeasurements.AddRange(new int[LATENCY_MEASUREMENTS_TO_RECORD]);
             }
