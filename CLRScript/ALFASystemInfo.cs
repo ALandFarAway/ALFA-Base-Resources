@@ -473,6 +473,29 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Get the filesystem path to the central, shared vault.
+        /// 
+        /// Note that the server must be using the server vault plugin for this
+        /// function to work.
+        /// </summary>
+        /// <returns>Returns the path to the central server vault share, else
+        /// null if the path couldn't be determined (usually because the plugin
+        /// was not installed).</returns>
+        public static string GetCentralVaultPath()
+        {
+            string VaultPath = GetNWNX4IniString(
+                "AuroraServerVault.ini",
+                "Settings",
+                "RemoteServerVaultPath",
+                "");
+
+            if (String.IsNullOrEmpty(VaultPath))
+                return null;
+
+            return VaultPath;
+        }
+
+        /// <summary>
         /// Check whether a file name has dangerous characters, such as path
         /// characters or references to special device names.
         /// </summary>
@@ -505,6 +528,50 @@ namespace ALFA
 
             return true;
         }
+
+        /// <summary>
+        /// Request that the game server cleanly shut down.  Note that NWNX4
+        /// will restart the game server afterwards in the default ALFA
+        /// configuration, so this function is usually used to restart the game
+        /// server, not stop it permanently.
+        /// </summary>
+        /// <param name="Script">Supplies the caller's script object.</param>
+        public static void ShutdownGameServer(CLRScriptBase Script)
+        {
+            Script.NWNXSetString("SRVADMIN", "SHUTDOWNNWN2SERVER", "", 0, "");
+        }
+
+        /// <summary>
+        /// Change the player password.
+        /// </summary>
+        /// <param name="Script">Supplies the caller's script object.</param>
+        /// <param name="Password">Supplies the new password to set.</param>
+        public static void SetPlayerPassword(CLRScriptBase Script, string Password)
+        {
+            Script.NWNXSetString("SRVADMIN", "SETPLAYERPASSWORD", Password, 0, "");
+        }
+
+        /// <summary>
+        /// Change the DM password.
+        /// </summary>
+        /// <param name="Script">Supplies the caller's script object.</param>
+        /// <param name="Password">Supplies the new password to set.</param>
+        public static void SetDMPassword(CLRScriptBase Script, string Password)
+        {
+            Script.NWNXSetString("SRVADMIN", "SETDMPASSWORD", Password, 0, "");
+        }
+
+        /// <summary>
+        /// Change the admin password.
+        /// </summary>
+        /// <param name="Script">Supplies the caller's script object.</param>
+        /// <param name="Password">Supplies the new password to set.</param>
+        public static void SetAdminPassword(CLRScriptBase Script, string Password)
+        {
+            Script.NWNXSetString("SRVADMIN", "SETADMINPASSWORD", Password, 0, "");
+        }
+
+
 
         /// <summary>
         /// The first object id corresponding to dynamically created objects,

@@ -26,6 +26,10 @@
 // succeed.  For example, the server may have taken an excessively long time,
 // greater than MAX_PING, to respond.
 //
+// Similarly, the plugin periodically reports the status of the server vault
+// health via the "ACR_VAULT_LATENCY" global int.  The latency can be retrieved
+// via calling GetGlobalInt("ACR_VAULT_LATENCY").
+//
 
 using System;
 using System.Collections.Generic;
@@ -40,6 +44,7 @@ using NWScript;
 using NWScript.ManagedInterfaceLayer.NWScriptManagedInterface;
 using System.Net;
 using System.Net.Sockets;
+using System.IO;
 using System.Threading;
 
 using NWEffect = NWScript.NWScriptEngineStructure0;
@@ -98,12 +103,18 @@ namespace LatencyMonitor
 
             UdpSocket.Connect(ServerUdpListener);
 
+            ALFA.Database Database = new ALFA.Database(this);
+
+            LocalServerId = Database.ACR_GetServerID();
+
             //
-            // Start the latency measurement thread.
+            // Start the latency measurement thread and the vault ping thread.
             //
 
             LatencyMeasurementThread = new Thread(LatencyMeasurementThreadRoutine);
             LatencyMeasurementThread.Start();
+            VaultPingThread = new Thread(VaultPingThreadRoutine);
+            VaultPingThread.Start();
 
             PollServerLatency();
 
@@ -117,6 +128,7 @@ namespace LatencyMonitor
         private void PollServerLatency()
         {
             int Latency;
+            int VaultLatency;
             string LatencyScript;
 
             //
@@ -126,6 +138,7 @@ namespace LatencyMonitor
             lock (CurrentLatencyLock)
             {
                 Latency = CurrentLatency;
+                VaultLatency = CurrentVaultLatency;
             }
 
             //
@@ -133,6 +146,7 @@ namespace LatencyMonitor
             //
 
             SetGlobalInt("ACR_SERVER_LATENCY", Latency);
+            SetGlobalInt("ACR_VAULT_LATENCY", VaultLatency);
 
             //
             // If we have a script configured to run on each latency
@@ -234,16 +248,86 @@ namespace LatencyMonitor
         }
 
         /// <summary>
+        /// This thread function measures vault latency every
+        /// VAULT_MEASUREMENT_INTERVAL milliseconds.
+        /// 
+        /// Note that, because this function does not execute from a script
+        /// context, it cannot call script functions.  Instead, a companion
+        /// DelayCommand continuation on the main server thread will check the
+        /// current latency value and save it as appropriate.
+        /// </summary>
+        private static void VaultPingThreadRoutine()
+        {
+            string VaultPingFile = String.Format(
+                "{0}Server{1}.txt",
+                SystemInfo.GetCentralVaultPath(),
+                LocalServerId);
+
+            for (; ; )
+            {
+                //
+                // Open the ping file on the vault.  If we fail to open it then
+                // something has gone wrong with the vault connection.
+                //
+
+                try
+                {
+                    uint Tick = (uint)Environment.TickCount;
+
+                    using (StreamWriter PingFile = File.CreateText(VaultPingFile))
+                    {
+                        PingFile.WriteLine(
+                            "Server {0} is up at {1}.",
+                            LocalServerId,
+                            DateTime.UtcNow);
+                    }
+
+                    Tick = (uint)Environment.TickCount - Tick;
+
+                    //
+                    // Report the response time.
+                    //
+
+                    lock (CurrentLatencyLock)
+                    {
+                        CurrentVaultLatency = (int)Tick;
+                    }
+                }
+                catch
+                {
+                    //
+                    // Report a response time of -1 to indicate that no
+                    // measurement could be taken.
+                    //
+
+                    lock (CurrentLatencyLock)
+                    {
+                        CurrentVaultLatency = (int)-1;
+                    }
+                }
+
+                Thread.Sleep(VAULT_MEASUREMENT_INTERVAL);
+            }
+        }
+
+
+        /// <summary>
         /// The maximum latency that we'll wait for a ping reply is set by this
         /// constant.
         /// </summary>
         private const int MAX_PING = 2000;
 
         /// <summary>
-        /// The interval (in millisecond) that we'll measure server latency is
+        /// The interval (in milliseconds) that we'll measure server latency is
         /// set here.
         /// </summary>
         private const int MEASUREMENT_INTERVAL = 1000;
+
+        /// <summary>
+        /// The interval (in milliseconds) that we'll measure vault latency is
+        /// set here.
+        /// </summary>
+        private const int VAULT_MEASUREMENT_INTERVAL = 60000;
 
         /// <summary>
         /// This endpoint represents the server UDP listener socket.
@@ -262,14 +346,31 @@ namespace LatencyMonitor
         private static Thread LatencyMeasurementThread;
 
         /// <summary>
+        /// This thread periodically pings the vault to determine if the vault
+        /// connection is healthy.
+        /// </summary>
+        private static Thread VaultPingThread;
+
+        /// <summary>
         /// This value represents the current server latency.  The value must
         /// be accessed under CurrentLatencyLock.
         /// </summary>
         private static int CurrentLatency;
 
         /// <summary>
+        /// This value represents the current vault latency.  The value must be
+        /// accessed under CurrentLatencyLock.
+        /// </summary>
+        private static int CurrentVaultLatency;
+
+        /// <summary>
         /// This value is the lock for the CurrentLatency member.
         /// </summary>
         private static object CurrentLatencyLock;
+
+        /// <summary>
+        /// This value is the server id of the local server.
+        /// </summary>
+        private static int LocalServerId;
     }
 }

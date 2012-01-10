@@ -211,9 +211,13 @@ namespace ACR_ServerCommunicator
                 Database.ACR_GetServerID()));
 
             WriteTimestampedLogEntry(String.Format(
-                "ACR_ServerCommunicator.InitializeServerCommunicator(): Purged {0} old records from server_ipc_events for server id {1}.",
+                "ACR_ServerCommunicator.InitializeServerCommunicator: Purged {0} old records from server_ipc_events for server id {1}.",
                 Database.ACR_SQLGetAffectedRows(),
                 Database.ACR_GetServerID()));
+            WriteTimestampedLogEntry(String.Format(
+                "ACR_ServerCommunicator.InitializeServerCommunicator: Server started with ACR version {0} and IPC subsystem version {1}.",
+                Database.ACR_GetVersion(),
+                Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
             //
             // Finally, drop into the command polling loop.
@@ -507,6 +511,14 @@ namespace ACR_ServerCommunicator
             {
                 SendMessageToPC(SenderObjectId, "Cross-server event notifications enabled.");
                 SetCrossServerNotificationsEnabled(SenderObjectId, true);
+                return TRUE;
+            }
+            else if (CookedText.Equals("serverlatency"))
+            {
+                SendMessageToPC(SenderObjectId, String.Format(
+                    "Server internal latency is: {0}ms", GetGlobalInt("ACR_SERVER_LATENCY")));
+                SendMessageToPC(SenderObjectId, String.Format(
+                    "Vault transaction latency is: {0}ms", GetGlobalInt("ACR_VAULT_LATENCY")));
                 return TRUE;
             }
             else

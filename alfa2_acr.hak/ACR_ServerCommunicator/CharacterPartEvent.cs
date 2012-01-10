@@ -47,7 +47,7 @@ namespace ACR_ServerCommunicator
                 return;
 
             string Message = String.Format(
-                "{0}<c=Peachpuff>{1} ({2}) left {3}.</c>",
+                "{0}<c=#FFDAB9>{1} ({2}) left {3}.</c>", // <c=Peachpuff...>
                 IsDM ? "<c=#99CCFF>[DM] </c>" : "",
                 Character.Name,
                 Character.Player.Name,

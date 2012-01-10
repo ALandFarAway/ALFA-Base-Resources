@@ -47,7 +47,7 @@ namespace ACR_ServerCommunicator
                 return;
 
             string Message = String.Format(
-                "{0}<c=Orange>{1} ({2}) joined {3}.</c>",
+                "{0}<c=#FFA500>{1} ({2}) joined {3}.</c>", // <c=Orange...>
                 IsDM ? "<c=#99CCFF>[DM] </c>": "",
                 Character.Name,
                 Character.Player.Name,

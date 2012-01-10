@@ -537,6 +537,16 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method is called when a server shutdown request is received.
+        /// </summary>
+        /// <param name="Message">Supplies the message text.</param>
+        private void OnShutdownServer(string Message)
+        {
+            EnqueueEvent(new ShutdownServerEvent(Message));
+        }
+
+
+        /// <summary>
         /// This method is called when a purge cached character request is
         /// received.
         /// </summary>
@@ -1363,6 +1373,13 @@ namespace ACR_ServerCommunicator
                            }
                            break;
 
+                       case ACR_SERVER_IPC_EVENT_SHUTDOWN_SERVER:
+                           lock (this)
+                           {
+                               OnShutdownServer(EventText);
+                           }
+                           break;
+
                        default:
                            lock (this)
                            {
@@ -1494,6 +1511,15 @@ namespace ACR_ServerCommunicator
         /// is modified by this IPC event.
         /// </summary>
         public const int ACR_SERVER_IPC_EVENT_PURGE_CACHED_CHARACTER = 3;
+
+        /// <summary>
+        /// Server shutdown requests use this event type.  For this event,
+        /// there are three parameters.  The source and destination server IDs
+        /// represent routing information, and the event text represents the
+        /// shutdown reason text to deliver before shutting down the server.
+        /// </summary>
+        public const int ACR_SERVER_IPC_EVENT_SHUTDOWN_SERVER        = 4;
+
 
 
         /// <summary>

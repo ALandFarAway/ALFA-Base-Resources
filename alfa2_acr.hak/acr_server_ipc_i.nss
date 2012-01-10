@@ -83,6 +83,11 @@ const int ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER             = 2;
 // in a server local vault cache after central character deletion.
 const int ACR_SERVER_IPC_EVENT_PURGE_CACHED_CHARACTER        = 3;
 
+// The server shutdown event is used to request that a server shut down or
+// restart (in the default configuration).  Only the game server process is
+// restarted, not the operating system.
+const int ACR_SERVER_IPC_EVENT_SHUTDOWN_SERVER               = 4;
+
 // Maximum length of an IPC event text field.
 
 const int ACR_SERVER_IPC_MAX_EVENT_LENGTH                    = 256;
@@ -154,6 +159,11 @@ void ACR_SendDisconnectPlayer(int ServerID, int PlayerID);
 //                        that should be removed from the target server's vault
 //                        cache (NOT the central vault itself).
 void ACR_SendPurgeCachedCharacter(int ServerID, int PlayerID, string CharacterFileName);
+
+//! Send a shutdown request to the desired server.
+//!  - ServerID: Supplies the server ID of the recipient server.
+//!  - Message: Supplies the message to broadcast (shutdown reason).
+void ACR_SendShutdownServer(int ServerID, string Message);
 
 //! Request that a text mode player list be sent to a user.
 //!  - Sender: Supplies the PC to send the player list to.
@@ -359,6 +369,11 @@ void ACR_SendPurgeCachedCharacter(int ServerID, int PlayerID, string CharacterFi
 {
 	struct ACR_SERVER_IPC_EVENT IPCEvent;
 
+	if (GetStringLength(CharacterFileName) > ACR_SERVER_IPC_MAX_EVENT_LENGTH)
+	{
+		CharacterFileName = GetStringLeft(CharacterFileName, ACR_SERVER_IPC_MAX_EVENT_LENGTH);
+	}
+
 	IPCEvent.SourcePlayerID = 0;
 	IPCEvent.SourceServerID = ACR_GetServerID();
 	IPCEvent.DestinationPlayerID = PlayerID;
@@ -368,6 +383,26 @@ void ACR_SendPurgeCachedCharacter(int ServerID, int PlayerID, string CharacterFi
 
 	ACR_SignalServerIPCEvent(IPCEvent);
 }
+
+void ACR_SendShutdownServer(int ServerID, string Message)
+{
+	struct ACR_SERVER_IPC_EVENT IPCEvent;
+
+	if (GetStringLength(Message) > ACR_SERVER_IPC_MAX_EVENT_LENGTH)
+	{
+		Message = GetStringLeft(Message, ACR_SERVER_IPC_MAX_EVENT_LENGTH);
+	}
+
+	IPCEvent.SourcePlayerID = 0;
+	IPCEvent.SourceServerID = ACR_GetServerID();
+	IPCEvent.DestinationPlayerID = 0;
+	IPCEvent.DestinationServerID = ServerID;
+	IPCEvent.EventType = ACR_SERVER_IPC_EVENT_SHUTDOWN_SERVER;
+	IPCEvent.EventText = Message;
+
+	ACR_SignalServerIPCEvent(IPCEvent);
+}
+
 
 void ACR_SendOnlineUserList(object Player)
 {

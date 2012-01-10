@@ -78,6 +78,7 @@
     <Compile Include="PurgeCachedCharacterEvent.cs" />
     <Compile Include="ServerJoinEvent.cs" />
     <Compile Include="ServerPartEvent.cs" />
+    <Compile Include="ShutdownServerEvent.cs" />
     <Compile Include="StandardEntrypoints.cs" />
     <Compile Include="UnsupportedIPCRequestEvent.cs" />
   </ItemGroup>
