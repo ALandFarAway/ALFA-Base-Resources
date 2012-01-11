@@ -28,7 +28,7 @@
 #include "acr_portal_i"
 #include "acr_pps_i"
 
-#define SEAMLESS_SERVER_PORTAL_ENABLED 0
+#define SEAMLESS_SERVER_PORTAL_ENABLED 1
 
 //!  Private function to wrap a check and conditional booting
 void _ReCheckPCPortaller(object oPC);
