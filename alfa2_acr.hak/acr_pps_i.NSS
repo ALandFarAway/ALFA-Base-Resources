@@ -581,7 +581,17 @@ void ACR_PCOnPCLoaded(object oPC)
        			// deposit the player in quarantine
        			AssignCommand(oPC, JumpToObject(GetLocalObject(oModule, ACR_PPS_QUARANTINE_WP), FALSE)); 
 				DelayCommand(0.5, (_playerFreeze(oPC)));
-				DelayCommand(0.6, AssignCommand(oPC, _playerStartQuarantinePortalDialog(nServerID)));
+
+				float QuarantinePortalDelay;
+
+				// If the PC needed to be moved to the quarantine area, then start
+				// the conversation later on.  Otherwise kick things off sooner.
+				if (GetArea(oPC) != GetArea(GetLocalObject(oModule, ACR_PPS_QUARANTINE_WP)))
+					QuarantinePortalDelay = 5.0f;
+				else
+					QuarantinePortalDelay = 0.6f;
+
+				DelayCommand(QuarantinePortalDelay, AssignCommand(oPC, _playerStartQuarantinePortalDialog(nServerID)));
 				return;
 			} else {
 				// not Quarantined; jump to the destination and proceed to status restoration
@@ -781,6 +791,15 @@ void _playerFreeze(object oPC)
 
 void _playerStartQuarantinePortalDialog(int nDesiredServerID)
 {
+	if (GetArea(OBJECT_SELF) == OBJECT_INVALID || GetScriptHidden(OBJECT_SELF))
+	{
+		// The PC may still be loading the area.  Wait until they seem to have
+		// finished.
+
+		DelayCommand(1.0f, _playerStartQuarantinePortalDialog(nDesiredServerID));
+		return;
+	}
+
 	// If the player is already in a dialog, such as the skill adaptation dialog,
 	// then don't present them with the quarantine portal menu.
 	if (IsInConversation(OBJECT_SELF))
