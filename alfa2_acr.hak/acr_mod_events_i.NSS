@@ -732,6 +732,10 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 	switch (nMode) {
 		case CHAT_MODE_SERVER:
 			// Local server console said something, check for server admin cmd
+			// But not if this isn't the first player on the server, else we
+			// handle the command once per every player.
+			if (oTarget != GetFirstPC())
+				return TRUE;
 		case CHAT_MODE_SILENT_SHOUT:
 			// DM channel command, check for server admin cmd
 			len = GetStringLength(sText);
