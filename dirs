@@ -12,7 +12,8 @@ DIRS=                               \
      alfa_placeables.hak            \
      alfa_terrain.hak               \
      alfa2_pr.hak                   \
-     alfa_tiles.hak                 
+     alfa_tiles.hak                 \
+     IRCBot                         
 
 BROKEN=                             \
 
