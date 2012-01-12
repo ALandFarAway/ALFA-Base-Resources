@@ -581,7 +581,7 @@ namespace ACR_ServerCommunicator
                             OnlineServerCount += 1;
                         }
 
-                        SendMessageToPC(OBJECT_SELF, String.Format(
+                        SendMessageToPC(PlayerObject, String.Format(
                             "There are currently {0} player(s) logged in to {1} server(s).  Type \"#users\" for details.",
                             OnlineUserCount,
                             OnlineServerCount));
