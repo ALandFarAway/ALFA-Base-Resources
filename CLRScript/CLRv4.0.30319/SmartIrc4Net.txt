@@ -2,7 +2,7 @@ SmartIrc4Net source code available here:
 
 http://www.smuxi.org/jaws/data/files/smartirc4net-0.4.5.1.tar.gz
 
-SmartIrc4Net is licensed under the LPGL 2.1.
+SmartIrc4Net is licensed under the LGPL 2.1.
 
 
 ---
