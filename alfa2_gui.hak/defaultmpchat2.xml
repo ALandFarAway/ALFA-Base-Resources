@@ -36,7 +36,7 @@
 	<!-- End 3 group Sequence -->
 
 	<!-- Chat Listbox -->
-	<UIListBox name="messagelistbox" x=24 y=26 xPadding=5 yPadding=2 showpartialchild="true" width=375 height=106
+	<UIListBox name="messagelistbox" x=24 y=26 xPadding=5 yPadding=2 showpartialchild="true" width=375 height=70
 		OnResize=UIListBox_OnResize_ScrollToBottom()
 		OnRadialRequest=UIObject_OnRadial_DisplayQuickchatRadial()
 		scrollbaronright="false" unequalcontrols="true" scrollsegmentsize="16" hidescrollbarwhennotneeded="true" snaptobottom="true"
@@ -48,7 +48,25 @@
 		<UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>
 	</UIListBox>
 
+	<!-- Input Listbox -->
+	<UIPane name="INPUT_CONTAINER" x="24" y="96" width="375" height="36" >
+		<UIListBox name="INPUT_LISTBOX" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" showpartialchild="true"
+		unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded="true" >
+
+			<!-- WAS filter="alphanumeric" and not allowspace="true" -->
+			<UIText name="inputbox" allowspace="true" width="PARENT_WIDTH" height="DYNAMIC" align="left" valign="top" 
+			fontfamily="International" multiline="true" returnrestricted="true" editable="true" selectable="true"
+			maxlength="255" OnReturn="UIText_OnReturn_ParseChatInput()" />
+
+			<UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>
+		</UIListBox>
+		<UIIcon name="inputbg" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" img="fx_white.tga" color="2F000000" alpha="0.75" />
+	</UIPane>
+
 	<!-- Background Image -->
 	<UIIcon name="messagebackground" x="0" y="20" img="fx_white.tga" width=PARENT_WIDTH height=PARENT_HEIGHT color="2F000000" alpha="0.60" />
+
+
+
 
 
