@@ -40,6 +40,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_quest_i.nss                       \
             $(OUTPUTDIR)\acr_queue_i.nss                       \
             $(OUTPUTDIR)\acr_resting_i.nss                     \
+            $(OUTPUTDIR)\acr_roll_i.nss                        \
             $(OUTPUTDIR)\acr_scry_i.nss                        \
             $(OUTPUTDIR)\acr_seamlessat_i.nss                  \
             $(OUTPUTDIR)\acr_settings_i.nss                    \

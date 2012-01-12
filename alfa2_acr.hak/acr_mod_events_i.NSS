@@ -116,6 +116,8 @@
 #include "dmfi_inc_initial"
 #include "dmfi_inc_lang"
 
+#include "acr_roll_i"
+
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -193,9 +195,6 @@ void ACR_ModuleInitHealthChecks();
 
 //! Wrapper for ACR_ModuleInitHealthChecks().
 void ACR_StartModuleInitHealthChecks();
-
-//! Parse a roll command
-void _ParseRoll(object pc, string cmd);
 
 //! Parse a new language
 string _ParseLang(object pc, string text);
@@ -721,6 +720,26 @@ void ACR_ModuleOnCutsceneAbort() {
     if (ACR_GetIsScrying(oPC)) { ACR_ScryEnd(oPC); }
 }
 
+string _ParseLang(object oSpeaker, string sText)
+{
+	string sLangPick;
+	int n;
+
+	n = FindSubString(sText,"@");
+
+	// @Abcdef -> abc
+	sText = GetStringLowerCase(GetStringRight(GetSubString(sText, n, 4),3));
+
+	sLangPick = ACR_LangAbbToLangID(sText);
+
+	if (!_IsLanguageKnown(oSpeaker, sLangPick) && !GetIsDM(oSpeaker) && !GetIsDMPossessed(oSpeaker)) {
+		SendMessageToPC(oSpeaker, "You don't know how to speak "+ACR_LangIDToString(sLangPick)+".");
+		return GetLocalString(oSpeaker, "DefaultLanguage");
+	}
+
+	return sLangPick;
+}
+
 int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 {
 	int len;
@@ -779,7 +798,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 
 		sCommand = GetStringRight(GetStringLowerCase(sText), len-1);
 		
-		_ParseRoll(oSpeaker, sCommand);
+		ParseRoll(oSpeaker, sCommand);
 		
 		return FALSE;
 	}
@@ -806,306 +825,6 @@ void ACR_SetModuleStatus(int nStatus) {
     object oModule = GetModule();
     SetLocalInt(oModule, ACR_MOD_STATUS, GetLocalInt(oModule, ACR_MOD_STATUS) | nStatus);
 }
-
-int _CompareLeft(string str, string ref)
-{
-	int len = GetStringLength(ref);
-
-	return (GetStringLeft(str,len) == ref);
-}
-
-void _ParseRoll(object pc, string cmd)
-{
-	int b,len,offset;
-	string tmp,text=cmd;
-	
-	// kludge to handle nasty stuff like "craft: "
-	
-	if (TestStringAgainstPattern("(craft|knowledge|perform)**",cmd)) {
-
-		tmp = "craft";
-		if (_CompareLeft(cmd,tmp)) {
-			len = GetStringLength(cmd);
-			offset = GetStringLength(tmp);
-
-			cmd = GetStringRight(cmd,len-offset);
-		}
-		
-		tmp = "knowledge";
-		if (_CompareLeft(cmd,tmp)) {
-			len = GetStringLength(cmd);
-			offset = GetStringLength(tmp);
-
-			cmd = GetStringRight(cmd,len-offset);
-		}
-
-		tmp = "perform";
-		if (_CompareLeft(cmd,tmp)) {
-			len = GetStringLength(cmd);
-			offset = GetStringLength(tmp);
-
-			cmd = GetStringRight(cmd,len-offset);
-		}
-
-		// eat characters
-		do {
-			b = _CompareLeft(cmd, " ") + _CompareLeft(cmd, "-") + _CompareLeft(cmd, "(") + _CompareLeft(cmd, ":");
-			
-			// no alterations needed
-			if (!b)
-				break;
-
-			len = GetStringLength(cmd);
-
-			cmd = GetStringRight(cmd,len-1);
-		} while (b);
-	}
-
-	// saves
-	if (_CompareLeft(cmd,"for")) {
-		ACR_SaveCheck(SAVING_THROW_FORT, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"ref")) {
-		ACR_SaveCheck(SAVING_THROW_REFLEX, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"wil")) {
-		ACR_SaveCheck(SAVING_THROW_WILL, pc, 0, TRUE, TRUE);
-	}
-
-	// initiative
-	else if (_CompareLeft(cmd,"ini")) {
-
-		ACR_InitCheck(pc, 0, TRUE, TRUE);
-	}
-
-	// abilities
-	else if (_CompareLeft(cmd,"stre") || cmd == "str") {
-		ACR_StatCheck(ABILITY_STRENGTH, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"dex")) {
-		ACR_StatCheck(ABILITY_DEXTERITY, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"cons") || cmd == "con") { 
-		ACR_StatCheck(ABILITY_CONSTITUTION, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"int")) {
-		ACR_StatCheck(ABILITY_INTELLIGENCE, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"wis")) {
-		ACR_StatCheck(ABILITY_WISDOM, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"cha")) {
-		ACR_StatCheck(ABILITY_CHARISMA, pc, 0, TRUE, TRUE);
-	}
-
-	// skills
-	else if (_CompareLeft(cmd,"app")) {
-		ACR_SkillCheck(SKILL_APPRAISE, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"bal")) {
-		ACR_SkillCheck(SKILL_BALANCE, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"blu")) {
-		ACR_SkillCheck(SKILL_BLUFF, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"cli")) {
-		ACR_SkillCheck(SKILL_CLIMB, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"conc")) {
-		ACR_SkillCheck(SKILL_CONCENTRATION, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"alc")) {
-		ACR_SkillCheck(SKILL_CRAFT__ALCHEMY, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"arm")) {
-		ACR_SkillCheck(SKILL_CRAFT_ARMORSMITHING, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"bow")) {
-		ACR_SkillCheck(SKILL_CRAFT_BOWMAKING, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"wea")) {
-		ACR_SkillCheck(SKILL_CRAFT_WEAPONSMITHING, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"scr") || _CompareLeft(cmd,"dec")) {
-		ACR_SkillCheck(SKILL_DECIPHER_SCRIPT, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"dip")) {
-		ACR_SkillCheck(SKILL_DIPLOMACY, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"tra") || _CompareLeft(cmd,"disa") || cmd == "dd") {
-		ACR_SkillCheck(SKILL_DISABLE_TRAP, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"disg") || cmd == "dis") {
-		ACR_SkillCheck(SKILL_DISGUISE, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"esc") || _CompareLeft(cmd,"art") || cmd == "ea") {
-		ACR_SkillCheck(SKILL_ESCAPE_ARTIST, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"for")) {
-		ACR_SkillCheck(SKILL_FORGERY, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"gat") || _CompareLeft(cmd,"inf") || cmd == "gi") {
-		ACR_SkillCheck(SKILL_GATHER_INFORMATION, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"han")) {
-		ACR_SkillCheck(SKILL_HANDLE_ANIMAL, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"hea")) {
-		ACR_SkillCheck(SKILL_HEAL, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"hid")) {
-		ACR_SkillCheck(SKILL_HIDE, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"jum")) {
-		ACR_SkillCheck(SKILL_JUMP, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"arca") || cmd == "arc") {
-		ACR_SkillCheck(SKILL_KNOWLEDGE_ARCANA, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"arch") || _CompareLeft(cmd,"eng")) {
-		ACR_SkillCheck(SKILL_KNOWLEDGE_ENGINEERING, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"dun")) {
-		ACR_SkillCheck(SKILL_KNOWLEDGE_DUNGEONEERING, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"geo")) {
-		ACR_SkillCheck(SKILL_KNOWLEDGE_GEOGRAPHY, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"his")) {
-		ACR_SkillCheck(SKILL_KNOWLEDGE_HISTORY, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"loc")) {
-		ACR_SkillCheck(SKILL_KNOWLEDGE_LOCAL, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"nat")) {
-		ACR_SkillCheck(SKILL_KNOWLEDGE_NATURE, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"nob") || _CompareLeft(cmd,"roy")) {
-		ACR_SkillCheck(SKILL_KNOWLEDGE_NOBILITY, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"rel")) {
-		ACR_SkillCheck(SKILL_KNOWLEDGE_RELIGION, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"pla") || _CompareLeft(cmd,"the p")) {
-		ACR_SkillCheck(SKILL_KNOWLEDGE_THE_PLANES, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"lis")) {
-		ACR_SkillCheck(SKILL_LISTEN, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"mov") || _CompareLeft(cmd,"sne") || cmd == "ms") {
-		ACR_SkillCheck(SKILL_MOVE_SILENTLY, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"pick l") || _CompareLeft(cmd,"loc") || _CompareLeft(cmd,"ope") || cmd == "ol") {
-		ACR_SkillCheck(SKILL_OPEN_LOCK, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"par")) {
-		ACR_SkillCheck(SKILL_PARRY, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"act")) {
-		ACR_SkillCheck(SKILL_PERFORM_ACT, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"com")) {
-		ACR_SkillCheck(SKILL_PERFORM_COMEDY, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"dan")) {
-		ACR_SkillCheck(SKILL_PERFORM_DANCE, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"key")) {
-		ACR_SkillCheck(SKILL_PERFORM_KEYBOARD, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"ora")) {
-		ACR_SkillCheck(SKILL_PERFORM_ORATORY, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"dru") || _CompareLeft(cmd,"per")) {
-		ACR_SkillCheck(SKILL_PERFORM_PERCUSSION, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"stri") || cmd == "si") {
-		ACR_SkillCheck(SKILL_PERFORM_STRING_INSTRUMENTS, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"win") || _CompareLeft(cmd,"woo") || cmd == "wi") {
-		ACR_SkillCheck(SKILL_PERFORM_WIND_INSTRUMENTS, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"sin")) {
-		ACR_SkillCheck(SKILL_PERFORM_SING, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"pro")) {
-		ACR_SkillCheck(SKILL_PROFESSION, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"rid")) {
-		ACR_SkillCheck(SKILL_RIDE, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"sea")) {
-		ACR_SkillCheck(SKILL_SEARCH, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"sen") || cmd == "sm") {
-		ACR_SkillCheck(SKILL_SENSE_MOTIVE, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"sle") || _CompareLeft(cmd,"pock p") || cmd == "pp" || cmd == "soh") {
-		ACR_SkillCheck(SKILL_SLEIGHT_OF_HAND, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"spe") || cmd == "sc") {
-		ACR_SkillCheck(SKILL_SPELLCRAFT, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"spo")) {
-		ACR_SkillCheck(SKILL_SPOT, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"sur")) {
-		ACR_SkillCheck(SKILL_SURVIVAL, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"swi")) {
-		ACR_SkillCheck(SKILL_SWIM, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"tum")) {
-		ACR_SkillCheck(SKILL_TUMBLE, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"use m") || _CompareLeft(cmd,"mag") || _CompareLeft(cmd,"dev") || cmd == "umd") {
-		ACR_SkillCheck(SKILL_USE_MAGIC_DEVICE, pc, 0, TRUE, TRUE);
-	}
-	else if (_CompareLeft(cmd,"rop") || _CompareLeft(cmd,"use r") || cmd == "ur") {
-		ACR_SkillCheck(SKILL_USE_ROPE, pc, 0, TRUE, TRUE);
-	}
-
-	// Bardic knowledge
-	else if (_CompareLeft(cmd,"bar")) {
-		int nRank = GetLevelByClass(CLASS_TYPE_BARD, pc);
-		if(nRank == 0)
-		{
-			SendMessageToPC(pc, "You are not a bard.");
-			return;
-		}
-		nRank += GetAbilityModifier(ABILITY_INTELLIGENCE, pc);
-		if(GetSkillRank(SKILL_KNOWLEDGE_HISTORY, pc, TRUE) >= 5)
-			nRank+= 2;
-
-		_HandleRoll(pc, "Bardic Knowledge", nRank, 0, TRUE, TRUE);
-	}
-	else 
-	{
-		SendMessageToPC(pc, "I don't understand the command '"+text+"'");
-	}
-}
-
-
-string _ParseLang(object oSpeaker, string sText)
-{
-	string sLangPick;
-	int n;
-
-	n = FindSubString(sText,"@");
-
-	// @Abcdef -> abc
-	sText = GetStringLowerCase(GetStringRight(GetSubString(sText, n, 4),3));
-
-	sLangPick = ACR_LangAbbToLangID(sText);
-
-	if (!_IsLanguageKnown(oSpeaker, sLangPick) && !GetIsDM(oSpeaker) && !GetIsDMPossessed(oSpeaker)) {
-		SendMessageToPC(oSpeaker, "You don't know how to speak "+ACR_LangIDToString(sLangPick)+".");
-		return GetLocalString(oSpeaker, "DefaultLanguage");
-	}
-
-	return sLangPick;
-}
-
 
 int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 {
@@ -1263,4 +982,3 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts()
 	ACR_GetVersion();
 	ACR_DeletePersistentVariable(OBJECT_INVALID, "");
 }
-
