@@ -53,7 +53,7 @@ const string TXT_MESSAGE_DELIVERED = "DMFI Message Sent: ";
 
 //Languages
 const string TXT_ALL_LANGUAGES = "ALL LANGUAGES GRANTED TO DMs.";
-const string TXT_LANGUAGE= "DMFI Langugage Granted: ";
+const string TXT_LANGUAGE= "DMFI Language Granted: ";
 const string TXT_LANGUAGE_KNOWN = "DMFI Language Already Known: ";
 const string TXT_LANGUAGE_LIST = "DMFI Languages known by target: ";
 const string TXT_LANGUAGE_REMOVED = "DMFI Language Removed: ";
@@ -69,6 +69,7 @@ const string TXT_VOICE_TARGET_INVALID = "DMFI Voice Target not found: ";
 const string TXT_BACK_BATTLE_STOP = "'play' 'battle' or 'stop' parameter required.";
 const string TXT_COMMAND_NOT_FOUND="DMFI Command Not Found:  Mistyped or command not known.";
 const string TXT_CREATURE = "DMFI Target must be NPC or PC for this function.";
+const string TXT_CREATURE_PC_ONLY = "DMFI Target must be a player-controlled creature for this function.";
 const string TXT_DAY_NIGHT = "'day' or 'night' parameter required.";
 const string TXT_DAY_NIGHT_BATTLE = "'day' 'night' 'both' or 'battle' parameter required.";
 const string TXT_DM_PC_PARTY = "'dm' 'pc' or 'party' parameter required.";

@@ -47,6 +47,7 @@
 //  2009/04/06  AcadiusLost  Added login update of Characters.IsOnline for better SQL population tracking.
 //  2009/05/06  AcadiusLost  Added update OnClientEnter of the IsDM field of the players table.
 //  2011/05/09  Paazin       Fix for location persistency when Start Location is not at Z-axis = 0.0
+//  2012/01/08  Basilica     Don't mark players as online if they are in quarantine.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -60,6 +61,7 @@
 #include "acr_i"
 #include "acr_portal_i"
 #include "dmfi_inc_inc_com"
+#include "acr_server_ipc_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -90,6 +92,9 @@ const string ACR_PPS_QUARANTINE_WP_TAG = "acr_quarantine_wp";
 
 //! Quarantine LocalInt
 const string ACR_PPS_QUARANTINED = "ACR_PPS_QUARANTINED";
+
+//! Quarantine Autoportal Localint
+const string ACR_PPS_QUARANTINED_AUTOPORTAL_TARGET = "ACR_PPS_QUARANTINED_AUTOPORTAL_TARGET";
 
 //! Debug ID string for debug messaging
 const string ACR_PPS_DEBUG_ID = "acr_pps_i";
@@ -167,6 +172,22 @@ void _playerRestoreLocation(object oPC, location lLocation, int nCount = 0);
 //!  - oPC: player to immobilize
 //!  - Returns: nothing
 void _playerFreeze(object oPC);
+
+//! This function starts the portal from quarantine conversation, if the PC is
+//  not already in a conversation (like the adaptation conversation).
+//
+//  This function acts on OBJECT_SELF.
+//!  - nDesiredServerID: Supplies the "home" server that the PC should be moved
+//                       over to.
+//!  - Returns: nothing
+void _playerStartQuarantinePortalDialog(int nDesiredServerID);
+
+//! This function initiates quarantine auto-portal if it has not been canceled 
+//  by the PC (or by validation).
+//!  - nDesiredServerID: Supplies the "home" server that the PC should be moved
+//                       over to.
+//!  - Returns: nothing
+void _playerStartQuarantineAutoPortal(int nDesiredServerID);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -464,21 +485,29 @@ void ACR_PCOnClientEnter(object oPC)
     }
 	else 
 	{
-		// else player is valid.  Mark them as online.
-		ACR_SQLQuery("UPDATE characters SET IsOnline=1 WHERE ID=" + sCharID);
 	}
    	// assign the database ID to this PC
 	ACR_SetCharacterID(oPC, StringToInt(sCharID), StringToInt(sPID));
 
 	// store the player's CD Key so it can be retrieved even on exit events
 	ACR_SetPCPublicCDKey(oPC);
+
+	// Note that we have not marked the player as online yet UNLESS this was the
+	// initial login for a new character.  We will defer thhis until we have, at
+	// OnPCLoaded, decided that the player will not go into quarantine.  This
+	// stops quarantined players from being marked as online at server A while
+	// they are actually logged on to quarantine at server B.
 }
 
 void ACR_PCOnPCLoaded(object oPC)
 {
+	int bUpdateLocation = FALSE;
 	string sCID = IntToString(ACR_GetCharacterID(oPC)), sLocation, sServerID;
 	
 	vector vPosLoc = GetPosition(oPC), vPosStart = GetPositionFromLocation(GetStartingLocation());
+
+	DeleteLocalInt(oPC, ACR_PPS_QUARANTINED_AUTOPORTAL_TARGET);
+
 	///////////////////////////////////////////
 	// *** STEP 2: RESTORE PLAYER STATUS *** //
 	///////////////////////////////////////////
@@ -508,9 +537,6 @@ void ACR_PCOnPCLoaded(object oPC)
    		int nCHA = StringToInt(ACR_SQLGetData(8));
    		int nDamage = StringToInt(ACR_SQLGetData(9));
 	   	location lLocation = ACR_StringToLocation(sLocation);
-		
-		// update the character and player status fields
-		ACR_SQLQuery("UPDATE characters, players SET characters.IsOnline=1, players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");		
 		
 		// Check to see if the PC is logging into the right server:
    		if (nServerID != ACR_GetServerId()) {
@@ -555,6 +581,17 @@ void ACR_PCOnPCLoaded(object oPC)
        			// deposit the player in quarantine
        			AssignCommand(oPC, JumpToObject(GetLocalObject(oModule, ACR_PPS_QUARANTINE_WP), FALSE)); 
 				DelayCommand(0.5, (_playerFreeze(oPC)));
+
+				float QuarantinePortalDelay;
+
+				// If the PC needed to be moved to the quarantine area, then start
+				// the conversation later on.  Otherwise kick things off sooner.
+				if (GetArea(oPC) != GetArea(GetLocalObject(oModule, ACR_PPS_QUARANTINE_WP)))
+					QuarantinePortalDelay = 5.0f;
+				else
+					QuarantinePortalDelay = 0.6f;
+
+				DelayCommand(QuarantinePortalDelay, AssignCommand(oPC, _playerStartQuarantinePortalDialog(nServerID)));
 				return;
 			} else {
 				// not Quarantined; jump to the destination and proceed to status restoration
@@ -641,8 +678,19 @@ void ACR_PCOnPCLoaded(object oPC)
 		// New PC not previously in the database.
 		// no previous location on record.
 		// update the character and player status fields
-		ACR_SQLQuery("UPDATE characters, players SET characters.Location='" + ACR_LocationToString(GetLocation(oPC)) + "', players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");
+		bUpdateLocation = TRUE;
 	}
+
+
+	// Mark the player as online in the database and make their DM status
+	// current.  If this is the first login, set the location too.
+	// Note that if we have gotten this far, the player is NOT in quarantine and
+	// will actually be logging on.
+
+	if (bUpdateLocation)
+		ACR_SQLQuery("UPDATE characters, players SET characters.Location='" + ACR_LocationToString(GetLocation(oPC)) + "', players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");
+	else
+		ACR_SQLQuery("UPDATE characters, players SET characters.IsOnline=1, players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");		
 
     // schedule the auto save (since this only exports after a PPS_CYCLE, start counting after 60 seconds)
     DelayCommand(60.0, ACR_PCAutoSave(oPC));
@@ -740,3 +788,49 @@ void _playerFreeze(object oPC)
     effect eFreeze = EffectCutsceneImmobilize();
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, eFreeze, oPC);
 }
+
+void _playerStartQuarantinePortalDialog(int nDesiredServerID)
+{
+	if (GetArea(OBJECT_SELF) == OBJECT_INVALID || GetScriptHidden(OBJECT_SELF))
+	{
+		// The PC may still be loading the area.  Wait until they seem to have
+		// finished.
+
+		DelayCommand(1.0f, _playerStartQuarantinePortalDialog(nDesiredServerID));
+		return;
+	}
+
+	// If the player is already in a dialog, such as the skill adaptation dialog,
+	// then don't present them with the quarantine portal menu.
+	if (IsInConversation(OBJECT_SELF))
+		return;
+
+	// Don't try and shunt the player if their home server is offline.
+	if (!ACR_GetIsServerOnline(nDesiredServerID))
+	{
+		SendMessageToPC(OBJECT_SELF, "Your character's home server appears to be offline, not initiating automatic transfer.");
+		return;
+	}
+
+	// Start the quarantine portal conversation up.
+	SetLocalInt(OBJECT_SELF, ACR_PPS_QUARANTINED_AUTOPORTAL_TARGET, nDesiredServerID);
+	// Start the conversation.  If the user cancels out, then the autoportal
+	// target will be cleared.
+	ActionStartConversation(OBJECT_SELF, "acr_convo_quarantine_portal", TRUE, TRUE, TRUE, TRUE);
+
+	SendMessageToPC(OBJECT_SELF, "Initiating automatic transfer to correct server in 20 seconds (cancel dialog to abort)...");
+	DelayCommand(20.0, _playerStartQuarantineAutoPortal(nDesiredServerID));
+}
+
+void _playerStartQuarantineAutoPortal(int nDesiredServerID)
+{
+	if (GetLocalInt(OBJECT_SELF, ACR_PPS_QUARANTINED_AUTOPORTAL_TARGET) != nDesiredServerID)
+	{
+		SendMessageToPC(OBJECT_SELF, "Quarantine auto-portal cancelled.");
+		return;
+	}
+
+	SendMessageToPC(OBJECT_SELF, "Transferring you to your correct home server (" + IntToString(nDesiredServerID) + ").");
+	ACR_StartServerToServerPortal(nDesiredServerID, -1, OBJECT_SELF);
+}
+

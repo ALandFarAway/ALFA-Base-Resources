@@ -41,11 +41,14 @@ namespace ACR_ServerCommunicator
                 return;
 
             string Message = String.Format(
-                "<c=yellow>Server {0} is now offline.</c>",
+                "<c=#FFFF00>Server {0} is now offline.</c>",
                 Server.Name);
 
             foreach (uint PlayerObject in Script.GetPlayers(true))
             {
+                if (!Script.IsCrossServerNotificationEnabled(PlayerObject))
+                    continue;
+
                 Script.SendChatMessage(
                     CLRScriptBase.OBJECT_INVALID,
                     PlayerObject,

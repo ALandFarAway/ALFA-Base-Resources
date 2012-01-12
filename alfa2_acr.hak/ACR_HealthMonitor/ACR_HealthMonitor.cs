@@ -50,6 +50,7 @@ namespace ACR_HealthMonitor
             {
                 FirstRun = false;
                 Database.ACR_SetPersistentInt(GetModule(), "ACR_HEALTHMONITOR_STATUS", (int)HealthStatus);
+                Database.ACR_SetPersistentInt(GetModule(), "ACR_HEALTHMONITOR_VAULT_STATUS", (int)VaultStatus);
 
                 LatencyMeasurements.AddRange(new int[LATENCY_MEASUREMENTS_TO_RECORD]);
             }
@@ -89,7 +90,9 @@ namespace ACR_HealthMonitor
         private void ProcessMeasuredLatency()
         {
             LATENCY_HEALTH_STATUS NewStatus;
+            VAULT_HEALTH_STATUS NewVaultStatus;
             int MedianLatency;
+            int VaultLatency;
             uint ModuleObject = GetModule();
 
             //
@@ -107,6 +110,16 @@ namespace ACR_HealthMonitor
                 NewStatus = LATENCY_HEALTH_STATUS.Warning;
             else
                 NewStatus = LATENCY_HEALTH_STATUS.Unhealthy;
+
+            VaultLatency = GetGlobalInt("ACR_VAULT_LATENCY");
+
+            if (VaultLatency == -1)
+                VaultLatency = VAULT_LATENCY_HIGH_VALUE;
+
+            if (VaultLatency < VAULT_LATENCY_HIGH_VALUE)
+                NewVaultStatus = VAULT_HEALTH_STATUS.Healthy;
+            else
+                NewVaultStatus = VAULT_HEALTH_STATUS.Unhealthy;
 
             //
             // Log a message and update the database if the health status has
@@ -127,6 +140,14 @@ namespace ACR_HealthMonitor
 
                 if (HealthStatus == LATENCY_HEALTH_STATUS.Unhealthy)
                     DiagnoseServerHealth();
+            }
+
+            if (VaultStatus != NewVaultStatus)
+            {
+                WriteTimestampedLogEntry(String.Format("ACR_HealthMonitor.ProcessMeasuredLatency(): Vault connection health status is now {0} (latency {1})", NewVaultStatus, VaultLatency));
+                Database.ACR_SetPersistentInt(ModuleObject, "ACR_HEALTHMONITOR_VAULT_STATUS", (int)NewVaultStatus);
+
+                VaultStatus = NewVaultStatus;
             }
 
             //
@@ -330,6 +351,16 @@ namespace ACR_HealthMonitor
         };
 
         /// <summary>
+        /// Latency values for the vault are distilled down into a health
+        /// status described by the following enumeration.
+        /// </summary>
+        private enum VAULT_HEALTH_STATUS
+        {
+            Healthy,
+            Unhealthy
+        };
+
+        /// <summary>
         /// Latencies below LATENCY_LOW_VALUE are considered low.
         /// </summary>
         private const int LATENCY_LOW_VALUE = 50;
@@ -338,6 +369,12 @@ namespace ACR_HealthMonitor
         /// Latencies above LATENCY_HIGH_VALUE are considered high.
         /// </summary>
         private const int LATENCY_HIGH_VALUE = 200;
+
+        /// <summary>
+        /// Vault latencies abouve VAULT_LATENCY_HIGH_VALUE are considered
+        /// high.
+        /// </summary>
+        private const int VAULT_LATENCY_HIGH_VALUE = 30000;
 
         /// <summary>
         /// Each time a GameObjUpdate auto-adjustment is made, it is done by
@@ -357,6 +394,11 @@ namespace ACR_HealthMonitor
         /// The current health (latency) status.
         /// </summary>
         private LATENCY_HEALTH_STATUS HealthStatus = LATENCY_HEALTH_STATUS.Healthy;
+
+        /// <summary>
+        /// The current vault health status.
+        /// </summary>
+        private VAULT_HEALTH_STATUS VaultStatus = VAULT_HEALTH_STATUS.Healthy;
 
         /// <summary>
         /// The number of latency measurements to sample before taking action

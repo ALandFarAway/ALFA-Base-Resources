@@ -10,17 +10,17 @@ using NWScript.ManagedInterfaceLayer.NWScriptManagedInterface;
 namespace ACR_ServerCommunicator
 {
     /// <summary>
-    /// This event encapsulates data relating to a broadcast notification for
-    /// all players on the server.
+    /// This event encapsulates data relating to a request to stop the game
+    /// server process.
     /// </summary>
-    class BroadcastNotificationEvent : IGameEventQueueEvent
+    class ShutdownServerEvent : IGameEventQueueEvent
     {
 
         /// <summary>
-        /// Create a new BroadcastNotificationEvent.
+        /// Create a new ShutdownServerEvent.
         /// </summary>
         /// <param name="Message">Supplies the message text.</param>
-        public BroadcastNotificationEvent(string Message)
+        public ShutdownServerEvent(string Message)
         {
             this.Message = Message;
         }
@@ -35,7 +35,7 @@ namespace ACR_ServerCommunicator
             foreach (uint PlayerObject in Script.GetPlayers(true))
             {
                 string FormattedMessage = String.Format(
-                    "<c=#FFFF00>{0}</c>",
+                    "<c=#FFFF00>Server shutting down: {0}</c>",
                     Message);
 
                 Script.SendChatMessage(
@@ -46,7 +46,9 @@ namespace ACR_ServerCommunicator
                     CLRScriptBase.FALSE);
             }
 
-            Script.WriteTimestampedLogEntry("Received broadcast notification: " + Message);
+            Script.WriteTimestampedLogEntry("Received shutdown request: " + Message);
+
+            Script.DelayCommand(5.0f, delegate() { SystemInfo.ShutdownGameServer(Script); });
         }
 
         /// <summary>

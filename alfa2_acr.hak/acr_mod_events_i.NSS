@@ -78,6 +78,7 @@
 // 2011/12/26  Basilica - Added server admin command directives.
 // 2012/01/02  Basilica - Added latency monitor support.
 // 2012/01/05  Basilica - Added server IPC callouts.
+// 2012/01/09  Basilica - CE integration.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -106,6 +107,7 @@
 #include "acr_srvadmin_i"
 #include "acr_server_ipc_i"
 #include "acr_version_i"
+#include "acr_scliext_i"
 
 #include "acf_spawn_i"
 #include "acf_settings_i"
@@ -469,6 +471,8 @@ void ACR_ModuleOnPCLoaded()
         	DelayCommand(1.5, ACR_RestOnClientEnter(oPC));
 		}
 	}
+
+	ACR_SCliExtOnPCLoaded(oPC);
 }
 
 void ACR_ModuleOnClientLeave()
@@ -728,6 +732,10 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 	switch (nMode) {
 		case CHAT_MODE_SERVER:
 			// Local server console said something, check for server admin cmd
+			// But not if this isn't the first player on the server, else we
+			// handle the command once per every player.
+			if (oTarget != GetFirstPC())
+				return TRUE;
 		case CHAT_MODE_SILENT_SHOUT:
 			// DM channel command, check for server admin cmd
 			len = GetStringLength(sText);
@@ -1059,14 +1067,14 @@ void _ParseRoll(object pc, string cmd)
 
 	// Bardic knowledge
 	else if (_CompareLeft(cmd,"bar")) {
-		int nRank = GetLevelByClass(CLASS_BARD, oPC);
+		int nRank = GetLevelByClass(CLASS_TYPE_BARD, pc);
 		if(nRank == 0)
 		{
 			SendMessageToPC(pc, "You are not a bard.");
 			return;
 		}
-		nRank += GetAbilityModifier(ABILITY_INTELLIGENCE, oPC);
-		if(GetSkillRank(SKILL_KNOWLEDGE_HISTORY, oPC, TRUE) >= 5)
+		nRank += GetAbilityModifier(ABILITY_INTELLIGENCE, pc);
+		if(GetSkillRank(SKILL_KNOWLEDGE_HISTORY, pc, TRUE) >= 5)
 			nRank+= 2;
 
 		_HandleRoll(pc, "Bardic Knowledge", nRank, 0, TRUE, TRUE);
@@ -1253,4 +1261,6 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts()
 	ACR_FlushQueryQueue(OBJECT_INVALID);
 	ACR_PCSave(OBJECT_INVALID);
 	ACR_GetVersion();
+	ACR_DeletePersistentVariable(OBJECT_INVALID, "");
 }
+

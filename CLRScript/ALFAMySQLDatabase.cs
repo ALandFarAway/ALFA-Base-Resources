@@ -277,7 +277,10 @@ namespace ALFA
         /// <returns>The column data is returned.</returns>
         public string ACR_SQLGetData(int ColumnIndex)
         {
-            return DataReader.GetString(ColumnIndex);
+            if (DataReader.IsDBNull(ColumnIndex))
+                return null;
+            else
+                return DataReader.GetString(ColumnIndex);
         }
 
         /// <summary>

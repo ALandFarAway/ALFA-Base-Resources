@@ -130,7 +130,7 @@ void DMFI_GrantChoosenLanguages(object oPC)
 	int nLangs = GetSkillRank(SKILL_SPEAK_LANGUAGE, oPC, TRUE);
 	// add int bonus to number of Speak Language ranks, only if positive
 	if (nMod > 0) { nLangs = nLangs + nMod; }
-	// record the number of bonus langugages for later comparison
+	// record the number of bonus languages for later comparison
 	SetLocalInt(DMFI_GetTool(oPC), "ACR_LANG_BONUSLANGUAGES", nLangs);
 	SetLocalInt(DMFI_GetTool(oPC), "ACR_LANG_INT_BONUS", nMod);
 	if (nLangs>0)
