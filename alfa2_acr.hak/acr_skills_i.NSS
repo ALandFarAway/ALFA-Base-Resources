@@ -37,8 +37,20 @@ const int ACR_SKILLS_NUMBER = 67;
 const string CHECK_COLOUR1 = "98FFFF";
 const string CHECK_COLOUR2 = "0166FF";
 
+const int CHECK_TYPE_SKILL = 1;
+const int CHECK_TYPE_STAT = 2;
+const int CHECK_TYPE_SAVE = 3;
+const int CHECK_TYPE_INITIATIVE = 4;
+const int CHECK_TYPE_ROLL = 5;
+const int CHECK_TYPE_TRACK = 6;
+const int CHECK_TYPE_PERCEPTION = 7;
+const int CHECK_TYPE_STEALTH = 8;
 
 // Public functions
+
+//! Official initiative check function for ALFA.
+//! Returns TRUE on success and FALSE on failure.
+int ACR_InitCheck(object oPC, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0);
 
 //!! Official skill check function for ALFA, takes into account skill synergy and whatever circumstance
 //!!   modifiers it can; returns 0 (FALSE) or 1 (TRUE).  
@@ -92,6 +104,10 @@ void ACR_SkillsPrepareAdaption(object oPC);
 
 // Private functions
 
+//! Rolls a CHECK_TYPE of SKILL, SAVE, STAT, INITIAIVE or ROLL.
+//! In the case of CHECK_TYPE_ROLL, nStatID = the type of dice, and nDC = the number.
+int _Check(int nCheckType, object oPC, int nStatID = -1, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0);
+
 //!! checks to see if a given skill is a class or crossclass skill for the PC.
 //!!  Currently assumes a 1st level PC, uses their first class to decide.
 int _IsClassSkill(int nSkill, object oTarget);
@@ -128,13 +144,13 @@ string _StatIdToString(int nStatID);
 string _SaveIdToString(int nSaveID);
 
 //!! Handle roll logic and output
-int _HandleRoll(object oPC, string sSkill, int nModifier, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int bUntrained=FALSE);
+int _HandleRoll(object oPC, string sSkill, int nModifier, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nMaxDC=255);
 
 //!! Examine synergy for specific object and skill and return value
 int _LookupSynergy(int nSkillID, object oPC, int bShowRoll);
 
 //!! Format check nicely given roll specifics
-string _FormatCheck(string sSkill, int nRoll, int nMod, string sName="", int nDc=0, int bUntrained=FALSE);
+string _FormatCheck(string sSkill, int nRoll, int nMod, string sName="", int nDc=0, int nMaxDC=255);
 
 //!! Send roll message to nearby players and dms
 void _SendRollMessage(object oPC, string sMsg, int bPrivate=FALSE);
@@ -142,6 +158,30 @@ void _SendRollMessage(object oPC, string sMsg, int bPrivate=FALSE);
 //
 //  Function bodies
 //
+
+void ACR_Checks(int nCheckType, object oPC, int nStatID=-1, int nDC=0, int bShowRoll=TRUE, int bBroadcast=TRUE, int nModifier=0) {
+
+	if(GetIsDM(oPC)) {
+		object oTarget = GetPlayerCurrentTarget(oPC);
+		if(oTarget == OBJECT_INVALID) {
+			// Checker is a DM with no target. Check all nearby PCs.
+			object oNearbyPC = GetFirstPC();
+			while(oPC != OBJECT_INVALID) {
+				float fDistance = GetDistanceBetween(oPC, oNearbyPC);
+				if(!GetIsDM(oNearbyPC) && !GetIsDMPossessed(oNearbyPC) && fDistance > 0.0 && fDistance < 50.0)
+					_Check(nCheckType, oNearbyPC, nStatID, nDC, bShowRoll, bBroadcast, nModifier);
+					
+				oNearbyPC = GetNextPC();
+			}
+		} else {
+			// Checker is a DM with a target. Check only the targeted object.
+			_Check(nCheckType, GetPlayerCurrentTarget(oPC), nStatID, nDC, bShowRoll, bBroadcast, nModifier);
+		}
+	} else {
+		// Checker is not a DM. Check itself only.
+		_Check(nCheckType, oPC, nStatID, nDC, bShowRoll, bBroadcast, nModifier);
+	}
+}
 
 int ACR_InitCheck(object oPC, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0)
 {
@@ -174,7 +214,6 @@ int ACR_StatCheck(int nStatID, object oPC, int nDC=0, int bShowRoll=FALSE, int b
 	return _HandleRoll(oPC, sStat, nRank, nDC, bShowRoll, bBroadcast);
 }
 
-
 int ACR_SaveCheck(int nSaveID, object oPC, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0)
 {
 	int nRank;
@@ -205,7 +244,7 @@ int ACR_SaveCheck(int nSaveID, object oPC, int nDC=0, int bShowRoll=FALSE, int b
 
 int ACR_SkillCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0)
 {
-	int nBaseRank,nModifiedRank,bUntrained=FALSE;
+	int nBaseRank, nModifiedRank, nMaxDC=255;
 	string sSkill;
 
 	sSkill = _SkillIdToString(nSkillID);
@@ -216,35 +255,46 @@ int ACR_SkillCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int
 		switch (nSkillID) {
 			case SKILL_DISABLE_TRAP:
 			case SKILL_OPEN_LOCK:
-			case SKILL_SLEIGHT_OF_HAND:
 			case SKILL_SPELLCRAFT:
 			case SKILL_USE_MAGIC_DEVICE:
 			case SKILL_TUMBLE:
-			case SKILL_DECIPHER_SCRIPT:
-			case SKILL_KNOWLEDGE_DUNGEONEERING:
+			case SKILL_DECIPHER_SCRIPT:			
 			case SKILL_HANDLE_ANIMAL:
+			case SKILL_PROFESSION:			
+				// Skill is not usable untrained.  Report if appropriate, and return FALSE
+				nMaxDC = 0;
+				break;
+			
+			case SKILL_SLEIGHT_OF_HAND:
+				nMaxDC = 10;
+				nModifier += GetAbilityModifier(ABILITY_DEXTERITY);
+				break;
+			
+			case SKILL_HANDLE_ANIMAL:
+				nMaxDC = 10;
+				nModifier += GetAbilityModifier(ABILITY_CHARISMA);
+				break;
+				
+			case SKILL_KNOWLEDGE_DUNGEONEERING:
 			case SKILL_KNOWLEDGE_ARCANA:
 			case SKILL_KNOWLEDGE_HISTORY:
 			case SKILL_KNOWLEDGE_NATURE:
 			case SKILL_KNOWLEDGE_RELIGION:
 			case SKILL_KNOWLEDGE_THE_PLANES:
-			case SKILL_PROFESSION:
-			case SKILL_SPEAK_LANGUAGE:
 			case SKILL_KNOWLEDGE_GEOGRAPHY:
 			case SKILL_KNOWLEDGE_NOBILITY:
 			case SKILL_KNOWLEDGE_ENGINEERING:
 			case SKILL_KNOWLEDGE_LOCAL:
-				// Skill is not usable untrained.  Report if appropriate, and return FALSE
-				bUntrained = TRUE;
-			default:
+				// Skill has a max untrained DC of 10.
+				nMaxDC = 10;
+				nModifier += GetAbilityModifier(ABILITY_INTELLIGENCE);
+				break;
 		}
 	}
 
 	nModifiedRank = GetSkillRank(nSkillID, oPC, FALSE) + _LookupSynergy(nSkillID, oPC, bShowRoll) + nModifier;
 
-	// return roll
-
-	return _HandleRoll(oPC, sSkill, nModifiedRank, nDC, bShowRoll, bBroadcast, bUntrained);
+	return _HandleRoll(oPC, sSkill, nModifiedRank, nDC, bShowRoll, bBroadcast, nMaxDC);
 }
 
 
@@ -284,17 +334,17 @@ int ACR_SimpleRoll(object oPC, int nNum, int nType, int bShowRoll=FALSE, int bBr
 }
 
 
-int _HandleRoll(object oPC, string sSkill, int nModifier, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int bUntrained=FALSE)
+int _HandleRoll(object oPC, string sSkill, int nModifier, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nMaxDC=255)
 {
 	int nRoll, bResult = FALSE;
 	string sMsg;
 
 	nRoll = d20();
 
-	if (!bUntrained)
-		bResult = ((nRoll + nModifier) >= nDC);
+	bResult = ((nRoll + nModifier) >= nDC);
+	if(bResult > nMaxDC) bResult = nMaxDC;
 
-	sMsg = _FormatCheck(sSkill, nRoll, nModifier, GetName(oPC), nDC, bUntrained);
+	sMsg = _FormatCheck(sSkill, nRoll, nModifier, GetName(oPC), nDC, nMaxDC);
 	
 	// openended check
 	if (nDC == 0) {
@@ -311,7 +361,7 @@ int _HandleRoll(object oPC, string sSkill, int nModifier, int nDC=0, int bShowRo
 	// dc (scripted) check, only show player
 	if (bShowRoll) 
 		SendMessageToPC(oPC, sMsg);
-		
+	
 	return bResult;
 }
 
@@ -786,6 +836,28 @@ void ACR_SkillsOnClientExit(object oLeaving) {
 	//}
 }
 
+int _Check(int nCheckType, object oPC, int nStatID = -1, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0) {
+	switch(nCheckType) {
+		case CHECK_TYPE_SKILL: return ACR_SkillCheck(nStatID, oPC, nDC, bShowRoll, bBroadcast, nModifier);
+		case CHECK_TYPE_STAT: return ACR_StatCheck(nStatID, oPC, nDC, bShowRoll, bBroadcast, nModifier);
+		case CHECK_TYPE_SAVE: return ACR_SaveCheck(nStatID, oPC, nDC, bShowRoll, bBroadcast, nModifier);
+		case CHECK_TYPE_INITIATIVE: return ACR_InitCheck(oPC, nDC, bShowRoll, bBroadcast, nModifier);
+		case CHECK_TYPE_ROLL: return ACR_SimpleRoll(oPC, nDC, nStatID, bShowRoll, bBroadcast);
+		
+		case CHECK_TYPE_TRACK: {
+			int nMaxDC = GetHasFeat(FEAT_TRACK, oPC, TRUE) ? 255 : 10;
+			int nModifiedRank = GetSkillRank(SKILL_SURVIVAL, oPC, FALSE) + _LookupSynergy(SKILL_SURVIVAL, oPC, bShowRoll) + nModifier;
+			return _HandleRoll(oPC, _SkillIdToString(SKILL_SURVIVAL), nModifiedRank, nDC, bShowRoll, bBroadcast, nMaxDC);
+		}
+			
+		case CHECK_TYPE_PERCEPTION:
+			return ACR_SkillCheck(SKILL_SPOT, oPC, nDC, bShowRoll, bBroadcast, nModifier) && ACR_SkillCheck(SKILL_LISTEN, oPC, nDC, bShowRoll, bBroadcast, nModifier);
+		case CHECK_TYPE_STEALTH:
+			return ACR_SkillCheck(SKILL_HIDE, oPC, nDC, bShowRoll, bBroadcast, nModifier) && ACR_SkillCheck(SKILL_MOVE_SILENTLY, oPC, nDC, bShowRoll, bBroadcast, nModifier);
+	}
+	return FALSE;
+}
+
 int _IsClassSkill(int nSkill, object oTarget) {
 
     int nPCClass = GetClassByPosition(1, oTarget);
@@ -1037,11 +1109,12 @@ int _LookupSynergy(int nSkillID, object oPC, int bShowRoll)
 }
 
 
-string _FormatCheck(string sSkill, int nRoll, int nMod, string sName="", int nDC=0, int bUntrained=FALSE)
+string _FormatCheck(string sSkill, int nRoll, int nMod, string sName="", int nDC=0, int nMaxDC=255)
 {
 	string str="",sMsg = "",sRes = "success";
+	int result = ((nRoll + nMod) > nMaxDC) ? nMaxDC : (nRoll + nMod);
 	
-	if (((nRoll+nMod) < nDC) || bUntrained)
+	if (result < nDC)
 		sRes = "failure";
 		
 	if (sName != "") {
@@ -1051,19 +1124,15 @@ string _FormatCheck(string sSkill, int nRoll, int nMod, string sName="", int nDC
 
 	str += sSkill+" : ";
 
-	if ((nDC > 0) || bUntrained)
+	if (nDC > 0)
 		str += "*"+sRes+"* : ";
 
-	if (bUntrained)
+	if (!nMaxDC)
 		str += "Skill requires training to use.";
-	else
-		str += "(" + IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(nRoll+nMod);
-
-	if (!bUntrained) {
-		if (nDC > 0)
-			str += " vs. DC: "+IntToString(nDC);
-
-		str += ")";
+	else {
+		str += IntToString(nRoll)+" + "+IntToString(nMod)+" = "+IntToString(result);
+		if((nRoll + nMod) > nMaxDC)
+			str += " Skill requires training to beat a DC over " + IntToString(nMaxDC);
 	}
 
 	sMsg += Colorize(str, CHECK_COLOUR2);
