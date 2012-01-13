@@ -340,9 +340,9 @@ int _HandleRoll(object oPC, string sSkill, int nModifier, int nDC=0, int bShowRo
 	string sMsg;
 
 	nRoll = d20();
-
-	bResult = ((nRoll + nModifier) >= nDC);
-	if(bResult > nMaxDC) bResult = nMaxDC;
+	
+	bResult = ((nRoll + nModifier) >= nDC) && nDC <= nMaxDC;
+	
 
 	sMsg = _FormatCheck(sSkill, nRoll, nModifier, GetName(oPC), nDC, nMaxDC);
 	
