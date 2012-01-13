@@ -419,7 +419,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_wand_pim_unequip.ncs              \
             $(OUTPUTDIR)\gui_wand_turn_horizontal.ncs          \
             $(OUTPUTDIR)\gui_wand_turn_vertical.ncs            \
-            $(OUTPUTDIR)\wand_init.ncs                         
+            $(OUTPUTDIR)\wand_init.ncs                         \
+            $(OUTPUTDIR)\dmfi_usd_portal.ncs                   
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and
