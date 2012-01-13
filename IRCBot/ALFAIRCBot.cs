@@ -17,6 +17,7 @@ namespace ALFAIRCBot
         public ALFAIRCBot()
         {
             Client = new IrcClient();
+            Rng = new Random();
             Client.OnChannelMessage += new IrcEventHandler(Client_OnChannelMessage);
             Client.OnErrorMessage += new IrcEventHandler(Client_OnErrorMessage);
             Client.OnError += new ErrorEventHandler(Client_OnError);
@@ -91,7 +92,7 @@ namespace ALFAIRCBot
             {
                 try
                 {
-                    ShowOnlinePlayers();
+                    OnCommandPlayers(e.Data.Channel);
                 }
                 catch (Exception ex)
                 {
@@ -99,6 +100,10 @@ namespace ALFAIRCBot
 
                     Client.SendMessage(SendType.Message, HomeChannel, "Internal error handling !players request.  The database server may be offline or unreachable.");
                 }
+            }
+            else if (e.Data.Message.StartsWith("!roll "))
+            {
+                OnCommandRoll(e.Data.Channel, e.Data.Message.Substring(5));
             }
         }
 
@@ -123,9 +128,31 @@ namespace ALFAIRCBot
             public int ServerId;
             public int Players;
             public int DMs;
+            public int HealthStatus;
+            public bool VaultOnline;
         }
 
-        private void ShowOnlinePlayers()
+        private static string GetServerHealthStatusString(int HealthStatus)
+        {
+            switch (HealthStatus)
+            {
+
+                case 0:
+                    return "";
+
+                case 1:
+                    return "[medium latency] ";
+
+                case 2:
+                    return "[high latency] ";
+
+                default:
+                    return "[unknown latency state] ";
+
+            }
+        }
+
+        private void OnCommandPlayers(string Channel)
         {
             Dictionary<int, SERVER_DATA> ServerInfoTable = new Dictionary<int, SERVER_DATA>();
             SERVER_DATA ServerData = new SERVER_DATA();
@@ -134,15 +161,21 @@ namespace ALFAIRCBot
                 "SELECT " +
                     "COUNT(`characters`.`ID`) AS character_count, " +
                     "`servers`.`Name` AS server_name, " +
-                    "`servers`.`ID` as server_id " +
+                    "`servers`.`ID` AS server_id, " +
+                    "`pwdata_health`.`Value` as server_health_status, " +
+                    "`pwdata_vault`.`Value` as server_vault_status " +
                 "FROM `characters` " +
                 "INNER JOIN `players` ON `players`.`ID` = `characters`.`PlayerID` " +
                 "INNER JOIN `servers` ON `servers`.`ID` = `characters`.`ServerID` " +
                 "INNER JOIN `pwdata` ON `pwdata`.`Name` = `servers`.`Name` " +
+                "LEFT OUTER JOIN `pwdata` AS `pwdata_health` ON `pwdata_health`.`Name` = `servers`.`Name` " +
+                "AND `pwdata_health`.`Key` = 'ACR_HEALTHMONITOR_STATUS' " +
+                "LEFT OUTER JOIN `pwdata` AS `pwdata_vault` ON `pwdata_vault`.`Name` = `servers`.`Name` " +
+                "AND `pwdata_health`.`Key` = 'ACR_HEALTHMONITOR_VAULT_STATUS' " +
                 "WHERE `characters`.`IsOnline` = 1 " +
                 "AND `players`.IsDM = {0} " +
-                "AND pwdata.`Key` = 'ACR_TIME_SERVERTIME' " +
-                "AND pwdata.`Last` >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 10 MINUTE) " +
+                "AND `pwdata`.`Key` = 'ACR_TIME_SERVERTIME' " +
+                "AND `pwdata`.`Last` >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 10 MINUTE) " +
                 "GROUP BY `characters`.`ServerID` "
                 ;
 
@@ -158,6 +191,32 @@ namespace ALFAIRCBot
                     ServerInfoTable[ServerId].Players = Reader.GetInt32(0);
                     ServerInfoTable[ServerId].Name = Reader.GetString(1);
                     ServerInfoTable[ServerId].ServerId = Reader.GetInt32(2);
+
+                    if (Reader.IsDBNull(3))
+                        ServerInfoTable[ServerId].HealthStatus = -1;
+                    else
+                        ServerInfoTable[ServerId].HealthStatus = Reader.GetInt32(3);
+
+                    if (Reader.IsDBNull(4))
+                        ServerInfoTable[ServerId].VaultOnline = true;
+                    else
+                    {
+                        switch (Reader.GetInt32(4))
+                        {
+
+                            case 0:
+                            default:
+                                ServerInfoTable[ServerId].VaultOnline = true;
+                                break;
+
+                            case 1:
+                                ServerInfoTable[ServerId].VaultOnline = false;
+                                break;
+
+
+                        }
+                    }
+
                 }
             }
 
@@ -199,18 +258,29 @@ namespace ALFAIRCBot
                     First = false;
                 }
 
-                Output.AppendFormat("{0}: {1} player{2}, {3} DM{4}",
+                string VaultStatusString;
+
+                if (Entry.VaultOnline)
+                    VaultStatusString = "";
+                else
+                    VaultStatusString = "*VAULT DISCONNECTED* ";
+
+                Output.AppendFormat("{0}: {1} player{2}, {3} DM{4}{5}{6}",
                     Entry.Name,
                     Entry.Players,
                     Entry.Players == 1 ? "" : "s",
                     Entry.DMs,
-                    Entry.DMs == 1 ? "" : "s");
+                    Entry.DMs == 1 ? "" : "s",
+                    GetServerHealthStatusString(Entry.HealthStatus),
+                    VaultStatusString);
             }
 
             if (First)
-                Client.SendMessage(SendType.Message, HomeChannel, "No players are logged on to any servers.");
+                Client.SendMessage(SendType.Message, Channel, "No players are logged on to any servers.");
             else
-                Client.SendMessage(SendType.Message, HomeChannel, Output.ToString());
+                Client.SendMessage(SendType.Message, Channel, Output.ToString());
+
+//            Console.WriteLine(Output.ToString());
 
             /*
             ServerInfoTable[3].Name = "TSM";
@@ -243,12 +313,49 @@ namespace ALFAIRCBot
              */
         }
 
+        private void OnCommandRoll(string Channel, string Cmd)
+        {
+            string[] CmdArgs = Cmd.Split(new char[] { 'd' });
+
+            if (CmdArgs.Length != 2)
+            {
+                Client.SendMessage(SendType.Message, Channel, "Usage: !roll <count>d<sides>.");
+                return;
+            }
+
+            try
+            {
+                int Dice = Convert.ToInt32(CmdArgs[0]);
+                int Sides = Convert.ToInt32(CmdArgs[1]);
+                int Sum = 0;
+
+                if (Dice < 1 || Sides < 1 || Dice > 100)
+                {
+                    Client.SendMessage(SendType.Message, Channel, "Invalid arguments for !roll request.");
+                    return;
+                }
+
+                for (int i = 0; i < Dice; i += 1)
+                {
+                    Sum += (Rng.Next() % Sides) + 1;
+                }
+
+                Client.SendMessage(SendType.Message, Channel, String.Format(
+                    "Rolled {0}d{1}: {2}", Dice, Sides, Sum));
+            }
+            catch (Exception)
+            {
+                Client.SendMessage(SendType.Message, Channel, "Internal error processing !roll request.");
+            }
+        }
+
         private MySqlDataReader ExecuteQuery(string Query)
         {
             return MySqlHelper.ExecuteReader(ConnectionString, Query);
         }
 
         private IrcClient Client;
+        private Random Rng;
 
         private string ConnectionString;
     }
