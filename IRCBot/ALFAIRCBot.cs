@@ -199,10 +199,12 @@ namespace ALFAIRCBot
                     First = false;
                 }
 
-                Output.AppendFormat("{0}: {1} player(s), {2} DM(s)",
+                Output.AppendFormat("{0}: {1} player{2}, {3} DM{4}",
                     Entry.Name,
                     Entry.Players,
-                    Entry.DMs);
+                    Entry.Players == 1 ? "" : "s",
+                    Entry.DMs,
+                    Entry.DMs == 1 ? "" : "s");
             }
 
             if (First)
