@@ -166,7 +166,7 @@ void ACR_Checks(int nCheckType, object oPC, int nStatID=-1, int nDC=0, int bShow
 		if(oTarget == OBJECT_INVALID) {
 			// Checker is a DM with no target. Check all nearby PCs.
 			object oNearbyPC = GetFirstPC();
-			while(oPC != OBJECT_INVALID) {
+			while(oNearbyPC != OBJECT_INVALID) {
 				float fDistance = GetDistanceBetween(oPC, oNearbyPC);
 				if(!GetIsDM(oNearbyPC) && !GetIsDMPossessed(oNearbyPC) && fDistance > 0.0 && fDistance < 50.0)
 					_Check(nCheckType, oNearbyPC, nStatID, nDC, bShowRoll, bBroadcast, nModifier);
