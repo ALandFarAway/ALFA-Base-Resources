@@ -367,6 +367,50 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// Populate the chat select GUI. This may be called as part of the enter
+        /// event or the opening of the chat select GUI
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the sender player object</param>
+        /// <param name="bCollapsed">Supplies the state (expanded or collapsed) of the chatselect GUI.</param>
+        public void ACR_PopulateChatSelect(uint PlayerObject)
+        {
+            var OnlineServers = from S in WorldManager.Servers
+                                where S.Online &&
+                                S.Characters.Count > 0
+                                select S;
+            ClearListBox(PlayerObject, "chatselect", "LocalPlayerList");
+            ClearListBox(PlayerObject, "chatselect", "LocalDMList");
+            ClearListBox(PlayerObject, "chatselect", "RemotePlayerList");
+            ClearListBox(PlayerObject, "chatselect", "RemoteDMList");
+
+            int bExpanded = GetLocalInt(PlayerObject, "chatselect_expanded");
+           
+            foreach (GameServer Server in OnlineServers)
+            {
+                if (Server.DatabaseId == GetGlobalInt("ACR_SET_SID") || bExpanded == FALSE)
+                {
+                    foreach (GameCharacter Character in Server.Characters)
+                    {
+                        if(GetIsDM(PlayerObject) == FALSE)
+                            AddListBoxRow(PlayerObject, "chatselect", "LocalDMList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
+                        else
+                            AddListBoxRow(PlayerObject, "chatselect", "LocalPlayerList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
+                    }
+                }
+                else
+                {
+                    foreach (GameCharacter Character in Server.Characters)
+                    {
+                        if (GetIsDM(PlayerObject) == FALSE)
+                            AddListBoxRow(PlayerObject, "chatselect", "RemoteDMList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
+                        else
+                            AddListBoxRow(PlayerObject, "chatselect", "RemotePlayerList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// This method dumps the internal state of the game world manager out.
         /// </summary>
         /// <param name="PlayerObject">Supplies the sender player
@@ -551,6 +595,18 @@ namespace ACR_ServerCommunicator
             SetLocalInt(PlayerObject, "ACR_SERVER_IPC_CLIENT_ENTERED", TRUE);
             GetDatabase().ACR_SetPCLocalFlags(PlayerObject, 0);
 
+            //
+            // Someone has just joined the server; we need to update
+            // the chat windows
+            //
+
+            uint Player = GetFirstPC(FALSE);
+            while(GetIsObjectValid(Player) != FALSE)
+            {
+                ACR_PopulateChatSelect(Player);
+                Player = GetNextPC(FALSE);
+            }
+            
             //
             // Remind the player that they have cross server event
             // notifications turned off if they did turn them off.
