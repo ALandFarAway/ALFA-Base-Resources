@@ -1063,7 +1063,6 @@ namespace ACR_ServerCommunicator
                 }
                 else
                 {
-                    SetLastTellToPlayerId(SenderObjectId, Player.PlayerId);
                     SendServerToServerTell(
                         SenderObjectId,
                         WorldManager.ReferencePlayerById(GetDatabase().ACR_GetPlayerID(SenderObjectId), GetDatabase()),
@@ -1523,12 +1522,13 @@ namespace ACR_ServerCommunicator
         {
             GameServer DestinationServer = RecipientPlayer.GetOnlineServer();
 
+            SetLastTellToPlayerId(SenderObjectId, RecipientPlayer.PlayerId);
+
             if (!RecipientPlayer.IsOnline() || DestinationServer == null)
             {
                 SendFeedbackError(SenderObjectId, "That player is not logged on.");
                 return;
             }
-
 
 #if DEBUG_MODE
             //
