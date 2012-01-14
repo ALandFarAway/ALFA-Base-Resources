@@ -43,6 +43,9 @@ namespace ACR_ServerCommunicator
             // then don't re-broadcast it.
             //
 
+            foreach (uint PlayerObject in Script.GetPlayers(true))
+                Script.ACR_PopulateChatSelect(PlayerObject);
+
             if (Database.ACR_GetServerID() == Server.ServerId)
                 return;
 

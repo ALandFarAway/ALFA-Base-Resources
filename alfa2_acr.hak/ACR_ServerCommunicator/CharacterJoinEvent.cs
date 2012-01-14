@@ -42,6 +42,8 @@ namespace ACR_ServerCommunicator
             // If the event was for a player logging on to the local server,
             // then don't re-broadcast it.
             //
+            foreach (uint PlayerObject in Script.GetPlayers(true))
+                Script.ACR_PopulateChatSelect(PlayerObject);
 
             if (Database.ACR_GetServerID() == Server.ServerId)
                 return;
