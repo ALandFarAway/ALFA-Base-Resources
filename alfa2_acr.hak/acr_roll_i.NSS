@@ -1,8 +1,64 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+//  System Name : ALFA Core Rules
+//     Filename : acr_roll_i
+//    $Revision:: 1          $ current version of the file
+//        $Date:: 2012-01-12#$ date the file was created or modified
+//       Author : Ronan
+//
+//    Var Prefix: ROLL
+//  Dependencies: NWNX, MYSQL
+//
+//  Description
+//  This file contains logic for managing chat text roll commands.
+//
+//  Revision History
+//  2012/01/12  Ronan       - Created.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+// Includes ////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 #include "acr_tools_i"
 #include "acr_skills_i"
 
+////////////////////////////////////////////////////////////////////////////////
+// Constants ///////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+// Structures //////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+// Global Variables ////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+// Function Prototypes /////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 //! Parse a roll command
 void ParseRoll(object pc, string cmd);
+
+//! Perform a left-justified string comparison.
+//!  - str: Supplies the string to compare against.
+//!  - ref: Supplies the string to compare with.
+//!  - Returns: TRUE if there was a match, else FALE.
+int ACR_RollCompareLeft(string str, string ref);
+
+////////////////////////////////////////////////////////////////////////////////
+// Function Definitions ////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+int ACR_RollCompareLeft(string str, string ref)
+{
+	int len = GetStringLength(ref);
+
+	return (GetStringLeft(str, len) == ref);
+}
 
 void ParseRoll(object pc, string cmd)
 {
@@ -14,7 +70,7 @@ void ParseRoll(object pc, string cmd)
 	if (TestStringAgainstPattern("(craft|knowledge|perform)**",cmd)) {
 
 		tmp = "craft";
-		if (CompareLeft(cmd,tmp)) {
+		if (ACR_RollCompareLeft(cmd,tmp)) {
 			len = GetStringLength(cmd);
 			offset = GetStringLength(tmp);
 
@@ -22,7 +78,7 @@ void ParseRoll(object pc, string cmd)
 		}
 		
 		tmp = "knowledge";
-		if (CompareLeft(cmd,tmp)) {
+		if (ACR_RollCompareLeft(cmd,tmp)) {
 			len = GetStringLength(cmd);
 			offset = GetStringLength(tmp);
 
@@ -30,7 +86,7 @@ void ParseRoll(object pc, string cmd)
 		}
 
 		tmp = "perform";
-		if (CompareLeft(cmd,tmp)) {
+		if (ACR_RollCompareLeft(cmd,tmp)) {
 			len = GetStringLength(cmd);
 			offset = GetStringLength(tmp);
 
@@ -39,7 +95,7 @@ void ParseRoll(object pc, string cmd)
 
 		// eat characters
 		do {
-			b = CompareLeft(cmd, " ") + CompareLeft(cmd, "-") + CompareLeft(cmd, "(") + CompareLeft(cmd, ":");
+			b = ACR_RollCompareLeft(cmd, " ") + ACR_RollCompareLeft(cmd, "-") + ACR_RollCompareLeft(cmd, "(") + ACR_RollCompareLeft(cmd, ":");
 			
 			// no alterations needed
 			if (!b)
@@ -52,222 +108,222 @@ void ParseRoll(object pc, string cmd)
 	}
 
 	// saves
-	if (CompareLeft(cmd,"for")) {
+	if (ACR_RollCompareLeft(cmd,"for")) {
 		ACR_Checks(CHECK_TYPE_SAVE, pc, SAVING_THROW_FORT);
 	}
-	else if (CompareLeft(cmd,"ref")) {
+	else if (ACR_RollCompareLeft(cmd,"ref")) {
 		ACR_Checks(CHECK_TYPE_SAVE, pc, SAVING_THROW_REFLEX);
 	}
-	else if (CompareLeft(cmd,"wil")) {
+	else if (ACR_RollCompareLeft(cmd,"wil")) {
 		ACR_Checks(CHECK_TYPE_SAVE, pc, SAVING_THROW_WILL);
 	}
 
 	// initiative
-	else if (CompareLeft(cmd,"ini")) {
+	else if (ACR_RollCompareLeft(cmd,"ini")) {
 
 		ACR_InitCheck(pc, 0, TRUE, TRUE);
 	}
 
 	// abilities
-	else if (CompareLeft(cmd,"stre") || cmd == "str") {
+	else if (ACR_RollCompareLeft(cmd,"stre") || cmd == "str") {
 		ACR_Checks(CHECK_TYPE_STAT, pc, ABILITY_STRENGTH);
 	}
-	else if (CompareLeft(cmd,"dex")) {
+	else if (ACR_RollCompareLeft(cmd,"dex")) {
 		ACR_Checks(CHECK_TYPE_STAT, pc, ABILITY_DEXTERITY);
 	}
-	else if (CompareLeft(cmd,"cons") || cmd == "con") { 
+	else if (ACR_RollCompareLeft(cmd,"cons") || cmd == "con") { 
 		ACR_Checks(CHECK_TYPE_STAT, pc, ABILITY_CONSTITUTION);
 	}
-	else if (CompareLeft(cmd,"int")) {
+	else if (ACR_RollCompareLeft(cmd,"int")) {
 		ACR_Checks(CHECK_TYPE_STAT, pc, ABILITY_INTELLIGENCE);
 	}
-	else if (CompareLeft(cmd,"wis")) {
+	else if (ACR_RollCompareLeft(cmd,"wis")) {
 		ACR_Checks(CHECK_TYPE_STAT, pc, ABILITY_WISDOM);
 	}
-	else if (CompareLeft(cmd,"cha")) {
+	else if (ACR_RollCompareLeft(cmd,"cha")) {
 		ACR_Checks(CHECK_TYPE_STAT, pc, ABILITY_CHARISMA);
 	}
 	
 	// Combined skill rolls.
-	else if (CompareLeft(cmd,"track")) {
+	else if (ACR_RollCompareLeft(cmd,"track")) {
 		ACR_Checks(CHECK_TYPE_TRACK, pc);
 	}
-	else if (CompareLeft(cmd,"stealth")) {
+	else if (ACR_RollCompareLeft(cmd,"stealth")) {
 		ACR_Checks(CHECK_TYPE_STEALTH, pc);
 	}
-	else if (CompareLeft(cmd,"perc")) {
+	else if (ACR_RollCompareLeft(cmd,"perc")) {
 		ACR_Checks(CHECK_TYPE_PERCEPTION, pc);
 	}
 	
 	// Skills.
-	else if (CompareLeft(cmd,"app")) {
+	else if (ACR_RollCompareLeft(cmd,"app")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_APPRAISE);
 	}
-	else if (CompareLeft(cmd,"bal")) {
+	else if (ACR_RollCompareLeft(cmd,"bal")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_BALANCE);
 	}
-	else if (CompareLeft(cmd,"blu")) {
+	else if (ACR_RollCompareLeft(cmd,"blu")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_BLUFF);
 	}
-	else if (CompareLeft(cmd,"cli")) {
+	else if (ACR_RollCompareLeft(cmd,"cli")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_CLIMB);
 	}
-	else if (CompareLeft(cmd,"conc")) {
+	else if (ACR_RollCompareLeft(cmd,"conc")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_CONCENTRATION);
 	}
-	else if (CompareLeft(cmd,"alc")) {
+	else if (ACR_RollCompareLeft(cmd,"alc")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_CRAFT__ALCHEMY);
 	}
-	else if (CompareLeft(cmd,"arm")) {
+	else if (ACR_RollCompareLeft(cmd,"arm")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_CRAFT_ARMORSMITHING);
 	}
-	else if (CompareLeft(cmd,"bow")) {
+	else if (ACR_RollCompareLeft(cmd,"bow")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_CRAFT_BOWMAKING);
 	}
-	else if (CompareLeft(cmd,"wea")) {
+	else if (ACR_RollCompareLeft(cmd,"wea")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_CRAFT_WEAPONSMITHING);
 	}
-	else if (CompareLeft(cmd,"scr") || CompareLeft(cmd,"dec")) {
+	else if (ACR_RollCompareLeft(cmd,"scr") || ACR_RollCompareLeft(cmd,"dec")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_DECIPHER_SCRIPT);
 	}
-	else if (CompareLeft(cmd,"dip")) {
+	else if (ACR_RollCompareLeft(cmd,"dip")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_DIPLOMACY);
 	}
-	else if (CompareLeft(cmd,"tra") || CompareLeft(cmd,"disa") || cmd == "dd") {
+	else if (ACR_RollCompareLeft(cmd,"tra") || ACR_RollCompareLeft(cmd,"disa") || cmd == "dd") {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_DISABLE_TRAP);
 	}
-	else if (CompareLeft(cmd,"disg") || cmd == "dis") {
+	else if (ACR_RollCompareLeft(cmd,"disg") || cmd == "dis") {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_DISGUISE);
 	}
-	else if (CompareLeft(cmd,"esc") || CompareLeft(cmd,"art") || cmd == "ea") {
+	else if (ACR_RollCompareLeft(cmd,"esc") || ACR_RollCompareLeft(cmd,"art") || cmd == "ea") {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_ESCAPE_ARTIST);
 	}
-	else if (CompareLeft(cmd,"for")) {
+	else if (ACR_RollCompareLeft(cmd,"for")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_FORGERY);
 	}
-	else if (CompareLeft(cmd,"gat") || CompareLeft(cmd,"inf") || cmd == "gi") {
+	else if (ACR_RollCompareLeft(cmd,"gat") || ACR_RollCompareLeft(cmd,"inf") || cmd == "gi") {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_GATHER_INFORMATION);
 	}
-	else if (CompareLeft(cmd,"han")) {
+	else if (ACR_RollCompareLeft(cmd,"han")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_HANDLE_ANIMAL);
 	}
-	else if (CompareLeft(cmd,"hea")) {
+	else if (ACR_RollCompareLeft(cmd,"hea")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_HEAL);
 	}
-	else if (CompareLeft(cmd,"hid")) {
+	else if (ACR_RollCompareLeft(cmd,"hid")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_HIDE);
 	}
-	else if (CompareLeft(cmd,"jum")) {
+	else if (ACR_RollCompareLeft(cmd,"jum")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_JUMP);
 	}
-	else if (CompareLeft(cmd,"arca") || cmd == "arc") {
+	else if (ACR_RollCompareLeft(cmd,"arca") || cmd == "arc") {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_KNOWLEDGE_ARCANA);
 	}
-	else if (CompareLeft(cmd,"arch") || CompareLeft(cmd,"eng")) {
+	else if (ACR_RollCompareLeft(cmd,"arch") || ACR_RollCompareLeft(cmd,"eng")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_KNOWLEDGE_ENGINEERING);
 	}
-	else if (CompareLeft(cmd,"dun")) {
+	else if (ACR_RollCompareLeft(cmd,"dun")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_KNOWLEDGE_DUNGEONEERING);
 	}
-	else if (CompareLeft(cmd,"geo")) {
+	else if (ACR_RollCompareLeft(cmd,"geo")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_KNOWLEDGE_GEOGRAPHY);
 	}
-	else if (CompareLeft(cmd,"his")) {
+	else if (ACR_RollCompareLeft(cmd,"his")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_KNOWLEDGE_HISTORY);
 	}
-	else if (CompareLeft(cmd,"loc")) {
+	else if (ACR_RollCompareLeft(cmd,"loc")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_KNOWLEDGE_LOCAL);
 	}
-	else if (CompareLeft(cmd,"nat")) {
+	else if (ACR_RollCompareLeft(cmd,"nat")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_KNOWLEDGE_NATURE);
 	}
-	else if (CompareLeft(cmd,"nob") || CompareLeft(cmd,"roy")) {
+	else if (ACR_RollCompareLeft(cmd,"nob") || ACR_RollCompareLeft(cmd,"roy")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_KNOWLEDGE_NOBILITY);
 	}
-	else if (CompareLeft(cmd,"rel")) {
+	else if (ACR_RollCompareLeft(cmd,"rel")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_KNOWLEDGE_RELIGION);
 	}
-	else if (CompareLeft(cmd,"pla") || CompareLeft(cmd,"the p")) {
+	else if (ACR_RollCompareLeft(cmd,"pla") || ACR_RollCompareLeft(cmd,"the p")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_KNOWLEDGE_THE_PLANES);
 	}
-	else if (CompareLeft(cmd,"lis")) {
+	else if (ACR_RollCompareLeft(cmd,"lis")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_LISTEN);
 	}
-	else if (CompareLeft(cmd,"mov") || CompareLeft(cmd,"sne") || cmd == "ms") {
+	else if (ACR_RollCompareLeft(cmd,"mov") || ACR_RollCompareLeft(cmd,"sne") || cmd == "ms") {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_MOVE_SILENTLY);
 	}
-	else if (CompareLeft(cmd,"pick l") || CompareLeft(cmd,"loc") || CompareLeft(cmd,"ope") || cmd == "ol") {
+	else if (ACR_RollCompareLeft(cmd,"pick l") || ACR_RollCompareLeft(cmd,"loc") || ACR_RollCompareLeft(cmd,"ope") || cmd == "ol") {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_OPEN_LOCK);
 	}
-	else if (CompareLeft(cmd,"par")) {
+	else if (ACR_RollCompareLeft(cmd,"par")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_PARRY);
 	}
-	else if (CompareLeft(cmd,"act")) {
+	else if (ACR_RollCompareLeft(cmd,"act")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_PERFORM_ACT);
 	}
-	else if (CompareLeft(cmd,"com")) {
+	else if (ACR_RollCompareLeft(cmd,"com")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_PERFORM_COMEDY);
 	}
-	else if (CompareLeft(cmd,"dan")) {
+	else if (ACR_RollCompareLeft(cmd,"dan")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_PERFORM_DANCE);
 	}
-	else if (CompareLeft(cmd,"key")) {
+	else if (ACR_RollCompareLeft(cmd,"key")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_PERFORM_KEYBOARD);
 	}
-	else if (CompareLeft(cmd,"ora")) {
+	else if (ACR_RollCompareLeft(cmd,"ora")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_PERFORM_ORATORY);
 	}
-	else if (CompareLeft(cmd,"dru") || CompareLeft(cmd,"per")) {
+	else if (ACR_RollCompareLeft(cmd,"dru") || ACR_RollCompareLeft(cmd,"per")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_PERFORM_PERCUSSION);
 	}
-	else if (CompareLeft(cmd,"stri") || cmd == "si") {
+	else if (ACR_RollCompareLeft(cmd,"stri") || cmd == "si") {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_PERFORM_STRING_INSTRUMENTS);
 	}
-	else if (CompareLeft(cmd,"win") || CompareLeft(cmd,"woo") || cmd == "wi") {
+	else if (ACR_RollCompareLeft(cmd,"win") || ACR_RollCompareLeft(cmd,"woo") || cmd == "wi") {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_PERFORM_WIND_INSTRUMENTS);
 	}
-	else if (CompareLeft(cmd,"sin")) {
+	else if (ACR_RollCompareLeft(cmd,"sin")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_PERFORM_SING);
 	}
-	else if (CompareLeft(cmd,"pro")) {
+	else if (ACR_RollCompareLeft(cmd,"pro")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_PROFESSION);
 	}
-	else if (CompareLeft(cmd,"rid")) {
+	else if (ACR_RollCompareLeft(cmd,"rid")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_RIDE);
 	}
-	else if (CompareLeft(cmd,"sea")) {
+	else if (ACR_RollCompareLeft(cmd,"sea")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_SEARCH);
 	}
-	else if (CompareLeft(cmd,"sen") || cmd == "sm") {
+	else if (ACR_RollCompareLeft(cmd,"sen") || cmd == "sm") {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_SENSE_MOTIVE);
 	}
-	else if (CompareLeft(cmd,"sle") || CompareLeft(cmd,"pock p") || cmd == "pp" || cmd == "soh") {
+	else if (ACR_RollCompareLeft(cmd,"sle") || ACR_RollCompareLeft(cmd,"pock p") || cmd == "pp" || cmd == "soh") {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_SLEIGHT_OF_HAND);
 	}
-	else if (CompareLeft(cmd,"spe") || cmd == "sc") {
+	else if (ACR_RollCompareLeft(cmd,"spe") || cmd == "sc") {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_SPELLCRAFT);
 	}
-	else if (CompareLeft(cmd,"spo")) {
+	else if (ACR_RollCompareLeft(cmd,"spo")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_SPOT);
 	}
-	else if (CompareLeft(cmd,"sur")) {
+	else if (ACR_RollCompareLeft(cmd,"sur")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_SURVIVAL);
 	}
-	else if (CompareLeft(cmd,"swi")) {
+	else if (ACR_RollCompareLeft(cmd,"swi")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_SWIM);
 	}
-	else if (CompareLeft(cmd,"tum")) {
+	else if (ACR_RollCompareLeft(cmd,"tum")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_TUMBLE);
 	}
-	else if (CompareLeft(cmd,"use m") || CompareLeft(cmd,"mag") || CompareLeft(cmd,"dev") || cmd == "umd") {
+	else if (ACR_RollCompareLeft(cmd,"use m") || ACR_RollCompareLeft(cmd,"mag") || ACR_RollCompareLeft(cmd,"dev") || cmd == "umd") {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_USE_MAGIC_DEVICE);
 	}
-	else if (CompareLeft(cmd,"rop") || CompareLeft(cmd,"use r") || cmd == "ur") {
+	else if (ACR_RollCompareLeft(cmd,"rop") || ACR_RollCompareLeft(cmd,"use r") || cmd == "ur") {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_USE_ROPE);
 	}
 
 	// Bardic knowledge
-	else if (CompareLeft(cmd,"bar")) {
+	else if (ACR_RollCompareLeft(cmd,"bar")) {
 		int nRank = GetLevelByClass(CLASS_TYPE_BARD, pc);
 		if(nRank == 0)
 		{
