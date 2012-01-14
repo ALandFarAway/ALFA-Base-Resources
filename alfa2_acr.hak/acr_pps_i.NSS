@@ -363,8 +363,14 @@ void ACR_PCOnClientEnter(object oPC)
 
 		if (ACR_SQLFetch() != SQL_SUCCESS)
 		{
- 			if (! GetIsDM(oPC))	{ BootPC(oPC); return; }
-	       	ACR_PrintDebugMessage("acr_pps_i: ERROR - Could not create cdkey record for " + GetName(oPC) + ". The database may be down. Aborting login processing.", ACR_PPS_DEBUG_ID, DEBUG_LEVEL_FATAL);
+	      ACR_PrintDebugMessage("acr_pps_i: ERROR - Could not create cdkey record for " + GetName(oPC) + ". The database may be down. Aborting login processing.", ACR_PPS_DEBUG_ID, DEBUG_LEVEL_FATAL);
+
+ 			if (! GetIsDM(oPC))
+			{
+				SendMessageToPC(oPC, "Booted because CD-Key records could not be updated in the database.");
+				BootPC(oPC);
+				return;
+			}
 		}
     }
     // otherwise, check if this is a banned CD Key
@@ -372,7 +378,9 @@ void ACR_PCOnClientEnter(object oPC)
     {
         // log the event then boot the player
         ACR_LogEvent(oPC, ACR_LOG_LOGIN_BANNED, "CDKey: " + sCDKey);
-        BootPC(oPC); return;
+		  SendMessageToPC(oPC, "Booted because you are banned.");
+        BootPC(oPC);
+		  return;
     }
 
     // second, retrieve the IP address from the database
@@ -394,7 +402,9 @@ void ACR_PCOnClientEnter(object oPC)
     {
         // log the event then boot the player
         ACR_LogEvent(oPC, ACR_LOG_LOGIN_BANNED, "IPAddress: " + GetPCIPAddress(oPC));
-        BootPC(oPC); return;
+		  SendMessageToPC(oPC, "Booted because you are banned.");
+        BootPC(oPC);
+		  return;
     }
 
     // third, retrieve the player ID from the database
@@ -410,7 +420,12 @@ void ACR_PCOnClientEnter(object oPC)
 		// if there's a problem with the database - log an error and boot the player
 		if (ACR_SQLFetch() != SQL_SUCCESS)
 		{
-			if (! GetIsDM(oPC))	{ BootPC(oPC); return; }
+			if (! GetIsDM(oPC))
+			{
+				SendMessageToPC(oPC, "Booted because CD-Key records in the database could not be updated.");
+				BootPC(oPC);
+				return;
+			}
         	ACR_PrintDebugMessage("acr_pps_i: ERROR - Could not create player record for " + GetName(oPC) + ". The database may be down. Aborting login processing.", ACR_PPS_DEBUG_ID, DEBUG_LEVEL_FATAL);
 		}
     }
@@ -419,7 +434,9 @@ void ACR_PCOnClientEnter(object oPC)
     {
         // log the event then boot the player
         ACR_LogEvent(oPC, ACR_LOG_LOGIN_BANNED, "Player: " + sPlayerName);
-        BootPC(oPC); return;
+		  SendMessageToPC(oPC, "Booted because you are banned.");
+        BootPC(oPC);
+		  return;
     }
     string sPID = ACR_SQLGetData(0);
 	string sWasDM = ACR_SQLGetData(3);
@@ -430,7 +447,9 @@ void ACR_PCOnClientEnter(object oPC)
 	if (sDBKey != sCDKey) {
         // log the event then boot the player
         ACR_LogEvent(oPC, ACR_LOG_LOGIN_BANNED, "CDKey Mismatch- "+sCDKey+" Player: " + sPlayerName);
-        BootPC(oPC); return;
+		  SendMessageToPC(oPC, "Booted because your CD-Key does not match our records.");
+        BootPC(oPC);
+		  return;
 	}
 	if (sIsDM != sWasDM) {
 		// This GSID is being used as a DM / Player and needs to be switched.
@@ -470,8 +489,14 @@ void ACR_PCOnClientEnter(object oPC)
 		// if there's a problem with the database - log an error and boot the player
 		if (ACR_SQLFetch() != SQL_SUCCESS)
 		{
- 			if (! GetIsDM(oPC))	{ BootPC(oPC); return; }
-	       	ACR_PrintDebugMessage("acr_pps_i: ERROR - Could not create character record for " + sCharacterName + ". The database may be down. Aborting login processing.", ACR_PPS_DEBUG_ID, DEBUG_LEVEL_FATAL);
+	      ACR_PrintDebugMessage("acr_pps_i: ERROR - Could not create character record for " + sCharacterName + ". The database may be down. Aborting login processing.", ACR_PPS_DEBUG_ID, DEBUG_LEVEL_FATAL);
+			
+ 			if (! GetIsDM(oPC))
+			{
+				SendMessageToPC(oPC, "Booted because character record could not be created in the database.");
+				BootPC(oPC);
+				return;
+			}
 		}
 	}
 	
@@ -481,7 +506,9 @@ void ACR_PCOnClientEnter(object oPC)
     {
       	// log the event then boot the player
        	ACR_LogEvent(oPC, ACR_LOG_LOGIN_DELETED, "Character: " + sCharacterName);
-       	BootPC(oPC); return;
+			SendMessageToPC(oPC, "Booted because this character has been deleted.");
+       	BootPC(oPC);
+			return;
     }
 	// take note of unplayable characters (decayed corpses)
     else if (ACR_SQLGetData(2) == "0")
@@ -527,7 +554,9 @@ void ACR_PCOnPCLoaded(object oPC)
 	{
        	// log the event then boot the player
        	ACR_LogEvent(oPC, ACR_LOG_LOGIN, "Could not load character: " + GetName(oPC));
-       	BootPC(oPC); return;
+			SendMessageToPC(oPC, "Booted because the character record could not be found for your character.");
+       	BootPC(oPC);
+			return;
 	}
 	sLocation = ACR_SQLGetData(10);
 	sServerID = ACR_SQLGetData(0);

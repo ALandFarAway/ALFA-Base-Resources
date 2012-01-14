@@ -343,9 +343,14 @@ void ACR_ModuleOnClientEnter()
     // exit if the database is unavailable
     if (ACR_GetModuleStatus(ACR_MOD_NWNX_FAILED))
 	{
-       	// boot players and log the error
-       	if (! GetIsDM(oPC)) { BootPC(oPC); return; }
 	    ACR_PrintDebugMessage("acr_mod_events_i: ERROR - NWNX Unavailable on " + GetName(oPC) + " login.", _ONLOAD_DEBUG, DEBUG_LEVEL_FATAL);
+       	// boot players and log the error
+       	if (! GetIsDM(oPC))
+			{
+				SendMessageToPC(oPC, "Booted because NWNX isn't running on the server (server internal error).");
+				BootPC(oPC);
+				return;
+			}
 	}
 
     // Code executed for DMs and PCs goes here
