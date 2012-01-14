@@ -522,6 +522,9 @@ void ACR_ModuleOnClientLeave()
 
 	// notify database system of logout
 	ACR_DBPersistOnOutgoingPlayer(oPC);
+
+	// Let the IPC subsystem know of the logout event.
+	ACR_ServerIPC_OnClientLeave(oPC);
 }
 
 void ACR_ModuleOnAcquireItem()

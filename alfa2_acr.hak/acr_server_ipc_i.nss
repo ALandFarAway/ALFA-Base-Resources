@@ -68,6 +68,9 @@ const int ACR_SERVER_IPC_IS_SERVER_ONLINE                    = 8;
 // This command activates a server to server portal.
 const int ACR_SERVER_IPC_ACTIVATE_SERVER_TO_SERVER_PORTAL    = 9;
 
+// This command handles client leave events.
+const int ACR_SERVER_IPC_HANDLE_CLIENT_LEAVE                 = 10;
+
 // IPC event codes:
 
 // The chat tell event is used to transport tells cross-server.
@@ -169,6 +172,9 @@ void ACR_SendShutdownServer(int ServerID, string Message);
 //! Request that a text mode player list be sent to a user.
 //!  - Sender: Supplies the PC to send the player list to.
 void ACR_SendOnlineUserList(object Player);
+
+//! Handle client leave and clean up internal player state.
+void ACR_ServerIPC_OnClientEnter(object LeavingPC);
 
 //! Send a feedback error message to a player.
 //!  - Target: Supplies the player to send the message to.
@@ -565,6 +571,21 @@ void ACR_ServerIPC_OnClientEnter(object EnteringPC)
 		0,
 		"",
 		EnteringPC);
+#endif
+}
+
+void ACR_ServerIPC_OnClientLeave(object LeavingPC)
+{
+#if SERVER_IPC_ENABLED
+	ACR_CallIPCScript(
+		ACR_SERVER_IPC_HANDLE_CLIENT_LEAVE,
+		0,
+		0,
+		0,
+		0,
+		0,
+		"",
+		LeavingPC);
 #endif
 }
 

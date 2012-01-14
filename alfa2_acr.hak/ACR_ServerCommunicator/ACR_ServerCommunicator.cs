@@ -158,6 +158,16 @@ namespace ACR_ServerCommunicator
                     }
                     break;
 
+                case REQUEST_TYPE.HANDLE_CLIENT_LEAVE:
+                    {
+                        uint SenderObjectId = OBJECT_SELF;
+
+                        HandleClientLeave(SenderObjectId);
+
+                        return 0;
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid IPC script command " + RequestType.ToString());
 
@@ -184,6 +194,7 @@ namespace ACR_ServerCommunicator
                 Database = new ALFA.Database(this);
 
             WorldManager = new GameWorldManager(Database.ACR_GetServerID());
+            PlayerStateTable = new Dictionary<uint, PlayerState>();
 
             //
             // Create the database tables as necessary.
@@ -545,10 +556,10 @@ namespace ACR_ServerCommunicator
 
             EnableCharacterSave(PlayerObject);
 
-            if (GetLocalInt(PlayerObject, "ACR_SERVER_IPC_CLIENT_ENTERED") != FALSE)
+            if (TryGetPlayerState(PlayerObject) != null)
                 return;
 
-            SetLocalInt(PlayerObject, "ACR_SERVER_IPC_CLIENT_ENTERED", TRUE);
+            CreatePlayerState(PlayerObject);
             GetDatabase().ACR_SetPCLocalFlags(PlayerObject, 0);
 
             //
@@ -588,8 +599,20 @@ namespace ACR_ServerCommunicator
                     }
                 });
             });
+        }
 
-            DelayCommand(6.0f, delegate() { SetLocalInt(PlayerObject, "ACR_SERVER_IPC_CLIENT_ENTERED", FALSE); });
+        /// <summary>
+        /// This method handles ClientLeave events and cleans up local player
+        /// state for the outgoing PC.
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the departing PC object id.
+        /// </param>
+        private void HandleClientLeave(uint PlayerObject)
+        {
+            if (TryGetPlayerState(PlayerObject) == null)
+                return;
+
+            DeletePlayerState(PlayerObject);
         }
 
         /// <summary>
@@ -1631,12 +1654,63 @@ namespace ACR_ServerCommunicator
         /// required.
         /// </summary>
         /// <returns>The database connection object.</returns>
-        private ALFA.Database GetDatabase()
+        public ALFA.Database GetDatabase()
         {
             if (Database == null)
                 Database = new ALFA.Database(this);
 
             return Database;
+        }
+
+        /// <summary>
+        /// Look up the player state for a player in the internal lookup table.
+        /// </summary>
+        /// <param name="PlayerObjectId">Supplies the PC object id to look up.
+        /// </param>
+        /// <returns>The PlayerState object if found.  An exception is raised
+        /// if there was no such player state present.</returns>
+        public PlayerState GetPlayerState(uint PlayerObjectId)
+        {
+            return PlayerStateTable[PlayerObjectId];
+        }
+
+        /// <summary>
+        /// Look up the player state for a player in the internal lookup table.
+        /// </summary>
+        /// <param name="PlayerObjectId">Supplies the PC object id to look up.
+        /// </param>
+        /// <returns>The PlayerState object if found, else null.</returns>
+        public PlayerState TryGetPlayerState(uint PlayerObjectId)
+        {
+            PlayerState RetPlayerState;
+
+            if (!PlayerStateTable.TryGetValue(PlayerObjectId, out RetPlayerState))
+                return null;
+            else
+                return RetPlayerState;
+        }
+
+        /// <summary>
+        /// Create a new player state object for a PC.  It is assumed that
+        /// there is no pre-existing state object for the PC yet.
+        /// </summary>
+        /// <param name="PlayerObjectId">Supplies the PC object id to create
+        /// the state object for.</param>
+        private void CreatePlayerState(uint PlayerObjectId)
+        {
+            PlayerState NewPlayerState = new PlayerState(PlayerObjectId, this);
+
+            PlayerStateTable.Add(PlayerObjectId, NewPlayerState);
+        }
+
+        /// <summary>
+        /// Remove the player state object for an outgoing PC.
+        /// </summary>
+        /// <param name="PlayerObjectId">Supplies the PC object id to delete
+        /// the corresponding state object for.</param>
+        private void DeletePlayerState(uint PlayerObjectId)
+        {
+            PlayerStateTable.Remove(PlayerObjectId);
         }
 
         /// <summary>
@@ -1663,7 +1737,8 @@ namespace ACR_ServerCommunicator
             HANDLE_CHAT_EVENT,
             HANDLE_CLIENT_ENTER,
             IS_SERVER_ONLINE,
-            ACTIVATE_SERVER_TO_SERVER_PORTAL
+            ACTIVATE_SERVER_TO_SERVER_PORTAL,
+            HANDLE_CLIENT_LEAVE
         }
 
         /// <summary>
@@ -1692,6 +1767,12 @@ namespace ACR_ServerCommunicator
         /// The game world state manager is stored here.
         /// </summary>
         private static GameWorldManager WorldManager = null;
+
+        /// <summary>
+        /// The hash table mapping NWScript object ids to internal player state
+        /// objects is stored here.
+        /// </summary>
+        private static Dictionary<uint, PlayerState> PlayerStateTable = null;
 
         /// <summary>
         /// The interop SQL database instance is stored here.
