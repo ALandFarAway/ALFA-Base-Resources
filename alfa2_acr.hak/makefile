@@ -361,6 +361,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_dmfi_dmlist.ncs                   \
             $(OUTPUTDIR)\gui_dmfi_mngrtool.ncs                 \
             $(OUTPUTDIR)\gui_dmfi_playerui.ncs                 \
+            $(OUTPUTDIR)\gui_dmfi_list.ncs                     \
             $(OUTPUTDIR)\gui_dmfi_skills.ncs                   \
             $(OUTPUTDIR)\gui_dmfi_text.ncs                     \
             $(OUTPUTDIR)\gui_dmfi_trgtool.ncs                  \
