@@ -167,6 +167,13 @@ namespace ACR_ServerCommunicator
                         return 0;
                     }
                     break;
+                case REQUEST_TYPE.POPULATE_CHAT_GUI:
+                    {
+                        uint PlayerObject = OBJECT_SELF;
+                        ACR_PopulateChatSelect(PlayerObject);
+
+                        return 0;
+                    }
 
                 default:
                     throw new ApplicationException("Invalid IPC script command " + RequestType.ToString());
@@ -1796,7 +1803,8 @@ namespace ACR_ServerCommunicator
             HANDLE_CLIENT_ENTER,
             IS_SERVER_ONLINE,
             ACTIVATE_SERVER_TO_SERVER_PORTAL,
-            HANDLE_CLIENT_LEAVE
+            HANDLE_CLIENT_LEAVE,
+            POPULATE_CHAT_GUI
         }
 
         /// <summary>
