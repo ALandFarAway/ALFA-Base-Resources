@@ -44,7 +44,7 @@ namespace ACR_ServerCommunicator
         public void RunQueue(ACR_ServerCommunicator Script, ALFA.Database Database)
         {
 #if DEBUG_MODE
-            Script.WriteTimestampedLogEntry(String.Format("Running queue of {0} entries", EventQueue.Count));
+            Script.WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator: Running queue of {0} entries", EventQueue.Count));
 #endif
 
             while (!Empty())

@@ -164,16 +164,19 @@ namespace ACR_ServerCommunicator
 
                         HandleClientLeave(SenderObjectId);
 
-                        return 0;
+                        ReturnCode = 0;
                     }
                     break;
+
                 case REQUEST_TYPE.POPULATE_CHAT_GUI:
                     {
                         uint PlayerObject = OBJECT_SELF;
+
                         ACR_PopulateChatSelect(PlayerObject);
 
-                        return 0;
+                        ReturnCode = 0;
                     }
+                    break;
 
                 default:
                     throw new ApplicationException("Invalid IPC script command " + RequestType.ToString());
@@ -575,6 +578,18 @@ namespace ACR_ServerCommunicator
             {
                 SendMessageToPC(SenderObjectId, "Cross-server event notifications enabled.");
                 SetCrossServerNotificationsEnabled(SenderObjectId, true);
+                return TRUE;
+            }
+            else if (CookedText.Equals("notify chatlog"))
+            {
+                SendMessageToPC(SenderObjectId, "Cross-server join/part events are now being delivered to the chat log.");
+                GetPlayerState(SenderObjectId).Flags &= ~(PlayerStateFlags.SendCrossServerNotificationsToCombatLog);
+                return TRUE;
+            }
+            else if (CookedText.Equals("notify combatlog"))
+            {
+                SendMessageToPC(SenderObjectId, "Cross-server join/part events are now being delivered to the combat log.");
+                GetPlayerState(SenderObjectId).Flags |= PlayerStateFlags.SendCrossServerNotificationsToCombatLog;
                 return TRUE;
             }
             else if (CookedText.Equals("serverlatency"))
@@ -1471,7 +1486,7 @@ namespace ACR_ServerCommunicator
         /// notifications.</returns>
         public bool IsCrossServerNotificationEnabled(uint PlayerObject)
         {
-            return (GetPlayerState(PlayerObject).Flags & PlayerStateFlags.DisableCrossServerNotifications) != 0;
+            return (GetPlayerState(PlayerObject).Flags & PlayerStateFlags.DisableCrossServerNotifications) == 0;
         }
 
         /// <summary>

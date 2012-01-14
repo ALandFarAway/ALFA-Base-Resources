@@ -48,12 +48,19 @@ namespace ACR_ServerCommunicator
                 if (!Script.IsCrossServerNotificationEnabled(PlayerObject))
                     continue;
 
-                Script.SendChatMessage(
-                    CLRScriptBase.OBJECT_INVALID,
-                    PlayerObject,
-                    CLRScriptBase.CHAT_MODE_SERVER,
-                    Message,
-                    CLRScriptBase.FALSE);
+                if ((Script.GetPlayerState(PlayerObject).Flags & PlayerStateFlags.SendCrossServerNotificationsToCombatLog) != 0)
+                {
+                    Script.SendMessageToPC(PlayerObject, Message);
+                }
+                else
+                {
+                    Script.SendChatMessage(
+                        CLRScriptBase.OBJECT_INVALID,
+                        PlayerObject,
+                        CLRScriptBase.CHAT_MODE_SERVER,
+                        Message,
+                        CLRScriptBase.FALSE);
+                }
             }
 
 #if DEBUG_MODE
