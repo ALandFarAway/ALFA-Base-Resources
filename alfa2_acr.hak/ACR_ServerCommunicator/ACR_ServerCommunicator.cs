@@ -1462,7 +1462,7 @@ namespace ACR_ServerCommunicator
         /// notifications.</returns>
         public bool IsCrossServerNotificationEnabled(uint PlayerObject)
         {
-            return GetDatabase().ACR_GetPersistentInt(PlayerObject, "ACR_DISABLE_CROSS_SERVER_NOTIFICATIONS") == FALSE;
+            return (GetPlayerState(PlayerObject).Flags & PlayerStateFlags.DisableCrossServerNotifications) != 0;
         }
 
         /// <summary>
@@ -1476,10 +1476,12 @@ namespace ACR_ServerCommunicator
         /// receive them.</param>
         public void SetCrossServerNotificationsEnabled(uint PlayerObject, bool Enabled)
         {
+            PlayerState State = GetPlayerState(PlayerObject);
+
             if (Enabled == false)
-                GetDatabase().ACR_SetPersistentInt(PlayerObject, "ACR_DISABLE_CROSS_SERVER_NOTIFICATIONS", TRUE);
+                State.Flags |= PlayerStateFlags.DisableCrossServerNotifications;
             else
-                GetDatabase().ACR_DeletePersistentVariable(PlayerObject, "ACR_DISABLE_CROSS_SERVER_NOTIFICATIONS");
+                State.Flags &= ~(PlayerStateFlags.DisableCrossServerNotifications);
         }
 
 

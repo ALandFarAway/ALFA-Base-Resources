@@ -41,7 +41,7 @@ namespace ACR_ServerCommunicator
             this.PCObjectId = ObjectId;
             this.PCCharacterId = Database.ACR_GetCharacterID(ObjectId);
             this.PCPlayerId = Database.ACR_GetPlayerID(ObjectId);
-            StateFlags = 0;
+            this.StateFlags = (PlayerStateFlags) Database.ACR_GetPersistentInt(ObjectId, "ACR_COMMUNICATOR_STATE_FLAGS");
 
             //
             // Upgrade any legacy database settings to their new format.
@@ -78,6 +78,7 @@ namespace ACR_ServerCommunicator
                     return;
 
                 StateFlags = value;
+                Communicator.GetDatabase().ACR_SetPersistentInt(ObjectId, "ACR_COMMUNICATOR_STATE_FLAGS", (int)StateFlags);
             }
         }
 
@@ -90,8 +91,16 @@ namespace ACR_ServerCommunicator
         {
             ALFA.Database Database = Communicator.GetDatabase();
 
+            //
+            // If the user has the old ACR_DISABLE_CROSS_SERVER_NOTIFICATIONS
+            // value set from the pre-1.85 release, clear that variable and set
+            // the flags bitmap as appropriate.
+            //
+
             if (Database.ACR_GetPersistentInt(ObjectId, "ACR_DISABLE_CROSS_SERVER_NOTIFICATIONS") != CLRScriptBase.FALSE)
             {
+                StateFlags |= PlayerStateFlags.DisableCrossServerNotifications;
+                Database.ACR_DeletePersistentVariable(ObjectId, "ACR_DISABLE_CROSS_SERVER_NOTIFICATIONS");
             }
         }
 
@@ -126,8 +135,14 @@ namespace ACR_ServerCommunicator
     /// This enumeration describes player state flags that are saved in the
     /// database, e.g. for preference settings.
     /// </summary>
+    [FlagsAttribute]
     public enum PlayerStateFlags : uint
     {
+        /// <summary>
+        /// No state flags set.
+        /// </summary>
+        None = 0x00000000,
+
         /// <summary>
         /// Don't send cross-server join/leave notifications.
         /// </summary>
