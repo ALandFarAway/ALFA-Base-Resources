@@ -396,6 +396,7 @@ void ACR_ModuleOnPCLoaded()
 	// process DMs
     if (GetIsDM(oPC) || GetIsDMPossessed(oPC))
     {
+	 	ACR_PCOnPCLoadedAsDM(oPC);
 	    if (GetItemPossessedBy(oPC, "abr_spawn_debug") == OBJECT_INVALID) { CreateItemOnObject("acr_spawn_debug", oPC); }
 		if (GetItemPossessedBy(oPC, "acr_dcsetter") == OBJECT_INVALID) { CreateItemOnObject("abr_it_dmdcsetter", oPC); }
 		ExecuteScript("dmfi_mod_pcload", GetModule());

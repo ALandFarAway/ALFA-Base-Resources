@@ -135,9 +135,16 @@ void ACR_PCOnModuleLoad();
 void ACR_PCOnClientEnter(object oPC);
 
 //! This function restores player status, including hit points, spells, and conditions
+//  The function is NOT called for DMs, rather ACR_PCOnPCLoadedAsDM() is called.
 //!  - oPC: player to restore
 //!  - Returns: nothing
 void ACR_PCOnPCLoaded(object oPC);
+
+//! This function is called when a DM fires the OnPCLoaded event.  Its purpose
+//  is to update the database with their character online status.
+//!  - oPC: DM that has logged in
+//!  - Returns: nothing
+void ACR_PCOnPCLoadedAsDM(object oPC);
 
 //! This function resets player status
 //!  - oPC: player that has left
@@ -493,7 +500,7 @@ void ACR_PCOnClientEnter(object oPC)
 	ACR_SetPCPublicCDKey(oPC);
 
 	// Note that we have not marked the player as online yet UNLESS this was the
-	// initial login for a new character.  We will defer thhis until we have, at
+	// initial login for a new character.  We will defer this until we have, at
 	// OnPCLoaded, decided that the player will not go into quarantine.  This
 	// stops quarantined players from being marked as online at server A while
 	// they are actually logged on to quarantine at server B.
@@ -697,6 +704,15 @@ void ACR_PCOnPCLoaded(object oPC)
 
     // reveal the screen
     DelayCommand(0.3, FadeFromBlack(oPC));
+}
+
+void ACR_PCOnPCLoadedAsDM(object oPC)
+{
+	///////////////////////////////////////////
+	// *** STEP 2: RESTORE PLAYER STATUS *** //
+	///////////////////////////////////////////
+
+	ACR_SQLQuery("UPDATE characters SET IsOnline=1 WHERE ID=" + IntToString(ACR_GetCharacterID(oPC)));
 }
 
 void ACR_PCOnClientLeave(object oPC)
