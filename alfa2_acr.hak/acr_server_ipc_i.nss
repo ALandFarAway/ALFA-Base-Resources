@@ -71,6 +71,9 @@ const int ACR_SERVER_IPC_ACTIVATE_SERVER_TO_SERVER_PORTAL    = 9;
 // This command handles client leave events.
 const int ACR_SERVER_IPC_HANDLE_CLIENT_LEAVE                 = 10;
 
+// This command populates the chat select GUI window.
+const int ACR_SERVER_IPC_POPULATE_CHAT_SELECT                = 11;
+
 // IPC event codes:
 
 // The chat tell event is used to transport tells cross-server.

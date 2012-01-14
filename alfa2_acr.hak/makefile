@@ -420,6 +420,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_wand_turn_horizontal.ncs          \
             $(OUTPUTDIR)\gui_wand_turn_vertical.ncs            \
             $(OUTPUTDIR)\wand_init.ncs                         \
+            $(OUTPUTDIR)\gui_chatselect.ncs                    \
             $(OUTPUTDIR)\dmfi_usd_portal.ncs                   
 
 #
