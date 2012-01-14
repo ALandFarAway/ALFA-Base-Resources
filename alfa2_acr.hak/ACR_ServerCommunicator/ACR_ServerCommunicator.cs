@@ -391,37 +391,40 @@ namespace ACR_ServerCommunicator
         /// <param name="PlayerObject">Supplies the sender player object</param>
         public void ACR_PopulateChatSelect(uint PlayerObject)
         {
-            var OnlineServers = from S in WorldManager.Servers
-                                where S.Online &&
-                                S.Characters.Count > 0
-                                select S;
-            ClearListBox(PlayerObject, "chatselect", "LocalPlayerList");
-            ClearListBox(PlayerObject, "chatselect", "LocalDMList");
-            ClearListBox(PlayerObject, "chatselect", "RemotePlayerList");
-            ClearListBox(PlayerObject, "chatselect", "RemoteDMList");
-
-            int bExpanded = GetLocalInt(PlayerObject, "chatselect_expanded");
-           
-            foreach (GameServer Server in OnlineServers)
+            lock (WorldManager)
             {
-                if (Server.DatabaseId == GetDatabase().ACR_GetServerID() || bExpanded == FALSE)
+                var OnlineServers = from S in WorldManager.Servers
+                                    where S.Online &&
+                                    S.Characters.Count > 0
+                                    select S;
+                ClearListBox(PlayerObject, "chatselect", "LocalPlayerList");
+                ClearListBox(PlayerObject, "chatselect", "LocalDMList");
+                ClearListBox(PlayerObject, "chatselect", "RemotePlayerList");
+                ClearListBox(PlayerObject, "chatselect", "RemoteDMList");
+
+                int bExpanded = GetLocalInt(PlayerObject, "chatselect_expanded");
+
+                foreach (GameServer Server in OnlineServers)
                 {
-                    foreach (GameCharacter Character in Server.Characters)
+                    if (Server.DatabaseId == GetDatabase().ACR_GetServerID() || bExpanded == FALSE)
                     {
-                        if(GetIsDM(PlayerObject) == FALSE)
-                            AddListBoxRow(PlayerObject, "chatselect", "LocalDMList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
-                        else
-                            AddListBoxRow(PlayerObject, "chatselect", "LocalPlayerList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
+                        foreach (GameCharacter Character in Server.Characters)
+                        {
+                            if (GetIsDM(PlayerObject) == FALSE)
+                                AddListBoxRow(PlayerObject, "chatselect", "LocalDMList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
+                            else
+                                AddListBoxRow(PlayerObject, "chatselect", "LocalPlayerList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
+                        }
                     }
-                }
-                else
-                {
-                    foreach (GameCharacter Character in Server.Characters)
+                    else
                     {
-                        if (GetIsDM(PlayerObject) == FALSE)
-                            AddListBoxRow(PlayerObject, "chatselect", "RemoteDMList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
-                        else
-                            AddListBoxRow(PlayerObject, "chatselect", "RemotePlayerList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
+                        foreach (GameCharacter Character in Server.Characters)
+                        {
+                            if (GetIsDM(PlayerObject) == FALSE)
+                                AddListBoxRow(PlayerObject, "chatselect", "RemoteDMList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
+                            else
+                                AddListBoxRow(PlayerObject, "chatselect", "RemotePlayerList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
+                        }
                     }
                 }
             }
