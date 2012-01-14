@@ -389,7 +389,6 @@ namespace ACR_ServerCommunicator
         /// event or the opening of the chat select GUI
         /// </summary>
         /// <param name="PlayerObject">Supplies the sender player object</param>
-        /// <param name="bCollapsed">Supplies the state (expanded or collapsed) of the chatselect GUI.</param>
         public void ACR_PopulateChatSelect(uint PlayerObject)
         {
             var OnlineServers = from S in WorldManager.Servers
@@ -405,7 +404,7 @@ namespace ACR_ServerCommunicator
            
             foreach (GameServer Server in OnlineServers)
             {
-                if (Server.DatabaseId == GetGlobalInt("ACR_SET_SID") || bExpanded == FALSE)
+                if (Server.DatabaseId == GetDatabase().ACR_GetServerID() || bExpanded == FALSE)
                 {
                     foreach (GameCharacter Character in Server.Characters)
                     {
