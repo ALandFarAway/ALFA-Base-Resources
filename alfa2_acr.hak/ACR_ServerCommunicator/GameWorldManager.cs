@@ -464,6 +464,16 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method is called to write a diagnostic log message to the main
+        /// server log.
+        /// </summary>
+        /// <param name="Message">Supplies the message text to log.</param>
+        private void WriteDiagnosticLog(string Message)
+        {
+            EnqueueEvent(new DiagnosticLogEvent(Message));
+        }
+
+        /// <summary>
         /// This method is called when a character is discovered to have come
         /// online.  The character is inserted already.
         /// </summary>
@@ -559,8 +569,8 @@ namespace ACR_ServerCommunicator
         {
             if (!SystemInfo.IsSafeFileName(CharacterFileName))
             {
-                EnqueueEvent(new DiagnosticLogEvent(String.Format(
-                    "GameWorldManager.OnPurgeCachedCharacter: Invalid file name '{0}'.", CharacterFileName)));
+                WriteDiagnosticLog(String.Format(
+                    "GameWorldManager.OnPurgeCachedCharacter: Invalid file name '{0}'.", CharacterFileName));
                 return;
             }
 
@@ -742,6 +752,8 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void QueryDispatchThreadRoutine()
         {
+            bool InitialSync = true;
+
             for (; ; )
             {
                 //
@@ -756,7 +768,21 @@ namespace ACR_ServerCommunicator
                     BlockEventsQueued = true;
 
                     if (!PauseUpdates)
+                    {
+                        //
+                        // The first time around, download everything all at
+                        // once so we don't have a round-trip for every new
+                        // database object referenced.
+                        //
+
+                        if (InitialSync)
+                        {
+                            InitialSync = false;
+                            PerformInitialSynchronization();
+                        }
+
                         RunQueryCycle();
+                    }
 
                     BlockEventsQueued = false;
 
@@ -779,8 +805,8 @@ namespace ACR_ServerCommunicator
 
                     try
                     {
-                        EnqueueEvent(new DiagnosticLogEvent(String.Format(
-                            "GameWorldManager.QueryDispatchThreadRoutine: Exception {0} running query cycle.", e)));
+                        WriteDiagnosticLog(String.Format(
+                            "GameWorldManager.QueryDispatchThreadRoutine: Exception {0} running query cycle.", e));
                     }
                     catch
                     {
@@ -1238,7 +1264,6 @@ namespace ACR_ServerCommunicator
             public string EventText;
         };
 
-
         /// <summary>
         /// This method synchronizes the IPC event queue for the server.
         /// </summary>
@@ -1314,8 +1339,8 @@ namespace ACR_ServerCommunicator
 
                                if (SenderPlayer == null || RecipientPlayer == null)
                                {
-                                   EnqueueEvent(new DiagnosticLogEvent(String.Format(
-                                       "GameWorldManager.SynchronizeIPCEventQueue: Source {0} or destination {1} player IDs invalid for ACR_SERVER_IPC_EVENT_CHAT_TELL.", SourcePlayerId, DestinationPlayerId)));
+                                   WriteDiagnosticLog(String.Format(
+                                       "GameWorldManager.SynchronizeIPCEventQueue: Source {0} or destination {1} player IDs invalid for ACR_SERVER_IPC_EVENT_CHAT_TELL.", SourcePlayerId, DestinationPlayerId));
                                    continue;
 
                                }
@@ -1325,8 +1350,8 @@ namespace ACR_ServerCommunicator
 
                                if (SenderCharacter == null || RecipientCharacter == null)
                                {
-                                   EnqueueEvent(new DiagnosticLogEvent(String.Format(
-                                       "GameWorldManager.SynchronizeIPCEventQueue: Source {0} or destination {1} player has already gone offline for ACR_SERVER_IPC_EVENT_CHAT_TELL.", SourcePlayerId, DestinationPlayerId)));
+                                   WriteDiagnosticLog(String.Format(
+                                       "GameWorldManager.SynchronizeIPCEventQueue: Source {0} or destination {1} player has already gone offline for ACR_SERVER_IPC_EVENT_CHAT_TELL.", SourcePlayerId, DestinationPlayerId));
                                    continue;
                                }
 
@@ -1348,8 +1373,8 @@ namespace ACR_ServerCommunicator
 
                                if (Player == null)
                                {
-                                   EnqueueEvent(new DiagnosticLogEvent(String.Format(
-                                       "GameWorldManager.SynchronizeIPCEventQueue: Target player {0} for ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER is an invalid player id reference.", DestinationPlayerId)));
+                                   WriteDiagnosticLog(String.Format(
+                                       "GameWorldManager.SynchronizeIPCEventQueue: Target player {0} for ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER is an invalid player id reference.", DestinationPlayerId));
                                    continue;
                                }
 
@@ -1364,8 +1389,8 @@ namespace ACR_ServerCommunicator
 
                                if (Player == null)
                                {
-                                   EnqueueEvent(new DiagnosticLogEvent(String.Format(
-                                       "GameWorldManager.SynchronizeIPCEventQueue: Target player {0} for ACR_SERVER_IPC_EVENT_PURGE_CACHED_CHARACTER is an invalid player id reference.", DestinationPlayerId)));
+                                   WriteDiagnosticLog(String.Format(
+                                       "GameWorldManager.SynchronizeIPCEventQueue: Target player {0} for ACR_SERVER_IPC_EVENT_PURGE_CACHED_CHARACTER is an invalid player id reference.", DestinationPlayerId));
                                    continue;
                                }
 
@@ -1447,13 +1472,145 @@ namespace ACR_ServerCommunicator
         /// This method synchronizes the configuration settings block with the
         /// database.
         /// </summary>
-        public void SynchronizeConfiguration()
+        private void SynchronizeConfiguration()
         {
             IALFADatabase Database = DatabaseLinkQueryThread;
 
             lock (this)
             {
                 ConfigurationStore.ReadConfigurationFromDatabase(Database);
+            }
+        }
+
+        /// <summary>
+        /// This structure contains rowset data for the initial synchronization
+        /// step.
+        /// </summary>
+        private struct InitialSynchronizationRow
+        {
+            public int CharacterId;
+            public int PlayerId;
+            public string CharacterName;
+            public int ServerId;
+            public string CharacterLocation;
+            public bool PlayerIsDM;
+            public string PlayerName;
+            public string ServerAddressString;
+            public string ServerName;
+        };
+
+        /// <summary>
+        /// This method performs the initial synchronization step at first run
+        /// that downloads the initial character list.  A bulk query is issued
+        /// here to reduce the number of database round-trips at startup time.
+        /// 
+        /// Note that no attempt is made to mark offline characters here.  That
+        /// step is done in the normal synchronization round, as this is the
+        /// initial round anyway.
+        /// </summary>
+        private void PerformInitialSynchronization()
+        {
+            IALFADatabase Database = DatabaseLinkQueryThread;
+            List<InitialSynchronizationRow> Rowset = new List<InitialSynchronizationRow>();
+
+            Database.ACR_SQLQuery(
+                "SELECT " +
+                    "`characters`.`ID` AS character_id, " +                  //  0
+                    "`characters`.`PlayerID` AS player_id, " +               //  1
+                    "`characters`.`Name` AS character_name, " +              //  2
+                    "`characters`.`ServerID` AS server_id, " +               //  3
+                    "`characters`.`Location` AS character_location, " +      //  4
+                    "`players`.`IsDM` AS player_is_dm, " +                   //  5
+                    "`players`.`Name` AS player_name, " +                    //  6
+                    "`servers`.`IPAddress` AS server_address_string, " +     //  7
+                    "`servers`.`Name` AS server_name " +                     //  8
+                "FROM " +
+                    "`characters` " +
+                "INNER JOIN `servers` ON `characters`.`ServerID` = `servers`.`ID` " +
+                "INNER JOIN `players` ON `characters`.`PlayerID` = `players`.`ID` " +
+                "WHERE " +
+                    "`characters`.`IsOnline` = 1 "
+                );
+
+            while (Database.ACR_SQLFetch())
+            {
+                InitialSynchronizationRow Row;
+
+                Row.CharacterId = Convert.ToInt32(Database.ACR_SQLGetData(0));
+                Row.PlayerId = Convert.ToInt32(Database.ACR_SQLGetData(1));
+                Row.CharacterName = Database.ACR_SQLGetData(2);
+                Row.ServerId = Convert.ToInt32(Database.ACR_SQLGetData(3));
+                Row.CharacterLocation = Database.ACR_SQLGetData(4);
+                Row.PlayerIsDM = ConvertToBoolean(Database.ACR_SQLGetData(5));
+                Row.PlayerName = Database.ACR_SQLGetData(6);
+                Row.ServerAddressString = Database.ACR_SQLGetData(7);
+                Row.ServerName = Database.ACR_SQLGetData(8);
+
+                Rowset.Add(Row);
+            }
+
+            lock (this)
+            {
+                //
+                // Update entries.
+                //
+
+                foreach (InitialSynchronizationRow Row in Rowset)
+                {
+                    GameServer Server = (from S in Servers
+                                         where S.ServerId == Row.ServerId
+                                         select S).FirstOrDefault();
+
+                    if (Server == null)
+                    {
+                        Server = new GameServer(this);
+
+                        Server.ServerName = Row.ServerName;
+                        Server.ServerId = Row.ServerId;
+                        Server.SetHostnameAndPort(Row.ServerAddressString);
+
+                        InsertNewServer(Server, Database);
+                    }
+
+                    GamePlayer Player = (from P in Players
+                                         where P.PlayerId == Row.PlayerId
+                                         select P).FirstOrDefault();
+
+                    if (Player == null)
+                    {
+                        Player = new GamePlayer(this);
+
+                        Player.PlayerName = Row.PlayerName;
+                        Player.PlayerId = Row.PlayerId;
+                        Player.IsDM = Row.PlayerIsDM;
+
+                        InsertNewPlayer(Player, Database);
+                    }
+
+                    GameCharacter Character = (from C in Characters
+                                               where C.CharacterId == Row.CharacterId
+                                               select C).FirstOrDefault();
+
+                    if (Character == null)
+                    {
+                        Character = new GameCharacter(this);
+
+                        Character.CharacterId = Row.CharacterId;
+                        Character.PlayerId = Row.PlayerId;
+                        Character.Online = true;
+                        Character.CharacterName = Row.CharacterName;
+                        Character.LocationString = Row.CharacterLocation;
+
+                        InsertNewCharacter(Character, Row.ServerId, Database);
+                    }
+                }
+
+#if DEBUG_MODE
+                WriteDiagnosticLog(String.Format("GameWorldManager.PerformInitialSynchronization: Synchronized {0} servers, {1} players, {2} characters.",
+                    ServerList.Count,
+                    PlayerList.Count,
+                    CharacterList.Count));
+#endif
             }
         }
 
