@@ -67,6 +67,11 @@ namespace ACR_ServerCommunicator
         public int PlayerId { get { return PCPlayerId; } }
 
         /// <summary>
+        /// Get whether the player is DM privileged.
+        /// </summary>
+        public bool IsDM { get { return Communicator.GetIsDM(ObjectId) != CLRScriptBase.FALSE;  } }
+
+        /// <summary>
         /// The player state flags.
         /// </summary>
         public PlayerStateFlags Flags
