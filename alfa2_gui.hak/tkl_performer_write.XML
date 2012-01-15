@@ -16,7 +16,7 @@
 			<!-- WAS filter="alphanumeric" and not allowspace="true" -->
 			<UIText name="inputbox" allowspace="true" width=PARENT_WIDTH height=DYNAMIC align=left valign=top 
 				fontfamily="International" multiline="true" returnrestricted="true" editable=true selectable=true 
-				update=true OnUpdate=UIObject_Misc_SetLocalVarString(local:0) />
+				update=true maxlength="256" OnUpdate=UIObject_Misc_SetLocalVarString(local:0) />
 
 			<UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>	
 		</UIListBox>	
