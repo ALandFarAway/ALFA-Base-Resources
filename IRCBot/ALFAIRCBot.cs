@@ -141,13 +141,13 @@ namespace ALFAIRCBot
                     return "";
 
                 case 1:
-                    return "[medium latency] ";
+                    return " [medium latency]";
 
                 case 2:
-                    return "[high latency] ";
+                    return " [high latency ";
 
                 default:
-                    return "[unknown latency state] ";
+                    return " [unknown latency state]";
 
             }
         }
@@ -263,7 +263,7 @@ namespace ALFAIRCBot
                 if (Entry.VaultOnline)
                     VaultStatusString = "";
                 else
-                    VaultStatusString = "*VAULT DISCONNECTED* ";
+                    VaultStatusString = " *VAULT DISCONNECTED*";
 
                 Output.AppendFormat("{0}: {1} player{2}, {3} DM{4}{5}{6}",
                     Entry.Name,
