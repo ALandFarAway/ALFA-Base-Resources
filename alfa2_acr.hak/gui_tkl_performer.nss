@@ -15,6 +15,7 @@ Purpose: This is the main script that gets directly called from the TKL Performe
 */
 
 #include "tkl_performer_include"
+#include "acr_xp_i"
 
 void QuantizeNote(object oPC, object oInstrument, int iTrack, int iNote, float fTick, int iSubDivide=1)
 {
@@ -170,6 +171,7 @@ void main(string sAction, int iOption)
 			SetLocalFloat(oInstrument, sID + "PLAYBACK_TRACK" + sTrack, fSecondsIn);
 			SetLocalInt(oInstrument, sID + "PITCH_TRACK" + sTrack, iOption);
 			SendMessageToPC(oPC, "Note recorded at time: " + FloatToString(fSecondsIn) + " on Track " + sTrack);
+			ACT_RPXPMarkActive(oPC);
 		}
 	}
 	
@@ -177,6 +179,7 @@ void main(string sAction, int iOption)
 	{
 		int iKey = GetLocalInt(oInstrument, "KEY");
 		PlayNote(iOption, iKey);
+		ACR_RPXPMarkActive(oPC);
 	}
 	
 	else if (sAction == "LYRIC_SING")
@@ -212,6 +215,7 @@ void main(string sAction, int iOption)
 			SetLocalInt(oInstrument, sID + "TEXT", iOption);
 			SendMessageToPC(oPC, "Lyric recorded at time: " + FloatToString(fSecondsIn) + ".");	
 		}	
+		ACR_RPXPMarkActive(oPC);
 	}
 	
 	else if (sAction == "LAG_CHECK")
@@ -563,6 +567,7 @@ void main(string sAction, int iOption)
 	else if (sAction == "SONG_PLAY")
 	{		
 		PlaySong(oPC, oInstrument, 0, TRUE);
+		ACR_RPXPMarkActive(oPC);
 	}
 	
 	else if (sAction == "CLOSE")

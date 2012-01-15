@@ -46,7 +46,9 @@
 //  2011/06/04  Basilica   : Moved RPXP DelayCommand continuations to the PC
 //                           object instead of the module object.  This fixes
 //                           the duplicate RPXP cycle problem once and for all.
-//
+//  2012/01/14  Basilica   : Added ACR_RPXPMarkActive to encapsulate the
+//                           necessary operations to record RP XP activity for
+//                           a player.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -163,6 +165,10 @@ void ACR_XPOnClientLoaded(object oPC);
 
 //! Handles calculation and storing for RP XP banking
 void ACR_XPOnClientExit(object oPC);
+
+//! Marks a PC as active for purposes of RP XP.
+//!  - oPC: Supplies the PC to mark as active.
+void ACR_RPXPMarkActive(object oPC);
 
 //! *** PRIVATE FUNCTIONS ***
 
@@ -404,6 +410,11 @@ void ACR_XPOnClientExit(object oPC) {
     DeleteLocalInt(oPC, _RPINCREMENTS_PLAYERCACHE);
 
     return;
+}
+
+void ACR_RPXPMarkActive(object oPC) {
+
+	SetLocalInt(oPC, _RPXP_ACTIVITY, TRUE);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
