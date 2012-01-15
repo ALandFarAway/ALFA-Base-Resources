@@ -1030,16 +1030,9 @@ void BroadcastToDMs(string sText)
 {
 	object o,p;
 
-	for (ObjectToInt(o = GetFirstPC()); GetIsObjectValid(o); ObjectToInt(o = GetNextPC())) {
-		if (GetIsDM(o))
+	for (ObjectToInt(o = GetFirstPC(FALSE)); GetIsObjectValid(o); ObjectToInt(o = GetNextPC(FALSE))) {
+		if (GetIsDM(o) || GetIsDMPossessed(o))
 			SendMessageToPC(o, sText);
-
-		if (GetIsDMPossessed(o)) {
-			p = GetControlledCharacter(o);
-
-			if (p != OBJECT_INVALID)
-				SendMessageToPC(p, sText);
-		}
 	}
 }
 

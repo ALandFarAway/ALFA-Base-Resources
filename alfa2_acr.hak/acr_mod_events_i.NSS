@@ -142,6 +142,11 @@ const int ACR_MOD_NWNX_FAILED = 0x01;
 //! The time period for OnModuleLoad() rescheduling, necessary for NWNX failures.
 const float ACR_MOD_RELOAD_CYCLE = 10.0;
 
+
+const float ACR_TALK_SPHERE_RADIUS = 20.0f;
+const float ACR_WHISPER_SPHERE_RADIUS = 3.0f;
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -848,16 +853,16 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 	if (nMode == CHAT_MODE_PARTY)
 	{
 		string sMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#FFFFFF>["+_CapitalizeWord(sLangPick)+", Party] "+sText;
-		object oListener = GetFirstPC();
+		object oListener = GetFirstPC(FALSE);
 		while(GetIsObjectValid(oListener))
 		{
 
-			if(GetFactionEqual(oSpeaker, oListener) || GetIsDM(oListener) || (GetIsDMPossessed(oListener) && ((oListener = GetControlledCharacter(oListener)) != OBJECT_INVALID)) || oListener == oSpeaker)
+			if((_IsLanguageKnown(oListener, sLangPick) && GetFactionEqual(oSpeaker, oListener))
+				|| GetIsDM(oListener) || GetIsDMPossessed(oListener) || oListener == oSpeaker)
 			{
-				if(_IsLanguageKnown(oListener, sLangPick) || GetIsDM(oListener) || GetIsDMPossessed(oListener))
-					SendMessageToPC(oListener, sMessage);
+				SendMessageToPC(oListener, sMessage);
 			}
-			oListener = GetNextPC();
+			oListener = GetNextPC(FALSE);
 		}	
 		SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
 		return FALSE;
@@ -866,20 +871,21 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 	{
 		string sMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#FFFFFF>["+_CapitalizeWord(sLangPick)+"] "+sText;
 		location lSelf = GetLocation(oSpeaker);
-		object oListener = GetFirstObjectInShape(SHAPE_SPHERE, 20.0f, lSelf);
+		object oListener = GetFirstObjectInShape(SHAPE_SPHERE, ACR_TALK_SPHERE_RADIUS, lSelf);
 		while(GetIsObjectValid(oListener))
 		{
 			if(_IsLanguageKnown(oListener, sLangPick))
 					SendMessageToPC(oListener, sMessage);
-			oListener = GetNextObjectInShape(SHAPE_SPHERE, 20.0f, lSelf);
+			oListener = GetNextObjectInShape(SHAPE_SPHERE, ACR_TALK_SPHERE_RADIUS, lSelf);
 		}
-		oListener = GetFirstPC();
+		oListener = GetFirstPC(FALSE);
 		while(GetIsObjectValid(oListener))
 		{
 
-			if((GetIsDM(oListener) || (GetIsDMPossessed(oListener) && ((oListener = GetControlledCharacter(oListener)) != OBJECT_INVALID))) && GetArea(oSpeaker) == GetArea(oListener) && GetDistanceBetween(oSpeaker, oListener) <= 20.0f)
+			if((GetIsDM(oListener) || GetIsDMPossessed(oListener))
+				&& GetArea(oSpeaker) == GetArea(oListener) && GetDistanceBetween(oSpeaker, oListener) <= ACR_TALK_SPHERE_RADIUS)
 				SendMessageToPC(oListener, sMessage);
-			oListener = GetNextPC();
+			oListener = GetNextPC(FALSE);
 		}
 		SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
 		return FALSE;
@@ -888,21 +894,22 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 	{
 		string sMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#808080>["+_CapitalizeWord(sLangPick)+", Whisper] "+sText;
 		location lSelf = GetLocation(oSpeaker);
-		object oListener = GetFirstObjectInShape(SHAPE_SPHERE, 3.0f, lSelf);
+		object oListener = GetFirstObjectInShape(SHAPE_SPHERE, ACR_WHISPER_SPHERE_RADIUS, lSelf);
 		while(GetIsObjectValid(oListener))
 		{
 			if(_IsLanguageKnown(oListener, sLangPick))
 					SendMessageToPC(oListener, sMessage);
-			oListener = GetNextObjectInShape(SHAPE_SPHERE, 3.0f, lSelf);
+			oListener = GetNextObjectInShape(SHAPE_SPHERE, ACR_WHISPER_SPHERE_RADIUS, lSelf);
 		}
 		SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
-		oListener = GetFirstPC();
+		oListener = GetFirstPC(FALSE);
 		while(GetIsObjectValid(oListener))
 		{
 
-			if((GetIsDM(oListener) || (GetIsDMPossessed(oListener) && ((oListener = GetControlledCharacter(oListener))  != OBJECT_INVALID))) && GetArea(oSpeaker) == GetArea(oListener) && GetDistanceBetween(oSpeaker, oListener) <= 3.0f)
+			if((GetIsDM(oListener) || GetIsDMPossessed(oListener))
+				&& GetArea(oSpeaker) == GetArea(oListener) && GetDistanceBetween(oSpeaker, oListener) <= ACR_WHISPER_SPHERE_RADIUS)
 				SendMessageToPC(oListener, sMessage);
-			oListener = GetNextPC();
+			oListener = GetNextPC(FALSE);
 		}
 		return FALSE;
 	}
