@@ -165,6 +165,18 @@ void SetSongLength(object oInstrument);
 void WriteLyric(object oInstrument, int iLyricsRecorded, int iLyric, float fDelay);
 // Write a track of lyrics
 void WriteLyrics(object oPC, object oInstrument, string sInput);
+// Read a persist string from the TKL persist data store.
+string GetTKLPersistString(object oPC, string sValueName);
+// Write a persist string to the TKL persist data store.
+void SetTKLPersistString(object oPC, string sValueName, string sValueData);
+// Read a persist float from the TKL persist data store.
+float GetTKLPersistFloat(object oPC, string sValueName);
+// Write a persist float to the TKL persist data store.
+void SetTKLPersistFloat(object oPC, string sValueName, float fValueData);
+// Materialize a TKL instrument object using persisted data.
+object RetrieveTKLPersistInstrumentObject(object oPC, string sValueName, location lLocation, object oOwner);
+// Save a TKL instrument object to the persist store.
+void StoreTKLPersistInstrumentObject(object oPC, string sValueName, object oInstrument);
 
 float GetSongLength(object oInstrument)
 {
@@ -367,12 +379,12 @@ void RefreshSongList(object oPC)
 		{
 			bDisable = FALSE;
 			if (bDM)
-				sName = GetCampaignString(TKL_PERFORMER_DATABASE, "TKL_SERVER_SONG_NAME" + IntToString(i));
+				sName = GetTKLPersistString(OBJECT_INVALID, "TKL_SERVER_SONG_NAME" + IntToString(i));
 			else
 			{
-				sName = GetCampaignString(TKL_PERFORMER_DATABASE, "TKL_SONG_NAME" + IntToString(i), oPC);
+				sName = GetTKLPersistString(oPC, "TKL_SONG_NAME" + IntToString(i));
 				if (sName == "")
-					sName = GetCampaignString(TKL_PERFORMER_DATABASE, "TKL_PERFORMER_SONG_NAME" + IntToString(i), oPC);
+					sName = GetTKLPersistString(oPC, "TKL_PERFORMER_SONG_NAME" + IntToString(i));
 			}
 			if (sName == "")
 				sName = "[Empty Slot]";
@@ -1145,7 +1157,7 @@ void LaunchTKLPerformer(object oPC, object oItem, string sGUIFile)
 	RefreshSongList(oPC);
 	RefreshNames(oPC, oItem);
 	string sStop = StopTimer(oItem, "PLAYBACK");
-	float fLagCheck = GetCampaignFloat(TKL_PERFORMER_DATABASE, "LAG_CHECK", oPC);
+	float fLagCheck = GetTKLPersistFloat(oPC, "LAG_CHECK");
 	if (fLagCheck > 0.01f)
 		SetLocalFloat(oPC, "LAG_CHECK", fLagCheck);
 	SetLocalString(oItem, "GUI_FILE", sGUIFile);
@@ -3072,3 +3084,36 @@ void WriteLyrics(object oPC, object oInstrument, string sInput)
 	AssignCommand(oPC, DelayCommand(fWriteDelay + 0.01f, SetSongLength(oInstrument)));
 	AssignCommand(oPC, DelayCommand(fWriteDelay + 0.02f, SendMessageToPC(oPC, "Lyrics learned.")));
 }
+
+string GetTKLPersistString(object oPC, string sValueName)
+{
+	return GetCampaignString(TKL_PERFORMER_DATABASE, sValueName, oPC);
+}
+
+void SetTKLPersistString(object oPC, string sValueName, string sValueData)
+{
+	SetCampaignString(TKL_PERFORMER_DATABASE, sValueName, sValueData, oPC);
+}
+
+float GetTKLPersistFloat(object oPC, string sValueName)
+{
+	return GetCampaignFloat(TKL_PERFORMER_DATABASE, sValueName, oPC);
+//	return StringToFloat(GetTKLPersistString(oPC, sValueName));
+}
+
+void SetTKLPersistFloat(object oPC, string sValueName, float fValueData)
+{
+	SetCampaignFloat(TKL_PERFORMER_DATABASE, sValueName, fValueData, oPC);
+//	SetTKLPersistString(oPC, sValueName, FloatToString(fValueData));
+}
+
+object RetrieveTKLPersistInstrumentObject(object oPC, string sValueName, location lLocation, object oOwner)
+{
+	return RetrieveCampaignObject(TKL_PERFORMER_DATABASE, sValueName, lLocation, oOwner, oPC);
+}
+
+void StoreTKLPersistInstrumentObject(object oPC, string sValueName, object oInstrument)
+{
+	StoreCampaignObject(TKL_PERFORMER_DATABASE, sValueName, oInstrument, oPC);
+}
+

@@ -268,16 +268,16 @@ void main()
 		object oNewInstrument;
 		// For DMs, access a single list of "server" songs
 		if (bDM)
-			oNewInstrument = RetrieveCampaignObject(TKL_PERFORMER_DATABASE, "TKL_SERVER_INST_" +
+			oNewInstrument = RetrieveTKLPersistInstrumentObject(OBJECT_INVALID, "TKL_SERVER_INST_" +
 				IntToString(iOption), GetLocation(oPC), oPC);
 		// For PCs, access an individual list of private songs
 		else
 		{
-			oNewInstrument = RetrieveCampaignObject(TKL_PERFORMER_DATABASE, "TKL_INST_" +
-				IntToString(iOption), GetLocation(oPC), oPC, oPC);
+			oNewInstrument = RetrieveTKLPersistInstrumentObject(oPC, "TKL_INST_" +
+				IntToString(iOption), GetLocation(oPC), oPC);
 			if (GetIsObjectValid(oNewInstrument) == FALSE)
-				oNewInstrument = RetrieveCampaignObject(TKL_PERFORMER_DATABASE, "TKL_PERFORMER_INSTRUMENT_" +
-					IntToString(iOption), GetLocation(oPC), oPC, oPC);
+				oNewInstrument = RetrieveTKLPersistInstrumentObject(oPC, "TKL_PERFORMER_INSTRUMENT_" +
+					IntToString(iOption), GetLocation(oPC), oPC);
 		}
 		if (GetIsObjectValid(oNewInstrument) == FALSE)
 		{
@@ -294,19 +294,19 @@ void main()
 	{
 		// For DMs, access a single list of "server" songs
 		if (bDM)
-			StoreCampaignObject(TKL_PERFORMER_DATABASE, "TKL_SERVER_INST_" + IntToString(iOption),
+			StoreTKLPersistInstrumentObject(OBJECT_INVALID, "TKL_SERVER_INST_" + IntToString(iOption),
 				oInstrument);
 		// For PCs, access an individual list of private songs
 		else
-			StoreCampaignObject(TKL_PERFORMER_DATABASE, "TKL_INST_" + IntToString(iOption),
-				oInstrument, oPC);
+			StoreTKLPersistInstrumentObject(oPC, "TKL_INST_" + IntToString(iOption),
+				oInstrument);
 		string sName = GetLocalString(oInstrument, "SONG_NAME");
 		if (sName == "")
 			sName = "Untitled";
 		if (bDM)
-			SetCampaignString(TKL_PERFORMER_DATABASE, "TKL_SERVER_SONG_NAME" + IntToString(iOption), sName);
+			SetTKLPersistString(OBJECT_INVALID, "TKL_SERVER_SONG_NAME" + IntToString(iOption), sName);
 		else
-			SetCampaignString(TKL_PERFORMER_DATABASE, "TKL_SONG_NAME" + IntToString(iOption), sName, oPC);
+			SetTKLPersistString(oPC, "TKL_SONG_NAME" + IntToString(iOption), sName);
 		RefreshSongList(oPC);
 		ClearTKLPerformerVariables(oPC);
 		SendMessageToPC(oPC, "Song saved.");

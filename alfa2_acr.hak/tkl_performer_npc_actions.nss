@@ -175,7 +175,7 @@ void PlayBlueprintScore(object oPC, object oNPC, object oInstrument, int iParam1
 
 void PlayServerSong(object oNPC, object oInstrument, int iParam1)
 {
-	object oSong = RetrieveCampaignObject(TKL_PERFORMER_DATABASE, "TKL_SERVER_INST_" +
+	object oSong = RetrieveTKLPersistInstrumentObject(OBJECT_INVALID, "TKL_SERVER_INST_" +
 			IntToString(iParam1), GetLocation(oNPC), oNPC);
 	if (GetIsObjectValid(oSong))
 	{
@@ -415,7 +415,7 @@ void main(string sAction, int iParam1, int iParam2, int iParam3, int iParam4, in
 		string sName;
 		for (i = 1; i <= 10; i++)
 		{
-			sName = GetCampaignString(TKL_PERFORMER_DATABASE, "TKL_SERVER_SONG_NAME" + IntToString(i));
+			sName = GetTKLPersistString(OBJECT_INVALID, "TKL_SERVER_SONG_NAME" + IntToString(i));
 			if (sName == "") sName = "...";	
 			SetCustomToken(8764 + i, sName);
 		}
@@ -460,7 +460,7 @@ void main(string sAction, int iParam1, int iParam2, int iParam3, int iParam4, in
 		int i;
 		for (i = 1; i <= 10; i++)
 		{
-			if (GetCampaignString(TKL_PERFORMER_DATABASE, "TKL_SERVER_SONG_NAME" + IntToString(i)) != "")
+			if (GetTKLPersistString(OBJECT_INVALID, "TKL_SERVER_SONG_NAME" + IntToString(i)) != "")
 				iServerSongs++;
 		}
 		int iChoices = 0;
