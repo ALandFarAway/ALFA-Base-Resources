@@ -47,7 +47,7 @@ void main ( int nEvent, string sChatString )
         else // has CE
         {
             SetGUIObjectText(OBJECT_SELF, "SCREEN_MESSAGEMP_1", "inputbox", -1, "");
-            SendMessageToPC(OBJECT_SELF, "SCliExt15"+sChatString);
+            ACR_OpenChatInputBox(OBJECT_SELF, sChatString);
         }	
     }
 }
