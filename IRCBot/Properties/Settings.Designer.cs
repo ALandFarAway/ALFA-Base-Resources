@@ -130,5 +130,17 @@ namespace ALFAIRCBot.Properties {
                 this["DatabaseSchema"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BingAppID {
+            get {
+                return ((string)(this["BingAppID"]));
+            }
+            set {
+                this["BingAppID"] = value;
+            }
+        }
     }
 }

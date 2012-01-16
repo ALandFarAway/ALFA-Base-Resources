@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using System.Threading;
+using System.Xml;
+using System.Xml.Linq;
+using System.Net;
+using System.IO;
 using Meebey.SmartIrc4net;
 using MySql.Data.MySqlClient;
 using MySql.Data.Types;
@@ -20,7 +24,7 @@ namespace ALFAIRCBot
             Rng = new Random();
             Client.OnChannelMessage += new IrcEventHandler(Client_OnChannelMessage);
             Client.OnErrorMessage += new IrcEventHandler(Client_OnErrorMessage);
-            Client.OnError += new ErrorEventHandler(Client_OnError);
+            Client.OnError += new Meebey.SmartIrc4net.ErrorEventHandler(Client_OnError);
             Client.OnRawMessage += new IrcEventHandler(Client_OnRawMessage);
         }
 
@@ -72,6 +76,8 @@ namespace ALFAIRCBot
         public string DatabasePassword { get; set; }
         public string DatabaseSchema { get; set; }
 
+        public string BingAppID { get; set; }
+
         private void SetConnectionString()
         {
             ConnectionString = String.Format("Server={0};Uid={1};Password={2};Database={3};Max Pool Size=2;Pooling=true;Allow Batch=true",
@@ -103,7 +109,27 @@ namespace ALFAIRCBot
             }
             else if (e.Data.Message.StartsWith("!roll "))
             {
-                OnCommandRoll(e.Data.Channel, e.Data.Message.Substring(5));
+                OnCommandRoll(e.Data.Channel, e.Data.Message.Substring(6));
+            }
+            else if (e.Data.Message.StartsWith("!weather "))
+            {
+                OnCommandWeather(e.Data.Channel, e.Data.Message.Substring(9));
+            }
+            else if (e.Data.Message.StartsWith("!google "))
+            {
+                OnCommandGoogle(e.Data.Channel, e.Data.Message.Substring(8));
+            }
+            else if (e.Data.Message.StartsWith("!bing "))
+            {
+                OnCommandBing(e.Data.Channel, e.Data.Message.Substring(6));
+            }
+            else if (e.Data.Message.StartsWith("!wikipedia "))
+            {
+                OnCommandWikipedia(e.Data.Channel, e.Data.Message.Substring(11));
+            }
+            else if (e.Data.Message.StartsWith("!srd "))
+            {
+                OnCommandSrd(e.Data.Channel, e.Data.Message.Substring(5));
             }
         }
 
@@ -112,7 +138,7 @@ namespace ALFAIRCBot
             Console.WriteLine("Error message: {0}", e.Data.Message);
         }
 
-        private void Client_OnError(object sender, ErrorEventArgs e)
+        private void Client_OnError(object sender, Meebey.SmartIrc4net.ErrorEventArgs e)
         {
             Console.WriteLine("Error: {0}", e.ErrorMessage);
         }
@@ -347,6 +373,149 @@ namespace ALFAIRCBot
             {
                 Client.SendMessage(SendType.Message, Channel, "Internal error processing !roll request.");
             }
+        }
+
+        private void OnCommandWeather(string Channel, string Query)
+        {
+            try
+            {
+                XmlDocument Document = new XmlDocument();
+                string City;
+                string Condition;
+                string Temperature;
+                string Wind;
+                string Humidity;
+
+                Document.Load("http://www.google.com/ig/api?weather=" + Uri.EscapeDataString(Query));
+
+                XmlElement ForecastInfo = (XmlElement)Document.GetElementsByTagName("forecast_information")[0];
+                XmlElement CurrentConditions = (XmlElement)Document.GetElementsByTagName("current_conditions")[0];
+
+                City = (from XmlElement E in ForecastInfo.GetElementsByTagName("city")
+                        where E.HasAttribute("data")
+                        select E.GetAttribute("data")).FirstOrDefault();
+                Condition = (from XmlElement E in CurrentConditions.GetElementsByTagName("condition")
+                             where E.HasAttribute("data")
+                             select E.GetAttribute("data")).FirstOrDefault();
+                Temperature = (from XmlElement E in CurrentConditions.GetElementsByTagName("temp_c")
+                               where E.HasAttribute("data")
+                               select E.GetAttribute("data")).FirstOrDefault();
+                Wind = (from XmlElement E in CurrentConditions.GetElementsByTagName("wind_condition")
+                        where E.HasAttribute("data")
+                        select E.GetAttribute("data")).FirstOrDefault();
+                Humidity = (from XmlElement E in CurrentConditions.GetElementsByTagName("humidity")
+                            where E.HasAttribute("data")
+                            select E.GetAttribute("data")).FirstOrDefault();
+
+                Client.SendMessage(SendType.Message, Channel, String.Format(
+                    "{0}: {1}, {2}C, {3}, {4}.",
+                    City,
+                    Condition,
+                    Temperature,
+                    Wind,
+                    Humidity));
+            }
+            catch (Exception)
+            {
+                Client.SendMessage(SendType.Message, Channel, String.Format("Unable to retrieve weather for {0}.", Query));
+            }
+        }
+
+        private void OnCommandGoogle(string Channel, string Query)
+        {
+            Client.SendMessage(SendType.Message, Channel, "Not supported, using !bing " + Query);
+            OnCommandBing(Channel, Query);
+        }
+
+        private const string BingAPINamespace = "{http://schemas.microsoft.com/LiveSearch/2008/04/XML/web}";
+
+        private void OnCommandBing(string Channel, string Query)
+        {
+            try
+            {
+                XDocument Document;
+                XElement SearchResult;
+                string Title;
+                string Description;
+                string Url;
+
+                Document = XDocument.Load(String.Format("http://api.bing.net/xml.aspx?AppId={0}&sources=web&query={1}", BingAppID, Uri.EscapeDataString(Query)));
+
+                SearchResult = (from XElement E in Document.Descendants(BingAPINamespace + "WebResult") select E).FirstOrDefault();
+
+                if (SearchResult == null)
+                {
+                    Client.SendMessage(SendType.Message, Channel, "No results.");
+                    return;
+                }
+
+                Title = (string)(from XElement E in SearchResult.Descendants(BingAPINamespace + "Title") select E).FirstOrDefault();
+                Description = (string)(from XElement E in SearchResult.Descendants(BingAPINamespace + "Description") select E).FirstOrDefault();
+                Url = (string)(from XElement E in SearchResult.Descendants(BingAPINamespace + "Url") select E).FirstOrDefault();
+
+                Client.SendMessage(SendType.Message, Channel, String.Format("{0}: {1} - {2}", Title, Url, Description));
+            }
+            catch (Exception)
+            {
+                Client.SendMessage(SendType.Message, Channel, String.Format("Unable to retrieve search results for {0}.", Query));
+            }
+        }
+
+        private const string WikipediaAPINamespace = "{http://opensearch.org/searchsuggest2}";
+
+        private void OnCommandWikipedia(string Channel, string Query)
+        {
+            try
+            {
+                XDocument Document;
+                XElement SearchResult = null;
+                string Title;
+                string Description;
+                string Url;
+                HttpWebRequest Request;
+                Stream ResponseStream;
+
+                Request = (HttpWebRequest) WebRequest.Create(String.Format("http://en.wikipedia.org/w/api.php?action=opensearch&limit=1&namespace=0&format=xml&search={0}", Uri.EscapeDataString(Query)));
+
+                Request.UserAgent = "ALFAIRCBot/" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+                ResponseStream = Request.GetResponse().GetResponseStream();
+
+                try
+                {
+                    Document = XDocument.Load(ResponseStream);
+                }
+                finally
+                {
+                    ResponseStream.Close();
+                }
+
+                SearchResult = (from XElement E in Document.Descendants(WikipediaAPINamespace + "Section") select E).FirstOrDefault();
+
+                if (SearchResult != null)
+                    SearchResult = (from XElement E in SearchResult.Descendants(WikipediaAPINamespace + "Item") select E).FirstOrDefault();
+
+                if (SearchResult == null)
+                {
+                    Client.SendMessage(SendType.Message, Channel, "No results.");
+                    return;
+                }
+
+                Title = (string)(from XElement E in SearchResult.Descendants(WikipediaAPINamespace + "Text") select E).FirstOrDefault();
+                Description = (string)(from XElement E in SearchResult.Descendants(WikipediaAPINamespace + "Description") select E).FirstOrDefault();
+                Url = (string)(from XElement E in SearchResult.Descendants(WikipediaAPINamespace + "Url") select E).FirstOrDefault();
+
+                Client.SendMessage(SendType.Message, Channel, String.Format("{0}: {1} - {2}", Title, Url, Description));
+            }
+            catch (Exception)
+            {
+                Client.SendMessage(SendType.Message, Channel, String.Format("Unable to retrieve search results for {0}.", Query));
+            }
+        }
+
+        private void OnCommandSrd(string Channel, string Query)
+        {
+            OnCommandBing(Channel, "site:d20srd.org " + Query);
         }
 
         private MySqlDataReader ExecuteQuery(string Query)
