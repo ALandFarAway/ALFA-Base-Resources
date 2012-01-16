@@ -86,7 +86,14 @@ string ProcessDrow(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*")
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//")
             iToggle = abs(iToggle - 1);
         if (iToggle)
             sOutput = sOutput + GetStringLeft(sPhrase,1);
@@ -170,7 +177,14 @@ string ProcessLeetspeak(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*")
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//")
             iToggle = abs(iToggle - 1);
         if (iToggle)
             sOutput = sOutput + GetStringLeft(sPhrase,1);
@@ -251,7 +265,14 @@ string ProcessInfernal(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*")
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//")
             iToggle = abs(iToggle - 1);
         if (iToggle)
             sOutput = sOutput + GetStringLeft(sPhrase,1);
@@ -332,7 +353,14 @@ string ProcessAbyssal(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*")
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//")
             iToggle = abs(iToggle - 1);
         if (iToggle)
             sOutput = sOutput + GetStringLeft(sPhrase,1);
@@ -413,7 +441,14 @@ string ProcessCelestial(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*")
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//")
             iToggle = abs(iToggle - 1);
         if (iToggle)
             sOutput = sOutput + GetStringLeft(sPhrase,1);
@@ -495,7 +530,14 @@ string ProcessGoblin(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) >0)
     {
-        if (GetStringLeft(sPhrase,1) == "*")
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//")
             iToggle = abs(iToggle - 1);
         if (iToggle)
             sOutput = sOutput + GetStringLeft(sPhrase,1);
@@ -576,7 +618,14 @@ string ProcessDraconic(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*")
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//")
             iToggle = abs(iToggle - 1);
         if (iToggle)
             sOutput = sOutput + GetStringLeft(sPhrase,1);
@@ -655,7 +704,14 @@ string ProcessDwarf(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*")
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//")
             iToggle = abs(iToggle - 1);
         if (iToggle)
             sOutput = sOutput + GetStringLeft(sPhrase,1);
@@ -736,7 +792,14 @@ string ProcessElven(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*")
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//")
             iToggle = abs(iToggle - 1);
         if (iToggle)
             sOutput = sOutput + GetStringLeft(sPhrase,1);
@@ -817,7 +880,14 @@ string ProcessGnome(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*")
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//")
             iToggle = abs(iToggle - 1);
         if (iToggle)
             sOutput = sOutput + GetStringLeft(sPhrase,1);
@@ -898,7 +968,14 @@ string ProcessHalfling(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*")
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//")
             iToggle = abs(iToggle - 1);
         if (iToggle)
             sOutput = sOutput + GetStringLeft(sPhrase,1);
@@ -978,7 +1055,14 @@ string ProcessOrc(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*")
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//")
             iToggle = abs(iToggle - 1);
         if (iToggle)
             sOutput = sOutput + GetStringLeft(sPhrase,1);
@@ -1058,7 +1142,14 @@ string ProcessAnimal(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*")
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//")
             iToggle = abs(iToggle - 1);
         if (iToggle)
             sOutput = sOutput + GetStringLeft(sPhrase,1);
@@ -1204,7 +1295,14 @@ string ProcessUndercommon(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertUndercommon(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -1279,7 +1377,14 @@ string ProcessAquan(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertAquan(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -1354,7 +1459,14 @@ string ProcessAuran(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertAuran(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -1429,7 +1541,14 @@ string ProcessGiant(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*")
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//")
             iToggle = abs(iToggle - 1);
         if (iToggle)
             sOutput = sOutput + GetStringLeft(sPhrase,1);
@@ -1508,7 +1627,14 @@ string ProcessGnoll(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertGnoll(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -1582,7 +1708,14 @@ string ProcessIgnan(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertIgnan(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -1656,7 +1789,14 @@ string ProcessSylvan(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertSylvan(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -1730,7 +1870,14 @@ string ProcessTerran(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertTerran(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -1804,7 +1951,14 @@ string ProcessTreant(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertTreant(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -1878,7 +2032,14 @@ string ProcessAlgarondan(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertAlgarondan(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -1953,7 +2114,14 @@ string ProcessAlzhedo(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertAlzhedo(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -2028,7 +2196,14 @@ string ProcessChessentan(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertChessentan(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -2103,7 +2278,14 @@ string ProcessChondathan(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertChondathan(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -2178,7 +2360,14 @@ string ProcessChultan(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertChultan(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -2253,7 +2442,14 @@ string ProcessDamaran(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertDamaran(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -2328,7 +2524,14 @@ string ProcessDambrathan(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertDambrathan(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -2403,7 +2606,14 @@ string ProcessDurpari(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertDurpari(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -2478,7 +2688,14 @@ string ProcessHalardrim(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertHalardrim(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -2553,7 +2770,14 @@ string ProcessHalruaan(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertHalruaan(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -2628,7 +2852,14 @@ string ProcessIlluskan(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertIlluskan(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -2703,7 +2934,14 @@ string ProcessImaskar(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertImaskar(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -2778,7 +3016,14 @@ string ProcessLantanese(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertLantanese(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -2853,7 +3098,14 @@ string ProcessMidani(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertMidani(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -2928,7 +3180,14 @@ string ProcessMulhorandi(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertMulhorandi(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -3003,7 +3262,14 @@ string ProcessNexalan(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertNexalan(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -3078,7 +3344,14 @@ string ProcessOillusk(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertOillusk(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -3153,7 +3426,14 @@ string ProcessRashemi(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertRashemi(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -3228,7 +3508,14 @@ string ProcessRaumvira(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertRaumvira(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -3303,7 +3590,14 @@ string ProcessSerusan(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertSerusan(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -3378,7 +3672,14 @@ string ProcessShaaran(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertShaaran(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -3453,7 +3754,14 @@ string ProcessShou(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertShou(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -3528,7 +3836,14 @@ string ProcessTalfiric(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertTalfiric(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -3603,7 +3918,14 @@ string ProcessTashalan(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertTashalan(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -3678,7 +4000,14 @@ string ProcessTuigan(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertTuigan(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -3753,7 +4082,14 @@ string ProcessTurmic(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertTurmic(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -3828,7 +4164,14 @@ string ProcessUluik(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertUluik(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -3903,7 +4246,14 @@ string ProcessUntheric(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertUntheric(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -3978,7 +4328,14 @@ string ProcessVaasan(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertVaasan(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
@@ -4053,7 +4410,14 @@ string ProcessDruidic(string sPhrase)
     int iToggle;
     while (GetStringLength(sPhrase) > 0)
     {
-        if (GetStringLeft(sPhrase,1) == "*") iToggle = abs(iToggle - 1);
+        if (GetStringLeft(sPhrase,1) == "*" ||
+            GetStringLeft(sPhrase,1) == "<" ||
+            GetStringLeft(sPhrase,1) == ">" ||
+            GetStringLeft(sPhrase,2) == "((" ||
+            GetStringLeft(sPhrase,2) == "))" ||
+            GetStringLeft(sPhrase,2) == "/*" ||
+            GetStringLeft(sPhrase,2) == "*/" ||
+            GetStringLeft(sPhrase,2) == "//") iToggle = abs(iToggle - 1);
         if (iToggle) sOutput = sOutput + GetStringLeft(sPhrase,1);
         else sOutput = sOutput + ConvertDruidic(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
