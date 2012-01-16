@@ -168,7 +168,7 @@ namespace ACR_ServerCommunicator
                     }
                     break;
 
-                case REQUEST_TYPE.POPULATE_CHAT_GUI:
+                case REQUEST_TYPE.POPULATE_CHAT_SELECT:
                     {
                         uint PlayerObject = OBJECT_SELF;
 
@@ -1821,7 +1821,7 @@ namespace ACR_ServerCommunicator
             IS_SERVER_ONLINE,
             ACTIVATE_SERVER_TO_SERVER_PORTAL,
             HANDLE_CLIENT_LEAVE,
-            POPULATE_CHAT_GUI
+            POPULATE_CHAT_SELECT
         }
 
         /// <summary>
