@@ -52,8 +52,17 @@ const int TOTAL_STYLES = 10;
 
 const int WRITE_RECURSION_LIMIT = 100;
 
+// The name of the TKL database setting indicating that we have migrated the
+// player to use the central database.
+const string ACR_TKL_MIGRATED = "ACR_TKL_MIGRATED";
+
 #include "nwnx_time"
 #include "tkl_performer_settings"
+#include "acr_db_persist_i"
+
+// Define to 1 to use the ACR Persist database.
+
+#define TKL_PERFORMER_USE_ACR_PERSIST 1
 
 // Determine the length of the song, given its current speed.
 float GetSongLength(object oInstrument);
@@ -177,6 +186,8 @@ void SetTKLPersistFloat(object oPC, string sValueName, float fValueData);
 object RetrieveTKLPersistInstrumentObject(object oPC, string sValueName, location lLocation, object oOwner);
 // Save a TKL instrument object to the persist store.
 void StoreTKLPersistInstrumentObject(object oPC, string sValueName, object oInstrument);
+// Upgrade the legacy campaign database to use the ACR Persist database.
+void UpgradeTKLDatabase(object oTarget);
 
 float GetSongLength(object oInstrument)
 {
@@ -3087,33 +3098,122 @@ void WriteLyrics(object oPC, object oInstrument, string sInput)
 
 string GetTKLPersistString(object oPC, string sValueName)
 {
+#if TKL_PERFORMER_USE_ACR_PERSIST
+	if (oPC == OBJECT_INVALID)
+		oPC = GetModule();
+
+	UpgradeTKLDatabase(oPC);
+
+	return ACR_GetPersistentString(oPC, sValueName);
+#else
 	return GetCampaignString(TKL_PERFORMER_DATABASE, sValueName, oPC);
+#endif
 }
 
 void SetTKLPersistString(object oPC, string sValueName, string sValueData)
 {
+#if TKL_PERFORMER_USE_ACR_PERSIST
+	if (oPC == OBJECT_INVALID)
+		oPC = GetModule();
+
+	UpgradeTKLDatabase(oPC);
+
+	ACR_SetPersistentString(oPC, sValueName, sValueData);
+#else
 	SetCampaignString(TKL_PERFORMER_DATABASE, sValueName, sValueData, oPC);
+#endif
 }
 
 float GetTKLPersistFloat(object oPC, string sValueName)
 {
+#if TKL_PERFORMER_USE_ACR_PERSIST
+	if (oPC == OBJECT_INVALID)
+		oPC = GetModule();
+
+	UpgradeTKLDatabase(oPC);
+
+	return ACR_GetPersistentFloat(oPC, sValueName);
+#else
 	return GetCampaignFloat(TKL_PERFORMER_DATABASE, sValueName, oPC);
 //	return StringToFloat(GetTKLPersistString(oPC, sValueName));
+#endif
 }
 
 void SetTKLPersistFloat(object oPC, string sValueName, float fValueData)
 {
+#if TKL_PERFORMER_USE_ACR_PERSIST
+	if (oPC == OBJECT_INVALID)
+		oPC = GetModule();
+
+	UpgradeTKLDatabase(oPC);
+
+	ACR_SetPersistentFloat(oPC, sValueName, fValueData);
+#else
 	SetCampaignFloat(TKL_PERFORMER_DATABASE, sValueName, fValueData, oPC);
 //	SetTKLPersistString(oPC, sValueName, FloatToString(fValueData));
+#endif
 }
 
 object RetrieveTKLPersistInstrumentObject(object oPC, string sValueName, location lLocation, object oOwner)
 {
+#if TKL_PERFORMER_USE_ACR_PERSIST
+	object oInstrument;
+
+	UpgradeTKLDatabase(oPC);
+
+	// Just use the campaign database if the score is "server global".
+	if (oPC == OBJECT_INVALID)
+		return RetrieveCampaignObject(TKL_PERFORMER_DATABASE, sValueName, lLocation, oOwner, oPC);
+
+	// Otherwise, create a temporary waypoint object and populate its local
+	// script variables from the database.  The TKL code will delete the object
+	// immediately after (it doesn't need to even be an item object); the entire
+	// purpose here is just to save and restore all of the locals on the object
+	// itself.  A waypoint is used as it has no effect on the game world.
+	oInstrument = CreateObject(OBJECT_TYPE_WAYPOINT, "nw_waypoint001", lLocation, FALSE);
+
+	if (!ACR_LoadObjectVariablesFromPersistStore(oInstrument, oPC, "TKLOBJ_" + sValueName))
+	{
+		// No object by this name in the database.
+		DestroyObject(oInstrument);
+		return OBJECT_INVALID;
+	}
+
+	return oInstrument;
+#else
 	return RetrieveCampaignObject(TKL_PERFORMER_DATABASE, sValueName, lLocation, oOwner, oPC);
+#endif
 }
 
 void StoreTKLPersistInstrumentObject(object oPC, string sValueName, object oInstrument)
 {
+#if TKL_PERFORMER_USE_ACR_PERSIST
+	UpgradeTKLDatabase(oPC);
+
+	// Just use the campaign database if the score is "server global".
+	if (oPC == OBJECT_INVALID)
+	{
+		StoreCampaignObject(TKL_PERFORMER_DATABASE, sValueName, oInstrument, oPC);
+		return;
+	}
+
+	// Store the local variables of the object into the database.  No other data
+	// other than the locals are stored, but that is all that TKL needs.
+	ACR_SaveObjectVariablesToPersistStore(oInstrument, oPC, "TKLOBJ_" + sValueName);
+#else
 	StoreCampaignObject(TKL_PERFORMER_DATABASE, sValueName, oInstrument, oPC);
+#endif
+}
+
+void UpgradeTKLDatabase(object oTarget)
+{
+#if TKL_PERFORMER_USE_ACR_PERSIST
+	if (oTarget == GetModule())
+		oTarget = OBJECT_INVALID;
+
+	// Not implemented right now.  If implemented, what we would do here is to
+	// read the campaign database data for this target and transfer it to the
+	// central database.
+#endif
 }
 
