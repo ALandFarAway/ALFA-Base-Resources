@@ -62,7 +62,7 @@ const string ACR_TKL_MIGRATED = "ACR_TKL_MIGRATED";
 
 // Define to 1 to use the ACR Persist database.
 
-#define TKL_PERFORMER_USE_ACR_PERSIST 1
+#define TKL_PERFORMER_USE_ACR_PERSIST 0
 
 // Determine the length of the song, given its current speed.
 float GetSongLength(object oInstrument);
