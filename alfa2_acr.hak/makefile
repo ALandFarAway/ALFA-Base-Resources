@@ -423,7 +423,13 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\wand_init.ncs                         \
             $(OUTPUTDIR)\gui_chatselect.ncs                    \
             $(OUTPUTDIR)\i_tkl_performer_score_ac.ncs          \
-            $(OUTPUTDIR)\dmfi_usd_portal.ncs                   
+            $(OUTPUTDIR)\dmfi_usd_portal.ncs                   \
+            $(OUTPUTDIR)\i_dmfi_exe_tool_ac.ncs                \
+            $(OUTPUTDIR)\i_acr_dcsetter_ac.ncs                 \
+            $(OUTPUTDIR)\i_acr_dmexamine_ac.ncs                \
+            $(OUTPUTDIR)\i_abr_it_dm_damagewand_ac.ncs         \
+            $(OUTPUTDIR)\i_abr_it_dmprcvalidate_ac.ncs         \
+            $(OUTPUTDIR)\i_abr_spawntoggle_ac.ncs              
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and
