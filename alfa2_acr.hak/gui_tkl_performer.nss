@@ -15,6 +15,7 @@ Purpose: This is the main script that gets directly called from the TKL Performe
 */
 
 #include "tkl_performer_include"
+#include "acr_xp_i"
 
 void QuantizeNote(object oPC, object oInstrument, int iTrack, int iNote, float fTick, int iSubDivide=1)
 {
@@ -170,6 +171,7 @@ void main(string sAction, int iOption)
 			SetLocalFloat(oInstrument, sID + "PLAYBACK_TRACK" + sTrack, fSecondsIn);
 			SetLocalInt(oInstrument, sID + "PITCH_TRACK" + sTrack, iOption);
 			SendMessageToPC(oPC, "Note recorded at time: " + FloatToString(fSecondsIn) + " on Track " + sTrack);
+			ACR_RPXPMarkActive(oPC);
 		}
 	}
 	
@@ -177,6 +179,7 @@ void main(string sAction, int iOption)
 	{
 		int iKey = GetLocalInt(oInstrument, "KEY");
 		PlayNote(iOption, iKey);
+		ACR_RPXPMarkActive(oPC);
 	}
 	
 	else if (sAction == "LYRIC_SING")
@@ -212,6 +215,7 @@ void main(string sAction, int iOption)
 			SetLocalInt(oInstrument, sID + "TEXT", iOption);
 			SendMessageToPC(oPC, "Lyric recorded at time: " + FloatToString(fSecondsIn) + ".");	
 		}	
+		ACR_RPXPMarkActive(oPC);
 	}
 	
 	else if (sAction == "LAG_CHECK")
@@ -245,7 +249,7 @@ void main(string sAction, int iOption)
 				SendMessageToPC(oPC, "This amount will be deducted from all recording times.");
 				SendMessageToPC(oPC, "If you feel you didn't click at the right time, please try again.");
 				SetLocalFloat(oPC, "LAG_CHECK", fSecondsIn);
-				SetCampaignFloat(TKL_PERFORMER_DATABASE, "LAG_CHECK", fSecondsIn, oPC);
+				SetTKLPersistFloat(oPC, "LAG_CHECK", fSecondsIn);
 				RefreshRecordPane(oPC, oInstrument);
 			}			
 		}
@@ -563,6 +567,7 @@ void main(string sAction, int iOption)
 	else if (sAction == "SONG_PLAY")
 	{		
 		PlaySong(oPC, oInstrument, 0, TRUE);
+		ACR_RPXPMarkActive(oPC);
 	}
 	
 	else if (sAction == "CLOSE")
@@ -773,16 +778,16 @@ void main(string sAction, int iOption)
 	{
 		string sName;
 		if (GetIsDM(oPC))
-			sName = GetCampaignString(TKL_PERFORMER_DATABASE, "TKL_SERVER_SONG_NAME" + IntToString(iOption));
+			sName = GetTKLPersistString(OBJECT_INVALID, "TKL_SERVER_SONG_NAME" + IntToString(iOption));
 		else
 		{
-			sName = GetCampaignString(TKL_PERFORMER_DATABASE, "TKL_SONG_NAME" + IntToString(iOption), oPC);
+			sName = GetTKLPersistString(oPC, "TKL_SONG_NAME" + IntToString(iOption));
 			if (sName == "")
-				sName = GetCampaignString(TKL_PERFORMER_DATABASE, "TKL_PERFORMER_SONG_NAME" + IntToString(iOption), oPC);
+				sName = GetTKLPersistString(oPC, "TKL_PERFORMER_SONG_NAME" + IntToString(iOption));
 		}
-		//string sName = GetCampaignString(TKL_PERFORMER_DATABASE, "TKL_SONG_NAME" + IntToString(iOption), oPC);
+		//string sName = GetTKLPersistString(oPC, "TKL_SONG_NAME" + IntToString(iOption));
 		//if (sName == "")
-		//	sName = GetCampaignString(TKL_PERFORMER_DATABASE, "TKL_PERFORMER_SONG_NAME" + IntToString(iOption), oPC);
+		//	sName = GetTKLPersistString(oPC, "TKL_PERFORMER_SONG_NAME" + IntToString(iOption));
 		if (sName == "")
 		{
 			SendMessageToPC(oPC, "There is not a song in that slot.");
@@ -800,9 +805,9 @@ void main(string sAction, int iOption)
 	else if (sAction == "SONG_SAVE")
 	{
 		string sText;
-		string sName = GetCampaignString(TKL_PERFORMER_DATABASE, "TKL_SONG_NAME" + IntToString(iOption), oPC);
+		string sName = GetTKLPersistString(oPC, "TKL_SONG_NAME" + IntToString(iOption));
 		if (sName == "")
-			sName = GetCampaignString(TKL_PERFORMER_DATABASE, "TKL_PERFORMER_SONG_NAME" + IntToString(iOption), oPC);
+			sName = GetTKLPersistString(oPC, "TKL_PERFORMER_SONG_NAME" + IntToString(iOption));
 		if (sName == "")
 			sText = "Click 'Ok' to save this song.";
 		else

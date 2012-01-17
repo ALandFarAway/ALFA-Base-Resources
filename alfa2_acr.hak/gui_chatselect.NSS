@@ -25,17 +25,17 @@ void main ( int nEvent, string sChatString )
 {
     if(nEvent == CHAT_SELECT_EVENT_OPEN)
     {
-        ACR_CallIPCScript(ACR_SERVER_IPC_POPULATE_CHAT_SELECT, 0, 0, 0, 0, 0, "", OBJECT_SELF);
+        ACR_PopulateChatSelect(OBJECT_SELF);
     }
     else if(nEvent == CHAT_SELECT_EVENT_EXPAND)
     {
         SetLocalInt(OBJECT_SELF, "chatselect_expanded", 0);
-        ACR_CallIPCScript(ACR_SERVER_IPC_POPULATE_CHAT_SELECT, 0, 0, 0, 0, 0, "", OBJECT_SELF);
+        ACR_PopulateChatSelect(OBJECT_SELF);
     }
     else if(nEvent == CHAT_SELECT_EVENT_COLLAPSE)
     {
         SetLocalInt(OBJECT_SELF, "chatselect_expanded", 1);
-        ACR_CallIPCScript(ACR_SERVER_IPC_POPULATE_CHAT_SELECT, 0, 0, 0, 0, 0, "", OBJECT_SELF);
+        ACR_PopulateChatSelect(OBJECT_SELF);
     }
     else if(nEvent == CHAT_SELECT_EVENT_CLOSE)
     {
@@ -47,7 +47,7 @@ void main ( int nEvent, string sChatString )
         else // has CE
         {
             SetGUIObjectText(OBJECT_SELF, "SCREEN_MESSAGEMP_1", "inputbox", -1, "");
-            SendMessageToPC(OBJECT_SELF, "SCliExt15"+sChatString);
+            ACR_OpenChatInputBox(OBJECT_SELF, sChatString);
         }	
     }
 }

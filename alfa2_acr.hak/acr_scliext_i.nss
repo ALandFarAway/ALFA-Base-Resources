@@ -106,6 +106,12 @@ void ACR_SCliExtOnPCLoaded(object PC);
 //!  - PC: Supplies the player to check.
 void ACR_CheckForClientExtensionInstalled(object PC);
 
+//! Activate the chat input box for a PC's GUI.  The PC has to be running a
+//  recent enough CE version for this to work.
+//!  - PC: Supplies the PC whose chat input GUI is to be opened.
+//!  - MessagePrefix: Supplies the prefix to assign to the chat GUI window.
+void ACR_OpenChatInputBox(object PC, string MessagePrefix);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -142,5 +148,10 @@ void ACR_CheckForClientExtensionInstalled(object PC)
 
 	SendMessageToPC(PC, "ALFA recommends installing the Client Extension for the best possible player (and DM) experience.  The Client Extension improves client stability, and adds new client features, such as improved client logging and better chat handling.");
 	SendMessageToPC(PC, "You can find more information about the Client Extension here: " + ACR_SCLIEXT_URL_AND_FORUM_INFO);
+}
+
+void ACR_OpenChatInputBox(object PC, string MessagePrefix)
+{
+	SendMessageToPC(PC, "SCliExt15" + MessagePrefix);
 }
 

@@ -386,6 +386,26 @@ void ACR_FlushQueryQueue(object oQueueObject);
 //             server.  The server data port is not detected nor returned.
 string ACR_GetServerAddressFromDatabase();
 
+//! Populate an object's local variables from the persist store.  Note that the
+//  existing variables on the Obj object are NOT cleared automatically first!
+//!  - Obj: Supplies the object whose variables are to be loaded.
+//!  - PCObject: Supplies the PC object id that owns the object.
+//!  - DatabaseTag: Supplies the tag to name the variables under in the
+//                  database (64 chars).  It need not be a real object tag, but
+//                  must be unique among other object variable data stored for
+//                  this character.
+//!  - Returns: TRUE if the persist store had data for the object.
+int ACR_LoadObjectVariablesFromPersistStore(object Obj, object PCObject, string DatabaseTag);
+
+//! Save an object's local variables to the persist store.
+//!  - Obj: Supplies the object whose variables are to be saved.
+//!  - PCObject: Supplies the PC object id that owns the object.
+//!  - DatabaseTag: Supplies the tag to name the variables under in the
+//                  database (64 chars).  It need not be a real object tag, but
+//                  must be unique among other object variable data stored for
+//                  this character.
+void ACR_SaveObjectVariablesToPersistStore(object Obj, object PCObject, string DatabaseTag);
+
 //! Passes the reset command to the NWNx4 system plugin, taken from nwnx_system.nss
 // Authors  : Ingmar Stieger (Papillon)
 // Modified : 08/25/07 (kfw) : Added more useful error messages.
@@ -1001,6 +1021,14 @@ void ACR_CreateSQLTables()
 		"PRIMARY KEY (`ServerID`, `PlayerID`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 		
+	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `character_script_variables` (" +
+		"`CharacterID` mediumint(11) UNSIGNED NOT NULL," +
+		"`Tag` varchar(64) NOT NULL," +
+		"`VariableName` varchar(64) NOT NULL," +
+		"`VariableType` tinyint(3) UNSIGNED NOT NULL," +
+		"`VariableValue` varchar(256) NOT NULL," +
+		"PRIMARY KEY (`CharacterID`, `Tag`), UNIQUE KEY (`CharacterID`, `Tag`, `VariableName`)" +
+	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 }
 
 void ACR_ResetDatabase()  {
@@ -1242,6 +1270,123 @@ string ACR_GetServerAddressFromDatabase()
 		WriteTimestampedLogEntry("ACR_GetServerAddressFromDatabase(): Failed to determine server external address!");
 
 		return "";
+	}
+}
+
+int ACR_LoadObjectVariablesFromPersistStore(object Obj, object PCObject, string DatabaseTag)
+{
+	int LoadedVariables = 0;
+
+	if (!GetIsPC(PCObject))
+		return FALSE;
+
+	// Flush the query queue for the object and spin up a query to fetch the
+	// object data from the database.  Flushing the queue is necessary in case
+	// we had a pending ACR_StoreObjectVariablesToPersistStore() for the same
+	// PC and tag waiting to be written out.
+	ACR_FlushQueryQueue(PCObject);
+	ACR_SQLQuery(
+		"SELECT `VariableType`, `VariableName`, `VariableValue` " +
+		"FROM `character_script_variables` " +
+		"WHERE `CharacterID` = " + IntToString(ACR_GetCharacterID(PCObject)) +
+		"AND `Tag` = '" + ACR_SQLEncodeSpecialChars(DatabaseTag) + "'");
+
+	while (ACR_SQLFetch() == SQL_SUCCESS)
+	{
+		int VariableType = StringToInt(ACR_SQLGetData(0));
+		string VariableName = ACR_SQLGetData(1);
+		string VariableValue = ACR_SQLGetData(2);
+
+		LoadedVariables += 1;
+
+		switch (VariableType)
+		{
+
+		case VARIABLE_TYPE_INT:
+			SetLocalInt(Obj, VariableName, StringToInt(VariableValue));
+			break;
+
+		case VARIABLE_TYPE_FLOAT:
+			SetLocalFloat(Obj, VariableName, StringToFloat(VariableValue));
+			break;
+
+		case VARIABLE_TYPE_STRING:
+			SetLocalString(Obj, VariableName, VariableValue);
+			break;
+
+		case VARIABLE_TYPE_DWORD:
+			WriteTimestampedLogEntry("ACR_LoadObjectVariablesFromPersistStore(" + GetName(Obj) + ", " + GetName(PCObject) + ", " + DatabaseTag + "): Cannot restore a variable of type Object.");
+			break;
+
+		case VARIABLE_TYPE_LOCATION:
+			SetLocalLocation(Obj, VariableName, ACR_StringToLocation(VariableValue));
+			break;
+
+		}
+	}
+
+	return (LoadedVariables != 0);
+}
+
+void ACR_SaveObjectVariablesToPersistStore(object Obj, object PCObject, string DatabaseTag)
+{
+	string CharID;
+	string EscapedTag;
+	int VariableCount;
+	int VariableType;
+	string VariableValue;
+	int i;
+
+	if (!GetIsPC(Obj))
+		return;
+
+	CharID = IntToString(ACR_GetCharacterID(PCObject));
+	EscapedTag = ACR_SQLEncodeSpecialChars(DatabaseTag);
+	VariableCount = GetVariableCount(Obj);
+
+	//
+	// Delete existing variable contents and update.
+	//
+
+	ACR_AsyncSQLQueryEx(
+		"DELETE FROM `character_script_variables` WHERE `CharacterID` = " + CharID + " AND `Tag` = '" + EscapedTag + "'",
+		PCObject);
+
+	for (i = 0; i < VariableCount; i += 1)
+	{
+		VariableType = GetVariableType(Obj, i);
+
+		switch (VariableType)
+		{
+
+		case VARIABLE_TYPE_INT:
+			VariableValue = IntToString(GetVariableValueInt(Obj, i));
+			break;
+
+		case VARIABLE_TYPE_FLOAT:
+			VariableValue = FloatToString(GetVariableValueFloat(Obj, i));
+			break;
+
+		case VARIABLE_TYPE_STRING:
+			VariableValue = GetVariableValueString(Obj, i);
+			break;
+
+		case VARIABLE_TYPE_DWORD:
+			WriteTimestampedLogEntry("ACR_StoreObjectVariablesFromPersistStore(" + GetName(Obj) + ", " + GetName(PCObject) + ", " + DatabaseTag + "): Cannot save a variable of type Object.");
+			continue;
+
+		case VARIABLE_TYPE_LOCATION:
+			VariableValue = ACR_LocationToString(GetVariableValueLocation(Obj, i));
+			break;
+
+		}
+
+		ACR_AsyncSQLQueryEx(
+			"INSERT INTO `character_script_variables` " +
+				"(`CharacterID`, `Tag`, `VariableName`, `VariableType`, `VariableValue`) " +
+			"VALUES " +
+				"(" + CharID + ", '" + EscapedTag + "', '" + ACR_SQLEncodeSpecialChars(GetVariableName(Obj, i)) + "', " + IntToString(VariableType) + ", '" + ACR_SQLEncodeSpecialChars(VariableValue) + "')",
+			PCObject);
 	}
 }
 

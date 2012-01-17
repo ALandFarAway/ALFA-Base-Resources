@@ -79,6 +79,7 @@
 // 2012/01/02  Basilica - Added latency monitor support.
 // 2012/01/05  Basilica - Added server IPC callouts.
 // 2012/01/09  Basilica - CE integration.
+// 2012/01/14  Basilica - Changed to use ACR_RPXPMarkActive for marking RPXP.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -760,7 +761,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 	string sMessage, sCommand, c, sLangPick;
 
 	// iterate the RPXP function to indicate an active PC
-	SetLocalInt(oSpeaker, _RPXP_ACTIVITY, TRUE);
+	ACR_RPXPMarkActive(oSpeaker);
 
 	switch (nMode) {
 		case CHAT_MODE_SERVER:
