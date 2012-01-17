@@ -741,7 +741,7 @@ void ACR_PCOnPCLoadedAsDM(object oPC)
 	// *** STEP 2: RESTORE PLAYER STATUS *** //
 	///////////////////////////////////////////
 
-	ACR_SQLQuery("UPDATE characters SET IsOnline=1, ServerID=" + IntToString(ACR_GetServerID()) + ", WHERE ID=" + IntToString(ACR_GetCharacterID(oPC)));
+	ACR_SQLQuery("UPDATE characters SET IsOnline=1, ServerID=" + IntToString(ACR_GetServerID()) + " WHERE ID=" + IntToString(ACR_GetCharacterID(oPC)));
 }
 
 void ACR_PCOnClientLeave(object oPC)
