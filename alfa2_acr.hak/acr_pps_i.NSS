@@ -724,9 +724,9 @@ void ACR_PCOnPCLoaded(object oPC)
 	// will actually be logging on.
 
 	if (bUpdateLocation)
-		ACR_SQLQuery("UPDATE characters, players SET characters.Location='" + ACR_LocationToString(GetLocation(oPC)) + "', players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");
+		ACR_SQLQuery("UPDATE characters, players SET characters.Location='" + ACR_LocationToString(GetLocation(oPC)) + "', characters.IsOnline=1, characters.ServerID=" + IntToString(ACR_GetServerID()) + ", players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");
 	else
-		ACR_SQLQuery("UPDATE characters, players SET characters.IsOnline=1, players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");		
+		ACR_SQLQuery("UPDATE characters, players SET characters.IsOnline=1, characters.ServerID=" + IntToString(ACR_GetServerID()) + ", players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");		
 
     // schedule the auto save (since this only exports after a PPS_CYCLE, start counting after 60 seconds)
     DelayCommand(60.0, ACR_PCAutoSave(oPC));
@@ -741,7 +741,7 @@ void ACR_PCOnPCLoadedAsDM(object oPC)
 	// *** STEP 2: RESTORE PLAYER STATUS *** //
 	///////////////////////////////////////////
 
-	ACR_SQLQuery("UPDATE characters SET IsOnline=1 WHERE ID=" + IntToString(ACR_GetCharacterID(oPC)));
+	ACR_SQLQuery("UPDATE characters SET IsOnline=1, ServerID=" + IntToString(ACR_GetServerID()) + ", WHERE ID=" + IntToString(ACR_GetCharacterID(oPC)));
 }
 
 void ACR_PCOnClientLeave(object oPC)
