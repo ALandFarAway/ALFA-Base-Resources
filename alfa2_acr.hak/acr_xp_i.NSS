@@ -340,6 +340,14 @@ int ACR_ProcessLevelUpAttempt(object oPC) {
 
 void ACR_XPOnClientLoaded(object oPC) {
 
+	// ** WARNING WARNING WARNING **
+	// This function is DIRECTLY CALLED by the omega wand on validation.
+	// For a quarantined PC, it may run TWICE, once at DelayCommand time
+	// and again on validation.  It is possible for the function to be
+	// run TWICE while a PC is NOT flagged as quarantined as a result of
+	// the original invocation being DelayCommand-based.
+	// ** WARNING WARNING WARNING **
+
 	// this function is on a 30-second delay from the OnClientLoaded module event.
     // since we DelayCommand this, make sure the PC is actually around first.
     if (!GetIsObjectValid(oPC)) { return; }

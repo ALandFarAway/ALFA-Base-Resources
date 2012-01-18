@@ -425,6 +425,12 @@ void ACR_RestOnClientLeave(object oPC)
 
 void ACR_RestOnClientEnter(object oPC)
 {
+	// ** WARNING WARNING WARNING **
+	// This function is DIRECTLY CALLED by the omega wand on validation.
+	// For a quarantined PC, it may run TWICE, once at actual client
+	// enter, and again on validation.
+	// ** WARNING WARNING WARNING **
+
     // if PC is dead or dying, do not consider them for offcamera rest.
 	if (ACR_GetIsPlayerDead(oPC) || ACR_GetIsPlayerDying(oPC)) { 
 	    SendMessageToPC(oPC, "You are read as dead or dying- no offcamera rest for you!");
