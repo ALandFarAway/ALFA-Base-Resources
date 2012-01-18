@@ -352,11 +352,21 @@ namespace ALFAIRCBot
 
         private void OnCommandRoll(string Channel, string Cmd)
         {
-            string[] CmdArgs = Cmd.Split(new char[] { 'd' });
+            int PlusMinusIndex = Cmd.IndexOfAny(new char[] { '+', '-' });
+            string PlusMinus = null;
+            string[] CmdArgs;
+
+            if (PlusMinusIndex != -1)
+            {
+                PlusMinus = Cmd.Substring(PlusMinusIndex);
+                Cmd = Cmd.Substring(0, PlusMinusIndex);
+            }
+
+            CmdArgs = Cmd.Split(new char[] { 'd' });
 
             if (CmdArgs.Length != 2)
             {
-                Client.SendMessage(SendType.Message, Channel, "Usage: !roll <count>d<sides>.");
+                Client.SendMessage(SendType.Message, Channel, "Usage: !roll <count>d<sides>[+/-delta].");
                 return;
             }
 
@@ -377,8 +387,17 @@ namespace ALFAIRCBot
                     Sum += (Rng.Next() % Sides) + 1;
                 }
 
+                if (PlusMinus == null)
+                {
+                    PlusMinus = "";
+                }
+                else
+                {
+                    Sum += Convert.ToInt32(PlusMinus);
+                }
+
                 Client.SendMessage(SendType.Message, Channel, String.Format(
-                    "Rolled {0}d{1}: {2}", Dice, Sides, Sum));
+                    "Rolled {0}d{1}{2}: {3}", Dice, Sides, PlusMinus, Sum));
             }
             catch (Exception)
             {
