@@ -10,6 +10,14 @@ void main()
 {
     object oDM = OBJECT_SELF;
 	object oObject = GetLocalObject(oDM, "Object_Target");
+	int ObjectType = GetObjectType(oObject);
+
+	if (ObjectType != OBJECT_TYPE_DOOR && ObjectType != OBJECT_TYPE_PLACEABLE)
+	{
+		SendMessageToPC(oDM, "Invalid target for trap inquiry.");
+		return;
+	}
+
 	int iBaseTrap = GetTrapBaseType(oObject);
 	
 	

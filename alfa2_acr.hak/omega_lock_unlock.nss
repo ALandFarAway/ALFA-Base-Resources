@@ -27,7 +27,14 @@
 #include "acr_door_i"
 
 void main() {
- 
+
+	int ObjectType = GetObjectType(GetItemActivatedTarget());
+
+	if (ObjectType != OBJECT_TYPE_DOOR && ObjectType != OBJECT_TYPE_PLACEABLE)
+	{
+		SendMessageToPC(GetItemActivator(), "Invalid target for lock/unlock");
+		return;
+	}
 
 	if(GetLocked(GetItemActivatedTarget()) == TRUE)
 		{ActionUnlockObject(GetItemActivatedTarget());

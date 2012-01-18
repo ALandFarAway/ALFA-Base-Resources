@@ -26,6 +26,16 @@ void main(int nUnlockDC)
 {
 object oPC = GetPCSpeaker();
 object oTarget = GetLocalObject(oPC, "Object_Target");
+
+int ObjectType = GetObjectType(oTarget);
+
+if (ObjectType != OBJECT_TYPE_DOOR && ObjectType != OBJECT_TYPE_PLACEABLE)
+{
+	SendMessageToPC(oPC, "Invalid target for lock/unlock");
+	return;
+}
+
+
 int nTargetDC = GetLockUnlockDC(oTarget);
 
 SendMessageToPC(oPC, "Unlock DC was previously at "+IntToString(nTargetDC));

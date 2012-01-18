@@ -27,6 +27,13 @@ void main(int nDisarmDC)
 {
 object oDM = OBJECT_SELF;
 object oTarget = GetLocalObject(oDM, "Object_Target");
+int ObjectType = GetObjectType(oTarget);
+
+if (ObjectType != OBJECT_TYPE_DOOR && ObjectType != OBJECT_TYPE_PLACEABLE)
+{
+	SendMessageToPC(oDM, "Invalid target for trap function.");
+	return;
+}
 int nTargetDisarmDC = GetTrapDisarmDC(oTarget);
 
 SendMessageToPC(oDM, "Trap disarm DC was previously at "+IntToString(nTargetDisarmDC));

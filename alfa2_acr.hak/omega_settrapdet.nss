@@ -27,6 +27,13 @@ void main(int nSearchDC)
 {
 object oDM = OBJECT_SELF;
 object oTarget = GetLocalObject(oDM, "Object_Target");
+int ObjectType = GetObjectType(oTarget);
+
+if (ObjectType != OBJECT_TYPE_DOOR && ObjectType != OBJECT_TYPE_PLACEABLE)
+{
+	SendMessageToPC(oDM, "Invalid target for trap function.");
+	return;
+}
 int nTargetDetectDC =  GetTrapDetectDC(oTarget);
 
 SendMessageToPC(oDM, "Trap detection DC was previously at "+IntToString(nTargetDetectDC));
