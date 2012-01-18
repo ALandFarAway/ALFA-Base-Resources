@@ -429,7 +429,29 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\i_acr_dmexamine_ac.ncs                \
             $(OUTPUTDIR)\i_abr_it_dm_damagewand_ac.ncs         \
             $(OUTPUTDIR)\i_abr_it_dmprcvalidate_ac.ncs         \
-            $(OUTPUTDIR)\i_abr_spawntoggle_ac.ncs              
+            $(OUTPUTDIR)\i_abr_spawntoggle_ac.ncs              \
+            $(OUTPUTDIR)\i_omega_wand_ac.ncs                   \
+            $(OUTPUTDIR)\omega_at.ncs                          \
+            $(OUTPUTDIR)\omega_cast.ncs                        \
+            $(OUTPUTDIR)\omega_deity.ncs                       \
+            $(OUTPUTDIR)\omega_dmg.ncs                         \
+            $(OUTPUTDIR)\omega_dmprcvalidate.ncs               \
+            $(OUTPUTDIR)\omega_dmquarantine.ncs                \
+            $(OUTPUTDIR)\omega_faction.ncs                     \
+            $(OUTPUTDIR)\omega_interact.ncs                    \
+            $(OUTPUTDIR)\omega_locate.ncs                      \
+            $(OUTPUTDIR)\omega_lock_unlock.ncs                 \
+            $(OUTPUTDIR)\omega_lockable.ncs                    \
+            $(OUTPUTDIR)\omega_plc_onused.ncs                  \
+            $(OUTPUTDIR)\omega_settrapdet.ncs                  \
+            $(OUTPUTDIR)\omega_settrapdis.ncs                  \
+            $(OUTPUTDIR)\omega_setunlock.ncs                   \
+            $(OUTPUTDIR)\omega_spawntoggle.ncs                 \
+            $(OUTPUTDIR)\omega_stealth.ncs                     \
+            $(OUTPUTDIR)\omega_trap.ncs                        \
+            $(OUTPUTDIR)\omega_trapcheck.ncs                   \
+            $(OUTPUTDIR)\omega_trapspring.ncs                  \
+            $(OUTPUTDIR)\omega_vehicle.ncs                     
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and
