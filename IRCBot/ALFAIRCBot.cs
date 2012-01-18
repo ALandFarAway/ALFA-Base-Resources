@@ -252,8 +252,19 @@ namespace ALFAIRCBot
                 {
                     int ServerId = Reader.GetInt32(2);
 
+                    //
+                    // We might have a server show up here for the first time
+                    // if it had DMs only and no regular players.
+                    //
+
                     if (!ServerInfoTable.TryGetValue(ServerId, out ServerData))
-                        continue;
+                    {
+                        ServerInfoTable.Add(ServerId, new SERVER_DATA());
+
+                        ServerInfoTable[ServerId].Players = 0;
+                        ServerInfoTable[ServerId].Name = Reader.GetString(1);
+                        ServerInfoTable[ServerId].ServerId = Reader.GetInt32(2);
+                    }
 
                     ServerInfoTable[ServerId].DMs = Reader.GetInt32(0);
                 }
@@ -439,15 +450,18 @@ namespace ALFAIRCBot
                 string Description;
                 string Url;
 
-                Document = XDocument.Load(String.Format("http://api.bing.net/xml.aspx?AppId={0}&sources=web&query={1}", BingAppID, Uri.EscapeDataString(Query)));
+                Document = XDocument.Load(String.Format("http://api.bing.net/xml.aspx?AppId={0}&Sources=Web&Version=2.0&Market=en-US&Web.count=1&XmType=ElementBased&Web.Offset=0&Query={1}", Uri.EscapeDataString(BingAppID), Uri.EscapeDataString(Query)));
 
                 SearchResult = (from XElement E in Document.Descendants(BingAPINamespace + "WebResult") select E).FirstOrDefault();
 
                 if (SearchResult == null)
                 {
+//                  Console.WriteLine("No results found");
                     Client.SendMessage(SendType.Message, Channel, "No results.");
                     return;
                 }
+
+//              Console.WriteLine(Document.ToString());
 
                 Title = (string)(from XElement E in SearchResult.Descendants(BingAPINamespace + "Title") select E).FirstOrDefault();
                 Description = (string)(from XElement E in SearchResult.Descendants(BingAPINamespace + "Description") select E).FirstOrDefault();
