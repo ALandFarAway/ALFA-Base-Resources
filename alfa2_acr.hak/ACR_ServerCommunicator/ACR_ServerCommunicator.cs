@@ -413,7 +413,7 @@ namespace ACR_ServerCommunicator
                     {
                         foreach (GameCharacter Character in Server.Characters)
                         {
-                            if (GetIsDM(PlayerObject) == FALSE)
+                            if (Character.Player.IsDM)
                                 AddListBoxRow(PlayerObject, "chatselect", "LocalDMList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
                             else
                                 AddListBoxRow(PlayerObject, "chatselect", "LocalPlayerList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
@@ -423,7 +423,7 @@ namespace ACR_ServerCommunicator
                     {
                         foreach (GameCharacter Character in Server.Characters)
                         {
-                            if (GetIsDM(PlayerObject) == FALSE)
+                            if (Character.Player.IsDM)
                                 AddListBoxRow(PlayerObject, "chatselect", "RemoteDMList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
                             else
                                 AddListBoxRow(PlayerObject, "chatselect", "RemotePlayerList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
