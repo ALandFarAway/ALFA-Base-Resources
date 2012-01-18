@@ -264,6 +264,31 @@ namespace ALFAIRCBot
                         ServerInfoTable[ServerId].Players = 0;
                         ServerInfoTable[ServerId].Name = Reader.GetString(1);
                         ServerInfoTable[ServerId].ServerId = Reader.GetInt32(2);
+
+                        if (Reader.IsDBNull(3))
+                            ServerInfoTable[ServerId].HealthStatus = -1;
+                        else
+                            ServerInfoTable[ServerId].HealthStatus = Reader.GetInt32(3);
+
+                        if (Reader.IsDBNull(4))
+                            ServerInfoTable[ServerId].VaultOnline = true;
+                        else
+                        {
+                            switch (Reader.GetInt32(4))
+                            {
+
+                                case 0:
+                                default:
+                                    ServerInfoTable[ServerId].VaultOnline = true;
+                                    break;
+
+                                case 1:
+                                    ServerInfoTable[ServerId].VaultOnline = false;
+                                    break;
+
+
+                            }
+                        }
                     }
 
                     ServerInfoTable[ServerId].DMs = Reader.GetInt32(0);
