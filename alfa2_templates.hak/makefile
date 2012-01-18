@@ -1,5 +1,5 @@
 #
-# This project constructs alfa2_pr.hak.
+# This project constructs alfa2_templates.hak.
 #
 
 !include $(PROJECT_SOURCE_ROOT)\makefile.def
