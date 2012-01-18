@@ -40,13 +40,18 @@ namespace ACR_ServerCommunicator
         /// </summary>
         /// <param name="LocalServerId">Supplies the server id of the local
         /// server.</param>
-        public GameWorldManager(int LocalServerId)
+        /// <param name="LocalServerName">Supplies the server name of the local
+        /// server, as referenced in the pwdata table in the database.</param>
+        public GameWorldManager(int LocalServerId, string LocalServerName)
         {
             this.LocalServerId = LocalServerId;
+            this.LocalServerName = LocalServerName;
             this.PauseUpdates = false;
 
             EventQueue = new GameEventQueue(this);
             QueryDispatchThread = new Thread(QueryDispatchThreadRoutine);
+            ConfigurationSyncTimer = new Timer(new TimerCallback(OnConfigurationSyncTimer), null, 0, CONFIGURATION_SYNC_INTERVAL);
+            UpdateServerCheckinTimer = new Timer(new TimerCallback(OnUpdateServerCheckinTimer), null, 0, UPDATE_SERVER_CHECKIN_INTERVAL);
 
             QueryDispatchThread.Start();
         }
@@ -855,12 +860,26 @@ namespace ACR_ServerCommunicator
                 SynchronizeOnlineServers();
 
             //
-            // Every POLLING_CYCLE_TO_CONFIG_SYNC cycles, update the
-            // configuration store.
+            // If requested, synchronize updates to the configuration store.
             //
 
-            if ((DatabasePollCycle - 1) % POLLING_CYCLES_TO_CONFIG_SYNC == 0)
+            if (NextCycleSynchronizeConfiguration)
+            {
+                NextCycleSynchronizeConfiguration = false;
                 SynchronizeConfiguration();
+            }
+
+            //
+            // If requested, refresh the last write time on the timestamp
+            // persist variable in the persist store, indicating that the
+            // server is still online.
+            //
+
+            if (NextCycleUpdateServerCheckinTimestamp)
+            {
+                NextCycleUpdateServerCheckinTimestamp = false;
+                UpdateServerCheckinTimestamp();
+            }
 
 #if DEBUG_MODE
             ConsistencyCheck();
@@ -1483,6 +1502,22 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method updates the checkin timestamp for ACR_TIME_SERVERTIME,
+        /// for the local server.  This must be periodically done from the
+        /// query thread, as the main thread's DelayCommand (ACR_StoreTime())
+        /// may not run for an extended duration if the server is paused by a
+        /// DM.
+        /// </summary>
+        private void UpdateServerCheckinTimestamp()
+        {
+            IALFADatabase Database = DatabaseLinkQueryThread;
+
+            Database.ACR_SQLExecute(String.Format(
+                "UPDATE `pwdata` SET `Last` = NOW() WHERE `Name` = '{0}' AND `Key` = 'ACR_TIME_SERVERTIME'",
+                Database.ACR_SQLEncodeSpecialChars(LocalServerName)));
+        }
+
+        /// <summary>
         /// This structure contains rowset data for the initial synchronization
         /// step.
         /// </summary>
@@ -1615,6 +1650,28 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This timer callback is invoked when the configuration sync timer
+        /// has elapsed, in the context of a thread pool thread.  Its purpose
+        /// is to record an activation event for the query thread.
+        /// </summary>
+        /// <param name="StateInfo">This argument is unused.</param>
+        private void OnConfigurationSyncTimer(object StateInfo)
+        {
+            this.NextCycleSynchronizeConfiguration = true;
+        }
+
+        /// <summary>
+        /// This timer callback is invoked when the update server checkin timer
+        /// has elapsed, in the context of a thread pool thread.  Its purpose
+        /// is to record an activation event for the query thread.
+        /// </summary>
+        /// <param name="StateInfo">This argument is unused.</param>
+        private void OnUpdateServerCheckinTimer(object StateInfo)
+        {
+            NextCycleUpdateServerCheckinTimestamp = true;
+        }
+
+        /// <summary>
         /// Convert a database string to a Boolean value.
         /// </summary>
         /// <param name="Str">Supplies the database string.</param>
@@ -1630,6 +1687,8 @@ namespace ACR_ServerCommunicator
             else
                 return Convert.ToInt32(Str) != 0;
         }
+
+
 
         /// <summary>
         /// Chat tell IPC events use this event type.  For this event, there
@@ -1682,6 +1741,12 @@ namespace ACR_ServerCommunicator
         /// <summary>
         /// The count, in milliseconds, between database polling attempts in
         /// the context of the query dispatch thread.
+        /// 
+        /// Note that polling cycles do not represent a hard time interval
+        /// because transaction latency for each database query is added on to
+        /// the minimum interval below.  Long term tasks that require
+        /// predictable updates should instead use a timer callback that sets a
+        /// flag to run a task on the next cycle.
         /// </summary>
         private const int DATABASE_POLLING_INTERVAL = 1000;
 
@@ -1698,10 +1763,16 @@ namespace ACR_ServerCommunicator
         private const int POLLING_CYCLES_TO_CHARACTER_SYNC = 3;
 
         /// <summary>
-        /// The number of pollling cycles between a configuration
-        /// synchronization attempt.
+        /// The interval between a configuration synchronization attempt.
         /// </summary>
-        private const int POLLING_CYCLES_TO_CONFIG_SYNC = 60 * 60;
+        private const int CONFIGURATION_SYNC_INTERVAL = 1000 * 60 * 60;
+
+        /// <summary>
+        /// The interval before the ACR_TIME_SERVERTIME persist store variable
+        /// for the server has its Last timestamp bumped forward, to account
+        /// for a paused server not running DelayCommand continuations.
+        /// </summary>
+        private const int UPDATE_SERVER_CHECKIN_INTERVAL = 1000 * 60 * 8;
 
         /// <summary>
         /// The maximum target value for combined IPC event queries is stored
@@ -1760,6 +1831,12 @@ namespace ACR_ServerCommunicator
         private int LocalServerId = 0;
 
         /// <summary>
+        /// The database name (as used in the pwdata field), of the current
+        /// (local) server, is stored here.
+        /// </summary>
+        private string LocalServerName = null;
+
+        /// <summary>
         /// The queue of outbound IPC events awaiting data transmission is
         /// stored here.
         /// </summary>
@@ -1796,6 +1873,18 @@ namespace ACR_ServerCommunicator
         private bool EventQueueModified = false;
 
         /// <summary>
+        /// This value is set when it is time to run a configuration sync.  The
+        /// next query thread cycle will reset the value.
+        /// </summary>
+        private volatile bool NextCycleSynchronizeConfiguration = false;
+
+        /// <summary>
+        /// This value is set when it is time to run an update server checkin.
+        /// The next query thread cycle will reset the value.
+        /// </summary>
+        private volatile bool NextCycleUpdateServerCheckinTimestamp = false;
+
+        /// <summary>
         /// The early wakeup event for the query thread, which is used to
         /// reduce latency for outbound IPC events, is stored here.  The event
         /// is typically set after pushing an element onto the IPCEventQueue in
@@ -1808,5 +1897,19 @@ namespace ACR_ServerCommunicator
         /// configuration elements contained herein are backed by the database.
         /// </summary>
         private GameWorldConfiguration ConfigurationStore = new GameWorldConfiguration();
+
+        /// <summary>
+        /// The configuration synchronization timer object is stored here.
+        /// When fired, it requests that the next update cycle perform a
+        /// configuration resync.
+        /// </summary>
+        private Timer ConfigurationSyncTimer = null;
+
+        /// <summary>
+        /// The update server checkin timer object is stored here.  When fired,
+        /// it requests that the next update cycle perform a database check-in
+        /// to inform monitoring systems that the server is still running.
+        /// </summary>
+        private Timer UpdateServerCheckinTimer = null;
     }
 }

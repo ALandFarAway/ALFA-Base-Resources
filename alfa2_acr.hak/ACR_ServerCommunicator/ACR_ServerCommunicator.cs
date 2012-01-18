@@ -203,7 +203,9 @@ namespace ACR_ServerCommunicator
             if (Database == null)
                 Database = new ALFA.Database(this);
 
-            WorldManager = new GameWorldManager(Database.ACR_GetServerID());
+            WorldManager = new GameWorldManager(
+                Database.ACR_GetServerID(),
+                GetName(GetModule()));
             PlayerStateTable = new Dictionary<uint, PlayerState>();
 
             //
