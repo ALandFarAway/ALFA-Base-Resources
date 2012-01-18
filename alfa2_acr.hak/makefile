@@ -460,10 +460,7 @@ CLRSCRIPT_OBJECTS_NL=$(CLRSCRIPT_OBJECTS:.ncs=.ncs^
 
 HAK_SOURCES_MISC=                                              \
             *.TXT                                              \
-            .\*.UTI                                            \
-            .\*.UTC                                            \
             .\*.DLG                                            \
-            .\*.UTW                                            \
             .\*.TGA                                            \
             .\*.GFF                                            
 
