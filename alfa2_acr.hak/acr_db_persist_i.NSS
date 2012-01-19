@@ -1029,6 +1029,12 @@ void ACR_CreateSQLTables()
 		"`VariableValue` varchar(256) NOT NULL," +
 		"PRIMARY KEY (`CharacterID`, `Tag`), UNIQUE KEY (`CharacterID`, `Tag`, `VariableName`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
+
+	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `config` (" +
+		"`variable` varchar(25) NOT NULL," +
+		"`value` varchar(255) NOT NULL," +
+		"PRIMARY KEY (`variable`)" +
+	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 }
 
 void ACR_ResetDatabase()  {
