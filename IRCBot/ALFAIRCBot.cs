@@ -170,7 +170,7 @@ namespace ALFAIRCBot
                     return " [medium latency]";
 
                 case 2:
-                    return " [high latency ";
+                    return " [high latency]";
 
                 default:
                     return " [unknown latency state]";
