@@ -490,6 +490,35 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method sends a description of the server's latency
+        /// characteristics to a player.
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the requesting player's object
+        /// id.</param>
+        private void ShowServerLatency(uint PlayerObject)
+        {
+            int ServerLatency = GetGlobalInt("ACR_SERVER_LATENCY");
+            int VaultLatency = GetGlobalInt("ACR_VAULT_LATENCY");
+            string Description;
+
+            if (ServerLatency == -1)
+                Description = "off-scale high";
+            else
+                Description = String.Format("{0}ms", ServerLatency);
+
+            SendMessageToPC(PlayerObject, String.Format(
+                "Server internal latency is: {0} (median for past 14 samples: {1}ms)", Description, GetGlobalInt("ACR_SERVER_LATENCY_MEDIAN")));
+
+            if (VaultLatency == -1)
+                Description = "off-scale high";
+            else
+                Description = String.Format("{0}ms", VaultLatency);
+
+            SendMessageToPC(PlayerObject, String.Format(
+                "Vault transaction latency is: {0}", Description));
+        }
+
+        /// <summary>
         /// This method filters module chat events.  Its purpose is to check
         /// for commands internal to the server-to-server communication system
         /// and dispatch these as appropriate.
@@ -596,10 +625,7 @@ namespace ACR_ServerCommunicator
             }
             else if (CookedText.Equals("serverlatency"))
             {
-                SendMessageToPC(SenderObjectId, String.Format(
-                    "Server internal latency is: {0}ms", GetGlobalInt("ACR_SERVER_LATENCY")));
-                SendMessageToPC(SenderObjectId, String.Format(
-                    "Vault transaction latency is: {0}ms", GetGlobalInt("ACR_VAULT_LATENCY")));
+                ShowServerLatency(SenderObjectId);
                 return TRUE;
             }
             else

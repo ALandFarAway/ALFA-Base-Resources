@@ -111,6 +111,8 @@ namespace ACR_HealthMonitor
             else
                 NewStatus = LATENCY_HEALTH_STATUS.Unhealthy;
 
+            SetGlobalInt("ACR_SERVER_LATENCY_MEDIAN", MedianLatency);
+
             VaultLatency = GetGlobalInt("ACR_VAULT_LATENCY");
 
             if (VaultLatency == -1)
