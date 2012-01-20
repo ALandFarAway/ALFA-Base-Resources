@@ -98,7 +98,8 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_server_ipc_i.nss                  \
             $(OUTPUTDIR)\acr_version_i.nss                     \
             $(OUTPUTDIR)\acr_server_misc_i.nss                 \
-            $(OUTPUTDIR)\acr_scliext_i.nss                      
+            $(OUTPUTDIR)\acr_scliext_i.nss                     \
+            $(OUTPUTDIR)\acr_area_instance_i.nss                
 
 NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\abr_plc_oninventorydisreturns.ncs     \
