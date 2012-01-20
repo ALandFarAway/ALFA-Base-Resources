@@ -557,6 +557,10 @@ void ACR__AreaCleanupTask(object InstancedArea, float Delay)
 		// periodically re-check for deletion unless the area goes into the free
 		// list.
 	}
+	else
+	{
+		DeleteLocalInt(InstancedArea, ACR_AREA_INSTANCE_HAD_ACTIVITY);
+	}
 
 	DelayCommand(Delay, ACR__AreaCleanupTask(InstancedArea, Delay));
 }
