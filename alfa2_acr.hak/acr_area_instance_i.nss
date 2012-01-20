@@ -223,6 +223,9 @@ void ACR__CallOriginalOnLeaveHandler(object InstancedArea);
 
 object ACR_CreateAreaInstance(object TemplateArea, float CleanupDelay)
 {
+	if (ACR_IsInstancedArea(TemplateArea))
+		TemplateArea = ACR_GetInstancedAreaTemplate(TemplateArea);
+
 	// First, get an actual area instance.
 	object InstancedArea = ACR_InternalCreateAreaInstance(TemplateArea);
 	string Script;
@@ -284,6 +287,12 @@ object ACR_CreateAreaInstance(object TemplateArea, float CleanupDelay)
 
 void ACR_ReleaseAreaInstance(object InstancedArea)
 {
+	if (!ACR_IsInstancedArea(InstancedArea))
+	{
+		WriteTimestampedLogEntry("ACR_ReleaseAreaInstance(): Cannot release non-instanced area " + GetName(InstancedArea) + ": 0x" + ObjectToString(InstancedArea));
+		return;
+	}
+
 	// Call deletion script.
 	object TemplateArea = ACR_GetInstancedAreaTemplate(InstancedArea);
 	string Script = GetLocalString(TemplateArea, ACR_AREA_INSTANCE_ON_DELETE_SCRIPT);
@@ -373,6 +382,11 @@ void ACR_AreaInstance_OnClientLeave(object PC, int FromAreaInstance)
 	// Interested only in instanced areas.
 	if (!ACR_IsInstancedArea(Area))
 		return;
+
+	// Mark activity so that we can reset the cleanup timer.  This only needs be
+	// done here, on client leave, because the cleanup timer aborts if it sees
+	// that there are PCs present.
+	SetLocalInt(Area, ACR_AREA_INSTANCE_HAD_ACTIVITY, TRUE);
 
 	Delay = ACR_GetAreaCleanupDelay(Area);
 
