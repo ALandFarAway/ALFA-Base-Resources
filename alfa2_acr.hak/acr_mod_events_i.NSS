@@ -80,6 +80,7 @@
 // 2012/01/05  Basilica - Added server IPC callouts.
 // 2012/01/09  Basilica - CE integration.
 // 2012/01/14  Basilica - Changed to use ACR_RPXPMarkActive for marking RPXP.
+// 2012/01/19  Basilica - Added callout for area instancing system.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -109,6 +110,7 @@
 #include "acr_server_ipc_i"
 #include "acr_version_i"
 #include "acr_scliext_i"
+#include "acr_area_instance_i"
 
 #include "acf_spawn_i"
 #include "acf_settings_i"
@@ -536,6 +538,9 @@ void ACR_ModuleOnClientLeave()
 
 	// Let the IPC subsystem know of the logout event.
 	ACR_ServerIPC_OnClientLeave(oPC);
+
+	ACR_AreaInstance_OnClientLeave(oPC, FALSE);
+	// Let the area instancing subysstem know of the logout event.
 }
 
 void ACR_ModuleOnAcquireItem()

@@ -453,7 +453,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\omega_trap.ncs                        \
             $(OUTPUTDIR)\omega_trapcheck.ncs                   \
             $(OUTPUTDIR)\omega_trapspring.ncs                  \
-            $(OUTPUTDIR)\omega_vehicle.ncs                     
+            $(OUTPUTDIR)\omega_vehicle.ncs                     \
+            $(OUTPUTDIR)\acr_area_instance_onleave.ncs         
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and

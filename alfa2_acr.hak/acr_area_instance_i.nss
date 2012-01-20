@@ -103,11 +103,21 @@ const string ACR_AREA_INSTANCE_CLEANUP_TASK_RUNNING          = "ACR_AREA_INSTANC
 // This variable contains the first dynamic object id in the area.
 const string ACR_AREA_INSTANCE_FIRST_DYNAMIC_OBJECT          = "ACR_AREA_INSTANCE_FIRST_DYNAMIC_OBJECT";
 
+// This variable is set to TRUE if an area has player activity since the last
+// cleanup task ran.
+const string ACR_AREA_INSTANCE_HAD_ACTIVITY                  = "ACR_AREA_INSTANCE_HAD_ACTIVITY";
+
+const string ACR_AREA_INSTANCE_ORIGINAL_ONLEAVE_SCRIPT       = "ACR_AREA_INSTANCE_ORIGINAL_ONLEAVE_SCRIPT";
+
+
 // The number of objects to remove each deletion cycle.  This value is used to
 // allow cleanup of area objects to be spread out over time so as to not pause
 // the server for an excessive time.
-const int ACR_AREA_INSTANCE_OBJECTS_PER_DELETION_CYCLE = 100;
+const int ACR_AREA_INSTANCE_OBJECTS_PER_DELETION_CYCLE       = 2;
 
+// The OnLeave script that is hooked in for area instance is named here.  This
+// script allows automatic instance cleanup to be enabled.
+const string ACR_AREA_INSTANCE_ONLEAVE_ACR_SCRIPT            = "acr_area_instance_onleave";
 
 // Define to 1 to enable debugging.
 #define ACR_AREA_INSTANCE_DEBUG 1
@@ -128,8 +138,13 @@ const int ACR_AREA_INSTANCE_OBJECTS_PER_DELETION_CYCLE = 100;
 //  found, it will be reused.
 //!  - TemplateArea: Supplies the area that serves as the template for the new
 //                   instanced area.
+//!  - CleanupDelay: Supplies the area cleanup delay.  If < 0.1f, then the
+//                   value from the design time configuration setting on the
+//                   template area is used instead.  If the design time
+//                   setting did not specify a value then cleanup is not
+//                   enabled for this instance.
 //!  - Returns: The area instance, else OBJECT_INVALID on failure.
-object ACR_CreateAreaInstance(object TemplateArea);
+object ACR_CreateAreaInstance(object TemplateArea, float CleanupDelay = 0.0f);
 
 //! Release an instanced area.  It will be put back onto the free list of the
 //  area supports free list pooling, otherwise the area is deleted.
@@ -151,13 +166,26 @@ int ACR_IsInstancedArea(object Area);
 //!  - InstancedArea: Supplies the instanced area object to query.
 //!  - Returns: The template (parent) area, else OBJECT_INVALID if the area
 //     was not a valid instanced area.
-int ACR_GetInstancedAreaTemplate(object Area);
+object ACR_GetInstancedAreaTemplate(object Area);
 
-//!  Check whether an area has any player controlled objects in it.  The area
-//   can be a normal or instanced area.
+//! Check whether an area has any player controlled objects in it.  The area
+//  can be a normal or instanced area.
 //!  - Area: Supplies the area to inquire about.
+//!  - ExcludeObject: Optionally supplies an object to exclude from checking.
 //!  - Returns: TRUE if the area has no player controlled objects.
-int ACR_IsAreaEmptyOfPlayers(object Area);
+int ACR_IsAreaEmptyOfPlayers(object Area, object ExcludeObject = OBJECT_INVALID);
+
+//! Get the cleanup delay for a player.  < 0.1f returned if cleanup is not
+//  enabled.
+//!  - Area: Supplies the area to inquire about.
+//!  - Returns: The delay, else a value < 0.1f if the delay was not set.
+float ACR_GetAreaCleanupDelay(object InstancedArea);
+
+//! Called when a player leaves the module or the area.
+//!  - PC: Supplies the departing player.
+//!  - FromAreaInstance: Supplies TRUE if the player left an instance, else
+//                       FALSE if the player left the module.
+void ACR_AreaInstance_OnClientLeave(object PC, int FromAreaInstance);
 
 //! Internal function to run deletion of an area instance.
 //!  - InstancedArea: Supplies the area to start deleting.
@@ -184,16 +212,20 @@ void ACR__StartAreaCleanupTask(object InstancedArea, float Delay);
 //!  Delay: Supplies the area's cleanup delay time.
 void ACR__AreaCleanupTask(object InstancedArea, float Delay);
 
+//! Internal function to call the original OnLeave handler for an instanced
+//  area object.
+//!  InstancedArea: Supplies the current area instance.
+void ACR__CallOriginalOnLeaveHandler(object InstancedArea);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-object ACR_CreateAreaInstance(object TemplateArea)
+object ACR_CreateAreaInstance(object TemplateArea, float CleanupDelay)
 {
 	// First, get an actual area instance.
 	object InstancedArea = ACR_InternalCreateAreaInstance(TemplateArea);
 	string Script;
-	float Delay;
 
 	if (InstancedArea == OBJECT_INVALID)
 		return OBJECT_INVALID;
@@ -213,9 +245,26 @@ object ACR_CreateAreaInstance(object TemplateArea)
 		SetLocalObject(InstancedArea, ACR_AREA_INSTANCE_FIRST_DYNAMIC_OBJECT, FirstDynamicObject);
 	}
 
+	// Hook the OnLeave event so that we can fire instance cleanup automatically
+	// if the designer requested that.  Note that the area might be a reused
+	// copy, so only do this if we have not already hooked the script.
+	Script = GetEventHandler(InstancedArea, SCRIPT_AREA_ON_EXIT);
+
+	if (Script != ACR_AREA_INSTANCE_ONLEAVE_ACR_SCRIPT)
+	{
+		SetLocalString(InstancedArea, ACR_AREA_INSTANCE_ORIGINAL_ONLEAVE_SCRIPT, Script);
+		SetEventHandler(InstancedArea, SCRIPT_AREA_ON_EXIT, ACR_AREA_INSTANCE_ONLEAVE_ACR_SCRIPT);
+	}
+
 	DeleteLocalInt(InstancedArea, ACR_AREA_INSTANCE_IS_ON_FREE_LIST);
 	SetLocalObject(InstancedArea, ACR_AREA_INSTANCE_PARENT_AREA, TemplateArea);
 	WriteTimestampedLogEntry("ACR_CreateAreaInstance(): Created instance of " + GetName(TemplateArea) + ": 0x" + ObjectToString(InstancedArea));
+
+	// Set the activity flag in case we still had a cleanup task running.  That
+	// could happen if a cacheable area gets put onto the deletion list and then
+	// removed and re-instantiated quickly.  In that case we do not want the
+	// area to be deleted prematurely.
+	SetLocalInt(InstancedArea, ACR_AREA_INSTANCE_HAD_ACTIVITY, TRUE);
 
 	// Call creation script.
 	Script = GetLocalString(TemplateArea, ACR_AREA_INSTANCE_ON_CREATE_SCRIPT);
@@ -223,10 +272,12 @@ object ACR_CreateAreaInstance(object TemplateArea)
 	if (Script != "")
 		ExecuteScriptEnhanced(Script, InstancedArea);
 
-	// Start cleanup task if cleanup is enabled.
-	Delay = GetLocalFloat(TemplateArea, ACR_AREA_INSTANCE_CLEANUP_DELAY);
-	if (Delay > 0.1f)
-		ACR__StartAreaCleanupTask(InstancedArea, Delay);
+	// Start cleanup task if cleanup is enabled.  This will remove the instance
+	// if no player ever enters it.
+	if (CleanupDelay < 0.1f)
+		CleanupDelay = GetLocalFloat(TemplateArea, ACR_AREA_INSTANCE_CLEANUP_DELAY);
+	if (CleanupDelay > 0.1f)
+		ACR__StartAreaCleanupTask(InstancedArea, CleanupDelay);
 
 	return InstancedArea;
 }
@@ -241,11 +292,10 @@ void ACR_ReleaseAreaInstance(object InstancedArea)
 	{
 		if (!ExecuteScriptEnhanced(Script, InstancedArea))
 		{
-			float Delay;
+			float Delay = ACR_GetAreaCleanupDelay(InstancedArea);
 
 			WriteTimestampedLogEntry("ACR_ReleaseAreaInstance(): Instance on delete script denied deletion of " + GetName(InstancedArea) + ": 0x" + ObjectToString(InstancedArea));
 
-			Delay = GetLocalFloat(TemplateArea, ACR_AREA_INSTANCE_CLEANUP_DELAY);
 			if (Delay > 0.1f)
 				ACR__StartAreaCleanupTask(InstancedArea, Delay);
 
@@ -278,8 +328,63 @@ object ACR_GetInstancedAreaTemplate(object Area)
 	return GetLocalObject(Area, ACR_AREA_INSTANCE_PARENT_AREA);
 }
 
+int ACR_IsAreaEmptyOfPlayers(object Area, object ExcludeObject = OBJECT_INVALID)
+{
+	object PC;
 
-void ACR__DeleteInstancedArea(object InstancedArea, object CurrentObject = OBJECT_INVALID)
+	for (PC = GetFirstPC(); PC != OBJECT_INVALID; PC = GetNextPC())
+	{
+		object ControlObject;
+
+		if (PC == ExcludeObject)
+			continue;
+
+		if (GetArea(PC) == Area)
+			return FALSE;
+
+		ControlObject = GetControlledCharacter(PC);
+
+		if (ControlObject != OBJECT_INVALID && GetArea(ControlObject) == Area)
+			return FALSE;
+	}
+
+	return TRUE;
+}
+
+float ACR_GetAreaCleanupDelay(object InstancedArea)
+{
+	float Delay;
+
+	// If a script override was set, use that.
+	Delay = GetLocalFloat(InstancedArea, ACR_AREA_INSTANCE_CLEANUP_DELAY);
+
+	// Otherwise get the value from the design time configuration setting.
+	if (Delay < 0.1f)
+		Delay = GetLocalFloat(ACR_GetInstancedAreaTemplate(InstancedArea), ACR_AREA_INSTANCE_CLEANUP_DELAY);
+
+	return Delay;
+}
+
+void ACR_AreaInstance_OnClientLeave(object PC, int FromAreaInstance)
+{
+	object Area = FromAreaInstance ? OBJECT_SELF : GetArea(PC);
+	float Delay;
+
+	// Interested only in instanced areas.
+	if (!ACR_IsInstancedArea(Area))
+		return;
+
+	Delay = ACR_GetAreaCleanupDelay(Area);
+
+	// Interested only in instances with automatic cleanup configured.
+	if (Delay < 0.1f)
+		return;
+
+	ACR__StartAreaCleanupTask(Area, Delay);
+}
+
+
+void ACR__DeleteAreaInstance(object InstancedArea, object CurrentObject = OBJECT_INVALID)
 {
 	object FirstDynamicObject = GetLocalObject(InstancedArea, ACR_AREA_INSTANCE_FIRST_DYNAMIC_OBJECT);
 	int FirstDynamicObjectInt = ObjectToInt(FirstDynamicObject);
@@ -297,7 +402,7 @@ void ACR__DeleteInstancedArea(object InstancedArea, object CurrentObject = OBJEC
 	//
 	// Finally, the area object itself can be removed.
 
-	WriteTimestampedLogEntry("ACR__DeleteInstancedArea(): Deletion for " + GetName(InstancedArea) + ": " + ObjectToString(InstancedArea) + " is at objectid=" + ObjectToString(CurrentObject) + ", first dynamic objectid=" + ObjectToString(FirstDynamicObject));
+	WriteTimestampedLogEntry("ACR__DeleteAreaInstance(): Deletion for " + GetName(InstancedArea) + ": " + ObjectToString(InstancedArea) + " is at objectid=" + ObjectToString(CurrentObject) + ", first dynamic objectid=" + ObjectToString(FirstDynamicObject));
 
 	if (CurrentObject == OBJECT_INVALID)
 	{
@@ -331,7 +436,7 @@ void ACR__DeleteInstancedArea(object InstancedArea, object CurrentObject = OBJEC
 		RemovingStaticObjects = FALSE;
 	}
 
-	while (ObjectsDeleted < ACR_AREA_INSTANCE_OBJECTS_PER_DELETION_CYCLE && RemovingStaticObject)
+	while (ObjectsDeleted < ACR_AREA_INSTANCE_OBJECTS_PER_DELETION_CYCLE && RemovingStaticObjects)
 	{
 		if (GetIsObjectValid(CurrentObject) == FALSE)
 		{
@@ -359,7 +464,7 @@ void ACR__DeleteInstancedArea(object InstancedArea, object CurrentObject = OBJEC
 		if (GetOwnedCharacter(CurrentObject) != OBJECT_INVALID ||
 		    GetControlledCharacter(CurrentObject) != OBJECT_INVALID)
 		{
-			WriteTimestampedLogEntry("ACR__DeleteInstancedArea(): Found player-related object " + GetName(CurrentObject) + " in area, delaying.");
+			WriteTimestampedLogEntry("ACR__DeleteAreaInstance(): Found player-related object " + GetName(CurrentObject) + " in area, delaying.");
 			SendMessageToPC(GetOwnedCharacter(CurrentObject), "This area instance is being destroyed.  Please exit the area.");
 			break;
 		}
@@ -380,13 +485,75 @@ void ACR__DeleteInstancedArea(object InstancedArea, object CurrentObject = OBJEC
 	// itself.
 	if (CurrentObject == OBJECT_INVALID)
 	{
-		WriteTimestampedLogEntry("ACR__DeleteInstancedArea(): Removing area object " + ObjectToString(InstancedArea));
-		DestroyObject(InstancedArea)
+		WriteTimestampedLogEntry("ACR__DeleteAreaInstance(): Removing area object " + ObjectToString(InstancedArea));
+		DestroyObject(InstancedArea);
 		return;
 	}
 
 	// Otherwise, queue up a continuation cycle to moderate CPU usage spikes on the server.
-	WriteTimestampedLogEntry("ACR__DeleteInstancedArea(): Continuing instanced area deletion next cycle.");
-	DelayCommand(6.0f, ACR__DeleteInstancedArea, ACR__DeleteInstancedArea(InstancedArea, CurrentObject));
+	WriteTimestampedLogEntry("ACR__DeleteAreaInstance(): Continuing instanced area deletion next cycle.");
+	DelayCommand(6.0f, ACR__DeleteAreaInstance(InstancedArea, CurrentObject));
+}
+
+int ACR__IsAreaInstanceDeleting(object InstancedArea)
+{
+	return GetLocalInt(InstancedArea, ACR_AREA_INSTANCE_IS_ON_FREE_LIST) != FALSE;
+}
+
+void ACR__StartAreaCleanupTask(object InstancedArea, float Delay)
+{
+	// Don't start another task if one is scheduled.
+	if (GetLocalInt(InstancedArea, ACR_AREA_INSTANCE_CLEANUP_TASK_RUNNING) != FALSE)
+		return;
+
+	SetLocalInt(InstancedArea, ACR_AREA_INSTANCE_CLEANUP_TASK_RUNNING, TRUE);
+	AssignCommand(InstancedArea, DelayCommand(Delay, ACR__AreaCleanupTask(InstancedArea, Delay)));
+	WriteTimestampedLogEntry("ACR__StartAreaCleanupTask(): Started area cleanup task for " + GetName(InstancedArea) + ": " + ObjectToString(InstancedArea));
+}
+
+void ACR__AreaCleanupTask(object InstancedArea, float Delay)
+{
+	// If we are already running deletion for the area, stop the task.
+	if (ACR__IsAreaInstanceDeleting(InstancedArea))
+	{
+		WriteTimestampedLogEntry("ACR__AreaCleanupTask(): Area " + GetName(InstancedArea) + ": " + ObjectToString(InstancedArea) + " has already been marked for deletion, aborting cleanup task.");
+		DeleteLocalInt(InstancedArea, ACR_AREA_INSTANCE_CLEANUP_TASK_RUNNING);
+		return;
+	}
+
+	// Stop the task if the area has players in it.  When the last player leaves
+	// the task will be started up again.
+	if (!ACR_IsAreaEmptyOfPlayers(InstancedArea))
+	{
+		WriteTimestampedLogEntry("ACR__AreaCleanupTask(): Area " + GetName(InstancedArea) + ": " + ObjectToString(InstancedArea) + " has players, aborting cleanup task.");
+		DeleteLocalInt(InstancedArea, ACR_AREA_INSTANCE_CLEANUP_TASK_RUNNING);
+		return;
+	}
+
+	// Check if there was activity since the last player left.  If not, then let
+	// the instance be released.  Otherwise, clear the activity flag and let the
+	// task run again.
+	if (GetLocalInt(InstancedArea, ACR_AREA_INSTANCE_HAD_ACTIVITY) == FALSE)
+	{
+		WriteTimestampedLogEntry("ACR__AreaCleanupTask(): Area " + GetName(InstancedArea) + ": " + ObjectToString(InstancedArea) + " is ready for cleanup.  Releasing area.");
+		ACR_ReleaseAreaInstance(InstancedArea);
+
+		// Note that we intentionally fall through here, because the deletion
+		// script may have denied the cleanup request.  In that case, we will
+		// periodically re-check for deletion unless the area goes into the free
+		// list.
+	}
+
+	DelayCommand(Delay, ACR__AreaCleanupTask(InstancedArea, Delay));
+}
+
+void ACR__CallOriginalOnLeaveHandler(object InstancedArea)
+{
+	string Script = GetLocalString(InstancedArea, ACR_AREA_INSTANCE_ORIGINAL_ONLEAVE_SCRIPT);
+
+	if (Script == "" || Script == ACR_AREA_INSTANCE_ONLEAVE_ACR_SCRIPT)
+		return;
+
+	ExecuteScriptEnhanced(Script, InstancedArea);
 }
 
