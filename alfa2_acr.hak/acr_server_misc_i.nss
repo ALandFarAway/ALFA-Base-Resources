@@ -15,6 +15,7 @@
 //
 //  Revision History
 //  2012/01/08  Basilica    - Created.
+//  2012/01/19  Basilica    - Added area instancing support.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -29,11 +30,19 @@
 // The server misc support script name.
 const string ACR_SERVER_MISC_SUPPORT_SCRIPT                  = "acr_servermisc";
 
+// The local variable (type object) used to return data from the support script.
+const string ACR_SERVER_MISC_OBJECT_RETVAL_VAR               = "ACR_SERVER_MISC_RETURN_OBJECT";
 
 // Commands for the server misc C# script:
 
 // This command runs the updater script for the server, if one is defined.
 const int ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT             = 0;
+
+// This command creates an instanced area.
+const int ACR_SERVER_MISC_CREATE_AREA_INSTANCE               = 1;
+
+// This command releases an instanced area.
+const int ACR_SERVER_MISC_RELEASE_AREA_INSTANCE              = 2;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -50,6 +59,18 @@ const int ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT             = 0;
 //! Execute the server's updater script, if one is defined.
 //!  - Returns: TRUE if the updater was launched.
 int ACR_ExecuteServerUpdaterScript();
+
+//! Create an instanced area.  If an available instance in the free pool can be
+//  found, it will be reused.
+//!  - TemplateArea: Supplies the area that serves as the template for the new
+//                   instanced area.
+//!  - Returns: The area instance, else OBJECT_INVALID on failure.
+object ACR_InternalCreateAreaInstance(object TemplateArea);
+
+//! Release an instanced area.  It will be put back onto the free list of the
+//  area supports free list pooling, otherwise the area is deleted.
+//!  - InstancedArea: Supplies the area instance to release.
+void ACR_InternalReleaseAreaInstance(object InstancedArea);
 
 //! Make a raw call to the support script.
 //!  - Command: Supplies the command to request (e.g. ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT).
@@ -75,6 +96,37 @@ int ACR_ExecuteServerUpdaterScript()
 		"",
 		"",
 		OBJECT_INVALID);
+}
+
+object ACR_InternalCreateAreaInstance(object TemplateArea)
+{
+	if (ACR_CallServerMiscScript(
+		ACR_SERVER_MISC_CREATE_AREA_INSTANCE,
+		0,
+		0,
+		"",
+		"",
+		TemplateArea) == FALSE)
+	{
+		return OBJECT_INVALID;
+	}
+
+	object Module = GetModule();
+	object InstancedArea = GetLocalObject(Module, ACR_SERVER_MISC_OBJECT_RETVAL_VAR);
+	DeleteLocalObject(Module, ACR_SERVER_MISC_OBJECT_RETVAL_VAR);
+
+	return InstancedArea;
+}
+
+void ACR_InternalReleaseAreaInstance(object InstancedArea)
+{
+	ACR_CallServerMiscScript(
+		ACR_SERVER_MISC_RELEASE_AREA_INSTANCE,
+		0,
+		0,
+		"",
+		"",
+		InstancedArea);
 }
 
 int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, object P4, object ObjectSelf = OBJECT_SELF)
