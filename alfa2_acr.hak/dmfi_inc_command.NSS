@@ -13,6 +13,7 @@
 #include "dmfi_inc_initial"
 #include "dmfi_inc_langexe"
 #include "dmfi_inc_lang"
+#include "acr_travelmap_i"
 
 int DMFI_RunCommandCode(object oTool, object oPC, string sOriginal)
 {
@@ -184,12 +185,12 @@ int DMFI_RunCommandCode(object oTool, object oPC, string sOriginal)
     }
     else if (sHeard== PRM_FOLLOW + PRM_ + PRM_OFF)
     {
+	 	object oMyArea = GetArea(oPC);
         DeleteLocalObject(oTool, DMFI_FOLLOW);
         AssignCommand(oPC, ClearAllActions(TRUE));
 		CloseGUIScreen(oPC, SCREEN_DMFI_FOLLOWOFF);
         SendText(oPC, TXT_FOLLOW_OFF, TRUE, COLOR_GREEN);
-		object oMyArea = GetArea(oPC);
-		if((GetTag(oMyArea) == "003_travel_map_east") || (GetTag(oArea) == "003_travel_map_west"))
+		if (TravelMap_IsTravelMapArea(oMyArea))
 		{
 			SendText(oPC, "You signal your party to step off the road.", TRUE, COLOR_GREEN);
 			 object oPartyLeader = GetFactionLeader(oPC);

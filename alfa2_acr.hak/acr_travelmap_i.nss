@@ -50,6 +50,9 @@ void TravelMap_AOEOnEnter();
 // members up to the rest of the group.
 void TravelMap_AOEOnExit();
 
+// This function returns TRUE if an area is a travel map.
+int TravelMap_IsTravelMapArea(object oArea);
+
 void TravelMap_AreaOnEnter()
 {
 	AddTravelMapEffects(GetEnteringObject());
@@ -70,15 +73,15 @@ void TravelMap_TriggerOnEnter()
 		                GetTransitionTarget(OBJECT_SELF));
 		return;
 	}
-	else if(GetLocalInt(oTarget,  "TRAVEL_MAP") == 1 &&
-	        GetLocalInt(oCurrent, "TRAVEL_MAP") == 1) // Travel map to travel map; just jump
+	else if(TravelMap_IsTravelMapArea(oTarget)  == 1 &&
+	        TravelMap_IsTravelMapArea(oCurrent) == 1) // Travel map to travel map; just jump
 	{
 		JumpPartyToArea(GetEnteringObject(), 
 		                GetTransitionTarget(OBJECT_SELF));
 		return;	
 	}
-	else if(GetLocalInt(oTarget,  "TRAVEL_MAP") == 0 &&
-			GetLocalInt(oCurrent, "TRAVEL_MAP") == 1) // Leaving the travel map; cancel following.
+	else if(TravelMap_IsTravelMapArea(oTarget)  == 0 &&
+			  TravelMap_IsTravelMapArea(oCurrent) == 1) // Leaving the travel map; cancel following.
 	{
 		object oLead = GetEnteringObject();	
 		object oParty = GetFirstFactionMember(oLead);
@@ -91,8 +94,8 @@ void TravelMap_TriggerOnEnter()
 		                GetTransitionTarget(OBJECT_SELF));
 		return;		
 	}
-	else if(GetLocalInt(oTarget,  "TRAVEL_MAP") == 1 &&
-			GetLocalInt(oCurrent, "TRAVEL_MAP") == 0)
+	else if(TravelMap_IsTravelMapArea(oTarget)  == 1 &&
+			  TravelMap_IsTravelMapArea(oCurrent) == 0)
 	{	
 		TransitionTravelMapIn(GetEnteringObject());
 		return;
@@ -316,3 +319,9 @@ void TransitionTravelMapIn(object oCreature)
 //=== Jump the players into the area. ===//
 	DelayCommand(6.5f, JumpPartyToArea(oCreature, GetTransitionTarget(OBJECT_SELF)));
 }
+
+int TravelMap_IsTravelMapArea(object oArea)
+{
+	return GetLocalInt(oArea, "ACR_IS_TRAVEL_AREA") != FALSE;
+}
+
