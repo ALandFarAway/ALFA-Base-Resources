@@ -48,6 +48,11 @@ namespace ACR_ServerMisc
         {
             Int32 ReturnCode;
             int RequestType = (int)ScriptParameters[0];
+            int P0 = (int)ScriptParameters[1];
+            int P2 = (int)ScriptParameters[2];
+            string P3 = (string)ScriptParameters[3];
+            string P4 = (string)ScriptParameters[4];
+            uint P5 = (uint)ScriptParameters[5];
 
             switch ((REQUEST_TYPE)RequestType)
             {
@@ -55,6 +60,27 @@ namespace ACR_ServerMisc
                 case REQUEST_TYPE.EXECUTE_UPDATER_SCRIPT:
                     {
                         ReturnCode = ExecuteUpdaterScript() ? TRUE : FALSE;
+                    }
+                    break;
+
+                case REQUEST_TYPE.CREATE_AREA_INSTANCE:
+                    {
+                        uint ReturnArea = CreateAreaInstance(P5);
+
+                        if (ReturnArea == OBJECT_INVALID)
+                            ReturnCode = FALSE;
+                        else
+                        {
+                            ReturnCode = TRUE;
+                            SetLocalObject(GetModule(), "ACR_SERVER_MISC_RETURN_OBJECT", ReturnArea);
+                        }
+                    }
+                    break;
+
+                case REQUEST_TYPE.RELEASE_AREA_INSTANCE:
+                    {
+                        ReleaseInstancedArea(P5);
+                        ReturnCode = TRUE;
                     }
                     break;
 
@@ -108,6 +134,46 @@ namespace ACR_ServerMisc
         }
 
         /// <summary>
+        /// Create a new instanced area, or return one from the free list if
+        /// there was a free instance.
+        /// </summary>
+        /// <param name="TemplateArea">Supplies the template area object id.
+        /// </param>
+        /// <returns>The instanced area, else OBJECT_INVALID.</returns>
+        private uint CreateAreaInstance(uint TemplateArea)
+        {
+            Stack<uint> FreeList;
+
+            if (InstancedAreaFreeList.TryGetValue(TemplateArea, out FreeList))
+            {
+                if (FreeList.Count != 0)
+                    return FreeList.Pop();
+            }
+
+            return CreateInstancedAreaFromSource(TemplateArea);
+        }
+
+        /// <summary>
+        /// Place an instanced area on the internal free list for its
+        /// associated template area.
+        /// </summary>
+        /// <param name="InstancedArea">Supplies the instanced area to place on
+        /// the free list.</param>
+        private void ReleaseInstancedArea(uint InstancedArea)
+        {
+            uint TemplateArea = GetLocalObject(InstancedArea, "ACR_AREA_INSTANCE_PARENT_AREA");
+            Stack<uint> FreeList;
+
+            if (!InstancedAreaFreeList.TryGetValue(TemplateArea, out FreeList))
+            {
+                FreeList = new Stack<uint>();
+                InstancedAreaFreeList.Add(TemplateArea, FreeList);
+            }
+
+            FreeList.Push(InstancedArea);
+        }
+
+        /// <summary>
         /// Get the associated database object, creating it on demand if
         /// required.
         /// </summary>
@@ -125,12 +191,20 @@ namespace ACR_ServerMisc
         /// </summary>
         private enum REQUEST_TYPE
         {
-            EXECUTE_UPDATER_SCRIPT
+            EXECUTE_UPDATER_SCRIPT,
+            CREATE_AREA_INSTANCE,
+            RELEASE_AREA_INSTANCE
         }
 
         /// <summary>
         /// The interop SQL database instance is stored here.
         /// </summary>
         private ALFA.Database Database = null;
+
+        /// <summary>
+        /// The list of free instance areas (for a given template area) is
+        /// stored here.
+        /// </summary>
+        private static Dictionary<uint, Stack<uint>> InstancedAreaFreeList = new Dictionary<uint, Stack<uint>>();
     }
 }
