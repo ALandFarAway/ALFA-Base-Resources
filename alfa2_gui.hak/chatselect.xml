@@ -5,7 +5,7 @@
  OnRemove=UIScene_Misc_RequestRosterUpdates("false")
 -->
 
-<UIScene name="ChatSelect" x=20 y=128 width=560 height=260 OnAdd=UIObject_Misc_ExecuteServerScript("gui_chatchatselect", 1, "")
+<UIScene name="ChatSelect" x=20 y=128 width=560 height=260 OnAdd=UIObject_Misc_ExecuteServerScript("gui_chatchatselect",1,"")
         capturemouseevents=true capturemouseclicks=false draggable=true
 	dragregion_x=0 dragregion_y=0 dragregion_width=250 dragregion_height=32
 	scriptloadable=true fadeout=.3 fadein=.3 priority="SCENE_INGAME"/>
@@ -27,7 +27,7 @@
 	OnSelected6=UIButton_Input_ShowObject("WIDE_BACK")
 	OnSelected7=UIButton_Input_HideObject("CloseButton_1")
 	OnSelected8=UIButton_Input_HideObject("Expand_Button")
-	OnSelected9=UIObject_Misc_ExecuteServerScript("gui_chatselect", 2, "")>
+	OnSelected9=UIObject_Misc_ExecuteServerScript("gui_chatselect",2,"")>
 	</UIButton>
 
 	<UIButton name="Collapse_Button" x=550 y=106 width=10 height=60 style="STYLE_BIG_TAB" text="<" hidden=TRUE groupid=1 groupmemberid=3
@@ -40,7 +40,7 @@
 	OnSelected6=UIButton_Input_HideObject("WIDE_BACK")
 	OnSelected7=UIButton_Input_ShowObject("CloseButton_1")
 	OnSelected8=UIButton_Input_ShowObject("Expand_Button")
-	OnSelected9=UIObject_Misc_ExecuteServerScript("gui_chatselect", 3, "")>
+	OnSelected9=UIObject_Misc_ExecuteServerScript("gui_chatselect",3,"")>
 	</UIButton>
 
 
@@ -54,7 +54,7 @@
   <UIButton name=PrototypeButton x=12 y=0 height=24 width=180 prototype=true
 			OnLeftClick0=UIObject_Input_SetLocalVarString(local:0)
 			OnLeftClick1=UIButton_Input_SelectedInitiateChat() 
-			OnLeftClick2=UIObject_Misc_ExecuteServerScript("gui_chatselect", 5, local:0)
+			OnLeftClick2=UIObject_Misc_ExecuteServerScript("gui_chatselect",5,local:0)
 			style="STYLE_LIST_BUTTON" >
 			<UIText name="RosterData" width=PARENT_WIDTH height=PARENT_HEIGHT align=left valign=middle fontfamily="Default" />
 		</UIButton>
@@ -66,7 +66,7 @@
   <UIButton name=PrototypeButton x=12 y=0 height=24 width=180 prototype=true
 			OnLeftClick0=UIObject_Input_SetLocalVarString(local:0)
 			OnLeftClick1=UIButton_Input_SelectedInitiateChat() 
-			OnLeftClick2=UIObject_Misc_ExecuteServerScript("gui_chatselect", 5, local:0)
+			OnLeftClick2=UIObject_Misc_ExecuteServerScript("gui_chatselect",5,local:0)
 			style="STYLE_LIST_BUTTON" >
 			<UIText name="RosterData" width=PARENT_WIDTH height=PARENT_HEIGHT align=left valign=middle fontfamily="Default" />
 		</UIButton>
@@ -78,7 +78,7 @@
   <UIButton name=PrototypeButton x=12 y=0 height=24 width=180 prototype=true
 			OnLeftClick0=UIObject_Input_SetLocalVarString(local:0)
 			OnLeftClick1=UIButton_Input_SelectedInitiateChat() 
-			OnLeftClick2=UIObject_Misc_ExecuteServerScript("gui_chatselect", 5, local:0)
+			OnLeftClick2=UIObject_Misc_ExecuteServerScript("gui_chatselect",5,local:0)
 			style="STYLE_LIST_BUTTON" >
 			<UIText name="RosterData" width=PARENT_WIDTH height=PARENT_HEIGHT align=left valign=middle fontfamily="Default" />
 		</UIButton>
@@ -90,7 +90,7 @@
   <UIButton name=PrototypeButton x=12 y=0 height=24 width=180 prototype=true
 			OnLeftClick0=UIObject_Input_SetLocalVarString(local:0)
 			OnLeftClick1=UIButton_Input_SelectedInitiateChat() 
-			OnLeftClick2=UIObject_Misc_ExecuteServerScript("gui_chatselect", 5, local:0)
+			OnLeftClick2=UIObject_Misc_ExecuteServerScript("gui_chatselect",5,local:0)
 			style="STYLE_LIST_BUTTON" >
 			<UIText name="RosterData" width=PARENT_WIDTH height=PARENT_HEIGHT align=left valign=middle fontfamily="Default" />
 		</UIButton>
