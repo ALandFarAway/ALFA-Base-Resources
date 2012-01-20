@@ -46,6 +46,7 @@ const string ACR_SRVADMIN_DUMPVARS_PREFIX     = "dumpvars ";
 const string ACR_SRVADMIN_DUMPAREAS_PREFIX    = "dumpareas";
 const string ACR_SRVADMIN_DUMPAREAOBJECTS_PREFIX = "dumpareaobjects ";
 const string ACR_SRVADMIN_RUNUPDATER_PREFIX   = "runupdater";
+const string ACR_SRVADMIN_JUMP_PREFIX         = "jump ";
 
 const string ACR_SRVADMIN_SCRIPT_NAME         = "acr_srvadmin";
 const string ACR_SRVADMIN_SCRIPTLOADER_NAME   = "scriptloader";
@@ -293,6 +294,27 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 
 		return TRUE;
 	}
+	else if (ACR_IsStrPrefix(LowerCmd, ACR_SRVADMIN_JUMP_PREFIX))
+	{
+		object Target = ACR_SrvAdmin_TranslateObject(GetStringRight(sCmd, Len-GetStringLength(ACR_SRVADMIN_JUMP_PREFIX)), oPC);
+
+		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+
+		if (oPC == OBJECT_INVALID)
+		{
+			ACR_SrvAdmin_SendFeedback(oPC, "This command cannot be used from the console.");
+			return TRUE;
+		}
+
+		if (!GetIsObjectValid(Target))
+		{
+			ACR_SrvAdmin_SendFeedback(oPC, "That is not a valid object.");
+			return TRUE;
+		}
+
+		AssignCommand(oPC, JumpToObject(Target));
+		return TRUE;
+	}
 	else
 	{
 		ACR_SrvAdmin_SendFeedback(oPC, "Unrecognized command.  Legal commands include:");
@@ -311,6 +333,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 		ACR_SrvAdmin_SendFeedback(oPC, " - dumpareas : Dump a list of areas in the module.");
 		ACR_SrvAdmin_SendFeedback(oPC, " - dumpareaobjects <area> : Dump objects in an area (area specified by hex object id, tag, #module, #self, or #area).");
 		ACR_SrvAdmin_SendFeedback(oPC, " - runupdater : Run the ACR_UpdaterScript.cmd batch file in the NWNX4 installation directory (if it exists).");
+		ACR_SrvAdmin_SendFeedback(oPC, " - jump <object> : Jump to an object (by hex object id or tag).");
 
 		return TRUE;
 	}
