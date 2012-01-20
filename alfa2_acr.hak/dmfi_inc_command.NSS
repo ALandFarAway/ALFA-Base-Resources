@@ -190,21 +190,25 @@ int DMFI_RunCommandCode(object oTool, object oPC, string sOriginal)
         SendText(oPC, TXT_FOLLOW_OFF, TRUE, COLOR_GREEN);
 		object oMyArea = GetArea(oPC);
 		if((GetTag(oMyArea) == "003_travel_map_east") || (GetTag(oArea) == "003_travel_map_west"))
-			{SendText(oPC, "You signal your party to step off the road.", TRUE, COLOR_GREEN);
+		{
+			SendText(oPC, "You signal your party to step off the road.", TRUE, COLOR_GREEN);
 			 object oPartyLeader = GetFactionLeader(oPC);
 			 object oPCDestination = GetLocalObject(oPC, "oPCDestination");
 			 DelayCommand(10.0, JumpPartyToArea(oPartyLeader, oPCDestination));
 			 object oPartyMember = GetFirstFactionMember(oPartyLeader, TRUE);
 			 effect eFreeze = EffectParalyze(50, SAVING_THROW_WILL, FALSE);
+
 			 while (oPartyMember != OBJECT_INVALID)
-					{if(oPartyMember != oPC)
-						{SendText(oPartyMember, "A member of your party signals a wish to step off the road.", TRUE, COLOR_GREEN);
-			 			 AssignCommand(oMyArea, ApplyEffectToObject(DURATION_TYPE_PERMANENT, eFreeze, oPartyMember));
-						 oPartyMember = GetNextFactionMember(oPartyLeader, TRUE);
-						}  
-					}
+			 {
+				if(oPartyMember != oPC)
+				{
+					SendText(oPartyMember, "A member of your party signals a wish to step off the road.", TRUE, COLOR_GREEN);
+					AssignCommand(oMyArea, ApplyEffectToObject(DURATION_TYPE_PERMANENT, eFreeze, oPartyMember));
+				}
+
+				oPartyMember = GetNextFactionMember(oPartyLeader, TRUE);
 			 }
-		
+		}
     }
     else if (sTool==PRM_LANGUAGE)
     {
