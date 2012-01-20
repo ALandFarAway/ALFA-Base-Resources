@@ -279,6 +279,9 @@ object ACR_CreateAreaInstance(object TemplateArea, float CleanupDelay)
 	// if no player ever enters it.
 	if (CleanupDelay < 0.1f)
 		CleanupDelay = GetLocalFloat(TemplateArea, ACR_AREA_INSTANCE_CLEANUP_DELAY);
+	else
+		SetLocalFloat(TemplateArea, ACR_AREA_INSTANCE_CLEANUP_DELAY, CleanupDelay);
+
 	if (CleanupDelay > 0.1f)
 		ACR__StartAreaCleanupTask(InstancedArea, CleanupDelay);
 
