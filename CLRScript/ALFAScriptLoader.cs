@@ -285,7 +285,7 @@ namespace ALFA
             MethodInfo Method = ScriptObject.GetType().GetMethod("NWScriptSubroutine_" + ScriptFunctionName);
 
             if (Method == null)
-                throw new ApplicationException("Unable to find script function " + ScriptFunctionName + "on script" + ScriptObject.GetType().FullName);
+                throw new ApplicationException("Unable to find script function " + ScriptFunctionName + " on script " + ScriptObject.GetType().FullName);
 
             return Method;
         }
