@@ -1153,6 +1153,15 @@ void _DespawnPoint(object oWP, int nFlags) {
 		    SetLocalInt(oChild, "ACR_PSO_ONDEATH", FALSE); 
 		    ACR_PersistentStorageOnDeath(oChild); 
 		}
+		// Experimental: destroy all items in stores because they might be leaking.
+		if(GetObjectType(oChild) == OBJECT_TYPE_STORE) {
+			object oItem = GetFirstItemInInventory(oChild);
+			while(oItem != OBJECT_INVALID) {
+				DestroyObject(oItem);
+				oItem = GetNextItemInInventory(oChild);
+			}
+		}
+		
         DestroyObject(oChild);
         DeleteLocalArrayObject(oWP, _SPAWNED_OBJECT_ARRAY, i);
     }
@@ -1722,6 +1731,7 @@ void ActivateLongTermBuffs(object oCaster) {
 	_QuickBuff(oCaster, SPELL_GREATER_BEARS_ENDURANCE);
 	_QuickBuff(oCaster, SPELL_GREATER_FOXS_CUNNING);
 	_QuickBuff(oCaster, SPELL_GREATER_OWLS_WISDOM);
+	_QuickBuff(oCaster, SPELL_SEE_INVISIBILITY);
 	
 	if(GetHasSpell(SPELL_PREMONITION, oCaster))
 		_QuickBuff(oCaster, SPELL_PREMONITION);
