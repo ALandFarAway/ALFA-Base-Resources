@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8">
+
+<!--
+	General specific player popup menu
+-->
+
+<UIScene name="SCREEN_PLAYERMENU_POPUP" x=ALIGN_LEFT y=ALIGN_BOTTOM width=SCREEN_WIDTH height=SCREEN_HEIGHT fullscreen=true fadeout="0.2" fadein="0.2"
+	capturemouseclicks=true capturemouseevents=true	modal=true backoutkey="true" 
+	draggable=false priority="SCENE_INGAME" OnUnhandledMouseClick=UIButton_Input_ScreenClose("SCREEN_PLAYERMENU_POPUP") />
+
+	<UIPane name="MENU_CONTAINER" x=ALIGN_LEFT y=ALIGN_BOTTOM width=225 height=384 hidden=false
+	capturemouseclicks=false capturemouseevents=false
+	OnUnhandledMouseClick=UIButton_Input_ScreenClose("SCREEN_PLAYERMENU_POPUP")>
+
+		<UIPane name="PM_MENU_PANE" x=ALIGN_RIGHT y=ALIGN_TOP width=199 height=384 hidden=false 
+		capturemouseclicks=false capturemouseevents=false
+		OnUnhandledMouseClick=UIButton_Input_ScreenClose("SCREEN_PLAYERMENU_POPUP")>
+
+
+      <!-- Character -->
+			<UIButton name="PM_CHAR_IMAGE" x=19 y=4 width=24 height=24 
+			OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_CHARACTER","SCREEN_PLAYERMENU_POPUP") 
+			DefaultToolTip=122293 OnToolTip=UIObject_Tooltip_DisplayObject(OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) >
+				<UIFrame state=up		fill="b_character.tga" />
+				<UIFrame state=down		fill="b_character.tga" />
+				<UIFrame state=focused	fill="b_character.tga" />
+				<UIFrame state=hilited	fill="b_character.tga" />
+				<UIFrame state=hifocus	fill="b_character.tga" />
+				<UIFrame state=disabled	fill="b_character.tga" />
+			</UIButton>	
+			<UIButton name="CHAR_TOGGLE_BUTTON" x=43 y=4 strref="122293" DefaultToolTip=122293 style="PM_TOGGLE_BUTTON"
+				OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_CHARACTER","SCREEN_PLAYERMENU_POPUP") >
+			</UIButton>
+      
+			<!-- Inventory -->
+			<UIButton name="PM_INVEN_IMAGE" x=19 y=29 width=24 height=24
+			OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_INVENTORY","SCREEN_PLAYERMENU_POPUP") 
+			DefaultToolTip=122292 OnToolTip=UIObject_Tooltip_DisplayObject(OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+			update=true OnUpdate=UIButton_OnUpdate_UpdateInventoryButton() >
+				<UIFrame state=up		fill="b_inventory.tga" />
+				<UIFrame state=down		fill="b_inventory.tga" />
+				<UIFrame state=focused	fill="b_inventory.tga" />
+				<UIFrame state=hilited	fill="b_inventory.tga" />
+				<UIFrame state=hifocus	fill="b_inventory.tga" />
+				<UIFrame state=disabled	fill="b_inventory.tga" />
+			</UIButton>	
+			<UIButton name="INVEN_TOGGLE_BUTTON" x=43 y=29 strref="122292" DefaultToolTip=122292 style="PM_TOGGLE_BUTTON"
+				OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_INVENTORY","SCREEN_PLAYERMENU_POPUP") 
+				update=true OnUpdate=UIButton_OnUpdate_UpdateInventoryButton() >
+			</UIButton>
+
+			<!-- Journal -->		
+			<UIButton name="PM_JOURNAL_IMAGE" x=19 y=54 width=24 height=24 
+			OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_JOURNAL","SCREEN_PLAYERMENU_POPUP") 
+			DefaultToolTip=122294 OnToolTip=UIObject_Tooltip_DisplayObject(OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) >
+				<UIFrame state=up		fill="b_journal.tga" />
+				<UIFrame state=down		fill="b_journal.tga" />
+				<UIFrame state=focused	fill="b_journal.tga" />
+				<UIFrame state=hilited	fill="b_journal.tga" />
+				<UIFrame state=hifocus	fill="b_journal.tga" />
+				<UIFrame state=disabled	fill="b_journal.tga" />
+			</UIButton>	
+			<UIButton name="JOURNAL_TOGGLE_BUTTON" x=43 y=54 strref="122294" DefaultToolTip=122294 style="PM_TOGGLE_BUTTON"
+				OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_JOURNAL","SCREEN_PLAYERMENU_POPUP") >
+			</UIButton>
+
+			<!-- Spellbook -->
+			<UIButton name="PM_SB_IMAGE" x=19 y=79 width=24 height=24
+			OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_SPELLS_KNOWN","SCREEN_PLAYERMENU_POPUP") 
+			DefaultToolTip=122296 OnToolTip=UIObject_Tooltip_DisplayObject(OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+			update = true OnUpdate=UIButton_OnUpdate_UpdateSpellbookButton() >
+				<UIFrame state=up		fill="b_spellbook.tga" />
+				<UIFrame state=down		fill="b_spellbook.tga" />
+				<UIFrame state=focused	fill="b_spellbook.tga" />
+				<UIFrame state=hilited	fill="b_spellbook.tga" />
+				<UIFrame state=hifocus	fill="b_spellbook.tga" />
+				<UIFrame state=disabled	fill="b_spellbook.tga" />
+			</UIButton>	
+			<UIButton name="SB_TOGGLE_BUTTON" x=43 y=79 strref="7038" DefaultToolTip=122296 style="PM_TOGGLE_BUTTON"
+				OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_SPELLS_KNOWN","SCREEN_PLAYERMENU_POPUP") 
+				update = true OnUpdate=UIButton_OnUpdate_UpdateSpellbookButton() >
+			</UIButton>
+		
+			<!-- World Map -->
+			<UIButton name="PM_MAP_IMAGE" x=19 y=104 width=24 height=24 
+			OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_WORLDMAP","SCREEN_PLAYERMENU_POPUP") 
+			DefaultToolTip=176425 OnToolTip=UIObject_Tooltip_DisplayObject(OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+			update=true OnUpdate=UIButton_OnUpdate_UpdateWorldMapButton() >
+				<UIFrame state=up		fill="b_map.tga" />
+				<UIFrame state=down		fill="b_map.tga" />
+				<UIFrame state=focused	fill="b_map.tga" />
+				<UIFrame state=hilited	fill="b_map.tga" />
+				<UIFrame state=hifocus	fill="b_map.tga" />
+				<UIFrame state=disabled	fill="b_map.tga" />
+			</UIButton>	
+			<UIButton name="MAP_TOGGLE_BUTTON" x=43 y=104 strref="176425" DefaultToolTip=176425 style="PM_TOGGLE_BUTTON"
+				OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_WORLDMAP","SCREEN_PLAYERMENU_POPUP")
+				update=true OnUpdate=UIButton_OnUpdate_UpdateWorldMapButton() >
+			</UIButton>
+
+			<!-- Area Map -->
+			<UIButton name="PM_AMAP_IMAGE" x=19 y=129 width=24 height=24 
+			OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_AREAMAP","SCREEN_PLAYERMENU_POPUP") 
+			DefaultToolTip=6379 OnToolTip=UIObject_Tooltip_DisplayObject(OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) >
+				<UIFrame state=up		fill="b_areamap.tga" />
+				<UIFrame state=down		fill="b_areamap.tga" />
+				<UIFrame state=focused	fill="b_areamap.tga" />
+				<UIFrame state=hilited	fill="b_areamap.tga" />
+				<UIFrame state=hifocus	fill="b_areamap.tga" />
+				<UIFrame state=disabled	fill="b_areamap.tga" />
+			</UIButton>	
+			<UIButton name="AMAP_TOGGLE_BUTTON" x=43 y=129 strref="6379" DefaultToolTip=6379 style="PM_TOGGLE_BUTTON"
+				OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_AREAMAP","SCREEN_PLAYERMENU_POPUP") >
+			</UIButton>
+
+			<!-- Party Roster -->
+			<UIButton name="PM_PLIST_IMAGE" x=19 y=154 width=24 height=24 
+			OnLeftClick=UIButton_Input_PlayerMenuChoice("SCRIPT_SCREEN_PARTYSELECT","SCREEN_PLAYERMENU_POPUP") 
+			DefaultToolTip=182793 OnToolTip=UIObject_Tooltip_DisplayObject(OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) >
+				<UIFrame state=up		fill="b_partyselect.tga" />
+				<UIFrame state=down		fill="b_partyselect.tga" />
+				<UIFrame state=focused	fill="b_partyselect.tga" />
+				<UIFrame state=hilited	fill="b_partyselect.tga" />
+				<UIFrame state=hifocus	fill="b_partyselect.tga" />
+				<UIFrame state=disabled	fill="b_partyselect.tga" />
+			</UIButton>	
+			<UIButton name="PLIST_TOGGLE_BUTTON" x=43 y=154 strref="182793" DefaultToolTip=182793 style="PM_TOGGLE_BUTTON"
+				OnLeftClick=UIButton_Input_PlayerMenuChoice("SCRIPT_SCREEN_PARTYSELECT","SCREEN_PLAYERMENU_POPUP") >
+			</UIButton>
+
+			<!-- Player List -->
+			<UIButton name="PM_PLIST_IMAGE" x=19 y=179 width=24 height=24 
+			OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_PLAYERLIST","SCREEN_PLAYERMENU_POPUP") 
+			DefaultToolTip=122297 OnToolTip=UIObject_Tooltip_DisplayObject(OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+				update=true OnUpdate=UIButton_OnUpdate_EnableIfMultiplayer() >
+				<UIFrame state=up		fill="b_playerlist.tga" />
+				<UIFrame state=down		fill="b_playerlist.tga" />
+				<UIFrame state=focused	fill="b_playerlist.tga" />
+				<UIFrame state=hilited	fill="b_playerlist.tga" />
+				<UIFrame state=hifocus	fill="b_playerlist.tga" />
+				<UIFrame state=disabled	fill="b_playerlist.tga" />
+			</UIButton>	
+			<UIButton name="PLIST_TOGGLE_BUTTON" x=43 y=179 strref="122297" DefaultToolTip=122297 style="PM_TOGGLE_BUTTON"
+				OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_PLAYERLIST","SCREEN_PLAYERMENU_POPUP") 
+				update=true OnUpdate=UIButton_OnUpdate_EnableIfMultiplayer() >
+			</UIButton>
+
+			<!-- Mode Bar -->
+			<UIButton name="PM_MBAR_IMAGE" x=19 y=205 width=24 height=24 
+			OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_MODEBAR","SCREEN_PLAYERMENU_POPUP") 
+			DefaultToolTip=183635 OnToolTip=UIObject_Tooltip_DisplayObject(OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) >
+				<UIFrame state=up		fill="b_modebar.tga" />
+				<UIFrame state=down		fill="b_modebar.tga" />
+				<UIFrame state=focused	fill="b_modebar.tga" />
+				<UIFrame state=hilited	fill="b_modebar.tga" />
+				<UIFrame state=hifocus	fill="b_modebar.tga" />
+				<UIFrame state=disabled	fill="b_modebar.tga" />
+			</UIButton>	
+			<UIButton name="MBAR_TOGGLE_BUTTON" x=43 y=205 strref="183635" DefaultToolTip=183635 style="PM_TOGGLE_BUTTON"
+				OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_MODEBAR","SCREEN_PLAYERMENU_POPUP") >
+			</UIButton>
+
+			<!-- Quickcast -->
+			<UIButton name="PM_QC_IMAGE" x=19 y=231 width=24 height=24 
+			OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_SPELLS_QUICK","SCREEN_PLAYERMENU_POPUP") 
+			DefaultToolTip=183637 OnToolTip=UIObject_Tooltip_DisplayObject(OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) >
+				<UIFrame state=up		fill="b_quickcast.tga" />
+				<UIFrame state=down		fill="b_quickcast.tga" />
+				<UIFrame state=focused	fill="b_quickcast.tga" />
+				<UIFrame state=hilited	fill="b_quickcast.tga" />
+				<UIFrame state=hifocus	fill="b_quickcast.tga" />
+				<UIFrame state=disabled	fill="b_quickcast.tga" />
+			</UIButton>	
+			<UIButton name="QC_TOGGLE_BUTTON" x=43 y=231 strref="183637" DefaultToolTip=183637 style="PM_TOGGLE_BUTTON"
+				OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_SPELLS_QUICK","SCREEN_PLAYERMENU_POPUP") >
+			</UIButton>
+
+			<!-- Options -->
+			<UIButton name="PM_OPTIONS_IMAGE" x=19 y=283 width=24 height=24 
+			OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_MENU_OPTIONS","SCREEN_PLAYERMENU_POPUP")
+			DefaultToolTip=122298 OnToolTip=UIObject_Tooltip_DisplayObject(OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) >
+				<UIFrame state=up		fill="b_options.tga" />
+				<UIFrame state=down		fill="b_options.tga" />
+				<UIFrame state=focused	fill="b_options.tga" />
+				<UIFrame state=hilited	fill="b_options.tga" />
+				<UIFrame state=hifocus	fill="b_options.tga" />
+				<UIFrame state=disabled	fill="b_options.tga" />
+			</UIButton>	
+			<UIButton name="OPTIONS_TOGGLE_BUTTON" x=43 y=283 strref="122298" DefaultToolTip=122298 style="PM_TOGGLE_BUTTON"
+				OnLeftClick=UIButton_Input_PlayerMenuChoice("SCREEN_MENU_OPTIONS","SCREEN_PLAYERMENU_POPUP") >
+			</UIButton>
+
+      <!-- Player Chat -->
+      <UIButton name="PM_PLIST_IMAGE" x="19" y="315" width="24" height="24" 
+      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_chatselect",1,"") 
+      DefaultToolTip="122297" OnToolTip=UIObject_Tooltip_DisplayObject(OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) >
+        <UIFrame state="up"		fill="b_playerlist.tga" />
+        <UIFrame state="down"		fill="b_playerlist.tga" />
+        <UIFrame state="focused"	fill="b_playerlist.tga" />
+        <UIFrame state="hilited"	fill="b_playerlist.tga" />
+        <UIFrame state="hifocus"	fill="b_playerlist.tga" />
+        <UIFrame state="disabled"	fill="b_playerlist.tga" />
+      </UIButton>
+      <UIButton name="CHAT_TOGGLE_BUTTON" x="43" y="315" text="Player Chat" DefaultToolTip="122297" style="PM_TOGGLE_BUTTON"
+      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_chatselect",1,"") >
+      </UIButton>
+
+      <UIIcon name="PM_MENU_BG" img="pm_flyout_bg.tga" x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT />
+		</UIPane>
+
+	</UIPane>
+

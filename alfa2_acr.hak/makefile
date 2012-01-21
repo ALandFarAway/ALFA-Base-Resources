@@ -170,6 +170,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_getnearestcreaturetolocation.ncs  \
             $(OUTPUTDIR)\gui_kemo_chair_anim.ncs               \
             $(OUTPUTDIR)\gui_kemo_portablechair.ncs            \
+            $(OUTPUTDIR)\gui_resting_calc.ncs                  \
             $(OUTPUTDIR)\gui_kemo_resize.ncs                   \
             $(OUTPUTDIR)\gui_kemo_turnchair.ncs                \
             $(OUTPUTDIR)\i_abr_it_firstaid_ac.ncs              \

@@ -111,6 +111,7 @@ const string ACR_REST_DISEASE_CHANCE = "ACR_REST_DISEASE_CHANCE";
 const string ACR_REST_TENT = "ACR_REST_TENT";
 const string ACR_REST_BEDROLL = "ACR_REST_BEDROLL";
 const string ACR_REST_OFFCAMERA_DAYS = "ACR_REST_OFFCAMERA_DAYS";
+const string ACR_FREE_SPELL_PREP = "ACR_FREE_SPELL_PREP";
 
 //! Resting object blueprint tags
 //const string ACR_REST_TENT_TAG = "abr_plc_tent";

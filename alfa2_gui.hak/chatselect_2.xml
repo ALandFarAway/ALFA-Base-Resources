@@ -5,7 +5,7 @@
  OnRemove=UIScene_Misc_RequestRosterUpdates("false")
 -->
 
-<UIScene name="ChatSelect" x=20 y=128 width=560 height=260 OnAdd=UIObject_Misc_ExecuteServerScript("gui_chatchatselect",1,"")
+<UIScene name="ChatSelect" x=20 y=128 width=560 height=260
         capturemouseevents=true capturemouseclicks=false draggable=true
 	dragregion_x=0 dragregion_y=0 dragregion_width=250 dragregion_height=32
 	scriptloadable=true fadeout=.3 fadein=.3 priority="SCENE_INGAME"/>
@@ -52,7 +52,7 @@
 <UIListbox name="LocalPlayerList" x="5" y="32" width="270" height="144"
     showpartialchild="false" scrollbaronright="true" update="true" >
   <UIButton name=PrototypeButton x=12 y=0 height=24 width=180 prototype=true
-			OnLeftClick0=UIObject_Input_SetLocalVarString(local:0)
+			OnLeftClick0=UIObject_Misc_ExtractData("self:","string",5,local:0)
 			OnLeftClick1=UIButton_Input_SelectedInitiateChat() 
 			OnLeftClick2=UIObject_Misc_ExecuteServerScript("gui_chatselect",5,local:0)
 			style="STYLE_LIST_BUTTON" >
@@ -64,7 +64,7 @@
 <UIListbox name="LocalDMList" x="5" y="208" width="270" height="48"
     showpartialchild="false" scrollbaronright="true" update="true" >
   <UIButton name=PrototypeButton x=12 y=0 height=24 width=180 prototype=true
-			OnLeftClick0=UIObject_Input_SetLocalVarString(local:0)
+			OnLeftClick0=UIObject_Misc_ExtractData("self:","string",5,local:0)
 			OnLeftClick1=UIButton_Input_SelectedInitiateChat() 
 			OnLeftClick2=UIObject_Misc_ExecuteServerScript("gui_chatselect",5,local:0)
 			style="STYLE_LIST_BUTTON" >
@@ -76,7 +76,7 @@
 <UIListbox name="RemotePlayerList" x="275" y="32" width="270" height="144" hidden="true"
     showpartialchild="false" scrollbaronright="true" update="true" >
   <UIButton name=PrototypeButton x=12 y=0 height=24 width=180 prototype=true
-			OnLeftClick0=UIObject_Input_SetLocalVarString(local:0)
+			OnLeftClick0=UIObject_Misc_ExtractData("self:","string",5,local:0)
 			OnLeftClick1=UIButton_Input_SelectedInitiateChat() 
 			OnLeftClick2=UIObject_Misc_ExecuteServerScript("gui_chatselect",5,local:0)
 			style="STYLE_LIST_BUTTON" >
@@ -88,7 +88,7 @@
 <UIListbox name="RemoteDMList" x="275" y="208" width="270" height="48" hidden="true"
     showpartialchild="false" scrollbaronright="true" update="true" >
   <UIButton name=PrototypeButton x=12 y=0 height=24 width=180 prototype=true
-			OnLeftClick0=UIObject_Input_SetLocalVarString(local:0)
+			OnLeftClick0=UIObject_Misc_ExtractData("self:","string",5,local:0)
 			OnLeftClick1=UIButton_Input_SelectedInitiateChat() 
 			OnLeftClick2=UIObject_Misc_ExecuteServerScript("gui_chatselect",5,local:0)
 			style="STYLE_LIST_BUTTON" >

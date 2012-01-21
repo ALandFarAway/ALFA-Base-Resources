@@ -21,10 +21,12 @@ int CHAT_SELECT_EVENT_CLOSE     = 4;
 int CHAT_SELECT_EVENT_STAGETELL = 5;
 
 
-void main ( int nEvent, string sChatString )
+void main ( string sEvent, string sChatString )
 {
+    int nEvent = StringToInt(sEvent);
     if(nEvent == CHAT_SELECT_EVENT_OPEN)
     {
+        DisplayGuiScreen(OBJECT_SELF, "ChatSelect", FALSE, "chatselect_2.xml");
         ACR_PopulateChatSelect(OBJECT_SELF);
     }
     else if(nEvent == CHAT_SELECT_EVENT_EXPAND)

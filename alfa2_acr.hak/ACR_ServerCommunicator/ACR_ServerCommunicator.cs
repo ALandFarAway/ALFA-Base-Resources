@@ -413,12 +413,25 @@ namespace ACR_ServerCommunicator
                 {
                     if (Server.DatabaseId == GetDatabase().ACR_GetServerID() || bExpanded == FALSE)
                     {
-                        foreach (GameCharacter Character in Server.Characters)
+                        if (Server.DatabaseId == GetDatabase().ACR_GetServerID())
                         {
-                            if (Character.Player.IsDM)
-                                AddListBoxRow(PlayerObject, "ChatSelect", "LocalDMList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
-                            else
-                                AddListBoxRow(PlayerObject, "ChatSelect", "LocalPlayerList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
+                            foreach (GameCharacter Character in Server.Characters)
+                            {
+                                if (Character.Player.IsDM)
+                                    AddListBoxRow(PlayerObject, "ChatSelect", "LocalDMList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "5=/t \"" + Character.CharacterName + "\" ", "");
+                                else
+                                    AddListBoxRow(PlayerObject, "ChatSelect", "LocalPlayerList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "5=/t \"" + Character.CharacterName + "\" ", "");
+                            }
+                        }
+                        else
+                        {
+                            foreach (GameCharacter Character in Server.Characters)
+                            {
+                                if (Character.Player.IsDM)
+                                    AddListBoxRow(PlayerObject, "ChatSelect", "LocalDMList", Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
+                                else
+                                    AddListBoxRow(PlayerObject, "ChatSelect", "LocalPlayerList", Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
+                            }
                         }
                     }
                     else
@@ -426,9 +439,9 @@ namespace ACR_ServerCommunicator
                         foreach (GameCharacter Character in Server.Characters)
                         {
                             if (Character.Player.IsDM)
-                                AddListBoxRow(PlayerObject, "ChatSelect", "RemoteDMList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
+                                AddListBoxRow(PlayerObject, "ChatSelect", "RemoteDMList", Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
                             else
-                                AddListBoxRow(PlayerObject, "ChatSelect", "RemotePlayerList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "", "");
+                                AddListBoxRow(PlayerObject, "ChatSelect", "RemotePlayerList", Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
                         }
                     }
                 }
