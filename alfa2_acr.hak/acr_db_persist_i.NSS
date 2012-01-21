@@ -918,6 +918,7 @@ void ACR_CreateSQLTables()
 		"`IsDeleted` bool NOT NULL default false," +
 		"`IsPlayable` bool NOT NULL default true," +
 		"`NaturalHair` varchar(128) NOT NULL," +
+		"`CharacterFileName` varchar(36) DEFAULT NULL COMMENT 'BIC name (36 from 32-byte BIC resref name, plus .bic.)'," +
 		"PRIMARY KEY (`ID`), UNIQUE KEY (`PlayerID`, `Name`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 	
@@ -1058,6 +1059,16 @@ void ACR_AdjustTables() {
 	} else {
 		WriteTimestampedLogEntry("ACR_DB_PERSIST: Class4 column existence confirmed.");
 	}
+
+	// check to see if the Characters table has the CharacterFileName column
+	ACR_SQLQuery("SHOW COLUMNS from `characters` WHERE Field = 'CharacterFileName';");
+	if (ACR_SQLFetch() != SQL_SUCCESS) {
+		ACR_SQLQuery("ALTER TABLE `characters` ADD `CharacterFileName` varchar(36) NULL DEFAULT NULL COMMENT 'BIC name (36 from 32-byte BIC resref name, plus .bic.)'");
+		WriteTimestampedLogEntry("ACR_DB_PERSIST: Characters table altered to record BIC filename.");
+	} else {
+		WriteTimestampedLogEntry("ACR_DB_PERSIST: CharacterFileName column existance confirmed.");
+	}
+
 	return;
 }
 

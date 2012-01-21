@@ -723,10 +723,49 @@ void ACR_PCOnPCLoaded(object oPC)
 	// Note that if we have gotten this far, the player is NOT in quarantine and
 	// will actually be logging on.
 
+	string SaveBicFileNamePart;
+	string BicFileName;
+
+	if (ACR_GetCharacterID(oPC) != 0 && !GetIsDM(oPC)) {
+		// We are not being booted from having been banned and we are not a DM.
+		// Set the file name of the server-side character for vault management
+		// purposes.
+
+		int Offset = -1;
+		int i;
+		int Len;
+
+		BicFileName = GetBicFileName(oPC);
+		Len = GetStringLength(BicFileName);
+		Len -= 12;
+		BicFileName = GetStringRight(BicFileName, Len); // strip "SERVERVAULT:"
+
+		// Can't directly reference a backslash in NWScript.  Find it the hard
+		// way.
+		for (i = 0; i < Len; i += 1)
+		{
+			if (CharToASCII(GetSubString(BicFileName, i, 1)) == 92) // '\\'
+			{
+				Offset = i;
+				break;
+			}
+		}
+
+		if (Offset == -1)
+			Offset = FindSubString(BicFileName, "/", 0);
+
+		// Strip the account name and append to the query.
+		if (Offset != -1)
+		{
+			BicFileName = GetStringRight(BicFileName, Len - (Offset + 1)) + ".bic"; // Strip "ACCOUNT\"
+			SaveBicFileNamePart = ", characters.CharacterFileName = '" + ACR_SQLEncodeSpecialChars(BicFileName) + "'";
+		}
+	}
+
 	if (bUpdateLocation)
-		ACR_SQLQuery("UPDATE characters, players SET characters.Location='" + ACR_LocationToString(GetLocation(oPC)) + "', characters.IsOnline=1, characters.ServerID=" + IntToString(ACR_GetServerID()) + ", players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");
+		ACR_SQLQuery("UPDATE characters, players SET characters.Location='" + ACR_LocationToString(GetLocation(oPC)) + "', characters.IsOnline=1" + SaveBicFileNamePart + ", characters.ServerID=" + IntToString(ACR_GetServerID()) + ", players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");
 	else
-		ACR_SQLQuery("UPDATE characters, players SET characters.IsOnline=1, characters.ServerID=" + IntToString(ACR_GetServerID()) + ", players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");		
+		ACR_SQLQuery("UPDATE characters, players SET characters.IsOnline=1" + SaveBicFileNamePart + ", characters.ServerID=" + IntToString(ACR_GetServerID()) + ", players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");		
 
     // schedule the auto save (since this only exports after a PPS_CYCLE, start counting after 60 seconds)
     DelayCommand(60.0, ACR_PCAutoSave(oPC));
