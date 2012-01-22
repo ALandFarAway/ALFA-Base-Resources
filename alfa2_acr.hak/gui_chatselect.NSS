@@ -33,15 +33,15 @@ void main ( string sEvent, string sChatString )
     else if(nEvent == CHAT_SELECT_EVENT_EXPAND)
     {
         SetLocalInt(OBJECT_SELF, "chatselect_expanded", 1);
-	SetGUIObjectText(OBJECT_SELF, "ChatSelect", "LPL", -1, "Local Players");
-	SetGUIObjectText(OBJECT_SELF, "ChatSelect", "LDM", -1, "Local DMs");
+	SetGUIObjectText(OBJECT_SELF, "ChatSelect", "LPL", -1, "Local Players:");
+	SetGUIObjectText(OBJECT_SELF, "ChatSelect", "LDM", -1, "Local DMs:");
         ACR_PopulateChatSelect(OBJECT_SELF);
     }
     else if(nEvent == CHAT_SELECT_EVENT_COLLAPSE)
     {
         SetLocalInt(OBJECT_SELF, "chatselect_expanded", 0);
-	SetGUIObjectText(OBJECT_SELF, "ChatSelect", "LPL", -1, "Players");
-	SetGUIObjectText(OBJECT_SELF, "ChatSelect", "LDM", -1, "DMs");
+	SetGUIObjectText(OBJECT_SELF, "ChatSelect", "LPL", -1, "Players:");
+	SetGUIObjectText(OBJECT_SELF, "ChatSelect", "LDM", -1, "DMs:");
         ACR_PopulateChatSelect(OBJECT_SELF);
     }
     else if(nEvent == CHAT_SELECT_EVENT_CLOSE)

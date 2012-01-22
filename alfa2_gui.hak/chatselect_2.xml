@@ -44,8 +44,8 @@
 	</UIButton>
 
 
-<UIText name="HEADER_LPL" x=8   y=6    height=20  width=270 editable=false text="Local Players:"/>
-<UIText name="HEADER_LDM" x=8   y=182  height=20  width=270 editable=false text="Local DMs:"/>
+<UIText name="HEADER_LPL" x=8   y=6    height=20  width=270 editable=false text="Players:"/>
+<UIText name="HEADER_LDM" x=8   y=182  height=20  width=270 editable=false text="DMs:"/>
 <UIText name="HEADER_RPL" x=288 y=6    height=20  width=270 editable=false hidden="true" text="Remote Players:"/>
 <UIText name="HEADER_RDM" x=288 y=182  height=20  width=270 editable=false hidden="true" text="Remote DMs:"/>
 
