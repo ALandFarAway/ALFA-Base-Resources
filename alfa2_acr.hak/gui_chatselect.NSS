@@ -28,28 +28,28 @@ void main ( string sEvent, string sChatString )
     {
         DisplayGuiScreen(OBJECT_SELF, "ChatSelect", FALSE, "chatselect_2.xml");
         CloseGUIScreen(OBJECT_SELF, "SCREEN_PLAYERMENU_POPUP");
-        ACR_PopulateChatSelect(OBJECT_SELF);
+        ACR_PopulateChatSelect(GetOwnedCharacter(OBJECT_SELF));
     }
     else if(nEvent == CHAT_SELECT_EVENT_EXPAND)
     {
         SetLocalInt(OBJECT_SELF, "chatselect_expanded", 1);
-	SetGUIObjectText(OBJECT_SELF, "ChatSelect", "LPL", -1, "Local Players");
-	SetGUIObjectText(OBJECT_SELF, "ChatSelect", "LDM", -1, "Local DMs");
-        ACR_PopulateChatSelect(OBJECT_SELF);
+        SetGUIObjectText(OBJECT_SELF, "ChatSelect", "LPL", -1, "Local Players");
+        SetGUIObjectText(OBJECT_SELF, "ChatSelect", "LDM", -1, "Local DMs");
+        ACR_PopulateChatSelect(GetOwnedCharacter(OBJECT_SELF));
     }
     else if(nEvent == CHAT_SELECT_EVENT_COLLAPSE)
     {
         SetLocalInt(OBJECT_SELF, "chatselect_expanded", 0);
-	SetGUIObjectText(OBJECT_SELF, "ChatSelect", "LPL", -1, "Players");
-	SetGUIObjectText(OBJECT_SELF, "ChatSelect", "LDM", -1, "DMs");
-        ACR_PopulateChatSelect(OBJECT_SELF);
+        SetGUIObjectText(OBJECT_SELF, "ChatSelect", "LPL", -1, "Players");
+        SetGUIObjectText(OBJECT_SELF, "ChatSelect", "LDM", -1, "DMs");
+        ACR_PopulateChatSelect(GetOwnedCharacter(OBJECT_SELF));
     }
     else if(nEvent == CHAT_SELECT_EVENT_CLOSE)
     {
     }
     else if(nEvent == CHAT_SELECT_EVENT_STAGETELL)
     {
-        if(ACR_GetPlayerClientExtensionVersion(OBJECT_SELF) < ACR_MakeClientExtensionVersion(1,0,0,21)) // not a recent-enough CE
+        if(ACR_GetPlayerClientExtensionVersion(GetOwnedCharacter(OBJECT_SELF)) < ACR_MakeClientExtensionVersion(1,0,0,21)) // not a recent-enough CE
         {
             if(GetStringLeft(sChatString, 1) == "#") // tell to a remote server; it'll be awkward, but we need to salvage something.
                 DelayCommand(0.1f, SetGUIObjectText(OBJECT_SELF, "SCREEN_MESSAGEMP_1", "inputbox", -1, sChatString));
