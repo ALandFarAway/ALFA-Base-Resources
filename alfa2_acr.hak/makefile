@@ -99,7 +99,10 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_version_i.nss                     \
             $(OUTPUTDIR)\acr_server_misc_i.nss                 \
             $(OUTPUTDIR)\acr_scliext_i.nss                     \
-            $(OUTPUTDIR)\acr_area_instance_i.nss                
+            $(OUTPUTDIR)\acr_area_instance_i.nss               \
+            $(OUTPUTDIR)\x0_i0_anims.nss                       \
+            $(OUTPUTDIR)\x0_i0_enemy.nss                       \
+            $(OUTPUTDIR)\x2_inc_switches.nss                    
 
 NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\abr_plc_oninventorydisreturns.ncs     \
@@ -455,7 +458,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\omega_trapcheck.ncs                   \
             $(OUTPUTDIR)\omega_trapspring.ncs                  \
             $(OUTPUTDIR)\omega_vehicle.ncs                     \
-            $(OUTPUTDIR)\acr_area_instance_onleave.ncs         
+            $(OUTPUTDIR)\acr_area_instance_onleave.ncs         \
+            $(OUTPUTDIR)\gui_measure_latency.ncs               
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and

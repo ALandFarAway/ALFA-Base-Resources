@@ -42,6 +42,8 @@ namespace ACR_ServerCommunicator
             this.PCCharacterId = Database.ACR_GetCharacterID(ObjectId);
             this.PCPlayerId = Database.ACR_GetPlayerID(ObjectId);
             this.StateFlags = (PlayerStateFlags) Database.ACR_GetPersistentInt(ObjectId, "ACR_COMMUNICATOR_STATE_FLAGS");
+            this.LatencyTickCount = 0;
+            this.LatencyToServer = 0;
 
             //
             // Upgrade any legacy database settings to their new format.
@@ -76,6 +78,17 @@ namespace ACR_ServerCommunicator
         /// chat is showing.
         /// </summary>
         public List<int> CharacterIdsShown { get { return PCCharacterIdsShown; } }
+
+        /// <summary>
+        /// The tick when the last latency check was initiated.
+        /// </summary>
+        public uint LatencyTickCount { get; set; }
+
+        /// <summary>
+        /// The combined latency to server and server response time for the
+        /// player.
+        /// </summary>
+        public uint LatencyToServer { get; set; }
 
         /// <summary>
         /// The player state flags.

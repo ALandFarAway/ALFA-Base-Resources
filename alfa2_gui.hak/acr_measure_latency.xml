@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<UIScene name="acr_measure_latency" x=0 y=0 width=1 height=1 priority=SCENE_INGAME_TARGET scriptloadable=true
+ignoreevents=TRUE focusable=FALSE capturemouseclicks=FALSE capturemouseevents=FALSE update=FALSE
+OnAdd0=UIObject_Misc_ScreenClose()
+OnAdd1=UIObject_Misc_ExecuteServerScript("gui_measure_latency")
+/>

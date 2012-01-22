@@ -178,6 +178,24 @@ namespace ACR_ServerCommunicator
                     }
                     break;
 
+                case REQUEST_TYPE.HANDLE_LATENCY_CHECK_RESPONSE:
+                    {
+                        uint PlayerObject = OBJECT_SELF;
+
+                        HandleLatencyCheckResponse(PlayerObject);
+
+                        ReturnCode = 0;
+                    }
+                    break;
+
+                case REQUEST_TYPE.GET_PLAYER_LATENCY:
+                    {
+                        uint PlayerObject = OBJECT_SELF;
+
+                        ReturnCode = GetPlayerLatency(PlayerObject);
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid IPC script command " + RequestType.ToString());
 
@@ -393,24 +411,26 @@ namespace ACR_ServerCommunicator
         /// Populate the chat select GUI. This may be called as part of the enter
         /// event or the opening of the chat select GUI
         /// </summary>
-        /// <param name="PlayerObject">Supplies the sender player object</param>
-        public void ACR_PopulateChatSelect(uint PlayerObject)
+        /// <param name="PlayerObject">Supplies the sender player object.
+        /// </param>
+        private void ACR_PopulateChatSelect(uint PlayerObject)
         {
+            PlayerState Player = GetPlayerState(PlayerObject);
+            Player.CharacterIdsShown.Clear();
+
+            ClearListBox(PlayerObject, "ChatSelect", "LocalPlayerList");
+            ClearListBox(PlayerObject, "ChatSelect", "LocalDMList");
+            ClearListBox(PlayerObject, "ChatSelect", "RemotePlayerList");
+            ClearListBox(PlayerObject, "ChatSelect", "RemoteDMList");
+
+            int bExpanded = GetLocalInt(PlayerObject, "chatselect_expanded");
+
             lock (WorldManager)
             {
                 var OnlineServers = from S in WorldManager.Servers
                                     where S.Online &&
                                     S.Characters.Count > 0
                                     select S;
-                ClearListBox(PlayerObject, "ChatSelect", "LocalPlayerList");
-                ClearListBox(PlayerObject, "ChatSelect", "LocalDMList");
-                ClearListBox(PlayerObject, "ChatSelect", "RemotePlayerList");
-                ClearListBox(PlayerObject, "ChatSelect", "RemoteDMList");
-
-                PlayerState Player = GetPlayerState(PlayerObject);
-                Player.CharacterIdsShown.Clear();
-
-                int bExpanded = GetLocalInt(PlayerObject, "chatselect_expanded");
 
                 foreach (GameServer Server in OnlineServers)
                 {
@@ -461,6 +481,34 @@ namespace ACR_ServerCommunicator
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Handle the client's check-in response to a latency test.
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the player object of the player
+        /// that has checked in after a latency check request.</param>
+        private void HandleLatencyCheckResponse(uint PlayerObject)
+        {
+            PlayerState State = GetPlayerState(PlayerObject);
+
+            State.LatencyToServer = (uint)Environment.TickCount - State.LatencyTickCount;
+        }
+
+        /// <summary>
+        /// Get the last reported latency measurement for a player.
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the player object of the player
+        /// to inquire about.</param>
+        /// <returns>The player's last reported latency is returned.</returns>
+        private int GetPlayerLatency(uint PlayerObject)
+        {
+            PlayerState State = TryGetPlayerState(PlayerObject);
+
+            if (State == null)
+                return 0;
+            else
+                return (int)State.LatencyToServer;
         }
 
         /// <summary>
@@ -527,6 +575,7 @@ namespace ACR_ServerCommunicator
         {
             int ServerLatency = GetGlobalInt("ACR_SERVER_LATENCY");
             int VaultLatency = GetGlobalInt("ACR_VAULT_LATENCY");
+            PlayerState State = GetPlayerState(PlayerObject);
             string Description;
 
             if (ServerLatency == -1)
@@ -544,6 +593,29 @@ namespace ACR_ServerCommunicator
 
             SendMessageToPC(PlayerObject, String.Format(
                 "Vault transaction latency is: {0}", Description));
+
+            SendMessageToPC(PlayerObject, String.Format(
+                "Your ping time to server: {0}ms", State.LatencyToServer));
+        }
+
+        /// <summary>
+        /// This method sends the server uptime to a player.
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the requesting player's object
+        /// id.</param>
+        private void ShowServerUptime(uint PlayerObject)
+        {
+            System.Diagnostics.Process CurrentProcess = System.Diagnostics.Process.GetCurrentProcess();
+            TimeSpan Uptime = DateTime.Now - CurrentProcess.StartTime;
+
+            SendMessageToPC(PlayerObject, String.Format(
+                "Server uptime: {0}d {1}h {2}m {3}s, memory usage {4} MB",
+                Uptime.Days,
+                Uptime.Hours,
+                Uptime.Minutes,
+                Uptime.Seconds,
+                (CurrentProcess.PrivateMemorySize64 / (1024 * 1024)).ToString("D")
+                ));
         }
 
         /// <summary>
@@ -656,6 +728,11 @@ namespace ACR_ServerCommunicator
                 ShowServerLatency(SenderObjectId);
                 return TRUE;
             }
+            else if (CookedText.Equals("uptime"))
+            {
+                ShowServerUptime(SenderObjectId);
+                return TRUE;
+            }
             else
             {
                 return FALSE;
@@ -723,6 +800,8 @@ namespace ACR_ServerCommunicator
                     }
                 });
             });
+
+            UpdatePlayerLatency(PlayerObject);
         }
 
         /// <summary>
@@ -1743,6 +1822,48 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method requests an update for player latency for a given
+        /// player object.
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the current player object id.
+        /// </param>
+        private void UpdatePlayerLatency(uint PlayerObject)
+        {
+            PlayerState State = TryGetPlayerState(PlayerObject);
+
+            //
+            // If the player is not logged on any more, stop.  We will start up
+            // a new continuation later, at client enter, should the player
+            // return.
+            //
+
+            if (State == null || GetIsObjectValid(PlayerObject) != TRUE)
+                return;
+
+            //
+            // Record the current (server-side) tick count, then open the
+            // latency check scene on the client.  The scene will immediately
+            // close itself and then call gui_measure_latency, which will call
+            // back into the server communicator to update the player's current
+            // round trip time (including server processing delays).
+            //
+
+            State.LatencyTickCount = (uint)Environment.TickCount;
+            DisplayGuiScreen(PlayerObject, "acr_measure_latency", FALSE, "acr_measure_latency.xml", FALSE);
+            CloseGUIScreen(PlayerObject, "acr_measure_latency");
+
+            //
+            // Schedule the next latency check for this player.
+            //
+
+            DelayCommand(30.0f, delegate()
+            {
+                UpdatePlayerLatency(PlayerObject);
+            });
+        }
+
+
+        /// <summary>
         /// This method drains items from the IPC thread command queue, i.e.
         /// those actions that must be performed in a script context because
         /// they need to call script APIs.
@@ -1865,7 +1986,9 @@ namespace ACR_ServerCommunicator
             IS_SERVER_ONLINE,
             ACTIVATE_SERVER_TO_SERVER_PORTAL,
             HANDLE_CLIENT_LEAVE,
-            POPULATE_CHAT_SELECT
+            POPULATE_CHAT_SELECT,
+            HANDLE_LATENCY_CHECK_RESPONSE,
+            GET_PLAYER_LATENCY
         }
 
         /// <summary>
