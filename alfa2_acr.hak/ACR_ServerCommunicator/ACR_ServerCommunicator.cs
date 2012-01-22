@@ -396,21 +396,22 @@ namespace ACR_ServerCommunicator
         /// <param name="PlayerObject">Supplies the sender player object</param>
         public void ACR_PopulateChatSelect(uint PlayerObject)
         {
+            PlayerState Player = GetPlayerState(PlayerObject);
+            Player.CharacterIdsShown.Clear();
+
+            ClearListBox(PlayerObject, "ChatSelect", "LocalPlayerList");
+            ClearListBox(PlayerObject, "ChatSelect", "LocalDMList");
+            ClearListBox(PlayerObject, "ChatSelect", "RemotePlayerList");
+            ClearListBox(PlayerObject, "ChatSelect", "RemoteDMList");
+
+            int bExpanded = GetLocalInt(PlayerObject, "chatselect_expanded");
+
             lock (WorldManager)
             {
                 var OnlineServers = from S in WorldManager.Servers
                                     where S.Online &&
                                     S.Characters.Count > 0
                                     select S;
-                ClearListBox(PlayerObject, "ChatSelect", "LocalPlayerList");
-                ClearListBox(PlayerObject, "ChatSelect", "LocalDMList");
-                ClearListBox(PlayerObject, "ChatSelect", "RemotePlayerList");
-                ClearListBox(PlayerObject, "ChatSelect", "RemoteDMList");
-
-                PlayerState Player = GetPlayerState(PlayerObject);
-                Player.CharacterIdsShown.Clear();
-
-                int bExpanded = GetLocalInt(PlayerObject, "chatselect_expanded");
 
                 foreach (GameServer Server in OnlineServers)
                 {
