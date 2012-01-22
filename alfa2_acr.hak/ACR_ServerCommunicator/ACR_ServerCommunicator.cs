@@ -582,7 +582,7 @@ namespace ACR_ServerCommunicator
         private void ShowServerUptime(uint PlayerObject)
         {
             System.Diagnostics.Process CurrentProcess = System.Diagnostics.Process.GetCurrentProcess();
-            TimeSpan Uptime = DateTime.UtcNow - CurrentProcess.StartTime;
+            TimeSpan Uptime = DateTime.Now - CurrentProcess.StartTime;
 
             SendMessageToPC(PlayerObject, String.Format(
                 "Server uptime: {0}d {1}h {2}m {3}s, memory usage {4} MB",
@@ -702,6 +702,11 @@ namespace ACR_ServerCommunicator
             else if (CookedText.Equals("serverlatency"))
             {
                 ShowServerLatency(SenderObjectId);
+                return TRUE;
+            }
+            else if (CookedText.Equals("uptime"))
+            {
+                ShowServerUptime(SenderObjectId);
                 return TRUE;
             }
             else
