@@ -72,6 +72,12 @@ namespace ACR_ServerCommunicator
         public bool IsDM { get { return Communicator.GetIsDM(ObjectId) != CLRScriptBase.FALSE;  } }
 
         /// <summary>
+        /// Get the list of character IDs that the client-side GUI for quick
+        /// chat is showing.
+        /// </summary>
+        public List<int> CharacterIdsShown { get { return PCCharacterIdsShown; } }
+
+        /// <summary>
         /// The player state flags.
         /// </summary>
         public PlayerStateFlags Flags
@@ -134,6 +140,12 @@ namespace ACR_ServerCommunicator
         /// The state flags for the player.
         /// </summary>
         private PlayerStateFlags StateFlags;
+
+        /// <summary>
+        /// The list of which character ids are shown in the augmented quick
+        /// chat listbox is stored here.
+        /// </summary>
+        private List<int> PCCharacterIdsShown = new List<int>();
     }
 
     /// <summary>
