@@ -1787,7 +1787,14 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void CommandDispatchLoop()
         {
-            DrainCommandQueue();
+            try
+            {
+                DrainCommandQueue();
+            }
+            catch (Exception e)
+            {
+                WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.CommandDispatchLoop(): Encountered exception: {0}", e));
+            }
 
             //
             // Start a new dispatch cycle going.

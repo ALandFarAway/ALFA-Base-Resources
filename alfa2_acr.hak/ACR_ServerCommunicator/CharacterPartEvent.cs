@@ -45,10 +45,15 @@ namespace ACR_ServerCommunicator
 
             foreach (uint PlayerObject in Script.GetPlayers(true))
             {
-                PlayerState Player = Script.GetPlayerState(PlayerObject);
+                PlayerState Player = Script.TryGetPlayerState(PlayerObject);
+
+                if (Player == null)
+                    continue;
+
                 if (Player.CharacterIdsShown.Contains(Character.CharacterId))
                 {
                     string sPlayerListBox = "";
+
                     if (Character.Server.ServerId == Script.GetDatabase().ACR_GetServerID() || Script.GetLocalInt(PlayerObject, "chatselect_expanded") == 0)
                     {
                         if (Character.Player.IsDM == true)
@@ -63,6 +68,7 @@ namespace ACR_ServerCommunicator
                         else
                             sPlayerListBox = "RemotePlayerList";
                     }
+
                     Script.RemoveListBoxRow(PlayerObject, "ChatSelect", sPlayerListBox, Character.CharacterName);
                     Player.CharacterIdsShown.Add(Character.CharacterId);
                 }
@@ -80,10 +86,14 @@ namespace ACR_ServerCommunicator
 
             foreach (uint PlayerObject in Script.GetPlayers(true))
             {
+                PlayerState Player = Script.TryGetPlayerState(PlayerObject);
+
+                if (PlayerObject == null)
+                    continue;
                 if (!Script.IsCrossServerNotificationEnabled(PlayerObject))
                     continue;
 
-                if ((Script.GetPlayerState(PlayerObject).Flags & PlayerStateFlags.SendCrossServerNotificationsToCombatLog) != 0)
+                if ((Player.Flags & PlayerStateFlags.SendCrossServerNotificationsToCombatLog) != 0)
                 {
                     Script.SendMessageToPC(PlayerObject, Message);
                 }
