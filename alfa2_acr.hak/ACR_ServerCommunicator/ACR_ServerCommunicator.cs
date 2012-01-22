@@ -407,6 +407,9 @@ namespace ACR_ServerCommunicator
                 ClearListBox(PlayerObject, "ChatSelect", "RemotePlayerList");
                 ClearListBox(PlayerObject, "ChatSelect", "RemoteDMList");
 
+                PlayerState Player = GetPlayerState(PlayerObject);
+                Player.CharacterIdsShown.Clear();
+
                 int bExpanded = GetLocalInt(PlayerObject, "chatselect_expanded");
 
                 foreach (GameServer Server in OnlineServers)
@@ -418,9 +421,15 @@ namespace ACR_ServerCommunicator
                             foreach (GameCharacter Character in Server.Characters)
                             {
                                 if (Character.Player.IsDM)
+                                {
                                     AddListBoxRow(PlayerObject, "ChatSelect", "LocalDMList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "5=/t \"" + Character.CharacterName + "\" ", "");
+                                    Player.CharacterIdsShown.Add(Character.CharacterId);
+                                }
                                 else
+                                {
                                     AddListBoxRow(PlayerObject, "ChatSelect", "LocalPlayerList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "5=/t \"" + Character.CharacterName + "\" ", "");
+                                    Player.CharacterIdsShown.Add(Character.CharacterId);
+                                }
                             }
                         }
                         else
@@ -428,9 +437,15 @@ namespace ACR_ServerCommunicator
                             foreach (GameCharacter Character in Server.Characters)
                             {
                                 if (Character.Player.IsDM)
+                                {
                                     AddListBoxRow(PlayerObject, "ChatSelect", "LocalDMList", Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
+                                    Player.CharacterIdsShown.Add(Character.CharacterId);
+                                }
                                 else
+                                {
                                     AddListBoxRow(PlayerObject, "ChatSelect", "LocalPlayerList", Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
+                                    Player.CharacterIdsShown.Add(Character.CharacterId);
+                                }
                             }
                         }
                     }
@@ -670,19 +685,7 @@ namespace ACR_ServerCommunicator
 
             CreatePlayerState(PlayerObject);
             GetDatabase().ACR_SetPCLocalFlags(PlayerObject, 0);
-
-            //
-            // Someone has just joined the server; we need to update
-            // the chat windows
-            //
-
-            uint Player = GetFirstPC(FALSE);
-            while(GetIsObjectValid(Player) != FALSE)
-            {
-                ACR_PopulateChatSelect(Player);
-                Player = GetNextPC(FALSE);
-            }
-            
+          
             //
             // Remind the player that they have cross server event
             // notifications turned off if they did turn them off.

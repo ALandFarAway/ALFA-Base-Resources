@@ -44,7 +44,29 @@ namespace ACR_ServerCommunicator
             //
 
             foreach (uint PlayerObject in Script.GetPlayers(true))
-                Script.ACR_PopulateChatSelect(PlayerObject);
+            {
+                PlayerState Player = Script.GetPlayerState(PlayerObject);
+                if (Player.CharacterIdsShown.Contains(Character.CharacterId))
+                {
+                    string sPlayerListBox = "";
+                    if (Character.Server.ServerId == Script.GetDatabase().ACR_GetServerID() || Script.GetLocalInt(PlayerObject, "chatselect_expanded") == 0)
+                    {
+                        if (Character.Player.IsDM == true)
+                            sPlayerListBox = "LocalDMList";
+                        else
+                            sPlayerListBox = "LocalPlayerList";
+                    }
+                    else
+                    {
+                        if (Character.Player.IsDM == true)
+                            sPlayerListBox = "RemoteDMList";
+                        else
+                            sPlayerListBox = "RemotePlayerList";
+                    }
+                    Script.RemoveListBoxRow(PlayerObject, "ChatSelect", sPlayerListBox, Character.CharacterName);
+                    Player.CharacterIdsShown.Add(Character.CharacterId);
+                }
+            }
 
             if (Database.ACR_GetServerID() == Server.ServerId)
                 return;
