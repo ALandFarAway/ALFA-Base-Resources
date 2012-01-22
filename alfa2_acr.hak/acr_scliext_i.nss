@@ -123,12 +123,12 @@ int ACR_MakeClientExtensionVersion(int V0, int V1, int V2, int V3)
 
 int ACR_GetPlayerClientExtensionVersion(object PC)
 {
-	return GetLocalInt(OBJECT_SELF, ACR_SCLIEXT_VERSION);
+	return GetLocalInt(PC, ACR_SCLIEXT_VERSION);
 }
 
 int ACR_GetPlayerClientExtensionFeatures(object PC)
 {
-	return GetLocalInt(OBJECT_SELF, ACR_SCLIEXT_FEATURES);
+	return GetLocalInt(PC, ACR_SCLIEXT_FEATURES);
 }
 
 void ACR_SCliExtOnPCLoaded(object PC)
@@ -138,6 +138,12 @@ void ACR_SCliExtOnPCLoaded(object PC)
 
 void ACR_CheckForClientExtensionInstalled(object PC)
 {
+	if (GetArea(PC) == OBJECT_INVALID)
+	{
+		DelayCommand(10.0f, ACR_CheckForClientExtensionInstalled(PC));
+		return;
+	}
+
 	// Check if the player has the CE installed.  We already checked the version
 	// in gui_scliext_identify if it was installed.
 	if (ACR_GetPlayerClientExtensionVersion(PC) != 0)
