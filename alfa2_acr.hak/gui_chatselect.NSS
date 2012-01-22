@@ -27,6 +27,7 @@ void main ( string sEvent, string sChatString )
     if(nEvent == CHAT_SELECT_EVENT_OPEN)
     {
         DisplayGuiScreen(OBJECT_SELF, "ChatSelect", FALSE, "chatselect_2.xml");
+        CloseGUIScreen(OBJECT_SELF, "SCREEN_PLAYERMENU_POPUP");
         ACR_PopulateChatSelect(OBJECT_SELF);
     }
     else if(nEvent == CHAT_SELECT_EVENT_EXPAND)
