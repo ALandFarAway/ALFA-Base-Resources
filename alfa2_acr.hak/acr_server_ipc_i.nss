@@ -78,6 +78,8 @@ const int ACR_SERVER_IPC_POPULATE_CHAT_SELECT                = 11;
 // This command completes a latency check for a player.
 const int ACR_SERVER_IPC_HANDLE_LATENCY_CHECK_RESPONSE       = 12;
 
+// This command retrieves the last latency measurement for a player.
+const int ACR_SERVER_IPC_GET_PLAYER_LATENCY                  = 13;
 
 // IPC event codes:
 
@@ -250,6 +252,11 @@ void ACR_PopulateChatSelect(object PlayerObject);
 //!  - PlayerObject: Supplies the player object that has completed a round trip
 //                   latency/ping check transaction.
 void ACR_HandleLatencyCheckResponse(object PlayerObject);
+
+//! Get the last latency measurement for a player.
+//!  - PlayerObject: Supplies the PC object of the player to inquire about.
+//!  - Returns: The player's last reported latency, in milliseconds.
+int ACR_GetPlayerLatency(object PlayerObject);
 
 //! Make a raw call to the IPC C# control script.
 //!  - Command: Supplies the command to request (e.g. ACR_SERVER_IPC_SIGNAL_IPC_EVENT).
@@ -568,6 +575,19 @@ void ACR_HandleLatencyCheckResponse(object PlayerObject)
 {
 	ACR_CallIPCScript(
 		ACR_SERVER_IPC_HANDLE_LATENCY_CHECK_RESPONSE,
+		0,
+		0,
+		0,
+		0,
+		0,
+		"",
+		PlayerObject);
+}
+
+int ACR_GetPlayerLatency(object PlayerObject)
+{
+	return ACR_CallIPCScript(
+		ACR_SERVER_IPC_GET_PLAYER_LATENCY,
 		0,
 		0,
 		0,

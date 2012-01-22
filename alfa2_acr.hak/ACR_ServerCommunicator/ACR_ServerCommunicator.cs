@@ -178,13 +178,21 @@ namespace ACR_ServerCommunicator
                     }
                     break;
 
-                case REQUEST_TYPE.HANDLE_measure_latency_RESPONSE:
+                case REQUEST_TYPE.HANDLE_LATENCY_CHECK_RESPONSE:
                     {
                         uint PlayerObject = OBJECT_SELF;
 
                         HandleLatencyCheckResponse(PlayerObject);
 
                         ReturnCode = 0;
+                    }
+                    break;
+
+                case REQUEST_TYPE.GET_PLAYER_LATENCY:
+                    {
+                        uint PlayerObject = OBJECT_SELF;
+
+                        ReturnCode = GetPlayerLatency(PlayerObject);
                     }
                     break;
 
@@ -485,6 +493,22 @@ namespace ACR_ServerCommunicator
             PlayerState State = GetPlayerState(PlayerObject);
 
             State.LatencyToServer = (uint)Environment.TickCount - State.LatencyTickCount;
+        }
+
+        /// <summary>
+        /// Get the last reported latency measurement for a player.
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the player object of the player
+        /// to inquire about.</param>
+        /// <returns>The player's last reported latency is returned.</returns>
+        private int GetPlayerLatency(uint PlayerObject)
+        {
+            PlayerState State = TryGetPlayerState(PlayerObject);
+
+            if (State == null)
+                return 0;
+            else
+                return (int)State.LatencyToServer;
         }
 
         /// <summary>
@@ -1963,7 +1987,8 @@ namespace ACR_ServerCommunicator
             ACTIVATE_SERVER_TO_SERVER_PORTAL,
             HANDLE_CLIENT_LEAVE,
             POPULATE_CHAT_SELECT,
-            HANDLE_measure_latency_RESPONSE,
+            HANDLE_LATENCY_CHECK_RESPONSE,
+            GET_PLAYER_LATENCY
         }
 
         /// <summary>
