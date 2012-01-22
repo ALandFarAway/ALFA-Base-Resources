@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="NWN2UI">
 
-<UIScene name="acr_resting" x=412 y=309 width=200 height=150 priority=SCENE_INGAME_TARGET scriptloadable=true
+<UIScene name="acr_resting" x=402 y=299 width=220 height=170 priority=SCENE_INGAME_TARGET scriptloadable=true
 ignoreevents=FALSE capturemouseclicks=TRUE capturemouseevents=TRUE update=true UpdateRate=1.0/>
 
-<UIPane name="MAINBUTTON" x=0 y=0 width=200 height=150 ignoreevents=FALSE capturemouseclicks=TRUE caputuremouseevents=TRUE>
-	<UIButton name="MAINBUTTON"     x=0  y=0   width=40 height=40 ignoreevents=FALSE capturemouseclicks=TRUE
+<UIPane name="MAINBUTTON" x=0 y=0 width=220 height=170 ignoreevents=FALSE capturemouseclicks=TRUE caputuremouseevents=TRUE>
+	<UIButton name="MAINBUTTON"     x=5  y=5   width=210 height=160 ignoreevents=FALSE capturemouseclicks=TRUE style="STYLE_MENU_BUTTON"
+	 align="center" valign="center" text="You've been offline for more than a day! Configure your spells for the day and then click here to prepare them."
 	 OnLeftClick0=UIObject_Misc_ScreenClose()
 	 OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_resting_calc")>
-		<UIText name="Test"     x=5  y=5   width=190 height=140 editable=FALSE
-                 text="You've been offline for more than a day! Check your spell book to configure your spell preparations for the day and then click here."
-                 align=center valign=center style="STYLE_LIST_BUTTON"
-		 OnLeftClick0=UIObject_Misc_ScreenClose()
-		 OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_resting_calc")/>
 	</UIButton>
+	<UIFrame width=PARENT_WIDTH height=PARENT_HEIGHT topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" top="tp_frame_t.tga" left="tp_frame_l.tga" right="tp_frame_r.tga" bottomleft="tp_frame_bl.tga" bottomright="tp_frame_br.tga" bottom="tp_frame_b.tga" fillstyle="stretch" fill="acr_black.tga" border=5/>
 </UIPane>
 
-<UIFrame width=PARENT_WIDTH height=PARENT_HEIGHT topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" top="tp_frame_t.tga" left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="acr_black.tga" border=5/>

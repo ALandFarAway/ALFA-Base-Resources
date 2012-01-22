@@ -54,11 +54,17 @@ void main()
         SendMessageToPC(OBJECT_SELF, "Whoops! We didn't realise you were in quarantine until just now. Sorry about that!");
         return; 
     }
+    CloseGUIScreen(OBJECT_SELF, "acr_resting");
 
     DeleteLocalInt(OBJECT_SELF, ACR_FREE_SPELL_PREP);
-    _playerRestoreSpells(OBJECT_SELF, IntToString(CLASS_TYPE_CLERIC),  GetCurrentHitPoints(OBJECT_SELF));
-    _playerRestoreSpells(OBJECT_SELF, IntToString(CLASS_TYPE_DRUID),   GetCurrentHitPoints(OBJECT_SELF));
-    _playerRestoreSpells(OBJECT_SELF, IntToString(CLASS_TYPE_PALADIN), GetCurrentHitPoints(OBJECT_SELF));
-    _playerRestoreSpells(OBJECT_SELF, IntToString(CLASS_TYPE_RANGER),  GetCurrentHitPoints(OBJECT_SELF));
-    _playerRestoreSpells(OBJECT_SELF, IntToString(CLASS_TYPE_WIZARD),  GetCurrentHitPoints(OBJECT_SELF));
+    if(GetLevelByClass(CLASS_TYPE_CLERIC, OBJECT_SELF))
+	    _playerRestoreSpells(OBJECT_SELF, IntToString(CLASS_TYPE_CLERIC),  GetCurrentHitPoints(OBJECT_SELF));
+    if(GetLevelByClass(CLASS_TYPE_DRUID, OBJECT_SELF))
+	    _playerRestoreSpells(OBJECT_SELF, IntToString(CLASS_TYPE_DRUID),   GetCurrentHitPoints(OBJECT_SELF));
+    if(GetLevelByClass(CLASS_TYPE_PALADIN, OBJECT_SELF))
+	    _playerRestoreSpells(OBJECT_SELF, IntToString(CLASS_TYPE_PALADIN), GetCurrentHitPoints(OBJECT_SELF));
+    if(GetLevelByClass(CLASS_TYPE_RANGER, OBJECT_SELF))
+	    _playerRestoreSpells(OBJECT_SELF, IntToString(CLASS_TYPE_RANGER),  GetCurrentHitPoints(OBJECT_SELF));
+    if(GetLevelByClass(CLASS_TYPE_WIZARD, OBJECT_SELF))
+ 	   _playerRestoreSpells(OBJECT_SELF, IntToString(CLASS_TYPE_WIZARD),  GetCurrentHitPoints(OBJECT_SELF));
 }
