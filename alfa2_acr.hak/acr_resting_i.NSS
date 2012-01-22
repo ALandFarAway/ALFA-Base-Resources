@@ -1143,33 +1143,46 @@ void _garbageCollection(object oPC)
 void _ProcessOffCameraRest(object oPC, int nDuration)
 {
     // Inform player what is going on:
-	SendMessageToPC(oPC, "Adjusting status for " + IntToString(nDuration) + " offline game-days.");
+    SendMessageToPC(oPC, "Adjusting status for " + IntToString(nDuration) + " offline game-days.");
 	
-	// Cache the current attributes so they can be accounted for in _unHealFromRest()
-	SetLocalInt(oPC, ACR_REST_STRENGTH, GetAbilityScore(oPC, ABILITY_STRENGTH));
+    // Cache the current attributes so they can be accounted for in _unHealFromRest()
+    SetLocalInt(oPC, ACR_REST_STRENGTH, GetAbilityScore(oPC, ABILITY_STRENGTH));
     SetLocalInt(oPC, ACR_REST_DEXTERITY, GetAbilityScore(oPC, ABILITY_DEXTERITY));
     SetLocalInt(oPC, ACR_REST_CONSTITUTION, GetAbilityScore(oPC, ABILITY_CONSTITUTION));
     SetLocalInt(oPC, ACR_REST_INTELLIGENCE, GetAbilityScore(oPC, ABILITY_INTELLIGENCE));
     SetLocalInt(oPC, ACR_REST_WISDOM, GetAbilityScore(oPC, ABILITY_WISDOM));
     SetLocalInt(oPC, ACR_REST_CHARISMA, GetAbilityScore(oPC, ABILITY_CHARISMA));
-	SetLocalInt(oPC, ACR_REST_HP, GetCurrentHitPoints(oPC));
+    SetLocalInt(oPC, ACR_REST_HP, GetCurrentHitPoints(oPC));
 		
-	// amended this to take into account nDuration- passed via local INT on the PC.
-	SetLocalInt(oPC, ACR_REST_OFFCAMERA_DAYS, nDuration);
+    // amended this to take into account nDuration- passed via local INT on the PC.
+    SetLocalInt(oPC, ACR_REST_OFFCAMERA_DAYS, nDuration);
     _healFromRest(oPC, GetLocalInt(oPC, ACR_REST_HP));
     DeleteLocalInt(oPC, ACR_REST_OFFCAMERA_DAYS);
 	
-	int nLastStudied = ACR_GetPersistentInt(oPC, ACR_REST_STUDY_TIMER);
-	int nLastPrayed = ACR_GetPersistentInt(oPC, ACR_REST_PRAYER_TIMER);
-	int nLastRested = ACR_GetPersistentInt(oPC, ACR_REST_TIMER);
-	// check to see if the PC has studied or prayed since last rest.
-	if ((nLastStudied >= nLastRested) || (nLastPrayed >= nLastRested)) {
-	    // treat a rest as having happened in between logout and login, so studying and praying become available.
-	    ACR_SetPersistentInt(oPC, ACR_REST_TIMER, (ACR_GetTimeStampInHours() - ACR_REST_CYCLE));
-	}
+    int nLastStudied = ACR_GetPersistentInt(oPC, ACR_REST_STUDY_TIMER);
+    int nLastPrayed = ACR_GetPersistentInt(oPC, ACR_REST_PRAYER_TIMER);
+    int nLastRested = ACR_GetTimeStampInHours();
+    ACR_SetPersistentInt(oPC, ACR_REST_TIMER, ACR_GetTimeStampInHours());
+
+    if(GetLevelByClass(CLASS_TYPE_CLERIC,  oPC) ||
+       GetLevelByClass(CLASS_TYPE_DRUID,   oPC) ||
+       GetLevelByClass(CLASS_TYPE_PALADIN, oPC) ||
+       GetLevelByClass(CLASS_TYPE_RANGER,  oPC) ||
+       GetLevelByClass(CLASS_TYPE_WIZARD,  oPC))
+    {
+        SetLocalInt(oPC, ACR_FREE_SPELL_PREP, 1);
+        DisplayGuiScreen(oPC, "acr_resting", FALSE, "acr_resting.xml");
+        DisplayGuiScreen(oPC, "SCREEN_SPELLS_MEMORIZED", FALSE, "spells_memorized.xml");
+        DisplayGuiScreen(oPC, "SCREEN_SPELLS_KNOWN", FALSE, "spells_known.xml");
+    }
+    // check to see if the PC has studied or prayed since last rest.
+    if ((nLastStudied >= nLastRested) || (nLastPrayed >= nLastRested)) {
+        // treat a rest as having happened in between logout and login, so studying and praying become available.
+        ACR_SetPersistentInt(oPC, ACR_REST_TIMER, (ACR_GetTimeStampInHours() - ACR_REST_CYCLE));
+    }
 	
-	// clear any spell uses stored in the DB
-	ACR_RemoveSpellUses(oPC);
+    // clear any spell uses stored in the DB
+    ACR_RemoveSpellUses(oPC);
 	
     // remove temporary data
     _garbageCollection(oPC);
