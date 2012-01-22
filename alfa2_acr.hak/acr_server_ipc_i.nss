@@ -14,6 +14,7 @@
 //
 //  Revision History
 //  2012/01/04  Basilica    - Created.
+//  2012/01/21  Basilica    - Added latency measure support.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -73,6 +74,10 @@ const int ACR_SERVER_IPC_HANDLE_CLIENT_LEAVE                 = 10;
 
 // This command populates the chat select GUI window.
 const int ACR_SERVER_IPC_POPULATE_CHAT_SELECT                = 11;
+
+// This command completes a latency check for a player.
+const int ACR_SERVER_IPC_HANDLE_LATENCY_CHECK_RESPONSE       = 12;
+
 
 // IPC event codes:
 
@@ -240,6 +245,11 @@ void ACR_StartServerToServerPortal(int ServerID, int PortalID, object PlayerObje
 //  new contents, e.g. for opening the dialog.
 //!  - PlayerObject: Supplies the player object whose GUI should be refreshed.
 void ACR_PopulateChatSelect(object PlayerObject);
+
+//! Handle a latency check response to update the player's round trip latency.
+//!  - PlayerObject: Supplies the player object that has completed a round trip
+//                   latency/ping check transaction.
+void ACR_HandleLatencyCheckResponse(object PlayerObject);
 
 //! Make a raw call to the IPC C# control script.
 //!  - Command: Supplies the command to request (e.g. ACR_SERVER_IPC_SIGNAL_IPC_EVENT).
@@ -545,6 +555,19 @@ void ACR_PopulateChatSelect(object PlayerObject)
 {
 	ACR_CallIPCScript(
 		ACR_SERVER_IPC_POPULATE_CHAT_SELECT,
+		0,
+		0,
+		0,
+		0,
+		0,
+		"",
+		PlayerObject);
+}
+
+void ACR_HandleLatencyCheckResponse(object PlayerObject)
+{
+	ACR_CallIPCScript(
+		ACR_SERVER_IPC_HANDLE_LATENCY_CHECK_RESPONSE,
 		0,
 		0,
 		0,
