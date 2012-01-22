@@ -224,7 +224,7 @@ int GetDlgPageInt();
 // Called to initiate a conversation programmatically between
 // the dialog source and the object to converse with.  If
 // dlgHandler is "" then the object's default script will be used.
-void StartDlg( object oPC, object oObjectToConverseWith, string dlgHandler = "", int bPrivate = FALSE, int bPlayHello = TRUE, int bZoom = TRUE );
+void StartDlg( object oPC, object oObjectToConverseWith, string dlgHandler = "", int bPrivate = FALSE, int bPlayHello = TRUE, int bNWN2Style = TRUE );
 
 // Ends the current conversation and will fire the DLG_END event.
 void EndDlg();
@@ -762,7 +762,7 @@ int GetDlgPageInt()
 // EDIT BY Demetrious:  Changed bZoom to NWN1 or NWN2 style because
 // zoom has no effect anyway on a NWN2 style conversation.
 void StartDlg( object oPC, object oObjectToConverseWith, string dlgHandler = "",
-               int bPrivate = FALSE, int bPlayHello = TRUE, int bNWN2Style = FALSE )
+               int bPrivate = FALSE, int bPlayHello = TRUE, int bNWN2Style = TRUE )
 {
     string dlg;
 	// Setup the conversation
