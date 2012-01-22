@@ -31,12 +31,12 @@ void main ( string sEvent, string sChatString )
     }
     else if(nEvent == CHAT_SELECT_EVENT_EXPAND)
     {
-        SetLocalInt(OBJECT_SELF, "chatselect_expanded", 0);
+        SetLocalInt(OBJECT_SELF, "chatselect_expanded", 1);
         ACR_PopulateChatSelect(OBJECT_SELF);
     }
     else if(nEvent == CHAT_SELECT_EVENT_COLLAPSE)
     {
-        SetLocalInt(OBJECT_SELF, "chatselect_expanded", 1);
+        SetLocalInt(OBJECT_SELF, "chatselect_expanded", 0);
         ACR_PopulateChatSelect(OBJECT_SELF);
     }
     else if(nEvent == CHAT_SELECT_EVENT_CLOSE)
@@ -45,11 +45,17 @@ void main ( string sEvent, string sChatString )
     else if(nEvent == CHAT_SELECT_EVENT_STAGETELL)
     {
         if(ACR_GetPlayerClientExtensionVersion(OBJECT_SELF) < ACR_MakeClientExtensionVersion(1,0,0,21)) // not a recent-enough CE
-            SetGUIObjectText(OBJECT_SELF, "SCREEN_MESSAGEMP_1", "inputbox", -1, sChatString);
+        {
+            if(GetStringLeft(sChatString, 1) == "#") // tell to a remote server; it'll be awkward, but we need to salvage something.
+                DelayCommand(0.1f, SetGUIObjectText(OBJECT_SELF, "SCREEN_MESSAGEMP_1", "inputbox", -1, sChatString));
+        }
         else // has CE
         {
-            SetGUIObjectText(OBJECT_SELF, "SCREEN_MESSAGEMP_1", "inputbox", -1, "");
-            ACR_OpenChatInputBox(OBJECT_SELF, sChatString);
+            if(GetStringLeft(sChatString, 1) == "#")
+            {
+                DelayCommand(0.05f, SetGUIObjectText(OBJECT_SELF, "SCREEN_MESSAGEMP_1", "inputbox", -1, ""));
+                DelayCommand(0.10f, ACR_OpenChatInputBox(OBJECT_SELF, sChatString));
+            }
         }	
     }
 }
