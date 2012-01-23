@@ -278,11 +278,11 @@ string GetNaturalHairColor(object oCharacter)
 		if (sHair == "")
 		{
 			string sCurrentHair = GetRawHairTintSet(oCharacter);
-			ACR_AsyncSQLQueryEx("UPDATE characters SET NaturalHair='"+ACR_SQLEncodeSpecialChars(sCurrentHair)+"' WHERE ID='"+sCID+"'", oCharacter);
 			sHair = sCurrentHair;
 		}
 		
 
+		ACR_AsyncSQLQueryEx("UPDATE characters SET NaturalHair='"+ACR_SQLEncodeSpecialChars(sCurrentHair)+"' WHERE ID='"+sCID+"'", oCharacter);
 		SetLocalString(oTool, "ACR_VANITY_NATHAIR", sHair);
 	}
 
