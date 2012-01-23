@@ -570,7 +570,7 @@ int GetIsIgnoreSubtypeItemProperty(itemproperty ip)
 
 // returns whether this IP will be treated as an upgrade when we go to add it.
 // Note: IP's don't have DurationTypes until they are applied
-int GetIsItemPropertyAnUpgrade(object oItem, itemproperty ip, int nDurationType = -1)
+int GetIsItemPropertyAnUpgrade(object oItem, itemproperty ip, int nDurationType = DURATION_TYPE_PERMANENT)
 {
 	int bIgnoreSubType = FALSE;
 
