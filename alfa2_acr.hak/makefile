@@ -16,6 +16,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_array_i.nss                       \
             $(OUTPUTDIR)\acr_list_i.nss                        \
             $(OUTPUTDIR)\acr_chat_i.nss                        \
+            $(OUTPUTDIR)\acr_craft_progress_i.nss              \
             $(OUTPUTDIR)\acr_creature_i.nss                    \
             $(OUTPUTDIR)\acr_db_persist_i.nss                  \
             $(OUTPUTDIR)\acr_death_i.nss                       \
@@ -124,6 +125,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_cs_svcheck.ncs                    \
             $(OUTPUTDIR)\acr_feat_bladesong.ncs                \
             $(OUTPUTDIR)\acr_feat_bladesong_hb.ncs             \
+            $(OUTPUTDIR)\acr_feat_craft.ncs                    \
             $(OUTPUTDIR)\acr_feat_spellsong.ncs                \
             $(OUTPUTDIR)\acr_feat_spellsong_hb.ncs             \
             $(OUTPUTDIR)\acr_feat_songofcelerity.ncs           \

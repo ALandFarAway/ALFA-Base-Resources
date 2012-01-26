@@ -40,6 +40,11 @@
 // Item tags:
 const string ACR_NWN_GOLD_TAG = "NW_IT_GOLD001";
 
+// Base item types:
+const int BASE_ITEM_TRADE_GOODS = 199;
+const int BASE_ITEM_SHORT_MAGICSTAFF = 201;
+const int BASE_ITEM_SMALL_SPEAR = 202;
+
 // Classes:
 
 const int CLASS_BLADESINGER = 104;
@@ -86,6 +91,10 @@ const int SPELL_ELDRITCH_BLAST_6 = 953;
 const int SPELL_ELDRITCH_BLAST_7 = 954;
 const int SPELL_ELDRITCH_BLAST_8 = 955;
 const int SPELL_ELDRITCH_BLAST_9 = 956;
+
+// Feat spell scripts:
+
+const int SPELL_CRAFT = 2999;
 
 // Skills:
 
@@ -224,6 +233,13 @@ const int FEAT_REGION_WESTERN_HEARTLANDS = 3559;
 const int FEAT_REGION_WIZARDS_REACH = 3571;
 const int FEAT_REGION_OTHER = 3560;
 
+//Crafting feats:
+const int FEAT_CRAFT = 3618;
+const int FEAT_CRAFT_CONSTRUCT = 3581;
+const int FEAT_FORGE_RING = 3572;
+const int FEAT_CRAFT_ROD = 3573;
+const int FEAT_CRAFT_STAFF = 3574;
+
 // Bladesinger feats:
 const int FEAT_BLADESINGER_SPELLCASTING_BARD = 3587;
 const int FEAT_BLADESINGER_SPELLCASTING_SORCERER = 3588;
@@ -297,6 +313,7 @@ int ITEM_PROPERTY_USE_LIMITATION_SIZE = 206;
 int ITEM_PROPERTY_NONDETECTION = 207;
 int ITEM_PROPERTY_MATERIAL = 208;
 int ITEM_PROPERTY_AMBIENT_COLD_PROTECTION = 209;
+int ITEM_PROPERTY_CRAFTING_PROJECT = 126;
 
 // Area of Effects:
 int AOE_CIRCLE_RADIUS_1            = 200;

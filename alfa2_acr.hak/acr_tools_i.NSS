@@ -314,6 +314,17 @@ object ACR_GetNearestCreatureToLocation(object oPC, int nFirstCriteriaType, int 
 //! Find a "safe" location to throw a NPC, in case the AT is entirely broken
 location ACR_CalcSafeLocation(object oClicker, location lTarget, object oDoor=OBJECT_INVALID);
 
+//! Returns the nFeat's name in the TLK file.
+string GetFeatName(int nFeat);
+
+//! Returns the first item property of nType.
+//! Returns an invalid item property if nType is not found.
+itemproperty GetFirstItemPropertyOfType(object oItem, int nType);
+
+//! Returns the amount of XP oPC has gained since their last level.
+//! Returns 0 if oPC is not a PC.
+int XPGainedSinceLevel(object oPC);
+
 //LIST MANAGEMENT
 //note about lists : List have to be like "#1#5#26#99# ..." in order to work properly. See nwnx_craft_set_constatns for details
 
@@ -1438,6 +1449,29 @@ location ACR_CalcSafeLocation(object oClicker, location lTarget, object oDoor=OB
 	return LOCATION_INVALID;
 }
 
+string GetFeatName(int nFeatId) {
+	int nNameRef = StringToInt(Get2DAString("feat", "FEAT", nFeatId));
+	
+	if(nNameRef <= 0) return "";
+	
+	return GetStringByStrRef(nNameRef);
+}
+
+itemproperty GetFirstItemPropertyOfType(object oItem, int nType) {
+	itemproperty ip = GetFirstItemProperty(oItem);
+	while(GetIsItemPropertyValid(ip)) {
+		if(GetItemPropertyType(ip) == nType) return ip;
+		ip = GetNextItemProperty(oItem);
+	}
+	return ip;
+}
+
+int XPGainedSinceLevel(object oPC) {
+	if(GetIsDMPossessed(oPC) || !GetIsPC(oPC) || GetIsPossessedFamiliar(oPC))
+		return 0;
+	
+	return (GetXP(oPC) - GetXpNeededForLevel(GetHitDice(oPC)));
+}
 
 
 /*****************************************************************************/
@@ -1541,4 +1575,3 @@ int IsElementInStringList(string sList, int nElement)
 	else
 		return TRUE;
 }
-
