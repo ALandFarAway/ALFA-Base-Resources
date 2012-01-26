@@ -477,6 +477,9 @@ void ACR__DeleteAreaInstance(object InstancedArea, object CurrentObject = OBJECT
 
 	while (ObjectsDeleted < ACR_AREA_INSTANCE_OBJECTS_PER_DELETION_CYCLE)
 	{
+		if (CurrentObject == OBJECT_INVALID)
+			break;
+
 		// If the object appears to be related to a PC, try later.
 		if (GetOwnedCharacter(CurrentObject) != OBJECT_INVALID ||
 		    GetControlledCharacter(CurrentObject) != OBJECT_INVALID)
@@ -493,9 +496,6 @@ void ACR__DeleteAreaInstance(object InstancedArea, object CurrentObject = OBJECT
 		DestroyObject(CurrentObject);
 		CurrentObject = GetNextObjectInArea(InstancedArea);
 		ObjectsDeleted += 1;
-
-		if (CurrentObject == OBJECT_INVALID)
-			break;
 	}
 
 	// If we reached the end of the object list, it's time to delete the area
