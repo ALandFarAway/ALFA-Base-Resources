@@ -104,7 +104,8 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\x0_i0_anims.nss                       \
             $(OUTPUTDIR)\x0_i0_enemy.nss                       \
             $(OUTPUTDIR)\x2_inc_switches.nss                   \
-            $(OUTPUTDIR)\ginc_crafting.nss                     
+            $(OUTPUTDIR)\ginc_crafting.nss                     \
+            $(OUTPUTDIR)\ginc_group.nss                        
 
 NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\abr_plc_oninventorydisreturns.ncs     \
