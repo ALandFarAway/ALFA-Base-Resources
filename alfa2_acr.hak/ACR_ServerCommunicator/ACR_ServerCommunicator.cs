@@ -619,6 +619,31 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method sends command help text to a player.
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the requesting player's object
+        /// id.</param>
+        private void ShowHelp(uint PlayerObject)
+        {
+            SendMessageToPC(PlayerObject,
+                "Commands are prefixed with a #, !, or . character:\n" +
+                "t \"character name\" message  - Send cross-server tell.\n" +
+                "tp \"player name\" message  - Send cross-server tell.\n" +
+                "re message  - Reply to last cross-server tell (alias: r).\n" +
+                "rt message  - Send cross-server tell to last player you sent a tell to (alias: rt).\n" +
+                "users  - List online users (alias: who).\n" +
+                "version  - List server version information.\n" +
+                "notify [on|off]  - Enable or disable cross-server join/part notifications.\n" +
+                "notify [chatlog|combatlog]  - Send cross-server join/part notifications to chat log or combat log.\n" +
+                "ping  - Show current latency statistics (alias: serverlatency).\n" +
+                "uptime  - Show server uptime statistics.\n" +
+                "help  - Show help text.\n" +
+                "\n" +
+                "You may also roll skills by prepending the prefix character to a skill name.  For example, #wisdom to roll a wisdom check."
+                );
+        }
+
+        /// <summary>
         /// This method filters module chat events.  Its purpose is to check
         /// for commands internal to the server-to-server communication system
         /// and dispatch these as appropriate.
@@ -723,7 +748,7 @@ namespace ACR_ServerCommunicator
                 GetPlayerState(SenderObjectId).Flags |= PlayerStateFlags.SendCrossServerNotificationsToCombatLog;
                 return TRUE;
             }
-            else if (CookedText.Equals("serverlatency"))
+            else if (CookedText.Equals("serverlatency") || CookedText.Equals("ping"))
             {
                 ShowServerLatency(SenderObjectId);
                 return TRUE;
@@ -731,6 +756,11 @@ namespace ACR_ServerCommunicator
             else if (CookedText.Equals("uptime"))
             {
                 ShowServerUptime(SenderObjectId);
+                return TRUE;
+            }
+            else if (CookedText.Equals("help"))
+            {
+                ShowHelp(SenderObjectId);
                 return TRUE;
             }
             else

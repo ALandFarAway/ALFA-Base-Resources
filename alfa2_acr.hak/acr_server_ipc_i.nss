@@ -102,6 +102,10 @@ const int ACR_SERVER_IPC_EVENT_PURGE_CACHED_CHARACTER        = 3;
 // restarted, not the operating system.
 const int ACR_SERVER_IPC_EVENT_SHUTDOWN_SERVER               = 4;
 
+// The page event is used to transport messages from external sources to a
+// player that is logged in.
+const int ACR_SERVER_IPC_EVENT_PAGE                          = 5;
+
 // Maximum length of an IPC event text field.
 
 const int ACR_SERVER_IPC_MAX_EVENT_LENGTH                    = 256;

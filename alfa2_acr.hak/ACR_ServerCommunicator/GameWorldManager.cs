@@ -583,6 +583,17 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method is called when a page IPC event is received.
+        /// </summary>
+        /// <param name="Sender">Supplies the sender.</param>
+        /// <param name="Recipient">Supplies the recipient.</param>
+        /// <param name="Message">Supplies the message text.</param>
+        private void OnPage(GamePlayer Sender, GamePlayer Recipient, string Message)
+        {
+            EnqueueEvent(new PageEvent(Sender, Recipient, Message));
+        }
+
+        /// <summary>
         /// This method is called when an unsupported IPC event code is
         /// received.
         /// </summary>
@@ -1424,6 +1435,33 @@ namespace ACR_ServerCommunicator
                            }
                            break;
 
+                       case ACR_SERVER_IPC_EVENT_PAGE:
+                           lock (this)
+                           {
+                               GamePlayer SenderPlayer = ReferencePlayerById(SourcePlayerId, Database);
+                               GamePlayer RecipientPlayer = ReferencePlayerById(DestinationPlayerId, Database);
+
+                               if (SenderPlayer == null || RecipientPlayer == null)
+                               {
+                                   WriteDiagnosticLog(String.Format(
+                                       "GameWorldManager.SynchronizeIPCEventQueue: Source {0} or destination {1} player IDs invalid for ACR_SERVER_IPC_EVENT_PAGE.", SourcePlayerId, DestinationPlayerId));
+                                   continue;
+                               }
+
+                               GameCharacter SenderCharacter = SenderPlayer.GetOnlineCharacter();
+                               GameCharacter RecipientCharacter = RecipientPlayer.GetOnlineCharacter();
+
+                               if (RecipientCharacter == null)
+                               {
+                                   WriteDiagnosticLog(String.Format(
+                                       "GameWorldManager.SynchronizeIPCEventQueue: Destination {1} player has already gone offline for ACR_SERVER_IPC_EVENT_PAGE.", DestinationPlayerId));
+                                   continue;
+                               }
+
+                               OnPage(SenderPlayer, RecipientPlayer, EventText);
+                           }
+                           break;
+
                        default:
                            lock (this)
                            {
@@ -1696,7 +1734,7 @@ namespace ACR_ServerCommunicator
         /// routing information for the chat tell originator and destination,
         /// and the event text represents the chat text to deliver.
         /// </summary>
-        public const int ACR_SERVER_IPC_EVENT_CHAT_TELL = 0;
+        public const int ACR_SERVER_IPC_EVENT_CHAT_TELL              = 0;
 
         /// <summary>
         /// Broadcast notifications use this event type.  For this event, there
@@ -1713,7 +1751,7 @@ namespace ACR_ServerCommunicator
         /// represents the player ID of the player to disconnect from the
         /// destination server.
         /// </summary>
-        public const int ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER = 2;
+        public const int ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER      = 2;
 
         /// <summary>
         /// Requests to remove a locally cached character use this event type.
@@ -1735,6 +1773,14 @@ namespace ACR_ServerCommunicator
         /// shutdown reason text to deliver before shutting down the server.
         /// </summary>
         public const int ACR_SERVER_IPC_EVENT_SHUTDOWN_SERVER        = 4;
+
+        /// <summary>
+        /// Page IPC events use this event type.  For this event, there are
+        /// five parameters.  The source and destination IDs represent the
+        /// routing information for the chat tell originator and destination,
+        /// and the event text represents the chat text to deliver.
+        /// </summary>
+        public const int ACR_SERVER_IPC_EVENT_PAGE                   = 5;
 
 
 
