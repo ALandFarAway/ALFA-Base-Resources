@@ -1819,7 +1819,7 @@ namespace ACR_ServerCommunicator
 
             Database.ACR_SQLExecute(String.Format(
                 "UPDATE `servers` SET `IPAddress` = '{0}' WHERE `ID` = {1}",
-                NetworkAddress,
+                Database.ACR_SQLEncodeSpecialChars(NetworkAddress),
                 Database.ACR_GetServerID()));
 
             DelayCommand(UPDATE_SERVER_EXTERNAL_ADDRESS_INTERVAL, delegate()
