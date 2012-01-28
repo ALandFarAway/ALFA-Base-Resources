@@ -276,9 +276,9 @@ void ACR_PCUpdateStatus(object oPC, int bLocation = TRUE)
 		// do the SQL DB update
         ACR_SQLQuery("UPDATE characters SET" +
 	    	"  ServerID=" + IntToString(ACR_GetServerId()) +
-		    ", Location='" + sLoc + "'" +
+		    ", Location='" + ACR_SQLEncodeSpecialChars(sLoc) + "'" +
     	    ", Level=" + IntToString(GetHitDice(oPC)) +
-    	    ", Deity='" + GetDeity(oPC) + "'" +
+    	    ", Deity='" + ACR_SQLEncodeSpecialChars(GetDeity(oPC)) + "'" +
     	    ", HP=" + IntToString(GetMaxHitPoints(oPC)) +
     	    ", XP=" + IntToString(GetXP(oPC)) +
     	    ", GP=" + IntToString(GetGold(oPC)) +
@@ -304,7 +304,7 @@ void ACR_PCUpdateStatus(object oPC, int bLocation = TRUE)
         ACR_SQLQuery("UPDATE characters SET" +
 	    	"  ServerID=" + IntToString(ACR_GetServerId()) +
     	    ", Level=" + IntToString(GetHitDice(oPC)) +
-    	    ", Deity='" + GetDeity(oPC) + "'" +
+    	    ", Deity='" + ACR_SQLEncodeSpecialChars(GetDeity(oPC)) + "'" +
     	    ", HP=" + IntToString(GetMaxHitPoints(oPC)) +
     	    ", XP=" + IntToString(GetXP(oPC)) +
     	    ", GP=" + IntToString(GetGold(oPC)) +
@@ -355,13 +355,13 @@ void ACR_PCOnClientEnter(object oPC)
     ACR_PrintDebugMessage("acr_pps_i: Initializing " + GetName(oPC) + " Status", ACR_PPS_DEBUG_ID, DEBUG_LEVEL_INFO);
 		
     // first, retrieve the CD Key information
-    ACR_SQLQuery("SELECT IsBanned FROM cdkeys WHERE CDKey='" + sCDKey + "'");
+    ACR_SQLQuery("SELECT IsBanned FROM cdkeys WHERE CDKey='" + ACR_SQLEncodeSpecialChars(sCDKey) + "'");
 
     // record the CD Key if it does not already exist
     if (ACR_SQLFetch() != SQL_SUCCESS)
     {
-        ACR_SQLQuery("INSERT INTO cdkeys (CDKey, IsBanned) VALUES('" + sCDKey + "', 0)");		
-        ACR_SQLQuery("SELECT IsBanned FROM cdkeys WHERE CDKey='" + sCDKey + "'");
+        ACR_SQLQuery("INSERT INTO cdkeys (CDKey, IsBanned) VALUES('" + ACR_SQLEncodeSpecialChars(sCDKey) + "', 0)");		
+        ACR_SQLQuery("SELECT IsBanned FROM cdkeys WHERE CDKey='" + ACR_SQLEncodeSpecialChars(sCDKey) + "'");
 		
 		// if there's a problem with the database - log an error and boot the player
 
@@ -388,12 +388,12 @@ void ACR_PCOnClientEnter(object oPC)
     }
 
     // second, retrieve the IP address from the database
-    ACR_SQLQuery("SELECT IsBanned FROM ipaddress WHERE CDKey='" + sCDKey + "'");
+    ACR_SQLQuery("SELECT IsBanned FROM ipaddress WHERE CDKey='" + ACR_SQLEncodeSpecialChars(sCDKey) + "'");
 
     // record the IP address if it does not already exist
     if (ACR_SQLFetch() != SQL_SUCCESS)
     {
-        ACR_SQLQuery("INSERT INTO ipaddress (CDKey, IPAddress, IsBanned) VALUES('" + sCDKey + "','" + GetPCIPAddress(oPC) + "',0)");
+        ACR_SQLQuery("INSERT INTO ipaddress (CDKey, IPAddress, IsBanned) VALUES('" + ACR_SQLEncodeSpecialChars(sCDKey) + "','" + ACR_SQLEncodeSpecialChars(GetPCIPAddress(oPC)) + "',0)");
 
 		// if there's a problem with the database - transmit a warning
 		if (ACR_SQLGetAffectedRows() == -1)
@@ -412,14 +412,14 @@ void ACR_PCOnClientEnter(object oPC)
     }
 
     // third, retrieve the player ID from the database
-    //ACR_SQLQuery("SELECT ID, IsBanned FROM players WHERE CDKey='" + sCDKey + "' and Name='" + ACR_SQLEncodeSpecialChars(sPlayerName) + "'");
+    //ACR_SQLQuery("SELECT ID, IsBanned FROM players WHERE CDKey='" + ACR_SQLEncodeSpecialChars(sCDKey) + "' and Name='" + ACR_SQLEncodeSpecialChars(sPlayerName) + "'");
     ACR_SQLQuery("SELECT ID, IsBanned, CDKey, IsDM FROM players WHERE Name='" + ACR_SQLEncodeSpecialChars(sPlayerName) + "'");
 
     // record the player if it does not already exist
     if (ACR_SQLFetch() != SQL_SUCCESS)
     {
-        ACR_SQLQuery("INSERT INTO players (CDKey, Name, FirstLogin, LastLogin, Logins, IsDM, IsBanned) VALUES ('" + sCDKey + "','" + ACR_SQLEncodeSpecialChars(sPlayerName) + "', now(), now(), 0, " + IntToString(GetIsDM(oPC)) + ", 0)");
-        ACR_SQLQuery("SELECT ID, IsBanned, CDKey FROM players WHERE CDKey='" + sCDKey + "' and Name='" + ACR_SQLEncodeSpecialChars(sPlayerName) + "'");
+        ACR_SQLQuery("INSERT INTO players (CDKey, Name, FirstLogin, LastLogin, Logins, IsDM, IsBanned) VALUES ('" + ACR_SQLEncodeSpecialChars(sCDKey) + "','" + ACR_SQLEncodeSpecialChars(sPlayerName) + "', now(), now(), 0, " + IntToString(GetIsDM(oPC)) + ", 0)");
+        ACR_SQLQuery("SELECT ID, IsBanned, CDKey FROM players WHERE CDKey='" + ACR_SQLEncodeSpecialChars(sCDKey) + "' and Name='" + ACR_SQLEncodeSpecialChars(sPlayerName) + "'");
 
 		// if there's a problem with the database - log an error and boot the player
 		if (ACR_SQLFetch() != SQL_SUCCESS)
@@ -472,7 +472,7 @@ void ACR_PCOnClientEnter(object oPC)
            	IntToString(GetHitDice(oPC)) + "," +
            	IntToString(GetRacialType(oPC)) + "," +
            	IntToString(GetSubRace(oPC)) + ",'" +
-           	GetDeity(oPC) + "'," +
+           	ACR_SQLEncodeSpecialChars(GetDeity(oPC)) + "'," +
            	IntToString(GetGender(oPC)) + "," +
 			IntToString(GetMaxHitPoints(oPC)) + "," +
            	IntToString(GetXP(oPC)) + "," +
