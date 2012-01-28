@@ -476,7 +476,7 @@ void main()
 
 	ACR_RandomizeAppearance(oSpawn,nHead,nHair,nHair1,nHair2,nHair3,nBHair,nSkin,nEyes);
 
-	EquipCreature(oSpawn, nGear);
+	EquipCreature(oSpawn, nGear, oData);
 	SetAlignment(oSpawn, nAlignment);
 	ForceRest(oSpawn);
 }

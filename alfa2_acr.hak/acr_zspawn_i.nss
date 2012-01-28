@@ -23,7 +23,7 @@ int GetPackageForClass(int nClass);
 // the associated equipment item, or, in the case
 // of items not accounted for in the equipment
 // item, with generic gear based on character class.
-void EquipCreature(object oCreature, int nGear);
+void EquipCreature(object oCreature, int nGear, object oContainer);
 
 void SetAlignment(object oCreature, int nAlignment);
 
@@ -115,8 +115,101 @@ int GetPackageForClass(int nClass)
 	return -1;
 }
 
-void EquipCreature(object oCreature, int nGear)
+void EquipCreature(object oCreature, int nGear, object oContainer)
 {
+	int bCustomGear = FALSE;
+	int bRingEquipped = FALSE;
+	object oCopyItem = GetFirstItemInInventory(oContainer);
+	while(GetIsObjectValid(oCopyItem))
+	{
+		bCustomGear = TRUE;
+		object oNewItem = CopyItem(oCopyItem);
+		int nItemType = GetBaseItemType(oCopyItem);
+		if(nItemType == BASE_ITEM_AMULET)
+			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_NECK));
+		else if(nItemType == BASE_ITEM_ARMOR)
+			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_CHEST));
+		else if(nItemType == BASE_ITEM_ARROW)
+			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_ARROWS));
+		else if(nItemType == BASE_ITEM_BASTARDSWORD ||
+                        nItemType == BASE_ITEM_BATTLEAXE ||
+                        nItemType == BASE_ITEM_CLUB ||
+			nItemType == BASE_ITEM_DAGGER ||
+			nItemType == BASE_ITEM_DART ||
+			nItemType == BASE_ITEM_DIREMACE ||
+			nItemType == BASE_ITEM_DOUBLEAXE ||
+			nItemType == BASE_ITEM_DRUM ||
+			nItemType == BASE_ITEM_DWARVENWARAXE ||
+			nItemType == BASE_ITEM_FALCHION ||
+			nItemType == BASE_ITEM_FLAIL ||
+			nItemType == BASE_ITEM_FLUTE ||
+			nItemType == BASE_ITEM_GREATAXE ||
+			nItemType == BASE_ITEM_GREATCLUB ||
+			nItemType == BASE_ITEM_HALBERD ||
+			nItemType == BASE_ITEM_HANDAXE ||
+			nItemType == BASE_ITEM_HEAVYCROSSBOW ||
+			nItemType == BASE_ITEM_HEAVYFLAIL ||
+			nItemType == BASE_ITEM_KAMA ||
+			nItemType == BASE_ITEM_KATANA ||
+			nItemType == BASE_ITEM_KUKRI ||
+			nItemType == BASE_ITEM_LIGHTCROSSBOW ||
+			nItemType == BASE_ITEM_LIGHTFLAIL ||
+			nItemType == BASE_ITEM_LIGHTHAMMER ||
+			nItemType == BASE_ITEM_LIGHTMACE ||
+			nItemType == BASE_ITEM_LONGBOW ||
+			nItemType == BASE_ITEM_LONGSWORD ||
+			nItemType == BASE_ITEM_MACE ||
+			nItemType == BASE_ITEM_MAGICSTAFF || 
+			nItemType == BASE_ITEM_MANDOLIN ||
+			nItemType == BASE_ITEM_MORNINGSTAR ||
+			nItemType == BASE_ITEM_QUARTERSTAFF ||
+			nItemType == BASE_ITEM_RAPIER ||
+			nItemType == BASE_ITEM_SCIMITAR ||
+			nItemType == BASE_ITEM_SHORTBOW ||
+			nItemType == BASE_ITEM_SHORTSPEAR ||
+			nItemType == BASE_ITEM_SHORTSWORD ||
+			nItemType == BASE_ITEM_SHURIKEN ||
+			nItemType == BASE_ITEM_SICKLE ||
+			nItemType == BASE_ITEM_SLING ||
+			nItemType == BASE_ITEM_SPEAR ||
+			nItemType == BASE_ITEM_THROWINGAXE ||
+			nItemType == BASE_ITEM_TRAINING_CLUB ||
+			nItemType == BASE_ITEM_TWOBLADEDSWORD ||
+			nItemType == BASE_ITEM_WARHAMMER ||
+			nItemType == BASE_ITEM_WARMACE ||
+			nItemType == BASE_ITEM_WHIP)
+			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_RIGHTHAND));
+		else if(nItemType == BASE_ITEM_BELT)
+			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_BELT));
+		else if(nItemType == BASE_ITEM_BOLT)
+			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_BOLTS));
+		else if(nItemType == BASE_ITEM_BOOTS)
+			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_BOOTS));
+		else if(nItemType == BASE_ITEM_BRACER ||
+			nItemType == BASE_ITEM_GLOVES)
+			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_ARMS));
+		else if(nItemType == BASE_ITEM_BULLET)
+			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_BULLETS));
+		else if(nItemType == BASE_ITEM_CLOAK)
+			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_CLOAK));
+		else if(nItemType == BASE_ITEM_HELMET)
+			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_HEAD));
+		else if(nItemType == BASE_ITEM_LARGESHIELD ||
+			nItemType == BASE_ITEM_TOWERSHIELD ||
+			nItemType == BASE_ITEM_SMALLSHIELD)
+			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_LEFTHAND));
+		else if(nItemType == BASE_ITEM_RING)
+		{
+			if(bRingEquipped)
+				AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_LEFTRING));
+			else
+			{
+				AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_RIGHTRING));
+				bRingEquipped = TRUE;
+			}
+		}
+		oCopyItem = GetNextItemInInventory(oContainer);
+	}
 //=== If the creature doesn't use equipment, return early. No business ===//
 //=== being here.                                                      ===//	
 	if(nGear == GEAR_KIT_NONE)
