@@ -88,8 +88,9 @@ namespace ACR_ServerCommunicator
             {
                 PlayerState Player = Script.TryGetPlayerState(PlayerObject);
 
-                if (PlayerObject == null)
+                if (Player == null)
                     continue;
+
                 if (!Script.IsCrossServerNotificationEnabled(PlayerObject))
                     continue;
 
