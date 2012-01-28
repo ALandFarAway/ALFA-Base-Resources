@@ -122,8 +122,9 @@ void ACR_PCSave(object oPC, int bExport = TRUE, int bSaveLocation = TRUE);
 
 //! This function schedules a periodic character save to the server vault
 //!  - oPC: player to save
+//!  - bUpdateStatusOnly: if TRUE, only update status in the database
 //!  - Returns: nothing
-void ACR_PCAutoSave(object oPC);
+void ACR_PCAutoSave(object oPC, int bUpdateStatusOnly);
 
 //! This function stores one-time lookup information on load
 //!  - Returns: nothing
@@ -229,7 +230,7 @@ void ACR_PCSave(object oPC, int bExport = TRUE, int bSaveLocation = TRUE)
 	}
 }
 
-void ACR_PCAutoSave(object oPC)
+void ACR_PCAutoSave(object oPC, int bUpdateStatusOnly)
 {
     // stop processing once the player is no longer around
     if (GetIsObjectValid(oPC))
@@ -238,7 +239,10 @@ void ACR_PCAutoSave(object oPC)
 		if (nCycleIndex == ACR_PPS_CACHE_CYCLE) {
 			// it's time for an export/external update
         	// save the player to the vault
-        	ACR_PCSave(oPC);
+			if (bUpdateStatusOnly)
+				ACR_PCUpdateStatus(oPC);
+			else
+	        	ACR_PCSave(oPC);
 			// restart the counter
 			SetLocalInt(oPC, ACR_PPS_COUNT, 0);
 		} else {
@@ -248,7 +252,7 @@ void ACR_PCAutoSave(object oPC)
 			SetLocalString(oPC, ACR_PPS_LOCATION, ACR_LocationToString(GetLocation(oPC)));
 		}
         // schedule the next auto save check
-        DelayCommand((ACR_PPS_CYCLE / IntToFloat(ACR_PPS_CACHE_CYCLE)), ACR_PCAutoSave(oPC));
+        DelayCommand((ACR_PPS_CYCLE / IntToFloat(ACR_PPS_CACHE_CYCLE)), ACR_PCAutoSave(oPC, bUpdateStatusOnly));
     }
 }
 
@@ -768,7 +772,7 @@ void ACR_PCOnPCLoaded(object oPC)
 		ACR_SQLQuery("UPDATE characters, players SET characters.IsOnline=1" + SaveBicFileNamePart + ", characters.ServerID=" + IntToString(ACR_GetServerID()) + ", players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=" + IntToString(GetIsDM(oPC)) + " WHERE characters.ID=" + sCID + " and players.ID=characters.PlayerID");		
 
     // schedule the auto save (since this only exports after a PPS_CYCLE, start counting after 60 seconds)
-    DelayCommand(60.0, ACR_PCAutoSave(oPC));
+    DelayCommand(60.0, ACR_PCAutoSave(oPC, FALSE));
 
     // reveal the screen
     DelayCommand(0.3, FadeFromBlack(oPC));
@@ -781,6 +785,9 @@ void ACR_PCOnPCLoadedAsDM(object oPC)
 	///////////////////////////////////////////
 
 	ACR_SQLQuery("UPDATE characters SET IsOnline=1, ServerID=" + IntToString(ACR_GetServerID()) + " WHERE ID=" + IntToString(ACR_GetCharacterID(oPC)));
+
+	// schedule the auto save (since this only exports after a PPS_CYCLE, start counting after 60 seconds)
+	DelayCommand(60.0, ACR_PCAutoSave(oPC, TRUE));
 }
 
 void ACR_PCOnClientLeave(object oPC)
