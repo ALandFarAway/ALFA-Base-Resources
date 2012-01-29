@@ -608,6 +608,7 @@ void ACR_ModuleOnAcquireItem()
 void ACR_ModuleOnUnAcquireItem() {
     object oItem = GetModuleItemLost();
     object oLostBy = GetModuleItemLostBy();
+    string sTag;
 	
 	// only process player drops
 	if (! GetIsPC(oLostBy)) { return; }
@@ -640,8 +641,11 @@ void ACR_ModuleOnUnAcquireItem() {
         // quarantine the item?
     }
     else */
-	if (GetTag(oItem) == "acr_nld_fist")
-	{
+
+
+    	sTag = GetTag(oItem);
+
+	if ((sTag == "acr_nld_fist") || (sTag == "acr_ignore_acquire")) {
 	    // don't need to log this, OOC from toggling subdual mode
 	} else {
         // log item acquisitions
