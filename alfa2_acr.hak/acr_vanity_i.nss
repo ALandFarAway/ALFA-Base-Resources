@@ -745,9 +745,9 @@ void ACR_RandomizeAppearance(object oSpawn,int nHead = ACR_FEATURE_TYPE_RANDOM,i
 	float fEyesg  = HexStringToFloat(GetStringLeft(GetStringRight(sEyes, 4), 2)) / 255.0f;
 	float fEyesb  = HexStringToFloat(GetStringRight(sEyes, 2)) / 255.0f;	
 
-	float fBHairr = HexStringToFloat(GetStringLeft(sEyes, 2)) / 255.0f;
-	float fBHairg = HexStringToFloat(GetStringLeft(GetStringRight(sEyes, 4), 2)) / 255.0f;
-	float fBHairb = HexStringToFloat(GetStringRight(sEyes, 2)) / 255.0f;
+	float fBHairr = HexStringToFloat(GetStringLeft(sBHair, 2)) / 255.0f;
+	float fBHairg = HexStringToFloat(GetStringLeft(GetStringRight(sBHair, 4), 2)) / 255.0f;
+	float fBHairb = HexStringToFloat(GetStringRight(sBHair, 2)) / 255.0f;
 
 	// Models
 	XPObjectAttributesSetHeadVariation(oSpawn, nHeadModel);

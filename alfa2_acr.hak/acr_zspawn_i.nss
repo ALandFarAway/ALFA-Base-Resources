@@ -225,7 +225,7 @@ void EquipCreature(object oCreature, int nGear, object oContainer)
 	}
 //=== If the creature doesn't use equipment, return early. No business ===//
 //=== being here.                                                      ===//	
-	if(nGear == GEAR_KIT_NONE)
+	if(nGear == GEAR_KIT_NONE || bCustomGear == TRUE)
 		return;
 
 	int nArmor = 8; // start with full plate and peel down

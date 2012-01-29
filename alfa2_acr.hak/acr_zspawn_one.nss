@@ -1,6 +1,5 @@
 #include "acr_zspawn_i"
 
-
 void main()
 {
 	if(!GetIsDM(OBJECT_SELF) && !GetIsDMPossessed(OBJECT_SELF))	
