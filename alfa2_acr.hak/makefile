@@ -464,7 +464,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\omega_vehicle.ncs                     \
             $(OUTPUTDIR)\acr_area_instance_onleave.ncs         \
             $(OUTPUTDIR)\gui_powexp.ncs                        \
-            $(OUTPUTDIR)\gui_measure_latency.ncs               
+            $(OUTPUTDIR)\gui_measure_latency.ncs               \
+            $(OUTPUTDIR)\acr_version_check.ncs                 
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and
