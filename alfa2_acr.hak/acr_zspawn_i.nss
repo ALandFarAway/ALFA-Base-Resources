@@ -123,7 +123,14 @@ void EquipCreature(object oCreature, int nGear, object oContainer)
 	while(GetIsObjectValid(oCopyItem))
 	{
 		bCustomGear = TRUE;
-		object oNewItem = CopyItem(oCopyItem);
+		oCopyItem = CopyItem(oCopyItem);
+
+		if (oCopyItem == OBJECT_INVALID)
+		{
+			oCopyItem = GetNextItemInInventory(oContainer);
+			continue;
+		}
+
 		int nItemType = GetBaseItemType(oCopyItem);
 		if(nItemType == BASE_ITEM_AMULET)
 			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_NECK));
@@ -208,6 +215,15 @@ void EquipCreature(object oCreature, int nGear, object oContainer)
 				bRingEquipped = TRUE;
 			}
 		}
+		else
+		{
+			SetPlotFlag(oCopyItem, FALSE);
+			DestroyObject(oCopyItem);
+		}
+
+		// Note, oCopyItem has either been destroyed or queued for equip at this
+		// point.  Don't read from it from here on out.
+
 		oCopyItem = GetNextItemInInventory(oContainer);
 	}
 //=== If the creature doesn't use equipment, return early. No business ===//
