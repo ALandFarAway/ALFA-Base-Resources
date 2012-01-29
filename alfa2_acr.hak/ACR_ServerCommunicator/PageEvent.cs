@@ -42,7 +42,7 @@ namespace ACR_ServerCommunicator
                     continue;
 
                 string FormattedMessage = String.Format(
-                    "<c=#FFCC99>{0}: </c><c=#30DDCC>[Page] {1}</c>",
+                    "</c><c=#FFCC99>{0}: </c><c=#30DDCC>[Page] {1}</c>",
                     Sender.PlayerName,
                     Message);
 

@@ -43,6 +43,7 @@ namespace ACR_ServerCommunicator
             string Message = String.Format(
                 "<c=#FFFF00>Server {0} is now offline.</c>",
                 Server.Name);
+            string ChatMessage = "</c>" + Message;
 
             foreach (uint PlayerObject in Script.GetPlayers(true))
             {
@@ -59,7 +60,7 @@ namespace ACR_ServerCommunicator
                         CLRScriptBase.OBJECT_INVALID,
                         PlayerObject,
                         CLRScriptBase.CHAT_MODE_SERVER,
-                        Message,
+                        ChatMessage,
                         CLRScriptBase.FALSE);
                 }
             }

@@ -35,7 +35,7 @@ namespace ACR_ServerCommunicator
             foreach (uint PlayerObject in Script.GetPlayers(true))
             {
                 string FormattedMessage = String.Format(
-                    "<c=#FFFF00>Server shutting down: {0}</c>",
+                    "</c><c=#FFFF00>Server shutting down: {0}</c>",
                     Message);
 
                 Script.SendChatMessage(

@@ -83,6 +83,7 @@ namespace ACR_ServerCommunicator
                 Character.Name,
                 Character.Player.Name,
                 Server.Name);
+            string ChatMessage = "</c>" + Message;
 
             foreach (uint PlayerObject in Script.GetPlayers(true))
             {
@@ -104,7 +105,7 @@ namespace ACR_ServerCommunicator
                         CLRScriptBase.OBJECT_INVALID,
                         PlayerObject,
                         CLRScriptBase.CHAT_MODE_SERVER,
-                        Message,
+                        ChatMessage,
                         CLRScriptBase.FALSE);
                 }
             }
