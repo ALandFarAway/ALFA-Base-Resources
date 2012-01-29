@@ -327,6 +327,17 @@ void ACR_ModuleOnModuleLoad()
 	// Initialize server IPC support
 	ACR_ServerIPC_OnModuleLoad();
 
+	// Check and warn the user if the module wasn't built with the same ACR
+	// version as a script contained within the hak.  (This script is built
+	// with the module and returns the module's view of the version number.  The
+	// acr_version_check script is built with the hak and returns the hak's view
+	// of the version number.)
+	AddScriptParameterString(ACR_GetVersion());
+	if (ExecuteScriptEnhanced("acr_version_check", OBJECT_SELF) != TRUE)
+	{
+		WriteTimestampedLogEntry("acr_mod_events_i: ** WARNING **: Module ACR version doesn't match alfa2_acr.hak ACR version!  This is usually caused by compiling the module against a different set of script headers than alfa2_acr.hak was constructed against.");
+	}
+
     // This should be the last time in this function.
     ACR_PrintDebugMessage("acr_mod_events_i: ALFA server " + sServerId + " loaded.", _ONLOAD_DEBUG, DEBUG_LEVEL_INFO);
 
