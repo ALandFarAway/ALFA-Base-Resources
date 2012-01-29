@@ -48,6 +48,7 @@
 //  2009/05/06  AcadiusLost  Added update OnClientEnter of the IsDM field of the players table.
 //  2011/05/09  Paazin       Fix for location persistency when Start Location is not at Z-axis = 0.0
 //  2012/01/08  Basilica     Don't mark players as online if they are in quarantine.
+//  2012/01/08  Basilica     Added ACR_PPSBootPC wrapper.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -161,6 +162,12 @@ void ACR_PCUpdateStatus(object oPC, int bLocation = TRUE);
 //! Function to validate/normalize a Quarantined PC to the current server.
 //!  Called by the DM Quarantine wand.
 void ACR_PPSValidatePC(object oTarget);
+
+//! Function to boot a PC with a message.
+//!  - oPC: player to boot.
+//!  - sMessage: message to send to player.
+//!  - bDisableSave: if TRUE, DON'T SAVE the character at logout (when booting)
+void ACR_PPSBootPC(object oPC, string sMessage, int bDisableSave);
 
 //! Function to wrapper ExportSingleCharacter.  If the portal subsystem is
 //  in the middle of a transaction for the player, does not save the PC so that
@@ -371,8 +378,7 @@ void ACR_PCOnClientEnter(object oPC)
 
  			if (! GetIsDM(oPC))
 			{
-				SendMessageToPC(oPC, "Booted because CD-Key records could not be updated in the database.");
-				BootPC(oPC);
+				ACR_PPSBootPC(oPC, "Booted because CD-Key records could not be updated in the database.", TRUE);
 				return;
 			}
 		}
@@ -382,8 +388,7 @@ void ACR_PCOnClientEnter(object oPC)
     {
         // log the event then boot the player
         ACR_LogEvent(oPC, ACR_LOG_LOGIN_BANNED, "CDKey: " + sCDKey);
-		  SendMessageToPC(oPC, "Booted because you are banned.");
-        BootPC(oPC);
+		  ACR_PPSBootPC(oPC, "Booted because you are banned.", TRUE);
 		  return;
     }
 
@@ -406,8 +411,7 @@ void ACR_PCOnClientEnter(object oPC)
     {
         // log the event then boot the player
         ACR_LogEvent(oPC, ACR_LOG_LOGIN_BANNED, "IPAddress: " + GetPCIPAddress(oPC));
-		  SendMessageToPC(oPC, "Booted because you are banned.");
-        BootPC(oPC);
+		  ACR_PPSBootPC(oPC, "Booted because you are banned.", TRUE);
 		  return;
     }
 
@@ -426,8 +430,7 @@ void ACR_PCOnClientEnter(object oPC)
 		{
 			if (! GetIsDM(oPC))
 			{
-				SendMessageToPC(oPC, "Booted because CD-Key records in the database could not be updated.");
-				BootPC(oPC);
+				ACR_PPSBootPC(oPC, "Booted because CD-Key records in the database could not be updated.", TRUE);
 				return;
 			}
         	ACR_PrintDebugMessage("acr_pps_i: ERROR - Could not create player record for " + GetName(oPC) + ". The database may be down. Aborting login processing.", ACR_PPS_DEBUG_ID, DEBUG_LEVEL_FATAL);
@@ -438,8 +441,7 @@ void ACR_PCOnClientEnter(object oPC)
     {
         // log the event then boot the player
         ACR_LogEvent(oPC, ACR_LOG_LOGIN_BANNED, "Player: " + sPlayerName);
-		  SendMessageToPC(oPC, "Booted because you are banned.");
-        BootPC(oPC);
+		  ACR_PPSBootPC(oPC, "Booted because you are banned.", TRUE);
 		  return;
     }
     string sPID = ACR_SQLGetData(0);
@@ -451,8 +453,7 @@ void ACR_PCOnClientEnter(object oPC)
 	if (sDBKey != sCDKey) {
         // log the event then boot the player
         ACR_LogEvent(oPC, ACR_LOG_LOGIN_BANNED, "CDKey Mismatch- "+sCDKey+" Player: " + sPlayerName);
-		  SendMessageToPC(oPC, "Booted because your CD-Key does not match our records.");
-        BootPC(oPC);
+		  ACR_PPSBootPC(oPC, "Booted because your CD-Key does not match our records.", TRUE);
 		  return;
 	}
 	if (sIsDM != sWasDM) {
@@ -497,8 +498,7 @@ void ACR_PCOnClientEnter(object oPC)
 			
  			if (! GetIsDM(oPC))
 			{
-				SendMessageToPC(oPC, "Booted because character record could not be created in the database.");
-				BootPC(oPC);
+				ACR_PPSBootPC(oPC, "Booted because character record could not be created in the database.", TRUE);
 				return;
 			}
 		}
@@ -510,8 +510,7 @@ void ACR_PCOnClientEnter(object oPC)
     {
       	// log the event then boot the player
        	ACR_LogEvent(oPC, ACR_LOG_LOGIN_DELETED, "Character: " + sCharacterName);
-			SendMessageToPC(oPC, "Booted because this character has been deleted.");
-       	BootPC(oPC);
+			ACR_PPSBootPC(oPC, "Booted because this character has been deleted.", TRUE);
 			return;
     }
 	// take note of unplayable characters (decayed corpses)
@@ -558,8 +557,7 @@ void ACR_PCOnPCLoaded(object oPC)
 	{
        	// log the event then boot the player
        	ACR_LogEvent(oPC, ACR_LOG_LOGIN, "Could not load character: " + GetName(oPC));
-			SendMessageToPC(oPC, "Booted because the character record could not be found for your character.");
-       	BootPC(oPC);
+			ACR_PPSBootPC(oPC, "Booted because the character record could not be found for your character.", TRUE);
 			return;
 	}
 	sLocation = ACR_SQLGetData(10);
@@ -809,6 +807,17 @@ void ACR_PCOnClientLeave(object oPC)
 	}
     // set the character online status
     ACR_SQLQuery("UPDATE characters SET IsOnline=0 WHERE ID=" + IntToString(ACR_GetCharacterID(oPC)));
+}
+
+void ACR_PPSBootPC(object oPC, string sMessage, int bDisableSave)
+{
+	WriteTimestampedLogEntry("ACR_PPSBootPC: Booting " + GetName(oPC) + (bDisableSave ? " WITHOUT SAVE" : "") + " with reason: " + sMessage);
+	SendMessageToPC(oPC, sMessage);
+
+	if (bDisableSave)
+		ACR_DisableCharacterSave(oPC);
+
+	BootPC(oPC);
 }
 
 void ACR_PCExportSingleCharacter(object oPC)

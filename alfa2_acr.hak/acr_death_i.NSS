@@ -748,8 +748,8 @@ void ACR_DeathOnClientEnter(object oPC)
     // boot players if a morgue doesn't exist on this server
 	if (! GetIsObjectValid(GetLocalObject(GetModule(), ACR_DTH_WAYPOINT)))
 	{
-		BootPC(oPC); return;
       	ACR_PrintDebugMessage("acr_death_i: ERROR - Could not locate a morgue waypoint. Aborting login processing.", ACR_DTH_DEBUG_ID, DEBUG_LEVEL_FATAL);
+			ACR_PPSBootPC(oPC, "Booted because the module has no morgue waypoint.", TRUE);
 	}
 }
 

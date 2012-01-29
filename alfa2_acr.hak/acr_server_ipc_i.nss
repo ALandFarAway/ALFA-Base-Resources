@@ -81,6 +81,12 @@ const int ACR_SERVER_IPC_HANDLE_LATENCY_CHECK_RESPONSE       = 12;
 // This command retrieves the last latency measurement for a player.
 const int ACR_SERVER_IPC_GET_PLAYER_LATENCY                  = 13;
 
+// This command disables character save for a player.
+const int ACR_SERVER_IPC_DISABLE_CHARACTER_SAVE              = 14;
+
+// This command enables character save for a player.
+const int ACR_SERVER_IPC_ENABLE_CHARACTER_SAVE               = 15;
+
 // IPC event codes:
 
 // The chat tell event is used to transport tells cross-server.
@@ -261,6 +267,18 @@ void ACR_HandleLatencyCheckResponse(object PlayerObject);
 //!  - PlayerObject: Supplies the PC object of the player to inquire about.
 //!  - Returns: The player's last reported latency, in milliseconds.
 int ACR_GetPlayerLatency(object PlayerObject);
+
+//! Disable character save for a player.  Will not function on a DM.
+//!  - PlayerObject: Supplies the PC object to disable saves for.
+//!  - Returns: TRUE if successful.
+int ACR_DisableCharacterSave(object PlayerObject);
+
+//! Enable character save for a player.  Will not function on a DM.  Note that
+//  an incoming player always has character saves enabled once they have passed
+//  the client enter save by default.
+//!  - PlayerObject: Supplies the PC object to enable saves for.
+//!  - Returns: TRUE if successful.
+int ACR_EnableCharacterSave(object PlayerObject);
 
 //! Make a raw call to the IPC C# control script.
 //!  - Command: Supplies the command to request (e.g. ACR_SERVER_IPC_SIGNAL_IPC_EVENT).
@@ -592,6 +610,38 @@ int ACR_GetPlayerLatency(object PlayerObject)
 {
 	return ACR_CallIPCScript(
 		ACR_SERVER_IPC_GET_PLAYER_LATENCY,
+		0,
+		0,
+		0,
+		0,
+		0,
+		"",
+		PlayerObject);
+}
+
+int ACR_DisableCharacterSave(object PlayerObject)
+{
+	if (!GetIsPC(PlayerObject) || GetIsDM(PlayerObject))
+		return FALSE;
+
+	return ACR_CallIPCScript(
+		ACR_SERVER_IPC_DISABLE_CHARACTER_SAVE,
+		0,
+		0,
+		0,
+		0,
+		0,
+		"",
+		PlayerObject);
+}
+
+int ACR_EnableCharacterSave(object PlayerObject)
+{
+	if (!GetIsPC(PlayerObject) || GetIsDM(PlayerObject))
+		return FALSE;
+
+	return ACR_CallIPCScript(
+		ACR_SERVER_IPC_ENABLE_CHARACTER_SAVE,
 		0,
 		0,
 		0,

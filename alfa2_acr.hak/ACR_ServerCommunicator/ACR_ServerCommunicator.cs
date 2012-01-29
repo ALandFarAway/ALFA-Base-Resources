@@ -196,6 +196,22 @@ namespace ACR_ServerCommunicator
                     }
                     break;
 
+                case REQUEST_TYPE.DISABLE_CHARACTER_SAVE:
+                    {
+                        uint PlayerObject = OBJECT_SELF;
+
+                        ReturnCode = DisableCharacterSave(PlayerObject) ? TRUE : FALSE;
+                    }
+                    break;
+
+                case REQUEST_TYPE.ENABLE_CHARACTER_SAVE:
+                    {
+                        uint PlayerObject = OBJECT_SELF;
+
+                        ReturnCode = EnableCharacterSave(PlayerObject) ? TRUE : FALSE;
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid IPC script command " + RequestType.ToString());
 
@@ -2025,7 +2041,9 @@ namespace ACR_ServerCommunicator
             HANDLE_CLIENT_LEAVE,
             POPULATE_CHAT_SELECT,
             HANDLE_LATENCY_CHECK_RESPONSE,
-            GET_PLAYER_LATENCY
+            GET_PLAYER_LATENCY,
+            DISABLE_CHARACTER_SAVE,
+            ENABLE_CHARACTER_SAVE
         }
 
         /// <summary>
