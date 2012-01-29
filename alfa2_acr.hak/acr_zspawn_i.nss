@@ -123,7 +123,7 @@ void EquipCreature(object oCreature, int nGear, object oContainer)
 	while(GetIsObjectValid(oCopyItem))
 	{
 		bCustomGear = TRUE;
-		oCopyItem = CopyItem(oCopyItem);
+		oCopyItem = CopyItem(oCopyItem, oCreature);
 
 		if (oCopyItem == OBJECT_INVALID)
 		{
@@ -217,12 +217,9 @@ void EquipCreature(object oCreature, int nGear, object oContainer)
 		}
 		else
 		{
-			SetPlotFlag(oCopyItem, FALSE);
-			DestroyObject(oCopyItem);
+			// This might be a consumable or other item that was desired to be
+			// transferred to the target creature's inventory.
 		}
-
-		// Note, oCopyItem has either been destroyed or queued for equip at this
-		// point.  Don't read from it from here on out.
 
 		oCopyItem = GetNextItemInInventory(oContainer);
 	}
