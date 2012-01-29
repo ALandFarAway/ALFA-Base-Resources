@@ -123,21 +123,15 @@ void EquipCreature(object oCreature, int nGear, object oContainer)
 	while(GetIsObjectValid(oCopyItem))
 	{
 		bCustomGear = TRUE;
-		oCopyItem = CopyItem(oCopyItem);
+		object oNewItem = CopyItem(oCopyItem, oCreature);
 
-		if (oCopyItem == OBJECT_INVALID)
-		{
-			oCopyItem = GetNextItemInInventory(oContainer);
-			continue;
-		}
-
-		int nItemType = GetBaseItemType(oCopyItem);
+		int nItemType = GetBaseItemType(oNewItem);
 		if(nItemType == BASE_ITEM_AMULET)
-			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_NECK));
+			AssignCommand(oCreature, ActionEquipItem(oNewItem, INVENTORY_SLOT_NECK));
 		else if(nItemType == BASE_ITEM_ARMOR)
-			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_CHEST));
+			AssignCommand(oCreature, ActionEquipItem(oNewItem, INVENTORY_SLOT_CHEST));
 		else if(nItemType == BASE_ITEM_ARROW)
-			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_ARROWS));
+			AssignCommand(oCreature, ActionEquipItem(oNewItem, INVENTORY_SLOT_ARROWS));
 		else if(nItemType == BASE_ITEM_BASTARDSWORD ||
                         nItemType == BASE_ITEM_BATTLEAXE ||
                         nItemType == BASE_ITEM_CLUB ||
@@ -185,44 +179,36 @@ void EquipCreature(object oCreature, int nGear, object oContainer)
 			nItemType == BASE_ITEM_WARHAMMER ||
 			nItemType == BASE_ITEM_WARMACE ||
 			nItemType == BASE_ITEM_WHIP)
-			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_RIGHTHAND));
+			AssignCommand(oCreature, ActionEquipItem(oNewItem, INVENTORY_SLOT_RIGHTHAND));
 		else if(nItemType == BASE_ITEM_BELT)
-			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_BELT));
+			AssignCommand(oCreature, ActionEquipItem(oNewItem, INVENTORY_SLOT_BELT));
 		else if(nItemType == BASE_ITEM_BOLT)
-			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_BOLTS));
+			AssignCommand(oCreature, ActionEquipItem(oNewItem, INVENTORY_SLOT_BOLTS));
 		else if(nItemType == BASE_ITEM_BOOTS)
-			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_BOOTS));
+			AssignCommand(oCreature, ActionEquipItem(oNewItem, INVENTORY_SLOT_BOOTS));
 		else if(nItemType == BASE_ITEM_BRACER ||
 			nItemType == BASE_ITEM_GLOVES)
-			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_ARMS));
+			AssignCommand(oCreature, ActionEquipItem(oNewItem, INVENTORY_SLOT_ARMS));
 		else if(nItemType == BASE_ITEM_BULLET)
-			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_BULLETS));
+			AssignCommand(oCreature, ActionEquipItem(oNewItem, INVENTORY_SLOT_BULLETS));
 		else if(nItemType == BASE_ITEM_CLOAK)
-			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_CLOAK));
+			AssignCommand(oCreature, ActionEquipItem(oNewItem, INVENTORY_SLOT_CLOAK));
 		else if(nItemType == BASE_ITEM_HELMET)
-			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_HEAD));
+			AssignCommand(oCreature, ActionEquipItem(oNewItem, INVENTORY_SLOT_HEAD));
 		else if(nItemType == BASE_ITEM_LARGESHIELD ||
 			nItemType == BASE_ITEM_TOWERSHIELD ||
 			nItemType == BASE_ITEM_SMALLSHIELD)
-			AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_LEFTHAND));
+			AssignCommand(oCreature, ActionEquipItem(oNewItem, INVENTORY_SLOT_LEFTHAND));
 		else if(nItemType == BASE_ITEM_RING)
 		{
 			if(bRingEquipped)
-				AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_LEFTRING));
+				AssignCommand(oCreature, ActionEquipItem(oNewItem, INVENTORY_SLOT_LEFTRING));
 			else
 			{
-				AssignCommand(oCreature, ActionEquipItem(oCopyItem, INVENTORY_SLOT_RIGHTRING));
+				AssignCommand(oCreature, ActionEquipItem(oNewItem, INVENTORY_SLOT_RIGHTRING));
 				bRingEquipped = TRUE;
 			}
 		}
-		else
-		{
-			SetPlotFlag(oCopyItem, FALSE);
-			DestroyObject(oCopyItem);
-		}
-
-		// Note, oCopyItem has either been destroyed or queued for equip at this
-		// point.  Don't read from it from here on out.
 
 		oCopyItem = GetNextItemInInventory(oContainer);
 	}
