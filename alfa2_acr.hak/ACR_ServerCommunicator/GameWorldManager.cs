@@ -1448,7 +1448,6 @@ namespace ACR_ServerCommunicator
                                    continue;
                                }
 
-                               GameCharacter SenderCharacter = SenderPlayer.GetOnlineCharacter();
                                GameCharacter RecipientCharacter = RecipientPlayer.GetOnlineCharacter();
 
                                if (RecipientCharacter == null)
