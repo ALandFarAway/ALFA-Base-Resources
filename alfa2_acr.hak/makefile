@@ -465,7 +465,9 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_area_instance_onleave.ncs         \
             $(OUTPUTDIR)\gui_powexp.ncs                        \
             $(OUTPUTDIR)\gui_measure_latency.ncs               \
-            $(OUTPUTDIR)\acr_version_check.ncs                 
+            $(OUTPUTDIR)\acr_version_check.ncs                 \
+            $(OUTPUTDIR)\acr_portal_exe.ncs                    \
+            $(OUTPUTDIR)\acr_portal_cnd.ncs                    
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and

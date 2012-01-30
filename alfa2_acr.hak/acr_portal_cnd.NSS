@@ -72,6 +72,8 @@ int StartingConditional(string sFunction) {
 			}
 		} // If we get to here, means the PC doesn't have any corpses in inventory.
 		return FALSE;	
+	} else if (sFunction == "CheckAdjacent") {
+		return bAdjacency != FALSE;
 	} else {
 		SendMessageToPC(oPC, "Function unknown.");	
     	return FALSE;
