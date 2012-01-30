@@ -69,9 +69,10 @@ const string _ACR_PTL_PING = "ACR_PTL_PING";
 //! Main function to issue a pass to the destination server.
 //!  oPC: The PC who will be travelling to the new server.
 //!  nDestServerID: The serverID of the destination server.
+//!  nPortalNumber: the number of the portal (for multiple portals between the same servers)
 //!  bAdjacent: Whether the destination server portal is meant to be geopraphically 
 //!   adjacent to the departure server one (circumvents cooldown settings)
-void ACR_PortalPC_Start(object oPC, int nDestServerID, int bAdjacent=FALSE);
+void ACR_PortalPC_Start(object oPC, int nDestServerID, int nPortalNumber, int bAdjacent=FALSE);
 
 //! Function to check if a given server is online.
 //!   nServerID: The ID# of the server to check.
@@ -124,6 +125,22 @@ string _CheckSQLForTimeStamp();
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+void ACR_PortalPC_Start(object oPC, int nDestServerID, int nPortalNumber, int bAdjacent)
+{
+	// Mark the passport for the player and send them on their way with a
+	// seamless portal.  If the portal was adjacent, update the passport data
+	// but do not move the last timestamp forward.  This, except for the PC's
+	// first portal, allows the player to initiate a non-adjacent portal without
+	// penalty.
+
+	if (bAdjacent)
+		ACR_SetPersistentStringNoTimestamp(oPC, _ACR_PTL_PASSPORT, _BuildPortalPass(nDestServerID, nPortalNumber));
+	else
+		ACR_SetPersistentString(oPC, _ACR_PTL_PASSPORT, _BuildPortalPass(nDestServerID, nPortalNumber));
+
+	ACR_StartServerToServerPortal(nDestServerID, nPortalNumber, oPC);
+}
 
 int ACR_PortalCheckServer(int nServerID) {
 

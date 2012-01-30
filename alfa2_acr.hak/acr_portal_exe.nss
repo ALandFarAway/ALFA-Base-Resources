@@ -39,6 +39,7 @@ void main(string sFunction) {
 	// PC's don't have tags so use CD key instead
 	int nDestID = GetLocalInt(oPC, "ACR_PORTAL_DEST_SERVER");
 	int nPortalNum = GetLocalInt(oPC, "ACR_PORTAL_NUM");
+	int bAdjacency = GetLocalInt(oPC, "ACR_PORTAL_ADJACENT");
 	
 	 if (sFunction == "Ping") {
 		// writes a p-variable to get a current SQL timestamp
@@ -51,7 +52,12 @@ void main(string sFunction) {
 	} else if (sFunction == "IssuePass")  {
 	
 		SendMessageToPC(oPC, "Generating a new pass.");
-		ACR_SetPersistentString(oPC, _ACR_PTL_PASSPORT, _BuildPortalPass(nDestID, nPortalNum));
+
+		if (bAdjacency)
+			ACR_SetPersistentStringNoTimestamp(oPC, _ACR_PTL_PASSPORT, _BuildPortalPass(nDestID, nPortalNum));
+		else
+			ACR_SetPersistentString(oPC, _ACR_PTL_PASSPORT, _BuildPortalPass(nDestID, nPortalNum));
+
 #if SEAMLESS_SERVER_PORTAL_ENABLED
 
 #if SERVER_IPC_ENABLED

@@ -198,6 +198,14 @@ int ACR_SQLGetAffectedRows();
 //!  - iExpiration: The number of days the persistent variable should be kept in database (default: 0=forever)
 void ACR_SetPersistentString(object oObject, string sVarName, string sValue, int iExpiration = 0);
 
+//! This function stores a persistent string without moving the last timestamp forward
+//!  - oObject: The object for which the data is being stored
+//!  - sVarName: The unique variable name
+//!  - sValue: The value to record 
+//! Optional parameters:
+//!  - iExpiration: The number of days the persistent variable should be kept in database (default: 0=forever)
+void ACR_SetPersistentStringNoTimestamp(object oObject, string sVarName, string sValue, int iExpiration = 0);
+
 //! This function stores a persistent integer
 //!  - oObject: The object for which the data is being stored
 //!  - sVarName: The unique variable name
@@ -585,6 +593,22 @@ void ACR_SetPersistentString(object oObject, string sVarName, string sValue, int
     ACR_AsyncSQLQueryEx("INSERT INTO pwdata (Name, Tag, `Key`, Value, Expiration) VALUES ('"
 	 + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "','" + sTag + "','" + ACR_SQLEncodeSpecialChars(sVarName) + "', '"
      + sValue + "', " + IntToString(iExpiration) + ") ON DUPLICATE KEY UPDATE Value='" + sValue + "', Expiration=" + IntToString(iExpiration) + ", Last=NOW()",
+	  oObject);
+}
+
+void ACR_SetPersistentStringNoTimestamp(object oObject, string sVarName, string sValue, int iExpiration = 0)
+{
+    // PC's don't have tags so use CD key instead
+    string sTag = (GetIsPC(oObject)) ? ACR_GetPCPublicCDKey(oObject) : GetTag(oObject);
+	// if this is a corpse placeable, drop the CharID suffix to allow it to read the player variable.
+    if ((GetResRef(oObject) == ACR_DTH_CORPSE_RESREF) || (GetResRef(oObject) == ACR_DTH_BODY_RESREF)) { sTag = GetStringLeft(sTag, 8); }
+
+    _MaintainACRPersistCache(oObject, sTag);
+    SetLocalString(oObject, _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX + sVarName, sValue);
+    // insert the record or update the values if it already exists
+    ACR_AsyncSQLQueryEx("INSERT INTO pwdata (Name, Tag, `Key`, Value, Expiration) VALUES ('"
+	 + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "','" + sTag + "','" + ACR_SQLEncodeSpecialChars(sVarName) + "', '"
+     + sValue + "', " + IntToString(iExpiration) + ") ON DUPLICATE KEY UPDATE Value='" + sValue + "', Expiration=" + IntToString(iExpiration),
 	  oObject);
 }
 
