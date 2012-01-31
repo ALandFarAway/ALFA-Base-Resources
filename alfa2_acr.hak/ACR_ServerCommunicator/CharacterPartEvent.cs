@@ -54,16 +54,16 @@ namespace ACR_ServerCommunicator
                 {
                     string sPlayerListBox = "";
 
-                    if (Character.Server.ServerId == Script.GetDatabase().ACR_GetServerID() || Script.GetLocalInt(PlayerObject, "chatselect_expanded") == 0)
+                    if (Server.ServerId == Script.GetDatabase().ACR_GetServerID() || Script.GetLocalInt(PlayerObject, "chatselect_expanded") == 0)
                     {
-                        if (Character.Player.IsDM == true)
+                        if (IsDM == true)
                             sPlayerListBox = "LocalDMList";
                         else
                             sPlayerListBox = "LocalPlayerList";
                     }
                     else
                     {
-                        if (Character.Player.IsDM == true)
+                        if (IsDM == true)
                             sPlayerListBox = "RemoteDMList";
                         else
                             sPlayerListBox = "RemotePlayerList";
