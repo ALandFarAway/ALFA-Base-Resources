@@ -1848,7 +1848,7 @@ object _SpawnObject(string sResRef, int nObjectType, object oWP, location lLoc, 
 	if (GetLocalInt(GetModule(), ACR_LOG_SPAWNS)) {
 		object oArea = GetArea(oWP);
 		// Spit debug information to logfile
-		WriteTimestampedLogEntry("ACR_Spawn: spawn_npc "+sResRef+" in "+GetName(oArea) + " (" + GetTag(oArea) + ")");
+		WriteTimestampedLogEntry("ACR_Spawn: ACR_SpawnObject "+sResRef+" in "+GetName(oArea) + " (" + GetTag(oArea) + ")");
 	}
 
     return oSpawned;
