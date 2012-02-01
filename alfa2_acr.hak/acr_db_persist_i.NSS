@@ -1319,7 +1319,10 @@ int ACR_LoadObjectVariablesFromPersistStore(object Obj, object PCObject, string 
 	int LoadedVariables = 0;
 
 	if (!GetIsPC(PCObject))
+	{
+		WriteTimestampedLogEntry("ACR_LoadObjectVariablesFromPersistStore(" + GetName(Obj) + ", " + GetName(PCObject) + ", " + DatabaseTag + "): Cannot load variables associated with a non-PC object.");
 		return FALSE;
+	}
 
 	// Flush the query queue for the object and spin up a query to fetch the
 	// object data from the database.  Flushing the queue is necessary in case
@@ -1379,7 +1382,10 @@ void ACR_SaveObjectVariablesToPersistStore(object Obj, object PCObject, string D
 	int i;
 
 	if (!GetIsPC(PCObject))
+	{
+		WriteTimestampedLogEntry("ACR_StoreObjectVariablesFromPersistStore(" + GetName(Obj) + ", " + GetName(PCObject) + ", " + DatabaseTag + "): Cannot save variables associated with a non-PC object.");
 		return;
+	}
 
 	CharID = IntToString(ACR_GetCharacterID(PCObject));
 	EscapedTag = ACR_SQLEncodeSpecialChars(DatabaseTag);
