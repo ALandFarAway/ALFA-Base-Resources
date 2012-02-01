@@ -1378,7 +1378,7 @@ void ACR_SaveObjectVariablesToPersistStore(object Obj, object PCObject, string D
 	string VariableValue;
 	int i;
 
-	if (!GetIsPC(Obj))
+	if (!GetIsPC(PCObject))
 		return;
 
 	CharID = IntToString(ACR_GetCharacterID(PCObject));
