@@ -1793,7 +1793,7 @@ string _RemoveLangTag(string sText)
 	sLeft = GetStringLeft(sText, n);
 
 	n = FindSubString(sText," ",n);
-	sRight = GetSubString(sText, n, len-n);
+	sRight = GetSubString(sText, n+1, len-n);
 
 	return sLeft+sRight;
 }

@@ -453,6 +453,9 @@ const string _SPAWN_REFRESH_DELAY_GF = "ACR_SPA_RD";
 const string _SPAWN_PRESPAWN_SEAMLESS_GB = "ACR_SPA_PS";
 const string _SPAWN_PRESPAWN_PREDICTION_GB = "ACR_SPA_PP";
 
+
+const string ACR_LOG_SPAWNS	= "ACR_LOG_SPAWNS";
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -1841,6 +1844,12 @@ object _SpawnObject(string sResRef, int nObjectType, object oWP, location lLoc, 
 	
 	// Add a pointer back to the waypoint, for death reporting.
 	SetLocalObject(oSpawned, _SPAWN_PARENT_WP, oWP);
+
+	if (GetLocalInt(GetModule(), ACR_LOG_SPAWNS)) {
+		object oArea = GetArea(oWP);
+		// Spit debug information to logfile
+		WriteTimestampedLogEntry("ACR_Spawn: ACR_SpawnObject "+sResRef+" in "+GetName(oArea) + " (" + GetTag(oArea) + ")");
+	}
 
     return oSpawned;
 }

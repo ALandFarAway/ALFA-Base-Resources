@@ -17,6 +17,7 @@
 
 
 #include "nwnx_craft_system"
+#include "dmfi_inc_inc_com"
 
 
 //as usual, see readme file for details
@@ -74,12 +75,22 @@ void main(int iAction, int iAvtValue)
 	string sSubAction =  GetStringLeft( GetLocalString(oPC,"XC_ROAD_MAP"),2);
 	//sub action we be like "Va" for Variation, "Ar" for ArmorVisualType, "AC" for ArmorParts and "Mo" for ModelParts 
 	
+	// cache original networth to compare at conclusion
+	if (GetLocalInt(oPC, "networth_assert") == 0) {
+		SetLocalInt(oPC, "networth_assert", DMFI_GetNetWorth(oPC));
+	}
+	
 	SetLocalObject(oPC, "XC_LAST_CRAFTED", oItemToCraft);
 	switch(iAction)
 	{		
 		case XP_CRAFT_ACTION_EXIT ://Terminate the craft dialog
 			XPCraft_Debug(oPC,"Craft Session Ended");
 			XPCraft_CleanLocals(oPC);
+			if (GetLocalInt(oPC, "networth_assert") < DMFI_GetNetWorth(oPC)) {
+				WriteTimestampedLogEntry("NETWORTH_ASSERT: Net worth of "+GetName(oPC)+" increased from "+IntToString(GetLocalInt(oPC, "networth_assert")) + " to " + IntToString(DMFI_GetNetWorth(oPC)));
+			}
+			
+			DeleteLocalInt(oPC, "networth_assert");
 			break;
 		
 		case XP_CRAFT_ACTION_VALIDATE ://Confirm the changes made 

@@ -9,6 +9,7 @@
 
 
 #include "nwnx_craft_system"
+#include "dmfi_inc_inc_com"
 
 void main()
 {
@@ -16,4 +17,9 @@ void main()
 	XPCraft_Debug(oPC,"Dialog Aborted !");
 
 	XPCraft_ActionCancelChanges(oPC);
+
+	if (GetLocalInt(oPC, "networth_assert") < DMFI_GetNetWorth(oPC)) {
+		WriteTimestampedLogEntry("NETWORTH_ASSERT: Net worth of "+GetName(oPC)+" increased from "+IntToString(GetLocalInt(oPC, "networth_assert")) + " to " + IntToString(DMFI_GetNetWorth(oPC)));
+	}
+	DeleteLocalInt(oPC, "networth_assert");
 }
