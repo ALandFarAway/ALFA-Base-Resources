@@ -573,7 +573,7 @@ namespace ALFAIRCBot
 
         private void OnCommandSrd(string Channel, string Query)
         {
-            OnCommandBing(Channel, "site:d20srd.org " + Query);
+            OnCommandBing(Channel, "d20srd.org " + Query);
         }
 
         private MySqlDataReader ExecuteQuery(string Query)
