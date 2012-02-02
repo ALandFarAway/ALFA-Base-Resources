@@ -9,6 +9,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Threading;
 using CLRScriptFramework;
 using ALFA;
 using NWScript;
@@ -1842,6 +1843,15 @@ namespace ACR_ServerCommunicator
                 WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.CommandDispatchLoop(): Encountered exception: {0}", e));
             }
 
+            try
+            {
+                RunUpdateServerExternalAddress();
+            }
+            catch (Exception e)
+            {
+                WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.CommandDispatchLoop(): Encountered exception in external address update: {0}", e));
+            }
+
             //
             // Start a new dispatch cycle going.
             //
@@ -1857,16 +1867,30 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void UpdateServerExternalAddress()
         {
-            ALFA.Database Database = GetDatabase();
-            string NetworkAddress = String.Format(
-                "{0}:{1}",
-                Database.ACR_GetServerAddressFromDatabase(),
-                SystemInfo.GetServerUdpListener(this).Port);
+            //
+            // Queue a work item to the thread pool for determining the server
+            // external address, and then set up for another continuation.
+            //
+            // Later on, the command dispatch loop will notice that a new
+            // external hostname has been set, and will update the database as
+            // appropriate.
+            //
 
-            Database.ACR_SQLExecute(String.Format(
-                "UPDATE `servers` SET `IPAddress` = '{0}' WHERE `ID` = {1}",
-                Database.ACR_SQLEncodeSpecialChars(NetworkAddress),
-                Database.ACR_GetServerID()));
+            ThreadPool.QueueUserWorkItem(delegate(object state)
+            {
+                try
+                {
+                    string Hostname = ALFA.WebServices.GetExternalHostname();
+
+                    lock (ExternalHostnameLock)
+                    {
+                        ExternalHostname = Hostname;
+                    }
+                }
+                catch (Exception)
+                {
+                }
+            });
 
             DelayCommand(UPDATE_SERVER_EXTERNAL_ADDRESS_INTERVAL, delegate()
             {
@@ -1947,6 +1971,39 @@ namespace ACR_ServerCommunicator
 
                 WorldManager.RunQueue(this, Database);
             }
+        }
+
+        /// <summary>
+        /// This method checks if an external hostname update is ready.  If so,
+        /// then the database is updated.
+        /// </summary>
+        private void RunUpdateServerExternalAddress()
+        {
+            string Hostname;
+
+            lock (ExternalHostnameLock)
+            {
+                Hostname = ExternalHostname;
+
+                if (Hostname != null)
+                    ExternalHostname = null;
+                else
+                    return;
+            }
+
+            ALFA.Database Database = GetDatabase();
+            string NetworkAddress = String.Format(
+                "{0}:{1}",
+                Hostname,
+                SystemInfo.GetServerUdpListener(this).Port);
+
+            Database.ACR_SQLExecute(String.Format(
+                "UPDATE `servers` SET `IPAddress` = '{0}' WHERE `ID` = {1}",
+                Database.ACR_SQLEncodeSpecialChars(NetworkAddress),
+                Database.ACR_GetServerID()));
+            WriteTimestampedLogEntry(String.Format(
+                "ACR_ServerCommunicator.RunUpdateServerExternalAddress(): Updated server network address: {0}",
+                NetworkAddress));
         }
 
         /// <summary>
@@ -2083,5 +2140,18 @@ namespace ACR_ServerCommunicator
         /// The interop SQL database instance is stored here.
         /// </summary>
         private ALFA.Database Database = null;
+
+        /// <summary>
+        /// The external hostname of the game server is updated here by the
+        /// work item.  The value transitions to non-null when an update is
+        /// available.
+        /// </summary>
+        private static string ExternalHostname = null;
+
+        /// <summary>
+        /// The SyncBlock of this field synchronizes access to the
+        /// ExternalHostname field.
+        /// </summary>
+        private static object ExternalHostnameLock = new int();
     }
 }

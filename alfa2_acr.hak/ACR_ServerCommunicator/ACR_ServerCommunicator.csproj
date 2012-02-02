@@ -58,6 +58,7 @@
     <Compile Include="..\..\CLRScript\ALFAMySQLDatabase.cs" />
     <Compile Include="..\..\CLRScript\ALFAScriptLoader.cs" />
     <Compile Include="..\..\CLRScript\ALFASystemInfo.cs" />
+    <Compile Include="..\..\CLRScript\ALFAWebServices.cs" />
     <Compile Include="..\..\CLRScript\NWScriptActions.cs" />
     <Compile Include="..\..\CLRScript\NWScriptConstants.cs" />
     <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />

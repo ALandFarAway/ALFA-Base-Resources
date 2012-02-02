@@ -296,6 +296,8 @@ void ACR_ModuleOnModuleLoad()
 	// Try and discover the external address of the server from the database
 	// connection.  If that fails, fall back to the hardcoded default in the
 	// configuration file.
+	//
+	// This is now superseded by the server communicator in most cases.
 	string sExtAddress = ACR_GetServerAddressFromDatabase();
 
 	if (sExtAddress == "")
