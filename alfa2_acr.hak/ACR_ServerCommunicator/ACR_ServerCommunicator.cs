@@ -1233,9 +1233,22 @@ namespace ACR_ServerCommunicator
                 }
                 else
                 {
+                    GamePlayer SenderPlayer;
+
+                    if (GetIsPC(SenderObjectId) != FALSE)
+                        SenderPlayer = WorldManager.ReferencePlayerById(GetDatabase().ACR_GetPlayerID(SenderObjectId), GetDatabase());
+                    else
+                        SenderPlayer = WorldManager.ReferencePlayerById(GetDatabase().ACR_GetPlayerID(GetOwnedCharacter(SenderObjectId)), GetDatabase());
+
+                    if (SenderPlayer == null)
+                    {
+                        SendFeedbackError(SenderObjectId, "No database entity exists for your character.");
+                        return;
+                    }
+
                     SendServerToServerTell(
                         SenderObjectId,
-                        WorldManager.ReferencePlayerById(GetDatabase().ACR_GetPlayerID(SenderObjectId), GetDatabase()),
+                        SenderPlayer,
                         Player,
                         MessagePart);
                 }
@@ -1787,6 +1800,12 @@ namespace ACR_ServerCommunicator
                 GamePlayer Sender = WorldManager.ReferencePlayerById(GetDatabase().ACR_GetPlayerID(SenderObjectId), GetDatabase());
                 GamePlayer Recipient;
                 int RecipientId;
+
+                if (Sender == null)
+                {
+                    SendFeedbackError(SenderObjectId, "No database entity exists for your character.");
+                    return;
+                }
 
                 if (ReTell)
                 {
