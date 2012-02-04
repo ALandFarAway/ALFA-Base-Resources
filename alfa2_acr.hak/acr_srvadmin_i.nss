@@ -139,8 +139,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 
 	if (GetStringLeft(LowerCmd, 3) == ACR_SRVADMIN_RUNSCRIPTLET_PREFIX)
 	{
-		AddScriptParameterString(GetStringRight(sCmd, Len-3));
-		ExecuteScriptEnhanced(ACR_SRVADMIN_SCRIPT_NAME, oPC);
+		ACR_RunPowerShellScriptlet(GetStringRight(sCmd, Len-3), oPC);
 		ACR_SrvAdmin_LogCommand(oPC, sCmd);
 		ACR_SrvAdmin_SendFeedback(oPC, "RunScriptlet(" + sCmd + ") completed.");
 		return TRUE;

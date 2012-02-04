@@ -44,6 +44,9 @@ const int ACR_SERVER_MISC_CREATE_AREA_INSTANCE               = 1;
 // This command releases an instanced area.
 const int ACR_SERVER_MISC_RELEASE_AREA_INSTANCE              = 2;
 
+// This command runs a PowerShell scriptlet.
+const int ACR_SERVER_MISC_RUN_POWERSHELL_SCRIPTLET           = 3;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -71,6 +74,16 @@ object ACR_InternalCreateAreaInstance(object TemplateArea);
 //  area supports free list pooling, otherwise the area is deleted.
 //!  - InstancedArea: Supplies the area instance to release.
 void ACR_InternalReleaseAreaInstance(object InstancedArea);
+
+//! Run a PowerShell scriptlet.  $s is passed as a parameter pointing to a
+//  CLRScriptBase, and $OBJECT_INVALID and $OBJECT_SELF are passed to the
+//  script as well.
+//!  - Script: Supplies the script text to run.
+//!  - ObjectSelf: Supplies the OBJECT_SELF value, and the object to whom
+//                 results (if any) should be sent.  If OBJECT_INVALID, then
+//                 results are sent to the server log file instead.
+//!  - Returns: TRUE if the script ran without an exception.
+int ACR_RunPowerShellScriptlet(string Script, object ObjectSelf = OBJECT_SELF);
 
 //! Make a raw call to the support script.
 //!  - Command: Supplies the command to request (e.g. ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT).
@@ -127,6 +140,18 @@ void ACR_InternalReleaseAreaInstance(object InstancedArea)
 		"",
 		"",
 		InstancedArea);
+}
+
+int ACR_RunPowerShellScriptlet(string Script, object ObjectSelf = OBJECT_SELF)
+{
+	return ACR_CallServerMiscScript(
+		ACR_SERVER_MISC_RUN_POWERSHELL_SCRIPTLET,
+		0,
+		0,
+		Script,
+		"",
+		ObjectSelf,
+		ObjectSelf);
 }
 
 int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, object P4, object ObjectSelf = OBJECT_SELF)

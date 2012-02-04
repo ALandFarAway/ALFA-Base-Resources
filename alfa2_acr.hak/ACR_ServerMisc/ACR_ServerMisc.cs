@@ -16,6 +16,7 @@ using NWScript;
 using NWScript.ManagedInterfaceLayer.NWScriptManagedInterface;
 using System.IO;
 using System.Diagnostics;
+using System.Management.Automation;
 
 using NWEffect = NWScript.NWScriptEngineStructure0;
 using NWEvent = NWScript.NWScriptEngineStructure1;
@@ -81,6 +82,12 @@ namespace ACR_ServerMisc
                     {
                         ReleaseInstancedArea(P5);
                         ReturnCode = TRUE;
+                    }
+                    break;
+
+                case REQUEST_TYPE.RUN_POWERSHELL_SCRIPTLET:
+                    {
+                        ReturnCode = RunPowerShellScriptlet(P3, P5) ? TRUE : FALSE;
                     }
                     break;
 
@@ -174,6 +181,64 @@ namespace ACR_ServerMisc
         }
 
         /// <summary>
+        /// Run a PowerShell script and send the results to a player.
+        /// </summary>
+        /// <param name="Script">Supplies the script source text to
+        /// execute.</param>
+        /// <param name="PCObjectID">Supplies the PC object ID of the player
+        /// to notify of the results.  If OBJECT_INVALID, then the results are
+        /// written to the server log.</param>
+        /// <returns></returns>
+        private bool RunPowerShellScriptlet(string Script, uint PCObjectID)
+        {
+            string Result = null;
+            bool CompletedOk = true;
+
+            try
+            {
+                Script = "Param([Parameter()] $s, [Parameter()] [System.UInt32] $OBJECT_SELF, [Parameter()] [System.UInt32] $OBJECT_INVALID)" + Script;
+
+                using (PowerShell Shell = PowerShell.Create())
+                {
+                    Dictionary<string, object> Arguments = new Dictionary<string, object>();
+
+                    Arguments["s"] = this;
+                    Arguments["OBJECT_SELF"] = PCObjectID;
+                    Arguments["OBJECT_INVALID"] = OBJECT_INVALID;
+
+                    Shell.AddScript(Script);
+                    Shell.AddParameters(Arguments);
+                    Shell.AddCommand("Out-String");
+
+                    foreach (string Line in Shell.Invoke<string>())
+                    {
+                        if (String.IsNullOrEmpty(Result))
+                            Result = "";
+                        else
+                            Result += "\n";
+
+                        Result += Line;
+                    }
+
+                    if (String.IsNullOrWhiteSpace(Result))
+                        Result = "<No output returned>";
+                }
+            }
+            catch (Exception e)
+            {
+                Result = "Exception: " + e.ToString();
+                CompletedOk = false;
+            }
+
+            if (PCObjectID == OBJECT_INVALID)
+                WriteTimestampedLogEntry("ACR_ServerMisc.RunPowerShellScriptlet: Result: " + Result);
+            else
+                SendMessageToPC(PCObjectID, Result);
+
+            return CompletedOk;
+        }
+
+        /// <summary>
         /// Get the associated database object, creating it on demand if
         /// required.
         /// </summary>
@@ -193,7 +258,8 @@ namespace ACR_ServerMisc
         {
             EXECUTE_UPDATER_SCRIPT,
             CREATE_AREA_INSTANCE,
-            RELEASE_AREA_INSTANCE
+            RELEASE_AREA_INSTANCE,
+            RUN_POWERSHELL_SCRIPTLET
         }
 
         /// <summary>
