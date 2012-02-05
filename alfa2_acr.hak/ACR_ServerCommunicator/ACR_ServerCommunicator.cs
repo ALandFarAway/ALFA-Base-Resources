@@ -432,7 +432,11 @@ namespace ACR_ServerCommunicator
         /// </param>
         private void ACR_PopulateChatSelect(uint PlayerObject)
         {
-            PlayerState Player = GetPlayerState(PlayerObject);
+            PlayerState Player = TryGetPlayerState(PlayerObject);
+
+            if (Player == null)
+                return;
+
             Player.CharacterIdsShown.Clear();
 
             ClearListBox(PlayerObject, "ChatSelect", "LocalPlayerList");
