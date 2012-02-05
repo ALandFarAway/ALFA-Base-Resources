@@ -196,7 +196,7 @@ namespace ACR_ServerMisc
 
             try
             {
-                Script = "Param([Parameter()] $s, [Parameter()] [System.UInt32] $OBJECT_SELF, [Parameter()] [System.UInt32] $OBJECT_INVALID, [Parameter()] $db)" + Script;
+                Script = "Param([Parameter()] $s, [Parameter()] [System.UInt32] $OBJECT_SELF, [Parameter()] [System.UInt32] $OBJECT_INVALID, [Parameter()] $sql)" + Script;
 
                 using (PowerShell Shell = PowerShell.Create())
                 {
@@ -205,7 +205,7 @@ namespace ACR_ServerMisc
                     Arguments["s"] = this;
                     Arguments["OBJECT_SELF"] = PCObjectID;
                     Arguments["OBJECT_INVALID"] = OBJECT_INVALID;
-                    Arguments["db"] = GetDatabase();
+                    Arguments["sql"] = GetDatabase();
 
                     Shell.AddScript(Script);
                     Shell.AddParameters(Arguments);
