@@ -1383,7 +1383,7 @@ void ACR_SaveObjectVariablesToPersistStore(object Obj, object PCObject, string D
 
 	if (!GetIsPC(PCObject))
 	{
-		WriteTimestampedLogEntry("ACR_StoreObjectVariablesFromPersistStore(" + GetName(Obj) + ", " + GetName(PCObject) + ", " + DatabaseTag + "): Cannot save variables associated with a non-PC object.");
+		WriteTimestampedLogEntry("ACR_StoreObjectVariablesToPersistStore(" + GetName(Obj) + ", " + GetName(PCObject) + ", " + DatabaseTag + "): Cannot save variables associated with a non-PC object.");
 		return;
 	}
 
@@ -1419,7 +1419,7 @@ void ACR_SaveObjectVariablesToPersistStore(object Obj, object PCObject, string D
 			break;
 
 		case VARIABLE_TYPE_DWORD:
-			WriteTimestampedLogEntry("ACR_StoreObjectVariablesFromPersistStore(" + GetName(Obj) + ", " + GetName(PCObject) + ", " + DatabaseTag + "): Cannot save a variable of type Object.");
+			WriteTimestampedLogEntry("ACR_StoreObjectVariablesToPersistStore(" + GetName(Obj) + ", " + GetName(PCObject) + ", " + DatabaseTag + "): Cannot save a variable of type Object.");
 			continue;
 
 		case VARIABLE_TYPE_LOCATION:
