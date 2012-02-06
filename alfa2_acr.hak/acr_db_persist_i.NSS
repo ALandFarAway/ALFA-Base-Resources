@@ -1333,7 +1333,7 @@ int ACR_LoadObjectVariablesFromPersistStore(object Obj, object PCObject, string 
 		"SELECT `VariableType`, `VariableName`, `VariableValue` " +
 		"FROM `character_script_variables` " +
 		"WHERE `CharacterID` = " + IntToString(ACR_GetCharacterID(PCObject)) +
-		"AND `Tag` = '" + ACR_SQLEncodeSpecialChars(DatabaseTag) + "'");
+		" AND `Tag` = '" + ACR_SQLEncodeSpecialChars(DatabaseTag) + "'");
 
 	while (ACR_SQLFetch() == SQL_SUCCESS)
 	{
