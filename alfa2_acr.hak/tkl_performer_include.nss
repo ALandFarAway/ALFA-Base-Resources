@@ -3156,11 +3156,8 @@ void SetTKLPersistFloat(object oPC, string sValueName, float fValueData)
 
 object RetrieveTKLPersistInstrumentObject(object oPC, string sValueName, location lLocation, object oOwner)
 {
-	WriteTimestampedLogEntry("RetrieveTKLPersistInstrumentObject(" + GetName(oPC) + ", " + sValueName + ", " + ACR_LocationToString(lLocation) + ", " + GetName(oOwner) + ")");
 #if TKL_PERFORMER_USE_ACR_PERSIST
 	object oInstrument;
-
-	WriteTimestampedLogEntry("RetrieveTKLPersistInstrumentObject: Using ACR Persist implementation for oPC=" + ObjectToString(oPC));
 
 	UpgradeTKLDatabase(oPC);
 
@@ -3175,8 +3172,6 @@ object RetrieveTKLPersistInstrumentObject(object oPC, string sValueName, locatio
 	// itself.  A waypoint is used as it has no effect on the game world.
 	oInstrument = CreateObject(OBJECT_TYPE_WAYPOINT, "nw_waypoint001", lLocation, FALSE);
 
-	WriteTimestampedLogEntry("RetrieveTKLPersistInstrumentObject: oInstrument = " + ObjectToString(oInstrument));
-
 	if (!ACR_LoadObjectVariablesFromPersistStore(oInstrument, oPC, "TKLOBJ_" + sValueName))
 	{
 		// No object by this name in the database.
@@ -3186,14 +3181,12 @@ object RetrieveTKLPersistInstrumentObject(object oPC, string sValueName, locatio
 
 	return oInstrument;
 #else
-	WriteTimestampedLogEntry("RetrieveTKLPersistInstrumentObject: Using Campaign Database implementation for oPC=" + ObjectToString(oPC));
 	return RetrieveCampaignObject(TKL_PERFORMER_DATABASE, sValueName, lLocation, oOwner, oPC);
 #endif
 }
 
 void StoreTKLPersistInstrumentObject(object oPC, string sValueName, object oInstrument)
 {
-	WriteTimestampedLogEntry("StoreTKLPersistInstrumentObject(" + GetName(oPC) + ", " + sValueName + ", " + GetName(oInstrument) + ")");
 #if TKL_PERFORMER_USE_ACR_PERSIST
 	UpgradeTKLDatabase(oPC);
 
