@@ -1052,7 +1052,7 @@ void ACR_CreateSQLTables()
 		"`VariableName` varchar(64) NOT NULL," +
 		"`VariableType` tinyint(3) UNSIGNED NOT NULL," +
 		"`VariableValue` varchar(256) NOT NULL," +
-		"PRIMARY KEY (`CharacterID`, `Tag`), UNIQUE KEY (`CharacterID`, `Tag`, `VariableName`)" +
+		"PRIMARY KEY (`CharacterID`, `Tag`, `VariableName`), INDEX (`CharacterID`, `Tag`, `VariableName`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 
 	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `config` (" +
@@ -1332,7 +1332,7 @@ int ACR_LoadObjectVariablesFromPersistStore(object Obj, object PCObject, string 
 	ACR_SQLQuery(
 		"SELECT `VariableType`, `VariableName`, `VariableValue` " +
 		"FROM `character_script_variables` " +
-		"WHERE `CharacterID` = " + IntToString(ACR_GetCharacterID(PCObject)) +
+		"WHERE `CharacterID` = " + IntToString(ACR_GetCharacterID(PCObject)) + " " +
 		"AND `Tag` = '" + ACR_SQLEncodeSpecialChars(DatabaseTag) + "'");
 
 	while (ACR_SQLFetch() == SQL_SUCCESS)
