@@ -1,0 +1,307 @@
+{\rtf1\ansi\ansicpg1252\uc1 \deff0\deflang1036\deflangfe1036{\fonttbl{\f0\froman\fcharset0\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f2\fmodern\fcharset0\fprq1{\*\panose 02070309020205020404}Courier New;}
+{\f28\froman\fcharset238\fprq2 Times New Roman CE;}{\f29\froman\fcharset204\fprq2 Times New Roman Cyr;}{\f31\froman\fcharset161\fprq2 Times New Roman Greek;}{\f32\froman\fcharset162\fprq2 Times New Roman Tur;}
+{\f33\froman\fcharset177\fprq2 Times New Roman (Hebrew);}{\f34\froman\fcharset178\fprq2 Times New Roman (Arabic);}{\f35\froman\fcharset186\fprq2 Times New Roman Baltic;}{\f44\fmodern\fcharset238\fprq1 Courier New CE;}
+{\f45\fmodern\fcharset204\fprq1 Courier New Cyr;}{\f47\fmodern\fcharset161\fprq1 Courier New Greek;}{\f48\fmodern\fcharset162\fprq1 Courier New Tur;}{\f49\fmodern\fcharset177\fprq1 Courier New (Hebrew);}
+{\f50\fmodern\fcharset178\fprq1 Courier New (Arabic);}{\f51\fmodern\fcharset186\fprq1 Courier New Baltic;}}{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0;\red255\green0\blue255;\red255\green0\blue0;
+\red255\green255\blue0;\red255\green255\blue255;\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;\red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;\red192\green192\blue192;}{\stylesheet{
+\ql \li0\ri0\widctlpar\aspalpha\aspnum\faauto\adjustright\rin0\lin0\itap0 \fs24\lang1036\langfe1036\cgrid\langnp1036\langfenp1036 \snext0 Normal;}{\*\cs10 \additive Default Paragraph Font;}}{\info{\author Carter}{\operator Carter}
+{\creatim\yr2007\mo12\dy23\hr22\min26}{\revtim\yr2007\mo12\dy23\hr22\min49}{\version2}{\edmins23}{\nofpages8}{\nofwords2429}{\nofchars13847}{\*\company Elechos}{\nofcharsws17005}{\vern8249}}\margl1417\margr1417\margt1417\margb1417 
+\widowctrl\ftnbj\aenddoc\hyphhotz425\noxlattoyen\expshrtn\noultrlspc\dntblnsbdb\nospaceforul\hyphcaps0\horzdoc\dghspace120\dgvspace120\dghorigin1701\dgvorigin1984\dghshow0\dgvshow3\jcompress\viewkind4\viewscale100\nolnhtadjtbl \fet0\sectd 
+\linex0\sectdefaultcl {\*\pnseclvl1\pnucrm\pnstart1\pnindent720\pnhang{\pntxta .}}{\*\pnseclvl2\pnucltr\pnstart1\pnindent720\pnhang{\pntxta .}}{\*\pnseclvl3\pndec\pnstart1\pnindent720\pnhang{\pntxta .}}{\*\pnseclvl4\pnlcltr\pnstart1\pnindent720\pnhang
+{\pntxta )}}{\*\pnseclvl5\pndec\pnstart1\pnindent720\pnhang{\pntxtb (}{\pntxta )}}{\*\pnseclvl6\pnlcltr\pnstart1\pnindent720\pnhang{\pntxtb (}{\pntxta )}}{\*\pnseclvl7\pnlcrm\pnstart1\pnindent720\pnhang{\pntxtb (}{\pntxta )}}{\*\pnseclvl8
+\pnlcltr\pnstart1\pnindent720\pnhang{\pntxtb (}{\pntxta )}}{\*\pnseclvl9\pnlcrm\pnstart1\pnindent720\pnhang{\pntxtb (}{\pntxta )}}\pard\plain \ql \li0\ri0\nowidctlpar\faauto\rin0\lin0\itap0 \fs24\lang1036\langfe1036\cgrid\langnp1036\langfenp1036 {
+\f2\fs20\lang2057\langfe1036\langnp2057 V 1.0
+\par XP_Craft is no longer a PROTOTYPE plugin for nwnx4.
+\par 
+\par }{\b\f2\fs20\ul\cf1\lang2057\langfe1036\langnp2057 what it does (main lines): 
+\par }{\f2\fs20\lang2057\langfe1036\langnp2057 
+\par It enables Get and Set methods on some item properties
+\par thus enabling, for instance, to change an equipment's appearance from within the game (that's by the way this plugin's main goal/use)
+\par 
+\par It currently deals only with numeric values (don't try to get an item's description it won't work)
+\par 
+\par It still does what it did in the previous release (changing cost or other numeric values through the item's properties)
+\par 
+\par 
+\par }{\b\f2\fs20\ul\lang2057\langfe1036\langnp2057 What's New with this new release : }{\f2\fs20\lang2057\langfe1036\langnp2057 
+\par 
+\par This new version (currently 1.0) main dedication is esthetic crafting. 
+\par In short words it enables the same amount of customisation on items In game than you got with the toolset. 
+\par You can change The VisualArmorType (Cloth, leather, half plate...), the Variation and the 3 Tints of every equipable item.
+\par 
+\par You can also change your armor parts (shoulder, bracers...) and their 3 Tints. 
+\par However there's one exception ; you cannot deal with "fake equipement" such as boots, cloak, belt, cloak and helmet that are "built" on an armor (or clothe) using the "HasBoots", "HasBelt".... switch.
+\par 
+\par And you can change your weapon modelparts and colors.
+\par 
+\par This fills a void left in NWN2 where player can't even change the way they look.*sigh*
+\par 
+\par 
+\par }{\b\f2\fs20\ul\lang2057\langfe1036\langnp2057 Requirements : }{\f2\fs20\lang2057\langfe1036\langnp2057 
+\par 
+\par nwnx4 1.8 or above installed and working.
+\par you don't need any sql database in order to get the xp_craft plugin to run properly.
+\par 
+\par 
+\par }{\b\f2\fs20\ul\lang2057\langfe1036\langnp2057 what's in the pack ? : }{\f2\fs20\lang2057\langfe1036\langnp2057 
+\par 
+\par you'll find
+\par -> this readme file.. 
+\par -> the xp_craft.dll (aka the nwnx4 plugin for esthetic crafting)
+\par -> the xp_craft_ui.hak (containing the color change UI and a small (but useful) tga image)
+\par -> the demo module for nwn2 classic (also works on motb of course)
+\par -> the system erf to include into you own module
+\par -> an erf containing the 3d models lists for nwn2 classic (to be included in your module if you're running nwn2 classic)
+\par -> an erf containing the 3d models lists for nwn2-motb (to be included in your module if you're running nwn2 classic)
+\par -> 2 .xls files i used to make the 3d models lists. (actually i don't offer any support or explanations for theses... if you can understand how it works, then ..happy you.. )
+\par 
+\par 
+\par }{\b\f2\fs20\ul\lang2057\langfe1036\langnp2057 Having fun with the demo module :
+\par }{\f2\fs20\lang2057\langfe1036\langnp2057 
+\par This part if fairly easy. 
+\par 1) Open your NWNX folder.
+\par 2a) if you got a previously working version of xp_craft
+\par  => just copy the new xp_craft.dll and keep your old xp_craft.ini
+\par 2b) if you didn't have a previously working version xp_craft
+\par => copy xp_craft.dll AND xp_craft.ini your nwnx folder.
+\par => edit xp_craft.ini and change the "database" value with your own path
+\par 3) edit nwnx.ini and change the module name for "xp_craft"
+\par 4) copy xp_craft.mod into your module folder (erase any previous version)
+\par 5) copy xp_craft_ui.hak into your my docs/neverthing2/hak folder
+\par 6) launch the server using nwnx4 and join a a player or as a DM.
+\par 7) Enjoy. (remember that running the server and the game on your own computer will give slower results than on a real game server.. ) 
+\par 
+\par 
+\par }{\b\f2\fs20\ul\lang2057\langfe1036\langnp2057 Installation in your own PW :
+\par }{\f2\fs20\lang2057\langfe1036\langnp2057 
+\par Fairly easy as well... 
+\par 
+\par If you got a previous release of xp_craft running, you'd better delete all it's scripts (it shouldn\rquote t be necessary, but since some of them are no longer useful...)
+\par 
+\par 1) Import the xp_craft.erf into your module. 
+\par it'll add the required scripts, 1 dialog, 1 item, 1 placeable.
+\par 
+\par 2) Add the following line at the end of your module_load script :
+\par ExecuteScript("nwnx_craft_set_constants",GetModule());
+\par 
+\par 3) Edit one exterior area of your module and place a casual waypoint anywhere on a non-walkable part of your area,
+\par then set it's tag to "XC_HIDDEN_WP". 
+\par (if you got a special area forbidden to PC, dedicated to theses kinda things, like for instance faction dealing creatures etc.. you can put the waypoint in here.. )
+\par 
+\par 4) add the xp_craft_ui.hak to your module properties.
+\par (of course, you'll have to provide this hak to your players in order for them to actually get the color ui.
+\par if you got any other way of dealing with the UI, feel free to do it, at your own risks)
+\par 
+\par 5) if you're running nwn2 classic (1.11) import the nwn2_model_lists.erf, if you're running MOTB then import nwn2-x1_model_lists.erf. 
+\par 
+\par 6) Compile the whole thing. 
+\par 
+\par 7a) if you got a previously working version of xp_craft
+\par  => just copy the new xp_craft.dll and keep your old xp_craft.ini
+\par 7b) if you didn't have a previously working version xp_craft
+\par  => copy xp_craft.dll AND xp_craft.ini your nwnx folder.
+\par => edit xp_craft.ini and change the "database" value with your own path
+\par 
+\par 8) remember you'll have to give the elechos_esthetic_crafter to your player (or any item or any other way you want to launch the dialog)
+\par 
+\par 
+\par 
+\par }{\b\f2\fs20\ul\lang2057\langfe1036\langnp2057 Understanding how it works (not really useful information ;) ):
+\par }{\f2\fs20\lang2057\langfe1036\langnp2057 
+\par 1) basics
+\par The scripts store the item within the bioware database.
+\par then the plugin can be called in order to get some information (like current variation or ModelPart etc.. )
+\par The scripts then deal with lists of 3d models named after the obsidian standards in order to get the new value (next or previous) asked by the Player.
+\par The plugin is called once again to do the changes on the databse file containing the item.
+\par The item is retrieved from the database and equipped for the player to actually see the changes.
+\par 
+\par a cancel system deals with the items after each changes are granted in order to have a quick way to get back the last non modified item.
+\par 
+\par 2) advanced
+\par 
+\par the plugin uses a part of the nwnhierarchy by Edward T. Smith in order to sort the data within the gff filestructure contained into the datafile.
+\par 
+\par the rest was made according to the information dealt in the Bioware_Aurora_GFF_Format.doc (which you can find on the vault) 
+\par 
+\par a fast recursive algorithm enables to find an element given it's road map. 
+\par a roadmap is a list of Element names that identifies a single specific Element, ie : ACRtShoulder|Tintable|Tint|3|b identifies the rgb-blue value of the tint 3 of the right shoulder armor part.
+\par 
+\par In order to speed up things a bit, i usually call a road map once, and then i only deal with the element index within the file.
+\par the element can then be accessed or modified very quickly.
+\par 
+\par 
+\par }{\b\f2\fs20\ul\lang2057\langfe1036\langnp2057 Adding/Tuning model lists :
+\par }{\f2\fs20\lang2057\langfe1036\langnp2057 
+\par First, why using lists instead of an other system ?
+\par well 3D models for a specific item aren't listed anywhere, there's no 2da for this thing, therefore, it's impossible to know if a value for a variation, modelpart, etc... is valid. 
+\par Setting wrong values is not a drama however, but for the player it's much more easy to deal with only valid values and thus being able to loop inside all available models.
+\par 
+\par In order to let you add your own lists (if you got some specific hakpacks), the lists are named after the official nwn2 standards, ie : ItemClass column in
+ the baseitem, to name the weapons/shield lists, NWN2_Model_Body and nwn2_Model_Helm columns in the appearance.2da to name the equipments, armor, clothes.. and the helms/hoods lists.
+\par 
+\par You don't have to code anything if you wish to add a new weapon list, or a new list of variations for a cloak in chainmail... 
+\par all you have to deal with are lists... 
+\par 
+\par you'll find the lists in the nwnx_craft_set_constants script.
+\par I've released 2 different scripts according to the model lists of nwn2 1.11 and motb 1.11.
+\par so if you're not using any hakpacks, you won't have to deal with anything.
+\par 
+\par If you wish your player to have access to custom material you brought into hakpacks, you'll have to update the lists.
+\par 
+\par since i think i've explain everything within the script itself, i won't be rewriting it here...
+\par but if you've got tons of hakpack, you'd better prepare for a long time updating.
+\par 
+\par 
+\par however, i've but some switches in the nwnx_craft_system to ease up list management a bit.
+\par theses enable to uses less lists. 
+\par Since the vast majority of haks on the vault are made for humans, and females, you can manage list according to the race and the sex of the player character. Thus not letting the other races/sexes accessing invalid model values.
+\par 
+\par if you've got the exact same lists for every race/sex, you can disable theses switches in order to manage less lists.
+\par by default, tha's what i've done regarding the Armorparts lists (for armmor part models in nwn2 are raced and sexed... )
+\par since in nwn2 without hakpack, we got the exact same lists of models for all races and sexes, i disabled the switches in order to use very few lists of 3d models.
+\par 
+\par the complete lists is contained within the script but are disabled, if you wish to use raced and/or sexed Amorparts, you can disabled the "*/" comments and enable the raced/sexed switches.
+\par 
+\par 
+\par 
+\par 
+\par }{\b\f2\fs20\ul\lang2057\langfe1036\langnp2057 Script dialog/customisation :
+\par }{\f2\fs20\lang2057\langfe1036\langnp2057 
+\par I've let 3 blank functions in order for you to have some control over what's being done.
+\par you'll find them at the end of the nwnx_craft_system script
+\par 
+\par int }{\b\f2\fs20\lang2057\langfe1036\langnp2057 XPCraft_GetIsCraftable}{\f2\fs20\lang2057\langfe1036\langnp2057 (object oPC, object oInventoryItem);
+\par with this one you can control, before any craft attempt is made, whether the PC has the right to change this specific item or not.
+\par maybe you got some items you don't want to be altered, for any reason you want ;)
+\par 
+\par int }{\b\f2\fs20\lang2057\langfe1036\langnp2057 XPCraft_GetChangesAllowed}{\f2\fs20\lang2057\langfe1036\langnp2057 (object oPC, object oInventoryItem);
+\par after the player click to confirm his changes, this script is executed, in order to know if you grant the changes or not.
+\par you'll have access to a switch case statement base upon he last changes made (variation, color, modelpart etc... )
+\par you can decide to grant the changes upon gold or craftskill roll or whatever...  
+\par 
+\par void }{\b\f2\fs20\lang2057\langfe1036\langnp2057 XPCraft_OnChangesConfirmed}{\f2\fs20\lang2057\langfe1036\langnp2057 (object oPC, object oInventoryItem);
+\par once the changes are confirmed (and granted by you) this script executes, in order to make whatever you wish.
+\par take gold, or whatever.
+\par 
+\par 
+\par 
+\par The script and dialog can be bettered for increasing the speed a bit and having something more useable for the players.
+\par Unfortunately, it'll imply having a much more larger dialog filesize...
+\par 
+\par I'll release a newer revision of the scripts/dialog. but if you're willing to do it, your free to do so... 
+\par  
+\par }{\b\f2\fs20\lang2057\langfe1036\langnp2057 CAUTION}{\f2\fs20\lang2057\langfe1036\langnp2057  : I won't be supporting modified versions of the nwnx_craft system. 
+\par If you're not sure bout what you're doing modifying scripts or dialog, you'd better not do it...
+\par 
+\par you should be aware that since the items are stored and recalled from the bioware database, any modification (local variable or item properties or whatever) applied during the craft process won't be persistent. (setting a loc
+al variable on an item that's gonna be destroyed 5 seconds latter is kinda useless... ) 
+\par 
+\par Don't ever change the UI's name, unless you also change the calling script. 
+\par 
+\par If you're an adventurer, if you got the inspirado... do whatever you want... it's still the best way to get things going forward !!! 
+\par 
+\par 
+\par 
+\par }{\b\f2\fs20\ul\lang2057\langfe1036\langnp2057 What to wait for in the near/far future : }{\f2\fs20\lang2057\langfe1036\langnp2057 
+\par 
+\par guess i'll do a better dialog, first... giving more ease to the players and more performances to the game server. 
+\par and maybe i'll go and dare a total graphic UI system... 
+\par 
+\par of course, some of you might wanna try it.. but it ain't that easy... 
+\par My partner Tyrnis is certainly the best nwn2 UI coder in France, so, i guess it'd be wise to wait and have something really strong and powerfull.. and working.. lol.. 
+\par  
+\par We'll certainly be releasing a small external exe to create the lists from any given files (nwn2 .zips and custom haks\'85 )
+\par 
+\par and finally i'll surely be releasing some notes and console exe dealing with gff file structure... 
+\par (ie batch processing of UTI files within a module, etc.. )
+\par 
+\par 
+\par }{\b\f2\fs20\ul\lang2057\langfe1036\langnp2057 FAQ For Players : }{\f2\fs20\lang2057\langfe1036\langnp2057 
+\par As a module Builder you'll face some recurrent questions, just answer it once on your forums or somewhere else, in order not to be harassed 24/7 :
+\par 
+\par Q: How do I change the Colors ? 
+\par Q: I don\rquote t get the lightness\'85 hue\'85 whatsoever ?
+\par A: While changing the color with the UI, you got 3 sliders.
+\par The first one (with the color bar) stands for the main Hue (tint) of the final color.
+\par The second one, Lightness (or brightness\'85 ) is the amount of light in your color :
+\par 0 means no light -> black.
+\par 100 means full light -> white.
+\par Casual colors are around 50 (like the ones in the color bar)
+\par The last slider deals with the Saturation, meaning the intensity of the color. 
+\par 0 and near 0 values result in grey or greyish colours.
+\par 100 result in intense colours (like the ones in the color bar)
+\par 
+\par By pressing the \'93Apply\'94 button, you can have a free look at the result and go on adjusting your final tint.
+\par When you\rquote re done, just click the \'93Close\'94 button, and Confirm (or cancel) your changes in the dialog.
+\par (the Obsidian way of dealing with Uis and overall xml, prevent us from setting default values for the sliders, therefore, you won\rquote t get the current values for the tint you\rquote re trying to modify. 
+\par But it\rquote s quite easy though, and you\rquote ll get used to it very quickly ;) ).  
+\par 
+\par Q: The color is not working ! 
+\par A: The color thing IS working.
+\par It actually sets the color on every equipable Item. But some 3d models don't have a ColorMap texture, thus making it impossible for them to display colors.
+\par 
+\par Q: The Tint #1 Color is not working !
+\par A : Same as above, most of the 3D models that have \'e0 ColorMap texture, only deal with the colors #2 and #3.
+\par Those who deal with this Color #1 are using it for a different purpose than displaying a color ; for it's enslaved to the PC skin color, thus enabling skin areas on clothes or armors, with the same tint than the PC actual skin.
+\par (however i might remove this option from the dialog, in order to transform the question into "Why don't I have access to a Color #1 on some equipments ?")
+\par 
+\par Q: When I changed the Variation, my equipment went strangely coloured !
+\par A: Sam
+e as above : the Color do work. Sometimes you set it yourself, sometimes it's been set in the toolset (with no effect on visual), for some 3d models aren't able to display colors. It doesn't mean that the color information are gone, there are just unused.
+ 
+\par When swapping to another 3d model, you may get one that deals with colors, thus applying the colors that you set yourself, or that where set in the toolset. 
+\par However, now you know that color do work, so change it if you don't like it...
+\par 
+\par Q: Why can't i change the Variation for item "my-item-that-i-love-the-most-above-all" ?
+\par A: There's quite a great deal of 3d models in the game, but obviously, the one you want to change only exist with 1 single visual. Ask obsidian for more (or do it yourself)! 
+\par 
+\par Q: When i want to change the Armor Type, I only got 1 (or 2 or more) choices ?
+\par Q: Why can't i have my cloak in Full-plate Type  ?
+\par A: Same as above. Your module builders can't create and add new models so easily that there will be 10 Variation in each ArmorType, for every kinda equipment.
+\par However, remember that changing the ArmorVisualType, won't ever change your item with more AC. 
+\par  
+\par Q :Why can't i change my Belt though I've equipped it ?
+\par A : Well, Equipped Belts don't have any visuals (ask Obsidian, for I don't know why). 
+\par The only belts having visuals are built-on-armor belts using the HasBelt switch in the toolset.
+\par 
+\par Q: Why do I get a "You cannot change Variation (or ArmorPart or ModelPart) for this item." when clicking next/previous in the dialog. ?
+\par A: That's because there is no other listed 3d appearance for this item.
+\par 
+\par Q : Why can't i Transform my casual cloth into a full plate shinny armor ?
+\par A : It's actually able to do it but your module builders have decided that you couldn't do it (and i do think that they're right...) 
+\par 
+\par 
+\par }{\b\f2\fs20\ul\lang2057\langfe1036\langnp2057 FAQ for module Builder :
+\par }{\f2\fs20\lang2057\langfe1036\langnp2057 
+\par Q: this sh*t is not working at all ... 
+\par A: are you sure you entered the right path to the bioware database folder ?? 
+\par A : have you copied the xp_craft.dll onto your nwnx folder ? 
+\par A : HAve you set a Waypoint with the correct TAG into one of your areas ? 
+\par 
+\par 
+\par Q : my players don't have access to the color UI ! 
+\par A : well that's because you did not provide them with the proper xp_craft_ui.hak (or any other way of broadcasting your UIs)
+\par 
+\par Q: I don't understand how to add my hak's 3d models to the current lists.. 
+\par A: List names and model names are usually the same (almost always alike...), so the only thing you gotta add are the digits at the end of your model file name... (still you should read the explanations in nwnx_craft_set_constants once again...)
+\par 
+\par (surely a lot of other questions i should have thought about ..but well hum... i let you ask them on the vault comments or on my msn messenger... )
+\par 
+\par 
+\par }{\b\f2\fs20\ul\lang2057\langfe1036\langnp2057 Thanks :
+\par }{\f2\fs20\lang2057\langfe1036\langnp2057 
+\par To Papillon for his wonderful and couldn't-live-without NWNX4
+\par To Obsidian for not having made a working CopyItemAndModify function
+\par To everyone at Elechos pw for taking all my life time.
+\par To Tyrnis, my co-worker on Elechos scripts
+\par To Drakolight for pushing me to keep on the work around this project.
+\par To the ones who laughed saying I was dumb to think these things were actually possible.
+\par To the ones that have been patient enough to wait for this system, thought this could have been released much sooner.
+\par 
+\par 
+\par 12/23/07 Denis-Clinton Carter
+\par visit us at http://www.elechos.com (how i love this website :p)
+\par msn & email at carter@elechos.com
+\par 
+\par }{\f2\fs20 Gloria Tenebrae !!!
+\par }}
