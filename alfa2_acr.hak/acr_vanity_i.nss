@@ -786,6 +786,8 @@ void ResetModel(object o)
 	e = EffectPolymorph(POLYMORPH_TYPE_CHICKEN,1);
 	ApplyEffectToObject(DURATION_TYPE_TEMPORARY, e, o, 0.0f);
 	DelayCommand(0.1f,SetScriptHidden(o,0));
+
+	DeleteLocalInt(o, "ACR_APP_TYPE");
 }
 
 void SetFacialHair(object o, int arg=1)
