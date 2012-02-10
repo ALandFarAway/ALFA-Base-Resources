@@ -1440,7 +1440,7 @@ const string TXT_ITEM_CONTAINER_ERROR = "Error: Can only give contents of contai
 const string DMFI_STATUS_SHEET = "<b>DMFI STATUS SHEET</b>\n\n";
 const string DONE_UI_BUTTON = "Done";
 const string ONLY_ITEMCREAT = "You can only store items or creatures";
-const string SUCCESS_ADD = "Succesfully added";
+const string SUCCESS_ADD = "Successfully added";
 const string SLOT_EMPTY = "Empty";
 const string TXT_NOTDMEQUAL = "You cannot manage the inventory to yourself";
 //void main() {}

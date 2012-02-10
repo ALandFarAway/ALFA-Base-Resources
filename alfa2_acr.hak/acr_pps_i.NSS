@@ -599,7 +599,7 @@ void ACR_PCOnPCLoaded(object oPC)
 					// Passport looks fine, notify player, write portalling log
 					SendMessageToPC(oPC, "Passport accepted.  Welcome to "+GetName(GetModule())+".");
 					AssignCommand(oPC, ActionSpeakString("Passport accepted.  Welcome to "+GetName(GetModule())));
-					ACR_SetPersistentString(oPC, _ACR_PTL_RECORD, "Succesful server portal from ServerID "+IntToString(nServerID)+" to serverID "+IntToString(ACR_GetServerId()));
+					ACR_SetPersistentString(oPC, _ACR_PTL_RECORD, "Successful server portal from ServerID "+IntToString(nServerID)+" to serverID "+IntToString(ACR_GetServerId()));
 					ACR_DeletePersistentVariable(oPC, _ACR_PTL_PASSPORT);
 				}
 			} else {

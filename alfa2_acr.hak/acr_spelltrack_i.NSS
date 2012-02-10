@@ -910,7 +910,7 @@ int _DetermineScrollAttempt(object oCaster, int nScrollID) {
 			    SendMessageToPC(oCaster, "Decipher Script Synergy Applied: DC reduced to "+IntToString(nAttributeDC));
 		    }
 			if ((nRoll + nUMDRanks) >= nAttributeDC) {
-				// don't return here, even though it's succesful- caster level check and/or UMD class check may still be needed.
+				// don't return here, even though it's successful- caster level check and/or UMD class check may still be needed.
 			    SendMessageToPC(oCaster, "Use Magic Device Roll to emulate ability score: "+IntToString(nRoll)+"+"+IntToString(nUMDRanks)+"="+IntToString(nRoll+nUMDRanks)+" vs. DC "+IntToString(nAttributeDC)+": Success!");
 				bAttributeFail = FALSE;
 			} else {
