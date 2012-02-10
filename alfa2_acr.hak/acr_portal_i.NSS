@@ -14,8 +14,8 @@
 //   vault plugin for seamless portal support.
 //
 //  Description
-//	  This file includes the functions which enable succesful portalling between
-//    linked ALFA servers.  It uses cross-server persistent variables.
+//	  This file includes the functions which enable successful portalling
+//	  between linked ALFA servers.  It uses cross-server persistent variables.
 //
 //  Revision History:
 //   0.1: 1/19/2009, AcadiusLost inception.
@@ -175,7 +175,7 @@ int ACR_PortalCheckCooldown(object oTraveller) {
 		// check the former portalling record to see if it's recent.
 		string sPortalStamp = ACR_SQLGetData(1);
 		string sModuleStamp = GetLocalString(GetModule(), _ACR_PTL_TIMESTAMP);
-		SendMessageToPC(oTraveller, "Last succesful portalling attempt was "+sPortalStamp);
+		SendMessageToPC(oTraveller, "Last successful portalling attempt was "+sPortalStamp);
 		SendMessageToPC(oTraveller, "Recent server timestamp was "+sModuleStamp);
 		int nHoursSincePortal = _GetHoursBetween(sPortalStamp, sModuleStamp);
 		SendMessageToPC(oTraveller, "Estimated RL Hours since last portalling: "+IntToString(nHoursSincePortal));

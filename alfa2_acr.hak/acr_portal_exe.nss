@@ -13,8 +13,8 @@
 //   acr_portal_i, NWNx4, xp_mysql plugin, connection to a valid MySQL database.
 //
 //  Description
-//	  This file includes the functions which enable succesful portalling between
-//    linked ALFA servers.  It is called from acr_portal_convo.nss
+//	  This file includes the functions which enable successful portalling
+//   between linked ALFA servers.  It is called from acr_portal_convo.nss
 //
 //  Revision History:
 //   0.1: 1/19/2009  AcadiusLost: inception.

@@ -256,7 +256,7 @@ void main(string sAction, int iOption)
 		else
 		{
 			DeleteLocalFloat(oPC, "LAG_CHECK");
-			SendMessageToPC(oPC, "Lag Check reset succesfully.");
+			SendMessageToPC(oPC, "Lag Check reset successfully.");
 		}
 	}	
 	
