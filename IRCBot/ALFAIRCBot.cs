@@ -555,13 +555,15 @@ namespace ALFAIRCBot
                 string Description;
                 string Url;
                 HttpWebRequest Request;
+                HttpWebResponse Response;
                 Stream ResponseStream;
 
                 Request = (HttpWebRequest) WebRequest.Create(String.Format("http://en.wikipedia.org/w/api.php?action=opensearch&limit=1&namespace=0&format=xml&search={0}", Uri.EscapeDataString(Query)));
 
                 Request.UserAgent = "ALFAIRCBot/" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-                ResponseStream = Request.GetResponse().GetResponseStream();
+                Response = (HttpWebResponse)Request.GetResponse();
+                ResponseStream = Response.GetResponseStream();
 
                 try
                 {
@@ -570,6 +572,7 @@ namespace ALFAIRCBot
                 finally
                 {
                     ResponseStream.Close();
+                    Response.Close();
                 }
 
                 SearchResult = (from XElement E in Document.Descendants(WikipediaAPINamespace + "Section") select E).FirstOrDefault();
