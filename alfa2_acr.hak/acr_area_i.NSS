@@ -97,6 +97,7 @@ void ACR_AreaOnEnter() {
         // Code which only runs for NPCs goes here.
     }
     // Code which runs for PCs and NPCs goes here.
+    ACR_SetLoadingScreen(oObject);
 }
 
 void ACR_AreaOnExit() {
@@ -195,7 +196,7 @@ void ACR_OnAreaTransitionClick()
     }
 
     // Set the AT screen randomly.
-    ACR_SetLoadingScreen(oClicker);
+    //ACR_SetLoadingScreen(oClicker);
 }
 
 void ACR_SetLoadingScreen(object oClicker)
@@ -204,7 +205,7 @@ void ACR_SetLoadingScreen(object oClicker)
     int nCheck = Random(11);
     if(nCheck == 0) // coming soon
     {
-        nScreen = Random(7) + 151;
+        nScreen = Random(6) + 151;
     }
     else if(nCheck == 1) // Knowledge: Arcana
     {
@@ -241,7 +242,7 @@ void ACR_SetLoadingScreen(object oClicker)
     
     if(nScreen == 0)
     {
-        nScreen = Random(58) + 2;
+        nScreen = Random(59) + 2;
     }
 
     AssignCommand(oClicker, SetAreaTransitionBMP(nScreen));
