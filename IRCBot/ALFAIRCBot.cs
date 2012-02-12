@@ -77,6 +77,7 @@ namespace ALFAIRCBot
         public string DatabaseSchema { get; set; }
 
         public string BingAppID { get; set; }
+        public string PageFromPlayerName { get; set; }
 
         private void SetConnectionString()
         {
@@ -131,6 +132,14 @@ namespace ALFAIRCBot
             {
                 OnCommandSrd(e.Data.Channel, e.Data.Message.Substring(5));
             }
+            else if (e.Data.Message.Equals("!help"))
+            {
+                OnCommandHelp(e.Data.Channel, e.Data.Message.Substring(4));
+            }
+            else if (e.Data.Message.StartsWith("!page "))
+            {
+                OnCommandPage(e.Data.Channel, e.Data.Message.Substring(6));
+            }
         }
 
         private void Client_OnErrorMessage(object sender, IrcEventArgs e)
@@ -178,7 +187,7 @@ namespace ALFAIRCBot
             }
         }
 
-        private void OnCommandPlayers(string Channel)
+        private void OnCommandPlayers(string Source)
         {
             Dictionary<int, SERVER_DATA> ServerInfoTable = new Dictionary<int, SERVER_DATA>();
             SERVER_DATA ServerData = new SERVER_DATA();
@@ -338,9 +347,9 @@ namespace ALFAIRCBot
             }
 
             if (First)
-                Client.SendMessage(SendType.Message, Channel, "No players are logged on to any servers.");
+                Client.SendMessage(SendType.Message, Source, "No players are logged on to any servers.");
             else
-                Client.SendMessage(SendType.Message, Channel, Output.ToString());
+                Client.SendMessage(SendType.Message, Source, Output.ToString());
 
 //            Console.WriteLine(Output.ToString());
 
@@ -375,7 +384,7 @@ namespace ALFAIRCBot
              */
         }
 
-        private void OnCommandRoll(string Channel, string Cmd)
+        private void OnCommandRoll(string Source, string Cmd)
         {
             int PlusMinusIndex = Cmd.IndexOfAny(new char[] { '+', '-' });
             string PlusMinus = null;
@@ -391,7 +400,7 @@ namespace ALFAIRCBot
 
             if (CmdArgs.Length != 2)
             {
-                Client.SendMessage(SendType.Message, Channel, "Usage: !roll <count>d<sides>[+/-delta].");
+                Client.SendMessage(SendType.Message, Source, "Usage: !roll <count>d<sides>[+/-delta].");
                 return;
             }
 
@@ -403,7 +412,7 @@ namespace ALFAIRCBot
 
                 if (Dice < 1 || Sides < 1 || Dice > 100)
                 {
-                    Client.SendMessage(SendType.Message, Channel, "Invalid arguments for !roll request.");
+                    Client.SendMessage(SendType.Message, Source, "Invalid arguments for !roll request.");
                     return;
                 }
 
@@ -421,16 +430,16 @@ namespace ALFAIRCBot
                     Sum += Convert.ToInt32(PlusMinus);
                 }
 
-                Client.SendMessage(SendType.Message, Channel, String.Format(
+                Client.SendMessage(SendType.Message, Source, String.Format(
                     "Rolled {0}d{1}{2}: {3}", Dice, Sides, PlusMinus, Sum));
             }
             catch (Exception)
             {
-                Client.SendMessage(SendType.Message, Channel, "Internal error processing !roll request.");
+                Client.SendMessage(SendType.Message, Source, "Internal error processing !roll request.");
             }
         }
 
-        private void OnCommandWeather(string Channel, string Query)
+        private void OnCommandWeather(string Source, string Query)
         {
             try
             {
@@ -462,7 +471,7 @@ namespace ALFAIRCBot
                             where E.HasAttribute("data")
                             select E.GetAttribute("data")).FirstOrDefault();
 
-                Client.SendMessage(SendType.Message, Channel, String.Format(
+                Client.SendMessage(SendType.Message, Source, String.Format(
                     "{0}: {1}, {2}C, {3}, {4}.",
                     City,
                     Condition,
@@ -472,19 +481,19 @@ namespace ALFAIRCBot
             }
             catch (Exception)
             {
-                Client.SendMessage(SendType.Message, Channel, String.Format("Unable to retrieve weather for {0}.", Query));
+                Client.SendMessage(SendType.Message, Source, String.Format("Unable to retrieve weather for {0}.", Query));
             }
         }
 
-        private void OnCommandGoogle(string Channel, string Query)
+        private void OnCommandGoogle(string Source, string Query)
         {
-            Client.SendMessage(SendType.Message, Channel, "Not supported, using !bing " + Query);
-            OnCommandBing(Channel, Query);
+            Client.SendMessage(SendType.Message, Source, "Not supported, using !bing " + Query);
+            OnCommandBing(Source, Query);
         }
 
         private const string BingAPINamespace = "{http://schemas.microsoft.com/LiveSearch/2008/04/XML/web}";
 
-        private void OnCommandBing(string Channel, string Query)
+        private void OnCommandBing(string Source, string Query)
         {
             try
             {
@@ -501,7 +510,7 @@ namespace ALFAIRCBot
                 if (SearchResult == null)
                 {
 //                  Console.WriteLine("No results found");
-                    Client.SendMessage(SendType.Message, Channel, "No results.");
+                    Client.SendMessage(SendType.Message, Source, "No results.");
                     return;
                 }
 
@@ -511,17 +520,17 @@ namespace ALFAIRCBot
                 Description = (string)(from XElement E in SearchResult.Descendants(BingAPINamespace + "Description") select E).FirstOrDefault();
                 Url = (string)(from XElement E in SearchResult.Descendants(BingAPINamespace + "Url") select E).FirstOrDefault();
 
-                Client.SendMessage(SendType.Message, Channel, String.Format("{0}: {1} - {2}", Title, Url, Description));
+                Client.SendMessage(SendType.Message, Source, String.Format("{0}: {1} - {2}", Title, Url, Description));
             }
             catch (Exception)
             {
-                Client.SendMessage(SendType.Message, Channel, String.Format("Unable to retrieve search results for {0}.", Query));
+                Client.SendMessage(SendType.Message, Source, String.Format("Unable to retrieve search results for {0}.", Query));
             }
         }
 
         private const string WikipediaAPINamespace = "{http://opensearch.org/searchsuggest2}";
 
-        private void OnCommandWikipedia(string Channel, string Query)
+        private void OnCommandWikipedia(string Source, string Query)
         {
             try
             {
@@ -555,7 +564,7 @@ namespace ALFAIRCBot
 
                 if (SearchResult == null)
                 {
-                    Client.SendMessage(SendType.Message, Channel, "No results.");
+                    Client.SendMessage(SendType.Message, Source, "No results.");
                     return;
                 }
 
@@ -563,26 +572,208 @@ namespace ALFAIRCBot
                 Description = (string)(from XElement E in SearchResult.Descendants(WikipediaAPINamespace + "Description") select E).FirstOrDefault();
                 Url = (string)(from XElement E in SearchResult.Descendants(WikipediaAPINamespace + "Url") select E).FirstOrDefault();
 
-                Client.SendMessage(SendType.Message, Channel, String.Format("{0}: {1} - {2}", Title, Url, Description));
+                Client.SendMessage(SendType.Message, Source, String.Format("{0}: {1} - {2}", Title, Url, Description));
             }
             catch (Exception)
             {
-                Client.SendMessage(SendType.Message, Channel, String.Format("Unable to retrieve search results for {0}.", Query));
+                Client.SendMessage(SendType.Message, Source, String.Format("Unable to retrieve search results for {0}.", Query));
             }
         }
 
-        private void OnCommandSrd(string Channel, string Query)
+        private void OnCommandSrd(string Source, string Query)
         {
-            OnCommandBing(Channel, "d20srd.org " + Query);
+            OnCommandBing(Source, "d20srd.org " + Query);
         }
+
+        private void OnCommandHelp(string Source, string Query)
+        {
+            Client.SendMessage(SendType.Message, Source,
+                "Commands: !players, !roll [1d6+1], !weather [zip|city], !bing [query], !wikipedia [query], !srd [query], !help, !page [\"player\"] [message]");
+        }
+
+        private void OnCommandPage(string Source, string Query)
+        {
+            try
+            {
+                string MessagePart;
+                string NamePart;
+                int NamePartEnd;
+                string Destination;
+                int Offset;
+                uint Tick = (uint)Environment.TickCount;
+                int DestinationPlayerId;
+                int DestinationCharacterId;
+                int DestinationServerId;
+                string ServerName;
+                string PlayerName;
+                string CharacterName;
+
+                if (PageFromPlayerId == 0)
+                {
+                    using (MySqlDataReader Reader = ExecuteQuery(String.Format(
+                        "SELECT `ID` FROM `players` WHERE `players`.`Name` = {0}",
+                        MySqlHelper.EscapeString(PageFromPlayerName))))
+                    {
+                        if (Reader.Read())
+                        {
+                            PageFromPlayerId = Reader.GetInt32(0);
+                        }
+                    }
+                }
+
+                if (PageFromPlayerId == 0)
+                {
+                    Client.SendMessage(SendType.Message, Source, "Page from player name is not configured properly.");
+                    return;
+                }
+
+                //
+                // Parse the destination field out.
+                //
+
+                Destination = Query;
+
+                if (Destination.Length < 2)
+                    return;
+
+                //
+                // Find the end of the name, which is either a second double quote,
+                // or a space character.
+                //
+
+                if (Destination[0] == '\"')
+                {
+                    Offset = Destination.IndexOf('\"', 1);
+
+                    if (Offset == -1)
+                    {
+                        Client.SendMessage(SendType.Message, Source,
+                            "Illegal page command format (unmatched quote in destination).");
+                        return;
+                    }
+
+                    Destination = Destination.Substring(0, Offset);
+
+                    NamePart = Destination.Substring(1); // Past the first quote
+                    NamePartEnd = Offset;
+                    MessagePart = Query.Substring(1 + Offset);
+
+                    //
+                    // Eat up to one single trailing space.
+                    //
+
+                    if (MessagePart.Length > 1 && Char.IsWhiteSpace(MessagePart[0]))
+                        MessagePart = MessagePart.Substring(1);
+                }
+                else
+                {
+                    Offset = Destination.IndexOf(' ');
+
+                    if (Offset == -1)
+                    {
+                        Client.SendMessage(SendType.Message, Source,
+                            "Illegal page command format (missing destination).");
+                        return;
+                    }
+
+                    Destination = Destination.Substring(0, Offset);
+
+                    NamePart = Destination;
+                    NamePartEnd = Offset;
+                    MessagePart = Query.Substring(Offset + 1); // After the space
+                }
+
+                if (Tick - LastPage < PAGE_THROTTLE)
+                {
+                    Client.SendMessage(SendType.Message, Source, "A short delay between page requests is required.");
+                    return;
+                }
+
+                using (MySqlDataReader Reader = ExecuteQuery(String.Format(
+                    "SELECT " +
+                        "players.Id AS player_id, " +
+                        "characters.Id AS character_id, " +
+                        "servers.Id AS server_id, " +
+                        "players.Name AS player_name, " +
+                        "characters.Name AS character_name, " +
+                        "servers.Name AS server_name " +
+                    "FROM " +
+                        "players " +
+                    "INNER JOIN characters ON characters.PlayerID = players.ID " +
+                    "INNER JOIN servers ON servers.ID = characters.ServerID " +
+                    "WHERE characters.IsOnline = 1 " +
+                    "AND players.Name = '{0}' ", MySqlHelper.EscapeString(NamePart))))
+                {
+                    if (!Reader.Read())
+                    {
+                        Client.SendMessage(SendType.Message, Source, String.Format(
+                            "{0} is not logged on.", NamePart));
+                        return;
+                    }
+
+                    DestinationPlayerId = Reader.GetInt32(0);
+                    DestinationCharacterId = Reader.GetInt32(1);
+                    DestinationServerId = Reader.GetInt32(2);
+                    PlayerName = Reader.GetString(3);
+                    CharacterName = Reader.GetString(4);
+                    ServerName = Reader.GetString(5);
+                }
+
+                ExecuteQueryNoReader(String.Format(
+                    "INSERT INTO server_ipc_events (`ID`, `SourcePlayerID`, `SourceServerID`, `DestinationPlayerID`, `DestinationServerID`, `EventType`, `EventText) VALUES (0, {0}, 0, {1}, {2}, {3}, {4})",
+                    PageFromPlayerId,
+                    DestinationPlayerId,
+                    DestinationServerId,
+                    ACR_SERVER_IPC_EVENT_PAGE,
+                    MySqlHelper.EscapeString(MessagePart.Substring(0, ACR_SERVER_IPC_MAX_EVENT_LENGTH))));
+                Client.SendMessage(SendType.Message, Source, String.Format(
+                    "Message sent to {0} ({1}) at {2}.",
+                    CharacterName,
+                    PlayerName,
+                    ServerName));
+                LastPage = Tick;
+            }
+            catch (Exception)
+            {
+                Client.SendMessage(SendType.Message, Source, "Internal error communicating with database.");
+            }
+        }
+
 
         private MySqlDataReader ExecuteQuery(string Query)
         {
             return MySqlHelper.ExecuteReader(ConnectionString, Query);
         }
 
+        private void ExecuteQueryNoReader(string Query)
+        {
+            MySqlHelper.ExecuteNonQuery(ConnectionString, Query);
+        }
+
+        /// <summary>
+        /// Page IPC events use this event type.  For this event, there are
+        /// five parameters.  The source and destination IDs represent the
+        /// routing information for the chat tell originator and destination,
+        /// and the event text represents the chat text to deliver.
+        /// </summary>
+        public const int ACR_SERVER_IPC_EVENT_PAGE                   = 5;
+
+        /// <summary>
+        /// The maximum length of a server IPC event is set here.  This is the
+        /// length of the EventText field in the database table.
+        /// </summary>
+        private const int ACR_SERVER_IPC_MAX_EVENT_LENGTH = 256;
+
+        /// <summary>
+        /// Pages can only be sent every PAGE_THROTTLE milliseconds.
+        /// </summary>
+        private const uint PAGE_THROTTLE = 5000;
+
+
         private IrcClient Client;
         private Random Rng;
+        private int PageFromPlayerId;
+        private uint LastPage = (uint)Environment.TickCount - PAGE_THROTTLE;
 
         private string ConnectionString;
     }

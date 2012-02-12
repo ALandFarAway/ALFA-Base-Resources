@@ -142,5 +142,17 @@ namespace ALFAIRCBot.Properties {
                 this["BingAppID"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("IRCBot")]
+        public string PageFromPlayerName {
+            get {
+                return ((string)(this["PageFromPlayerName"]));
+            }
+            set {
+                this["PageFromPlayerName"] = value;
+            }
+        }
     }
 }

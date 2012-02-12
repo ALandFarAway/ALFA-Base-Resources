@@ -32,5 +32,8 @@
     <Setting Name="BingAppID" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="PageFromPlayerName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">IRCBot</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

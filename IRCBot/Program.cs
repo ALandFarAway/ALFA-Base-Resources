@@ -26,6 +26,7 @@ namespace ALFAIRCBot
                 IRCBot.DatabasePassword = Properties.Settings.Default.DatabasePassword;
                 IRCBot.DatabaseSchema = Properties.Settings.Default.DatabaseSchema;
                 IRCBot.BingAppID = Properties.Settings.Default.BingAppID;
+                IRCBot.PageFromPlayerName = Properties.Settings.Default.PageFromPlayerName;
             }
             catch (Exception e)
             {
