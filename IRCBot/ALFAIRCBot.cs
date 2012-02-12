@@ -134,11 +134,11 @@ namespace ALFAIRCBot
             }
             else if (e.Data.Message.Equals("!help"))
             {
-                OnCommandHelp(e.Data.Channel, e.Data.Message.Substring(4));
+                OnCommandHelp(e.Data.Channel);
             }
             else if (e.Data.Message.StartsWith("!page "))
             {
-                OnCommandPage(e.Data.Channel, e.Data.Message.Substring(6));
+                OnCommandPage(e.Data.Channel, e.Data.Nick, e.Data.Message.Substring(6));
             }
         }
 
@@ -585,13 +585,13 @@ namespace ALFAIRCBot
             OnCommandBing(Source, "d20srd.org " + Query);
         }
 
-        private void OnCommandHelp(string Source, string Query)
+        private void OnCommandHelp(string Source)
         {
             Client.SendMessage(SendType.Message, Source,
                 "Commands: !players, !roll [1d6+1], !weather [zip|city], !bing [query], !wikipedia [query], !srd [query], !help, !page [\"player\"] [message]");
         }
 
-        private void OnCommandPage(string Source, string Query)
+        private void OnCommandPage(string Source, string Nick, string Query)
         {
             try
             {
@@ -611,7 +611,7 @@ namespace ALFAIRCBot
                 if (PageFromPlayerId == 0)
                 {
                     using (MySqlDataReader Reader = ExecuteQuery(String.Format(
-                        "SELECT `ID` FROM `players` WHERE `players`.`Name` = {0}",
+                        "SELECT `ID` FROM `players` WHERE `players`.`Name` = '{0}'",
                         MySqlHelper.EscapeString(PageFromPlayerName))))
                     {
                         if (Reader.Read())
@@ -719,13 +719,18 @@ namespace ALFAIRCBot
                     ServerName = Reader.GetString(5);
                 }
 
+                MessagePart = String.Format("<From: {0}@{1}> {2}", Nick, Source, MessagePart);
+
+                if (MessagePart.Length > ACR_SERVER_IPC_MAX_EVENT_LENGTH)
+                    MessagePart = MessagePart.Substring(0, ACR_SERVER_IPC_MAX_EVENT_LENGTH);
+
                 ExecuteQueryNoReader(String.Format(
-                    "INSERT INTO server_ipc_events (`ID`, `SourcePlayerID`, `SourceServerID`, `DestinationPlayerID`, `DestinationServerID`, `EventType`, `EventText) VALUES (0, {0}, 0, {1}, {2}, {3}, {4})",
+                    "INSERT INTO server_ipc_events (`ID`, `SourcePlayerID`, `SourceServerID`, `DestinationPlayerID`, `DestinationServerID`, `EventType`, `EventText`) VALUES (0, {0}, 0, {1}, {2}, {3}, '{4}')",
                     PageFromPlayerId,
                     DestinationPlayerId,
                     DestinationServerId,
                     ACR_SERVER_IPC_EVENT_PAGE,
-                    MySqlHelper.EscapeString(MessagePart.Substring(0, ACR_SERVER_IPC_MAX_EVENT_LENGTH))));
+                    MySqlHelper.EscapeString(MessagePart)));
                 Client.SendMessage(SendType.Message, Source, String.Format(
                     "Message sent to {0} ({1}) at {2}.",
                     CharacterName,
@@ -733,9 +738,10 @@ namespace ALFAIRCBot
                     ServerName));
                 LastPage = Tick;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Client.SendMessage(SendType.Message, Source, "Internal error communicating with database.");
+                Console.WriteLine("Exception handling !page request: {0}", e);
             }
         }
 
