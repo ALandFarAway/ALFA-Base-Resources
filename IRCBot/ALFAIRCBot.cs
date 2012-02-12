@@ -829,11 +829,11 @@ namespace ALFAIRCBot
                     using (MySqlDataReader Reader = ExecuteQuery(String.Format(
                         "SELECT " +
                             "players.Name AS player_name, " +
-                            "players.LastLogin AS player_last_login" +
+                            "players.LastLogin AS player_last_login " +
                         "FROM " +
                             "characters " +
                         "INNER JOIN players ON players.ID = characters.PlayerID " +
-                        "AND characters.Name = '{0}' ", MySqlHelper.EscapeString(Query))))
+                        "WHERE characters.Name = '{0}' ", MySqlHelper.EscapeString(Query))))
                     {
                         if (!Reader.Read())
                         {
@@ -860,6 +860,8 @@ namespace ALFAIRCBot
 
         private MySqlDataReader ExecuteQuery(string Query)
         {
+            Console.WriteLine("Executing query: {0}", Query);
+
             return MySqlHelper.ExecuteReader(ConnectionString, Query);
         }
 
