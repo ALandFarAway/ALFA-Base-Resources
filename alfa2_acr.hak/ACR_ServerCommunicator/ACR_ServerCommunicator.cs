@@ -1067,7 +1067,7 @@ namespace ACR_ServerCommunicator
                 return;
 
             //
-            // Find the end of the name, which is ehter a second double quote,
+            // Find the end of the name, which is either a second double quote,
             // or a space character.
             //
 
