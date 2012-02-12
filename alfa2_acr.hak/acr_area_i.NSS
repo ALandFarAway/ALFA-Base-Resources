@@ -234,7 +234,7 @@ void ACR_SetLoadingScreen(object oClicker)
     }
     else if(nCheck == 9) // Knowledge: Religion
     {
-        nScreen = Random(15) + 1001;
+        nScreen = Random(16) + 1001;
     }
     else if(nCheck == 10) // Knowledge: The Planes
     {
