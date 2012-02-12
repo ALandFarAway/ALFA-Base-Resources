@@ -601,12 +601,12 @@ namespace ALFAIRCBot
                 string Destination;
                 int Offset;
                 uint Tick = (uint)Environment.TickCount;
-                int DestinationPlayerId;
-                int DestinationCharacterId;
-                int DestinationServerId;
-                string ServerName;
-                string PlayerName;
-                string CharacterName;
+                int DestinationPlayerId = 0;
+                int DestinationCharacterId = 0;
+                int DestinationServerId = 0;
+                string ServerName = null;
+                string PlayerName = null;
+                string CharacterName = null;
 
                 if (PageFromPlayerId == 0)
                 {
@@ -704,19 +704,53 @@ namespace ALFAIRCBot
                     "WHERE characters.IsOnline = 1 " +
                     "AND players.Name = '{0}' ", MySqlHelper.EscapeString(NamePart))))
                 {
-                    if (!Reader.Read())
+                    if (Reader.Read())
                     {
-                        Client.SendMessage(SendType.Message, Source, String.Format(
-                            "{0} is not logged on.", NamePart));
-                        return;
+                        DestinationPlayerId = Reader.GetInt32(0);
+                        DestinationCharacterId = Reader.GetInt32(1);
+                        DestinationServerId = Reader.GetInt32(2);
+                        PlayerName = Reader.GetString(3);
+                        CharacterName = Reader.GetString(4);
+                        ServerName = Reader.GetString(5);
                     }
+                }
 
-                    DestinationPlayerId = Reader.GetInt32(0);
-                    DestinationCharacterId = Reader.GetInt32(1);
-                    DestinationServerId = Reader.GetInt32(2);
-                    PlayerName = Reader.GetString(3);
-                    CharacterName = Reader.GetString(4);
-                    ServerName = Reader.GetString(5);
+                //
+                // Try looking up by character name too if the player name
+                // query failed.
+                //
+
+                if (DestinationPlayerId == 0)
+                {
+                    using (MySqlDataReader Reader = ExecuteQuery(String.Format(
+                        "SELECT " +
+                            "players.Id AS player_id, " +
+                            "characters.Id AS character_id, " +
+                            "servers.Id AS server_id, " +
+                            "players.Name AS player_name, " +
+                            "characters.Name AS character_name, " +
+                            "servers.Name AS server_name " +
+                        "FROM " +
+                            "characters " +
+                        "INNER JOIN players ON players.ID = characters.PlayerID " +
+                        "INNER JOIN servers ON servers.ID = characters.ServerID " +
+                        "WHERE characters.IsOnline = 1 " +
+                        "AND characters.Name = '{0}' ", MySqlHelper.EscapeString(NamePart))))
+                    {
+                        if (!Reader.Read())
+                        {
+                            Client.SendMessage(SendType.Message, Source, String.Format(
+                                "{0} is not logged on.", NamePart));
+                            return;
+                        }
+
+                        DestinationPlayerId = Reader.GetInt32(0);
+                        DestinationCharacterId = Reader.GetInt32(1);
+                        DestinationServerId = Reader.GetInt32(2);
+                        PlayerName = Reader.GetString(3);
+                        CharacterName = Reader.GetString(4);
+                        ServerName = Reader.GetString(5);
+                    }
                 }
 
                 MessagePart = String.Format("<From: {0}@{1}> {2}", Nick, Source, MessagePart);
