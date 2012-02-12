@@ -105,7 +105,7 @@ namespace ALFAIRCBot
                 {
                     Console.WriteLine("Exception {0} handling !players query.", ex);
 
-                    Client.SendMessage(SendType.Message, HomeChannel, "Internal error handling !players request.  The database server may be offline or unreachable.");
+                    SendMessage(SendType.Message, HomeChannel, "Internal error handling !players request.  The database server may be offline or unreachable.");
                 }
             }
             else if (e.Data.Message.StartsWith("!roll "))
@@ -122,7 +122,7 @@ namespace ALFAIRCBot
             }
             else if (e.Data.Message.StartsWith("!bing "))
             {
-                OnCommandBing(e.Data.Channel, e.Data.Message.Substring(6));
+                OnCommandBing(e.Data.Channel, e.Data.Message.Substring(6), null);
             }
             else if (e.Data.Message.StartsWith("!wikipedia "))
             {
@@ -139,6 +139,10 @@ namespace ALFAIRCBot
             else if (e.Data.Message.StartsWith("!page "))
             {
                 OnCommandPage(e.Data.Channel, e.Data.Nick, e.Data.Message.Substring(6));
+            }
+            else if (e.Data.Message.StartsWith("!seen "))
+            {
+                OnCommandSeen(e.Data.Channel, e.Data.Message.Substring(6));
             }
         }
 
@@ -347,9 +351,9 @@ namespace ALFAIRCBot
             }
 
             if (First)
-                Client.SendMessage(SendType.Message, Source, "No players are logged on to any servers.");
+                SendMessage(SendType.Message, Source, "No players are logged on to any servers.");
             else
-                Client.SendMessage(SendType.Message, Source, Output.ToString());
+                SendMessage(SendType.Message, Source, Output.ToString());
 
 //            Console.WriteLine(Output.ToString());
 
@@ -370,7 +374,7 @@ namespace ALFAIRCBot
                 ServerInfoTable[9].Players,
                 ServerInfoTable[9].DMs));
 
-            Client.SendMessage(SendType.Message, HomeChannel, String.Format(
+            SendMessage(SendType.Message, HomeChannel, String.Format(
                 "{0}: {1} player(s), {2}DM(s); {3}: {4} player(s) and {5} DM(s); {6}: {7} player(s) and {8} DM(s)",
                 ServerInfoTable[3].Name,
                 ServerInfoTable[3].Players,
@@ -400,7 +404,7 @@ namespace ALFAIRCBot
 
             if (CmdArgs.Length != 2)
             {
-                Client.SendMessage(SendType.Message, Source, "Usage: !roll <count>d<sides>[+/-delta].");
+                SendMessage(SendType.Message, Source, "Usage: !roll <count>d<sides>[+/-delta].");
                 return;
             }
 
@@ -412,7 +416,7 @@ namespace ALFAIRCBot
 
                 if (Dice < 1 || Sides < 1 || Dice > 100)
                 {
-                    Client.SendMessage(SendType.Message, Source, "Invalid arguments for !roll request.");
+                    SendMessage(SendType.Message, Source, "Invalid arguments for !roll request.");
                     return;
                 }
 
@@ -430,12 +434,12 @@ namespace ALFAIRCBot
                     Sum += Convert.ToInt32(PlusMinus);
                 }
 
-                Client.SendMessage(SendType.Message, Source, String.Format(
+                SendMessage(SendType.Message, Source, String.Format(
                     "Rolled {0}d{1}{2}: {3}", Dice, Sides, PlusMinus, Sum));
             }
             catch (Exception)
             {
-                Client.SendMessage(SendType.Message, Source, "Internal error processing !roll request.");
+                SendMessage(SendType.Message, Source, "Internal error processing !roll request.");
             }
         }
 
@@ -471,7 +475,7 @@ namespace ALFAIRCBot
                             where E.HasAttribute("data")
                             select E.GetAttribute("data")).FirstOrDefault();
 
-                Client.SendMessage(SendType.Message, Source, String.Format(
+                SendMessage(SendType.Message, Source, String.Format(
                     "{0}: {1}, {2}C, {3}, {4}.",
                     City,
                     Condition,
@@ -481,19 +485,19 @@ namespace ALFAIRCBot
             }
             catch (Exception)
             {
-                Client.SendMessage(SendType.Message, Source, String.Format("Unable to retrieve weather for {0}.", Query));
+                SendMessage(SendType.Message, Source, String.Format("Unable to retrieve weather for {0}.", Query));
             }
         }
 
         private void OnCommandGoogle(string Source, string Query)
         {
-            Client.SendMessage(SendType.Message, Source, "Not supported, using !bing " + Query);
-            OnCommandBing(Source, Query);
+            SendMessage(SendType.Message, Source, "Not supported, using !bing " + Query);
+            OnCommandBing(Source, Query, null);
         }
 
         private const string BingAPINamespace = "{http://schemas.microsoft.com/LiveSearch/2008/04/XML/web}";
 
-        private void OnCommandBing(string Source, string Query)
+        private void OnCommandBing(string Source, string Query, string RestrictURL)
         {
             try
             {
@@ -510,7 +514,7 @@ namespace ALFAIRCBot
                 if (SearchResult == null)
                 {
 //                  Console.WriteLine("No results found");
-                    Client.SendMessage(SendType.Message, Source, "No results.");
+                    SendMessage(SendType.Message, Source, "No results.");
                     return;
                 }
 
@@ -520,11 +524,22 @@ namespace ALFAIRCBot
                 Description = (string)(from XElement E in SearchResult.Descendants(BingAPINamespace + "Description") select E).FirstOrDefault();
                 Url = (string)(from XElement E in SearchResult.Descendants(BingAPINamespace + "Url") select E).FirstOrDefault();
 
-                Client.SendMessage(SendType.Message, Source, String.Format("{0}: {1} - {2}", Title, Url, Description));
+                //
+                // If we were to restrict the results to those just under a
+                // certain URL, fake no results if the first one did not match.
+                //
+
+                if (RestrictURL != null && !Url.StartsWith(RestrictURL))
+                {
+                    SendMessage(SendType.Message, Source, "No results.");
+                    return;
+                }
+
+                SendMessage(SendType.Message, Source, String.Format("{0}: {1} - {2}", Title, Url, Description));
             }
             catch (Exception)
             {
-                Client.SendMessage(SendType.Message, Source, String.Format("Unable to retrieve search results for {0}.", Query));
+                SendMessage(SendType.Message, Source, String.Format("Unable to retrieve search results for {0}.", Query));
             }
         }
 
@@ -564,7 +579,7 @@ namespace ALFAIRCBot
 
                 if (SearchResult == null)
                 {
-                    Client.SendMessage(SendType.Message, Source, "No results.");
+                    SendMessage(SendType.Message, Source, "No results.");
                     return;
                 }
 
@@ -572,23 +587,23 @@ namespace ALFAIRCBot
                 Description = (string)(from XElement E in SearchResult.Descendants(WikipediaAPINamespace + "Description") select E).FirstOrDefault();
                 Url = (string)(from XElement E in SearchResult.Descendants(WikipediaAPINamespace + "Url") select E).FirstOrDefault();
 
-                Client.SendMessage(SendType.Message, Source, String.Format("{0}: {1} - {2}", Title, Url, Description));
+                SendMessage(SendType.Message, Source, String.Format("{0}: {1} - {2}", Title, Url, Description));
             }
             catch (Exception)
             {
-                Client.SendMessage(SendType.Message, Source, String.Format("Unable to retrieve search results for {0}.", Query));
+                SendMessage(SendType.Message, Source, String.Format("Unable to retrieve search results for {0}.", Query));
             }
         }
 
         private void OnCommandSrd(string Source, string Query)
         {
-            OnCommandBing(Source, "d20srd.org " + Query);
+            OnCommandBing(Source, "d20srd.org " + Query, "http://www.d20srd.org");
         }
 
         private void OnCommandHelp(string Source)
         {
-            Client.SendMessage(SendType.Message, Source,
-                "Commands: !players, !roll [1d6+1], !weather [zip|city], !bing [query], !wikipedia [query], !srd [query], !help, !page [\"player\"] [message]");
+            SendMessage(SendType.Message, Source,
+                "Commands: !players, !roll [1d6+1], !weather [zip|city], !bing [query], !wikipedia [query], !srd [query], !help, !page [\"player\"] [message], !seen player");
         }
 
         private void OnCommandPage(string Source, string Nick, string Query)
@@ -623,7 +638,7 @@ namespace ALFAIRCBot
 
                 if (PageFromPlayerId == 0)
                 {
-                    Client.SendMessage(SendType.Message, Source, "Page from player name is not configured properly.");
+                    SendMessage(SendType.Message, Source, "Page from player name is not configured properly.");
                     return;
                 }
 
@@ -647,7 +662,7 @@ namespace ALFAIRCBot
 
                     if (Offset == -1)
                     {
-                        Client.SendMessage(SendType.Message, Source,
+                        SendMessage(SendType.Message, Source,
                             "Illegal page command format (unmatched quote in destination).");
                         return;
                     }
@@ -671,7 +686,7 @@ namespace ALFAIRCBot
 
                     if (Offset == -1)
                     {
-                        Client.SendMessage(SendType.Message, Source,
+                        SendMessage(SendType.Message, Source,
                             "Illegal page command format (missing destination).");
                         return;
                     }
@@ -685,7 +700,7 @@ namespace ALFAIRCBot
 
                 if (Tick - LastPage < PAGE_THROTTLE)
                 {
-                    Client.SendMessage(SendType.Message, Source, "A short delay between page requests is required.");
+                    SendMessage(SendType.Message, Source, "A short delay between page requests is required.");
                     return;
                 }
 
@@ -739,7 +754,7 @@ namespace ALFAIRCBot
                     {
                         if (!Reader.Read())
                         {
-                            Client.SendMessage(SendType.Message, Source, String.Format(
+                            SendMessage(SendType.Message, Source, String.Format(
                                 "{0} is not logged on.", NamePart));
                             return;
                         }
@@ -765,7 +780,7 @@ namespace ALFAIRCBot
                     DestinationServerId,
                     ACR_SERVER_IPC_EVENT_PAGE,
                     MySqlHelper.EscapeString(MessagePart)));
-                Client.SendMessage(SendType.Message, Source, String.Format(
+                SendMessage(SendType.Message, Source, String.Format(
                     "Message sent to {0} ({1}) at {2}.",
                     CharacterName,
                     PlayerName,
@@ -774,11 +789,71 @@ namespace ALFAIRCBot
             }
             catch (Exception e)
             {
-                Client.SendMessage(SendType.Message, Source, "Internal error communicating with database.");
+                SendMessage(SendType.Message, Source, "Internal error communicating with database.");
                 Console.WriteLine("Exception handling !page request: {0}", e);
             }
         }
 
+        private void OnCommandSeen(string Source, string Query)
+        {
+            try
+            {
+                string PlayerName = null;
+                string LoginDate = null;
+
+                using (MySqlDataReader Reader = ExecuteQuery(String.Format(
+                    "SELECT " +
+                        "players.Name AS player_name, " +
+                        "players.LastLogin AS player_last_login " +
+                    "FROM " +
+                        "players " +
+                    "WHERE players.Name = '{0}' ", MySqlHelper.EscapeString(Query))))
+                {
+                    if (Reader.Read())
+                    {
+                        PlayerName = Reader.GetString(0);
+                        LoginDate = Reader.GetString(1);
+                    }
+                }
+
+                //
+                // Try looking up by character name too if the player name
+                // query failed.
+                //
+
+                if (PlayerName == null)
+                {
+                    using (MySqlDataReader Reader = ExecuteQuery(String.Format(
+                        "SELECT " +
+                            "players.Name AS player_name, " +
+                            "players.LastLogin AS player_last_login" +
+                        "FROM " +
+                            "characters " +
+                        "INNER JOIN players ON players.ID = characters.PlayerID " +
+                        "AND characters.Name = '{0}' ", MySqlHelper.EscapeString(Query))))
+                    {
+                        if (!Reader.Read())
+                        {
+                            SendMessage(SendType.Message, Source, String.Format(
+                                "{0} is not a recognized player or character name.", Query));
+                            return;
+                        }
+
+                        PlayerName = Reader.GetString(0);
+                        LoginDate = Reader.GetString(1);
+                    }
+                }
+
+                Console.WriteLine("{0} last logged in at {1}", PlayerName, LoginDate);
+                SendMessage(SendType.Message, Source, String.Format(
+                    "{0} last logged in at {1}.", PlayerName, LoginDate));
+            }
+            catch (Exception e)
+            {
+                SendMessage(SendType.Message, Source, "Internal error communicating with database.");
+                Console.WriteLine("Exception handling !seen request: {0}", e);
+            }
+        }
 
         private MySqlDataReader ExecuteQuery(string Query)
         {
@@ -788,6 +863,11 @@ namespace ALFAIRCBot
         private void ExecuteQueryNoReader(string Query)
         {
             MySqlHelper.ExecuteNonQuery(ConnectionString, Query);
+        }
+
+        private void SendMessage(SendType Type, string Destination, string Message)
+        {
+            Client.SendMessage(Type, Destination, Message.Replace('\r', ' ').Replace('\n', ' '));
         }
 
         /// <summary>
