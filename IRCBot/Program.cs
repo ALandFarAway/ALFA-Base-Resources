@@ -19,7 +19,7 @@ namespace ALFAIRCBot
                 IRCBot.Nickname = Properties.Settings.Default.Nickname;
                 IRCBot.ServerHostname = Properties.Settings.Default.ServerHostname;
                 IRCBot.ServerPort = Properties.Settings.Default.ServerPort;
-                IRCBot.HomeChannel = Properties.Settings.Default.HomeChannel;
+                IRCBot.HomeChannels = Properties.Settings.Default.HomeChannels;
                 IRCBot.NickservPassword = Properties.Settings.Default.NickservPassword;
                 IRCBot.DatabaseServer = Properties.Settings.Default.DatabaseServer;
                 IRCBot.DatabaseUser = Properties.Settings.Default.DatabaseUser;
