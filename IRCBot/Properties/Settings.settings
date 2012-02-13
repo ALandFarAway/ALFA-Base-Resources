@@ -11,8 +11,12 @@
     <Setting Name="ServerPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">6667</Value>
     </Setting>
-    <Setting Name="HomeChannel" Type="System.String" Scope="User">
-      <Value Profile="(Default)">#alfa-bottest</Value>
+    <Setting Name="HomeChannels" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;#alfa-tech&lt;/string&gt;
+  &lt;string&gt;#alfa-players&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="NickservPassword" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

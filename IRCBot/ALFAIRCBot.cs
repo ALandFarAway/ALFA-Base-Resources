@@ -48,7 +48,8 @@ namespace ALFAIRCBot
                     Client.Connect(ServerHostname, ServerPort);
                     Client.Login(Nickname, "ALFAStatus", 4, "ALFAStatus");
                     Client.SendMessage(SendType.Message, "NickServ", "identify " + NickservPassword);
-                    Client.RfcJoin(HomeChannel);
+                    foreach (string Channel in HomeChannels)
+                        Client.RfcJoin(Channel);
                     Client.Listen();
                 }
                 catch (Exception e)
@@ -68,7 +69,7 @@ namespace ALFAIRCBot
         public string Nickname { get; set; }
         public string ServerHostname { get; set; }
         public int ServerPort { get; set; }
-        public string HomeChannel { get; set; }
+        public System.Collections.Specialized.StringCollection HomeChannels { get; set; }
         public string NickservPassword { get; set; }
 
         public string DatabaseServer { get; set; }
@@ -90,9 +91,19 @@ namespace ALFAIRCBot
 
         private void Client_OnChannelMessage(object sender, IrcEventArgs e)
         {
-            if (e.Data.Channel != HomeChannel)
+            //
+            // Drop the message unless it comes in on a home channel that the
+            // client is configured to respond on.
+            //
+
+            if (!HomeChannels.Contains(e.Data.Channel))
                 return;
 
+            ThreadPool.QueueUserWorkItem(delegate(object state) { Client_OnChannelMessageDispatch(sender, e); });
+        }
+
+        private void Client_OnChannelMessageDispatch(object sender, IrcEventArgs e)
+        {
 //          Console.WriteLine("Channel {0}: [{1}] {2}", e.Data.Channel, e.Data.From, e.Data.Message);
 
             if (e.Data.Message == "!players")
@@ -105,7 +116,7 @@ namespace ALFAIRCBot
                 {
                     Console.WriteLine("Exception {0} handling !players query.", ex);
 
-                    SendMessage(SendType.Message, HomeChannel, "Internal error handling !players request.  The database server may be offline or unreachable.");
+                    SendMessage(SendType.Message, e.Data.Channel, "Internal error handling !players request.  The database server may be offline or unreachable.");
                 }
             }
             else if (e.Data.Message.StartsWith("!roll "))
@@ -374,7 +385,7 @@ namespace ALFAIRCBot
                 ServerInfoTable[9].Players,
                 ServerInfoTable[9].DMs));
 
-            SendMessage(SendType.Message, HomeChannel, String.Format(
+            SendMessage(SendType.Message, Source, String.Format(
                 "{0}: {1} player(s), {2}DM(s); {3}: {4} player(s) and {5} DM(s); {6}: {7} player(s) and {8} DM(s)",
                 ServerInfoTable[3].Name,
                 ServerInfoTable[3].Players,
