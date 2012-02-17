@@ -277,6 +277,14 @@ namespace ACR_ServerCommunicator
                 Database.ACR_GetVersion(),
                 Assembly.GetExecutingAssembly().GetName().Version.ToString()));
 
+            if (GetLocalInt(GetModule(), "ACR_SERVER_IPC_DISABLE_LATENCY_CHECK") == FALSE)
+                EnableLatencyCheck = true;
+            else
+                EnableLatencyCheck = false;
+
+            if (!EnableLatencyCheck)
+                WriteTimestampedLogEntry("ACR_ServerCommunicator.InitializeServerCommunicator: Latency check turned off by configuration.");
+
             //
             // Finally, drop into the command polling loop.
             //
@@ -852,7 +860,8 @@ namespace ACR_ServerCommunicator
                 });
             });
 
-            UpdatePlayerLatency(PlayerObject);
+            if (EnableLatencyCheck)
+                UpdatePlayerLatency(PlayerObject);
         }
 
         /// <summary>
@@ -2176,5 +2185,10 @@ namespace ACR_ServerCommunicator
         /// ExternalHostname field.
         /// </summary>
         private static object ExternalHostnameLock = new int();
+
+        /// <summary>
+        /// If true, the player latency check is enabled.
+        /// </summary>
+        private static bool EnableLatencyCheck = true;
     }
 }
