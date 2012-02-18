@@ -492,6 +492,18 @@ namespace ALFA
             if (String.IsNullOrEmpty(VaultPath))
                 return null;
 
+            //
+            // Append a trailing path separator if one was not there already,
+            // consistent with how the server vault plugin functions
+            // internally.
+            //
+
+            if (!VaultPath.EndsWith(Path.DirectorySeparatorChar.ToString()) &&
+                !VaultPath.EndsWith(Path.AltDirectorySeparatorChar.ToString()))
+            {
+                VaultPath = VaultPath + Path.DirectorySeparatorChar;
+            }
+
             return VaultPath;
         }
 
