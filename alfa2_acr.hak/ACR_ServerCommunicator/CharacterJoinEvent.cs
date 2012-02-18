@@ -59,6 +59,7 @@ namespace ACR_ServerCommunicator
                             sPlayerListBox = "LocalDMList";
                         else
                             sPlayerListBox = "LocalPlayerList";
+                        Script.AddListBoxRow(PlayerObject, "ChatSelect", sPlayerListBox, Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "5=/t \"" + Character.CharacterName + "\" ", "");
                     }
                     else
                     {
@@ -66,9 +67,9 @@ namespace ACR_ServerCommunicator
                             sPlayerListBox = "RemoteDMList";
                         else
                             sPlayerListBox = "RemotePlayerList";
+                        Script.AddListBoxRow(PlayerObject, "ChatSelect", sPlayerListBox, Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
                     }
 
-                    Script.AddListBoxRow(PlayerObject, "ChatSelect", sPlayerListBox, Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "5=/t \"" + Character.CharacterName + "\" ", "");
                     Player.CharacterIdsShown.Add(Character.CharacterId);
                 }
             }
