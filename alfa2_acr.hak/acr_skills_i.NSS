@@ -161,7 +161,7 @@ void _SendRollMessage(object oPC, string sMsg, int bPrivate=FALSE);
 
 void ACR_Checks(int nCheckType, object oPC, int nStatID=-1, int nDC=0, int bShowRoll=TRUE, int bBroadcast=TRUE, int nModifier=0) {
 
-	if(GetIsDM(oPC)) {
+	if(GetIsDM(oPC) || GetIsDMPossessed(oPC)) {
 		object oTarget = GetPlayerCurrentTarget(oPC);
 		if(oTarget == OBJECT_INVALID) {
 			// Checker is a DM with no target. Check all nearby PCs.

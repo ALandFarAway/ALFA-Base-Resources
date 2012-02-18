@@ -325,6 +325,9 @@ itemproperty GetFirstItemPropertyOfType(object oItem, int nType);
 //! Returns 0 if oPC is not a PC.
 int XPGainedSinceLevel(object oPC);
 
+//! Decrements all spell uses of oCreature to zero.
+void RemoveSpellUses(object oCreature);
+
 //LIST MANAGEMENT
 //note about lists : List have to be like "#1#5#26#99# ..." in order to work properly. See nwnx_craft_set_constatns for details
 
@@ -338,7 +341,6 @@ int GetFirstEntryInStringList(string sList);
 int GetLastEntryInStringList(string sList);
 //Check if an element is in a list (returns TRUE if found, else FALSE if not).
 int IsElementInStringList(string sList, int nElement);
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -1471,6 +1473,16 @@ int XPGainedSinceLevel(object oPC) {
 		return 0;
 	
 	return (GetXP(oPC) - GetXpNeededForLevel(GetHitDice(oPC)));
+}
+
+void RemoveSpellUses(object oCreature) {
+	int spellId;
+	for(spellId=0; spellId<5000; spellId++) {
+		int nUses = GetHasSpell(spellId, oCreature);
+		for(; nUses > 0; nUses--) {
+			DecrementRemainingSpellUses(oCreature, spellId);
+		}
+	}
 }
 
 
