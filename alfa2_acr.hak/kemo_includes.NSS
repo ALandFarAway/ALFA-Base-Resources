@@ -46,12 +46,23 @@ void SetChairFacing(object oPC, object oChair)
 {
 	float fChairFace = GetFacing(oChair);
 	string sChairTag = GetTag(oChair);
+	float fRot = GetLocalFloat(oChair,"ROTATE");
+
+	if (fabs(fRot) > 0.01)
+		fChairFace += fRot;
 	
-	if (sChairTag == "kemo_chair_4") return;
-	else if (sChairTag == "kemo_bench_2" ||
-			sChairTag == "kemo_chair_5") AssignCommand(oPC,SetFacing(fChairFace));
-	else if (sChairTag == "kemo_booth_1") AssignCommand(oPC,SetFacing(fChairFace-90.0f));
-	else AssignCommand(oPC,SetFacing(fChairFace+180.0f));
+	if (sChairTag == "kemo_chair_4")
+		return;
+
+	if (sChairTag == "kemo_bench_2" ||
+		sChairTag == "kemo_chair_5")
+		{}
+	else if (sChairTag == "kemo_booth_1")
+		fChairFace -= 90.0f;
+	else
+		fChairFace += 180.0f;
+
+	AssignCommand(oPC,SetFacing(fChairFace));
 }
 
 void AnimationLoop(object oPC, location lCurrentSpot)
