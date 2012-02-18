@@ -41,8 +41,24 @@ void main(int iAction, int iAvtValue)
 {
 	object oPC = GetPCSpeaker();//since the player speaks to himself in that dialog, one could use OBJECT_SELF instead of PCSpeaker()
 
-	if (GetLocalInt(oPC, "XC_CRAFT_DELAY"))
-		return;
+	if (GetLocalInt(oPC, "XC_CRAFT_DELAY")) {
+		switch (iAction) {
+			// ignore forced delay
+			case XP_CRAFT_ACTION_CANCEL:
+			case XP_CRAFT_ACTION_EXIT:
+			case XP_CRAFT_ACTION_SET_AVT:
+			case XP_CRAFT_ACTION_SELECT_ARMOR_PIECE:
+				break;
+
+			// Prevent premature execution
+			case XP_CRAFT_ACTION_VALIDATE:
+			case XP_CRAFT_ACTION_TINT_1:
+			case XP_CRAFT_ACTION_TINT_2:
+			case XP_CRAFT_ACTION_TINT_3:
+			default:
+				return;
+		}
+	}
 
 	SetLocalInt(oPC, "XC_CRAFT_DELAY", 1);
 	DelayCommand(XP_CRAFT_TALK_DELAY, DeleteLocalInt(oPC, "XC_CRAFT_DELAY"));
