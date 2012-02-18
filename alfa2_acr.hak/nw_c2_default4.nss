@@ -43,7 +43,11 @@ void main()
         if (GetCommandable(OBJECT_SELF))
         {
             ClearAllActions();
-            BeginConversation();
+	    if (GetLocalInt(OBJECT_SELF,"ACR_PRIVATE_CONVERSATION")) {
+                ActionStartConversation(oShouter,"",TRUE);
+            }
+	    else
+                BeginConversation();
         }
         else
         // * July 31 2004
