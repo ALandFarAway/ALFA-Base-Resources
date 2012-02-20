@@ -133,6 +133,15 @@ int ACR_GetPlayerClientExtensionFeatures(object PC)
 
 void ACR_SCliExtOnPCLoaded(object PC)
 {
+	// The player may be a returning player, with a CE state that is not the
+	// same as they have now; thus, it is necessary to clear the feature and
+	// version state up front.  These will be refreshed if the player does in
+	// fact use the CE this logon.
+	DeleteLocalInt(PC, ACR_SCLIEXT_VERSION);
+	DeleteLocalInt(PC, ACR_SCLIEXT_FEATURES);
+
+	// Schedule a check to identify whether the player has the CE installed for
+	// notification purposes.
 	DelayCommand(30.0f, ACR_CheckForClientExtensionInstalled(PC));
 }
 
