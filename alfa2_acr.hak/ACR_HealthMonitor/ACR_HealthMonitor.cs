@@ -206,7 +206,7 @@ namespace ACR_HealthMonitor
 
                 if (SetTime)
                 {
-                    WriteTimestampedLogEntry(String.Format("ACR_HealthMonitor.ProcessMeasuredLatency(): Adjusting GameObjUpdateTime to {1}...", GameObjUpdateTime));
+                    WriteTimestampedLogEntry(String.Format("ACR_HealthMonitor.ProcessMeasuredLatency(): Adjusting GameObjUpdateTime to {0}...", GameObjUpdateTime));
                     SystemInfo.SetGameObjUpdateTime(this, GameObjUpdateTime);
                 }
             }
