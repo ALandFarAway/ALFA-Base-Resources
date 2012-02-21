@@ -255,7 +255,7 @@ namespace CLRScriptFramework
         /// <param name="Effect2">Supplies the second engine structure.</param>
         /// <returns>The routine returns true of the engine structures are
         /// logically equal.</returns>
-        bool EqualNWEffects(NWEffect Effect1, NWEffect Effect2)
+        public bool EqualNWEffects(NWEffect Effect1, NWEffect Effect2)
         {
             return ScriptHost.Intrinsics.Intrinsic_CompareEngineStructure0(Effect1, Effect2);
         }
