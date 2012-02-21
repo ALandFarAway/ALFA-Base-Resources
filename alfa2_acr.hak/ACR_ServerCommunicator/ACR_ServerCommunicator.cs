@@ -519,7 +519,10 @@ namespace ACR_ServerCommunicator
         /// that has checked in after a latency check request.</param>
         private void HandleLatencyCheckResponse(uint PlayerObject)
         {
-            PlayerState State = GetPlayerState(PlayerObject);
+            PlayerState State = TryGetPlayerState(PlayerObject);
+
+            if (State == null)
+                return;
 
             State.LatencyToServer = (uint)Environment.TickCount - State.LatencyTickCount;
         }
@@ -2060,6 +2063,9 @@ namespace ACR_ServerCommunicator
         /// if there was no such player state present.</returns>
         public PlayerState GetPlayerState(uint PlayerObjectId)
         {
+            if (GetIsPC(PlayerObjectId) != TRUE)
+                PlayerObjectId = GetOwnedCharacter(PlayerObjectId);
+
             return PlayerStateTable[PlayerObjectId];
         }
 
@@ -2072,6 +2078,9 @@ namespace ACR_ServerCommunicator
         public PlayerState TryGetPlayerState(uint PlayerObjectId)
         {
             PlayerState RetPlayerState;
+
+            if (GetIsPC(PlayerObjectId) != TRUE)
+                PlayerObjectId = GetOwnedCharacter(PlayerObjectId);
 
             if (!PlayerStateTable.TryGetValue(PlayerObjectId, out RetPlayerState))
                 return null;
