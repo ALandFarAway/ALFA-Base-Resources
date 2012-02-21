@@ -229,7 +229,7 @@ namespace ALFA
         public static void SetGameObjUpdateTime(CLRScriptBase Script, int GameObjUpdateTime)
         {
             Script.SetGlobalInt("ACR_GAMEOBJUPDATE_TIME", GameObjUpdateTime);
-            Script.NWNXSetInt("BUGFIX", "GAMEOBJUPDATETIME", "", 0, GameObjUpdateTime * 1000);
+            Script.NWNXSetInt("BUGF", "GAMEOBJUPDATETIME", "", 0, GameObjUpdateTime * 1000);
         }
 
         /// <summary>
