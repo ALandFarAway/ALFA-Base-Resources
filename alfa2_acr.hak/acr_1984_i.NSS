@@ -87,6 +87,7 @@ const string ACR_LOG_OVERCR = "Over-CR combat kill";
 const string ACR_LOG_SERVER_LOAD = "Server Loaded";
 const string ACR_LOG_VALIDATED = "Validated";
 const string ACR_LOG_SERVER_ADMIN_COMMAND = "Server Admin Command";
+const string ACR_LOG_DEATH_FLOOR = "Death Floor";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////

@@ -317,7 +317,7 @@ void ACR_PlayerOnDeath(object oPC, object oKiller)
 	// If this is a one-hit straight to morgue, there will be no HP cached on the PC
 	if (GetLocalInt(oPC, ACR_DTH_HITPOINTS) == 0) {
 		// Log the event.
-		ACR_LogEvent(oPC, ACR_LOG_DEATH, "Character: " + ACR_SQLEncodeSpecialChars(GetName(oPC)) + "'s (level " + IntToString(GetHitDice(oPC)) + ") death caught by floor.");
+		ACR_LogEvent(oPC, ACR_LOG_DEATH_FLOOR, "Character: " + ACR_SQLEncodeSpecialChars(GetName(oPC)) + "'s (level " + IntToString(GetHitDice(oPC)) + ") death caught by floor.");
 
 	    // cache the identity of the damager
 		object oFoe = GetLastDamager(oPC);
