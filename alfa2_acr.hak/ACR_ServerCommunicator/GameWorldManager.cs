@@ -670,7 +670,7 @@ namespace ACR_ServerCommunicator
                 throw new ApplicationException(String.Format("Character {0} references invalid player id {1}", Character.CharacterId, Character.PlayerId));
 
             if (InitialDMState != null)
-                Character.Player.IsDM = InitialDMState != false;
+                Character.Player.IsDM = (InitialDMState != false);
 
             Character.Player.Characters.Add(Character);
 
