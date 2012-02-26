@@ -100,7 +100,7 @@ namespace ACR_ServerCommunicator
             Character.CharacterName = Database.ACR_SQLGetData(4);
             Character.LocationString = Database.ACR_SQLGetData(5);
 
-            InsertNewCharacter(Character, ServerId, Database);
+            InsertNewCharacter(Character, ServerId, Database, null);
 
             return Character;
         }
@@ -115,6 +115,23 @@ namespace ACR_ServerCommunicator
         /// <returns>The object data is returned, else null if the object did
         /// not exist.</returns>
         public GameCharacter ReferenceCharacterById(int CharacterId, IALFADatabase Database)
+        {
+            return ReferenceCharacterById(CharacterId, Database, null);
+        }
+
+        /// <summary>
+        /// Reference the data for a character by the character id.  If the
+        /// data was not yet available, it is retrieved from the database.
+        /// </summary>
+        /// <param name="CharacterId">Supplies the object id.</param>
+        /// <param name="Database">Supplies the database connection to use for
+        /// queries, if required.  The active rowset may be consumed.</param>
+        /// <param name="InitialDMState">Supplies the initial DM state of the
+        /// backing player object to update, for a synchronization of an
+        /// existing player with a new character.</param>
+        /// <returns>The object data is returned, else null if the object did
+        /// not exist.</returns>
+        public GameCharacter ReferenceCharacterById(int CharacterId, IALFADatabase Database, bool? InitialDMState)
         {
             //
             // Check if the object is already known first.
@@ -149,7 +166,7 @@ namespace ACR_ServerCommunicator
             ServerId = Convert.ToInt32(Database.ACR_SQLGetData(3));
             Character.LocationString = Database.ACR_SQLGetData(4);
 
-            InsertNewCharacter(Character, ServerId, Database);
+            InsertNewCharacter(Character, ServerId, Database, InitialDMState);
 
             return Character;
         }
@@ -640,7 +657,10 @@ namespace ACR_ServerCommunicator
         /// logged on to (only meaningful if the character is online).</param>
         /// <param name="Database">Supplies the database connection to use for
         /// queries, if required.  The active rowset may be consumed.</param>
-        private void InsertNewCharacter(GameCharacter Character, int ServerId, IALFADatabase Database)
+        /// <param name="InitialDMState">Supplies the initial DM state of the
+        /// backing player object to update, for a synchronization of an
+        /// existing player with a new character.</param>
+        private void InsertNewCharacter(GameCharacter Character, int ServerId, IALFADatabase Database, bool? InitialDMState)
         {
             GameServer Server;
 
@@ -648,6 +668,9 @@ namespace ACR_ServerCommunicator
 
             if (Character.Player == null)
                 throw new ApplicationException(String.Format("Character {0} references invalid player id {1}", Character.CharacterId, Character.PlayerId));
+
+            if (InitialDMState != null)
+                Character.Player.IsDM = InitialDMState != false;
 
             Character.Player.Characters.Add(Character);
 
@@ -1058,7 +1081,7 @@ namespace ACR_ServerCommunicator
                     bool IsDM = Row.IsDM;
                     int ServerId = Row.ServerId;
 
-                    GameCharacter Character = ReferenceCharacterById(CharacterId, Database);
+                    GameCharacter Character = ReferenceCharacterById(CharacterId, Database, IsDM);
                     GameServer Server = ReferenceServerById(ServerId, Database);
 
                     //
@@ -1673,7 +1696,7 @@ namespace ACR_ServerCommunicator
                         Character.CharacterName = Row.CharacterName;
                         Character.LocationString = Row.CharacterLocation;
 
-                        InsertNewCharacter(Character, Row.ServerId, Database);
+                        InsertNewCharacter(Character, Row.ServerId, Database, null);
                     }
                 }
 
