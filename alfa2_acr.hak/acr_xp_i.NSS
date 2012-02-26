@@ -108,6 +108,8 @@ const float _ACR_XP_OVERCR_LOGGING = 1.5;
 //  initial attemt is 0.25 (25%)
 const float _ACR_XP_PARTYSCALE = 0.25;
 
+const string _ACR_PPS_QUARANTINED = "ACR_PPS_QUARANTINED";
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -352,7 +354,7 @@ void ACR_XPOnClientLoaded(object oPC) {
     // since we DelayCommand this, make sure the PC is actually around first.
     if (!GetIsObjectValid(oPC)) { return; }
 
-	if (GetLocalInt(oPC, "ACR_PPS_QUARANTINED")) {
+	if (GetLocalInt(oPC, _ACR_PPS_QUARANTINED)) {
 		SendMessageToPC(oPC, "RPXP banking is suspended due to being Quarantined.");
 		return;
 	}
@@ -409,7 +411,7 @@ void ACR_XPOnClientLoaded(object oPC) {
 
 void ACR_XPOnClientExit(object oPC) {
 
-	if (GetLocalInt(oPC, "ACR_PPS_QUARANTINED")) {
+	if (GetLocalInt(oPC, _ACR_PPS_QUARANTINED)) {
 		return;
 	}
 	
