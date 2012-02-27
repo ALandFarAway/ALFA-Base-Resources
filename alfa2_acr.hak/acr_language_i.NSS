@@ -1323,21 +1323,28 @@ object _GetDMFITool(object oPC) {
 }
 
 int _IsLanguageKnown(object oPC, string sLang)
-{ //Purpose: Returns TRUE / FALSE whether sLang is known
-  //Original Scripter: Demetrious
-  //Last Modified By: Demetrious 6/28/6
-  object oTool = _GetDMFITool(oPC);
-  int n;
-  int nMax = GetLocalInt(oTool, "LanguageMAX");
-  string sTest;
-  // All languages stored in lower case strings.
-  sLang = GetStringLowerCase(sLang);
-  for (n=0; n<nMax; n++)
-  {
-    sTest = GetLocalString(oTool, "Language" + IntToString(n));
-    if (sTest==sLang) return TRUE;
-  }
-  return FALSE;
+{ 
+    //Purpose: Returns TRUE / FALSE whether sLang is known
+    //Original Scripter: Demetrious
+    //Last Modified By: Demetrious 6/28/6
+    object oTool = _GetDMFITool(oPC);
+    int n;
+    int nMax = GetLocalInt(oTool, "LanguageMAX");
+    string sTest;
+    // All languages stored in lower case strings.
+    sLang = GetStringLowerCase(sLang);
+    for (n=0; n<nMax; n++)
+    {
+        sTest = GetLocalString(oTool, "Language" + IntToString(n));
+        if (sTest == sLang) return TRUE;
+
+        // Elven and drow are different dialects of the same language, and should be treated mechanically
+        // as the same language, even though they sound quite different.
+        if ((sTest == "drow" || sTest == "elven") &&
+            (sLang == "drow" || sLang == "elven"))
+              return TRUE;
+    }
+    return FALSE;
 }
 
 
