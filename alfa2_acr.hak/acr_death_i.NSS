@@ -97,7 +97,6 @@ const int SPELL_TRUE_RESURRECTION = 1123;
 
 //! Number of days corpses will last
 //! NOTE: this is in game-days.  At 7 min/hour, 30 ingame days is 3.5 RL days.
-//!  Temporarily shifted to an arbitrarily high figure to avoid PC corpse problems from clock skip.
 const int ACR_DTH_CORPSE_DECAY = 180;
 
 //! The percent chance of stablizing, regaining consciousness, and healing naturally
