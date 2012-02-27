@@ -500,25 +500,10 @@ HAK_SOURCES_MISC=                                              \
             *.TXT                                              \
             .\*.DLG                                            \
             .\*.TGA                                            \
-            ..\alfa2_templates.hak\*.UTC                       \
-            ..\alfa2_templates.hak\*.UTI                       \
-            ..\alfa2_templates.hak\*.UTP                       \
-            ..\alfa2_templates.hak\*.UTW                       \
             .\*.GFF                                            
 
-#
-# This is a temporary hack to allow alfa2_templates.hak to be referenced while
-# we have not transitioned to the new hak yet in production.
-#
-
-HAK_SOURCES_MISC_NL=$(HAK_SOURCES_MISC:..\=^
-../)
-
-HAK_SOURCES_MISC_NL=$(HAK_SOURCES_MISC_NL:.\=^
+HAK_SOURCES_MISC_NL=$(HAK_SOURCES_MISC:.\=^
 )
-
-#HAK_SOURCES_MISC_NL=$(HAK_SOURCES_MISC:.\=^
-#)
 
 HAK_SOURCES=$(NSS_OBJECTS_NL) $(NSS_OBJECTS_NL:.ncs=.nss) $(NSS_OBJECTS_NL:.ncs=.ndb) $(CLRSCRIPT_OBJECTS_NL) $(NSS_INCLNSS_NL) $(HAK_SOURCES_MISC_NL)
 
