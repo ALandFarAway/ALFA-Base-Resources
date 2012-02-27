@@ -534,8 +534,14 @@ void DoHealing(object oTarget, int nDamageTotal, int vfx_impactHeal)
 	ApplyEffectToObject(DURATION_TYPE_INSTANT, eHeal, oTarget);
 	effect eVis2 = EffectVisualEffect(vfx_impactHeal);
 	ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis2, oTarget);
+
 	// ALFA ACR edit:
 	ACR_NLD_HealNLD(oTarget, nDamageTotal, TRUE, GetLastSpellCaster());
+
+	if((GetCurrentHitPoints(oTarget) + nDamageTotal) > 0)
+	{
+		DeleteLocalInt(oTarget, "ACR_DTH_HITPOINTS");
+	}
 }
 
 // this could be a harm spell cast on non-undead or a heal spell cast on undead
