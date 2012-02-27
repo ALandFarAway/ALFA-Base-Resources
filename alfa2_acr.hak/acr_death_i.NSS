@@ -148,6 +148,9 @@ const string _ACR_DTH_DAMAGER = "ACR_DTH_LAST_DAMAGER";
 const string _ACR_DTH_RECALLABLE = "ACR_DTH_RECALLABLE_";
 const float ACR_DTH_RECALL_SPIRIT_WINDOW = 12.0;
 
+//! Constants to prevent the need for tech rezzes.
+const string ACR_DTH_JUST_FLOORED = "ACR_DTH_JUST_FLOORED";
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -313,40 +316,75 @@ void ACR_PlayerOnDeath(object oPC, object oKiller)
 {
     // ignore dead players - this prevents duplicating player corpses and tokens
     if (ACR_GetIsPlayerDead(oPC)) { return; }
-	
-	// If this is a one-hit straight to morgue, there will be no HP cached on the PC
-	if (GetLocalInt(oPC, ACR_DTH_HITPOINTS) == 0) {
-		// Log the event.
-		ACR_LogEvent(oPC, ACR_LOG_DEATH_FLOOR, "Character: " + ACR_SQLEncodeSpecialChars(GetName(oPC)) + "'s (level " + IntToString(GetHitDice(oPC)) + ") death caught by floor.");
 
-	    // cache the identity of the damager
-		object oFoe = GetLastDamager(oPC);
-		SetLocalObject(oPC, _ACR_DTH_DAMAGER, oFoe);
-	    // rez, then damage to the floor
-		effect eLimit = EffectDamage((1-_ACR_DTH_FLOOR), DAMAGE_TYPE_NEGATIVE, DAMAGE_POWER_NORMAL, TRUE);
+    // If this is a one-hit straight to morgue, there will be no HP cached on the PC
+    if (GetLocalInt(oPC, ACR_DTH_HITPOINTS) == 0) {
+        // Log the event.
+        ACR_LogEvent(oPC, ACR_LOG_DEATH_FLOOR, "Character: " + ACR_SQLEncodeSpecialChars(GetName(oPC)) + "'s (level " + IntToString(GetHitDice(oPC)) + ") death caught by floor.");
+
+        // cache the identity of the damager
+        object oFoe = GetLastDamager(oPC);
+        SetLocalObject(oPC, _ACR_DTH_DAMAGER, oFoe);
+        // rez, then damage to the floor
+        effect eLimit = EffectDamage((1-_ACR_DTH_FLOOR), DAMAGE_TYPE_NEGATIVE, DAMAGE_POWER_NORMAL, TRUE);
         ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectResurrection(), oPC);
-		ApplyEffectToObject(DURATION_TYPE_INSTANT, eLimit, oPC);
-		SendMessageToPC(oPC, "Damage limiter, death blocked at "+IntToString(_ACR_DTH_FLOOR));
-		AssignCommand(oFoe, ClearAllActions(TRUE));
-	    object odMob = GetFirstObjectInShape(SHAPE_SPHERE, _ACR_DTH_RADIUS, GetLocation(oPC), FALSE, OBJECT_TYPE_CREATURE);
-	    while (GetIsObjectValid(odMob)) {
-            if (!GetIsPC(odMob) && GetIsEnemy(oPC, odMob)) {
-			    //SendMessageToPC(oPC, "Diverting attention of "+ACR_CleanCreatureNameTextForPlayers(GetName(odMob)));
-			    AssignCommand(odMob, ClearAllActions(TRUE));
-				//SetIsTemporaryNeutral(odMob, oPC, FALSE, _ACR_DTH_HOSTILE_DELAY);
-	        } else {
-		    }
-	        odMob = GetNextObjectInShape(SHAPE_SPHERE, _ACR_DTH_RADIUS, GetLocation(oPC), FALSE, OBJECT_TYPE_CREATURE);
+        ApplyEffectToObject(DURATION_TYPE_INSTANT, eLimit, oPC);
+        SendMessageToPC(oPC, "Damage limiter, death blocked at "+IntToString(_ACR_DTH_FLOOR));
+        AssignCommand(oFoe, ClearAllActions(TRUE));
+        object odMob = GetFirstObjectInShape(SHAPE_SPHERE, _ACR_DTH_RADIUS, GetLocation(oPC), FALSE, OBJECT_TYPE_CREATURE);
+        while (GetIsObjectValid(odMob)) 
+        {
+            if (!GetIsPC(odMob) && GetIsEnemy(oPC, odMob)) 
+            {
+                //SendMessageToPC(oPC, "Diverting attention of "+ACR_CleanCreatureNameTextForPlayers(GetName(odMob)));
+                AssignCommand(odMob, ClearAllActions(TRUE));
+                //SetIsTemporaryNeutral(odMob, oPC, FALSE, _ACR_DTH_HOSTILE_DELAY);
+            } 
+            else 
+            {
+            }
+            odMob = GetNextObjectInShape(SHAPE_SPHERE, _ACR_DTH_RADIUS, GetLocation(oPC), FALSE, OBJECT_TYPE_CREATURE);
         }
-		return;
-	}
-	// clear any DMFI follow commands, set local int marker for canceling others following the dying PC.
-	object oTool = GetLocalObject(oPC, "DMFITool");
-	SetLocalInt(oPC, "ACR_DTH_DEAD", TRUE);
-	DeleteLocalObject(oTool, "DMFIFollow");
-		
-	// increment death counter
-	ACR_SQLQuery("UPDATE characters SET Deaths=Deaths+1 WHERE ID=" + IntToString(ACR_GetCharacterID(oPC)));
+        SetLocalInt(oPC, ACR_DTH_JUST_FLOORED, 1);
+        DelayCommand(0.5f, DeleteLocalInt(oPC, ACR_DTH_JUST_FLOORED);
+        return;
+    }
+    if(GetLocalInt(oPC, ACR_DTH_JUST_FLOORED) == 1)
+    {
+        // The PC has hit the floor within the last half second-- this is probably due to > 4 attacks per round
+        // or a failure to clear action queues sufficiently-expediently. Pretend it didn't happen.
+
+        // cache the identity of the damager
+        object oFoe = GetLastDamager(oPC);
+        SetLocalObject(oPC, _ACR_DTH_DAMAGER, oFoe);
+        // rez, then damage to the floor
+        effect eLimit = EffectDamage((1-_ACR_DTH_FLOOR), DAMAGE_TYPE_NEGATIVE, DAMAGE_POWER_NORMAL, TRUE);
+        ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectResurrection(), oPC);
+        ApplyEffectToObject(DURATION_TYPE_INSTANT, eLimit, oPC);
+        SendMessageToPC(oPC, "Damage limiter, death blocked at "+IntToString(_ACR_DTH_FLOOR));
+        AssignCommand(oFoe, ClearAllActions(TRUE));
+        object odMob = GetFirstObjectInShape(SHAPE_SPHERE, _ACR_DTH_RADIUS, GetLocation(oPC), FALSE, OBJECT_TYPE_CREATURE);
+        while (GetIsObjectValid(odMob)) 
+        {
+            if (!GetIsPC(odMob) && GetIsEnemy(oPC, odMob)) 
+            {
+                //SendMessageToPC(oPC, "Diverting attention of "+ACR_CleanCreatureNameTextForPlayers(GetName(odMob)));
+                AssignCommand(odMob, ClearAllActions(TRUE));
+                //SetIsTemporaryNeutral(odMob, oPC, FALSE, _ACR_DTH_HOSTILE_DELAY);
+            } 
+            else 
+            {
+            }
+            odMob = GetNextObjectInShape(SHAPE_SPHERE, _ACR_DTH_RADIUS, GetLocation(oPC), FALSE, OBJECT_TYPE_CREATURE);
+        }
+    }
+    // clear any DMFI follow commands, set local int marker for canceling others following the dying PC.
+    object oTool = GetLocalObject(oPC, "DMFITool");
+    SetLocalInt(oPC, "ACR_DTH_DEAD", TRUE);
+    DeleteLocalObject(oTool, "DMFIFollow");
+	
+    // increment death counter
+    ACR_SQLQuery("UPDATE characters SET Deaths=Deaths+1 WHERE ID=" + IntToString(ACR_GetCharacterID(oPC)));
 
     // clear the action queue, including combat state, so we can manage inventory txfrs
     AssignCommand(oPC, ClearAllActions(TRUE));
@@ -365,8 +403,8 @@ void ACR_PlayerOnDeath(object oPC, object oKiller)
     // delay processing to add a little dramatics
     DelayCommand(3.0, FadeToBlack(oPC, FADE_SPEED_SLOWEST));
     DelayCommand(3.2, _playerOnDeath(oPC, oKiller));
-	// clean up cached integers
-	DeleteLocalInt(oPC, ACR_DTH_HITPOINTS);
+    // clean up cached integers
+    DeleteLocalInt(oPC, ACR_DTH_HITPOINTS);
 }
 
 void ACR_PlayerOnDying(object oPC, object oLastAttacker)
@@ -374,54 +412,57 @@ void ACR_PlayerOnDying(object oPC, object oLastAttacker)
     // apply the dying animation - need to make it permanent so it sticks
     AssignCommand(oPC, ClearAllActions(TRUE));
 
-	// Deactivate any action modes that might interfere
-	SetActionMode(oPC, ACTION_MODE_PARRY, FALSE);
+    // Deactivate any action modes that might interfere
+    SetActionMode(oPC, ACTION_MODE_PARRY, FALSE);
     SetActionMode(oPC, ACTION_MODE_COMBAT_EXPERTISE, FALSE);
-	SetActionMode(oPC, ACTION_MODE_IMPROVED_COMBAT_EXPERTISE, FALSE);
-	SetActionMode(oPC, ACTION_MODE_DEFENSIVE_CAST, FALSE);	
-	ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectVisualEffect(VFX_COM_BLOOD_REG_RED), oPC);
-	PlayCustomAnimation(oPC, "proneb", 1);
-	//DelayCommand(0.1, SetCommandable(FALSE, oPC));
-	int bPreHealed = FALSE;
+    SetActionMode(oPC, ACTION_MODE_IMPROVED_COMBAT_EXPERTISE, FALSE);
+    SetActionMode(oPC, ACTION_MODE_DEFENSIVE_CAST, FALSE);	
+    ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectVisualEffect(VFX_COM_BLOOD_REG_RED), oPC);
+    PlayCustomAnimation(oPC, "proneb", 1);
+    //DelayCommand(0.1, SetCommandable(FALSE, oPC));
+    int bPreHealed = FALSE;
     int nHP = GetCurrentHitPoints(oPC);
 
-	// pickup where the player left off if they are already dying (relogin)
-	// otherwise, process the transition to bleeding/dying
-	if (! ACR_GetIsPlayerDying(oPC))
-	{
-	    // first off, cache the creature/PC who knocked the PC into negatives.
-		object oAttacker = GetLastDamager(oPC);
-		SetLocalObject(oPC, _ACR_DTH_DAMAGER, oAttacker);
-	    // if they're starting their bleeding from less than the set level, adjust them up to it.
-	    if (nHP < _ACR_DTH_FLOOR) {
-	        // manage single-hit floor
-		    effect eFloor = EffectHeal(_ACR_DTH_FLOOR - nHP);
+    // pickup where the player left off if they are already dying (relogin)
+    // otherwise, process the transition to bleeding/dying
+    if (! ACR_GetIsPlayerDying(oPC))
+    {
+        // first off, cache the creature/PC who knocked the PC into negatives.
+        object oAttacker = GetLastDamager(oPC);
+        SetLocalObject(oPC, _ACR_DTH_DAMAGER, oAttacker);
+        // if they're starting their bleeding from less than the set level, adjust them up to it.
+        if (nHP < _ACR_DTH_FLOOR) {
+            // manage single-hit floor
+            effect eFloor = EffectHeal(_ACR_DTH_FLOOR - nHP);
             ApplyEffectToObject(DURATION_TYPE_INSTANT, eFloor, oPC);
-		    SendMessageToPC(oPC, "Damage limiter, dying blocked at "+IntToString(_ACR_DTH_FLOOR));
-	    }
-	    // fade the screen to black
-    	//FadeToBlack(oPC, FADE_SPEED_SLOWEST);
+            SendMessageToPC(oPC, "Damage limiter, dying blocked at "+IntToString(_ACR_DTH_FLOOR));
+        }
+        // fade the screen to black
+        //FadeToBlack(oPC, FADE_SPEED_SLOWEST);
 
     	// flag the player as bleeding
     	ACR_SetPlayerStatusFlags(oPC, ACR_PLAYER_FLAG_DYING | ACR_PLAYER_FLAG_BLEEDING | ACR_PLAYER_FLAG_UNCONSCIOUS);
 
-	    FloatingTextStringOnCreature("You fall to the ground unconscious. You are bleeding badly!", oPC, FALSE);
-	    // Stopgap measure to force mobs' attention to be diverted from downed PCs while there are others in combat. 
-	    //   This should probably be removed in favor of something more nuanced.
-		AssignCommand(oAttacker, ClearAllActions(TRUE));
-		SendMessageToPC(oPC, ACR_CleanCreatureNameTextForPlayers(GetName(oAttacker))+" loses interest.");
-	    object oMob = GetFirstObjectInShape(SHAPE_SPHERE, _ACR_DTH_RADIUS, GetLocation(oPC), FALSE, OBJECT_TYPE_CREATURE);
-	    //SendMessageToPC(oPC, "Starting with "+GetTag(oMob));
-	    while (GetIsObjectValid(oMob)) {
+        FloatingTextStringOnCreature("You fall to the ground unconscious. You are bleeding badly!", oPC, FALSE);
+        // Stopgap measure to force mobs' attention to be diverted from downed PCs while there are others in combat. 
+        //   This should probably be removed in favor of something more nuanced.
+        AssignCommand(oAttacker, ClearAllActions(TRUE));
+        SendMessageToPC(oPC, ACR_CleanCreatureNameTextForPlayers(GetName(oAttacker))+" loses interest.");
+        object oMob = GetFirstObjectInShape(SHAPE_SPHERE, _ACR_DTH_RADIUS, GetLocation(oPC), FALSE, OBJECT_TYPE_CREATURE);
+        //SendMessageToPC(oPC, "Starting with "+GetTag(oMob));
+        while (GetIsObjectValid(oMob)) {
             if (!GetIsPC(oMob) && GetIsEnemy(oPC, oMob)) {
-			    //SendMessageToPC(oPC, "Diverting attention of "+GetTag(oMob));				
-			    AssignCommand(oMob, ClearAllActions(TRUE));
-				//AssignCommand(oMob, ActionWait(30.0));
-    	        //SetIsTemporaryNeutral(oMob, oPC, FALSE);
-		    }
-	        oMob = GetNextObjectInShape(SHAPE_SPHERE, _ACR_DTH_RADIUS, GetLocation(oPC), FALSE, OBJECT_TYPE_CREATURE);
+                //SendMessageToPC(oPC, "Diverting attention of "+GetTag(oMob));				
+                AssignCommand(oMob, ClearAllActions(TRUE));
+                //AssignCommand(oMob, ActionWait(30.0));
+                //SetIsTemporaryNeutral(oMob, oPC, FALSE);
+            }
+            oMob = GetNextObjectInShape(SHAPE_SPHERE, _ACR_DTH_RADIUS, GetLocation(oPC), FALSE, OBJECT_TYPE_CREATURE);
         }
-	} else if (!ACR_GetIsPlayerBleeding(oPC)) {
+        SetLocalInt(oPC, ACR_DTH_JUST_FLOORED, 1);
+        DelayCommand(0.5f, DeleteLocalInt(oPC, ACR_DTH_JUST_FLOORED);
+    } 
+    else if (!ACR_GetIsPlayerBleeding(oPC)) {
 	    // PC has been tended, should continue recovery
 		SendMessageToPC(oPC, "You are stable, and will continue to recover slowly.");
 		bPreHealed = TRUE;
