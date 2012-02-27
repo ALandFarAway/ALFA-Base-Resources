@@ -346,7 +346,7 @@ void ACR_PlayerOnDeath(object oPC, object oKiller)
             odMob = GetNextObjectInShape(SHAPE_SPHERE, _ACR_DTH_RADIUS, GetLocation(oPC), FALSE, OBJECT_TYPE_CREATURE);
         }
         SetLocalInt(oPC, ACR_DTH_JUST_FLOORED, 1);
-        DelayCommand(0.5f, DeleteLocalInt(oPC, ACR_DTH_JUST_FLOORED);
+        DelayCommand(0.5f, DeleteLocalInt(oPC, ACR_DTH_JUST_FLOORED));
         return;
     }
     if(GetLocalInt(oPC, ACR_DTH_JUST_FLOORED) == 1)
@@ -460,7 +460,7 @@ void ACR_PlayerOnDying(object oPC, object oLastAttacker)
             oMob = GetNextObjectInShape(SHAPE_SPHERE, _ACR_DTH_RADIUS, GetLocation(oPC), FALSE, OBJECT_TYPE_CREATURE);
         }
         SetLocalInt(oPC, ACR_DTH_JUST_FLOORED, 1);
-        DelayCommand(0.5f, DeleteLocalInt(oPC, ACR_DTH_JUST_FLOORED);
+        DelayCommand(0.5f, DeleteLocalInt(oPC, ACR_DTH_JUST_FLOORED));
     } 
     else if (!ACR_GetIsPlayerBleeding(oPC)) {
 	    // PC has been tended, should continue recovery
