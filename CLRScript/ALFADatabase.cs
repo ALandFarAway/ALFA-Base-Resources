@@ -664,6 +664,16 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Return whether a PC is quarantined.
+        /// </summary>
+        /// <param name="PCObject">Supplies the PC object.</param>
+        /// <returns>True is returned if the PC is quarantined.</returns>
+        public bool ACR_GetIsPCQuarantined(UInt32 PCObject)
+        {
+            return Script.GetLocalInt(PCObject, "ACR_PPS_QUARANTINED") != CLRScriptBase.FALSE;
+        }
+
+        /// <summary>
         /// This routine packages a location object into a string.
         /// </summary>
         /// <param name="Location">Supplies the location to convert.</param>

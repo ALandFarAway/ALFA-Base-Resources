@@ -1763,6 +1763,17 @@ namespace ACR_ServerCommunicator
             }
 #endif
 
+            if (Database.ACR_GetIsPCQuarantined(SenderObjectId))
+            {
+                //
+                // Since a player in quarantine is not marked as online, a
+                // remote server may choose to discard a tell initiated while
+                // in quarantine.  Warn the player of this.
+                //
+
+                SendFeedbackError(SenderObjectId, "Warning: Cross-server tells may not be delivered when in quarantine.");
+            }
+
             //
             // Otherwise, enqueue it, breaking large tells up into multiple
             // smaller tells if need be.

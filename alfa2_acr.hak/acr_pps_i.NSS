@@ -91,7 +91,7 @@ const string ACR_PPS_QUARANTINE_AR_TAG = "acr_quarantine_are";
 //! Quarantine waypoint blueprint tag
 const string ACR_PPS_QUARANTINE_WP_TAG = "acr_quarantine_wp";
 
-//! Quarantine LocalInt
+//! Quarantine LocalInt (sync with CLRScript\ALFADatabase.cs).
 const string ACR_PPS_QUARANTINED = "ACR_PPS_QUARANTINED";
 
 //! Quarantine Autoportal Localint
@@ -218,7 +218,7 @@ void ACR_PCSave(object oPC, int bExport = TRUE, int bSaveLocation = TRUE)
     if (GetIsDM(oPC)) { return; }
 
 	// ignore players in quarantine??
-	if (GetLocalInt(oPC, "ACR_PPS_QUARANTINED")) { return; }
+	if (GetLocalInt(oPC, ACR_PPS_QUARANTINED)) { return; }
     //if (GetTag(GetArea(oPC)) == ACR_PPS_QUARANTINE_AR_TAG) { return; }
 
     ACR_PrintDebugMessage("acr_pps_i: Saving " + GetName(oPC) + " Character Data", ACR_PPS_DEBUG_ID, DEBUG_LEVEL_WARNING);
@@ -255,7 +255,7 @@ void ACR_PCAutoSave(object oPC, int bUpdateStatusOnly)
 		} else {
 			SetLocalInt(oPC, ACR_PPS_COUNT, nCycleIndex);
 		}
-		if (GetLocalInt(oPC, "ACR_PPS_QUARANTINED") == FALSE) {
+		if (GetLocalInt(oPC, ACR_PPS_QUARANTINED) == FALSE) {
 			SetLocalString(oPC, ACR_PPS_LOCATION, ACR_LocationToString(GetLocation(oPC)));
 		}
         // schedule the next auto save check
