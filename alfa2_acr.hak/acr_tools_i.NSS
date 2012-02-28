@@ -328,6 +328,10 @@ int XPGainedSinceLevel(object oPC);
 //! Decrements all spell uses of oCreature to zero.
 void RemoveSpellUses(object oCreature);
 
+// Returns a Local Variable's name from an object at index nPosition. Empty string is returned if points to an invalid index.
+// Unlike OE's GetVariableName(), this function does not crash the server if nPosition is invalid.
+string SafeGetVariableName(object oTarget, int nPosition);
+
 //LIST MANAGEMENT
 //note about lists : List have to be like "#1#5#26#99# ..." in order to work properly. See nwnx_craft_set_constatns for details
 
@@ -1483,6 +1487,15 @@ void RemoveSpellUses(object oCreature) {
 			DecrementRemainingSpellUses(oCreature, spellId);
 		}
 	}
+}
+
+string SafeGetVariableName(object oTarget, int nPosition) {
+	
+	int nCount = GetVariableCount(oTarget);
+	
+	if(nPosition < nCount)
+		return GetVariableName(oTarget, nPosition);
+	else return "";
 }
 
 
