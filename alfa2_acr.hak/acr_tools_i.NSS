@@ -328,6 +328,45 @@ int XPGainedSinceLevel(object oPC);
 //! Decrements all spell uses of oCreature to zero.
 void RemoveSpellUses(object oCreature);
 
+// Returns TRUE if iIndex is a valid local variable index on oTarget.
+// Returns FALSE otherwise.
+int GetIsValidVariableIndex(object oTarget, int nIndex);
+
+// Returns a Local Variable's name from an object at index nPosition. Empty string is returned if points to an invalid index.
+// Unlike OE's version, this function cannot crash the server.
+string SafeGetVariableName(object oTarget, int nPosition);
+
+// Returns a Local Variable's type from an object
+// at position nPosition. -1 is returned if points to invalid
+// variable
+// the returned value is one of the VARIABLE_TYPE_* values.
+// Unlike OE's version, this function cannot crash the server.
+int SafeGetVariableType(object oTarget, int nPosition);
+
+// Get the value of a local float stored at the index provided.
+// 0.00 if no var is present there.
+// Unlike OE's version, this function cannot crash the server.
+float SafeGetVariableValueFloat(object oObject, int nIndex);
+
+// Get the value of a local int stored at the index provided.  0 if no var is present.
+// Unlike OE's version, this function cannot crash the server.
+int SafeGetVariableValueInt(object oObject, int nIndex);
+
+// Get the value of a local location stored at the index provided.
+// Invalid location  no var is present there.
+// Unlike OE's version, this function cannot crash the server.
+location SafeGetVariableValueLocation(object oObject, int nIndex);
+
+// Get the value of a local object stored at the index provided.
+// OBJECT_INVALID if no var is present there.
+// Unlike OE's version, this function cannot crash the server.
+object SafeGetVariableValueObject(object oObject, int nIndex);
+
+// Get the value of a local string stored at the index provided.
+// Empty string if no var is present there.
+// Unlike OE's version, this function cannot crash the server.
+string SafeGetVariableValueString(object oObject, int nIndex);
+
 //LIST MANAGEMENT
 //note about lists : List have to be like "#1#5#26#99# ..." in order to work properly. See nwnx_craft_set_constatns for details
 
@@ -1483,6 +1522,40 @@ void RemoveSpellUses(object oCreature) {
 			DecrementRemainingSpellUses(oCreature, spellId);
 		}
 	}
+}
+
+int GetIsValidVariableIndex(object oTarget, int nIndex) {
+	int nVariableCount = GetVariableCount(oTarget);
+	return nIndex >= 0 && nIndex < nVariableCount;
+}
+
+string SafeGetVariableName(object oTarget, int nPosition) {
+	return GetIsValidVariableIndex(oTarget, nPosition) ? GetVariableName(oTarget, nPosition) : "";
+}
+
+int SafeGetVariableType(object oTarget, int nPosition) {
+	return GetIsValidVariableIndex(oTarget, nPosition) ? GetVariableType(oTarget, nPosition) : -1;
+}
+
+float SafeGetVariableValueFloat(object oObject, int nIndex) {
+	return GetIsValidVariableIndex(oObject, nIndex) ? GetVariableValueFloat(oObject, nIndex) : 0.0;
+}
+
+int SafeGetVariableValueInt(object oObject, int nIndex) {
+	return GetIsValidVariableIndex(oObject, nIndex) ? GetVariableValueInt(oObject, nIndex) : 0;
+}
+
+location SafeGetVariableValueLocation(object oObject, int nIndex) {
+	location locInvalid;
+	return GetIsValidVariableIndex(oObject, nIndex) ? GetVariableValueLocation(oObject, nIndex) : locInvalid;
+}
+
+object SafeGetVariableValueObject(object oObject, int nIndex) {
+	return GetIsValidVariableIndex(oObject, nIndex) ? GetVariableValueObject(oObject, nIndex) : OBJECT_INVALID;
+}
+
+string SafeGetVariableValueString(object oObject, int nIndex) {
+	return GetIsValidVariableIndex(oObject, nIndex) ? GetVariableValueString(oObject, nIndex) : "";
 }
 
 
