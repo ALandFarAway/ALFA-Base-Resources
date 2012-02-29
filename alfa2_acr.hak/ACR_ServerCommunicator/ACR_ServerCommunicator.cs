@@ -503,9 +503,15 @@ namespace ACR_ServerCommunicator
                         foreach (GameCharacter Character in Server.Characters)
                         {
                             if (Character.Player.IsDM)
+                            {
                                 AddListBoxRow(PlayerObject, "ChatSelect", "RemoteDMList", Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
+                                Player.CharacterIdsShown.Add(Character.CharacterId);
+                            }
                             else
+                            {
                                 AddListBoxRow(PlayerObject, "ChatSelect", "RemotePlayerList", Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
+                                Player.CharacterIdsShown.Add(Character.CharacterId);
+                            }
                         }
                     }
                 }
