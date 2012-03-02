@@ -617,7 +617,7 @@ namespace ALFAIRCBot
         private void OnCommandHelp(string Source)
         {
             SendMessage(SendType.Message, Source,
-                "Commands: !players, !roll [1d6+1], !weather [zip|city], !bing [query], !wikipedia [query], !srd [query], !help, !page [\"player\"] [message], !seen player");
+                "Commands: !players, !roll [1d6+1], !weather [zip|city], !bing [query], !wikipedia [query], !srd [query], !help, !page [\"player\"] [message], !seen [player]");
         }
 
         private void OnCommandPage(string Source, string Nick, string Query)
