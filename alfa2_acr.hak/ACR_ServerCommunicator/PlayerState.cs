@@ -44,6 +44,10 @@ namespace ACR_ServerCommunicator
             this.StateFlags = (PlayerStateFlags) Database.ACR_GetPersistentInt(ObjectId, "ACR_COMMUNICATOR_STATE_FLAGS");
             this.LatencyTickCount = 0;
             this.LatencyToServer = 0;
+            this.ChatSelectLocalPlayersShown = 0;
+            this.ChatSelectLocalDMsShown = 0;
+            this.ChatSelectRemotePlayersShown = 0;
+            this.ChatSelectRemoteDMsShown = 0;
 
             //
             // Upgrade any legacy database settings to their new format.
@@ -91,6 +95,38 @@ namespace ACR_ServerCommunicator
         public uint LatencyToServer { get; set; }
 
         /// <summary>
+        /// The count of local players in the character id list.
+        /// 
+        /// N.B.  This is the GUI state value.  If the GUI is collapsed, all
+        ///       players are considered "local".
+        /// </summary>
+        public int ChatSelectLocalPlayersShown { get; set; }
+
+        /// <summary>
+        /// The count of local DMs in the character id list.
+        /// 
+        /// N.B.  This is the GUI state value.  If the GUI is collapsed, all
+        ///       DMs are considered "local".
+        /// </summary>
+        public int ChatSelectLocalDMsShown { get; set; }
+
+        /// <summary>
+        /// The count of remote players in the character id list.
+        /// 
+        /// N.B.  This is the GUI state value.  If the GUI is collapsed, all
+        ///       players are considered "local".
+        /// </summary>
+        public int ChatSelectRemotePlayersShown { get; set; }
+
+        /// <summary>
+        /// The count of remote DMs in the character id list.
+        /// 
+        /// N.B.  This is the GUI state value.  If the GUI is collapsed, all
+        ///       DMs are considered "local".
+        /// </summary>
+        public int ChatSelectRemoteDMsShown { get; set; }
+
+        /// <summary>
         /// The player state flags.
         /// </summary>
         public PlayerStateFlags Flags
@@ -104,6 +140,40 @@ namespace ACR_ServerCommunicator
                 StateFlags = value;
                 Communicator.GetDatabase().ACR_SetPersistentInt(ObjectId, "ACR_COMMUNICATOR_STATE_FLAGS", (int)StateFlags);
             }
+        }
+
+
+        /// <summary>
+        /// This method updates the chat select GUI headers if the player had
+        /// the GUI active.  It is called after the count of players displayed
+        /// has changed.
+        /// 
+        /// N.B.  This routine is assumed to be called in-thread-context on the
+        ///       main thread.
+        /// </summary>
+        public void UpdateChatSelectGUIHeaders()
+        {
+            bool Expanded = Communicator.GetLocalInt(ObjectId, "chatselect_expanded") != CLRScriptBase.FALSE;
+
+            string LocalPlayerListHeading = (!Expanded ? "Players" : "Local Players");
+            string LocalDMListHeading = (!Expanded ? "DMs" : "Local DMs");
+            string RemotePlayerListHeading = "Remote Players";
+            string RemoteDMListHeading = "Remote DMs";
+
+            LocalPlayerListHeading += String.Format(" ({0})", ChatSelectLocalPlayersShown);
+            LocalDMListHeading += String.Format(" ({0})", ChatSelectLocalDMsShown);
+
+            Communicator.SetGUIObjectText(ObjectId, "ChatSelect", "HEADER_LPL", -1, LocalPlayerListHeading);
+            Communicator.SetGUIObjectText(ObjectId, "ChatSelect", "HEADER_LDM", -1, LocalDMListHeading);
+
+            if (!Expanded)
+                return;
+
+            RemotePlayerListHeading += String.Format(" ({0})", ChatSelectRemotePlayersShown);
+            RemoteDMListHeading += String.Format(" ({0})", ChatSelectRemoteDMsShown);
+
+            Communicator.SetGUIObjectText(ObjectId, "ChatSelect", "HEADER_RPL", -1, RemotePlayerListHeading);
+            Communicator.SetGUIObjectText(ObjectId, "ChatSelect", "HEADER_RDM", -1, RemoteDMListHeading);
         }
 
 

@@ -57,20 +57,33 @@ namespace ACR_ServerCommunicator
                     if (Server.ServerId == Script.GetDatabase().ACR_GetServerID() || Script.GetLocalInt(PlayerObject, "chatselect_expanded") == 0)
                     {
                         if (IsDM == true)
+                        {
                             sPlayerListBox = "LocalDMList";
+                            Player.ChatSelectLocalDMsShown -= 1;
+                        }
                         else
+                        {
                             sPlayerListBox = "LocalPlayerList";
+                            Player.ChatSelectLocalPlayersShown -= 1;
+                        }
                     }
                     else
                     {
                         if (IsDM == true)
+                        {
                             sPlayerListBox = "RemoteDMList";
+                            Player.ChatSelectRemoteDMsShown -= 1;
+                        }
                         else
+                        {
                             sPlayerListBox = "RemotePlayerList";
+                            Player.ChatSelectRemotePlayersShown -= 1;
+                        }
                     }
 
                     Script.RemoveListBoxRow(PlayerObject, "ChatSelect", sPlayerListBox, Character.CharacterName);
                     Player.CharacterIdsShown.Remove(Character.CharacterId);
+                    Player.UpdateChatSelectGUIHeaders();
                 }
             }
 

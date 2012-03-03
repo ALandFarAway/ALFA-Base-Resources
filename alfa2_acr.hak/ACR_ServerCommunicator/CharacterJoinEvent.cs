@@ -56,21 +56,39 @@ namespace ACR_ServerCommunicator
                     if (Server.ServerId == Script.GetDatabase().ACR_GetServerID() || Script.GetLocalInt(PlayerObject, "chatselect_expanded") == 0)
                     {
                         if (IsDM == true)
+                        {
                             sPlayerListBox = "LocalDMList";
+                            Player.ChatSelectLocalDMsShown += 1;
+                        }
                         else
+                        {
                             sPlayerListBox = "LocalPlayerList";
-                        Script.AddListBoxRow(PlayerObject, "ChatSelect", sPlayerListBox, Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "5=/t \"" + Character.CharacterName + "\" ", "");
+                            Player.ChatSelectLocalPlayersShown += 1;
+                        }
+
+                        if (Server.ServerId == Script.GetDatabase().ACR_GetServerID())
+                            Script.AddListBoxRow(PlayerObject, "ChatSelect", sPlayerListBox, Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "5=/t \"" + Character.CharacterName + "\" ", "");
+                        else
+                            Script.AddListBoxRow(PlayerObject, "ChatSelect", sPlayerListBox, Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
                     }
                     else
                     {
                         if (IsDM == true)
+                        {
                             sPlayerListBox = "RemoteDMList";
+                            Player.ChatSelectRemoteDMsShown += 1;
+                        }
                         else
+                        {
                             sPlayerListBox = "RemotePlayerList";
+                            Player.ChatSelectRemotePlayersShown += 1;
+                        }
+
                         Script.AddListBoxRow(PlayerObject, "ChatSelect", sPlayerListBox, Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
                     }
 
                     Player.CharacterIdsShown.Add(Character.CharacterId);
+                    Player.UpdateChatSelectGUIHeaders();
                 }
             }
 
