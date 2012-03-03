@@ -34,7 +34,7 @@ void main ( string sEvent, string sChatString )
     {
         SetLocalInt(OBJECT_SELF, "chatselect_expanded", 1);
 
-		  // Note that ACR_PopulateChatSelect resets the header text.
+        // Note that ACR_PopulateChatSelect resets the header text.
         SetGUIObjectText(OBJECT_SELF, "ChatSelect", "HEADER_LPL", -1, "Local Players");
         SetGUIObjectText(OBJECT_SELF, "ChatSelect", "HEADER_LDM", -1, "Local DMs");
         ACR_PopulateChatSelect(GetOwnedCharacter(OBJECT_SELF));
@@ -43,7 +43,7 @@ void main ( string sEvent, string sChatString )
     {
         SetLocalInt(OBJECT_SELF, "chatselect_expanded", 0);
 
-		  // Note that ACR_PopulateChatSelect resets the header text.
+        // Note that ACR_PopulateChatSelect resets the header text.
         SetGUIObjectText(OBJECT_SELF, "ChatSelect", "HEADER_LPL", -1, "Players");
         SetGUIObjectText(OBJECT_SELF, "ChatSelect", "HEADER_LDM", -1, "DMs");
         ACR_PopulateChatSelect(GetOwnedCharacter(OBJECT_SELF));
