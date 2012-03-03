@@ -435,6 +435,29 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// Send a textural description of the online server list to a player
+        /// on the local server.
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the player object id for the
+        /// player to send the server list to.</param>
+        private void ListOnlineServers(uint PlayerObject)
+        {
+            lock (WorldManager)
+            {
+                foreach (GameServer Server in WorldManager.Servers)
+                {
+                    if (!Server.Online)
+                        continue;
+
+                    SendMessageToPC(PlayerObject, String.Format(
+                        "Server {0}: {1} users.",
+                        Server.Name,
+                        Server.Characters.Count));
+                }
+            }
+        }
+
+        /// <summary>
         /// Populate the chat select GUI. This may be called as part of the enter
         /// event or the opening of the chat select GUI
         /// </summary>
@@ -737,6 +760,7 @@ namespace ACR_ServerCommunicator
                 "re message  - Reply to last cross-server tell (alias: r).\n" +
                 "rt message  - Send cross-server tell to last player you sent a tell to (alias: rt).\n" +
                 "users  - List online users (alias: who).\n" +
+                "servers  - List online servers.\n" +
                 "version  - List server version information.\n" +
                 "notify [on|off]  - Enable or disable cross-server join/part notifications.\n" +
                 "notify [chatlog|combatlog]  - Send cross-server join/part notifications to chat log or combat log.\n" +
@@ -815,6 +839,11 @@ namespace ACR_ServerCommunicator
                 CookedText.Equals("who", StringComparison.InvariantCultureIgnoreCase))
             {
                 ListOnlineUsers(SenderObjectId);
+                return TRUE;
+            }
+            else if (CookedText.Equals("servers"))
+            {
+                ListOnlineServers(SenderObjectId);
                 return TRUE;
             }
 #if DEBUG_MODE
