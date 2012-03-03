@@ -338,6 +338,6 @@ void ParseRoll(object pc, string cmd)
 	}
 	else 
 	{
-		SendMessageToPC(pc, "I don't understand the command '"+text+"'");
+		SendMessageToPC(pc, "I don't understand the command '"+text+"'.  (Try #help for a list of commands.)");
 	}
 }
