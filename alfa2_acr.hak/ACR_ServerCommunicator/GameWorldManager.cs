@@ -82,6 +82,9 @@ namespace ACR_ServerCommunicator
             // Need to pull the data from the database.
             //
 
+            if (Database == null)
+                return null;
+
             int ServerId;
 
             Database.ACR_SQLQuery(String.Format(
@@ -148,6 +151,9 @@ namespace ACR_ServerCommunicator
             // Need to pull the data from the database.
             //
 
+            if (Database == null)
+                return null;
+
             int ServerId;
 
             Database.ACR_SQLQuery(String.Format(
@@ -197,6 +203,9 @@ namespace ACR_ServerCommunicator
             // Need to pull the data from the database.
             //
 
+            if (Database == null)
+                return null;
+
             Database.ACR_SQLQuery(String.Format(
                 "SELECT `ID`, `IsDM`, `Name` FROM `players` WHERE `Name` = '{0}'",
                 Database.ACR_SQLEncodeSpecialChars(PlayerName)));
@@ -240,6 +249,9 @@ namespace ACR_ServerCommunicator
             //
             // Need to pull the data from the database.
             //
+
+            if (Database == null)
+                return null;
 
             Database.ACR_SQLQuery(String.Format(
                 "SELECT `Name`, `IsDM` FROM `players` WHERE `ID` = {0}",
@@ -285,6 +297,9 @@ namespace ACR_ServerCommunicator
             // Need to pull the data from the database.
             //
 
+            if (Database == null)
+                return null;
+
             Database.ACR_SQLQuery(String.Format(
                 "SELECT `ID`, `IPAddress`, `Name` FROM `servers` WHERE `Name` = '{0}'",
                 Database.ACR_SQLEncodeSpecialChars(ServerName)));
@@ -329,6 +344,9 @@ namespace ACR_ServerCommunicator
             // Need to pull the data from the database.
             //
 
+            if (Database == null)
+                return null;
+
             Database.ACR_SQLQuery(String.Format(
                 "SELECT `Name`, `IPAddress` FROM `servers` WHERE `ID` = {0}",
                 ServerId));
@@ -355,6 +373,23 @@ namespace ACR_ServerCommunicator
         public void SignalIPCEvent(IPC_EVENT Event)
         {
             IPCEventQueue.Enqueue(Event);
+        }
+
+        /// <summary>
+        /// Signal a request to invoke an action in the context of the query
+        /// thread.
+        /// 
+        /// N.B.  The routine should NOT be invoked with the world manager
+        ///       locked.  Internal synchronization is provided.
+        /// </summary>
+        /// <param name="Action">Supplies the action to enqueue to the query
+        /// thread.</param>
+        public void SignalQueryThreadAction(QueryThreadAction Action)
+        {
+            lock (QueryThreadActionQueue)
+            {
+                QueryThreadActionQueue.Enqueue(Action);
+            }
         }
 
         /// <summary>
@@ -466,6 +501,20 @@ namespace ACR_ServerCommunicator
         public bool IsEventPending()
         {
             return EventsQueued;
+        }
+
+        /// <summary>
+        /// Enqueue a message to a player for outbound transmission on the main
+        /// server thread.
+        /// 
+        /// N.B.  The world manager is assumed to be locked.
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the local object id of the
+        /// player to send to.</param>
+        /// <param name="Message">Supplies the message text.</param>
+        public void EnqueueMessageToPlayer(uint PlayerObject, string Message)
+        {
+            EnqueueEvent(new PlayerTextNotificationEvent(PlayerObject, Message));
         }
 
 
@@ -914,6 +963,13 @@ namespace ACR_ServerCommunicator
                 NextCycleUpdateServerCheckinTimestamp = false;
                 UpdateServerCheckinTimestamp();
             }
+
+            //
+            // If we had any general actions that had to be performed on the
+            // database query/synchronizer thread, execute the queue now.
+            //
+
+            DispatchQueryThreadActions();
 
 #if DEBUG_MODE
             ConsistencyCheck();
@@ -1710,6 +1766,50 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method dispatches query thread actions that have been queued
+        /// to the database query/synchronizer thread.
+        /// </summary>
+        private void DispatchQueryThreadActions()
+        {
+            IALFADatabase Database = DatabaseLinkQueryThread;
+            QueryThreadAction Action = null;
+            uint StartTick = (uint)Environment.TickCount;
+
+            //
+            // Loop dispatching query thread actions.  Query thread actions are
+            // executed in-order and on the query thread, with a reference to a
+            // database object to perform potentially long-running queries.
+            //
+            // The world manager is NOT locked for the duration of the
+            // execution request, and the action queue is also NOT locked for
+            // the duration of the execution request.
+            //
+
+            for (; ; )
+            {
+                lock (QueryThreadActionQueue)
+                {
+                    if (QueryThreadActionQueue.Count == 0)
+                        break;
+
+                    Action = QueryThreadActionQueue.Dequeue();
+                }
+
+                Action(Database);
+
+                //
+                // If we have spent more than the alotted time this cycle in
+                // processing generic actions, break out of the loop so that
+                // other tasks (such as cross-server communication) have a
+                // chance to run.
+                //
+
+                if ((uint)Environment.TickCount - StartTick >= QUERY_THREAD_ACTION_QUOTA)
+                    break;
+            }
+        }
+
+        /// <summary>
         /// This timer callback is invoked when the configuration sync timer
         /// has elapsed, in the context of a thread pool thread.  Its purpose
         /// is to record an activation event for the query thread.
@@ -1747,6 +1847,16 @@ namespace ACR_ServerCommunicator
             else
                 return Convert.ToInt32(Str) != 0;
         }
+
+
+
+        /// <summary>
+        /// This datatype wraps a delegate that is executed in the context of
+        /// the database query/synchronizer thread.
+        /// </summary>
+        /// <param name="Database">Supplies the database object ot use when a
+        /// query must be issued.</param>
+        public delegate void QueryThreadAction(IALFADatabase Database);
 
 
 
@@ -1849,6 +1959,14 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private const int TARGET_MAX_QUERY_LENGTH = 16384;
 
+        /// <summary>
+        /// The query dispatch thread attempts to spend less than this amount
+        /// of time (as expressed in milliseconds) on generic actions in a
+        /// given polling cycle.  This ensures that responsiveness for other
+        /// tasks, such as cross-server communication, is preserved.
+        /// </summary>
+        private const uint QUERY_THREAD_ACTION_QUOTA = 1000;
+
 
         /// <summary>
         /// The database connection object for the query thread.
@@ -1909,6 +2027,12 @@ namespace ACR_ServerCommunicator
         /// stored here.
         /// </summary>
         private Queue<IPC_EVENT> IPCEventQueue = new Queue<IPC_EVENT>();
+
+        /// <summary>
+        /// The queue of delegates to invoke in the context of the database
+        /// query/synchronizer thread is stored here.
+        /// </summary>
+        private Queue<QueryThreadAction> QueryThreadActionQueue = new Queue<QueryThreadAction>();
 
         /// <summary>
         /// The events queued flag, which allows a caller to quickly check if

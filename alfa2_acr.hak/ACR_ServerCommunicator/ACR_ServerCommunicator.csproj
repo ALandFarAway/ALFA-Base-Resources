@@ -78,6 +78,7 @@
     <Compile Include="IGameEntity.cs" />
     <Compile Include="PageEvent.cs" />
     <Compile Include="PlayerState.cs" />
+    <Compile Include="PlayerTextNotificationEvent.cs" />
     <Compile Include="PurgeCachedCharacterEvent.cs" />
     <Compile Include="ServerJoinEvent.cs" />
     <Compile Include="ServerPartEvent.cs" />

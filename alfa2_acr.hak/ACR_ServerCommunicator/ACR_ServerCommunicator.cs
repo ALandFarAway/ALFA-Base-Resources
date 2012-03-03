@@ -331,8 +331,9 @@ namespace ACR_ServerCommunicator
 
         /// <summary>
         /// Look up a character by name and return the owning player id.  The
-        /// local cache is queried first, otherwise the necessary data is
-        /// pulled in from the database.
+        /// local cache (only) is queried.  If the character was not in the
+        /// local cache (which implies that the player was not online), then no
+        /// query to the database is made and 0 is returned.
         /// </summary>
         /// <param name="CharacterName">Supplies the object name to look up.
         /// </param>
@@ -341,7 +342,7 @@ namespace ACR_ServerCommunicator
         {
             lock (WorldManager)
             {
-                GameCharacter Character = WorldManager.ReferenceCharacterByName(CharacterName, GetDatabase());
+                GameCharacter Character = WorldManager.ReferenceCharacterByName(CharacterName, null);
 
                 if (Character == null)
                     return 0;
@@ -352,8 +353,9 @@ namespace ACR_ServerCommunicator
 
         /// <summary>
         /// Look up a player by name and return the character id.  The local
-        /// cache is queried first, otherwise the necessary data is pulled in
-        /// from the database.
+        /// cache (only) is queried.  If the player was not in the local cache
+        /// (which implies that the player was not online), then no query to
+        /// the database is made and 0 is returned.
         /// </summary>
         /// <param name="PlayerName">Supplies the object name to look up.
         /// </param>
@@ -362,7 +364,7 @@ namespace ACR_ServerCommunicator
         {
             lock (WorldManager)
             {
-                GamePlayer Player = WorldManager.ReferencePlayerByName(PlayerName, GetDatabase());
+                GamePlayer Player = WorldManager.ReferencePlayerByName(PlayerName, null);
 
                 if (Player == null)
                     return 0;
@@ -382,7 +384,7 @@ namespace ACR_ServerCommunicator
         {
             lock (WorldManager)
             {
-                GamePlayer Player = WorldManager.ReferencePlayerById(PlayerId, GetDatabase());
+                GamePlayer Player = WorldManager.ReferencePlayerById(PlayerId, null);
 
                 if (Player == null)
                     return 0;
@@ -657,6 +659,71 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method looks up the last login time for a player.
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the requesting player's
+        /// object.</param>
+        /// <param name="Name">Supplies the name to query.</param>
+        private void ShowLastLoginTime(uint PlayerObject, string Name)
+        {
+            //
+            // Run the database lookups in the query thread and respond in an
+            // asynchronous fashion.
+            //
+
+            WorldManager.SignalQueryThreadAction(delegate(IALFADatabase Database)
+            {
+                int PlayerId = 0;
+                string Message;
+                string PlayerName = null;
+
+                lock (WorldManager)
+                {
+                    GamePlayer Player;
+                    GameCharacter Character;
+
+                    Player = WorldManager.ReferencePlayerByName(Name, Database);
+
+                    if (Player == null)
+                    {
+                        Character = WorldManager.ReferenceCharacterByName(Name, Database);
+
+                        if (Character != null)
+                            Player = Character.Player;
+                    }
+
+                    if (Player == null)
+                    {
+                        WorldManager.EnqueueMessageToPlayer(PlayerObject, String.Format(
+                            "{0} is not a recognized player or character name.", Name));
+                        return;
+                    }
+
+                    PlayerId = Player.PlayerId;
+                    PlayerName = Player.Name;
+                }
+
+                Database.ACR_SQLQuery(String.Format(
+                    "SELECT `players`.`LastLogin` FROM `players` WHERE `ID` = {0}",
+                    PlayerId));
+
+                if (Database.ACR_SQLFetch() == false)
+                {
+                    Message = "Internal error querying database.";
+                }
+                else
+                {
+                    Message = String.Format("{0} last logged in at {1}.", PlayerName, Database.ACR_SQLGetData(0));
+                }
+
+                lock (WorldManager)
+                {
+                    WorldManager.EnqueueMessageToPlayer(PlayerObject, Message);
+                }
+            });
+        }
+
+        /// <summary>
         /// This method sends command help text to a player.
         /// </summary>
         /// <param name="PlayerObject">Supplies the requesting player's object
@@ -675,6 +742,7 @@ namespace ACR_ServerCommunicator
                 "notify [chatlog|combatlog]  - Send cross-server join/part notifications to chat log or combat log.\n" +
                 "ping  - Show current latency statistics (alias: serverlatency).\n" +
                 "uptime  - Show server uptime statistics.\n" +
+                "seen \"player or character name\"  - Check when a user last logged on.\n" +
                 "help  - Show help text.\n" +
                 "\n" +
                 "You may also roll skills by prepending the prefix character to a skill name.  For example, #wisdom to roll a wisdom check."
@@ -794,6 +862,11 @@ namespace ACR_ServerCommunicator
             else if (CookedText.Equals("uptime"))
             {
                 ShowServerUptime(SenderObjectId);
+                return TRUE;
+            }
+            else if (CookedText.StartsWith("seen "))
+            {
+                ShowLastLoginTime(SenderObjectId, CookedText.Substring(5));
                 return TRUE;
             }
             else if (CookedText.Equals("help"))
@@ -1152,7 +1225,7 @@ namespace ACR_ServerCommunicator
 
                     case TELL_TYPE.ToChar:
                         {
-                            GameCharacter Character = WorldManager.ReferenceCharacterByName(NamePart, GetDatabase());
+                            GameCharacter Character = WorldManager.ReferenceCharacterByName(NamePart, null);
 
                             if (Character != null && Character.Online)
                                 Player = Character.Player;
@@ -1231,7 +1304,7 @@ namespace ACR_ServerCommunicator
                             // Look it up by account name.
                             //
 
-                            Player = WorldManager.ReferencePlayerByName(NamePart, GetDatabase());
+                            Player = WorldManager.ReferencePlayerByName(NamePart, null);
                             /*
                             Player = GetPlayerByAccountName(NamePart);
                              * */
