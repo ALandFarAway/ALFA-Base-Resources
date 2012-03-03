@@ -742,7 +742,7 @@ namespace ACR_ServerCommunicator
                 "notify [chatlog|combatlog]  - Send cross-server join/part notifications to chat log or combat log.\n" +
                 "ping  - Show current latency statistics (alias: serverlatency).\n" +
                 "uptime  - Show server uptime statistics.\n" +
-                "seen \"player or character name\"  - Check when a user last logged on.\n" +
+                "seen [player name|character name]  - Check when a user last logged on.\n" +
                 "help  - Show help text.\n" +
                 "\n" +
                 "You may also roll skills by prepending the prefix character to a skill name.  For example, #wisdom to roll a wisdom check."
