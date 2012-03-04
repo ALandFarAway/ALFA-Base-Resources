@@ -33,14 +33,13 @@
 	<UIButton name="Collapse_Button" x=550 y=106 width=10 height=60 style="STYLE_BIG_TAB" text="<" hidden=TRUE groupid=1 groupmemberid=3
 	OnSelected0=UIButton_Input_HideObject("RemotePlayerList")
 	OnSelected1=UIButton_Input_HideObject("RemoteDMList")
-	OnSelected2=UIButton_Input_HideObject("CloseButton_2")
-	OnSelected3=UIButton_Input_HideObject("Collapse_Button")
-	OnSelected4=UIButton_Input_HideObject("HEADER_RPL")
-	OnSelected5=UIButton_Input_HideObject("HEADER_RDM")
-	OnSelected6=UIButton_Input_HideObject("WIDE_BACK")
-	OnSelected7=UIButton_Input_ShowObject("CloseButton_1")
-	OnSelected8=UIButton_Input_ShowObject("Expand_Button")
-	OnSelected9=UIObject_Misc_ExecuteServerScript("gui_chatselect",3,"")>
+	OnSelected2=UIButton_Input_HideObject("Collapse_Button")
+	OnSelected3=UIButton_Input_HideObject("HEADER_RPL")
+	OnSelected4=UIButton_Input_HideObject("HEADER_RDM")
+	OnSelected5=UIButton_Input_HideObject("WIDE_BACK")
+	OnSelected6=UIButton_Input_ShowObject("CloseButton_1")
+	OnSelected7=UIButton_Input_ShowObject("Expand_Button")
+	OnSelected8=UIObject_Misc_ExecuteServerScript("gui_chatselect",3,"")>
 	</UIButton>
 
 

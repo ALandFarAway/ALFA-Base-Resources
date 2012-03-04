@@ -251,49 +251,57 @@ void ACR_AwardDMSessionXP(object oPC, object oDM, float fSessionLength, int nRPX
     if (GetIsPC(oPC)) { ACR_LogEvent(oPC, sLogEvent, sLogMsg, oDM); }
 }
 
-void ACR_AwardCombatXP(object oPCParty, object oKill) {
+void ACR_AwardCombatXP(object oPCParty, object oKill) 
+{
     if(!GetIsPC(oPCParty) && !GetIsPC(GetMaster(oPCParty))) { return; }
-	// added tracking for number of PCs for Over-CR combat kill logging
+    
+    // added tracking for number of PCs for Over-CR combat kill logging
     int nLevelSum = 0, nHighestLevel = 0, nHD = 0, nNumPCs = 0;
+
     float fCR = GetChallengeRating(oKill);
-	if(GetLocalFloat(oKill, "CR") > 0.0f)
-		fCR = GetLocalFloat(oKill, "CR");
+    if(GetLocalFloat(oKill, "CR") > 0.0f)
+        fCR = GetLocalFloat(oKill, "CR");
+
     object oPC = GetFirstFactionMember(oPCParty);
     object oArea = GetArea(oPCParty);
-	SetLocalObject(OBJECT_SELF, "Killer", oPCParty);
+    SetLocalObject(OBJECT_SELF, "Killer", oPCParty);
+
     // determine the highest pc level in the party
     while (oPC != OBJECT_INVALID)
     {
         // check to make sure the PC is actually nearby, since areas are BIG in NWN2, only factor in close PCs
         if ((GetArea(oPC) == oArea) && (GetDistanceToObject(oPC) < _ACR_XP_COMBAT_RANGE))
         {
-			nNumPCs = nNumPCs + 1;
+            nNumPCs = nNumPCs + 1;
             nHD = ACR_GetECL(oPC);
-            if (nHD > nHighestLevel) { 
-				nHighestLevel = nHD; 
-				SetLocalObject(OBJECT_SELF, "Highest", oPC);
-			}
+            if (nHD > nHighestLevel) 
+            { 
+                nHighestLevel = nHD; 
+                SetLocalObject(OBJECT_SELF, "Highest", oPC);
+            }
             nLevelSum += nHD;
         }
         oPC = GetNextFactionMember(oPCParty);
     }
-	SetLocalInt(OBJECT_SELF, "PartySize", nNumPCs);
+    SetLocalInt(OBJECT_SELF, "PartySize", nNumPCs);
+    
     // calculate XP based on highest pc level
     float fXP = _GetXPForLethalChallenge(nHighestLevel, fCR);
-	// adjust XP by number of party members
-	fXP = _AdjustXPForParty(fXP, nNumPCs);
-    oPC = GetFirstFactionMember(oPCParty);
+
+    // adjust XP by number of party members
+    fXP = _AdjustXPForParty(fXP, nNumPCs);
 
     // award XP to all pcs in party
+    oPC = GetFirstFactionMember(oPCParty);
     while (oPC != OBJECT_INVALID)
     {
         // check to make sure the PC is actually nearby, since areas are BIG in NWN2, only award ones in range
         if ((GetArea(oPC) == oArea) && (GetDistanceToObject(oPC) < _ACR_XP_COMBAT_RANGE))
         {
-			// switched out to even split over PCs rather than proportional by ECL - AL 11/15/2008
+            // switched out to even split over PCs rather than proportional by ECL - AL 11/15/2008
             //ACR_GiveXPToPC(oPC, FloatToInt(fXP * IntToFloat(ACR_GetECL(oPC)) / IntToFloat(nLevelSum)));
             //ACR_LogEvent(oPC, ACR_LOG_COMBATXP, FloatToString(fXP * IntToFloat(ACR_GetECL(oPC)) / IntToFloat(nLevelSum), 6, 0)+" XP for combat against "+GetName(oKill));
-		    ACR_GiveXPToPC(oPC, FloatToInt(fXP  / IntToFloat(nNumPCs)));
+            ACR_GiveXPToPC(oPC, FloatToInt(fXP  / IntToFloat(nNumPCs)));
             ACR_LogEvent(oPC, ACR_LOG_COMBATXP, FloatToString(fXP  / IntToFloat(nNumPCs), 4, 0)+" XP for combat against "+GetName(oKill));
         }
         oPC = GetNextFactionMember(oPCParty);
