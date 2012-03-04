@@ -2239,6 +2239,7 @@ namespace ACR_ServerCommunicator
         /// the corresponding state object for.</param>
         private void DeletePlayerState(uint PlayerObjectId)
         {
+            DeleteLocalInt(PlayerObjectId, "chatselect_expanded");
             PlayerStateTable.Remove(PlayerObjectId);
         }
 
