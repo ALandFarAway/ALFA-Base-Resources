@@ -101,6 +101,10 @@ int ACR_GetPlayerClientExtensionFeatures(object PC);
 //!  - PC: Supplies the player that has logged in.
 void ACR_SCliExtOnPCLoaded(object PC);
 
+//! Handle the OnClientLeave event for the ACR_SCLIEXT package.
+//!  - PC: Supplies the player that has departed.
+void ACR_SCliExtOnClientLeave(object PC);
+
 //! Check if the player has the extension installed.  If not, suggest that they
 //  install it.
 //!  - PC: Supplies the player to check.
@@ -133,16 +137,17 @@ int ACR_GetPlayerClientExtensionFeatures(object PC)
 
 void ACR_SCliExtOnPCLoaded(object PC)
 {
-	// The player may be a returning player, with a CE state that is not the
-	// same as they have now; thus, it is necessary to clear the feature and
-	// version state up front.  These will be refreshed if the player does in
-	// fact use the CE this logon.
-	DeleteLocalInt(PC, ACR_SCLIEXT_VERSION);
-	DeleteLocalInt(PC, ACR_SCLIEXT_FEATURES);
-
 	// Schedule a check to identify whether the player has the CE installed for
 	// notification purposes.
 	DelayCommand(30.0f, ACR_CheckForClientExtensionInstalled(PC));
+}
+
+void ACR_SCliExtOnClientLeave(object PC)
+{
+	// Clear the CE state out now so that, at the next logon, we will obtain a
+	// current view of whether the player uses the CE or not.
+	DeleteLocalInt(PC, ACR_SCLIEXT_VERSION);
+	DeleteLocalInt(PC, ACR_SCLIEXT_FEATURES);
 }
 
 void ACR_CheckForClientExtensionInstalled(object PC)

@@ -81,6 +81,7 @@
 // 2012/01/09  Basilica - CE integration.
 // 2012/01/14  Basilica - Changed to use ACR_RPXPMarkActive for marking RPXP.
 // 2012/01/19  Basilica - Added callout for area instancing system.
+// 2012/03/03  Basilica - Added callout for SCliExt OnLeave.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -552,8 +553,11 @@ void ACR_ModuleOnClientLeave()
 	// Let the IPC subsystem know of the logout event.
 	ACR_ServerIPC_OnClientLeave(oPC);
 
+	// Let the area instancing subsystem know of the logout event.
 	ACR_AreaInstance_OnClientLeave(oPC, FALSE);
-	// Let the area instancing subysstem know of the logout event.
+
+	// Notify the CE subsystem so that it can purge its local state.
+	ACR_SCliExtOnClientLeave(oPC);
 }
 
 void ACR_ModuleOnAcquireItem()
