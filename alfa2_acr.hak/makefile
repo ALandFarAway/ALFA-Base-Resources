@@ -468,6 +468,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_version_check.ncs                 \
             $(OUTPUTDIR)\acr_portal_exe.ncs                    \
             $(OUTPUTDIR)\abr_trg_swimonenter.ncs               \
+            $(OUTPUTDIR)\abr_trg_swimonexit.ncs                \
             $(OUTPUTDIR)\acr_portal_cnd.ncs                    
 
 #
