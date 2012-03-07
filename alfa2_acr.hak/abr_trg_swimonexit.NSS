@@ -100,6 +100,14 @@ void main()
 
     object oPC = GetEnteringObject();
 
+    effect eEffect = GetFirstEffect(oPC);
+    while(GetIsEffectValid(eEffect))
+    {
+        if(GetEffectCreator(eEffect) == OBJECT_SELF)
+            RemoveEffect(oPC, eEffect);
+        eEffect = GetNextEffect(oPC);
+    }
+
 //=== Everything else should be caught by the heartbeat ===//
     _SwimToWalk(oPC);
 }

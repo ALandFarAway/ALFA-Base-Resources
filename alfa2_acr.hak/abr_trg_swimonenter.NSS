@@ -228,15 +228,21 @@ void _SwimHeartBeat(object oPC)
 
     int nSwimDC = GetLocalInt(OBJECT_SELF, "ACR_SWIM_DC");
     int nSinkDC = nSwimDC - 5;
-    int bAirOverhead = GetLocalInt(OBJECT_SELF, "ACR_IS_AIR");
+    int bNoAir = GetLocalInt(OBJECT_SELF, "ACR_NO_AIR");
 
     int nDice = d20(1);
     int nBonus = GetSkillRank(SKILL_SWIM, oPC);
+
+    if(10 + nBonus <= nSwimDC)
+    {
+        // swimming is easy for this PC in this water. Take 10.
+        nDice = 10;
+    }
     int nFinal = nDice + nBonus;
 	
     if(GetSubRace(oPC) != RACIAL_SUBTYPE_WATER_GENASI)
     {
-        if(nDice < nSinkDC && bAirOverhead == FALSE)
+        if(nDice < nSinkDC)
         {
             ApplyEffectToObject(DURATION_TYPE_PERMANENT, ExtraordinaryEffect(EffectMovementSpeedDecrease(75)), oPC);
             string sMessage = _FormatCheck("Swim", nDice, nBonus, GetName(oPC), nSinkDC);
@@ -252,15 +258,33 @@ void _SwimHeartBeat(object oPC)
             string sMessage = _FormatCheck("Swim", nDice, nBonus, GetName(oPC), nSwimDC);
             SendMessageToPC(oPC, "You struggle to move through the water.");
             SendMessageToPC(oPC, sMessage);
-	
-            DeleteLocalInt(oPC, "NO_AIR_DC");
-            DeleteLocalInt(oPC, "NO_AIR_FOR");
+
+            if(bNoAir == FALSE)
+            {
+                DeleteLocalInt(oPC, "NO_AIR_DC");
+                DeleteLocalInt(oPC, "NO_AIR_FOR");
+            }
+            else
+            {
+//=== Water breathing goes here-- we want to be able to reuse suffocation in other contexts ===//
+                _ProcessNoAir(oPC);
+            }
         }
         else
         {
             ApplyEffectToObject(DURATION_TYPE_PERMANENT, ExtraordinaryEffect(EffectMovementSpeedDecrease(50)), oPC);
             string sMessage = _FormatCheck("Swim", nDice, nBonus, GetName(oPC), nSwimDC);
-            SendMessageToPC(oPC, sMessage);	
+            SendMessageToPC(oPC, sMessage);
+            if(bNoAir == FALSE)
+            {
+                DeleteLocalInt(oPC, "NO_AIR_DC");
+                DeleteLocalInt(oPC, "NO_AIR_FOR");
+            }
+            else
+            {
+//=== Water breathing goes here-- we want to be able to reuse suffocation in other contexts ===//
+                _ProcessNoAir(oPC);
+            }
         }
     }
     else
