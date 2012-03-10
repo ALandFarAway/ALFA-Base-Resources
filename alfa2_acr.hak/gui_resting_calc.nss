@@ -32,8 +32,13 @@
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void main()
+void main(string sParam)
 {
+    if(sParam == "10")
+    {
+        // Extra click-- return.
+        return;
+    }
     if (!GetLocalInt(OBJECT_SELF, ACR_FREE_SPELL_PREP))
     {
         SendMessageToPC(OBJECT_SELF, "You cannot prepare spells right now-- this is probably a bug. Submit a ticket to the ACR and tell us how you did it!");

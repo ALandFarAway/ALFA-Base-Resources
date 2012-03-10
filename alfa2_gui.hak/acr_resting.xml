@@ -7,7 +7,8 @@ ignoreevents=FALSE capturemouseclicks=TRUE capturemouseevents=TRUE update=true U
 	<UIButton name="MAINBUTTON"     x=5  y=5   width=210 height=160 ignoreevents=FALSE capturemouseclicks=TRUE style="STYLE_MENU_BUTTON"
 	 align="center" valign="center" text="You've been offline for more than a day! Configure your spells for the day and then click here to prepare them."
 	 OnLeftClick0=UIObject_Misc_ScreenClose()
-	 OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_resting_calc")>
+	 OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_resting_calc",local:0)
+         OnLeftClick2=UIObject_Misc_SetLocalVarString(local:0,10)>
 	</UIButton>
 	<UIFrame width=PARENT_WIDTH height=PARENT_HEIGHT topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" top="tp_frame_t.tga" left="tp_frame_l.tga" right="tp_frame_r.tga" bottomleft="tp_frame_bl.tga" bottomright="tp_frame_br.tga" bottom="tp_frame_b.tga" fillstyle="stretch" fill="acr_black.tga" border=5/>
 </UIPane>
