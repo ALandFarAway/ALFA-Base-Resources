@@ -9,7 +9,7 @@
 
 #include "wand_inc_misc"
 #include "wand_inc_language"
-
+#include "acr_tools_i"
 
 const string 	WAND_GUI_H	 						= "wand_h.xml";
 const string 	WAND_GUI_V	 						= "wand_v.xml";
@@ -399,8 +399,8 @@ void RemoveEquippedItem (object oSubject, int iSlot) {
 void AddVar (object oUiOwner, object oTarget, int iIndex) {
 
 	string sListBox, sTexts, sVariables, sVarValue, sIndex;
-	int iVarType = GetVariableType(oTarget, iIndex);
-	string sVarName = GetVariableName(oTarget, iIndex);
+	int iVarType = SafeGetVariableType(oTarget, iIndex);
+	string sVarName = SafeGetVariableName(oTarget, iIndex);
 		
 	switch (iVarType) {
 		case VARIABLE_TYPE_DWORD:
@@ -447,8 +447,8 @@ void AddVar (object oUiOwner, object oTarget, int iIndex) {
 void ModifyVar (object oUiOwner, object oTarget, int iIndex) {
 
 	string sListBox, sTexts, sVariables, sVarValue, sIndex;
-	int iVarType = GetVariableType(oTarget, iIndex);
-	string sVarName = GetVariableName(oTarget, iIndex);
+	int iVarType = SafeGetVariableType(oTarget, iIndex);
+	string sVarName = SafeGetVariableName(oTarget, iIndex);
 		
 	switch (iVarType) {
 		case VARIABLE_TYPE_DWORD:
@@ -603,9 +603,9 @@ void RemoveItem (object oUiOwner, object oItem) {
 void InitTargetVarRepository (object oSubject, object oTarget) {
     
     int iIndex = 0;
-	string sVarName = GetVariableName(oTarget, iIndex);
+	string sVarName = SafeGetVariableName(oTarget, iIndex);
 			
-	while (GetVariableType(oTarget, iIndex) != -1) {
+	while (SafeGetVariableType(oTarget, iIndex) != -1) {
 
 		AddVar(oSubject, oTarget, iIndex);
 

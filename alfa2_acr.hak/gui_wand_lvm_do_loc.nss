@@ -50,7 +50,7 @@ void main(int iVarIndex, string sVarName, float fVarValueX, float fVarValueY, fl
 	}
 	// Changed var
 	else {
-		sVarName = GetVariableName(oTarget, iVarIndex);	
+		sVarName = SafeGetVariableName(oTarget, iVarIndex);	
 		
 		SetLocalLocation(oTarget, sVarName, lLocation);
 		ModifyVar(oSubject, oTarget, iVarIndex);

@@ -19,7 +19,7 @@ void main(int iVarId) {
     }	
 	
 	object oTarget = GetLvmTarget(oSubject);
-	string sVarName = GetVariableName(oTarget, iVarId);
+	string sVarName = SafeGetVariableName(oTarget, iVarId);
 	string sVarValue = IntToString(GetLocalInt(oTarget, sVarName));
 		
 	SetLocalGUIVariable(oSubject, WAND_GUI_LV_MANAGER, 1, IntToString(iVarId));

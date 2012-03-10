@@ -20,7 +20,7 @@ void main(int iVarId) {
     }
 	
 	object oTarget = GetLvmTarget(oSubject);
-	string sVarName = GetVariableName(oTarget, iVarId);
+	string sVarName = SafeGetVariableName(oTarget, iVarId);
 	object oVarValue = GetLocalObject(oTarget, sVarName);
 	string sVarValue = (GetIsObjectValid(oVarValue)) ? IntToString(ObjectToInt(oVarValue)) : "-1";
 	string sVarValueName = (GetIsObjectValid(oVarValue)) ? GetObjectShortDesc(oVarValue) : "OBJECT_INVALID";	

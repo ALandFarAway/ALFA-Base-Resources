@@ -23,12 +23,12 @@ void main(int iVarIndex)
 	object oTarget = GetLvmTarget(oSubject);
 		
 	// Consistency check
-	if (GetVariableType(oTarget, iVarIndex) == VARIABLE_TYPE_NONE) {
+	if (SafeGetVariableType(oTarget, iVarIndex) == VARIABLE_TYPE_NONE) {
 		DisplayMessageBox(oSubject, -1, WAND_WRONG_VALUES);
 		return;
 	}		
 
-	string sVarName = GetVariableName(oTarget, iVarIndex);		
+	string sVarName = SafeGetVariableName(oTarget, iVarIndex);		
 	
 	DeleteLocalLocation(oTarget, sVarName);
 	

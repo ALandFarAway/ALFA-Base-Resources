@@ -50,7 +50,7 @@ void main(int iVarIndex, string sVarName, int iVarValue)
 	}
 	// Changed var
 	else {
-		sVarName = GetVariableName(oTarget, iVarIndex);	
+		sVarName = SafeGetVariableName(oTarget, iVarIndex);	
 		
 		SetLocalObject(oTarget, sVarName, oVarValue);
 		ModifyVar(oSubject, oTarget, iVarIndex);

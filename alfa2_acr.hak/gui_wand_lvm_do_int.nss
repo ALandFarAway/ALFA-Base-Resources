@@ -30,7 +30,7 @@ void main(int iVarIndex, string sVarName, int iVarValue) {
 		if (iVarIndex != VARIABLE_INVALID_INDEX) {
 			DisplayMessageBox(oSubject, -1, WAND_ALREADY_EXISTING);
 			return;
-		}	
+		}
 		
 		SetLocalInt(oTarget, sVarName, iVarValue);			
 		
@@ -41,7 +41,7 @@ void main(int iVarIndex, string sVarName, int iVarValue) {
 	}
 	// Changed var
 	else {
-		sVarName = GetVariableName(oTarget, iVarIndex);	
+		sVarName = SafeGetVariableName(oTarget, iVarIndex);	
 		
 		SetLocalInt(oTarget, sVarName, iVarValue);
 		ModifyVar(oSubject, oTarget, iVarIndex);

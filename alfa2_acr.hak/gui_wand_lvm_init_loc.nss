@@ -20,7 +20,7 @@ void main(int iVarId) {
     }
 		
 	object oTarget = GetLvmTarget(oSubject);
-	string sVarName = GetVariableName(oTarget, iVarId);
+	string sVarName = SafeGetVariableName(oTarget, iVarId);
 	location lVarValue = GetLocalLocation(oTarget, sVarName);
 	vector vLocationVector = GetPositionFromLocation(lVarValue);	
 	string sVarValueX = MyFloatToString(vLocationVector.x);

@@ -42,7 +42,7 @@ void main(int iVarIndex, string sVarName, float fVarValue)
 	}
 	// Changed var
 	else {
-		sVarName = GetVariableName(oTarget, iVarIndex);	
+		sVarName = SafeGetVariableName(oTarget, iVarIndex);	
 		
 		SetLocalFloat(oTarget, sVarName, fVarValue);
 		ModifyVar(oSubject, oTarget, iVarIndex);

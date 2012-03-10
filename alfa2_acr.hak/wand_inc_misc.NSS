@@ -1,3 +1,5 @@
+#include "acr_tools_i"
+
 //---------------------------------------------------------------------
 //                     Constants
 //---------------------------------------------------------------------
@@ -224,16 +226,16 @@ string MyFloatToString(float fFloat) {
 int GetVariableIndex (object oTarget, string sVarName, int VarType) {
 
 	int iVarIndex = 0;
-	int iVariableType = GetVariableType(oTarget, iVarIndex);
+	int iVariableType = SafeGetVariableType(oTarget, iVarIndex);
 		
 	while (iVariableType != VARIABLE_TYPE_NONE) {
 	
-		if (GetVariableName(oTarget, iVarIndex) == sVarName
+		if (SafeGetVariableName(oTarget, iVarIndex) == sVarName
 			&& iVariableType == VarType) {
 			return iVarIndex;
 		}
 
-		iVariableType = GetVariableType(oTarget, ++iVarIndex);
+		iVariableType = SafeGetVariableType(oTarget, ++iVarIndex);
 	}
 	
 	return VARIABLE_INVALID_INDEX;
