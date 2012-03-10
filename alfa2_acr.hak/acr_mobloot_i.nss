@@ -21,9 +21,10 @@ const int _MOBLOOT_LOOT_ITEM_CHANCE = 50;
 const int _MOBLOOT_LOOT_CREATURE_CHANCE = 20;
 
 const string _MOBLOOT_SYSTEM_NAME = "acr_mobloot_i";
+const string _MOBLOOT_CHEST_TAG = "acr_mobloot_chest";
 
 void _TransferAllItems(object oCreature, object oVictim);
-void _TransferItem(object oItem, object oCreature, object oVictim);
+void _TransferItem(object oItem, object oCreature, object oBackup, object oVictim);
 void _CreatureCheckLoot(object oCreature, string sVictim);
 void _CreatureLoot(object oCreature, string sVictim);
 void ACR_CheckLootByMob(object oPC);
@@ -133,7 +134,7 @@ void _CreatureLoot(object oKiller, string sPC)
 	_TransferAllItems(oKiller, oPC);
 }
 
-void _TransferItem(object oItem, object oCreature, object oVictim)
+void _TransferItem(object oItem, object oCreature, object oBackup, object oVictim)
 {
 	int nGold=0;
 
@@ -153,16 +154,23 @@ void _TransferItem(object oItem, object oCreature, object oVictim)
 	ACR_PrintDebugMessage(GetName(oCreature) + " looted " + GetName(oItem) + " from " + GetName(oVictim), _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
 
 	CopyObject(oItem, GetLocation(oCreature), oCreature);
+
+	// throw a backup into a chest
+	if (oBackup != OBJECT_INVALID)
+		CopyObject(oItem, GetLocation(oBackup), oBackup);
+
 	DestroyObject(oItem);
 }
 
 // This Function Removes All Items from a Creature
 void _TransferAllItems(object oCreature, object oVictim)
 {
-	object oItem;
+	object oItem, oBackup;
 	int nTransfer;
 
 	ACR_PrintDebugMessage("Looting "+GetName(oVictim)+"...", _MOBLOOT_SYSTEM_NAME, DEBUG_LEVEL_INFO);
+
+	oBackup = GetObjectByTag(_MOBLOOT_CHEST_TAG);
 
 	oItem = GetFirstItemInInventory(oVictim);
 	while (oItem != OBJECT_INVALID) {
@@ -175,7 +183,7 @@ void _TransferAllItems(object oCreature, object oVictim)
 		}
 
 		if (nTransfer)
-			_TransferItem(oItem, oCreature, oVictim);
+			_TransferItem(oItem, oCreature, oBackup, oVictim);
 
 		oItem = GetNextItemInInventory(oVictim);
 	}
