@@ -15,7 +15,7 @@
 
 #include "hench_i0_generic"
 #include "ginc_companion"
-
+#include "acr_combateffects_i"
 
 void main()
 {
@@ -36,6 +36,7 @@ void main()
             if (GetIsObjectValid(oEnemy) == TRUE)
             {
                 ActionEquipMostDamagingRanged(oEnemy);
+                CheckIsFlatFooted(oEnemy);
                 ActionAttack(oEnemy);
             }
             return;

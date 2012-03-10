@@ -15,6 +15,7 @@
 #include "hench_i0_target"
 #include "hench_i0_ai"
 #include "hench_i0_attack"
+#include "acr_combateffects_i"
 
 // void main() {    }
 
@@ -721,6 +722,7 @@ void ActionContinueMeleeAttack(object oTarget, float fThresholdDistance, int iCr
 
 int HenchTalentMeleeAttack(object oTarget, float fThresholdDistance, int iCreatureType, int bPolymorphed, int iRangedOverride)
 {
+    CheckIsFlatFooted(oTarget);
     if (iCreatureType == 0)
     {
        MonsterBattleCry();

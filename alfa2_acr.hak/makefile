@@ -105,7 +105,8 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\x0_i0_enemy.nss                       \
             $(OUTPUTDIR)\x2_inc_switches.nss                   \
             $(OUTPUTDIR)\ginc_crafting.nss                     \
-            $(OUTPUTDIR)\ginc_group.nss                        
+            $(OUTPUTDIR)\ginc_group.nss                        \
+            $(OUTPUTDIR)\acr_combateffects_i.nss               
 
 NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\abr_plc_oninventorydisreturns.ncs     \

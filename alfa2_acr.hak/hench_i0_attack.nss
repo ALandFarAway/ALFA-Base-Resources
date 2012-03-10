@@ -12,6 +12,7 @@
 //
 
 #include "hench_i0_spells"
+#include "acr_combateffects_i"
 
 
 // test attack spells, also tests heal, harm and cure, inflict since these are dual use
@@ -2159,6 +2160,8 @@ void HenchSpellAttackSpecial()
 float HenchMeleeAttack(object oTarget, int iPosEffectsOnSelf, int bImmobileNoRange)
 {
     float fMaxRange = bgMeleeAttackers ? GetDistanceToObject(ogClosestSeenOrHeardEnemy) + 1.5 : 1000.0;
+
+    CheckIsFlatFooted(oTarget);
 	
 	if (bImmobileNoRange)
 	{
