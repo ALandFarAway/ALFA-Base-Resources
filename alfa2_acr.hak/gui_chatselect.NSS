@@ -35,6 +35,7 @@ void main ( string sEvent, string sChatString )
         SetLocalInt(OBJECT_SELF, "chatselect_expanded", 1);
 
         // Note that ACR_PopulateChatSelect resets the header text.
+        SetGUIObjectHidden(OBJECT_SELF, "ChatSelect", "Collapse_Button", FALSE);
         ACR_PopulateChatSelect(GetOwnedCharacter(OBJECT_SELF));
     }
     else if(nEvent == CHAT_SELECT_EVENT_COLLAPSE)

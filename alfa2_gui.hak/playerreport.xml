@@ -25,8 +25,6 @@
 	-->	
 	<!-- INVITE -->
 	<UIButton name="invite" x=78 y=37 width=40 height=40 
-		update=true
-		OnUpdate=UIButton_OnUpdate_PartyAction(4,"false","playerlist")
 		OnLeftClick=UIButton_Input_PartyAction(4,"playerlist")
 		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
 		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(1067,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
@@ -41,8 +39,6 @@
 	
 	<!-- TRANSFER LEADERSHIP -->
 	<UIButton name="transferleader" x=123 y=37 width=40 height=40 
-		update=true
-		OnUpdate=UIButton_OnUpdate_PartyAction(3,"false","playerlist")
 		OnLeftClick=UIButton_Input_PartyAction(3,"playerlist")
 		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
 		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(6383,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
@@ -57,8 +53,6 @@
 	
 	<!-- LEAVE PARTY -->
 	<UIButton  name="leaveparty" x=168 y=37 width=40 height=40 
-		update=true
-		OnUpdate=UIButton_OnUpdate_PartyAction(0,"false","playerlist")
 		OnLeftClick=UIButton_Input_PartyAction(0,"playerlist")
 		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
 		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(1071,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
@@ -73,8 +67,6 @@
 	
 	<!-- KICK FROM PARTY -->
 	<UIButton name="kick" x=214 y=37 width=40 height=40 
-		update=true
-		OnUpdate=UIButton_OnUpdate_PartyAction(1,"false","playerlist")
 		OnLeftClick=UIButton_Input_PartyAction(1,"playerlist")
 		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
 		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(1068,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
@@ -91,8 +83,6 @@
 	<!-- On the ACTION, 'true' means to pop up a confirmation message box. False
 	     means to boot without confirmation. -->
 	<UIButton name="bootplayer" x=259 y=37 width=40 height=40 
-		update=true
-		OnUpdate=UIButton_OnUpdate_BootPlayer("false","playerlist")
 		OnLeftClick=UIButton_Input_BootPlayer("true","playerlist")
 		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
 		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(7998,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
@@ -109,8 +99,6 @@
 	<!-- On the ACTION, 'true' means to pop up a confirmation message box. False
 	     means to ban without confirmation. -->
 	<UIButton name="banplayer" x=304 y=37 width=40 height=40 
-		update=true
-		OnUpdate=UIButton_OnUpdate_BanPlayer("false","playerlist")
 		OnLeftClick=UIButton_Input_BanPlayer("true","playerlist")
 		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
 		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(7997,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
@@ -125,8 +113,6 @@
 	
 	<!-- ACCEPT INVITATION -->
 	<UIButton name="accept" x=384 y=37 width=40 height=40 
-		update=true
-		OnUpdate=UIButton_OnUpdate_PartyAction(6,"false","playerlist")
 		OnLeftClick=UIButton_Input_PartyAction(6,"playerlist")
 		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
 		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(66845,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
@@ -141,8 +127,6 @@
 	
 	<!-- REJECT INVITATION -->
 	<UIButton  name="rejectinvite" x=429 y=37 width=40 height=40 
-		update=true
-		OnUpdate=UIButton_OnUpdate_PartyAction(7,"false","playerlist")
 		OnLeftClick=UIButton_Input_PartyAction(7,"playerlist")
 		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
 		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(66844,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
@@ -157,8 +141,6 @@
 	
 	<!-- IGNORE INVITATION -->
 	<UIButton name="ignoreinvite" x=474 y=37 width=40 height=40 
-		update=true
-		OnUpdate=UIButton_OnUpdate_PartyAction(5,"false","playerlist")
 		OnLeftClick=UIButton_Input_PartyAction(5,"playerlist")
 		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
 		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(66843,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
@@ -173,8 +155,7 @@
 	
 	<!-- PVP Zone Message String -->
 	<UIText name="PartyOf" x=5 y=81 height=32 width=PARENT_WIDTH
-		valign=middle align=center fontfamily="Special_Font" style=2
-		update=true OnUpdate=UIObject_Misc_ExecuteServerScript("gui_partyof",10) updaterate="1.0" />
+		valign=middle align=center fontfamily="Special_Font" style=2 />
 			
 	
 	<!-- Player List Listbox -->
@@ -189,46 +170,45 @@
 	  -- The names of these sub-pieces are hard coded
 	  -->
 	<UIListbox name="playerreport" x=ALIGN_CENTER y=121 height=285 width=498 yPadding=5  
-		showpartialchild=false scrollbaronright=true selectonleftclick=true
-		update=true >		 
-		<UIPane name="PlayerPane" x=0 y=0 width=483 height=32 prototype=true tupple=true
-			update=true OnUpdate=UIObject_OnUpdate_UpdatePlayerListMember() updaterate=0.1 >
+		showpartialchild=false scrollbaronright=true selectonleftclick=true update=true >		 
+		<UIPane name="PlayerPane" x=0 y=0 width=483 height=32 prototype=true tupple=true >
 			<UIText name="player_name" x=5 y=0 height=32 width=250
 				valign=middle align=left fontfamily="Body_Font" style=1 />
 			<UIButton name="player_alignment" x=260 y=0 height=32 width=32 buttontype=radio
-				groupid=1 groupmemberid=1
+				groupid=1 groupmemberid=1 prototype=true fill="ia_defend.tga"
 				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",6,local:0)
 				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
-				<UIFrame name="alignment_fill" fill="ia_defend.tga" />
+				<UIText align=right valign=bottom fontfamily="Default" style="1"/>
 			</UIButton>
 			<UIButton name="player_deity" x=297 y=0 height=32 width=32 buttontype=radio
-				groupid=1 groupmemberid=1
+				groupid=1 groupmemberid=2 prototype=true fill="ia_defend.tga"
 				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",7,local:0)
 				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
-				<UIFrame name="deity_fill" fill="ia_defend.tga" />
+				<UIText align=right valign=bottom fontfamily="Default" style="1"/>
 			</UIButton>
 			<UIButton name="player_class" x=334 y=0 height=32 width=32 buttontype=radio
+				groupid=1 groupmemberid=3 prototype=true fill="ia_defend.tga"
 				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",8,local:0)
 				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
-				<UIFrame name="class_fill" fill="ia_defend.tga" />
+				<UIText align=right valign=bottom fontfamily="Default" style="1"/>
 			</UIButton>
 			<UIButton name="player_level" x=371 y=0 height=32 width=32 buttontype=radio
-				groupid=1 groupmemberid=1
+				groupid=1 groupmemberid=4 prototype=true fill="ia_defend.tga"
 				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",9,local:0)
 				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
-				<UIFrame name="level_fill" fill="ia_defend.tga" />
+				<UIText align=right valign=bottom fontfamily="Default" style="1"/>
 			</UIButton>
 			<UIButton name="player_wealth" x=408 y=0 height=32 width=32 buttontype=radio
-				groupid=1 groupmemberid=1
+				groupid=1 groupmemberid=5 prototype=true fill="ia_defend.tga"
 				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",10,local:0)
 				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
-				<UIFrame name="wealth_fill" fill="ia_defend.tga" />
+				<UIText align=right valign=bottom fontfamily="Default" style="1"/>
 			</UIButton>
 			<UIButton name="player_style" x=445 y=0 height=32 width=32 buttontype=radio
-				groupid=1 groupmemberid=1
+				groupid=1 groupmemberid=6 prototype=true fill="ia_defend.tga"
 				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",11,local:0)
 				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
-				<UIFrame name="style_fill" fill="ia_defend.tga" />
+				<UIText align=right valign=bottom fontfamily="Default" style="1"/>
 			</UIButton>			
 		</UIPane>
 		<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
