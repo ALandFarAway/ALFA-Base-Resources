@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<UIScene name="SCREEN_PLAYERREPORT" x=ALIGN_CENTER y=ALIGN_CENTER width=526 height=420 fadeout="0.3" fadein="0.3" draggable=true
+	priority="SCENE_INGAME" backoutkey=true	scriptloadable=true />
+
+	<UIText text="PLAYER REPORT" x=78 y=6 width=260 height=28 align=left valign=middle uppercase=true fontfamily="Body_Font" style="2" />
+	<UIIcon name="PLAYER_LIST_DETAIL" img="partysel_icon.tga" x=0 y=0 width=78 height=71 ignoreevents=true />
+
+	<!-- Close Button -->
+	<UIButton name="CloseButton" x=489 y=6 style="STYLE_CLOSE_BUTTON" 
+		OnLeftClick=UIButton_Input_ScreenClose()>
+	</UIButton>
+
+	<UIIcon name="DETAIL_TOP" img="title_large03.tga" x=9 y=8 width=508 height=32 ignoreevents="true" />
+
+	
+	<!-- PARTY ACTION IDS are:
+			0 = LEAVE
+			1 = KICK
+			3 = TRANSFERLEADERSHIP
+			4 = INVITE
+			5 = IGNOREINVITE
+			6 = ACCEPTINIVTE
+			7 = REJECTINVITE
+	-->	
+	<!-- INVITE -->
+	<UIButton name="invite" x=78 y=37 width=40 height=40 
+		update=true
+		OnUpdate=UIButton_OnUpdate_PartyAction(4,"false","playerlist")
+		OnLeftClick=UIButton_Input_PartyAction(4,"playerlist")
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(1067,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+			<UIFrame state=base		fill="ia_invite.tga" />
+			<UIFrame state=up		fill="b_empty.tga" />
+			<UIFrame state=down		fill="b_overlay.tga" />
+			<UIFrame state=focused	fill="b_empty.tga" />
+			<UIFrame state=hilited	fill="b_overlay.tga" />
+			<UIFrame state=hifocus	fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>	    
+	
+	<!-- TRANSFER LEADERSHIP -->
+	<UIButton name="transferleader" x=123 y=37 width=40 height=40 
+		update=true
+		OnUpdate=UIButton_OnUpdate_PartyAction(3,"false","playerlist")
+		OnLeftClick=UIButton_Input_PartyAction(3,"playerlist")
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(6383,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+			<UIFrame state=base		fill="ia_issuecommands.tga" />
+			<UIFrame state=up		fill="b_empty.tga" />
+			<UIFrame state=down		fill="b_overlay.tga" />
+			<UIFrame state=focused	fill="b_empty.tga" />
+			<UIFrame state=hilited	fill="b_overlay.tga" />
+			<UIFrame state=hifocus	fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>	 
+	
+	<!-- LEAVE PARTY -->
+	<UIButton  name="leaveparty" x=168 y=37 width=40 height=40 
+		update=true
+		OnUpdate=UIButton_OnUpdate_PartyAction(0,"false","playerlist")
+		OnLeftClick=UIButton_Input_PartyAction(0,"playerlist")
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(1071,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+			<UIFrame state=base		fill="ia_issuecommands.tga" />
+			<UIFrame state=up		fill="b_empty.tga" />
+			<UIFrame state=down		fill="b_overlay.tga" />
+			<UIFrame state=focused	fill="b_empty.tga" />
+			<UIFrame state=hilited	fill="b_overlay.tga" />
+			<UIFrame state=hifocus	fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>
+	
+	<!-- KICK FROM PARTY -->
+	<UIButton name="kick" x=214 y=37 width=40 height=40 
+		update=true
+		OnUpdate=UIButton_OnUpdate_PartyAction(1,"false","playerlist")
+		OnLeftClick=UIButton_Input_PartyAction(1,"playerlist")
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(1068,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+			<UIFrame state=base		fill="ia_kickplayer.tga" />
+			<UIFrame state=up		fill="b_empty.tga" />
+			<UIFrame state=down		fill="b_overlay.tga" />
+			<UIFrame state=focused	fill="b_empty.tga" />
+			<UIFrame state=hilited	fill="b_overlay.tga" />
+			<UIFrame state=hifocus	fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>	
+	
+	<!-- BOOT PLAYER -->
+	<!-- On the ACTION, 'true' means to pop up a confirmation message box. False
+	     means to boot without confirmation. -->
+	<UIButton name="bootplayer" x=259 y=37 width=40 height=40 
+		update=true
+		OnUpdate=UIButton_OnUpdate_BootPlayer("false","playerlist")
+		OnLeftClick=UIButton_Input_BootPlayer("true","playerlist")
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(7998,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+			<UIFrame state=base		fill="ia_bootplayer.tga" />
+			<UIFrame state=up		fill="b_empty.tga" />
+			<UIFrame state=down		fill="b_overlay.tga" />
+			<UIFrame state=focused	fill="b_empty.tga" />
+			<UIFrame state=hilited	fill="b_overlay.tga" />
+			<UIFrame state=hifocus	fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>	
+	
+	<!-- BAN PLAYER -->
+	<!-- On the ACTION, 'true' means to pop up a confirmation message box. False
+	     means to ban without confirmation. -->
+	<UIButton name="banplayer" x=304 y=37 width=40 height=40 
+		update=true
+		OnUpdate=UIButton_OnUpdate_BanPlayer("false","playerlist")
+		OnLeftClick=UIButton_Input_BanPlayer("true","playerlist")
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(7997,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+			<UIFrame state=base		fill="ia_banplayer.tga" />
+			<UIFrame state=up		fill="b_empty.tga" />
+			<UIFrame state=down		fill="b_overlay.tga" />
+			<UIFrame state=focused	fill="b_empty.tga" />
+			<UIFrame state=hilited	fill="b_overlay.tga" />
+			<UIFrame state=hifocus	fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>	
+	
+	<!-- ACCEPT INVITATION -->
+	<UIButton name="accept" x=384 y=37 width=40 height=40 
+		update=true
+		OnUpdate=UIButton_OnUpdate_PartyAction(6,"false","playerlist")
+		OnLeftClick=UIButton_Input_PartyAction(6,"playerlist")
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(66845,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+			<UIFrame state=base		fill="ia_accept.tga" />
+			<UIFrame state=up		fill="b_empty.tga" />
+			<UIFrame state=down		fill="b_overlay.tga" />
+			<UIFrame state=focused	fill="b_empty.tga" />
+			<UIFrame state=hilited	fill="b_overlay.tga" />
+			<UIFrame state=hifocus	fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>	
+	
+	<!-- REJECT INVITATION -->
+	<UIButton  name="rejectinvite" x=429 y=37 width=40 height=40 
+		update=true
+		OnUpdate=UIButton_OnUpdate_PartyAction(7,"false","playerlist")
+		OnLeftClick=UIButton_Input_PartyAction(7,"playerlist")
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(66844,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+			<UIFrame state=base		fill="ia_exit.tga" />
+			<UIFrame state=up		fill="b_empty.tga" />
+			<UIFrame state=down		fill="b_overlay.tga" />
+			<UIFrame state=focused	fill="b_empty.tga" />
+			<UIFrame state=hilited	fill="b_overlay.tga" />
+			<UIFrame state=hifocus	fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>	
+	
+	<!-- IGNORE INVITATION -->
+	<UIButton name="ignoreinvite" x=474 y=37 width=40 height=40 
+		update=true
+		OnUpdate=UIButton_OnUpdate_PartyAction(5,"false","playerlist")
+		OnLeftClick=UIButton_Input_PartyAction(5,"playerlist")
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(66843,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+			<UIFrame state=base		fill="ise_abilitydexdecr.tga" />
+			<UIFrame state=up		fill="b_empty.tga" />
+			<UIFrame state=down		fill="b_overlay.tga" />
+			<UIFrame state=focused	fill="b_empty.tga" />
+			<UIFrame state=hilited	fill="b_overlay.tga" />
+			<UIFrame state=hifocus	fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>
+	
+	<!-- PVP Zone Message String -->
+	<UIText name="PartyOf" x=5 y=81 height=32 width=PARENT_WIDTH
+		valign=middle align=center fontfamily="Special_Font" style=2
+		update=true OnUpdate=UIObject_Misc_ExecuteServerScript("gui_partyof",10) updaterate="1.0" />
+			
+	
+	<!-- Player List Listbox -->
+	<!-- Each row of the player lists is a pane that contains:
+	  -- Icon       = partyleader - Visible if they are my party leader 
+	  -- Icon		= Player's attitude toward me - "theirattitude" 
+	  -- Text field = Player name and character name - "playername"
+	  -- Button1    = Set Attitude - friendly - Disabled if PVP options prevent it - true = friendly
+	  -- Button2    = Set Attitude - hostile - Disabled if PVP options prevent it - false = hostile
+	  -- Text Field = Reaction, my default reaction to them - "reaction" 
+	  -- Button3    = Just a highlight button to indicate what is selected, no callbacks.
+	  -- The names of these sub-pieces are hard coded
+	  -->
+	<UIListbox name="playerreport" x=ALIGN_CENTER y=121 height=285 width=498 yPadding=5  
+		showpartialchild=false scrollbaronright=true selectonleftclick=true
+		update=true >		 
+		<UIPane name="PlayerPane" x=0 y=0 width=483 height=32 prototype=true tupple=true
+			update=true OnUpdate=UIObject_OnUpdate_UpdatePlayerListMember() updaterate=0.1 >
+			<UIText name="player_name" x=5 y=0 height=32 width=250
+				valign=middle align=left fontfamily="Body_Font" style=1 />
+			<UIButton name="player_alignment" x=260 y=0 height=32 width=32 buttontype=radio
+				groupid=1 groupmemberid=1
+				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",6,local:0)
+				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+				<UIFrame name="alignment_fill" fill="ia_defend.tga" />
+			</UIButton>
+			<UIButton name="player_deity" x=297 y=0 height=32 width=32 buttontype=radio
+				groupid=1 groupmemberid=1
+				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",7,local:0)
+				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+				<UIFrame name="deity_fill" fill="ia_defend.tga" />
+			</UIButton>
+			<UIButton name="player_class" x=334 y=0 height=32 width=32 buttontype=radio
+				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",8,local:0)
+				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+				<UIFrame name="class_fill" fill="ia_defend.tga" />
+			</UIButton>
+			<UIButton name="player_level" x=371 y=0 height=32 width=32 buttontype=radio
+				groupid=1 groupmemberid=1
+				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",9,local:0)
+				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+				<UIFrame name="level_fill" fill="ia_defend.tga" />
+			</UIButton>
+			<UIButton name="player_wealth" x=408 y=0 height=32 width=32 buttontype=radio
+				groupid=1 groupmemberid=1
+				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",10,local:0)
+				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+				<UIFrame name="wealth_fill" fill="ia_defend.tga" />
+			</UIButton>
+			<UIButton name="player_style" x=445 y=0 height=32 width=32 buttontype=radio
+				groupid=1 groupmemberid=1
+				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",11,local:0)
+				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+				<UIFrame name="style_fill" fill="ia_defend.tga" />
+			</UIButton>			
+		</UIPane>
+		<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
+	</UIListbox>
+	
+	<!-- Background pieces -->
+	<UIFrame name="FRAME_BG1" x=ALIGN_CENTER y=60 height=32 width=504 
+	top="frame1_B.tga" topright=frame1_B.tga topleft=frame1_B.tga
+	border=32 />
+	
+	<UIFrame name="FRAME_BG2" x=ALIGN_CENTER y=92 height=32 width=504 
+	top="frame1_B.tga" topright=frame1_B.tga topleft=frame1_B.tga
+	border=32 />
+
+	<!-- Background Image -->
+	<UIFrame name="FRAME_BG" x=0 y=0 height=PARENT_HEIGHT width=PARENT_WIDTH 
+		topleft="frame1_TL.tga" topright="frame1_TR.tga" bottomleft="frame1_BL.tga"
+		bottomright="frame1_BR.tga" top="frame1_T.tga" bottom="frame1_B.tga"
+		left="frame1_L.tga" right="frame1_R.tga" 
+		border=32 />
+	
+	<UIFrame name="FILL_BG" x=6 y=6 height=407 width=512
+		fill="bg_60_alpha.tga" fillstyle=tile />
+
