@@ -50,7 +50,7 @@ void CheckIsFlatFooted(object oTarget, int nCount = 0)
             // If a target's dexterity provides more benefit than max dex bonus, we presume
             // that the dex bonus had is the max dex bonus of the armor.
             int nArmorType = GetArmorRulesType(GetItemInSlot(INVENTORY_SLOT_CHEST, oTarget));
-            int nMaxDex = Get2DAString("armorrulestats", "MAXDEXBONUS", nArmorType);
+            int nMaxDex = StringToInt(Get2DAString("armorrulestats", "MAXDEXBONUS", nArmorType));
             if(nACDiff > nMaxDex) nACDiff = nMaxDex;
 
             if(GetLevelByClass(CLASS_TYPE_MONK, oTarget) > 0)
