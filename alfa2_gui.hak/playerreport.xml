@@ -158,60 +158,37 @@
 		valign=middle align=center fontfamily="Special_Font" style=2 />
 			
 	
-	<!-- Player List Listbox -->
-	<!-- Each row of the player lists is a pane that contains:
-	  -- Icon       = partyleader - Visible if they are my party leader 
-	  -- Icon		= Player's attitude toward me - "theirattitude" 
-	  -- Text field = Player name and character name - "playername"
-	  -- Button1    = Set Attitude - friendly - Disabled if PVP options prevent it - true = friendly
-	  -- Button2    = Set Attitude - hostile - Disabled if PVP options prevent it - false = hostile
-	  -- Text Field = Reaction, my default reaction to them - "reaction" 
-	  -- Button3    = Just a highlight button to indicate what is selected, no callbacks.
-	  -- The names of these sub-pieces are hard coded
-	  -->
-	<UIListbox name="playerreport" x=ALIGN_CENTER y=121 height=285 width=498 yPadding=5  
-		showpartialchild=false scrollbaronright=true selectonleftclick=true update=true >		 
-		<UIPane name="PlayerPane" x=0 y=0 width=483 height=32 prototype=true tupple=true >
-			<UIText name="player_name" x=5 y=0 height=32 width=250
-				valign=middle align=left fontfamily="Body_Font" style=1 />
-			<UIButton name="player_alignment" x=260 y=0 height=32 width=32 buttontype=radio
-				groupid=1 groupmemberid=1 prototype=true fill="ia_defend.tga"
-				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",6,local:0)
-				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
-				<UIText align=right valign=bottom fontfamily="Default" style="1"/>
-			</UIButton>
-			<UIButton name="player_deity" x=297 y=0 height=32 width=32 buttontype=radio
-				groupid=1 groupmemberid=2 prototype=true fill="ia_defend.tga"
-				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",7,local:0)
-				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
-				<UIText align=right valign=bottom fontfamily="Default" style="1"/>
-			</UIButton>
-			<UIButton name="player_class" x=334 y=0 height=32 width=32 buttontype=radio
-				groupid=1 groupmemberid=3 prototype=true fill="ia_defend.tga"
-				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",8,local:0)
-				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
-				<UIText align=right valign=bottom fontfamily="Default" style="1"/>
-			</UIButton>
-			<UIButton name="player_level" x=371 y=0 height=32 width=32 buttontype=radio
-				groupid=1 groupmemberid=4 prototype=true fill="ia_defend.tga"
-				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",9,local:0)
-				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
-				<UIText align=right valign=bottom fontfamily="Default" style="1"/>
-			</UIButton>
-			<UIButton name="player_wealth" x=408 y=0 height=32 width=32 buttontype=radio
-				groupid=1 groupmemberid=5 prototype=true fill="ia_defend.tga"
-				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",10,local:0)
-				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
-				<UIText align=right valign=bottom fontfamily="Default" style="1"/>
-			</UIButton>
-			<UIButton name="player_style" x=445 y=0 height=32 width=32 buttontype=radio
-				groupid=1 groupmemberid=6 prototype=true fill="ia_defend.tga"
-				OnToolTip0=UIObject_Misc_ExtractData("parent:","string",11,local:0)
-				OnToolTip1='UIObject_Tooltip_DisplayTooltipString(local:0,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
-				<UIText align=right valign=bottom fontfamily="Default" style="1"/>
-			</UIButton>			
-		</UIPane>
-		<UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>	
+	<UIListbox name="playerreport" x=ALIGN_CENTER y=121 width=498 height=285 yPadding=5 xPadding=0 
+		showpartialchild=false scrollbaronright=true unequalcontrols=false scrollsegmentsize=1 update=true > 
+
+		<UIPane name="PlayerReport_Item" width=483 height=40 tupple=true prototype=true draggable=false> 
+
+			<UIButton name="LISTBOX_ITEM_TEXT" x=0 y=0 width=278 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+				<UIText align=left valign=middle fontfamily="Default" style="1"/> 
+			</UIButton> 
+
+			<UIButton name="LISTBOX_ALIGN_ICON"  x=278 y=0 style="STYLE_LOOT_ICON" prototype=true draggable=false>
+				<UIText align=right valign=bottom fontfamily="Default" style="1"/> 
+			</UIButton> 
+
+			<UIButton name="LISTBOX_DEITY_ICON"  x=318 y=0 style="STYLE_LOOT_ICON" prototype=true draggable=false>
+				<UIText align=right valign=bottom fontfamily="Default" style="1"/> 
+			</UIButton> 
+
+			<UIButton name="LISTBOX_CLASS_ICON"  x=358 y=0 style="STYLE_LOOT_ICON" prototype=true draggable=false>
+				<UIText align=right valign=bottom fontfamily="Default" style="1"/> 
+			</UIButton> 
+
+			<UIButton name="LISTBOX_WEALTH_ICON" x=398 y=0 style="STYLE_LOOT_ICON" prototype=true draggable=false>
+				<UIText align=right valign=bottom fontfamily="Default" style="1"/> 
+			</UIButton> 
+
+			<UIButton name="LISTBOX_STYLE_ICON"   x=438 y=0 style="STYLE_LOOT_ICON" prototype=true draggable=false>
+				<UIText align=right valign=bottom fontfamily="Default" style="1"/> 
+			</UIButton> 
+
+		</UIPane> 
+		<UIScrollBar name="SB" style="STYLE_SB_THIN" /> 
 	</UIListbox>
 	
 	<!-- Background pieces -->
