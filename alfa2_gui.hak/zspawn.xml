@@ -166,23 +166,23 @@ ignoreevents=FALSE capturemouseclicks=TRUE capturemouseevents=TRUE update=true U
 	<UIButton name="CE_RADIAL"     x=220 y=105 width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=2 groupmemberid=9
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:1,9)
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Chaotic Evil","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
-	<UIIcon name="LG_ICON"     x=105 y=5  width=40 height=40 img="acr_lg.tga"
+	<UIIcon name="LG_ICON"     x=105 y=5  width=40 height=40 img="align_lg.tga"
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Lawful Good","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
-	<UIIcon name="NG_ICON"     x=175 y=5  width=40 height=40 img="acr_ng.tga"
+	<UIIcon name="NG_ICON"     x=175 y=5  width=40 height=40 img="align_ng.tga"
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Neutral Good","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
-	<UIIcon name="CG_ICON"     x=245 y=5  width=40 height=40 img="acr_cg.tga"
+	<UIIcon name="CG_ICON"     x=245 y=5  width=40 height=40 img="align_cg.tga"
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Chaotic Good","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
-	<UIIcon name="LN_ICON"     x=105 y=50 width=40 height=40 img="acr_ln.tga"
+	<UIIcon name="LN_ICON"     x=105 y=50 width=40 height=40 img="align_ln.tga"
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Lawful Neutral","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
-	<UIIcon name="TN_ICON"     x=175 y=50 width=40 height=40 img="acr_tn.tga"
+	<UIIcon name="TN_ICON"     x=175 y=50 width=40 height=40 img="align_tn.tga"
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("True Neutral","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
-	<UIIcon name="CN_ICON"     x=245 y=50 width=40 height=40 img="acr_cn.tga"
+	<UIIcon name="CN_ICON"     x=245 y=50 width=40 height=40 img="align_cn.tga"
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Chaotic Neutral","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
-	<UIIcon name="LE_ICON"     x=105 y=95 width=40 height=40 img="acr_le.tga"
+	<UIIcon name="LE_ICON"     x=105 y=95 width=40 height=40 img="align_le.tga"
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Lawful Evil","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
-	<UIIcon name="NE_ICON"     x=175 y=95 width=40 height=40 img="acr_ne.tga"
+	<UIIcon name="NE_ICON"     x=175 y=95 width=40 height=40 img="align_ne.tga"
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Neutral Evil","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
-	<UIIcon name="CE_ICON"     x=245 y=95 width=40 height=40 img="acr_ce.tga"
+	<UIIcon name="CE_ICON"     x=245 y=95 width=40 height=40 img="align_ce.tga"
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Chaotic Evil","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
 
 	<UIButton name="BRB_RADIAL"     x=5   y=160  width=20 height=20 style="SQUARE_CHECKBOX_BUTTON"
