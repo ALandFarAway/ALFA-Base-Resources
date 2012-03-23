@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<UIScene name="SCREEN_INVENTORYREPORT" x=ALIGN_CENTER y=ALIGN_CENTER width=428 height=700 fadeout="0.3" fadein="0.3" draggable=true
+	priority="SCENE_INGAME" backoutkey=true	scriptloadable=true />
+
+	<UIText text="INVENTORY REPORT" x=78 y=6 width=260 height=28 align=left valign=middle uppercase=true fontfamily="Body_Font" style="2" />
+	<UIIcon name="PLAYER_LIST_DETAIL" img="partysel_icon.tga" x=0 y=0 width=78 height=71 ignoreevents=true />
+
+	<!-- Close Button -->
+	<UIButton name="CloseButton" x=489 y=6 style="STYLE_CLOSE_BUTTON" 
+		OnLeftClick=UIButton_Input_ScreenClose()>
+	</UIButton>
+
+	<UIIcon name="DETAIL_TOP" img="title_large03.tga" x=9 y=8 width=410 height=32 ignoreevents="true" />
+
+	
+	<!-- PARTY ACTION IDS are:
+			0 = LEAVE
+			1 = KICK
+			3 = TRANSFERLEADERSHIP
+			4 = INVITE
+			5 = IGNOREINVITE
+			6 = ACCEPTINIVTE
+			7 = REJECTINVITE
+	-->	
+	<!-- INVITE -->
+	<UIButton name="invite" x=78 y=37 width=40 height=40 
+		OnLeftClick=UIButton_Input_PartyAction(4,"playerlist")
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(1067,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+			<UIFrame state=base		fill="ia_invite.tga" />
+			<UIFrame state=up		fill="b_empty.tga" />
+			<UIFrame state=down		fill="b_overlay.tga" />
+			<UIFrame state=focused	fill="b_empty.tga" />
+			<UIFrame state=hilited	fill="b_overlay.tga" />
+			<UIFrame state=hifocus	fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>	    
+	
+	<!-- TRANSFER LEADERSHIP -->
+	<UIButton name="transferleader" x=123 y=37 width=40 height=40 
+		OnLeftClick=UIButton_Input_PartyAction(3,"playerlist")
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(6383,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+			<UIFrame state=base		fill="ia_issuecommands.tga" />
+			<UIFrame state=up		fill="b_empty.tga" />
+			<UIFrame state=down		fill="b_overlay.tga" />
+			<UIFrame state=focused	fill="b_empty.tga" />
+			<UIFrame state=hilited	fill="b_overlay.tga" />
+			<UIFrame state=hifocus	fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>	 
+	
+	<!-- LEAVE PARTY -->
+	<UIButton  name="leaveparty" x=168 y=37 width=40 height=40 
+		OnLeftClick=UIButton_Input_PartyAction(0,"playerlist")
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(1071,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+			<UIFrame state=base		fill="ia_issuecommands.tga" />
+			<UIFrame state=up		fill="b_empty.tga" />
+			<UIFrame state=down		fill="b_overlay.tga" />
+			<UIFrame state=focused	fill="b_empty.tga" />
+			<UIFrame state=hilited	fill="b_overlay.tga" />
+			<UIFrame state=hifocus	fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>
+	
+	<!-- KICK FROM PARTY -->
+	<UIButton name="kick" x=214 y=37 width=40 height=40 
+		OnLeftClick=UIButton_Input_PartyAction(1,"playerlist")
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(1068,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+			<UIFrame state=base		fill="ia_kickplayer.tga" />
+			<UIFrame state=up		fill="b_empty.tga" />
+			<UIFrame state=down		fill="b_overlay.tga" />
+			<UIFrame state=focused	fill="b_empty.tga" />
+			<UIFrame state=hilited	fill="b_overlay.tga" />
+			<UIFrame state=hifocus	fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>	
+	
+	<!-- BOOT PLAYER -->
+	<!-- On the ACTION, 'true' means to pop up a confirmation message box. False
+	     means to boot without confirmation. -->
+	<UIButton name="bootplayer" x=259 y=37 width=40 height=40 
+		OnLeftClick=UIButton_Input_BootPlayer("true","playerlist")
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(7998,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+			<UIFrame state=base		fill="ia_bootplayer.tga" />
+			<UIFrame state=up		fill="b_empty.tga" />
+			<UIFrame state=down		fill="b_overlay.tga" />
+			<UIFrame state=focused	fill="b_empty.tga" />
+			<UIFrame state=hilited	fill="b_overlay.tga" />
+			<UIFrame state=hifocus	fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>	
+	
+	<!-- BAN PLAYER -->
+	<!-- On the ACTION, 'true' means to pop up a confirmation message box. False
+	     means to ban without confirmation. -->
+	<UIButton name="banplayer" x=304 y=37 width=40 height=40 
+		OnLeftClick=UIButton_Input_BanPlayer("true","playerlist")
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(7997,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+			<UIFrame state=base		fill="ia_banplayer.tga" />
+			<UIFrame state=up		fill="b_empty.tga" />
+			<UIFrame state=down		fill="b_overlay.tga" />
+			<UIFrame state=focused	fill="b_empty.tga" />
+			<UIFrame state=hilited	fill="b_overlay.tga" />
+			<UIFrame state=hifocus	fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>
+	
+	<!-- PVP Zone Message String -->
+	<UIText name="InventorySummary" x=5 y=81 height=32 width=PARENT_WIDTH
+		valign=middle align=center fontfamily="Special_Font" style=2 />
+			
+	
+	<UIListbox name="inventoryreport" x=ALIGN_CENTER y=121 width=400 height=565 yPadding=5 xPadding=0 
+		showpartialchild=false scrollbaronright=true unequalcontrols=false scrollsegmentsize=1 update=true > 
+
+		<UIPane name="InventoryReport_Item" width=483 height=40 tupple=true prototype=true draggable=false> 
+
+			<UIButton name="LISTBOX_ITEM_ICON"  x=0 y=0 style="STYLE_LOOT_ICON" prototype=true draggable=false>
+				<UIText align=right valign=bottom fontfamily="Default" style="1"/> 
+			</UIButton> 
+
+			<UIButton name="LISTBOX_ITEM_TEXT" x=40 y=0 width=200 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+				<UIText align=left valign=middle fontfamily="Default" style="1"/> 
+			</UIButton> 
+
+			<UIButton name="LISTBOX_ITEM_PRICE" x=240 y=0 width=100 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+				<UIText align=left valign=middle fontfamily="Default" style="1"/> 
+			</UIButton>
+
+			<UIButton name="LISTBOX_ITEM_LEVEL" x=340 y=0 width=60 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+				<UIText align=left valign=middle fontfamily="Default" style="1"/> 
+			</UIButton>
+
+		</UIPane> 
+		<UIScrollBar name="SB" style="STYLE_SB_THIN" /> 
+	</UIListbox>
+	
+	<!-- Background pieces -->
+	<UIFrame name="FRAME_BG1" x=ALIGN_CENTER y=60 height=32 width=486 
+	top="frame1_B.tga" topright=frame1_B.tga topleft=frame1_B.tga
+	border=32 />
+	
+	<UIFrame name="FRAME_BG2" x=ALIGN_CENTER y=92 height=32 width=486 
+	top="frame1_B.tga" topright=frame1_B.tga topleft=frame1_B.tga
+	border=32 />
+
+	<!-- Background Image -->
+	<UIFrame name="FRAME_BG" x=0 y=0 height=PARENT_HEIGHT width=PARENT_WIDTH 
+		topleft="frame1_TL.tga" topright="frame1_TR.tga" bottomleft="frame1_BL.tga"
+		bottomright="frame1_BR.tga" top="frame1_T.tga" bottom="frame1_B.tga"
+		left="frame1_L.tga" right="frame1_R.tga" 
+		border=32 />
+	
+	<UIFrame name="FILL_BG" x=6 y=6 height=683 width=414
+		fill="bg_60_alpha.tga" fillstyle=tile />
+
