@@ -65,6 +65,7 @@ void main(int iAction, int iAvtValue)
 	
 	//Check for the object to craft
 	int iInventorySlot = GetLocalInt(oPC,"XC_INVENT_SLOT");
+	int nNetWorth = -1, nOldNetWorth = -1;
 	object oLast;
 	object oItemToCraft = GetItemInSlot(iInventorySlot,oPC);
 	
@@ -93,7 +94,8 @@ void main(int iAction, int iAvtValue)
 	
 	// cache original networth to compare at conclusion
 	if (GetLocalInt(oPC, "networth_assert") == 0) {
-		SetLocalInt(oPC, "networth_assert", DMFI_GetNetWorth(oPC));
+		nNetWorth = DMFI_GetNetWorth(oPC);
+		SetLocalInt(oPC, "networth_assert", nNetWorth);
 	}
 	
 	SetLocalObject(oPC, "XC_LAST_CRAFTED", oItemToCraft);
@@ -102,8 +104,15 @@ void main(int iAction, int iAvtValue)
 		case XP_CRAFT_ACTION_EXIT ://Terminate the craft dialog
 			XPCraft_Debug(oPC,"Craft Session Ended");
 			XPCraft_CleanLocals(oPC);
-			if (GetLocalInt(oPC, "networth_assert") < DMFI_GetNetWorth(oPC)) {
-				WriteTimestampedLogEntry("NETWORTH_ASSERT: Net worth of "+GetName(oPC)+" increased from "+IntToString(GetLocalInt(oPC, "networth_assert")) + " to " + IntToString(DMFI_GetNetWorth(oPC)));
+			nNetWorth = DMFI_GetNetWorth(oPC);
+			nOldNetWorth = GetLocalInt(oPC, "networth_assert");
+
+			// This should never execute, yet...
+			if (nOldNetWorth <= 0)
+				nOldNetWorth = nNetWorth;
+
+			if (nOldNetWorth < nNetWorth) {
+				WriteTimestampedLogEntry("NETWORTH_ASSERT: Net worth of "+GetName(oPC)+" increased from "+IntToString(nOldNetWorth) + " to " + IntToString(nNetWorth));
 			}
 			
 			DeleteLocalInt(oPC, "networth_assert");
