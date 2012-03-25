@@ -72,25 +72,22 @@ void main()
     fDuration = ApplyMetamagicDurationMods(fDuration);
     int nDurType = ApplyMetamagicDurationTypeMods(DURATION_TYPE_TEMPORARY);
     
-	if (spellsIsTarget(oTarget, SPELL_TARGET_ALLALLIES, OBJECT_SELF))
+	// AFW-OEI 07/18/2007: Strip all weaker vigor effcts and replace them with this spell's effects;
+	//	fizzle the spell if there is a stronger vigor effect active.
+	RemoveEffectsFromSpell(oTarget, SPELL_LESSER_VIGOR);
+	RemoveEffectsFromSpell(oTarget, SPELL_MASS_LESSER_VIGOR);
+	RemoveEffectsFromSpell(oTarget, SPELL_VIGOR);
+	if (GetHasSpellEffect(SPELL_VIGOROUS_CYCLE, oTarget))
 	{
-		// AFW-OEI 07/18/2007: Strip all weaker vigor effcts and replace them with this spell's effects;
-		//	fizzle the spell if there is a stronger vigor effect active.
-		RemoveEffectsFromSpell(oTarget, SPELL_LESSER_VIGOR);
-		RemoveEffectsFromSpell(oTarget, SPELL_MASS_LESSER_VIGOR);
-		RemoveEffectsFromSpell(oTarget, SPELL_VIGOR);
-		if (GetHasSpellEffect(SPELL_VIGOROUS_CYCLE, oTarget))
-		{
-			FloatingTextStrRefOnCreature( STR_REF_FEEDBACK_SPELL_FAILED, oTarget );  //"Failed"
-			return;
-		}
-		
-		//Fire cast spell at event for the specified target
-   		SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, 1020, FALSE));
-
-		//Apply the bonus effect and VFX impact
-   		ApplyEffectToObject(nDurType, eRegen, oTarget, fDuration);
-		// ALFA ACR subdual edit
-		ACR_NLD_Regen(oTarget, nBonus, GetSpellId(), 6.0);
+		FloatingTextStrRefOnCreature( STR_REF_FEEDBACK_SPELL_FAILED, oTarget );  //"Failed"
+		return;
 	}
+		
+	//Fire cast spell at event for the specified target
+   	SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, 1020, FALSE));
+
+	//Apply the bonus effect and VFX impact
+   	ApplyEffectToObject(nDurType, eRegen, oTarget, fDuration);
+	// ALFA ACR subdual edit
+	ACR_NLD_Regen(oTarget, nBonus, GetSpellId(), 6.0);
 }
