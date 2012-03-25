@@ -19,7 +19,7 @@
 		OnLeftClick=UIButton_Input_PartyAction(4,"playerlist")
 		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
 		OnLeftClick0=UIObject_Misc_ExtractData(selected:playerreport,"string",5,local:6)
-		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport", 1, local:6)/>
+		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport", 1, local:6)>
 			<UIFrame state=base		fill="acr_openinventory.tga" />
 			<UIFrame state=up		fill="b_empty.tga" />
 			<UIFrame state=down		fill="b_overlay.tga" />
@@ -34,8 +34,7 @@
 		OnLeftClick=UIButton_Input_PartyAction(3,"playerlist")
 		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
 		OnLeftClick0=UIObject_Misc_ExtractData(selected:playerreport,"string",5,local:6)
-		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport", 2, local:6)/>
-		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(6383,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport", 2, local:6) >
 			<UIFrame state=base		fill="acr_allowrest.tga" />
 			<UIFrame state=up		fill="b_empty.tga" />
 			<UIFrame state=down		fill="b_overlay.tga" />
@@ -50,8 +49,7 @@
 		OnLeftClick=UIButton_Input_PartyAction(0,"playerlist")
 		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
 		OnLeftClick0=UIObject_Misc_ExtractData(selected:playerreport,"string",5,local:6)
-		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport", 3, local:6)/>
-		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(1071,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport", 3, local:6) >
 			<UIFrame state=base		fill="acr_allowstudy.tga" />
 			<UIFrame state=up		fill="b_empty.tga" />
 			<UIFrame state=down		fill="b_overlay.tga" />
