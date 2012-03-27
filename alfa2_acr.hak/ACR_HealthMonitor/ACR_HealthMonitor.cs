@@ -222,7 +222,8 @@ namespace ACR_HealthMonitor
                     //
 
                     SetTime = true;
-                    GameObjUpdateAdjustDelay -= GAMEOBJUPDATE_ADJUSTMENT;
+                    GameObjUpdateTime -= GAMEOBJUPDATE_ADJUSTMENT;
+                    GameObjUpdateAdjustDelay = 0;
                 }
 
                 if (SetTime)
