@@ -152,6 +152,7 @@ namespace ACR_HealthMonitor
                 VaultStatus = NewVaultStatus;
             }
 
+
             //
             // If backoff for the GameObjUpdate time is enabled, then try and
             // adjust module performance.
@@ -161,6 +162,7 @@ namespace ACR_HealthMonitor
             {
                 int GameObjUpdateTime = SystemInfo.GetGameObjUpdateTime(this);
                 bool SetTime = false;
+                uint Now = (uint)Environment.TickCount;
 
                 switch (HealthStatus)
                 {
@@ -174,8 +176,13 @@ namespace ACR_HealthMonitor
 
                         if (GameObjUpdateTime != SystemInfo.DEFAULT_GAMEOBJUPDATE_TIME)
                         {
-                            SetTime = true;
-                            GameObjUpdateTime -= GAMEOBJUPDATE_ADJUSTMENT;
+                            if (GameObjUpdateAdjustDelay == 0)
+                            {
+                                LastLatencyAdjustTick = Now;
+                                GameObjUpdateAdjustDelay = LatencyAdjustHysteresis.GetNextDelayTime();
+
+                                WriteTimestampedLogEntry(String.Format("ACR_HealthMonitor.ProcessMeasuredLatency(): Queued downwards GameObjUpdateTime adjustment in {0} milliseconds (current update time value is {0})...", GameObjUpdateAdjustDelay, GameObjUpdateTime));
+                            }
                         }
                         break;
 
@@ -204,13 +211,26 @@ namespace ACR_HealthMonitor
 
                 }
 
+                if (GameObjUpdateAdjustDelay != 0 &&
+                    (Now - LastLatencyAdjustTick) >= GameObjUpdateAdjustDelay &&
+                    GameObjUpdateTime != SystemInfo.DEFAULT_GAMEOBJUPDATE_TIME &&
+                    HealthStatus == LATENCY_HEALTH_STATUS.Healthy)
+                {
+                    //
+                    // We have passed the required minimum time for a downwards
+                    // latency adjustment, effect it now.
+                    //
+
+                    SetTime = true;
+                    GameObjUpdateAdjustDelay -= GAMEOBJUPDATE_ADJUSTMENT;
+                }
+
                 if (SetTime)
                 {
                     WriteTimestampedLogEntry(String.Format("ACR_HealthMonitor.ProcessMeasuredLatency(): Adjusting GameObjUpdateTime to {0}...", GameObjUpdateTime));
                     SystemInfo.SetGameObjUpdateTime(this, GameObjUpdateTime);
                 }
             }
-
         }
 
         /// <summary>
@@ -393,6 +413,25 @@ namespace ACR_HealthMonitor
         private const uint DIAGNOSIS_MIN_TIME = 5 * 60 * 1000;
 
         /// <summary>
+        /// The minimum time between downwards latency adjustments for the
+        /// GameObjUpdate interval.
+        /// </summary>
+        private const uint LATENCY_ADJUST_TIME_MIN = 2000;
+
+        /// <summary>
+        /// The maximum time between downwards latency adjustments for the
+        /// GameObjUpdate interval.  A latency adjustment still needs to be
+        /// otherwise qualified for.
+        /// </summary>
+        private const uint LATENCY_ADJUST_TIME_MAX = 3000000;
+
+        /// <summary>
+        /// The steady state time before which the latency adjust historical
+        /// state for exponential backoff is cleared.
+        /// </summary>
+        private const uint LATENCY_ADJUST_TIME_RESET = 3600000;
+
+        /// <summary>
         /// The current health (latency) status.
         /// </summary>
         private LATENCY_HEALTH_STATUS HealthStatus = LATENCY_HEALTH_STATUS.Healthy;
@@ -432,5 +471,29 @@ namespace ACR_HealthMonitor
         /// The last time in which we did a server diagnosis is stored here.
         /// </summary>
         private uint LastDiagnosisTick = (uint)Environment.TickCount - DIAGNOSIS_MIN_TIME;
+
+        /// <summary>
+        /// The time that the GameObjUpdate time was last set for adjustment.
+        /// </summary>
+        private uint LastLatencyAdjustTick = 0;
+
+        /// <summary>
+        /// If nonzero, downwards adjustment for the GameObjUpdate time is
+        /// pending after GameObjUpdateAdjustDelay milliseconds have transpired
+        /// since LastLatencyAdjustTick.
+        /// </summary>
+        private uint GameObjUpdateAdjustDelay = 0;
+
+        /// <summary>
+        /// Exponential backoff for downwards adjustments to the GameObjUpdate
+        /// latency.  This precludes thrashing to low values frequently when
+        /// performance oscillates frequently during adjustment due to the
+        /// server operating on the edge of its performance envelope.
+        /// 
+        /// The default settings are to begin at two seconds of delay, up to a
+        /// limit of five minutes.  Six minutes of steady state activity are
+        /// required to reset the state to a clean slate.
+        /// </summary>
+        private ALFA.Hysteresis LatencyAdjustHysteresis = new ALFA.Hysteresis(2000, 300000, 360000);
     }
 }
