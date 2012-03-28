@@ -1146,6 +1146,8 @@ int XPCraft_GetHasArmorPiece(object oPC, int nArmorPieceMask)
 	// piece we are looking for.  This implies that the craft system must have
 	// already been initialized, i.e. that XPCraft_InitArmorSetMask has run.
 	//
+	
+	WriteToLogFile("XP_CRAFT: GetHasArmorPiece <"+IntToString(GetLocalInt(oPC, "XC_ITEM_ARMORSET_MASK")) + "> - <" + IntToString(nArmorPieceMask)+">");
 
 	return (GetLocalInt(oPC, "XC_ITEM_ARMORSET_MASK") & nArmorPieceMask) != 0;
 }
