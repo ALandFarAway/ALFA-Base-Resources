@@ -73,6 +73,7 @@ void CheckIsFlatFooted(object oTarget, int nCount = 0)
                     if(GetEffectInteger(eEffect, 0) ==  AC_DODGE_BONUS)
                         nACDiff -= GetEffectInteger(eEffect, 1); // Integer 1 is the AC adjustment made by the effect
                 }
+                eEffect = GetNextEffect(oTarget);
             }
 
             // If this resolves to a negative number, set it to 0. Being flat-footed never
