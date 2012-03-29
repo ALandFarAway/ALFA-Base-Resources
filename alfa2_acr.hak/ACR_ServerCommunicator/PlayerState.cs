@@ -255,5 +255,10 @@ namespace ACR_ServerCommunicator
         /// notices go as server chat events to the main chat log.
         /// </summary>
         SendCrossServerNotificationsToCombatLog = 0x00000002,
+
+        /// <summary>
+        /// Only show local players when the chat select window is collapsed.
+        /// </summary>
+        ChatSelectShowLocalPlayersOnlyWhenCollapsed = 0x00000004,
     }
 }

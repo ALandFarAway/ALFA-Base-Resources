@@ -69,7 +69,12 @@ namespace ACR_ServerCommunicator
                         if (Server.ServerId == Script.GetDatabase().ACR_GetServerID())
                             Script.AddListBoxRow(PlayerObject, "ChatSelect", sPlayerListBox, Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "5=/t \"" + Character.CharacterName + "\" ", "");
                         else
+                        {
+                            if (Player.Flags.HasFlag(PlayerStateFlags.ChatSelectShowLocalPlayersOnlyWhenCollapsed))
+                                continue;
+
                             Script.AddListBoxRow(PlayerObject, "ChatSelect", sPlayerListBox, Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
+                        }
                     }
                     else
                     {

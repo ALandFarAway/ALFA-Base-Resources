@@ -514,6 +514,9 @@ namespace ACR_ServerCommunicator
                         }
                         else
                         {
+                            if (Player.Flags.HasFlag(PlayerStateFlags.ChatSelectShowLocalPlayersOnlyWhenCollapsed))
+                                continue;
+
                             foreach (GameCharacter Character in Server.Characters)
                             {
                                 if (Character.Player.IsDM)
@@ -779,6 +782,7 @@ namespace ACR_ServerCommunicator
                 "ping  - Show current latency statistics (alias: serverlatency).\n" +
                 "uptime  - Show server uptime statistics.\n" +
                 "seen [player name|character name]  - Check when a user last logged on.\n" +
+                "hideremoteplayers [on|off]  - Hide or show remote players when the chat select window is collapsed (default is to show).\n" +
                 "help  - Show help text.\n" +
                 "\n" +
                 "You may also roll skills by prepending the prefix character to a skill name.  For example, #wisdom to roll a wisdom check."
@@ -883,6 +887,28 @@ namespace ACR_ServerCommunicator
                 SetCrossServerNotificationsEnabled(SenderObjectId, true);
                 return TRUE;
             }
+            else if (CookedText.Equals("hideremoteplayers on"))
+            {
+                PlayerState Player = TryGetPlayerState(SenderObjectId);
+
+                if (Player == null)
+                    return TRUE;
+
+                SendMessageToPC(SenderObjectId, "Remote players are now hidden in the chat select window (when collapsed).");
+                Player.Flags |= PlayerStateFlags.ChatSelectShowLocalPlayersOnlyWhenCollapsed;
+                return TRUE;
+            }
+            else if (CookedText.Equals("hideremoteplayers off"))
+            {
+                PlayerState Player = TryGetPlayerState(SenderObjectId);
+
+                if (Player == null)
+                    return TRUE;
+
+                SendMessageToPC(SenderObjectId, "Remote players are now shown in the chat select window (when collapsed).");
+                Player.Flags &= ~(PlayerStateFlags.ChatSelectShowLocalPlayersOnlyWhenCollapsed);
+                return TRUE;
+            }
             else if (CookedText.Equals("notify chatlog"))
             {
                 SendMessageToPC(SenderObjectId, "Cross-server join/part events are now being delivered to the chat log.");
@@ -949,6 +975,14 @@ namespace ACR_ServerCommunicator
             // Remind the player that they have cross server event
             // notifications turned off if they did turn them off.
             //
+
+            if (GetPlayerState(PlayerObject).Flags.HasFlag(PlayerStateFlags.ChatSelectShowLocalPlayersOnlyWhenCollapsed))
+            {
+                DelayCommand(6.0f, delegate()
+                {
+                    SendMessageToPC(PlayerObject, "Remote players are hidden when the chat select window is collapsed.  Type \"#hideremoteplayers off\" to show players on all servers.");
+                });
+            }
 
             if (!IsCrossServerNotificationEnabled(PlayerObject))
             {
