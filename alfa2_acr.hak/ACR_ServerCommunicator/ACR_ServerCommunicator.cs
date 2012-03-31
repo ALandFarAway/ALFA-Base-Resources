@@ -662,7 +662,10 @@ namespace ACR_ServerCommunicator
                 Description = String.Format("{0}ms", ServerLatency);
 
             SendMessageToPC(PlayerObject, String.Format(
-                "Server internal latency is: {0} (median for past 14 samples: {1}ms)", Description, GetGlobalInt("ACR_SERVER_LATENCY_MEDIAN")));
+                "Server internal latency is: {0} (median for past 14 samples: {1}ms, GameObjUpdate: {2}ms)",
+                Description,
+                GetGlobalInt("ACR_SERVER_LATENCY_MEDIAN"),
+                ALFA.SystemInfo.GetGameObjUpdateTime(this)));
 
             if (VaultLatency == -1)
                 Description = "off-scale high";
