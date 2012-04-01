@@ -97,7 +97,6 @@ void ACR_AreaOnEnter() {
         // Code which only runs for NPCs goes here.
     }
     // Code which runs for PCs and NPCs goes here.
-    ACR_SetLoadingScreen(oObject);
 }
 
 void ACR_AreaOnExit() {
@@ -134,6 +133,7 @@ int ACR_AreaOnClientEnter() {
 		ACR_PCSave(oObject, FALSE);
     } else {
         // Code which only runs for NPCs goes here.
+        ACR_SetLoadingScreen(oObject);
     }
 	 return TRUE;
 }
