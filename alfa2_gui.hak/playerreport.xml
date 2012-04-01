@@ -16,9 +16,9 @@
 	
 	<!-- INVENTORY -->
 	<UIButton name="inventory" x=78 y=37 width=40 height=40 
-		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
 		OnLeftClick0=UIObject_Misc_ExtractData(selected:playerreport,"string",5,local:6)
-		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport", 1, local:6) >
+		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",1,local:6) >
 			<UIFrame state=base     fill="acr_openinventory.tga" />
 			<UIFrame state=up       fill="b_empty.tga" />
 			<UIFrame state=down     fill="b_overlay.tga" />
@@ -26,13 +26,13 @@
 			<UIFrame state=hilited  fill="b_overlay.tga" />
 			<UIFrame state=hifocus  fill="b_overlay.tga" />
 			<UIFrame state=disabled fill="b_empty.tga" />
-	</UIButton>	    
+	</UIButton>    
 	
 	<!-- ALLOW REST -->
 	<UIButton name="allowrest" x=123 y=37 width=40 height=40 
 		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
 		OnLeftClick0=UIObject_Misc_ExtractData(selected:playerreport,"string",5,local:6)
-		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport", 2, local:6) >
+		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",2,local:6) >
 			<UIFrame state=base     fill="acr_allowrest.tga" />
 			<UIFrame state=up       fill="b_empty.tga" />
 			<UIFrame state=down     fill="b_overlay.tga" />
@@ -46,7 +46,7 @@
 	<UIButton  name="allowstudy" x=168 y=37 width=40 height=40 
 		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
 		OnLeftClick0=UIObject_Misc_ExtractData(selected:playerreport,"string",5,local:6)
-		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport", 3, local:6) >
+		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",3,local:6) >
 			<UIFrame state=base		fill="acr_allowstudy.tga" />
 			<UIFrame state=up		fill="b_empty.tga" />
 			<UIFrame state=down		fill="b_overlay.tga" />
