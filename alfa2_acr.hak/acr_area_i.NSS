@@ -112,30 +112,30 @@ void ACR_AreaOnExit() {
 
 int ACR_AreaOnClientEnter() {
     // Fires after OnEnter, when the client finishes loading the area, it seems.
-	object oObject = GetEnteringObject();
-	object Area = GetArea(oObject);
+    object oObject = GetEnteringObject();
+    object Area = GetArea(oObject);
 
-	if (Area == GetLocalObject(oObject, ACR_AREA_LAST_AREA_CLIENTENTER_VAR))
-	{
-		// We may receive this event again if another party member has finished
-		// area loading and we were still waiting to clear the loading screen,
-		// even if this wasn't a party transition.  Only perform significant
-		// processing the first time around.
+    if (Area == GetLocalObject(oObject, ACR_AREA_LAST_AREA_CLIENTENTER_VAR))
+    {
+        // We may receive this event again if another party member has finished
+        // area loading and we were still waiting to clear the loading screen,
+        // even if this wasn't a party transition.  Only perform significant
+        // processing the first time around.
+        return FALSE;
+    }
 
-		return FALSE;
-	}
+    SetLocalObject(oObject, ACR_AREA_LAST_AREA_CLIENTENTER_VAR, Area);
 
-	SetLocalObject(oObject, ACR_AREA_LAST_AREA_CLIENTENTER_VAR, Area);
-
-	if(GetIsPC(oObject) || GetIsDMPossessed(oObject)) {
+    if(GetIsPC(oObject) || GetIsDMPossessed(oObject)) {
         // Code which only runs for PCs goes here.
-	    SendMessageToPC(oObject, "Entering area "+GetName(OBJECT_SELF));
-		ACR_PCSave(oObject, FALSE);
+        SendMessageToPC(oObject, "Entering area "+GetName(OBJECT_SELF));
+        ACR_PCSave(oObject, FALSE);
     } else {
         // Code which only runs for NPCs goes here.
-        ACR_SetLoadingScreen(oObject);
+
     }
-	 return TRUE;
+    ACR_SetLoadingScreen(oObject);
+    return TRUE;
 }
 
 void ACR_AreaOnUserDefined() {
