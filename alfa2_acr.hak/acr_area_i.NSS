@@ -196,7 +196,7 @@ void ACR_OnAreaTransitionClick()
     }
 
     // Set the AT screen randomly.
-    //ACR_SetLoadingScreen(oClicker);
+    ACR_SetLoadingScreen(oClicker);
 }
 
 void ACR_SetLoadingScreen(object oClicker)
