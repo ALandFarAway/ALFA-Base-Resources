@@ -1166,8 +1166,8 @@ void _ProcessOffCameraRest(object oPC, int nDuration)
 
     if(GetLevelByClass(CLASS_TYPE_CLERIC,  oPC) ||
        GetLevelByClass(CLASS_TYPE_DRUID,   oPC) ||
-       GetLevelByClass(CLASS_TYPE_PALADIN, oPC) ||
-       GetLevelByClass(CLASS_TYPE_RANGER,  oPC) ||
+       GetLevelByClass(CLASS_TYPE_PALADIN, oPC) > 3 ||
+       GetLevelByClass(CLASS_TYPE_RANGER,  oPC) > 3 ||
        GetLevelByClass(CLASS_TYPE_WIZARD,  oPC))
     {
         SetLocalInt(oPC, ACR_FREE_SPELL_PREP, 1);
