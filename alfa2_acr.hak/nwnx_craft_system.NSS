@@ -1,4 +1,4 @@
-/******************************************************************************
+﻿/******************************************************************************
 *****                         nwnx_craft_system                           *****
 *****                               V 1                                   *****
 *****                             11/29/07                                *****
@@ -1141,13 +1141,13 @@ void XPCraft_OnChangesConfirmed(object oPC, object oInventoryItem)
 
 int XPCraft_GetHasArmorPiece(object oPC, int nArmorPieceMask)
 {
-	//
-	// Check the cached state of whether this item's armorset had the particular
-	// piece we are looking for.  This implies that the craft system must have
-	// already been initialized, i.e. that XPCraft_InitArmorSetMask has run.
-	//
+    //
+    // Check the cached state of whether this item's armorset had the particular
+    // piece we are looking for.  This implies that the craft system must have
+    // already been initialized, i.e. that XPCraft_InitArmorSetMask has run.
+    //
 	
-	WriteToLogFile("XP_CRAFT: GetHasArmorPiece <"+IntToString(GetLocalInt(oPC, "XC_ITEM_ARMORSET_MASK")) + "> - <" + IntToString(nArmorPieceMask)+">");
+    WriteTimestampedLogEntry("XP_CRAFT: GetHasArmorPiece <"+IntToString(GetLocalInt(oPC, "XC_ITEM_ARMORSET_MASK")) + "> - <" + IntToString(nArmorPieceMask)+">");
 
-	return (GetLocalInt(oPC, "XC_ITEM_ARMORSET_MASK") & nArmorPieceMask) != 0;
+    return (GetLocalInt(oPC, "XC_ITEM_ARMORSET_MASK") & nArmorPieceMask) != 0;
 }
