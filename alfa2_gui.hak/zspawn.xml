@@ -174,7 +174,7 @@ ignoreevents=FALSE capturemouseclicks=TRUE capturemouseevents=TRUE update=true U
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Chaotic Good","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
 	<UIIcon name="LN_ICON"     x=105 y=50 width=40 height=40 img="align_ln.tga"
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Lawful Neutral","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
-	<UIIcon name="TN_ICON"     x=175 y=50 width=40 height=40 img="align_tn.tga"
+	<UIIcon name="TN_ICON"     x=175 y=50 width=40 height=40 img="align_n.tga"
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("True Neutral","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
 	<UIIcon name="CN_ICON"     x=245 y=50 width=40 height=40 img="align_cn.tga"
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Chaotic Neutral","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
