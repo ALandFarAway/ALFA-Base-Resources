@@ -65,6 +65,7 @@
 //
 //  2011/04/19  Zelknolf: Fixing function declarations
 //  2011/09/04  Paazin: Remove Fatigue code and place it into acr_effects_i
+//  2012/04/04  FoamBats4All: Changed resting fatigue to be SRD-compliant.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -310,8 +311,8 @@ void _garbageCollection(object oPC);
 //!  - nDuration: number of rest cycles (days) the player has been offline
 void _ProcessOffCameraRest(object oPC, int nDuration);
 
-//! Returns the fortitude save DC for resting in armor, or 0 if no save is needed.
-int _getArmorRestDC(object oPC);
+//! Returns 1 if the user should be fatigued from wearing armor, else 0.
+int _getSufferArmorFatigue(object oPC);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -720,8 +721,8 @@ void _playerRestoreSpells(object oCaster, string sClasses, int nHitPoints)
     FloatingTextStringOnCreature("You have successfully memorized your spells for the day.", oCaster, FALSE);
 }
 
-int _getArmorRestDC(object oPC) {
-    return GetItemACValue(GetItemInSlot(INVENTORY_SLOT_CHEST, oPC));
+int _getSufferArmorFatigue( object oPC ) {
+    return ( GetArmorRank( GetItemInSlot( INVENTORY_SLOT_CHEST, oPC ) ) > ARMOR_RANK_LIGHT );
 }
 
 void _playerRestStart(object oPC)
@@ -738,9 +739,8 @@ void _playerRestStart(object oPC)
     _applySleepEffects(oPC);
     
     // Warn the player if he's resting in armor.
-    int nDC = _getArmorRestDC(oPC);
-    if(nDC) {
-        FloatingTextStringOnCreature("Warning: you're resting in armor, and must pass a " + IntToString(nDC) + " fortitude save or become fatigued.", oPC, FALSE);
+    if ( _getSufferArmorFatigue( oPC ) ) {
+        FloatingTextStringOnCreature( "Warning: You are resting in significantly heavy armor, and will be fatigued.", oPC, FALSE );
     }
     
 
@@ -996,12 +996,8 @@ void _healFromRest(object oCreature, int nOriginalHitPoints)
     ACR_SetIsFatigued(oCreature, 0);
     ACR_SetIsExhausted(oCreature, 0);
 
-    // retrieve the item's AC value
-    int nItemACValue = _getArmorRestDC(oCreature);
-
     // check for fatigue - sleeping in armor (if this isn't a longterm offcamera rest)
-    // creatures w/o the endurance feat or that are wearing heavy armor will suffer from fatigue if they fail a fortitude save
-    if (nDaysRest < 1 && nItemACValue && !FortitudeSave(oCreature, nItemACValue) && (nItemACValue > 5 || !GetHasFeat(FEAT_ENDURANCE, oCreature)))
+    if ( nDaysRest < 1 && _getSufferArmorFatigue( oCreature ) )
     {
         // flag the fatigued status for persistence
         ACR_SetIsFatigued(oCreature, 1);
