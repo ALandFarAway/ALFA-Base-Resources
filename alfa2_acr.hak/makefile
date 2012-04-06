@@ -470,6 +470,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_portal_exe.ncs                    \
             $(OUTPUTDIR)\abr_trg_swimonenter.ncs               \
             $(OUTPUTDIR)\abr_trg_swimonexit.ncs                \
+            $(OUTPUTDIR)\gui_playerreport.ncs                  \
             $(OUTPUTDIR)\acr_portal_cnd.ncs                    
 
 #
