@@ -18,6 +18,9 @@ void main()
 
 	XPCraft_ActionCancelChanges(oPC);
 
+	if (GetLocalInt(oPC, "networth_assert") == 0)
+		return;
+
 	if (GetLocalInt(oPC, "networth_assert") < DMFI_GetNetWorth(oPC)) {
 		WriteTimestampedLogEntry("NETWORTH_ASSERT: Net worth of "+GetName(oPC)+" increased from "+IntToString(GetLocalInt(oPC, "networth_assert")) + " to " + IntToString(DMFI_GetNetWorth(oPC)));
 	}
