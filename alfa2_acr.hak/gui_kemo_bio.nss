@@ -86,9 +86,11 @@ void main(string sAction, string sType, string sEntry)
 			SetGUIObjectText(oPC,"KEMO_BIO_DISPLAY","INPUT_BIOTEXT",-1,sBio);
 			SetGUITexture(oPC,"KEMO_BIO_DISPLAY","KEMO_PORTRAIT",sPortrait);
 			DisplayGuiScreen(oPC,"KEMO_ERP",FALSE,"kemo_erp.xml");
+#if 0
 			if ((!GetIsDM(oPC)) && (!GetIsDMPossessed(oPC))) {
 				SendMessageToPC(oTarget,"<C=gray>Someone is inspecting you. [Portrait: " + sPortrait + "]</C>");
 			}
+#endif
 		}
 		else
 		{	sPortrait = sPortrait + ".tga";
@@ -96,9 +98,11 @@ void main(string sAction, string sType, string sEntry)
 			SetGUIObjectText(oPC,"KEMO_BIO_DISPLAY","INPUT_BIOTEXT",-1,sBio);
 			SetGUITexture(oPC,"KEMO_BIO_DISPLAY","KEMO_PORTRAIT",sPortrait);
 			DisplayGuiScreen(oPC,"KEMO_ERP",FALSE,"kemo_erp.xml");
+#if 0
 			if ((!GetIsDM(oPC)) && (!GetIsDMPossessed(oPC))) {
 				SendMessageToPC(oTarget,"<C=gray>Someone is inspecting you.</C>");
 			}
+#endif
 		}
 		//WriteTimestampedLogEntry(GetName(oPC) + " is displaying a bio/portrait: " + sPortrait);
 		
