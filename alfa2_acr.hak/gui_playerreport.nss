@@ -43,7 +43,7 @@ int PLAYER_REPORT_ALLOW_STUDY    = 3;
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void PopulateInventoryList(object oTarget, object oItem);
+void PopulateInventoryList(object oTarget, object oItem, int nEquipped = FALSE);
 
 string GetAlignmentIcon(object oRowPC);
 string GetDeityIcon(object oRowPC);
@@ -60,9 +60,11 @@ int GetCutoffWealth(int nXP);
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void PopulateInventoryList(object oTarget, object oItem)
+void PopulateInventoryList(object oTarget, object oItem, int nEquipped = FALSE)
 {
     string sName = GetName(oItem);
+    if(nEquipped == TRUE)
+        sName = "<C=#FFFF55>"+sName+"</C>";
 
     int nStack = GetItemStackSize(oItem);
     if(nStack > 1)
@@ -861,12 +863,16 @@ void main(int nAction, int nTargetObject)
         DisplayGuiScreen(oPC, "SCREEN_INVENTORYREPORT", FALSE, "playeritemsreport.xml");
         ClearListBox(oPC, "SCREEN_INVENTORYREPORT", "inventoryreport");
 
+        int nWealth = GetGold(oTarget);
         int nCount = 0;
         object oItem = GetItemInSlot(nCount, oTarget);
         while(nCount < 18)
         {
             if(GetIsObjectValid(oItem))
-                PopulateInventoryList(OBJECT_SELF, oItem);
+            {
+                PopulateInventoryList(OBJECT_SELF, oItem, TRUE);
+                nWealth += GetGoldPieceValue(oItem);
+            }
             nCount++;
             oItem = GetItemInSlot(nCount, oTarget);
         }
@@ -875,8 +881,30 @@ void main(int nAction, int nTargetObject)
         while(GetIsObjectValid(oItem))
         {
             PopulateInventoryList(OBJECT_SELF, oItem);
+            nWealth += GetGoldPieceValue(oItem);
             oItem = GetNextItemInInventory(oTarget);
         }
+
+        int nLowWealth    = GetLowWealth(GetXP(oTarget));
+        int nMedWealth    = GetMedWealth(GetXP(oTarget));
+        int nHighWealth   = GetHighWealth(GetXP(oTarget));
+        int nCutOffWealth = GetCutoffWealth(GetXP(oTarget));
+        
+        string sReportBar = IntToString(nWealth);
+
+        if(nWealth < nLowWealth)
+            sReportBar = "<C=#FF5555>"+sReportBar+" | "+IntToString(nLowWealth - nWealth)+" BELOW LOW END ("+IntToString(nLowWealth)+")</C>";
+        else if(nWealth < nMedWealth)
+            sReportBar = "<C=#FFFF55>"+sReportBar+" | "+IntToString(nMedWealth - nWealth)+" Below Target ("+IntToString(nMedWealth)+")</C>";
+        else if(nWealth < nHighWealth)
+            sReportBar = "<C=#FFFFDD>"+sReportBar+" | "+IntToString(nWealth - nMedWealth)+" Above Target ("+IntToString(nMedWealth)+")</C>";
+        else if(nWealth < nCutOffWealth)
+            sReportBar = "<C=#FF5555>"+sReportBar+" | "+IntToString(nWealth - nHighWealth)+" ABOVE HIGH END ("+IntToString(nHighWealth)+")</C>";
+        else
+            sReportBar = "<C=#FF5555>=== "+sReportBar+" | "+IntToString(nWealth - nCutOffWealth)+" ABOVE THE CUTOFF!!  ("+IntToString(nCutOffWealth)+")===</C>";
+
+        SetGUIObjectText(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "InventorySummary", -1, sReportBar);
+        SetGUIObjectText(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "INVENTORY REPORT", -1, GetName(oTarget));
 
         return;
     }
