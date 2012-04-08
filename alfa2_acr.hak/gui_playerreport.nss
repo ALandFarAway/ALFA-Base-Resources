@@ -64,6 +64,10 @@ void PopulateInventoryList(object oTarget, object oItem)
 {
     string sName = GetName(oItem);
 
+    int nStack = GetItemStackSize(oItem);
+    if(nStack > 1)
+        sName += " ("+IntToString(nStack)+")";
+
     int nPrice = GetGoldPieceValue(oItem);
     string sPrice = IntToString(nPrice);
 
@@ -856,20 +860,22 @@ void main(int nAction, int nTargetObject)
         }
         DisplayGuiScreen(oPC, "SCREEN_INVENTORYREPORT", FALSE, "playeritemsreport.xml");
         ClearListBox(oPC, "SCREEN_INVENTORYREPORT", "inventoryreport");
-        object oItem = GetFirstItemInInventory(oTarget);
-        while(GetIsObjectValid(oItem))
-        {
-            PopulateInventoryList(OBJECT_SELF, oItem);
-            oItem = GetNextItemInInventory(oTarget);
-        }
+
         int nCount = 0;
-        oItem = GetItemInSlot(nCount, oTarget);
+        object oItem = GetItemInSlot(nCount, oTarget);
         while(nCount < 18)
         {
             if(GetIsObjectValid(oItem))
                 PopulateInventoryList(OBJECT_SELF, oItem);
             nCount++;
             oItem = GetItemInSlot(nCount, oTarget);
+        }
+
+        oItem = GetFirstItemInInventory(oTarget);
+        while(GetIsObjectValid(oItem))
+        {
+            PopulateInventoryList(OBJECT_SELF, oItem);
+            oItem = GetNextItemInInventory(oTarget);
         }
 
         return;

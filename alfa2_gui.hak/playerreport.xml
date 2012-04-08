@@ -61,7 +61,7 @@
 		valign=middle align=center fontfamily="Special_Font" style=2 />
 			
 	
-	<UIListbox name="playerreport" x=ALIGN_CENTER y=121 width=498 height=285 yPadding=5 xPadding=0 
+	<UIListbox name="playerreport" x=ALIGN_CENTER y=121 width=498 height=285 yPadding=5 xPadding=0 selectonleftclick=true
 		showpartialchild=false scrollbaronright=true unequalcontrols=false scrollsegmentsize=1 update=true > 
 
 		<UIPane name="PlayerReport_Item" width=483 height=40 tupple=true prototype=true draggable=false> 

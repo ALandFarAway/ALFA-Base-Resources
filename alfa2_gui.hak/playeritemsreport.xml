@@ -7,7 +7,7 @@
 	<UIIcon name="PLAYER_LIST_DETAIL" img="partysel_icon.tga" x=0 y=0 width=78 height=71 ignoreevents=true />
 
 	<!-- Close Button -->
-	<UIButton name="CloseButton" x=489 y=6 style="STYLE_CLOSE_BUTTON" 
+	<UIButton name="CloseButton" x=391 y=6 style="STYLE_CLOSE_BUTTON" 
 		OnLeftClick=UIButton_Input_ScreenClose()>
 	</UIButton>
 
@@ -116,7 +116,7 @@
 		valign=middle align=center fontfamily="Special_Font" style=2 />
 			
 	
-	<UIListbox name="inventoryreport" x=ALIGN_CENTER y=121 width=400 height=565 yPadding=5 xPadding=0 
+	<UIListbox name="inventoryreport" x=ALIGN_CENTER y=121 width=400 height=565 yPadding=5 xPadding=0 selectonleftclick=true
 		showpartialchild=false scrollbaronright=true unequalcontrols=false scrollsegmentsize=1 update=true > 
 
 		<UIPane name="InventoryReport_Item" width=483 height=40 tupple=true prototype=true draggable=false> 
