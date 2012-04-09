@@ -856,7 +856,7 @@ void main(int nAction, int nTargetObject)
     if(nAction == PLAYER_REPORT_SHOW_INVENTORY)
     {
         object oTarget = IntToObject(nTargetObject);
-        if(oTarget == OBJECT_INVALID)
+        if(GetIsObjectValid(oTarget) == FALSE)
         {
             SendMessageToPC(OBJECT_SELF, "I cannot find that player.");
             return;
@@ -913,7 +913,7 @@ void main(int nAction, int nTargetObject)
     else if(nAction == PLAYER_REPORT_ALLOW_REST)
     {
         object oTarget = IntToObject(nTargetObject);
-        if(oTarget == OBJECT_INVALID)
+        if(GetIsObjectValid(oTarget) == FALSE)
         {
             SendMessageToPC(OBJECT_SELF, "I cannot find that player.");
             return;
@@ -926,7 +926,7 @@ void main(int nAction, int nTargetObject)
     else if(nAction == PLAYER_REPORT_ALLOW_STUDY)
     {
         object oTarget = IntToObject(nTargetObject);
-        if(oTarget == OBJECT_INVALID)
+        if(GetIsObjectValid(oTarget) == FALSE)
         {
             SendMessageToPC(OBJECT_SELF, "I cannot find that player.");
             return;
@@ -940,7 +940,7 @@ void main(int nAction, int nTargetObject)
     else if(nAction == PLAYER_REPORT_BOOT_PLAYER)
     {
         object oTarget = IntToObject(nTargetObject);
-        if(oTarget == OBJECT_INVALID || GetIsPC(oTarget) == FALSE)
+        if(GetIsObjectValid(oTarget) == FALSE || GetIsPC(oTarget) == FALSE)
         {
             SendMessageToPC(OBJECT_SELF, "I cannot find that player.");
             return;
