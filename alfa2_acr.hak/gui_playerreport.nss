@@ -940,7 +940,7 @@ void main(int nAction, int nTargetObject)
     else if(nAction == PLAYER_REPORT_BOOT_PLAYER)
     {
         object oTarget = IntToObject(nTargetObject);
-        if(oTarget == OBJECT_INVALID)
+        if(oTarget == OBJECT_INVALID || GetIsPC(oTarget) == FALSE)
         {
             SendMessageToPC(OBJECT_SELF, "I cannot find that player.");
             return;
