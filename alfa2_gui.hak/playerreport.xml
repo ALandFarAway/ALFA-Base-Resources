@@ -55,6 +55,21 @@
 			<UIFrame state=hifocus	fill="b_overlay.tga" />
 			<UIFrame state=disabled fill="b_empty.tga" />
 	</UIButton>
+
+	<!-- BOOT PLAYER -->
+	<UIButton name="bootplayer" x=474 y=37 width=40 height=40 
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+		OnLeftClick0=UIObject_Misc_ExtractData(selected:playerreport,"string",5,local:6)
+		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",4,local:6)
+		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(7998,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") >
+			<UIFrame state=base		fill="ia_bootplayer.tga" />
+			<UIFrame state=up		fill="b_empty.tga" />
+			<UIFrame state=down		fill="b_overlay.tga" />
+			<UIFrame state=focused	fill="b_empty.tga" />
+			<UIFrame state=hilited	fill="b_overlay.tga" />
+			<UIFrame state=hifocus	fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>
 	
 	<!-- PVP Zone Message String -->
 	<UIText name="PartyOf" x=5 y=81 height=32 width=PARENT_WIDTH

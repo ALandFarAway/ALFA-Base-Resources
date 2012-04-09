@@ -30,6 +30,7 @@ int PLAYER_REPORT_SHOW_GUI       = 0;
 int PLAYER_REPORT_SHOW_INVENTORY = 1;
 int PLAYER_REPORT_ALLOW_REST     = 2;
 int PLAYER_REPORT_ALLOW_STUDY    = 3;
+int PLAYER_REPORT_BOOT_PLAYER    = 4;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -934,6 +935,21 @@ void main(int nAction, int nTargetObject)
         ACR_DeletePersistentVariable(oTarget, ACR_REST_STUDY_TIMER);
         ACR_DeletePersistentVariable(oTarget, ACR_REST_PRAYER_TIMER);
         return;
+    }
+
+    else if(nAction == PLAYER_REPORT_BOOT_PLAYER)
+    {
+        object oTarget = IntToObject(nTargetObject);
+        if(oTarget == OBJECT_INVALID)
+        {
+            SendMessageToPC(OBJECT_SELF, "I cannot find that player.");
+            return;
+        }
+
+        SendMessageToPC(OBJECT_SELF, "Booting "+GetName(oTarget)+".");
+        SendMessageToPC(oTarget, "You have been booted by "+GetName(OBJECT_SELF)+".");
+        WriteTimestampedLogEntry(GetName(OBJECT_SELF)+" booted "+GetName(oTarget)+".");
+        BootPC(oTarget);
     }
 
 }
