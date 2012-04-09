@@ -22,7 +22,7 @@
 	<UIListbox name="inventoryreport" x=ALIGN_CENTER y=121 width=400 height=565 yPadding=5 xPadding=0 selectonleftclick=true
 		showpartialchild=false scrollbaronright=true unequalcontrols=false scrollsegmentsize=1 update=true > 
 
-		<UIPane name="InventoryReport_Item" width=483 height=40 tupple=true prototype=true draggable=false> 
+		<UIPane name="InventoryReport_Item" width=428 height=40 tupple=true prototype=true draggable=false> 
 
 			<UIButton name="LISTBOX_ITEM_ICON"  x=0 y=0 style="STYLE_LOOT_ICON" prototype=true draggable=false>
 				<UIText align=right valign=bottom fontfamily="Default" style="1"/> 
@@ -36,7 +36,7 @@
 				<UIText align=left valign=middle fontfamily="Default" style="1"/> 
 			</UIButton>
 
-			<UIButton name="LISTBOX_ITEM_LEVEL" x=340 y=0 width=60 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+			<UIButton name="LISTBOX_ITEM_LEVEL" x=340 y=0 width=40 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
 				<UIText align=left valign=middle fontfamily="Default" style="1"/> 
 			</UIButton>
 
