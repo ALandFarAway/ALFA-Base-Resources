@@ -3,7 +3,7 @@
 <UIScene name="SCREEN_INVENTORYREPORT" x=ALIGN_CENTER y=ALIGN_CENTER width=428 height=700 fadeout="0.3" fadein="0.3" draggable=true
 	priority="SCENE_INGAME" backoutkey=true	scriptloadable=true />
 
-	<UIText text="INVENTORY REPORT" x=78 y=6 width=260 height=28 align=left valign=middle uppercase=true fontfamily="Body_Font" style="2" />
+	<UIText name="INVENTORY_HEADER" text="INVENTORY REPORT" x=78 y=6 width=260 height=28 align=left valign=middle uppercase=true fontfamily="Body_Font" style="2" />
 	<UIIcon name="PLAYER_LIST_DETAIL" img="partysel_icon.tga" x=0 y=0 width=78 height=71 ignoreevents=true />
 
 	<!-- Close Button -->
@@ -36,7 +36,7 @@
 				<UIText align=left valign=middle fontfamily="Default" style="1"/> 
 			</UIButton>
 
-			<UIButton name="LISTBOX_ITEM_LEVEL" x=340 y=0 width=40 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+			<UIButton name="LISTBOX_ITEM_LEVEL" x=340 y=0 width=45 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
 				<UIText align=left valign=middle fontfamily="Default" style="1"/> 
 			</UIButton>
 
@@ -45,11 +45,11 @@
 	</UIListbox>
 	
 	<!-- Background pieces -->
-	<UIFrame name="FRAME_BG1" x=ALIGN_CENTER y=60 height=32 width=428
+	<UIFrame name="FRAME_BG1" x=ALIGN_CENTER y=60 height=32 width=400
 	top="frame1_B.tga" topright=frame1_B.tga topleft=frame1_B.tga
 	border=32 />
 	
-	<UIFrame name="FRAME_BG2" x=ALIGN_CENTER y=92 height=32 width=428
+	<UIFrame name="FRAME_BG2" x=ALIGN_CENTER y=92 height=32 width=400
 	top="frame1_B.tga" topright=frame1_B.tga topleft=frame1_B.tga
 	border=32 />
 

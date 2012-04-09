@@ -904,7 +904,7 @@ void main(int nAction, int nTargetObject)
             sReportBar = "<C=#FF5555>=== "+sReportBar+" | "+IntToString(nWealth - nCutOffWealth)+" ABOVE THE CUTOFF!!  ("+IntToString(nCutOffWealth)+")===</C>";
 
         SetGUIObjectText(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "InventorySummary", -1, sReportBar);
-        SetGUIObjectText(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "INVENTORY REPORT", -1, GetName(oTarget));
+        SetGUIObjectText(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "INVENTORY_HEADER", -1, "Inventory: "+GetName(oTarget));
 
         return;
     }
