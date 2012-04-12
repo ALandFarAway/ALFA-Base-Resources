@@ -847,7 +847,7 @@ void main(int nAction, int nTargetObject)
                 string sDeityIcon  = GetDeityIcon(oRowPC);
                 string sClassIcon  = GetMainClassIcon(oRowPC);
                 string sWealthIcon = GetWealthIcon(oRowPC);
-                AddListBoxRow(oPC, "SCREEN_PLAYERREPORT", "playerreport", sName, "LISTBOX_ITEM_TEXT=  "+sName,   "LISTBOX_ALIGN_ICON="+sAlignIcon+";LISTBOX_DEITY_ICON="+sDeityIcon+";LISTBOX_CLASS_ICON="+sClassIcon+";LISTBOX_WEALTH_ICON="+sWealthIcon+";LISTBOX_STYLE_ICON=acr_spade.tga", "5="+IntToString(ObjectToInt(oRowPC)), "unhide");
+                AddListBoxRow(oPC, "SCREEN_PLAYERREPORT", "playerreport", sName, "LISTBOX_ITEM_TEXT=  "+sNameDisplay,   "LISTBOX_ALIGN_ICON="+sAlignIcon+";LISTBOX_DEITY_ICON="+sDeityIcon+";LISTBOX_CLASS_ICON="+sClassIcon+";LISTBOX_WEALTH_ICON="+sWealthIcon+";LISTBOX_STYLE_ICON=acr_spade.tga", "5="+IntToString(ObjectToInt(oRowPC)), "unhide");
                 oRowPC = GetNextPC();
             }
         }
@@ -975,10 +975,10 @@ void main(int nAction, int nTargetObject)
             return;
         }
 
-        CopyItem(oItem, oTarget, TRUE);
+        object oNewItem = CopyItem(oItem, oTarget, TRUE);
         DestroyObject(oItem);
 
-        PopulateInventoryList(oTarget, oItem);
+        PopulateInventoryList(oTarget, oNewItem);
     }
 
     else if(nAction == PLAYER_REPORT_TAKE_ITEM)
