@@ -31,6 +31,8 @@ int PLAYER_REPORT_SHOW_INVENTORY = 1;
 int PLAYER_REPORT_ALLOW_REST     = 2;
 int PLAYER_REPORT_ALLOW_STUDY    = 3;
 int PLAYER_REPORT_BOOT_PLAYER    = 4;
+int PLAYER_REPORT_GIVE_ITEM      = 5;
+int PLAYER_REPORT_TAKE_ITEM      = 6;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -67,6 +69,8 @@ void PopulateInventoryList(object oTarget, object oItem, int nEquipped = FALSE)
     if(nEquipped == TRUE)
         sName = "<C=#FFFF55>"+sName+"</C>";
 
+    string sPlayer = IntToString(ObjectToInt(oTarget));
+
     int nStack = GetItemStackSize(oItem);
     if(nStack > 1)
         sName += " ("+IntToString(nStack)+")";
@@ -99,7 +103,9 @@ void PopulateInventoryList(object oTarget, object oItem, int nEquipped = FALSE)
     if(sIcon == "") sIcon = "temp0.tga";
     else sIcon += ".tga";
 
-    AddListBoxRow(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "inventoryreport", sName, "LISTBOX_ITEM_TEXT=  "+sName+";LISTBOX_ITEM_PRICE=  "+sPrice+";LISTBOX_ITEM_LEVEL=  "+sLevel,   "LISTBOX_ITEM_ICON="+sIcon, "5="+IntToString(ObjectToInt(oItem)), "unhide");
+    string sRowName = IntToString(ObjectToInt(oItem));
+
+    AddListBoxRow(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "inventoryreport", sRowName, "LISTBOX_ITEM_TEXT=  "+sName+";LISTBOX_ITEM_PRICE=  "+sPrice+";LISTBOX_ITEM_LEVEL=  "+sLevel,   "LISTBOX_ITEM_ICON="+sIcon, "5="+sRowName+";6="+sPlayer, "unhide");
     return;
 }
 
@@ -836,6 +842,7 @@ void main(int nAction, int nTargetObject)
             while(GetIsObjectValid(oRowPC))
             {
                 string sName = GetName(oRowPC);
+                string sNameDisplay = "<C=#AAAAAA>"+GetPCPlayerName(oRowPC)+"</C> \n"+sName;
                 string sAlignIcon  = GetAlignmentIcon(oRowPC);
                 string sDeityIcon  = GetDeityIcon(oRowPC);
                 string sClassIcon  = GetMainClassIcon(oRowPC);
@@ -950,6 +957,43 @@ void main(int nAction, int nTargetObject)
         SendMessageToPC(oTarget, "You have been booted by "+GetName(OBJECT_SELF)+".");
         WriteTimestampedLogEntry(GetName(OBJECT_SELF)+" booted "+GetName(oTarget)+".");
         BootPC(oTarget);
+    }
+
+    else if(nAction == PLAYER_REPORT_GIVE_ITEM)
+    {
+        object oTarget = IntToObject(nTargetObject);
+        object oItem   = GetLocalObject(OBJECT_SELF, "LAST_DRAGGED_ITEM");
+
+        if(GetIsObjectValid(oTarget) == FALSE)
+        {
+            SendMessageToPC(OBJECT_SELF, "I cannot find that player.");
+            return;
+        }
+        if(GetIsObjectValid(oItem) == FALSE)
+        {
+            SendMessageToPC(OBJECT_SELF, "I cannot find that item.");
+            return;
+        }
+
+        CopyItem(oItem, oTarget, TRUE);
+        DestroyObject(oItem);
+
+        PopulateInventoryList(oTarget, oItem);
+    }
+
+    else if(nAction == PLAYER_REPORT_TAKE_ITEM)
+    {
+        object oItem = IntToObject(nTargetObject);
+        if(GetIsObjectValid(oItem) == FALSE)
+        {
+            SendMessageToPC(OBJECT_SELF, "I cannot find that item.");
+            return;
+        }
+
+        CopyItem(oItem, OBJECT_SELF, TRUE);
+        DestroyObject(oItem);
+
+        RemoveListBoxRow(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "inventoryreport", IntToString(nTargetObject));
     }
 
 }

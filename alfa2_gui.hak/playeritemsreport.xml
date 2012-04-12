@@ -20,9 +20,12 @@
 			
 	
 	<UIListbox name="inventoryreport" x=ALIGN_CENTER y=121 width=400 height=565 yPadding=5 xPadding=0 selectonleftclick=true
-		showpartialchild=false scrollbaronright=true unequalcontrols=false scrollsegmentsize=1 update=true > 
+		showpartialchild=false scrollbaronright=true unequalcontrols=false scrollsegmentsize=1 update=true tupple=true
+		OnMouseDropReceived=UIObject_Misc_ExecuteServerScript("gui_playerreport",5,0) > 
 
-		<UIPane name="InventoryReport_Item" width=428 height=40 tupple=true prototype=true draggable=false> 
+		<UIPane name="InventoryReport_Item" width=428 height=40 tupple=true prototype=true draggable=false
+		 OnLeftDoubleClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
+		 OnLeftDoubleClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",6,local:6)> 
 
 			<UIButton name="LISTBOX_ITEM_ICON"  x=0 y=0 style="STYLE_LOOT_ICON" prototype=true draggable=false>
 				<UIText align=right valign=bottom fontfamily="Default" style="1"/> 
