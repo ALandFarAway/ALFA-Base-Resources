@@ -79,7 +79,9 @@
 	<UIListbox name="playerreport" x=ALIGN_CENTER y=121 width=498 height=285 yPadding=5 xPadding=0 selectonleftclick=true
 		showpartialchild=false scrollbaronright=true unequalcontrols=false scrollsegmentsize=1 update=true > 
 
-		<UIPane name="PlayerReport_Item" width=483 height=40 tupple=true prototype=true draggable=false> 
+		<UIPane name="PlayerReport_Item" width=483 height=40 tupple=true prototype=true draggable=false
+		 OnLeftDoubleClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
+		 OnLeftDoubleClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",7,local:6)> 
 
 			<UIButton name="LISTBOX_ITEM_TEXT" x=0 y=0 width=278 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
 				<UIText align=left valign=middle fontfamily="Default" style="1"/> 

@@ -21,6 +21,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "acr_resting_i"
+#include "dmfi_inc_command"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -33,6 +34,7 @@ int PLAYER_REPORT_ALLOW_STUDY    = 3;
 int PLAYER_REPORT_BOOT_PLAYER    = 4;
 int PLAYER_REPORT_GIVE_ITEM      = 5;
 int PLAYER_REPORT_TAKE_ITEM      = 6;
+int PLAYER_REPORT_GOTO_PLAYER    = 7;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -978,6 +980,7 @@ void main(int nAction, int nTargetObject)
         DestroyObject(oItem);
 
         PopulateInventoryList(oTarget, oNewItem);
+        return;
     }
 
     else if(nAction == PLAYER_REPORT_TAKE_ITEM)
@@ -993,6 +996,42 @@ void main(int nAction, int nTargetObject)
         DestroyObject(oItem);
 
         RemoveListBoxRow(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "inventoryreport", IntToString(nTargetObject));
+        return;
+    }
+
+    else if(nAction == PLAYER_REPORT_GOTO_PLAYER)
+    {
+        object oTarget = IntToObject(nTargetObject);
+        if(oTarget == OBJECT_SELF)
+        {
+            SendMessageToPC(OBJECT_SELF, "You already are where you are. Noob.");
+            return;
+        }
+        if(GetIsObjectValid(oTarget) == FALSE)
+        {
+            SendMessageToPC(OBJECT_SELF, "I can't find that player.");
+            return;
+        }
+
+        location lTarget = GetLocation(oTarget);
+        if(GetIsObjectValid(GetAreaFromLocation(lTarget)) == FALSE)
+        {
+            SendMessageToPC(OBJECT_SELF, "I have no idea where that player is, but it doesn't look safe.");
+            return;
+        }
+
+        if(GetAreaFromLocation(lTarget) == GetArea(OBJECT_SELF))
+        {
+            if(GetDistanceBetween(oTarget, OBJECT_SELF) < 10.0f)
+            {
+                object oTool = DMFI_GetTool(OBJECT_SELF);
+                SetLocalObject(oTool, DMFI_TARGET, oTarget);
+                DMFI_RunCommandCode(oTool, OBJECT_SELF, PRM_FOLLOW + PRM_ + PRM_ON);
+                return;
+            }
+        }
+        JumpToLocation(lTarget);
+        return;
     }
 
 }
