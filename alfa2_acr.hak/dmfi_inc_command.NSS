@@ -5,6 +5,7 @@
 // Last Modified By:   Demetrious          2/2/7	Qk 10/07/07
 //						AcadiusLost		   7/12/2009  Undercommon bug fix
 //						Wynna			   8/6/2009 Travel Map Followoff functions
+//						FoamBats4All	   4/9/2012	Restricted travel map paralysis to 2.0 seconds.
 //------------------------------------------------------------------------------
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -204,7 +205,7 @@ int DMFI_RunCommandCode(object oTool, object oPC, string sOriginal)
 				if(oPartyMember != oPC)
 				{
 					SendText(oPartyMember, "A member of your party signals a wish to step off the road.", TRUE, COLOR_GREEN);
-					AssignCommand(oMyArea, ApplyEffectToObject(DURATION_TYPE_PERMANENT, eFreeze, oPartyMember));
+					AssignCommand(oMyArea, ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eFreeze, oPartyMember,2.0f));
 				}
 
 				oPartyMember = GetNextFactionMember(oPartyLeader, TRUE);
