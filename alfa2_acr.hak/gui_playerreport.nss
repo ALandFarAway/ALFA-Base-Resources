@@ -69,8 +69,6 @@ void PopulateInventoryList(object oTarget, object oItem, int nEquipped = FALSE)
     if(nEquipped == TRUE)
         sName = "<C=#FFFF55>"+sName+"</C>";
 
-    string sPlayer = IntToString(ObjectToInt(oTarget));
-
     int nStack = GetItemStackSize(oItem);
     if(nStack > 1)
         sName += " ("+IntToString(nStack)+")";
@@ -105,7 +103,7 @@ void PopulateInventoryList(object oTarget, object oItem, int nEquipped = FALSE)
 
     string sRowName = IntToString(ObjectToInt(oItem));
 
-    AddListBoxRow(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "inventoryreport", sRowName, "LISTBOX_ITEM_TEXT=  "+sName+";LISTBOX_ITEM_PRICE=  "+sPrice+";LISTBOX_ITEM_LEVEL=  "+sLevel,   "LISTBOX_ITEM_ICON="+sIcon, "5="+sRowName+";6="+sPlayer, "unhide");
+    AddListBoxRow(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "inventoryreport", sRowName, "LISTBOX_ITEM_TEXT=  "+sName+";LISTBOX_ITEM_PRICE=  "+sPrice+";LISTBOX_ITEM_LEVEL=  "+sLevel,   "LISTBOX_ITEM_ICON="+sIcon, "5="+sRowName, "unhide");
     return;
 }
 
@@ -842,7 +840,7 @@ void main(int nAction, int nTargetObject)
             while(GetIsObjectValid(oRowPC))
             {
                 string sName = GetName(oRowPC);
-                string sNameDisplay = "<C=#AAAAAA>"+GetPCPlayerName(oRowPC)+"</C> \n"+sName;
+                string sNameDisplay = "<C=#AAAAAA>"+GetPCPlayerName(oRowPC)+"</C> \n  "+sName;
                 string sAlignIcon  = GetAlignmentIcon(oRowPC);
                 string sDeityIcon  = GetDeityIcon(oRowPC);
                 string sClassIcon  = GetMainClassIcon(oRowPC);
@@ -869,6 +867,7 @@ void main(int nAction, int nTargetObject)
             return;
         }
         DisplayGuiScreen(oPC, "SCREEN_INVENTORYREPORT", FALSE, "playeritemsreport.xml");
+        SetLocalGUIVariable(oPC, "SCREEN_INVENTORYREPORT", 7, IntToString(nTargetObject));
         ClearListBox(oPC, "SCREEN_INVENTORYREPORT", "inventoryreport");
 
         int nWealth = GetGold(oTarget);
