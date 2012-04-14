@@ -27,14 +27,18 @@
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-int PLAYER_REPORT_SHOW_GUI       = 0;
-int PLAYER_REPORT_SHOW_INVENTORY = 1;
-int PLAYER_REPORT_ALLOW_REST     = 2;
-int PLAYER_REPORT_ALLOW_STUDY    = 3;
-int PLAYER_REPORT_BOOT_PLAYER    = 4;
-int PLAYER_REPORT_GIVE_ITEM      = 5;
-int PLAYER_REPORT_TAKE_ITEM      = 6;
-int PLAYER_REPORT_GOTO_PLAYER    = 7;
+int PLAYER_REPORT_SHOW_GUI          = 0;
+int PLAYER_REPORT_SHOW_INVENTORY    = 1;
+int PLAYER_REPORT_ALLOW_REST        = 2;
+int PLAYER_REPORT_ALLOW_STUDY       = 3;
+int PLAYER_REPORT_BOOT_PLAYER       = 4;
+int PLAYER_REPORT_GIVE_ITEM         = 5;
+int PLAYER_REPORT_TAKE_ITEM         = 6;
+int PLAYER_REPORT_GOTO_PLAYER       = 7;
+int PLAYER_REPORT_INVENTORY_BUTTONS = 8;
+int PLAYER_REPORT_CURSE_TOGGLE      = 9;
+int PLAYER_REPORT_PLOT_TOGGLE       = 10;
+int PLAYER_REPORT_STOLEN_TOGGLE     = 11;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -69,7 +73,21 @@ void PopulateInventoryList(object oTarget, object oItem, int nEquipped = FALSE)
 {
     string sName = GetName(oItem);
     if(nEquipped == TRUE)
-        sName = "<C=#FFFF55>"+sName+"</C>";
+    {
+        string sColor = "<C=#FFFF55>";
+        if(GetPlotFlag(oItem))       sColor = "<C=#55FFFF>";
+        if(GetStolenFlag(oItem))     sColor = "<C=#55FF55>";
+        if(GetItemCursedFlag(oItem)) sColor = "<C=#FF55FF>";
+        sName = sColor+sName+"</C>";
+    }
+    else
+    {
+        string sColor = "<C=#FFFFFF>";
+        if(GetPlotFlag(oItem))       sColor = "<C=#99FFFF>";
+        if(GetStolenFlag(oItem))     sColor = "<C=#99FF99>";
+        if(GetItemCursedFlag(oItem)) sColor = "<C=#FF99FF>";
+        sName = sColor+sName+"</C>";
+    }
 
     int nStack = GetItemStackSize(oItem);
     if(nStack > 1)
@@ -1032,6 +1050,103 @@ void main(int nAction, int nTargetObject)
         }
         JumpToLocation(lTarget);
         return;
+    }
+
+    else if(nAction == PLAYER_REPORT_INVENTORY_BUTTONS)
+    {
+        object oItem = IntToObject(nTargetObject);
+        if(!GetIsObjectValid(oItem)) return;
+        if(GetPlotFlag(oItem))
+        {
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "plot", TRUE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "unplot", FALSE);
+        }
+        else
+        {
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "plot", FALSE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "unplot", TRUE);
+        }
+
+        if(GetStolenFlag(oItem))
+        {
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "stolen", TRUE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "unstolen", FALSE);
+        }
+        else
+        {
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "stolen", FALSE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "unstolen", TRUE);
+        }
+
+        if(GetItemCursedFlag(oItem))
+        {
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "curse", TRUE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "uncurse", FALSE);
+        }
+        else
+        {
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "curse", FALSE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "uncurse", TRUE);
+        }
+
+        return;
+    }
+
+    else if(nAction == PLAYER_REPORT_CURSE_TOGGLE)
+    {
+        object oItem = IntToObject(nTargetObject);
+        if(!GetIsObjectValid(oItem)) return;
+
+        if(GetItemCursedFlag(oItem))
+        {
+            SetItemCursedFlag(oItem, FALSE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "curse", FALSE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "uncurse", TRUE);
+        }
+        else
+        {
+            SetItemCursedFlag(oItem, TRUE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "curse", TRUE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "uncurse", FALSE);
+        }
+    }
+
+    else if(nAction == PLAYER_REPORT_PLOT_TOGGLE)
+    {
+        object oItem = IntToObject(nTargetObject);
+        if(!GetIsObjectValid(oItem)) return;
+
+        if(GetPlotFlag(oItem))
+        {
+            SetPlotFlag(oItem, FALSE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "plot", FALSE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "unplot", TRUE);
+        }
+        else
+        {
+            SetPlotFlag(oItem, TRUE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "plot", TRUE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "unplot", FALSE);
+        }
+    }
+
+    else if(nAction == PLAYER_REPORT_STOLEN_TOGGLE)
+    {
+        object oItem = IntToObject(nTargetObject);
+        if(!GetIsObjectValid(oItem)) return;
+
+        if(GetStolenFlag(oItem))
+        {
+            SetStolenFlag(oItem, FALSE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "stolen", FALSE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "unstolen", TRUE);
+        }
+        else
+        {
+            SetStolenFlag(oItem, TRUE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "stolen", TRUE);
+            SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "unstolen", FALSE);
+        }
     }
 
 }

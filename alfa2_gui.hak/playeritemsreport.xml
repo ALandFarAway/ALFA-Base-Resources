@@ -13,7 +13,88 @@
 
 	<UIIcon name="DETAIL_TOP" img="title_large03.tga" x=9 y=8 width=410 height=32 ignoreevents="true" />
 
-	
+	<!-- CURSE AND UNCURSE -->
+	<UIButton name="curse" x=78 y=37 width=40 height=40 
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+		OnLeftClick0=UIObject_Misc_ExtractData(selected:inventoryreport,"string",5,local:6)
+		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",9,local:6) >
+			<UIFrame state=base     fill="is_bestowcurse.tga" />
+			<UIFrame state=up       fill="b_empty.tga" />
+			<UIFrame state=down     fill="b_overlay.tga" />
+			<UIFrame state=focused  fill="b_empty.tga" />
+			<UIFrame state=hilited  fill="b_overlay.tga" />
+			<UIFrame state=hifocus  fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>
+
+	<UIButton name="uncurse" x=78 y=37 width=40 height=40 hidden=true
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+		OnLeftClick0=UIObject_Misc_ExtractData(selected:inventoryreport,"string",5,local:6)
+		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",9,local:6) >
+			<UIFrame state=base     fill="is_removecurse.tga" />
+			<UIFrame state=up       fill="b_empty.tga" />
+			<UIFrame state=down     fill="b_overlay.tga" />
+			<UIFrame state=focused  fill="b_empty.tga" />
+			<UIFrame state=hilited  fill="b_overlay.tga" />
+			<UIFrame state=hifocus  fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>
+
+	<!-- STOLEN AND UNSTOLEN -->
+	<UIButton name="stolen" x=123 y=37 width=40 height=40 
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+		OnLeftClick0=UIObject_Misc_ExtractData(selected:inventoryreport,"string",5,local:6)
+		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",11,local:6) >
+			<UIFrame state=base     fill="isk_pocket.tga" />
+			<UIFrame state=up       fill="b_empty.tga" />
+			<UIFrame state=down     fill="b_overlay.tga" />
+			<UIFrame state=focused  fill="b_empty.tga" />
+			<UIFrame state=hilited  fill="b_overlay.tga" />
+			<UIFrame state=hifocus  fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>
+
+	<UIButton name="unstolen" x=123 y=37 width=40 height=40 hidden=true
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+		OnLeftClick0=UIObject_Misc_ExtractData(selected:inventoryreport,"string",5,local:6)
+		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",11,local:6) >
+			<UIFrame state=base     fill="isk_nopocket.tga" />
+			<UIFrame state=up       fill="b_empty.tga" />
+			<UIFrame state=down     fill="b_overlay.tga" />
+			<UIFrame state=focused  fill="b_empty.tga" />
+			<UIFrame state=hilited  fill="b_overlay.tga" />
+			<UIFrame state=hifocus  fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>
+
+
+	<!-- PLOT AND UNPLOT -->
+	<UIButton name="plot" x=168 y=37 width=40 height=40 
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+		OnLeftClick0=UIObject_Misc_ExtractData(selected:inventoryreport,"string",5,local:6)
+		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",10,local:6) >
+			<UIFrame state=base     fill="plot.tga" />
+			<UIFrame state=up       fill="b_empty.tga" />
+			<UIFrame state=down     fill="b_overlay.tga" />
+			<UIFrame state=focused  fill="b_empty.tga" />
+			<UIFrame state=hilited  fill="b_overlay.tga" />
+			<UIFrame state=hifocus  fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>
+
+	<UIButton name="unplot" x=168 y=37 width=40 height=40 hidden=true
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+		OnLeftClick0=UIObject_Misc_ExtractData(selected:inventoryreport,"string",5,local:6)
+		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",10,local:6) >
+			<UIFrame state=base     fill="noplot.tga" />
+			<UIFrame state=up       fill="b_empty.tga" />
+			<UIFrame state=down     fill="b_overlay.tga" />
+			<UIFrame state=focused  fill="b_empty.tga" />
+			<UIFrame state=hilited  fill="b_overlay.tga" />
+			<UIFrame state=hifocus  fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>
+
 	<!-- PVP Zone Message String -->
 	<UIText name="InventorySummary" x=5 y=81 height=32 width=PARENT_WIDTH
 		valign=middle align=center fontfamily="Special_Font" style=2 />
@@ -25,7 +106,9 @@
 
 		<UIPane name="InventoryReport_Item" width=428 height=40 tupple=true prototype=true draggable=false
 		 OnLeftDoubleClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
-		 OnLeftDoubleClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",6,local:6)> 
+		 OnLeftDoubleClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",6,local:6)
+		 OnSelected0=UIObject_Misc_ExtractData("self:","string",5,local:6)
+		 OnSelected1=UIObject_Misc_ExecuteServerScript("gui_playerreport",8,local:6)> 
 
 			<UIButton name="LISTBOX_ITEM_ICON"  x=0 y=0 style="STYLE_LOOT_ICON" prototype=true draggable=false>
 				<UIText align=right valign=bottom fontfamily="Default" style="1"/> 
