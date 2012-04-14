@@ -53,6 +53,7 @@ int PLAYER_REPORT_STOLEN_TOGGLE     = 11;
 ////////////////////////////////////////////////////////////////////////////////
 
 void PopulateInventoryList(object oTarget, object oItem, int nEquipped = FALSE);
+void UpdateInventoryRow(object oTarget, object oItem, int nEquipped = FALSE);
 
 string GetAlignmentIcon(object oRowPC);
 string GetDeityIcon(object oRowPC);
@@ -124,6 +125,64 @@ void PopulateInventoryList(object oTarget, object oItem, int nEquipped = FALSE)
     string sRowName = IntToString(ObjectToInt(oItem));
 
     AddListBoxRow(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "inventoryreport", sRowName, "LISTBOX_ITEM_TEXT=  "+sName+";LISTBOX_ITEM_PRICE=  "+sPrice+";LISTBOX_ITEM_LEVEL=  "+sLevel,   "LISTBOX_ITEM_ICON="+sIcon, "5="+sRowName, "unhide");
+    return;
+}
+
+void UpdateInventoryRow(object oTarget, object oItem, int nEquipped = FALSE)
+{
+    string sName = GetName(oItem);
+    if(nEquipped == TRUE)
+    {
+        string sColor = "<C=#FFFF55>";
+        if(GetPlotFlag(oItem))       sColor = "<C=#55FFFF>";
+        if(GetStolenFlag(oItem))     sColor = "<C=#55FF55>";
+        if(GetItemCursedFlag(oItem)) sColor = "<C=#FF55FF>";
+        sName = sColor+sName+"</C>";
+    }
+    else
+    {
+        string sColor = "<C=#FFFFFF>";
+        if(GetPlotFlag(oItem))       sColor = "<C=#99FFFF>";
+        if(GetStolenFlag(oItem))     sColor = "<C=#99FF99>";
+        if(GetItemCursedFlag(oItem)) sColor = "<C=#FF99FF>";
+        sName = sColor+sName+"</C>";
+    }
+
+    int nStack = GetItemStackSize(oItem);
+    if(nStack > 1)
+        sName += " ("+IntToString(nStack)+")";
+
+    int nPrice = GetGoldPieceValue(oItem);
+    string sPrice = IntToString(nPrice);
+
+    int nLevel = 1;
+    if(nPrice > 188500) nLevel = 20;
+    else if(nPrice > 143000) nLevel = 19;
+    else if(nPrice > 110500) nLevel = 18;
+    else if(nPrice > 84500)  nLevel = 17;
+    else if(nPrice > 65000)  nLevel = 16;
+    else if(nPrice > 48750)  nLevel = 15;
+    else if(nPrice > 35750)  nLevel = 14;
+    else if(nPrice > 28600)  nLevel = 13;
+    else if(nPrice > 21450)  nLevel = 12;
+    else if(nPrice > 15925)  nLevel = 11;
+    else if(nPrice > 11700)  nLevel = 10;
+    else if(nPrice > 8775)   nLevel = 9;
+    else if(nPrice > 6175)   nLevel = 8;
+    else if(nPrice > 4225)   nLevel = 7;
+    else if(nPrice > 2925)   nLevel = 6;
+    else if(nPrice > 1750)   nLevel = 5;
+    else if(nPrice > 875)    nLevel = 4;
+    else if(nPrice > 300)    nLevel = 3;
+    string sLevel = IntToString(nLevel);
+
+    string sIcon = Get2DAString("nwn2_icons", "ICON", GetItemIcon(oItem)); 
+    if(sIcon == "") sIcon = "temp0.tga";
+    else sIcon += ".tga";
+
+    string sRowName = IntToString(ObjectToInt(oItem));
+
+    ModifyListBoxRow(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "inventoryreport", sRowName, "LISTBOX_ITEM_TEXT=  "+sName+";LISTBOX_ITEM_PRICE=  "+sPrice+";LISTBOX_ITEM_LEVEL=  "+sLevel,   "LISTBOX_ITEM_ICON="+sIcon, "5="+sRowName, "unhide");
     return;
 }
 
@@ -1100,12 +1159,14 @@ void main(int nAction, int nTargetObject)
         if(GetItemCursedFlag(oItem))
         {
             SetItemCursedFlag(oItem, FALSE);
+            UpdateInventoryRow(OBJECT_SELF, oItem);
             SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "curse", FALSE);
             SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "uncurse", TRUE);
         }
         else
         {
             SetItemCursedFlag(oItem, TRUE);
+            UpdateInventoryRow(OBJECT_SELF, oItem);
             SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "curse", TRUE);
             SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "uncurse", FALSE);
         }
@@ -1119,12 +1180,14 @@ void main(int nAction, int nTargetObject)
         if(GetPlotFlag(oItem))
         {
             SetPlotFlag(oItem, FALSE);
+            UpdateInventoryRow(OBJECT_SELF, oItem);
             SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "plot", FALSE);
             SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "unplot", TRUE);
         }
         else
         {
             SetPlotFlag(oItem, TRUE);
+            UpdateInventoryRow(OBJECT_SELF, oItem);
             SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "plot", TRUE);
             SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "unplot", FALSE);
         }
@@ -1138,12 +1201,14 @@ void main(int nAction, int nTargetObject)
         if(GetStolenFlag(oItem))
         {
             SetStolenFlag(oItem, FALSE);
+            UpdateInventoryRow(OBJECT_SELF, oItem);
             SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "stolen", FALSE);
             SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "unstolen", TRUE);
         }
         else
         {
             SetStolenFlag(oItem, TRUE);
+            UpdateInventoryRow(OBJECT_SELF, oItem);
             SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "stolen", TRUE);
             SetGUIObjectHidden(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "unstolen", FALSE);
         }

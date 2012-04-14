@@ -107,8 +107,8 @@
 		<UIPane name="InventoryReport_Item" width=428 height=40 tupple=true prototype=true draggable=false
 		 OnLeftDoubleClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
 		 OnLeftDoubleClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",6,local:6)
-		 OnSelected0=UIObject_Misc_ExtractData("self:","string",5,local:6)
-		 OnSelected1=UIObject_Misc_ExecuteServerScript("gui_playerreport",8,local:6)> 
+		 OnLeftClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
+		 OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",8,local:6)> 
 
 			<UIButton name="LISTBOX_ITEM_ICON"  x=0 y=0 style="STYLE_LOOT_ICON" prototype=true draggable=false>
 				<UIText align=right valign=bottom fontfamily="Default" style="1"/> 
