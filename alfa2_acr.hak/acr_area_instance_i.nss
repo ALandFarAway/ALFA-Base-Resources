@@ -423,6 +423,7 @@ void ACR_AreaInstance_StartupCleanup(object Area)
 	int ObjectsDeleted;
 
 	Obj = GetFirstObjectInArea(Area);
+	ObjectsDeleted = 0;
 
 	while (Obj != OBJECT_INVALID)
 	{

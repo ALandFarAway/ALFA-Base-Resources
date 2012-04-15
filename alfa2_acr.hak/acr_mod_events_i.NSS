@@ -207,7 +207,7 @@ void ACR_ModuleInitHealthChecks();
 void ACR_PerformModuleStartupCleanup();
 
 //! Sweep unneeded objects from the area, such as walkmesh helpers.
-//!  - AreaObject: the area to remove unneded objects from.
+//!  - AreaObject: the area to remove unneeded objects from.
 void ACR_SweepAreaOfUnneededObjects(object AreaObject);
 
 //! Wrapper for ACR_ModuleInitHealthChecks().
