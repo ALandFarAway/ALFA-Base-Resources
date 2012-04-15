@@ -82,6 +82,7 @@
 // 2012/01/14  Basilica - Changed to use ACR_RPXPMarkActive for marking RPXP.
 // 2012/01/19  Basilica - Added callout for area instancing system.
 // 2012/03/03  Basilica - Added callout for SCliExt OnLeave.
+// 2012/04/15  Basilica - Added infrastructure for deleting unneeded static objects at module startup
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -201,6 +202,13 @@ void ACR_SetModuleStatus(int nStatus);
 
 //! Start up latency and health monitoring for the server
 void ACR_ModuleInitHealthChecks();
+
+//! Perform startup time area cleanup.
+void ACR_PerformModuleStartupCleanup();
+
+//! Sweep unneeded objects from the area, such as walkmesh helpers.
+//!  - AreaObject: the area to remove unneded objects from.
+void ACR_SweepAreaOfUnneededObjects(object AreaObject);
 
 //! Wrapper for ACR_ModuleInitHealthChecks().
 void ACR_StartModuleInitHealthChecks();
@@ -344,7 +352,12 @@ void ACR_ModuleOnModuleLoad()
     // This should be the last time in this function.
     ACR_PrintDebugMessage("acr_mod_events_i: ALFA server " + sServerId + " loaded.", _ONLOAD_DEBUG, DEBUG_LEVEL_INFO);
 
+	// Start the health monitor (in a DelayCommand to reset the instruction/loop
+	// count limit).
 	DelayCommand(0.1f, ACR_StartModuleInitHealthChecks());
+	// Delete unnecessary objects, such as walkmesh helpers, from statically
+	// placed areas.
+	ACR_PerformModuleStartupCleanup();
 	ACR_LogEvent(OBJECT_INVALID, ACR_LOG_SERVER_LOAD, "Server " + sServerId + " loaded module " + GetName(GetModule()) + ".");
 
 	// The following function call is never called.  This is intentional; the
@@ -1008,6 +1021,32 @@ void ACR_StartModuleInitHealthChecks()
 	// A TMI here means that you should boot the server in JIT mode.
 
 	ACR_ModuleInitHealthChecks();
+}
+
+void ACR_SweepAreaOfUnneededObjects(object AreaObject)
+{
+	// Simply call the area instance cleanp function, which also handles cleanup
+	// of a dynamically instantiated area copy.
+
+	ACR_AreaInstance_StartupCleanup(AreaObject);
+}
+
+void ACR_PerformModuleStartupCleanup()
+{
+	object AreaObject;
+
+	// Queue a cleanup task for each area that exists in the module.  The tasks
+	// run in separate DelayCommands as they iterate over large numbers of
+	// objects and may otherwise trip the instruction or loop count limits if
+	// done all in one go.
+
+	AreaObject = GetFirstArea();
+
+	while (AreaObject != OBJECT_INVALID)
+	{
+		DelayCommand(0.0001f, ACR_SweepAreaOfUnneededObjects(AreaObject));
+		AreaObject = GetNextArea();
+	}
 }
 
 void ACR_ModuleInit_ForceLinkageForCLRScripts()

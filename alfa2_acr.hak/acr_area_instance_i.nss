@@ -14,6 +14,7 @@
 //
 //  Revision History
 //  2012/01/19  Basilica    - Created.
+//  2012/04/15  Basilica    - Added support for area instance startup cleanup.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -187,6 +188,10 @@ float ACR_GetAreaCleanupDelay(object InstancedArea);
 //                       FALSE if the player left the module.
 void ACR_AreaInstance_OnClientLeave(object PC, int FromAreaInstance);
 
+//!  Clean up unneeded objects from an area instance, such as walkmesh helpers.
+//!  - Area: Supplies the area to clean up.
+void ACR_AreaInstance_StartupCleanup(object Area);
+
 //! Internal function to run deletion of an area instance.
 //!  - InstancedArea: Supplies the area to start deleting.
 //!  - CurrentObject: Supplies the current object to delete, for throttling.
@@ -240,12 +245,20 @@ object ACR_CreateAreaInstance(object TemplateArea, float CleanupDelay)
 	// For cacheable areas, we may run creation multiple times.  But we do not
 	// need to bother with static object deletion at all, so don't bother to
 	// create the dummy object in that case.
+	//
+	// Furthermore, a non-cached area must have startup cleanup run once so that
+	// static objects that aren't desired can be deleted.
 	if (GetLocalInt(TemplateArea, ACR_AREA_INSTANCE_ENABLE_CACHE) == FALSE)
 	{
 		object FirstDynamicObject = CreateObject(OBJECT_TYPE_WAYPOINT, "nw_waypoint001", GetStartingLocation(), FALSE);
 		DestroyObject(FirstDynamicObject);
 
 		SetLocalObject(InstancedArea, ACR_AREA_INSTANCE_FIRST_DYNAMIC_OBJECT, FirstDynamicObject);
+
+		// Remove unnecessary static object instances.  This is only needed if we
+		// have created a new instance and not recycled one from the free pool,
+		// as the latter implies that we already ran through startup cleanup.
+		ACR_AreaInstance_StartupCleanup(InstancedArea);
 	}
 
 	// Hook the OnLeave event so that we can fire instance cleanup automatically
@@ -398,6 +411,31 @@ void ACR_AreaInstance_OnClientLeave(object PC, int FromAreaInstance)
 		return;
 
 	ACR__StartAreaCleanupTask(Area, Delay);
+}
+
+void ACR_AreaInstance_StartupCleanup(object Area)
+{
+	object Obj;
+	int ObjectsDeleted;
+
+	Obj = GetFirstObjectInArea(Area);
+
+	while (Obj != OBJECT_INVALID)
+	{
+		/*
+		 * TODO:  Detect walkmesh helper and delete it.
+		if (ACR_IsWalkmeshHelper(Obj))
+		{
+			ObjectsDeleted += 1;
+			DestroyObject(Obj);
+		}
+		*/
+
+		Obj = GetNextObjectInArea(Area);
+	}
+
+	if (ObjectsDeleted)
+		WriteTimestampedLogEntry("ACR_AreaInstance_StartupCleanup(" + GetName(Area) + " - " + ObjectToString(Area) + "): Removed " + IntToString(ObjectsDeleted) + " unnecessary objects.");
 }
 
 
