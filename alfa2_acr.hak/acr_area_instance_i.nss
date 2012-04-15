@@ -222,6 +222,10 @@ void ACR__AreaCleanupTask(object InstancedArea, float Delay);
 //!  InstancedArea: Supplies the current area instance.
 void ACR__CallOriginalOnLeaveHandler(object InstancedArea);
 
+//! Returns TRUE if the object is a walkmesh helper.
+//! oObject: the object to be viewed.
+int ACR_IsWalkmeshHelper(object oObject);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -422,14 +426,11 @@ void ACR_AreaInstance_StartupCleanup(object Area)
 
 	while (Obj != OBJECT_INVALID)
 	{
-		/*
-		 * TODO:  Detect walkmesh helper and delete it.
 		if (ACR_IsWalkmeshHelper(Obj))
 		{
 			ObjectsDeleted += 1;
 			DestroyObject(Obj);
 		}
-		*/
 
 		Obj = GetNextObjectInArea(Area);
 	}
@@ -616,3 +617,30 @@ void ACR__CallOriginalOnLeaveHandler(object InstancedArea)
 	ExecuteScriptEnhanced(Script, InstancedArea);
 }
 
+int ACR_IsWalkmeshHelper(object oObject)
+{
+// If it's not a valid object, it's surely not a walkmesh helper. 
+    if(!GetIsObjectValid(oObject)) return FALSE;
+
+// If it's not a placeable, it's surely not a walkmesh helper.
+    if(GetObjectType(oObject) != OBJECT_TYPE_PLACEABLE) return FALSE;
+
+// If we expect players to interact with it, it's surely not a walkmesh helper.
+    if(GetIsPlaceableObjectActionPossible(oObject, PLACEABLE_ACTION_BASH) ||
+       GetIsPlaceableObjectActionPossible(oObject, PLACEABLE_ACTION_KNOCK) ||
+       GetIsPlaceableObjectActionPossible(oObject, PLACEABLE_ACTION_UNLOCK) ||
+       GetIsPlaceableObjectActionPossible(oObject, PLACEABLE_ACTION_USE))
+        return FALSE;
+
+// If it has the appearance type of a walkmesh helper at this point, it's probably a walkmesh helper.
+    if(GetAppearanceType(oObject) == 1999 ||
+       GetAppearanceType(oObject) == 2000 ||
+       GetAppearanceType(oObject) == 3075 ||
+       GetAppearanceType(oObject) == 3076 ||
+       GetAppearanceType(oObject) == 7081 ||
+       GetAppearanceType(oObject) == 7082)
+        return TRUE;
+
+// It didn't have the appearance. Not a walkmesh helper.
+    return FALSE;
+}
