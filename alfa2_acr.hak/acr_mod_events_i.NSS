@@ -123,6 +123,8 @@
 
 #include "acr_roll_i"
 
+#include "nwnx_craft_system"
+
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -535,6 +537,7 @@ void ACR_ModuleOnClientLeave()
         // log the departure
     	ACR_LogOnExit(oPC);
 
+#if 0
         object oItem = GetFirstItemInInventory(oPC);
 		// Commented this loop out for now, since we don't do anything there
 		/*
@@ -544,6 +547,8 @@ void ACR_ModuleOnClientLeave()
             oItem = GetNextItemInInventory();
         }
 		*/
+
+#endif
         // track resting across sessions
         ACR_RestOnClientLeave(oPC);
 		
@@ -551,6 +556,12 @@ void ACR_ModuleOnClientLeave()
 		ACR_NonLethalOnClientExit(oPC);
    	    ACR_SkillsOnClientExit(oPC);
     }
+
+ 
+	// cancel xp craft if in session
+	if (GetLocalObject(oPC,"XC_ITEM_TO_CRAFT") != OBJECT_INVALID) {
+		XPCraft_ActionCancelChanges(oPC);
+	}
 	
 	ACR_PCOnClientLeave(oPC);
 	
