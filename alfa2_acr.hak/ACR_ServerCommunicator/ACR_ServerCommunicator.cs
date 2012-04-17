@@ -641,6 +641,8 @@ namespace ACR_ServerCommunicator
 
             SendMessageToPC(PlayerObject, "ACR version: " + GetDatabase().ACR_GetVersion());
             SendMessageToPC(PlayerObject, "IPC subsystem version: " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            SendMessageToPC(PlayerObject, "HAK build date: " + GetDatabase().ACR_GetHAKBuildDate());
+            SendMessageToPC(PlayerObject, "Module build date: " + GetDatabase().ACR_GetBuildDate());
         }
 
         /// <summary>
@@ -876,6 +878,8 @@ namespace ACR_ServerCommunicator
             {
                 SendMessageToPC(SenderObjectId, "ACR version: " + GetDatabase().ACR_GetVersion());
                 SendMessageToPC(SenderObjectId, "IPC subsystem version: " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                SendMessageToPC(SenderObjectId, "HAK build date: " + GetDatabase().ACR_GetHAKBuildDate());
+                SendMessageToPC(SenderObjectId, "Module build date: " + GetDatabase().ACR_GetBuildDate());
                 return TRUE;
             }
             else if (CookedText.Equals("notify off"))

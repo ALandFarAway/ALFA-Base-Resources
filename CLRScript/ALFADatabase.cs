@@ -551,6 +551,32 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Get the build date of the module OnLoad script (i.e. the time at
+        /// which the module had its scripts nominally compiled).
+        /// </summary>
+        /// <returns>The module build date string, e.g.
+        /// Apr 16 2012 22:10:35.</returns>
+        public string ACR_GetBuildDate()
+        {
+            DemandInitialize();
+
+            return (string)ACR_GetBuildDate_Method.Invoke(DBLibraryScript, null);
+        }
+
+        /// <summary>
+        /// Get the build date of the HAK version check script (i.e. the time
+        /// at which the ACR HAK had its scripts nominally compiled).
+        /// </summary>
+        /// <returns>The HAK build date string, e.g.
+        /// Apr 16 2012 22:10:35.</returns>
+        public string ACR_GetHAKBuildDate()
+        {
+            DemandInitialize();
+
+            return (string)ACR_GetHAKBuildDate_Method.Invoke(DBLibraryScript, null);
+        }
+
+        /// <summary>
         /// This routine performs a synchronous SQL query.  If there were
         /// pending asynchronous queries in the queue, the pending queries are
         /// drained first.
@@ -751,6 +777,8 @@ namespace ALFA
             ACR_FlushQueryQueue_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_FlushQueryQueue");
             ACR_PCSave_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_PCSave");
             ACR_GetVersion_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetVersion");
+            ACR_GetBuildDate_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetBuildDate");
+            ACR_GetHAKBuildDate_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetHAKBuildDate");
 
             DBLibraryScript = ScriptObject;
 
@@ -804,5 +832,7 @@ namespace ALFA
         private static MethodInfo ACR_FlushQueryQueue_Method;
         private static MethodInfo ACR_PCSave_Method;
         private static MethodInfo ACR_GetVersion_Method;
+        private static MethodInfo ACR_GetBuildDate_Method;
+        private static MethodInfo ACR_GetHAKBuildDate_Method;
     }
 }

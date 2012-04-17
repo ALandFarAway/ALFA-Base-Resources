@@ -14,6 +14,7 @@
 //
 //  Revision History
 //  2012/01/07  Basilica    - Created.
+//  2012/04/16  Basilica    - Return build date.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -26,6 +27,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 const string ACR_VERSION = "1.86";
+const string ACR_HAK_BUILD_DATE = "ACR_HAK_BUILD_DATE";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -43,6 +45,15 @@ const string ACR_VERSION = "1.86";
 //!  - Returns: The ACR version string constant.
 string ACR_GetVersion();
 
+//! Get the build date for this file.
+//!  - Returns: The date time string that this file was compiled.
+string ACR_GetBuildDate();
+
+//! Get the HAK build date.
+//!  - Returns: The date time string that acr_version_check.nss (in the hak)
+//              was compiled on.
+string ACR_GetHAKBuildDate();
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -50,5 +61,15 @@ string ACR_GetVersion();
 string ACR_GetVersion()
 {
 	return ACR_VERSION;
+}
+
+string ACR_GetBuildDate()
+{
+	return __DATE__ + " " + __TIME__;
+}
+
+string ACR_GetHAKBuildDate()
+{
+	return GetGlobalString(ACR_HAK_BUILD_DATE);
 }
 

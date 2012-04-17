@@ -82,7 +82,8 @@
 // 2012/01/14  Basilica - Changed to use ACR_RPXPMarkActive for marking RPXP.
 // 2012/01/19  Basilica - Added callout for area instancing system.
 // 2012/03/03  Basilica - Added callout for SCliExt OnLeave.
-// 2012/04/15  Basilica - Added infrastructure for deleting unneeded static objects at module startup
+// 2012/04/15  Basilica - Added infrastructure for deleting unneeded static objects at module startup.
+// 2012/04/16  Basilica - Log module and HAK build date to server log at module startup.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -236,6 +237,17 @@ void ACR_ModuleOnModuleLoad()
 	// Set global module settings.
 	SetServerData(ACR_SERVER_ID, ACR_SERVER_NAME, ACR_SERVER_REGION, ACR_SERVER_IP);
 
+	// Check and warn the user if the module wasn't built with the same ACR
+	// version as a script contained within the hak.  (This script is built
+	// with the module and returns the module's view of the version number.  The
+	// acr_version_check script is built with the hak and returns the hak's view
+	// of the version number.)
+	AddScriptParameterString(ACR_GetVersion());
+	if (ExecuteScriptEnhanced("acr_version_check", OBJECT_SELF) != TRUE)
+	{
+		WriteTimestampedLogEntry("acr_mod_events_i: ** WARNING **: Module ACR version doesn't match alfa2_acr.hak ACR version!  This is usually caused by compiling the module against a different set of script headers than alfa2_acr.hak was constructed against.");
+	}
+
     object oModule = GetModule();
     
     // ORDER MATTERS !!
@@ -340,17 +352,6 @@ void ACR_ModuleOnModuleLoad()
 	// Initialize server IPC support
 	ACR_ServerIPC_OnModuleLoad();
 
-	// Check and warn the user if the module wasn't built with the same ACR
-	// version as a script contained within the hak.  (This script is built
-	// with the module and returns the module's view of the version number.  The
-	// acr_version_check script is built with the hak and returns the hak's view
-	// of the version number.)
-	AddScriptParameterString(ACR_GetVersion());
-	if (ExecuteScriptEnhanced("acr_version_check", OBJECT_SELF) != TRUE)
-	{
-		WriteTimestampedLogEntry("acr_mod_events_i: ** WARNING **: Module ACR version doesn't match alfa2_acr.hak ACR version!  This is usually caused by compiling the module against a different set of script headers than alfa2_acr.hak was constructed against.");
-	}
-
     // This should be the last time in this function.
     ACR_PrintDebugMessage("acr_mod_events_i: ALFA server " + sServerId + " loaded.", _ONLOAD_DEBUG, DEBUG_LEVEL_INFO);
 
@@ -361,6 +362,7 @@ void ACR_ModuleOnModuleLoad()
 	// placed areas.
 	ACR_PerformModuleStartupCleanup();
 	ACR_LogEvent(OBJECT_INVALID, ACR_LOG_SERVER_LOAD, "Server " + sServerId + " loaded module " + GetName(GetModule()) + ".");
+	WriteTimestampedLogEntry("Module compiled on: " + ACR_GetBuildDate() + ", HAK compiled on: " + ACR_GetHAKBuildDate() + ", module ACR version: " + ACR_GetVersion());
 
 	// The following function call is never called.  This is intentional; the
 	// purpose of this line is to ensure that the compiler cannot elide any
@@ -1074,4 +1076,6 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts()
 	ACR_PCSave(OBJECT_INVALID);
 	ACR_GetVersion();
 	ACR_DeletePersistentVariable(OBJECT_INVALID, "");
+	ACR_GetBuildDate();
+	ACR_GetHAKBuildDate();
 }

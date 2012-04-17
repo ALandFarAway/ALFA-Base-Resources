@@ -48,6 +48,9 @@ int StartingConditional(string ACRVersion);
 
 int StartingConditional(string ACRVersion)
 {
+	// Set the build date of this source file, i.e. the HAK build date.
+	SetGlobalString(ACR_HAK_BUILD_DATE, ACR_GetBuildDate());
+
 	// Return TRUE if the caller matches the hak's version.
 	return ACRVersion == ACR_GetVersion();
 }
