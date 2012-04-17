@@ -67,29 +67,30 @@ void SetChairFacing(object oPC, object oChair)
 
 void AnimationLoop(object oPC, location lCurrentSpot)
 {
-	/* This script now sets the animation information on a Secret Object and starts its heartbeat
-	on a 48 second interval. If the Ipoint already exists, it transfers the new animation
-	name to that Secret Object. Thanks to GrinningFool for this more elegant solution. 7/29/08 */
-	object oPoint = GetLocalObject(oPC,"AnimationPoint");
-	string sAnim = GetLocalString(oPC,"StoredAnimationIdle");
+    /* This script now sets the animation information on a Secret Object and starts its heartbeat
+    on a 48 second interval. If the Ipoint already exists, it transfers the new animation
+    name to that Secret Object. Thanks to GrinningFool for this more elegant solution. 7/29/08 */
+    object oPoint = GetLocalObject(oPC,"AnimationPoint");
+    string sAnim = GetLocalString(oPC,"StoredAnimationIdle");
 
-	SetCollision(oPC,0); //turns collision off for the course of the animation.
-	if (oPoint != OBJECT_INVALID)
-	{
-		SetLocalString(oPoint,"StoredAnimationIdle",sAnim);
-		PlayKemoAnimation(oPC,sAnim);
-	}
-	else
-	{
-		object oPoint = CreateObject(OBJECT_TYPE_PLACEABLE,"plc_secretobject",lCurrentSpot,FALSE,"AnimationPoint");
-		SetLocalObject(oPC,"AnimationPoint",oPoint);
-		SetLocalObject(oPoint,"StoredAnimationPC",oPC);
-		SetLocalString(oPoint,"StoredAnimationIdle",sAnim);
-		SetUseableFlag(oPoint,0);
-		SetCustomHeartbeat(oPoint,12000);
-		SetEventHandler(oPoint,SCRIPT_PLACEABLE_ON_HEARTBEAT,"kemo_animation_hb");
-		PlayKemoAnimation(oPC,sAnim);
-	}
+    SetCollision(oPC,0); //turns collision off for the course of the animation.
+    ApplyEffectAtLocation(DURATION_TYPE_PERMANENT, EffectAreaOfEffect(81, "****","****","kemo_move"), GetLocation(oPC));
+    if (oPoint != OBJECT_INVALID)
+    {
+        SetLocalString(oPoint,"StoredAnimationIdle",sAnim);
+        PlayKemoAnimation(oPC,sAnim);
+    }
+    else
+    {
+        object oPoint = CreateObject(OBJECT_TYPE_PLACEABLE,"plc_secretobject",lCurrentSpot,FALSE,"AnimationPoint");
+        SetLocalObject(oPC,"AnimationPoint",oPoint);
+        SetLocalObject(oPoint,"StoredAnimationPC",oPC);
+        SetLocalString(oPoint,"StoredAnimationIdle",sAnim);
+        SetUseableFlag(oPoint,0);
+        SetCustomHeartbeat(oPoint,12000);
+        SetEventHandler(oPoint,SCRIPT_PLACEABLE_ON_HEARTBEAT,"kemo_animation_hb");
+        PlayKemoAnimation(oPC,sAnim);
+    }
 }
 
 /* the following is the original loop script, now replaced with a heartbeat on an Ipoint 7/29/08
