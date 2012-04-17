@@ -471,6 +471,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\abr_trg_swimonenter.ncs               \
             $(OUTPUTDIR)\abr_trg_swimonexit.ncs                \
             $(OUTPUTDIR)\gui_playerreport.ncs                  \
+            $(OUTPUTDIR)\kemo_move.ncs                         \
             $(OUTPUTDIR)\acr_portal_cnd.ncs                    
 
 #
