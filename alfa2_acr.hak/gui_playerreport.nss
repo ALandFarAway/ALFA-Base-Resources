@@ -910,32 +910,164 @@ void main(int nAction, int nTargetObject)
 
     if(nAction == PLAYER_REPORT_SHOW_GUI)
     {
-        if(GetIsDM(oPC))
+        /* As everyone who opens the player list calls this, we end without chatter for players. */
+        if(!GetIsDM(oPC) && !GetIsDMPossessed(oPC)) return;
+
+
+        /* From here on, everyone is a DM. */
+        CloseGUIScreen(OBJECT_SELF, "SCREEN_PLAYERLIST");
+        DisplayGuiScreen(oPC, "SCREEN_PLAYERREPORT", FALSE, "playerreport.xml");
+        ClearListBox(oPC, "SCREEN_PLAYERREPORT", "playerreport");
+        object oBlueParty, oGreenParty, oCyanParty, oRedParty, oMagentaParty, oBrownParty, oGreyParty;
+        int bBlueUsed = FALSE;
+        int bGreenUsed = FALSE;
+        int bCyanUsed = FALSE;
+        int bRedUsed = FALSE;
+        int bMagentaUsed = FALSE;
+        int bBrownUsed = FALSE;
+        int bGreyUsed = FALSE;
+
+        object oRowPC = GetFirstPC();
+        while(GetIsObjectValid(oRowPC))
         {
-            CloseGUIScreen(OBJECT_SELF, "SCREEN_PLAYERLIST");
-            DisplayGuiScreen(oPC, "SCREEN_PLAYERREPORT", FALSE, "playerreport.xml");
-            ClearListBox(oPC, "SCREEN_PLAYERREPORT", "playerreport");
-            object oRowPC = GetFirstPC();
-            while(GetIsObjectValid(oRowPC))
+            string sName = GetName(oRowPC);
+            string sNameDisplay = "<C=#AAAAAA>"+GetPCPlayerName(oRowPC)+"</C> \n  "+sName;
+            string sAlignIcon  = GetAlignmentIcon(oRowPC);
+            string sDeityIcon  = GetDeityIcon(oRowPC);
+            string sClassIcon  = GetMainClassIcon(oRowPC);
+            string sWealthIcon = GetWealthIcon(oRowPC);
+
+            /* If we've already flagged this PC as a member of a party, just color the PC's name appropriately. */
+            if(GetLocalInt(oRowPC, "BLUE_PARTY"))
             {
-                string sName = GetName(oRowPC);
-                string sNameDisplay = "<C=#AAAAAA>"+GetPCPlayerName(oRowPC)+"</C> \n  "+sName;
-                string sAlignIcon  = GetAlignmentIcon(oRowPC);
-                string sDeityIcon  = GetDeityIcon(oRowPC);
-                string sClassIcon  = GetMainClassIcon(oRowPC);
-                string sWealthIcon = GetWealthIcon(oRowPC);
-                AddListBoxRow(oPC, "SCREEN_PLAYERREPORT", "playerreport", sName, "LISTBOX_ITEM_TEXT=  "+sNameDisplay,   "LISTBOX_ALIGN_ICON="+sAlignIcon+";LISTBOX_DEITY_ICON="+sDeityIcon+";LISTBOX_CLASS_ICON="+sClassIcon+";LISTBOX_WEALTH_ICON="+sWealthIcon+";LISTBOX_STYLE_ICON=acr_spade.tga", "5="+IntToString(ObjectToInt(oRowPC)), "unhide");
-                oRowPC = GetNextPC();
+                sNameDisplay = "<C=#0000AA>"+GetPCPlayerName(oRowPC)+"</C> \n  <C=#5555FF>"+sName+"</C>";
+                bBlueUsed = TRUE;
             }
+            else if(GetLocalInt(oRowPC, "GREEN_PARTY"))
+            {
+                sNameDisplay = "<C=#00AA00>"+GetPCPlayerName(oRowPC)+"</C> \n  <C=#55FF55>"+sName+"</C>";
+                bGreenUsed = TRUE;
+            }
+            else if(GetLocalInt(oRowPC, "CYAN_PARTY"))
+            {
+                sNameDisplay = "<C=#00AAAA>"+GetPCPlayerName(oRowPC)+"</C> \n  <C=#55FFFF>"+sName+"</C>";
+                bCyanUsed = TRUE;
+            }
+            else if(GetLocalInt(oRowPC, "RED_PARTY"))
+            {
+                sNameDisplay = "<C=#AA0000>"+GetPCPlayerName(oRowPC)+"</C> \n  <C=#FF5555>"+sName+"</C>";
+                bRedUsed = TRUE;
+            }
+            else if(GetLocalInt(oRowPC, "MAGENTA_PARTY"))
+            {
+                sNameDisplay = "<C=#AA00AA>"+GetPCPlayerName(oRowPC)+"</C> \n  <C=#FF55FF>"+sName+"</C>";
+                bMagentaUsed = TRUE;
+            }
+            else if(GetLocalInt(oRowPC, "BROWN_PARTY"))
+            {
+                sNameDisplay = "<C=#AA5500>"+GetPCPlayerName(oRowPC)+"</C> \n  <C=#FFFF55>"+sName+"</C>";
+                bBrownUsed = TRUE;
+            }
+            else if(GetLocalInt(oRowPC, "GREY_PARTY"))
+            {
+                sNameDisplay = "<C=#555555>"+GetPCPlayerName(oRowPC)+"</C> \n  <C=#AAAAAA>"+sName+"</C>";
+                bGreyUsed = TRUE;
+            }
+
+            /* If there's no party identified, we need to see if the PC is in a party. */
+            else
+            {
+                /* We know no color is assigned yet, so start blank. */
+                string sFactionColor = "";
+                object oFactionPC = GetFirstFactionMember(oRowPC);
+                while(GetIsObjectValid(oRowPC))
+                {
+                    /* We're only in a party if there's someone else in it. */
+                    if(oFactionPC != oRowPC)
+                    {
+                        /* If we -still- haven't picked a color by the time we get to the current PC, look for one. */
+                        if(sFactionColor == "")
+                        {
+                            if(!bBlueUsed)
+                            {
+                                sFactionColor = "BLUE_PARTY";
+                                bBlueUsed = TRUE;
+                            }
+                            else if(!bGreenUsed)
+                            {
+                                sFactionColor = "GREEN_PARTY";
+                                bGreenUsed = TRUE;
+                            }
+                            else if(!bCyanUsed)
+                            {
+                                sFactionColor = "CYAN_PARTY";
+                                bCyanUsed = TRUE;
+                            }
+                            else if(!bRedUsed)
+                            {
+                                sFactionColor = "RED_PARTY";
+                                bRedUsed = TRUE;
+                            }
+                            else if(!bMagentaUsed)
+                            {
+                                sFactionColor = "MAGENTA_PARTY";
+                                bMagentaUsed = TRUE;
+                            }
+                            else if(!bBrownUsed)
+                            {
+                                sFactionColor = "BROWN_PARTY";
+                                bBrownUsed = TRUE;
+                            }
+                            else if(!bGreyUsed)
+                            {
+                                sFactionColor = "GREY_PARTY";
+                                bGreyUsed = TRUE;
+                            }
+                            else sFactionColor = "SCRAP";
+                        }
+
+                        if(sFactionColor != "" &&
+                           sFactionColor != "SCRAP")
+                        {
+                            /* Temporarily store colors, just in case of key mashing or many DMs calling it. */
+                            SetLocalInt(oFactionPC, sFactionColor, 1);
+                            DelayCommand(0.5f, DeleteLocalInt(oFactionPC, sFactionColor));
+                        }
+                    }
+                    oFactionPC = GetNextFactionMember(oRowPC);
+                }
+
+                /* If we've picked a color, make this row use that color-- and trust that the settings above will catch the others. */
+                if(sFactionColor != "" &&
+                   sFactionColor != "SCRAP")
+                {
+                    if(sFactionColor == "BLUE_PARTY")
+                        sNameDisplay = "<C=#0000AA>"+GetPCPlayerName(oRowPC)+"</C> \n  <C=#5555FF>"+sName+"</C>";
+                    else if(sFactionColor == "GREEN_PARTY")
+                        sNameDisplay = "<C=#00AA00>"+GetPCPlayerName(oRowPC)+"</C> \n  <C=#55FF55>"+sName+"</C>";
+                    else if(sFactionColor == "CYAN_PARTY")
+                        sNameDisplay = "<C=#00AAAA>"+GetPCPlayerName(oRowPC)+"</C> \n  <C=#55FFFF>"+sName+"</C>";
+                    else if(sFactionColor == "RED_PARTY")
+                        sNameDisplay = "<C=#AA0000>"+GetPCPlayerName(oRowPC)+"</C> \n  <C=#FF5555>"+sName+"</C>";
+                    else if(sFactionColor == "MAGENTA_PARTY")
+                        sNameDisplay = "<C=#AA00AA>"+GetPCPlayerName(oRowPC)+"</C> \n  <C=#FF55FF>"+sName+"</C>";
+                    else if(sFactionColor == "BROWN_PARTY")
+                        sNameDisplay = "<C=#AA5500>"+GetPCPlayerName(oRowPC)+"</C> \n  <C=#FFFF55>"+sName+"</C>";
+                    else if(sFactionColor == "GREY_PARTY")
+                        sNameDisplay = "<C=#555555>"+GetPCPlayerName(oRowPC)+"</C> \n  <C=#AAAAAA>"+sName+"</C>";
+                }
+            }
+
+            AddListBoxRow(oPC, "SCREEN_PLAYERREPORT", "playerreport", sName, "LISTBOX_ITEM_TEXT=  "+sNameDisplay,   "LISTBOX_ALIGN_ICON="+sAlignIcon+";LISTBOX_DEITY_ICON="+sDeityIcon+";LISTBOX_CLASS_ICON="+sClassIcon+";LISTBOX_WEALTH_ICON="+sWealthIcon+";LISTBOX_STYLE_ICON=acr_spade.tga", "5="+IntToString(ObjectToInt(oRowPC)), "unhide");
+            oRowPC = GetNextPC();
         }
-        else return;
     }
 
-    /*if(!GetIsDM(oPC)) // Commented out during testing.
+    if(!GetIsDM(oPC))
     {
         SendMessageToPC(OBJECT_SELF, "You are not a DM, and may not do this.");
         return;
-    }*/
+    }
 
     if(nAction == PLAYER_REPORT_SHOW_INVENTORY)
     {
