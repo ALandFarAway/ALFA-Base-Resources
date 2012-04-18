@@ -8,5 +8,6 @@ void main()
     if(GetIsObjectValid(oPC) && GetObjectType(oPC) == OBJECT_TYPE_CREATURE)
     {
         SetCollision(oPC,1);
+        DestroyObject(OBJECT_SELF);
     }
 }
