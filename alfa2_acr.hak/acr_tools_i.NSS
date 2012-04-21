@@ -367,6 +367,13 @@ object SafeGetVariableValueObject(object oObject, int nIndex);
 // Unlike OE's version, this function cannot crash the server.
 string SafeGetVariableValueString(object oObject, int nIndex);
 
+//! Wrapper for GetArmorRulesType that handles invalid parameters.  The stock
+//! function doesn't push a return value integer onto the script stack if the
+//! argument object id isn't a valid item object id.
+//!  - oItem: the item to query.
+//!  - Returns: the armorrulesstats.2da row on success, else 0 on failure.
+int ACR_GetArmorRulesType(object oItem);
+
 //LIST MANAGEMENT
 //note about lists : List have to be like "#1#5#26#99# ..." in order to work properly. See nwnx_craft_set_constatns for details
 
@@ -816,7 +823,7 @@ string GetBaseItemTypeName(object oItem) {
 }*/
 
 int GetBaseSpellFailure(object oItem) {
-    if(!GetIsObjectValid(oItem) || GetBaseItemType(oItem) != BASE_ITEM_ARMOR) {
+    if(GetObjectType(oItem) != OBJECT_TYPE_ITEM || GetBaseItemType(oItem) != BASE_ITEM_ARMOR) {
         return 0;
     }
     return StringToInt(Get2DAString("armorrulestats", "ARCANEFAILURE%", GetArmorRulesType(oItem)));
@@ -1556,6 +1563,14 @@ object SafeGetVariableValueObject(object oObject, int nIndex) {
 
 string SafeGetVariableValueString(object oObject, int nIndex) {
 	return GetIsValidVariableIndex(oObject, nIndex) ? GetVariableValueString(oObject, nIndex) : "";
+}
+
+int ACR_GetArmorRulesType(object oItem)
+{
+	if (GetObjectType(oItem) != OBJECT_TYPE_ITEM)
+		return 0;
+	else
+		return GetArmorRulesType(oItem);
 }
 
 
