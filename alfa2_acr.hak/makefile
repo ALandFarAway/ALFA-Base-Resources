@@ -106,6 +106,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\x2_inc_switches.nss                   \
             $(OUTPUTDIR)\ginc_crafting.nss                     \
             $(OUTPUTDIR)\ginc_group.nss                        \
+            $(OUTPUTDIR)\acr_report_i.nss                      \
             $(OUTPUTDIR)\acr_combateffects_i.nss               
 
 NSS_OBJECTS=                                                   \
