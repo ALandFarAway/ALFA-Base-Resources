@@ -36,7 +36,7 @@
 //  2011/08/05 Basilica     Added distinguished character id value ACR_CHARACTER_ID_NONE.
 //  2011/08/31 Basilica     Added ACR_GetServerAddressFromDatabase.
 //  2011/12/26 Basilica     Added ACR_GetPlayerID and ACR_SetPlayerID.
-//  2012/04/21 Basilica     Updated database creation statements.
+//  2012/04/21 Basilica     Updated database creation statements and statistics.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -63,6 +63,9 @@ const string ACR_PID = "ACR_PID";
 
 //! State variable for whether a character is a server admin
 const string ACR_SRVADMIN = "ACR_SRVADMIN";
+
+//! Module configuration setting indicating that statistics are not enabled.
+const string ACR_DISABLE_STATISTICS = "ACR_DISABLE_STATISTICS";
 
 //! Values for ACR_SRVADMIN local on PC object.
 const int ACR_SRVADMIN_INDETERMINITE = 0;  // Need to query database
@@ -137,6 +140,12 @@ const int ACR_PC_LOCAL_FLAG_PORTAL_COMMITTED   = 0x00000002;
 //! Help text sent to player about cross server tells and how they work.
 const int ACR_PC_LOCAL_FLAG_SERVER_TELL_HELP   = 0x00000004;
 
+
+//! Query flag bits.
+
+//! Do not immediately initiate a query for an async query.
+const int ACR_QUERY_LOW_PRIORITY               = 0x00000001;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -152,6 +161,9 @@ const int ACR_PC_LOCAL_FLAG_SERVER_TELL_HELP   = 0x00000004;
 //! This function starts the service which executes asynchronous queries.
 void ACR_StartAsyncService();
 
+//! This function loads and applies database-side configuration.
+void ACR_LoadDatabaseConfiguration();
+
 //! This function executes an SQL statement asynchronously.
 //! The submitted query is not guarenteed to be executed immediately.
 //! This should ONLY be used for fire-and-forget writes unless the user flushes
@@ -166,8 +178,9 @@ void ACR_AsyncSQLQuery(string sSQL);
 //! the queue before reading the modified data back.
 //!  - sSQL: The SQL string to execute
 //!  - oQueueTo: Supplies the object whose queue is to be used
+//!  - nFlags: Supplies control flags (ACR_QUERY_*)
 //!  - Returns: Nothing
-void ACR_AsyncSQLQueryEx(string sSQL, object oQueueTo);
+void ACR_AsyncSQLQueryEx(string sSQL, object oQueueTo, int nFlags = 0);
 
 //! This function executes an SQL statement.
 //!  - sSQL: The SQL string to execute
@@ -190,6 +203,11 @@ string ACR_SQLGetData(int nCol = 0);
 //! This function returns the number of rows that were affected by the last INSERT, UPDATE, or DELETE operation.
 //!  - Returns: Number of rows affected
 int ACR_SQLGetAffectedRows();
+
+//! This function increments a statistics counter in the database, if statistic
+//  counting was not disabled.
+//!  - Statistic: Supplies the name of the statistic to bump.
+void ACR_IncrementStatistic(string Statistic);
 
 //! This function stores a persistent string
 //!  - oObject: The object for which the data is being stored
@@ -450,7 +468,7 @@ void _ExecuteQueryQueues(int nMaxServiced, object oModule, object oQueueObject, 
 
 //! Initiate a new async query cycle and run the current queue down when the
 //  script returns control.
-void _RunQueryQueue();
+void _RunQueryQueue(int bDeferred);
 
 //! Get the number of queued queries for all queues
 //!  - oExtraQueueObject: Supplies an additional object whose queue should be
@@ -499,7 +517,8 @@ int _SQLQueryReturnsValues(string sSQL);
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void ACR_StartAsyncService() {
+void ACR_StartAsyncService()
+{
 	// Cache the start time if it hasn't yet been set.
 	ACR_GetModuleStartTime();
 	// If we already have pending new queries, there's nothing to do.
@@ -510,15 +529,28 @@ void ACR_StartAsyncService() {
 
 	// Begin unspooling any uncommitted queries if we need to
 	if (GetQueueLength(Module, _ACR_DB_SQL_QUEUE) != 0)
-		_RunQueryQueue();
+		_RunQueryQueue(FALSE);
 }
 
-void ACR_AsyncSQLQuery(string sSQL) {
+void ACR_LoadDatabaseConfiguration()
+{
+	ACR_SQLQuery("SELECT `value` FROM `config` WHERE `variable` = '" + ACR_DISABLE_STATISTICS + "'");
+
+	if (ACR_SQLFetch() == SQL_SUCCESS)
+	{
+		WriteTimestampedLogEntry("acr_db_persist_i: Applying statistics gathering configuration from the database config table.");
+		SetLocalInt(GetModule(), ACR_DISABLE_STATISTICS, StringToInt(ACR_SQLGetData(0)));
+	}
+}
+
+void ACR_AsyncSQLQuery(string sSQL)
+{
 	ACR_AsyncSQLQueryEx(sSQL, GetModule());
 }
 
-void ACR_AsyncSQLQueryEx(string sSQL, object oQueueTo)
+void ACR_AsyncSQLQueryEx(string sSQL, object oQueueTo, int nFlags = 0)
 {
+	int Deferred = (nFlags & ACR_QUERY_LOW_PRIORITY) != 0;
 	int PrevQueueLength;
 
 	// Only players may own their own query queue as we do not have rundown for
@@ -530,7 +562,7 @@ void ACR_AsyncSQLQueryEx(string sSQL, object oQueueTo)
 
 	// If we don't have a run queue pending, kick one off now
 	if ((_GetDatabaseControlFlags() & _ACR_SQL_DBCTRL_ASYNC_PENDING) == 0)
-		_RunQueryQueue();
+		_RunQueryQueue(Deferred);
 }
 
 void ACR_SQLQuery(string sSQL)
@@ -576,6 +608,23 @@ int ACR_SQLGetAffectedRows()
     return NWNXGetInt("SQL", "GET AFFECTED ROWS", "", 0);
 }
 
+void ACR_IncrementStatistic(string Statistic)
+{
+	object Module = GetModule();
+	string CounterName = ACR_SQLEncodeSpecialChars(Statistic);
+
+	if (GetLocalInt(Module, ACR_DISABLE_STATISTICS))
+		return;
+
+	ACR_AsyncSQLQueryEx(
+		"INSERT INTO `stat_counters` (`Name`, `Value`, `LastUpdate`) " +
+		"VALUES ('" + CounterName + "', 1, NOW()) " +
+		"ON DUPLICATE KEY UPDATE `Value` = `Value` + 1, " +
+		"`LastUpdate`=NOW()",
+		Module,
+		ACR_QUERY_LOW_PRIORITY);
+}
+
 string ACR_SQLEncodeSpecialChars(string sString)
 {
     return NWNXGetString("SQL", "GET ESCAPE STRING", sString, 0);
@@ -594,7 +643,8 @@ void ACR_SetPersistentString(object oObject, string sVarName, string sValue, int
     ACR_AsyncSQLQueryEx("INSERT INTO pwdata (Name, Tag, `Key`, Value, Expiration) VALUES ('"
 	 + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "','" + sTag + "','" + ACR_SQLEncodeSpecialChars(sVarName) + "', '"
      + sValue + "', " + IntToString(iExpiration) + ") ON DUPLICATE KEY UPDATE Value='" + sValue + "', Expiration=" + IntToString(iExpiration) + ", Last=NOW()",
-	  oObject);
+	  oObject,
+	  ACR_QUERY_LOW_PRIORITY);
 }
 
 void ACR_SetPersistentStringNoTimestamp(object oObject, string sVarName, string sValue, int iExpiration = 0)
@@ -610,7 +660,8 @@ void ACR_SetPersistentStringNoTimestamp(object oObject, string sVarName, string 
     ACR_AsyncSQLQueryEx("INSERT INTO pwdata (Name, Tag, `Key`, Value, Expiration) VALUES ('"
 	 + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "','" + sTag + "','" + ACR_SQLEncodeSpecialChars(sVarName) + "', '"
      + sValue + "', " + IntToString(iExpiration) + ") ON DUPLICATE KEY UPDATE Value='" + sValue + "', Expiration=" + IntToString(iExpiration),
-	  oObject);
+	  oObject,
+	  ACR_QUERY_LOW_PRIORITY);
 }
 
 string ACR_GetPersistentString(object oObject, string sVarName)
@@ -716,7 +767,7 @@ void ACR_DeletePersistentVariable(object oObject, string sVarName)
     _MaintainACRPersistCache(oObject, sTag);
     DeleteLocalString(oObject, _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX + sVarName);
     // retrieve the record from the database
-    ACR_AsyncSQLQueryEx("DELETE FROM pwdata WHERE Name='" + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "' and Tag='" + sTag + "' and `Key`='" + ACR_SQLEncodeSpecialChars(sVarName) + "'", oObject);
+    ACR_AsyncSQLQueryEx("DELETE FROM pwdata WHERE Name='" + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "' and Tag='" + sTag + "' and `Key`='" + ACR_SQLEncodeSpecialChars(sVarName) + "'", oObject, ACR_QUERY_LOW_PRIORITY);
 }
 
 string ACR_VectorToString(vector vVector)
@@ -1068,6 +1119,13 @@ void ACR_CreateSQLTables()
 		"`gsid` varchar(32) NOT NULL," +
 		"PRIMARY KEY (`uid`)" +
 	") ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+
+	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `stat_counters` (" +
+		"`Name` varchar(64) NOT NULL," +
+		"`Value` int(10) NOT NULL," +
+		"`LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+		"PRIMARY KEY (`Name`)" +
+	") ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 }
 
 void ACR_ResetDatabase()  {
@@ -1126,7 +1184,7 @@ void ACR_DBPersistOnIncomingPlayer(object oPC)
 
 	// Begin unspooling any uncommitted queries if we need to
 	if (GetQueueLength(oPC, _ACR_DB_SQL_QUEUE) != 0)
-		_RunQueryQueue();
+		_RunQueryQueue(FALSE);
 }
 
 void ACR_DBPersistOnOutgoingPlayer(object oPC)
@@ -1414,7 +1472,8 @@ void ACR_SaveObjectVariablesToPersistStore(object Obj, object PCObject, string D
 
 	ACR_AsyncSQLQueryEx(
 		"DELETE FROM `character_script_variables` WHERE `CharacterID` = " + CharID + " AND `Tag` = '" + EscapedTag + "'",
-		PCObject);
+		PCObject,
+		ACR_QUERY_LOW_PRIORITY);
 
 	for (i = 0; i < VariableCount; i += 1)
 	{
@@ -1450,7 +1509,8 @@ void ACR_SaveObjectVariablesToPersistStore(object Obj, object PCObject, string D
 				"(`CharacterID`, `Tag`, `VariableName`, `VariableType`, `VariableValue`) " +
 			"VALUES " +
 				"(" + CharID + ", '" + EscapedTag + "', '" + ACR_SQLEncodeSpecialChars(GetVariableName(Obj, i)) + "', " + IntToString(VariableType) + ", '" + ACR_SQLEncodeSpecialChars(VariableValue) + "')",
-			PCObject);
+			PCObject,
+			ACR_QUERY_LOW_PRIORITY);
 	}
 }
 
@@ -1512,15 +1572,19 @@ void _ExecuteQueryQueues(int nMaxServiced, object oModule, object oExtraQueueObj
 	}
 }
 
-void _RunQueryQueue()
+void _RunQueryQueue(int bDeferred)
 {
 	// Record that we will have a continuation pending
 	_SetDatabaseControlFlags(_GetDatabaseControlFlags() | _ACR_SQL_DBCTRL_ASYNC_PENDING);
 
 	// Run the queue down when the script returns control all the way, which
 	// lets us collect any additional queries that the script might add to the
-	// queue right away
-	AssignCommand(GetModule(), _ServiceAsyncQueries());
+	// queue right away (unless we are in deferred mode).
+
+	if (bDeferred)
+		AssignCommand(GetModule(), DelayCommand(_ACR_DB_SQL_ASYNC_WRITE_HEARTBEAT_DELAY, _ServiceAsyncQueries()));
+	else
+		AssignCommand(GetModule(), _ServiceAsyncQueries());
 }
 
 int _GetTotalQueuedQueryCount(object oExtraQueueObject)

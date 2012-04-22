@@ -139,6 +139,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 
 	if (GetStringLeft(LowerCmd, 3) == ACR_SRVADMIN_RUNSCRIPTLET_PREFIX)
 	{
+		ACR_IncrementStatistic("SA_RUN_POWERSHELL");
 		ACR_RunPowerShellScriptlet(GetStringRight(sCmd, Len-3), oPC);
 		ACR_SrvAdmin_LogCommand(oPC, sCmd);
 		ACR_SrvAdmin_SendFeedback(oPC, "RunScriptlet(" + sCmd + ") completed.");
@@ -146,6 +147,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 	}
 	else if (GetStringLeft(LowerCmd, 10) == ACR_SRVADMIN_RUNSCRIPT_PREFIX)
 	{
+		ACR_IncrementStatistic("SA_RUN_SCRIPT");
 		ACR_SrvAdmin_LogCommand(oPC, sCmd);
 		ExecuteScriptEnhanced(GetStringRight(sCmd, Len-10), oPC);
 		ACR_SrvAdmin_SendFeedback(oPC, "RunScript(" + sCmd + ") completed.");
@@ -204,6 +206,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 	else if (ACR_IsStrPrefix(LowerCmd, ACR_SRVADMIN_LOADSCRIPT_PREFIX))
 	{
 		string ScriptFileName = GetStringRight(sCmd, Len-GetStringLength(ACR_SRVADMIN_LOADSCRIPT_PREFIX));
+		ACR_IncrementStatistic("SA_LOAD_SCRIPT");
 		AddScriptParameterString(ScriptFileName);
 		ExecuteScriptEnhanced(ACR_SRVADMIN_SCRIPTLOADER_NAME, oPC);
 		ACR_SrvAdmin_LogCommand(oPC, sCmd);
@@ -285,6 +288,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 	else if (LowerCmd == ACR_SRVADMIN_RUNUPDATER_PREFIX)
 	{
 		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+		ACR_IncrementStatistic("SA_RUN_UPDATER");
 
 		if (ACR_ExecuteServerUpdaterScript())
 			ACR_SrvAdmin_SendFeedback(oPC, "Successfully launched updater.");

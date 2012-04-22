@@ -1,3 +1,4 @@
+#include "acr_db_persist_i"
 #include "acr_zspawn_i"
 
 void main()
@@ -357,4 +358,6 @@ void main()
 		ForceRest(oSpawn);
 		nSpawns--;
 	}
+
+	ACR_IncrementStatistic("ZSPAWN_SPAWN");
 }
