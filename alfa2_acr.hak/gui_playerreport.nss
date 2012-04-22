@@ -20,6 +20,7 @@
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+#include "acr_db_persist_i"
 #include "acr_resting_i"
 #include "dmfi_inc_command"
 
@@ -915,6 +916,7 @@ void main(int nAction, int nTargetObject)
 
 
         /* From here on, everyone is a DM. */
+        ACR_IncrementStatistic("PLAYER_REPORT_OPEN");
         CloseGUIScreen(OBJECT_SELF, "SCREEN_PLAYERLIST");
         DisplayGuiScreen(oPC, "SCREEN_PLAYERREPORT", FALSE, "playerreport.xml");
         ClearListBox(oPC, "SCREEN_PLAYERREPORT", "playerreport");
