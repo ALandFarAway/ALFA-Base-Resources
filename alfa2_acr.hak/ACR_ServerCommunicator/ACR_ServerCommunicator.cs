@@ -659,8 +659,11 @@ namespace ACR_ServerCommunicator
         {
             int ServerLatency = GetGlobalInt("ACR_SERVER_LATENCY");
             int VaultLatency = GetGlobalInt("ACR_VAULT_LATENCY");
-            PlayerState State = GetPlayerState(PlayerObject);
+            PlayerState State = TryGetPlayerState(PlayerObject);
             string Description;
+
+            if (State == null)
+                return;
 
             if (ServerLatency == -1)
                 Description = "off-scale high";
