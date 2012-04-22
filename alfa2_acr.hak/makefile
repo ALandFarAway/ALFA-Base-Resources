@@ -473,7 +473,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\abr_trg_swimonexit.ncs                \
             $(OUTPUTDIR)\gui_playerreport.ncs                  \
             $(OUTPUTDIR)\kemo_move.ncs                         \
-            $(OUTPUTDIR)\acr_portal_cnd.ncs                    
+            $(OUTPUTDIR)\acr_portal_cnd.ncs                    \
+            $(OUTPUTDIR)\gb_player_heart.ncs                   
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and

@@ -87,6 +87,9 @@ const int ACR_SERVER_IPC_DISABLE_CHARACTER_SAVE              = 14;
 // This command enables character save for a player.
 const int ACR_SERVER_IPC_ENABLE_CHARACTER_SAVE               = 15;
 
+// This command runs a periodic heartbeat on a DM during server pause.
+const int ACR_SERVER_IPC_PAUSE_HEARTBEAT                     = 16;
+
 // IPC event codes:
 
 // The chat tell event is used to transport tells cross-server.
@@ -279,6 +282,12 @@ int ACR_DisableCharacterSave(object PlayerObject);
 //!  - PlayerObject: Supplies the PC object to enable saves for.
 //!  - Returns: TRUE if successful.
 int ACR_EnableCharacterSave(object PlayerObject);
+
+//! Dispatch periodic events from a DM avatar during pause, as normal periodic
+//  processing is frozen.
+//!  - PlayerObject: The DM object that is running player heartbeat.
+//!  - Returns: TRUE if successful
+int ACR_PauseHeartbeat(object PlayerObject);
 
 //! Make a raw call to the IPC C# control script.
 //!  - Command: Supplies the command to request (e.g. ACR_SERVER_IPC_SIGNAL_IPC_EVENT).
@@ -642,6 +651,22 @@ int ACR_EnableCharacterSave(object PlayerObject)
 
 	return ACR_CallIPCScript(
 		ACR_SERVER_IPC_ENABLE_CHARACTER_SAVE,
+		0,
+		0,
+		0,
+		0,
+		0,
+		"",
+		PlayerObject);
+}
+
+int ACR_PauseHeartbeat(object PlayerObject)
+{
+	if (!GetPause() || !GetIsDM(PlayerObject))
+		return FALSE;
+
+	return ACR_CallIPCScript(
+		ACR_SERVER_IPC_PAUSE_HEARTBEAT,
 		0,
 		0,
 		0,

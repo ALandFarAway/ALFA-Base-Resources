@@ -213,6 +213,17 @@ namespace ACR_ServerCommunicator
                     }
                     break;
 
+                case REQUEST_TYPE.PAUSE_HEARTBEAT:
+                    {
+                        //
+                        // Default processing in DispatchPeriodicEvents runs
+                        // below.
+                        //
+
+                        ReturnCode = 0;
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid IPC script command " + RequestType.ToString());
 
@@ -224,7 +235,7 @@ namespace ACR_ServerCommunicator
             // tell to deliver.
             //
 
-            DrainCommandQueue();
+            DispatchPeriodicEvents();
 
             return ReturnCode;
         }
@@ -1896,6 +1907,31 @@ namespace ACR_ServerCommunicator
 
 
         /// <summary>
+        /// Called to periodically dispatch events on the main thread.
+        /// </summary>
+        public void DispatchPeriodicEvents()
+        {
+            try
+            {
+                DrainCommandQueue();
+            }
+            catch (Exception e)
+            {
+                WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.DispatchPeriodicEvents(): Encountered exception: {0}", e));
+            }
+
+            try
+            {
+                RunUpdateServerExternalAddress();
+            }
+            catch (Exception e)
+            {
+                WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.DispatchPeriodicEvents(): Encountered exception in external address update: {0}", e));
+            }
+        }
+
+
+        /// <summary>
         /// This method initiates a server-to-server tell.
         /// </summary>
         /// <param name="SenderObjectId">Supplies the local object id of the
@@ -2070,23 +2106,7 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void CommandDispatchLoop()
         {
-            try
-            {
-                DrainCommandQueue();
-            }
-            catch (Exception e)
-            {
-                WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.CommandDispatchLoop(): Encountered exception: {0}", e));
-            }
-
-            try
-            {
-                RunUpdateServerExternalAddress();
-            }
-            catch (Exception e)
-            {
-                WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.CommandDispatchLoop(): Encountered exception in external address update: {0}", e));
-            }
+            DispatchPeriodicEvents();
 
             //
             // Start a new dispatch cycle going.
@@ -2343,7 +2363,8 @@ namespace ACR_ServerCommunicator
             HANDLE_LATENCY_CHECK_RESPONSE,
             GET_PLAYER_LATENCY,
             DISABLE_CHARACTER_SAVE,
-            ENABLE_CHARACTER_SAVE
+            ENABLE_CHARACTER_SAVE,
+            PAUSE_HEARTBEAT
         }
 
         /// <summary>
