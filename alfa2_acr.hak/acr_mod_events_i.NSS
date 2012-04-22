@@ -114,6 +114,7 @@
 #include "acr_version_i"
 #include "acr_scliext_i"
 #include "acr_area_instance_i"
+#include "acr_wealth_i"
 
 #include "acf_spawn_i"
 #include "acf_settings_i"
@@ -438,6 +439,9 @@ void ACR_ModuleOnClientEnter()
 
 	// Let the IPC subsystem know of the login event.
 	ACR_ServerIPC_OnClientEnter(oPC);
+
+	// Let the wealth subsystem know of the login event.
+	ACR_WealthOnClientEnter(oPC);
 
 	ACR_IncrementStatistic("PLAYER_LOGINS");
 }

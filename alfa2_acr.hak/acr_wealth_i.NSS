@@ -35,6 +35,8 @@
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 #include "acr_tools_i"
+#include "acr_report_i"
+#include "acr_db_persist_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -84,6 +86,10 @@ struct PCWealthStruct {
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+//! Handle module client enter.
+//!  - oPC: the PC who logged on.
+void ACR_WealthOnClientEnter(object oPC);
+
 //! Returns a gp value for a spawned creature, based on its CR, loot value, and a normal distribution.
 int ACR_GetRandomDropValue(object oMob);
 
@@ -97,9 +103,18 @@ int _GetLootMultiplier(object oSpawn);
 //! This function generates loot drops on a specific creature
 void _generateTreasure(object oCreature, int nLootValue, int nItems=0);
 
+//! This function does a wealth report on login.
+//!  - oPC: the PC to log the report for.
+void ACR_WealthReportLog(object oPC);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+void ACR_WealthOnClientEnter(object oPC)
+{
+	AssignCommand(GetModule(), ACR_WealthReportLog(oPC));
+}
 
 int ACR_GetRandomDropValue(object oMob)
 {
@@ -1194,3 +1209,19 @@ void _generateTreasure(object oCreature, int nLootValue, int nItems=0)
     // if we can still drop more than 1gp, call this function again
     if (nItemValue < nLootValue && nLootValue > 1) { _generateTreasure(oCreature, nLootValue - nItemValue, nItems++); }
 }
+
+void ACR_WealthReportLog(object oPC)
+{
+	if (GetIsDM(oPC))
+		return;
+
+	int WealthLevel = GetWealthLevel(oPC);
+
+	if (WealthLevel <= WEALTH_LEVEL_LOW)
+		ACR_IncrementStatistic("PLAYER_LOW_WEALTH_LOGINS");
+	else if (WealthLevel == WEALTH_LEVEL_TARGET)
+		ACR_IncrementStatistic("PLAYER_NORMAL_WEALTH_LOGINS");
+	else if (WealthLevel >= WEALTH_LEVEL_HIGH)
+		ACR_IncrementStatistic("PLAYER_HIGH_WEALTH_LOGINS");
+}
+
