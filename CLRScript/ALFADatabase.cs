@@ -81,6 +81,22 @@ namespace ALFA
     }
 
     /// <summary>
+    /// Control flags for ACR_AsyncSQLQueryEx.
+    /// </summary>
+    public enum ACR_QUERY_FLAGS : uint
+    {
+        /// <summary>
+        /// No flags set.
+        /// </summary>
+        None = 0x00000000,
+
+        /// <summary>
+        /// Don't immediately initiate a query for an async query.
+        /// </summary>
+        ACR_QUERY_LOW_PRIORITY = 0x000000001,
+    }
+
+    /// <summary>
     /// This class encapsulates database access for ALFA CLR scripts.
     /// </summary>
     public class Database : IALFADatabase
@@ -114,11 +130,12 @@ namespace ALFA
         /// <param name="Query">Supplies the query string.</param>
         /// <param name="QueueTo">Supplies the object to queue the query to,
         /// which should be a PC or the module object.</param>
-        public void ACR_AsyncSQLQueryEx(string Query, UInt32 QueueTo)
+        /// <param name="Flags">Supplies query flags.</param>
+        public void ACR_AsyncSQLQueryEx(string Query, UInt32 QueueTo, ACR_QUERY_FLAGS Flags = ACR_QUERY_FLAGS.None)
         {
             DemandInitialize();
 
-            ACR_AsyncSQLQueryEx_Method.Invoke(DBLibraryScript, new object[] { Query, QueueTo });
+            ACR_AsyncSQLQueryEx_Method.Invoke(DBLibraryScript, new object[] { Query, QueueTo, (UInt32)Flags });
         }
 
         /// <summary>
@@ -577,6 +594,18 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Increment a global tracking statistic counter stored in the
+        /// database (if statistic tracking was enabled).
+        /// </summary>
+        /// <param name="Statistic">Supplies the counter name.</param>
+        public void ACR_IncrementStatistic(string Statistic)
+        {
+            DemandInitialize();
+
+            ACR_IncrementStatistic_Method.Invoke(DBLibraryScript, new object [] { Statistic });
+        }
+
+        /// <summary>
         /// This routine performs a synchronous SQL query.  If there were
         /// pending asynchronous queries in the queue, the pending queries are
         /// drained first.
@@ -779,6 +808,7 @@ namespace ALFA
             ACR_GetVersion_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetVersion");
             ACR_GetBuildDate_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetBuildDate");
             ACR_GetHAKBuildDate_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetHAKBuildDate");
+            ACR_IncrementStatistic_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_IncrementStatistic");
 
             DBLibraryScript = ScriptObject;
 
@@ -834,5 +864,6 @@ namespace ALFA
         private static MethodInfo ACR_GetVersion_Method;
         private static MethodInfo ACR_GetBuildDate_Method;
         private static MethodInfo ACR_GetHAKBuildDate_Method;
+        private static MethodInfo ACR_IncrementStatistic_Method;
     }
 }

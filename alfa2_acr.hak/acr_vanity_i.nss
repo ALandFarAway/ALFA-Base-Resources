@@ -282,7 +282,7 @@ string GetNaturalHairColor(object oCharacter)
 		}
 		
 
-		ACR_AsyncSQLQueryEx("UPDATE characters SET NaturalHair='"+ACR_SQLEncodeSpecialChars(sHair)+"' WHERE ID='"+sCID+"'", oCharacter);
+		ACR_AsyncSQLQueryEx("UPDATE characters SET NaturalHair='"+ACR_SQLEncodeSpecialChars(sHair)+"' WHERE ID='"+sCID+"'", oCharacter, ACR_QUERY_LOW_PRIORITY);
 		SetLocalString(oTool, "ACR_VANITY_NATHAIR", sHair);
 	}
 

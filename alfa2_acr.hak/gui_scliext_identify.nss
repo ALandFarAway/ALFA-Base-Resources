@@ -6,11 +6,15 @@
 //
 
 #include "acr_scliext_i"
+#include "acr_db_persist_i"
 
 void main( int nFlagsAndProtocolVersion, int nClientExtensionVersion )
 {
 	object oCallerPC          = OBJECT_SELF;
 	int    nSupportedFeatures = ACR_SCLIEXT_DEFAULT_FEATURE_BITS;
+
+	if (GetLocalInt(OBJECT_SELF, ACR_SCLIEXT_VERSION) == 0)
+		ACR_IncrementStatistic("CLIEXT_LOGINS");
 
 	// Remember the CE version and send a nag message to the user if they have
 	// an older version.

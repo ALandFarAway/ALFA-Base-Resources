@@ -12,6 +12,7 @@
 
 #include "acr_server_ipc_i"
 #include "acr_scliext_i"
+#include "acr_db_persist_i"
 
 
 int CHAT_SELECT_EVENT_OPEN      = 1;
@@ -29,6 +30,7 @@ void main ( string sEvent, string sChatString )
         DisplayGuiScreen(OBJECT_SELF, "ChatSelect", FALSE, "chatselect_2.xml");
         CloseGUIScreen(OBJECT_SELF, "SCREEN_PLAYERMENU_POPUP");
         ACR_PopulateChatSelect(GetOwnedCharacter(OBJECT_SELF));
+		  ACR_IncrementStatistic("CHAT_SELECT_OPEN");
     }
     else if(nEvent == CHAT_SELECT_EVENT_EXPAND)
     {
@@ -37,6 +39,7 @@ void main ( string sEvent, string sChatString )
         // Note that ACR_PopulateChatSelect resets the header text.
         SetGUIObjectHidden(OBJECT_SELF, "ChatSelect", "Collapse_Button", FALSE);
         ACR_PopulateChatSelect(GetOwnedCharacter(OBJECT_SELF));
+		  ACR_IncrementStatistic("CHAT_SELECT_EXPAND");
     }
     else if(nEvent == CHAT_SELECT_EVENT_COLLAPSE)
     {

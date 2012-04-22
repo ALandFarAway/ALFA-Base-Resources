@@ -278,6 +278,9 @@ void ACR_ModuleOnModuleLoad()
 	// Initialize asynchronous writes
 	ACR_StartAsyncService();
 
+	// Load database-side configuration directives
+	ACR_LoadDatabaseConfiguration();
+
     // Initialize spell hook
     SetLocalString(oModule, "X2_S_UD_SPELLSCRIPT", "acr_spellhook");
 
@@ -362,7 +365,11 @@ void ACR_ModuleOnModuleLoad()
 	// placed areas.
 	ACR_PerformModuleStartupCleanup();
 	ACR_LogEvent(OBJECT_INVALID, ACR_LOG_SERVER_LOAD, "Server " + sServerId + " loaded module " + GetName(GetModule()) + ".");
+
 	WriteTimestampedLogEntry("Module compiled on: " + ACR_GetBuildDate() + ", HAK compiled on: " + ACR_GetHAKBuildDate() + ", module ACR version: " + ACR_GetVersion());
+
+	// Increment the global server startup counter statistic.
+	ACR_IncrementStatistic("MODULE_LOADS");
 
 	// The following function call is never called.  This is intentional; the
 	// purpose of this line is to ensure that the compiler cannot elide any
@@ -431,6 +438,8 @@ void ACR_ModuleOnClientEnter()
 
 	// Let the IPC subsystem know of the login event.
 	ACR_ServerIPC_OnClientEnter(oPC);
+
+	ACR_IncrementStatistic("PLAYER_LOGINS");
 }
 
 void ACR_ModuleOnPCLoaded()
@@ -1078,4 +1087,5 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts()
 	ACR_DeletePersistentVariable(OBJECT_INVALID, "");
 	ACR_GetBuildDate();
 	ACR_GetHAKBuildDate();
+	ACR_IncrementStatistic("DUMMY_STATISTIC");
 }

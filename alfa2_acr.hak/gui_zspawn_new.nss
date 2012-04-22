@@ -1,3 +1,5 @@
+#include "acr_db_persist_i"
+
 string IntToDataString(int nInt);
 
 void main(int nLevel, string sGender, string sAlignment, string sBarbarian, string sBard, string sCleric, string sDruid, string sFavoredSoul, string sFighter, string sMonk, string sPaladin, string sRanger, string sRogue, string sSorcerer, string sShaman, string sSwashbuckler, string sWarlock, string sWizard, string sWarrior, string sCommoner, string sUndead, string sName, string sDescription, string sRace, string sHair1, string sHair2, string sHair3, string sSkin, string sEyes, string sBHair, string sHead, string sHair)
@@ -136,6 +138,7 @@ void main(int nLevel, string sGender, string sAlignment, string sBarbarian, stri
 	object oData = CreateItemOnObject("acr_zspawn_data", OBJECT_SELF, 1, sTag);
 	SetFirstName(oData, sName);
 	SetDescription(oData, sDescription);
+	ACR_IncrementStatistic("ZSPAWN_NEW");
 }
 
 string IntToDataString(int nInt)

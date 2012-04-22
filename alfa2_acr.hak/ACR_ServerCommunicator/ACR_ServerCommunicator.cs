@@ -406,6 +406,8 @@ namespace ACR_ServerCommunicator
         /// player to send the player list to.</param> 
         private void ListOnlineUsers(uint PlayerObject)
         {
+            GetDatabase().ACR_IncrementStatistic("LIST_ONLINE_USERS");
+
             lock (WorldManager)
             {
                 var OnlineServers = from S in WorldManager.Servers
@@ -442,6 +444,8 @@ namespace ACR_ServerCommunicator
         /// player to send the server list to.</param>
         private void ListOnlineServers(uint PlayerObject)
         {
+            GetDatabase().ACR_IncrementStatistic("LIST_ONLINE_SERVERS");
+
             lock (WorldManager)
             {
                 foreach (GameServer Server in WorldManager.Servers)
@@ -691,6 +695,8 @@ namespace ACR_ServerCommunicator
             System.Diagnostics.Process CurrentProcess = System.Diagnostics.Process.GetCurrentProcess();
             TimeSpan Uptime = DateTime.Now - CurrentProcess.StartTime;
 
+            GetDatabase().ACR_IncrementStatistic("SHOW_SERVER_UPTIME");
+
             SendMessageToPC(PlayerObject, String.Format(
                 "Server uptime: {0}d {1}h {2}m {3}s, memory usage {4} MB",
                 Uptime.Days,
@@ -713,6 +719,8 @@ namespace ACR_ServerCommunicator
             // Run the database lookups in the query thread and respond in an
             // asynchronous fashion.
             //
+
+            GetDatabase().ACR_IncrementStatistic("SHOW_LAST_LOGIN_TIME");
 
             WorldManager.SignalQueryThreadAction(delegate(IALFADatabase Database)
             {
@@ -901,6 +909,8 @@ namespace ACR_ServerCommunicator
                 if (Player == null)
                     return TRUE;
 
+                GetDatabase().ACR_IncrementStatistic("SET_HIDE_REMOTE_PLAYERS");
+
                 SendMessageToPC(SenderObjectId, "Remote players are now hidden in the chat select window (when collapsed).");
                 Player.Flags |= PlayerStateFlags.ChatSelectShowLocalPlayersOnlyWhenCollapsed;
                 return TRUE;
@@ -912,6 +922,8 @@ namespace ACR_ServerCommunicator
                 if (Player == null)
                     return TRUE;
 
+                GetDatabase().ACR_IncrementStatistic("SET_HIDE_REMOTE_PLAYERS");
+
                 SendMessageToPC(SenderObjectId, "Remote players are now shown in the chat select window (when collapsed).");
                 Player.Flags &= ~(PlayerStateFlags.ChatSelectShowLocalPlayersOnlyWhenCollapsed);
                 return TRUE;
@@ -919,12 +931,14 @@ namespace ACR_ServerCommunicator
             else if (CookedText.Equals("notify chatlog"))
             {
                 SendMessageToPC(SenderObjectId, "Cross-server join/part events are now being delivered to the chat log.");
+                GetDatabase().ACR_IncrementStatistic("SET_NOTIFY_TO_CHATLOG");
                 GetPlayerState(SenderObjectId).Flags &= ~(PlayerStateFlags.SendCrossServerNotificationsToCombatLog);
                 return TRUE;
             }
             else if (CookedText.Equals("notify combatlog"))
             {
                 SendMessageToPC(SenderObjectId, "Cross-server join/part events are now being delivered to the combat log.");
+                GetDatabase().ACR_IncrementStatistic("SET_NOTIFY_TO_CHATLOG");
                 GetPlayerState(SenderObjectId).Flags |= PlayerStateFlags.SendCrossServerNotificationsToCombatLog;
                 return TRUE;
             }
@@ -1070,9 +1084,13 @@ namespace ACR_ServerCommunicator
         /// to transfer across the server to server portal.</param>
         private void ActivateServerToServerPortal(int ServerId, int PortalId, uint PlayerObjectId)
         {
+            ALFA.Database Database = GetDatabase();
+
+            Database.ACR_IncrementStatistic("ACTIVATE_PORTAL");
+
             lock (WorldManager)
             {
-                GameServer Server = WorldManager.ReferenceServerById(ServerId, GetDatabase());
+                GameServer Server = WorldManager.ReferenceServerById(ServerId, Database);
 
                 //
                 // Check our state first.
@@ -1167,10 +1185,14 @@ namespace ACR_ServerCommunicator
 
                             if (IsInConversation(PlayerObjectId) != FALSE)
                                 ActionResumeConversation();
+
+                            Database.ACR_IncrementStatistic("PORTAL_FAILED_UNCOMMITTED");
                         }
                         else
                         {
                             SendMessageToPC(PlayerObjectId, "Please reconnect.");
+
+                            Database.ACR_IncrementStatistic("PORTAL_FAILED_COMMITTED");
 
                             //
                             // We have already committed to portaling, as we
@@ -1861,6 +1883,8 @@ namespace ACR_ServerCommunicator
         {
             PlayerState State = GetPlayerState(PlayerObject);
 
+            GetDatabase().ACR_IncrementStatistic("SET_CROSS_SERVER_NOTIFICATIONS");
+
             if (Enabled == false)
                 State.Flags |= PlayerStateFlags.DisableCrossServerNotifications;
             else
@@ -1881,6 +1905,8 @@ namespace ACR_ServerCommunicator
         private void SendServerToServerTell(uint SenderObjectId, GamePlayer SenderPlayer, GamePlayer RecipientPlayer, string Message)
         {
             GameServer DestinationServer = RecipientPlayer.GetOnlineServer();
+
+            Database.ACR_IncrementStatistic("SERVER_TELLS");
 
             SetLastTellToPlayerId(SenderObjectId, RecipientPlayer.PlayerId);
 

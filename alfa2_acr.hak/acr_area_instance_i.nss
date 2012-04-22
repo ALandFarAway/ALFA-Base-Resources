@@ -23,6 +23,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "acr_server_misc_i"
+#include "acr_db_persist_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -235,6 +236,8 @@ object ACR_CreateAreaInstance(object TemplateArea, float CleanupDelay)
 	if (ACR_IsInstancedArea(TemplateArea))
 		TemplateArea = ACR_GetInstancedAreaTemplate(TemplateArea);
 
+	ACR_IncrementStatistic("CREATE_AREA_INSTANCE");
+
 	// First, get an actual area instance.
 	object InstancedArea = ACR_InternalCreateAreaInstance(TemplateArea);
 	string Script;
@@ -312,6 +315,8 @@ void ACR_ReleaseAreaInstance(object InstancedArea)
 		WriteTimestampedLogEntry("ACR_ReleaseAreaInstance(): Cannot release non-instanced area " + GetName(InstancedArea) + ": 0x" + ObjectToString(InstancedArea));
 		return;
 	}
+
+	ACR_IncrementStatistic("RELEASE_AREA_INSTANCE");
 
 	// Call deletion script.
 	object TemplateArea = ACR_GetInstancedAreaTemplate(InstancedArea);
