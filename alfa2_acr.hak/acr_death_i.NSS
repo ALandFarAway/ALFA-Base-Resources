@@ -346,6 +346,7 @@ void ACR_PlayerOnDeath(object oPC, object oKiller)
         }
         SetLocalInt(oPC, ACR_DTH_JUST_FLOORED, 1);
         DelayCommand(0.5f, DeleteLocalInt(oPC, ACR_DTH_JUST_FLOORED));
+		  ACR_IncrementStatistic("DEATH_LIMITER_ACTIVATED");
         return;
     }
     if(GetLocalInt(oPC, ACR_DTH_JUST_FLOORED) == 1)
@@ -376,6 +377,8 @@ void ACR_PlayerOnDeath(object oPC, object oKiller)
             }
             odMob = GetNextObjectInShape(SHAPE_SPHERE, _ACR_DTH_RADIUS, GetLocation(oPC), FALSE, OBJECT_TYPE_CREATURE);
         }
+
+		  ACR_IncrementStatistic("DEATH_LIMITER_DIVERTED");
     }
     // clear any DMFI follow commands, set local int marker for canceling others following the dying PC.
     object oTool = GetLocalObject(oPC, "DMFITool");
@@ -404,6 +407,7 @@ void ACR_PlayerOnDeath(object oPC, object oKiller)
     DelayCommand(3.2, _playerOnDeath(oPC, oKiller));
     // clean up cached integers
     DeleteLocalInt(oPC, ACR_DTH_HITPOINTS);
+	 ACR_IncrementStatistic("PLAYER_DEATHS");
 }
 
 void ACR_PlayerOnDying(object oPC, object oLastAttacker)
