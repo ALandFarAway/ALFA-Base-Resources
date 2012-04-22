@@ -229,9 +229,6 @@ void EquipCreature(object oCreature, int nGear, object oContainer)
 		return;
 
 	int nArmor = 8; // start with full plate and peel down
-	if(nGear == GEAR_KITM_LOW ||
-	   nGear == GEAR_KITS_LOW)
-		nArmor = 3;
 	if(GetLevelByClass(CLASS_TYPE_BARBARIAN, oCreature) && nArmor > 5)
 		nArmor = 5;
 	if(GetLevelByClass(CLASS_TYPE_BARD, oCreature) && nArmor > 4)
@@ -262,6 +259,14 @@ void EquipCreature(object oCreature, int nGear, object oContainer)
 		nArmor = 5;
 	if(nArmor > 4 && GetHitDice(oCreature) < 2)
 		nArmor = 3;
+	if(nGear == GEAR_KITM_LOW ||
+	   nGear == GEAR_KITS_LOW)
+        {
+            if(nArmor > 4)
+		nArmor = 3;
+            else if(nArmor > 0)
+                nArmor = 2;
+        }
 	int nLevel = GetHitDice(oCreature);
 	if(nGear == GEAR_KITS_LOW ||
 	   nGear == GEAR_KITM_LOW)
