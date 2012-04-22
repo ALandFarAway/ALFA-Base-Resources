@@ -15,6 +15,7 @@
 #include "dmfi_inc_langexe"
 #include "dmfi_inc_lang"
 #include "acr_travelmap_i"
+#include "acr_db_persist_i"
 
 int DMFI_RunCommandCode(object oTool, object oPC, string sOriginal)
 {
@@ -158,6 +159,7 @@ int DMFI_RunCommandCode(object oTool, object oPC, string sOriginal)
 	}			
     else if (sHeard== PRM_FOLLOW + PRM_ + PRM_ON)
     {  
+        ACR_IncrementStatistic("DMFI_FOLLOW");
         if (DMFI_FOLLOWOFF)
         {
             if ((GetObjectType(oTarget)==OBJECT_TYPE_CREATURE) && (oTarget!=oPC) && (GetIsPC(GetControlledCharacter(oTarget)) == TRUE))
@@ -193,7 +195,8 @@ int DMFI_RunCommandCode(object oTool, object oPC, string sOriginal)
         SendText(oPC, TXT_FOLLOW_OFF, TRUE, COLOR_GREEN);
 		if (TravelMap_IsTravelMapArea(oMyArea))
 		{
-			SendText(oPC, "You signal your party to step off the road.", TRUE, COLOR_GREEN);
+          ACR_IncrementStatistic("TRAVEL_MAP_REST_STOP");
+          SendText(oPC, "You signal your party to step off the road.", TRUE, COLOR_GREEN);
 			 object oPartyLeader = GetFactionLeader(oPC);
 			 object oPCDestination = GetLocalObject(oPC, "oPCDestination");
 			 DelayCommand(10.0, JumpPartyToArea(oPartyLeader, oPCDestination));
@@ -232,6 +235,7 @@ int DMFI_RunCommandCode(object oTool, object oPC, string sOriginal)
 			
             sConvertUsing = DMFI_NewLanguage(sCommand);
             nTest = DMFI_IsLanguageKnown(oPC, sCommand);
+            ACR_IncrementStatistic("DMFI_LANGUAGE_UI");
 				
             if (DMFI_GetIsDM(oPC) || nTest)
             { // valid language and can speak it.
@@ -331,6 +335,7 @@ int DMFI_RunCommandCode(object oTool, object oPC, string sOriginal)
 		if (sTest=="") sTest = LNG_COMMON;
 		SetGUIObjectText(oPC, SCREEN_DMFI_TEXT, "Language", -1, DMFI_CapitalizeWord(sTest) + ":");
 		DisplayGuiScreen(oPC, SCREEN_DMFI_TEXT, FALSE, "dmfitext.xml");
+      ACR_IncrementStatistic("DMFI_DM_LANGUAGE_UI");
 	}
 	
     else if (sTool ==  PRM_INITIALIZE)
