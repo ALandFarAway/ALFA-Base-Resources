@@ -662,7 +662,7 @@ int ACR_EnableCharacterSave(object PlayerObject)
 
 int ACR_PauseHeartbeat(object PlayerObject)
 {
-	if (!GetPause() || !GetIsDM(PlayerObject))
+	if (!GetPause())
 		return FALSE;
 
 	return ACR_CallIPCScript(
