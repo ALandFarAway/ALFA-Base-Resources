@@ -36,6 +36,7 @@
 //  2011/08/05 Basilica     Added distinguished character id value ACR_CHARACTER_ID_NONE.
 //  2011/08/31 Basilica     Added ACR_GetServerAddressFromDatabase.
 //  2011/12/26 Basilica     Added ACR_GetPlayerID and ACR_SetPlayerID.
+//  2012/04/21 Basilica     Updated database creation statements.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -943,6 +944,7 @@ void ACR_CreateSQLTables()
 		"`IsPlayable` bool NOT NULL default true," +
 		"`NaturalHair` varchar(128) NOT NULL," +
 		"`CharacterFileName` varchar(36) DEFAULT NULL COMMENT 'BIC name (36 from 32-byte BIC resref name, plus .bic.)'," +
+		"`RetiredStatus` TINYINT( 3 ) NOT NULL COMMENT '0 is default, 1 is temp retired, 2 is back from retirement, 3 is retired definitely'," +
 		"PRIMARY KEY (`ID`), UNIQUE KEY (`PlayerID`, `Name`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 	
@@ -1060,6 +1062,12 @@ void ACR_CreateSQLTables()
 		"`value` varchar(255) NOT NULL," +
 		"PRIMARY KEY (`variable`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
+
+	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `alfa_gsids` (" +
+		"`uid` int(10) NOT NULL," +
+		"`gsid` varchar(32) NOT NULL," +
+		"PRIMARY KEY (`uid`)" +
+	") ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 }
 
 void ACR_ResetDatabase()  {
@@ -1091,6 +1099,15 @@ void ACR_AdjustTables() {
 		WriteTimestampedLogEntry("ACR_DB_PERSIST: Characters table altered to record BIC filename.");
 	} else {
 		WriteTimestampedLogEntry("ACR_DB_PERSIST: CharacterFileName column existance confirmed.");
+	}
+
+	// check to see if the Characters table has the RetiredStatus column
+	ACR_SQLQuery("SHOW COLUMNS from `characters` WHERE Field = 'RetiredStatus';");
+	if (ACR_SQLFetch() != SQL_SUCCESS) {
+		ACR_SQLQuery("ALTER TABLE `characters` ADD `RetiredStatus` TINYINT( 3 ) NOT NULL COMMENT '0 is default, 1 is temp retired, 2 is back from retirement, 3 is retired definitely'");
+		WriteTimestampedLogEntry("ACR_DB_PERSIST: Characters table altered to record retirement status.");
+	} else {
+		WriteTimestampedLogEntry("ACR_DB_PERSIST: RetiredStatus column existance confirmed.");
 	}
 
 	return;
