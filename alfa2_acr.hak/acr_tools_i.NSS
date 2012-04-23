@@ -374,6 +374,15 @@ string SafeGetVariableValueString(object oObject, int nIndex);
 //!  - Returns: the armorrulesstats.2da row on success, else 0 on failure.
 int ACR_GetArmorRulesType(object oItem);
 
+//! Wrapper for ApplyEffectAtLocation that returns the created area of effect
+//  object.
+//!  - nDurationType: the duration type.
+//!  - eEffect: the effect to apply as an Area of Effect object.
+//!  - lLocation: the location to create the object at.
+//!  - fDuration: the duration time.
+//!  - Returns: the area of effect object, else OBJECT_INVALID on failure.
+object ACR_ApplyEffectAtLocation(int nDurationType, effect eEffect, location lLocation, float fDuration = 0.0f);
+
 //LIST MANAGEMENT
 //note about lists : List have to be like "#1#5#26#99# ..." in order to work properly. See nwnx_craft_set_constatns for details
 
@@ -1571,6 +1580,24 @@ int ACR_GetArmorRulesType(object oItem)
 		return 0;
 	else
 		return GetArmorRulesType(oItem);
+}
+
+object ACR_ApplyEffectAtLocation(int nDurationType, effect eEffect, location lLocation, float fDuration = 0.0f)
+{
+	object NextObject = CreateObject(OBJECT_TYPE_WAYPOINT, "nw_waypoint001", GetStartingLocation(), FALSE);
+
+	if (NextObject == OBJECT_INVALID)
+		return OBJECT_INVALID;
+
+	ApplyEffectAtLocation(nDurationType, eEffect, lLocation, fDuration);
+
+	object AreaOfEffectObject = IntToObject(ObjectToInt(NextObject) + 1);
+	DestroyObject(NextObject);
+
+	if (GetObjectType(AreaOfEffectObject) != OBJECT_TYPE_AREA_OF_EFFECT)
+		return OBJECT_INVALID;
+
+	return AreaOfEffectObject;
 }
 
 
