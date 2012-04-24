@@ -423,6 +423,8 @@ void ACR_ModuleOnClientEnter()
 	    // log the entry
 	    ACR_LogEvent(oPC, ACR_LOG_LOGIN, "Dungeon Master: " + ACR_SQLEncodeSpecialChars(GetName(oPC)) + " from IP: "+GetPCIPAddress(oPC));
             DisplayGuiScreen(oPC, "zspawn_b", FALSE, "zspawn_b.xml");
+
+		ACR_IncrementStatistic("DM_LOGINS");
     }
     else
     {
