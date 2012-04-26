@@ -495,16 +495,18 @@ void ACR_PrayForSpells(object oCaster)
     // prayer is limited to divine spell casters
     if (ACR_HasCasterClass(oCaster, "DIVINE"))
     {
-		if (GetLocalInt(GetArea(oCaster), ACR_IS_TRAVELMAP) == TRUE) {
-			// block if oCaster is on the travel map.
-			SendMessageToPC(oCaster, "You cannot restore spells on the travel map.");
-			return;
-		}
-		// block spell restoration for Quarantined PCs
-		if (GetLocalInt(oCaster, ACR_PPS_QUARANTINED)) {
-			SendMessageToPC(oCaster, "Spell restoration is disabled while in Quarantine.");
-			return;
-		}
+        if (GetLocalInt(GetArea(oCaster), ACR_IS_TRAVELMAP) == TRUE) 
+        {
+            // block if oCaster is on the travel map.
+            SendMessageToPC(oCaster, "You cannot restore spells on the travel map.");
+            return;
+        }
+        // block spell restoration for Quarantined PCs
+        if (GetLocalInt(oCaster, ACR_PPS_QUARANTINED)) 
+        {
+            SendMessageToPC(oCaster, "Spell restoration is disabled while in Quarantine.");
+            return;
+        }
         int nLastRestTimeStamp = ACR_GetPersistentInt(oCaster, ACR_REST_TIMER);
         int nLastPrayTimeStamp = ACR_GetPersistentInt(oCaster, ACR_REST_PRAYER_TIMER);
         
@@ -517,8 +519,7 @@ void ACR_PrayForSpells(object oCaster)
         // otherwise the caster can attempt to recover spells
         else
         {
-			string sClasses = IntToString(CLASS_TYPE_CLERIC) + "," + IntToString(CLASS_TYPE_PALADIN) + "," +
-							  IntToString(CLASS_TYPE_RANGER) + "," + IntToString(CLASS_TYPE_DRUID);
+            string sClasses = IntToString(CLASS_TYPE_CLERIC) + "," + IntToString(CLASS_TYPE_PALADIN) + "," + IntToString(CLASS_TYPE_RANGER) + "," + IntToString(CLASS_TYPE_DRUID);
 
             // pack the action queue first with the meditation animation for a set duration then restore spell uses
             AssignCommand(oCaster, ActionPlayAnimation(ANIMATION_LOOPING_SIT_CROSS, 1.0, ACR_GameHoursToRealSeconds(ACR_REST_PRAY_DURATION)));
@@ -529,8 +530,8 @@ void ACR_PrayForSpells(object oCaster)
     }
     else
     {
-	   FloatingTextStringOnCreature("You don't know how to use this.", oCaster, FALSE);
-	}
+        FloatingTextStringOnCreature("You don't know how to use this.", oCaster, FALSE);
+    }
 }
 
 void ACR_StudyForSpells(object oCaster)
@@ -538,17 +539,19 @@ void ACR_StudyForSpells(object oCaster)
     // studying is limited to wizards
     if (ACR_HasCasterClass(oCaster, "ARCANE"))
     {
-		if (GetLocalInt(GetArea(oCaster), ACR_IS_TRAVELMAP) == TRUE) {
-			// block if oCaster is on the travel map.
-			SendMessageToPC(oCaster, "You cannot restore spells on the travel map.");
-			return;
-		}
-		// block spell restoration for Quarantined PCs
-		if (GetLocalInt(oCaster, ACR_PPS_QUARANTINED)) {
-			SendMessageToPC(oCaster, "Spell restoration is disabled while in Quarantine.");
-			return;
-		}
-		// otherwise, continue
+        if (GetLocalInt(GetArea(oCaster), ACR_IS_TRAVELMAP) == TRUE) 
+        {
+            // block if oCaster is on the travel map.
+            SendMessageToPC(oCaster, "You cannot restore spells on the travel map.");
+            return;
+        }
+        // block spell restoration for Quarantined PCs
+        if (GetLocalInt(oCaster, ACR_PPS_QUARANTINED)) 
+        {
+            SendMessageToPC(oCaster, "Spell restoration is disabled while in Quarantine.");
+            return;
+        }
+        // otherwise, continue
         int nLastRestTimeStamp  = ACR_GetPersistentInt(oCaster, ACR_REST_TIMER);
         int nLastStudyTimeStamp = ACR_GetPersistentInt(oCaster, ACR_REST_STUDY_TIMER);
         
@@ -570,13 +573,13 @@ void ACR_StudyForSpells(object oCaster)
     }
     else
     {
-	   FloatingTextStringOnCreature("You don't know how to use this.", oCaster, FALSE);
-	}
+        FloatingTextStringOnCreature("You don't know how to use this.", oCaster, FALSE);
+    }
 }
 
 void ACR_RestTriggerEnter(object oArrived)
 {
-	// REST_ZONE != O, and the entering object is a PC, means we should set the variables accordingly.
+    // REST_ZONE != O, and the entering object is a PC, means we should set the variables accordingly.
     if (GetIsPC(oArrived) && GetLocalInt(OBJECT_SELF, ACR_REST_ZONE))
     {
         // set the rest zone type on the entering object
@@ -698,24 +701,30 @@ void _playerRestoreSpells(object oCaster, string sClasses, int nHitPoints)
     _unhealFromRest(oCaster, nHitPoints);
 	
     // remove all logged spell uses
-	ACR_RemoveSpellUses(oCaster, sClasses);
+    ACR_RemoveSpellUses(oCaster, sClasses);
 
-	// clear away any improperly restored spells (that retain spelltrack entries)
-	ACR_RestoreSpellUses(oCaster);
+    // clear away any improperly restored spells (that retain spelltrack entries)
+    ACR_RestoreSpellUses(oCaster);
 	
     // restart the spell check timer - only needed for divine and wizard spells.  Each will be handled
-	//  by a separate event, so either/or will work
-	string sTest = GetStringLeft(sClasses, 2);
-	if (sTest == IntToString(CLASS_TYPE_WIZARD)) {
+    //  by a separate event, so either/or will work
+    string sTest = GetStringLeft(sClasses, 2);
+    if (sTest == IntToString(CLASS_TYPE_WIZARD)) 
+    {
         ACR_SetPersistentInt(oCaster, ACR_REST_STUDY_TIMER, ACR_GetTimeStampInHours());
-		SendMessageToPC(oCaster, "Wizard spells restored.");
-	} else if (sTest == IntToString(CLASS_TYPE_CLERIC)+",") {
+        SendMessageToPC(oCaster, "Wizard spells restored.");
+    } 
+    else if (sTest == IntToString(CLASS_TYPE_CLERIC)+"," ||
+             sTest == IntToString(CLASS_TYPE_CLERIC) ||
+             sTest == IntToString(CLASS_TYPE_PALADIN) ||
+             sTest == IntToString(CLASS_TYPE_RANGER)) 
+    {
         ACR_SetPersistentInt(oCaster, ACR_REST_PRAYER_TIMER, ACR_GetTimeStampInHours());
-		SendMessageToPC(oCaster, "Divine spells restored.");	
-	}
+        SendMessageToPC(oCaster, "Divine spells restored.");	
+    }
 	
     // clean up cached variables
-	_garbageCollection(oCaster);
+    _garbageCollection(oCaster);
 	
     // memorized spells
     FloatingTextStringOnCreature("You have successfully memorized your spells for the day.", oCaster, FALSE);
