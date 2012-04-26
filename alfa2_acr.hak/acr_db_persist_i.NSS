@@ -951,7 +951,7 @@ void ACR_CreateSQLTables()
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 
 	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `cdkeys` (" +
-    	"`CDKey` varchar(8) NOT NULL," +
+    		"`CDKey` varchar(8) NOT NULL," +
 		"`IsBanned` bool NOT NULL default false," +
 		"PRIMARY KEY (`CDKey`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
@@ -993,7 +993,7 @@ void ACR_CreateSQLTables()
 		"`IsOnline` bool NOT NULL default false," +
 		"`IsDeleted` bool NOT NULL default false," +
 		"`IsPlayable` bool NOT NULL default true," +
-		"`NaturalHair` varchar(128) NOT NULL," +
+		"`NaturalHair` varchar(128) default NULL," +
 		"`CharacterFileName` varchar(36) DEFAULT NULL COMMENT 'BIC name (36 from 32-byte BIC resref name, plus .bic.)'," +
 		"`RetiredStatus` TINYINT( 3 ) NOT NULL COMMENT '0 is default, 1 is temp retired, 2 is back from retirement, 3 is retired definitely'," +
 		"PRIMARY KEY (`ID`), UNIQUE KEY (`PlayerID`, `Name`)" +
@@ -1025,10 +1025,21 @@ void ACR_CreateSQLTables()
 		"PRIMARY KEY  (`ID`), UNIQUE KEY (`ItemProperty`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 
+	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `login_stats` (" +         
+		"`ID` int(11) NOT NULL AUTO_INCREMENT," +
+		"`ServerID` tinyint(5) NOT NULL," +
+		"`CharacterID` mediumint(9) default NULL," +
+		"`Duration` int(11) default NULL," +
+		"`LoginDate` timestamp default NULL," +
+		"`LogoutDate` timestamp default NULL," +
+		"PRIMARY KEY  (`ID`)" +
+	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
+
 	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `logs` (" +         
 		"`ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT," +
 		"`ServerID` smallint(5) UNSIGNED NOT NULL," +
 		"`CharacterID` mediumint(8) UNSIGNED default NULL," +
+		"`DMCharacterID` mediumint(8) UNSIGNED default NULL," +
 		"`Event` varchar(32) NOT NULL," +
 		"`Description` varchar(128) default NULL," +
 		"`Date` timestamp NOT NULL default CURRENT_TIMESTAMP," +
@@ -1126,6 +1137,17 @@ void ACR_CreateSQLTables()
 		"`LastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP," +
 		"PRIMARY KEY (`Name`)" +
 	") ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+
+	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `server_ipc_events` ( " +
+		"`ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, " +
+		"`SourcePlayerID` mediumint(8) UNSIGNED NOT NULL, " +
+		"`SourceServerID` smallint(5) UNSIGNED NOT NULL, " +
+		"`DestinationPlayerID` mediumint(8) UNSIGNED NOT NULL, " +
+		"`DestinationServerID` smallint(5) UNSIGNED NOT NULL, " +
+		"`EventType` smallint(5) UNSIGNED NOT NULL, " +
+		" `EventText` varchar(256) NOT NULL, " +
+		"PRIMARY KEY(`ID`), UNIQUE KEY(`ID`, `DestinationServerID`) " +
+	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 }
 
 void ACR_ResetDatabase()  {
