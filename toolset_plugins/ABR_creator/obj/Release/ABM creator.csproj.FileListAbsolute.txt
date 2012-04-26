@@ -1,0 +1,27 @@
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\ABM creator.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\ABM creator.pdb
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\NWN2Toolset.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\OEIShared.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\SandBar.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\DotNetMagic2005.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\QWhale.Syntax.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\GlacialTreeList.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\ManagedElectron.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\Sano.PersonalProjects.ColorPicker.Controls.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\XPExplorerBar.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\SmartPropertyGrid.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\SourceGrid2.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\QWhale.Editor.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\IRenderer.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\OEILocalization.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\ManagedResourceInterface.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\managednwscript.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\ICSharpCode.SharpZipLib.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\LZMALibrary.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\SharpZipLib.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\QWhale.Common.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\Sano.Utility.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\bin\Release\SourceLibrary.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\obj\Release\ResolveAssemblyReference.cache
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\obj\Release\ABM creator.dll
+H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\obj\Release\ABM creator.pdb
