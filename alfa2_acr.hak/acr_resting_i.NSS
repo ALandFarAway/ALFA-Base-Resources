@@ -66,6 +66,7 @@
 //  2011/04/19  Zelknolf: Fixing function declarations
 //  2011/09/04  Paazin: Remove Fatigue code and place it into acr_effects_i
 //  2012/04/04  FoamBats4All: Changed resting fatigue to be SRD-compliant.
+//  2012/04/25  FoamBats4All: Corrected to properly allow resting in medium armor with the endurance feat.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -731,7 +732,9 @@ void _playerRestoreSpells(object oCaster, string sClasses, int nHitPoints)
 }
 
 int _getSufferArmorFatigue( object oPC ) {
-    return ( GetArmorRank( GetItemInSlot( INVENTORY_SLOT_CHEST, oPC ) ) > ARMOR_RANK_LIGHT );
+    int maxRestArmor = ARMOR_RANK_LIGHT;
+    if ( GetHasFeat( FEAT_ENDURANCE, oPC ) ) maxRestArmor = ARMOR_RANK_MEDIUM;
+    return ( GetArmorRank( GetItemInSlot( INVENTORY_SLOT_CHEST, oPC ) ) > maxRestArmor );
 }
 
 void _playerRestStart(object oPC)
