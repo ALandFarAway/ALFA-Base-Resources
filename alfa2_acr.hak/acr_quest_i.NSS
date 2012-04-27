@@ -667,10 +667,10 @@ void _spawnQuestObject(object oTrigger, int nType, string sTemplate, object oPC=
 	if (nType == OBJECT_TYPE_CREATURE) {
 	    // check despawn settings
 	    float fDelay = GetLocalFloat(oTrigger, ACR_QST_CUSTOM_DESPAWN);
-	    if (fDelay == 0.0) {
+	    if (fabs(fDelay) < EPSILON) {
 	        // undefined, use system default
 	        fDelay = ACR_QST_DESPAWN_DELAY;
-	    } else if (fDelay == -1.0) {
+	    } else if (fabs(fDelay - -1.0) < EPSILON) {
 	        // builder override, no despawn
 		    return;
 	    }
