@@ -814,6 +814,8 @@ namespace ACR_ServerCommunicator
                 "\n" +
                 "You may also roll skills by prepending the prefix character to a skill name.  For example, #wisdom to roll a wisdom check."
                 );
+
+            GetDatabase().ACR_IncrementStatistic("COMMAND_HELP");
         }
 
         /// <summary>
