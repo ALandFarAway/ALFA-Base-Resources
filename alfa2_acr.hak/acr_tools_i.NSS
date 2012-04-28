@@ -383,6 +383,21 @@ int ACR_GetArmorRulesType(object oItem);
 //!  - Returns: the area of effect object, else OBJECT_INVALID on failure.
 object ACR_ApplyEffectAtLocation(int nDurationType, effect eEffect, location lLocation, float fDuration = 0.0f);
 
+//! Wrapper for DestroyObject which destroys stores properly. Useful when the object you're destroying might be a store.
+//! There might be some other use-cases for it, if other containers don't destroy well?
+void ACR_DestroyObject(object oObject);
+
+//! Returns the name of nSpellId.
+string GetSpellName(int nSpellId);
+
+//! Returns the spell id reference from the item property subtype (row # in iprp_spells.2da).
+//! Returns -1 on an error.
+int GetSpellIdOfItemPropertySubtype(int nSubType);
+
+//! Returns the spell level of the spell cast by ip.
+//! Returns 0 if ip does not cast a spell.
+int GetSpellLevelOfItemProperty(itemproperty ip);
+
 //LIST MANAGEMENT
 //note about lists : List have to be like "#1#5#26#99# ..." in order to work properly. See nwnx_craft_set_constatns for details
 
@@ -458,6 +473,37 @@ int DestroyInventory(object oObject)
         nCount++;
     }
     return nCount;
+}
+
+void ACR_DestroyObject(object oObject) {
+	if(GetObjectType(oObject) == OBJECT_TYPE_STORE) {
+		DestroyInventory(oObject);
+	}
+	DestroyObject(oObject);
+}
+
+string GetSpellName(int nSpellId) {
+	int nNameRef = StringToInt(Get2DAString("spells", "Name", nSpellId));
+	
+	if(nNameRef <= 0) return "";
+	
+	return GetStringByStrRef(nNameRef);
+}
+
+int GetSpellIdOfItemPropertySubtype(int nSubType) {
+	string index = Get2DAString("iprp_spells", "SpellIndex", nSubType);
+	if(index == "") return -1;
+	return StringToInt(index);
+}
+
+int GetSpellLevelOfItemProperty(itemproperty ip) {
+	int type = GetItemPropertyType(ip);
+	int subtype = GetItemPropertySubType(ip);
+	if(type == ITEM_PROPERTY_CAST_SPELL) {
+		return StringToInt(Get2DAString("iprp_spells", "CasterLvl", subtype));
+	} else if (type == ITEM_PROPERTY_ONHITCASTSPELL) {
+		return GetItemPropertyCostTableValue(ip) + 1;
+	} else return 0;
 }
 
 void ACR_TransferInventory(object oSource, object oTarget, string sResRef = "")
