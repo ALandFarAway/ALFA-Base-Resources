@@ -511,7 +511,9 @@ string GetCraftingSpellsRequired(object oItem) {
 		ip = GetNextItemProperty(oItem);
 	}
 	
-	return spells + "#";
+	if(spells == "")
+		return "";
+	else return spells + "#";
 }
 
 string _ReadableSpellList(string spellIds) {
