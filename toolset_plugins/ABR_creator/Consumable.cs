@@ -78,12 +78,12 @@ namespace ABM_creator
         private string ConsumableName(CNWSpell spell, int spellId, int spellLevel, int casterLevel)
         {
 
-            string sCasterLevel;
+            string sCasterLevel = "";
             if (casterLevel < 10)
                 sCasterLevel = "0" + casterLevel;
             else sCasterLevel = "" + casterLevel;
 
-            return "{" + spellLevel + ", CL " + casterLevel + "} " + GetSpellName(spell) + ", " + baseName(spellId);
+            return "{" + spellLevel + ", CL " + sCasterLevel + "} " + GetSpellName(spell) + ", " + baseName(spellId);
         }
 
         protected virtual int cost(int spellLevel, int casterLevel)
@@ -93,7 +93,7 @@ namespace ABM_creator
             return spellLevel * casterLevel * baseCost;
         }
 
-        public Consumable(int ip, int spellId, int spellLevel, int casterLevel, CNWSpell spell, string iconName = null)
+        public Consumable(int ip, int spellId, int spellLevel, int casterLevel, CNWSpell spell, bool adjustCost = true, string iconName = null)
         {
             blueprint = new NWN2ItemBlueprint();
 
@@ -127,7 +127,8 @@ namespace ABM_creator
             blueprint.Icon = new TwoDAReference("nwn2_icons", "ICON", false, iconId);
 
             blueprint.CalculateBaseCosts();
-            blueprint.AdditionalCost = cost(spellLevel, casterLevel) - (int)blueprint.Cost;
+            if (adjustCost)
+                blueprint.AdditionalCost = cost(spellLevel, casterLevel) - (int)blueprint.Cost;
         }
     }
 
@@ -142,7 +143,7 @@ namespace ABM_creator
         override public int baseType { get { return 75; } }
         override public int baseCost { get { return 25; } }
 
-        public Scroll(int ip, int spellId, int spellLevel, int casterLevel, CNWSpell spell, string icon) : base(ip, spellId, spellLevel, casterLevel, spell, icon) { }
+        public Scroll(int ip, int spellId, int spellLevel, int casterLevel, CNWSpell spell, string icon) : base(ip, spellId, spellLevel, casterLevel, spell, true, icon) { }
 
         static public Dictionary<int, string> iconsMissing = new Dictionary<int, string>();
         public override Dictionary<int, string> GetMissingIcons() { return iconsMissing; }
@@ -323,7 +324,7 @@ namespace ABM_creator
         override public int baseType { get { return 46; } }
         override public int baseCost { get { return 750; } }
 
-        public Wand(int ip, int spellId, int spellLevel, int casterLevel, CNWSpell spell) : base(ip, spellId, spellLevel, casterLevel, spell)
+        public Wand(int ip, int spellId, int spellLevel, int casterLevel, CNWSpell spell) : base(ip, spellId, spellLevel, casterLevel, spell, false)
         {
             blueprint.Charges = 50;
         }
