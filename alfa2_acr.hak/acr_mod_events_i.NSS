@@ -127,6 +127,8 @@
 
 #include "nwnx_craft_system"
 
+#include "acr_craft_creation_i"
+
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -452,6 +454,8 @@ void ACR_ModuleOnPCLoaded()
 {
 	object oPC = GetEnteringObject();
 	
+	CraftingOnPCLoaded(oPC);
+	
 	// process DMs
     if (GetIsDM(oPC) || GetIsDMPossessed(oPC))
     {
@@ -622,6 +626,8 @@ void ACR_ModuleOnAcquireItem()
 	
 	ACR_ItemOnAcquire(oItem, oAcquiredBy, oAcquiredFrom);
 	
+	ACR_CraftingOnAcquireObject(oItem, oAcquiredBy, oAcquiredFrom);
+	
     // track the presence of non-detection items
 	//  We don't use these yet, skip this call.
     //ACR_ManageNonDetectionOnAcquire(oItem, oAcquiredBy);
@@ -770,6 +776,9 @@ void ACR_ModuleOnUserDefined() {
 void ACR_ModuleOnPlayerEquip() {
     object oItem = GetPCItemLastEquipped();
 	object oPC = GetPCItemLastEquippedBy();
+	
+	// Crafting system hook.
+	ACR_CraftOnEquipItem(oPC, oItem);
 	
 	// handle equipped items.
     ACR_ItemOnEquip(oItem, oPC);

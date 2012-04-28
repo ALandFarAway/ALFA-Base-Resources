@@ -255,22 +255,6 @@ namespace ACR_ServerCommunicator
             PlayerStateTable = new Dictionary<uint, PlayerState>();
 
             //
-            // Create the database tables as necessary.
-            //
-
-            Database.ACR_SQLExecute(
-                "CREATE TABLE IF NOT EXISTS `server_ipc_events` ( " +
-                "`ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, " +
-                "`SourcePlayerID` mediumint(8) UNSIGNED NOT NULL, " +
-                "`SourceServerID` smallint(5) UNSIGNED NOT NULL, " +
-                "`DestinationPlayerID` mediumint(8) UNSIGNED NOT NULL, " +
-                "`DestinationServerID` smallint(5) UNSIGNED NOT NULL, " +
-                "`EventType` smallint(5) UNSIGNED NOT NULL, " +
-                " `EventText` varchar(256) NOT NULL, " +
-                "PRIMARY KEY(`ID`), UNIQUE KEY(`ID`, `DestinationServerID`) " +
-                ") ENGINE=MyISAM DEFAULT CHARSET=latin1; ");
-
-            //
             // Remove any stale IPC commands to this server, as we are starting
             // up fresh.
             //
