@@ -84,6 +84,7 @@
 // 2012/03/03  Basilica - Added callout for SCliExt OnLeave.
 // 2012/04/15  Basilica - Added infrastructure for deleting unneeded static objects at module startup.
 // 2012/04/16  Basilica - Log module and HAK build date to server log at module startup.
+// 2012/04/28  Basilica - Prevent creation of new characters or players with trailing spaces.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -405,7 +406,10 @@ void ACR_ModuleOnClientEnter()
     // Code executed for DMs and PCs goes here
 
     // initialize the player - RUN THIS BEFORE INITIALIZING OTHER SYSTEMS
-    ACR_PCOnClientEnter(oPC);
+    if (!ACR_PCOnClientEnter(oPC))
+	 {
+		return;
+	 }
     
     // Zero out the RP XP timer. Though this looks ill-placed, we need it to detect redundant
     // tickers.
