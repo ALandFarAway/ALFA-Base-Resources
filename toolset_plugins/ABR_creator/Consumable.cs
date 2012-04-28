@@ -143,7 +143,7 @@ namespace ABM_creator
         override public int baseType { get { return 75; } }
         override public int baseCost { get { return 25; } }
 
-        public Scroll(int ip, int spellId, int spellLevel, int casterLevel, CNWSpell spell, string icon) : base(ip, spellId, spellLevel, casterLevel, spell, true, icon) { }
+        public Scroll(int ip, int spellId, int spellLevel, int casterLevel, CNWSpell spell, string icon) : base(ip, spellId, spellLevel, casterLevel, spell, false, icon) { }
 
         static public Dictionary<int, string> iconsMissing = new Dictionary<int, string>();
         public override Dictionary<int, string> GetMissingIcons() { return iconsMissing; }
