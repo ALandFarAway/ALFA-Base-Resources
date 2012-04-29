@@ -49,6 +49,7 @@
 //  2011/05/09  Paazin       Fix for location persistency when Start Location is not at Z-axis = 0.0
 //  2012/01/08  Basilica     Don't mark players as online if they are in quarantine.
 //  2012/01/08  Basilica     Added ACR_PPSBootPC wrapper.
+//  2012/04/28  Basilica     Prevent creation of new characters or players with trailing spaces.
 ////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -63,6 +64,7 @@
 #include "acr_portal_i"
 #include "dmfi_inc_inc_com"
 #include "acr_server_ipc_i"
+#include "acr_tools_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -133,8 +135,8 @@ void ACR_PCOnModuleLoad();
 
 //! This function initializes players and processes bans
 //!  - oPC: player to initialize
-//!  - Returns: nothing
-void ACR_PCOnClientEnter(object oPC);
+//!  - Returns: TRUE if login continues, else FALSE if the PC has been booted.
+int ACR_PCOnClientEnter(object oPC);
 
 //! This function restores player status, including hit points, spells, and conditions
 //  The function is NOT called for DMs, rather ACR_PCOnPCLoadedAsDM() is called.
@@ -348,7 +350,7 @@ void ACR_PCOnModuleLoad()
     ACR_CreateDebugSystem(ACR_PPS_DEBUG_ID, DEBUG_TARGET_TALK, DEBUG_TARGET_LOG, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS);
 }
 
-void ACR_PCOnClientEnter(object oPC)
+int ACR_PCOnClientEnter(object oPC)
 {
     string sCDKey = GetPCPublicCDKey(oPC), sPlayerName = GetPCPlayerName(oPC), sCharacterName = GetName(oPC);
 	
@@ -379,7 +381,7 @@ void ACR_PCOnClientEnter(object oPC)
  			if (! GetIsDM(oPC))
 			{
 				ACR_PPSBootPC(oPC, "Booted because CD-Key records could not be updated in the database.", TRUE);
-				return;
+				return FALSE;
 			}
 		}
     }
@@ -389,7 +391,7 @@ void ACR_PCOnClientEnter(object oPC)
         // log the event then boot the player
         ACR_LogEvent(oPC, ACR_LOG_LOGIN_BANNED, "CDKey: " + sCDKey);
 		  ACR_PPSBootPC(oPC, "Booted because you are banned.", TRUE);
-		  return;
+		  return FALSE;
     }
 
     // second, retrieve the IP address from the database
@@ -412,7 +414,7 @@ void ACR_PCOnClientEnter(object oPC)
         // log the event then boot the player
         ACR_LogEvent(oPC, ACR_LOG_LOGIN_BANNED, "IPAddress: " + GetPCIPAddress(oPC));
 		  ACR_PPSBootPC(oPC, "Booted because you are banned.", TRUE);
-		  return;
+		  return FALSE;
     }
 
     // third, retrieve the player ID from the database
@@ -422,6 +424,13 @@ void ACR_PCOnClientEnter(object oPC)
     // record the player if it does not already exist
     if (ACR_SQLFetch() != SQL_SUCCESS)
     {
+	 	  if (ACR_TrimTrailingSpaces(sPlayerName) != sPlayerName)
+		  {
+		  	   ACR_LogEvent(OBJECT_INVALID, ACR_LOG_LOGIN_BAD_PLAYER_NAME, "Character: " + sCharacterName + ", Player: " + sPlayerName + ".");
+		      ACR_PPSBootPC(oPC, "You may not create an account using a name with trailing spaces.", TRUE);
+				return FALSE;
+		  }
+
         ACR_SQLQuery("INSERT INTO players (CDKey, Name, FirstLogin, LastLogin, Logins, IsDM, IsBanned) VALUES ('" + ACR_SQLEncodeSpecialChars(sCDKey) + "','" + ACR_SQLEncodeSpecialChars(sPlayerName) + "', now(), now(), 0, " + IntToString(GetIsDM(oPC)) + ", 0)");
         ACR_SQLQuery("SELECT ID, IsBanned, CDKey FROM players WHERE CDKey='" + ACR_SQLEncodeSpecialChars(sCDKey) + "' and Name='" + ACR_SQLEncodeSpecialChars(sPlayerName) + "'");
 
@@ -431,7 +440,7 @@ void ACR_PCOnClientEnter(object oPC)
 			if (! GetIsDM(oPC))
 			{
 				ACR_PPSBootPC(oPC, "Booted because CD-Key records in the database could not be updated.", TRUE);
-				return;
+				return FALSE;
 			}
         	ACR_PrintDebugMessage("acr_pps_i: ERROR - Could not create player record for " + GetName(oPC) + ". The database may be down. Aborting login processing.", ACR_PPS_DEBUG_ID, DEBUG_LEVEL_FATAL);
 		}
@@ -442,7 +451,7 @@ void ACR_PCOnClientEnter(object oPC)
         // log the event then boot the player
         ACR_LogEvent(oPC, ACR_LOG_LOGIN_BANNED, "Player: " + sPlayerName);
 		  ACR_PPSBootPC(oPC, "Booted because you are banned.", TRUE);
-		  return;
+		  return FALSE;
     }
     string sPID = ACR_SQLGetData(0);
 	string sWasDM = ACR_SQLGetData(3);
@@ -454,18 +463,33 @@ void ACR_PCOnClientEnter(object oPC)
         // log the event then boot the player
         ACR_LogEvent(oPC, ACR_LOG_LOGIN_BANNED, "CDKey Mismatch- "+sCDKey+" Player: " + sPlayerName);
 		  ACR_PPSBootPC(oPC, "Booted because your CD-Key does not match our records.", TRUE);
-		  return;
+		  return FALSE;
 	}
 	if (sIsDM != sWasDM) {
 		// This GSID is being used as a DM / Player and needs to be switched.
 		ACR_SQLQuery("UPDATE players SET IsDm="+sIsDM+" WHERE ID=" + sPID);  
 	} 	    
+
+	// Log if the player name isn't normalized, so that it can be cleaned up.
+	if (ACR_TrimTrailingSpaces(sPlayerName) != sPlayerName)
+	{
+		ACR_LogEvent(oPC, ACR_LOG_LOGIN_PLAYER_NAME_NON_NORMALIZED, "Character: " + sCharacterName + ", Player: " + sPlayerName + ".");
+		ACR_PrintDebugMessage("acr_pps_i: Login with unnormalized player name: " + sCharacterName + ".");
+	}
+
 	// retrieve the character ID from the database
     ACR_SQLQuery("SELECT ID, IsDeleted, IsPlayable FROM characters WHERE PlayerID=" + sPID + " and Name='" + ACR_SQLEncodeSpecialChars(sCharacterName) + "'");
 	
     // if it does not exist, create it
     if (ACR_SQLFetch() != SQL_SUCCESS)
     {
+	 	  if (ACR_TrimTrailingSpaces(sCharacterName) != sCharacterName)
+		  {
+		  	   ACR_LogEvent(OBJECT_INVALID, ACR_LOG_LOGIN_BAD_CHARACTER_NAME, "Character: " + sCharacterName + ", Player: " + sPlayerName + ".");
+		      ACR_PPSBootPC(oPC, "You may not create a character using a name with trailing spaces.", TRUE);
+				return FALSE;
+		  }
+
         ACR_SQLQuery("INSERT INTO characters (ServerID, PlayerID, Name, Level, Race, Subrace, Deity, Gender, HP, XP, GP, Ethics, Morals, Class1, Class2, Class3, Level1, Level2, Level3, STR, CON, DEX, `INT`, WIS, CHA, Damage, Deaths, IsOnline, IsDeleted, IsPlayable) VALUES (" +
 	 		IntToString(ACR_GetServerId()) + "," +
            	sPID + ",'" + 
@@ -499,7 +523,7 @@ void ACR_PCOnClientEnter(object oPC)
  			if (! GetIsDM(oPC))
 			{
 				ACR_PPSBootPC(oPC, "Booted because character record could not be created in the database.", TRUE);
-				return;
+				return FALSE;
 			}
 		}
 	}
@@ -511,7 +535,7 @@ void ACR_PCOnClientEnter(object oPC)
       	// log the event then boot the player
        	ACR_LogEvent(oPC, ACR_LOG_LOGIN_DELETED, "Character: " + sCharacterName);
 			ACR_PPSBootPC(oPC, "Booted because this character has been deleted.", TRUE);
-			return;
+			return FALSE;
     }
 	// take note of unplayable characters (decayed corpses)
     else if (ACR_SQLGetData(2) == "0")
@@ -529,11 +553,20 @@ void ACR_PCOnClientEnter(object oPC)
 	// store the player's CD Key so it can be retrieved even on exit events
 	ACR_SetPCPublicCDKey(oPC);
 
+	// Log if the character name isn't normalized, so that it can be cleaned up.
+	if (ACR_TrimTrailingSpaces(sCharacterName) != sCharacterName)
+	{
+		ACR_LogEvent(oPC, ACR_LOG_LOGIN_CHARACTER_NAME_NON_NORMALIZED, "Character: " + sCharacterName + ", Player: " + sPlayerName + ".");
+		ACR_PrintDebugMessage("acr_pps_i: Login with unnormalized character name: " + sCharacterName + ".");
+	}
+
 	// Note that we have not marked the player as online yet UNLESS this was the
 	// initial login for a new character.  We will defer this until we have, at
 	// OnPCLoaded, decided that the player will not go into quarantine.  This
 	// stops quarantined players from being marked as online at server A while
 	// they are actually logged on to quarantine at server B.
+
+	return TRUE;
 }
 
 void ACR_PCOnPCLoaded(object oPC)

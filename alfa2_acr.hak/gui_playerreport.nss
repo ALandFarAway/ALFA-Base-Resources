@@ -453,7 +453,7 @@ void main(int nAction, int nTargetObject)
                 /* We know no color is assigned yet, so start blank. */
                 string sFactionColor = "";
                 object oFactionPC = GetFirstFactionMember(oRowPC);
-                while(GetIsObjectValid(oRowPC))
+                while(GetIsObjectValid(oFactionPC))
                 {
                     /* We're only in a party if there's someone else in it. */
                     if(oFactionPC != oRowPC)

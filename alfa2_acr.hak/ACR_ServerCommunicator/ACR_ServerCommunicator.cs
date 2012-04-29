@@ -284,8 +284,7 @@ namespace ACR_ServerCommunicator
             // Finally, drop into the command polling loop.
             //
 
-            CommandDispatchLoop();
-            UpdateServerExternalAddress();
+            DispatchPeriodicEvents();
         }
 
         /// <summary>
@@ -798,6 +797,8 @@ namespace ACR_ServerCommunicator
                 "\n" +
                 "You may also roll skills by prepending the prefix character to a skill name.  For example, #wisdom to roll a wisdom check."
                 );
+
+            GetDatabase().ACR_IncrementStatistic("COMMAND_HELP");
         }
 
         /// <summary>

@@ -16,7 +16,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_array_i.nss                       \
             $(OUTPUTDIR)\acr_list_i.nss                        \
             $(OUTPUTDIR)\acr_chat_i.nss                        \
-		$(OUTPUTDIR)\acr_craft_creation_i.nss              \
+            $(OUTPUTDIR)\acr_craft_creation_i.nss              \
             $(OUTPUTDIR)\acr_craft_progress_i.nss              \
             $(OUTPUTDIR)\acr_creature_i.nss                    \
             $(OUTPUTDIR)\acr_db_persist_i.nss                  \
@@ -568,7 +568,7 @@ $(HAKFILE): script $(HAK_SOURCES_MISC)
 	@$(MKERF_NWN2) -c $(HAKFILE) @<<$(ERFUTIL_RSP)
 -z
 $(HAK_SOURCES_NL)
-<<KEEP
+<<NOKEEP
 
 !if 0
 $(HAKFILE): $(HAK_SOURCES)

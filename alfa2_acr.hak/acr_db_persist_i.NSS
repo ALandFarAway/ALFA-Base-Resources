@@ -67,6 +67,9 @@ const string ACR_SRVADMIN = "ACR_SRVADMIN";
 //! Module configuration setting indicating that statistics are not enabled.
 const string ACR_DISABLE_STATISTICS = "ACR_DISABLE_STATISTICS";
 
+//! Module configuration setting indicating that GameObjUpdate backoff is enabled.
+const string ACR_GAMEOBJUPDATE = "GameObjUpdateBackoff";
+
 //! Values for ACR_SRVADMIN local on PC object.
 const int ACR_SRVADMIN_INDETERMINITE = 0;  // Need to query database
 const int ACR_SRVADMIN_IS_ADMIN = 1;       // Is an admin
@@ -78,6 +81,9 @@ const int ACR_CHARACTER_ID_NONE = 0;
 
 //! Status cache variable name.
 const string ACR_PLAYERSTATUS_CACHE_VAR = "ACR_PLAYERSTATUS_CACHE";
+
+//! GameObjUpdate backoff variable name.
+const string ACR_HEALTHMONITOR_GAMEOBJUPDATE_BACKOFF_VAR = "ACR_HEALTHMONITOR_GAMEOBJUPDATE_BACKOFF";
 
 //! CD Key to facilitate accecss even on exit events
 const string ACR_CDKEY = "ACR_CDKEY";
@@ -534,12 +540,28 @@ void ACR_StartAsyncService()
 
 void ACR_LoadDatabaseConfiguration()
 {
-	ACR_SQLQuery("SELECT `value` FROM `config` WHERE `variable` = '" + ACR_DISABLE_STATISTICS + "'");
+	object Module;
+	string VarName;
+	string VarValue;
 
-	if (ACR_SQLFetch() == SQL_SUCCESS)
+	Module = GetModule();
+	ACR_SQLQuery("SELECT `variable`, `value` FROM `config`");
+
+	while (ACR_SQLFetch() == SQL_SUCCESS)
 	{
-		WriteTimestampedLogEntry("acr_db_persist_i: Applying statistics gathering configuration from the database config table.");
-		SetLocalInt(GetModule(), ACR_DISABLE_STATISTICS, StringToInt(ACR_SQLGetData(0)));
+		VarName = ACR_SQLGetData(0);
+		VarValue = ACR_SQLGetData(1);
+
+		if (VarName == ACR_DISABLE_STATISTICS)
+		{
+			WriteTimestampedLogEntry("acr_db_persist_i: Applying statistics gathering configuration from the database config table.");
+			SetLocalInt(Module, ACR_DISABLE_STATISTICS, StringToInt(VarValue));
+		}
+		else if (VarName == ACR_GAMEOBJUPDATE)
+		{
+			WriteTimestampedLogEntry("acr_db_persist_i: Applying GameObjUpdate backoff configuration from database.");
+			SetLocalInt(Module, ACR_HEALTHMONITOR_GAMEOBJUPDATE_BACKOFF_VAR, StringToInt(VarValue));
+		}
 	}
 }
 

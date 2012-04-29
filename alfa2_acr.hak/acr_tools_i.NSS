@@ -309,6 +309,11 @@ string Pluralize(string s);
 //! Color a block of text
 string Colorize(string sText, string sColor);
 
+//! Trim trailing spaces from a string.
+//!  - sText: the text to strip trailing spaces from.
+//!  - Returns: the text with trailing spaces deleted.
+string ACR_TrimTrailingSpaces(string sText);
+
 object ACR_GetNearestCreatureToLocation(object oPC, int nFirstCriteriaType, int nFirstCriteriaValue,  location lLocation, int nNth=1, int nSecondCriteriaType=-1, int nSecondCriteriaValue=-1, int nThirdCriteriaType=-1,  int nThirdCriteriaValue=-1);
 
 //! Find a "safe" location to throw a NPC, in case the AT is entirely broken
@@ -1171,6 +1176,20 @@ string Pluralize(string s)
 string Colorize(string sText, string sColor)
 {
 	return "<color=#"+sColor+">"+sText+"</c>";
+}
+
+string ACR_TrimTrailingSpaces(string sText)
+{
+	int nLength = GetStringLength(sText);
+	int nPos = nLength;
+
+	while (nPos--)
+	{
+		if (GetSubString(sText, nPos, 1) != " ")
+			break;
+	}
+
+	return GetStringLeft(sText, nPos + 1);
 }
 
 object ACR_GetNearestCreatureToLocation(object oPC, int nFirstCriteriaType, int nFirstCriteriaValue,  location lLocation, int nNth=1, int nSecondCriteriaType=-1, int nSecondCriteriaValue=-1, int nThirdCriteriaType=-1,  int nThirdCriteriaValue=-1) {
