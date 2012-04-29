@@ -1062,3 +1062,5 @@
 1058 DISGUISE_ROLL_D20                16790217 1         1         1      3025       1         1       1          it_qi_caretakerveil        
 1059 DIMENSION_DOOR                   16778290 7         4         10080  3026       0         1       1          is_dimdoor                 
 1060 SHADOW_EVOCATION                 16778477 9         5         16200  3032       0         0       1          is_shadowevoc              
+1061 Spike_Growth                     9133     5         3         5400   454        0         1       1          it_s_spikegrowth           
+1062 Shield_2                         211318   2         1         720    417        1         1       1          it_s_shield                
