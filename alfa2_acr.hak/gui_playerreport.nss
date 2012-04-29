@@ -353,12 +353,12 @@ string GetMainClassIcon(object oRowPC)
         (nClass3 > 39 && nClass3 < 55) ||
         (nClass3 > 55 && nClass3 < 58) ||
         (nClass3 > 58)) && 
-         nClass2 != CLASS_TYPE_INVALID)    nClass = nClass3;
+         nClass3 != CLASS_TYPE_INVALID)    nClass = nClass3;
     if(((nClass4 > 26 && nClass4 < 38) ||
         (nClass4 > 39 && nClass4 < 55) ||
         (nClass4 > 55 && nClass4 < 58) ||
         (nClass4 > 58)) && 
-         nClass2 != CLASS_TYPE_INVALID)    nClass = nClass4;
+         nClass4 != CLASS_TYPE_INVALID)    nClass = nClass4;
 
     return Get2DAString("classes", "Icon", nClass)+".tga";
 }
