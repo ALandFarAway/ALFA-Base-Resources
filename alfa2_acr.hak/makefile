@@ -493,7 +493,8 @@ CLRSCRIPT_OBJECTS=$(OUTPUTDIR)\TestClrScript.ncs               \
                   $(OUTPUTDIR)\ACR_HealthMonitor.ncs           \
                   $(OUTPUTDIR)\ACR_ServerCommunicator.ncs      \
                   $(OUTPUTDIR)\ACR_ServerMisc.ncs              \
-                  $(OUTPUTDIR)\ACR_CreatureBehavior.ncs
+                  $(OUTPUTDIR)\ACR_CreatureBehavior.ncs        \
+                  $(OUTPUTDIR)\ACR_EmptyScript.ncs             
 
 HAKFILE=$(OUTPUTDIR)\alfa2_acr.hak
 
@@ -546,6 +547,8 @@ makeclrscripts:
 	@$(MSBUILD) ACR_ServerMisc\ACR_ServerMisc.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_CreatureBehavior
 	@$(MSBUILD) ACR_CreatureBehavior\ACR_CreatureBehavior.csproj $(MSBUILD_FLAGS)
+	$(BUILD_MSG) (CSProj) Building - ACR_EmptyScript
+	@$(MSBUILD) ACR_EmptyScript\ACR_EmptyScript.csproj $(MSBUILD_FLAGS)
 
 clean:
 	@if exist $(OUTPUTDIR)\*.ncs del $(OUTPUTDIR)\*.ncs
@@ -567,6 +570,8 @@ clean:
 	@if exist ACR_ServerMisc\obj rd /s /q ACR_ServerMisc\obj
 	@if exist ACR_CreatureBehavior\bin rd /s /q ACR_CreatureBehavior\bin
 	@if exist ACR_CreatureBehavior\obj rd /s /q ACR_CreatureBehavior\obj
+	@if exist ACR_EmptyScript\bin rd /s /q ACR_EmptyScript\bin
+	@if exist ACR_EmptyScript\obj rd /s /q ACR_EmptyScript\obj
 
 $(HAKFILE): script $(HAK_SOURCES_MISC)
 	$(BUILD_MSG) (ERF) Creating - $(HAKFILE)

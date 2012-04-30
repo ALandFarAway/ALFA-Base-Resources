@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_ServerMisc", "..\ACR_Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_CreatureBehavior", "..\ACR_CreatureBehavior\ACR_CreatureBehavior.csproj", "{793BE735-9438-4EBB-93E3-74E84B19841E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_EmptyScript", "..\ACR_EmptyScript\ACR_EmptyScript.csproj", "{14C09F2F-4411-42FB-9A0A-A7E011F7129E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{793BE735-9438-4EBB-93E3-74E84B19841E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{793BE735-9438-4EBB-93E3-74E84B19841E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{793BE735-9438-4EBB-93E3-74E84B19841E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14C09F2F-4411-42FB-9A0A-A7E011F7129E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14C09F2F-4411-42FB-9A0A-A7E011F7129E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14C09F2F-4411-42FB-9A0A-A7E011F7129E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14C09F2F-4411-42FB-9A0A-A7E011F7129E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
