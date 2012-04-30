@@ -77,13 +77,14 @@ namespace ABM_creator
 
         private string ConsumableName(CNWSpell spell, int spellId, int spellLevel, int casterLevel)
         {
-
-            string sCasterLevel = "";
-            if (casterLevel < 10)
-                sCasterLevel = "0" + casterLevel;
-            else sCasterLevel = "" + casterLevel;
-
-            return "{" + spellLevel + ", CL " + sCasterLevel + "} " + GetSpellName(spell) + ", " + baseName(spellId);
+            string prefix;
+            if (casterLevel > 10)
+                prefix = spellLevel + ", CL " + casterLevel;
+            else if(casterLevel > 0)
+                prefix = spellLevel + ", CL 0" + casterLevel;
+            else prefix = casterLevel.ToString();
+            
+            return "{" + prefix + "} " + GetSpellName(spell) + ", " + baseName(spellId);
         }
 
         protected virtual int cost(int spellLevel, int casterLevel)
@@ -135,11 +136,8 @@ namespace ABM_creator
     abstract class Scroll : Consumable
     {
 
-        override public string tagPrefix { get { return "abr_it_sc_"; } }
         override public string baseDescription { get { return "A scroll is a heavy sheet of fine vellum or high-quality paper. An area about 8 ½ inches wide and 11 inches long is sufficient to hold one spell. The sheet is reinforced at the top and bottom with strips of leather slightly longer than the sheet is wide. To protect it from wrinkling or tearing, a scroll is rolled up from both ends to form a double cylinder. (This also helps the user unroll the scroll quickly.) The scroll is placed in a tube of ivory, jade, leather, metal, or wood, which is often sealed to keep out water and other liquids. Most scroll cases are inscribed with magic symbols which often identify the owner or the spells stored on the scrolls inside. A scroll has AC 9, 1 hit point, hardness 0, and a break DC of 8."; } }
         
-        override public string baseName(int spellId) { return "scroll"; }
-
         override public int baseType { get { return 75; } }
         override public int baseCost { get { return 25; } }
 
@@ -160,12 +158,20 @@ namespace ABM_creator
     {
         override public string baseCategory { get { return "ALFA_Scrolls_Arcane"; } }
 
+        override public string tagPrefix { get { return "abr_it_sca_"; } }
+
+        override public string baseName(int spellId) { return "arcane scroll"; }
+
         public ArcaneScroll(int ip, int spellId, int spellLevel, int casterLevel, CNWSpell spell, string icon) : base(ip, spellId, spellLevel, casterLevel, spell, icon) {}
     }
 
     class DivineScroll : Scroll
     {
         override public string baseCategory { get { return "ALFA_Scrolls_Divine"; } }
+
+        override public string tagPrefix { get { return "abr_it_scd_"; } }
+
+        override public string baseName(int spellId) { return "divine scroll"; }
 
         public DivineScroll(int ip, int spellId, int spellLevel, int casterLevel, CNWSpell spell, string icon) : base(ip, spellId, spellLevel, casterLevel, spell, icon) {}
     }

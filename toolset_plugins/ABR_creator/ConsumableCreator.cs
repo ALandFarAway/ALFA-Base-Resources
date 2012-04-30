@@ -14,6 +14,7 @@ namespace ABM_creator
         CraftingStore potionStore = new CraftingStore("Potion Crafting", "acr_craft_potion");
         CraftingStore wandStore = new CraftingStore("Wand Crafting", "acr_craft_wand");
         CraftingStore scrollStore = new CraftingStore("Scroll Crafting", "acr_craft_scroll");
+        static public HashSet<string> ipHash = new HashSet<string>();
         
         NWN2Toolset.NWN2.Data.Blueprints.NWN2ItemBlueprint addClassRestrictions(NWN2Toolset.NWN2.Data.Blueprints.NWN2ItemBlueprint item, int bardLevel, int clericLevel, int druidLevel, int paladinLevel, int rangerLevel, int wizardLevel)
         {
@@ -78,14 +79,15 @@ namespace ABM_creator
                 }
                 catch
                 {
-                    DebugWindow.PrintDebugMessage("2da format error. Skipping...");
+                    DebugWindow.PrintDebugMessage("2da format error for iprp_spells.2da line " + ip + ", spell id " + tdaSpellId + ", caster level " + tdaCasterLevel + ".");
                     formatOK = false;
                 }
 
-                if (formatOK)
+                if (formatOK && !ipHash.Contains(tdaSpellId.ToString() + "_" + tdaCasterLevel.ToString()))
                 {
 
                     NWN2Toolset.NWN2.Rules.CNWSpell spell = Globals.spells.GetSpell(spellId);
+                    ipHash.Add(tdaSpellId.ToString() + "_" + tdaCasterLevel.ToString());
 
                     if (spell != null && spell.IsValid() == 1)
                     {
@@ -130,7 +132,7 @@ namespace ABM_creator
                             int lowestDivineLevel = clericLevel;
                             if (druidLevel < clericLevel)
                             {
-                                lowestDivineLevel = clericLevel;
+                                lowestDivineLevel = druidLevel;
                             }
                             if (lowestDivineLevel == 255)
                             {
@@ -179,7 +181,7 @@ namespace ABM_creator
             NotfyIconsNotFoundFor("Wand", Wand.iconsMissing);
             NotfyIconsNotFoundFor("Scroll", Scroll.iconsMissing);
 
-
+            ipHash = new HashSet<String>();
         }
     }
 }
