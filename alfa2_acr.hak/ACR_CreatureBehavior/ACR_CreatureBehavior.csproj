@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5250AC91-FA36-4FBD-AB54-5B86CD76EDD0}</ProjectGuid>
+    <ProjectGuid>{793BE735-9438-4EBB-93E3-74E84B19841E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ACR_CreatureBehavior</RootNamespace>
