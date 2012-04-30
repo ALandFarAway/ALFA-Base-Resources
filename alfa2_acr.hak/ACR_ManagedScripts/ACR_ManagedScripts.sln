@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_ServerCommunicator", ".
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_ServerMisc", "..\ACR_ServerMisc\ACR_ServerMisc.csproj", "{3046731E-6658-4868-8C67-F0BFEDAC41EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_CreatureBehavior", "..\ACR_CreatureBehavior\ACR_CreatureBehavior.csproj", "{793BE735-9438-4EBB-93E3-74E84B19841E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{3046731E-6658-4868-8C67-F0BFEDAC41EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3046731E-6658-4868-8C67-F0BFEDAC41EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3046731E-6658-4868-8C67-F0BFEDAC41EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{793BE735-9438-4EBB-93E3-74E84B19841E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{793BE735-9438-4EBB-93E3-74E84B19841E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{793BE735-9438-4EBB-93E3-74E84B19841E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{793BE735-9438-4EBB-93E3-74E84B19841E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
