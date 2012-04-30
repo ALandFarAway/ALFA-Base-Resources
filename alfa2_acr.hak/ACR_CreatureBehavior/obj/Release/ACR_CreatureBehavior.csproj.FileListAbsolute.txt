@@ -1,0 +1,6 @@
+C:\Users\Michael\Documents\Neverwinter Nights 2\Git\alfa2_acr.hak\ACR_CreatureBehavior\bin\Release\ACR_CreatureBehavior.dll
+C:\Users\Michael\Documents\Neverwinter Nights 2\Git\alfa2_acr.hak\ACR_CreatureBehavior\bin\Release\NWNScriptJITIntrinsics.dll
+C:\Users\Michael\Documents\Neverwinter Nights 2\Git\alfa2_acr.hak\ACR_CreatureBehavior\bin\Release\NWScriptManagedInterface.dll
+C:\Users\Michael\Documents\Neverwinter Nights 2\Git\alfa2_acr.hak\ACR_CreatureBehavior\bin\Release\OEIShared.dll
+C:\Users\Michael\Documents\Neverwinter Nights 2\Git\alfa2_acr.hak\ACR_CreatureBehavior\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Michael\Documents\Neverwinter Nights 2\Git\alfa2_acr.hak\ACR_CreatureBehavior\obj\Release\ACR_CreatureBehavior.dll
