@@ -544,8 +544,8 @@ makeclrscripts:
 	@$(MSBUILD) ACR_ServerCommunicator\ACR_ServerCommunicator.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_ServerMisc
 	@$(MSBUILD) ACR_ServerMisc\ACR_ServerMisc.csproj $(MSBUILD_FLAGS)
-        $(BUILD_MSG) (CSProj) Building - ACR_CreatureBehavior
-        @$(MSBUILD) ACR_CreatureBehavior\ACR_CreatureBehavior.csproj $(MSBUILD_FLAGS)
+	$(BUILD_MSG) (CSProj) Building - ACR_CreatureBehavior
+	@$(MSBUILD) ACR_CreatureBehavior\ACR_CreatureBehavior.csproj $(MSBUILD_FLAGS)
 
 clean:
 	@if exist $(OUTPUTDIR)\*.ncs del $(OUTPUTDIR)\*.ncs
@@ -565,8 +565,8 @@ clean:
 	@if exist ACR_ServerCommunicator\obj rd /s /q ACR_ServerCommunicator\obj
 	@if exist ACR_ServerMisc\bin rd /s /q ACR_ServerMisc\bin
 	@if exist ACR_ServerMisc\obj rd /s /q ACR_ServerMisc\obj
-        @if exist ACR_CreatureBehavior\bin rd /s /q ACR_CreatureBehavior\bin
-        @if exist ACR_CreatureBehavior\obj rd /s /q ACR_CreatureBehavior\obj
+	@if exist ACR_CreatureBehavior\bin rd /s /q ACR_CreatureBehavior\bin
+	@if exist ACR_CreatureBehavior\obj rd /s /q ACR_CreatureBehavior\obj
 
 $(HAKFILE): script $(HAK_SOURCES_MISC)
 	$(BUILD_MSG) (ERF) Creating - $(HAKFILE)
