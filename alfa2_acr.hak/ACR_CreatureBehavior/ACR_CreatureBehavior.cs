@@ -103,8 +103,15 @@ namespace ACR_CreatureBehavior
 
                 case EVENT_TYPE.MODULE_ON_START:
                     {
+                        AreaManager.IndexAreas(this);
                     }
                     break;
+
+                foreach(AreaManager.AreaObject Area in
+                        AreaManager.ServerContents.Areas)
+                    {
+                        SendMessageToPC(GetLocalObject(OBJECT_SELF, "TEST_OBJECT"), IntToString(ObjectToInt(Area.AreaObjectId)));
+                    }
             }
 
             return ReturnCode;
@@ -130,5 +137,48 @@ namespace ACR_CreatureBehavior
         }
 
         private ALFA.Database Database = null;
+    }
+
+    public static class AreaManager
+    {
+        public static void IndexAreas(ACR_CreatureBehavior Script)
+        {
+            foreach (uint AreaObjectId in
+                    Script.GetAreas())
+            {
+                AreaObject Area = new AreaObject();
+                Area.AreaObjectId = AreaObjectId;
+                Area.AreaInterior = Script.GetIsAreaInterior(AreaObjectId);
+                Area.AreaNatural = Script.GetIsAreaNatural(AreaObjectId);
+                Area.AreaUnderground = Script.GetIsAreaAboveGround(AreaObjectId);
+                ServerContents.Areas.Add(Area);
+            }
+        }
+
+        public class AreaObject
+        {
+            public uint AreaObjectId;
+            public int  AreaInterior;
+            public int  AreaNatural;
+            public int  AreaUnderground;
+        }
+
+        public static class ServerContents
+        {
+            public static List<AreaObject> Areas = null;
+        }
+    }
+
+    public enum AIType
+    {
+        BEHAVIOR_TYPE_TANK,
+        BEHAVIOR_TYPE_FLANK,
+        BEHAVIOR_TYPE_SHOCK,
+        BEHAVIOR_TYPE_BUFFS,
+        BEHAVIOR_TYPE_MEDIC,
+        BEHAVIOR_TYPE_SKIRMISH,
+        BEHAVIOR_TYPE_ARCHER,
+        BEHAVIOR_TYPE_CONTROL,
+        BEHAVIOR_TYPE_NUKE
     }
 }
