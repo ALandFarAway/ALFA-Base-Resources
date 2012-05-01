@@ -78,6 +78,13 @@ namespace ALFA
         /// </summary>
         /// <param name="SQL">Supplies the SQL query text to execute.</param>
         void ACR_SQLExecute(string SQL);
+
+        /// <summary>
+        /// Increment a global tracking statistic counter stored in the
+        /// database (if statistic tracking was enabled).
+        /// </summary>
+        /// <param name="Statistic">Supplies the counter name.</param>
+        void ACR_IncrementStatistic(string Statistic);
     }
 
     /// <summary>
