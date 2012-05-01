@@ -15,7 +15,7 @@
 
 		<!-- First Name -->
 		<UIText name="lblFirstName" text="New Item Target Name:" fontfamily="Body_Font" style=4 x=ALIGN_CENTER y=50 width=250 height=18 valign="middle" align="left" selectable=false editable=false multiline=false />	
-		<UIText name="txtFirstName" text="" fontfamily="International" x=ALIGN_CENTER y=75 width=250 height=18 valign="middle" align="left" filter="alpha" highlightcolor=FFFFFF allowspace=true allowpunc=true selectable=true editable=true maxlength=32 multiline=false prevcontrol="btnClose" nextcontrol="txtLastName" update=true OnUpdate=UIObject_Misc_SetLocalVarString(local:0) />
+		<UIText name="txtFirstName" text="" fontfamily="International" x=ALIGN_CENTER y=75 width=250 height=18 valign="middle" align="left" filter="alphanumberic" highlightcolor=FFFFFF allowspace=true allowpunc=true selectable=true editable=true maxlength=48 multiline=false prevcontrol="btnClose" nextcontrol="txtLastName" update=true OnUpdate=UIObject_Misc_SetLocalVarString(local:0) />
 
 		<!-- First Name Frame-->
 		<UIFrame name="frmFirstName" x=ALIGN_CENTER y=73 width=254 height=22 topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga" bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga" border=5 />
