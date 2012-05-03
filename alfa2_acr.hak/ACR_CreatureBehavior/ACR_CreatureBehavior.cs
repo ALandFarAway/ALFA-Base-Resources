@@ -21,6 +21,12 @@ namespace ACR_CreatureBehavior
 {
     public partial class ACR_CreatureBehavior : CLRScriptBase, IGeneratedScriptProgram
     {
+        public ACR_CreatureBehavior([In] NWScriptJITIntrinsics Intrinsics, [In] INWScriptProgram Host)
+        {
+            InitScript(Intrinsics, Host);
+            Database = new ALFA.Database(this);
+        }
+
         private ACR_CreatureBehavior([In] ACR_CreatureBehavior Other)
         {
             InitScript(Other);
@@ -29,11 +35,12 @@ namespace ACR_CreatureBehavior
             LoadScriptGlobals(Other.SaveScriptGlobals());
         }
 
+        public static Type[] ScriptParameterTypes = { typeof(int) };
+
         public Int32 ScriptMain([In] object[] ScriptParameters, [In] Int32 DefaultReturnCode)
         {
             Int32 ReturnCode = 0;
             int CreatureEventType = (int)ScriptParameters[0];
-            SendMessageToPC(GetLocalObject(OBJECT_SELF, "TEST_OBJECT"), "Hello world!");
             switch ((EVENT_TYPE)CreatureEventType)
             {
                 case EVENT_TYPE.CREATURE_ON_SPAWN:
@@ -103,15 +110,31 @@ namespace ACR_CreatureBehavior
 
                 case EVENT_TYPE.MODULE_ON_START:
                     {
-                        AreaManager.IndexAreas(this);
+                        foreach (uint AreaObjectId in
+                                 GetAreas())
+                        {
+                            AreaManager.AreaObject Area = new AreaManager.AreaObject();
+                            Area.AreaObjectId = AreaObjectId;
+                            Area.AreaInterior = GetIsAreaInterior(AreaObjectId);
+                            Area.AreaNatural = GetIsAreaNatural(AreaObjectId);
+                            Area.AreaUnderground = GetIsAreaAboveGround(AreaObjectId);
+                            foreach (uint ObjectId in
+                                     GetObjectsInArea(AreaObjectId))
+                            {
+                                if (GetIsObjectValid(GetTransitionTarget(ObjectId)) != 0)
+                                {
+                                    if(!Area.AreaTransitionObjects.Contains(ObjectId))
+                                        Area.AreaTransitionObjects.Add(ObjectId);
+
+                                    if(!Area.AreaTransitionTargets.Contains(ObjectId))
+                                        Area.AreaTransitionTargets.Add(GetArea(GetTransitionTarget(ObjectId)));
+                                }
+
+                            }
+                            ServerContents.Areas.Add(Area);
+                        }
                     }
                     break;
-
-                foreach(AreaManager.AreaObject Area in
-                        AreaManager.ServerContents.Areas)
-                    {
-                        SendMessageToPC(GetLocalObject(OBJECT_SELF, "TEST_OBJECT"), IntToString(ObjectToInt(Area.AreaObjectId)));
-                    }
             }
 
             return ReturnCode;
@@ -139,34 +162,71 @@ namespace ACR_CreatureBehavior
         private ALFA.Database Database = null;
     }
 
-    public static class AreaManager
+// AreaManager is a class used to define classes used by other portions of code-- it is meant to provide instances
+// to the ServerContents static class via nesting.
+// ServerContents
+//  - AreaObject
+//  --- AreaTransitions
+//  --- NPC Parties
+//  ----- Individual NPCs
+//  - AreaObject
+    public class AreaManager
     {
-        public static void IndexAreas(ACR_CreatureBehavior Script)
-        {
-            foreach (uint AreaObjectId in
-                    Script.GetAreas())
-            {
-                AreaObject Area = new AreaObject();
-                Area.AreaObjectId = AreaObjectId;
-                Area.AreaInterior = Script.GetIsAreaInterior(AreaObjectId);
-                Area.AreaNatural = Script.GetIsAreaNatural(AreaObjectId);
-                Area.AreaUnderground = Script.GetIsAreaAboveGround(AreaObjectId);
-                ServerContents.Areas.Add(Area);
-            }
-        }
-
         public class AreaObject
         {
-            public uint AreaObjectId;
-            public int  AreaInterior;
-            public int  AreaNatural;
-            public int  AreaUnderground;
+            public uint AreaObjectId = OBJECT_INVALID;
+            public int  AreaInterior = -1;
+            public int  AreaNatural = -1;
+            public int  AreaUnderground = -1;
+            public List<uint> AreaTransitionObjects = new List<uint> { };
+            public List<uint> AreaTransitionTargets = new List<uint> { };
+            public List<NPCParty> ContainedParties = new List<NPCParty> { };
         }
 
-        public static class ServerContents
+        public class NPCParty
         {
-            public static List<AreaObject> Areas = null;
+            public float PartyCR = 0.0f;
+
+            public NPC PartyLeader = new NPC { };
+            public List<NPC> PartyMembers = new List<NPC> { };
+            public List<NPC> DeadMember = new List<NPC> { };
+
+            // Melee types.
+            public List<NPC> PartyTanks = new List<NPC> { };
+            public List<NPC> PartyCrushbots = new List<NPC> { };
+            
+            // Skilled types.
+            public List<NPC> PartyFlanks = new List<NPC> { };
+            public List<NPC> PartyArcher = new List<NPC> { };
+            public List<NPC> PartySkirmish = new List<NPC> { };
+            
+            // Magic types.
+            public List<NPC> PartyBuffbot = new List<NPC> { };
+            public List<NPC> PartyHealbot = new List<NPC> { };
+            public List<NPC> PartyBlaster = new List<NPC> { };
+
+            // Other types.
+            public List<NPC> PartyCowards = new List<NPC> { };
+            public List<NPC> PartyAnimals = new List<NPC> { };
+            public List<NPC> PartyMindless = new List<NPC> { };
+
         }
+
+        public class NPC
+        {
+            public float NPCCR = 0.0f;
+            public uint NPCObjectId = OBJECT_INVALID;
+        }
+
+        private const uint OBJECT_INVALID = 2130706432;
+    }
+
+
+// ServerContents is the static shell to make the seeking of object instances defined in AreaManager perpetually
+// findable.
+    public static class ServerContents
+    {
+        public static List<AreaManager.AreaObject> Areas = new List<AreaManager.AreaObject> { };
     }
 
     public enum AIType
