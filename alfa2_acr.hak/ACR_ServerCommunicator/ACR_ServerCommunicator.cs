@@ -284,7 +284,8 @@ namespace ACR_ServerCommunicator
             // Finally, drop into the command polling loop.
             //
 
-            DispatchPeriodicEvents();
+            CommandDispatchLoop();
+            UpdateServerExternalAddress();
         }
 
         /// <summary>
