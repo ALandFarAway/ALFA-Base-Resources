@@ -227,6 +227,7 @@ namespace ACR_CreatureBehavior
     public static class ServerContents
     {
         public static List<AreaManager.AreaObject> Areas = new List<AreaManager.AreaObject> { };
+
     }
 
     public enum AIType
