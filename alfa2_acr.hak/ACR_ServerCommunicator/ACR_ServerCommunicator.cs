@@ -681,6 +681,8 @@ namespace ACR_ServerCommunicator
 
             SendMessageToPC(PlayerObject, String.Format(
                 "Your ping time to server: {0}ms", State.LatencyToServer));
+
+            GetDatabase().ACR_IncrementStatistic("SHOW_SERVER_LATENCY");
         }
 
         /// <summary>

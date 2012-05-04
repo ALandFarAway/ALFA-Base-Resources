@@ -11,6 +11,8 @@ NSS_FLAVOR=NWN2
 !include $(PROJECT_SOURCE_ROOT)\makefile.def
 
 NSS_INCLNSS=                                                   \
+            $(OUTPUTDIR)\1sc_searchable.nss                    \
+            $(OUTPUTDIR)\1sc_searchable_treasure.nss           \
             $(OUTPUTDIR)\acr_1984_i.nss                        \
             $(OUTPUTDIR)\acr_area_i.nss                        \
             $(OUTPUTDIR)\acr_array_i.nss                       \
@@ -111,6 +113,18 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_combateffects_i.nss               
 
 NSS_OBJECTS=                                                   \
+            $(OUTPUTDIR)\1sc_plc_ontrapdisarm.ncs              \
+            $(OUTPUTDIR)\1sc_plc_onunlock.ncs                  \
+            $(OUTPUTDIR)\1sc_search_chest_high.ncs             \
+            $(OUTPUTDIR)\1sc_search_chest_low.ncs              \
+            $(OUTPUTDIR)\1sc_search_chest_norm.ncs             \
+            $(OUTPUTDIR)\1sc_search_chest_unique.ncs           \
+            $(OUTPUTDIR)\1sc_search_destroyed.ncs              \
+            $(OUTPUTDIR)\1sc_search_dmgd_high.ncs              \
+            $(OUTPUTDIR)\1sc_search_dmgd_low.ncs               \
+            $(OUTPUTDIR)\1sc_search_dmgd_norm.ncs              \
+            $(OUTPUTDIR)\1sc_search_dmgd_unique.ncs            \
+            $(OUTPUTDIR)\1sc_trg_onenter.ncs                   \
             $(OUTPUTDIR)\abr_plc_oninventorydisreturns.ncs     \
             $(OUTPUTDIR)\abr_plc_onopenreturns.ncs             \
             $(OUTPUTDIR)\abr_storeclose.ncs                    \

@@ -71,5 +71,5 @@ void main(string sParam)
     if(GetLevelByClass(CLASS_TYPE_RANGER, OBJECT_SELF))
 	    _playerRestoreSpells(OBJECT_SELF, IntToString(CLASS_TYPE_RANGER),  GetCurrentHitPoints(OBJECT_SELF));
     if(GetLevelByClass(CLASS_TYPE_WIZARD, OBJECT_SELF))
- 	   _playerRestoreSpells(OBJECT_SELF, IntToString(CLASS_TYPE_WIZARD),  GetCurrentHitPoints(OBJECT_SELF));
+ 	    _playerRestoreSpells(OBJECT_SELF, IntToString(CLASS_TYPE_WIZARD),  GetCurrentHitPoints(OBJECT_SELF));
 }

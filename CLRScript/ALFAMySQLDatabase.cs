@@ -123,6 +123,20 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Increment a global tracking statistic counter stored in the
+        /// database (if statistic tracking was enabled).
+        /// </summary>
+        /// <param name="Statistic">Supplies the counter name.</param>
+        public void ACR_IncrementStatistic(string Statistic)
+        {
+            Implementation.ACR_SQLExecute(String.Format(
+                "INSERT INTO `stat_counters` (`Name`, `Value`, `LastUpdate`) " +
+                "VALUES '{0}', 1, NOW()) " +
+                "ON DUPLICATE KEY UPDATE `Value` = `Value` + 1, " +
+                "`LastUpdate`=NOW()"));
+        }
+
+        /// <summary>
         /// Dispose the object.
         /// </summary>
         public void Dispose()

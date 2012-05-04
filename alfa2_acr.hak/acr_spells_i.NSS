@@ -47,114 +47,19 @@ void _floatMessageIfHasSpellEffect(object oCreature, int nSpellId, string sMessa
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+int _GetLevelIfHasFeat(int nClass, object oCreature, int nFeat) {
+	return (GetHasFeat(nFeat, oCreature) != FALSE) * GetLevelByClass(nClass, oCreature);
+}
+
+int _GetPracticedSpellcasterCL(object oCreature, int nCasterLevel, int nFeat) {
+	int nHd = GetHitDice(oCreature);
+	return (GetHasFeat(nFeat, oCreature) != 0) * ((nCasterLevel + 4) > nHd) ? nHd : (nCasterLevel + 4);
+}
+
 int ACR_GetCorrectCasterLevel(object oCreature, int nClass) {
 	int nCasterLevel;
 	int nClassLevels = GetLevelByClass(nClass, oCreature);
-	
-	switch(nClass) {
-		
-		case CLASS_TYPE_CLERIC:
-			if(GetHasFeat(FEAT_LOREMASTER_SPELLCASTING_CLERIC, oCreature)) nCasterLevel += GetLevelByClass(CLASS_LOREMASTER, oCreature);
-			if(GetHasFeat(FEAT_MYSTICTHEURGE_SPELLCASTING_CLERIC, oCreature)) nCasterLevel += GetLevelByClass(CLASS_MYSTICTHEURGE, oCreature);
-			if(GetHasFeat(FEAT_WARPRIEST_SPELLCASTING_CLERIC, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_WARPRIEST, oCreature) / 2;
-			if(GetHasFeat(FEAT_STORMLORD_SPELLCASTING_CLERIC, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_STORMLORD, oCreature);
-			if(GetHasFeat(FEAT_HARPER_SPELLCASTING_CLERIC, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_HARPER, oCreature) - 1;
-			if(GetHasFeat(FEAT_DOOMGUIDE_CLERIC_SPELLCASTING, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_DOOMGUIDE, oCreature);
-			if(GetHasFeat(FEAT_SACREDFIST_SPELLCASTING_CLERIC, oCreature)) nCasterLevel += (GetLevelByClass(CLASS_TYPE_SACREDFIST, oCreature)+1) * 3 / 4;
-			nCasterLevel += nClassLevels;
-			break;
-			
-		case CLASS_TYPE_DRUID:
-			if(GetHasFeat(FEAT_LOREMASTER_SPELLCASTING_DRUID, oCreature)) nCasterLevel += GetLevelByClass(CLASS_LOREMASTER, oCreature);
-			if(GetHasFeat(FEAT_MYSTICTHEURGE_SPELLCASTING_DRUID, oCreature)) nCasterLevel += GetLevelByClass(CLASS_MYSTICTHEURGE, oCreature);
-			if(GetHasFeat(FEAT_WARPRIEST_SPELLCASTING_DRUID, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_WARPRIEST, oCreature) / 2;
-			if(GetHasFeat(FEAT_STORMLORD_SPELLCASTING_DRUID, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_STORMLORD, oCreature);
-			if(GetHasFeat(FEAT_HARPER_SPELLCASTING_DRUID, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_HARPER, oCreature) - 1;
-			if(GetHasFeat(FEAT_DOOMGUIDE_DRUID_SPELLCASTING, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_DOOMGUIDE, oCreature);
-			if(GetHasFeat(FEAT_SACREDFIST_SPELLCASTING_DRUID, oCreature)) nCasterLevel += (GetLevelByClass(CLASS_TYPE_SACREDFIST, oCreature)+1) * 3 / 4;
-			nCasterLevel += nClassLevels;
-			break;
-			
-		case CLASS_TYPE_FAVORED_SOUL:
-			if(GetHasFeat(FEAT_LOREMASTER_SPELLCASTING_FS, oCreature)) nCasterLevel += GetLevelByClass(CLASS_LOREMASTER, oCreature);
-			if(GetHasFeat(FEAT_MYSTICTHEURGE_SPELLCASTING_FS, oCreature)) nCasterLevel += GetLevelByClass(CLASS_MYSTICTHEURGE, oCreature);
-			if(GetHasFeat(FEAT_WARPRIEST_SPELLCASTING_FAVORED_SOUL, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_WARPRIEST, oCreature) / 2;
-			if(GetHasFeat(FEAT_STORMLORD_SPELLCASTING_FAVORED_SOUL, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_STORMLORD, oCreature);
-			if(GetHasFeat(FEAT_HARPER_SPELLCASTING_FAVORED_SOUL, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_HARPER, oCreature) - 1;
-			if(GetHasFeat(FEAT_DOOMGUIDE_FAVORED_SOUL_SPELLCASTING, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_DOOMGUIDE, oCreature);
-			if(GetHasFeat(FEAT_SACREDFIST_SPELLCASTING_FAVORED_SOUL, oCreature)) nCasterLevel += (GetLevelByClass(CLASS_TYPE_SACREDFIST, oCreature)+1) * 3 / 4;
-			nCasterLevel += nClassLevels;
-			break;
-				
-		case CLASS_TYPE_SPIRIT_SHAMAN:
-			if(GetHasFeat(FEAT_LOREMASTER_SPELLCASTING_SS, oCreature)) nCasterLevel += GetLevelByClass(CLASS_LOREMASTER, oCreature);
-			if(GetHasFeat(FEAT_MYSTICTHEURGE_SPELLCASTING_SS, oCreature)) nCasterLevel += GetLevelByClass(CLASS_MYSTICTHEURGE, oCreature);
-			if(GetHasFeat(FEAT_WARPRIEST_SPELLCASTING_SPIRIT_SHAMAN, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_WARPRIEST, oCreature) / 2;
-			if(GetHasFeat(FEAT_STORMLORD_SPELLCASTING_SPIRIT_SHAMAN, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_STORMLORD, oCreature);
-			if(GetHasFeat(FEAT_HARPER_SPELLCASTING_SPIRIT_SHAMAN, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_HARPER, oCreature) - 1;
-			if(GetHasFeat(FEAT_DOOMGUIDE_SPIRIT_SHAMAN_SPELLCASTING, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_DOOMGUIDE, oCreature);
-			if(GetHasFeat(FEAT_SACREDFIST_SPELLCASTING_SPIRIT_SHAMAN, oCreature)) nCasterLevel += (GetLevelByClass(CLASS_TYPE_SACREDFIST, oCreature)+1) * 3 / 4;
-			nCasterLevel += nClassLevels;
-			break;
-		
-		case CLASS_TYPE_BARD:
-			if(GetHasFeat(FEAT_LOREMASTER_SPELLCASTING_BARD, oCreature)) nCasterLevel += GetLevelByClass(CLASS_LOREMASTER, oCreature);
-			if(GetHasFeat(FEAT_MYSTICTHEURGE_SPELLCASTING_BARD, oCreature)) nCasterLevel += GetLevelByClass(CLASS_MYSTICTHEURGE, oCreature);
-			if(GetHasFeat(FEAT_HARPER_SPELLCASTING_BARD, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_HARPER, oCreature) - 1;
-			if(GetHasFeat(FEAT_ARCANE_SCHOLAR_SPELLCASTING_BARD, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_ARCANE_SCHOLAR, oCreature);
-			if(GetHasFeat(FEAT_ARCTRICKSTER_SPELLCASTING_BARD, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_ARCANETRICKSTER, oCreature);
-			if(GetHasFeat(FEAT_ELDRITCH_KNIGHT_SPELLCASTING_BARD, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_ELDRITCH_KNIGHT, oCreature) - 1;
-			if(GetHasFeat(FEAT_BLADESINGER_SPELLCASTING_BARD, oCreature)) nCasterLevel += (GetLevelByClass(CLASS_BLADESINGER, oCreature)+1) / 2;
-			nCasterLevel += nClassLevels;
-			break;
-		
-		case CLASS_TYPE_SORCERER:
-			if(GetHasFeat(FEAT_LOREMASTER_SPELLCASTING_SORCERER, oCreature)) nCasterLevel += GetLevelByClass(CLASS_LOREMASTER, oCreature);
-			if(GetHasFeat(FEAT_MYSTICTHEURGE_SPELLCASTING_SORCERER, oCreature)) nCasterLevel += GetLevelByClass(CLASS_MYSTICTHEURGE, oCreature);
-			if(GetHasFeat(FEAT_HARPER_SPELLCASTING_SORCERER, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_HARPER, oCreature) - 1;
-			if(GetHasFeat(FEAT_ARCANE_SCHOLAR_SPELLCASTING_SORCERER, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_ARCANE_SCHOLAR, oCreature);
-			if(GetHasFeat(FEAT_ARCTRICKSTER_SPELLCASTING_SORCERER, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_ARCANETRICKSTER, oCreature);
-			if(GetHasFeat(FEAT_ELDRITCH_KNIGHT_SPELLCASTING_SORCERER, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_ELDRITCH_KNIGHT, oCreature) - 1;
-			if(GetHasFeat(FEAT_BLADESINGER_SPELLCASTING_SORCERER, oCreature)) nCasterLevel += (GetLevelByClass(CLASS_BLADESINGER, oCreature)+1) / 2;
-			nCasterLevel += nClassLevels;
-			break;
-			
-		case CLASS_TYPE_WIZARD:
-			if(GetHasFeat(FEAT_LOREMASTER_SPELLCASTING_WIZARD, oCreature)) nCasterLevel += GetLevelByClass(CLASS_LOREMASTER, oCreature);
-			if(GetHasFeat(FEAT_MYSTICTHEURGE_SPELLCASTING_WIZARD, oCreature)) nCasterLevel += GetLevelByClass(CLASS_MYSTICTHEURGE, oCreature);
-			if(GetHasFeat(FEAT_HARPER_SPELLCASTING_WIZARD, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_HARPER, oCreature) - 1;
-			if(GetHasFeat(FEAT_ARCANE_SCHOLAR_SPELLCASTING_WIZARD, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_ARCANE_SCHOLAR, oCreature);
-			if(GetHasFeat(FEAT_ARCTRICKSTER_SPELLCASTING_WIZARD, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_ARCANETRICKSTER, oCreature);
-			if(GetHasFeat(FEAT_ELDRITCH_KNIGHT_SPELLCASTING_WIZARD, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_ELDRITCH_KNIGHT, oCreature) - 1;
-			if(GetHasFeat(FEAT_BLADESINGER_SPELLCASTING_WIZARD, oCreature)) nCasterLevel += (GetLevelByClass(CLASS_BLADESINGER, oCreature)+1) / 2;
-			if(GetHasFeat(FEAT_RED_WIZARD_SPELLCASTING_WIZARD, oCreature)) nCasterLevel += (GetLevelByClass(CLASS_TYPE_RED_WIZARD, oCreature)+1) / 2;
-			nCasterLevel += nClassLevels;
-			break;
-				
-		case CLASS_TYPE_PALADIN:
-			if(GetHasFeat(FEAT_LOREMASTER_SPELLCASTING_PALADIN, oCreature)) nCasterLevel += GetLevelByClass(CLASS_LOREMASTER, oCreature);
-			if(GetHasFeat(FEAT_MYSTICTHEURGE_SPELLCASTING_PALADIN, oCreature)) nCasterLevel += GetLevelByClass(CLASS_MYSTICTHEURGE, oCreature);
-			if(GetHasFeat(FEAT_WARPRIEST_SPELLCASTING_PALADIN, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_WARPRIEST, oCreature) / 2;
-			if(GetHasFeat(FEAT_STORMLORD_SPELLCASTING_PALADIN, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_STORMLORD, oCreature);
-			if(GetHasFeat(FEAT_HARPER_SPELLCASTING_PALADIN, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_HARPER, oCreature) - 1;
-			if(GetHasFeat(FEAT_DOOMGUIDE_PALADIN_SPELLCASTING, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_DOOMGUIDE, oCreature);
-			if(GetHasFeat(FEAT_SACREDFIST_SPELLCASTING_PALADIN, oCreature)) nCasterLevel += (GetLevelByClass(CLASS_TYPE_SACREDFIST, oCreature)+1) * 3 / 4;
-			if(nClassLevels >= 4) nCasterLevel += nClassLevels / 2;
-			break;
-		
-		case CLASS_TYPE_RANGER:
-			if(GetHasFeat(FEAT_LOREMASTER_SPELLCASTING_RANGER, oCreature)) nCasterLevel += GetLevelByClass(CLASS_LOREMASTER, oCreature);
-			if(GetHasFeat(FEAT_MYSTICTHEURGE_SPELLCASTING_RANGER, oCreature)) nCasterLevel += GetLevelByClass(CLASS_MYSTICTHEURGE, oCreature);
-			if(GetHasFeat(FEAT_WARPRIEST_SPELLCASTING_RANGER, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_WARPRIEST, oCreature) / 2;
-			if(GetHasFeat(FEAT_STORMLORD_SPELLCASTING_RANGER, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_STORMLORD, oCreature);
-			if(GetHasFeat(FEAT_HARPER_SPELLCASTING_RANGER, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_HARPER, oCreature) - 1;
-			if(GetHasFeat(FEAT_DOOMGUIDE_RANGER_SPELLCASTING, oCreature)) nCasterLevel += GetLevelByClass(CLASS_TYPE_DOOMGUIDE, oCreature);
-			if(GetHasFeat(FEAT_SACREDFIST_SPELLCASTING_RANGER, oCreature)) nCasterLevel += (GetLevelByClass(CLASS_TYPE_SACREDFIST, oCreature)+1) * 3 / 4;
-			if(nClassLevels >= 4) nCasterLevel += nClassLevels / 2;
-			break;
-		
-		default: return 0;
-	}
+	int nHd = GetHitDice(oCreature);
 	
 	if(GetHasFeat(FEAT_SPELL_POWER_5))
 		nCasterLevel += 5;
@@ -169,6 +74,111 @@ int ACR_GetCorrectCasterLevel(object oCreature, int nClass) {
 	
 	if(GetHasFeat(FEAT_SPELLCASTING_PRODIGY, oCreature))
 		nCasterLevel++;
+	
+	switch(nClass) {
+		
+		case CLASS_TYPE_CLERIC:
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_CLERIC);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_LOREMASTER_SPELLCASTING_CLERIC);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_WARPRIEST, oCreature, FEAT_LOREMASTER_SPELLCASTING_CLERIC) / 2;
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_STORMLORD, oCreature, FEAT_LOREMASTER_SPELLCASTING_CLERIC);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_HARPER, oCreature, FEAT_LOREMASTER_SPELLCASTING_CLERIC) - 1;
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_DOOMGUIDE, oCreature, FEAT_LOREMASTER_SPELLCASTING_CLERIC);
+			nCasterLevel += (_GetLevelIfHasFeat(CLASS_TYPE_SACREDFIST, oCreature, FEAT_LOREMASTER_SPELLCASTING_CLERIC)+1) * 3 / 4;
+			nCasterLevel = _GetPracticedSpellcasterCL(oCreature, nCasterLevel, FEAT_PRACTICED_SPELLCASTER_CLERIC);
+			break;
+			
+		case CLASS_TYPE_DRUID:
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_DRUID);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_MYSTICTHEURGE_SPELLCASTING_DRUID);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_WARPRIEST, oCreature, FEAT_WARPRIEST_SPELLCASTING_DRUID) / 2;
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_STORMLORD, oCreature, FEAT_STORMLORD_SPELLCASTING_DRUID);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_HARPER, oCreature, FEAT_HARPER_SPELLCASTING_DRUID) - 1;
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_DOOMGUIDE, oCreature, FEAT_DOOMGUIDE_DRUID_SPELLCASTING);
+			nCasterLevel += (_GetLevelIfHasFeat(CLASS_TYPE_SACREDFIST, oCreature, FEAT_SACREDFIST_SPELLCASTING_DRUID)+1) * 3 / 4;
+			nCasterLevel = _GetPracticedSpellcasterCL(oCreature, nCasterLevel, FEAT_PRACTICED_SPELLCASTER_DRUID);
+			break;
+			
+		case CLASS_TYPE_FAVORED_SOUL:
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_FS);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_MYSTICTHEURGE_SPELLCASTING_FS);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_WARPRIEST, oCreature, FEAT_WARPRIEST_SPELLCASTING_FAVORED_SOUL) / 2;
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_STORMLORD, oCreature, FEAT_STORMLORD_SPELLCASTING_FAVORED_SOUL);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_HARPER, oCreature, FEAT_HARPER_SPELLCASTING_FAVORED_SOUL) - 1;
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_DOOMGUIDE, oCreature, FEAT_DOOMGUIDE_FAVORED_SOUL_SPELLCASTING);
+			nCasterLevel += (_GetLevelIfHasFeat(CLASS_TYPE_SACREDFIST, oCreature, FEAT_SACREDFIST_SPELLCASTING_FAVORED_SOUL)+1) * 3 / 4;
+			nCasterLevel = _GetPracticedSpellcasterCL(oCreature, nCasterLevel, FEAT_PRACTICED_SPELLCASTER_FAVORED_SOUL);
+			break;
+				
+		case CLASS_TYPE_SPIRIT_SHAMAN:
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_SS);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_MYSTICTHEURGE_SPELLCASTING_SS);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_WARPRIEST, oCreature, FEAT_WARPRIEST_SPELLCASTING_SPIRIT_SHAMAN) / 2;
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_STORMLORD, oCreature, FEAT_STORMLORD_SPELLCASTING_SPIRIT_SHAMAN);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_HARPER, oCreature, FEAT_HARPER_SPELLCASTING_SPIRIT_SHAMAN) - 1;
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_DOOMGUIDE, oCreature, FEAT_DOOMGUIDE_SPIRIT_SHAMAN_SPELLCASTING);
+			nCasterLevel += (_GetLevelIfHasFeat(CLASS_TYPE_SACREDFIST, oCreature, FEAT_SACREDFIST_SPELLCASTING_SPIRIT_SHAMAN)+1) * 3 / 4;
+			nCasterLevel = _GetPracticedSpellcasterCL(oCreature, nCasterLevel, FEAT_PRACTICED_SPELLCASTER_SPIRIT_SHAMAN);
+			break;
+		
+		case CLASS_TYPE_BARD:
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_BARD);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_MYSTICTHEURGE_SPELLCASTING_BARD);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_HARPER, oCreature, FEAT_HARPER_SPELLCASTING_BARD) - 1;
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_ARCANE_SCHOLAR, oCreature, FEAT_ARCANE_SCHOLAR_SPELLCASTING_BARD);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_ARCANETRICKSTER, oCreature, FEAT_ARCTRICKSTER_SPELLCASTING_BARD);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_ELDRITCH_KNIGHT, oCreature, FEAT_ELDRITCH_KNIGHT_SPELLCASTING_BARD) - 1;
+			nCasterLevel += (_GetLevelIfHasFeat(CLASS_BLADESINGER, oCreature, FEAT_BLADESINGER_SPELLCASTING_BARD)+1) / 2;
+			nCasterLevel = _GetPracticedSpellcasterCL(oCreature, nCasterLevel, FEAT_PRACTICED_SPELLCASTER_BARD);
+			break;
+		
+		case CLASS_TYPE_SORCERER:
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_SORCERER);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_MYSTICTHEURGE_SPELLCASTING_SORCERER);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_HARPER, oCreature, FEAT_HARPER_SPELLCASTING_SORCERER) - 1;
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_ARCANE_SCHOLAR, oCreature, FEAT_ARCANE_SCHOLAR_SPELLCASTING_SORCERER);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_ARCANETRICKSTER, oCreature, FEAT_ARCTRICKSTER_SPELLCASTING_SORCERER);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_ELDRITCH_KNIGHT, oCreature, FEAT_ELDRITCH_KNIGHT_SPELLCASTING_SORCERER) - 1;
+			nCasterLevel += (_GetLevelIfHasFeat(CLASS_BLADESINGER, oCreature, FEAT_BLADESINGER_SPELLCASTING_SORCERER)+1) / 2;
+			nCasterLevel = _GetPracticedSpellcasterCL(oCreature, nCasterLevel, FEAT_PRACTICED_SPELLCASTER_SORCERER);
+			break;
+			
+		case CLASS_TYPE_WIZARD:
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_WIZARD);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_MYSTICTHEURGE_SPELLCASTING_WIZARD);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_HARPER, oCreature, FEAT_HARPER_SPELLCASTING_WIZARD) - 1;
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_ARCANE_SCHOLAR, oCreature, FEAT_ARCANE_SCHOLAR_SPELLCASTING_WIZARD);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_ARCANETRICKSTER, oCreature, FEAT_ARCTRICKSTER_SPELLCASTING_WIZARD);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_ELDRITCH_KNIGHT, oCreature, FEAT_ELDRITCH_KNIGHT_SPELLCASTING_WIZARD) - 1;
+			nCasterLevel += (_GetLevelIfHasFeat(CLASS_BLADESINGER, oCreature, FEAT_BLADESINGER_SPELLCASTING_WIZARD)+1) / 2;
+			nCasterLevel += (_GetLevelIfHasFeat(CLASS_TYPE_RED_WIZARD, oCreature, FEAT_RED_WIZARD_SPELLCASTING_WIZARD)+1) / 2;
+			nCasterLevel = _GetPracticedSpellcasterCL(oCreature, nCasterLevel, FEAT_PRACTICED_SPELLCASTER_WIZARD);
+			break;
+				
+		case CLASS_TYPE_PALADIN:
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_PALADIN);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_MYSTICTHEURGE_SPELLCASTING_PALADIN);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_WARPRIEST, oCreature, FEAT_WARPRIEST_SPELLCASTING_PALADIN) / 2;
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_STORMLORD, oCreature, FEAT_STORMLORD_SPELLCASTING_PALADIN);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_HARPER, oCreature, FEAT_HARPER_SPELLCASTING_PALADIN) - 1;
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_DOOMGUIDE, oCreature, FEAT_DOOMGUIDE_PALADIN_SPELLCASTING);
+			nCasterLevel += (_GetLevelIfHasFeat(CLASS_TYPE_SACREDFIST, oCreature, FEAT_SACREDFIST_SPELLCASTING_PALADIN)+1) * 3 / 4;
+			nCasterLevel = _GetPracticedSpellcasterCL(oCreature, nCasterLevel, FEAT_PRACTICED_SPELLCASTER_PALADIN);
+			break;
+		
+		case CLASS_TYPE_RANGER:
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_RANGER);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_MYSTICTHEURGE_SPELLCASTING_RANGER);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_WARPRIEST, oCreature, FEAT_WARPRIEST_SPELLCASTING_RANGER) / 2;
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_STORMLORD, oCreature, FEAT_STORMLORD_SPELLCASTING_RANGER);
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_HARPER, oCreature, FEAT_HARPER_SPELLCASTING_RANGER) - 1;
+			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_DOOMGUIDE, oCreature, FEAT_DOOMGUIDE_RANGER_SPELLCASTING);
+			nCasterLevel += (_GetLevelIfHasFeat(CLASS_TYPE_SACREDFIST, oCreature, FEAT_SACREDFIST_SPELLCASTING_RANGER)+1) * 3 / 4;
+			nCasterLevel = _GetPracticedSpellcasterCL(oCreature, nCasterLevel, FEAT_PRACTICED_SPELLCASTER_RANGER);
+			break;
+		
+		default: return 0;
+	}
 	
 	return nCasterLevel;
 }
