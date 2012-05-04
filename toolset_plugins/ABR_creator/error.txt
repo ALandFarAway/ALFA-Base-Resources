@@ -1,0 +1,8 @@
+ee the end of this message for details on invoking 
+just-in-time (JIT) debugging instead of this dialog box.
+
+************** Exception Text **************
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at ABM_creator.ConsumableCreator..ctor(String baseCatigory, String baseScrollResref, String basePotionResref, String baseWandResref, String baseTradeScrollResref)
+   at ABM_creator.ABM_creator.HandlePluginLaunch(Object sender, EventArgs e)
+   at TD.SandBar.ToolbarItemBase.OnActivate()

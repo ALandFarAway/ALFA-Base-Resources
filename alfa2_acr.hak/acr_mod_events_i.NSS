@@ -114,6 +114,7 @@
 #include "acr_version_i"
 #include "acr_scliext_i"
 #include "acr_area_instance_i"
+#include "acr_wealth_i"
 
 #include "acf_spawn_i"
 #include "acf_settings_i"
@@ -125,6 +126,8 @@
 #include "acr_roll_i"
 
 #include "nwnx_craft_system"
+
+#include "acr_craft_creation_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -422,6 +425,8 @@ void ACR_ModuleOnClientEnter()
 	    // log the entry
 	    ACR_LogEvent(oPC, ACR_LOG_LOGIN, "Dungeon Master: " + ACR_SQLEncodeSpecialChars(GetName(oPC)) + " from IP: "+GetPCIPAddress(oPC));
             DisplayGuiScreen(oPC, "zspawn_b", FALSE, "zspawn_b.xml");
+
+		ACR_IncrementStatistic("DM_LOGINS");
     }
     else
     {
@@ -439,12 +444,17 @@ void ACR_ModuleOnClientEnter()
 	// Let the IPC subsystem know of the login event.
 	ACR_ServerIPC_OnClientEnter(oPC);
 
+	// Let the wealth subsystem know of the login event.
+	ACR_WealthOnClientEnter(oPC);
+
 	ACR_IncrementStatistic("PLAYER_LOGINS");
 }
 
 void ACR_ModuleOnPCLoaded()
 {
 	object oPC = GetEnteringObject();
+	
+	CraftingOnPCLoaded(oPC);
 	
 	// process DMs
     if (GetIsDM(oPC) || GetIsDMPossessed(oPC))
@@ -616,6 +626,8 @@ void ACR_ModuleOnAcquireItem()
 	
 	ACR_ItemOnAcquire(oItem, oAcquiredBy, oAcquiredFrom);
 	
+	ACR_CraftingOnAcquireObject(oItem, oAcquiredBy, oAcquiredFrom);
+	
     // track the presence of non-detection items
 	//  We don't use these yet, skip this call.
     //ACR_ManageNonDetectionOnAcquire(oItem, oAcquiredBy);
@@ -764,6 +776,9 @@ void ACR_ModuleOnUserDefined() {
 void ACR_ModuleOnPlayerEquip() {
     object oItem = GetPCItemLastEquipped();
 	object oPC = GetPCItemLastEquippedBy();
+	
+	// Crafting system hook.
+	ACR_CraftOnEquipItem(oPC, oItem);
 	
 	// handle equipped items.
     ACR_ItemOnEquip(oItem, oPC);

@@ -16,6 +16,7 @@
 //				 value between 0 and 10 (cloth to naked)
 
 
+#include "acr_db_persist_i"
 #include "nwnx_craft_system"
 #include "dmfi_inc_inc_com"
 
@@ -119,6 +120,7 @@ void main(int iAction, int iAvtValue)
 			break;
 		
 		case XP_CRAFT_ACTION_VALIDATE ://Confirm the changes made 
+			ACR_IncrementStatistic("XP_CRAFT_ADJUST_ITEM");
 			XPCraft_OnChangesConfirmed(oPC, oItemToCraft);
 			XPCraft_CleanLocals(oPC);
 			XPCraft_Debug(oPC,"Changes Confirmed"); 

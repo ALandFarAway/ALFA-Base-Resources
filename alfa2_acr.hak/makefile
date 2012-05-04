@@ -18,6 +18,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_array_i.nss                       \
             $(OUTPUTDIR)\acr_list_i.nss                        \
             $(OUTPUTDIR)\acr_chat_i.nss                        \
+		$(OUTPUTDIR)\acr_craft_creation_i.nss              \
             $(OUTPUTDIR)\acr_craft_progress_i.nss              \
             $(OUTPUTDIR)\acr_creature_i.nss                    \
             $(OUTPUTDIR)\acr_db_persist_i.nss                  \
@@ -133,6 +134,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_cs_abcheck.ncs                    \
             $(OUTPUTDIR)\acr_cs_atcheck.ncs                    \
             $(OUTPUTDIR)\acr_cs_bootpc.ncs                     \
+            $(OUTPUTDIR)\acr_crafting_store_onclose.ncs        \
             $(OUTPUTDIR)\acr_cs_gpcheck.ncs                    \
             $(OUTPUTDIR)\acr_cs_guard_duty.ncs                 \
             $(OUTPUTDIR)\acr_cs_guard_in.ncs                   \
@@ -142,7 +144,10 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_cs_svcheck.ncs                    \
             $(OUTPUTDIR)\acr_feat_bladesong.ncs                \
             $(OUTPUTDIR)\acr_feat_bladesong_hb.ncs             \
+            $(OUTPUTDIR)\acr_feat_brew_potion.ncs              \
             $(OUTPUTDIR)\acr_feat_craft.ncs                    \
+            $(OUTPUTDIR)\acr_feat_craft_wand.ncs               \
+            $(OUTPUTDIR)\acr_feat_scribe_scroll.ncs            \
             $(OUTPUTDIR)\acr_feat_spellsong.ncs                \
             $(OUTPUTDIR)\acr_feat_spellsong_hb.ncs             \
             $(OUTPUTDIR)\acr_feat_songofcelerity.ncs           \
@@ -180,6 +185,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s0_web.ncs                        \
             $(OUTPUTDIR)\acr_s1_recall_spirit.ncs              \
             $(OUTPUTDIR)\acr_s2_wildshape.ncs                  \
+            $(OUTPUTDIR)\acr_spellhook.ncs                     \
             $(OUTPUTDIR)\acr_trg_portalstart.ncs               \
             $(OUTPUTDIR)\dmfi_conv_def.ncs                     \
             $(OUTPUTDIR)\dmfi_conv_def_pc.ncs                  \
@@ -487,7 +493,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\abr_trg_swimonexit.ncs                \
             $(OUTPUTDIR)\gui_playerreport.ncs                  \
             $(OUTPUTDIR)\kemo_move.ncs                         \
-            $(OUTPUTDIR)\acr_portal_cnd.ncs                    
+            $(OUTPUTDIR)\acr_portal_cnd.ncs                    \
+            $(OUTPUTDIR)\gb_player_heart.ncs                   
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and

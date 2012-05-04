@@ -304,13 +304,13 @@ int GetRandomHairModel(int nSubrace, int nGender=0)
 		case RACIAL_SUBTYPE_SUN_ELF: 
 		case RACIAL_SUBTYPE_WOOD_ELF:
 		case RACIAL_SUBTYPE_DROW: 
-			res = UniformRandomOverInterval("[1-17,61-64,66-75,80-82,94][1-17,50-52,61-64,66-78,80-82,85-90,94]", nGender);
+			res = UniformRandomOverInterval("[1-14,16,17,61-64,66-75,80-82,94][1-14,16,17,50-52,61-64,66-78,80-82,85-90,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_WILD_ELF:  
 			res = UniformRandomOverInterval("[1-3,75,80,81,83]");
 			break;
 		case RACIAL_SUBTYPE_ROCK_GNOME:
-			res = UniformRandomOverInterval("[1-17,94][1-17,50-52,73,80-82,94]", nGender);
+			res = UniformRandomOverInterval("[1-8,10-14,16,17,94][1-14,16,17,50-52,73,80-82,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_GRAY_DWARF:
 		case RACIAL_SUBTYPE_SVIRFNEBLIN:
@@ -319,12 +319,12 @@ int GetRandomHairModel(int nSubrace, int nGender=0)
 		case RACIAL_SUBTYPE_HUMAN:
 		case RACIAL_SUBTYPE_HALFELF:
 		case RACIAL_SUBTYPE_HALFDROW:
-			res = UniformRandomOverInterval("[1-17,37,38,63,66,71-75,80-82,94][1-17,23,24,50-52,61-64,66-78,80-82,85-90,94]", nGender);
+			res = UniformRandomOverInterval("[1-8,10-14,16,17,37,38,63,66,71-75,80-82,94][1-14,16,17,23,24,50-52,61-64,66-78,80-82,85-90,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_LIGHTFOOT_HALF:
 		case RACIAL_SUBTYPE_GHOSTWISE_HALF:
 		case RACIAL_SUBTYPE_STRONGHEART_HALF:
-			res = UniformRandomOverInterval("[1-19,66,74,75,94][1-17,19,51-56,23,24,50-52,66,73-78,80,94]", nGender);
+			res = UniformRandomOverInterval("[1-8,10-14,16-19,66,74,75,94][1-14,16,17,19,51-56,23,24,50-52,66,73-78,80,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HALFORC:
 		case RACIAL_SUBTYPE_GRAYORC:
@@ -343,7 +343,7 @@ int GetRandomHairModel(int nSubrace, int nGender=0)
 			res = UniformRandomOverInterval("[1-18,94][1-19,73,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_AASIMAR:
-			res = UniformRandomOverInterval("[1-17,37,38,63,66,71-75,80-82,94][1-17,23,24,50-52,61-64,67-78,80-82,85-90,94]", nGender);
+			res = UniformRandomOverInterval("[1-8,10-14,16,17,37,38,63,66,71-75,80-82,94][1-14,16,17,23,24,50-52,61-64,67-78,80-82,85-90,94]", nGender);
 			break;
 	}
 

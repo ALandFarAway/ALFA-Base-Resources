@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="ABM creator">
+</Property><Property Name="Solution File" Value="H:\Documents and Settings\Grant\Desktop\NWN\ABR_plugin\ABM creator.sln">
+</Property><Property Name="Date" Value="Wednesday, December 28, 2011">
+</Property><Property Name="Time" Value="19:23:02 PM">
+</Property></Properties><Event ErrorLevel="0" Project="ABM creator" Source="ABM creator.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="ABM creator" Source="ABM creator.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="ABM creator" Source="ABM creator.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

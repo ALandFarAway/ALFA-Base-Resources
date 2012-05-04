@@ -248,7 +248,7 @@ void ACR_AwardDMSessionXP(object oPC, object oDM, float fSessionLength, int nRPX
     }
 
     // log the XP change
-    if (GetIsPC(oPC)) { ACR_LogEvent(oPC, sLogEvent, sLogMsg, oDM); }
+    if (GetIsPC(oPC)) { ACR_LogEvent(oPC, sLogEvent, sLogMsg, oDM); ACR_IncrementStatistic("DM_XP_AWARDS"); }
 }
 
 void ACR_AwardCombatXP(object oPCParty, object oKill) 

@@ -44,6 +44,7 @@
 #include "acr_debug_i"
 #include "acr_1984_i"
 #include "acr_pps_i"
+#include "acr_db_persist_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -229,6 +230,8 @@ void ACR_PersistentStorageOnOpen(object oStorage)
 	    _LoadStorageObjectContents(oStorage); 
 		ACR_LogEvent(GetLastOpenedBy(), ACR_LOG_PCHEST_O, "Storage object in "+GetName(GetArea(oStorage))+" contains "+IntToString(GetLocalInt(oStorage, _ACR_PSO_NUMBER_OF_ITEMS_LI))+" items worth "+IntToString(GetLocalInt(oStorage, _ACR_PSO_TOTAL_VALUE_LI))+" total gp");  
 	}
+
+	ACR_IncrementStatistic("PERSISTENT_STORAGE_OPEN");
 }
 
 int ACR_PersistentStorageOnClose(object oStorage, object oPC)

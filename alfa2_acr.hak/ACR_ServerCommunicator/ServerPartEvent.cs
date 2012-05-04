@@ -47,10 +47,15 @@ namespace ACR_ServerCommunicator
 
             foreach (uint PlayerObject in Script.GetPlayers(true))
             {
+                PlayerState Player = Script.TryGetPlayerState(PlayerObject);
+
+                if (Player == null)
+                    continue;
+
                 if (!Script.IsCrossServerNotificationEnabled(PlayerObject))
                     continue;
 
-                if ((Script.GetPlayerState(PlayerObject).Flags & PlayerStateFlags.SendCrossServerNotificationsToCombatLog) != 0)
+                if ((Player.Flags & PlayerStateFlags.SendCrossServerNotificationsToCombatLog) != 0)
                 {
                     Script.SendMessageToPC(PlayerObject, Message);
                 }

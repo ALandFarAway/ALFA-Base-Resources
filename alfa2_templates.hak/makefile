@@ -10,7 +10,8 @@ HAK_SOURCES=                                                   \
             .\*.UTC                                            \
             .\*.UTI                                            \
             .\*.UTP                                            \
-            .\*.UTW                                            
+            .\*.UTW                                            \
+            .\*.UTM
 
 NOT_YET_USED_HAK_SOURCES=                                      \
             .\*.UEN                                            \
@@ -20,8 +21,7 @@ NOT_YET_USED_HAK_SOURCES=                                      \
             .\*.UTD                                            \
             .\*.UTS                                            \
             .\*.USC                                            \
-            .\*.UTR                                            \
-            .\*.UTM                                            
+            .\*.UTR                                            
 
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^

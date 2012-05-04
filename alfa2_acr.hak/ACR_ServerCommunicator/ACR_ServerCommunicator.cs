@@ -213,6 +213,17 @@ namespace ACR_ServerCommunicator
                     }
                     break;
 
+                case REQUEST_TYPE.PAUSE_HEARTBEAT:
+                    {
+                        //
+                        // Default processing in DispatchPeriodicEvents runs
+                        // below.
+                        //
+
+                        ReturnCode = 0;
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid IPC script command " + RequestType.ToString());
 
@@ -224,7 +235,7 @@ namespace ACR_ServerCommunicator
             // tell to deliver.
             //
 
-            DrainCommandQueue();
+            DispatchPeriodicEvents();
 
             return ReturnCode;
         }
@@ -242,22 +253,6 @@ namespace ACR_ServerCommunicator
                 Database.ACR_GetServerID(),
                 GetName(GetModule()));
             PlayerStateTable = new Dictionary<uint, PlayerState>();
-
-            //
-            // Create the database tables as necessary.
-            //
-
-            Database.ACR_SQLExecute(
-                "CREATE TABLE IF NOT EXISTS `server_ipc_events` ( " +
-                "`ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, " +
-                "`SourcePlayerID` mediumint(8) UNSIGNED NOT NULL, " +
-                "`SourceServerID` smallint(5) UNSIGNED NOT NULL, " +
-                "`DestinationPlayerID` mediumint(8) UNSIGNED NOT NULL, " +
-                "`DestinationServerID` smallint(5) UNSIGNED NOT NULL, " +
-                "`EventType` smallint(5) UNSIGNED NOT NULL, " +
-                " `EventText` varchar(256) NOT NULL, " +
-                "PRIMARY KEY(`ID`), UNIQUE KEY(`ID`, `DestinationServerID`) " +
-                ") ENGINE=MyISAM DEFAULT CHARSET=latin1; ");
 
             //
             // Remove any stale IPC commands to this server, as we are starting
@@ -659,8 +654,11 @@ namespace ACR_ServerCommunicator
         {
             int ServerLatency = GetGlobalInt("ACR_SERVER_LATENCY");
             int VaultLatency = GetGlobalInt("ACR_VAULT_LATENCY");
-            PlayerState State = GetPlayerState(PlayerObject);
+            PlayerState State = TryGetPlayerState(PlayerObject);
             string Description;
+
+            if (State == null)
+                return;
 
             if (ServerLatency == -1)
                 Description = "off-scale high";
@@ -1893,6 +1891,31 @@ namespace ACR_ServerCommunicator
 
 
         /// <summary>
+        /// Called to periodically dispatch events on the main thread.
+        /// </summary>
+        public void DispatchPeriodicEvents()
+        {
+            try
+            {
+                DrainCommandQueue();
+            }
+            catch (Exception e)
+            {
+                WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.DispatchPeriodicEvents(): Encountered exception: {0}", e));
+            }
+
+            try
+            {
+                RunUpdateServerExternalAddress();
+            }
+            catch (Exception e)
+            {
+                WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.DispatchPeriodicEvents(): Encountered exception in external address update: {0}", e));
+            }
+        }
+
+
+        /// <summary>
         /// This method initiates a server-to-server tell.
         /// </summary>
         /// <param name="SenderObjectId">Supplies the local object id of the
@@ -2067,23 +2090,7 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void CommandDispatchLoop()
         {
-            try
-            {
-                DrainCommandQueue();
-            }
-            catch (Exception e)
-            {
-                WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.CommandDispatchLoop(): Encountered exception: {0}", e));
-            }
-
-            try
-            {
-                RunUpdateServerExternalAddress();
-            }
-            catch (Exception e)
-            {
-                WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.CommandDispatchLoop(): Encountered exception in external address update: {0}", e));
-            }
+            DispatchPeriodicEvents();
 
             //
             // Start a new dispatch cycle going.
@@ -2340,7 +2347,8 @@ namespace ACR_ServerCommunicator
             HANDLE_LATENCY_CHECK_RESPONSE,
             GET_PLAYER_LATENCY,
             DISABLE_CHARACTER_SAVE,
-            ENABLE_CHARACTER_SAVE
+            ENABLE_CHARACTER_SAVE,
+            PAUSE_HEARTBEAT
         }
 
         /// <summary>
