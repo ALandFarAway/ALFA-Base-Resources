@@ -28,11 +28,16 @@ namespace ACR_ServerCommunicator
         /// <param name="Database">Supplies the database connection.</param>
         public void ReadConfigurationFromDatabase(IALFADatabase Database)
         {
-            Database.ACR_SQLQuery(
-                "SELECT value FROM config WHERE variable = 'PlayerPassword'");
+            Database.ACR_SQLQuery("SELECT `variable`, `value` FROM `config`");
 
-            if (Database.ACR_SQLFetch())
-                PlayerPassword = Database.ACR_SQLGetData(0);
+            while (Database.ACR_SQLFetch())
+            {
+                string VarName = Database.ACR_SQLGetData(0);
+                string VarValue = Database.ACR_SQLGetData(1);
+
+                if (VarName == "PlayerPassword")
+                    PlayerPassword = VarValue;
+            }
         }
 
         /// <summary>
