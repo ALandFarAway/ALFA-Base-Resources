@@ -48,16 +48,19 @@ namespace ACR_CreatureBehavior
     {
 
         /// <summary>
-        /// Construct a game object and insert it into the object table.
+        /// Construct a game object and insert it into an object table.
         /// </summary>
         /// <param name="ObjectId">The engine object id.</param>
         /// <param name="ObjectType">The object type code.</param>
-        public GameObject(uint ObjectId, GameObjectType ObjectType)
+        /// <param name="ObjectManager">The object manager to attach the object
+        /// to.</param>
+        public GameObject(uint ObjectId, GameObjectType ObjectType, GameObjectManager ObjectManager)
         {
             this.GameObjectId = ObjectId;
             this.GameObjectTypeCode = ObjectType;
+            this.ObjectManager = ObjectManager;
 
-            GameObjectTable.Add(ObjectId, this);
+            ObjectManager.AddGameObject(this);
         }
 
         /// <summary>
@@ -95,7 +98,7 @@ namespace ACR_CreatureBehavior
 
                 }
 
-                return GetAreaObject(Script.GetArea((ObjectId)));
+                return ObjectManager.GetAreaObject(Script.GetArea((ObjectId)));
             }
         }
 
@@ -144,36 +147,51 @@ namespace ACR_CreatureBehavior
                 if (Script.GetIsObjectValid(ObjectId) != CLRScriptBase.FALSE)
                     return true;
 
-                GameObjectTable.Remove(ObjectId);
-                ObjectsToDelete.Add(this);
+                ObjectManager.RemoveGameObject(this);
 
                 return false;
             }
         }
 
         /// <summary>
+        /// Get or set the rundown flag on the object, indicating that the
+        /// object is awaiting deletion.
+        /// </summary>
+        public bool IsRundown { get { return Rundown; } set { Rundown = value; } }
+
+        /// <summary>
         /// The currently executing ACR_CreatureBehavior script instance.
         /// </summary>
-        public static ACR_CreatureBehavior Script
+        public ACR_CreatureBehavior Script
         {
-            get { return ACR_CreatureBehavior.CurrentScript; }
+            get { return ObjectManager.Script; }
         }
 
         /// <summary>
         /// Get the overarching module object.
         /// </summary>
-        public static ModuleObject Module
+        public ModuleObject Module
         {
-            get { return ModuleObj; }
+            get { return ObjectManager.Module; }
         }
 
         /// <summary>
         /// Get the list of all known areas.
         /// </summary>
         /// <returns>The known area list.</returns>
-        public static List<AreaObject> GetAreas()
+        public List<AreaObject> GetAreas()
         {
             return Module.Areas;
+        }
+
+        /// <summary>
+        /// Return a string representation of the object.
+        /// </summary>
+        /// <returns>Returns the string representation of the object.</returns>
+        public override string ToString()
+        {
+            return String.Format(
+                "{0} 0x{1} ({2})", ObjectType, ObjectId, Name);
         }
 
         /// <summary>
@@ -185,199 +203,13 @@ namespace ACR_CreatureBehavior
         {
         }
 
-        /// <summary>
-        /// Look up the internal GameObject for an object by object id and
-        /// return the C# object state for it.
-        /// 
-        /// The routine does not create the object state for an object id
-        /// that is valid but unrecognized to us (i.e. that we have not yet
-        /// seen even though it exists engine-side).
-        /// </summary>
-        /// <param name="ObjectId">Supplies the object id to look up.</param>
-        /// <returns>The corresponding C# object state, else null.</returns>
-        public static GameObject GetGameObject(uint ObjectId)
-        {
-            GameObject GameObj;
-
-            if (!GameObjectTable.TryGetValue(ObjectId, out GameObj))
-                return null;
-
-            //
-            // Even though we have a record of the object in our lookup table,
-            // the engine may have already removed its representation of the
-            // object.  In that case, pretend that the object state doesn't
-            // exist for purposes of by-object-id lookups.
-            //
-
-            if (!GameObj.Exists)
-                return null;
-
-            return GameObj;
-        }
 
         /// <summary>
-        /// Look up the internal GameObject for an object by object id and
-        /// return the C# object state for it, if the object type matched the
-        /// expected type.
-        /// 
-        /// The routine does not create the object state for an object id
-        /// that is valid but unrecognized to us (i.e. that we have not yet
-        /// seen even though it exists engine-side).
+        /// The invalid object id.
         /// </summary>
-        /// <param name="ObjectId">Supplies the object id to look up.</param>
-        /// <param name="ObjectType">Supplies the required object type.</param>
-        /// <returns>The corresponding C# object state, else null.</returns>
-        public static GameObject GetGameObject(uint ObjectId, GameObjectType ObjectType)
-        {
-            GameObject GameObj = GetGameObject(ObjectId);
+        public static uint OBJECT_INVALID = CLRScriptBase.OBJECT_INVALID;
 
-            if (GameObj == null || GameObj.ObjectType != ObjectType)
-                return null;
-            else
-                return GameObj;
-        }
 
-        /// <summary>
-        /// Get the C# area object for the given object id.
-        /// </summary>
-        /// <param name="ObjectId">Supplies the object id to look up.</param>
-        /// <returns>The corresonding C# Area object, else null.</returns>
-        public static AreaObject GetAreaObject(uint ObjectId)
-        {
-            return (AreaObject)GetGameObject(ObjectId, GameObjectType.Area);
-        }
-
-        /// <summary>
-        /// Get the C# creature object for the given object id.
-        /// </summary>
-        /// <param name="ObjectId">Supplies the object id to look up.</param>
-        /// <returns>The corresonding C# Creature object, else null.</returns>
-        public static CreatureObject GetCreatureObject(uint ObjectId)
-        {
-            return (CreatureObject)GetGameObject(ObjectId, GameObjectType.Creature);
-        }
-
-        /// <summary>
-        /// Called during initial script object initialization to set up the
-        /// periodic garbage collection of objects to delete from the
-        /// object dictionary.
-        /// </summary>
-        public static void Initialize()
-        {
-            //
-            // Create the module (and discover associated areas).
-            //
-
-            ModuleObj = new ModuleObject(Script.GetModule());
-
-            //
-            // Schedule garbage collection for C# objects whose engine
-            // representation no longer exists.
-            //
-
-            GarbageCollectObjects();
-        }
-
-        /// <summary>
-        /// Called before we return to the engine, after all work has been
-        /// finished.  This function runs down objects marked for pending
-        /// deletion (ensuring timely handling in cases where the deleted half
-        /// of the object was explicitly detected).
-        /// </summary>
-        public static void ProcessPendingDeletions()
-        {
-            if (ObjectsToDelete.Count == 0)
-                return;
-
-            foreach (GameObject ObjectToRundown in ObjectsToDelete)
-            {
-                try
-                {
-                    ObjectToRundown.OnRundown();
-                }
-                catch (Exception e)
-                {
-                    Script.WriteTimestampedLogEntry(String.Format(
-                        "GameObject.ProcessPendingDeletions(): Exception {0} running rundown for object {1} of type {2}.", e, ObjectToRundown.ObjectId, ObjectToRundown.ObjectType));
-                }
-            }
-
-            //
-            // Now that we have ran through the object to delete list, clear it
-            // out (the last reference that the underlying object system has to
-            // these object ids).
-            //
-
-            ObjectsToDelete.Clear();
-        }
-
-        /// <summary>
-        /// Periodically run as a DelayCommand continuation in order to scan
-        /// the object table for objects whose engine parts have been deleted.
-        /// 
-        /// Any such objects found are removed.
-        /// 
-        /// It is necessary to periodically poll for deleted objects because
-        /// not all object types provide script events that signify deletion.
-        /// </summary>
-        private static void GarbageCollectObjects()
-        {
-            //
-            // Scan the object table looking for objects that have had their
-            // engine side counterpart deleted.  Add these to the object to
-            // delete list, but don't mark them as in rundown.  This allows us
-            // to differentiate between which objects were still in the
-            // dictionary during the subsequent rundown loop (so that we can
-            // remove them then, as we can't modify the dictionary during the
-            // enumeration).
-            //
-
-            foreach (var Entry in GameObjectTable)
-            {
-                if (Script.GetIsObjectValid(Entry.Key) != CLRScriptBase.FALSE)
-                    continue;
-
-                ObjectsToDelete.Add(Entry.Value);
-            }
-
-            //
-            // For every object that is scheduled for rundown, call the
-            // OnRundown notification and remove the object from the deletion
-            // list.  If the object was one we moved above, remove it from the
-            // lookup table too (otherwise it was already removed from the
-            // lookup table ahead of time).
-            //
-
-            foreach (GameObject ObjectToRundown in ObjectsToDelete)
-            {
-                if (ObjectToRundown.Rundown == false)
-                    GameObjectTable.Remove(ObjectToRundown.ObjectId);
-
-                try
-                {
-                    ObjectToRundown.OnRundown();
-                }
-                catch (Exception e)
-                {
-                    Script.WriteTimestampedLogEntry(String.Format(
-                        "GameObject.GarbageCollectObjects(): Exception {0} running rundown for object {1} of type {2}.", e, ObjectToRundown.ObjectId, ObjectToRundown.ObjectType));
-                }
-            }
-
-            //
-            // Now that we have ran through the object to delete list, clear it
-            // out (the last reference that the underlying object system has to
-            // these object ids).
-            //
-
-            ObjectsToDelete.Clear();
-
-            //
-            // Schedule the next garbage collection.
-            //
-
-            Script.DelayCommand(60.0f, delegate() { GarbageCollectObjects(); });
-        }
 
         /// <summary>
         /// The game object id for the object.
@@ -390,25 +222,16 @@ namespace ACR_CreatureBehavior
         private GameObjectType GameObjectTypeCode;
 
         /// <summary>
+        /// The associated object manager that the object is attached to.
+        /// </summary>
+        public GameObjectManager ObjectManager;
+
+        /// <summary>
         /// True if we have entered rundown, i.e. we're on the object to delete
         /// list.
         /// </summary>
         private bool Rundown = false;
 
 
-        /// <summary>
-        /// The module object.
-        /// </summary>
-        private static ModuleObject ModuleObj = null;
-
-        /// <summary>
-        /// The table of game objects in the game, mapped to C# object classes.
-        /// </summary>
-        private static Dictionary<uint, GameObject> GameObjectTable = new Dictionary<uint, GameObject>();
-
-        /// <summary>
-        /// The list of objects awaiting rundown.
-        /// </summary>
-        private static List<GameObject> ObjectsToDelete = new List<GameObject>();
     }
 }

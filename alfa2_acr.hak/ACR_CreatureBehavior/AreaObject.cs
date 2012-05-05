@@ -29,7 +29,8 @@ namespace ACR_CreatureBehavior
         /// Construct an area object and insert it into the object table.
         /// </summary>
         /// <param name="ObjectId">Supplies the area object id.</param>
-        public AreaObject(uint ObjectId) : base(ObjectId, GameObjectType.Area)
+        /// <param name="ObjectManager">Supplies the object manager.</param>
+        public AreaObject(uint ObjectId, GameObjectManager ObjectManager) : base(ObjectId, GameObjectType.Area, ObjectManager)
         {
             //
             // Cache state that doesn't change over the lifetime of the object
