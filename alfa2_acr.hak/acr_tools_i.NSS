@@ -417,6 +417,11 @@ int GetLastEntryInStringList(string sList);
 //Check if an element is in a list (returns TRUE if found, else FALSE if not).
 int IsElementInStringList(string sList, int nElement);
 
+// Return name of race constant
+string RacialTypeName(int n);
+// Return name of subrace constant
+string SubRaceName(int n);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -1766,4 +1771,184 @@ int IsElementInStringList(string sList, int nElement)
 		return FALSE;
 	else
 		return TRUE;
+}
+
+
+// Return name of race constant
+string RacialTypeName(int n)
+{
+	string sRace;
+
+	switch (n) {
+	 case RACIAL_TYPE_DWARF:
+	 	sRace = "Dwarf"; break;
+	 case RACIAL_TYPE_ELF:
+	 	sRace = "Elf"; break;
+	 case RACIAL_TYPE_GNOME:
+	 	sRace = "Gnome"; break;
+	 case RACIAL_TYPE_HALFLING:
+	 	sRace = "Halfling"; break;
+	 case RACIAL_TYPE_HALFELF:
+	 	sRace = "Half Elf"; break;
+	 case RACIAL_TYPE_HALFORC:
+	 	sRace = "Half Orc"; break;
+	 case RACIAL_TYPE_HUMAN:
+	 	sRace = "Human"; break;
+	 case RACIAL_TYPE_ABERRATION:
+	 	sRace = "Aberration"; break;
+	 case RACIAL_TYPE_ANIMAL:
+	 	sRace = "Animal"; break;
+	 case RACIAL_TYPE_BEAST:
+	 	sRace = "Beast"; break;
+	 case RACIAL_TYPE_CONSTRUCT:
+	 	sRace = "Construct"; break;
+	 case RACIAL_TYPE_DRAGON:
+	 	sRace = "Dragon"; break;
+	 case RACIAL_TYPE_HUMANOID_GOBLINOID:
+	 	sRace = "Goblinoid"; break;
+	 case RACIAL_TYPE_HUMANOID_MONSTROUS:
+	 	sRace = "Monstrous Humanoid"; break;
+	 case RACIAL_TYPE_HUMANOID_ORC:
+	 	sRace = "Orc"; break;
+	 case RACIAL_TYPE_HUMANOID_REPTILIAN:
+	 	sRace = "Reptilian Humanoid"; break;
+	 case RACIAL_TYPE_ELEMENTAL:
+	 	sRace = "Elemental"; break;
+	 case RACIAL_TYPE_FEY:
+	 	sRace = "Fey"; break;
+	 case RACIAL_TYPE_GIANT:
+	 	sRace = "Giant"; break;
+	 case RACIAL_TYPE_MAGICAL_BEAST:
+	 	sRace = "Magical Beast"; break;
+	 case RACIAL_TYPE_OUTSIDER:
+	 	sRace = "Outsider"; break;
+	 case RACIAL_TYPE_SHAPECHANGER:
+	 	sRace = "Shapechanger"; break;
+	 case RACIAL_TYPE_UNDEAD:
+	 	sRace = "Undead"; break;
+	 case RACIAL_TYPE_VERMIN:
+	 	sRace = "Vermin"; break;
+	 case RACIAL_TYPE_OOZE:
+	 	sRace = "Ooze"; break;
+	 case RACIAL_TYPE_INCORPOREAL:
+	 	sRace = "Incorporeal"; break;
+	 case RACIAL_TYPE_YUANTI:
+	 	sRace = "Yuanti"; break;
+	 case RACIAL_TYPE_GRAYORC:
+	 	sRace = "Gray Orc"; break;
+	 default:
+	 	sRace = "RACE_INVALID"; break;
+	}
+
+	 return sRace;
+}
+
+// Return name of subrace constant
+string SubRaceName(int n)
+{
+	 string sSubRace;
+
+	 switch (n) {
+	 case RACIAL_SUBTYPE_GOLD_DWARF:
+	 	sSubRace = "Gold Dwarf"; break;
+	 case RACIAL_SUBTYPE_GRAY_DWARF:
+	 	sSubRace = "Gray Dwarf"; break;
+	 case RACIAL_SUBTYPE_SHIELD_DWARF:
+	 	sSubRace = "Shield Dwarf"; break;
+	 case RACIAL_SUBTYPE_DROW:
+	 	sSubRace = "Drow"; break;
+	 case RACIAL_SUBTYPE_MOON_ELF:
+	 	sSubRace = "Moon Elf"; break;
+	 case RACIAL_SUBTYPE_SUN_ELF:
+	 	sSubRace = "Sun Elf"; break;
+	 case RACIAL_SUBTYPE_WILD_ELF:
+	 	sSubRace = "Wild Elf"; break;
+	 case RACIAL_SUBTYPE_WOOD_ELF:
+	 	sSubRace = "Wood Elf"; break;
+	 case RACIAL_SUBTYPE_SVIRFNEBLIN:
+	 	sSubRace = "Svirfneblin"; break;
+	 case RACIAL_SUBTYPE_ROCK_GNOME:
+	 	sSubRace = "Rock Gnome"; break;
+	 case RACIAL_SUBTYPE_GHOSTWISE_HALF:
+	 	sSubRace = "Ghostwise Halfling"; break;
+	 case RACIAL_SUBTYPE_LIGHTFOOT_HALF:
+	 	sSubRace = "Lightfoot Halfling"; break;
+	 case RACIAL_SUBTYPE_STRONGHEART_HALF:
+	 	sSubRace = "Strongheart Halfling"; break;
+	 case RACIAL_SUBTYPE_AASIMAR:
+	 	sSubRace = "Aasimar"; break;
+	 case RACIAL_SUBTYPE_TIEFLING:
+	 	sSubRace = "Tiefling"; break;
+	 case RACIAL_SUBTYPE_HALFELF:
+	 	sSubRace = "Half Elf"; break;
+	 case RACIAL_SUBTYPE_HALFORC:
+	 	sSubRace = "Half Orc"; break;
+	 case RACIAL_SUBTYPE_HUMAN:
+	 	sSubRace = "Human"; break;
+	 case RACIAL_SUBTYPE_AIR_GENASI:
+	 	sSubRace = "Air Genasi"; break;
+	 case RACIAL_SUBTYPE_EARTH_GENASI:
+	 	sSubRace = "Earth Genasi"; break;
+	 case RACIAL_SUBTYPE_FIRE_GENASI:
+	 	sSubRace = "Fire Genasi"; break;
+	 case RACIAL_SUBTYPE_WATER_GENASI:
+	 	sSubRace = "Water Genasi"; break;
+	 case RACIAL_SUBTYPE_ABERRATION:
+	 	sSubRace = "Aberration"; break;
+	 case RACIAL_SUBTYPE_ANIMAL:
+	 	sSubRace = "Animal"; break;
+	 case RACIAL_SUBTYPE_BEAST:
+	 	sSubRace = "Beast"; break;
+	 case RACIAL_SUBTYPE_CONSTRUCT:
+	 	sSubRace = "Construct"; break;
+	 case RACIAL_SUBTYPE_HUMANOID_GOBLINOID:
+	 	sSubRace = "Goblinoid"; break;
+	 case RACIAL_SUBTYPE_HUMANOID_MONSTROUS:
+	 	sSubRace = "Monstrous Humanoid"; break;
+	 case RACIAL_SUBTYPE_HUMANOID_ORC:
+	 	sSubRace = "Orc"; break;
+	 case RACIAL_SUBTYPE_HUMANOID_REPTILIAN:
+	 	sSubRace = "Reptilian Humanoid"; break;
+	 case RACIAL_SUBTYPE_ELEMENTAL:
+	 	sSubRace = "Elemental"; break;
+	 case RACIAL_SUBTYPE_FEY:
+	 	sSubRace = "Fey"; break;
+	 case RACIAL_SUBTYPE_GIANT:
+	 	sSubRace = "Giant"; break;
+ 	 case RACIAL_SUBTYPE_OUTSIDER:
+	 	sSubRace = "Outsider"; break;
+	 case RACIAL_SUBTYPE_SHAPECHANGER:
+	 	sSubRace = "Shapechanger"; break;
+	 case RACIAL_SUBTYPE_UNDEAD:
+	 	sSubRace = "Undead"; break;
+	 case RACIAL_SUBTYPE_VERMIN:
+	 	sSubRace = "Vermin"; break;
+	 case RACIAL_SUBTYPE_OOZE:
+	 	sSubRace = "Ooze"; break;
+	 case RACIAL_SUBTYPE_DRAGON:
+	 	sSubRace = "Dragon"; break;
+	 case RACIAL_SUBTYPE_MAGICAL_BEAST:
+	 	sSubRace = "Magical Beast"; break;
+	 case RACIAL_SUBTYPE_INCORPOREAL:
+	 	sSubRace = "Incorporeal"; break;
+	 case RACIAL_SUBTYPE_GITHYANKI:
+	 	sSubRace = "Githyanki"; break;
+	 case RACIAL_SUBTYPE_GITHZERAI:
+	 	sSubRace = "Githzerai"; break;
+	 case RACIAL_SUBTYPE_HALFDROW:
+	 	sSubRace = "Half Drow"; break;
+	 case RACIAL_SUBTYPE_PLANT:
+	 	sSubRace = "Plant"; break;
+	 case RACIAL_SUBTYPE_HAGSPAWN:
+	 	sSubRace = "Hagspawn"; break;
+	 case RACIAL_SUBTYPE_HALFCELESTIAL:
+	 	sSubRace = "Half Celestial"; break;
+	 case RACIAL_SUBTYPE_YUANTI:
+	 	sSubRace = "Yuanti"; break;
+	 case RACIAL_SUBTYPE_GRAYORC:
+	 	sSubRace = "Gray Orc"; break;
+	 default:
+		sSubRace = "SUBRACE_INVALID";
+	}
+	return sSubRace;
 }
