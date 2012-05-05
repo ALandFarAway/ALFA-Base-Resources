@@ -172,7 +172,7 @@ namespace ACR_CreatureBehavior
         }
 
         /// <summary>
-        /// Called when an object is first seen.
+        /// Called when an object first sees an object.
         /// </summary>
         /// <param name="PerceivedObjectId">Supplies the perceived object id.
         /// </param>
@@ -186,7 +186,7 @@ namespace ACR_CreatureBehavior
         }
 
         /// <summary>
-        /// Called when an object is first heard.
+        /// Called when an object first hears an object.
         /// </summary>
         /// <param name="PerceivedObjectId">Supplies the perceived object id.
         /// </param>
