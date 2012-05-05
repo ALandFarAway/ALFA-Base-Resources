@@ -264,10 +264,15 @@ namespace ACR_CreatureBehavior
         public bool IsDM { get { return CreatureIsDM; } }
 
         /// <summary>
+        /// Get whether a player or DM is controlling the creature.
+        /// </summary>
+        public bool IsPlayerControlled { get { return Script.GetControlledCharacter(ObjectId) != OBJECT_INVALID; } }
+
+        /// <summary>
         /// Get or set whether the object is managed by the AI subsystem.  This
         /// should be only set at startup time for the object, generally.
         /// </summary>
-        public bool IsAIControlled { get { return AIControlled && Script.GetControlledCharacter(ObjectId) == OBJECT_INVALID; } set { AIControlled = value; } }
+        public bool IsAIControlled { get { return AIControlled && !IsPlayerControlled; } set { AIControlled = value; } }
 
         /// <summary>
         /// The list of perceived objects.

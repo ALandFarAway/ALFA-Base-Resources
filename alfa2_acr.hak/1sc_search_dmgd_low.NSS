@@ -37,7 +37,7 @@ void main()
 		{
 		int iCurrentItemDC = GetLocalInt(OBJECT_SELF, ("item_dc" + IntToString(iCurrentSearchFor)));
 		// if we deal enough damage to damage the item then break the item
-		if(iCurrentItemDC <= iDamage )
+		if(iCurrentItemDC <= iDamage && iCurrentItemDC > 0)
 			{
 			oBrokenItem = GetLocalObject(OBJECT_SELF, ("findable_item" + IntToString(iCurrentSearchFor)));
 			// we can't break gold
