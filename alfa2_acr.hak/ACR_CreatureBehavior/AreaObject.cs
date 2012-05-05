@@ -61,7 +61,7 @@ namespace ACR_CreatureBehavior
         /// <summary>
         /// Get the natural flag of the area.
         /// </summary>
-        public bool IsNatural { get {return AreaNatural; } }
+        public bool IsNatural { get { return AreaNatural; } }
         /// <summary>
         /// Get the underground flag of the area.
         /// </summary>
