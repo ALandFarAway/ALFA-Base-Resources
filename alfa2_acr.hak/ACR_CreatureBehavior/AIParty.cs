@@ -34,6 +34,8 @@ namespace ACR_CreatureBehavior
         public AIParty(AIPartyManager PartyManager)
         {
             this.PartyManager = PartyManager;
+
+            PartyManager.AddParty(this);
         }
 
         /// <summary>
@@ -53,7 +55,8 @@ namespace ACR_CreatureBehavior
         }
 
         /// <summary>
-        /// Remove a party member.
+        /// Remove a party member.  If the party member was the last in the
+        /// party, then the party is dissolved.
         /// </summary>
         /// <param name="Creature">Supplies the creature to remove.</param>
         public void RemovePartyMember(CreatureObject Creature)
@@ -69,6 +72,9 @@ namespace ACR_CreatureBehavior
 
             if (PartyLeader == Creature)
                 PartyLeader = null;
+
+            if (PartyMembers.Count == 0)
+                PartyManager.RemoveParty(this);
         }
 
         /// <summary>
