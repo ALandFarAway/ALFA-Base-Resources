@@ -412,7 +412,7 @@ void ACR_CreatureIdentify(object oPC, object oTarget)
 		nKnowSkill = SKILL_LORE;
 	}
 	// do a knowledge check - exit on failure
-	if (!ACR_SkillCheck(nKnowSkill, oPC, 10 + FloatToInt(GetChallengeRating(oTarget)), TRUE)) {
+	if (!ACR_SkillCheck(nKnowSkill, oPC, 10 + GetHitDice(oTarget), TRUE)) {
 		// alert the player - should we also save the attempt (db) to prevent retries?
 		SendMessageToPC(oPC, "You fail to notice anything remarkable about this creature.");
 		return;
