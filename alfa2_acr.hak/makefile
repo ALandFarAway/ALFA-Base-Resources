@@ -508,7 +508,8 @@ CLRSCRIPT_OBJECTS=$(OUTPUTDIR)\TestClrScript.ncs               \
                   $(OUTPUTDIR)\ACR_ServerCommunicator.ncs      \
                   $(OUTPUTDIR)\ACR_ServerMisc.ncs              \
                   $(OUTPUTDIR)\ACR_CreatureBehavior.ncs        \
-                  $(OUTPUTDIR)\ACR_EmptyScript.ncs             
+                  $(OUTPUTDIR)\ACR_EmptyScript.ncs             \
+                  $(OUTPUTDIR)\ACR_ReadRawString.ncs           
 
 HAKFILE=$(OUTPUTDIR)\alfa2_acr.hak
 
@@ -563,6 +564,8 @@ makeclrscripts:
 	@$(MSBUILD) ACR_CreatureBehavior\ACR_CreatureBehavior.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_EmptyScript
 	@$(MSBUILD) ACR_EmptyScript\ACR_EmptyScript.csproj $(MSBUILD_FLAGS)
+	$(BUILD_MSG) (CSProj) Building - ACR_ReadRawString
+	@$(MSBUILD) ACR_ReadRawString\ACR_ReadRawString.csproj $(MSBUILD_FLAGS)
 
 clean:
 	@if exist $(OUTPUTDIR)\*.ncs del $(OUTPUTDIR)\*.ncs

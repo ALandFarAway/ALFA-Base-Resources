@@ -395,7 +395,7 @@ void ACR_CreatureIdentify(object oPC, object oTarget)
 {
 	// first, determine which Knowledge skill applies.
 	int i,p,end,start,nKnowSkill = GetKnowlegeSkillOfRace(GetRacialType(oTarget));
-	string sName,sOld,sTmp;
+	string sName,sTmp;
 
 
 	if (nKnowSkill == -1) {
@@ -409,14 +409,18 @@ void ACR_CreatureIdentify(object oPC, object oTarget)
 		return;
 	}
 
-	sOld = (sName = GetName(oTarget));
+	AddScriptParameterObject(oTarget);
+	AddScriptParameterString("FirstName");
+	ExecuteScriptEnhanced("ACR_ReadRawString", OBJECT_SELF);
+	sName = GetLocalString(oTarget, "RawText");
+
 	end = GetStringLength(sName);
 
 	// Handle hidden text
-	if ((p = FindSubString(sName, "{")) != -1) {
+	if ((p = FindSubString(sName, "[")) != -1) {
 		start = p+1;
 
-		if ((p = FindSubString(sName, "}")) != -1)
+		if ((p = FindSubString(sName, "]")) != -1)
 			end = p-1;
 
 		sTmp = GetStringUpperCase(GetSubString(sName, start, end-start));
@@ -437,7 +441,7 @@ void ACR_CreatureIdentify(object oPC, object oTarget)
 			else if  ((p = FindSubString(sTmp, " CR")) != -1) {}
 			// Panic, this is ONLY a cr no name
 			else {
-				sName = sOld;
+				sName = GetName(oTarget);
 				p = GetStringLength(sName);
 			}
 			end = p;
