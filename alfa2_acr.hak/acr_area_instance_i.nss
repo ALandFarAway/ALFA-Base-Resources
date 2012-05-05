@@ -245,6 +245,10 @@ object ACR_CreateAreaInstance(object TemplateArea, float CleanupDelay)
 	if (InstancedArea == OBJECT_INVALID)
 		return OBJECT_INVALID;
 
+	// Non-cached mode isn't supported without NWNX plugin support to actually
+	// delete the area object itself.
+	SetLocalInt(TemplateArea, ACR_AREA_INSTANCE_ENABLE_CACHE, TRUE);
+
 	// If we are setting up a non-cached area, record the start of the dynamic
 	// object id range for the area.  This lets us completely delete all of the
 	// static objects copied.
