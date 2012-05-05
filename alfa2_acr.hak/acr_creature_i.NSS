@@ -45,6 +45,7 @@
 #include "acr_vfx_i"
 #include "acr_wealth_i"
 #include "acr_quest_i"
+#include "acr_tools_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -399,12 +400,12 @@ void ACR_CreatureIdentify(object oPC, object oTarget)
 
 
 	// Prevent re-rolls
-	if (GetLocalInt(oTarget, GetName(oPC))) {
+	if (GetLocalInt(oTarget, "IDEN_" + ObjectToString(oPC))) {
 		SendMessageToPC(oPC, "You cannot make out anything further.");
 		return;
 	}
 
-	SetLocalInt(oTarget, GetName(oPC), 1);
+	SetLocalInt(oTarget, "IDEN_" + ObjectToString(oPC), 1);
 
 
 	if (nKnowSkill == -1) {
@@ -412,12 +413,15 @@ void ACR_CreatureIdentify(object oPC, object oTarget)
 		nKnowSkill = SKILL_LORE;
 	}
 	// do a knowledge check - exit on failure
-	if (!ACR_SkillCheck(nKnowSkill, oPC, 10 + FloatToInt(GetChallengeRating(oTarget)), TRUE)) {
+	if (!ACR_SkillCheck(nKnowSkill, oPC, 10 + GetHitDice(oTarget), TRUE)) {
 		// alert the player - should we also save the attempt (db) to prevent retries?
 		SendMessageToPC(oPC, "You fail to notice anything remarkable about this creature.");
 		return;
 	}
+	
+	sName = SubRaceName(GetSubRace(oTarget));
 
+#if 0
 	AddScriptParameterObject(oTarget);
 	AddScriptParameterString("FirstName");
 	ExecuteScriptEnhanced("ACR_ReadRawString", OBJECT_SELF);
@@ -461,6 +465,7 @@ void ACR_CreatureIdentify(object oPC, object oTarget)
 		SetFirstName(oTarget, sName);
 		SetLastName(oTarget, "");
 	}
+#endif
 
 	// report the filtered creature name
 	SendMessageToPC(oPC, "You recognize it as "+GetArticle(sName)+" <color=Magenta><i>"+sName+"</i></color>!");

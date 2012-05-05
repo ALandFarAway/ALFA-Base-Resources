@@ -13,6 +13,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "dmfi_inc_inc_com"
+#include "acr_tools_i"
 
 void main()
 {
@@ -39,168 +40,10 @@ while (oPC != OBJECT_INVALID)
 	 SetLocalInt(oDM, "CarriedWealth", 0);
 	 string sWealth = IntToString(nWealthWorn + nWealthCarried);
 	 int nRace = GetRacialType(oPC);
-	 string sRace;
-	 if(nRace == 0)
-	 	{sRace = "Dwarf";}
-	 else if(nRace == 1)
-	 	{sRace = "Elf";}
-	 else if(nRace == 2)
-	 	{sRace = "Gnome";}
-	 else if(nRace == 3)
-	 	{sRace = "Halfling";}
-	 else if(nRace == 4)
-	 	{sRace = "Half Elf";}
-	 else if(nRace == 5)
-	 	{sRace = "Half Orc";}
-	 else if(nRace == 6)
-	 	{sRace = "Human";}
-	 else if(nRace == 7)
-	 	{sRace = "Aberration";}
-	 else if(nRace == 8)
-	 	{sRace = "Animal";}
-	 else if(nRace == 9)
-	 	{sRace = "Beast";}
-	 else if(nRace == 10)
-	 	{sRace = "Construct";}
-	 else if(nRace == 11)
-	 	{sRace = "Dragon";}
-	 else if(nRace == 12)
-	 	{sRace = "Goblinoid";}
-	 else if(nRace == 13)
-	 	{sRace = "Monstrous Humanoid";}
-	 else if(nRace == 14)
-	 	{sRace = "Orc";}
-	 else if(nRace == 15)
-	 	{sRace = "Reptilian Humanoid";}
-	 else if(nRace == 16)
-	 	{sRace = "Elemental";}
-	 else if(nRace == 17)
-	 	{sRace = "Fey";}
-	 else if(nRace == 18)
-	 	{sRace = "Giant";}
-	 else if(nRace == 19)
-	 	{sRace = "Magical Beast";}
-	 else if(nRace == 20)
-	 	{sRace = "Outsider";}
-	 else if(nRace == 23)
-	 	{sRace = "Shapechanger";}
-	 else if(nRace == 24)
-	 	{sRace = "Undead";}
-	 else if(nRace == 25)
-	 	{sRace = "Vermin";}
-	 else if(nRace == 29)
-	 	{sRace = "Ooze";}
-	 else if(nRace == 30)
-	 	{sRace = "Incorporeal";}
-	 else if(nRace == 31)
-	 	{sRace = "Yuanti";}
-	 else if(nRace == 32)
-	 	{sRace = "Gray Orc";}
-	 else
-	 	{sRace = "Extraordinary Race";}
-	 
+	 string sRace = RacialTypeName(nRace);
 		
 	 int nSubRace = GetSubRace(oPC);
-	 string sSubRace;
-	 if(nSubRace == 0)
-	 	{sSubRace = "Gold";}
-	 else if(nSubRace == 1)
-	 	{sSubRace = "Gray";}
-	 else if(nSubRace == 2)
-	 	{sSubRace = "Shield";}
-	 else if(nSubRace == 3)
-	 	{sSubRace = "Drow";}
-	 else if(nSubRace == 4)
-	 	{sSubRace = "Moon";}
-	 else if(nSubRace == 5)
-	 	{sSubRace = "Sun";}
-	 else if(nSubRace == 6)
-	 	{sSubRace = "Wild";}
-	 else if(nSubRace == 7)
-	 	{sSubRace = "Wood";}
-	 else if(nSubRace == 8)
-	 	{sSubRace = "Svirfneblin";}
-	 else if(nSubRace == 9)
-	 	{sSubRace = "Rock";}
-	 else if(nSubRace == 10)
-	 	{sSubRace = "Ghostwise";}
-	 else if(nSubRace == 11)
-	 	{sSubRace = "Lightfoot";}
-	 else if(nSubRace == 12)
-	 	{sSubRace = "Strongheart";}
-	 else if(nSubRace == 13)
-	 	{sSubRace = "Aasimar";}
-	 else if(nSubRace == 14)
-	 	{sSubRace = "Tiefling";}
-	 else if(nSubRace == 15)
-	 	{sSubRace = "Half Elf";}
-	 else if(nSubRace == 16)
-	 	{sSubRace = "Half Orc";}
-	 else if(nSubRace == 17)
-	 	{sSubRace = "Human";}
-	 else if(nSubRace == 18)
-	 	{sSubRace = "Air Genasi";}
-	 else if(nSubRace == 19)
-	 	{sSubRace = "Earth Genasi";}
-	 else if(nSubRace == 20)
-	 	{sSubRace = "Fire Genasi";}
-	 else if(nSubRace == 21)
-	 	{sSubRace = "Water Genasi";}
-	 else if(nSubRace == 22)
-	 	{sSubRace = "Aberration";}
-	 else if(nSubRace == 23)
-	 	{sSubRace = "Animal";}
-	 else if(nSubRace == 24)
-	 	{sSubRace = "Beast";}
-	 else if(nSubRace == 25)
-	 	{sSubRace = "Construct";}
-	 else if(nSubRace == 26)
-	 	{sSubRace = "Goblinoid";}
-	 else if(nSubRace == 27)
-	 	{sSubRace = "Monstrous Humanoid";}
-	 else if(nSubRace == 28)
-	 	{sSubRace = "Orc";}
-	else if(nSubRace == 29)
-	 	{sSubRace = "Reptilian Humanoid";}
-	 else if(nSubRace == 30)
-	 	{sSubRace = "Elemental";}
-	 else if(nSubRace == 31)
-	 	{sSubRace = "Fey";}
-	 else if(nSubRace == 32)
-	 	{sSubRace = "Giant";}
-	else if(nSubRace == 33)
-	 	{sSubRace = "Outsider";}
-	else if(nSubRace == 34)
-	 	{sSubRace = "Shapechanger";}
-	else if(nSubRace == 35)
-	 	{sSubRace = "Undead";}
-	else if(nSubRace == 36)
-	 	{sSubRace = "Vermin";}
-	else if(nSubRace == 37)
-	 	{sSubRace = "Ooze";}
-	else if(nSubRace == 38)
-	 	{sSubRace = "Dragon";}
-	else if(nSubRace == 39)
-	 	{sSubRace = "Magical Beast";}
-	else if(nSubRace == 40)
-	 	{sSubRace = "Incorporeal";}
-	else if(nSubRace == 41)
-	 	{sSubRace = "Githyanki";}
-	else if(nSubRace == 42)
-	 	{sSubRace = "Githzerai";}
-	else if(nSubRace == 43)
-	 	{sSubRace = "Half Drow";}
-	else if(nSubRace == 45)
-	 	{sSubRace = "Hagspawn";}
-	else if(nSubRace == 41)
-	 	{sSubRace = "Half Celestial";}
-	else if(nSubRace == 44)
-	 	{sSubRace = "Plant";}
-	else if(nSubRace == 47)
-	 	{sSubRace = "Yuanti";}
-	else if(nSubRace == 48)
-	 	{sSubRace = "Gray Orc";}
-	
+	 string sSubRace = SubRaceName(nSubRace);
 	 
 	 int nClass1 = GetClassByPosition(1, oPC);
 	 int nClass2 = GetClassByPosition(2, oPC);
