@@ -96,26 +96,46 @@ namespace ACR_CreatureBehavior
 
                 case EVENT_TYPE.CREATURE_END_COMBAT_ROUND:
                     {
+                        CreatureObject Creature = Server.ObjectManager.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                            Creature.OnEndCombatRound();
                     }
                     break;
 
                 case EVENT_TYPE.CREATURE_ON_CONVERSATION:
                     {
+                        CreatureObject Creature = Server.ObjectManager.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                            Creature.OnConversation();
                     }
                     break;
 
                 case EVENT_TYPE.CREATURE_ON_INVENTORY_DISTURBED:
                     {
+                        CreatureObject Creature = Server.ObjectManager.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                            Creature.OnInventoryDisturbed();
                     }
                     break;
 
                 case EVENT_TYPE.CREATURE_ON_HEARTBEAT:
                     {
+                        CreatureObject Creature = Server.ObjectManager.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                            Creature.OnHeartbeat();
                     }
                     break;
 
                 case EVENT_TYPE.CREATURE_ON_RESTED:
                     {
+                        CreatureObject Creature = Server.ObjectManager.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                            Creature.OnRested();
                     }
                     break;
 
@@ -136,6 +156,10 @@ namespace ACR_CreatureBehavior
 
                 case EVENT_TYPE.CREATURE_ON_USER_DEFINED:
                     {
+                        CreatureObject Creature = Server.ObjectManager.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                            Creature.OnUserDefined();
                     }
                     break;
 
@@ -261,6 +285,16 @@ namespace ACR_CreatureBehavior
             public List<NPC> PartyAnimals = new List<NPC> { };
             public List<NPC> PartyMindless = new List<NPC> { };
 
+            // Enemies List
+            public List<NPC> Enemies = new List<NPC> { };
+            public List<NPC> EnemiesDead = new List<NPC> { };
+            public List<NPC> EnemiesLost = new List<NPC> { };
+
+            public List<NPC> EnemiesDivineSpellcasters = new List<NPC> { };
+            public List<NPC> EnemiesArcaneSpellcasters = new List<NPC> { };
+            public List<NPC> EnemiesHeavilyArmored = new List<NPC> { };
+            public List<NPC> EnemiesHeavyWeaponry = new List<NPC> { };
+            public List<NPC> EnemiesRangedWeaponry = new List<NPC> { };
         }
 
         public class NPC
@@ -283,14 +317,14 @@ namespace ACR_CreatureBehavior
 
     public enum AIType
     {
-        BEHAVIOR_TYPE_TANK,
-        BEHAVIOR_TYPE_FLANK,
-        BEHAVIOR_TYPE_SHOCK,
-        BEHAVIOR_TYPE_BUFFS,
-        BEHAVIOR_TYPE_MEDIC,
-        BEHAVIOR_TYPE_SKIRMISH,
-        BEHAVIOR_TYPE_ARCHER,
-        BEHAVIOR_TYPE_CONTROL,
-        BEHAVIOR_TYPE_NUKE
+        BEHAVIOR_TYPE_TANK = 1,
+        BEHAVIOR_TYPE_FLANK = 2,
+        BEHAVIOR_TYPE_SHOCK = 3,
+        BEHAVIOR_TYPE_BUFFS = 4,
+        BEHAVIOR_TYPE_MEDIC = 5,
+        BEHAVIOR_TYPE_SKIRMISH = 6,
+        BEHAVIOR_TYPE_ARCHER = 7,
+        BEHAVIOR_TYPE_CONTROL = 8,
+        BEHAVIOR_TYPE_NUKE = 9
     }
 }
