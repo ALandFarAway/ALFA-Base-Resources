@@ -399,12 +399,12 @@ void ACR_CreatureIdentify(object oPC, object oTarget)
 
 
 	// Prevent re-rolls
-	if (GetLocalInt(oTarget, GetName(oPC))) {
+	if (GetLocalInt(oTarget, "IDEN_" + ObjectToString(oPC))) {
 		SendMessageToPC(oPC, "You cannot make out anything further.");
 		return;
 	}
 
-	SetLocalInt(oTarget, GetName(oPC), 1);
+	SetLocalInt(oTarget, "IDEN_" + ObjectToString(oPC), 1);
 
 
 	if (nKnowSkill == -1) {
