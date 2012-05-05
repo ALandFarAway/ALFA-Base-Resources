@@ -218,7 +218,7 @@ namespace ACR_CreatureBehavior
             public uint NPCObjectId = OBJECT_INVALID;
         }
 
-        private const uint OBJECT_INVALID = 2130706432;
+        private const uint OBJECT_INVALID = CLRScriptBase.OBJECT_INVALID;
     }
 
 
