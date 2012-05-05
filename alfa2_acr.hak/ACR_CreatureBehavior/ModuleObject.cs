@@ -27,7 +27,9 @@ namespace ACR_CreatureBehavior
         /// <summary>
         /// Construct a module object and insert it into the object table.
         /// </summary>
-        public ModuleObject(uint ObjectId) : base(ObjectId, GameObjectType.Module)
+        /// <param name="ObjectId">Supplies the object id.</param>
+        /// <param name="ObjectManager">Supplies the object manager.</param>
+        public ModuleObject(uint ObjectId, GameObjectManager ObjectManager) : base(ObjectId, GameObjectType.Module, ObjectManager)
         {
             //
             // Discover pre-created areas in the module.  Instanced areas will
@@ -36,7 +38,7 @@ namespace ACR_CreatureBehavior
 
             foreach (uint AreaObjectId in Script.GetAreas())
             {
-                AreaObject Area = new AreaObject(AreaObjectId);
+                AreaObject Area = new AreaObject(AreaObjectId, ObjectManager);
             }
         }
 
@@ -47,7 +49,7 @@ namespace ACR_CreatureBehavior
         /// <returns>The C# area object.</returns>
         public AreaObject AddInstancedArea(uint AreaObjectId)
         {
-            AreaObject Area = new AreaObject(AreaObjectId);
+            AreaObject Area = new AreaObject(AreaObjectId, ObjectManager);
 
             return Area;
         }

@@ -28,7 +28,8 @@ namespace ACR_CreatureBehavior
         /// Construct a creature object and insert it into the object table.
         /// </summary>
         /// <param name="ObjectId">Supplies the creature object id.</param>
-        public CreatureObject(uint ObjectId) : base(ObjectId, GameObjectType.Creature)
+        /// <param name="ObjectManager">Supplies the object manager.</param>
+        public CreatureObject(uint ObjectId, GameObjectManager ObjectManager) : base(ObjectId, GameObjectType.Creature, ObjectManager)
         {
             //
             // Cache state that doesn't change over the lifetime of the object
@@ -61,6 +62,8 @@ namespace ACR_CreatureBehavior
         /// <param name="SpellId">Supplies the spell id.</param>
         public void OnSpellCastAt(uint CasterObjectId, int SpellId)
         {
+            if (!IsAIControlled)
+                return;
         }
 
         /// <summary>
@@ -70,6 +73,8 @@ namespace ACR_CreatureBehavior
         /// </param>
         public void OnAttacked(uint AttackerObjectId)
         {
+            if (!IsAIControlled)
+                return;
         }
 
         /// <summary>
@@ -81,6 +86,8 @@ namespace ACR_CreatureBehavior
         /// </param>
         public void OnDamaged(uint DamagerObjectId, int TotalDamageDealt)
         {
+            if (!IsAIControlled)
+                return;
         }
 
         /// <summary>
@@ -89,6 +96,8 @@ namespace ACR_CreatureBehavior
         /// <param name="KillerObjectId">Supplies the killer object id.</param>
         public void OnDeath(uint KillerObjectId)
         {
+            if (!IsAIControlled)
+                return;
         }
 
         /// <summary>
@@ -98,6 +107,8 @@ namespace ACR_CreatureBehavior
         /// id.</param>
         public void OnBlocked(uint BlockerObjectId)
         {
+            if (!IsAIControlled)
+                return;
         }
 
         /// <summary>
@@ -112,6 +123,20 @@ namespace ACR_CreatureBehavior
         /// <param name="Vanished">True if the object is now not seen.</param>
         public void OnPerception(uint PerceivedObjectId, bool Heard, bool Inaudible, bool Seen, bool Vanished)
         {
+            //
+            // No need to manage perception tracking for PC or DM avatars as
+            // these will never be AI controlled.
+            //
+
+            if (IsPC || IsDM)
+                return;
+
+            //
+            // Update the perception list.  This is done even if we are not yet
+            // AI controlled (as control could be temporarily suspended e.g. by
+            // DM command).
+            //
+
             PerceptionNode Node = (from PN in PerceivedObjects
                                    where PN.PerceivedObjectId == PerceivedObjectId
                                    select PN).FirstOrDefault();
@@ -240,9 +265,34 @@ namespace ACR_CreatureBehavior
         public bool IsDM { get { return CreatureIsDM; } }
 
         /// <summary>
+        /// Get or set whether the object is managed by the AI subsystem.  This
+        /// should be only set at startup time for the object, generally.
+        /// </summary>
+        public bool IsAIControlled { get { return AIControlled && Script.GetControlledCharacter(ObjectId) == OBJECT_INVALID; } set { AIControlled = value; } }
+
+        /// <summary>
         /// The list of perceived objects.
         /// </summary>
         public List<PerceptionNode> PerceivedObjects { get; set; }
+
+        /// <summary>
+        /// The associated AI party, if any.
+        /// </summary>
+        public AIParty Party { get; set; }
+
+        /// <summary>
+        /// The leader of the party, if any.
+        /// </summary>
+        public CreatureObject PartyLeader
+        {
+            get
+            {
+                if (Party == null)
+                    return null;
+                else
+                    return Party.PartyLeader;
+            }
+        }
 
 
 
@@ -256,19 +306,41 @@ namespace ACR_CreatureBehavior
         /// </summary>
         private bool CreatureIsDM;
 
+        /// <summary>
+        /// True if the object is controlled by the AI subsystem.
+        /// </summary>
+        private bool AIControlled;
+
 
         /// <summary>
         /// This class records what objects are perceived by this object.
         /// </summary>
         public class PerceptionNode
         {
+            /// <summary>
+            /// Create a new, blank perception node relating to perception of a
+            /// given object.
+            /// </summary>
+            /// <param name="ObjectId">Supplies the object whose perception
+            /// state is being tracked.</param>
             public PerceptionNode(uint ObjectId)
             {
                 PerceivedObjectId = ObjectId;
             }
 
+            /// <summary>
+            /// The object id that is being perceived.
+            /// </summary>
             public uint PerceivedObjectId;
+
+            /// <summary>
+            /// True if the object is seen.
+            /// </summary>
             public bool Seen;
+
+            /// <summary>
+            /// True if the object is heard.
+            /// </summary>
             public bool Heard;
         }
     }
