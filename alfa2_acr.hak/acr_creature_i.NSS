@@ -409,14 +409,18 @@ void ACR_CreatureIdentify(object oPC, object oTarget)
 		return;
 	}
 
-	sOld = (sName = GetName(oTarget));
+	AddScriptParameterObject(oTarget);
+	AddScriptParameterString("FirstName");
+	ExecuteScriptEnhanced("ACR_ReadRawString", OBJECT_SELF);
+	sOld = (sName = GetLocalString(oTarget, "RawText"));
+
 	end = GetStringLength(sName);
 
 	// Handle hidden text
-	if ((p = FindSubString(sName, "{")) != -1) {
+	if ((p = FindSubString(sName, "[")) != -1) {
 		start = p+1;
 
-		if ((p = FindSubString(sName, "}")) != -1)
+		if ((p = FindSubString(sName, "]")) != -1)
 			end = p-1;
 
 		sTmp = GetStringUpperCase(GetSubString(sName, start, end-start));
