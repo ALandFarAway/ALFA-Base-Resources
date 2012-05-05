@@ -131,14 +131,6 @@ namespace ACR_CreatureBehavior
                     return;
                 }
             }
-            else
-            {
-                if (!Heard && !Seen)
-                {
-                    PerceivedObjects.Remove(Node);
-                    RemoveNode = true;
-                }
-            }
 
             if (Heard)
             {
@@ -155,12 +147,26 @@ namespace ACR_CreatureBehavior
             if (Vanished)
             {
                 Node.Seen = false;
+
+                if (!Node.Heard)
+                {
+                    RemoveNode = true;
+                    PerceivedObjects.Remove(Node);
+                }
+
                 OnPerceptionLostSightObject(PerceivedObjectId, RemoveNode);
             }
 
             if (Inaudible)
             {
                 Node.Heard = false;
+
+                if (!Node.Seen)
+                {
+                    RemoveNode = true;
+                    PerceivedObjects.Remove(Node);
+                }
+
                 OnPerceptionLostHearingObject(PerceivedObjectId, RemoveNode);
             }
         }
