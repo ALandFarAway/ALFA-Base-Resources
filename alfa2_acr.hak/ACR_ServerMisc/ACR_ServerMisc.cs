@@ -157,7 +157,20 @@ namespace ACR_ServerMisc
                     return FreeList.Pop();
             }
 
-            return CreateInstancedAreaFromSource(TemplateArea);
+            uint AreaObject = CreateInstancedAreaFromSource(TemplateArea);
+
+            if (AreaObject == OBJECT_INVALID)
+                return OBJECT_INVALID;
+
+            //
+            // We've created a new area, so inform the AI subsystem that there
+            // is a new area to add to its representation.
+            //
+
+            AddScriptParameterInt(200); // AREA_ON_INSTANCE_CREATE
+            ExecuteScriptEnhanced("ACR_CreatureBehavior", AreaObject, TRUE);
+
+            return AreaObject;
         }
 
         /// <summary>

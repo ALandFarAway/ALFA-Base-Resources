@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_CreatureBehavior", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_EmptyScript", "..\ACR_EmptyScript\ACR_EmptyScript.csproj", "{14C09F2F-4411-42FB-9A0A-A7E011F7129E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_ReadRawString", "..\ACR_ReadRawString\ACR_ReadRawString.csproj", "{B27D41BC-5DB7-48E2-8D8B-872AD99665CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{14C09F2F-4411-42FB-9A0A-A7E011F7129E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14C09F2F-4411-42FB-9A0A-A7E011F7129E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14C09F2F-4411-42FB-9A0A-A7E011F7129E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B27D41BC-5DB7-48E2-8D8B-872AD99665CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B27D41BC-5DB7-48E2-8D8B-872AD99665CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B27D41BC-5DB7-48E2-8D8B-872AD99665CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B27D41BC-5DB7-48E2-8D8B-872AD99665CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

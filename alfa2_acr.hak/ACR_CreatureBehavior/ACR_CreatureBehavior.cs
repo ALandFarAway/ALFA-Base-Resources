@@ -45,31 +45,52 @@ namespace ACR_CreatureBehavior
             {
                 case EVENT_TYPE.CREATURE_ON_SPAWN:
                     {
+                        CreatureObject Creature = new CreatureObject(OBJECT_SELF);
                     }
                     break;
 
                 case EVENT_TYPE.CREATURE_ON_SPELL_CAST_AT:
                     {
+                        CreatureObject Creature = GameObject.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                            Creature.OnSpellCastAt(GetLastSpellCaster(), GetLastSpell());
                     }
                     break;
 
                 case EVENT_TYPE.CREATURE_ON_PHYSICALLY_ATTACKED:
                     {
+                        CreatureObject Creature = GameObject.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                            Creature.OnAttacked(GetLastAttacker(OBJECT_SELF));
                     }
                     break;
 
                 case EVENT_TYPE.CREATURE_ON_DAMAGED:
                     {
+                        CreatureObject Creature = GameObject.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                            Creature.OnDamaged(GetLastDamager(OBJECT_SELF), GetTotalDamageDealt());
                     }
                     break;
 
                 case EVENT_TYPE.CREATURE_ON_DEATH:
                     {
+                        CreatureObject Creature = GameObject.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                            Creature.OnDeath(GetLastKiller());
                     }
                     break;
 
                 case EVENT_TYPE.CREATURE_ON_BLOCKED:
                     {
+                        CreatureObject Creature = GameObject.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                            Creature.OnBlocked(GetBlockingDoor());
                     }
                     break;
 
@@ -100,6 +121,16 @@ namespace ACR_CreatureBehavior
 
                 case EVENT_TYPE.CREATURE_ON_PERCEPTION:
                     {
+                        CreatureObject Creature = GameObject.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                        {
+                            Creature.OnPerception(GetLastPerceived(),
+                                GetLastPerceptionHeard() != CLRScriptBase.FALSE ? true : false,
+                                GetLastPerceptionInaudible() != CLRScriptBase.FALSE ? true : false,
+                                GetLastPerceptionSeen() != CLRScriptBase.FALSE ? true : false,
+                                GetLastPerceptionVanished() != CLRScriptBase.FALSE ? true : false);
+                        }
                     }
                     break;
 
@@ -110,6 +141,14 @@ namespace ACR_CreatureBehavior
 
                 case EVENT_TYPE.MODULE_ON_START:
                     {
+                        //
+                        // Initialize the game object subsystem.
+                        //
+
+                        GameObject.Initialize();
+
+
+
                         foreach (uint AreaObjectId in
                                  GetAreas())
                         {
@@ -123,10 +162,10 @@ namespace ACR_CreatureBehavior
                             {
                                 if (GetIsObjectValid(GetTransitionTarget(ObjectId)) != 0)
                                 {
-                                    if(!Area.AreaTransitionObjects.Contains(ObjectId))
+                                    if (!Area.AreaTransitionObjects.Contains(ObjectId))
                                         Area.AreaTransitionObjects.Add(ObjectId);
 
-                                    if(!Area.AreaTransitionTargets.Contains(ObjectId))
+                                    if (!Area.AreaTransitionTargets.Contains(ObjectId))
                                         Area.AreaTransitionTargets.Add(GetArea(GetTransitionTarget(ObjectId)));
                                 }
 
@@ -135,28 +174,40 @@ namespace ACR_CreatureBehavior
                         }
                     }
                     break;
+
+                case EVENT_TYPE.AREA_ON_INSTANCE_CREATE:
+                    {
+                        ModuleObject Module = GameObject.Module;
+
+                        Module.AddInstancedArea(OBJECT_SELF);
+                    }
+                    break;
             }
+
+            GameObject.ProcessPendingDeletions();
 
             return ReturnCode;
         }
 
         private enum EVENT_TYPE
         {
-            CREATURE_ON_SPAWN,
-            CREATURE_ON_SPELL_CAST_AT,
-            CREATURE_ON_PHYSICALLY_ATTACKED,
-            CREATURE_ON_DAMAGED,
-            CREATURE_ON_DEATH,
-            CREATURE_ON_BLOCKED,
-            CREATURE_END_COMBAT_ROUND,
-            CREATURE_ON_CONVERSATION,
-            CREATURE_ON_INVENTORY_DISTURBED,
-            CREATURE_ON_HEARTBEAT,
-            CREATURE_ON_RESTED,
-            CREATURE_ON_PERCEPTION,
-            CREATURE_ON_USER_DEFINED,
+            CREATURE_ON_SPAWN = 0,
+            CREATURE_ON_SPELL_CAST_AT = 1,
+            CREATURE_ON_PHYSICALLY_ATTACKED = 2,
+            CREATURE_ON_DAMAGED = 3,
+            CREATURE_ON_DEATH = 4,
+            CREATURE_ON_BLOCKED = 5,
+            CREATURE_END_COMBAT_ROUND = 6,
+            CREATURE_ON_CONVERSATION = 7,
+            CREATURE_ON_INVENTORY_DISTURBED = 8,
+            CREATURE_ON_HEARTBEAT = 9,
+            CREATURE_ON_RESTED = 10,
+            CREATURE_ON_PERCEPTION = 11,
+            CREATURE_ON_USER_DEFINED = 12,
             
-            MODULE_ON_START
+            MODULE_ON_START = 100,
+
+            AREA_ON_INSTANCE_CREATE = 200
         }
 
         private ALFA.Database Database = null;
@@ -218,7 +269,7 @@ namespace ACR_CreatureBehavior
             public uint NPCObjectId = OBJECT_INVALID;
         }
 
-        private const uint OBJECT_INVALID = 2130706432;
+        private const uint OBJECT_INVALID = CLRScriptBase.OBJECT_INVALID;
     }
 
 
