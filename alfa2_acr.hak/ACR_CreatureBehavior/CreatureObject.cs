@@ -49,9 +49,8 @@ namespace ACR_CreatureBehavior
         /// </summary>
         public override void OnRundown()
         {
-            //
-            // TODO: Remove from party list, etc.
-            //
+            if (Party != null)
+                Party.RemovePartyMember(this);
         }
 
         /// <summary>
