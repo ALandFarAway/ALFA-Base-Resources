@@ -398,6 +398,15 @@ void ACR_CreatureIdentify(object oPC, object oTarget)
 	string sName,sTmp;
 
 
+	// Prevent re-rolls
+	if (GetLocalInt(oTarget, GetName(oPC))) {
+		SendMessageToPC(oPC, "You cannot make out anything further.");
+		return;
+	}
+
+	SetLocalInt(oTarget, GetName(oPC), 1);
+
+
 	if (nKnowSkill == -1) {
 		WriteTimestampedLogEntry("Unaccounted RacialType Error identifying "+GetName(oTarget)+" with ResRef: "+GetResRef(oTarget)+" by PC: "+GetName(oPC)+" in area: "+GetName(GetArea(oTarget))); 
 		nKnowSkill = SKILL_LORE;

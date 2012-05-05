@@ -51,7 +51,9 @@ void main()
 	if (GetObjectType(oTarget) == OBJECT_TYPE_CREATURE)
 	{
 		// implementation was rolled into acr_creature_i for hak implementation
+#if 0
 		ACR_CreatureIdentify(oPC, oTarget);
+#endif
 	}
 }
 
