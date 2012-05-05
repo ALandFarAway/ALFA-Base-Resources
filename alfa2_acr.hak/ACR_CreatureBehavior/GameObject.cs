@@ -248,19 +248,44 @@ namespace ACR_CreatureBehavior
         }
 
         /// <summary>
+        /// Get the C# creature object for the given object id.
+        /// </summary>
+        /// <param name="ObjectId">Supplies the object id to look up.</param>
+        /// <returns>The corresonding C# Creature object, else null.</returns>
+        public static CreatureObject GetCreatureObject(uint ObjectId)
+        {
+            return (CreatureObject)GetGameObject(ObjectId, GameObjectType.Creature);
+        }
+
+        /// <summary>
         /// Called during initial script object initialization to set up the
         /// periodic garbage collection of objects to delete from the
         /// object dictionary.
         /// </summary>
         public static void Initialize()
         {
+            //
+            // Create the module (and discover associated areas).
+            //
+
+            ModuleObj = new ModuleObject(Script.GetModule());
+
+            //
+            // Schedule garbage collection for C# objects whose engine
+            // representation no longer exists.
+            //
+
             GarbageCollectObjects();
         }
 
         /// <summary>
         /// Periodically run as a DelayCommand continuation in order to scan
         /// the object table for objects whose engine parts have been deleted.
+        /// 
         /// Any such objects found are removed.
+        /// 
+        /// It is necessary to periodically poll for deleted objects because
+        /// not all object types provide script events that signify deletion.
         /// </summary>
         private static void GarbageCollectObjects()
         {
@@ -330,11 +355,6 @@ namespace ACR_CreatureBehavior
         /// The game object type for the object.
         /// </summary>
         private GameObjectType GameObjectTypeCode;
-
-        /// <summary>
-        /// The associated area.
-        /// </summary>
-        private AreaObject JoinedArea = null;
 
         /// <summary>
         /// True if we have entered rundown, i.e. we're on the object to delete

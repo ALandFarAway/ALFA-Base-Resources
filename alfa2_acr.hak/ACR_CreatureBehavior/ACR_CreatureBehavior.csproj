@@ -60,6 +60,7 @@
     <Compile Include="AreaObject.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_CreatureBehavior.cs" />
+    <Compile Include="CreatureObject.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="ModuleObject.cs" />
     <Compile Include="StandardEntrypoints.cs" />

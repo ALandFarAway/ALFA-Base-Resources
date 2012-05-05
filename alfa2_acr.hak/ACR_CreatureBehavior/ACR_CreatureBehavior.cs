@@ -45,31 +45,52 @@ namespace ACR_CreatureBehavior
             {
                 case EVENT_TYPE.CREATURE_ON_SPAWN:
                     {
+                        CreatureObject Creature = new CreatureObject(OBJECT_SELF);
                     }
                     break;
 
                 case EVENT_TYPE.CREATURE_ON_SPELL_CAST_AT:
                     {
+                        CreatureObject Creature = GameObject.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                            Creature.OnSpellCastAt(GetLastSpellCaster(), GetLastSpell());
                     }
                     break;
 
                 case EVENT_TYPE.CREATURE_ON_PHYSICALLY_ATTACKED:
                     {
+                        CreatureObject Creature = GameObject.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                            Creature.OnAttacked(GetLastAttacker(OBJECT_SELF));
                     }
                     break;
 
                 case EVENT_TYPE.CREATURE_ON_DAMAGED:
                     {
+                        CreatureObject Creature = GameObject.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                            Creature.OnDamaged(GetLastDamager(OBJECT_SELF), GetTotalDamageDealt());
                     }
                     break;
 
                 case EVENT_TYPE.CREATURE_ON_DEATH:
                     {
+                        CreatureObject Creature = GameObject.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                            Creature.OnDeath(GetLastKiller());
                     }
                     break;
 
                 case EVENT_TYPE.CREATURE_ON_BLOCKED:
                     {
+                        CreatureObject Creature = GameObject.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                            Creature.OnBlocked(GetBlockingDoor());
                     }
                     break;
 
@@ -100,6 +121,16 @@ namespace ACR_CreatureBehavior
 
                 case EVENT_TYPE.CREATURE_ON_PERCEPTION:
                     {
+                        CreatureObject Creature = GameObject.GetCreatureObject(OBJECT_SELF);
+
+                        if (Creature != null)
+                        {
+                            Creature.OnPerception(GetLastPerceived(),
+                                GetLastPerceptionHeard() != CLRScriptBase.FALSE ? true : false,
+                                GetLastPerceptionInaudible() != CLRScriptBase.FALSE ? true : false,
+                                GetLastPerceptionSeen() != CLRScriptBase.FALSE ? true : false,
+                                GetLastPerceptionVanished() != CLRScriptBase.FALSE ? true : false);
+                        }
                     }
                     break;
 

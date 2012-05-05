@@ -28,7 +28,7 @@ namespace ACR_CreatureBehavior
         /// <summary>
         /// Construct an area object and insert it into the object table.
         /// </summary>
-        /// <param name="ObjectId"></param>
+        /// <param name="ObjectId">Supplies the area object id.</param>
         public AreaObject(uint ObjectId) : base(ObjectId, GameObjectType.Area)
         {
             //
