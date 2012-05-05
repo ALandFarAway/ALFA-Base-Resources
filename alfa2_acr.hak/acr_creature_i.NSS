@@ -45,6 +45,7 @@
 #include "acr_vfx_i"
 #include "acr_wealth_i"
 #include "acr_quest_i"
+#include "acr_tools_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -417,7 +418,10 @@ void ACR_CreatureIdentify(object oPC, object oTarget)
 		SendMessageToPC(oPC, "You fail to notice anything remarkable about this creature.");
 		return;
 	}
+	
+	sName = SubRaceName(GetSubRace(oTarget));
 
+#if 0
 	AddScriptParameterObject(oTarget);
 	AddScriptParameterString("FirstName");
 	ExecuteScriptEnhanced("ACR_ReadRawString", OBJECT_SELF);
@@ -461,6 +465,7 @@ void ACR_CreatureIdentify(object oPC, object oTarget)
 		SetFirstName(oTarget, sName);
 		SetLastName(oTarget, "");
 	}
+#endif
 
 	// report the filtered creature name
 	SendMessageToPC(oPC, "You recognize it as "+GetArticle(sName)+" <color=Magenta><i>"+sName+"</i></color>!");
