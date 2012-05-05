@@ -110,7 +110,7 @@ namespace ACR_CreatureBehavior
         /// heard.</param>
         /// <param name="Seen">True if the object is now seen.</param>
         /// <param name="Vanished">True if the object is now not seen.</param>
-        public void OnPerception(uint PerceivedObjectId, bool Heard, bool Inaudible, bool Seen, bool Vanished
+        public void OnPerception(uint PerceivedObjectId, bool Heard, bool Inaudible, bool Seen, bool Vanished)
         {
             PerceptionNode Node = (from PN in PerceivedObjects
                                    where PN.PerceivedObjectId == PerceivedObjectId

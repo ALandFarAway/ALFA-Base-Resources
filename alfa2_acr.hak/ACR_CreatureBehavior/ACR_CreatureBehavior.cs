@@ -184,6 +184,8 @@ namespace ACR_CreatureBehavior
                     break;
             }
 
+            GameObject.ProcessPendingDeletions();
+
             return ReturnCode;
         }
 

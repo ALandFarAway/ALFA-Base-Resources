@@ -279,6 +279,39 @@ namespace ACR_CreatureBehavior
         }
 
         /// <summary>
+        /// Called before we return to the engine, after all work has been
+        /// finished.  This function runs down objects marked for pending
+        /// deletion (ensuring timely handling in cases where the deleted half
+        /// of the object was explicitly detected).
+        /// </summary>
+        public static void ProcessPendingDeletions()
+        {
+            if (ObjectsToDelete.Count == 0)
+                return;
+
+            foreach (GameObject ObjectToRundown in ObjectsToDelete)
+            {
+                try
+                {
+                    ObjectToRundown.OnRundown();
+                }
+                catch (Exception e)
+                {
+                    Script.WriteTimestampedLogEntry(String.Format(
+                        "GameObject.ProcessPendingDeletions(): Exception {0} running rundown for object {1} of type {2}.", e, ObjectToRundown.ObjectId, ObjectToRundown.ObjectType));
+                }
+            }
+
+            //
+            // Now that we have ran through the object to delete list, clear it
+            // out (the last reference that the underlying object system has to
+            // these object ids).
+            //
+
+            ObjectsToDelete.Clear();
+        }
+
+        /// <summary>
         /// Periodically run as a DelayCommand continuation in order to scan
         /// the object table for objects whose engine parts have been deleted.
         /// 
