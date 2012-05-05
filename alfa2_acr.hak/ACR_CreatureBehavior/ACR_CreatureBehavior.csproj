@@ -57,8 +57,11 @@
     <Compile Include="..\..\CLRScript\NWScriptActions.cs" />
     <Compile Include="..\..\CLRScript\NWScriptConstants.cs" />
     <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />
+    <Compile Include="AreaObject.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_CreatureBehavior.cs" />
+    <Compile Include="GameObject.cs" />
+    <Compile Include="ModuleObject.cs" />
     <Compile Include="StandardEntrypoints.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

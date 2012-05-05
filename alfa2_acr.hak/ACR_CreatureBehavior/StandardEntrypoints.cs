@@ -61,17 +61,20 @@ namespace ACR_CreatureBehavior
         /// <returns></returns>
         public Int32 ExecuteScript([In] UInt32 ObjectSelf, [In] object[] ScriptParameters, [In] Int32 DefaultReturnCode)
         {
+            ACR_CreatureBehavior OldCurrentScript = CurrentScript;
             UInt32 OldOBJECT_SELF = ObjectSelf;
             int ReturnCode;
 
             try
             {
                 OBJECT_SELF = ObjectSelf;
+                CurrentScript = this;
                 ReturnCode = ScriptMain(ScriptParameters, DefaultReturnCode);
             }
             finally
             {
                 OBJECT_SELF = OldOBJECT_SELF;
+                CurrentScript = OldCurrentScript;
             }
 
             return ReturnCode;
@@ -102,11 +105,15 @@ namespace ACR_CreatureBehavior
         /// associated with the execute script request.</param>
         public void ExecuteScriptSituation([In] UInt32 ScriptSituationId, [In] object[] Locals, [In] UInt32 ObjectSelf)
         {
+            ACR_CreatureBehavior OldCurrentScript = CurrentScript;
+
             //
             // Call the helper function.
             //
 
+            CurrentScript = this;
             DispatchExecuteScriptSituation(ScriptSituationId, Locals, ObjectSelf);
+            CurrentScript = OldCurrentScript;
         }
 
         /// <summary>
@@ -146,5 +153,12 @@ namespace ACR_CreatureBehavior
                 i += 1;
             }
         }
+
+        /// <summary>
+        /// This object represents the currently active script object for the
+        /// running game engine callout.  It can be used to reference script
+        /// APIs globally (but only when in a game engine callout).
+        /// </summary>
+        public static ACR_CreatureBehavior CurrentScript = null;
     }
 }
