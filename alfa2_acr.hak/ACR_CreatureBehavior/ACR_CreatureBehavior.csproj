@@ -63,11 +63,14 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_CreatureBehavior.cs" />
     <Compile Include="CreatureObject.cs" />
+    <Compile Include="DoorObject.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjectManager.cs" />
     <Compile Include="ModuleObject.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="StandardEntrypoints.cs" />
+    <Compile Include="TransitionSource.cs" />
+    <Compile Include="TriggerObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
