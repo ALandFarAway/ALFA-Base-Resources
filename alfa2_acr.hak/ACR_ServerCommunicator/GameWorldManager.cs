@@ -624,6 +624,9 @@ namespace ACR_ServerCommunicator
         private void OnShutdownServer(string Message)
         {
             EnqueueEvent(new ShutdownServerEvent(Message));
+
+            if (Configuration.RestartWatchdogTimeout != 0)
+                StartShutdownWatchdog(Configuration.RestartWatchdogTimeout);
         }
 
 
@@ -1846,6 +1849,24 @@ namespace ACR_ServerCommunicator
                 return false;
             else
                 return Convert.ToInt32(Str) != 0;
+        }
+
+        /// <summary>
+        /// Start the shutdown server watchdog.  A timer is begun and if the
+        /// server has not shut down cleanly before the timer elapses, then the
+        /// process is hard aborted.
+        /// </summary>
+        /// <param name="WatchdogTimeout">Supplies the timeout, in seconds, for
+        /// the shutdown watchdog to wait before aborting the process.</param>
+        private void StartShutdownWatchdog(int WatchdogTimeout)
+        {
+            Timer WatchdogTimer;
+
+            WatchdogTimer = new Timer(
+                delegate(object State) { Environment.Exit(-1); },
+                null,
+                WatchdogTimeout * 1000, 
+                Timeout.Infinite);
         }
 
 

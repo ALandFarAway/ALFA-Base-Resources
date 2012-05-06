@@ -19,6 +19,7 @@ namespace ACR_ServerCommunicator
         public GameWorldConfiguration()
         {
             PlayerPassword = "";
+            RestartWatchdogTimeout = 0;
         }
 
         /// <summary>
@@ -37,6 +38,8 @@ namespace ACR_ServerCommunicator
 
                 if (VarName == "PlayerPassword")
                     PlayerPassword = VarValue;
+                else if (VarName == "RestartWatchdogTimeout")
+                    RestartWatchdogTimeout = Convert.ToInt32(VarValue);
             }
         }
 
@@ -44,6 +47,12 @@ namespace ACR_ServerCommunicator
         /// This property describes the player password for servers.
         /// </summary>
         public string PlayerPassword { get; set; }
+
+        /// <summary>
+        /// This property describes the number of seconds before the server is
+        /// forcibly terminated after a restart request has begun.
+        /// </summary>
+        public int RestartWatchdogTimeout { get; set; }
 
     }
 }
