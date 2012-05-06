@@ -74,96 +74,274 @@ namespace ACR_CreatureBehavior
 
             // Now that leadership is established, what sort of guy is this?
             int TacticsType = Creature.Script.GetLocalInt(Creature.ObjectId, "ACR_CREATURE_BEHAVIOR");
+            if(TacticsType != 0)
+            {
+                if(TacticsType == (int)AIType.BEHAVIOR_TYPE_ANIMAL)
+                {
+                    this.PartyAnimals.Add(Creature);
+                    Creature.TacticsType = TacticsType;
+                }
+                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_ARCHER)
+                {
+                    this.PartyArchers.Add(Creature);
+                    Creature.TacticsType = TacticsType;
+                }
+                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_BUFFS)
+                {
+                    this.PartyBuffs.Add(Creature);
+                    Creature.TacticsType = TacticsType;
+                }
+                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_CONTROL)
+                {
+                    this.PartyControls.Add(Creature);
+                    Creature.TacticsType = TacticsType;
+                }
+                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_COWARD)
+                {
+                    this.PartyCowards.Add(Creature);
+                    Creature.TacticsType = TacticsType;
+                }
+                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_FLANK)
+                {
+                    this.PartyFlanks.Add(Creature);
+                    Creature.TacticsType = TacticsType;
+                }
+                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_MEDIC)
+                {
+                    this.PartyMedics.Add(Creature);
+                    Creature.TacticsType = TacticsType;
+                }
+                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_MINDLESS)
+                {
+                    this.PartyMindless.Add(Creature);
+                    Creature.TacticsType = TacticsType;
+                }
+                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_NUKE)
+                {
+                    this.PartyNukes.Add(Creature);
+                    Creature.TacticsType = TacticsType;
+                }
+                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_SHOCK)
+                {
+                    this.PartyShocks.Add(Creature);
+                    Creature.TacticsType = TacticsType;
+                }
+                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_SKIRMISH)
+                {
+                    this.PartySkrimishers.Add(Creature);
+                    Creature.TacticsType = TacticsType;
+                }
+                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_TANK)
+                {
+                    this.PartyTanks.Add(Creature);
+                    Creature.TacticsType = TacticsType;
+                }
+                else
+                {
+                    TacticsType = (int)AIType.BEHAVIOR_TYPE_UNDEFINED;
+                    throw new ApplicationException(String.Format("Creature {0} has an AI type {1} defined, but that type is not understood by CreatureBehavior.", Creature, TacticsType));
+                }
+            }
 
             if (TacticsType == 0)
             {
-                // Well, no one set a variable, but the creature is mindless; that's a simple thing.
+//==================================================================================================================================================
+//                                         Maybe this is an easy question. Is the creature stupid?
+//==================================================================================================================================================
+                // The creature is mindless; that's a simple thing.
                 if (Creature.Script.GetAbilityScore(Creature.ObjectId, CLRScriptBase.ABILITY_INTELLIGENCE, CLRScriptBase.TRUE) == 0)
                 {
                     Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_MINDLESS;
+                    this.PartyMindless.Add(Creature);
                 }
                 
-                // Missing the variable, but the creature is too dumb to take more than simple orders.
+                // The creature is too dumb to take more than simple orders.
                 else if (Creature.Script.GetAbilityScore(Creature.ObjectId, CLRScriptBase.ABILITY_INTELLIGENCE, CLRScriptBase.TRUE) < 6)
                 {
                     Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_ANIMAL;
+                    this.PartyAnimals.Add(Creature);
                 }
-                
-                int Heal = 0;
-                int Buff = 0;
-                int Blast = 0;
-                int Tank = 0;
-                int Crush = 0;
-                int Flank = 0;
-                int Skirm = 0;
-                int Arch = 0;
-                int Cont = 0;
-                for (int nClass = 0; nClass < 104; nClass++)
+
+//==================================================================================================================================================
+//                        No such luck. We have to figure out how to make this creature act. Count and categorize classes.
+//==================================================================================================================================================
+                else
                 {
-                    int nClassLevel = Creature.Script.GetLevelByClass(nClass, Creature.ObjectId);
-                    if (nClass == CLRScriptBase.CLASS_TYPE_CLERIC ||
-                        nClass == CLRScriptBase.CLASS_TYPE_DRUID ||
-                        nClass == CLRScriptBase.CLASS_TYPE_FAVORED_SOUL ||
-                        nClass == CLRScriptBase.CLASS_TYPE_SPIRIT_SHAMAN)
+                    int Heal = 0;
+                    int Buff = 0;
+                    int Blast = 0;
+                    int Tank = 0;
+                    int Crush = 0;
+                    int Flank = 0;
+                    int Skirm = 0;
+                    int Arch = 0;
+                    int Cont = 0;
+                    for (int nClassPosition = 0; nClassPosition < 5; nClassPosition++)
                     {
-                        Heal += nClassLevel;
+                        int nClass = Creature.Script.GetClassByPosition(nClassPosition, Creature.ObjectId);
+                        int nClassLevel = Creature.Script.GetLevelByClass(nClass, Creature.ObjectId);
+
+                        // Members of these classes commonly have and prepare healing spells.
+                        if (nClass == CLRScriptBase.CLASS_TYPE_CLERIC ||
+                            nClass == CLRScriptBase.CLASS_TYPE_DRUID ||
+                            nClass == CLRScriptBase.CLASS_TYPE_FAVORED_SOUL ||
+                            nClass == CLRScriptBase.CLASS_TYPE_SPIRIT_SHAMAN)
+                        {
+                            Heal += nClassLevel;
+                        }
+
+                        // Members of these classes commonly have good support magic.
+                        else if (nClass == CLRScriptBase.CLASS_TYPE_BARD)
+                        {
+                            Buff += nClassLevel;
+                        }
+
+                        // Members of these classes are usually well-set to focus on aggressive magic.
+                        else if (nClass == CLRScriptBase.CLASS_TYPE_SORCERER ||
+                                nClass == CLRScriptBase.CLASS_TYPE_WARLOCK)
+                        {
+                            Blast += nClassLevel;
+                        }
+
+                        // Members of these classes tend to have some combination of high AC, good saves, and/or damage reduction.
+                        else if (nClass == CLRScriptBase.CLASS_TYPE_FIGHTER ||
+                                nClass == CLRScriptBase.CLASS_TYPE_PALADIN ||
+                                nClass == 35 ||
+                                nClass == CLRScriptBase.CLASS_TYPE_UNDEAD ||
+                                nClass == CLRScriptBase.CLASS_TYPE_CONSTRUCT) // CLASS_TYPE_PLANT is undefined.
+                        {
+                            Tank += nClassLevel;
+                        }
+
+                        // Members of these classes tend to do a lot of damage in direct melee combat.
+                        else if (nClass == CLRScriptBase.CLASS_TYPE_BARBARIAN ||
+                                nClass == CLRScriptBase.CLASS_TYPE_OOZE ||
+                                nClass == CLRScriptBase.CLASS_TYPE_VERMIN ||
+                                nClass == CLRScriptBase.CLASS_TYPE_OUTSIDER ||
+                                nClass == CLRScriptBase.CLASS_TYPE_GIANT ||
+                                nClass == CLRScriptBase.CLASS_TYPE_BEAST ||
+                                nClass == CLRScriptBase.CLASS_TYPE_ELEMENTAL ||
+                                nClass == CLRScriptBase.CLASS_TYPE_MONSTROUS ||
+                                nClass == CLRScriptBase.CLASS_TYPE_HUMANOID)
+                        {
+                            Crush += nClassLevel;
+                        }
+                        
+                        // Members of these classes are typically the most-threatening if they can stab an opponent in the back.
+                        else if (nClass == CLRScriptBase.CLASS_TYPE_ROGUE ||
+                                nClass == CLRScriptBase.CLASS_TYPE_SWASHBUCKLER)
+                        {
+                            Flank += nClassLevel;
+                        }
+
+                        // Members of these classes are typically highly-mobile.
+                        else if (nClass == CLRScriptBase.CLASS_TYPE_MONK ||
+                                nClass == CLRScriptBase.CLASS_TYPE_RANGER ||
+                                nClass == CLRScriptBase.CLASS_TYPE_SHAPECHANGER ||
+                                nClass == CLRScriptBase.CLASS_TYPE_MAGICAL_BEAST ||
+                                nClass == CLRScriptBase.CLASS_TYPE_ANIMAL)
+                        {
+                            Skirm += nClassLevel;
+                        }
+
+                        // Members of these classes are typically best at attacking from a distance.
+                        else if (nClass == CLRScriptBase.CLASS_TYPE_RANGER)
+                        {
+                            Arch += nClassLevel;
+                        }
+
+                        // Members of these classes typically have or prepare spells which control the battlefield.
+                        else if (nClass == CLRScriptBase.CLASS_TYPE_WIZARD ||
+                                nClass == CLRScriptBase.CLASS_TYPE_FEY ||
+                                nClass == CLRScriptBase.CLASS_TYPE_ABERRATION)
+                        {
+                            Cont += nClassLevel;
+                        }
                     }
-                    else if(nClass == CLRScriptBase.CLASS_TYPE_BARD)
+
+//==================================================================================================================================================
+//                                    Now that we know classes by their generic type, we compare the varieties.
+//==================================================================================================================================================
+                    // Spellcasting conters are higher than the others; this person is mostly a spellcaster.
+                    if (Heal + Buff + Blast + Cont > Tank + Crush &&
+                        Heal + Buff + Blast + Cont > Flank + Skirm + Arch)
                     {
-                        Buff += nClassLevel;
+                        // Spellcaster is better at controlling the field than others.
+                        if (Cont > Buff &&
+                            Cont > Blast &&
+                            Cont > Heal)
+                        {
+                            this.PartyControls.Add(Creature);
+                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_CONTROL;
+                        }
+
+                        // Spellcaster is better at support magic than others.
+                        else if (Buff > Blast &&
+                                Buff > Heal)
+                        {
+                            this.PartyBuffs.Add(Creature);
+                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_BUFFS;
+                        }
+
+                        // Spellcaster is better at destroying things than not.
+                        else if (Blast > Heal)
+                        {
+                            this.PartyNukes.Add(Creature);
+                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_NUKE;
+                        }
+
+                        // Spellcaster is either a healer or we don't know. We'll set them to taking care of pals.
+                        else
+                        {
+                            this.PartyMedics.Add(Creature);
+                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_MEDIC;
+                        }
                     }
-                    else if(nClass == CLRScriptBase.CLASS_TYPE_SORCERER ||
-                            nClass == CLRScriptBase.CLASS_TYPE_WARLOCK)
+
+                    // Looks like a melee fighter.
+                    else if (Tank + Crush > Flank + Skirm + Arch)
                     {
-                        Blast += nClassLevel;
+                        if (Tank > Crush)
+                        {
+                            this.PartyTanks.Add(Creature);
+                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_TANK;
+                        }
+                        else
+                        {
+                            this.PartyShocks.Add(Creature);
+                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_SHOCK;
+                        }
                     }
-                    else if(nClass == CLRScriptBase.CLASS_TYPE_FIGHTER ||
-                            nClass == CLRScriptBase.CLASS_TYPE_PALADIN ||
-                            nClass == 35 ||
-                            nClass == CLRScriptBase.CLASS_TYPE_UNDEAD ||
-                            nClass == CLRScriptBase.CLASS_TYPE_CONSTRUCT) // CLASS_TYPE_PLANT is undefined.
+
+                    // Looks like a skilled character.
+                    else if (Flank + Skirm + Arch > 0)
                     {
-                        Tank += nClassLevel;
+                        if (Flank > Skirm &&
+                            Flank > Arch)
+                        {
+                            this.PartyFlanks.Add(Creature);
+                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_FLANK;
+                        }
+                        else if (Arch > Skirm)
+                        {
+                            this.PartyArchers.Add(Creature);
+                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_ARCHER;
+                        }
+                        else
+                        {
+                            this.PartySkrimishers.Add(Creature);
+                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_SKIRMISH;
+                        }
                     }
-                    else if(nClass == CLRScriptBase.CLASS_TYPE_BARBARIAN ||
-                            nClass == CLRScriptBase.CLASS_TYPE_OOZE ||
-                            nClass == CLRScriptBase.CLASS_TYPE_VERMIN ||
-                            nClass == CLRScriptBase.CLASS_TYPE_OUTSIDER ||
-                            nClass == CLRScriptBase.CLASS_TYPE_GIANT ||
-                            nClass == CLRScriptBase.CLASS_TYPE_BEAST ||
-                            nClass == CLRScriptBase.CLASS_TYPE_ELEMENTAL ||
-                            nClass == CLRScriptBase.CLASS_TYPE_MONSTROUS ||
-                            nClass == CLRScriptBase.CLASS_TYPE_HUMANOID)
+
+                    // None of them have any value. This guy is probably useless, except that he can run for help.
+                    else
                     {
-                        Crush += nClassLevel;
-                    }
-                    else if(nClass == CLRScriptBase.CLASS_TYPE_ROGUE ||
-                            nClass == CLRScriptBase.CLASS_TYPE_SWASHBUCKLER)
-                    {
-                        Flank += nClassLevel;
-                    }
-                    else if(nClass == CLRScriptBase.CLASS_TYPE_MONK ||
-                            nClass == CLRScriptBase.CLASS_TYPE_RANGER ||
-                            nClass == CLRScriptBase.CLASS_TYPE_SHAPECHANGER ||
-                            nClass == CLRScriptBase.CLASS_TYPE_MAGICAL_BEAST ||
-                            nClass == CLRScriptBase.CLASS_TYPE_ANIMAL)
-                    {
-                        Skirm += nClassLevel;
-                    }
-                    else if(nClass == CLRScriptBase.CLASS_TYPE_RANGER ||
-                            nClass == CLRScriptBase.CLASS_TYPE_COMMONER)
-                    {
-                        Arch += nClassLevel;
-                    }
-                    else if(nClass == CLRScriptBase.CLASS_TYPE_WIZARD ||
-                            nClass == CLRScriptBase.CLASS_TYPE_FEY ||
-                            nClass == CLRScriptBase.CLASS_TYPE_ABERRATION)
-                    {
-                        Cont += nClassLevel;
+                        this.PartyCowards.Add(Creature);
+                        Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_COWARD;
                     }
                 }
             }
-            Creature.TacticsType = TacticsType;
         }
 
         /// <summary>
@@ -266,7 +444,7 @@ namespace ACR_CreatureBehavior
         /// <summary>
         /// The list of party members focused primarily on attack magic.
         /// </summary>
-        public List<CreatureObject> PartyNukess = new List<CreatureObject>();
+        public List<CreatureObject> PartyNukes = new List<CreatureObject>();
 
 // ====== Block of lists for heavy NPCs ====================================================//
         /// <summary>
