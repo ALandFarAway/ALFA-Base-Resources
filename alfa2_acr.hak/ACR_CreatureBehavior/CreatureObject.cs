@@ -251,8 +251,54 @@ namespace ACR_CreatureBehavior
         
         }
 
+        /// <summary>
+        /// Called at the end of a combat round, when direction for the next round of combat 
+        /// is necessary. This managed the bulk of action in combat.
+        /// </summary>
+        public void OnEndCombatRound()
+        {
+            
+        }
 
+        /// <summary>
+        /// Called when someone attempts to open a static conversation with the creature.
+        /// </summary>
+        public void OnConversation()
+        {
 
+        }
+
+        /// <summary>
+        /// Called when a creature picks up or loses an item.
+        /// </summary>
+        public void OnInventoryDisturbed()
+        {
+
+        }
+
+        /// <summary>
+        /// Called approximately every six seconds on an NPC, regardless of whether or not the NPC is in combat.
+        /// </summary>
+        public void OnHeartbeat()
+        {
+
+        }
+
+        /// <summary>
+        /// Called after a creature rests.
+        /// </summary>
+        public void OnRested()
+        {
+
+        }
+
+        /// <summary>
+        /// Called whenever a builder invokes an event by script, including the on spell cast at event.
+        /// </summary>
+        public void OnUserDefined()
+        {
+
+        }
         /// <summary>
         /// Get whether the creature is a player avatar (includes DMs).
         /// </summary>
