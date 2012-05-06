@@ -837,78 +837,78 @@ string _ParseLang(object oSpeaker, string sText)
 
 int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 {
-	int len;
-	string sMessage, sCommand, c, sLangPick;
+    int len;
+    string sMessage, sCommand, c, sLangPick;
 
-	// iterate the RPXP function to indicate an active PC
-	ACR_RPXPMarkActive(oSpeaker);
+    // iterate the RPXP function to indicate an active PC
+    ACR_RPXPMarkActive(oSpeaker);
 
-	switch (nMode) {
-		case CHAT_MODE_SERVER:
-			// Local server console said something, check for server admin cmd
-			// But not if this isn't the first player on the server, else we
-			// handle the command once per every player.
-			if (oTarget != GetFirstPC())
-				return TRUE;
-		case CHAT_MODE_SILENT_SHOUT:
-			// DM channel command, check for server admin cmd
-			len = GetStringLength(sText);
-			c = GetStringLowerCase(GetStringLeft(sText, 4));
+    switch (nMode) {
+        case CHAT_MODE_SERVER:
+            // Local server console said something, check for server admin cmd
+            // But not if this isn't the first player on the server, else we
+            // handle the command once per every player.
+            if (oTarget != GetFirstPC())
+                return TRUE;
+        case CHAT_MODE_SILENT_SHOUT:
+            // DM channel command, check for server admin cmd
+            len = GetStringLength(sText);
+            c = GetStringLowerCase(GetStringLeft(sText, 4));
 
-			if (c == "#sa " || c == "!sa ")
-			{
-				if (ACR_SrvAdmin_OnChat(oSpeaker, GetStringRight(sText, len-4)))
-					return FALSE;
-				return TRUE;
-			}
-		case CHAT_MODE_SHOUT:
-			return TRUE;
-		case CHAT_MODE_TELL:
-			// Record the last tell to and last tell from player ids for the
-			// re-tell and reply commands.
-			SetLocalInt(oSpeaker, ACR_MOD_LAST_TELL_TO, ACR_GetPlayerID(oTarget));
-			SetLocalInt(oTarget, ACR_MOD_LAST_TELL_FROM, ACR_GetPlayerID(oSpeaker));
-			return TRUE;
-	}
+            if (c == "#sa " || c == "!sa ")
+            {
+                if (ACR_SrvAdmin_OnChat(oSpeaker, GetStringRight(sText, len-4)))
+                    return FALSE;
+                return TRUE;
+            }
+        case CHAT_MODE_SHOUT:
+            return TRUE;
+        case CHAT_MODE_TELL:
+            // Record the last tell to and last tell from player ids for the
+            // re-tell and reply commands.
+            SetLocalInt(oSpeaker, ACR_MOD_LAST_TELL_TO, ACR_GetPlayerID(oTarget));
+            SetLocalInt(oTarget, ACR_MOD_LAST_TELL_FROM, ACR_GetPlayerID(oSpeaker));
+            return TRUE;
+    }
 
-	len = GetStringLength(sText);
+    len = GetStringLength(sText);
 
-	c = GetStringLeft(sText, 1);
+    c = GetStringLeft(sText, 1);
 
-	// roll command
-	if (c == "#" || c == "!")
-	{
-		// Check first for server admin cmd, which needs unedited casing
-		c = GetStringLowerCase(GetStringLeft(sText, 4));
+    // roll command
+    if (c == "#" || c == "!")
+    {
+        // Check first for server admin cmd, which needs unedited casing
+        c = GetStringLowerCase(GetStringLeft(sText, 4));
 
-		if (c == "#sa " || c == "!sa ")
-		{
-			ACR_SrvAdmin_OnChat(oSpeaker, GetStringRight(sText, len-4));
-			return FALSE;
-		}
-		else if (ACR_ServerIPC_OnChat(oSpeaker, nMode, sText))
-		{
-			return FALSE;
-		}
+        if (c == "#sa " || c == "!sa ")
+        {
+            ACR_SrvAdmin_OnChat(oSpeaker, GetStringRight(sText, len-4));
+            return FALSE;
+        }
+        else if (ACR_ServerIPC_OnChat(oSpeaker, nMode, sText))
+        {
+            return FALSE;
+        }
 
-		sCommand = GetStringRight(GetStringLowerCase(sText), len-1);
+        sCommand = GetStringRight(GetStringLowerCase(sText), len-1);
 		
-		ParseRoll(oSpeaker, sCommand);
-		
-		return FALSE;
-	}
+        ParseRoll(oSpeaker, sCommand);
 
-	sLangPick = GetLocalString(oSpeaker, "DefaultLanguage");
+        return FALSE;
+    }
 
-	// the player is attempting to specify a different language.
-	if (c == "@" || TestStringAgainstPattern("**@**",sText)) {
-		sLangPick = _ParseLang(oSpeaker, sText);
+    sLangPick = GetLocalString(oSpeaker, "DefaultLanguage");
 
-		sText = _RemoveLangTag(sText);
-	}
+    // the player is attempting to specify a different language.
+    if (c == "@" || TestStringAgainstPattern("**@**",sText)) {
+    sLangPick = _ParseLang(oSpeaker, sText);
+
+    sText = _RemoveLangTag(sText);
+    }
 	
 
-	return _HandleLang(oSpeaker, sText, nMode, sLangPick);
+    return _HandleLang(oSpeaker, sText, nMode, sLangPick);
 }
 
 
