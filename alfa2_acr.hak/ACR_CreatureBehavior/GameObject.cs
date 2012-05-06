@@ -191,7 +191,7 @@ namespace ACR_CreatureBehavior
         public override string ToString()
         {
             return String.Format(
-                "{0} 0x{1} ({2})", ObjectType, ObjectId, Name);
+                "{0} 0x{1} ({2})", ObjectType, ObjectId.ToString("X"), Name);
         }
 
         /// <summary>
