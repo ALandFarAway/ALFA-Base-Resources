@@ -55,7 +55,19 @@ namespace ALFA
         /// <returns>The GFF reader for module.ifo is returned.</returns>
         public GFFFile OpenModuleIfo()
         {
-            IResourceEntry ResEntry = GetResource("module", ResIFO);
+            return OpenGffResource("module", ResIFO);
+        }
+
+        /// <summary>
+        /// Open a GFF resource by name.
+        /// </summary>
+        /// <param name="ResRef">Supplies the resref to open.</param>
+        /// <param name="ResType">Supplies the restype code of the resource.</param>
+        /// <returns>The GFF reader for the entry is returned on success, else
+        /// null if the resource didn't exist.</returns>
+        public GFFFile OpenGffResource(string ResRef, ushort ResType)
+        {
+            IResourceEntry ResEntry = GetResource(ResRef, ResType);
 
             if (ResEntry == null)
                 return null;

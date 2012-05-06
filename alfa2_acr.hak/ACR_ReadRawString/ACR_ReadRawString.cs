@@ -39,34 +39,30 @@ namespace ACR_ReadRawString
         {
             uint Object = (uint)ScriptParameters[0]; 
             string Key = (string)ScriptParameters[1]; 
-            string ModuleDir, GFFName, ResRef, Extension = "";
+            string GFFName, ResRef;
+            ushort ResType = 0;
 
-	    ModuleDir = ALFA.SystemInfo.GetModuleResourceName();
+            if (ResourceManager == null)
+                ResourceManager = new ALFA.ResourceManager(null);
 
-	    if (ModuleDir == null) {
-		    ModuleDir = GetModuleName();
-	    }
-
-	    ModuleDir = ALFA.SystemInfo.GetHomeDirectory() + "modules\\" + ModuleDir + "\\";
-	    
             ResRef = GetResRef(Object);
 	    
 	    switch (GetObjectType(Object)) {
 		    case OBJECT_TYPE_CREATURE:
-			    Extension = "utc";
+                ResType = ResourceManager.ResUTC;
 			    break;
 		    case OBJECT_TYPE_ITEM:
-			    Extension = "uti";
+                ResType = ResourceManager.ResUTI;
 			    break;
 		    case OBJECT_TYPE_PLACEABLE:
-			    Extension = "utp";
+                ResType = ResourceManager.ResUTP;
 			    break;
 		    default:
 			    break;
 	    }
             
 	    try {
-	        OEIShared.IO.GFF.GFFFile gff = new OEIShared.IO.GFF.GFFFile(ModuleDir + ResRef + "." + Extension);
+            OEIShared.IO.GFF.GFFFile gff = ResourceManager.OpenGffResource(ResRef, ResType);
         	GFFName = gff.TopLevelStruct.GetExoLocStringSafe(Key).Strings.First().Value;
 
 	    	SetLocalString(Object, "RawText", GFFName.Replace("{","[").Replace("}","]"));
@@ -77,5 +73,7 @@ namespace ACR_ReadRawString
             return DefaultReturnCode;
 	}
 
+
+        static ALFA.ResourceManager ResourceManager = null;
     }
 }
