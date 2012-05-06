@@ -1867,6 +1867,8 @@ namespace ACR_ServerCommunicator
                 null,
                 WatchdogTimeout * 1000, 
                 Timeout.Infinite);
+
+            ShutdownWatchdogTimer = WatchdogTimer;
         }
 
 
@@ -2124,5 +2126,10 @@ namespace ACR_ServerCommunicator
         /// to inform monitoring systems that the server is still running.
         /// </summary>
         private Timer UpdateServerCheckinTimer = null;
+
+        /// <summary>
+        /// The active shutdown watchdog timer, if any.
+        /// </summary>
+        private Timer ShutdownWatchdogTimer = null;
     }
 }
