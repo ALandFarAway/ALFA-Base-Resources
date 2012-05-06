@@ -595,18 +595,21 @@ void _AutoClose(object oDoor, float fDelay, int nStatus) {
     if(!GetIsOpen(oDoor)) {
         return;
     }
+	
+	object oAT = GetTransitionTarget(oDoor);
 
     if(!(nStatus & _CLOSE_NEAR_PCS)) {
-        object oPC = GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_IS_PC);
+        object oPC = GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_IS_PC, oDoor);
         float fDistance = GetDistanceBetween(oPC, oDoor);
+		object oOtherPC = GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_IS_PC, oAT);
+		float fOtherDistance = GetDistanceBetween(oPC, oAT);
 		//SendMessageToPC(oPC, "You are " + FloatToString(fDistance, 3, 0) + "m away.");
-        if(GetIsObjectValid(oPC) && fDistance <= PC_PERCEPTION_RANGE) {
+        if((fDistance <= PC_PERCEPTION_RANGE && fDistance > 0.0) || (fOtherDistance <= PC_PERCEPTION_RANGE && fOtherDistance > 0.0)) {
             DelayCommand(fDelay, _AutoClose(oDoor, fDelay, nStatus));
             return;
         }
     }
     ActionCloseDoor(oDoor);
-	object oAT = GetTransitionTarget(oDoor);
 	ActionCloseDoor(oAT);	
 }
 
