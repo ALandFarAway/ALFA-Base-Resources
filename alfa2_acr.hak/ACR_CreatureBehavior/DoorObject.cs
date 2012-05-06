@@ -26,7 +26,7 @@ namespace ACR_CreatureBehavior
     {
 
         /// <summary>
-        /// Construct a creature object and insert it into the object table.
+        /// Construct a door object and insert it into the object table.
         /// </summary>
         /// <param name="ObjectId">Supplies the creature object id.</param>
         /// <param name="ObjectManager">Supplies the object manager.</param>
