@@ -46,6 +46,8 @@ namespace ACR_CreatureBehavior
                 case EVENT_TYPE.CREATURE_ON_SPAWN:
                     {
                         CreatureObject Creature = new CreatureObject(OBJECT_SELF, Server.ObjectManager);
+
+                        Creature.OnSpawn();
                     }
                     break;
 
@@ -261,40 +263,6 @@ namespace ACR_CreatureBehavior
         public class NPCParty
         {
             public float PartyCR = 0.0f;
-
-            public NPC PartyLeader = new NPC { };
-            public List<NPC> PartyMembers = new List<NPC> { };
-            public List<NPC> DeadMember = new List<NPC> { };
-
-            // Melee types.
-            public List<NPC> PartyTanks = new List<NPC> { };
-            public List<NPC> PartyCrushbots = new List<NPC> { };
-            
-            // Skilled types.
-            public List<NPC> PartyFlanks = new List<NPC> { };
-            public List<NPC> PartyArcher = new List<NPC> { };
-            public List<NPC> PartySkirmish = new List<NPC> { };
-            
-            // Magic types.
-            public List<NPC> PartyBuffbot = new List<NPC> { };
-            public List<NPC> PartyHealbot = new List<NPC> { };
-            public List<NPC> PartyBlaster = new List<NPC> { };
-
-            // Other types.
-            public List<NPC> PartyCowards = new List<NPC> { };
-            public List<NPC> PartyAnimals = new List<NPC> { };
-            public List<NPC> PartyMindless = new List<NPC> { };
-
-            // Enemies List
-            public List<NPC> Enemies = new List<NPC> { };
-            public List<NPC> EnemiesDead = new List<NPC> { };
-            public List<NPC> EnemiesLost = new List<NPC> { };
-
-            public List<NPC> EnemiesDivineSpellcasters = new List<NPC> { };
-            public List<NPC> EnemiesArcaneSpellcasters = new List<NPC> { };
-            public List<NPC> EnemiesHeavilyArmored = new List<NPC> { };
-            public List<NPC> EnemiesHeavyWeaponry = new List<NPC> { };
-            public List<NPC> EnemiesRangedWeaponry = new List<NPC> { };
         }
 
         public class NPC
@@ -313,18 +281,5 @@ namespace ACR_CreatureBehavior
     {
         public static List<AreaManager.AreaObject> Areas = new List<AreaManager.AreaObject> { };
 
-    }
-
-    public enum AIType
-    {
-        BEHAVIOR_TYPE_TANK = 1,
-        BEHAVIOR_TYPE_FLANK = 2,
-        BEHAVIOR_TYPE_SHOCK = 3,
-        BEHAVIOR_TYPE_BUFFS = 4,
-        BEHAVIOR_TYPE_MEDIC = 5,
-        BEHAVIOR_TYPE_SKIRMISH = 6,
-        BEHAVIOR_TYPE_ARCHER = 7,
-        BEHAVIOR_TYPE_CONTROL = 8,
-        BEHAVIOR_TYPE_NUKE = 9
     }
 }

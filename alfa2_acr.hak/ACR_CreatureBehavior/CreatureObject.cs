@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
@@ -40,6 +41,40 @@ namespace ACR_CreatureBehavior
             CreatureIsPC = Script.GetIsPC(ObjectId) != CLRScriptBase.FALSE ? true : false;
             CreatureIsDM = Script.GetIsDM(ObjectId) != CLRScriptBase.FALSE ? true : false;
             PerceivedObjects = new List<PerceptionNode>();
+        }
+
+        /// <summary>
+        ///  Called when the creature is spawned, immediately after the class' constructors are run.
+        ///  Responsible for establishing party membership.
+        /// </summary>
+        public void OnSpawn()
+        {
+            bool PartyAssigned = false;
+            uint NearbyCreatureId = Script.GetFirstObjectInShape(CLRScriptBase.SHAPE_SPHERE, 25.0f, Script.GetLocation(this.ObjectId), CLRScriptBase.TRUE, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f,0.0f,0.0f));
+            if(NearbyCreatureId != OBJECT_INVALID && PartyAssigned == false)
+            {
+                if (Script.GetFactionEqual(this.ObjectId, NearbyCreatureId) == CLRScriptBase.TRUE)
+                {
+                    CreatureObject NearbyCreature = Server.ObjectManager.GetCreatureObject(NearbyCreatureId);
+                    if (NearbyCreature != null)
+                    {
+                        AIParty Party = NearbyCreature.Party;
+                        if(Party == null)
+                            throw new ApplicationException(String.Format("Creature {0} has spawned without being added to a party.", NearbyCreature));
+                        else
+                        {
+                            Party.AddPartyMember(this);
+                        }
+                    }
+                    else
+                    {
+                        // This is an error-- an existing creature slipped by us?
+                        throw new ApplicationException(String.Format("Creature with ID {0} has spawned, but has not been indexed by ACR_CreatureBehavior.", NearbyCreatureId));
+                    }
+                }
+                Script.GetFirstObjectInShape(CLRScriptBase.SHAPE_SPHERE, 25.0f, Script.GetLocation(this.ObjectId), CLRScriptBase.TRUE, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f,0.0f,0.0f));
+            }
+            
         }
 
         /// <summary>
@@ -293,7 +328,7 @@ namespace ACR_CreatureBehavior
         }
 
         /// <summary>
-        /// Called whenever a builder invokes an event by script, including the on spell cast at event.
+        /// Called whenever a builder invokes an event by script.
         /// </summary>
         public void OnUserDefined()
         {
@@ -393,5 +428,7 @@ namespace ACR_CreatureBehavior
             /// </summary>
             public bool Heard;
         }
+
+        public int TacticsType = (int)AIParty.AIType.BEHAVIOR_TYPE_UNDEFINED;
     }
 }
