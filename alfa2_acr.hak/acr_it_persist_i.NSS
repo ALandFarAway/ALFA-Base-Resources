@@ -45,6 +45,7 @@
 #include "acr_1984_i"
 #include "acr_pps_i"
 #include "acr_db_persist_i"
+#include "acr_list_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -369,21 +370,52 @@ int _WriteStorageObjectContents(object oStorage)
     // purge the database to avoid duping items
     DestroyCampaignDatabase(sDatabaseName);
 
-    int nStored = 0, nValued = 0; object oItem = GetFirstItemInInventory(oStorage);
-
+    int nStored = 0, nValued = 0, i;
+    
+    object oItem, oContained;
+    
     // loop through inventory
-    while (GetIsObjectValid(oItem))
+    for (oItem = GetFirstItemInInventory(oStorage); GetIsObjectValid(oItem); oItem = GetNextItemInInventory(oStorage))
     {
-		// store the persistent objects
-		ACR_SetPersistentObject(oStorage, IntToString(nStored), oItem, sDatabaseName);
+
+	// Create a list of all objects presently held within a container (pack, box, scroll case, etc) to exclude later
+    	for (oContained = GetFirstItemInInventory(oItem); GetIsObjectValid(oContained); oContained = GetNextItemInInventory(oItem)) {
+		i = ACR_ListInsertAfterIndex("pchest", ACR_ListGetFirstIndex("pchest", oStorage), oStorage);
+		ACR_ListSetElementObject("pchest", i, oContained, oStorage);
+	}
+    }
+
+    // loop through inventory second time
+    for (oItem = GetFirstItemInInventory(oStorage); GetIsObjectValid(oItem); oItem = GetNextItemInInventory(oStorage))
+    {
+	// confirm this item shall not be duplicated
+	i = ACR_ListGetFirstIndex("pchest", oStorage); 
+
+	do {
+		if (oItem == ACR_ListGetElementObject("pchest", i, oStorage)) {
+			i = -1;
+			break;
+		}
+
+		i = ACR_ListGetNextIndex("pchest", i, oStorage);
+	}
+	while (i != ACR_ListGetFirstIndex("pchest", oStorage));
+
+	// leave and continue with next item
+	if (i == -1) {
+		// destroy the list, element by element
+		ACR_ListRemoveAtElementObject("pchest", oItem, oStorage);
+		continue;
+	}
+
+	// store the persistent objects
+	ACR_SetPersistentObject(oStorage, IntToString(nStored), oItem, sDatabaseName);
 
         // tally up the total item count and gold piece value
         nStored++; nValued += GetGoldPieceValue(oItem);
 
-		//SendMessageToAllDMs("Valuing "+GetName(oItem)+" from "+GetName(oStorage));
+	//SendMessageToAllDMs("Valuing "+GetName(oItem)+" from "+GetName(oStorage));
 		
-        // get the  next item
-        oItem = GetNextItemInInventory(oStorage);
     }
 
 	//SendMessageToAllDMs("Total value: "+IntToString(nValued)+" gp, from "+IntToString(nStored)+" objects.");
