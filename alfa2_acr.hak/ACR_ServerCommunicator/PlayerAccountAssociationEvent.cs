@@ -45,7 +45,10 @@ namespace ACR_ServerCommunicator
             // If the player is logged off, then there's nothing to do.
             //
 
-            if (State == null)
+            if (State == null || State.IsDM)
+                return;
+
+            if (String.IsNullOrEmpty(AccountAssociationSecret))
                 return;
 
             AccountAssociationURL = AccountAssociator.GenerateAssociationURL(Script.GetPCPlayerName(PlayerObject), AccountAssociationSecret);
