@@ -1019,6 +1019,9 @@ namespace ACR_ServerCommunicator
             {
                 AssignCommand(PlayerObject, delegate()
                 {
+                    if (GetIsPC(PlayerObject) == FALSE)
+                        return;
+
                     lock (WorldManager)
                     {
                         int OnlineUserCount = WorldManager.OnlineCharacters.Count<GameCharacter>();
@@ -1037,6 +1040,8 @@ namespace ACR_ServerCommunicator
                             OnlineUserCount,
                             OnlineServerCount));
                     }
+
+                    StartAccountAssociationCheck(PlayerObject);
                 });
             });
 
@@ -2248,6 +2253,39 @@ namespace ACR_ServerCommunicator
             WriteTimestampedLogEntry(String.Format(
                 "ACR_ServerCommunicator.RunUpdateServerExternalAddress(): Updated server network address: {0}",
                 NetworkAddress));
+        }
+
+        /// <summary>
+        /// Start a check to determine whether the player has associated a
+        /// forum account in the database.  The check runs asynchronously to
+        /// avoid blocking the main thread.
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the player object id.</param>
+        private void StartAccountAssociationCheck(uint PlayerObject)
+        {
+            string AccountName = GetPCPlayerName(PlayerObject);
+
+            WorldManager.SignalQueryThreadAction(delegate(IALFADatabase Database)
+            {
+                Database.ACR_SQLQuery(String.Format(
+                    "SELECT `alfa_gsids`.`uid` FROM `alfa_gsids` WHERE `gsid` = '{0}'",
+                    Database.ACR_SQLEncodeSpecialChars(AccountName)));
+
+                //
+                // If the player already has an account association, then there
+                // is no work to be done.  Otherwise, request that the player
+                // association GUI be opened.
+                //
+
+                if (Database.ACR_SQLFetch())
+                    return;
+
+                lock (WorldManager)
+                {
+                    WorldManager.EnqueueAccountAssociationToPlayer(PlayerObject,
+                        WorldManager.Configuration.AccountAssociationSecret);
+                }
+            });
         }
 
         /// <summary>

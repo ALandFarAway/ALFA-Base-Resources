@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountAssociator.cs" />
     <Compile Include="ACR_ServerCommunicator.cs" />
     <Compile Include="..\..\CLRScript\ALFADatabase.cs" />
     <Compile Include="..\..\CLRScript\ALFAMySQLDatabase.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="GameWorldManager.cs" />
     <Compile Include="IGameEntity.cs" />
     <Compile Include="PageEvent.cs" />
+    <Compile Include="PlayerAccountAssociationEvent.cs" />
     <Compile Include="PlayerState.cs" />
     <Compile Include="PlayerTextNotificationEvent.cs" />
     <Compile Include="PurgeCachedCharacterEvent.cs" />
