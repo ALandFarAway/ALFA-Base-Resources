@@ -517,6 +517,21 @@ namespace ACR_ServerCommunicator
             EnqueueEvent(new PlayerTextNotificationEvent(PlayerObject, Message));
         }
 
+        /// <summary>
+        /// Enqueue an account association event to a player for processing in
+        /// the main thread.
+        /// 
+        /// N.B.  The world manager is assumed to be locked.
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the local object id of the
+        /// player to send to.</param>
+        /// <param name="AccountAssociationSecret">Supplies the account
+        /// association secret.</param>
+        public void EnqueueAccountAssociationToPlayer(uint PlayerObject, string AccountAssociationSecret)
+        {
+            EnqueueEvent(new PlayerAccountAssociationEvent(PlayerObject, AccountAssociationSecret));
+        }
+
 
         /// <summary>
         /// This routine wrappers the process of enqueuing an event, and also

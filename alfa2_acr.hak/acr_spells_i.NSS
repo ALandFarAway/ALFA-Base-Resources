@@ -78,6 +78,7 @@ int ACR_GetCorrectCasterLevel(object oCreature, int nClass) {
 	switch(nClass) {
 		
 		case CLASS_TYPE_CLERIC:
+			nCasterLevel += nClassLevels;
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_CLERIC);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_LOREMASTER_SPELLCASTING_CLERIC);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_WARPRIEST, oCreature, FEAT_LOREMASTER_SPELLCASTING_CLERIC) / 2;
@@ -89,6 +90,7 @@ int ACR_GetCorrectCasterLevel(object oCreature, int nClass) {
 			break;
 			
 		case CLASS_TYPE_DRUID:
+			nCasterLevel += nClassLevels;
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_DRUID);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_MYSTICTHEURGE_SPELLCASTING_DRUID);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_WARPRIEST, oCreature, FEAT_WARPRIEST_SPELLCASTING_DRUID) / 2;
@@ -100,6 +102,7 @@ int ACR_GetCorrectCasterLevel(object oCreature, int nClass) {
 			break;
 			
 		case CLASS_TYPE_FAVORED_SOUL:
+			nCasterLevel += nClassLevels;
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_FS);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_MYSTICTHEURGE_SPELLCASTING_FS);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_WARPRIEST, oCreature, FEAT_WARPRIEST_SPELLCASTING_FAVORED_SOUL) / 2;
@@ -111,6 +114,7 @@ int ACR_GetCorrectCasterLevel(object oCreature, int nClass) {
 			break;
 				
 		case CLASS_TYPE_SPIRIT_SHAMAN:
+			nCasterLevel += nClassLevels;
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_SS);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_MYSTICTHEURGE_SPELLCASTING_SS);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_WARPRIEST, oCreature, FEAT_WARPRIEST_SPELLCASTING_SPIRIT_SHAMAN) / 2;
@@ -122,6 +126,7 @@ int ACR_GetCorrectCasterLevel(object oCreature, int nClass) {
 			break;
 		
 		case CLASS_TYPE_BARD:
+			nCasterLevel += nClassLevels;
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_BARD);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_MYSTICTHEURGE_SPELLCASTING_BARD);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_HARPER, oCreature, FEAT_HARPER_SPELLCASTING_BARD) - 1;
@@ -133,6 +138,7 @@ int ACR_GetCorrectCasterLevel(object oCreature, int nClass) {
 			break;
 		
 		case CLASS_TYPE_SORCERER:
+			nCasterLevel += nClassLevels;
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_SORCERER);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_MYSTICTHEURGE_SPELLCASTING_SORCERER);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_HARPER, oCreature, FEAT_HARPER_SPELLCASTING_SORCERER) - 1;
@@ -144,6 +150,7 @@ int ACR_GetCorrectCasterLevel(object oCreature, int nClass) {
 			break;
 			
 		case CLASS_TYPE_WIZARD:
+			nCasterLevel += nClassLevels;
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_WIZARD);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_MYSTICTHEURGE_SPELLCASTING_WIZARD);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_HARPER, oCreature, FEAT_HARPER_SPELLCASTING_WIZARD) - 1;
@@ -156,6 +163,7 @@ int ACR_GetCorrectCasterLevel(object oCreature, int nClass) {
 			break;
 				
 		case CLASS_TYPE_PALADIN:
+			nCasterLevel += (nClassLevels > 4) ? (nClassLevels / 2) : 0;
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_PALADIN);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_MYSTICTHEURGE_SPELLCASTING_PALADIN);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_WARPRIEST, oCreature, FEAT_WARPRIEST_SPELLCASTING_PALADIN) / 2;
@@ -167,6 +175,7 @@ int ACR_GetCorrectCasterLevel(object oCreature, int nClass) {
 			break;
 		
 		case CLASS_TYPE_RANGER:
+			nCasterLevel += (nClassLevels > 4) ? (nClassLevels / 2) : 0;
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_LOREMASTER, oCreature, FEAT_LOREMASTER_SPELLCASTING_RANGER);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_MYSTICTHEURGE, oCreature, FEAT_MYSTICTHEURGE_SPELLCASTING_RANGER);
 			nCasterLevel += _GetLevelIfHasFeat(CLASS_TYPE_WARPRIEST, oCreature, FEAT_WARPRIEST_SPELLCASTING_RANGER) / 2;

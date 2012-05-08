@@ -236,6 +236,12 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts();
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+void _ActionSpeakString(string sToSpeak, int nTalkVolume)
+{
+	string sText = GetLocalString(OBJECT_SELF, "SPEAK_STRING");
+	ActionSpeakString(sText, nTalkVolume);
+}
+
 void ACR_ModuleOnModuleLoad()
 {
 	// Set global module settings.
@@ -875,6 +881,91 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 
     c = GetStringLeft(sText, 1);
 
+    // Is this someone setting a listening anchor?
+    if(sText == "#1" || sText == "#2" || sText == "#3" || sText == "#4" || sText == "#5" || sText == "#6" || sText == "#7" || sText == "#8" || sText == "#9" || sText == "#0")
+    {
+        oTarget = GetPlayerCurrentTarget(oSpeaker);
+        if(!GetIsObjectValid(oTarget))
+        {
+            SendMessageToPC(oSpeaker, "You must select an object to do that.");
+            return FALSE;
+        }
+        if(GetIsPC(oTarget))
+        {
+            SendMessageToPC(oSpeaker, "If you're that eager to write for all of the characters in this story, perhaps you should take up fanfiction?");
+            return FALSE;
+        }
+        if(GetIsDM(oSpeaker) || GetLocalInt(oTarget, "HENCHMAN_LEADER") == ACR_GetPlayerID(oSpeaker) || GetMaster(oTarget) == oSpeaker)
+        {
+            SetLocalObject(oSpeaker, sText, oTarget);
+            SetLocalObject(oTarget, "MouthPiece", oSpeaker);
+            SendMessageToPC(oSpeaker, "Setting "+GetName(oTarget)+" as anchored to "+sText+".");
+            return FALSE;
+        }
+        SendMessageToPC(oSpeaker, "You cannot anchor your chat to that object.");
+        return FALSE;
+    }
+    // Is this someone speaking through the anchor?
+    else if(GetStringLeft(sText, 2) == "#1" || GetStringLeft(sText, 2) == "#2" || GetStringLeft(sText, 2) == "#3" || GetStringLeft(sText, 2) == "#4" || GetStringLeft(sText, 2) == "#5" || GetStringLeft(sText, 2) == "#6" || GetStringLeft(sText, 2) == "#7" || GetStringLeft(sText, 2) == "#8" || GetStringLeft(sText, 2) == "#9" || GetStringLeft(sText, 2) == "#0")
+    {
+        object oAnchor = GetLocalObject(oSpeaker, GetStringLeft(sText, 2));
+        string sAnchor = GetStringLeft(sText, 2);
+        sText = GetStringRight(sText, len-3);
+        c = GetStringLeft(sText, 1);
+
+        // We haven't anchored to this number; maybe we're trying to grab by a tag?
+        if(!GetIsObjectValid(oAnchor))
+        {
+            oTarget = GetObjectByTag(sText);
+            if(!GetIsObjectValid(oTarget))
+            {
+                SendMessageToPC(oSpeaker, "You must specify a valid object tag to do that.");
+                return FALSE;
+            }
+            if(GetIsPC(oTarget))
+            {
+                SendMessageToPC(oSpeaker, "If you're that eager to write for all of the characters in this story, perhaps you should take up fanfiction?");
+                return FALSE;
+            }
+            if(GetIsDM(oSpeaker) || GetLocalInt(oTarget, "HENCHMAN_LEADER") == ACR_GetPlayerID(oSpeaker) || GetMaster(oTarget) == oSpeaker)
+            {
+                SetLocalObject(oSpeaker, sAnchor, oTarget);
+                SetLocalObject(oTarget, "MouthPiece", oSpeaker);
+                SendMessageToPC(oSpeaker, "Setting "+GetName(oTarget)+" as anchored to "+sText+".");
+                return FALSE;
+            }
+            SendMessageToPC(oSpeaker, "You cannot anchor your chat to that object.");
+            return FALSE;
+        }
+
+        int nTalkVolume = TALKVOLUME_TALK;
+        if(nMode == CHAT_MODE_WHISPER) nTalkVolume = TALKVOLUME_WHISPER;
+
+        // We assume that DMs know what they're doing. Their targets can speak foreign languages.
+        if(GetIsDM(oSpeaker))
+        {
+            sLangPick = _ParseLang(oAnchor, sText);
+            sText = _RemoveLangTag(sText);
+            if(sLangPick == "") sLangPick = "Common";
+            int nHandleLang = _HandleLang(oAnchor, sText, nMode, sLangPick);
+            if(nHandleLang)
+            {
+                SetLocalString(oAnchor, "SPEAK_STRING", sText);
+                AssignCommand(oAnchor, _ActionSpeakString(sText, nTalkVolume));
+            }
+            return FALSE;
+        }
+  
+        // Players we can't trust as much. Their anchors can only speak common.
+        else
+        {
+            sLangPick = "Common";
+            SetLocalString(oAnchor, "SPEAK_STRING", sText);
+            AssignCommand(oAnchor, _ActionSpeakString(sText, nTalkVolume));
+        }
+        return FALSE;
+    }
+
     // roll command
     if (c == "#" || c == "!")
     {
@@ -902,9 +993,8 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 
     // the player is attempting to specify a different language.
     if (c == "@" || TestStringAgainstPattern("**@**",sText)) {
-    sLangPick = _ParseLang(oSpeaker, sText);
-
-    sText = _RemoveLangTag(sText);
+        sLangPick = _ParseLang(oSpeaker, sText);
+        sText = _RemoveLangTag(sText);
     }
 	
 
@@ -925,11 +1015,24 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 {
 	if (sLangPick == "common" || sLangPick == "")
 	{
+		string sMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#FFFFFF>[Common] "+sText;
+		location lSelf = GetLocation(oSpeaker);
+		object oListener = GetFirstObjectInShape(SHAPE_SPHERE, ACR_TALK_SPHERE_RADIUS, lSelf);
+		while(GetIsObjectValid(oListener))
+		{
+			object oMouthPiece = GetLocalObject(oListener, "MouthPiece");
+			if(GetIsObjectValid(oMouthPiece))
+				SendMessageToPC(oMouthPiece, sMessage);
+			oListener = GetNextObjectInShape(SHAPE_SPHERE, ACR_TALK_SPHERE_RADIUS, lSelf);
+		}
 		return TRUE;
 	}
 	
 	object oTool = _GetDMFITool(oSpeaker);
 	string sNewString = DMFI_ProcessLanguage(sText, sLangPick, oTool);
+
+        int nTalkVolume = TALKVOLUME_TALK;
+        if(nMode == CHAT_MODE_WHISPER) nTalkVolume = TALKVOLUME_WHISPER;
 	
 	if (nMode == CHAT_MODE_PARTY)
 	{
@@ -940,12 +1043,16 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 
 			if((_IsLanguageKnown(oListener, sLangPick) && GetFactionEqual(oSpeaker, oListener))
 				|| GetIsDM(oListener) || GetIsDMPossessed(oListener) || oListener == oSpeaker)
-			{
 				SendMessageToPC(oListener, sMessage);
-			}
 			oListener = GetNextPC(FALSE);
-		}	
-		SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
+		}
+		if(GetIsPC(oSpeaker) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))	
+			SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
+		else
+		{
+			SetLocalString(oSpeaker, "SPEAK_STRING", sText);
+			AssignCommand(oSpeaker, _ActionSpeakString(sNewString, nTalkVolume));
+		}
 		return FALSE;
 	}
 	else if (nMode == CHAT_MODE_TALK)
@@ -957,6 +1064,14 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 		{
 			if(_IsLanguageKnown(oListener, sLangPick))
 					SendMessageToPC(oListener, sMessage);
+			object oMouthPiece = GetLocalObject(oListener, "MouthPiece");
+			if(GetIsObjectValid(oMouthPiece))
+			{
+				if(GetIsDM(oMouthPiece) || GetIsDMPossessed(oMouthPiece))
+					SendMessageToPC(oMouthPiece, sMessage);
+				else
+					SendMessageToPC(oMouthPiece, sNewString);
+			}
 			oListener = GetNextObjectInShape(SHAPE_SPHERE, ACR_TALK_SPHERE_RADIUS, lSelf);
 		}
 		oListener = GetFirstPC(FALSE);
@@ -968,7 +1083,13 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 				SendMessageToPC(oListener, sMessage);
 			oListener = GetNextPC(FALSE);
 		}
-		SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
+		if(GetIsPC(oSpeaker) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))	
+			SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
+		else
+		{
+			SetLocalString(oSpeaker, "SPEAK_STRING", sText);
+			AssignCommand(oSpeaker, _ActionSpeakString(sNewString, nTalkVolume));
+		}
 		return FALSE;
 	}
 	else if (nMode == CHAT_MODE_WHISPER)
@@ -980,6 +1101,14 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 		{
 			if(_IsLanguageKnown(oListener, sLangPick))
 					SendMessageToPC(oListener, sMessage);
+			object oMouthPiece = GetLocalObject(oListener, "MouthPiece");
+			if(GetIsObjectValid(oMouthPiece))
+			{
+				if(GetIsDM(oMouthPiece) || GetIsDMPossessed(oMouthPiece))
+					SendMessageToPC(oMouthPiece, sMessage);
+				else
+					SendMessageToPC(oMouthPiece, sNewString);
+			}
 			oListener = GetNextObjectInShape(SHAPE_SPHERE, ACR_WHISPER_SPHERE_RADIUS, lSelf);
 		}
 		SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
@@ -991,6 +1120,13 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 				&& GetArea(oSpeaker) == GetArea(oListener) && GetDistanceBetween(oSpeaker, oListener) <= ACR_WHISPER_SPHERE_RADIUS)
 				SendMessageToPC(oListener, sMessage);
 			oListener = GetNextPC(FALSE);
+		}
+		if(GetIsPC(oSpeaker) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))	
+			SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
+		else
+		{
+			SetLocalString(oSpeaker, "SPEAK_STRING", sText);
+			AssignCommand(oSpeaker, _ActionSpeakString(sNewString, nTalkVolume));
 		}
 		return FALSE;
 	}

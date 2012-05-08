@@ -40,6 +40,8 @@ namespace ACR_ServerCommunicator
                     PlayerPassword = VarValue;
                 else if (VarName == "RestartWatchdogTimeout")
                     RestartWatchdogTimeout = Convert.ToInt32(VarValue);
+                else if (VarName == "AccountAssociationSecret")
+                    AccountAssociationSecret = VarValue;
             }
         }
 
@@ -53,6 +55,13 @@ namespace ACR_ServerCommunicator
         /// forcibly terminated after a restart request has begun.
         /// </summary>
         public int RestartWatchdogTimeout { get; set; }
+
+        /// <summary>
+        /// This property defines the association secret used to create the
+        /// verification hash in the URL that is used to connect a game account
+        /// to a forum account.
+        /// </summary>
+        public string AccountAssociationSecret { get; set; }
 
     }
 }
