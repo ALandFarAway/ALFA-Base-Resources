@@ -69,6 +69,14 @@ const string ACR_MODULE_TIME = "ACR_TIME_SERVERTIME";
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+struct DateStruct
+{
+	int year;
+	int month;
+	int day;
+	int holiday;
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 // Global Variables ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -166,7 +174,7 @@ int ACR_GetFRHoliday();
 
 //! Converts given rl date to fr date
 //!  - Returns: FR date
-string ACR_ConvertDate(int year=0, int month=0, int day=0);
+struct DateStruct ACR_ConvertDate(int year=0, int month=0, int day=0);
 
 // Private functions
 
@@ -368,42 +376,21 @@ int ACR_GetTimeStampInHours(int bStartOfDay = FALSE)
 
 void _CalcDate()
 {
-	string str,sub;
 	int i,j,len,year,month,day,holiday;
+	struct DateStruct ds;
 
-	str = ACR_ConvertDate();
-	j=-1;
+	ds = ACR_ConvertDate();
 
-	i=j+1;
-	j = FindSubString(str,",",i);
-	sub = GetSubString(str,i,j-i);
-	year = StringToInt(sub);
-
-	i=j+1;
-	j = FindSubString(str,",",i);
-	sub = GetSubString(str,i,j-i);
-	month = StringToInt(sub);
-
-	i=j+1;
-	j = FindSubString(str,",",i);
-	sub = GetSubString(str,i,j-i);
-	day = StringToInt(sub);
-
-	i=j+1;
-	j = GetStringLength(str);
-	sub = GetSubString(str,i,j-i);
-	holiday = StringToInt(sub);
-
-
-	SetGlobalInt("ACR_FR_Year", year);
-	SetGlobalInt("ACR_FR_Month", month);
-	SetGlobalInt("ACR_FR_Day", day);
-	SetGlobalInt("ACR_FR_Holiday", holiday);
+	SetGlobalInt("ACR_FR_Year", ds.year);
+	SetGlobalInt("ACR_FR_Month", ds.month);
+	SetGlobalInt("ACR_FR_Day", ds.day);
+	SetGlobalInt("ACR_FR_Holiday", ds.holiday);
 }
 
-string ACR_ConvertDate(int year=0, int month=0, int day=0)
+struct DateStruct ACR_ConvertDate(int year=0, int month=0, int day=0)
 {
 	int holiday = 0, leap;
+	struct DateStruct ds;
 
 	// Harptos Calendar
 	// ----------------
@@ -547,8 +534,13 @@ string ACR_ConvertDate(int year=0, int month=0, int day=0)
 	}
 
 	year -= (ALFA2_RL_YEAR_START - ALFA2_FR_YEAR_START);
+	
+	ds.year = year;
+	ds.month = month;
+	ds.day = day;
+	ds.holiday = holiday;
 
-	return IntToString(year)+","+IntToString(month)+","+IntToString(day)+","+IntToString(holiday);
+	return ds;
 }
 
 int ACR_GetFRYear()
