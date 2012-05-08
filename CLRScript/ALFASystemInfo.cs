@@ -95,6 +95,29 @@ namespace ALFA
         }
 
         /// <summary>
+        /// This routine gets the directory with the module data files for the
+        /// current module.  The routine only works if the server was started
+        /// with -moduledir.
+        /// </summary>
+        /// <returns>The module directory, else null if it could not be
+        /// determined.</returns>
+        public static string GetModuleDirectory()
+        {
+            string HomeDirectory = GetHomeDirectory();
+            string ModuleResourceName = GetModuleResourceName();
+
+            if (ModuleResourceName == null)
+                return null;
+
+            string ModuleDirectory = String.Format("{0}modules\\{1}", HomeDirectory, ModuleResourceName);
+
+            if (!Directory.Exists(ModuleDirectory))
+                return null;
+
+            return ModuleDirectory;
+        }
+
+        /// <summary>
         /// This routine gets the resource name of the module that was passed
         /// on the server command line.  Note that if the server did not have a
         /// module argument then null is returned.

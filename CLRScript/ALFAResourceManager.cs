@@ -50,6 +50,15 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Initiate a load of core module resources only (no haks or zips).
+        /// The load must be initiated before any resources are requested.
+        /// </summary>
+        public void LoadCoreResources()
+        {
+            LoadResourceRepositories(true);
+        }
+
+        /// <summary>
         /// This method opens module.ifo for read as a GFF reader.
         /// </summary>
         /// <returns>The GFF reader for module.ifo is returned.</returns>
@@ -141,9 +150,42 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Get a list of all resources.
+        /// </summary>
+        /// <returns>A list of all resources known to this resource manager.
+        /// The list may have duplicate entries.</returns>
+        public IEnumerable<IResourceEntry> GetAllResources()
+        {
+            List<IResourceEntry> FoundResources = new List<IResourceEntry>();
+
+            if (Repositories == null)
+                LoadResourceRepositories();
+
+            foreach (IResourceRepository Repository in Repositories)
+            {
+                foreach (IResourceEntry ResEntry in Repository.Resources)
+                {
+                    FoundResources.Add(ResEntry);
+                }
+            }
+
+            return FoundResources;
+        }
+
+        /// <summary>
         /// This method performs demand loading of resource repositories.
         /// </summary>
         private void LoadResourceRepositories()
+        {
+            LoadResourceRepositories(false);
+        }
+
+        /// <summary>
+        /// This method performs demand loading of resource repositories.
+        /// </summary>
+        /// <param name="ModuleOnly">If true, only load the module core
+        /// resources.</param>
+        private void LoadResourceRepositories(bool ModuleOnly)
         {
             string HomeDirectory = SystemInfo.GetHomeDirectory();
             string InstallDirectory = SystemInfo.GetGameInstallationDirectory();
@@ -180,18 +222,21 @@ namespace ALFA
                 Repositories.Add(new DirectoryResourceRepository(ModPath));
             }
 
-            AddModuleHaks(OpenModuleIfo(), HomeDirectory, InstallDirectory);
-
-            foreach (string PathName in new string[] { HomeDirectory, InstallDirectory })
+            if (!ModuleOnly)
             {
-                Repositories.Add(new DirectoryResourceRepository(String.Format("{0}\\override", PathName)));
-            }
+                AddModuleHaks(OpenModuleIfo(), HomeDirectory, InstallDirectory);
 
-            DataPath = String.Format("{0}\\Data", InstallDirectory);
+                foreach (string PathName in new string[] { HomeDirectory, InstallDirectory })
+                {
+                    Repositories.Add(new DirectoryResourceRepository(String.Format("{0}\\override", PathName)));
+                }
 
-            foreach (string ZipPath in Directory.EnumerateFiles(DataPath, "*.zip"))
-            {
-                Repositories.Add(new ZIPResourceRepository(ZipPath));
+                DataPath = String.Format("{0}\\Data", InstallDirectory);
+
+                foreach (string ZipPath in Directory.EnumerateFiles(DataPath, "*.zip"))
+                {
+                    Repositories.Add(new ZIPResourceRepository(ZipPath));
+                }
             }
 
             //

@@ -70,6 +70,14 @@ const string ACR_DISABLE_STATISTICS = "ACR_DISABLE_STATISTICS";
 //! Module configuration setting indicating that GameObjUpdate backoff is enabled.
 const string ACR_GAMEOBJUPDATE = "GameObjUpdateBackoff";
 
+//! Database configuration setting indicating that module resource files should
+//  be tallied.
+const string ACR_MODULERESOURCEFILES_DB = "ModuleResourceFiles";
+
+//! Database configuration setting indicating that module resource files should
+//  be tallied.
+const string ACR_MODULERESOURCEFILES_MOD = "ACR_MODULERESOURCEFILES";
+
 //! Values for ACR_SRVADMIN local on PC object.
 const int ACR_SRVADMIN_INDETERMINITE = 0;  // Need to query database
 const int ACR_SRVADMIN_IS_ADMIN = 1;       // Is an admin
@@ -561,6 +569,11 @@ void ACR_LoadDatabaseConfiguration()
 		{
 			WriteTimestampedLogEntry("acr_db_persist_i: Applying GameObjUpdate backoff configuration from database.");
 			SetLocalInt(Module, ACR_HEALTHMONITOR_GAMEOBJUPDATE_BACKOFF_VAR, StringToInt(VarValue));
+		}
+		else if (VarName == ACR_MODULERESOURCEFILES_DB)
+		{
+			WriteTimestampedLogEntry("acr_db_persist_i: Applying ModuleResourceFiles logging configuration from database.");
+			SetLocalInt(Module, ACR_MODULERESOURCEFILES_MOD, StringToInt(VarValue));
 		}
 	}
 }
@@ -1170,6 +1183,13 @@ void ACR_CreateSQLTables()
 		" `EventText` varchar(256) NOT NULL, " +
 		"PRIMARY KEY(`ID`), UNIQUE KEY(`ID`, `DestinationServerID`) " +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
+
+	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `server_resource_files` ( " +
+		"`ServerID` smallint(5) UNSIGNED NOT NULL, " +
+		"`ResourceFileName` varchar(36) NOT NULL, " +
+		"PRIMARY KEY(`ServerID`, `ResourceFileName`), INDEX (`ServerID`) " +
+	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
+
 }
 
 void ACR_ResetDatabase()  {

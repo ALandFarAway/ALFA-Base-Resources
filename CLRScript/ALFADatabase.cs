@@ -142,7 +142,7 @@ namespace ALFA
         {
             DemandInitialize();
 
-            ACR_AsyncSQLQueryEx_Method.Invoke(DBLibraryScript, new object[] { Query, QueueTo, (UInt32)Flags });
+            ACR_AsyncSQLQueryEx_Method.Invoke(DBLibraryScript, new object[] { Query, QueueTo, (Int32)Flags });
         }
 
         /// <summary>

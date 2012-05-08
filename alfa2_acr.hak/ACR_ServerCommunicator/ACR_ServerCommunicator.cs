@@ -15,6 +15,8 @@ using ALFA;
 using NWScript;
 using NWScript.ManagedInterfaceLayer.NWScriptManagedInterface;
 
+using OEIShared.IO;
+
 using NWEffect = NWScript.NWScriptEngineStructure0;
 using NWEvent = NWScript.NWScriptEngineStructure1;
 using NWLocation = NWScript.NWScriptEngineStructure2;
@@ -280,12 +282,63 @@ namespace ACR_ServerCommunicator
             if (!EnableLatencyCheck)
                 WriteTimestampedLogEntry("ACR_ServerCommunicator.InitializeServerCommunicator: Latency check turned off by configuration.");
 
+            RecordModuleResources();
+
             //
             // Finally, drop into the command polling loop.
             //
 
             CommandDispatchLoop();
             UpdateServerExternalAddress();
+        }
+
+        /// <summary>
+        /// Discover and record resources located in the module proper, and log
+        /// them to the database.
+        /// </summary>
+        private void RecordModuleResources()
+        {
+            uint Module = GetModule();
+
+            if (GetLocalInt(Module, "ACR_MODULERESOURCEFILES") == 0)
+                return;
+
+            DeleteLocalInt(Module, "ACR_MODULERESOURCEFILES");
+
+            try
+            {
+                StringBuilder Query = new StringBuilder();
+                ALFA.ResourceManager ResourceManager = new ALFA.ResourceManager(null);
+                ALFA.Database Database = GetDatabase();
+                int ServerID = Database.ACR_GetServerID();
+
+                ResourceManager.LoadCoreResources();
+
+                Query.AppendFormat(
+                    "DELETE FROM `server_resource_files` WHERE `ServerID` = {0};",
+                    ServerID);
+
+                var ResNames = (from ResEntry in ResourceManager.GetAllResources()
+                                select ResEntry.FullName.ToLower()).Distinct();
+
+                foreach (string ResName in ResNames)
+                {
+                    Query.AppendFormat(
+                        "INSERT INTO `server_resource_files` (`ServerID`, `ResourceFileName`) VALUES ({0}, '{1}');",
+                        ServerID,
+                        Database.ACR_SQLEncodeSpecialChars(ResName));
+                }
+
+                Database.ACR_AsyncSQLQueryEx(Query.ToString(), Module, ACR_QUERY_FLAGS.ACR_QUERY_LOW_PRIORITY);
+                WriteTimestampedLogEntry(String.Format(
+                    "ACR_ServerCommunicator.RecordModuleResources: Recorded {0} module resources.",
+                    ResNames.Count<string>()));
+            }
+            catch (Exception e)
+            {
+                WriteTimestampedLogEntry(String.Format(
+                    "ACR_ServerCommunicator.RecordModuleResources: Exception {0}.", e));
+            }
         }
 
         /// <summary>
