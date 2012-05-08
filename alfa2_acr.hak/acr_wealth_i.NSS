@@ -190,7 +190,7 @@ void ACR_GenerateTreasure(object oCreature, int nLootValue)
     // remove gold - it should only drop from this script
     TakeGoldFromCreature(GetGold(oCreature), oCreature, TRUE, FALSE);
 
-    int i, nGold, nGearValue = 0;
+    int i, nGold, nGearValue = 0, nItemVal;
     int nRacialType = GetRacialType(oCreature);
     object oItem = GetItemInSlot(INVENTORY_SLOT_HEAD, oCreature);
 
@@ -200,19 +200,20 @@ void ACR_GenerateTreasure(object oCreature, int nLootValue)
         // ignore invalid objects
         if (GetIsObjectValid(oItem) && GetDroppableFlag(oItem))
         {
+	    nItemVal = abs(GetGoldPieceValue(oItem));
 			// let plot type items drop
 			if (GetPlotFlag(oItem)) {
 			    // no action needed, leave it there, let it drop
 			}
             // destroy object if loot value has been exceeded
-            else if (nGearValue >= nLootValue)
+            else if ((nGearValue + nItemVal) >= nLootValue)
             {
                 DestroyObject(oItem);
             }
             // otherwise, tally the GP total for non weapon items
             else
             {
-                nGearValue += abs(GetGoldPieceValue(oItem));
+                nGearValue += nItemVal;
             }
         }
 
@@ -225,19 +226,20 @@ void ACR_GenerateTreasure(object oCreature, int nLootValue)
     // evaluate inventoried gear and remove anything that exceeds nLootValue
     while(oItem != OBJECT_INVALID)
     {
+	nItemVal = abs(GetGoldPieceValue(oItem));
 		// If this is a plot item, let it drop/leave it along
 		if (GetPlotFlag(oItem)) {
 			// no action required
 		}
         // destroy object if loot value has been exceeded
-        else if (nGearValue >= nLootValue)
+        else if ((nGearValue + nItemVal) >= nLootValue)
         {
             DestroyObject(oItem);
         }
         // tally the GP total for non weapon items
         else if (GetDroppableFlag(oItem))
         {
-            nGearValue += abs(GetGoldPieceValue(oItem));
+            nGearValue += nItemVal;
         }
 
         // retrieve the next item
