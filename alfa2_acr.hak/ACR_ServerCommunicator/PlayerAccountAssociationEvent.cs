@@ -55,7 +55,6 @@ namespace ACR_ServerCommunicator
 
             Script.DisplayGuiScreen(PlayerObject, "acr_account_association", CLRScriptBase.FALSE, "acr_account_association.XML", CLRScriptBase.FALSE);
             Script.SetLocalGUIVariable(PlayerObject, "acr_account_association", 0, AccountAssociationURL);
-            Script.SendMessageToPC(PlayerObject, "To associate your forum account with your in-game account, go to this URL: " + AccountAssociationURL);
         }
 
         /// <summary>
