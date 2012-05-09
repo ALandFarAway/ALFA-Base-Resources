@@ -1050,7 +1050,7 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 			SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
 		else
 		{
-			SetLocalString(oSpeaker, "SPEAK_STRING", sText);
+			SetLocalString(oSpeaker, "SPEAK_STRING", sNewString);
 			AssignCommand(oSpeaker, _ActionSpeakString(sNewString, nTalkVolume));
 		}
 		return FALSE;
@@ -1087,7 +1087,7 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 			SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
 		else
 		{
-			SetLocalString(oSpeaker, "SPEAK_STRING", sText);
+			SetLocalString(oSpeaker, "SPEAK_STRING", sNewString);
 			AssignCommand(oSpeaker, _ActionSpeakString(sNewString, nTalkVolume));
 		}
 		return FALSE;
@@ -1125,7 +1125,7 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 			SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
 		else
 		{
-			SetLocalString(oSpeaker, "SPEAK_STRING", sText);
+			SetLocalString(oSpeaker, "SPEAK_STRING", sNewString);
 			AssignCommand(oSpeaker, _ActionSpeakString(sNewString, nTalkVolume));
 		}
 		return FALSE;
