@@ -493,13 +493,19 @@ void ACR_QuestCreatureOnDeath(object oKiller)
 		object oQuestPC = GetLocalObject(OBJECT_SELF, ACR_QST_PC);
         int nState = 0;
 		// use the cached pointer to work out what the quest state advance should be, based on the PC who triggered it
-		if (GetIsObjectValid(oQuestPC)) { nState = ACR_RetrieveQuestState(sQuest, oQuestPC); }
-		else { nState = GetLocalInt(OBJECT_SELF, ACR_QST_BACKUPSTATE); }
+		// also, swap killer to owner of quest
+		if (GetIsObjectValid(oQuestPC)) {
+			nState = ACR_RetrieveQuestState(sQuest, oQuestPC);
+			oKiller = oQuestPC;
+		}
+		else {
+			nState = GetLocalInt(OBJECT_SELF, ACR_QST_BACKUPSTATE);
+		}
 		
         int bPartyQuest = GetLocalInt(OBJECT_SELF, ACR_QST_PARTY);
         // determine if conditions for the bounty have been met
         // lower boundry prevents a PC who hasn't taken the quest from earning quest XP
-		// upper boundry prevents inadvertant overiteration
+	// upper boundry prevents inadvertant overiteration
         if (nState > 0 && nState < nUpper)
         {
             int nXP = 0; nState++;
@@ -534,10 +540,8 @@ void ACR_QuestItemOnAcquire(object oPC, object oItem)
             int nXP = 0; nState++;
 
             // award quest XP if the quest has reached its end state
-            // make sure not to re-award xp (note: xp check should be made persistent)
-            if ((nState >= nUpper) && (!GetLocalInt(oPC,ACR_QST_NAME+"_XP")))
+            if (nState >= nUpper)
             {
-                SetLocalInt(oPC,ACR_QST_NAME+"_XP",1);
                 nXP = GetJournalQuestExperience(sQuest);
             }
 
