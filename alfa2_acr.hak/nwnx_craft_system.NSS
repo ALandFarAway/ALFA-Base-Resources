@@ -759,19 +759,17 @@ object XPCraft_ActionCancelChanges(object oPC)
 	//get the saved-before-changes-item
 	object oSavedItem = GetLocalObject(GetWaypointByTag( "XC_HIDDEN_WP" ),"XC_TEMP_" + XPCraft_GetPCID(oPC));
 	object oItemToEquip = OBJECT_INVALID;
-	string sTag;
 	
 	if(oSavedItem != OBJECT_INVALID)
 	{
 		DestroyObject(GetLocalObject(oPC,"XC_ITEM_TO_CRAFT"));
 
-		sTag = GetTag(oSavedItem);
+		SetLocalString(oSavedItem, "ACR_IGNORE_ACQUIRE_TEMP", GetTag(oSavedItem));
 		SetTag(oSavedItem,"acr_ignore_acquire");
 
 		oItemToEquip = CopyItem(oSavedItem,oPC,TRUE);
 		int iInventorySlot = GetLocalInt(oPC,"XC_INVENT_SLOT");
 		AssignCommand(oPC, ActionEquipItem(oItemToEquip, iInventorySlot));		
-		DelayCommand(0.1,SetTag(oSavedItem,sTag));
 	}
 	else
 	{

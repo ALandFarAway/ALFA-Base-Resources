@@ -659,6 +659,11 @@ void ACR_ModuleOnAcquireItem()
     	sTag = GetTag(oItem);
 
 	if ((sTag == "acr_nld_fist") || (sTag == "acr_ignore_acquire")) {
+		sTag = GetLocalString(oItem, "ACR_IGNORE_ACQUIRE_TEMP");
+		if (sTag != "") {
+			SetTag(oItem, sTag);
+			DeleteLocalString(oItem, "ACR_IGNORE_ACQUIRE_TEMP");
+		}
 	    // don't need to log this, OOC from toggling subdual mode
 	} else if (bLogEvent) {
 		ACR_LogOnAcquired(oItem, oAcquiredBy, GetStolenFlag(oItem));
@@ -710,6 +715,11 @@ void ACR_ModuleOnUnAcquireItem() {
 
 	if ((sTag == "acr_nld_fist") || (sTag == "acr_ignore_acquire")) {
 	    // don't need to log this, OOC from toggling subdual mode
+	    sTag = GetLocalString(oItem, "ACR_IGNORE_ACQUIRE_TEMP");
+	    if (sTag != "") {
+	        SetTag(oItem, sTag);
+		DeleteLocalString(oItem, "ACR_IGNORE_ACQUIRE_TEMP");
+	    }
 	} else {
         // log item acquisitions
 		ACR_LogOnUnacquired(oItem, oLostBy, GetStolenFlag(oItem));
