@@ -493,10 +493,12 @@ void ACR_QuestCreatureOnDeath(object oKiller)
 		object oQuestPC = GetLocalObject(OBJECT_SELF, ACR_QST_PC);
         int nState = 0;
 		// use the cached pointer to work out what the quest state advance should be, based on the PC who triggered it
-		// also, swap killer to owner of quest
 		if (GetIsObjectValid(oQuestPC)) {
 			nState = ACR_RetrieveQuestState(sQuest, oQuestPC);
-			oKiller = oQuestPC;
+
+			// also, swap killer to owner of quest if not party
+			if (!bPartyQuest)
+				oKiller = oQuestPC;
 		}
 		else {
 			nState = GetLocalInt(OBJECT_SELF, ACR_QST_BACKUPSTATE);
