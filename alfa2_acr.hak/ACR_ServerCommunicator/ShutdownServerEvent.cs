@@ -38,8 +38,8 @@ namespace ACR_ServerCommunicator
                     "</c><c=#FFFF00>Server shutting down: {0}</c>",
                     Message);
 
-		NWScript.Vector3 v;
-		v.x = v.y = v.z = 0.0f;
+                NWScript.Vector3 v;
+                v.x = v.y = v.z = 0.0f;
 
                 Script.SendChatMessage(
                     CLRScriptBase.OBJECT_INVALID,
@@ -48,14 +48,14 @@ namespace ACR_ServerCommunicator
                     FormattedMessage,
                     CLRScriptBase.FALSE);
 
-		Script.FloatingTextStringOnCreature(FormattedMessage,
-		    PlayerObject,
-		    CLRScriptBase.FALSE,
-		    5.0f,
-		    CLRScriptBase.COLOR_WHITE,
-		    CLRScriptBase.COLOR_WHITE,
-		    0.0f,
-		    v);
+                Script.FloatingTextStringOnCreature(FormattedMessage,
+                    PlayerObject,
+                    CLRScriptBase.FALSE,
+                    5.0f,
+                    CLRScriptBase.COLOR_WHITE,
+                    CLRScriptBase.COLOR_WHITE,
+                    0.0f,
+                    v);
             }
 
             Script.WriteTimestampedLogEntry("Received shutdown request: " + Message);
