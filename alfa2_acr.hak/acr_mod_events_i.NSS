@@ -146,6 +146,7 @@ const string ACR_MOD_FIRSTAID_IT = "ACR_MOD_FIRSTAID_IT";
 
 const string ACR_MOD_LAST_TELL_TO = "ACR_MOD_LAST_TELL_TO";
 const string ACR_MOD_LAST_TELL_FROM = "ACR_MOD_LAST_TELL_FROM";
+const string ACR_MOD_SUPPRESS_LANGUAGE = "ACR_MOD_SUPPRESS_LANGUAGE";
 
 
 //! ACR_MOD_STATUS Module Status Flags (bitmask)
@@ -157,6 +158,9 @@ const float ACR_MOD_RELOAD_CYCLE = 10.0;
 
 const float ACR_TALK_SPHERE_RADIUS = 20.0f;
 const float ACR_WHISPER_SPHERE_RADIUS = 3.0f;
+
+//! Define to 1 to enable language handling debugging.
+#define DEBUG_LANG 0
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -228,11 +232,65 @@ int _HandleLang(object pc, string text, int mode, string lang, object DMFIToolOw
 
 //! Check if a mouthpiece should have messages relayed from a speaker.
 //!  - oMouthPiece: Supplies the mouthpiece, i.e. controlling object (e.g. DM).
-//!  - oSpeaker: Supplies the actual physical speaker, i.e. controlled object
+//!  - oSpeaker: Supplies the actual physical speaker (e.g. controlled object).
 //!  - fDistance: Supplies the distance for the range check.
 //!  - Returns: TRUE if the objects were out of range to receive the message
 //              through conventional means, i.e. we should relay it.
-int _MouthpieceNotInRange(object oMouthPiece, object oSpeaker, float fDistance);
+int _MouthPieceNotInRange(object oMouthPiece, object oSpeaker, float fDistance);
+
+//! Wrapper for SpeakString that suppresses voice throw reception.
+//!  - sToSpeak: The string to send.
+//!  - nTalkVolume: The volume to use.
+void _SpeakString(string sToSpeak, int nTalkVolume);
+
+//! Distribute translated chat message to DM avatars as they do not reliably
+//  appear to be enumerated within an object shape region.
+//!  - sTranslatedMessage: The message to distribute.
+//!  - oSpeaker: The speaking object.
+//!  - fRange: The maximum range to deliver the message at.
+void _DistributeTranslationToDMAvatars(string sTranslatedMessage, object oSpeaker, float fRange);
+
+//! Distribute translated chat message to a mouthpiece object (i.e. controlling
+//  DMs or players).
+//!  - sTranslatedMessage: The message to distribute to objects that can
+//     translate the language.
+//!  - sScrambledMessage: The message to distribute to objects that cannot
+//     translate the language.
+//!  - oSpeaker: The speaking object.
+//!  - fRange: The maximum range to deliver the message at.
+//!  - oListener: The object that might is within hearing range of the message.
+void _DistributeTranslationToMouthPiece(string sTranslatedMessage, string sScrambledMessage, object oSpeaker, float fRange, object oListener);
+
+//!  Distribute translated chat message to appropriate recipients, for party.
+//!  - sTranslatedMessage: The message to distribute to objects that can
+//     translate the language.
+//!  - sScrambledMessage: The message to distribute to objects that cannot
+//     translate the language.
+//!  - sLanguage: The language (e.g. Elven).
+//!  - oSpeaker: The speaking object.
+void _DistributeTranslationParty(string sTranslatedMessage, string sScrambledMessage, string sLanguage, object oSpeaker);
+
+//!  Distribute translated chat message to appropriate recipients, for talk or
+//   whisper.
+//!  - sTranslatedMessage: The message to distribute to objects that can
+//     translate the language.
+//!  - sScrambledMessage: The message to distribute to objects that cannot
+//     translate the language.
+//!  - sLanguage: The language (e.g. Elven).
+//!  - oSpeaker: The speaking object.
+//!  - fRange: The range to distribute the message at.
+void _DistributeTranslationSpoken(string sTranslatedMessage, string sScrambledMessage, string sLanguage, object oSpeaker, float fRange);
+
+//!  Distribute translated chat message to appropriate recipients.
+//!  - sOriginalMessage: The message to distribute to objects that can
+//     translate the language.
+//!  - sScrambledMessage: The message to distribute to objects that cannot
+//     translate the language.
+//!  - sLanguage: The language (e.g. Elven).
+//!  - oSpeaker: The speaking object.
+//!  - nMode: The chat mode (CHAT_MODE_WHISPER, CHAT_MODE_TALK,
+//     CHAT_MODE_PARTY)
+void _DistributeTranslation(string sOriginalMessage, string sScrambledMessage, string sLanguage, object oSpeaker, int nMode);
 
 //! Force linkage to functions that CLR scripts will want to call in the
 //  context of acf_mod_onmoduleload.nss.  Note that this function is never
@@ -244,9 +302,268 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts();
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void _ActionSpeakString(string sToSpeak, int nTalkVolume)
+void _SpeakString(string sToSpeak, int nTalkVolume)
 {
-	ActionSpeakString(sToSpeak, nTalkVolume);
+	// Note - there is a bug in the NWScript plugin that under these conditions:
+	//
+	// "If a script is executed from a script situation (DelayCommand,
+	//  AssignCommand, and so forth, other 'action' types in NWScript), and the
+	//  script makes a recursive call to itself, then the recursion is not
+	//  properly detected and a new, stacked program object for the script is
+	//  not created.  This results in the recursive instance using the global
+	//  variables and OBJECT_SELF of the previous instance (modifications are
+	//  visible between the two, in particular, if the recursive call sets a new
+	//  OBJECT_SELF then OBJECT_SELF appears to have changed in the calling
+	//  instance).
+	//
+	//  The problem occurs because the NWScript JIT backend does not correctly
+	//  increment the internal nesting level from a script when the script is
+	//  called because of a script situation.  If the script had already been
+	//  recursively invoked, the nesting level would have necessitated a new
+	//  script object being temporarily created, as entry into a script from
+	//  the entrypoint always increments the nesting level across the call.
+	//
+	//  This will be fixed in a future release."
+	//
+	// Work around the bug for now by capturing OBJECT_SELF up front and not
+	// using globals in this AssignCommand action, as the SpeakString engine
+	// function will cause a recursive call to the OnChat script, which we're
+	// already running from.
+
+	object Self = OBJECT_SELF;
+
+#if DEBUG_LANG
+	WriteTimestampedLogEntry("_SpeakString(" + GetName(Self) + ": Speaking " + sToSpeak + ", volume: " + IntToString(nTalkVolume) + ".");
+#endif
+
+	SetLocalInt(Self, ACR_MOD_SUPPRESS_LANGUAGE, 1);
+	SpeakString(sToSpeak, nTalkVolume);
+	DeleteLocalInt(Self, ACR_MOD_SUPPRESS_LANGUAGE);
+
+	// If the NWScript plugin bug is present, this shows the name of the module
+	// and not the name of the object that spoke above.
+#if DEBUG_LANG
+	WriteTimestampedLogEntry("_SpeakString finished for " + GetName(OBJECT_SELF) + ".");
+#endif
+}
+
+void _DistributeTranslationToDMAvatars(string sTranslatedMessage, object oSpeaker, float fRange)
+{
+	object oPC;
+	object oOriginArea = GetArea(oSpeaker);
+
+	for (oPC = GetFirstPC(); GetIsObjectValid(oPC); oPC = GetNextPC())
+	{
+		if (!GetIsDM(oPC))
+		{
+#if DEBUG_LANG
+			WriteTimestampedLogEntry("_DistributeTranslationToDMAvatars: " + GetName(oPC) + " is not a DM");
+#endif
+
+			continue;
+		}
+
+		if (GetArea(oPC) != oOriginArea)
+		{
+#if DEBUG_LANG
+			WriteTimestampedLogEntry("_DistributeTranslationToDMAvatars: " + GetName(oPC) + " is in the wrong area");
+#endif
+
+			continue;
+		}
+
+		if (GetDistanceBetween(oSpeaker, oPC) > fRange)
+		{
+#if DEBUG_LANG
+			WriteTimestampedLogEntry("_DistributeTranslationToDMAvatars: " + GetName(oPC) + " is out of range");
+#endif
+
+			continue;
+		}
+
+#if DEBUG_LANG
+		WriteTimestampedLogEntry("_DistributeTranslationToDMAvatars: Relay message to " + GetName(oPC));
+#endif
+
+		SendMessageToPC(oPC, sTranslatedMessage);
+	}
+}
+
+void _DistributeTranslationToMouthPieces(string sTranslatedMessage, string sScrambledMessage, object oSpeaker, float fRange, object oListener)
+{
+	object oMouthPiece = GetLocalObject(oListener, "MouthPiece");
+	string sHeardDescriptor;
+
+	if (oMouthPiece == OBJECT_INVALID)
+	{
+#if DEBUG_LANG
+		WriteTimestampedLogEntry("_DistributeTranslationToMouthPieces: No mouthpiece for " + GetName(oListener));
+#endif
+
+		return;
+	}
+
+	// If the mouthpiece object would normally receive the message then do not
+	// synthesize a new report.
+	if (!_MouthPieceNotInRange(oMouthPiece, oSpeaker, fRange))
+	{
+#if DEBUG_LANG
+		WriteTimestampedLogEntry("_DistributeTranslationToMouthPieces: Listener " + GetName(oListener) + " mouthpiece " + GetName(oMouthPiece) + " is in normal hearing range not relaying");
+#endif
+
+		return;
+	}
+
+#if DEBUG_LANG
+	WriteTimestampedLogEntry("_DistributeTranslationToMouthPieces: Distributing message to " + (GetIsDM(oMouthPiece) ? "DM" : "player") + " mouthpiece " + GetName(oMouthPiece) + ".");
+#endif
+
+	sHeardDescriptor = " <i><c=gray>(" + GetName(oListener) + ")</c</i>";
+
+	// Choose whether to send the translated or scrambled message, and hand it
+	// on.
+	//
+	// TODO:  If we wanted to support having familiars that understood a
+	//        language, this is where we would do it.  Right now we only allow a
+	//        DM mouthpiece to receive translated messages.
+
+	if (GetIsDM(oMouthPiece))
+		SendMessageToPC(oMouthPiece, sTranslatedMessage + sHeardDescriptor);
+	else
+		SendMessageToPC(oMouthPiece, sScrambledMessage + sHeardDescriptor);
+}
+
+void _DistributeTranslationParty(string sTranslatedMessage, string sScrambledMessage, string sLanguage, object oSpeaker)
+{
+	int bTranslate = (sLanguage == "common");
+	object oListener;
+
+	if (!bTranslate)
+	{
+#if DEBUG_LANG
+		WriteTimestampedLogEntry("_DistributeTranslationParty: No translation required for untranslated message.");
+#endif
+
+		return;
+	}
+
+	for (oListener = GetFirstPC(FALSE);
+	     GetIsObjectValid(oListener);
+	     oListener = GetNextPC(FALSE))
+	{
+		if ((_IsLanguageKnown(oListener, sLanguage) && GetFactionEqual(oSpeaker, oListener))
+			|| GetIsDM(oListener) || GetIsDMPossessed(oListener) || oListener == oSpeaker)
+		{
+#if DEBUG_LANG
+			WriteTimestampedLogEntry("_DistributeTranslationParty: Distributing message to party or DM recipient " + GetName(oListener));
+#endif
+
+			SendMessageToPC(oListener, sTranslatedMessage);
+		}
+	}
+}
+
+void _DistributeTranslationSpoken(string sTranslatedMessage, string sScrambledMessage, string sLanguage, object oSpeaker, float fRange)
+{
+	int bTranslate = (sLanguage != "common");
+	location lSpeaker = GetLocation(oSpeaker);
+	object oListener;
+
+#if DEBUG_LANG
+	WriteTimestampedLogEntry("_DistributeTranslationSpoken: Distributing message of language " + sLanguage);
+#endif
+
+
+	// First, distribute the message to objects in range.  Note that DM avatars
+	// are not reliably enumerated here so they are handled separately.
+	//
+	// Additionally, distribute the message to mouthpiece listeners if they are
+	// within range and would not normally receive the message.
+	for (oListener = GetFirstObjectInShape(SHAPE_SPHERE, fRange, lSpeaker);
+	     GetIsObjectValid(oListener);
+	     oListener = GetNextObjectInShape(SHAPE_SPHERE, fRange, lSpeaker))
+	{
+		if (bTranslate && _IsLanguageKnown(oListener, sLanguage) && !GetIsDM(oListener))
+		{
+#if DEBUG_LANG
+			WriteTimestampedLogEntry("_DistributeTranslationSpoken: Distributing message to non-DM listener " + GetName(oListener) + ".");
+#endif
+
+			SendMessageToPC(oListener, sTranslatedMessage);
+		}
+
+		_DistributeTranslationToMouthPieces(sTranslatedMessage, sScrambledMessage, oSpeaker, fRange, oListener);
+	}
+
+	if (bTranslate)
+		_DistributeTranslationToDMAvatars(sTranslatedMessage, oSpeaker, fRange);
+}
+
+void _DistributeTranslation(string sOriginalMessage, string sScrambledMessage, string sLanguage, object oSpeaker, int nMode)
+{
+	string sDisplayLanguage;
+	string sModeColor;
+	string sModeDescriptor;
+	string sTranslatedMessage;
+	string sUntranslatedMessage;
+	float fRange;
+	int nTalkVolume;
+
+	// Distribute the translated version of the message.
+
+	switch (nMode)
+	{
+
+	case CHAT_MODE_PARTY:
+		sModeColor = "FFFFFF";
+		sModeDescriptor = ", Party";
+		fRange = 0.0f;
+		nTalkVolume = TALKVOLUME_TALK;
+		break;
+
+	case CHAT_MODE_TALK:
+		sModeColor = "FFFFFF";
+		sModeDescriptor = "";
+		fRange = ACR_TALK_SPHERE_RADIUS;
+		nTalkVolume = TALKVOLUME_TALK;
+		break;
+
+	case CHAT_MODE_WHISPER:
+		sModeColor = "808080";
+		sModeDescriptor = ", Whisper";
+		fRange = ACR_WHISPER_SPHERE_RADIUS;
+		nTalkVolume = TALKVOLUME_WHISPER;
+		break;
+
+	default:
+		WriteTimestampedLogEntry("_DistributeMessage: Unhandled chat mode " + IntToString(nMode) + "!");
+		return;
+
+	}
+
+	sTranslatedMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#" + sModeColor + "["+_CapitalizeWord(sLanguage)+sModeDescriptor + "] "+sOriginalMessage;
+	sUntranslatedMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#" + sModeColor + "[Untranslated"+sModeDescriptor + "] "+sScrambledMessage;
+
+	switch (nMode)
+	{
+
+	case CHAT_MODE_PARTY:
+		_DistributeTranslationParty(sTranslatedMessage, sUntranslatedMessage, sLanguage, oSpeaker);
+		break;
+
+	case CHAT_MODE_TALK:
+	case CHAT_MODE_WHISPER:
+		_DistributeTranslationSpoken(sTranslatedMessage, sUntranslatedMessage, sLanguage, oSpeaker, fRange);
+		break;
+
+	}
+
+	// Finally, distribute the scrambled version of the message.
+
+	if (GetIsPC(oSpeaker) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))	
+		SendChatMessage(oSpeaker, oSpeaker, nMode, sScrambledMessage, FALSE);
+	else
+		AssignCommand(oSpeaker, _SpeakString(sScrambledMessage, nTalkVolume));
 }
 
 void ACR_ModuleOnModuleLoad()
@@ -901,17 +1218,18 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
     // Is this someone setting a listening anchor?
     if(sText == "#1" || sText == "#2" || sText == "#3" || sText == "#4" || sText == "#5" || sText == "#6" || sText == "#7" || sText == "#8" || sText == "#9" || sText == "#0")
     {
+	 	  object PlayerAvatar = GetOwnedCharacter(oSpeaker);
         oTarget = GetPlayerCurrentTarget(oSpeaker);
         if(!GetIsObjectValid(oTarget))
         {
 				// Allow setting an empty target to delete an already set mouthpiece target.
 		  		object SpeakTo;
-		  		if ((SpeakTo = GetLocalObject(oSpeaker, "SpeakTo_" + sText)) != OBJECT_INVALID)
+		  		if ((SpeakTo = GetLocalObject(PlayerAvatar, "SpeakTo_" + sText)) != OBJECT_INVALID)
 				{
-					DeleteLocalObject(oSpeaker, "SpeakTo_" + sText);
+					DeleteLocalObject(PlayerAvatar, "SpeakTo_" + sText);
 					SendMessageToPC(oSpeaker, "Clearing speak to association for " + sText);
 
-					if (GetLocalObject(SpeakTo, "MouthPiece") == oSpeaker)
+					if (GetLocalObject(SpeakTo, "MouthPiece") == PlayerAvatar)
 						DeleteLocalObject(SpeakTo, "MouthPiece");
 				}
 				else
@@ -925,18 +1243,18 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
             SendMessageToPC(oSpeaker, "If you're that eager to write for all of the characters in this story, perhaps you should take up fanfiction?");
             return FALSE;
         }
-        if(GetIsDM(oSpeaker) || GetLocalInt(oTarget, "HENCHMAN_LEADER") == ACR_GetPlayerID(oSpeaker) || GetMaster(oTarget) == oSpeaker)
+        if(GetIsDM(PlayerAvatar) || GetLocalInt(oTarget, "HENCHMAN_LEADER") == ACR_GetPlayerID(oSpeaker) || GetMaster(oTarget) == oSpeaker)
         {
 		  		// Check if another player owned this mouthpiece.  If so then try
 				// and remove the association on their and and warn the previous
 				// controller.
 		  		object PreviousMouthPiece = GetLocalObject(oTarget, "MouthPiece");
-				if (PreviousMouthPiece != OBJECT_INVALID && PreviousMouthPiece != oSpeaker)
+				if (PreviousMouthPiece != OBJECT_INVALID && PreviousMouthPiece != PlayerAvatar)
 				{
 					SendMessageToPC(PreviousMouthPiece, "Mouthpiece (speak-to) control lost for object: " + GetName(oTarget) + " because another player or DM has taken control.");
 
 					int i;
-					for (i = 0; i < 10; i += 1)
+					for (i = 1; i < 10; i += 1)
 					{
 						if (GetLocalObject(PreviousMouthPiece, "SpeakTo_#" + IntToString(i)) == oTarget)
 						{
@@ -944,8 +1262,8 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 						}
 					}
 				}
-            SetLocalObject(oSpeaker, "SpeakTo_" + sText, oTarget);
-            SetLocalObject(oTarget, "MouthPiece", oSpeaker);
+            SetLocalObject(PlayerAvatar, "SpeakTo_" + sText, oTarget);
+            SetLocalObject(oTarget, "MouthPiece", PlayerAvatar);
             SendMessageToPC(oSpeaker, "Setting "+GetName(oTarget)+" as anchored to "+sText+".");
             return FALSE;
         }
@@ -955,8 +1273,9 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
     // Is this someone speaking through the anchor?
     else if(GetStringLeft(sText, 2) == "#1" || GetStringLeft(sText, 2) == "#2" || GetStringLeft(sText, 2) == "#3" || GetStringLeft(sText, 2) == "#4" || GetStringLeft(sText, 2) == "#5" || GetStringLeft(sText, 2) == "#6" || GetStringLeft(sText, 2) == "#7" || GetStringLeft(sText, 2) == "#8" || GetStringLeft(sText, 2) == "#9" || GetStringLeft(sText, 2) == "#0")
     {
-        object oAnchor = GetLocalObject(oSpeaker, "SpeakTo_" + GetStringLeft(sText, 2));
-        string sAnchor = GetStringLeft(sText, 2);
+	 	  object PlayerAvatar = GetOwnedCharacter(oSpeaker);
+        string sAnchor = "SpeakTo_" + GetStringLeft(sText, 2);
+        object oAnchor = GetLocalObject(PlayerAvatar, sAnchor);
         sText = GetStringRight(sText, len-3);
         c = GetStringLeft(sText, 1);
 
@@ -976,8 +1295,8 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
             }
             if(GetIsDM(oSpeaker) || GetLocalInt(oTarget, "HENCHMAN_LEADER") == ACR_GetPlayerID(oSpeaker) || GetMaster(oTarget) == oSpeaker)
             {
-                SetLocalObject(oSpeaker, sAnchor, oTarget);
-                SetLocalObject(oTarget, "MouthPiece", oSpeaker);
+                SetLocalObject(PlayerAvatar, sAnchor, oTarget);
+                SetLocalObject(oTarget, "MouthPiece", PlayerAvatar);
                 SendMessageToPC(oSpeaker, "Setting "+GetName(oTarget)+" as anchored to "+sText+".");
                 return FALSE;
             }
@@ -989,15 +1308,21 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         if(nMode == CHAT_MODE_WHISPER) nTalkVolume = TALKVOLUME_WHISPER;
 
         // We assume that DMs know what they're doing. Their targets can speak foreign languages.
-        if(GetIsDM(oSpeaker))
+        if(GetIsDM(PlayerAvatar))
         {
-            sLangPick = _ParseLang(oSpeaker, sText);
-            sText = _RemoveLangTag(sText);
-            if(sLangPick == "") sLangPick = "common";
-            int nHandleLang = _HandleLang(oAnchor, sText, nMode, sLangPick, oSpeaker);
-            if(nHandleLang)
+		  	   if (FindSubString(sText, "@") != -1)
+				{
+	            sLangPick = _ParseLang(PlayerAvatar, sText);
+	            sText = _RemoveLangTag(sText);
+				}
+				else
+				{
+					sLangPick = GetLocalString(PlayerAvatar, "DefaultLanguage");
+				}
+            int nHandleLang = _HandleLang(oAnchor, sText, nMode, sLangPick, PlayerAvatar);
+            if (nHandleLang)
             {
-                AssignCommand(oAnchor, _ActionSpeakString(sText, nTalkVolume));
+                AssignCommand(oAnchor, _SpeakString(sText, nTalkVolume));
             }
             return FALSE;
         }
@@ -1006,7 +1331,11 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         else
         {
             sLangPick = "common";
-            AssignCommand(oAnchor, _ActionSpeakString(sText, nTalkVolume));
+				int nHandleLang = _HandleLang(oAnchor, sText, nMode, sLangPick, PlayerAvatar);
+				if (nHandleLang)
+				{
+	            AssignCommand(oAnchor, _SpeakString(sText, nTalkVolume));
+				}
         }
         return FALSE;
     }
@@ -1056,8 +1385,12 @@ void ACR_SetModuleStatus(int nStatus) {
     SetLocalInt(oModule, ACR_MOD_STATUS, GetLocalInt(oModule, ACR_MOD_STATUS) | nStatus);
 }
 
-int _MouthpieceNotInRange(object oMouthPiece, object oSpeaker, float fDistance)
+int _MouthPieceNotInRange(object oMouthPiece, object oSpeaker, float fDistance)
 {
+	// Switch to the controlled character in case the DM avatar is possessing
+	// someone and thus shunted to limbo.
+	oMouthPiece = GetControlledCharacter(oMouthPiece);
+
 	// If the objects aren't in the same area, then they are out of range for
 	// normal message hearing.
 	if (GetArea(oMouthPiece) != GetArea(oSpeaker))
@@ -1076,104 +1409,54 @@ int _MouthpieceNotInRange(object oMouthPiece, object oSpeaker, float fDistance)
 
 int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick, object DMFIToolOwner)
 {
-	if (sLangPick == "common" || sLangPick == "")
+	// If we are to override language processing then stop now.  This is used
+	// when we are distributing the scrambled version of a phrase that has been
+	// voice thrown with a non-"common" language.  We have to suppress the
+	// usual language handling here because :
+	//
+	// - For the voice throwing case we do language handling on the *send* side,
+	//   rather than as a respons to a chat event.  This takes care of sending
+	//   the translated text to those who ought to receive it.
+	// - Then, on the send side, we send the scrambled version.  This is either
+	//   done with SendChatMessage with the callback invoke suppressed (if the
+	//   sender was a PC), in which case we would never get into _HandleLang for
+	//   that case.  But if the sender was an NPC, we do ultimately re-enter the
+	//   language handler for the scrambled text - and in that case we must
+	//   recognize that we already distributed text to mouthpiece receivers.  If
+	//   we didn't then they would get a mouthpiece redirection with the
+	//   scrambled text with a language of "Common".
+
+#if DEBUG_LANG
+	WriteTimestampedLogEntry("_HandleLang(" + GetName(oSpeaker) + ", " + sText + ", " + IntToString(nMode) + ", " + sLangPick + ", " + GetName(DMFIToolOwner) + ")");
+#endif
+
+	if (GetLocalInt(oSpeaker, ACR_MOD_SUPPRESS_LANGUAGE))
 	{
-		string sMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#FFFFFF>[Common] "+sText;
-		location lSelf = GetLocation(oSpeaker);
-		object oListener = GetFirstObjectInShape(SHAPE_SPHERE, ACR_TALK_SPHERE_RADIUS, lSelf);
-		while(GetIsObjectValid(oListener))
-		{
-			object oMouthPiece = GetLocalObject(oListener, "MouthPiece");
-			if(GetIsObjectValid(oMouthPiece))
-				SendMessageToPC(oMouthPiece, sMessage);
-			oListener = GetNextObjectInShape(SHAPE_SPHERE, ACR_TALK_SPHERE_RADIUS, lSelf);
-		}
+#if DEBUG_LANG
+		WriteTimestampedLogEntry("Suppressing processing of language handling.");
+#endif
 		return TRUE;
 	}
-	
+
 	object oTool = _GetDMFITool(DMFIToolOwner);
-	string sNewString = DMFI_ProcessLanguage(sText, sLangPick, oTool);
-
-        int nTalkVolume = TALKVOLUME_TALK;
-        if(nMode == CHAT_MODE_WHISPER) nTalkVolume = TALKVOLUME_WHISPER;
+	string sNewString;
 	
-	if (nMode == CHAT_MODE_PARTY)
-	{
-		string sMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#FFFFFF>["+_CapitalizeWord(sLangPick)+", Party] "+sText;
-		object oListener = GetFirstPC(FALSE);
-		while(GetIsObjectValid(oListener))
-		{
+	if (sLangPick == "")
+		sLangPick = "common";
 
-			if((_IsLanguageKnown(oListener, sLangPick) && GetFactionEqual(oSpeaker, oListener))
-				|| GetIsDM(oListener) || GetIsDMPossessed(oListener) || oListener == oSpeaker)
-				SendMessageToPC(oListener, sMessage);
-			oListener = GetNextPC(FALSE);
-		}
-		if(GetIsPC(oSpeaker) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))	
-			SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
-		else
-		{
-			AssignCommand(oSpeaker, _ActionSpeakString(sNewString, nTalkVolume));
-		}
-		return FALSE;
-	}
-	else if (nMode == CHAT_MODE_TALK)
+	if (sLangPick == "common")
 	{
-		string sMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#FFFFFF>["+_CapitalizeWord(sLangPick)+"] "+sText;
-		location lSelf = GetLocation(oSpeaker);
-		object oListener = GetFirstObjectInShape(SHAPE_SPHERE, ACR_TALK_SPHERE_RADIUS, lSelf);
-		while(GetIsObjectValid(oListener))
-		{
-			if(_IsLanguageKnown(oListener, sLangPick))
-					SendMessageToPC(oListener, sMessage);
-			object oMouthPiece = GetLocalObject(oListener, "MouthPiece");
-			if(GetIsObjectValid(oMouthPiece) && _MouthpieceNotInRange(oMouthPiece, oSpeaker, ACR_TALK_SPHERE_RADIUS))
-			{
-				if(GetIsDM(oMouthPiece) || GetIsDMPossessed(oMouthPiece))
-					SendMessageToPC(oMouthPiece, sMessage);
-				else
-					SendMessageToPC(oMouthPiece, sNewString);
-			}
-			oListener = GetNextObjectInShape(SHAPE_SPHERE, ACR_TALK_SPHERE_RADIUS, lSelf);
-		}
-		if(GetIsPC(oSpeaker) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))	
-			SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
-		else
-		{
-			AssignCommand(oSpeaker, _ActionSpeakString(sNewString, nTalkVolume));
-		}
-		return FALSE;
+		sNewString = sText;
 	}
-	else if (nMode == CHAT_MODE_WHISPER)
+	else
 	{
-		string sMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#808080>["+_CapitalizeWord(sLangPick)+", Whisper] "+sText;
-		location lSelf = GetLocation(oSpeaker);
-		object oListener = GetFirstObjectInShape(SHAPE_SPHERE, ACR_WHISPER_SPHERE_RADIUS, lSelf);
-		while(GetIsObjectValid(oListener))
-		{
-			if(_IsLanguageKnown(oListener, sLangPick))
-					SendMessageToPC(oListener, sMessage);
-			object oMouthPiece = GetLocalObject(oListener, "MouthPiece");
-			if(GetIsObjectValid(oMouthPiece) && _MouthpieceNotInRange(oMouthPiece, oSpeaker, ACR_WHISPER_SPHERE_RADIUS))
-			{
-				if(GetIsDM(oMouthPiece) || GetIsDMPossessed(oMouthPiece))
-					SendMessageToPC(oMouthPiece, sMessage);
-				else
-					SendMessageToPC(oMouthPiece, sNewString);
-			}
-			oListener = GetNextObjectInShape(SHAPE_SPHERE, ACR_WHISPER_SPHERE_RADIUS, lSelf);
-		}
-		SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
-		if(GetIsPC(oSpeaker) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))	
-			SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
-		else
-		{
-			AssignCommand(oSpeaker, _ActionSpeakString(sNewString, nTalkVolume));
-		}
-		return FALSE;
+		object oTool = _GetDMFITool(DMFIToolOwner);
+		sNewString = DMFI_ProcessLanguage(sText, sLangPick, oTool);
 	}
 
-	return TRUE;
+	_DistributeTranslation(sText, sNewString, sLangPick, oSpeaker, nMode);
+
+	return FALSE;
 }
 
 void ACR_ModuleInitHealthChecks()
