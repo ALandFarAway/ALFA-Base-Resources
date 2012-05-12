@@ -238,8 +238,7 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts();
 
 void _ActionSpeakString(string sToSpeak, int nTalkVolume)
 {
-	string sText = GetLocalString(OBJECT_SELF, "SPEAK_STRING");
-	ActionSpeakString(sText, nTalkVolume);
+	ActionSpeakString(sToSpeak, nTalkVolume);
 }
 
 void ACR_ModuleOnModuleLoad()
@@ -956,11 +955,10 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         {
             sLangPick = _ParseLang(oAnchor, sText);
             sText = _RemoveLangTag(sText);
-            if(sLangPick == "") sLangPick = "Common";
+            if(sLangPick == "") sLangPick = "common";
             int nHandleLang = _HandleLang(oAnchor, sText, nMode, sLangPick);
             if(nHandleLang)
             {
-                SetLocalString(oAnchor, "SPEAK_STRING", sText);
                 AssignCommand(oAnchor, _ActionSpeakString(sText, nTalkVolume));
             }
             return FALSE;
@@ -969,8 +967,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         // Players we can't trust as much. Their anchors can only speak common.
         else
         {
-            sLangPick = "Common";
-            SetLocalString(oAnchor, "SPEAK_STRING", sText);
+            sLangPick = "common";
             AssignCommand(oAnchor, _ActionSpeakString(sText, nTalkVolume));
         }
         return FALSE;
@@ -1060,7 +1057,6 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 			SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
 		else
 		{
-			SetLocalString(oSpeaker, "SPEAK_STRING", sNewString);
 			AssignCommand(oSpeaker, _ActionSpeakString(sNewString, nTalkVolume));
 		}
 		return FALSE;
@@ -1097,7 +1093,6 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 			SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
 		else
 		{
-			SetLocalString(oSpeaker, "SPEAK_STRING", sNewString);
 			AssignCommand(oSpeaker, _ActionSpeakString(sNewString, nTalkVolume));
 		}
 		return FALSE;
@@ -1135,7 +1130,6 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 			SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
 		else
 		{
-			SetLocalString(oSpeaker, "SPEAK_STRING", sNewString);
 			AssignCommand(oSpeaker, _ActionSpeakString(sNewString, nTalkVolume));
 		}
 		return FALSE;
