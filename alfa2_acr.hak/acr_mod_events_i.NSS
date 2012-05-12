@@ -536,7 +536,7 @@ void _DistributeTranslation(string sOriginalMessage, string sScrambledMessage, s
 		break;
 
 	default:
-		WriteTimestampedLogEntry("_DistributeMessage: Unhandled chat mode " + IntToString(nMode) + "!");
+		WriteTimestampedLogEntry("_DistributeTranslation: Unhandled chat mode " + IntToString(nMode) + "!");
 		return;
 
 	}
