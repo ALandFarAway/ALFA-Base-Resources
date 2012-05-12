@@ -224,7 +224,15 @@ void ACR_StartModuleInitHealthChecks();
 string _ParseLang(object pc, string text);
 
 //! Parse a new language
-int _HandleLang(object pc, string text, int mode, string lang);
+int _HandleLang(object pc, string text, int mode, string lang, object DMFIToolOwner);
+
+//! Check if a mouthpiece should have messages relayed from a speaker.
+//!  - oMouthPiece: Supplies the mouthpiece, i.e. controlling object (e.g. DM).
+//!  - oSpeaker: Supplies the actual physical speaker, i.e. controlled object
+//!  - fDistance: Supplies the distance for the range check.
+//!  - Returns: TRUE if the objects were out of range to receive the message
+//              through conventional means, i.e. we should relay it.
+int _MouthpieceNotInRange(object oMouthPiece, object oSpeaker, float fDistance);
 
 //! Force linkage to functions that CLR scripts will want to call in the
 //  context of acf_mod_onmoduleload.nss.  Note that this function is never
@@ -896,7 +904,20 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         oTarget = GetPlayerCurrentTarget(oSpeaker);
         if(!GetIsObjectValid(oTarget))
         {
-            SendMessageToPC(oSpeaker, "You must select an object to do that.");
+				// Allow setting an empty target to delete an already set mouthpiece target.
+		  		object SpeakTo;
+		  		if ((SpeakTo = GetLocalObject(oSpeaker, "SpeakTo_" + sText)) != OBJECT_INVALID)
+				{
+					DeleteLocalObject(oSpeaker, "SpeakTo_" + sText);
+					SendMessageToPC(oSpeaker, "Clearing speak to association for " + sText);
+
+					if (GetLocalObject(SpeakTo, "MouthPiece") == oSpeaker)
+						DeleteLocalObject(SpeakTo, "MouthPiece");
+				}
+				else
+				{
+	            SendMessageToPC(oSpeaker, "You must select an object to do that.");
+				}
             return FALSE;
         }
         if(GetIsPC(oTarget))
@@ -906,7 +927,24 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         }
         if(GetIsDM(oSpeaker) || GetLocalInt(oTarget, "HENCHMAN_LEADER") == ACR_GetPlayerID(oSpeaker) || GetMaster(oTarget) == oSpeaker)
         {
-            SetLocalObject(oSpeaker, sText, oTarget);
+		  		// Check if another player owned this mouthpiece.  If so then try
+				// and remove the association on their and and warn the previous
+				// controller.
+		  		object PreviousMouthPiece = GetLocalObject(oTarget, "MouthPiece");
+				if (PreviousMouthPiece != OBJECT_INVALID && PreviousMouthPiece != oSpeaker)
+				{
+					SendMessageToPC(PreviousMouthPiece, "Mouthpiece (speak-to) control lost for object: " + GetName(oTarget) + " because another player or DM has taken control.");
+
+					int i;
+					for (i = 0; i < 10; i += 1)
+					{
+						if (GetLocalObject(PreviousMouthPiece, "SpeakTo_#" + IntToString(i)) == oTarget)
+						{
+							DeleteLocalObject(PreviousMouthPiece, "SpeakTo_#" + IntToString(i));
+						}
+					}
+				}
+            SetLocalObject(oSpeaker, "SpeakTo_" + sText, oTarget);
             SetLocalObject(oTarget, "MouthPiece", oSpeaker);
             SendMessageToPC(oSpeaker, "Setting "+GetName(oTarget)+" as anchored to "+sText+".");
             return FALSE;
@@ -917,7 +955,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
     // Is this someone speaking through the anchor?
     else if(GetStringLeft(sText, 2) == "#1" || GetStringLeft(sText, 2) == "#2" || GetStringLeft(sText, 2) == "#3" || GetStringLeft(sText, 2) == "#4" || GetStringLeft(sText, 2) == "#5" || GetStringLeft(sText, 2) == "#6" || GetStringLeft(sText, 2) == "#7" || GetStringLeft(sText, 2) == "#8" || GetStringLeft(sText, 2) == "#9" || GetStringLeft(sText, 2) == "#0")
     {
-        object oAnchor = GetLocalObject(oSpeaker, GetStringLeft(sText, 2));
+        object oAnchor = GetLocalObject(oSpeaker, "SpeakTo_" + GetStringLeft(sText, 2));
         string sAnchor = GetStringLeft(sText, 2);
         sText = GetStringRight(sText, len-3);
         c = GetStringLeft(sText, 1);
@@ -953,10 +991,10 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         // We assume that DMs know what they're doing. Their targets can speak foreign languages.
         if(GetIsDM(oSpeaker))
         {
-            sLangPick = _ParseLang(oAnchor, sText);
+            sLangPick = _ParseLang(oSpeaker, sText);
             sText = _RemoveLangTag(sText);
             if(sLangPick == "") sLangPick = "common";
-            int nHandleLang = _HandleLang(oAnchor, sText, nMode, sLangPick);
+            int nHandleLang = _HandleLang(oAnchor, sText, nMode, sLangPick, oSpeaker);
             if(nHandleLang)
             {
                 AssignCommand(oAnchor, _ActionSpeakString(sText, nTalkVolume));
@@ -1005,7 +1043,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
     }
 	
 
-    return _HandleLang(oSpeaker, sText, nMode, sLangPick);
+    return _HandleLang(oSpeaker, sText, nMode, sLangPick, oSpeaker);
 }
 
 
@@ -1018,7 +1056,25 @@ void ACR_SetModuleStatus(int nStatus) {
     SetLocalInt(oModule, ACR_MOD_STATUS, GetLocalInt(oModule, ACR_MOD_STATUS) | nStatus);
 }
 
-int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
+int _MouthpieceNotInRange(object oMouthPiece, object oSpeaker, float fDistance)
+{
+	// If the objects aren't in the same area, then they are out of range for
+	// normal message hearing.
+	if (GetArea(oMouthPiece) != GetArea(oSpeaker))
+		return TRUE;
+
+	// If the distance between the objects exceeds the nominal transmission
+	// distance for the associated talk type, then they are out of range for
+	// normal message hearing.
+	if (GetDistanceBetween(oMouthPiece, oSpeaker) > fDistance)
+		return TRUE;
+
+	// Otherwise, the message will be heard normally and won't need to be
+	// relayed explicitly.
+	return FALSE;
+}
+
+int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick, object DMFIToolOwner)
 {
 	if (sLangPick == "common" || sLangPick == "")
 	{
@@ -1035,7 +1091,7 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 		return TRUE;
 	}
 	
-	object oTool = _GetDMFITool(oSpeaker);
+	object oTool = _GetDMFITool(DMFIToolOwner);
 	string sNewString = DMFI_ProcessLanguage(sText, sLangPick, oTool);
 
         int nTalkVolume = TALKVOLUME_TALK;
@@ -1071,7 +1127,7 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 			if(_IsLanguageKnown(oListener, sLangPick))
 					SendMessageToPC(oListener, sMessage);
 			object oMouthPiece = GetLocalObject(oListener, "MouthPiece");
-			if(GetIsObjectValid(oMouthPiece))
+			if(GetIsObjectValid(oMouthPiece) && _MouthpieceNotInRange(oMouthPiece, oSpeaker, ACR_TALK_SPHERE_RADIUS))
 			{
 				if(GetIsDM(oMouthPiece) || GetIsDMPossessed(oMouthPiece))
 					SendMessageToPC(oMouthPiece, sMessage);
@@ -1079,15 +1135,6 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 					SendMessageToPC(oMouthPiece, sNewString);
 			}
 			oListener = GetNextObjectInShape(SHAPE_SPHERE, ACR_TALK_SPHERE_RADIUS, lSelf);
-		}
-		oListener = GetFirstPC(FALSE);
-		while(GetIsObjectValid(oListener))
-		{
-
-			if((GetIsDM(oListener) || GetIsDMPossessed(oListener))
-				&& GetArea(oSpeaker) == GetArea(oListener) && GetDistanceBetween(oSpeaker, oListener) <= ACR_TALK_SPHERE_RADIUS)
-				SendMessageToPC(oListener, sMessage);
-			oListener = GetNextPC(FALSE);
 		}
 		if(GetIsPC(oSpeaker) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))	
 			SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
@@ -1107,7 +1154,7 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 			if(_IsLanguageKnown(oListener, sLangPick))
 					SendMessageToPC(oListener, sMessage);
 			object oMouthPiece = GetLocalObject(oListener, "MouthPiece");
-			if(GetIsObjectValid(oMouthPiece))
+			if(GetIsObjectValid(oMouthPiece) && _MouthpieceNotInRange(oMouthPiece, oSpeaker, ACR_WHISPER_SPHERE_RADIUS))
 			{
 				if(GetIsDM(oMouthPiece) || GetIsDMPossessed(oMouthPiece))
 					SendMessageToPC(oMouthPiece, sMessage);
@@ -1117,15 +1164,6 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick)
 			oListener = GetNextObjectInShape(SHAPE_SPHERE, ACR_WHISPER_SPHERE_RADIUS, lSelf);
 		}
 		SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
-		oListener = GetFirstPC(FALSE);
-		while(GetIsObjectValid(oListener))
-		{
-
-			if((GetIsDM(oListener) || GetIsDMPossessed(oListener))
-				&& GetArea(oSpeaker) == GetArea(oListener) && GetDistanceBetween(oSpeaker, oListener) <= ACR_WHISPER_SPHERE_RADIUS)
-				SendMessageToPC(oListener, sMessage);
-			oListener = GetNextPC(FALSE);
-		}
 		if(GetIsPC(oSpeaker) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))	
 			SendChatMessage(oSpeaker, oSpeaker, nMode, sNewString);
 		else
