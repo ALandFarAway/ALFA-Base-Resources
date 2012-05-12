@@ -489,6 +489,7 @@ void ACR_QuestCreatureOnDeath(object oKiller)
     // ignore non player characters
     if (GetIsPC(oKiller))
     {
+        int bPartyQuest = GetLocalInt(OBJECT_SELF, ACR_QST_PARTY);
         int nUpper = GetLocalInt(OBJECT_SELF, ACR_QST_UPPER_STATE);
 		object oQuestPC = GetLocalObject(OBJECT_SELF, ACR_QST_PC);
         int nState = 0;
@@ -504,7 +505,6 @@ void ACR_QuestCreatureOnDeath(object oKiller)
 			nState = GetLocalInt(OBJECT_SELF, ACR_QST_BACKUPSTATE);
 		}
 		
-        int bPartyQuest = GetLocalInt(OBJECT_SELF, ACR_QST_PARTY);
         // determine if conditions for the bounty have been met
         // lower boundry prevents a PC who hasn't taken the quest from earning quest XP
 	// upper boundry prevents inadvertant overiteration
