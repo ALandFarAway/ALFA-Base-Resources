@@ -1,6 +1,6 @@
 //:://////////////////////////////////////////////////////////////////////////
-//:: Bard Song: Inspire Regeneration
-//:: NW_S2_SngInRegn
+//:: Bard Song: Inspire Competence
+//:: NW_S2_SngInComp
 //:: Created By: Jesse Reynolds (JLR-OEI)
 //:: Created On: 04/06/06
 //:: Copyright (c) 2005 Obsidian Entertainment Inc.
@@ -10,12 +10,8 @@
     bard's allies within 30ft for as long as
     it is kept up.
 */
-//:: AFW-OEI 06/06/2006:
-//::	Double regeneration rate.
 //:: PKM-OEI 07.13.06 VFX Pass
 //:: PKM-OEI 07.20.06 Added Perform skill check
-
-// 2008/08/30 - ALFA ACR edits for Subdual
 
 #include "x0_i0_spells"
 #include "nwn2_inc_spells"
@@ -30,7 +26,7 @@ void RunPersistentSong(object oCaster, int nSpellId)
 	
 	int		nPerform	= GetSkillRank(SKILL_PERFORM);
 	 
-	if (nPerform < 3 ) //Checks your perform skill so nubs can't use this song
+	if (nPerform < 3 )//Checks your perform skill so nubs can't use this song
 	{
 		FloatingTextStrRefOnCreature ( 182800, OBJECT_SELF );
 		return;
@@ -50,25 +46,24 @@ void RunPersistentSong(object oCaster, int nSpellId)
         //Declare major variables
         int nLevel      = GetLevelByClass(CLASS_TYPE_BARD, oCaster);
         float fDuration = 4.0; //RoundsToSeconds(5);
-        int nRegen = 1; // AFW-OEI 02/09/2007: Default to +1
+        int nSkill = 2; // AFW-OEI 02/09/2007: Default to +2
 
-        /* AFW-OEI 02/09/2007: Switch to a formula from hard-coded list.
-        if(nLevel >= 17)       { nRegen = 3; }
-        else if(nLevel >= 12)  { nRegen = 2; }
-        else                   { nRegen = 1; }
+        /* AFW-OEI 02/09/2007: Switch to a formula instead of a hard-coded list.
+        if(nLevel >= 19)       { nSkill = 6; }
+        else if(nLevel >= 11)  { nSkill = 4; }
+        else                   { nSkill = 2; }
         */
         
-        if (nLevel >= 12)
-        {   // +1 every 5 levels starting at level 7
-            nRegen = nRegen + ((nLevel - 7) / 5);
+        if (nLevel >= 11)
+        {   // +2 every 8 levels starting at level 3
+            nSkill = nSkill + (2 * ((nLevel - 3) / 8));
         }
 
-        effect eRegen  = ExtraordinaryEffect( EffectRegenerate(nRegen, RoundsToSeconds(2)) );
-        effect eDur    = ExtraordinaryEffect( EffectVisualEffect(VFX_HIT_BARD_INS_REGENERATION) );
-        effect eLink   = ExtraordinaryEffect( EffectLinkEffects(eRegen, eDur) );
-		
-		// ALFA ACR edit for Subdual - added nRegen parameter to ApplyFriendlySongEffects
-        ApplyFriendlySongEffectsToArea( oCaster, nSpellId, fDuration, RADIUS_SIZE_COLOSSAL, eLink, nRegen);
+        effect eSkill  = ExtraordinaryEffect( EffectSkillIncrease(SKILL_ALL_SKILLS, nSkill) );
+        effect eDur    = ExtraordinaryEffect( EffectVisualEffect(VFX_HIT_BARD_INS_COMPETENCE) );
+        effect eLink   = ExtraordinaryEffect( EffectLinkEffects(eSkill, eDur) );
+
+        ApplyFriendlySongEffectsToArea( oCaster, nSpellId, fDuration, RADIUS_SIZE_COLOSSAL, eLink );
         // Schedule the next ping
         DelayCommand(2.5f, RunPersistentSong(oCaster, nSpellId));
     }
