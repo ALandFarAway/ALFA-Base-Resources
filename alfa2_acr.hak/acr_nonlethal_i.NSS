@@ -273,37 +273,37 @@ void _DoSubduedAnimation(object oTarget);
 
 void ACR_ToggleNLDMode(object oUser = OBJECT_SELF)
 {
-  object oWeapR = GetItemInSlot(4, oUser);
-  object oWeapL = GetItemInSlot(5, oUser);
-  object oCweap = GetItemInSlot(INVENTORY_SLOT_CWEAPON_R, oUser);
-  if(_GetNLDMode(oUser))
-  {
-    if(GetIsObjectValid(oWeapR) && GetWeaponType(oWeapR) != WEAPON_TYPE_NONE
-      && GetWeaponRanged(oWeapR) != TRUE)
-     ACR_NLD_OnWeaponSwitch(oUser, oWeapR, FALSE);
-   if(GetIsObjectValid(oWeapL) && GetWeaponType(oWeapL) != WEAPON_TYPE_NONE)
-     ACR_NLD_OnWeaponSwitch(oUser, oWeapL, FALSE);
-   if(GetIsObjectValid(oCweap) && GetTag(oCweap) == "acr_nld_fist")
-   {
-     DestroyObject(oCweap, 0.2, FALSE);
-   }
-   _RestoreNLDSneakAttackFeats(oUser);
-   FeatRemove(oUser, FEAT_WEAPON_PROFICIENCY_CREATURE);
-   if(GetHasFeat(FEAT_WEAPON_FOCUS_CREATURE, oUser))
-     FeatRemove(oUser, FEAT_WEAPON_FOCUS_CREATURE);
-   DelayCommand(0.1,_SetNLDMode(oUser, FALSE));
-  }
-  else
-  {
-   _SetNLDMode(oUser, TRUE);
-    if(GetIsObjectValid(oWeapR) && GetWeaponType(oWeapR) != WEAPON_TYPE_NONE
-      && GetWeaponRanged(oWeapR) != TRUE)
-     DelayCommand(0.1,ACR_NLD_OnWeaponSwitch(oUser, oWeapR, TRUE));
-   if(GetIsObjectValid(oWeapL) && GetWeaponType(oWeapL) != WEAPON_TYPE_NONE)
-     DelayCommand(0.1,ACR_NLD_OnWeaponSwitch(oUser, oWeapL, TRUE));
-   _HandleNLDSneakAttacks(oUser);
-   DelayCommand(0.1, _GiveNLDFist(oUser));
-  }
+    object oWeapR = GetItemInSlot(4, oUser);
+    object oWeapL = GetItemInSlot(5, oUser);
+    object oCweap = GetItemInSlot(INVENTORY_SLOT_CWEAPON_R, oUser);
+    if(_GetNLDMode(oUser))
+    {
+        if(GetIsObjectValid(oWeapR) && GetWeaponType(oWeapR) != WEAPON_TYPE_NONE
+           && GetWeaponRanged(oWeapR) != TRUE)
+            ACR_NLD_OnWeaponSwitch(oUser, oWeapR, FALSE);
+        if(GetIsObjectValid(oWeapL) && GetWeaponType(oWeapL) != WEAPON_TYPE_NONE)
+            ACR_NLD_OnWeaponSwitch(oUser, oWeapL, FALSE);
+        if(GetIsObjectValid(oCweap) && GetTag(oCweap) == "acr_nld_fist")
+        {
+            DestroyObject(oCweap, 0.2, FALSE);
+        }
+        _RestoreNLDSneakAttackFeats(oUser);
+        FeatRemove(oUser, FEAT_WEAPON_PROFICIENCY_CREATURE);
+        if(GetHasFeat(FEAT_WEAPON_FOCUS_CREATURE, oUser))
+            FeatRemove(oUser, FEAT_WEAPON_FOCUS_CREATURE);
+        DelayCommand(0.1,_SetNLDMode(oUser, FALSE));
+    }
+    else
+    {
+        _SetNLDMode(oUser, TRUE);
+        if(GetIsObjectValid(oWeapR) && GetWeaponType(oWeapR) != WEAPON_TYPE_NONE
+           && GetWeaponRanged(oWeapR) != TRUE)
+            DelayCommand(0.1,ACR_NLD_OnWeaponSwitch(oUser, oWeapR, TRUE));
+        if(GetIsObjectValid(oWeapL) && GetWeaponType(oWeapL) != WEAPON_TYPE_NONE)
+            DelayCommand(0.1,ACR_NLD_OnWeaponSwitch(oUser, oWeapL, TRUE));
+        _HandleNLDSneakAttacks(oUser);
+        DelayCommand(0.1, _GiveNLDFist(oUser));
+    }
 }
 
 
