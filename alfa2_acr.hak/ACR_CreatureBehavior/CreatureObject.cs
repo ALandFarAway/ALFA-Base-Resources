@@ -74,7 +74,6 @@ namespace ACR_CreatureBehavior
                 }
                 Script.GetFirstObjectInShape(CLRScriptBase.SHAPE_SPHERE, 25.0f, Script.GetLocation(this.ObjectId), CLRScriptBase.TRUE, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f,0.0f,0.0f));
             }
-            
         }
 
         /// <summary>
@@ -98,6 +97,149 @@ namespace ACR_CreatureBehavior
         {
             if (!IsAIControlled)
                 return;
+
+            int nSpell = Script.GetLastSpell();
+            int nHostile = Script.StringToInt(Script.Get2DAString("spells","HostileSetting", nSpell));
+
+//===================================================================================================================================
+//=======================  Handling for harmful spells ==============================================================================
+//===================================================================================================================================
+            if (nHostile == 1)
+            {
+                // As this is a harmful spell, the target is probably going to be unhappy about it.
+                bool bAngry = true;
+                uint CasterId = Script.GetLastSpellCaster();
+                int nReputation = Script.GetReputation(this.ObjectId, CasterId);
+
+                // If the creature is -already- hostile, we don't need to make it any -more- angry.
+                if (nReputation <= 10)
+                    bAngry = false;
+
+                // If this is the caster hitting him or herself, no doubt that's angering, but we don't need to change behavior because of it.
+                if (CasterId == this.ObjectId)
+                    bAngry = false;
+
+                // Maybe mind-controlling magic is in play?
+                if (bAngry)
+                {
+                    for (NWEffect eEffect = Script.GetFirstEffect(CasterId); Script.GetIsEffectValid(eEffect) == CLRScriptBase.TRUE; eEffect = Script.GetNextEffect(CasterId))
+                    {
+                        if (Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_BLINDNESS ||
+                            Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_CHARMED ||
+                            Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_CONFUSED ||
+                            Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_DOMINATED ||
+                            Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_INSANE)
+                        {
+                            // The attacker has been ensorcled; we're not actually mad at him or her.
+                            bAngry = false;
+                        }
+                    }
+                    for (NWEffect eEffect = Script.GetFirstEffect(this.ObjectId); Script.GetIsEffectValid(eEffect) == CLRScriptBase.TRUE; eEffect = Script.GetNextEffect(this.ObjectId))
+                    {
+                        if (Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_BLINDNESS ||
+                            Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_CHARMED ||
+                            Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_CONFUSED ||
+                            Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_DOMINATED ||
+                            Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_INSANE)
+                        {
+                            // The creature has been ensorcled; no sense on getting angry about it.
+                            bAngry = false;
+                        }
+                    }
+                }
+
+                // If mind magics didn't motivate the spell, we check to see if it's plausibly friendly fire.
+                if (bAngry)
+                {
+                    int nTargetArea = Script.StringToInt(Script.Get2DAString("spells", "TargetingUI", nSpell));
+                    // Check for friendly fire.
+                    switch((SpellTargetAOE)nTargetArea)
+                    {
+                        case SpellTargetAOE.SPELL_TARGET_COLOSSAL_AOE:
+                            {
+                                // With a colossal AOE, no sense in checking. That as probably friendly fire.
+                                bAngry = false;
+                            }
+                            break;
+                        case SpellTargetAOE.SPELL_TARGET_HUGE_AOE:
+                        case SpellTargetAOE.SPELL_TARGET_HUGE_AOE_A:
+                        case SpellTargetAOE.SPELL_TARGET_HUGE_AOE_B:
+                            {
+                                foreach(uint TargetId in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_HUGE * 2.0f, Script.GetLocation(this.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
+                                {
+                                    // We found an enemy in sight; this is probably friendly fire.
+                                    if (Script.GetReputation(this.ObjectId, TargetId) < 11)
+                                        bAngry = false;
+                                }
+                            }
+                            break;
+                        case SpellTargetAOE.SPELL_TARGET_LARGE_AOE:
+                        case SpellTargetAOE.SPELL_TARGET_PURPLE_LARGE:
+                        case SpellTargetAOE.SPELL_TARGET_LINE:
+                            {
+                                foreach (uint TargetId in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_LARGE * 2.0f, Script.GetLocation(this.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
+                                {
+                                    // We found an enemy nearby; this is probably friendly fire.
+                                    if (Script.GetReputation(this.ObjectId, TargetId) < 11)
+                                        bAngry = false;
+                                }
+                            }
+                            break;
+                        case SpellTargetAOE.SPELL_TARGET_PURPLE_MEDIUM:
+                        case SpellTargetAOE.SPELL_TARGET_RECTANGLE_A:
+                        case SpellTargetAOE.SPELL_TARGET_RECTANGLE_B:
+                            {
+                                foreach (uint TargetId in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_MEDIUM * 2.0f, Script.GetLocation(this.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
+                                {
+                                    // We found an enemy nearby; this is probably friendly fire.
+                                    if (Script.GetReputation(this.ObjectId, TargetId) < 11)
+                                        bAngry = false;
+                                }
+                            }
+                            break;
+                        case SpellTargetAOE.SPELL_TARGET_PURPLE_SMALL:
+                        case SpellTargetAOE.SPELL_TARGET_SHORT_CONE_A:
+                        case SpellTargetAOE.SPELL_TARGET_SHORT_CONE_B:
+                        case SpellTargetAOE.SPELL_TARGET_SHORT_CONE_C:
+                        case SpellTargetAOE.SPELL_TARGET_SHORT_CONE_D:
+                            {
+                                foreach (uint TargetId in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_SMALL * 2.0f, Script.GetLocation(this.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
+                                {
+                                    // We found an enemy nearby; this is probably friendly fire.
+                                    if (Script.GetReputation(this.ObjectId, TargetId) < 11)
+                                        bAngry = false;
+                                }
+                            }
+                            break;
+                    }
+
+                    // Is the target a friend to the caster?
+                    if (bAngry)
+                    {
+                        CreatureObject Caster = Server.ObjectManager.GetCreatureObject(CasterId);
+                        AIParty Party = this.Party;
+
+                        // This is the fault of a bug in the AI; best not to compound it.
+                        if (Party.PartyMembers.Contains(Caster))
+                        {
+                            bAngry = false;
+                        }
+
+                        // These two creatures are friends.
+                        else if (nReputation > 89)
+                        {
+                            Script.SetLocalInt(this.ObjectId, "FRIENDLY_FIRED", Script.GetLocalInt(this.ObjectId, "FRIENDLY_FIRED") + 1);
+                        }
+
+                        // Neutral creatures take direct attacks personally. Your friends try to trust you, but will snap if abused too much.
+                        else if (nReputation > 10 || Script.GetLocalInt(this.ObjectId, "FRIENDLY_FIRED") > Script.d4(2))
+                        {
+                            Script.SetIsTemporaryEnemy(this.ObjectId, CasterId, CLRScriptBase.FALSE, 0.0f);
+                            Script.SetIsTemporaryEnemy(CasterId, this.ObjectId, CLRScriptBase.FALSE, 0.0f);
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -430,5 +572,31 @@ namespace ACR_CreatureBehavior
         }
 
         public int TacticsType = (int)AIParty.AIType.BEHAVIOR_TYPE_UNDEFINED;
+
+        public enum SpellTargetAOE
+        {
+            SPELL_TARGET_SINGLE = 0,
+            SPELL_TARGET_RECTANGLE_A = 1,
+            SPELL_TARGET_HUGE_AOE_A = 2,
+            SPELL_TARGET_SHORT_CONE_A = 3,
+            SPELL_TARGET_SHORT_CONE_B = 4,
+            SPELL_TARGET_SHORT_CONE_C = 5,
+            SPELL_TARGET_POINT = 6,
+            SPELL_TARGET_HUGE_AOE_B = 7,
+            SPELL_TARGET_LARGE_AOE = 8,
+            SPELL_TARGET_HUGE_AOE = 9,
+            SPELL_TARGET_COLOSSAL_AOE = 10,
+            SPELL_TARGET_RECTANGLE_B = 11,
+            SPELL_TARGET_LINE = 12,
+            SPELL_TARGET_PURPLE_SMALL = 13,
+            SPELL_TARGET_PURPLE_MEDIUM = 14,
+            SPELL_TARGET_PURPLE_LARGE = 15,
+            SPELL_TARGET_SHORT_CONE_D = 16,
+        }
+        
+        const string ON_SPAWN_EVENT = "ACR_VFX_ON_SPAWN";
+        const string EFFECT_VISUAL = "_EFFECT_VISUAL";
+        const string EFFECT_PHYSICAL = "_EFFECT_PHYSICAL";
+        const string EFFECT_DAMAGE = "_EFFECT_DAMAGE";
     }
 }
