@@ -37,6 +37,7 @@ namespace ACR_ServerCommunicator
                 if (Database.ACR_GetPlayerID(PlayerObject) != Player.PlayerId)
                     continue;
 
+                Database.ACR_IncrementStatistic("DISCONNECT_PLAYER");
                 Script.WriteTimestampedLogEntry("DisconnectPlayerEvent.DispatchEvent: Disconnecting player " + Script.GetPCPlayerName(PlayerObject) + " due to IPC request.");
                 Script.BootPC(PlayerObject);
                 return;

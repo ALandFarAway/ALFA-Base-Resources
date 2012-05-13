@@ -60,7 +60,13 @@ namespace ACR_ServerCommunicator
 
             Script.WriteTimestampedLogEntry("Received shutdown request: " + Message);
 
-            Script.DelayCommand(5.0f, delegate() { SystemInfo.ShutdownGameServer(Script); });
+            Database.ACR_IncrementStatistic("SERVER_SHUTDOWN");
+
+            Script.DelayCommand(5.0f, delegate()
+            {
+                Database.ACR_FlushAllQueryQueues();
+                SystemInfo.ShutdownGameServer(Script);
+            });
         }
 
         /// <summary>

@@ -78,6 +78,7 @@
     <Compile Include="GameWorldConfiguration.cs" />
     <Compile Include="GameWorldManager.cs" />
     <Compile Include="IGameEntity.cs" />
+    <Compile Include="ModuleContentPatcher.cs" />
     <Compile Include="PageEvent.cs" />
     <Compile Include="PlayerAccountAssociationEvent.cs" />
     <Compile Include="PlayerState.cs" />

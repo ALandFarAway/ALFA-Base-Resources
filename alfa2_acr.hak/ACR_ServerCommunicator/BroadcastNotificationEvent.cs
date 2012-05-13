@@ -58,6 +58,7 @@ namespace ACR_ServerCommunicator
                     v);
             }
 
+            Database.ACR_IncrementStatistic("BROADCAST_MESSAGE");
             Script.WriteTimestampedLogEntry("Received broadcast notification: " + Message);
         }
 

@@ -776,6 +776,17 @@ namespace ALFA
             return String.Format("X{0}Y{1}Z{2}", v.x, v.y, v.z);
         }
 
+        /// <summary>
+        /// Flush all query queues in the system out to the database.
+        /// </summary>
+        public void ACR_FlushAllQueryQueues()
+        {
+            foreach (uint PCObject in Script.GetPlayers(true))
+                ACR_FlushQueryQueue(PCObject);
+
+            ACR_FlushQueryQueue(Script.GetModule());
+        }
+
 
 
         //

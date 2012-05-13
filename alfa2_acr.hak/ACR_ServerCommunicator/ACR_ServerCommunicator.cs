@@ -283,6 +283,7 @@ namespace ACR_ServerCommunicator
                 WriteTimestampedLogEntry("ACR_ServerCommunicator.InitializeServerCommunicator: Latency check turned off by configuration.");
 
             RecordModuleResources();
+            PatchContentFiles();
 
             //
             // Finally, drop into the command polling loop.
@@ -338,6 +339,54 @@ namespace ACR_ServerCommunicator
             {
                 WriteTimestampedLogEntry(String.Format(
                     "ACR_ServerCommunicator.RecordModuleResources: Exception {0}.", e));
+            }
+        }
+
+        /// <summary>
+        /// Apply content patches as appropriate.
+        /// </summary>
+        private void PatchContentFiles()
+        {
+            ALFA.Database Database = GetDatabase();
+            uint Module = GetModule();
+            string ContentPatchPath = GetLocalString(Module, "ACR_MOD_CONTENT_PATCH_PATH");
+
+            //
+            // If the content patch path wasn't configured, then the feature is
+            // not enabled.
+            //
+
+            if (String.IsNullOrEmpty(ContentPatchPath))
+                return;
+
+            DeleteLocalString(Module, "ACR_MOD_CONTENT_PATCH_PATH");
+
+            //
+            // Check for and apply any content patches that are applicable to
+            // the current hak version.  If a reboot is required, then signal a
+            // restart event using the IPC subsystem (so that we receive the
+            // benefit of the shutdown watchdog).
+            //
+
+            try
+            {
+                if (ModuleContentPatcher.ProcessContentPatches(ContentPatchPath, Database, this))
+                {
+                    int ServerId = Database.ACR_GetServerID();
+
+                    SignalIPCEvent(0,
+                        ServerId,
+                        0,
+                        ServerId,
+                        GameWorldManager.ACR_SERVER_IPC_EVENT_SHUTDOWN_SERVER,
+                        "A server restart is required in order to apply a content hotfix.  The server will restart shortly.");
+                }
+            }
+            catch (Exception e)
+            {
+                WriteTimestampedLogEntry(String.Format(
+                    "ACR_ServerCommunicator.PatchContentFiles: Exception {0} processing content file patches.",
+                    e));
             }
         }
 

@@ -118,6 +118,28 @@ namespace ALFA
         }
 
         /// <summary>
+        /// This routine gets the override directory for the current NWN2Server
+        /// instance.
+        /// </summary>
+        /// <returns>The override directory, with a trailing separator
+        /// character.</returns>
+        public static string GetOverrideDirectory()
+        {
+            return String.Format("{0}\\override\\", GetHomeDirectory());
+        }
+
+        /// <summary>
+        /// This routine gets the home directory hak directory for the current
+        /// NWN2Server instance.
+        /// </summary>
+        /// <returns>The user hak directory, with a trailing separator
+        /// character.</returns>
+        public static string GetHakDirectory()
+        {
+            return String.Format("{0}\\hak\\", GetHomeDirectory());
+        }
+
+        /// <summary>
         /// This routine gets the resource name of the module that was passed
         /// on the server command line.  Note that if the server did not have a
         /// module argument then null is returned.

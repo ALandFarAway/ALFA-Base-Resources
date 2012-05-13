@@ -70,6 +70,10 @@ const string ACR_DISABLE_STATISTICS = "ACR_DISABLE_STATISTICS";
 //! Module configuration setting indicating that GameObjUpdate backoff is enabled.
 const string ACR_GAMEOBJUPDATE = "GameObjUpdateBackoff";
 
+//! Module local variable indicating the content patch path.  This value is
+//  consumed and then deleted by the IPC subsystem at module startup.
+const string ACR_MOD_CONTENT_PATCH_PATH = "ACR_MOD_CONTENT_PATCH_PATH";
+
 //! Database configuration setting indicating that module resource files should
 //  be tallied.
 const string ACR_MODULERESOURCEFILES_DB = "ModuleResourceFiles";
@@ -77,6 +81,10 @@ const string ACR_MODULERESOURCEFILES_DB = "ModuleResourceFiles";
 //! Database configuration setting indicating that module resource files should
 //  be tallied.
 const string ACR_MODULERESOURCEFILES_MOD = "ACR_MODULERESOURCEFILES";
+
+//! Database configuration setting indicating the location to search for
+//  content patches at.
+const string ACR_CONTENT_PATCH_PATH = "ContentPatchPath";
 
 //! Values for ACR_SRVADMIN local on PC object.
 const int ACR_SRVADMIN_INDETERMINITE = 0;  // Need to query database
@@ -574,6 +582,11 @@ void ACR_LoadDatabaseConfiguration()
 		{
 			WriteTimestampedLogEntry("acr_db_persist_i: Applying ModuleResourceFiles logging configuration from database.");
 			SetLocalInt(Module, ACR_MODULERESOURCEFILES_MOD, StringToInt(VarValue));
+		}
+		else if (VarName == ACR_CONTENT_PATCH_PATH)
+		{
+			WriteTimestampedLogEntry("acr_db_persist_i: ContentPatchPath: " + VarValue);
+			SetLocalString(Module, ACR_MOD_CONTENT_PATCH_PATH, VarValue);
 		}
 	}
 }
@@ -1190,6 +1203,13 @@ void ACR_CreateSQLTables()
 		"PRIMARY KEY(`ServerID`, `ResourceFileName`), INDEX (`ServerID`) " +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 
+	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `content_patch_files` (" +
+		"`FileName` varchar(256) NOT NULL," +
+		"`Location` varchar(32) NOT NULL," +
+		"`HakVersion` varchar(16) NOT NULL," +
+		"`Checksum` varchar(32) NOT NULL," +
+		"PRIMARY KEY (`FileName`, `Location`, `HakVersion`), INDEX (`HakVersion`)" +
+	") ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 }
 
 void ACR_ResetDatabase()  {
