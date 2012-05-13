@@ -378,12 +378,14 @@ void ACR_PlayerOnDeath(object oPC, object oKiller)
             odMob = GetNextObjectInShape(SHAPE_SPHERE, _ACR_DTH_RADIUS, GetLocation(oPC), FALSE, OBJECT_TYPE_CREATURE);
         }
 
-		  ACR_IncrementStatistic("DEATH_LIMITER_DIVERTED");
+        ACR_IncrementStatistic("DEATH_LIMITER_DIVERTED");
+        return;
     }
     // clear any DMFI follow commands, set local int marker for canceling others following the dying PC.
     object oTool = GetLocalObject(oPC, "DMFITool");
     SetLocalInt(oPC, "ACR_DTH_DEAD", TRUE);
     DeleteLocalObject(oTool, "DMFIFollow");
+    if(_GetNLDMode(oPC)) ACR_ToggleNLDMode(oPC);
 	
     // increment death counter
     ACR_SQLQuery("UPDATE characters SET Deaths=Deaths+1 WHERE ID=" + IntToString(ACR_GetCharacterID(oPC)));

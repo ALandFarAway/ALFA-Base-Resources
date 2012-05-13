@@ -493,7 +493,14 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\abr_trg_swimonexit.ncs                \
             $(OUTPUTDIR)\gui_playerreport.ncs                  \
             $(OUTPUTDIR)\kemo_move.ncs                         \
-            $(OUTPUTDIR)\acr_portal_cnd.ncs                    \
+            $(OUTPUTDIR)\nw_s2_sngincomp.ncs                   \
+            $(OUTPUTDIR)\nw_s2_sngincour.ncs                   \
+            $(OUTPUTDIR)\nw_s2_sngindefn.ncs                   \
+            $(OUTPUTDIR)\nw_s2_snginjrng.ncs                   \
+            $(OUTPUTDIR)\nw_s2_snginlegn.ncs                   \
+            $(OUTPUTDIR)\nw_s2_snginregn.ncs                   \
+            $(OUTPUTDIR)\nw_s2_snginslow.ncs                   \
+            $(OUTPUTDIR)\nw_s2_sngintufn.ncs                   \
             $(OUTPUTDIR)\gb_player_heart.ncs                   
 
 #

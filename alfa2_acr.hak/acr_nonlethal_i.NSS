@@ -273,37 +273,37 @@ void _DoSubduedAnimation(object oTarget);
 
 void ACR_ToggleNLDMode(object oUser = OBJECT_SELF)
 {
-  object oWeapR = GetItemInSlot(4, oUser);
-  object oWeapL = GetItemInSlot(5, oUser);
-  object oCweap = GetItemInSlot(INVENTORY_SLOT_CWEAPON_R, oUser);
-  if(_GetNLDMode(oUser))
-  {
-    if(GetIsObjectValid(oWeapR) && GetWeaponType(oWeapR) != WEAPON_TYPE_NONE
-      && GetWeaponRanged(oWeapR) != TRUE)
-     ACR_NLD_OnWeaponSwitch(oUser, oWeapR, FALSE);
-   if(GetIsObjectValid(oWeapL) && GetWeaponType(oWeapL) != WEAPON_TYPE_NONE)
-     ACR_NLD_OnWeaponSwitch(oUser, oWeapL, FALSE);
-   if(GetIsObjectValid(oCweap) && GetTag(oCweap) == "acr_nld_fist")
-   {
-     DestroyObject(oCweap, 0.2, FALSE);
-   }
-   _RestoreNLDSneakAttackFeats(oUser);
-   FeatRemove(oUser, FEAT_WEAPON_PROFICIENCY_CREATURE);
-   if(GetHasFeat(FEAT_WEAPON_FOCUS_CREATURE, oUser))
-     FeatRemove(oUser, FEAT_WEAPON_FOCUS_CREATURE);
-   DelayCommand(0.1,_SetNLDMode(oUser, FALSE));
-  }
-  else
-  {
-   _SetNLDMode(oUser, TRUE);
-    if(GetIsObjectValid(oWeapR) && GetWeaponType(oWeapR) != WEAPON_TYPE_NONE
-      && GetWeaponRanged(oWeapR) != TRUE)
-     DelayCommand(0.1,ACR_NLD_OnWeaponSwitch(oUser, oWeapR, TRUE));
-   if(GetIsObjectValid(oWeapL) && GetWeaponType(oWeapL) != WEAPON_TYPE_NONE)
-     DelayCommand(0.1,ACR_NLD_OnWeaponSwitch(oUser, oWeapL, TRUE));
-   _HandleNLDSneakAttacks(oUser);
-   DelayCommand(0.1, _GiveNLDFist(oUser));
-  }
+    object oWeapR = GetItemInSlot(4, oUser);
+    object oWeapL = GetItemInSlot(5, oUser);
+    object oCweap = GetItemInSlot(INVENTORY_SLOT_CWEAPON_R, oUser);
+    if(_GetNLDMode(oUser))
+    {
+        if(GetIsObjectValid(oWeapR) && GetWeaponType(oWeapR) != WEAPON_TYPE_NONE
+           && GetWeaponRanged(oWeapR) != TRUE)
+            ACR_NLD_OnWeaponSwitch(oUser, oWeapR, FALSE);
+        if(GetIsObjectValid(oWeapL) && GetWeaponType(oWeapL) != WEAPON_TYPE_NONE)
+            ACR_NLD_OnWeaponSwitch(oUser, oWeapL, FALSE);
+        if(GetIsObjectValid(oCweap) && GetTag(oCweap) == "acr_nld_fist")
+        {
+            DestroyObject(oCweap, 0.2, FALSE);
+        }
+        _RestoreNLDSneakAttackFeats(oUser);
+        FeatRemove(oUser, FEAT_WEAPON_PROFICIENCY_CREATURE);
+        if(GetHasFeat(FEAT_WEAPON_FOCUS_CREATURE, oUser))
+            FeatRemove(oUser, FEAT_WEAPON_FOCUS_CREATURE);
+        DelayCommand(0.1,_SetNLDMode(oUser, FALSE));
+    }
+    else
+    {
+        _SetNLDMode(oUser, TRUE);
+        if(GetIsObjectValid(oWeapR) && GetWeaponType(oWeapR) != WEAPON_TYPE_NONE
+           && GetWeaponRanged(oWeapR) != TRUE)
+            DelayCommand(0.1,ACR_NLD_OnWeaponSwitch(oUser, oWeapR, TRUE));
+        if(GetIsObjectValid(oWeapL) && GetWeaponType(oWeapL) != WEAPON_TYPE_NONE)
+            DelayCommand(0.1,ACR_NLD_OnWeaponSwitch(oUser, oWeapL, TRUE));
+        _HandleNLDSneakAttacks(oUser);
+        DelayCommand(0.1, _GiveNLDFist(oUser));
+    }
 }
 
 
@@ -316,105 +316,108 @@ void ACR_NLD_OnPCLoaded(object oPC)
 
 void ACR_NLD_OnWeaponSwitch(object oUser, object oWeapon, int bEquipped = TRUE)
 {
-  if(!_GetNLDMode(oUser))
-    return;
-  object oWeapR = GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oUser);
-  object oWeapL = GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oUser);
-  object oCweap = GetItemInSlot(INVENTORY_SLOT_CWEAPON_R, oUser);
-// handle offhand/2handed str modifiers for currently equipped weapons
-  if(GetIsObjectValid(oWeapR) && GetWeaponRanged(oWeapR) != TRUE
-     && GetWeaponType(oWeapR) != WEAPON_TYPE_NONE)
-  {
-    SetLocalInt(oWeapR,ACR_NLD_WOFFHAND,FALSE);
-// item in the offhand?
-    if(GetIsObjectValid(oWeapL) && oWeapL != oWeapR)
-   {
-     SetLocalInt(oWeapR,ACR_NLD_W2HANDED,FALSE);
-     if(GetWeaponType(oWeapL) != WEAPON_TYPE_NONE)
-       SetLocalInt(oWeapL,ACR_NLD_WOFFHAND,TRUE);
-   }
-   else
-   {
-//check weapon size vs creature size to determine if it's wielded 2 handed
-     int nSize = StringToInt(Get2DAString("baseitems","WeaponSize",GetBaseItemType(oWeapR)));
-// Debug
-//   SendMessageToPC(oUser, "Weapon size is: "+IntToString(nSize));    
-     if((GetCreatureSize(oUser) == CREATURE_SIZE_HUGE && nSize >= 4)
-        || (GetCreatureSize(oUser) == CREATURE_SIZE_LARGE && nSize >= 4)
-        || (GetCreatureSize(oUser) == CREATURE_SIZE_MEDIUM && nSize >= 3)
-        || (GetCreatureSize(oUser) == CREATURE_SIZE_SMALL && nSize >= 2)
-      || (GetCreatureSize(oUser) == CREATURE_SIZE_TINY && nSize >= 1))
-       SetLocalInt(oWeapR,ACR_NLD_W2HANDED,TRUE);
-     else
-       SetLocalInt(oWeapR,ACR_NLD_W2HANDED,FALSE);
-   }
-  }
-  else if(!GetIsObjectValid(oWeapR))
-  {
-// need to work on barehanded subdual.
-   if(!GetIsObjectValid(oCweap))
-   {
-     _GiveNLDFist(oUser);
-   }
-  }
+    if(!_GetNLDMode(oUser))
+        return;
+    object oWeapR = GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oUser);
+    object oWeapL = GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oUser);
+    object oCweap = GetItemInSlot(INVENTORY_SLOT_CWEAPON_R, oUser);
+
+    // handle offhand/2handed str modifiers for currently equipped weapons
+    if(GetIsObjectValid(oWeapR) && GetWeaponRanged(oWeapR) != TRUE
+       && GetWeaponType(oWeapR) != WEAPON_TYPE_NONE)
+    {
+        SetLocalInt(oWeapR,ACR_NLD_WOFFHAND,FALSE);
+        // item in the offhand?
+        if(GetIsObjectValid(oWeapL) && oWeapL != oWeapR)
+        {
+            SetLocalInt(oWeapR,ACR_NLD_W2HANDED,FALSE);
+            if(GetWeaponType(oWeapL) != WEAPON_TYPE_NONE)
+                SetLocalInt(oWeapL,ACR_NLD_WOFFHAND,TRUE);
+        }
+        else
+        {
+            //check weapon size vs creature size to determine if it's wielded 2 handed
+            int nSize = StringToInt(Get2DAString("baseitems","WeaponSize",GetBaseItemType(oWeapR)));
+            // Debug
+            //   SendMessageToPC(oUser, "Weapon size is: "+IntToString(nSize));    
+            if((GetCreatureSize(oUser) == CREATURE_SIZE_HUGE && nSize >= 4)
+               || (GetCreatureSize(oUser) == CREATURE_SIZE_LARGE && nSize >= 4)
+               || (GetCreatureSize(oUser) == CREATURE_SIZE_MEDIUM && nSize >= 3)
+               || (GetCreatureSize(oUser) == CREATURE_SIZE_SMALL && nSize >= 2)
+               || (GetCreatureSize(oUser) == CREATURE_SIZE_TINY && nSize >= 1))
+                SetLocalInt(oWeapR,ACR_NLD_W2HANDED,TRUE);
+            else
+                SetLocalInt(oWeapR,ACR_NLD_W2HANDED,FALSE);
+        }
+    }
+    else if(!GetIsObjectValid(oWeapR))
+    {
+        // need to work on barehanded subdual.
+        if(!GetIsObjectValid(oCweap))
+        {
+            _GiveNLDFist(oUser);
+        }
+    }
 // now look at the weapon that was just equipped 
-  if(GetTag(oWeapon) == "acr_nld_fist")
-    return;
+    if(GetTag(oWeapon) == "acr_nld_fist")
+        return;
    
-  if(GetIsObjectValid(oWeapon) && GetWeaponRanged(oWeapon) != TRUE
-     && GetWeaponType(oWeapon) != WEAPON_TYPE_NONE)
-  {
-    itemproperty iProp;
-    itemproperty iHit = ItemPropertyOnHitCastSpell(IP_CONST_ONHIT_CASTSPELL_ONHIT_UNIQUEPOWER,1);
-   itemproperty iNoDam = ItemPropertyNoDamage();
-   itemproperty iNoStr = ItemPropertyDamagePenalty(5);
-   int nDiceDam, nDiceNum, nBaseItem, nSADice, nDamPenalty;
-// weapon was just unequipped: remove NLD properties, zero damage/sneak vars
-    if(bEquipped == FALSE)
+    if(GetIsObjectValid(oWeapon) && GetWeaponRanged(oWeapon) != TRUE
+       && GetWeaponType(oWeapon) != WEAPON_TYPE_NONE)
     {
-     iProp = GetFirstItemProperty(oWeapon);
-     while(GetIsItemPropertyValid(iProp))
-     {
-       if(GetItemPropertyType(iProp) == ITEM_PROPERTY_ONHITCASTSPELL
-         || GetItemPropertyType(iProp) == ITEM_PROPERTY_NO_DAMAGE
-         || GetItemPropertyType(iProp) == ITEM_PROPERTY_DECREASED_DAMAGE)
-         DelayCommand(0.5,AssignCommand(oUser,RemoveItemProperty(oWeapon,iProp)));
-      iProp = GetNextItemProperty(oWeapon);
-     }
-     SetLocalInt(oWeapon,ACR_NLD_WOFFHAND,FALSE);
-     SetLocalInt(oWeapon,ACR_NLD_W2HANDED,FALSE);
-     SetLocalInt(oWeapon,ACR_NLD_SA_DICE,0);
-     nDamPenalty = GetLocalInt(oWeapon, ACR_NLD_DAMAGE_PENALTY);
-     if(nDamPenalty >= 1 && nDamPenalty < 255)
-       AssignCommand(oUser,AddItemProperty(DURATION_TYPE_PERMANENT,ItemPropertyDamagePenalty(nDamPenalty),oWeapon));
+        itemproperty iProp;
+        itemproperty iHit = ItemPropertyOnHitCastSpell(IP_CONST_ONHIT_CASTSPELL_ONHIT_UNIQUEPOWER,1);
+        itemproperty iNoDam = ItemPropertyNoDamage();
+        itemproperty iNoStr = ItemPropertyDamagePenalty(5);
+        int nDiceDam, nDiceNum, nBaseItem, nSADice, nDamPenalty;
+
+        // weapon was just unequipped: remove NLD properties, zero damage/sneak vars
+        if(bEquipped == FALSE)
+        {
+            iProp = GetFirstItemProperty(oWeapon);
+            while(GetIsItemPropertyValid(iProp))
+            {
+                if(GetItemPropertyType(iProp) == ITEM_PROPERTY_ONHITCASTSPELL
+                   || GetItemPropertyType(iProp) == ITEM_PROPERTY_NO_DAMAGE)
+                    DelayCommand(0.5,AssignCommand(oUser,RemoveItemProperty(oWeapon,iProp)));
+                if(GetItemPropertyType(iProp) == ITEM_PROPERTY_DECREASED_DAMAGE &&
+                   GetItemPropertyCostTableValue(iProp) == 5)
+                    DelayCommand(0.5,AssignCommand(oUser,RemoveItemProperty(oWeapon,iProp)));
+                iProp = GetNextItemProperty(oWeapon);
+            }
+           SetLocalInt(oWeapon,ACR_NLD_WOFFHAND,FALSE);
+           SetLocalInt(oWeapon,ACR_NLD_W2HANDED,FALSE);
+           SetLocalInt(oWeapon,ACR_NLD_SA_DICE,0);
+           nDamPenalty = GetLocalInt(oWeapon, ACR_NLD_DAMAGE_PENALTY);
+        }
+
+        // weapon was just equipped: add NLD properties, set damage/sneak vars
+        else
+        {
+            iProp = GetFirstItemProperty(oWeapon);
+            while(GetIsItemPropertyValid(iProp))
+            {
+                if(GetItemPropertyType(iProp) == ITEM_PROPERTY_DECREASED_DAMAGE)
+                {
+                    nDamPenalty = GetItemPropertyCostTableValue(iProp);
+                    SetLocalInt(oWeapon, ACR_NLD_DAMAGE_PENALTY, nDamPenalty);
+                }
+                iProp = GetNextItemProperty(oWeapon);
+            }
+            if(nDamPenalty < 1)
+            SetLocalInt(oWeapon, ACR_NLD_DAMAGE_PENALTY, 255);
+            nBaseItem = GetBaseItemType(oWeapon);
+            nDiceDam = StringToInt(Get2DAString("baseitems","DieToRoll",nBaseItem));
+            nDiceNum = StringToInt(Get2DAString("baseitems","NumDice",nBaseItem));
+            nSADice = _GetNLDSneakAttackDice(oUser);
+            SetLocalInt(oWeapon,ACR_NLD_DICE_DAMAGE,nDiceDam);
+            SetLocalInt(oWeapon,ACR_NLD_DICE_NUMBER,nDiceNum);
+            SetLocalInt(oWeapon,ACR_NLD_SA_DICE,nSADice);
+            AssignCommand(oUser,AddItemProperty(DURATION_TYPE_PERMANENT,iHit,oWeapon));
+            AssignCommand(oUser,AddItemProperty(DURATION_TYPE_PERMANENT,iNoDam,oWeapon));
+            AssignCommand(oUser,AddItemProperty(DURATION_TYPE_PERMANENT,iNoStr,oWeapon));
+        }
     }
-// weapon was just equipped: add NLD properties, set damage/sneak vars
-    else
-    {
-     iProp = GetFirstItemProperty(oWeapon);
-     while(GetIsItemPropertyValid(iProp))
-     {
-       if(GetItemPropertyType(iProp) == ITEM_PROPERTY_DECREASED_DAMAGE)
-      {
-        nDamPenalty = GetItemPropertyCostTableValue(iProp);
-        SetLocalInt(oWeapon, ACR_NLD_DAMAGE_PENALTY, nDamPenalty);
-      }
-      iProp = GetNextItemProperty(oWeapon);
-     }
-     if(nDamPenalty < 1)
-       SetLocalInt(oWeapon, ACR_NLD_DAMAGE_PENALTY, 255);
-     nBaseItem = GetBaseItemType(oWeapon);
-     nDiceDam = StringToInt(Get2DAString("baseitems","DieToRoll",nBaseItem));
-     nDiceNum = StringToInt(Get2DAString("baseitems","NumDice",nBaseItem));
-     nSADice = _GetNLDSneakAttackDice(oUser);
-     SetLocalInt(oWeapon,ACR_NLD_DICE_DAMAGE,nDiceDam);
-     SetLocalInt(oWeapon,ACR_NLD_DICE_NUMBER,nDiceNum);
-     SetLocalInt(oWeapon,ACR_NLD_SA_DICE,nSADice);
-     AssignCommand(oUser,AddItemProperty(DURATION_TYPE_PERMANENT,iHit,oWeapon));
-     AssignCommand(oUser,AddItemProperty(DURATION_TYPE_PERMANENT,iNoDam,oWeapon));
-     AssignCommand(oUser,AddItemProperty(DURATION_TYPE_PERMANENT,iNoStr,oWeapon));
-    }
-  }
 }
 
 
