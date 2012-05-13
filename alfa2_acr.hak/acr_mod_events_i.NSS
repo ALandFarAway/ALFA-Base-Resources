@@ -541,8 +541,8 @@ void _DistributeTranslation(string sOriginalMessage, string sScrambledMessage, s
 
 	}
 
-	sTranslatedMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#" + sModeColor + "["+_CapitalizeWord(sLanguage)+sModeDescriptor + "] "+sOriginalMessage;
-	sUntranslatedMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#" + sModeColor + "[Untranslated"+sModeDescriptor + "] "+sScrambledMessage;
+	sTranslatedMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#" + sModeColor + "> ["+_CapitalizeWord(sLanguage)+sModeDescriptor + "] "+sOriginalMessage;
+	sUntranslatedMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#" + sModeColor + "> [Untranslated"+sModeDescriptor + "] "+sScrambledMessage;
 
 	switch (nMode)
 	{
