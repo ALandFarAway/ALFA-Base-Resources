@@ -24,11 +24,13 @@ namespace ACR_ServerCommunicator
         /// <param name="AccountAssociationSecret">Supplies the shared secret
         /// from the database config table that is used to authenticate the
         /// generated URL.</param>
+        /// <param name="BaseURL">Optionally supplies the base URL to use for
+        /// the request (overriding the default).</param>
         /// <returns>The URL to send the user to in order to link their
         /// account.  The web page at the URL prompts the user to log on to the
         /// content management system, then authenticates the request URL
         /// parameters and updates the database as appropriate.</returns>
-        public static string GenerateAssociationURL(string AccountName, string AccountAssociationSecret)
+        public static string GenerateAssociationURL(string AccountName, string AccountAssociationSecret, string BaseURL)
         {
             MD5CryptoServiceProvider MD5Csp = new MD5CryptoServiceProvider();
             string Challenge;
@@ -45,7 +47,7 @@ namespace ACR_ServerCommunicator
                 VerifierString.Append(Data[i].ToString("x2"));
 
             return String.Format("{0}?AccountName={1}&Challenge={2}&Verifier={3}",
-                AccountAssociationServiceURL,
+                String.IsNullOrEmpty(BaseURL) ? AccountAssociationServiceURL : BaseURL,
                 Uri.EscapeDataString(AccountName),
                 Uri.EscapeDataString(Challenge),
                 Uri.EscapeDataString(VerifierString.ToString()));

@@ -39,7 +39,22 @@ namespace ALFA
         /// <returns>The server hostname is returned on success.</returns>
         public static string GetExternalHostname()
         {
-            HttpWebRequest Request = (HttpWebRequest)WebRequest.Create(WebServicesURL + "myip.php");
+            return GetExternalHostname(null);
+        }
+
+        /// <summary>
+        /// This method performs a synchronous request to the main web server
+        /// in order to determine the public (external) network address of the
+        /// server.
+        /// 
+        /// An exception is raised on failure.
+        /// </summary>
+        /// <param name="ServiceURL">Optionally supplies the URL of the get
+        /// hostname web service.</param>
+        /// <returns>The server hostname is returned on success.</returns>
+        public static string GetExternalHostname(string ServiceURL)
+        {
+            HttpWebRequest Request = (HttpWebRequest)WebRequest.Create(String.IsNullOrEmpty(ServiceURL) ? WebServicesURL + "myip.php" : ServiceURL);
             HttpWebResponse Response = (HttpWebResponse)Request.GetResponse();
             Stream ResponseStream = null;
 

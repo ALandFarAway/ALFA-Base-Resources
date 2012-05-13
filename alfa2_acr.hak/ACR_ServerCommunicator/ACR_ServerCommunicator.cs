@@ -2182,7 +2182,7 @@ namespace ACR_ServerCommunicator
             {
                 try
                 {
-                    string Hostname = ALFA.WebServices.GetExternalHostname();
+                    string Hostname = ALFA.WebServices.GetExternalHostname(WorldManager.Configuration.GetHostnameUrl);
 
                     lock (ExternalHostnameLock)
                     {
@@ -2336,7 +2336,8 @@ namespace ACR_ServerCommunicator
                 lock (WorldManager)
                 {
                     WorldManager.EnqueueAccountAssociationToPlayer(PlayerObject,
-                        WorldManager.Configuration.AccountAssociationSecret);
+                        WorldManager.Configuration.AccountAssociationSecret,
+                        WorldManager.Configuration.AccountAssociationUrl);
                 }
             });
         }
