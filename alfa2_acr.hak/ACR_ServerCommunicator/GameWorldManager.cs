@@ -527,9 +527,11 @@ namespace ACR_ServerCommunicator
         /// player to send to.</param>
         /// <param name="AccountAssociationSecret">Supplies the account
         /// association secret.</param>
-        public void EnqueueAccountAssociationToPlayer(uint PlayerObject, string AccountAssociationSecret)
+        /// <param name="AccountAssociationURL">Supplies the base URL of the
+        /// account association service.</param>
+        public void EnqueueAccountAssociationToPlayer(uint PlayerObject, string AccountAssociationSecret, string AccountAssociationURL)
         {
-            EnqueueEvent(new PlayerAccountAssociationEvent(PlayerObject, AccountAssociationSecret));
+            EnqueueEvent(new PlayerAccountAssociationEvent(PlayerObject, AccountAssociationSecret, AccountAssociationURL));
         }
 
 

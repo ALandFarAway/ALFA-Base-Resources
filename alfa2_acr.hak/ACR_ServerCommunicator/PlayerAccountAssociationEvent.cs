@@ -25,10 +25,13 @@ namespace ACR_ServerCommunicator
         /// player to send to.</param>
         /// <param name="AccountAssociationSecret">Supplies the account
         /// association secret.</param>
-        public PlayerAccountAssociationEvent(uint PlayerObject, string AccountAssociationSecret)
+        /// <param name="AccountAssociationURL">Supplies the base URL of the
+        /// account association service.</param>
+        public PlayerAccountAssociationEvent(uint PlayerObject, string AccountAssociationSecret, string AccountAssociationURL)
         {
             this.PlayerObject = PlayerObject;
             this.AccountAssociationSecret = AccountAssociationSecret;
+            this.AccountAssociationURL = AccountAssociationURL;
         }
 
         /// <summary>
@@ -39,7 +42,7 @@ namespace ACR_ServerCommunicator
         public void DispatchEvent(ACR_ServerCommunicator Script, ALFA.Database Database)
         {
             PlayerState State = Script.TryGetPlayerState(PlayerObject);
-            string AccountAssociationURL;
+            string RequestURL;
 
             //
             // If the player is logged off, then there's nothing to do.
@@ -51,10 +54,10 @@ namespace ACR_ServerCommunicator
             if (String.IsNullOrEmpty(AccountAssociationSecret))
                 return;
 
-            AccountAssociationURL = AccountAssociator.GenerateAssociationURL(Script.GetPCPlayerName(PlayerObject), AccountAssociationSecret);
+            RequestURL = AccountAssociator.GenerateAssociationURL(Script.GetPCPlayerName(PlayerObject), AccountAssociationSecret, AccountAssociationURL);
 
             Script.DisplayGuiScreen(PlayerObject, "acr_account_association", CLRScriptBase.FALSE, "acr_account_association.XML", CLRScriptBase.FALSE);
-            Script.SetLocalGUIVariable(PlayerObject, "acr_account_association", 0, AccountAssociationURL);
+            Script.SetLocalGUIVariable(PlayerObject, "acr_account_association", 0, RequestURL);
         }
 
         /// <summary>
@@ -66,5 +69,10 @@ namespace ACR_ServerCommunicator
         /// The account association secret.
         /// </summary>
         private string AccountAssociationSecret;
+
+        /// <summary>
+        /// The account association service URL.
+        /// </summary>
+        private string AccountAssociationURL;
     }
 }

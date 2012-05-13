@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<UIScene name="acr_account_association" x=ALIGN_CENTER y=ALIGN_CENTER modal=false width=200
+        height=250 capturemouseclicks=true fadeout="0.0" fadein="0.0" 
+        draggable=true dragregion_x=6 dragregion_y=3 dragregion_width=188 dragregion_height=34
+        priority="SCENE_SCRIPT" scriptloadable=true idleexpiretime=1 />
+
+<UIIcon name="ACR_MSGBOX_ICON" img="hss_gui_pctool_msgbox.tga" x=6 y=5 width=30 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" />
+
+<!-- Root Pane -->
+<UIPane name="ACR_MSGBOX_ROOT_PANE" x=0 y=0 width=200 height=350 capturemouseclicks=false hidden=false >
+
+
+<UIText name="ACR_MSGBOX_SCREEN_NAME" text="ALFA Account" uppercase=true x=0 y=10 width=200 height=21 align=center valign=middle fontfamily="NWN1_Dialog" style="4" color=C1AB89 />
+
+ <UIListBox name="ACR_MSGBOX_TEXT_LISTBOX" x=6 y=38 width=188 height=178 showpartialchild=false
+  unequalcontrols=true scrollsegmentsize=13 hidescrollbarwhennotneeded=true update=true xPadding=2 yPadding=0 >
+
+  <!--  -->
+  <UIText name="ACR_MSGBOX_TEXT" text="Your ALFA forum account has not yet been linked to your in-game account.  Linking your ALFA forum account and in-game account will unlock certain website features, and is recommended.  Click 'Link accounts' to open your web browser and complete the account linking process." width=PARENT_WIDTH height=DYNAMIC align=left valign=top 
+	fontfamily="International" multiline="true" />
+
+  <UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>	
+ </UIListBox>
+ 
+									  
+<UIButton name="ACR_MSGBOX_LINK_ACCOUNTS_BUTTON" text="Link accounts" x=10 y=220 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+disabledcolor="white"
+OnLeftClick0=UIButton_Input_OpenURL("local:0")
+OnLeftClick1=UIButton_Input_ScreenClose() >
+<UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+ <UIFrame state=up		fill="b_sm_normal.tga" />
+ <UIFrame state=down		fill="b_sm_normal.tga" />
+ <UIFrame state=focused	fill="b_sm_normal.tga" />
+ <UIFrame state=hilited	fill="b_sm_hover.tga" />
+ <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+ <UIFrame state=disabled	fill="b_sm_normal.tga" />
+</UIButton>
+				
+<UIButton name="ACR_MSGBOX_DEFER_BUTTON" text="Ask me later" x=103 y=220 width=87 height=20 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+disabledcolor="white"
+OnLeftClick0=UIButton_Input_ScreenClose() >
+<UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+ <UIFrame state=up		fill="b_sm_normal.tga" />
+ <UIFrame state=down		fill="b_sm_normal.tga" />
+ <UIFrame state=focused	fill="b_sm_normal.tga" />
+ <UIFrame state=hilited	fill="b_sm_hover.tga" />
+ <UIFrame state=hifocus	fill="b_sm_hover.tga" />
+ <UIFrame state=disabled	fill="b_sm_normal.tga" />
+</UIButton>      	                             
+
+<!-- End Misc Custom Buttons pane 	                   	                   
+</UIPane>-->
+
+
+<!-- Main Frame -->
+<UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+ bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+ left="frame1_l.tga" right="frame1_r.tga" border=24 />		
+
+<UIIcon name="ACR_HLINE" img="hss_gui_top_bg.tga" x=6 y=3 width=188 height=34 /> 	           		
+
+
+<!-- Background Image -->	
+<UIIcon name="ACR_BACKGROUND" img="cloth_bg.tga" x=6 y=5 width=188 height=240 capturemouseclicks=true />	
+
+
+<!-- End Root Pane -->
+</UIPane>
+
+
+
+

@@ -20,6 +20,9 @@ namespace ACR_ServerCommunicator
         {
             PlayerPassword = "";
             RestartWatchdogTimeout = 0;
+            AccountAssociationSecret = "";
+            AccountAssociationUrl = "";
+            GetHostnameUrl = "";
         }
 
         /// <summary>
@@ -42,6 +45,10 @@ namespace ACR_ServerCommunicator
                     RestartWatchdogTimeout = Convert.ToInt32(VarValue);
                 else if (VarName == "AccountAssociationSecret")
                     AccountAssociationSecret = VarValue;
+                else if (VarName == "AccountAssociationUrl")
+                    AccountAssociationUrl = VarValue;
+                else if (VarName == "GetHostnameUrl")
+                    GetHostnameUrl = VarValue;
             }
         }
 
@@ -62,6 +69,17 @@ namespace ACR_ServerCommunicator
         /// to a forum account.
         /// </summary>
         public string AccountAssociationSecret { get; set; }
+
+        /// <summary>
+        /// This property defines the base URL of the account association
+        /// service.
+        /// </summary>
+        public string AccountAssociationUrl { get; set; }
+
+        /// <summary>
+        /// This property defines the base URL of the get hostname service.
+        /// </summary>
+        public string GetHostnameUrl { get; set; }
 
     }
 }
