@@ -78,6 +78,9 @@ namespace ACR_ServerCommunicator
                     continue;
                 }
 
+                if (!ALFA.SystemInfo.IsSafeFileName(PatchFile.FileName))
+                    continue;
+
                 PatchFiles.Add(PatchFile);
             }
 
