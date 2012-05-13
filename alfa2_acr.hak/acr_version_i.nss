@@ -28,6 +28,7 @@
 
 const string ACR_VERSION = "1.87";
 const string ACR_HAK_BUILD_DATE = "ACR_HAK_BUILD_DATE";
+const string ACR_HAK_VERSION = "ACR_HAK_VERSION";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -48,6 +49,10 @@ string ACR_GetVersion();
 //! Get the build date for this file.
 //!  - Returns: The date time string that this file was compiled.
 string ACR_GetBuildDate();
+
+//!  Get the version string that the HAK was built with.
+//!  - Returns: The HAK's ACR version string constant.
+string ACR_GetHAKVersion();
 
 //! Get the HAK build date.
 //!  - Returns: The date time string that acr_version_check.nss (in the hak)
@@ -73,3 +78,7 @@ string ACR_GetHAKBuildDate()
 	return GetGlobalString(ACR_HAK_BUILD_DATE);
 }
 
+string ACR_GetHAKVersion()
+{
+	return GetGlobalString(ACR_HAK_VERSION);
+}

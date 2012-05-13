@@ -1568,4 +1568,5 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts()
 	ACR_GetBuildDate();
 	ACR_GetHAKBuildDate();
 	ACR_IncrementStatistic("DUMMY_STATISTIC");
+	ACR_GetHAKVersion();
 }

@@ -588,6 +588,19 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Get the version string of the ACR release that the HAK corresponds
+        /// to.  For example, "1.84".
+        /// </summary>
+        /// <returns>The ACR version string that the HAK was designated as is
+        /// returned.</returns>
+        public string ACR_GetHAKVersion()
+        {
+            DemandInitialize();
+
+            return (string)ACR_GetHAKVersion_Method.Invoke(DBLibraryScript, null);
+        }
+
+        /// <summary>
         /// Get the build date of the HAK version check script (i.e. the time
         /// at which the ACR HAK had its scripts nominally compiled).
         /// </summary>
@@ -814,6 +827,7 @@ namespace ALFA
             ACR_PCSave_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_PCSave");
             ACR_GetVersion_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetVersion");
             ACR_GetBuildDate_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetBuildDate");
+            ACR_GetHAKVersion_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetHAKVersion");
             ACR_GetHAKBuildDate_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetHAKBuildDate");
             ACR_IncrementStatistic_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_IncrementStatistic");
 
@@ -870,6 +884,7 @@ namespace ALFA
         private static MethodInfo ACR_PCSave_Method;
         private static MethodInfo ACR_GetVersion_Method;
         private static MethodInfo ACR_GetBuildDate_Method;
+        private static MethodInfo ACR_GetHAKVersion_Method;
         private static MethodInfo ACR_GetHAKBuildDate_Method;
         private static MethodInfo ACR_IncrementStatistic_Method;
     }
