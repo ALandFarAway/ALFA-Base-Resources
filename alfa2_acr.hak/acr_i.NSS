@@ -55,6 +55,11 @@ const int CLASS_MYSTICTHEURGE = 44;
 
 const int RACIAL_TYPE_PLANT = 22;
 
+
+// Chat Modes:
+
+const int CHAT_MODE_SILENT_TALK = 13;
+
 // Appearance types:
 
 const int APPEARANCE_TYPE_DWARF_GOLD = 569;

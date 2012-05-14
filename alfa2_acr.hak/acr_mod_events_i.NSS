@@ -535,6 +535,9 @@ void _DistributeTranslation(string sOriginalMessage, string sScrambledMessage, s
 		nTalkVolume = TALKVOLUME_WHISPER;
 		break;
 
+	case CHAT_MODE_SILENT_TALK:
+		return;
+
 	default:
 		WriteTimestampedLogEntry("_DistributeTranslation: Unhandled chat mode " + IntToString(nMode) + "!");
 		return;
