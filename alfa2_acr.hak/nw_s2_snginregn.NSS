@@ -77,17 +77,22 @@ void RunPersistentSong(object oCaster, int nSpellId)
 
 void main()
 {
-	if ( GetCanBardSing( OBJECT_SELF ) == FALSE )
-	{
-		return; // Awww :(	
-	}
+    if ( GetCanBardSing( OBJECT_SELF ) == FALSE )
+    {
+        return; // Awww :(	
+    }
 
     if(AttemptNewSong(OBJECT_SELF, TRUE))
     {
-	    effect eFNF    = ExtraordinaryEffect( EffectVisualEffect(VFX_DUR_BARD_SONG) );
-	    ApplyEffectAtLocation(DURATION_TYPE_INSTANT, eFNF, GetLocation(OBJECT_SELF));
+        if (!GetHasFeat(FEAT_BARD_SONGS, OBJECT_SELF))
+        {
+            FloatingTextStrRefOnCreature(STR_REF_FEEDBACK_NO_MORE_BARDSONG_ATTEMPTS,OBJECT_SELF); // no more bardsong uses left
+            return;
+        }
+        effect eFNF    = ExtraordinaryEffect( EffectVisualEffect(VFX_DUR_BARD_SONG) );
+        ApplyEffectAtLocation(DURATION_TYPE_INSTANT, eFNF, GetLocation(OBJECT_SELF));
 
         DelayCommand(0.1f, RunPersistentSong(OBJECT_SELF, GetSpellId()));
+        DecrementRemainingFeatUses(OBJECT_SELF, FEAT_BARD_SONGS);
     }
-    DecrementRemainingFeatUses(OBJECT_SELF, FEAT_BARD_SONGS);
 }
