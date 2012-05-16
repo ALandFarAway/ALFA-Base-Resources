@@ -23,6 +23,8 @@ void main()
 	
 	if (!GetLocalInt(OBJECT_SELF,"searched")) {
 		// This is the Low version of the loot script, it generates
+		// 12.5% chance of medium quality
+		// 87.5% chance of low quality
 		FillContainer(TREASURE_TYPE_LOW,TREASURE_TYPE_LOW,TREASURE_TYPE_LOW,TREASURE_TYPE_MED);
 	}
 	

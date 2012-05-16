@@ -21,12 +21,11 @@
 void main()
 	{
 	// This is the normal version of the loot script, it generates
-	// 37.5% Chance for items of Normal quality
-	// 25% chance of items of Low quality
-	// 25% chance of items of High quality
-	// 12.5% chance of items of Unique quality
+	// 37.5% Chance for items of Low quality
+	// 50% chance of items of Low quality
+	// 12.5% chance of items of High quality
 	if (!GetLocalInt(OBJECT_SELF,"searched")) {
-		FillContainer(TREASURE_TYPE_MED,TREASURE_TYPE_MED,TREASURE_TYPE_MED,TREASURE_TYPE_MED);
+		FillContainer(TREASURE_TYPE_LOW,TREASURE_TYPE_MED,TREASURE_TYPE_MED,TREASURE_TYPE_HIGH);
 	}
 	// Do a search check and show it to the openingobject
 	int iCheck = d20(1);
