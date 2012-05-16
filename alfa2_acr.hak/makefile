@@ -454,6 +454,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_wand_turn_vertical.ncs            \
             $(OUTPUTDIR)\wand_init.ncs                         \
             $(OUTPUTDIR)\gui_chatselect.ncs                    \
+            $(OUTPUTDIR)\gui_containerclose.ncs                \
             $(OUTPUTDIR)\i_tkl_performer_score_ac.ncs          \
             $(OUTPUTDIR)\dmfi_usd_portal.ncs                   \
             $(OUTPUTDIR)\i_dmfi_exe_tool_ac.ncs                \

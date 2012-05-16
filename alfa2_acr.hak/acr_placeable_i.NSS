@@ -166,7 +166,10 @@ void ACR_PlaceableOnOpen() {
     object oOpener = GetLastOpenedBy();
 
     // manage persistent storage objects
-    if (ACR_GetIsPersistentStorageObject(OBJECT_SELF)) { ACR_PersistentStorageOnOpen(OBJECT_SELF); }
+    if (ACR_GetIsPersistentStorageObject(OBJECT_SELF)) {
+	    ACR_PersistentStorageOnOpen(OBJECT_SELF);
+	    SetLocalObject(oOpener, "ACR_PCHEST_OPENED", OBJECT_SELF);
+    }
 
     // apply any effects on the placeable
     ACR_VFXOnOpen(oOpener, OBJECT_SELF);
