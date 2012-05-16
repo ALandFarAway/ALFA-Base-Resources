@@ -2,7 +2,9 @@
 
 <UIScene name="SCREEN_CONTAINER_DEFAULT" OnAdd=UIScene_Misc_RequestContainerUpdates("true") x=0 y=150 width=288 height=370 fadeout="0.3" fadein="0.3"
 	draggable=true backoutkey=true OnUpdate=UIScene_OnUpdate_UpdateClosureFlag()
-	OnRemove=UIScene_Misc_RequestContainerUpdates("false") priority="SCENE_INGAME" OnBackout=UIScene_OnBackout_CloseContainer() />
+	OnRemove0=UIScene_Misc_RequestContainerUpdates("false") 
+	OnRemove1=UIObject_Misc_ExecuteServerScript("gui_containerclose")
+	priority="SCENE_INGAME" OnBackout=UIScene_OnBackout_CloseContainer() />
 
 	<!-- Close Button -->
 	<UIButton name="CloseButton" x=250 y=6 style="STYLE_CLOSE_BUTTON" 
