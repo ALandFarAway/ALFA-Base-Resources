@@ -8,6 +8,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Net;
 using System.IO;
+using System.Data.Services.Client;
 using Meebey.SmartIrc4net;
 using MySql.Data.MySqlClient;
 using MySql.Data.Types;
@@ -77,7 +78,8 @@ namespace ALFAIRCBot
         public string DatabasePassword { get; set; }
         public string DatabaseSchema { get; set; }
 
-        public string BingAppID { get; set; }
+        public string BingApplicationKey { get; set; }  // For Azure Datamarket Bing API
+        public string BingAppID { get; set; }  // For legacy Bing Search API
         public string PageFromPlayerName { get; set; }
 
         private void SetConnectionString()
@@ -510,6 +512,14 @@ namespace ALFAIRCBot
 
         private void OnCommandBing(string Source, string Query, string RestrictURL)
         {
+            if (String.IsNullOrEmpty(BingApplicationKey))
+                OnCommandBing_OldAPI(Source, Query, RestrictURL);
+            else
+                OnCommandBing_AzureAPI(Source, Query);
+        }
+
+        private void OnCommandBing_OldAPI(string Source, string Query, string RestrictURL)
+        {
             try
             {
                 XDocument Document;
@@ -547,6 +557,28 @@ namespace ALFAIRCBot
                 }
 
                 SendMessage(SendType.Message, Source, String.Format("{0}: {1} - {2}", Title, Url, Description));
+            }
+            catch (Exception)
+            {
+                SendMessage(SendType.Message, Source, String.Format("Unable to retrieve search results for {0}.", Query));
+            }
+        }
+
+        private const string BingAzureBaseURL = "https://api.datamarket.azure.com/Bing/Search/";
+
+        private void OnCommandBing_AzureAPI(string Source, string Query)
+        {
+            try
+            {
+                Bing.BingSearchContainer SearchService = new Bing.BingSearchContainer(new Uri(BingAzureBaseURL));
+                SearchService.Credentials = new NetworkCredential(BingApplicationKey, BingApplicationKey);
+                DataServiceQuery<Bing.WebResult> ServiceQuery = SearchService.Web(Query, "en-US", "Moderate", null, null, null);
+                Bing.WebResult Result = ServiceQuery.Execute().FirstOrDefault();
+
+                if (Result == null)
+                    SendMessage(SendType.Message, Source, "No results.");
+                else
+                    SendMessage(SendType.Message, Source, String.Format("{0}: {1} - {2}", Result.Title, Result.Url, Result.Description));
             }
             catch (Exception)
             {
@@ -611,7 +643,10 @@ namespace ALFAIRCBot
 
         private void OnCommandSrd(string Source, string Query)
         {
-            OnCommandBing(Source, "d20srd.org " + Query, "http://www.d20srd.org");
+            if (String.IsNullOrEmpty(BingApplicationKey))
+                OnCommandBing(Source, "d20srd.org " + Query, "http://www.d20srd.org");
+            else
+                OnCommandBing(Source, "site:d20srd.org " + Query, null);
         }
 
         private void OnCommandHelp(string Source)

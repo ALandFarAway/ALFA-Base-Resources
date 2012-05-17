@@ -39,5 +39,8 @@
     <Setting Name="PageFromPlayerName" Type="System.String" Scope="User">
       <Value Profile="(Default)">IRCBot</Value>
     </Setting>
+    <Setting Name="BingApplicationKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>
