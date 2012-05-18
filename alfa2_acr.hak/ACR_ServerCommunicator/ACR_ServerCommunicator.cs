@@ -262,7 +262,7 @@ namespace ACR_ServerCommunicator
             //
 
             Database.ACR_SQLExecute(String.Format(
-                "DELETE FROM `server_ipc_events` WHERE DestinationServerID={0}",
+                "DELETE FROM `server_ipc_events` WHERE `DestinationServerID`={0}",
                 Database.ACR_GetServerID()));
 
             WriteTimestampedLogEntry(String.Format(
@@ -890,6 +890,7 @@ namespace ACR_ServerCommunicator
         {
             IALFADatabase Database = GetDatabase();
             PlayerState State = TryGetPlayerState(SenderObjectId);
+            string FormattedMessage;
 
             if (State == null)
             {
@@ -902,6 +903,12 @@ namespace ACR_ServerCommunicator
                 SendFeedbackError(SenderObjectId, "Recipient too long.");
                 return;
             }
+
+            FormattedMessage = String.Format(
+                "</c><c=#FFCC99>{0}: </c><c=#30DDCC>[{1}] {2}</c>",
+                GetName(SenderObjectId),
+                Recipient,
+                Message);
 
             while (!String.IsNullOrEmpty(Message))
             {
@@ -926,6 +933,12 @@ namespace ACR_ServerCommunicator
                     Database.ACR_SQLEncodeSpecialChars(MessagePart)));
             }
 
+            SendChatMessage(
+                OBJECT_INVALID,
+                SenderObjectId,
+                CHAT_MODE_SERVER,
+                FormattedMessage,
+                FALSE);
             Database.ACR_IncrementStatistic("IRC_GATEWAY_MESSAGES");
         }
 

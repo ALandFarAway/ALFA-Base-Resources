@@ -28,6 +28,7 @@ namespace ALFAIRCBot
                 IRCBot.BingAppID = Properties.Settings.Default.BingAppID;
                 IRCBot.BingApplicationKey = Properties.Settings.Default.BingApplicationKey;
                 IRCBot.PageFromPlayerName = Properties.Settings.Default.PageFromPlayerName;
+                IRCBot.IRCGatewayID = Properties.Settings.Default.IRCGatewayID;
             }
             catch (Exception e)
             {

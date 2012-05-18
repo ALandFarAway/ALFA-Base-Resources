@@ -23,6 +23,7 @@ namespace ALFAIRCBot
         {
             Client = new IrcClient();
             Rng = new Random();
+            DatabaseSynchronizationThread = new Thread(DatabaseSynchronizationThreadRoutine);
             Client.OnChannelMessage += new IrcEventHandler(Client_OnChannelMessage);
             Client.OnErrorMessage += new IrcEventHandler(Client_OnErrorMessage);
             Client.OnError += new Meebey.SmartIrc4net.ErrorEventHandler(Client_OnError);
@@ -32,6 +33,8 @@ namespace ALFAIRCBot
         public void Run()
         {
             SetConnectionString();
+            Thread.MemoryBarrier();
+            DatabaseSynchronizationThread.Start();
 
             for (; ; )
             {
@@ -81,6 +84,8 @@ namespace ALFAIRCBot
         public string BingApplicationKey { get; set; }  // For Azure Datamarket Bing API
         public string BingAppID { get; set; }  // For legacy Bing Search API
         public string PageFromPlayerName { get; set; }
+
+        public int IRCGatewayID { get; set; }
 
         private void SetConnectionString()
         {
@@ -684,18 +689,7 @@ namespace ALFAIRCBot
 
                 IncrementStatistic("IRC_COMMAND_PAGE");
 
-                if (PageFromPlayerId == 0)
-                {
-                    using (MySqlDataReader Reader = ExecuteQuery(String.Format(
-                        "SELECT `ID` FROM `players` WHERE `players`.`Name` = '{0}'",
-                        MySqlHelper.EscapeString(PageFromPlayerName))))
-                    {
-                        if (Reader.Read())
-                        {
-                            PageFromPlayerId = Reader.GetInt32(0);
-                        }
-                    }
-                }
+                GetPageFromPlayerId();
 
                 if (PageFromPlayerId == 0)
                 {
@@ -834,13 +828,7 @@ namespace ALFAIRCBot
                 if (MessagePart.Length > ACR_SERVER_IPC_MAX_EVENT_LENGTH)
                     MessagePart = MessagePart.Substring(0, ACR_SERVER_IPC_MAX_EVENT_LENGTH);
 
-                ExecuteQueryNoReader(String.Format(
-                    "INSERT INTO server_ipc_events (`ID`, `SourcePlayerID`, `SourceServerID`, `DestinationPlayerID`, `DestinationServerID`, `EventType`, `EventText`) VALUES (0, {0}, 0, {1}, {2}, {3}, '{4}')",
-                    PageFromPlayerId,
-                    DestinationPlayerId,
-                    DestinationServerId,
-                    ACR_SERVER_IPC_EVENT_PAGE,
-                    MySqlHelper.EscapeString(MessagePart)));
+                SendMessageToPlayer(DestinationPlayerId, DestinationServerId, MessagePart);
                 SendMessage(SendType.Message, Source, String.Format(
                     "Message sent to {0} ({1}) at {2}.",
                     CharacterName,
@@ -935,6 +923,8 @@ namespace ALFAIRCBot
         /// <param name="Query">Supplies the query to execute.</param>
         private void ExecuteQueryNoReader(string Query)
         {
+            Console.WriteLine("Executing query: {0}", Query);
+
             MySqlHelper.ExecuteNonQuery(ConnectionString, Query);
         }
 
@@ -955,6 +945,185 @@ namespace ALFAIRCBot
                     Console.WriteLine("ExecuteQueryNoReaderAsync: Error executing query {0}: {1}", Query, e);
                 }
             });
+        }
+
+        /// <summary>
+        /// This thread periodically queries the database to identify whether
+        /// any IRC gateway messages are awaiting dispatch; if so, messages are
+        /// sent.
+        /// </summary>
+        private void DatabaseSynchronizationThreadRoutine()
+        {
+            int GatewayID = IRCGatewayID;
+
+            //
+            // Remove any stale messages.
+            //
+
+            ClearIrcGatewayMessages(GatewayID);
+
+            for (; ; )
+            {
+                try
+                {
+                    RunSynchronizationCycle(GatewayID);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("DatabaseSynchronizationThreadRoutine: Exception synchronizing: {0}", e);
+                }
+
+                Thread.Sleep(DATABASE_SYNCHRONIZATION_INTERVAL);
+            }
+        }
+
+        /// <summary>
+        /// Remove messages in the pending queue for an IRC gateway.
+        /// </summary>
+        /// <param name="GatewayID">Supplies the gateway ID of which to clear
+        /// the message queue.</param>
+        private void ClearIrcGatewayMessages(int GatewayID)
+        {
+            try
+            {
+                ExecuteQueryNoReader(String.Format(
+                    "DELETE FROM `irc_gateway_messages` WHERE `GatewayID`={0}",
+                    GatewayID));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("ClearIrcGatewayMessages: Exception {0}", e);
+            }
+        }
+
+        /// <summary>
+        /// Run the database synchronization cycle.
+        /// </summary>
+        /// <param name="GatewayID">Supplies the gateway ID to synchronize.
+        /// </param>
+        private void RunSynchronizationCycle(int GatewayID)
+        {
+            int HighestRecordId = 0;
+
+            string QueryFmt =
+                "SELECT " +
+                    "gw.`ID` AS record_id, " +
+                    "gw.`Recipient` AS recipient_name, " +
+                    "gw.`Message` AS message_text, " +
+                    "c.`Name` AS character_name, " +
+                    "p.`Name` AS player_name, " +
+                    "p.`ID` AS player_id, " +
+                    "c.`ServerID` AS character_server_id " +
+                "FROM " +
+                    "`irc_gateway_messages` AS gw " +
+                "INNER JOIN `characters` AS c ON c.`ID` = gw.`SourceCharacterID` " +
+                "INNER JOIN `players` AS p ON p.`ID` = c.`PlayerID` " +
+                "WHERE gw.`GatewayID` = {0}";
+
+            try
+            {
+                using (MySqlDataReader Reader = ExecuteQuery(String.Format(QueryFmt, GatewayID)))
+                {
+                    while (Reader.Read())
+                    {
+                        int RecordId = Reader.GetInt32(0);
+                        string Recipient = Reader.GetString(1);
+                        string Message = Reader.GetString(2).TrimStart(new char[] { '\t', ' ' });
+                        string CharacterName = Reader.GetString(3);
+                        string PlayerName = Reader.GetString(4);
+                        int PlayerId = Reader.GetInt32(5);
+                        int CharacterServerId = Reader.GetInt32(6);
+
+                        HighestRecordId = RecordId;
+
+                        if (!Recipient.StartsWith("#"))
+                        {
+                            SendMessageToPlayer(PlayerId, CharacterServerId, "Error: Recipient must be a channel.");
+                            continue;
+                        }
+
+                        if (Message.StartsWith("/"))
+                        {
+                            SendMessageToPlayer(PlayerId, CharacterServerId, "Error: Message must not start with a slash.");
+                            continue;
+                        }
+
+                        if (Message.IndexOfAny(new char[] { '\r', '\n' }) != -1)
+                        {
+                            SendMessageToPlayer(PlayerId, CharacterServerId, "Error: Message must not have newlines.");
+                            continue;
+                        }
+
+                        if (Recipient.StartsWith("#"))
+                        {
+                            if (!HomeChannels.Contains(Recipient))
+                            {
+                                SendMessageToPlayer(PlayerId, CharacterServerId, "Error: You cannot send a message to that recipient channel.");
+                                continue;
+                            }
+                        }
+
+                        if (!Client.IsConnected)
+                        {
+                            SendMessageToPlayer(PlayerId, CharacterServerId, "Error: IRC gateway is offline.");
+                            continue;
+                        }
+
+                        string FormattedMessage = String.Format(
+                            "{0} ({1}): {2}",
+                            CharacterName,
+                            PlayerName,
+                            Message);
+
+                        SendMessage(SendType.Message, Recipient, FormattedMessage);
+                    }
+                }
+            }
+            finally
+            {
+                //
+                // Now delete all of the records that we processed.
+                //
+
+                if (HighestRecordId != 0)
+                {
+                    ExecuteQueryNoReader(String.Format(
+                        "DELETE FROM `irc_gateway_messages` WHERE `GatewayID` = {0} AND `ID` < {1}",
+                        GatewayID,
+                        HighestRecordId + 1));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Send a message to a player as a freeform notice text message.
+        /// </summary>
+        /// <param name="DestinationPlayerId">Supplies the recipient player id.
+        /// The player should be online for the message to be delivered.
+        /// </param>
+        /// <param name="DestinationServerId">Supplies the server id to deliver
+        /// the message to.  This should be the server id that the player is
+        /// logged on to.</param>
+        /// <param name="Message">Supplies the message to deliver.  The message
+        /// length must not be greater than ACR_SERVER_IPC_MAX_EVENT_LENGTH.
+        /// </param>
+        private void SendMessageToPlayer(int DestinationPlayerId, int DestinationServerId, string Message)
+        {
+            int PageFrom = GetPageFromPlayerId();
+
+            if (PageFrom == 0)
+            {
+                Console.WriteLine("No page from player name configured.");
+                return;
+            }
+
+            ExecuteQueryNoReader(String.Format(
+                "INSERT INTO server_ipc_events (`ID`, `SourcePlayerID`, `SourceServerID`, `DestinationPlayerID`, `DestinationServerID`, `EventType`, `EventText`) VALUES (0, {0}, 0, {1}, {2}, {3}, '{4}')",
+                PageFrom,
+                DestinationPlayerId,
+                DestinationServerId,
+                ACR_SERVER_IPC_EVENT_PAGE,
+                MySqlHelper.EscapeString(Message)));
         }
 
         /// <summary>
@@ -983,6 +1152,24 @@ namespace ALFAIRCBot
                 MySqlHelper.EscapeString(Statistic)));
         }
 
+        private int GetPageFromPlayerId()
+        {
+            if (PageFromPlayerId == 0)
+            {
+                using (MySqlDataReader Reader = ExecuteQuery(String.Format(
+                    "SELECT `ID` FROM `players` WHERE `players`.`Name` = '{0}'",
+                    MySqlHelper.EscapeString(PageFromPlayerName))))
+                {
+                    if (Reader.Read())
+                    {
+                        PageFromPlayerId = Reader.GetInt32(0);
+                    }
+                }
+            }
+
+            return PageFromPlayerId;
+        }
+
         /// <summary>
         /// Page IPC events use this event type.  For this event, there are
         /// five parameters.  The source and destination IDs represent the
@@ -1000,14 +1187,37 @@ namespace ALFAIRCBot
         /// <summary>
         /// Pages can only be sent every PAGE_THROTTLE milliseconds.
         /// </summary>
-        private const uint PAGE_THROTTLE = 5000;
+        private const uint PAGE_THROTTLE = 1000;
+
+        /// <summary>
+        /// The interval at which the database is polled for incoming messages.
+        /// </summary>
+        private const int DATABASE_SYNCHRONIZATION_INTERVAL = 1000;
 
 
+        /// <summary>
+        /// The underlying IRC client.
+        /// </summary>
         private IrcClient Client;
+        /// <summary>
+        /// The RNG used for dice rolls.
+        /// </summary>
         private Random Rng;
+        /// <summary>
+        /// The player name to use for paging players.
+        /// </summary>
         private int PageFromPlayerId;
+        /// <summary>
+        /// The last time a page was sent, for failsafe throttling.
+        /// </summary>
         private uint LastPage = (uint)Environment.TickCount - PAGE_THROTTLE;
 
         private string ConnectionString;
+
+        /// <summary>
+        /// The thread that synchronizes with the database, e.g. for periodic
+        /// updates like IRC gateway message distribution.
+        /// </summary>
+        private Thread DatabaseSynchronizationThread;
     }
 }
