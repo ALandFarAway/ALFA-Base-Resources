@@ -1194,7 +1194,7 @@ void ACR_CreateSQLTables()
 		"`DestinationServerID` smallint(5) UNSIGNED NOT NULL, " +
 		"`EventType` smallint(5) UNSIGNED NOT NULL, " +
 		" `EventText` varchar(256) NOT NULL, " +
-		"PRIMARY KEY(`ID`), UNIQUE KEY(`ID`, `DestinationServerID`) " +
+		"PRIMARY KEY(`ID`), UNIQUE KEY(`ID`, `DestinationServerID`), INDEX(`DestinationServerID`) " +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 
 	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `server_resource_files` ( " +
@@ -1209,6 +1209,15 @@ void ACR_CreateSQLTables()
 		"`HakVersion` varchar(16) NOT NULL," +
 		"`Checksum` varchar(32) NOT NULL," +
 		"PRIMARY KEY (`FileName`, `Location`, `HakVersion`), INDEX (`HakVersion`)" +
+	") ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+
+	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `irc_gateway_messages` (" +
+		"`ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, " +
+		"`GatewayID` int(10) UNSIGNED NOT NULL," +
+		"`SourceCharacterID` mediumint(8) UNSIGNED NOT NULL," +
+		"`Recipient` varchar(51) NOT NULL," +
+		"`Message` varchar(256) NOT NULL," +
+		"PRIMARY KEY (`ID`), INDEX(`GatewayID`)" +
 	") ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 }
 
