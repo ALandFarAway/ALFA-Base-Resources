@@ -877,6 +877,86 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// Send an IRC message via an IRC gateway.
+        /// </summary>
+        /// <param name="GatewayId">Supplies the destination IRC gateway
+        /// id.</param>
+        /// <param name="Recipient">Supplies the destination IRC recipient.
+        /// </param>
+        /// <param name="SenderObjectId">Supplies the object id of the sender.
+        /// </param>
+        /// <param name="Message">Supplies the message to send.</param>
+        private void SendIrcMessage(int GatewayId, string Recipient, uint SenderObjectId, string Message)
+        {
+            IALFADatabase Database = GetDatabase();
+            PlayerState State = TryGetPlayerState(SenderObjectId);
+
+            if (State == null)
+            {
+                SendFeedbackError(SenderObjectId, "Unable to locate player state.");
+                return;
+            }
+
+            if (Recipient.Length > IRC_GATEWAY_MAX_RECIPIENT_LENGTH)
+            {
+                SendFeedbackError(SenderObjectId, "Recipient too long.");
+                return;
+            }
+
+            while (!String.IsNullOrEmpty(Message))
+            {
+                string MessagePart;
+
+                if (Message.Length > IRC_GATEWAY_MAX_MESSAGE_LENGTH)
+                {
+                    MessagePart = Message.Substring(0, IRC_GATEWAY_MAX_MESSAGE_LENGTH);
+                    Message = Message.Substring(IRC_GATEWAY_MAX_MESSAGE_LENGTH);
+                }
+                else
+                {
+                    MessagePart = Message;
+                    Message = null;
+                }
+
+                EnqueueExecuteQuery(String.Format(
+                    "INSERT INTO `irc_gateway_messages` (`ID`, `GatewayID`, `SourceCharacterID`, `Recipient`, `Message`) VALUES (0, {0}, {1}, '{2}', '{3}')",
+                    GatewayId,
+                    State.CharacterId,
+                    Database.ACR_SQLEncodeSpecialChars(Recipient),
+                    Database.ACR_SQLEncodeSpecialChars(MessagePart)));
+            }
+
+            Database.ACR_IncrementStatistic("IRC_GATEWAY_MESSAGES");
+        }
+
+        /// <summary>
+        /// Parse out a #ircmsg [recipient] [msg] command and act on it.
+        /// </summary>
+        /// <param name="Text">Supplies the command text.</param>
+        /// <param name="SenderObjectId">Supplies the requesting player's
+        /// object id.</param>
+        private void ParseSendIrcMessage(string Text, uint SenderObjectId)
+        {
+            int Offset = Text.IndexOf(' ');
+
+            Text = Text.TrimStart(new char[] { ' ' });
+
+            if (Offset == -1)
+            {
+                SendFeedbackError(SenderObjectId, "Usage: #ircmsg [recipient] [msg].");
+                return;
+            }
+
+            string Recipient = Text.Substring(0, Offset);
+            string Message = Text.Substring(Offset + 1);
+
+            SendIrcMessage(WorldManager.Configuration.DefaultIrcGatewayId,
+                Recipient,
+                SenderObjectId,
+                Message);
+        }
+
+        /// <summary>
         /// This method sends command help text to a player.
         /// </summary>
         /// <param name="PlayerObject">Supplies the requesting player's object
@@ -899,6 +979,8 @@ namespace ACR_ServerCommunicator
                 "seen [player name|character name]  - Check when a user last logged on.\n" +
                 "hideremoteplayers [on|off]  - Hide or show remote players when the chat select window is collapsed (default is to show).\n" +
                 "help  - Show help text.\n" +
+                "irc [message]  - Send IRC message to " + WorldManager.Configuration.DefaultIrcRecipient + ".\n" +
+                "ircmsg [recipient] [msg]  - Send IRC message to specified channel.\n" +
                 "\n" +
                 "You may also roll skills by prepending the prefix character to a skill name.  For example, #wisdom to roll a wisdom check."
                 );
@@ -1059,6 +1141,28 @@ namespace ACR_ServerCommunicator
             else if (CookedText.StartsWith("seen "))
             {
                 ShowLastLoginTime(SenderObjectId, CookedText.Substring(5));
+                return TRUE;
+            }
+            else if (CookedText.StartsWith("irc "))
+            {
+                string Recipient = WorldManager.Configuration.DefaultIrcRecipient;
+
+                if (String.IsNullOrEmpty(Recipient))
+                {
+                    SendFeedbackError(SenderObjectId, "Default recipient not set in config table in the database.  Contact the tech department.");
+                    return TRUE;
+
+                }
+
+                SendIrcMessage(WorldManager.Configuration.DefaultIrcGatewayId,
+                    Recipient,
+                    SenderObjectId,
+                    CookedText.Substring(4));
+                return TRUE;
+            }
+            else if (CookedText.StartsWith("ircmsg "))
+            {
+                ParseSendIrcMessage(CookedText.Substring(7), SenderObjectId);
                 return TRUE;
             }
             else if (CookedText.Equals("help"))
@@ -2392,6 +2496,19 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// Enqueue an execute-only (no return value) query to the query
+        /// thread.
+        /// </summary>
+        /// <param name="Query">Supplies the query to execute.</param>
+        private void EnqueueExecuteQuery(string Query)
+        {
+            WorldManager.SignalQueryThreadAction(delegate(IALFADatabase Database)
+            {
+                Database.ACR_SQLExecute(Query);
+            });
+        }
+
+        /// <summary>
         /// Get the associated database object, creating it on demand if
         /// required.
         /// </summary>
@@ -2512,6 +2629,18 @@ namespace ACR_ServerCommunicator
         /// length of the EventText field in the database table.
         /// </summary>
         private const int ACR_SERVER_IPC_MAX_EVENT_LENGTH = 256;
+
+        /// <summary>
+        /// The maximum length of an IRC gateway message is set here.  This is
+        /// the length of the Message field in the database table.
+        /// </summary>
+        private const int IRC_GATEWAY_MAX_MESSAGE_LENGTH = 256;
+
+        /// <summary>
+        /// The maximum length of an IRC recipient is set here.  This is the
+        /// length of the Recipient field in the database table.
+        /// </summary>
+        private const int IRC_GATEWAY_MAX_RECIPIENT_LENGTH = 51;
 
         /// <summary>
         /// If false, the script has not run initialization yet.

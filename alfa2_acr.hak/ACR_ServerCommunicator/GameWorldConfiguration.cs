@@ -23,6 +23,8 @@ namespace ACR_ServerCommunicator
             AccountAssociationSecret = "";
             AccountAssociationUrl = "";
             GetHostnameUrl = "";
+            DefaultIrcGatewayId = 0;
+            DefaultIrcRecipient = "";
         }
 
         /// <summary>
@@ -49,6 +51,10 @@ namespace ACR_ServerCommunicator
                     AccountAssociationUrl = VarValue;
                 else if (VarName == "GetHostnameUrl")
                     GetHostnameUrl = VarValue;
+                else if (VarName == "DefaultIrcGatewayId")
+                    DefaultIrcGatewayId = Convert.ToInt32(VarValue);
+                else if (VarName == "DefaultIrcRecipient")
+                    DefaultIrcRecipient = VarValue;
             }
         }
 
@@ -80,6 +86,18 @@ namespace ACR_ServerCommunicator
         /// This property defines the base URL of the get hostname service.
         /// </summary>
         public string GetHostnameUrl { get; set; }
+
+        /// <summary>
+        /// The default IRC gateway ID to use for server-to-IRC messages.  The
+        /// value matches a configured ALFA IRC Bot's IRCGateway config.xml
+        /// entry.
+        /// </summary>
+        public int DefaultIrcGatewayId { get; set; }
+
+        /// <summary>
+        /// The default IRC recipient to use for server-to-IRC messages.
+        /// </summary>
+        public string DefaultIrcRecipient { get; set; }
 
     }
 }
