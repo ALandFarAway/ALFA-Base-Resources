@@ -133,7 +133,8 @@ namespace ALFA
                 "INSERT INTO `stat_counters` (`Name`, `Value`, `LastUpdate`) " +
                 "VALUES '{0}', 1, NOW()) " +
                 "ON DUPLICATE KEY UPDATE `Value` = `Value` + 1, " +
-                "`LastUpdate`=NOW()"));
+                "`LastUpdate`=NOW()",
+                Implementation.ACR_SQLEncodeSpecialChars(Statistic)));
         }
 
         /// <summary>
