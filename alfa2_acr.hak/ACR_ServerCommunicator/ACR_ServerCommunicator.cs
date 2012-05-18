@@ -874,6 +874,8 @@ namespace ACR_ServerCommunicator
                     WorldManager.EnqueueMessageToPlayer(PlayerObject, Message);
                 }
             });
+
+            WorldManager.SignalIPCEventWakeup();
         }
 
         /// <summary>
