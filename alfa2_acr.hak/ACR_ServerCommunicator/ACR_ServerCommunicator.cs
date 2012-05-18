@@ -933,6 +933,7 @@ namespace ACR_ServerCommunicator
                     Database.ACR_SQLEncodeSpecialChars(MessagePart)));
             }
 
+            WorldManager.SignalIPCEventWakeup();
             SendChatMessage(
                 OBJECT_INVALID,
                 SenderObjectId,
