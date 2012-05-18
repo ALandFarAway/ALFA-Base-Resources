@@ -106,6 +106,9 @@ namespace ALFAIRCBot
             if (!HomeChannels.Contains(e.Data.Channel))
                 return;
 
+            if (e.Data.From == Client.Nickname)
+                return;
+
             ThreadPool.QueueUserWorkItem(delegate(object state) { Client_OnChannelMessageDispatch(sender, e); });
         }
 
