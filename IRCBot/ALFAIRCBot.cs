@@ -209,6 +209,8 @@ namespace ALFAIRCBot
             Dictionary<int, SERVER_DATA> ServerInfoTable = new Dictionary<int, SERVER_DATA>();
             SERVER_DATA ServerData = new SERVER_DATA();
 
+            IncrementStatistic("IRC_COMMAND_PLAYERS");
+
             string QueryFmt =
                 "SELECT " +
                     "COUNT(`characters`.`ID`) AS character_count, " +
@@ -467,6 +469,8 @@ namespace ALFAIRCBot
                 string Wind;
                 string Humidity;
 
+                IncrementStatistic("IRC_COMAMND_WEATHER");
+
                 Document.Load("http://www.google.com/ig/api?weather=" + Uri.EscapeDataString(Query));
 
                 XmlElement ForecastInfo = (XmlElement)Document.GetElementsByTagName("forecast_information")[0];
@@ -516,6 +520,8 @@ namespace ALFAIRCBot
                 OnCommandBing_OldAPI(Source, Query, RestrictURL);
             else
                 OnCommandBing_AzureAPI(Source, Query);
+
+            IncrementStatistic("IRC_COMMAND_WEBSEARCH");
         }
 
         private void OnCommandBing_OldAPI(string Source, string Query, string RestrictURL)
@@ -601,6 +607,8 @@ namespace ALFAIRCBot
                 HttpWebResponse Response;
                 Stream ResponseStream;
 
+                IncrementStatistic("IRC_COMMAND_WIKIPEDIA");
+
                 Request = (HttpWebRequest) WebRequest.Create(String.Format("http://en.wikipedia.org/w/api.php?action=opensearch&limit=1&namespace=0&format=xml&search={0}", Uri.EscapeDataString(Query)));
 
                 Request.UserAgent = "ALFAIRCBot/" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -647,6 +655,8 @@ namespace ALFAIRCBot
                 OnCommandBing(Source, "d20srd.org " + Query, "http://www.d20srd.org");
             else
                 OnCommandBing(Source, "site:d20srd.org " + Query, null);
+
+            IncrementStatistic("IRC_COMMAND_SRD");
         }
 
         private void OnCommandHelp(string Source)
@@ -671,6 +681,8 @@ namespace ALFAIRCBot
                 string ServerName = null;
                 string PlayerName = null;
                 string CharacterName = null;
+
+                IncrementStatistic("IRC_COMMAND_PAGE");
 
                 if (PageFromPlayerId == 0)
                 {
@@ -896,6 +908,7 @@ namespace ALFAIRCBot
                 Console.WriteLine("{0} last logged in at {1}", PlayerName, LoginDate);
                 SendMessage(SendType.Message, Source, String.Format(
                     "{0} last logged in at {1}.", PlayerName, LoginDate));
+                IncrementStatistic("IRC_COMMAND_SEEN");
             }
             catch (Exception e)
             {
@@ -904,6 +917,11 @@ namespace ALFAIRCBot
             }
         }
 
+        /// <summary>
+        /// Execute a query.
+        /// </summary>
+        /// <param name="Query">Supplies the query to execute.</param>
+        /// <returns>A reader for the query results is returned.</returns>
         private MySqlDataReader ExecuteQuery(string Query)
         {
             Console.WriteLine("Executing query: {0}", Query);
@@ -911,14 +929,58 @@ namespace ALFAIRCBot
             return MySqlHelper.ExecuteReader(ConnectionString, Query);
         }
 
+        /// <summary>
+        /// Execute a query that returns nothing.
+        /// </summary>
+        /// <param name="Query">Supplies the query to execute.</param>
         private void ExecuteQueryNoReader(string Query)
         {
             MySqlHelper.ExecuteNonQuery(ConnectionString, Query);
         }
 
+        /// <summary>
+        /// Execute a query that returns nothing using a worker thread.
+        /// </summary>
+        /// <param name="Query">Supplies the query to execute.</param>
+        private void ExecuteQueryNoReaderAsync(string Query)
+        {
+            ThreadPool.QueueUserWorkItem(delegate(object state)
+            {
+                try
+                {
+                    MySqlHelper.ExecuteNonQuery(ConnectionString, Query);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("ExecuteQueryNoReaderAsync: Error executing query {0}: {1}", Query, e);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Send a message to IRC.
+        /// </summary>
+        /// <param name="Type">Supplies the type of message to send.</param>
+        /// <param name="Destination">Supplies the message recipient (user or
+        /// channel).</param>
+        /// <param name="Message">Supplies the message to send.</param>
         private void SendMessage(SendType Type, string Destination, string Message)
         {
             Client.SendMessage(Type, Destination, Message.Replace('\r', ' ').Replace('\n', ' '));
+        }
+
+        /// <summary>
+        /// Bump a statistic counter in the database.
+        /// </summary>
+        /// <param name="Statistic">Supplies the counter name to bump.</param>
+        private void IncrementStatistic(string Statistic)
+        {
+            ExecuteQueryNoReaderAsync(String.Format(
+                "INSERT INTO `stat_counters` (`Name`, `Value`, `LastUpdate`) " +
+                "VALUES ('{0}', 1, NOW()) " +
+                "ON DUPLICATE KEY UPDATE `Value` = `Value` + 1, " +
+                "`LastUpdate`=NOW()",
+                MySqlHelper.EscapeString(Statistic)));
         }
 
         /// <summary>
