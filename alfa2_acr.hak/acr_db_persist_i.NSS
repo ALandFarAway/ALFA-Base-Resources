@@ -1105,6 +1105,7 @@ void ACR_CreateSQLTables()
 		"`TimeOnline` mediumint(8) UNSIGNED NOT NULL default 0," +
 		"`IsDM` bool NOT NULL default false," +
 		"`IsBanned` bool NOT NULL default false," +
+		"`Is18Plus` bool NOT NULL default false," +
 		"PRIMARY KEY (`ID`), UNIQUE KEY(`CDKey`, `Name`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 
@@ -1260,6 +1261,16 @@ void ACR_AdjustTables() {
 	} else {
 		WriteTimestampedLogEntry("ACR_DB_PERSIST: RetiredStatus column existance confirmed.");
 	}
+
+	// check to see if the Players table has the Is18Plus column
+	ACR_SQLQuery("SHOW COLUMNS from `players` WHERE Field = 'Is18Plus';");
+	if (ACR_SQLFetch() != SQL_SUCCESS) {
+		ACR_SQLQuery("ALTER TABLE `players` ADD `Is18Plus` bool NOT NULL default false");
+		WriteTimestampedLogEntry("ACR_DB_PERSIST: Players table altered to record 18Plus status.");
+	} else {
+		WriteTimestampedLogEntry("ACR_DB_PERSIST: Is18Plus column existance confirmed.");
+	}
+
 
 	return;
 }

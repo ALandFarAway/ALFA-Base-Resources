@@ -28,6 +28,7 @@ namespace ALFAIRCBot
             Client.OnErrorMessage += new IrcEventHandler(Client_OnErrorMessage);
             Client.OnError += new Meebey.SmartIrc4net.ErrorEventHandler(Client_OnError);
             Client.OnRawMessage += new IrcEventHandler(Client_OnRawMessage);
+            CreateIngameIrcCommands();
         }
 
         public void Run()
@@ -1047,7 +1048,7 @@ namespace ALFAIRCBot
 
                         if (Message.StartsWith("/"))
                         {
-                            SendMessageToPlayer(PlayerId, CharacterServerId, "Error: Message must not start with a slash.");
+                            OnInGameIrcCommand(PlayerId, CharacterServerId, Message.Substring(1));
                             continue;
                         }
 
@@ -1171,6 +1172,289 @@ namespace ALFAIRCBot
             }
 
             return PageFromPlayerId;
+        }
+
+        /// <summary>
+        /// Descriptor for in-game IRC extension commands reachable via #irc.
+        /// </summary>
+        private class IngameIrcCommand
+        {
+            public delegate void Handler(int PlayerId, int CharacterId, string Text);
+
+            public string Prefix;
+            public bool ExactMatch;
+            public Handler CommandHandler;
+            public string HelpText;
+        }
+
+        /// <summary>
+        /// Known in-game IRC extension commands.
+        /// </summary>
+        private IngameIrcCommand[] IngameCommands = null;
+
+        /// <summary>
+        /// Set up the ingame command list.
+        /// </summary>
+        private void CreateIngameIrcCommands()
+        {
+            IngameCommands = new IngameIrcCommand[]
+            {
+                new IngameIrcCommand()
+                {
+                    Prefix = "help",
+                    ExactMatch = true,
+                    CommandHandler = IngameCommand_Help,
+                    HelpText = "Lists information about available commands."
+                },
+                new IngameIrcCommand()
+                {
+                    Prefix = "who",
+                    ExactMatch = false,
+                    CommandHandler = IngameCommand_Who,
+                    HelpText = "Lists users in a channel."
+                },
+                new IngameIrcCommand()
+                {
+                    Prefix = "channels",
+                    ExactMatch = true,
+                    CommandHandler = IngameCommand_Channels,
+                    HelpText = "List available channels."
+                },
+                new IngameIrcCommand()
+                {
+                    Prefix = "srd",
+                    ExactMatch = false,
+                    CommandHandler = IngameCommand_Srd,
+                    HelpText = "Searches the hypertext D20 SRD."
+                },
+                new IngameIrcCommand()
+                {
+                    Prefix = "search",
+                    ExactMatch = false,
+                    CommandHandler = IngameCommand_Search,
+                    HelpText = "Searches the web."
+                }
+            };
+        }
+
+
+        /// <summary>
+        /// Dispatch an in-game IRC command to its handler.
+        /// </summary>
+        /// <param name="PlayerId">Supplies the requesting player ID.</param>
+        /// <param name="CharacterServerId">Supplies the server ID to send the
+        /// response information to.</param>
+        /// <param name="Command">Supplies the command text.</param>
+        private void OnInGameIrcCommand(int PlayerId, int CharacterServerId, string Command)
+        {
+            foreach (IngameIrcCommand CommandDescriptor in IngameCommands)
+            {
+                if (CommandDescriptor.ExactMatch && CommandDescriptor.Prefix == Command)
+                {
+                    CommandDescriptor.CommandHandler(PlayerId, CharacterServerId, null);
+                    return;
+                }
+                else if (!CommandDescriptor.ExactMatch && (Command.StartsWith(CommandDescriptor.Prefix + " ") || Command.Equals(CommandDescriptor.Prefix)))
+                {
+                    CommandDescriptor.CommandHandler(PlayerId, CharacterServerId, Command.Substring(CommandDescriptor.Prefix.Length));
+                    return;
+                }
+            }
+
+            SendMessageToPlayer(PlayerId, CharacterServerId, "Unrecognized IRC gateway command.  (Try #irc /help for more information.)");
+        }
+
+        /// <summary>
+        /// Display a listing of available IRC extension commands.
+        /// </summary>
+        /// <param name="PlayerId">Supplies the requesting player ID.</param>
+        /// <param name="CharacterServerId">Supplies the server ID to send the
+        /// response information to.</param>
+        /// <param name="Command">Supplies the command text.</param>
+        private void IngameCommand_Help(int PlayerId, int CharacterServerId, string Text)
+        {
+            foreach (IngameIrcCommand CommandDescriptor in IngameCommands)
+            {
+                SendMessageToPlayer(PlayerId, CharacterServerId, String.Format(
+                    "#irc /{0}  - {1}", CommandDescriptor.Prefix, CommandDescriptor.HelpText));
+            }
+        }
+
+        /// <summary>
+        /// List users in a channel.
+        /// </summary>
+        /// <param name="PlayerId">Supplies the requesting player ID.</param>
+        /// <param name="CharacterServerId">Supplies the server ID to send the
+        /// response information to.</param>
+        /// <param name="Command">Supplies the command text.</param>
+        private void IngameCommand_Who(int PlayerId, int CharacterServerId, string Text)
+        {
+            string ChannelName = null;
+
+            if (Text.Length != 0 && !Text.StartsWith(" "))
+                return;
+
+            if (Text.Length == 0 && HomeChannels.Count != 0)
+                ChannelName = HomeChannels[0];
+            else
+            {
+                Text = Text.Trim();
+
+                ChannelName = (from string C in Client.GetChannels()
+                           where C == Text
+                           select C).FirstOrDefault();
+            }
+
+            if (ChannelName == null)
+            {
+                SendMessageToPlayer(PlayerId, CharacterServerId, "Unknown channel.");
+                return;
+            }
+
+            Channel JoinedChannel = Client.GetChannel(ChannelName);
+
+            if (JoinedChannel == null)
+            {
+                SendMessageToPlayer(PlayerId, CharacterServerId, "The IRC gateway is not joined to that channel.");
+                return;
+            }
+
+            SendMessageToPlayer(PlayerId, CharacterServerId, String.Format("{0} user(s) in channel {1}:", JoinedChannel.Users.Values.Count, JoinedChannel.Name));
+
+            StringBuilder Line = new StringBuilder();
+            int UsersInLine = 0;
+
+            foreach (ChannelUser User in JoinedChannel.Users.Values)
+            {
+                if (UsersInLine != 0)
+                    Line.Append(", ");
+
+                if (User.IsOp)
+                    Line.Append("@");
+                else if (User.IsVoice)
+                    Line.Append("+");
+
+                Line.Append(User.Nick);
+                UsersInLine += 1;
+
+                if (UsersInLine == 3)
+                {
+                    SendMessageToPlayer(PlayerId, CharacterServerId, Line.ToString());
+                    Line.Clear();
+                    UsersInLine = 0;
+                }
+            }
+
+            if (UsersInLine != 0)
+            {
+                SendMessageToPlayer(PlayerId, CharacterServerId, Line.ToString());
+                Line.Clear();
+                UsersInLine = 0;
+            }
+
+            IncrementStatistic("IRC_COMMAND_WHO");
+        }
+
+        /// <summary>
+        /// List available channels.
+        /// </summary>
+        /// <param name="PlayerId">Supplies the requesting player ID.</param>
+        /// <param name="CharacterServerId">Supplies the server ID to send the
+        /// response information to.</param>
+        /// <param name="Command">Supplies the command text.</param>
+        private void IngameCommand_Channels(int PlayerId, int CharacterServerId, string Text)
+        {
+            SendMessageToPlayer(PlayerId, CharacterServerId, String.Format("{0} available channel(s):", Client.JoinedChannels.Count));
+
+            StringBuilder Line = new StringBuilder();
+            int ChannelsInLine = 0;
+
+            foreach (string ChannelName in Client.GetChannels())
+            {
+                if (ChannelsInLine != 0)
+                    Line.Append(", ");
+
+                Line.Append(ChannelName);
+                ChannelsInLine += 1;
+
+                if (ChannelsInLine == 3)
+                {
+                    SendMessageToPlayer(PlayerId, CharacterServerId, Line.ToString());
+                    Line.Clear();
+                    ChannelsInLine = 0;
+                }
+            }
+
+            if (ChannelsInLine != 0)
+            {
+                SendMessageToPlayer(PlayerId, CharacterServerId, Line.ToString());
+                Line.Clear();
+                ChannelsInLine = 0;
+            }
+
+            IncrementStatistic("IRC_COMMAND_CHANNELS");
+        }
+
+        /// <summary>
+        /// Search the D20 SRD.
+        /// </summary>
+        /// <param name="PlayerId">Supplies the requesting player ID.</param>
+        /// <param name="CharacterServerId">Supplies the server ID to send the
+        /// response information to.</param>
+        /// <param name="Command">Supplies the command text.</param>
+        private void IngameCommand_Srd(int PlayerId, int CharacterServerId, string Text)
+        {
+            Text = Text.Trim();
+
+            try
+            {
+                Bing.BingSearchContainer SearchService = new Bing.BingSearchContainer(new Uri(BingAzureBaseURL));
+                SearchService.Credentials = new NetworkCredential(BingApplicationKey, BingApplicationKey);
+                DataServiceQuery<Bing.WebResult> ServiceQuery = SearchService.Web("site:d20srd.org " + Text, "en-US", "Moderate", null, null, null);
+                Bing.WebResult Result = ServiceQuery.Execute().FirstOrDefault();
+
+                if (Result == null)
+                    SendMessageToPlayer(PlayerId, CharacterServerId, "No results.");
+                else
+                    SendMessageToPlayer(PlayerId, CharacterServerId, String.Format("{0}: {1} - {2}", Result.Title, Result.Url, Result.Description));
+
+                IncrementStatistic("IRC_COMMAND_SRD");
+            }
+            catch (Exception)
+            {
+                SendMessageToPlayer(PlayerId, CharacterServerId, String.Format("Unable to retrieve search results for {0}.", Text));
+            }
+        }
+
+        /// <summary>
+        /// Search the web.
+        /// </summary>
+        /// <param name="PlayerId">Supplies the requesting player ID.</param>
+        /// <param name="CharacterServerId">Supplies the server ID to send the
+        /// response information to.</param>
+        /// <param name="Command">Supplies the command text.</param>
+        private void IngameCommand_Search(int PlayerId, int CharacterServerId, string Text)
+        {
+            Text = Text.Trim();
+
+            try
+            {
+                Bing.BingSearchContainer SearchService = new Bing.BingSearchContainer(new Uri(BingAzureBaseURL));
+                SearchService.Credentials = new NetworkCredential(BingApplicationKey, BingApplicationKey);
+                DataServiceQuery<Bing.WebResult> ServiceQuery = SearchService.Web(Text, "en-US", "Moderate", null, null, null);
+                Bing.WebResult Result = ServiceQuery.Execute().FirstOrDefault();
+
+                if (Result == null)
+                    SendMessageToPlayer(PlayerId, CharacterServerId, "No results.");
+                else
+                    SendMessageToPlayer(PlayerId, CharacterServerId, String.Format("{0}: {1} - {2}", Result.Title, Result.Url, Result.Description));
+
+                IncrementStatistic("IRC_COMMAND_WEBSEARCH");
+            }
+            catch (Exception)
+            {
+                SendMessageToPlayer(PlayerId, CharacterServerId, String.Format("Unable to retrieve search results for {0}.", Text));
+            }
         }
 
         /// <summary>
