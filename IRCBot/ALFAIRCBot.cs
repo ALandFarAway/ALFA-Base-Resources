@@ -1219,6 +1219,20 @@ namespace ALFAIRCBot
                     ExactMatch = true,
                     CommandHandler = IngameCommand_Channels,
                     HelpText = "List available channels."
+                },
+                new IngameIrcCommand()
+                {
+                    Prefix = "srd",
+                    ExactMatch = false,
+                    CommandHandler = IngameCommand_Srd,
+                    HelpText = "Searches the hypertext D20 SRD."
+                },
+                new IngameIrcCommand()
+                {
+                    Prefix = "search",
+                    ExactMatch = false,
+                    CommandHandler = IngameCommand_Search,
+                    HelpText = "Searches the web."
                 }
             };
         }
@@ -1240,7 +1254,7 @@ namespace ALFAIRCBot
                     CommandDescriptor.CommandHandler(PlayerId, CharacterServerId, null);
                     return;
                 }
-                else if (!CommandDescriptor.ExactMatch && Command.StartsWith(CommandDescriptor.Prefix))
+                else if (!CommandDescriptor.ExactMatch && (Command.StartsWith(CommandDescriptor.Prefix + " ") || Command.Equals(CommandDescriptor.Prefix)))
                 {
                     CommandDescriptor.CommandHandler(PlayerId, CharacterServerId, Command.Substring(CommandDescriptor.Prefix.Length));
                     return;
@@ -1337,6 +1351,8 @@ namespace ALFAIRCBot
                 Line.Clear();
                 UsersInLine = 0;
             }
+
+            IncrementStatistic("IRC_COMMAND_WHO");
         }
 
         /// <summary>
@@ -1374,6 +1390,70 @@ namespace ALFAIRCBot
                 SendMessageToPlayer(PlayerId, CharacterServerId, Line.ToString());
                 Line.Clear();
                 ChannelsInLine = 0;
+            }
+
+            IncrementStatistic("IRC_COMMAND_CHANNELS");
+        }
+
+        /// <summary>
+        /// Search the D20 SRD.
+        /// </summary>
+        /// <param name="PlayerId">Supplies the requesting player ID.</param>
+        /// <param name="CharacterServerId">Supplies the server ID to send the
+        /// response information to.</param>
+        /// <param name="Command">Supplies the command text.</param>
+        private void IngameCommand_Srd(int PlayerId, int CharacterServerId, string Text)
+        {
+            Text = Text.Trim();
+
+            try
+            {
+                Bing.BingSearchContainer SearchService = new Bing.BingSearchContainer(new Uri(BingAzureBaseURL));
+                SearchService.Credentials = new NetworkCredential(BingApplicationKey, BingApplicationKey);
+                DataServiceQuery<Bing.WebResult> ServiceQuery = SearchService.Web("site:d20srd.org " + Text, "en-US", "Moderate", null, null, null);
+                Bing.WebResult Result = ServiceQuery.Execute().FirstOrDefault();
+
+                if (Result == null)
+                    SendMessageToPlayer(PlayerId, CharacterServerId, "No results.");
+                else
+                    SendMessageToPlayer(PlayerId, CharacterServerId, String.Format("{0}: {1} - {2}", Result.Title, Result.Url, Result.Description));
+
+                IncrementStatistic("IRC_COMMAND_SRD");
+            }
+            catch (Exception)
+            {
+                SendMessageToPlayer(PlayerId, CharacterServerId, String.Format("Unable to retrieve search results for {0}.", Text));
+            }
+        }
+
+        /// <summary>
+        /// Search the web.
+        /// </summary>
+        /// <param name="PlayerId">Supplies the requesting player ID.</param>
+        /// <param name="CharacterServerId">Supplies the server ID to send the
+        /// response information to.</param>
+        /// <param name="Command">Supplies the command text.</param>
+        private void IngameCommand_Search(int PlayerId, int CharacterServerId, string Text)
+        {
+            Text = Text.Trim();
+
+            try
+            {
+                Bing.BingSearchContainer SearchService = new Bing.BingSearchContainer(new Uri(BingAzureBaseURL));
+                SearchService.Credentials = new NetworkCredential(BingApplicationKey, BingApplicationKey);
+                DataServiceQuery<Bing.WebResult> ServiceQuery = SearchService.Web(Text, "en-US", "Moderate", null, null, null);
+                Bing.WebResult Result = ServiceQuery.Execute().FirstOrDefault();
+
+                if (Result == null)
+                    SendMessageToPlayer(PlayerId, CharacterServerId, "No results.");
+                else
+                    SendMessageToPlayer(PlayerId, CharacterServerId, String.Format("{0}: {1} - {2}", Result.Title, Result.Url, Result.Description));
+
+                IncrementStatistic("IRC_COMMAND_WEBSEARCH");
+            }
+            catch (Exception)
+            {
+                SendMessageToPlayer(PlayerId, CharacterServerId, String.Format("Unable to retrieve search results for {0}.", Text));
             }
         }
 
