@@ -1022,7 +1022,10 @@ namespace ALFAIRCBot
                     "`irc_gateway_messages` AS gw " +
                 "INNER JOIN `characters` AS c ON c.`ID` = gw.`SourceCharacterID` " +
                 "INNER JOIN `players` AS p ON p.`ID` = c.`PlayerID` " +
-                "WHERE gw.`GatewayID` = {0}";
+                "WHERE gw.`GatewayID` = {0} " +
+                "GROUP BY record_id " +
+                "ORDER BY record_id " +
+                "LIMIT 1000 ";
 
             try
             {
