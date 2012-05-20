@@ -239,12 +239,13 @@ object XPCraft_RetrieveAndEquipCraftedItem(object oPC, object oOldItem, int iSlo
 		//destroy the old one. 
 		DestroyObject(oOldItem);
 
-		SetLocalString(oInventoryItem, "ACR_IGNORE_ACQUIRE_TEMP", GetTag(oInventoryItem));
-		SetTag(oInventoryItem,"acr_ignore_acquire");
 		
+		SetLocalString(oCraftedItem, "ACR_IGNORE_ACQUIRE_TEMP", GetTag(oCraftedItem));
+		SetTag(oCraftedItem,"acr_ignore_acquire");
+
 		//Crafted Item in On The Ground (or at spawnWaypoint) => copy the new one in oPC's inventory
 		oInventoryItem = CopyItem(oCraftedItem,oPC,TRUE);
-		
+
 		//Equip the copied Item
 		AssignCommand(oPC,ActionEquipItem(oInventoryItem, iSlotToEquip));
 		
