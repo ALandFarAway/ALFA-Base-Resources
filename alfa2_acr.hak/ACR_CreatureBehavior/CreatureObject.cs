@@ -122,43 +122,67 @@ namespace ACR_CreatureBehavior
                 // Maybe mind-controlling magic is in play?
                 if (bAngry)
                 {
-                    for (NWEffect eEffect = Script.GetFirstEffect(CasterId); Script.GetIsEffectValid(eEffect) == CLRScriptBase.TRUE; eEffect = Script.GetNextEffect(CasterId))
-                    {
-                        if (Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_BLINDNESS ||
-                            Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_CHARMED ||
-                            Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_CONFUSED ||
-                            Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_DOMINATED ||
-                            Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_INSANE)
-                        {
-                            // The attacker has been ensorcled; we're not actually mad at him or her.
-                            bAngry = false;
-                        }
-                    }
-                    for (NWEffect eEffect = Script.GetFirstEffect(this.ObjectId); Script.GetIsEffectValid(eEffect) == CLRScriptBase.TRUE; eEffect = Script.GetNextEffect(this.ObjectId))
-                    {
-                        if (Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_BLINDNESS ||
-                            Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_CHARMED ||
-                            Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_CONFUSED ||
-                            Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_DOMINATED ||
-                            Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_INSANE)
-                        {
-                            // The creature has been ensorcled; no sense on getting angry about it.
-                            bAngry = false;
-                        }
-                    }
+                    if (_IsMindMagiced(this.ObjectId)) bAngry = false;
+                    if (_IsMindMagiced(CasterId)) bAngry = false;
                 }
 
                 // If mind magics didn't motivate the spell, we check to see if it's plausibly friendly fire.
                 if (bAngry)
                 {
                     int nTargetArea = Script.StringToInt(Script.Get2DAString("spells", "TargetingUI", nSpell));
+                    if (_IsFriendlyFire(nTargetArea)) bAngry = false;
+                }
+
+                // Is the target a friend to the caster?
+                if (bAngry)
+                {
+                    CreatureObject Caster = Server.ObjectManager.GetCreatureObject(CasterId);
+                    AIParty Party = this.Party;
+
+                    // This is the fault of a bug in the AI; best not to compound it.
+                    if (Party.PartyMembers.Contains(Caster))
+                    {
+                        bAngry = false;
+                    }
+
+                    // These two creatures are friends.
+                    else if (nReputation > 89)
+                    {
+                        Script.SetLocalInt(this.ObjectId, "FRIENDLY_FIRED", Script.GetLocalInt(this.ObjectId, "FRIENDLY_FIRED") + 1);
+                    }
+
+                    // Neutral creatures take direct attacks personally. Your friends try to trust you, but will snap if abused too much.
+                    else if (nReputation > 10 || Script.GetLocalInt(this.ObjectId, "FRIENDLY_FIRED") > Script.d4(2))
+                    {
+                        _SetMutualEnemies(this.ObjectId, CasterId);
+                    }
+                }
+            }
+
+//===================================================================================================================================
+//=======================  Handling for non-harmful spells ==========================================================================
+//===================================================================================================================================
+            else
+            {
+            }
+        }
+
+        public void _SetMutualEnemies(uint Creature1, uint Creature2)
+        {
+            Script.SetIsTemporaryEnemy(Creature1, Creature2, CLRScriptBase.FALSE, 0.0f);
+            Script.SetIsTemporaryEnemy(Creature2, Creature1, CLRScriptBase.FALSE, 0.0f);
+        }
+
+        public bool _IsFriendlyFire(int nTargetArea)
+        {
+    
                     // Check for friendly fire.
                     switch((SpellTargetAOE)nTargetArea)
                     {
                         case SpellTargetAOE.SPELL_TARGET_COLOSSAL_AOE:
                             {
                                 // With a colossal AOE, no sense in checking. That as probably friendly fire.
-                                bAngry = false;
+                                return true;
                             }
                             break;
                         case SpellTargetAOE.SPELL_TARGET_HUGE_AOE:
@@ -169,7 +193,7 @@ namespace ACR_CreatureBehavior
                                 {
                                     // We found an enemy in sight; this is probably friendly fire.
                                     if (Script.GetReputation(this.ObjectId, TargetId) < 11)
-                                        bAngry = false;
+                                        return true;
                                 }
                             }
                             break;
@@ -181,7 +205,7 @@ namespace ACR_CreatureBehavior
                                 {
                                     // We found an enemy nearby; this is probably friendly fire.
                                     if (Script.GetReputation(this.ObjectId, TargetId) < 11)
-                                        bAngry = false;
+                                        return true;
                                 }
                             }
                             break;
@@ -193,7 +217,7 @@ namespace ACR_CreatureBehavior
                                 {
                                     // We found an enemy nearby; this is probably friendly fire.
                                     if (Script.GetReputation(this.ObjectId, TargetId) < 11)
-                                        bAngry = false;
+                                        return true;
                                 }
                             }
                             break;
@@ -207,39 +231,29 @@ namespace ACR_CreatureBehavior
                                 {
                                     // We found an enemy nearby; this is probably friendly fire.
                                     if (Script.GetReputation(this.ObjectId, TargetId) < 11)
-                                        bAngry = false;
+                                        return true;
                                 }
                             }
                             break;
                     }
+                    return false;
+        }
 
-                    // Is the target a friend to the caster?
-                    if (bAngry)
-                    {
-                        CreatureObject Caster = Server.ObjectManager.GetCreatureObject(CasterId);
-                        AIParty Party = this.Party;
-
-                        // This is the fault of a bug in the AI; best not to compound it.
-                        if (Party.PartyMembers.Contains(Caster))
-                        {
-                            bAngry = false;
-                        }
-
-                        // These two creatures are friends.
-                        else if (nReputation > 89)
-                        {
-                            Script.SetLocalInt(this.ObjectId, "FRIENDLY_FIRED", Script.GetLocalInt(this.ObjectId, "FRIENDLY_FIRED") + 1);
-                        }
-
-                        // Neutral creatures take direct attacks personally. Your friends try to trust you, but will snap if abused too much.
-                        else if (nReputation > 10 || Script.GetLocalInt(this.ObjectId, "FRIENDLY_FIRED") > Script.d4(2))
-                        {
-                            Script.SetIsTemporaryEnemy(this.ObjectId, CasterId, CLRScriptBase.FALSE, 0.0f);
-                            Script.SetIsTemporaryEnemy(CasterId, this.ObjectId, CLRScriptBase.FALSE, 0.0f);
-                        }
-                    }
+        public bool _IsMindMagiced(uint CreatureId)
+        {
+            for (NWEffect eEffect = Script.GetFirstEffect(CreatureId); Script.GetIsEffectValid(eEffect) == CLRScriptBase.TRUE; eEffect = Script.GetNextEffect(CreatureId))
+            {
+                if (Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_BLINDNESS ||
+                    Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_CHARMED ||
+                    Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_CONFUSED ||
+                    Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_DOMINATED ||
+                    Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_INSANE)
+                {
+                    // These are all obvious sources of misbehavior.
+                    return true;
                 }
-            }
+            }            
+            return false;
         }
 
         /// <summary>
