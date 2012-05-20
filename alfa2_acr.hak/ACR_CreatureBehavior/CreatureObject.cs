@@ -154,7 +154,14 @@ namespace ACR_CreatureBehavior
                     // Neutral creatures take direct attacks personally. Your friends try to trust you, but will snap if abused too much.
                     else if (nReputation > 10 || Script.GetLocalInt(this.ObjectId, "FRIENDLY_FIRED") > Script.d4(2))
                     {
-                        _SetMutualEnemies(this.ObjectId, CasterId);
+                        // And all of them are going to get angry.
+                        foreach (CreatureObject CurrentParty in this.Party.PartyMembers)
+                        {
+                            _SetMutualEnemies(CurrentParty.ObjectId, CasterId);
+                            if (!CurrentParty.HasCombatRoundProcess)
+                                 CurrentParty.SelectCombatRoundAction();
+                        }
+                        
                     }
                 }
             }
@@ -167,81 +174,95 @@ namespace ACR_CreatureBehavior
             }
         }
 
-        public void _SetMutualEnemies(uint Creature1, uint Creature2)
+        /// <summary>
+        /// This function causes Creature1 and Creature2 to be flagged as temporary enemies of one another, with no specified decay
+        /// time. They, thus, will fight until killed or separated, but will not break the rest of their factions.
+        /// </summary>
+        /// <param name="Creature1"></param>
+        /// <param name="Creature2"></param>
+        private void _SetMutualEnemies(uint Creature1, uint Creature2)
         {
             Script.SetIsTemporaryEnemy(Creature1, Creature2, CLRScriptBase.FALSE, 0.0f);
             Script.SetIsTemporaryEnemy(Creature2, Creature1, CLRScriptBase.FALSE, 0.0f);
         }
 
-        public bool _IsFriendlyFire(int nTargetArea)
+        /// <summary>
+        /// This function attempts to determine if the spell just cast on this creature was plausibly friendly fire, based on the
+        /// locations of nearby enemies.
+        /// </summary>
+        /// <param name="nTargetArea">Spell Target AOE as defined in spells.2da in the targeting UI</param>
+        /// <returns></returns>
+        private bool _IsFriendlyFire(int nTargetArea)
         {
-    
-                    // Check for friendly fire.
-                    switch((SpellTargetAOE)nTargetArea)
+            // Check for friendly fire.
+            switch((SpellTargetAOE)nTargetArea)
+            {
+                case SpellTargetAOE.SPELL_TARGET_COLOSSAL_AOE:
+                        // With a colossal AOE, no sense in checking. That as probably friendly fire.
+                        return true;
+                case SpellTargetAOE.SPELL_TARGET_HUGE_AOE:
+                case SpellTargetAOE.SPELL_TARGET_HUGE_AOE_A:
+                case SpellTargetAOE.SPELL_TARGET_HUGE_AOE_B:
                     {
-                        case SpellTargetAOE.SPELL_TARGET_COLOSSAL_AOE:
-                            {
-                                // With a colossal AOE, no sense in checking. That as probably friendly fire.
+                        foreach(uint TargetId in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_HUGE * 2.0f, Script.GetLocation(this.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
+                        {
+                            // We found an enemy in sight; this is probably friendly fire.
+                            if (Script.GetReputation(this.ObjectId, TargetId) < 11)
                                 return true;
-                            }
-                            break;
-                        case SpellTargetAOE.SPELL_TARGET_HUGE_AOE:
-                        case SpellTargetAOE.SPELL_TARGET_HUGE_AOE_A:
-                        case SpellTargetAOE.SPELL_TARGET_HUGE_AOE_B:
-                            {
-                                foreach(uint TargetId in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_HUGE * 2.0f, Script.GetLocation(this.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
-                                {
-                                    // We found an enemy in sight; this is probably friendly fire.
-                                    if (Script.GetReputation(this.ObjectId, TargetId) < 11)
-                                        return true;
-                                }
-                            }
-                            break;
-                        case SpellTargetAOE.SPELL_TARGET_LARGE_AOE:
-                        case SpellTargetAOE.SPELL_TARGET_PURPLE_LARGE:
-                        case SpellTargetAOE.SPELL_TARGET_LINE:
-                            {
-                                foreach (uint TargetId in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_LARGE * 2.0f, Script.GetLocation(this.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
-                                {
-                                    // We found an enemy nearby; this is probably friendly fire.
-                                    if (Script.GetReputation(this.ObjectId, TargetId) < 11)
-                                        return true;
-                                }
-                            }
-                            break;
-                        case SpellTargetAOE.SPELL_TARGET_PURPLE_MEDIUM:
-                        case SpellTargetAOE.SPELL_TARGET_RECTANGLE_A:
-                        case SpellTargetAOE.SPELL_TARGET_RECTANGLE_B:
-                            {
-                                foreach (uint TargetId in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_MEDIUM * 2.0f, Script.GetLocation(this.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
-                                {
-                                    // We found an enemy nearby; this is probably friendly fire.
-                                    if (Script.GetReputation(this.ObjectId, TargetId) < 11)
-                                        return true;
-                                }
-                            }
-                            break;
-                        case SpellTargetAOE.SPELL_TARGET_PURPLE_SMALL:
-                        case SpellTargetAOE.SPELL_TARGET_SHORT_CONE_A:
-                        case SpellTargetAOE.SPELL_TARGET_SHORT_CONE_B:
-                        case SpellTargetAOE.SPELL_TARGET_SHORT_CONE_C:
-                        case SpellTargetAOE.SPELL_TARGET_SHORT_CONE_D:
-                            {
-                                foreach (uint TargetId in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_SMALL * 2.0f, Script.GetLocation(this.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
-                                {
-                                    // We found an enemy nearby; this is probably friendly fire.
-                                    if (Script.GetReputation(this.ObjectId, TargetId) < 11)
-                                        return true;
-                                }
-                            }
-                            break;
+                        }
                     }
-                    return false;
+                    break;
+                case SpellTargetAOE.SPELL_TARGET_LARGE_AOE:
+                case SpellTargetAOE.SPELL_TARGET_PURPLE_LARGE:
+                case SpellTargetAOE.SPELL_TARGET_LINE:
+                    {
+                        foreach (uint TargetId in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_LARGE * 2.0f, Script.GetLocation(this.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
+                        {
+                            // We found an enemy nearby; this is probably friendly fire.
+                            if (Script.GetReputation(this.ObjectId, TargetId) < 11)
+                                return true;
+                        }
+                    }
+                    break;
+                case SpellTargetAOE.SPELL_TARGET_PURPLE_MEDIUM:
+                case SpellTargetAOE.SPELL_TARGET_RECTANGLE_A:
+                case SpellTargetAOE.SPELL_TARGET_RECTANGLE_B:
+                    {
+                        foreach (uint TargetId in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_MEDIUM * 2.0f, Script.GetLocation(this.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
+                        {
+                            // We found an enemy nearby; this is probably friendly fire.
+                            if (Script.GetReputation(this.ObjectId, TargetId) < 11)
+                                return true;
+                        }
+                    }
+                    break;
+                case SpellTargetAOE.SPELL_TARGET_PURPLE_SMALL:
+                case SpellTargetAOE.SPELL_TARGET_SHORT_CONE_A:
+                case SpellTargetAOE.SPELL_TARGET_SHORT_CONE_B:
+                case SpellTargetAOE.SPELL_TARGET_SHORT_CONE_C:
+                case SpellTargetAOE.SPELL_TARGET_SHORT_CONE_D:
+                    {
+                        foreach (uint TargetId in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_SMALL * 2.0f, Script.GetLocation(this.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
+                        {
+                            // We found an enemy nearby; this is probably friendly fire.
+                            if (Script.GetReputation(this.ObjectId, TargetId) < 11)
+                                return true;
+                        }
+                    }
+                    break;
+            }
+            return false;
         }
 
-        public bool _IsMindMagiced(uint CreatureId)
+        /// <summary>
+        /// Determines if Creature has effects which would typically cause targeting problems, and might
+        ///  result in attacking a friendly person.
+        /// </summary>
+        /// <param name="CreatureId"></param>
+        /// <returns></returns>
+        private bool _IsMindMagiced(uint CreatureId)
         {
-            for (NWEffect eEffect = Script.GetFirstEffect(CreatureId); Script.GetIsEffectValid(eEffect) == CLRScriptBase.TRUE; eEffect = Script.GetNextEffect(CreatureId))
+            foreach (NWEffect eEffect in Script.GetObjectEffects(CreatureId))
             {
                 if (Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_BLINDNESS ||
                     Script.GetEffectType(eEffect) == CLRScriptBase.EFFECT_TYPE_CHARMED ||
@@ -264,6 +285,16 @@ namespace ACR_CreatureBehavior
         public void OnAttacked(uint AttackerObjectId)
         {
             if (!IsAIControlled)
+                return;
+
+            uint Attacker = Script.GetLastAttacker(this.ObjectId);
+
+            // Attacker is under the influence of mind-affecting stuff; we don't need to get angry.
+            if (_IsMindMagiced(Attacker))
+                return;
+
+            // This creature is under the influence of mind-affecting stuff. It isn't cognizant enough to be angry.
+            if (_IsMindMagiced(this.ObjectId))
                 return;
         }
 
@@ -490,6 +521,20 @@ namespace ACR_CreatureBehavior
         {
 
         }
+
+        /// <summary>
+        /// This function is the primary means by which actions are selected for a given combat round.
+        /// </summary>
+        public void SelectCombatRoundAction()
+        {
+
+        }
+
+        /// <summary>
+        /// This contains whether or not this creature has an active cycle of combat round processing.
+        /// </summary>
+        public bool HasCombatRoundProcess = false;
+
         /// <summary>
         /// Get whether the creature is a player avatar (includes DMs).
         /// </summary>

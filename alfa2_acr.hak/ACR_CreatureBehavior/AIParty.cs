@@ -365,6 +365,48 @@ namespace ACR_CreatureBehavior
 
             if (PartyMembers.Count == 0)
                 PartyManager.RemoveParty(this);
+
+            switch ((AIType)Creature.TacticsType)
+            {
+                case AIType.BEHAVIOR_TYPE_ANIMAL:
+                    PartyAnimals.Remove(Creature);
+                    break;
+                case AIType.BEHAVIOR_TYPE_ARCHER:
+                    PartyArchers.Remove(Creature);
+                    break;
+                case AIType.BEHAVIOR_TYPE_BUFFS:
+                    PartyBuffs.Remove(Creature);
+                    break;
+                case AIType.BEHAVIOR_TYPE_CONTROL:
+                    PartyControls.Remove(Creature);
+                    break;
+                case AIType.BEHAVIOR_TYPE_COWARD:
+                    PartyCowards.Remove(Creature);
+                    break;
+                case AIType.BEHAVIOR_TYPE_FLANK:
+                    PartyFlanks.Remove(Creature);
+                    break;
+                case AIType.BEHAVIOR_TYPE_MEDIC:
+                    PartyMedics.Remove(Creature);
+                    break;
+                case AIType.BEHAVIOR_TYPE_MINDLESS:
+                    PartyMindless.Remove(Creature);
+                    break;
+                case AIType.BEHAVIOR_TYPE_NUKE:
+                    PartyNukes.Remove(Creature);
+                    break;
+                case AIType.BEHAVIOR_TYPE_SHOCK:
+                    PartyShocks.Remove(Creature);
+                    break;
+                case AIType.BEHAVIOR_TYPE_SKIRMISH:
+                    PartySkrimishers.Remove(Creature);
+                    break;
+                case AIType.BEHAVIOR_TYPE_TANK:
+                    PartyTanks.Remove(Creature);
+                    break;
+                default:
+                    break;
+            }
         }
 
         /// <summary>
@@ -384,6 +426,14 @@ namespace ACR_CreatureBehavior
             }
 
             this.PartyLeader = PartyLeader;
+        }
+
+        public void AddPartyEnemy(CreatureObject PartyEnemy)
+        {
+        }
+
+        public void RemovePartyEnemy(CreatureObject PartyEnemy)
+        {
         }
 
         public enum AIType
@@ -424,6 +474,32 @@ namespace ACR_CreatureBehavior
         /// The associated party manager.
         /// </summary>
         public AIPartyManager PartyManager = null;
+
+// ===== Block of lists for party enemies ===================================================//
+        /// <summary>
+        /// The list of known enemies of the party
+        /// </summary>
+        public List<CreatureObject> Enemies = new List<CreatureObject>();
+
+        /// <summary>
+        /// Ths list of enemies who appear to be easy to hit.
+        /// </summary>
+        public List<CreatureObject> EnemySoftTargets = new List<CreatureObject>();
+
+        /// <summary>
+        /// The list of enemies who appear to be difficult to hit.
+        /// </summary>
+        public List<CreatureObject> EnemyHardTargets = new List<CreatureObject>();
+
+        /// <summary>
+        /// The list of enemies who have been observed casting spells.
+        /// </summary>
+        public List<CreatureObject> EnemySpellcasters = new List<CreatureObject>();
+
+        /// <summary>
+        /// The list of enemies who have been observed casting healing magic.
+        /// </summary>
+        public List<CreatureObject> EnemyHealers = new List<CreatureObject>();
 
 // ===== Block of lists for spellcasting NPCs ===============================================//
         /// <summary>
