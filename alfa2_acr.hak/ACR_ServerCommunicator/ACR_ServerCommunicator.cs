@@ -713,8 +713,6 @@ namespace ACR_ServerCommunicator
                         Server.DatabaseOnline,
                         Server.Characters.Count
                         ));
-                    if (Server.ServerId == GetDatabase().ACR_GetServerID())
-                        NetworkManager.SendMessageIPCWakeup(Server);
                 }
 
                 foreach (GameCharacter Character in WorldManager.OnlineCharacters)
