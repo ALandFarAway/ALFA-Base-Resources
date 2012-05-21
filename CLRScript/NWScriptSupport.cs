@@ -523,6 +523,72 @@ namespace CLRScriptFramework
         }
 
         /// <summary>
+        /// This provides an IEnumerator for items present in a creature's inventory.
+        /// </summary>
+        public class InventoryItemEnumerator : IEnumerator<uint>
+        {
+            public InventoryItemEnumerator(uint ObjectId, CLRScriptBase TheScript)
+            {
+                Creature = ObjectId;
+                Script = TheScript;
+                Reset();
+            }
+
+            public void Dispose() { }
+
+            public bool MoveNext()
+            {
+                if (IsReset)
+                    CurrentItem = Script.GetFirstItemInInventory(Creature);
+                else
+                    CurrentItem = Script.GetNextItemInInventory(Creature);
+
+                IsReset = false;
+
+                return CurrentItem != OBJECT_INVALID;
+            }
+
+            public void Reset()
+            {
+                IsReset = true;
+            }
+
+            public uint Current { get { return CurrentItem; } }
+
+            object IEnumerator.Current { get { return CurrentItem; } }
+
+            protected CLRScriptBase Script;
+            protected bool IsReset = true;
+            protected UInt32 Creature;
+            protected UInt32 CurrentItem;
+        }
+
+        public class InventoryItemEnumeratorHelper : IEnumerable<uint>
+        {
+            public InventoryItemEnumeratorHelper(uint ObjectId, CLRScriptBase TheScript)
+            {
+                Creature = ObjectId;
+                Script = TheScript;
+            }
+
+            public IEnumerator<uint> GetEnumerator() { return new AreaObjectEnumerator(Creature, Script); }
+            IEnumerator IEnumerable.GetEnumerator() { return new AreaObjectEnumerator(Creature, Script); }
+
+            protected CLRScriptBase Script;
+            protected UInt32 Creature;
+        }
+
+        /// <summary>
+        /// This routine returns an enumerator for items in a creature's inventory.
+        /// </summary>
+        /// <param name="Creature">Supplies the creature's object ID.</param>
+        /// <returns>The enumerator is returned.</returns>
+        public InventoryItemEnumeratorHelper GetItemsInInventory(uint Creature)
+        {
+            return new InventoryItemEnumeratorHelper(Creature, this);
+        }
+
+        /// <summary>
         /// This provides an IEnumerator for objects present in an area.
         /// </summary>
         public class AreaObjectEnumerator : IEnumerator<uint>
