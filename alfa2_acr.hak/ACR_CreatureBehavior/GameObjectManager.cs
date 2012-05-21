@@ -94,7 +94,7 @@ namespace ACR_CreatureBehavior
         /// Get the C# area object for the given object id.
         /// </summary>
         /// <param name="ObjectId">Supplies the object id to look up.</param>
-        /// <returns>The corresonding C# Area object, else null.</returns>
+        /// <returns>The corresponding C# Area object, else null.</returns>
         public AreaObject GetAreaObject(uint ObjectId)
         {
             return (AreaObject)GetGameObject(ObjectId, GameObjectType.Area);
@@ -104,10 +104,19 @@ namespace ACR_CreatureBehavior
         /// Get the C# creature object for the given object id.
         /// </summary>
         /// <param name="ObjectId">Supplies the object id to look up.</param>
-        /// <returns>The corresonding C# Creature object, else null.</returns>
-        public CreatureObject GetCreatureObject(uint ObjectId)
+        /// <param name="CreateIfNeeded">If true, the C# Creature object for
+        /// the creature is created if the object didn't already exist.</param>
+        /// <returns>The corresponding C# Creature object, else null.</returns>
+        public CreatureObject GetCreatureObject(uint ObjectId, bool CreateIfNeeded = false)
         {
-            return (CreatureObject)GetGameObject(ObjectId, GameObjectType.Creature);
+            CreatureObject Creature = (CreatureObject)GetGameObject(ObjectId, GameObjectType.Creature);
+
+            if (Creature != null)
+                return Creature;
+            else if (CreateIfNeeded && Script.GetObjectType(ObjectId) == CLRScriptBase.OBJECT_TYPE_CREATURE)
+                return new CreatureObject(ObjectId, this);
+            else
+                return null;
         }
 
 
