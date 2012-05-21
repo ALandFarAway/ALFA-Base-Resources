@@ -161,7 +161,7 @@ namespace ACR_CreatureBehavior
                         CreatureObject Creature = Server.ObjectManager.GetCreatureObject(OBJECT_SELF);
 
                         if (Creature != null)
-                            Creature.OnUserDefined();
+                            Creature.OnUserDefined(GetUserDefinedEventNumber());
                     }
                     break;
 

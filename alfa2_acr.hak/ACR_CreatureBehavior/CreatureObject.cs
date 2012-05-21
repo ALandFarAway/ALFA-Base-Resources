@@ -517,7 +517,9 @@ namespace ACR_CreatureBehavior
         /// <summary>
         /// Called whenever a builder invokes an event by script.
         /// </summary>
-        public void OnUserDefined()
+        /// <param name="UserDefinedEventNumber">Supplies the user-defined
+        /// event number associated with the event request.</param>
+        public void OnUserDefined(int UserDefinedEventNumber)
         {
 
         }
