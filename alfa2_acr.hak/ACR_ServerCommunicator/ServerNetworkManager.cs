@@ -66,7 +66,7 @@ namespace ACR_ServerCommunicator
         /// <param name="Server">Supplies the destination server.</param>
         /// <param name="Online">Supplies 1 if the database is viewed as
         /// online, else 0 if the database is viewed as offline.</param>
-        public void SendMessageDatabaseStatus(GameServer Server, bool Online)
+        public void SendNotifyMessageDatabaseStatus(GameServer Server, bool Online)
         {
             NetworkMessage Message = CreateDatagramMessage(DATAGRAM_MESSAGE_CMD.CMD_NOTIFY_DATABASE_STATUS);
             BufferBuilder Builder = Message.GetBuilder();
@@ -171,7 +171,7 @@ namespace ACR_ServerCommunicator
                     return;
 
                 case DATAGRAM_MESSAGE_CMD.CMD_NOTIFY_DATABASE_STATUS:
-                    OnRecvMessageDatabaseStatus(Message, SourceServer);
+                    OnRecvMessageNotifyDatabaseStatus(Message, SourceServer);
                     return;
 
             }
@@ -227,7 +227,7 @@ namespace ACR_ServerCommunicator
         /// </summary>
         /// <param name="Message">Supplies the message.</param>
         /// <param name="Source">Supplies the message sender.</param>
-        private void OnRecvMessageDatabaseStatus(NetworkMessage Message, GameServer Source)
+        private void OnRecvMessageNotifyDatabaseStatus(NetworkMessage Message, GameServer Source)
         {
             BufferParser Parser = Message.GetParser();
             int SourceServerId = Parser.ReadInt32();

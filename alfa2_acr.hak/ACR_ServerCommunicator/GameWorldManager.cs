@@ -1966,7 +1966,7 @@ namespace ACR_ServerCommunicator
                     if (!Server.Online)
                         continue;
 
-                    NetworkManager.SendMessageDatabaseStatus(Server, DatabaseOnline);
+                    NetworkManager.SendNotifyMessageDatabaseStatus(Server, DatabaseOnline);
                 }
             }
         }
