@@ -274,6 +274,11 @@ object ACR_CreateAreaInstance(object TemplateArea, float CleanupDelay)
 	{
 		ACR__SetAreaInstanceFlags(InstancedArea, Flags | ACR_AREA_INSTANCE_FLAG_INITIALIZED);
 		ACR_SpawnOnAreaInstanceCreate(InstancedArea);
+
+		// Remove unnecessary static object instances.  This is only needed if we
+		// have created a new instance and not recycled one from the free pool,
+		// as the latter implies that we already ran through startup cleanup.
+		ACR_AreaInstance_StartupCleanup(InstancedArea);
 	}
 
 	// If we are setting up a non-cached area, record the start of the dynamic
@@ -292,11 +297,6 @@ object ACR_CreateAreaInstance(object TemplateArea, float CleanupDelay)
 		DestroyObject(FirstDynamicObject);
 
 		SetLocalObject(InstancedArea, ACR_AREA_INSTANCE_FIRST_DYNAMIC_OBJECT, FirstDynamicObject);
-
-		// Remove unnecessary static object instances.  This is only needed if we
-		// have created a new instance and not recycled one from the free pool,
-		// as the latter implies that we already ran through startup cleanup.
-		ACR_AreaInstance_StartupCleanup(InstancedArea);
 	}
 
 	// Hook the OnLeave event so that we can fire instance cleanup automatically
