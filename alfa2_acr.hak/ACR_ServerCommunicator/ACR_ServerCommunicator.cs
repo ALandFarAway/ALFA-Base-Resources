@@ -248,12 +248,17 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void InitializeServerCommunicator()
         {
+            int ServerId;
+
             if (Database == null)
                 Database = new ALFA.Database(this);
 
+            ServerId = Database.ACR_GetServerID();
+
             WorldManager = new GameWorldManager(
-                Database.ACR_GetServerID(),
+                ServerId,
                 GetName(GetModule()));
+            NetworkManager = new ServerNetworkManager(WorldManager, ServerId);
             PlayerStateTable = new Dictionary<uint, PlayerState>();
 
             //
@@ -702,11 +707,14 @@ namespace ACR_ServerCommunicator
                 foreach (GameServer Server in WorldManager.Servers)
                 {
                     SendMessageToPC(PlayerObject, String.Format(
-                        "Server {0} - online {1}, {2} users.",
+                        "Server {0} - online {1}, databaseonline {2}, {3} users.",
                         Server.Name,
                         Server.Online,
+                        Server.DatabaseOnline,
                         Server.Characters.Count
                         ));
+                    if (Server.ServerId == GetDatabase().ACR_GetServerID())
+                        NetworkManager.SendMessageIPCWakeup(Server);
                 }
 
                 foreach (GameCharacter Character in WorldManager.OnlineCharacters)
@@ -2145,6 +2153,15 @@ namespace ACR_ServerCommunicator
             }
         }
 
+        /// <summary>
+        /// Get the overarching network management subsystem.
+        /// </summary>
+        /// <returns>The network manager subsystem.</returns>
+        internal static ServerNetworkManager GetNetworkManager()
+        {
+            return NetworkManager;
+        }
+
 
         /// <summary>
         /// This method initiates a server-to-server tell.
@@ -2667,6 +2684,11 @@ namespace ACR_ServerCommunicator
         /// The game world state manager is stored here.
         /// </summary>
         private static GameWorldManager WorldManager = null;
+
+        /// <summary>
+        /// The cross-server network manager is stored here.
+        /// </summary>
+        private static ServerNetworkManager NetworkManager = null;
 
         /// <summary>
         /// The hash table mapping NWScript object ids to internal player state

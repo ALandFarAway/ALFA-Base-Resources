@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net;
 using ALFA;
 
 namespace ACR_ServerCommunicator
@@ -22,6 +23,8 @@ namespace ACR_ServerCommunicator
         {
             this.WorldManager = WorldManager;
             this.Characters = new List<GameCharacter>();
+            this.ServerIPAddress = IPAddress.None;
+            this.DatabaseOnline = true;
         }
 
         /// <summary>
@@ -63,9 +66,15 @@ namespace ACR_ServerCommunicator
                 ));
 
             if (Database.ACR_SQLFetch())
+            {
                 Online = true;
+                DatabaseOnline = true;
+            }
             else
+            {
                 Online = false;
+                DatabaseOnline = false;
+            }
         }
 
         /// <summary>
@@ -77,6 +86,7 @@ namespace ACR_ServerCommunicator
         /// server network address information from.</param>
         public void SetHostnameAndPort(string AddressString)
         {
+            string OldHostname = ServerHostname;
             int i = AddressString.IndexOf(':');
 
             if (i == -1)
@@ -88,6 +98,56 @@ namespace ACR_ServerCommunicator
 
             ServerHostname = AddressString.Substring(0, i);
             ServerPort = Convert.ToInt32(AddressString.Substring(i + 1));
+
+            if (OldHostname == null || OldHostname != ServerHostname)
+            {
+                IPAddress Address;
+
+                if (IPAddress.TryParse(ServerHostname, out Address))
+                {
+                    ServerIPAddress = Address;
+                }
+                else
+                {
+                    try
+                    {
+                        IPHostEntry Entry = Dns.GetHostEntry(ServerHostname);
+
+                        if (Entry.AddressList != null && Entry.AddressList.Length > 0)
+                            ServerIPAddress = Entry.AddressList[0];
+                    }
+                    catch
+                    {
+                        ServerIPAddress = IPAddress.None;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get the IP address of the server.  Raises an exception on failure.
+        /// </summary>
+        /// <returns>The server IP address.</returns>
+        public IPAddress GetIPAddress()
+        {
+            if (ServerIPAddress != IPAddress.None)
+                return ServerIPAddress;
+
+            IPAddress Address;
+
+            if (IPAddress.TryParse(ServerHostname, out Address))
+            {
+                ServerIPAddress = Address;
+            }
+            else
+            {
+                IPHostEntry Entry = Dns.GetHostEntry(ServerHostname);
+
+                if (Entry.AddressList != null && Entry.AddressList.Length > 0)
+                    ServerIPAddress = Entry.AddressList[0];
+            }
+
+            return ServerIPAddress;
         }
 
         /// <summary>
@@ -143,6 +203,17 @@ namespace ACR_ServerCommunicator
         /// external requestors.
         /// </summary>
         public bool Visited { get; set; }
+
+        /// <summary>
+        /// The network address of the server.
+        /// </summary>
+        public IPAddress ServerIPAddress { get; set; }
+
+        /// <summary>
+        /// True if the server believes that the database is online, else false
+        /// if the server believes that the database is disconnected.
+        /// </summary>
+        public bool DatabaseOnline { get; set; }
 
         /// <summary>
         /// The associated game world manager.

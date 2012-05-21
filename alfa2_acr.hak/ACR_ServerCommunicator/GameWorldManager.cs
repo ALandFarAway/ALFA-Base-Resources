@@ -52,6 +52,7 @@ namespace ACR_ServerCommunicator
             QueryDispatchThread = new Thread(QueryDispatchThreadRoutine);
             ConfigurationSyncTimer = new Timer(new TimerCallback(OnConfigurationSyncTimer), null, 0, CONFIGURATION_SYNC_INTERVAL);
             UpdateServerCheckinTimer = new Timer(new TimerCallback(OnUpdateServerCheckinTimer), null, 0, UPDATE_SERVER_CHECKIN_INTERVAL);
+            UpdateDatabaseOnlineTimer = new Timer(new TimerCallback(OnUpdateDatabaseOnlineTimer), null, 0, UPDATE_DATABASE_ONLINE_INTERVAL);
 
             QueryDispatchThread.Start();
         }
@@ -553,10 +554,11 @@ namespace ACR_ServerCommunicator
 
         /// <summary>
         /// This method is called to write a diagnostic log message to the main
-        /// server log.
+        /// server log.  The method is called with synchronization held on the
+        /// WorldManager object.
         /// </summary>
         /// <param name="Message">Supplies the message text to log.</param>
-        private void WriteDiagnosticLog(string Message)
+        public void WriteDiagnosticLog(string Message)
         {
             EnqueueEvent(new DiagnosticLogEvent(Message));
         }
@@ -904,6 +906,13 @@ namespace ACR_ServerCommunicator
                         EventQueueModified = false;
                         EventsQueued = true;
                     }
+
+                    if (DatabaseOnline == false)
+                    {
+                        DatabaseOnline = true;
+                        DistributeDatabaseOnlineNotification(true);
+                        OnBroadcastNotification("Database connectivity restored.");
+                    }
                 }
                 catch (Exception e)
                 {
@@ -913,8 +922,17 @@ namespace ACR_ServerCommunicator
 
                     try
                     {
+                        string ExceptionDescription = e.ToString();
+
                         WriteDiagnosticLog(String.Format(
-                            "GameWorldManager.QueryDispatchThreadRoutine: Exception {0} running query cycle.", e));
+                            "GameWorldManager.QueryDispatchThreadRoutine: Exception {0} running query cycle.", ExceptionDescription));
+
+                        if (IsConnectivityFailureException(e, ExceptionDescription))
+                        {
+                            DatabaseOnline = false;
+                            DistributeDatabaseOnlineNotification(false);
+                            OnBroadcastNotification("The server-side connection to the database has been lost.");
+                        }
                     }
                     catch
                     {
@@ -1194,6 +1212,7 @@ namespace ACR_ServerCommunicator
                     if (!Server.Online)
                     {
                         Server.Online = true;
+                        Server.DatabaseOnline = true;
                         OnServerJoin(Server);
                     }
 
@@ -1352,6 +1371,7 @@ namespace ACR_ServerCommunicator
                     if (!Server.Online)
                     {
                         Server.Online = true;
+                        Server.DatabaseOnline = true;
                         OnServerJoin(Server);
                     }
 
@@ -1372,6 +1392,7 @@ namespace ACR_ServerCommunicator
                 foreach (GameServer Server in ObjectsToRemove)
                 {
                     Server.Online = false;
+                    Server.DatabaseOnline = false;
                     OnServerPart(Server);
                 }
             }
@@ -1593,6 +1614,7 @@ namespace ACR_ServerCommunicator
         private void TransmitOutboundIPCEvents()
         {
             IALFADatabase Database = DatabaseLinkQueryThread;
+            List<int> ServerIdsToNotify = new List<int>();
 
             lock (this)
             {
@@ -1615,10 +1637,26 @@ namespace ACR_ServerCommunicator
                             Event.DestinationServerId,
                             Event.EventType,
                             Database.ACR_SQLEncodeSpecialChars(Event.EventText));
+
+                        if (!ServerIdsToNotify.Contains(Event.DestinationServerId))
+                            ServerIdsToNotify.Add(Event.DestinationServerId);
                     }
 
                     Database.ACR_SQLExecute(Query.ToString());
                     Query.Clear();
+                }
+
+                //
+                // Notify each server that had an entry enqueued that it should
+                // wake up to process IPC events.
+                //
+
+                foreach (int ServerId in ServerIdsToNotify)
+                {
+                    GameServer Server = ReferenceServerById(ServerId, null);
+
+                    if (Server != null)
+                        ACR_ServerCommunicator.GetNetworkManager().SendMessageIPCWakeup(Server);
                 }
             }
         }
@@ -1852,6 +1890,27 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This timer callback is invoked when it is time to rebroadcast the
+        /// local server's view of whether the database is online or offline.
+        /// </summary>
+        /// <param name="StateInfo">This argument is unused.</param>
+        private void OnUpdateDatabaseOnlineTimer(object StateInfo)
+        {
+            //
+            // Rebroadcast our current view of the database online/offline
+            // status to other servers.
+            //
+
+            try
+            {
+                DistributeDatabaseOnlineNotification(DatabaseOnline);
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>
         /// Convert a database string to a Boolean value.
         /// </summary>
         /// <param name="Str">Supplies the database string.</param>
@@ -1886,6 +1945,61 @@ namespace ACR_ServerCommunicator
                 Timeout.Infinite);
 
             ShutdownWatchdogTimer = WatchdogTimer;
+        }
+
+        /// <summary>
+        /// Send a direct, database online/offline status update to all online
+        /// servers.  Note that the update is sent as an unreliable datagram so
+        /// it is possible that it may never arrive, or may arrive in the wrong
+        /// order, etc.  The notification is purely advisory.
+        /// </summary>
+        /// <param name="Online">Supplies true if the database is considered to
+        /// be online.</param>
+        private void DistributeDatabaseOnlineNotification(bool Online)
+        {
+            ServerNetworkManager NetworkManager = ACR_ServerCommunicator.GetNetworkManager();
+
+            lock (this)
+            {
+                foreach (GameServer Server in Servers)
+                {
+                    if (!Server.Online)
+                        continue;
+
+                    NetworkManager.SendDatabaseStatus(Server, DatabaseOnline);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Check whether an exception might be a database connectivity related
+        /// exception (versus any other reason).
+        /// </summary>
+        /// <param name="e">Supplies the exception object.</param>
+        /// <param name="Description">Supplies the exception description.
+        /// </param>
+        /// <returns></returns>
+        private static bool IsConnectivityFailureException(Exception e, string Description)
+        {
+            //
+            // This is a giant hack.  Unfortunately the MySQL library doesn't
+            // seem to expose any real indication of whether a failure was due
+            // to a connectivity related issue or some unrelated cause (such as
+            // a server-side processing error).
+            //
+            // Hence, English-language parse.
+            //
+
+            if (Description.Contains("Unable to connect to any of the specified MySQL hosts.") ||
+                Description.Contains("A connection attempt failed") ||
+                Description.Contains("Timeout in IO operation"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
 
@@ -1991,6 +2105,14 @@ namespace ACR_ServerCommunicator
         /// for a paused server not running DelayCommand continuations.
         /// </summary>
         private const int UPDATE_SERVER_CHECKIN_INTERVAL = 1000 * 60 * 8;
+
+        /// <summary>
+        /// The interval at which database online/offline status messages are
+        /// sent to online servers, to resynchronize the state (a periodic
+        /// rebroadcast is used as the online/offline state is managed as a
+        /// fire-and-forget datagram with no reliability guarantees).
+        /// </summary>
+        private const int UPDATE_DATABASE_ONLINE_INTERVAL = 1000 * 60 * 10;
 
         /// <summary>
         /// The maximum target value for combined IPC event queries is stored
@@ -2105,6 +2227,12 @@ namespace ACR_ServerCommunicator
         private bool EventQueueModified = false;
 
         /// <summary>
+        /// This value is set based on whether the database is believed to be
+        /// online or accessible.
+        /// </summary>
+        private bool DatabaseOnline = true;
+
+        /// <summary>
         /// This value is set when it is time to run a configuration sync.  The
         /// next query thread cycle will reset the value.
         /// </summary>
@@ -2148,5 +2276,11 @@ namespace ACR_ServerCommunicator
         /// The active shutdown watchdog timer, if any.
         /// </summary>
         private Timer ShutdownWatchdogTimer = null;
+
+        /// <summary>
+        /// The timer used to rebroadcast whether the database is viewed to be
+        /// online or offline.
+        /// </summary>
+        private Timer UpdateDatabaseOnlineTimer = null;
     }
 }
