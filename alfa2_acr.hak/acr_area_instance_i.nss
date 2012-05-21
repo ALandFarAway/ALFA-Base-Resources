@@ -24,6 +24,7 @@
 
 #include "acr_server_misc_i"
 #include "acr_db_persist_i"
+#include "acr_spawn_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -109,7 +110,11 @@ const string ACR_AREA_INSTANCE_FIRST_DYNAMIC_OBJECT          = "ACR_AREA_INSTANC
 // cleanup task ran.
 const string ACR_AREA_INSTANCE_HAD_ACTIVITY                  = "ACR_AREA_INSTANCE_HAD_ACTIVITY";
 
+// This variable contains the original OnLeave script.
 const string ACR_AREA_INSTANCE_ORIGINAL_ONLEAVE_SCRIPT       = "ACR_AREA_INSTANCE_ORIGINAL_ONLEAVE_SCRIPT";
+
+// This variable contains internal flags for the area instance.
+const string ACR_AREA_INSTANCE_FLAGS                         = "ACR_AREA_INSTANCE_FLAGS";
 
 
 // The number of objects to remove each deletion cycle.  This value is used to
@@ -120,6 +125,10 @@ const int ACR_AREA_INSTANCE_OBJECTS_PER_DELETION_CYCLE       = 2;
 // The OnLeave script that is hooked in for area instance is named here.  This
 // script allows automatic instance cleanup to be enabled.
 const string ACR_AREA_INSTANCE_ONLEAVE_ACR_SCRIPT            = "acr_area_instance_onleave";
+
+
+// This flag is set if an instance has already been initialized.
+const int ACR_AREA_INSTANCE_FLAG_INITIALIZED                 = 0x00000001;
 
 // Define to 1 to enable debugging.
 #define ACR_AREA_INSTANCE_DEBUG 1
@@ -227,6 +236,16 @@ void ACR__CallOriginalOnLeaveHandler(object InstancedArea);
 //! oObject: the object to be viewed.
 int ACR_IsWalkmeshHelper(object oObject);
 
+//! Get internal flags for the area instance.
+//!  - InstancedArea: Supplies the current area instance.
+//!  - Returns: The area instance flags (ACR_AREA_INSTANCE_FLAG_*).
+int ACR__GetAreaInstanceFlags(object InstancedArea);
+
+//! Set internal flags for the area instance.
+//!  - InstancedArea: Supplies the current area instance.
+//!  - Flags: The area instance flags (ACR_AREA_INSTANCE_FLAG_*).
+void ACR__SetAreaInstanceFlags(object InstancedArea, int Flags);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -241,6 +260,7 @@ object ACR_CreateAreaInstance(object TemplateArea, float CleanupDelay)
 	// First, get an actual area instance.
 	object InstancedArea = ACR_InternalCreateAreaInstance(TemplateArea);
 	string Script;
+	int Flags;
 
 	if (InstancedArea == OBJECT_INVALID)
 		return OBJECT_INVALID;
@@ -248,6 +268,13 @@ object ACR_CreateAreaInstance(object TemplateArea, float CleanupDelay)
 	// Non-cached mode isn't supported without NWNX plugin support to actually
 	// delete the area object itself.
 	SetLocalInt(TemplateArea, ACR_AREA_INSTANCE_ENABLE_CACHE, TRUE);
+
+	Flags = ACR__GetAreaInstanceFlags(InstancedArea);
+	if (!(Flags & ACR_AREA_INSTANCE_FLAG_INITIALIZED))
+	{
+		ACR__SetAreaInstanceFlags(InstancedArea, Flags | ACR_AREA_INSTANCE_FLAG_INITIALIZED);
+		ACR_SpawnOnAreaInstanceCreate(InstancedArea);
+	}
 
 	// If we are setting up a non-cached area, record the start of the dynamic
 	// object id range for the area.  This lets us completely delete all of the
@@ -352,6 +379,7 @@ void ACR_ReleaseAreaInstance(object InstancedArea)
 	}
 
 	// Otherwise, put the area on the free list.
+	ACR_SpawnOnAreaInstanceCleanup(InstancedArea);
 	WriteTimestampedLogEntry("ACR_ReleaseAreaInstance(): Adding area instance to free list - " + GetName(InstancedArea) + ": 0x" + ObjectToString(InstancedArea));
 	ACR_InternalReleaseAreaInstance(InstancedArea);
 }
@@ -654,3 +682,14 @@ int ACR_IsWalkmeshHelper(object oObject)
 // It didn't have the appearance. Not a walkmesh helper.
     return FALSE;
 }
+
+int ACR__GetAreaInstanceFlags(object InstancedArea)
+{
+	return GetLocalInt(InstancedArea, ACR_AREA_INSTANCE_FLAGS);
+}
+
+void ACR__SetAreaInstanceFlags(object InstancedArea, int Flags)
+{
+	SetLocalInt(InstancedArea, ACR_AREA_INSTANCE_FLAGS, Flags);
+}
+

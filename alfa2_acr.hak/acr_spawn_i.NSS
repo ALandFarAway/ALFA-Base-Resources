@@ -528,6 +528,18 @@ void ACR_PreSpawnArea(object oArea);
 //! The script the spawn system executes when any creatures leaves an area.
 void ACR_SpawnOnAreaExit(object oCreature);
 
+//! This function is called when an area instance is created.  It is only 
+//  called once for an area instance, even if the instance is reused.
+//!  - oAreaInstance: Supplies the newly created area instance.
+//!  - Returns: Nothing.
+void ACR_SpawnOnAreaInstanceCreate(object oAreaInstance);
+
+//! This function is called when an area instance is cleaned up.  It is caled
+//  each time the area instance is about to be deactivated.
+//!  - oAreaInstance: Supplies the area instance that is being cleaned up.
+//!  - Returns: Nothing.
+void ACR_SpawnOnAreaInstanceCleanup(object oAreaInstance);
+
 //! Returns the number of spawn points in oArea.
 int ACR_GetNumberOfSpawnPointsInArea(object oArea);
 
@@ -744,7 +756,7 @@ void ACR_InitializeSpawns(float fDespawnDelay, float fRefreshDelay, int bPrespaw
     float fDelay = 0.0;
     ACR_PrintDebugMessage("Initializing spawn points...", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
     for(i=0; (oSpawnWP = GetObjectByTag(_SPAWN_WAYPOINT_TAG, i)) != OBJECT_INVALID; i++) {
-        DelayCommand(fDelay, _AddSpawnPointFromWaypoint(oSpawnWP));
+        DelayCommand(fDelay, AssignCommand(oSpawnWP, _AddSpawnPointFromWaypoint(oSpawnWP)));
 		fDelay += 0.01;
     }
     ACR_PrintDebugMessage(IntToString(i) + " spawn points initialized.", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
@@ -808,6 +820,37 @@ void ACR_PreSpawnArea(object oArea) {
 
 void ACR_SpawnOnAreaExit(object oCreature) {
  
+}
+
+void ACR_SpawnOnAreaInstanceCreate(object oAreaInstance) {
+
+	int i;
+	int nSpawnPointsFound = 0;
+	object oSpawnWP;
+	for (i=0; (oSpawnWP = GetObjectByTag(_SPAWN_WAYPOINT_TAG, i)) != OBJECT_INVALID; i++) {
+		if (GetArea(oSpawnWP) != oAreaInstance) {
+			continue;
+		}
+		DelayCommand(0.01f, AssignCommand(oSpawnWP, _AddSpawnPointFromWaypoint(oSpawnWP)));
+		nSpawnPointsFound++;
+	}
+	ACR_PrintDebugMessage(GetName(oAreaInstance) + ": Initialized " + IntToString(nSpawnPointsFound) + " spawn points attached to area instance.", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
+}
+
+void ACR_SpawnOnAreaInstanceCleanup(object oAreaInstance) {
+
+	// Clear the active flag if it was set, so that the area can be despawned.
+	// Note that we are guaranteed that there really weren't any players in the
+	// area if we are running instance cleanup, so this is actually safe.
+	int nFlags = GetLocalInt(oAreaInstance, _SPAWN_AREA_FLAGS);
+
+	if (nFlags & _SPAWN_AREA_FLAG_ACTIVE) {
+
+		nFlags &= ~(_SPAWN_AREA_FLAG_ACTIVE);
+		SetLocalInt(oAreaInstance, _SPAWN_AREA_FLAGS, nFlags);
+	}
+
+	_DespawnArea(oAreaInstance);
 }
 
 int ACR_GetNumberOfSpawnPointsInArea(object oArea) {
