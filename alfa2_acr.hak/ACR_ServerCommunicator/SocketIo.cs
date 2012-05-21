@@ -178,7 +178,7 @@ namespace ACR_ServerCommunicator
                         return 0;
 
                     default:
-                        return len;
+                        return 0;
 
                 }
             }
