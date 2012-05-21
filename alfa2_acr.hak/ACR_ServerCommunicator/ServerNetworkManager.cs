@@ -50,7 +50,7 @@ namespace ACR_ServerCommunicator
         /// Send a shutdown notification message to a destination server.
         /// </summary>
         /// <param name="Server">Supplies the destination server.</param>
-        public void SendShutdownNotify(GameServer Server)
+        public void SendMessageShutdownNotify(GameServer Server)
         {
             NetworkMessage Message = CreateDatagramMessage(DATAGRAM_MESSAGE_CMD.CMD_SHUTDOWN_NOTIFY);
             BufferBuilder Builder = Message.GetBuilder();
@@ -66,7 +66,7 @@ namespace ACR_ServerCommunicator
         /// <param name="Server">Supplies the destination server.</param>
         /// <param name="Online">Supplies 1 if the database is viewed as
         /// online, else 0 if the database is viewed as offline.</param>
-        public void SendDatabaseStatus(GameServer Server, bool Online)
+        public void SendMessageDatabaseStatus(GameServer Server, bool Online)
         {
             NetworkMessage Message = CreateDatagramMessage(DATAGRAM_MESSAGE_CMD.CMD_NOTIFY_DATABASE_STATUS);
             BufferBuilder Builder = Message.GetBuilder();
