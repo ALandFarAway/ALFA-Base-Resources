@@ -756,7 +756,7 @@ void ACR_InitializeSpawns(float fDespawnDelay, float fRefreshDelay, int bPrespaw
     float fDelay = 0.0;
     ACR_PrintDebugMessage("Initializing spawn points...", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
     for(i=0; (oSpawnWP = GetObjectByTag(_SPAWN_WAYPOINT_TAG, i)) != OBJECT_INVALID; i++) {
-        DelayCommand(fDelay, AssignCommand(oSpawnWP, _AddSpawnPointFromWaypoint(oSpawnWP)));
+        DelayCommand(fDelay, _AddSpawnPointFromWaypoint(oSpawnWP));
 		fDelay += 0.01;
     }
     ACR_PrintDebugMessage(IntToString(i) + " spawn points initialized.", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
@@ -831,7 +831,7 @@ void ACR_SpawnOnAreaInstanceCreate(object oAreaInstance) {
 		if (GetArea(oSpawnWP) != oAreaInstance) {
 			continue;
 		}
-		DelayCommand(0.01f, AssignCommand(oSpawnWP, _AddSpawnPointFromWaypoint(oSpawnWP)));
+		DelayCommand(0.01f, _AddSpawnPointFromWaypoint(oSpawnWP));
 		nSpawnPointsFound++;
 	}
 	ACR_PrintDebugMessage(GetName(oAreaInstance) + ": Initialized " + IntToString(nSpawnPointsFound) + " spawn points attached to area instance.", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
