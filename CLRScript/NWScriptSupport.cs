@@ -571,8 +571,8 @@ namespace CLRScriptFramework
                 Script = TheScript;
             }
 
-            public IEnumerator<uint> GetEnumerator() { return new AreaObjectEnumerator(Creature, Script); }
-            IEnumerator IEnumerable.GetEnumerator() { return new AreaObjectEnumerator(Creature, Script); }
+            public IEnumerator<uint> GetEnumerator() { return new InventoryItemEnumerator(Creature, Script); }
+            IEnumerator IEnumerable.GetEnumerator() { return new InventoryItemEnumerator(Creature, Script); }
 
             protected CLRScriptBase Script;
             protected UInt32 Creature;
