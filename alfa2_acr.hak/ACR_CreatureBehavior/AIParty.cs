@@ -430,10 +430,37 @@ namespace ACR_CreatureBehavior
 
         public void AddPartyEnemy(CreatureObject PartyEnemy)
         {
+            if (PartyEnemy == null)
+            {
+                throw new ApplicationException("Trying to add party enemy, but that creature does not exist.");
+            }
+            Enemies.Add(PartyEnemy);
+
+            if (_CanPartySee(PartyEnemy))
+            {
+                int EnemyArmorRank = PartyEnemy.Script.GetArmorRank(PartyEnemy.Script.GetItemInSlot(CLRScriptBase.INVENTORY_SLOT_CARMOUR, PartyEnemy.ObjectId));
+                if (EnemyArmorRank == CLRScriptBase.ARMOR_RANK_HEAVY ||
+                    EnemyArmorRank == CLRScriptBase.ARMOR_RANK_MEDIUM)
+                    EnemyHardTargets.Add(PartyEnemy);
+                if (EnemyArmorRank == CLRScriptBase.ARMOR_RANK_LIGHT ||
+                    EnemyArmorRank == CLRScriptBase.ARMOR_RANK_NONE)
+                    EnemySoftTargets.Add(PartyEnemy);
+                if (_LooksLikeSpellcaster(PartyEnemy))
+                    EnemySpellcasters.Add(PartyEnemy);
+            }
+            else
+            {
+                EnemiesLost.Add(PartyEnemy);
+            }
         }
 
         public void RemovePartyEnemy(CreatureObject PartyEnemy)
         {
+            Enemies.Remove(PartyEnemy);
+            EnemyHardTargets.Remove(PartyEnemy);
+            EnemySoftTargets.Remove(PartyEnemy);
+            EnemySpellcasters.Remove(PartyEnemy);
+            EnemyHealers.Remove(PartyEnemy);
         }
 
         public enum AIType
@@ -452,6 +479,50 @@ namespace ACR_CreatureBehavior
             BEHAVIOR_TYPE_MINDLESS = 20,
             BEHAVIOR_TYPE_ANIMAL = 30,
             BEHAVIOR_TYPE_COWARD = 40
+        }
+
+// ====== Block of private functions with assess what the party knows. =======================//
+        /// <summary>
+        /// This function assesses whether or not a creature is visible to any member of the party.
+        /// </summary>
+        /// <param name="Creature">The creature that the party is looking for</param>
+        /// <returns>true if the creature is seen by any member of the party</returns>
+        private bool _CanPartySee(CreatureObject Creature)
+        {
+            foreach (CreatureObject PartyMember in PartyMembers)
+            {
+                if (PartyMember.Script.GetObjectSeen(PartyMember.ObjectId, Creature.ObjectId) == CLRScriptBase.TRUE)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// This function seeks signs of a spellcaster, looking for visible paraphenalia. Visibility is assumed, and should be checked separately.
+        /// </summary>
+        /// <param name="Creature">The creature to be assessed</param>
+        /// <returns>True if there is some visible paraphenalia that suggests spellcasting.</returns>
+        private bool _LooksLikeSpellcaster(CreatureObject Creature)
+        {
+            int VisibleSpellbooks = 0;
+            foreach (uint Item in Creature.Script.GetItemsInInventory(Creature.ObjectId))
+            {
+                if (Creature.Script.GetTag(Item) == "ACR_MOD_SPELLBOOK" ||
+                    Creature.Script.GetTag(Item) == "ACR_MOD_HOLYSYMBOL")
+                    VisibleSpellbooks++;
+                if (Creature.Script.GetHasInventory(Item) == CLRScriptBase.TRUE)
+                {
+                    foreach (uint ContainerContents in Creature.Script.GetItemsInInventory(Item))
+                    {
+                        if (Creature.Script.GetTag(ContainerContents) == "ACR_MOD_SPELLBOOK" ||
+                            Creature.Script.GetTag(ContainerContents) == "ACR_MOD_HOLYSYMBOL")
+                            VisibleSpellbooks--;
+                    }
+                }
+            }
+            if (VisibleSpellbooks > 0)
+                return true;
+            return false;
         }
 
 // ====== Block of general management lists =================================================//
@@ -500,6 +571,11 @@ namespace ACR_CreatureBehavior
         /// The list of enemies who have been observed casting healing magic.
         /// </summary>
         public List<CreatureObject> EnemyHealers = new List<CreatureObject>();
+
+        /// <summary>
+        /// The list of enemies who we know exist, but can't see.
+        /// </summary>
+        public List<CreatureObject> EnemiesLost = new List<CreatureObject>();
 
 // ===== Block of lists for spellcasting NPCs ===============================================//
         /// <summary>
