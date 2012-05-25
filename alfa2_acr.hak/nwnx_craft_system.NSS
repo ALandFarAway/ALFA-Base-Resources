@@ -1063,7 +1063,7 @@ int XPCraft_GetLastChangesType(object oPC, object oInventoryItem)
 
 int XPCraft_GetIsCraftable(object oPC, object oInventoryItem)
 {
-	int bReturn;
+	int bReturn = TRUE;
 	
 	//the bReturn value decides whether the PC can craft this spécific item or not.
 	//place your own requests here...(special item flags, stolen, plot...)
@@ -1076,11 +1076,9 @@ int XPCraft_GetIsCraftable(object oPC, object oInventoryItem)
 		case BASE_ITEM_THROWINGAXE:
 		case BASE_ITEM_DART:
 			bReturn = FALSE;
+			break;
 	}
 
-	bReturn = TRUE;
-	
-	
 	return bReturn;	
 }
 
