@@ -51,7 +51,7 @@ void main()
 	int nTrap_Power;
 	object oTrap;
 	object o = OBJECT_SELF;
-	object oChest = GetLocalObject(o, "oChest");
+	object oChest = GetLocalObject(o, "PL_CHEST");
 	object oEntering = GetEnteringObject();
 	object oArea = GetArea(o);
 	int iUseableDC = 15 + Random(11) - Random(11);
@@ -60,6 +60,8 @@ void main()
 	int iDisableDC;
 	int tmp;
 	location loc = GetLocation(oEntering);
+	string sTag;
+	string sResref;
 	
 	
 	ACR_TriggerOnEnter();
@@ -69,7 +71,7 @@ void main()
 		return;
 			
 	// this isn't supposed to spawn, leave
-	if (GetLocalInt(o, "spawn_chest") == 0)
+	if (!GetLocalInt(o, "PL_SPAWNABLE"))
 		return;
 	
 	// skip non pcs
@@ -78,11 +80,13 @@ void main()
 
 	WriteTimestampedLogEntry("phat_lewt: checking for "+GetName(oEntering)+" in "+GetName(oArea) + " (" + GetTag(o) + ")");
 
+	sTag = "PL_CHECK_" + ObjectToString(oEntering);
+
 	// check was already done for player
-	if (GetLocalString(o, GetName(oEntering)) == GetName(oEntering))
+	if (GetLocalInt(o, sTag))
 		return;
 	
-	SetLocalString(o, GetName(oEntering), GetName(oEntering));
+	SetLocalInt(o, sTag, 1);
 	
 	tmp = GetLocalInt(o, "iUsableDC");
 	
@@ -96,25 +100,34 @@ void main()
 	// search check
 	if (GetIsSkillSuccessful(oEntering, SKILL_SEARCH, iUseableDC, FALSE) != TRUE)
 		return;
-					
+
 	// finally, spawn chest
-	switch (Random(3)) {
-		case 0:
-			oChest = CreateObject(OBJECT_TYPE_PLACEABLE, "phat_lewt_chest_small", loc);
-			break;
-		case 1:
-			oChest = CreateObject(OBJECT_TYPE_PLACEABLE, "phat_lewt_chest_large", loc);
-			break;
-		default:
-			oChest = CreateObject(OBJECT_TYPE_PLACEABLE, "phat_lewt_crate", loc);
+	sResref = GetLocalString(o, "PL_RESREF");
+					
+	// pre-defined
+	if (sResref != "") {
+		oChest = CreateObject(OBJECT_TYPE_PLACEABLE, sResref, loc);
 	}
-		
+	else {
+	// random
+		switch (Random(3)) {
+			case 0:
+				oChest = CreateObject(OBJECT_TYPE_PLACEABLE, "phat_lewt_chest_small", loc);
+				break;
+			case 1:
+				oChest = CreateObject(OBJECT_TYPE_PLACEABLE, "phat_lewt_chest_large", loc);
+				break;
+			default:
+				oChest = CreateObject(OBJECT_TYPE_PLACEABLE, "phat_lewt_crate", loc);
+		}
+	}
+
 	WriteTimestampedLogEntry("phat_lewt: search check passed, creating");
 	
 	SendMessageToPC(oEntering, "You discover something!");
 	
-	SetLocalInt(o, "spawn_chest", 0);		
-	SetLocalObject(OBJECT_SELF, "oChest", oChest);
+	SetLocalInt(o, "PL_SPAWNABLE", 0);		
+	SetLocalObject(o, "PL_CHEST", oChest);
 		
 	iUnlockDC = GetLocalInt(oChest, "iUnlockDC");
 	
@@ -125,14 +138,19 @@ void main()
 		iUnlockDC = 15 + Random(11) - Random(11) + (5 * nTrap_Power);
 		SetLocalInt(oChest, "iUnlockDC", iUnlockDC);
 	}
+
+	// if no trap, ignore locking as well
+	if (GetLocalInt(o, "PL_NO_TRAP"))
+		return;
 				
-	if (GetLockLockable(oChest) == TRUE)
+	if (GetLockLockable(oChest) == TRUE) {
 		SetLocked(oChest, TRUE);
+		WriteTimestampedLogEntry("phat_lewt: unlock DC " + IntToString(iUnlockDC));
+	}
 						
 	SetLockUnlockDC(oChest, iUnlockDC);
 	
-	WriteTimestampedLogEntry("phat_lewt: handle trapping");
-				
+	// only half of trappable objects are actually trapped
 	if (Random(2) == 1)
 		return;
 					
@@ -156,6 +174,8 @@ void main()
 	else
 		CreateTrapOnObject(4 * Random(11), oChest, STANDARD_FACTION_HOSTILE, "1sc_plc_ontrapdisarm");
 					
+	WriteTimestampedLogEntry("phat_lewt: disable DC " + IntToString(iDisableDC));
+				
 	oTrap = GetNearestTrapToObject(o, FALSE);
 	SetTrapDisarmable(oTrap, TRUE);
 	SetTrapDetectDC(oTrap, iDetectDC);
