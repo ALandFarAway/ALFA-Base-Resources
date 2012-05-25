@@ -89,7 +89,7 @@ namespace ACR_ServerCommunicator
             int ServerId;
 
             Database.ACR_SQLQuery(String.Format(
-                "SELECT `ID`, `PlayerID`, `IsOnline`, `ServerID`, `Name`, `Location` FROM `characters` WHERE `Name` = '{0}'",
+                "SELECT `ID`, `PlayerID`, `IsOnline`, `ServerID`, `Name`, `Location` FROM `characters` WHERE `Name` = '{0}' ORDER BY `ID` ASC ",
                 Database.ACR_SQLEncodeSpecialChars(CharacterName)));
 
             if (!Database.ACR_SQLFetch())

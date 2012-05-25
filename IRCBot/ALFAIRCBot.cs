@@ -883,7 +883,8 @@ namespace ALFAIRCBot
                         "FROM " +
                             "characters " +
                         "INNER JOIN players ON players.ID = characters.PlayerID " +
-                        "WHERE characters.Name = '{0}' ", MySqlHelper.EscapeString(Query))))
+                        "WHERE characters.Name = '{0}' " +
+                        "ORDER BY characters.ID ASC ", MySqlHelper.EscapeString(Query))))
                     {
                         if (!Reader.Read())
                         {
