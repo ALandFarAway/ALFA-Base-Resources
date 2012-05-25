@@ -74,6 +74,7 @@ namespace ACR_ServerCommunicator
 
             GameCharacter Character = (from C in Characters
                                        where C.CharacterName.Equals(CharacterName, StringComparison.InvariantCultureIgnoreCase)
+                                       orderby C.Online descending
                                        select C).FirstOrDefault();
 
             if (Character != null)
