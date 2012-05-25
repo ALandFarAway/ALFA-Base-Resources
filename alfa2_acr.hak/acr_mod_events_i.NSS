@@ -1464,9 +1464,7 @@ int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick, obje
 
 void ACR_ModuleInitHealthChecks()
 {
-	object AreaObject;
 	object Obj;
-	int ThisObjectId;
 	int HighestObjectId = ObjectToInt(GetModule());
 
 	// Start the latency monitor script up.  The latency monitor requires CLR
@@ -1479,44 +1477,19 @@ void ACR_ModuleInitHealthChecks()
 
 	SetGlobalString("ACR_SERVER_LATENCY_SCRIPT", "acr_healthmonitor");
 
-	// Figure out the highest current object id and record it so that we can
-	// identify how many dynamically created objects are in the area.  The
-	// health monitor subsystem uses this capability.
-	//
-	// NOTE:  The loop below may generate a too many instructions error if
-	//        not using the NWScript plugin in JIT mode.
-	//
-	// TODO:  This could be much better replaced by simply creating a dummy
-	//        object here, recording its object id, and deleting the dummy
-	//        object.  When we have a dummy object template arranged, we
-	//        can switch to that and delete the loop below.
+	// Find the first object id assigned to dynamic objects so that the health
+	// monitor subsystem can distinguish statically placed objects from those
+	// that have been dynamically instantiated.
+	Obj = CreateObject(OBJECT_TYPE_WAYPOINT, "nw_waypoint001", GetStartingLocation(), FALSE);
 
-	AreaObject = GetFirstArea();
-
-	while (AreaObject != OBJECT_INVALID)
+	if (Obj != OBJECT_INVALID)
 	{
-		ThisObjectId = ObjectToInt(AreaObject);
-
-		if (ThisObjectId > HighestObjectId)
-			HighestObjectId = ThisObjectId;
-
-		Obj = GetFirstObjectInArea(AreaObject);
-
-		while (Obj != OBJECT_INVALID)
-		{
-			ThisObjectId = ObjectToInt(Obj);
-
-			if (ThisObjectId > HighestObjectId)
-				HighestObjectId = ThisObjectId;
-
-			Obj = GetNextObjectInArea(AreaObject);
-		}
-
-		AreaObject = GetNextArea();
+		HighestObjectId = ObjectToInt(Obj);
+		DestroyObject(Obj);
 	}
 
-	WriteTimestampedLogEntry("Dynamically created objects start at ObjectId=" + IntToString(ThisObjectId));
-	SetGlobalInt("ACR_FIRST_DYNAMIC_OBJECT_ID", ThisObjectId);
+	WriteTimestampedLogEntry("Dynamically created objects start at ObjectId=" + IntToString(HighestObjectId));
+	SetGlobalInt("ACR_FIRST_DYNAMIC_OBJECT_ID", HighestObjectId);
 }
 
 void ACR_StartModuleInitHealthChecks()
