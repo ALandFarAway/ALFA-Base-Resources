@@ -74,6 +74,7 @@ namespace ACR_ServerCommunicator
 
             GameCharacter Character = (from C in Characters
                                        where C.CharacterName.Equals(CharacterName, StringComparison.InvariantCultureIgnoreCase)
+                                       orderby C.Online descending
                                        select C).FirstOrDefault();
 
             if (Character != null)
@@ -89,7 +90,7 @@ namespace ACR_ServerCommunicator
             int ServerId;
 
             Database.ACR_SQLQuery(String.Format(
-                "SELECT `ID`, `PlayerID`, `IsOnline`, `ServerID`, `Name`, `Location` FROM `characters` WHERE `Name` = '{0}'",
+                "SELECT `ID`, `PlayerID`, `IsOnline`, `ServerID`, `Name`, `Location` FROM `characters` WHERE `Name` = '{0}' AND `IsDeleted` = 0 AND `IsPlayable` = 1 ORDER BY `ID` ASC ",
                 Database.ACR_SQLEncodeSpecialChars(CharacterName)));
 
             if (!Database.ACR_SQLFetch())
@@ -927,7 +928,8 @@ namespace ACR_ServerCommunicator
                         WriteDiagnosticLog(String.Format(
                             "GameWorldManager.QueryDispatchThreadRoutine: Exception {0} running query cycle.", ExceptionDescription));
 
-                        if (IsConnectivityFailureException(e, ExceptionDescription))
+                        if (IsConnectivityFailureException(e, ExceptionDescription) &&
+                            (DatabaseOnline == true))
                         {
                             DatabaseOnline = false;
                             DistributeDatabaseOnlineNotification(false);

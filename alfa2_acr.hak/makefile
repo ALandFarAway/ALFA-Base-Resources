@@ -502,7 +502,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s2_snginregn.ncs                   \
             $(OUTPUTDIR)\nw_s2_snginslow.ncs                   \
             $(OUTPUTDIR)\nw_s2_sngintufn.ncs                   \
-            $(OUTPUTDIR)\gb_player_heart.ncs                   
+            $(OUTPUTDIR)\gb_player_heart.ncs                   \
+            $(OUTPUTDIR)\nx2_s0_summonbaatezu.ncs              
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and

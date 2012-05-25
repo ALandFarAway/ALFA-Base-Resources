@@ -203,7 +203,13 @@ namespace ACR_CreatureBehavior
 
                 case EVENT_TYPE.AREA_ON_INSTANCE_CREATE:
                     {
+                        if (Server.ObjectManager == null)
+                            break;
+
                         ModuleObject Module = Server.ObjectManager.Module;
+
+                        if (Module == null)
+                            break;
 
                         Module.AddInstancedArea(OBJECT_SELF);
                     }

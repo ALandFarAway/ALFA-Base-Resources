@@ -125,7 +125,28 @@ Improvements over the stock nwnnsscomp include:
   where the RHS expression being assigned is itself an assignment, e.g.
   "a = b = c;", is encountered.  This does not parse properly in the
   standard compiler.
-
+- A longstanding bug dating back to nwnnsscomp, where global variables that
+  were readonly and had initializers with assignments might be improperly
+  inlined if optimizations were enabled, has been fixed.
+- The compiler now optimizes dead sub-expressions in simple cases, such as
+  multiplication by zero or shift by 32 bits.
+- The compiler now optimizes multiply operations into shifts by power of 2 when
+  possible.
+- The compiler now optimizes add one or subtract one operations into the faster
+  increment or decrement operation when possible.
+- The compiler now issues warning NSC6023 if prototypes specify default
+  constant literal values for a default argument on a given function.
+- The compiler now allows functions to be marked as having no side effects via
+  the #pragma pure_function(function-identifier) pragma.  This hints to the
+  optimizer that the function call can be elided (or even inlined multiple
+  times).
+- The compiler now fixes up programs that include an include file with an
+  unterminated comment block (in compatibility mode only, v1.69 or below).
+- The compiler now allows compiled scripts up to 64MB (versus the old 512K
+  limit).  Some scripts were exceeding this internal limit.  It is still highly
+  recommended that scripts be kept much smaller than this, size, however.
+- The compiler now correctly handles scripts that exceed the maximum compiled
+  script size with a proper compile time error (NSC1036).
 Run NWNScriptCompiler -? for a listing of command line options and their
 meanings.  Existing nwnnsscomp options are preserved and kept functional.
 

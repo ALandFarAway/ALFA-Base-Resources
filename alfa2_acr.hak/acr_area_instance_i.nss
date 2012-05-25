@@ -126,6 +126,9 @@ const int ACR_AREA_INSTANCE_OBJECTS_PER_DELETION_CYCLE       = 2;
 // script allows automatic instance cleanup to be enabled.
 const string ACR_AREA_INSTANCE_ONLEAVE_ACR_SCRIPT            = "acr_area_instance_onleave";
 
+// The default cleanup delay if one wasn't set.
+const float ACR_AREA_INSTANCE_DEFAULT_CLEANUP_DELAY          = 60.0f;
+
 
 // This flag is set if an instance has already been initialized.
 const int ACR_AREA_INSTANCE_FLAG_INITIALIZED                 = 0x00000001;
@@ -329,9 +332,20 @@ object ACR_CreateAreaInstance(object TemplateArea, float CleanupDelay)
 	// Start cleanup task if cleanup is enabled.  This will remove the instance
 	// if no player ever enters it.
 	if (CleanupDelay < 0.1f)
+	{
 		CleanupDelay = GetLocalFloat(TemplateArea, ACR_AREA_INSTANCE_CLEANUP_DELAY);
+
+		// If the cleanup delay was -1.0f, don't do cleanup by defualt.
+		// Otherwise, if the cleanup delay was close to zero, assume it was
+		// really zero (might not have been set at all), and set the default
+		// cleanup delay.
+		if (CleanupDelay < 0.1f && CleanupDelay > -0.1f)
+			CleanupDelay = ACR_AREA_INSTANCE_DEFAULT_CLEANUP_DELAY;
+	}
 	else
+	{
 		SetLocalFloat(TemplateArea, ACR_AREA_INSTANCE_CLEANUP_DELAY, CleanupDelay);
+	}
 
 	if (CleanupDelay > 0.1f)
 		ACR__StartAreaCleanupTask(InstancedArea, CleanupDelay);
@@ -427,6 +441,13 @@ float ACR_GetAreaCleanupDelay(object InstancedArea)
 	// Otherwise get the value from the design time configuration setting.
 	if (Delay < 0.1f)
 		Delay = GetLocalFloat(ACR_GetInstancedAreaTemplate(InstancedArea), ACR_AREA_INSTANCE_CLEANUP_DELAY);
+
+	// If the cleanup delay was -1.0f, don't do cleanup by defualt.
+	// Otherwise, if the cleanup delay was close to zero, assume it was
+	// really zero (might not have been set at all), and set the default
+	// cleanup delay.
+	if (Delay < 0.1f && Delay > -0.1f)
+		Delay = ACR_AREA_INSTANCE_DEFAULT_CLEANUP_DELAY;
 
 	return Delay;
 }
