@@ -928,7 +928,8 @@ namespace ACR_ServerCommunicator
                         WriteDiagnosticLog(String.Format(
                             "GameWorldManager.QueryDispatchThreadRoutine: Exception {0} running query cycle.", ExceptionDescription));
 
-                        if (IsConnectivityFailureException(e, ExceptionDescription))
+                        if (IsConnectivityFailureException(e, ExceptionDescription) &&
+                            (DatabaseOnline == true))
                         {
                             DatabaseOnline = false;
                             DistributeDatabaseOnlineNotification(false);
