@@ -290,6 +290,8 @@ namespace ACR_ServerCommunicator
             RecordModuleResources();
             PatchContentFiles();
 
+            RunPatchInitScript();
+
             //
             // Finally, drop into the command polling loop.
             //
@@ -393,6 +395,20 @@ namespace ACR_ServerCommunicator
                     "ACR_ServerCommunicator.PatchContentFiles: Exception {0} processing content file patches.",
                     e));
             }
+        }
+
+        /// <summary>
+        /// Call a predefined patch initialization script at startup time.  The
+        /// script is never included in a hak or module, but only distributed
+        /// by the content patch system.  It may or may not actually be present
+        /// but if it is present, it would typically reside in override.
+        /// 
+        /// The purpose of the function is to give a hotfix script a chance to
+        /// hook callbacks in the game world if necessary.
+        /// </summary>
+        private void RunPatchInitScript()
+        {
+            ExecuteScriptEnhanced("acr_patch_initialize", OBJECT_SELF, TRUE);
         }
 
         /// <summary>
