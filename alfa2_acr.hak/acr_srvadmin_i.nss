@@ -129,10 +129,27 @@ object ACR_SrvAdmin_TranslateObject(string sObjName, object oSelf);
 
 int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 {
+	object oCandidate;
+
 	// If we are not the console and not a bona fide server admin, take no
 	// further actions.
-	if (oPC != OBJECT_INVALID && !ACR_IsServerAdmin(oPC))
-		return FALSE;
+	if (oPC != OBJECT_INVALID)
+	{
+		// Confirm that the server admin is not possessing a NPC
+		if (GetIsDMPossessed(oPC))
+		{
+			for (oCandidate = GetFirstPC(); GetIsObjectValid(oCandidate); oCandidate = GetNextPC())
+			{
+				if (GetControlledCharacter(oPC) == oCandidate)
+				{
+					oPC = oCandidate;
+					break;
+				}
+			}	
+		}
+		if (!ACR_IsServerAdmin(oPC))
+			return FALSE;
+	}
 
 	string LowerCmd = GetStringLowerCase(sCmd);
 	int Len = GetStringLength(sCmd);
