@@ -2273,7 +2273,6 @@ namespace ACR_ServerCommunicator
                     DestinationServer.ServerId,
                     GameWorldManager.ACR_SERVER_IPC_EVENT_CHAT_TELL,
                     MessagePart);
-                SetLocalInt(SenderObjectId, "ACR_XP_RPXP_ACTIVE", TRUE);
                 SendChatMessage(
                     OBJECT_INVALID,
                     SenderObjectId,
@@ -2281,6 +2280,8 @@ namespace ACR_ServerCommunicator
                     String.Format("<c=#FFCC99>{0}: </c><c=#30DDCC>[ServerTell] {1}</c>", GetName(SenderObjectId), MessagePart),
                     FALSE);
             }
+
+            SetLocalInt(SenderObjectId, "ACR_XP_RPXP_ACTIVE", TRUE);
         }
 
         /// <summary>
