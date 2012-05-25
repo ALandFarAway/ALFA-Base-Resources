@@ -354,7 +354,7 @@ void _DistributeTranslationToDMAvatars(string sTranslatedMessage, object oSpeake
 
 	for (oPC = GetFirstPC(); GetIsObjectValid(oPC); oPC = GetNextPC())
 	{
-		if (!GetIsDM(oPC))
+		if (!GetIsDM(oPC) && !GetIsDMPossessed(oPC))
 		{
 #if DEBUG_LANG
 			WriteTimestampedLogEntry("_DistributeTranslationToDMAvatars: " + GetName(oPC) + " is not a DM");
