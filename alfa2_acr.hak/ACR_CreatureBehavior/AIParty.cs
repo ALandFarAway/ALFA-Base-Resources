@@ -407,6 +407,19 @@ namespace ACR_CreatureBehavior
                 default:
                     break;
             }
+
+            if (PartyMembers.Count > 0 && PartyLeader == null)
+            {
+                int nCha = 0;
+                foreach (CreatureObject Member in PartyMembers)
+                {
+                    if (Member.Script.GetAbilityModifier(CLRScriptBase.ABILITY_CHARISMA, Member.ObjectId) > nCha)
+                    {
+                        nCha = Member.Script.GetAbilityModifier(CLRScriptBase.ABILITY_CHARISMA, Member.ObjectId);
+                        PartyLeader = Member;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -436,7 +449,7 @@ namespace ACR_CreatureBehavior
             }
             Enemies.Add(PartyEnemy);
 
-            if (_CanPartySee(PartyEnemy))
+            if (CanPartySee(PartyEnemy))
             {
                 int EnemyArmorRank = PartyEnemy.Script.GetArmorRank(PartyEnemy.Script.GetItemInSlot(CLRScriptBase.INVENTORY_SLOT_CARMOUR, PartyEnemy.ObjectId));
                 if (EnemyArmorRank == CLRScriptBase.ARMOR_RANK_HEAVY ||
@@ -487,11 +500,21 @@ namespace ACR_CreatureBehavior
         /// </summary>
         /// <param name="Creature">The creature that the party is looking for</param>
         /// <returns>true if the creature is seen by any member of the party</returns>
-        private bool _CanPartySee(CreatureObject Creature)
+        public bool CanPartySee(CreatureObject Creature)
         {
             foreach (CreatureObject PartyMember in PartyMembers)
             {
                 if (PartyMember.Script.GetObjectSeen(PartyMember.ObjectId, Creature.ObjectId) == CLRScriptBase.TRUE)
+                    return true;
+            }
+            return false;
+        }
+
+        public bool CanPartyHear(CreatureObject Creature)
+        {
+            foreach (CreatureObject PartyMember in PartyMembers)
+            {
+                if (PartyMember.Script.GetObjectHeard(PartyMember.ObjectId, Creature.ObjectId) == CLRScriptBase.TRUE)
                     return true;
             }
             return false;

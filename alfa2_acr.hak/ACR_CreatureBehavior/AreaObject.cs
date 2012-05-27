@@ -55,6 +55,14 @@ namespace ACR_CreatureBehavior
             return Script.GetObjectsInArea(ObjectId);
         }
 
+        public List<AreaTransition> AreaTransitions = new List<AreaTransition> { };
+
+        public class AreaTransition
+        {
+            public AreaObject TargetArea;
+            public uint ObjectId;
+        }
+
         /// <summary>
         /// Get the interior flag of the area.
         /// </summary>

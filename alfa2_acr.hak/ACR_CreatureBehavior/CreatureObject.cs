@@ -152,7 +152,7 @@ namespace ACR_CreatureBehavior
                     }
 
                     // Neutral creatures take direct attacks personally. Your friends try to trust you, but will snap if abused too much.
-                    else if (nReputation > 10 || Script.GetLocalInt(this.ObjectId, "FRIENDLY_FIRED") > Script.d4(2))
+                    else if (nReputation > 10 || Script.GetLocalInt(this.ObjectId, "FRIENDLY_FIRED") > Script.d4(3))
                     {
                         // And all of them are going to get angry.
                         foreach (CreatureObject CurrentPartyMember in this.Party.PartyMembers)
@@ -186,6 +186,40 @@ namespace ACR_CreatureBehavior
         {
             if (!IsAIControlled)
                 return;
+
+            CreatureObject Damager = Server.ObjectManager.GetCreatureObject(DamagerObjectId, true);
+            AIParty Party = this.Party;
+
+            int nReputation = Script.GetReputation(this.ObjectId, DamagerObjectId);
+
+            // The friendly fire functionality lives in the spell cast method
+            if (Script.GetLastSpellCaster() == DamagerObjectId)
+                return;
+
+
+            // This is the fault of a bug in the AI; best not to compound it.
+            if (Party.PartyMembers.Contains(Damager))
+                return;
+
+            // These two creatures are friends.
+            else if (nReputation > 89)
+            {
+                Script.SetLocalInt(this.ObjectId, "FRIENDLY_FIRED", Script.GetLocalInt(this.ObjectId, "FRIENDLY_FIRED") + 1);
+            }
+
+            // Neutral creatures take direct attacks personally. Your friends try to trust you, but will snap if abused too much.
+            else if (nReputation > 10 || Script.GetLocalInt(this.ObjectId, "FRIENDLY_FIRED") > Script.d4(3))
+            {
+                // And all of them are going to get angry.
+                foreach (CreatureObject CurrentPartyMember in this.Party.PartyMembers)
+                {
+                    _SetMutualEnemies(CurrentPartyMember.ObjectId, DamagerObjectId);
+                    if (!CurrentPartyMember.HasCombatRoundProcess)
+                        CurrentPartyMember.SelectCombatRoundAction();
+                }
+                this.Party.AddPartyEnemy(Damager);
+                this.Party.EnemySpellcasters.Add(Damager);
+            }            
         }
 
         /// <summary>
@@ -196,6 +230,8 @@ namespace ACR_CreatureBehavior
         {
             if (!IsAIControlled)
                 return;
+
+            this.Party.RemovePartyMember(this);
         }
 
         /// <summary>
@@ -207,6 +243,49 @@ namespace ACR_CreatureBehavior
         {
             if (!IsAIControlled)
                 return;
+            if (Script.GetObjectType(BlockerObjectId) == CLRScriptBase.OBJECT_TYPE_CREATURE)
+            {
+                if (Script.GetReputation(this.ObjectId, BlockerObjectId) < 11)
+                {
+                }
+                else
+                {
+                    _TemporaryRangedCombat(BlockerObjectId);
+                }
+            }
+            else if (Script.GetObjectType(BlockerObjectId) == CLRScriptBase.OBJECT_TYPE_DOOR)
+            {
+                if (Script.GetUseableFlag(BlockerObjectId) == CLRScriptBase.TRUE)
+                {
+                    if (Script.GetPlotFlag(BlockerObjectId) == CLRScriptBase.TRUE)
+                    {
+                        if (Script.GetLocked(BlockerObjectId) == CLRScriptBase.TRUE)
+                        {
+                            // Well, it's a closed locked plot door. I think we're screwed.
+                            return;
+                        }
+                        else
+                            Script.ActionOpenDoor(BlockerObjectId);
+                    }
+                    else
+                    {
+                        if (Script.GetLocked(BlockerObjectId) == CLRScriptBase.TRUE)
+                            _BashObject(BlockerObjectId);
+                        else
+                            Script.ActionOpenDoor(BlockerObjectId);
+                    }
+                }
+            }
+            else if (Script.GetObjectType(BlockerObjectId) == CLRScriptBase.OBJECT_TYPE_PLACEABLE)
+            {
+                if (Script.GetPlotFlag(BlockerObjectId) == CLRScriptBase.TRUE)
+                {
+                    // Well, thatps a plot placeable. We're probably not getting through.
+                    return;
+                }
+                else
+                    _BashObject(BlockerObjectId);
+            }
         }
 
         /// <summary>
@@ -305,7 +384,28 @@ namespace ACR_CreatureBehavior
         private void OnPerceptionSeenObject(uint PerceivedObjectId,
             bool InitialDetection)
         {
-        
+            CreatureObject SeenObject = Server.ObjectManager.GetCreatureObject(PerceivedObjectId);
+
+//===== If we just started seeing this person again, we need to process memberships. ====//
+            if (InitialDetection)
+            {
+                int nReputation = Script.GetReputation(this.ObjectId, PerceivedObjectId);
+
+                if (nReputation < 11)
+                {
+                    if (Party.EnemiesLost.Contains(SeenObject))
+                    {
+                        Party.EnemiesLost.Remove(SeenObject);
+                        Party.AddPartyEnemy(SeenObject);
+                    }
+                }
+                else if (Script.GetFactionEqual(this.ObjectId, PerceivedObjectId) == CLRScriptBase.TRUE)
+                {
+                    // Might as well try to recover if we've messed up party memberships.
+                    if (SeenObject.Party == null && Script.GetIsPC(SeenObject.ObjectId) == CLRScriptBase.FALSE)
+                        SeenObject.Party.AddPartyMember(SeenObject);
+                }
+            }
         }
 
         /// <summary>
@@ -319,7 +419,28 @@ namespace ACR_CreatureBehavior
         private void OnPerceptionHeardObject(uint PerceivedObjectId,
             bool InitialDetection)
         {
-        
+            CreatureObject SeenObject = Server.ObjectManager.GetCreatureObject(PerceivedObjectId);
+
+//===== If we just started hearing this person again, we need to process memberships. ====//
+            if (InitialDetection)
+            {
+                int nReputation = Script.GetReputation(this.ObjectId, PerceivedObjectId);
+
+                if (nReputation < 11)
+                {
+                    if (Party.EnemiesLost.Contains(SeenObject))
+                    {
+                        Party.EnemiesLost.Remove(SeenObject);
+                        Party.AddPartyEnemy(SeenObject);
+                    }
+                }
+                else if (Script.GetFactionEqual(this.ObjectId, PerceivedObjectId) == CLRScriptBase.TRUE)
+                {
+                    // Might as well try to recover if we've messed up party memberships.
+                    if (SeenObject.Party == null && Script.GetIsPC(SeenObject.ObjectId) == CLRScriptBase.FALSE)
+                        SeenObject.Party.AddPartyMember(SeenObject);
+                }
+            }      
         }
 
         /// <summary>
@@ -333,7 +454,25 @@ namespace ACR_CreatureBehavior
         private void OnPerceptionLostSightObject(uint PerceivedObjectId,
             bool LastDetection)
         {
-        
+            CreatureObject SeenObject = Server.ObjectManager.GetCreatureObject(PerceivedObjectId);
+
+//===== If we've actually lost this creature, we need to populate missing lists. ====//
+            if (LastDetection)
+            {
+                int nReputation = Script.GetReputation(this.ObjectId, PerceivedObjectId);
+
+                if (nReputation < 11)
+                {
+                    if (!Party.EnemiesLost.Contains(SeenObject))
+                    {
+                        if (!Party.CanPartyHear(SeenObject) && !Party.CanPartySee(SeenObject))
+                        {
+                            Party.RemovePartyEnemy(SeenObject);
+                            Party.EnemiesLost.Add(SeenObject);
+                        }
+                    }
+                }
+            }          
         }
 
         /// <summary>
@@ -347,7 +486,25 @@ namespace ACR_CreatureBehavior
         private void OnPerceptionLostHearingObject(uint PerceivedObjectId,
             bool LastDetection)
         {
-        
+            CreatureObject SeenObject = Server.ObjectManager.GetCreatureObject(PerceivedObjectId);
+
+            //===== If we've actually lost this creature, we need to populate missing lists. ====//
+            if (LastDetection)
+            {
+                int nReputation = Script.GetReputation(this.ObjectId, PerceivedObjectId);
+
+                if (nReputation < 11)
+                {
+                    if (!Party.EnemiesLost.Contains(SeenObject))
+                    {
+                        if (!Party.CanPartyHear(SeenObject) && !Party.CanPartySee(SeenObject))
+                        {
+                            Party.RemovePartyEnemy(SeenObject);
+                            Party.EnemiesLost.Add(SeenObject);
+                        }
+                    }
+                }
+            }        
         }
 
         /// <summary>
@@ -356,7 +513,10 @@ namespace ACR_CreatureBehavior
         /// </summary>
         public void OnEndCombatRound()
         {
-            
+            // If this event has fired, we assume that the creature is in combat.
+            HasCombatRoundProcess = true;
+            UsingEndCombatRound = true;
+            SelectCombatRoundAction();
         }
 
         /// <summary>
@@ -364,7 +524,7 @@ namespace ACR_CreatureBehavior
         /// </summary>
         public void OnConversation()
         {
-
+            Script.BeginConversation("", CLRScriptBase.OBJECT_INVALID, CLRScriptBase.FALSE);
         }
 
         /// <summary>
@@ -380,7 +540,47 @@ namespace ACR_CreatureBehavior
         /// </summary>
         public void OnHeartbeat()
         {
+            if (HasCombatRoundProcess == true &&
+                UsingEndCombatRound == true)
+            {
+                // We're in a fight, but End Combat Round is firing, so we don't want to do anything here. Overloading
+                // with commands is what causes the stutter walk.
+                return;
+            }
+            if (HasCombatRoundProcess == true &&
+               UsingEndCombatRound == false)
+            {
+                // In this state, we've decided that the creature would like to start a fight, but combat rounds
+                // haven't started yet. We'll start the fight, and update once the creature gets there.
+                SelectCombatRoundAction();
+                return;
+            }
+            if (HasCombatRoundProcess == false &&
+                UsingEndCombatRound == false)
+            {
+                // We're not in a fight, but maybe our leader is.
+                if (this.Party.PartyLeader.HasCombatRoundProcess)
+                {
+                    // And nearby-- we should go find him.
+                    if (this.Area == Party.PartyLeader.Area)
+                        Script.ActionMoveToObject(Party.PartyLeader.ObjectId, CLRScriptBase.TRUE, 1.0f);
 
+                    // Seems Glorious Leader isn't nearby. Bordering area, maybe?
+                    else
+                    {
+                        foreach (AreaObject.AreaTransition Transition in Area.AreaTransitions)
+                        {
+                            if (Transition.TargetArea == PartyLeader.Area)
+                            {
+                                Script.ActionInteractObject(Transition.ObjectId);
+                            }
+                        }
+                    }
+                }
+                
+                // Guess no one we know is in trouble. Carry on.
+                else _AmbientBehavior();
+            }
         }
 
         /// <summary>
@@ -405,6 +605,36 @@ namespace ACR_CreatureBehavior
         /// This function is the primary means by which actions are selected for a given combat round.
         /// </summary>
         public void SelectCombatRoundAction()
+        {
+
+        }
+
+        /// <summary>
+        /// This orders this creature to perform whatever it's supposed to perform when not engaged in something
+        /// else.
+        /// </summary>
+        private void _AmbientBehavior()
+        {
+
+        }
+
+        /// <summary>
+        /// This orders Creature to bash Target until it is destroyed.
+        /// </summary>
+        /// <param name="Target">The target to be bashed</param>
+        private void _BashObject(uint Target)
+        {
+            OverrideTarget = Target;
+            Script.ActionAttack(Target, CLRScriptBase.FALSE);
+        }
+
+        /// <summary>
+        /// This function causes Creature to switch to change to ranged weapons temporarily. It should be used when
+        /// ranged combat is only a good idea for a moment, because of battlefield conditions.
+        /// </summary>
+        /// <param name="Reason">The object we should wait to move or go away before changing back</param>
+        /// <param name="WaitForDeath">If set to false, the creature will wait until Reason is destroyed before switching back to melee</param>
+        private void _TemporaryRangedCombat(uint Reason, bool WaitForDeath = false)
         {
 
         }
@@ -539,6 +769,11 @@ namespace ACR_CreatureBehavior
         public bool HasCombatRoundProcess = false;
 
         /// <summary>
+        /// This contains whether or not EndCombatRound has begun firing for the NPC.
+        /// </summary>
+        public bool UsingEndCombatRound = false;
+
+        /// <summary>
         /// Get whether the creature is a player avatar (includes DMs).
         /// </summary>
         public bool IsPC { get { return CreatureIsPC; } }
@@ -632,6 +867,8 @@ namespace ACR_CreatureBehavior
             /// </summary>
             public bool Heard;
         }
+
+        public uint OverrideTarget = CLRScriptBase.OBJECT_INVALID;
 
         public int TacticsType = (int)AIParty.AIType.BEHAVIOR_TYPE_UNDEFINED;
 

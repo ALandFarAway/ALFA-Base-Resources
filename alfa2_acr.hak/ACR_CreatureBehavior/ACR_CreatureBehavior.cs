@@ -165,7 +165,7 @@ namespace ACR_CreatureBehavior
                     }
                     break;
 
-                case EVENT_TYPE.MODULE_ON_START:
+                case EVENT_TYPE.MODULE_ON_STARTED:
                     {
                         //
                         // Initialize the server subsystem.
@@ -173,30 +173,21 @@ namespace ACR_CreatureBehavior
 
                         Server.Initialize();
 
-
-
-                        foreach (uint AreaObjectId in
-                                 GetAreas())
+                        foreach (AreaObject Area in Server.ObjectManager.GetAreas())
                         {
-                            AreaManager.AreaObject Area = new AreaManager.AreaObject();
-                            Area.AreaObjectId = AreaObjectId;
-                            Area.AreaInterior = GetIsAreaInterior(AreaObjectId);
-                            Area.AreaNatural = GetIsAreaNatural(AreaObjectId);
-                            Area.AreaUnderground = GetIsAreaAboveGround(AreaObjectId);
-                            foreach (uint ObjectId in
-                                     GetObjectsInArea(AreaObjectId))
+                            foreach (uint ObjectInAreaId in Area.GetObjectIdsInArea())
                             {
-                                if (GetIsObjectValid(GetTransitionTarget(ObjectId)) != 0)
+                                if (GetObjectType(ObjectInAreaId) == CLRScriptBase.OBJECT_TYPE_TRIGGER)
                                 {
-                                    if (!Area.AreaTransitionObjects.Contains(ObjectId))
-                                        Area.AreaTransitionObjects.Add(ObjectId);
-
-                                    if (!Area.AreaTransitionTargets.Contains(ObjectId))
-                                        Area.AreaTransitionTargets.Add(GetArea(GetTransitionTarget(ObjectId)));
+                                    if (GetTransitionTarget(ObjectInAreaId) != OBJECT_INVALID)
+                                    {
+                                        AreaObject.AreaTransition Transition = new AreaObject.AreaTransition();
+                                        Transition.ObjectId = ObjectInAreaId;
+                                        Transition.TargetArea = Server.ObjectManager.GetAreaObject(GetArea(GetTransitionTarget(ObjectInAreaId)));
+                                        Area.AreaTransitions.Add(Transition);
+                                    }
                                 }
-
                             }
-                            ServerContents.Areas.Add(Area);
                         }
                     }
                     break;
@@ -237,55 +228,11 @@ namespace ACR_CreatureBehavior
             CREATURE_ON_PERCEPTION = 11,
             CREATURE_ON_USER_DEFINED = 12,
             
-            MODULE_ON_START = 100,
+            MODULE_ON_STARTED = 100,
 
             AREA_ON_INSTANCE_CREATE = 200
         }
 
         private ALFA.Database Database = null;
-    }
-
-// AreaManager is a class used to define classes used by other portions of code-- it is meant to provide instances
-// to the ServerContents static class via nesting.
-// ServerContents
-//  - AreaObject
-//  --- AreaTransitions
-//  --- NPC Parties
-//  ----- Individual NPCs
-//  - AreaObject
-    public class AreaManager
-    {
-        public class AreaObject
-        {
-            public uint AreaObjectId = OBJECT_INVALID;
-            public int  AreaInterior = -1;
-            public int  AreaNatural = -1;
-            public int  AreaUnderground = -1;
-            public List<uint> AreaTransitionObjects = new List<uint> { };
-            public List<uint> AreaTransitionTargets = new List<uint> { };
-            public List<NPCParty> ContainedParties = new List<NPCParty> { };
-        }
-
-        public class NPCParty
-        {
-            public float PartyCR = 0.0f;
-        }
-
-        public class NPC
-        {
-            public float NPCCR = 0.0f;
-            public uint NPCObjectId = OBJECT_INVALID;
-        }
-
-        private const uint OBJECT_INVALID = CLRScriptBase.OBJECT_INVALID;
-    }
-
-
-// ServerContents is the static shell to make the seeking of object instances defined in AreaManager perpetually
-// findable.
-    public static class ServerContents
-    {
-        public static List<AreaManager.AreaObject> Areas = new List<AreaManager.AreaObject> { };
-
     }
 }
