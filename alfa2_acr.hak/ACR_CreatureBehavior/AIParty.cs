@@ -479,7 +479,7 @@ namespace ACR_CreatureBehavior
         public CreatureObject GetNearest(CreatureObject Source, List<CreatureObject> Creatures)
         {
             AreaObject SourceArea = Source.Area;
-            Vector3 SourcePos = Source.Script.GetPosition(Source.ObjectId);
+            Vector3 SourcePos = Source.Position;
             CreatureObject RetValue = null;
             if (Creatures.Count == 0) return RetValue;
 
@@ -490,7 +490,7 @@ namespace ACR_CreatureBehavior
                 if (SourceArea != Target.Area)
                     continue;
 
-                Vector3 TargetPos = Target.Script.GetPosition(Target.ObjectId);
+                Vector3 TargetPos = Target.Position;
                 float Distance = MathOps.DistanceSq(SourcePos, TargetPos);
 
                 if ((ShortestDistance < 0) || (Distance < ShortestDistance))

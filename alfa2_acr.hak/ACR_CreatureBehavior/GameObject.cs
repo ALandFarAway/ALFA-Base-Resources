@@ -103,6 +103,30 @@ namespace ACR_CreatureBehavior
         }
 
         /// <summary>
+        /// The position of the object (only defined for objects that may be
+        /// joined to an area and which are currently joined to an area).
+        /// </summary>
+        public Vector3 Position
+        {
+            get
+            {
+                return Script.GetPosition(ObjectId);
+            }
+        }
+
+        /// <summary>
+        /// The facing of the object (only defined for objects that may be
+        /// joined to an area and which are currently joined to an area).
+        /// </summary>
+        public float Facing
+        {
+            get
+            {
+                return Script.GetFacing(ObjectId);
+            }
+        }
+
+        /// <summary>
         /// Get the full name of the object.
         /// </summary>
         public string Name { get { return Script.GetName(ObjectId); } }
