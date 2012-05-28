@@ -38,6 +38,7 @@
 //	2012/05/26	Foam  Added a function for determining if a target is immune to nonlethal damage.
 //	2012/05/26	Foam  Added support for precise strike and insightful strike.
 //	2012/05/26	Foam  Improved enhancement bonus support.
+//	2012/05/28	Foam  Added favored enemy/improved favored enemy bonus support.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -191,6 +192,15 @@ int _NLDGetGreaterWeaponSpecialisation( object oAttacker, object oItem );
 
 // Determine enhancement bonus of the weapon
 int _NLDGetEnhancementBonus( object oTarget, object oItem );
+
+// Retrieve the feat for a specific favored enemy.
+int _NDLGetFavoredEnemyFeat( object oTarget );
+
+// Retrieve the feat for a specific improved favored enemy.
+int _NDLGetImprovedFavoredEnemyFeat( object oTarget );
+
+// Determine the favored enemy bonus of the attacker against the target.
+int _NLDGetFavoredEnemyBonus( object oAttacker, object oTarget );
 
 // Get the amount of non lethal damage that bypasses
 // oTarget's damage reduction, apply physical damage
@@ -640,6 +650,10 @@ void _NLDWeaponDamage( object oTarget, object oAttacker, object oItem, int bSnea
     // Add enchantment damage.
     int nEnhance = _NLDGetEnhancementBonus( oTarget, oItem );
     nDamMod += nEnhance;
+	
+	// Favored enemies.
+    int nFavoredBonus = _NLDGetFavoredEnemyBonus( oAttacker, oTarget );
+    nDamMod += nFavoredBonus;
 
     // Check for power attack modes
     if ( GetActionMode( oAttacker, ACTION_MODE_POWER_ATTACK ) == TRUE ) {
@@ -958,6 +972,196 @@ int _NLDGetEnhancementBonus( object oTarget, object oItem ) {
     return nReturn;
 }
 
+int _NDLGetFavoredEnemyFeat( object oTarget ) {
+	int nFeatID = -1;
+	switch ( GetRacialType( oTarget ) ) {
+		case RACIAL_TYPE_ABERRATION:
+			nFeatID = FEAT_FAVORED_ENEMY_ABERRATION;
+			break;
+		case RACIAL_TYPE_ANIMAL:
+			nFeatID = FEAT_FAVORED_ENEMY_ANIMAL;
+			break;
+		case RACIAL_TYPE_BEAST:
+			nFeatID = FEAT_FAVORED_ENEMY_BEAST;
+			break;
+		case RACIAL_TYPE_CONSTRUCT:
+			nFeatID = FEAT_FAVORED_ENEMY_CONSTRUCT;
+			break;
+		case RACIAL_TYPE_DRAGON:
+			nFeatID = FEAT_FAVORED_ENEMY_DRAGON;
+			break;
+		case RACIAL_TYPE_DWARF:
+			nFeatID = FEAT_FAVORED_ENEMY_DWARF;
+			break;
+		case RACIAL_TYPE_ELEMENTAL:
+			nFeatID = FEAT_FAVORED_ENEMY_ELEMENTAL;
+			break;
+		case RACIAL_TYPE_ELF:
+			nFeatID = FEAT_FAVORED_ENEMY_ELF;
+			break;
+		case RACIAL_TYPE_FEY:
+			nFeatID = FEAT_FAVORED_ENEMY_FEY;
+			break;
+		case RACIAL_TYPE_GIANT:
+			nFeatID = FEAT_FAVORED_ENEMY_GIANT;
+			break;
+		case RACIAL_TYPE_GNOME:
+			nFeatID = FEAT_FAVORED_ENEMY_GNOME;
+			break;
+		case RACIAL_TYPE_GRAYORC:
+			nFeatID = FEAT_FAVORED_ENEMY_ORC;
+			break;
+		case RACIAL_TYPE_HALFELF:
+			nFeatID = FEAT_FAVORED_ENEMY_HALFELF;
+			break;
+		case RACIAL_TYPE_HALFLING:
+			nFeatID = FEAT_FAVORED_ENEMY_HALFLING;
+			break;
+		case RACIAL_TYPE_HALFORC:
+			nFeatID = FEAT_FAVORED_ENEMY_HALFORC;
+			break;
+		case RACIAL_TYPE_HUMAN:
+			nFeatID = FEAT_FAVORED_ENEMY_HUMAN;
+			break;
+		case RACIAL_TYPE_HUMANOID_GOBLINOID:
+			nFeatID = FEAT_FAVORED_ENEMY_GOBLINOID;
+			break;
+		case RACIAL_TYPE_HUMANOID_MONSTROUS:
+			nFeatID = FEAT_FAVORED_ENEMY_MONSTROUS;
+			break;
+		case RACIAL_TYPE_HUMANOID_ORC:
+			nFeatID = FEAT_FAVORED_ENEMY_ORC;
+			break;
+		case RACIAL_TYPE_HUMANOID_REPTILIAN:
+			nFeatID = FEAT_FAVORED_ENEMY_REPTILIAN;
+			break;
+		case RACIAL_TYPE_MAGICAL_BEAST:
+			nFeatID = FEAT_FAVORED_ENEMY_MAGICAL_BEAST;
+			break;
+		case RACIAL_TYPE_OUTSIDER:
+			nFeatID = FEAT_FAVORED_ENEMY_OUTSIDER;
+			break;
+		case RACIAL_TYPE_SHAPECHANGER:
+			nFeatID = FEAT_FAVORED_ENEMY_SHAPECHANGER;
+			break;
+		case RACIAL_TYPE_UNDEAD:
+			nFeatID = FEAT_FAVORED_ENEMY_UNDEAD;
+			break;
+		case RACIAL_TYPE_VERMIN:
+			nFeatID = FEAT_FAVORED_ENEMY_VERMIN;
+			break;
+		case RACIAL_TYPE_YUANTI:
+			nFeatID = FEAT_FAVORED_ENEMY_REPTILIAN;
+			break;
+	}
+	return nFeatID;
+}
+
+int _NDLGetImprovedFavoredEnemyFeat( object oTarget ) {
+	int nFeatID = -1;
+	switch ( GetRacialType( oTarget ) ) {
+		case RACIAL_TYPE_ABERRATION:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_ABERRATION;
+			break;
+		case RACIAL_TYPE_ANIMAL:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_ANIMAL;
+			break;
+		case RACIAL_TYPE_BEAST:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_BEAST;
+			break;
+		case RACIAL_TYPE_CONSTRUCT:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_CONSTRUCT;
+			break;
+		case RACIAL_TYPE_DRAGON:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_DRAGON;
+			break;
+		case RACIAL_TYPE_DWARF:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_DWARF;
+			break;
+		case RACIAL_TYPE_ELEMENTAL:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_ELEMENTAL;
+			break;
+		case RACIAL_TYPE_ELF:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_ELF;
+			break;
+		case RACIAL_TYPE_FEY:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_FEY;
+			break;
+		case RACIAL_TYPE_GIANT:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_GIANT;
+			break;
+		case RACIAL_TYPE_GNOME:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_GNOME;
+			break;
+		case RACIAL_TYPE_GRAYORC:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_ORC;
+			break;
+		case RACIAL_TYPE_HALFELF:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_HALFELF;
+			break;
+		case RACIAL_TYPE_HALFLING:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_HALFLING;
+			break;
+		case RACIAL_TYPE_HALFORC:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_HALFORC;
+			break;
+		case RACIAL_TYPE_HUMAN:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_HUMAN;
+			break;
+		case RACIAL_TYPE_HUMANOID_GOBLINOID:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_GOBLINOID;
+			break;
+		case RACIAL_TYPE_HUMANOID_MONSTROUS:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_MONSTROUS;
+			break;
+		case RACIAL_TYPE_HUMANOID_ORC:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_ORC;
+			break;
+		case RACIAL_TYPE_HUMANOID_REPTILIAN:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_REPTILIAN;
+			break;
+		case RACIAL_TYPE_MAGICAL_BEAST:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_MAGICAL_BEAST;
+			break;
+		case RACIAL_TYPE_OUTSIDER:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_OUTSIDER;
+			break;
+		case RACIAL_TYPE_SHAPECHANGER:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_SHAPECHANGER;
+			break;
+		case RACIAL_TYPE_UNDEAD:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_UNDEAD;
+			break;
+		case RACIAL_TYPE_VERMIN:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_VERMIN;
+			break;
+		case RACIAL_TYPE_YUANTI:
+			nFeatID = FEAT_IMPROVED_FAVORED_ENEMY_REPTILIAN;
+			break;
+	}
+	return nFeatID;
+}
+
+int _NLDGetFavoredEnemyBonus( object oAttacker, object oTarget ) {
+	int nTotalBonus = 0;
+	
+	// Get feats.
+	int nFEFeat = _NDLGetFavoredEnemyFeat( oTarget );
+	int nIFEFeat = _NDLGetImprovedFavoredEnemyFeat( oTarget );
+	
+	// Favored enemy?
+	int nFEBonus = ( GetLevelByClass( CLASS_TYPE_RANGER, oAttacker ) / 5 ) + 1;
+	if ( nFEFeat != -1 && GetHasFeat( nFEFeat, oAttacker, TRUE ) ) {
+		nTotalBonus += nFEBonus;
+	}
+	
+	// Improved favored enemy?
+	if ( nIFEFeat != -1 && GetHasFeat( nIFEFeat, oAttacker, TRUE ) ) {
+		nTotalBonus += 3;
+	}
+	
+	return nTotalBonus;
+}
 
 string _NLDamageReductionCheck( object oTarget, object oWeapon, int nNLDamage, int nHeal ) {
     string sReturn = "";
