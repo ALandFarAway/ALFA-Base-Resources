@@ -606,7 +606,212 @@ namespace ACR_CreatureBehavior
         /// </summary>
         public void SelectCombatRoundAction()
         {
+            RefreshNegativeStatuses();
 
+            // Can't do anything. Might as well give up early and pray there's help on the way.
+            if (!CanAct())
+                return;
+
+            // We're mindless, and thus too stupid to do anything special. Hit the nearest bad guy.
+            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_MINDLESS)
+            {
+                CreatureObject AttackTarget = Party.GetNearest(this, Party.Enemies);
+                Script.ActionAttack(AttackTarget.ObjectId, CLRScriptBase.FALSE);
+                return;
+            }
+
+            int nWellBeing = Script.GetCurrentHitPoints(ObjectId) * 100 / Script.GetMaxHitPoints(ObjectId);
+            int nMissingHitPoints = Script.GetCurrentHitPoints(ObjectId) - Script.GetMaxHitPoints(ObjectId);
+
+            // Are we in critical condition?
+            if (nWellBeing < 10)
+            {
+                CreatureObject Healer = Party.GetNearest(this, Party.PartyMedics);
+                if (Healer == null)
+                    Healer = Party.GetNearest(this, Party.PartyBuffs);
+                if (Healer != null && Healer != this)
+                {
+                    if(Script.GetDistanceBetween(Healer.ObjectId, this.ObjectId) > 5.0f)
+                        Script.ActionMoveToObject(Healer.ObjectId, CLRScriptBase.TRUE, 1.0f);
+                    if(TryToHeal(ObjectId, nMissingHitPoints))
+                        return;
+                }
+                else if (Party.PartyLeader != null && Party.PartyLeader != this)
+                {
+                    Healer = Party.PartyLeader;
+                    if (Script.GetDistanceBetween(Healer.ObjectId, this.ObjectId) > 5.0f)
+                        Script.ActionMoveToObject(Healer.ObjectId, CLRScriptBase.TRUE, 1.0f);
+                    if(TryToHeal(ObjectId, nMissingHitPoints))
+                        return;
+                }
+                else
+                {
+                    if (TryToHeal(ObjectId, nMissingHitPoints))
+                        return;
+                }
+
+                if (TryToHeal(ObjectId, nMissingHitPoints)) return;
+            }
+
+            // Bad enough to self heal?
+            else if (nWellBeing < 50)
+            {
+                if (TryToHeal(ObjectId, nMissingHitPoints))
+                    return;
+            }
+        }
+
+        /// <summary>
+        /// This will search for an ability that will directly restore about HitPoints of hit points and use it on HealTarget
+        /// </summary>
+        /// <param name="HealTarget">The one to receive healing.</param>
+        /// <param name="HitPoints">The amount to heal.</param>
+        /// <returns>True if an ability is found.</returns>
+        public bool TryToHeal(uint HealTarget, int HitPoints)
+        {
+            int SpellId = -1;
+            NWTalent Healing = null;
+            if (HitPoints > 50 && Script.GetHasSpell(CLRScriptBase.SPELL_HEAL, ObjectId) == CLRScriptBase.TRUE) SpellId = CLRScriptBase.SPELL_HEAL;
+            else if(HitPoints > 50 && Script.GetHasSpell(CLRScriptBase.SPELL_MASS_HEAL, ObjectId) == CLRScriptBase.TRUE) SpellId = CLRScriptBase.SPELL_MASS_HEAL;
+            else if (HitPoints > 21 && Script.GetHasSpell(CLRScriptBase.SPELL_CURE_CRITICAL_WOUNDS, ObjectId) == CLRScriptBase.TRUE) SpellId = CLRScriptBase.SPELL_CURE_CRITICAL_WOUNDS;
+            else if (HitPoints > 21 && Script.GetHasSpell(CLRScriptBase.SPELL_MASS_CURE_CRITICAL_WOUNDS, ObjectId) == CLRScriptBase.TRUE) SpellId = CLRScriptBase.SPELL_MASS_CURE_CRITICAL_WOUNDS;
+            else if (HitPoints > 16 && Script.GetHasSpell(CLRScriptBase.SPELL_CURE_SERIOUS_WOUNDS, ObjectId) == CLRScriptBase.TRUE) SpellId = CLRScriptBase.SPELL_CURE_SERIOUS_WOUNDS;
+            else if (HitPoints > 16 && Script.GetHasSpell(CLRScriptBase.SPELL_MASS_CURE_SERIOUS_WOUNDS, ObjectId) == CLRScriptBase.TRUE) SpellId = CLRScriptBase.SPELL_MASS_CURE_SERIOUS_WOUNDS;
+            else if (HitPoints > 10 && Script.GetHasSpell(CLRScriptBase.SPELL_CURE_MODERATE_WOUNDS, ObjectId) == CLRScriptBase.TRUE) SpellId = CLRScriptBase.SPELL_CURE_MODERATE_WOUNDS;
+            else if (HitPoints > 10 && Script.GetHasSpell(CLRScriptBase.SPELL_MASS_CURE_MODERATE_WOUNDS, ObjectId) == CLRScriptBase.TRUE) SpellId = CLRScriptBase.SPELL_MASS_CURE_MODERATE_WOUNDS;
+            else if (Script.GetHasSpell(CLRScriptBase.SPELL_CURE_LIGHT_WOUNDS, ObjectId) == CLRScriptBase.TRUE) SpellId = CLRScriptBase.SPELL_CURE_LIGHT_WOUNDS;
+            else if (Script.GetHasSpell(CLRScriptBase.SPELL_MASS_CURE_LIGHT_WOUNDS, ObjectId) == CLRScriptBase.TRUE) SpellId = CLRScriptBase.SPELL_MASS_CURE_LIGHT_WOUNDS;
+            else if (Script.GetHasSpell(CLRScriptBase.SPELL_CURE_MODERATE_WOUNDS, ObjectId) == CLRScriptBase.TRUE) SpellId = CLRScriptBase.SPELL_CURE_MODERATE_WOUNDS;
+            else if (Script.GetHasSpell(CLRScriptBase.SPELL_CURE_SERIOUS_WOUNDS, ObjectId) == CLRScriptBase.TRUE) SpellId = CLRScriptBase.SPELL_CURE_SERIOUS_WOUNDS;
+            else if (Script.GetHasSpell(CLRScriptBase.SPELL_CURE_CRITICAL_WOUNDS, ObjectId) == CLRScriptBase.TRUE) SpellId = CLRScriptBase.SPELL_CURE_CRITICAL_WOUNDS;
+
+            if (SpellId != -1)
+            {
+                Healing = Script.TalentSpell(SpellId);
+                Script.ActionUseTalentOnObject(Healing, HealTarget);
+                return true;
+            }
+            else
+            {
+                if (HealTarget == ObjectId)
+                {
+                    Healing = Script.GetCreatureTalentBest(CLRScriptBase.TALENT_CATEGORY_BENEFICIAL_HEALING_POTION, 20, ObjectId, 0);
+                    if (Script.GetIsTalentValid(Healing) == CLRScriptBase.TRUE)
+                    {
+                        Script.ActionUseTalentOnObject(Healing, HealTarget);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// This refreshes the public variables which track status afflictions on the creature.
+        /// </summary>
+        public void RefreshNegativeStatuses()
+        {
+            foreach (NWEffect Effect in Script.GetObjectEffects(this.ObjectId))
+            {
+                int nEffectType = Script.GetEffectType(Effect);
+                int nEffectSubType = Script.GetEffectSubType(Effect);
+                if (nEffectType == CLRScriptBase.EFFECT_TYPE_ABILITY_DECREASE)
+                {
+                    if (nEffectSubType == CLRScriptBase.SUBTYPE_MAGICAL || nEffectSubType == CLRScriptBase.SUBTYPE_EXTRAORDINARY)
+                        AbilityDamaged = true;
+                    else
+                        AbilityDrained = true;
+                }
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_BLINDNESS)
+                    Blinded = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_CHARMED)
+                    Charmed = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_CONFUSED)
+                    Confused = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_CURSE)
+                    Cursed = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_DARKNESS)
+                    Darkness = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_DAZED)
+                    Dazed = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_DEAF)
+                    Deaf = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_DISEASE)
+                    Diseased = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_DOMINATED)
+                    Dominated = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_ENTANGLE)
+                    Entangled = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_FRIGHTENED)
+                    Frightened = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_INSANE)
+                    Insane = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_MOVEMENT_SPEED_DECREASE)
+                    MoveDown = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_NEGATIVELEVEL)
+                    LevelDrain = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_PARALYZE)
+                    Paralyzed = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_PETRIFY)
+                    Petrified = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_POISON)
+                    Poisoned = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_SILENCE)
+                    Silenced = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_SLEEP)
+                    Sleeping = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_SLOW)
+                    Slowed = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_STUNNED)
+                    Stunned = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_TURNED)
+                    Turned = true;
+
+                else if (nEffectType == CLRScriptBase.EFFECT_TYPE_WOUNDING)
+                    Wounded = true;
+
+            }
+        }
+
+        /// <summary>
+        /// This determines if the creature has any negative status effects which prevent actions in combat.
+        /// </summary>
+        /// <returns>false if the creature is incapable of acting</returns>
+        public bool CanAct()
+        {
+            if (Charmed) return false;
+            if (Confused) return false;
+            if (Dominated) return false;
+            if (Frightened) return false;
+            if (Insane) return false;
+            if (Paralyzed) return false;
+            if (Petrified) return false;
+            if (Sleeping) return false;
+            if (Stunned) return false;
+            if (Turned) return false;
+            return true;
         }
 
         /// <summary>
@@ -762,6 +967,137 @@ namespace ACR_CreatureBehavior
             if (_IsMindMagiced(this.ObjectId))
                 return;
         }
+
+
+        /// <summary>
+        /// This contains whether a target is charmed, and thus is unwilling to fight enemies
+        /// </summary>
+        public bool Charmed = false;
+
+        /// <summary>
+        /// This contains whether a target is confused, and thus acting randomly.
+        /// </summary>
+        public bool Confused = false;
+
+        /// <summary>
+        /// This contains whether a target is cursed, and in need of a remove curse spell.
+        /// </summary>
+        public bool Cursed = false;
+
+        /// <summary>
+        /// This contains whether a target is afflicted by a Darkness spell, and thus needs
+        /// true seeing or to move.
+        /// </summary>
+        public bool Darkness = false;
+
+        /// <summary>
+        /// This contains whether a target is dazed, and thus incapable of fighting.
+        /// </summary>
+        public bool Dazed = false;
+
+        /// <summary>
+        /// This contains whether a target is deaf, and in need of healing.
+        /// </summary>
+        public bool Deaf = false;
+
+        /// <summary>
+        /// This contains whether a target is diseased.
+        /// </summary>
+        public bool Diseased = false;
+
+        /// <summary>
+        /// This contains whether a target is following the orders of an enemy spellcaster.
+        /// </summary>
+        public bool Dominated = false;
+
+        /// <summary>
+        /// This contains whether a target has been trapped by webs, ropes, or the like.
+        /// </summary>
+        public bool Entangled = false;
+
+        /// <summary>
+        /// This contains whether a target is "frightened" by the NWN2 engine, which is mechanically
+        /// "panicked"
+        /// </summary>
+        public bool Frightened = false;
+
+        /// <summary>
+        /// This contains whether a target is permanently confused, and thus in desparate need of healing.
+        /// </summary>
+        public bool Insane = false;
+
+        /// <summary>
+        /// This contains whether some effect is reducing the creature's movement speed.
+        /// </summary>
+        public bool MoveDown = false;
+
+        /// <summary>
+        /// This contains whether a target has negative levels.
+        /// </summary>
+        public bool LevelDrain = false;
+
+        /// <summary>
+        /// This contains whether a target is paralyzed.
+        /// </summary>
+        public bool Paralyzed = false;
+
+        /// <summary>
+        /// This contains whether a target has been turned to stone.
+        /// </summary>
+        public bool Petrified = false;
+
+        /// <summary>
+        /// This contains whether a target has been poisoned.
+        /// </summary>
+        public bool Poisoned = false;
+
+        /// <summary>
+        /// This contains whether a target has been silenced.
+        /// </summary>
+        public bool Silenced = false;
+
+        /// <summary>
+        /// This contains whether a target is sleeping.
+        /// </summary>
+        public bool Sleeping = false;
+
+        /// <summary>
+        /// This contains whether a target is slowed.
+        /// </summary>
+        public bool Slowed = false;
+
+        /// <summary>
+        /// This contains whether a target is stunned.
+        /// </summary>
+        public bool Stunned = false;
+
+        /// <summary>
+        /// This contains whether a target has been turned.
+        /// </summary>
+        public bool Turned = false;
+
+        /// <summary>
+        /// This contains whether a target is bleeding, and in need of a cure spell.
+        /// </summary>
+        public bool Wounded = false;
+
+        /// <summary>
+        /// This contains whether or not this creature is blinded, and thus needs a remove blindness
+        /// spell.
+        /// </summary>
+        public bool Blinded = false;
+
+        /// <summary>
+        /// This contains whether or not this creature has ability drain, and thus needs help from a
+        /// restoration or greater restoration.
+        /// </summary>
+        public bool AbilityDrained = false;
+
+        /// <summary>
+        /// This contains whether or not this creature has ability damage, and thus needs help from a 
+        /// lesser restoration, restoration, or greater restoration.
+        /// </summary>
+        public bool AbilityDamaged = false;
 
         /// <summary>
         /// This contains whether or not this creature has an active cycle of combat round processing.

@@ -476,6 +476,26 @@ namespace ACR_CreatureBehavior
             EnemyHealers.Remove(PartyEnemy);
         }
 
+        public CreatureObject GetNearest(CreatureObject Source, List<CreatureObject> Creatures)
+        {
+            Vector3 SourcePos = Source.Script.GetPosition(Source.ObjectId);
+            CreatureObject RetValue = null;
+            if (Creatures.Count == 0) return RetValue;
+
+            float ShortestDistance = -1.0f;
+            foreach (CreatureObject Target in Creatures)
+            {
+                Vector3 TargetPos = Target.Script.GetPosition(Target.ObjectId);
+                if (ShortestDistance < 0 ||
+                    ((SourcePos.x - TargetPos.x) * (SourcePos.x - TargetPos.x)) + ((SourcePos.y - TargetPos.y) * (SourcePos.y - TargetPos.y)) < ShortestDistance)
+                {
+                    ShortestDistance = ((SourcePos.x - TargetPos.x) * (SourcePos.x - TargetPos.x)) + ((SourcePos.y - TargetPos.y) * (SourcePos.y - TargetPos.y));
+                    RetValue = Target;
+                }
+            }
+            return RetValue;
+        }
+
         public enum AIType
         {
             BEHAVIOR_TYPE_UNDEFINED = 0,
