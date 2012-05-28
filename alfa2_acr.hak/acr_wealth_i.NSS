@@ -185,7 +185,7 @@ void ACR_GenerateTreasure(object oCreature, int nLootValue)
     // Where G is greater than V and g is greater than V, V = L = D. 
 
     // remove armor - it never drops
-    DestroyObject(GetItemInSlot(INVENTORY_SLOT_CHEST, oCreature));
+    SetDroppableFlag(GetItemInSlot(INVENTORY_SLOT_CHEST, oCreature), FALSE);
 
     // remove gold - it should only drop from this script
     TakeGoldFromCreature(GetGold(oCreature), oCreature, TRUE, FALSE);
@@ -208,7 +208,7 @@ void ACR_GenerateTreasure(object oCreature, int nLootValue)
             // destroy object if loot value has been exceeded
             else if ((nGearValue + nItemVal) >= nLootValue)
             {
-                DestroyObject(oItem);
+                SetDroppableFlag(oItem, FALSE);
             }
             // otherwise, tally the GP total for non weapon items
             else
@@ -234,7 +234,7 @@ void ACR_GenerateTreasure(object oCreature, int nLootValue)
         // destroy object if loot value has been exceeded
         else if ((nGearValue + nItemVal) >= nLootValue)
         {
-            DestroyObject(oItem);
+            SetDroppableFlag(oItem, FALSE);
         }
         // tally the GP total for non weapon items
         else if (GetDroppableFlag(oItem))
