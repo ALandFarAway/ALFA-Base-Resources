@@ -1157,7 +1157,7 @@ int _NLDGetFavoredEnemyBonus( object oAttacker, object oTarget ) {
 	
 	// Improved favored enemy?
 	if ( nIFEFeat != -1 && GetHasFeat( nIFEFeat, oAttacker, TRUE ) ) {
-		nTotalBonus += 3;
+		nTotalBonus += 5;
 	}
 	
 	return nTotalBonus;
