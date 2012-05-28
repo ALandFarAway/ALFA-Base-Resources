@@ -1289,6 +1289,12 @@ namespace ACR_CreatureBehavior
         public bool IsAIControlled { get { return AIControlled && !IsPlayerControlled; } set { AIControlled = value; } }
 
         /// <summary>
+        /// Get the current action (CLRScriptBase.ACTION_*) that the object is
+        /// executing.
+        /// </summary>
+        public int CurrentAction { get { return Script.GetCurrentAction(ObjectId); } }
+
+        /// <summary>
         /// The list of perceived objects.
         /// </summary>
         public List<PerceptionNode> PerceivedObjects { get; set; }

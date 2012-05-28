@@ -115,6 +115,18 @@ namespace ACR_CreatureBehavior
         }
 
         /// <summary>
+        /// The location of the object (only defined for objects that may be
+        /// joined to an area and which are currently joined to an area).
+        /// </summary>
+        public NWLocation Location
+        {
+            get
+            {
+                return Script.GetLocation(ObjectId);
+            }
+        }
+
+        /// <summary>
         /// The facing of the object (only defined for objects that may be
         /// joined to an area and which are currently joined to an area).
         /// </summary>
@@ -123,6 +135,28 @@ namespace ACR_CreatureBehavior
             get
             {
                 return Script.GetFacing(ObjectId);
+            }
+        }
+
+        /// <summary>
+        /// The current hitpoints of the object.
+        /// </summary>
+        public int CurrentHitPoints
+        {
+            get
+            {
+                return Script.GetCurrentHitPoints(ObjectId);
+            }
+        }
+
+        /// <summary>
+        /// The maximum hitpoints of the object.
+        /// </summary>
+        public int MaxHitPoints
+        {
+            get
+            {
+                return Script.GetMaxHitPoints(ObjectId);
             }
         }
 
