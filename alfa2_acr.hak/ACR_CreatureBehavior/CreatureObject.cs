@@ -626,10 +626,10 @@ namespace ACR_CreatureBehavior
                 return;
             }
 
-            int nWellBeing = Script.GetCurrentHitPoints(ObjectId) * 100 / Script.GetMaxHitPoints(ObjectId);
-            int nMissingHitPoints = Script.GetCurrentHitPoints(ObjectId) - Script.GetMaxHitPoints(ObjectId);
+            int nWellBeing = CurrentHitPoints * 100 / MaxHitPoints;
+            int nMissingHitPoints = CurrentHitPoints - MaxHitPoints;
 
-            // Do we eve nhave anyone to fight?
+            // Do we even have anyone to fight?
             if (Party.Enemies.Count == 0 &&
                 Party.EnemiesLost.Count == 0)
             {
@@ -640,7 +640,7 @@ namespace ACR_CreatureBehavior
                 if(Healer != null)
                     Script.ActionMoveToObject(Healer.ObjectId, CLRScriptBase.TRUE, 1.0f);
                 if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_MEDIC &&
-                    Script.GetCurrentAction(this.ObjectId) == CLRScriptBase.ACTION_INVALID)
+                    CurrentAction == CLRScriptBase.ACTION_INVALID)
                 {
                     if (TryToHealAll())
                         CleanUpNeeded = true;
@@ -1287,6 +1287,12 @@ namespace ACR_CreatureBehavior
         /// should be only set at startup time for the object, generally.
         /// </summary>
         public bool IsAIControlled { get { return AIControlled && !IsPlayerControlled; } set { AIControlled = value; } }
+
+        /// <summary>
+        /// Get the current action (CLRScriptBase.ACTION_*) that the object is
+        /// executing.
+        /// </summary>
+        public int CurrentAction { get { return Script.GetCurrentAction(ObjectId); } }
 
         /// <summary>
         /// The list of perceived objects.

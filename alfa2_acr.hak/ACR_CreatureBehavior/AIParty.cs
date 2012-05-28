@@ -478,18 +478,24 @@ namespace ACR_CreatureBehavior
 
         public CreatureObject GetNearest(CreatureObject Source, List<CreatureObject> Creatures)
         {
-            Vector3 SourcePos = Source.Script.GetPosition(Source.ObjectId);
+            AreaObject SourceArea = Source.Area;
+            Vector3 SourcePos = Source.Position;
             CreatureObject RetValue = null;
             if (Creatures.Count == 0) return RetValue;
 
             float ShortestDistance = -1.0f;
             foreach (CreatureObject Target in Creatures)
             {
-                Vector3 TargetPos = Target.Script.GetPosition(Target.ObjectId);
-                if (ShortestDistance < 0 ||
-                    ((SourcePos.x - TargetPos.x) * (SourcePos.x - TargetPos.x)) + ((SourcePos.y - TargetPos.y) * (SourcePos.y - TargetPos.y)) < ShortestDistance)
+                // Only interested in objects in the same area.
+                if (SourceArea != Target.Area)
+                    continue;
+
+                Vector3 TargetPos = Target.Position;
+                float Distance = MathOps.DistanceSq(SourcePos, TargetPos);
+
+                if ((ShortestDistance < 0) || (Distance < ShortestDistance))
                 {
-                    ShortestDistance = ((SourcePos.x - TargetPos.x) * (SourcePos.x - TargetPos.x)) + ((SourcePos.y - TargetPos.y) * (SourcePos.y - TargetPos.y));
+                    ShortestDistance = Distance;
                     RetValue = Target;
                 }
             }
