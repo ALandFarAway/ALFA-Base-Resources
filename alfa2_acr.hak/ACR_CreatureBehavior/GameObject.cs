@@ -195,6 +195,16 @@ namespace ACR_CreatureBehavior
         }
 
         /// <summary>
+        /// Get a hash code for the object.  The hash code for a GameObject
+        /// based object is the underlying engine game object id.
+        /// </summary>
+        /// <returns>The object hash code.</returns>
+        public override int GetHashCode()
+        {
+            return (int)ObjectId;
+        }
+
+        /// <summary>
         /// Called when the C# object state is being run down because the game
         /// engine half of the object has been deleted.  This might occur after
         /// the fact.
