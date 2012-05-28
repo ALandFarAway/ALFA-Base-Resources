@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\CLRScript\ALFADatabase.cs" />
+    <Compile Include="..\..\CLRScript\ALFAMath.cs" />
     <Compile Include="..\..\CLRScript\ALFAScriptLoader.cs" />
     <Compile Include="..\..\CLRScript\ALFASystemInfo.cs" />
     <Compile Include="..\..\CLRScript\NWScriptActions.cs" />
