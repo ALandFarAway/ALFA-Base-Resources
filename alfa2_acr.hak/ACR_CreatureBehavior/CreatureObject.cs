@@ -558,6 +558,12 @@ namespace ACR_CreatureBehavior
             if (HasCombatRoundProcess == false &&
                 UsingEndCombatRound == false)
             {
+                // We're not in a fight, but maybe our pals need healing.
+                if (CleanUpNeeded)
+                {
+                    if (!TryToHealAll())
+                        CleanUpNeeded = false;
+                }
                 // We're not in a fight, but maybe our leader is.
                 if (this.Party.PartyLeader.HasCombatRoundProcess)
                 {
@@ -616,12 +622,35 @@ namespace ACR_CreatureBehavior
             if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_MINDLESS)
             {
                 CreatureObject AttackTarget = Party.GetNearest(this, Party.Enemies);
-                Script.ActionAttack(AttackTarget.ObjectId, CLRScriptBase.FALSE);
+                _AttackWrapper(AttackTarget);
                 return;
             }
 
             int nWellBeing = Script.GetCurrentHitPoints(ObjectId) * 100 / Script.GetMaxHitPoints(ObjectId);
             int nMissingHitPoints = Script.GetCurrentHitPoints(ObjectId) - Script.GetMaxHitPoints(ObjectId);
+
+            // Do we eve nhave anyone to fight?
+            if (Party.Enemies.Count == 0 &&
+                Party.EnemiesLost.Count == 0)
+            {
+                HasCombatRoundProcess = false;
+                UsingEndCombatRound = false;
+                CreatureObject Healer = Party.GetNearest(this, Party.PartyMedics);
+                // Everyone gather around the healer; he or she might be using mass heals.
+                if(Healer != null)
+                    Script.ActionMoveToObject(Healer.ObjectId, CLRScriptBase.TRUE, 1.0f);
+                if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_MEDIC &&
+                    Script.GetCurrentAction(this.ObjectId) == CLRScriptBase.ACTION_INVALID)
+                {
+                    if (TryToHealAll())
+                        CleanUpNeeded = true;
+                    else
+                        CleanUpNeeded = false;
+                    return;
+                }
+                else
+                    TryToHeal(this, nMissingHitPoints);
+            }
 
             // Are we in critical condition?
             if (nWellBeing < 10)
@@ -633,7 +662,7 @@ namespace ACR_CreatureBehavior
                 {
                     if(Script.GetDistanceBetween(Healer.ObjectId, this.ObjectId) > 5.0f)
                         Script.ActionMoveToObject(Healer.ObjectId, CLRScriptBase.TRUE, 1.0f);
-                    if(TryToHeal(ObjectId, nMissingHitPoints))
+                    if(TryToHeal(this, nMissingHitPoints))
                         return;
                 }
                 else if (Party.PartyLeader != null && Party.PartyLeader != this)
@@ -641,24 +670,137 @@ namespace ACR_CreatureBehavior
                     Healer = Party.PartyLeader;
                     if (Script.GetDistanceBetween(Healer.ObjectId, this.ObjectId) > 5.0f)
                         Script.ActionMoveToObject(Healer.ObjectId, CLRScriptBase.TRUE, 1.0f);
-                    if(TryToHeal(ObjectId, nMissingHitPoints))
+                    if(TryToHeal(this, nMissingHitPoints))
                         return;
                 }
                 else
                 {
-                    if (TryToHeal(ObjectId, nMissingHitPoints))
+                    if (TryToHeal(this, nMissingHitPoints))
                         return;
                 }
 
-                if (TryToHeal(ObjectId, nMissingHitPoints)) return;
+                if (TryToHeal(this, nMissingHitPoints)) return;
             }
 
             // Bad enough to self heal?
             else if (nWellBeing < 50)
             {
-                if (TryToHeal(ObjectId, nMissingHitPoints))
+                if (TryToHeal(this, nMissingHitPoints))
                     return;
             }
+        }
+
+        /// <summary>
+        /// This will look for an action that will improve the condition of the party.
+        /// </summary>
+        /// <returns>True if an appropriate action is found.</returns>
+        public bool TryToHealAll()
+        {
+            foreach (CreatureObject Target in Party.PartyMembers)
+            {
+                if (TryRemoveStatusAfflictions(Target))
+                    return true;
+                int nMissingHitPoints = Script.GetCurrentHitPoints(ObjectId) - Script.GetMaxHitPoints(Target.ObjectId);
+                if (nMissingHitPoints > 0)
+                {
+                    if (TryToHeal(Target, nMissingHitPoints))
+                        return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// This will look for status afflictions that need healing.
+        /// </summary>
+        /// <param name="HealTarget">The target to be healed</param>
+        /// <returns>True if an appropriate action is found an assigned</returns>
+        public bool TryRemoveStatusAfflictions(CreatureObject HealTarget)
+        {
+            if (HealTarget.Confused || HealTarget.Insane || HealTarget.Frightened || HealTarget.Paralyzed || HealTarget.AbilityDamaged || HealTarget.Diseased ||
+                HealTarget.Blinded || HealTarget.Deaf || HealTarget.Poisoned)
+            {
+                if (Script.GetHasSpell(CLRScriptBase.SPELL_HEAL, ObjectId) == CLRScriptBase.TRUE)
+                {
+                    Script.ActionUseTalentOnObject(Script.TalentSpell(CLRScriptBase.SPELL_HEAL), HealTarget.ObjectId);
+                    return true;
+                }
+                else
+                {
+                    if (HealTarget.AbilityDamaged)
+                    {
+                        if (Script.GetHasSpell(CLRScriptBase.SPELL_LESSER_RESTORATION, ObjectId) == CLRScriptBase.TRUE &&
+                            Script.GetHasSpell(CLRScriptBase.SPELL_RESTORATION, ObjectId) == CLRScriptBase.FALSE &&
+                            Script.GetHasSpell(CLRScriptBase.SPELL_GREATER_RESTORATION, ObjectId) == CLRScriptBase.FALSE)
+                        {
+                            Script.ActionUseTalentOnObject(Script.TalentSpell(CLRScriptBase.SPELL_LESSER_RESTORATION), HealTarget.ObjectId);
+                            return true;
+                        }
+                    }
+                    if (HealTarget.Diseased)
+                    {
+                        if (Script.GetHasSpell(CLRScriptBase.SPELL_LESSER_RESTORATION, ObjectId) == CLRScriptBase.TRUE)
+                        {
+                            Script.ActionUseTalentOnObject(Script.TalentSpell(CLRScriptBase.SPELL_REMOVE_DISEASE), HealTarget.ObjectId);
+                            return true;
+                        }
+                    }
+                    if (HealTarget.Blinded || HealTarget.Deaf)
+                    {
+                        if (Script.GetHasSpell(CLRScriptBase.SPELL_REMOVE_BLINDNESS_AND_DEAFNESS, ObjectId) == CLRScriptBase.TRUE)
+                        {
+                            Script.ActionUseTalentOnObject(Script.TalentSpell(CLRScriptBase.SPELL_REMOVE_BLINDNESS_AND_DEAFNESS), HealTarget.ObjectId);
+                            return true;
+                        }
+                    }
+                    if (HealTarget.Poisoned)
+                    {
+                        if (Script.GetHasSpell(CLRScriptBase.SPELL_NEUTRALIZE_POISON, ObjectId) == CLRScriptBase.TRUE)
+                        {
+                            Script.ActionUseTalentOnObject(Script.TalentSpell(CLRScriptBase.SPELL_NEUTRALIZE_POISON), HealTarget.ObjectId);
+                            return true;
+                        }
+                    }
+                }
+            }
+            if (HealTarget.Petrified)
+            {
+                if (Script.GetHasSpell(CLRScriptBase.SPELL_STONE_TO_FLESH, ObjectId) == CLRScriptBase.TRUE)
+                {
+                    Script.ActionUseTalentOnObject(Script.TalentSpell(CLRScriptBase.SPELL_STONE_TO_FLESH), HealTarget.ObjectId);
+                    return true;
+                }
+            }
+            if ((HealTarget.AbilityDrained || HealTarget.LevelDrain) ||
+                (HealTarget.AbilityDamaged && Script.GetHasSpell(CLRScriptBase.SPELL_LESSER_RESTORATION, ObjectId) == CLRScriptBase.FALSE))
+            {
+                if (Script.GetHasSpell(CLRScriptBase.SPELL_RESTORATION, ObjectId) == CLRScriptBase.TRUE)
+                {
+                    Script.ActionUseTalentOnObject(Script.TalentSpell(CLRScriptBase.SPELL_RESTORATION), HealTarget.ObjectId);
+                    return true;
+                }
+                else if (Script.GetHasSpell(CLRScriptBase.SPELL_GREATER_RESTORATION, ObjectId) == CLRScriptBase.FALSE)
+                {
+                    Script.ActionUseTalentOnObject(Script.TalentSpell(CLRScriptBase.SPELL_GREATER_RESTORATION), HealTarget.ObjectId);
+                    return true;
+                }
+            }
+            if (HealTarget.Cursed)
+            {
+                if (Script.GetHasSpell(CLRScriptBase.SPELL_REMOVE_CURSE, ObjectId) == CLRScriptBase.FALSE)
+                {
+                    Script.ActionUseTalentOnObject(Script.TalentSpell(CLRScriptBase.SPELL_REMOVE_CURSE), HealTarget.ObjectId);
+                    return true;
+                }
+            }
+            if (HealTarget.Wounded)
+            {
+                int nMissingHitPoints = Script.GetCurrentHitPoints(ObjectId) - Script.GetMaxHitPoints(HealTarget.ObjectId);
+                if (nMissingHitPoints == 0) nMissingHitPoints = 1;
+                if (TryToHeal(HealTarget, nMissingHitPoints))
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -667,7 +809,7 @@ namespace ACR_CreatureBehavior
         /// <param name="HealTarget">The one to receive healing.</param>
         /// <param name="HitPoints">The amount to heal.</param>
         /// <returns>True if an ability is found.</returns>
-        public bool TryToHeal(uint HealTarget, int HitPoints)
+        public bool TryToHeal(CreatureObject HealTarget, int HitPoints)
         {
             int SpellId = -1;
             NWTalent Healing = null;
@@ -688,17 +830,17 @@ namespace ACR_CreatureBehavior
             if (SpellId != -1)
             {
                 Healing = Script.TalentSpell(SpellId);
-                Script.ActionUseTalentOnObject(Healing, HealTarget);
+                Script.ActionUseTalentOnObject(Healing, HealTarget.ObjectId);
                 return true;
             }
             else
             {
-                if (HealTarget == ObjectId)
+                if (HealTarget == this)
                 {
                     Healing = Script.GetCreatureTalentBest(CLRScriptBase.TALENT_CATEGORY_BENEFICIAL_HEALING_POTION, 20, ObjectId, 0);
                     if (Script.GetIsTalentValid(Healing) == CLRScriptBase.TRUE)
                     {
-                        Script.ActionUseTalentOnObject(Healing, HealTarget);
+                        Script.ActionUseTalentOnObject(Healing, HealTarget.ObjectId);
                         return true;
                     }
                 }
@@ -821,6 +963,17 @@ namespace ACR_CreatureBehavior
         private void _AmbientBehavior()
         {
 
+        }
+
+        /// <summary>
+        /// This serves as a wrapper about calls to ActionAttack, to apply things like the uncanny
+        /// dodge modifiers
+        /// </summary>
+        /// <returns>true if the attack is successfully staged</returns>
+        public bool _AttackWrapper(CreatureObject AttackTarget)
+        {
+            Script.ActionAttack(AttackTarget.ObjectId, CLRScriptBase.FALSE);
+            return false;
         }
 
         /// <summary>
@@ -1098,6 +1251,11 @@ namespace ACR_CreatureBehavior
         /// lesser restoration, restoration, or greater restoration.
         /// </summary>
         public bool AbilityDamaged = false;
+
+        /// <summary>
+        /// This determines if a healer believes that a party still needs healing after a fight is over.
+        /// </summary>
+        public bool CleanUpNeeded = false;
 
         /// <summary>
         /// This contains whether or not this creature has an active cycle of combat round processing.
