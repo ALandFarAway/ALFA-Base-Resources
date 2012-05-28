@@ -487,7 +487,7 @@ namespace ACR_CreatureBehavior
             foreach (CreatureObject Target in Creatures)
             {
                 // Only interested in objects in the same area.
-                if (SourceArea.ObjectId != Target.Area.ObjectId)
+                if (SourceArea != Target.Area)
                     continue;
 
                 Vector3 TargetPos = Target.Script.GetPosition(Target.ObjectId);
