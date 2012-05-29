@@ -627,7 +627,7 @@ namespace ACR_CreatureBehavior
             }
 
             int nWellBeing = CurrentHitPoints * 100 / MaxHitPoints;
-            int nMissingHitPoints = CurrentHitPoints - MaxHitPoints;
+            int nMissingHitPoints = MaxHitPoints - CurrentHitPoints;
 
             // Do we even have anyone to fight?
             if (Party.Enemies.Count == 0 &&
@@ -688,6 +688,88 @@ namespace ACR_CreatureBehavior
                 if (TryToHeal(this, nMissingHitPoints))
                     return;
             }
+
+            // Time to break off into the particular types
+            // Animals are simple creatures; they want to protect themselves and their masters.
+            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_ANIMAL)
+            {
+
+                return;
+            }
+
+            // Archers have the advantage of reach and accuracy with acceptable damage. They strike weak and soft targets.
+            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_ARCHER)
+            {
+
+                return;
+            }
+
+            // Buffs try to boost the capabilities of their allies
+            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_BUFFS)
+            {
+
+                return;
+            }
+
+            // Controls try to debuff enemies and impede movement on the field.
+            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_CONTROL)
+            {
+
+                return;
+            }
+
+            // Cowards avoid fights and look for help.
+            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_COWARD)
+            {
+
+                return;
+            }
+
+            // Flanks try to backstab people, and counter attack people who come after squishies.
+            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_FLANK)
+            {
+
+                return;
+            }
+
+            // Medics try to heal their friends.
+            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_MEDIC)
+            {
+
+                return;
+            }
+
+            // Nukes try to explode hardened targets.
+            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_NUKE)
+            {
+
+                return;
+            }
+
+            // Shocks try to break through the lines and take down squishies.
+            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_SHOCK)
+            {
+
+                return;
+            }
+
+            // Skirmishers try to resist shocks, flanks, and other skirmishers.
+            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_SKIRMISH)
+            {
+
+                return;
+            }
+
+            // Tanks try to hold ground and contain dangerous foes.
+            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_TANK)
+            {
+
+                return;
+            }
+
+            // Making it this far is some kind of error case. Try to salvage something.
+
+            return;
         }
 
         /// <summary>
@@ -700,7 +782,7 @@ namespace ACR_CreatureBehavior
             {
                 if (TryRemoveStatusAfflictions(Target))
                     return true;
-                int nMissingHitPoints = Script.GetCurrentHitPoints(ObjectId) - Script.GetMaxHitPoints(Target.ObjectId);
+                int nMissingHitPoints = Script.GetMaxHitPoints(Target.ObjectId) - Script.GetCurrentHitPoints(Target.ObjectId);
                 if (nMissingHitPoints > 0)
                 {
                     if (TryToHeal(Target, nMissingHitPoints))
@@ -711,10 +793,51 @@ namespace ACR_CreatureBehavior
         }
 
         /// <summary>
+        /// This will look for the most-urgent disabling status afflictions on HealTarget and attempt to cure them.
+        /// </summary>
+        /// <param name="HealTarget">The target to be healed</param>
+        /// <returns>true if an appropriate action is assigned.</returns>
+        public bool TryRemoveUrgentStatusAfflictions(CreatureObject HealTarget)
+        {
+            if (HealTarget.Confused || HealTarget.Insane || HealTarget.Frightened || HealTarget.Paralyzed || HealTarget.Blinded)
+            {
+                if (Script.GetHasSpell(CLRScriptBase.SPELL_HEAL, ObjectId) == CLRScriptBase.TRUE)
+                {
+                    Script.ActionUseTalentOnObject(Script.TalentSpell(CLRScriptBase.SPELL_HEAL), HealTarget.ObjectId);
+                    return true;
+                }
+                if (HealTarget.Blinded || HealTarget.Deaf)
+                {
+                    if (Script.GetHasSpell(CLRScriptBase.SPELL_REMOVE_BLINDNESS_AND_DEAFNESS, ObjectId) == CLRScriptBase.TRUE)
+                    {
+                        Script.ActionUseTalentOnObject(Script.TalentSpell(CLRScriptBase.SPELL_REMOVE_BLINDNESS_AND_DEAFNESS), HealTarget.ObjectId);
+                        return true;
+                    }
+                }
+            }
+            if (HealTarget.Petrified)
+            {
+                if (Script.GetHasSpell(CLRScriptBase.SPELL_STONE_TO_FLESH, ObjectId) == CLRScriptBase.TRUE)
+                {
+                    Script.ActionUseTalentOnObject(Script.TalentSpell(CLRScriptBase.SPELL_STONE_TO_FLESH), HealTarget.ObjectId);
+                    return true;
+                }
+            }
+            if (HealTarget.Wounded)
+            {
+                int nMissingHitPoints = Script.GetMaxHitPoints(HealTarget.ObjectId) - Script.GetCurrentHitPoints(HealTarget.ObjectId);
+                if (nMissingHitPoints == 0) nMissingHitPoints = 1;
+                if (TryToHeal(HealTarget, nMissingHitPoints))
+                    return true;
+            }
+            return false;
+        }
+        
+        /// <summary>
         /// This will look for status afflictions that need healing.
         /// </summary>
         /// <param name="HealTarget">The target to be healed</param>
-        /// <returns>True if an appropriate action is found an assigned</returns>
+        /// <returns>True if an appropriate action is found and assigned</returns>
         public bool TryRemoveStatusAfflictions(CreatureObject HealTarget)
         {
             if (HealTarget.Confused || HealTarget.Insane || HealTarget.Frightened || HealTarget.Paralyzed || HealTarget.AbilityDamaged || HealTarget.Diseased ||
@@ -795,7 +918,7 @@ namespace ACR_CreatureBehavior
             }
             if (HealTarget.Wounded)
             {
-                int nMissingHitPoints = Script.GetCurrentHitPoints(ObjectId) - Script.GetMaxHitPoints(HealTarget.ObjectId);
+                int nMissingHitPoints = Script.GetMaxHitPoints(HealTarget.ObjectId) - Script.GetCurrentHitPoints(ObjectId);
                 if (nMissingHitPoints == 0) nMissingHitPoints = 1;
                 if (TryToHeal(HealTarget, nMissingHitPoints))
                     return true;
@@ -1120,7 +1243,6 @@ namespace ACR_CreatureBehavior
             if (_IsMindMagiced(this.ObjectId))
                 return;
         }
-
 
         /// <summary>
         /// This contains whether a target is charmed, and thus is unwilling to fight enemies
