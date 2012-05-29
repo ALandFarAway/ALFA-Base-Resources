@@ -85,6 +85,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\nwnx_objectattributes_include.nss     \
             $(OUTPUTDIR)\nwnx_craft.nss                        \
             $(OUTPUTDIR)\nwnx_craft_system.nss                 \
+            $(OUTPUTDIR)\nwnx_nwscriptvm_include.nss           \
             $(OUTPUTDIR)\nw_i0_invocatns.nss                   \
             $(OUTPUTDIR)\acr_mobloot_i.nss                     \
             $(OUTPUTDIR)\acr_vanity_i.nss                      \
