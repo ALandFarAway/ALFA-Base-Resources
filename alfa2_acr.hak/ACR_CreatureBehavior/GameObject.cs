@@ -161,6 +161,24 @@ namespace ACR_CreatureBehavior
         }
 
         /// <summary>
+        /// Get the health percentage of the creature, representing the
+        /// relative hitpoint level of the creature.  The value may be greater
+        /// than 100% if temporary hitpoints are applied.
+        /// </summary>
+        public int HealthPercentage
+        {
+            get
+            {
+                int MaxHP = MaxHitPoints;
+
+                if (MaxHP == 0)
+                    return 100;
+                else
+                    return (CurrentHitPoints * 100) / MaxHP;
+            }
+        }
+
+        /// <summary>
         /// Get the full name of the object.
         /// </summary>
         public string Name { get { return Script.GetName(ObjectId); } }
