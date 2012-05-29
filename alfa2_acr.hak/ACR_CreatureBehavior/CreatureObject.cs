@@ -626,7 +626,7 @@ namespace ACR_CreatureBehavior
                 return;
             }
 
-            int nWellBeing = CurrentHitPoints * 100 / MaxHitPoints;
+            int nWellBeing = HealthPercentage;
             int nMissingHitPoints = MaxHitPoints - CurrentHitPoints;
 
             // Do we even have anyone to fight?
@@ -782,7 +782,7 @@ namespace ACR_CreatureBehavior
             // First we look for friends who are on death's door.
             foreach (CreatureObject Target in Party.PartyMembers)
             {
-                if (Target.CurrentHitPoints * 100 / Target.MaxHitPoints < 10)
+                if (Target.HealthPercentage < 10)
                 {
                     TryToHeal(Target, Target.MaxHitPoints - Target.CurrentHitPoints);
                     return true;
@@ -792,7 +792,7 @@ namespace ACR_CreatureBehavior
             // Then we look for friends who are very-badly hurt, or have a crippling status affliction, and treat with equal priority.
             foreach (CreatureObject Target in Party.PartyMembers)
             {
-                if (Target.CurrentHitPoints * 100 / Target.MaxHitPoints < 30)
+                if (Target.HealthPercentage < 30)
                 {
                     TryToHeal(Target, Target.MaxHitPoints - Target.CurrentHitPoints);
                     return true;
@@ -804,7 +804,7 @@ namespace ACR_CreatureBehavior
             // Then we look for people who have status afflictions generally-- or are just hurt pretty bad.
             foreach (CreatureObject Target in Party.PartyMembers)
             {
-                if (Target.CurrentHitPoints * 100 / Target.MaxHitPoints < 60)
+                if (Target.HealthPercentage < 60)
                 {
                     TryToHeal(Target, Target.MaxHitPoints - Target.CurrentHitPoints);
                     return true;
@@ -816,7 +816,7 @@ namespace ACR_CreatureBehavior
             // Then we look for people who are a little hurt.
             foreach (CreatureObject Target in Party.PartyMembers)
             {
-                if (Target.CurrentHitPoints * 100 / Target.MaxHitPoints < 90)
+                if (Target.HealthPercentage < 90)
                 {
                     TryToHeal(Target, Target.MaxHitPoints - Target.CurrentHitPoints);
                     return true;
