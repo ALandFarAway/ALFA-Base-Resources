@@ -700,7 +700,7 @@ namespace ACR_CreatureBehavior
             {
                 if (TryRemoveStatusAfflictions(Target))
                     return true;
-                int nMissingHitPoints = Script.GetCurrentHitPoints(ObjectId) - Script.GetMaxHitPoints(Target.ObjectId);
+                int nMissingHitPoints = CurrentHitPoints - MaxHitPoints;
                 if (nMissingHitPoints > 0)
                 {
                     if (TryToHeal(Target, nMissingHitPoints))
@@ -795,7 +795,7 @@ namespace ACR_CreatureBehavior
             }
             if (HealTarget.Wounded)
             {
-                int nMissingHitPoints = Script.GetCurrentHitPoints(ObjectId) - Script.GetMaxHitPoints(HealTarget.ObjectId);
+                int nMissingHitPoints = HealTarget.CurrentHitPoints - HealTarget.MaxHitPoints;
                 if (nMissingHitPoints == 0) nMissingHitPoints = 1;
                 if (TryToHeal(HealTarget, nMissingHitPoints))
                     return true;
