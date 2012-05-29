@@ -435,7 +435,7 @@ void _DistributeTranslationToMouthPieces(string sTranslatedMessage, string sScra
 
 void _DistributeTranslationParty(string sTranslatedMessage, string sScrambledMessage, string sLanguage, object oSpeaker)
 {
-	int bTranslate = (sLanguage == "common");
+	int bTranslate = (sLanguage != "common");
 	object oListener;
 
 	if (!bTranslate)
