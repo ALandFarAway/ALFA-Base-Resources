@@ -274,6 +274,19 @@ void ACR_PCUpdateStatus(object oPC, int bLocation = TRUE)
 	if (bLocation) {
 	    // normal save, with location included
 		location lPC = GetLocation(oPC);
+
+		// If this is a DM avatar in limbo, check to see if the DM is actively
+		// possessing a creature.  If so, use that creature's area instead, as
+		// the DM avatar doesn't report a useful location in limbo.
+		if (GetIsDM(oPC) && GetArea(oPC) == OBJECT_INVALID)
+		{
+			object oControlled = GetControlledCharacter(oPC);
+			object oControlledArea = (oControlled != OBJECT_INVALID ? GetArea(oControlled) : OBJECT_INVALID);
+
+			if (oControlledArea != OBJECT_INVALID)
+				lPC = GetLocation(oControlled);
+		}
+
 		string sLoc = ACR_LocationToString(lPC);
 		if (!GetIsObjectValid(GetAreaFromLocation(lPC))) {
 			// PC has likely logged out, use the cached location.
