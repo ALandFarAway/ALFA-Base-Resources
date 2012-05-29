@@ -735,7 +735,8 @@ namespace ACR_CreatureBehavior
             // Medics try to heal their friends.
             if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_MEDIC)
             {
-
+                if (TryToHealAll())
+                    return;
                 return;
             }
 
@@ -778,15 +779,47 @@ namespace ACR_CreatureBehavior
         /// <returns>True if an appropriate action is found.</returns>
         public bool TryToHealAll()
         {
+            // First we look for friends who are on death's door.
             foreach (CreatureObject Target in Party.PartyMembers)
             {
-                if (TryRemoveStatusAfflictions(Target))
-                    return true;
-                int nMissingHitPoints = Target.MaxHitPoints - Target.CurrentHitPoints;
-                if (nMissingHitPoints > 0)
+                if (Target.CurrentHitPoints * 100 / Target.MaxHitPoints < 10)
                 {
-                    if (TryToHeal(Target, nMissingHitPoints))
-                        return true;
+                    TryToHeal(Target, Target.MaxHitPoints - Target.CurrentHitPoints);
+                    return true;
+                }
+            }
+
+            // Then we look for friends who are very-badly hurt, or have a crippling status affliction, and treat with equal priority.
+            foreach (CreatureObject Target in Party.PartyMembers)
+            {
+                if (Target.CurrentHitPoints * 100 / Target.MaxHitPoints < 30)
+                {
+                    TryToHeal(Target, Target.MaxHitPoints - Target.CurrentHitPoints);
+                    return true;
+                }
+                else if (TryRemoveUrgentStatusAfflictions(Target))
+                    return true;
+            }
+            
+            // Then we look for people who have status afflictions generally-- or are just hurt pretty bad.
+            foreach (CreatureObject Target in Party.PartyMembers)
+            {
+                if (Target.CurrentHitPoints * 100 / Target.MaxHitPoints < 60)
+                {
+                    TryToHeal(Target, Target.MaxHitPoints - Target.CurrentHitPoints);
+                    return true;
+                }
+                else if (TryRemoveUrgentStatusAfflictions(Target))
+                    return true;
+            }
+
+            // Then we look for people who are a little hurt.
+            foreach (CreatureObject Target in Party.PartyMembers)
+            {
+                if (Target.CurrentHitPoints * 100 / Target.MaxHitPoints < 90)
+                {
+                    TryToHeal(Target, Target.MaxHitPoints - Target.CurrentHitPoints);
+                    return true;
                 }
             }
             return false;
