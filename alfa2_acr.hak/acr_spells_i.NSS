@@ -21,6 +21,9 @@
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+#include "NW_I0_SPELLS"
+#include "x2_inc_spellhook"
+
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -33,9 +36,29 @@
 // Global Variables ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+float ACR_DURATION_GLOBAL_SCALE = 1.0f;
+float ACR_DURATION_10M_SCALE = 1.0f;
+float ACR_DURATION_HOUR_SCALE = 7.0f / 60.0f;
+
+int ACR_DURATION_TYPE_STATIC = 0;
+int ACR_DURATION_TYPE_PER_CL = 1;
+
+float ACR_DURATION_1R = 6.0f;
+float ACR_DURATION_6S = 6.0f;
+float ACR_DURATION_60S = 60.0f;
+float ACR_DURATION_1M = 60.0f;
+float ACR_DURATION_10M = 600.0f * ACR_DURATION_10M_SCALE;
+float ACR_DURATION_1H = 3600.0f * ACR_DURATION_HOUR_SCALE;
+float ACR_DURATION_2H = ACR_DURATION_1H * 2.0f;
+float ACR_DURATION_24H = ACR_DURATION_1H * 24.0f;
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+//! Calculates the duration of a spell's effects.
+int ACR_GetSpellDuration( object oCaster, int nDurationType, int nDurationBase );
 
 int ACR_GetCorrectCasterLevel(object oCreature, int nClass);
 
@@ -46,6 +69,26 @@ void _floatMessageIfHasSpellEffect(object oCreature, int nSpellId, string sMessa
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+int ACR_GetSpellDuration( object oCaster, int nDurationType, float nDurationBase ) {
+	// Get base duration.
+	float nDuration = nDurationBase;
+	
+	// Adjust to caster level if not static.
+	if ( nDurationType == ACR_DURATION_TYPE_PER_CL ) {
+		nDuration = nDuration * GetCasterLevel( oCaster );
+	}
+	
+	// Check for spell extension metamagics.
+	if ( GetMetaMagicFeat() == METAMAGIC_EXTEND ) {
+		nDuration = nDuration * 2;
+	}
+	
+	// Apply global duration scaling.
+	nDuration = nDuration * ACR_DURATION_GLOBAL_SCALE;
+	
+	return nDuration;
+}
 
 int _GetLevelIfHasFeat(int nClass, object oCreature, int nFeat) {
 	return (GetHasFeat(nFeat, oCreature) != FALSE) * GetLevelByClass(nClass, oCreature);
