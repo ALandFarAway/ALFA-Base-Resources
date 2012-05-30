@@ -138,7 +138,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 		// Confirm that the server admin is not possessing a NPC
 		if (GetIsDMPossessed(oPC))
 		{
-			for (oCandidate = GetFirstPC(); GetIsObjectValid(oCandidate); oCandidate = GetNextPC())
+			for (oCandidate = GetFirstPC(FALSE); GetIsObjectValid(oCandidate); oCandidate = GetNextPC(FALSE))
 			{
 				if (GetControlledCharacter(oPC) == oCandidate)
 				{

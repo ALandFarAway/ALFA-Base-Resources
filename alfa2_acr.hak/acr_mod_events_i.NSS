@@ -352,7 +352,7 @@ void _DistributeTranslationToDMAvatars(string sTranslatedMessage, object oSpeake
 	object oPC;
 	object oOriginArea = GetArea(oSpeaker);
 
-	for (oPC = GetFirstPC(); GetIsObjectValid(oPC); oPC = GetNextPC())
+	for (oPC = GetFirstPC(FALSE); GetIsObjectValid(oPC); oPC = GetNextPC(FALSE))
 	{
 		if (!GetIsDM(oPC) && !GetIsDMPossessed(oPC))
 		{
