@@ -60,7 +60,7 @@ float ACR_DURATION_24H = ACR_DURATION_1H * 24.0f;
 ////////////////////////////////////////////////////////////////////////////////
 
 //! Calculates the duration of a spell's effects.
-float ACR_GetSpellDuration( object oCaster, int nDurationType, int nDurationBase );
+float ACR_GetSpellDuration( object oCaster, int nDurationType, float nDurationBase );
 
 int ACR_GetCorrectCasterLevel(object oCreature, int nClass);
 
