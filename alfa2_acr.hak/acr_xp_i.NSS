@@ -272,7 +272,7 @@ void ACR_AwardCombatXP(object oPCParty, object oKill)
         // check to make sure the PC is actually nearby, since areas are BIG in NWN2, only factor in close PCs
         if ((GetArea(oPC) == oArea) && (GetDistanceToObject(oPC) < _ACR_XP_COMBAT_RANGE))
         {
-            nNumPCs = nNumPCs + 1;
+            if(GetIsPC(oPC)) nNumPCs = nNumPCs + 1;
             nHD = ACR_GetECL(oPC);
             if (nHD > nHighestLevel) 
             { 
