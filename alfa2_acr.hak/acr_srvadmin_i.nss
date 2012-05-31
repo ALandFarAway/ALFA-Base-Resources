@@ -129,25 +129,17 @@ object ACR_SrvAdmin_TranslateObject(string sObjName, object oSelf);
 
 int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 {
-	object oCandidate;
+	object oAdmin = oPC, oTmp;
 
 	// If we are not the console and not a bona fide server admin, take no
 	// further actions.
 	if (oPC != OBJECT_INVALID)
 	{
 		// Confirm that the server admin is not possessing a NPC
-		if (GetIsDMPossessed(oPC))
-		{
-			for (oCandidate = GetFirstPC(FALSE); GetIsObjectValid(oCandidate); oCandidate = GetNextPC(FALSE))
-			{
-				if (GetControlledCharacter(oPC) == oCandidate)
-				{
-					oPC = oCandidate;
-					break;
-				}
-			}	
-		}
-		if (!ACR_IsServerAdmin(oPC))
+		if (GetIsObjectValid(oTmp = GetControllingCharacter(oPC)))
+			oAdmin = oTmp;
+
+		if (!ACR_IsServerAdmin(oAdmin))
 			return FALSE;
 	}
 
@@ -158,14 +150,14 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 	{
 		ACR_IncrementStatistic("SA_RUN_POWERSHELL");
 		ACR_RunPowerShellScriptlet(GetStringRight(sCmd, Len-3), oPC);
-		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);
 		ACR_SrvAdmin_SendFeedback(oPC, "RunScriptlet(" + sCmd + ") completed.");
 		return TRUE;
 	}
 	else if (GetStringLeft(LowerCmd, 10) == ACR_SRVADMIN_RUNSCRIPT_PREFIX)
 	{
 		ACR_IncrementStatistic("SA_RUN_SCRIPT");
-		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);
 		ExecuteScriptEnhanced(GetStringRight(sCmd, Len-10), oPC);
 		ACR_SrvAdmin_SendFeedback(oPC, "RunScript(" + sCmd + ") completed.");
 		return TRUE;
@@ -173,49 +165,49 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 	else if (ACR_IsStrPrefix(LowerCmd, ACR_SRVADMIN_GETGLOBALI_PREFIX))
 	{
 		int Value = GetGlobalInt(GetStringRight(sCmd, Len-GetStringLength(ACR_SRVADMIN_GETGLOBALI_PREFIX)));
-		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);
 		ACR_SrvAdmin_SendFeedback(oPC, "GetGlobalInt(" + sCmd + ") == " + IntToString(Value));
 		return TRUE;
 	}
 	else if (ACR_IsStrPrefix(LowerCmd, ACR_SRVADMIN_GETGLOBALF_PREFIX))
 	{
 		float Value = GetGlobalFloat(GetStringRight(sCmd, Len-GetStringLength(ACR_SRVADMIN_GETGLOBALF_PREFIX)));
-		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);
 		ACR_SrvAdmin_SendFeedback(oPC, "GetGlobalFloat(" + sCmd + ") == " + FloatToString(Value));
 		return TRUE;
 	}
 	else if (ACR_IsStrPrefix(LowerCmd, ACR_SRVADMIN_GETGLOBALS_PREFIX))
 	{
 		string Value = GetGlobalString(GetStringRight(sCmd, Len-GetStringLength(ACR_SRVADMIN_GETGLOBALS_PREFIX)));
-		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);
 		ACR_SrvAdmin_SendFeedback(oPC, "GetGlobalString(" + sCmd + ") == " + Value);
 		return TRUE;
 	}
 	else if (ACR_IsStrPrefix(LowerCmd, ACR_SRVADMIN_GETMODULEI_PREFIX))
 	{
 		int Value = GetLocalInt(GetModule(), GetStringRight(sCmd, Len-GetStringLength(ACR_SRVADMIN_GETMODULEI_PREFIX)));
-		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);
 		ACR_SrvAdmin_SendFeedback(oPC, "GetModuleInt(" + sCmd + ") == " + IntToString(Value));
 		return TRUE;
 	}
 	else if (ACR_IsStrPrefix(LowerCmd, ACR_SRVADMIN_GETMODULEF_PREFIX))
 	{
 		float Value = GetLocalFloat(GetModule(), GetStringRight(sCmd, Len-GetStringLength(ACR_SRVADMIN_GETMODULEF_PREFIX)));
-		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);
 		ACR_SrvAdmin_SendFeedback(oPC, "GetModuleFloat(" + sCmd + ") == " + FloatToString(Value));
 		return TRUE;
 	}
 	else if (ACR_IsStrPrefix(LowerCmd, ACR_SRVADMIN_GETMODULES_PREFIX))
 	{
 		string Value = GetLocalString(GetModule(), GetStringRight(sCmd, Len-GetStringLength(ACR_SRVADMIN_GETMODULES_PREFIX)));
-		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);
 		ACR_SrvAdmin_SendFeedback(oPC, "GetModuleString(" + sCmd + ") == " + Value);
 		return TRUE;
 	}
 	else if (ACR_IsStrPrefix(LowerCmd, ACR_SRVADMIN_GETMODULEO_PREFIX))
 	{
 		object Value = GetLocalObject(GetModule(), GetStringRight(sCmd, Len-GetStringLength(ACR_SRVADMIN_GETMODULEO_PREFIX)));
-		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);
 		ACR_SrvAdmin_SendFeedback(oPC, "GetModuleObject(" + sCmd + ") == " + ObjectToString(Value) + " <" + GetName(Value) + ">");
 		ACR_SrvAdmin_SendFeedback(oPC, ACR_SrvAdmin_DumpObject(Value));
 		return TRUE;
@@ -226,7 +218,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 		ACR_IncrementStatistic("SA_LOAD_SCRIPT");
 		AddScriptParameterString(ScriptFileName);
 		ExecuteScriptEnhanced(ACR_SRVADMIN_SCRIPTLOADER_NAME, oPC);
-		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);
 		ACR_SrvAdmin_SendFeedback(oPC, "LoadScript(" + sCmd + ") completed.");
 		return TRUE;
 	}
@@ -249,7 +241,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 			TargetPC = GetNextPC();
 		}
 
-		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);
 
 		if (Found)
 			ACR_SrvAdmin_SendFeedback(oPC, "Booted " + AccountName + ".");
@@ -263,7 +255,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 		string ObjectName = GetStringRight(sCmd, Len-GetStringLength(ACR_SRVADMIN_DUMPVARS_PREFIX));
 		object Obj = ACR_SrvAdmin_TranslateObject(ObjectName, oPC);
 
-		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);
 
 		if (!GetIsObjectValid(Obj))
 			ACR_SrvAdmin_SendFeedback(oPC, "Object " + ObjectName + " was not valid.  Specify a valid object tag, an object id (hex), or #module or #self.");
@@ -276,7 +268,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 	{
 		object Area = GetFirstArea();
 
-		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);
 
 		while (Area != OBJECT_INVALID)
 		{
@@ -290,7 +282,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 	{
 		object Area = ACR_SrvAdmin_TranslateObject(GetStringRight(sCmd, Len-GetStringLength(ACR_SRVADMIN_DUMPAREAOBJECTS_PREFIX)), oPC);
 
-		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);
 
 		if (Area == OBJECT_INVALID)
 			ACR_SrvAdmin_SendFeedback(oPC, "Invalid area specified.");
@@ -304,7 +296,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 	}
 	else if (LowerCmd == ACR_SRVADMIN_RUNUPDATER_PREFIX)
 	{
-		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);
 		ACR_IncrementStatistic("SA_RUN_UPDATER");
 
 		if (ACR_ExecuteServerUpdaterScript())
@@ -318,7 +310,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 	{
 		object Target = ACR_SrvAdmin_TranslateObject(GetStringRight(sCmd, Len-GetStringLength(ACR_SRVADMIN_JUMP_PREFIX)), oPC);
 
-		ACR_SrvAdmin_LogCommand(oPC, sCmd);
+		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);
 
 		if (oPC == OBJECT_INVALID)
 		{

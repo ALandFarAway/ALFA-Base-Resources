@@ -422,6 +422,9 @@ string RacialTypeName(int n);
 // Return name of subrace constant
 string SubRaceName(int n);
 
+// Return Possessing Player of creature (OBJECT_INVALID if not controlled)
+object GetControllingCharacter(object oCreature);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -1952,3 +1955,15 @@ string SubRaceName(int n)
 	}
 	return sSubRace;
 }
+
+object GetControllingCharacter(object oCreature)
+{
+	object oCandidate;
+
+	for (oCandidate = GetFirstPC(TRUE); GetIsObjectValid(oCandidate); oCandidate = GetNextPC(TRUE))
+		if (GetControlledCharacter(oCandidate) == oCandidate)
+			return oCandidate;
+
+	return OBJECT_INVALID;
+}
+
