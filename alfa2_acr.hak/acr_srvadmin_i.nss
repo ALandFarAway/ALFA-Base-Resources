@@ -136,7 +136,9 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 	if (oPC != OBJECT_INVALID)
 	{
 		// Confirm that the server admin is not possessing a NPC
-		if (GetIsObjectValid(oTmp = GetControllingCharacter(oPC)))
+		oTmp = GetOwnedCharacter(oPC);
+
+		if (GetIsObjectValid(oTmp))
 			oAdmin = oTmp;
 
 		if (!ACR_IsServerAdmin(oAdmin))
