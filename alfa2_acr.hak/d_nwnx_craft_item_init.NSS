@@ -32,6 +32,7 @@ void main(int bStore, int iInventorySlot, string sRoadMap)
 			XPCraft_StoreItemToCraft(oPC,oItemToCraft);
 			SetLocalInt(oPC,"XC_INVENT_SLOT",iInventorySlot);
 			SetLocalObject(oPC,"XC_ITEM_TO_CRAFT", oItemToCraft);
+			ACR_IgnoreAcquire(oItemToCraft);
 			object oSavedItem = CopyItem(oItemToCraft,GetLocalObject(GetWaypointByTag( "XC_HIDDEN_WP" ),"XC_HIDDEN_CONTAINER"),TRUE);
 			SetLocalObject(GetWaypointByTag( "XC_HIDDEN_WP" ),"XC_TEMP_" + XPCraft_GetPCID(oPC),oSavedItem);
 

@@ -240,8 +240,7 @@ object XPCraft_RetrieveAndEquipCraftedItem(object oPC, object oOldItem, int iSlo
 		DestroyObject(oOldItem);
 
 		
-		SetLocalString(oCraftedItem, "ACR_IGNORE_ACQUIRE_TEMP", GetTag(oCraftedItem));
-		SetTag(oCraftedItem,"acr_ignore_acquire");
+		ACR_IgnoreAcquire(oCraftedItem);
 
 		//Crafted Item in On The Ground (or at spawnWaypoint) => copy the new one in oPC's inventory
 		oInventoryItem = CopyItem(oCraftedItem,oPC,TRUE);
@@ -464,8 +463,7 @@ int XPCraft_SetItemProperty(object oPC,object oItem, string sRoadMap, int iNewVa
 		DestroyObject(oItem);
 		//copy the new one in oPC's inventory
 		
-		SetLocalString(oCampaignObject, "ACR_IGNORE_ACQUIRE_TEMP", GetTag(oCampaignObject));
-		SetTag(oCampaignObject,"acr_ignore_acquire");
+		ACR_IgnoreAcquire(oCampaignObject);
 
 		CopyItem(oCampaignObject,oPC,TRUE);		
 

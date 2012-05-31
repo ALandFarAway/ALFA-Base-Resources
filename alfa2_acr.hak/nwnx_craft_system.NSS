@@ -764,11 +764,10 @@ object XPCraft_ActionCancelChanges(object oPC)
 	{
 		DestroyObject(GetLocalObject(oPC,"XC_ITEM_TO_CRAFT"));
 
-		SetLocalString(oSavedItem, "ACR_IGNORE_ACQUIRE_TEMP", GetTag(oSavedItem));
-		SetTag(oSavedItem,"acr_ignore_acquire");
-
 		oItemToEquip = CopyItem(oSavedItem,oPC,TRUE);
 		int iInventorySlot = GetLocalInt(oPC,"XC_INVENT_SLOT");
+		ACR_IgnoreAcquire(oItemToEquip);
+
 		AssignCommand(oPC, ActionEquipItem(oItemToEquip, iInventorySlot));		
 	}
 	else
