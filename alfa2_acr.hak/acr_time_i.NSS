@@ -701,6 +701,10 @@ string ACR_FRDateToString(int full=1,int informal=0, int year=0, int month=0, in
 	}
 
 	tenday = ACR_GetDayOfTenday(day);
+	
+	/* Tenday isn't actually 0, it's 10 on a non-holiday */
+	if (!holiday && !tenday)
+		tenday = 10;
 
 
 	switch (tenday) {
