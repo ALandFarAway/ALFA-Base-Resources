@@ -7,16 +7,10 @@ void main()
 	location lChair = GetLocation(OBJECT_SELF);
 	object oPC = GetLastUsedBy();
 	object oDM = OBJECT_INVALID;
+
 	if(GetIsDMPossessed(oPC))
-	{
-		object oMaybeDM = GetFirstPC();
-		while(GetIsObjectValid(oMaybeDM))
-		{
-			if(GetControlledCharacter(oPC) == oMaybeDM)
-				oDM = oMaybeDM;
-			oMaybeDM = GetNextPC();
-		}
-	}
+		oDM = GetOwnedCharacter(oPC);
+
 	string sChairType = GetTag(OBJECT_SELF);
 	string sAnim;
 	string sTag = GetTag(OBJECT_SELF);
