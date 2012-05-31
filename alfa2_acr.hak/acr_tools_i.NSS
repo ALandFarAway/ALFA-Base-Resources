@@ -1183,7 +1183,7 @@ string Pluralize(string s)
 
 string Colorize(string sText, string sColor)
 {
-	return "<color=#"+sColor+">"+sText+"</c>";
+	return "<c=#"+sColor+">"+sText+"</c>";
 }
 
 string ACR_TrimTrailingSpaces(string sText)
