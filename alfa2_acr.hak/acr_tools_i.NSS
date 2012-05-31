@@ -422,8 +422,9 @@ string RacialTypeName(int n);
 // Return name of subrace constant
 string SubRaceName(int n);
 
-// Return Possessing Player of creature (OBJECT_INVALID if not controlled)
-object GetControllingCharacter(object oCreature);
+// Ignore any subsequent acquire/drop for this item (for reference scripts that move items internally)
+void ACR_IgnoreAcquire(object o);
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -1956,14 +1957,11 @@ string SubRaceName(int n)
 	return sSubRace;
 }
 
-object GetControllingCharacter(object oCreature)
+void ACR_IgnoreAcquire(object o)
 {
-	object oCandidate;
+	if (o == OBJECT_INVALID)
+		return;
 
-	for (oCandidate = GetFirstPC(TRUE); GetIsObjectValid(oCandidate); oCandidate = GetNextPC(TRUE))
-		if (GetControlledCharacter(oCandidate) == oCandidate)
-			return oCandidate;
-
-	return OBJECT_INVALID;
+	SetTag(o,"acr_ignore_acquire");
+	SetLocalString(o, "ACR_IGNORE_ACQUIRE_TEMP", GetTag(o));
 }
-
