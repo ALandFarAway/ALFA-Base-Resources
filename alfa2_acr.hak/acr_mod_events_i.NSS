@@ -59,7 +59,7 @@
 //  2008/09/19  AcadiusLost - prepare for Custom skills, regions, logging fix for NLD
 //  2008/09/21  AcadiusLost - Nonlethal OnExit event added.
 //  2008/12/08  AcadiusLost - Added handling for server names with apostrophes eg. "Baldur's Gate"
-//					Item acquire/unacquire optimizations (commented out SQL illegal item checks), deprecated storageobjects 
+//                    Item acquire/unacquire optimizations (commented out SQL illegal item checks), deprecated storageobjects 
 //                  also amended spawn debug wand tag for GetItemPossessedBy() for DMs.
 //  2008/12/10  AcadiusLost - optimized class checking OnPCLoaded()
 //  2009/01/19  AcadiusLost - switched Servers table update to take GetName(oModule) to allow synchronicity with pwdata entries.
@@ -70,10 +70,10 @@
 //  2009/08/03  AcadiusLost - Added IP-logging onLogin
 //  2009/08/08  AcadiusLost - Added handling for OnChat event (1.23)
 //  2009/12/29  AcadiusLost - Removed autoassignment of subdual widget OnPCLoaded (no longer needed)
-//	2011/05/29	Ronan		- Added OnModuleLoad parameters for global module settings.
+//    2011/05/29    Ronan        - Added OnModuleLoad parameters for global module settings.
 //      2011/06/04      Zelknolf        - Added hook for display of NPC creator GUI
-//	2011/06/24	AcadiusLost	- merged in fix for clearing IsOnline bits in Characters table OnModuleLoad()
-//	2011/06/25	Ronan - Added in the service heartbeats for asynchronous SQL writes.
+//    2011/06/24    AcadiusLost    - merged in fix for clearing IsOnline bits in Characters table OnModuleLoad()
+//    2011/06/25    Ronan - Added in the service heartbeats for asynchronous SQL writes.
 // 2011/07/02  Basilica - Added persistent database callouts for cache management.
 // 2011/12/26  Basilica - Added server admin command directives.
 // 2012/01/02  Basilica - Added latency monitor support.
@@ -304,286 +304,286 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts();
 
 void _SpeakString(string sToSpeak, int nTalkVolume)
 {
-	// Note - there is a bug in the NWScript plugin that under these conditions:
-	//
-	// "If a script is executed from a script situation (DelayCommand,
-	//  AssignCommand, and so forth, other 'action' types in NWScript), and the
-	//  script makes a recursive call to itself, then the recursion is not
-	//  properly detected and a new, stacked program object for the script is
-	//  not created.  This results in the recursive instance using the global
-	//  variables and OBJECT_SELF of the previous instance (modifications are
-	//  visible between the two, in particular, if the recursive call sets a new
-	//  OBJECT_SELF then OBJECT_SELF appears to have changed in the calling
-	//  instance).
-	//
-	//  The problem occurs because the NWScript JIT backend does not correctly
-	//  increment the internal nesting level from a script when the script is
-	//  called because of a script situation.  If the script had already been
-	//  recursively invoked, the nesting level would have necessitated a new
-	//  script object being temporarily created, as entry into a script from
-	//  the entrypoint always increments the nesting level across the call.
-	//
-	//  This will be fixed in a future release."
-	//
-	// Work around the bug for now by capturing OBJECT_SELF up front and not
-	// using globals in this AssignCommand action, as the SpeakString engine
-	// function will cause a recursive call to the OnChat script, which we're
-	// already running from.
+    // Note - there is a bug in the NWScript plugin that under these conditions:
+    //
+    // "If a script is executed from a script situation (DelayCommand,
+    //  AssignCommand, and so forth, other 'action' types in NWScript), and the
+    //  script makes a recursive call to itself, then the recursion is not
+    //  properly detected and a new, stacked program object for the script is
+    //  not created.  This results in the recursive instance using the global
+    //  variables and OBJECT_SELF of the previous instance (modifications are
+    //  visible between the two, in particular, if the recursive call sets a new
+    //  OBJECT_SELF then OBJECT_SELF appears to have changed in the calling
+    //  instance).
+    //
+    //  The problem occurs because the NWScript JIT backend does not correctly
+    //  increment the internal nesting level from a script when the script is
+    //  called because of a script situation.  If the script had already been
+    //  recursively invoked, the nesting level would have necessitated a new
+    //  script object being temporarily created, as entry into a script from
+    //  the entrypoint always increments the nesting level across the call.
+    //
+    //  This will be fixed in a future release."
+    //
+    // Work around the bug for now by capturing OBJECT_SELF up front and not
+    // using globals in this AssignCommand action, as the SpeakString engine
+    // function will cause a recursive call to the OnChat script, which we're
+    // already running from.
 
-	object Self = OBJECT_SELF;
+    object Self = OBJECT_SELF;
 
 #if DEBUG_LANG
-	WriteTimestampedLogEntry("_SpeakString(" + GetName(Self) + ": Speaking " + sToSpeak + ", volume: " + IntToString(nTalkVolume) + ".");
+    WriteTimestampedLogEntry("_SpeakString(" + GetName(Self) + ": Speaking " + sToSpeak + ", volume: " + IntToString(nTalkVolume) + ".");
 #endif
 
-	SetLocalInt(Self, ACR_MOD_SUPPRESS_LANGUAGE, 1);
-	SpeakString(sToSpeak, nTalkVolume);
-	DeleteLocalInt(Self, ACR_MOD_SUPPRESS_LANGUAGE);
+    SetLocalInt(Self, ACR_MOD_SUPPRESS_LANGUAGE, 1);
+    SpeakString(sToSpeak, nTalkVolume);
+    DeleteLocalInt(Self, ACR_MOD_SUPPRESS_LANGUAGE);
 
-	// If the NWScript plugin bug is present, this shows the name of the module
-	// and not the name of the object that spoke above.
+    // If the NWScript plugin bug is present, this shows the name of the module
+    // and not the name of the object that spoke above.
 #if DEBUG_LANG
-	WriteTimestampedLogEntry("_SpeakString finished for " + GetName(OBJECT_SELF) + ".");
+    WriteTimestampedLogEntry("_SpeakString finished for " + GetName(OBJECT_SELF) + ".");
 #endif
 }
 
 void _DistributeTranslationToDMAvatars(string sTranslatedMessage, object oSpeaker, float fRange)
 {
-	object oPC;
-	object oOriginArea = GetArea(oSpeaker);
+    object oPC;
+    object oOriginArea = GetArea(oSpeaker);
 
-	for (oPC = GetFirstPC(FALSE); GetIsObjectValid(oPC); oPC = GetNextPC(FALSE))
-	{
-		if (!GetIsDM(oPC) && !GetIsDMPossessed(oPC))
-		{
+    for (oPC = GetFirstPC(FALSE); GetIsObjectValid(oPC); oPC = GetNextPC(FALSE))
+    {
+        if (!GetIsDM(oPC) && !GetIsDMPossessed(oPC))
+        {
 #if DEBUG_LANG
-			WriteTimestampedLogEntry("_DistributeTranslationToDMAvatars: " + GetName(oPC) + " is not a DM");
+            WriteTimestampedLogEntry("_DistributeTranslationToDMAvatars: " + GetName(oPC) + " is not a DM");
 #endif
 
-			continue;
-		}
+            continue;
+        }
 
-		if (GetArea(oPC) != oOriginArea)
-		{
+        if (GetArea(oPC) != oOriginArea)
+        {
 #if DEBUG_LANG
-			WriteTimestampedLogEntry("_DistributeTranslationToDMAvatars: " + GetName(oPC) + " is in the wrong area");
+            WriteTimestampedLogEntry("_DistributeTranslationToDMAvatars: " + GetName(oPC) + " is in the wrong area");
 #endif
 
-			continue;
-		}
+            continue;
+        }
 
-		if (GetDistanceBetween(oSpeaker, oPC) > fRange)
-		{
+        if (GetDistanceBetween(oSpeaker, oPC) > fRange)
+        {
 #if DEBUG_LANG
-			WriteTimestampedLogEntry("_DistributeTranslationToDMAvatars: " + GetName(oPC) + " is out of range");
+            WriteTimestampedLogEntry("_DistributeTranslationToDMAvatars: " + GetName(oPC) + " is out of range");
 #endif
 
-			continue;
-		}
+            continue;
+        }
 
 #if DEBUG_LANG
-		WriteTimestampedLogEntry("_DistributeTranslationToDMAvatars: Relay message to " + GetName(oPC));
+        WriteTimestampedLogEntry("_DistributeTranslationToDMAvatars: Relay message to " + GetName(oPC));
 #endif
 
-		SendMessageToPC(oPC, sTranslatedMessage);
-	}
+        SendMessageToPC(oPC, sTranslatedMessage);
+    }
 }
 
 void _DistributeTranslationToMouthPieces(string sTranslatedMessage, string sScrambledMessage, object oSpeaker, float fRange, object oListener)
 {
-	object oMouthPiece = GetLocalObject(oListener, "MouthPiece");
-	string sHeardDescriptor;
+    object oMouthPiece = GetLocalObject(oListener, "MouthPiece");
+    string sHeardDescriptor;
 
-	if (oMouthPiece == OBJECT_INVALID)
-	{
+    if (oMouthPiece == OBJECT_INVALID)
+    {
 #if DEBUG_LANG
-		WriteTimestampedLogEntry("_DistributeTranslationToMouthPieces: No mouthpiece for " + GetName(oListener));
+        WriteTimestampedLogEntry("_DistributeTranslationToMouthPieces: No mouthpiece for " + GetName(oListener));
 #endif
 
-		return;
-	}
+        return;
+    }
 
-	// If the mouthpiece object would normally receive the message then do not
-	// synthesize a new report.
-	if (!_MouthPieceNotInRange(oMouthPiece, oSpeaker, fRange))
-	{
+    // If the mouthpiece object would normally receive the message then do not
+    // synthesize a new report.
+    if (!_MouthPieceNotInRange(oMouthPiece, oSpeaker, fRange))
+    {
 #if DEBUG_LANG
-		WriteTimestampedLogEntry("_DistributeTranslationToMouthPieces: Listener " + GetName(oListener) + " mouthpiece " + GetName(oMouthPiece) + " is in normal hearing range not relaying");
+        WriteTimestampedLogEntry("_DistributeTranslationToMouthPieces: Listener " + GetName(oListener) + " mouthpiece " + GetName(oMouthPiece) + " is in normal hearing range not relaying");
 #endif
 
-		return;
-	}
+        return;
+    }
 
 #if DEBUG_LANG
-	WriteTimestampedLogEntry("_DistributeTranslationToMouthPieces: Distributing message to " + (GetIsDM(oMouthPiece) ? "DM" : "player") + " mouthpiece " + GetName(oMouthPiece) + ".");
+    WriteTimestampedLogEntry("_DistributeTranslationToMouthPieces: Distributing message to " + (GetIsDM(oMouthPiece) ? "DM" : "player") + " mouthpiece " + GetName(oMouthPiece) + ".");
 #endif
 
-	sHeardDescriptor = " <i><c=gray>(" + GetName(oListener) + ")</c</i>";
+    sHeardDescriptor = " <i><c=gray>(" + GetName(oListener) + ")</c</i>";
 
-	// Choose whether to send the translated or scrambled message, and hand it
-	// on.
-	//
-	// TODO:  If we wanted to support having familiars that understood a
-	//        language, this is where we would do it.  Right now we only allow a
-	//        DM mouthpiece to receive translated messages.
+    // Choose whether to send the translated or scrambled message, and hand it
+    // on.
+    //
+    // TODO:  If we wanted to support having familiars that understood a
+    //        language, this is where we would do it.  Right now we only allow a
+    //        DM mouthpiece to receive translated messages.
 
-	if (GetIsDM(oMouthPiece))
-		SendMessageToPC(oMouthPiece, sTranslatedMessage + sHeardDescriptor);
-	else
-		SendMessageToPC(oMouthPiece, sScrambledMessage + sHeardDescriptor);
+    if (GetIsDM(oMouthPiece))
+        SendMessageToPC(oMouthPiece, sTranslatedMessage + sHeardDescriptor);
+    else
+        SendMessageToPC(oMouthPiece, sScrambledMessage + sHeardDescriptor);
 }
 
 void _DistributeTranslationParty(string sTranslatedMessage, string sScrambledMessage, string sLanguage, object oSpeaker)
 {
-	int bTranslate = (sLanguage != "common");
-	object oListener;
+    int bTranslate = (sLanguage != "common");
+    object oListener;
 
-	if (!bTranslate)
-	{
+    if (!bTranslate)
+    {
 #if DEBUG_LANG
-		WriteTimestampedLogEntry("_DistributeTranslationParty: No translation required for untranslated message.");
+        WriteTimestampedLogEntry("_DistributeTranslationParty: No translation required for untranslated message.");
 #endif
 
-		return;
-	}
+        return;
+    }
 
-	for (oListener = GetFirstPC(FALSE);
-	     GetIsObjectValid(oListener);
-	     oListener = GetNextPC(FALSE))
-	{
-		if ((_IsLanguageKnown(oListener, sLanguage) && GetFactionEqual(oSpeaker, oListener))
-			|| GetIsDM(oListener) || GetIsDMPossessed(oListener) || oListener == oSpeaker)
-		{
+    for (oListener = GetFirstPC(FALSE);
+         GetIsObjectValid(oListener);
+         oListener = GetNextPC(FALSE))
+    {
+        if ((_IsLanguageKnown(oListener, sLanguage) && GetFactionEqual(oSpeaker, oListener))
+            || GetIsDM(oListener) || GetIsDMPossessed(oListener) || oListener == oSpeaker)
+        {
 #if DEBUG_LANG
-			WriteTimestampedLogEntry("_DistributeTranslationParty: Distributing message to party or DM recipient " + GetName(oListener));
+            WriteTimestampedLogEntry("_DistributeTranslationParty: Distributing message to party or DM recipient " + GetName(oListener));
 #endif
 
-			SendMessageToPC(oListener, sTranslatedMessage);
-		}
-	}
+            SendMessageToPC(oListener, sTranslatedMessage);
+        }
+    }
 }
 
 void _DistributeTranslationSpoken(string sTranslatedMessage, string sScrambledMessage, string sLanguage, object oSpeaker, float fRange)
 {
-	int bTranslate = (sLanguage != "common");
-	location lSpeaker = GetLocation(oSpeaker);
-	object oListener;
+    int bTranslate = (sLanguage != "common");
+    location lSpeaker = GetLocation(oSpeaker);
+    object oListener;
 
 #if DEBUG_LANG
-	WriteTimestampedLogEntry("_DistributeTranslationSpoken: Distributing message of language " + sLanguage);
+    WriteTimestampedLogEntry("_DistributeTranslationSpoken: Distributing message of language " + sLanguage);
 #endif
 
 
-	// First, distribute the message to objects in range.  Note that DM avatars
-	// are not reliably enumerated here so they are handled separately.
-	//
-	// Additionally, distribute the message to mouthpiece listeners if they are
-	// within range and would not normally receive the message.
-	for (oListener = GetFirstObjectInShape(SHAPE_SPHERE, fRange, lSpeaker);
-	     GetIsObjectValid(oListener);
-	     oListener = GetNextObjectInShape(SHAPE_SPHERE, fRange, lSpeaker))
-	{
-		if (bTranslate && _IsLanguageKnown(oListener, sLanguage) && !GetIsDM(oListener))
-		{
+    // First, distribute the message to objects in range.  Note that DM avatars
+    // are not reliably enumerated here so they are handled separately.
+    //
+    // Additionally, distribute the message to mouthpiece listeners if they are
+    // within range and would not normally receive the message.
+    for (oListener = GetFirstObjectInShape(SHAPE_SPHERE, fRange, lSpeaker);
+         GetIsObjectValid(oListener);
+         oListener = GetNextObjectInShape(SHAPE_SPHERE, fRange, lSpeaker))
+    {
+        if (bTranslate && _IsLanguageKnown(oListener, sLanguage) && !GetIsDM(oListener))
+        {
 #if DEBUG_LANG
-			WriteTimestampedLogEntry("_DistributeTranslationSpoken: Distributing message to non-DM listener " + GetName(oListener) + ".");
+            WriteTimestampedLogEntry("_DistributeTranslationSpoken: Distributing message to non-DM listener " + GetName(oListener) + ".");
 #endif
 
-			SendMessageToPC(oListener, sTranslatedMessage);
-		}
+            SendMessageToPC(oListener, sTranslatedMessage);
+        }
 
-		_DistributeTranslationToMouthPieces(sTranslatedMessage, sScrambledMessage, oSpeaker, fRange, oListener);
-	}
+        _DistributeTranslationToMouthPieces(sTranslatedMessage, sScrambledMessage, oSpeaker, fRange, oListener);
+    }
 
-	if (bTranslate)
-		_DistributeTranslationToDMAvatars(sTranslatedMessage, oSpeaker, fRange);
+    if (bTranslate)
+        _DistributeTranslationToDMAvatars(sTranslatedMessage, oSpeaker, fRange);
 }
 
 void _DistributeTranslation(string sOriginalMessage, string sScrambledMessage, string sLanguage, object oSpeaker, int nMode)
 {
-	string sDisplayLanguage;
-	string sModeColor;
-	string sModeDescriptor;
-	string sTranslatedMessage;
-	string sUntranslatedMessage;
-	float fRange;
-	int nTalkVolume;
+    string sDisplayLanguage;
+    string sModeColor;
+    string sModeDescriptor;
+    string sTranslatedMessage;
+    string sUntranslatedMessage;
+    float fRange;
+    int nTalkVolume;
 
-	// Distribute the translated version of the message.
+    // Distribute the translated version of the message.
 
-	switch (nMode)
-	{
+    switch (nMode)
+    {
 
-	case CHAT_MODE_PARTY:
-		sModeColor = "FFFFFF";
-		sModeDescriptor = ", Party";
-		fRange = 0.0f;
-		nTalkVolume = TALKVOLUME_TALK;
-		break;
+    case CHAT_MODE_PARTY:
+        sModeColor = "FFFFFF";
+        sModeDescriptor = ", Party";
+        fRange = 0.0f;
+        nTalkVolume = TALKVOLUME_TALK;
+        break;
 
-	case CHAT_MODE_TALK:
-		sModeColor = "FFFFFF";
-		sModeDescriptor = "";
-		fRange = ACR_TALK_SPHERE_RADIUS;
-		nTalkVolume = TALKVOLUME_TALK;
-		break;
+    case CHAT_MODE_TALK:
+        sModeColor = "FFFFFF";
+        sModeDescriptor = "";
+        fRange = ACR_TALK_SPHERE_RADIUS;
+        nTalkVolume = TALKVOLUME_TALK;
+        break;
 
-	case CHAT_MODE_WHISPER:
-		sModeColor = "808080";
-		sModeDescriptor = ", Whisper";
-		fRange = ACR_WHISPER_SPHERE_RADIUS;
-		nTalkVolume = TALKVOLUME_WHISPER;
-		break;
+    case CHAT_MODE_WHISPER:
+        sModeColor = "808080";
+        sModeDescriptor = ", Whisper";
+        fRange = ACR_WHISPER_SPHERE_RADIUS;
+        nTalkVolume = TALKVOLUME_WHISPER;
+        break;
 
-	case CHAT_MODE_SILENT_TALK:
-		return;
+    case CHAT_MODE_SILENT_TALK:
+        return;
 
-	default:
-		WriteTimestampedLogEntry("_DistributeTranslation: Unhandled chat mode " + IntToString(nMode) + "!");
-		return;
+    default:
+        WriteTimestampedLogEntry("_DistributeTranslation: Unhandled chat mode " + IntToString(nMode) + "!");
+        return;
 
-	}
+    }
 
-	sTranslatedMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#" + sModeColor + "> ["+_CapitalizeWord(sLanguage)+sModeDescriptor + "] "+sOriginalMessage;
-	sUntranslatedMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#" + sModeColor + "> [Untranslated"+sModeDescriptor + "] "+sScrambledMessage;
+    sTranslatedMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#" + sModeColor + "> ["+_CapitalizeWord(sLanguage)+sModeDescriptor + "] "+sOriginalMessage;
+    sUntranslatedMessage = "<color=#D7C5B9>"+GetName(oSpeaker)+" : </color><color=#" + sModeColor + "> [Untranslated"+sModeDescriptor + "] "+sScrambledMessage;
 
-	switch (nMode)
-	{
+    switch (nMode)
+    {
 
-	case CHAT_MODE_PARTY:
-		_DistributeTranslationParty(sTranslatedMessage, sUntranslatedMessage, sLanguage, oSpeaker);
-		break;
+    case CHAT_MODE_PARTY:
+        _DistributeTranslationParty(sTranslatedMessage, sUntranslatedMessage, sLanguage, oSpeaker);
+        break;
 
-	case CHAT_MODE_TALK:
-	case CHAT_MODE_WHISPER:
-		_DistributeTranslationSpoken(sTranslatedMessage, sUntranslatedMessage, sLanguage, oSpeaker, fRange);
-		break;
+    case CHAT_MODE_TALK:
+    case CHAT_MODE_WHISPER:
+        _DistributeTranslationSpoken(sTranslatedMessage, sUntranslatedMessage, sLanguage, oSpeaker, fRange);
+        break;
 
-	}
+    }
 
-	// Finally, distribute the scrambled version of the message.
+    // Finally, distribute the scrambled version of the message.
 
-	if (GetIsPC(oSpeaker) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))	
-		SendChatMessage(oSpeaker, oSpeaker, nMode, sScrambledMessage, FALSE);
-	else
-		AssignCommand(oSpeaker, _SpeakString(sScrambledMessage, nTalkVolume));
+    if (GetIsPC(oSpeaker) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))    
+        SendChatMessage(oSpeaker, oSpeaker, nMode, sScrambledMessage, FALSE);
+    else
+        AssignCommand(oSpeaker, _SpeakString(sScrambledMessage, nTalkVolume));
 }
 
 void ACR_ModuleOnModuleLoad()
 {
-	// Set global module settings.
-	SetServerData(ACR_SERVER_ID, ACR_SERVER_NAME, ACR_SERVER_REGION, ACR_SERVER_IP);
+    // Set global module settings.
+    SetServerData(ACR_SERVER_ID, ACR_SERVER_NAME, ACR_SERVER_REGION, ACR_SERVER_IP);
 
-	// Check and warn the user if the module wasn't built with the same ACR
-	// version as a script contained within the hak.  (This script is built
-	// with the module and returns the module's view of the version number.  The
-	// acr_version_check script is built with the hak and returns the hak's view
-	// of the version number.)
-	AddScriptParameterString(ACR_GetVersion());
-	if (ExecuteScriptEnhanced("acr_version_check", OBJECT_SELF) != TRUE)
-	{
-		WriteTimestampedLogEntry("acr_mod_events_i: ** WARNING **: Module ACR version doesn't match alfa2_acr.hak ACR version!  This is usually caused by compiling the module against a different set of script headers than alfa2_acr.hak was constructed against.");
-	}
+    // Check and warn the user if the module wasn't built with the same ACR
+    // version as a script contained within the hak.  (This script is built
+    // with the module and returns the module's view of the version number.  The
+    // acr_version_check script is built with the hak and returns the hak's view
+    // of the version number.)
+    AddScriptParameterString(ACR_GetVersion());
+    if (ExecuteScriptEnhanced("acr_version_check", OBJECT_SELF) != TRUE)
+    {
+        WriteTimestampedLogEntry("acr_mod_events_i: ** WARNING **: Module ACR version doesn't match alfa2_acr.hak ACR version!  This is usually caused by compiling the module against a different set of script headers than alfa2_acr.hak was constructed against.");
+    }
 
     object oModule = GetModule();
     
@@ -606,17 +606,17 @@ void ACR_ModuleOnModuleLoad()
         DelayCommand(ACR_MOD_RELOAD_CYCLE, ACR_ModuleOnModuleLoad());
         return;
     }
-	else
-	{
-		// create the SQL tables if need be
-		ACR_CreateSQLTables();
-	}
-	
-	// Initialize asynchronous writes
-	ACR_StartAsyncService();
+    else
+    {
+        // create the SQL tables if need be
+        ACR_CreateSQLTables();
+    }
+    
+    // Initialize asynchronous writes
+    ACR_StartAsyncService();
 
-	// Load database-side configuration directives
-	ACR_LoadDatabaseConfiguration();
+    // Load database-side configuration directives
+    ACR_LoadDatabaseConfiguration();
 
     // Initialize spell hook
     SetLocalString(oModule, "X2_S_UD_SPELLSCRIPT", "acr_spellhook");
@@ -652,19 +652,19 @@ void ACR_ModuleOnModuleLoad()
     SetModuleSwitch(MODULE_VAR_AI_STOP_EXPERTISE_ABUSE, TRUE);
     SetModuleSwitch(MODULE_SWITCH_ENABLE_TAGBASED_SCRIPTS, TRUE);
 
-	string sSID = IntToString(ACR_SERVER_ID);
-	// grab the server name from the module properties so it will be updated.
-	string sServerName = GetName(oModule);
+    string sSID = IntToString(ACR_SERVER_ID);
+    // grab the server name from the module properties so it will be updated.
+    string sServerName = GetName(oModule);
 
-	// Try and discover the external address of the server from the database
-	// connection.  If that fails, fall back to the hardcoded default in the
-	// configuration file.
-	//
-	// This is now superseded by the server communicator in most cases.
-	string sExtAddress = ACR_GetServerAddressFromDatabase();
+    // Try and discover the external address of the server from the database
+    // connection.  If that fails, fall back to the hardcoded default in the
+    // configuration file.
+    //
+    // This is now superseded by the server communicator in most cases.
+    string sExtAddress = ACR_GetServerAddressFromDatabase();
 
-	if (sExtAddress == "")
-		sExtAddress = ACR_SERVER_IP;
+    if (sExtAddress == "")
+        sExtAddress = ACR_SERVER_IP;
 
     // check that the server information is in the database
     ACR_SQLQuery("SELECT * FROM servers WHERE ID=" + sSID);
@@ -674,45 +674,45 @@ void ACR_ModuleOnModuleLoad()
     {
         ACR_SQLQuery("INSERT INTO servers (ID, Name, IPAddress) VALUES(" + sSID + ",'" + ACR_SQLEncodeSpecialChars(sServerName) + "','" + sExtAddress + "')"); 
     }
-	else
-	{	
-		// update server name and ip address if they've changed
-		if (ACR_SQLGetData(1) != sServerName || ACR_SQLGetData(2) != sExtAddress)
-		{
-			ACR_SQLQuery("UPDATE servers SET Name='" + ACR_SQLEncodeSpecialChars(sServerName) + "', IPAddress='" + sExtAddress + "' WHERE ID=" + sSID);
-		}
-	}
+    else
+    {    
+        // update server name and ip address if they've changed
+        if (ACR_SQLGetData(1) != sServerName || ACR_SQLGetData(2) != sExtAddress)
+        {
+            ACR_SQLQuery("UPDATE servers SET Name='" + ACR_SQLEncodeSpecialChars(sServerName) + "', IPAddress='" + sExtAddress + "' WHERE ID=" + sSID);
+        }
+    }
 
-	//  EDIT: Only where ServerID = the ID of the server that has just finished loading.
+    //  EDIT: Only where ServerID = the ID of the server that has just finished loading.
         ACR_SQLQuery("UPDATE characters SET IsOnline=0 WHERE ServerID=" + sSID);
-	
-	// Initialize chatlogging buffer
-	ACR_InitializeChat();
+    
+    // Initialize chatlogging buffer
+    ACR_InitializeChat();
 
-	// Initialize server IPC support
-	ACR_ServerIPC_OnModuleLoad();
+    // Initialize server IPC support
+    ACR_ServerIPC_OnModuleLoad();
 
     // This should be the last time in this function.
     ACR_PrintDebugMessage("acr_mod_events_i: ALFA server " + sServerId + " loaded.", _ONLOAD_DEBUG, DEBUG_LEVEL_INFO);
 
-	// Start the health monitor (in a DelayCommand to reset the instruction/loop
-	// count limit).
-	DelayCommand(0.1f, ACR_StartModuleInitHealthChecks());
-	// Delete unnecessary objects, such as walkmesh helpers, from statically
-	// placed areas.
-	ACR_PerformModuleStartupCleanup();
-	ACR_LogEvent(OBJECT_INVALID, ACR_LOG_SERVER_LOAD, "Server " + sServerId + " loaded module " + GetName(GetModule()) + ".");
+    // Start the health monitor (in a DelayCommand to reset the instruction/loop
+    // count limit).
+    DelayCommand(0.1f, ACR_StartModuleInitHealthChecks());
+    // Delete unnecessary objects, such as walkmesh helpers, from statically
+    // placed areas.
+    ACR_PerformModuleStartupCleanup();
+    ACR_LogEvent(OBJECT_INVALID, ACR_LOG_SERVER_LOAD, "Server " + sServerId + " loaded module " + GetName(GetModule()) + ".");
 
-	WriteTimestampedLogEntry("Module compiled on: " + ACR_GetBuildDate() + ", HAK compiled on: " + ACR_GetHAKBuildDate() + ", module ACR version: " + ACR_GetVersion());
+    WriteTimestampedLogEntry("Module compiled on: " + ACR_GetBuildDate() + ", HAK compiled on: " + ACR_GetHAKBuildDate() + ", module ACR version: " + ACR_GetVersion());
 
-	// Increment the global server startup counter statistic.
-	ACR_IncrementStatistic("MODULE_LOADS");
+    // Increment the global server startup counter statistic.
+    ACR_IncrementStatistic("MODULE_LOADS");
 
-	// The following function call is never called.  This is intentional; the
-	// purpose of this line is to ensure that the compiler cannot elide any
-	// symbols referenced by ACR_ModuleInit_ForceLinkageForCLRScripts.
-	if (Random(2) == 42)
-		ACR_ModuleInit_ForceLinkageForCLRScripts();
+    // The following function call is never called.  This is intentional; the
+    // purpose of this line is to ensure that the compiler cannot elide any
+    // symbols referenced by ACR_ModuleInit_ForceLinkageForCLRScripts.
+    if (Random(2) == 42)
+        ACR_ModuleInit_ForceLinkageForCLRScripts();
 }
 
 void ACR_ModuleOnModuleStart()
@@ -725,24 +725,24 @@ void ACR_ModuleOnClientEnter()
 
     // exit if the database is unavailable
     if (ACR_GetModuleStatus(ACR_MOD_NWNX_FAILED))
-	{
-	    ACR_PrintDebugMessage("acr_mod_events_i: ERROR - NWNX Unavailable on " + GetName(oPC) + " login.", _ONLOAD_DEBUG, DEBUG_LEVEL_FATAL);
-       	// boot players and log the error
-       	if (! GetIsDM(oPC))
-			{
-				SendMessageToPC(oPC, "Booted because NWNX isn't running on the server (server internal error).");
-				BootPC(oPC);
-				return;
-			}
-	}
+    {
+        ACR_PrintDebugMessage("acr_mod_events_i: ERROR - NWNX Unavailable on " + GetName(oPC) + " login.", _ONLOAD_DEBUG, DEBUG_LEVEL_FATAL);
+           // boot players and log the error
+           if (! GetIsDM(oPC))
+            {
+                SendMessageToPC(oPC, "Booted because NWNX isn't running on the server (server internal error).");
+                BootPC(oPC);
+                return;
+            }
+    }
 
     // Code executed for DMs and PCs goes here
 
     // initialize the player - RUN THIS BEFORE INITIALIZING OTHER SYSTEMS
     if (!ACR_PCOnClientEnter(oPC))
-	 {
-		return;
-	 }
+     {
+        return;
+     }
     
     // Zero out the RP XP timer. Though this looks ill-placed, we need it to detect redundant
     // tickers.
@@ -751,128 +751,133 @@ void ACR_ModuleOnClientEnter()
     // notify database system of login
     ACR_DBPersistOnIncomingPlayer(oPC);
 
-	//initialize for chatlogging
-	ACR_ChatOnClientEnter(oPC);
+    //initialize for chatlogging
+    ACR_ChatOnClientEnter(oPC);
 
-	// Initialize DM Client Extension pack (optional)
-	ExecuteScript("wand_init", oPC);
-	
+    // Initialize DM Client Extension pack (optional)
+    ExecuteScript("wand_init", oPC);
+    
     if (GetIsDM(oPC) || GetIsDMPossessed(oPC))
     {
-	    // log the entry
-	    ACR_LogEvent(oPC, ACR_LOG_LOGIN, "Dungeon Master: " + ACR_SQLEncodeSpecialChars(GetName(oPC)) + " from IP: "+GetPCIPAddress(oPC));
+        // log the entry
+        ACR_LogEvent(oPC, ACR_LOG_LOGIN, "Dungeon Master: " + ACR_SQLEncodeSpecialChars(GetName(oPC)) + " from IP: "+GetPCIPAddress(oPC));
             DisplayGuiScreen(oPC, "zspawn_b", FALSE, "zspawn_b.xml");
 
-		ACR_IncrementStatistic("DM_LOGINS");
+        ACR_IncrementStatistic("DM_LOGINS");
     }
     else
     {
-	    // log the entry
-    	ACR_LogEvent(oPC, ACR_LOG_LOGIN, "Character: " + ACR_SQLEncodeSpecialChars(GetName(oPC))+ " from IP: "+GetPCIPAddress(oPC));
-		
+        // log the entry
+        ACR_LogEvent(oPC, ACR_LOG_LOGIN, "Character: " + ACR_SQLEncodeSpecialChars(GetName(oPC))+ " from IP: "+GetPCIPAddress(oPC));
+        
         // manage dead PCs - important for this to be done first
         ACR_DeathOnClientEnter(oPC);
-		ACR_SkillsOnClientEnter(oPC);
+        ACR_SkillsOnClientEnter(oPC);
     }
-	
-	// Do custom feat stuff.
-	ACR_FeatOnClientEnter(oPC);
+    
+    // Do custom feat stuff.
+    ACR_FeatOnClientEnter(oPC);
 
-	// Let the IPC subsystem know of the login event.
-	ACR_ServerIPC_OnClientEnter(oPC);
+    // Let the IPC subsystem know of the login event.
+    ACR_ServerIPC_OnClientEnter(oPC);
 
-	// Let the wealth subsystem know of the login event.
-	ACR_WealthOnClientEnter(oPC);
+    // Let the wealth subsystem know of the login event.
+    ACR_WealthOnClientEnter(oPC);
 
-	ACR_IncrementStatistic("PLAYER_LOGINS");
+    ACR_IncrementStatistic("PLAYER_LOGINS");
 }
 
 void ACR_ModuleOnPCLoaded()
 {
-	object oPC = GetEnteringObject();
-	
-	CraftingOnPCLoaded(oPC);
-	
-	// process DMs
+    object oPC = GetEnteringObject();
+    
+    CraftingOnPCLoaded(oPC);
+    
+    // process DMs
     if (GetIsDM(oPC) || GetIsDMPossessed(oPC))
     {
-	 	ACR_PCOnPCLoadedAsDM(oPC);
-	    if (GetItemPossessedBy(oPC, "abr_spawn_debug") == OBJECT_INVALID) { CreateItemOnObject("acr_spawn_debug", oPC); }
-		if (GetItemPossessedBy(oPC, "acr_dcsetter") == OBJECT_INVALID) { CreateItemOnObject("abr_it_dmdcsetter", oPC); }
-		ExecuteScript("dmfi_mod_pcload", GetModule());
+         ACR_PCOnPCLoadedAsDM(oPC);
+        if (GetItemPossessedBy(oPC, "abr_spawn_debug") == OBJECT_INVALID) { CreateItemOnObject("acr_spawn_debug", oPC); }
+        if (GetItemPossessedBy(oPC, "acr_dcsetter") == OBJECT_INVALID) { CreateItemOnObject("abr_it_dmdcsetter", oPC); }
+        ExecuteScript("dmfi_mod_pcload", GetModule());
     }
-	// process players
+    // process players
     else
     {
-		int bSave = FALSE;
-		
+        int bSave = FALSE;
+        
         // PC has Wizard levels, issue them a spellbook if they weren't issued one already
         if (ACR_HasCasterClass(oPC, "ARCANE")) {
-		    if (!ACR_GetPersistentInt(oPC, ACR_MOD_SPELLBOOK)) {
-			    bSave = TRUE;
+            if (!ACR_GetPersistentInt(oPC, ACR_MOD_SPELLBOOK)) {
+                bSave = TRUE;
                 SetIdentified(CreateItemOnObject(ACR_MOD_SPELLBOOK_RESREF, oPC), TRUE);
                 ACR_SetPersistentInt(oPC, ACR_MOD_SPELLBOOK, TRUE);
-			}
+            }
         }
         // PC has Cleric/Ranger/Druid levels, issue them a holy symbol if they weren't issued one already
         if (ACR_HasCasterClass(oPC, "DIVINE")) {
-		    if  (!ACR_GetPersistentInt(oPC, ACR_MOD_HOLYSYMBOL)) {
-				bSave = TRUE;
-            	SetIdentified(CreateItemOnObject(ACR_MOD_HOLYSYMBOL_RESREF, oPC), TRUE);
-            	ACR_SetPersistentInt(oPC, ACR_MOD_HOLYSYMBOL, TRUE);
-			}    
+            if  (!ACR_GetPersistentInt(oPC, ACR_MOD_HOLYSYMBOL)) {
+                bSave = TRUE;
+                SetIdentified(CreateItemOnObject(ACR_MOD_HOLYSYMBOL_RESREF, oPC), TRUE);
+                ACR_SetPersistentInt(oPC, ACR_MOD_HOLYSYMBOL, TRUE);
+            }    
         }
-		if (!ACR_GetPersistentInt(oPC, ACR_MOD_STARTINGGOLD))
-		{
-		    GiveGoldToCreature(oPC, 300);
-			ACR_SetPersistentInt(oPC, ACR_MOD_STARTINGGOLD, TRUE);
-			bSave = TRUE;
-	    }
-		if ((GetXP(oPC) <= 1) && !ACR_GetPersistentInt(oPC, ACR_MOD_STARTARMORX))
-		{
-		    DestroyObject(GetItemInSlot(INVENTORY_SLOT_CHEST, oPC));
-			ACR_SetPersistentInt(oPC, ACR_MOD_STARTARMORX, TRUE);
-			bSave = TRUE;
-	    }
-		if (!ACR_GetPersistentInt(oPC, ACR_MOD_FIRSTAID_IT))
-		{
-		    SetIdentified(CreateItemOnObject(ACR_MOD_HEALKIT_RESREF, oPC), TRUE);
-			ACR_SetPersistentInt(oPC, ACR_MOD_FIRSTAID_IT, TRUE);
-			bSave = TRUE;
-		}
+        if (!ACR_GetPersistentInt(oPC, ACR_MOD_STARTINGGOLD))
+        {
+            GiveGoldToCreature(oPC, 300);
+            ACR_SetPersistentInt(oPC, ACR_MOD_STARTINGGOLD, TRUE);
+            bSave = TRUE;
+        }
+        if ((GetXP(oPC) <= 1) && !ACR_GetPersistentInt(oPC, ACR_MOD_STARTARMORX))
+        {
+            DestroyObject(GetItemInSlot(INVENTORY_SLOT_CHEST, oPC));
+            ACR_SetPersistentInt(oPC, ACR_MOD_STARTARMORX, TRUE);
+            bSave = TRUE;
+        }
+        if (!ACR_GetPersistentInt(oPC, ACR_MOD_FIRSTAID_IT))
+        {
+            SetIdentified(CreateItemOnObject(ACR_MOD_HEALKIT_RESREF, oPC), TRUE);
+            ACR_SetPersistentInt(oPC, ACR_MOD_FIRSTAID_IT, TRUE);
+            bSave = TRUE;
+        }
+        if (GetMovementRate(oPC))
+        {
+            NotifyPlayer( oPC, NOTIFY_TYPE_ERROR, "Movement rate incorrect!", "The ACR has detected that your movement rate has been corrupted. You may continue play if you wish, but you will walk and run slower than you are allowed until the next time you log in.");
+            XPObjectAttributesSetMovement( oPC, 0);
+        }
 
-		// DO THIS FIRST
-		// restore the player's status and location
-    	ACR_PCOnPCLoaded(oPC);
+        // DO THIS FIRST
+        // restore the player's status and location
+        ACR_PCOnPCLoaded(oPC);
 
-		// process dead players
-		ACR_DeathOnPCLoaded(oPC);
+        // process dead players
+        ACR_DeathOnPCLoaded(oPC);
 
         // rebuild the characters journal quest entries
         ACR_RebuildJournalQuestEntries(oPC);
-		
-		// queue up the skillpoint convo if it's an unconverted PC
-		ACR_SkillsOnPCLoaded(oPC);
+        
+        // queue up the skillpoint convo if it's an unconverted PC
+        ACR_SkillsOnPCLoaded(oPC);
 
-		// save the bic if inventory has been modified
-		if (bSave) { ACR_PCSave(oPC, FALSE); }
-							
-	    // Initialize nonlethal damage system for the PC
-	    DelayCommand(4.0, ACR_NLD_OnPCLoaded(oPC));
-	
-		//  only do this if the PC is already adapted to custom skills.
-		if (GetSkillRank(0, oPC, TRUE) == 2) {
-			// Initialize DMFI for the entering player or DM
-			ExecuteScript("dmfi_mod_pcload", GetModule());
-			// initialize/award RP XP, start this after the PC is already in.
-			DelayCommand(30.0, ACR_XPOnClientLoaded(oPC));
-			// process simulated rest (spell uses handled accordingly)
-			//  delay this long enough for the status restore to take effect for HP.
-        	DelayCommand(1.5, ACR_RestOnClientEnter(oPC));
-		}
-	}
+        // save the bic if inventory has been modified
+        if (bSave) { ACR_PCSave(oPC, FALSE); }
+                            
+        // Initialize nonlethal damage system for the PC
+        DelayCommand(4.0, ACR_NLD_OnPCLoaded(oPC));
+    
+        //  only do this if the PC is already adapted to custom skills.
+        if (GetSkillRank(0, oPC, TRUE) == 2) {
+            // Initialize DMFI for the entering player or DM
+            ExecuteScript("dmfi_mod_pcload", GetModule());
+            // initialize/award RP XP, start this after the PC is already in.
+            DelayCommand(30.0, ACR_XPOnClientLoaded(oPC));
+            // process simulated rest (spell uses handled accordingly)
+            //  delay this long enough for the status restore to take effect for HP.
+            DelayCommand(1.5, ACR_RestOnClientEnter(oPC));
+        }
+    }
 
-	ACR_SCliExtOnPCLoaded(oPC);
+    ACR_SCliExtOnPCLoaded(oPC);
 }
 
 void ACR_ModuleOnClientLeave()
@@ -886,60 +891,60 @@ void ACR_ModuleOnClientLeave()
         // Code only executed for DMs goes here.
 
         // log the departure
-	    ACR_LogEvent(oPC, ACR_LOG_LOGOUT, "Dungeon Master: " + ACR_SQLEncodeSpecialChars(GetName(oPC)));
+        ACR_LogEvent(oPC, ACR_LOG_LOGOUT, "Dungeon Master: " + ACR_SQLEncodeSpecialChars(GetName(oPC)));
     }
     else
     {
         // Code only executed for PCs goes here.
 
         // log the departure
-    	ACR_LogOnExit(oPC);
+        ACR_LogOnExit(oPC);
 
 #if 0
         object oItem = GetFirstItemInInventory(oPC);
-		// Commented this loop out for now, since we don't do anything there
-		/*
+        // Commented this loop out for now, since we don't do anything there
+        /*
         while(oItem != OBJECT_INVALID)
         {
             // Code which executes on a PC's items goes here.
             oItem = GetNextItemInInventory();
         }
-		*/
+        */
 
 #endif
         // track resting across sessions
         ACR_RestOnClientLeave(oPC);
-		
-		// clean up Subdual mode leftovers
-		ACR_NonLethalOnClientExit(oPC);
-   	    ACR_SkillsOnClientExit(oPC);
+        
+        // clean up Subdual mode leftovers
+        ACR_NonLethalOnClientExit(oPC);
+           ACR_SkillsOnClientExit(oPC);
     }
 
  
-	// cancel xp craft if in session
-	if (GetLocalObject(oPC,"XC_ITEM_TO_CRAFT") != OBJECT_INVALID) {
-		XPCraft_ActionCancelChanges(oPC);
-	}
-	
-	ACR_PCOnClientLeave(oPC);
-	
-	// bank logged XP
-	ACR_XPOnClientExit(oPC);
+    // cancel xp craft if in session
+    if (GetLocalObject(oPC,"XC_ITEM_TO_CRAFT") != OBJECT_INVALID) {
+        XPCraft_ActionCancelChanges(oPC);
+    }
+    
+    ACR_PCOnClientLeave(oPC);
+    
+    // bank logged XP
+    ACR_XPOnClientExit(oPC);
 
-	// clean up chatlogging pointers
-	ACR_ChatOnClientExit(oPC);
+    // clean up chatlogging pointers
+    ACR_ChatOnClientExit(oPC);
 
-	// notify database system of logout
-	ACR_DBPersistOnOutgoingPlayer(oPC);
+    // notify database system of logout
+    ACR_DBPersistOnOutgoingPlayer(oPC);
 
-	// Let the IPC subsystem know of the logout event.
-	ACR_ServerIPC_OnClientLeave(oPC);
+    // Let the IPC subsystem know of the logout event.
+    ACR_ServerIPC_OnClientLeave(oPC);
 
-	// Let the area instancing subsystem know of the logout event.
-	ACR_AreaInstance_OnClientLeave(oPC, FALSE);
+    // Let the area instancing subsystem know of the logout event.
+    ACR_AreaInstance_OnClientLeave(oPC, FALSE);
 
-	// Notify the CE subsystem so that it can purge its local state.
-	ACR_SCliExtOnClientLeave(oPC);
+    // Notify the CE subsystem so that it can purge its local state.
+    ACR_SCliExtOnClientLeave(oPC);
 }
 
 void ACR_ModuleOnAcquireItem()
@@ -950,53 +955,53 @@ void ACR_ModuleOnAcquireItem()
     int nItemStackSize = GetModuleItemAcquiredStackSize(), bLogEvent = TRUE;
     string sTag;
 
-	// SendMessageToAllDMs("Acquired Item: "+GetName(oItem)+" by "+GetName(oAcquiredBy)+" with valid: "+IntToString(GetIsObjectValid(oAcquiredBy))+ " in area "+GetName(GetArea(oAcquiredBy))+" with valid: "+IntToString(GetIsObjectValid(GetArea(oAcquiredBy))));
+    // SendMessageToAllDMs("Acquired Item: "+GetName(oItem)+" by "+GetName(oAcquiredBy)+" with valid: "+IntToString(GetIsObjectValid(oAcquiredBy))+ " in area "+GetName(GetArea(oAcquiredBy))+" with valid: "+IntToString(GetIsObjectValid(GetArea(oAcquiredBy))));
  
-	// only process player acquisitions
-	if (! GetIsPC(oAcquiredBy)) { return; }
+    // only process player acquisitions
+    if (! GetIsPC(oAcquiredBy)) { return; }
 
-	// ignore acquisition events triggered by DMs (for logging only)
-	if (GetIsDM(oAcquiredBy) || GetIsDMPossessed(oAcquiredBy)) { bLogEvent = FALSE; }
+    // ignore acquisition events triggered by DMs (for logging only)
+    if (GetIsDM(oAcquiredBy) || GetIsDMPossessed(oAcquiredBy)) { bLogEvent = FALSE; }
 
-	// ignore acquisition events triggered by logins (for logging only)
-	else if (! GetIsObjectValid(GetArea(oAcquiredBy))) { bLogEvent = FALSE; }
-	
-	ACR_ItemOnAcquire(oItem, oAcquiredBy, oAcquiredFrom);
-	
-	ACR_CraftingOnAcquireObject(oItem, oAcquiredBy, oAcquiredFrom);
-	
+    // ignore acquisition events triggered by logins (for logging only)
+    else if (! GetIsObjectValid(GetArea(oAcquiredBy))) { bLogEvent = FALSE; }
+    
+    ACR_ItemOnAcquire(oItem, oAcquiredBy, oAcquiredFrom);
+    
+    ACR_CraftingOnAcquireObject(oItem, oAcquiredBy, oAcquiredFrom);
+    
     // track the presence of non-detection items
-	//  We don't use these yet, skip this call.
+    //  We don't use these yet, skip this call.
     //ACR_ManageNonDetectionOnAcquire(oItem, oAcquiredBy);
 
     // trap items with illegal properties
-	// Since we don't use this yet, commenting out.
-	//  if/when this is restored, should cache the list to a local array on the module
-	//   as querying the database each time is extremely inefficient.
-	/*
+    // Since we don't use this yet, commenting out.
+    //  if/when this is restored, should cache the list to a local array on the module
+    //   as querying the database each time is extremely inefficient.
+    /*
     if (ACR_GetHasIllegalProperties(oItem))
     {
         sEvent = ACR_LOG_ACQUIRE_ILLEGAL;
                 
         // quarantine the item?
     }
-	*/
-	
+    */
+    
     // log item acquisitions
-    	sTag = GetTag(oItem);
+        sTag = GetTag(oItem);
 
-	if ((sTag == "acr_nld_fist") || (sTag == "acr_ignore_acquire")) {
-		sTag = GetLocalString(oItem, "ACR_IGNORE_ACQUIRE_TEMP");
-		if (sTag != "") {
-			SetTag(oItem, sTag);
-			DeleteLocalString(oItem, "ACR_IGNORE_ACQUIRE_TEMP");
-		}
-	    // don't need to log this, OOC from toggling subdual mode
-	} else if (bLogEvent) {
-		ACR_LogOnAcquired(oItem, oAcquiredBy, GetStolenFlag(oItem));
-		// Also only need to process quest item acquisitions if PC is already in the mod.
-		// grant quest XP for acquired quest items
-    	ACR_QuestItemOnAcquire(oAcquiredBy, oItem);
+    if ((sTag == "acr_nld_fist") || (sTag == "acr_ignore_acquire")) {
+        sTag = GetLocalString(oItem, "ACR_IGNORE_ACQUIRE_TEMP");
+        if (sTag != "") {
+            SetTag(oItem, sTag);
+            DeleteLocalString(oItem, "ACR_IGNORE_ACQUIRE_TEMP");
+        }
+        // don't need to log this, OOC from toggling subdual mode
+    } else if (bLogEvent) {
+        ACR_LogOnAcquired(oItem, oAcquiredBy, GetStolenFlag(oItem));
+        // Also only need to process quest item acquisitions if PC is already in the mod.
+        // grant quest XP for acquired quest items
+        ACR_QuestItemOnAcquire(oAcquiredBy, oItem);
     }
 }
 
@@ -1004,30 +1009,30 @@ void ACR_ModuleOnUnAcquireItem() {
     object oItem = GetModuleItemLost();
     object oLostBy = GetModuleItemLostBy();
     string sTag;
-	
-	// only process player drops
-	if (! GetIsPC(oLostBy)) { return; }
+    
+    // only process player drops
+    if (! GetIsPC(oLostBy)) { return; }
  
-	// fire handler for special items.
-	ACR_ItemOnUnAcquire(oItem, oLostBy);
+    // fire handler for special items.
+    ACR_ItemOnUnAcquire(oItem, oLostBy);
 
-	// Nonlethal / subdual handling:
-	ACR_NLD_OnWeaponSwitch(oLostBy, oItem, FALSE);
-	
-	// destroyed item in inventory are invalid but not OBJECT_INVALID
-	// Items sold to stores fall into this category, so run scripts on them anyway
-	//if (! GetIsObjectValid(oItem)) {
-	//	SendMessageToPC(oLostBy, "Item has been destroyed.");
-	//	return; 
-	//}
-	
+    // Nonlethal / subdual handling:
+    ACR_NLD_OnWeaponSwitch(oLostBy, oItem, FALSE);
+    
+    // destroyed item in inventory are invalid but not OBJECT_INVALID
+    // Items sold to stores fall into this category, so run scripts on them anyway
+    //if (! GetIsObjectValid(oItem)) {
+    //    SendMessageToPC(oLostBy, "Item has been destroyed.");
+    //    return; 
+    //}
+    
     // track the presence of non-detection items
     ACR_ManageNonDetectionOnUnAcquire(oItem, oLostBy);
 
     // trap items with illegal properties
-	//  Again, we don't have this managed via SQL tables, large waste of resources.
-	//  commenting out for now, will replace with a locally cached version if it comes back later.
-	/*
+    //  Again, we don't have this managed via SQL tables, large waste of resources.
+    //  commenting out for now, will replace with a locally cached version if it comes back later.
+    /*
     if (ACR_GetHasIllegalProperties(oItem))
     {
         // log the event
@@ -1038,18 +1043,18 @@ void ACR_ModuleOnUnAcquireItem() {
     else */
 
 
-    	sTag = GetTag(oItem);
+        sTag = GetTag(oItem);
 
-	if ((sTag == "acr_nld_fist") || (sTag == "acr_ignore_acquire")) {
-	    // don't need to log this, OOC from toggling subdual mode
-	    sTag = GetLocalString(oItem, "ACR_IGNORE_ACQUIRE_TEMP");
-	    if (sTag != "") {
-	        SetTag(oItem, sTag);
-		DeleteLocalString(oItem, "ACR_IGNORE_ACQUIRE_TEMP");
-	    }
-	} else {
+    if ((sTag == "acr_nld_fist") || (sTag == "acr_ignore_acquire")) {
+        // don't need to log this, OOC from toggling subdual mode
+        sTag = GetLocalString(oItem, "ACR_IGNORE_ACQUIRE_TEMP");
+        if (sTag != "") {
+            SetTag(oItem, sTag);
+        DeleteLocalString(oItem, "ACR_IGNORE_ACQUIRE_TEMP");
+        }
+    } else {
         // log item acquisitions
-		ACR_LogOnUnacquired(oItem, oLostBy, GetStolenFlag(oItem));
+        ACR_LogOnUnacquired(oItem, oLostBy, GetStolenFlag(oItem));
     }
 }
 
@@ -1059,7 +1064,7 @@ void ACR_ModuleOnActivateItem() {
     object oTarget = GetItemActivatedTarget();
     location locTarget = GetItemActivatedTargetLocation();
 
-	// handle items.
+    // handle items.
     ACR_ItemOnActivate(oItem, oActivator, oTarget, locTarget);
 
     // log item activation
@@ -1070,12 +1075,12 @@ void ACR_ModuleOnPlayerDeath() {
     object oDead = GetLastPlayerDied();
     object oKiller = GetLastHostileActor();
 
-	// *** check for disguises here - player names need to be restored for proper data logging on death ***
-	
+    // *** check for disguises here - player names need to be restored for proper data logging on death ***
+    
     // process the player death
     ACR_PlayerOnDeath(oDead, oKiller);
-	// logging handled in ACR_PlayerOnDeath() - so we don't log false-positives from instakill protection.
-	ACR_NLD_OnDeath(oDead);
+    // logging handled in ACR_PlayerOnDeath() - so we don't log false-positives from instakill protection.
+    ACR_NLD_OnDeath(oDead);
 }
 
 void ACR_ModuleOnPlayerDying() {
@@ -1091,13 +1096,13 @@ void ACR_ModuleOnPlayerLevelUp() {
 
     // handle the level up attempt
     ACR_ProcessLevelUpAttempt(oPC);
-	
-	// apply any hidden skill changes  
-	ACR_SkillsOnPCLevelUp(oPC);
+    
+    // apply any hidden skill changes  
+    ACR_SkillsOnPCLevelUp(oPC);
 
-	// apply extra languages if necessary
-	ACR_LanguagesOnLevelUp(oPC);
-	
+    // apply extra languages if necessary
+    ACR_LanguagesOnLevelUp(oPC);
+    
     // log the level up attempt
     ACR_LogEvent(oPC, ACR_LOG_LEVELUP, "Character: " + ACR_SQLEncodeSpecialChars(GetName(oPC)) + ", Level: " + IntToString(GetHitDice(oPC)));
 }
@@ -1122,33 +1127,33 @@ void ACR_ModuleOnUserDefined() {
 
 void ACR_ModuleOnPlayerEquip() {
     object oItem = GetPCItemLastEquipped();
-	object oPC = GetPCItemLastEquippedBy();
-	
-	// Crafting system hook.
-	ACR_CraftOnEquipItem(oPC, oItem);
-	
-	// handle equipped items.
+    object oPC = GetPCItemLastEquippedBy();
+    
+    // Crafting system hook.
+    ACR_CraftOnEquipItem(oPC, oItem);
+    
+    // handle equipped items.
     ACR_ItemOnEquip(oItem, oPC);
-	
-	// handle nonlethal damage modes
-	ACR_NLD_OnWeaponSwitch(oPC, oItem);
+    
+    // handle nonlethal damage modes
+    ACR_NLD_OnWeaponSwitch(oPC, oItem);
 
-	// Do feat-specific stuff.
-	ACR_FeatOnEquipItem(oPC, oItem);
+    // Do feat-specific stuff.
+    ACR_FeatOnEquipItem(oPC, oItem);
 }
 
 void ACR_ModuleOnPlayerUnequip() {
     object oItem = GetPCItemLastUnequipped();
     object oPC = GetPCItemLastUnequippedBy();
-	
-	// handle unequipped items
-	ACR_ItemOnUnEquip(oItem, oPC);
-	
-	// Subdual / nonlethal handling
+    
+    // handle unequipped items
+    ACR_ItemOnUnEquip(oItem, oPC);
+    
+    // Subdual / nonlethal handling
     DelayCommand(0.1, ACR_NLD_OnWeaponSwitch(oPC, oItem, FALSE));
-	
-	// Do feat-specific stuff.
-	ACR_FeatOnUnequipItem(oPC, oItem);	
+    
+    // Do feat-specific stuff.
+    ACR_FeatOnUnequipItem(oPC, oItem);    
 }
 
 void ACR_ModuleOnCutsceneAbort() {
@@ -1160,22 +1165,22 @@ void ACR_ModuleOnCutsceneAbort() {
 
 string _ParseLang(object oSpeaker, string sText)
 {
-	string sLangPick;
-	int n;
+    string sLangPick;
+    int n;
 
-	n = FindSubString(sText,"@");
+    n = FindSubString(sText,"@");
 
-	// @Abcdef -> abc
-	sText = GetStringLowerCase(GetStringRight(GetSubString(sText, n, 4),3));
+    // @Abcdef -> abc
+    sText = GetStringLowerCase(GetStringRight(GetSubString(sText, n, 4),3));
 
-	sLangPick = ACR_LangAbbToLangID(sText);
+    sLangPick = ACR_LangAbbToLangID(sText);
 
-	if (!_IsLanguageKnown(oSpeaker, sLangPick) && !GetIsDM(oSpeaker) && !GetIsDMPossessed(oSpeaker)) {
-		SendMessageToPC(oSpeaker, "You don't know how to speak "+ACR_LangIDToString(sLangPick)+".");
-		return GetLocalString(oSpeaker, "DefaultLanguage");
-	}
+    if (!_IsLanguageKnown(oSpeaker, sLangPick) && !GetIsDM(oSpeaker) && !GetIsDMPossessed(oSpeaker)) {
+        SendMessageToPC(oSpeaker, "You don't know how to speak "+ACR_LangIDToString(sLangPick)+".");
+        return GetLocalString(oSpeaker, "DefaultLanguage");
+    }
 
-	return sLangPick;
+    return sLangPick;
 }
 
 int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
@@ -1221,24 +1226,24 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
     // Is this someone setting a listening anchor?
     if(sText == "#1" || sText == "#2" || sText == "#3" || sText == "#4" || sText == "#5" || sText == "#6" || sText == "#7" || sText == "#8" || sText == "#9" || sText == "#0")
     {
-	 	  object PlayerAvatar = GetOwnedCharacter(oSpeaker);
+           object PlayerAvatar = GetOwnedCharacter(oSpeaker);
         oTarget = GetPlayerCurrentTarget(oSpeaker);
         if(!GetIsObjectValid(oTarget))
         {
-				// Allow setting an empty target to delete an already set mouthpiece target.
-		  		object SpeakTo;
-		  		if ((SpeakTo = GetLocalObject(PlayerAvatar, "SpeakTo_" + sText)) != OBJECT_INVALID)
-				{
-					DeleteLocalObject(PlayerAvatar, "SpeakTo_" + sText);
-					SendMessageToPC(oSpeaker, "Clearing speak to association for " + sText);
+                // Allow setting an empty target to delete an already set mouthpiece target.
+                  object SpeakTo;
+                  if ((SpeakTo = GetLocalObject(PlayerAvatar, "SpeakTo_" + sText)) != OBJECT_INVALID)
+                {
+                    DeleteLocalObject(PlayerAvatar, "SpeakTo_" + sText);
+                    SendMessageToPC(oSpeaker, "Clearing speak to association for " + sText);
 
-					if (GetLocalObject(SpeakTo, "MouthPiece") == PlayerAvatar)
-						DeleteLocalObject(SpeakTo, "MouthPiece");
-				}
-				else
-				{
-	            SendMessageToPC(oSpeaker, "You must select an object to do that.");
-				}
+                    if (GetLocalObject(SpeakTo, "MouthPiece") == PlayerAvatar)
+                        DeleteLocalObject(SpeakTo, "MouthPiece");
+                }
+                else
+                {
+                SendMessageToPC(oSpeaker, "You must select an object to do that.");
+                }
             return FALSE;
         }
         if(GetIsPC(oTarget))
@@ -1248,23 +1253,23 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         }
         if(GetIsDM(PlayerAvatar) || GetLocalInt(oTarget, "HENCHMAN_LEADER") == ACR_GetPlayerID(oSpeaker) || GetMaster(oTarget) == oSpeaker)
         {
-		  		// Check if another player owned this mouthpiece.  If so then try
-				// and remove the association on their and and warn the previous
-				// controller.
-		  		object PreviousMouthPiece = GetLocalObject(oTarget, "MouthPiece");
-				if (PreviousMouthPiece != OBJECT_INVALID && PreviousMouthPiece != PlayerAvatar)
-				{
-					SendMessageToPC(PreviousMouthPiece, "Mouthpiece (speak-to) control lost for object: " + GetName(oTarget) + " because another player or DM has taken control.");
+                  // Check if another player owned this mouthpiece.  If so then try
+                // and remove the association on their and and warn the previous
+                // controller.
+                  object PreviousMouthPiece = GetLocalObject(oTarget, "MouthPiece");
+                if (PreviousMouthPiece != OBJECT_INVALID && PreviousMouthPiece != PlayerAvatar)
+                {
+                    SendMessageToPC(PreviousMouthPiece, "Mouthpiece (speak-to) control lost for object: " + GetName(oTarget) + " because another player or DM has taken control.");
 
-					int i;
-					for (i = 1; i < 10; i += 1)
-					{
-						if (GetLocalObject(PreviousMouthPiece, "SpeakTo_#" + IntToString(i)) == oTarget)
-						{
-							DeleteLocalObject(PreviousMouthPiece, "SpeakTo_#" + IntToString(i));
-						}
-					}
-				}
+                    int i;
+                    for (i = 1; i < 10; i += 1)
+                    {
+                        if (GetLocalObject(PreviousMouthPiece, "SpeakTo_#" + IntToString(i)) == oTarget)
+                        {
+                            DeleteLocalObject(PreviousMouthPiece, "SpeakTo_#" + IntToString(i));
+                        }
+                    }
+                }
             SetLocalObject(PlayerAvatar, "SpeakTo_" + sText, oTarget);
             SetLocalObject(oTarget, "MouthPiece", PlayerAvatar);
             SendMessageToPC(oSpeaker, "Setting "+GetName(oTarget)+" as anchored to "+sText+".");
@@ -1276,7 +1281,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
     // Is this someone speaking through the anchor?
     else if(GetStringLeft(sText, 2) == "#1" || GetStringLeft(sText, 2) == "#2" || GetStringLeft(sText, 2) == "#3" || GetStringLeft(sText, 2) == "#4" || GetStringLeft(sText, 2) == "#5" || GetStringLeft(sText, 2) == "#6" || GetStringLeft(sText, 2) == "#7" || GetStringLeft(sText, 2) == "#8" || GetStringLeft(sText, 2) == "#9" || GetStringLeft(sText, 2) == "#0")
     {
-	 	  object PlayerAvatar = GetOwnedCharacter(oSpeaker);
+           object PlayerAvatar = GetOwnedCharacter(oSpeaker);
         string sAnchor = "SpeakTo_" + GetStringLeft(sText, 2);
         object oAnchor = GetLocalObject(PlayerAvatar, sAnchor);
         sText = GetStringRight(sText, len-3);
@@ -1313,15 +1318,15 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         // We assume that DMs know what they're doing. Their targets can speak foreign languages.
         if(GetIsDM(PlayerAvatar))
         {
-		  	   if (FindSubString(sText, "@") != -1)
-				{
-	            sLangPick = _ParseLang(PlayerAvatar, sText);
-	            sText = _RemoveLangTag(sText);
-				}
-				else
-				{
-					sLangPick = GetLocalString(PlayerAvatar, "DefaultLanguage");
-				}
+                 if (FindSubString(sText, "@") != -1)
+                {
+                sLangPick = _ParseLang(PlayerAvatar, sText);
+                sText = _RemoveLangTag(sText);
+                }
+                else
+                {
+                    sLangPick = GetLocalString(PlayerAvatar, "DefaultLanguage");
+                }
             int nHandleLang = _HandleLang(oAnchor, sText, nMode, sLangPick, PlayerAvatar);
             if (nHandleLang)
             {
@@ -1334,11 +1339,11 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         else
         {
             sLangPick = "common";
-				int nHandleLang = _HandleLang(oAnchor, sText, nMode, sLangPick, PlayerAvatar);
-				if (nHandleLang)
-				{
-	            AssignCommand(oAnchor, _SpeakString(sText, nTalkVolume));
-				}
+                int nHandleLang = _HandleLang(oAnchor, sText, nMode, sLangPick, PlayerAvatar);
+                if (nHandleLang)
+                {
+                AssignCommand(oAnchor, _SpeakString(sText, nTalkVolume));
+                }
         }
         return FALSE;
     }
@@ -1360,7 +1365,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         }
 
         sCommand = GetStringRight(GetStringLowerCase(sText), len-1);
-		
+        
         ParseRoll(oSpeaker, sCommand);
 
         return FALSE;
@@ -1373,7 +1378,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         sLangPick = _ParseLang(oSpeaker, sText);
         sText = _RemoveLangTag(sText);
     }
-	
+    
 
     return _HandleLang(oSpeaker, sText, nMode, sLangPick, oSpeaker);
 }
@@ -1390,159 +1395,159 @@ void ACR_SetModuleStatus(int nStatus) {
 
 int _MouthPieceNotInRange(object oMouthPiece, object oSpeaker, float fDistance)
 {
-	// Switch to the controlled character in case the DM avatar is possessing
-	// someone and thus shunted to limbo.
-	oMouthPiece = GetControlledCharacter(oMouthPiece);
+    // Switch to the controlled character in case the DM avatar is possessing
+    // someone and thus shunted to limbo.
+    oMouthPiece = GetControlledCharacter(oMouthPiece);
 
-	// If the objects aren't in the same area, then they are out of range for
-	// normal message hearing.
-	if (GetArea(oMouthPiece) != GetArea(oSpeaker))
-		return TRUE;
+    // If the objects aren't in the same area, then they are out of range for
+    // normal message hearing.
+    if (GetArea(oMouthPiece) != GetArea(oSpeaker))
+        return TRUE;
 
-	// If the distance between the objects exceeds the nominal transmission
-	// distance for the associated talk type, then they are out of range for
-	// normal message hearing.
-	if (GetDistanceBetween(oMouthPiece, oSpeaker) > fDistance)
-		return TRUE;
+    // If the distance between the objects exceeds the nominal transmission
+    // distance for the associated talk type, then they are out of range for
+    // normal message hearing.
+    if (GetDistanceBetween(oMouthPiece, oSpeaker) > fDistance)
+        return TRUE;
 
-	// Otherwise, the message will be heard normally and won't need to be
-	// relayed explicitly.
-	return FALSE;
+    // Otherwise, the message will be heard normally and won't need to be
+    // relayed explicitly.
+    return FALSE;
 }
 
 int _HandleLang(object oSpeaker, string sText, int nMode, string sLangPick, object DMFIToolOwner)
 {
-	// If we are to override language processing then stop now.  This is used
-	// when we are distributing the scrambled version of a phrase that has been
-	// voice thrown with a non-"common" language.  We have to suppress the
-	// usual language handling here because :
-	//
-	// - For the voice throwing case we do language handling on the *send* side,
-	//   rather than as a respons to a chat event.  This takes care of sending
-	//   the translated text to those who ought to receive it.
-	// - Then, on the send side, we send the scrambled version.  This is either
-	//   done with SendChatMessage with the callback invoke suppressed (if the
-	//   sender was a PC), in which case we would never get into _HandleLang for
-	//   that case.  But if the sender was an NPC, we do ultimately re-enter the
-	//   language handler for the scrambled text - and in that case we must
-	//   recognize that we already distributed text to mouthpiece receivers.  If
-	//   we didn't then they would get a mouthpiece redirection with the
-	//   scrambled text with a language of "Common".
+    // If we are to override language processing then stop now.  This is used
+    // when we are distributing the scrambled version of a phrase that has been
+    // voice thrown with a non-"common" language.  We have to suppress the
+    // usual language handling here because :
+    //
+    // - For the voice throwing case we do language handling on the *send* side,
+    //   rather than as a respons to a chat event.  This takes care of sending
+    //   the translated text to those who ought to receive it.
+    // - Then, on the send side, we send the scrambled version.  This is either
+    //   done with SendChatMessage with the callback invoke suppressed (if the
+    //   sender was a PC), in which case we would never get into _HandleLang for
+    //   that case.  But if the sender was an NPC, we do ultimately re-enter the
+    //   language handler for the scrambled text - and in that case we must
+    //   recognize that we already distributed text to mouthpiece receivers.  If
+    //   we didn't then they would get a mouthpiece redirection with the
+    //   scrambled text with a language of "Common".
 
 #if DEBUG_LANG
-	WriteTimestampedLogEntry("_HandleLang(" + GetName(oSpeaker) + ", " + sText + ", " + IntToString(nMode) + ", " + sLangPick + ", " + GetName(DMFIToolOwner) + ")");
+    WriteTimestampedLogEntry("_HandleLang(" + GetName(oSpeaker) + ", " + sText + ", " + IntToString(nMode) + ", " + sLangPick + ", " + GetName(DMFIToolOwner) + ")");
 #endif
 
-	if (GetLocalInt(oSpeaker, ACR_MOD_SUPPRESS_LANGUAGE))
-	{
+    if (GetLocalInt(oSpeaker, ACR_MOD_SUPPRESS_LANGUAGE))
+    {
 #if DEBUG_LANG
-		WriteTimestampedLogEntry("Suppressing processing of language handling.");
+        WriteTimestampedLogEntry("Suppressing processing of language handling.");
 #endif
-		return TRUE;
-	}
+        return TRUE;
+    }
 
-	object oTool = _GetDMFITool(DMFIToolOwner);
-	string sNewString;
-	
-	if (sLangPick == "")
-		sLangPick = "common";
+    object oTool = _GetDMFITool(DMFIToolOwner);
+    string sNewString;
+    
+    if (sLangPick == "")
+        sLangPick = "common";
 
-	if (sLangPick == "common")
-	{
-		sNewString = sText;
-	}
-	else
-	{
-		object oTool = _GetDMFITool(DMFIToolOwner);
-		sNewString = DMFI_ProcessLanguage(sText, sLangPick, oTool);
-	}
+    if (sLangPick == "common")
+    {
+        sNewString = sText;
+    }
+    else
+    {
+        object oTool = _GetDMFITool(DMFIToolOwner);
+        sNewString = DMFI_ProcessLanguage(sText, sLangPick, oTool);
+    }
 
-	_DistributeTranslation(sText, sNewString, sLangPick, oSpeaker, nMode);
+    _DistributeTranslation(sText, sNewString, sLangPick, oSpeaker, nMode);
 
-	return FALSE;
+    return FALSE;
 }
 
 void ACR_ModuleInitHealthChecks()
 {
-	object Obj;
-	int HighestObjectId = ObjectToInt(GetModule());
+    object Obj;
+    int HighestObjectId = ObjectToInt(GetModule());
 
-	// Start the latency monitor script up.  The latency monitor requires CLR
-	// script support to function.  See LatencyMonitor\LatencyMonitor.cs for
-	// more details on how to use server latency measurements.
+    // Start the latency monitor script up.  The latency monitor requires CLR
+    // script support to function.  See LatencyMonitor\LatencyMonitor.cs for
+    // more details on how to use server latency measurements.
 
-	ExecuteScript("latencymonitor", OBJECT_SELF);
+    ExecuteScript("latencymonitor", OBJECT_SELF);
 
-	// Connect the latency monitor to the health monitor script.
+    // Connect the latency monitor to the health monitor script.
 
-	SetGlobalString("ACR_SERVER_LATENCY_SCRIPT", "acr_healthmonitor");
+    SetGlobalString("ACR_SERVER_LATENCY_SCRIPT", "acr_healthmonitor");
 
-	// Find the first object id assigned to dynamic objects so that the health
-	// monitor subsystem can distinguish statically placed objects from those
-	// that have been dynamically instantiated.
-	Obj = CreateObject(OBJECT_TYPE_WAYPOINT, "nw_waypoint001", GetStartingLocation(), FALSE);
+    // Find the first object id assigned to dynamic objects so that the health
+    // monitor subsystem can distinguish statically placed objects from those
+    // that have been dynamically instantiated.
+    Obj = CreateObject(OBJECT_TYPE_WAYPOINT, "nw_waypoint001", GetStartingLocation(), FALSE);
 
-	if (Obj != OBJECT_INVALID)
-	{
-		HighestObjectId = ObjectToInt(Obj);
-		DestroyObject(Obj);
-	}
+    if (Obj != OBJECT_INVALID)
+    {
+        HighestObjectId = ObjectToInt(Obj);
+        DestroyObject(Obj);
+    }
 
-	WriteTimestampedLogEntry("Dynamically created objects start at ObjectId=" + IntToString(HighestObjectId));
-	SetGlobalInt("ACR_FIRST_DYNAMIC_OBJECT_ID", HighestObjectId);
+    WriteTimestampedLogEntry("Dynamically created objects start at ObjectId=" + IntToString(HighestObjectId));
+    SetGlobalInt("ACR_FIRST_DYNAMIC_OBJECT_ID", HighestObjectId);
 }
 
 void ACR_StartModuleInitHealthChecks()
 {
-	// This function is just here so that a more obvious name shows up in the
-	// stack trace if you boot the server when not in JIT mode and hit a TMI.
-	// A TMI here means that you should boot the server in JIT mode.
+    // This function is just here so that a more obvious name shows up in the
+    // stack trace if you boot the server when not in JIT mode and hit a TMI.
+    // A TMI here means that you should boot the server in JIT mode.
 
-	ACR_ModuleInitHealthChecks();
+    ACR_ModuleInitHealthChecks();
 }
 
 void ACR_SweepAreaOfUnneededObjects(object AreaObject)
 {
-	// Simply call the area instance cleanp function, which also handles cleanup
-	// of a dynamically instantiated area copy.
+    // Simply call the area instance cleanp function, which also handles cleanup
+    // of a dynamically instantiated area copy.
 
-	ACR_AreaInstance_StartupCleanup(AreaObject);
+    ACR_AreaInstance_StartupCleanup(AreaObject);
 }
 
 void ACR_PerformModuleStartupCleanup()
 {
-	object AreaObject;
+    object AreaObject;
 
-	// Queue a cleanup task for each area that exists in the module.  The tasks
-	// run in separate DelayCommands as they iterate over large numbers of
-	// objects and may otherwise trip the instruction or loop count limits if
-	// done all in one go.
+    // Queue a cleanup task for each area that exists in the module.  The tasks
+    // run in separate DelayCommands as they iterate over large numbers of
+    // objects and may otherwise trip the instruction or loop count limits if
+    // done all in one go.
 
-	AreaObject = GetFirstArea();
+    AreaObject = GetFirstArea();
 
-	while (AreaObject != OBJECT_INVALID)
-	{
-		DelayCommand(0.0001f, ACR_SweepAreaOfUnneededObjects(AreaObject));
-		AreaObject = GetNextArea();
-	}
+    while (AreaObject != OBJECT_INVALID)
+    {
+        DelayCommand(0.0001f, ACR_SweepAreaOfUnneededObjects(AreaObject));
+        AreaObject = GetNextArea();
+    }
 }
 
 void ACR_ModuleInit_ForceLinkageForCLRScripts()
 {
-	// This code never runs.  It is simply here to force the compiler to include
-	// certain symbols that CLR script code requires.
+    // This code never runs.  It is simply here to force the compiler to include
+    // certain symbols that CLR script code requires.
 
-	ACR_AsyncSQLQueryEx("", OBJECT_INVALID);
-	ACR_GetPersistentString(OBJECT_INVALID, "");
-	ACR_GetServerAddressFromDatabase();
-	ACR_SetPersistentString(OBJECT_INVALID, "", "");
-	ACR_SQLQuery("");
-	ACR_FlushQueryQueue(OBJECT_INVALID);
-	ACR_PCSave(OBJECT_INVALID);
-	ACR_GetVersion();
-	ACR_DeletePersistentVariable(OBJECT_INVALID, "");
-	ACR_GetBuildDate();
-	ACR_GetHAKBuildDate();
-	ACR_IncrementStatistic("DUMMY_STATISTIC");
-	ACR_GetHAKVersion();
+    ACR_AsyncSQLQueryEx("", OBJECT_INVALID);
+    ACR_GetPersistentString(OBJECT_INVALID, "");
+    ACR_GetServerAddressFromDatabase();
+    ACR_SetPersistentString(OBJECT_INVALID, "", "");
+    ACR_SQLQuery("");
+    ACR_FlushQueryQueue(OBJECT_INVALID);
+    ACR_PCSave(OBJECT_INVALID);
+    ACR_GetVersion();
+    ACR_DeletePersistentVariable(OBJECT_INVALID, "");
+    ACR_GetBuildDate();
+    ACR_GetHAKBuildDate();
+    ACR_IncrementStatistic("DUMMY_STATISTIC");
+    ACR_GetHAKVersion();
 }
