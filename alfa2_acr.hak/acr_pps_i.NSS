@@ -675,6 +675,11 @@ void ACR_PCOnPCLoaded(object oPC)
 				else
 					QuarantinePortalDelay = 0.6f;
 
+				// Notify the IPC subsystem that the player is quarantined so that
+				// it can take appropriate action, such as disabling character save
+				// if enabled.
+				ACR_ServerIPC_OnQuarantinePlayer(oPC);
+
 				DelayCommand(QuarantinePortalDelay, AssignCommand(oPC, _playerStartQuarantinePortalDialog(nServerID)));
 				return;
 			} else {
@@ -897,6 +902,7 @@ void ACR_PPSValidatePC(object oTarget) {
 		} 
 		eTest = GetNextEffect(oTarget);
 	}	
+	ACR_EnableCharacterSave(oTarget);
 	// then re-run the OnLoaded event.
 	ACR_PCOnPCLoaded(oTarget);
 		

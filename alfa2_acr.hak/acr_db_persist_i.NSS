@@ -74,6 +74,10 @@ const string ACR_GAMEOBJUPDATE = "GameObjUpdateBackoff";
 //  consumed and then deleted by the IPC subsystem at module startup.
 const string ACR_MOD_CONTENT_PATCH_PATH = "ACR_MOD_CONTENT_PATCH_PATH";
 
+//! Module local variable indicating that WER should be disabled.  This value
+//  is consumed and then deleted by the IPC subsystem at module startup.
+const string ACR_MOD_WER_DISABLED = "ACR_MOD_WER_DISABLED";
+
 //! Database configuration setting indicating that module resource files should
 //  be tallied.
 const string ACR_MODULERESOURCEFILES_DB = "ModuleResourceFiles";
@@ -85,6 +89,9 @@ const string ACR_MODULERESOURCEFILES_MOD = "ACR_MODULERESOURCEFILES";
 //! Database configuration setting indicating the location to search for
 //  content patches at.
 const string ACR_CONTENT_PATCH_PATH = "ContentPatchPath";
+
+//! Database configuration setting indicating that WER should be disabled.
+const string ACR_WER_DISABLED = "WerDisabled";
 
 //! Values for ACR_SRVADMIN local on PC object.
 const int ACR_SRVADMIN_INDETERMINITE = 0;  // Need to query database
@@ -587,6 +594,11 @@ void ACR_LoadDatabaseConfiguration()
 		{
 			WriteTimestampedLogEntry("acr_db_persist_i: ContentPatchPath: " + VarValue);
 			SetLocalString(Module, ACR_MOD_CONTENT_PATCH_PATH, VarValue);
+		}
+		else if (VarName == ACR_WER_DISABLED)
+		{
+			WriteTimestampedLogEntry("acr_db_persist_i: WerDisabled: " + VarValue);
+			SetLocalInt(Module, ACR_MOD_WER_DISABLED, StringToInt(VarValue));
 		}
 	}
 }

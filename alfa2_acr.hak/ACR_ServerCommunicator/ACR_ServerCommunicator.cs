@@ -226,6 +226,14 @@ namespace ACR_ServerCommunicator
                     }
                     break;
 
+                case REQUEST_TYPE.HANDLE_QUARANTINE_PLAYER:
+                    {
+                        uint PlayerObject = OBJECT_SELF;
+
+                        ReturnCode = HandleQuarantinePlayer(PlayerObject) ? TRUE : FALSE;
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid IPC script command " + RequestType.ToString());
 
@@ -289,6 +297,7 @@ namespace ACR_ServerCommunicator
 
             RecordModuleResources();
             PatchContentFiles();
+            ConfigureWer();
 
             RunPatchInitScript();
 
@@ -395,6 +404,22 @@ namespace ACR_ServerCommunicator
                     "ACR_ServerCommunicator.PatchContentFiles: Exception {0} processing content file patches.",
                     e));
             }
+        }
+
+        /// <summary>
+        /// Configure Windows Error Reporting as appropriate.
+        /// </summary>
+        private void ConfigureWer()
+        {
+            uint Module = GetModule();
+            bool WerDisabled = GetLocalInt(Module, "ACR_MOD_WER_DISABLED") != 0;
+
+            DeleteLocalInt(Module, "ACR_MOD_WER_DISABLED");
+
+            if (WerDisabled)
+                SystemInfo.DisableWer();
+            else
+                SystemInfo.EnableWer();
         }
 
         /// <summary>
@@ -1890,6 +1915,31 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method is called when a player is being quarantined.  Its
+        /// purpose is to check configuration to identify whether the player
+        /// should have saves disabled, and, if so, disable saves for the in
+        /// quarantine player.
+        /// </summary>
+        /// <param name="PlayerObjectId">Supplies the PC object that is
+        /// entering quarantine.</param>
+        /// <returns>Returns true if the request succeeded.</returns>
+        private bool HandleQuarantinePlayer(uint PlayerObjectId)
+        {
+            bool DisableSaveInQuarantine;
+
+            lock (WorldManager)
+            {
+                DisableSaveInQuarantine = WorldManager.Configuration.DisableSaveInQuarantine;
+            }
+
+            if (!DisableSaveInQuarantine)
+                return true;
+
+            WriteTimestampedLogEntry("ACR_ServerCommunicator.HandleQuarantinePlayer(): Disabling character save for quarantined player " + GetName(PlayerObjectId) + ".");
+            return DisableCharacterSave(PlayerObjectId);
+        }
+
+        /// <summary>
         /// Get a local player by character name.
         /// </summary>
         /// <param name="First">Supplies the character first name.</param>
@@ -2658,7 +2708,8 @@ namespace ACR_ServerCommunicator
             GET_PLAYER_LATENCY,
             DISABLE_CHARACTER_SAVE,
             ENABLE_CHARACTER_SAVE,
-            PAUSE_HEARTBEAT
+            PAUSE_HEARTBEAT,
+            HANDLE_QUARANTINE_PLAYER
         }
 
         /// <summary>
