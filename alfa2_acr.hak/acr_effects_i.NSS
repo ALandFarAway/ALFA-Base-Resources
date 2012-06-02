@@ -49,6 +49,9 @@ const string ACR_EFFECT_FLAGS = "ACR_EFFECT_FLAGS";
 const int ACR_EFFECT_FLAG_FATIGUED = 0x01;
 const int ACR_EFFECT_FLAG_EXHAUSTED = 0x02;
 
+const int AOE_PER_RADIUS_MIN = 80;
+const int AOE_PER_RADIUS_MAX = 120;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -137,6 +140,9 @@ effect ACR_AdaptionEffect();
 //! For spell sources, add ACR_EFFECT_SOURCE_SPELL_OFFSET to the SpellId.
 //! For feat sources, add ACR_EFFECT_SOURCE_FEAT_OFFSET to the FeatId.
 void ChangeEffectFromSource(int nSource, object oCreature, effect eEffect);
+
+//! Return AOE ID for a specific radius for EffectAreaOfEffect
+int ACR_GetAOERadiusID(float fRadius);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -312,4 +318,17 @@ void ChangeEffectFromSource(int nSource, object oCreature, effect eEffect) {
 	RemoveAllEffectsFromSource(oCreature, nSource);
 	
 	ApplyEffectFromSource(nSource, DURATION_TYPE_PERMANENT, eEffect, oCreature);
+}
+
+int ACR_GetAOERadiusID(float fRadius)
+{
+	int ret;
+
+	fRadius = fRadius/FeetToMeters(1.0);
+	ret = AOE_PER_RADIUS_MIN + FloatToInt(fabs(fRadius/5.0f));
+	
+	if (ret > AOE_PER_RADIUS_MAX)
+		ret = AOE_PER_RADIUS_MAX;
+
+	return ret;
 }
