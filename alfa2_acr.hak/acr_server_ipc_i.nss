@@ -90,6 +90,9 @@ const int ACR_SERVER_IPC_ENABLE_CHARACTER_SAVE               = 15;
 // This command runs a periodic heartbeat on a DM during server pause.
 const int ACR_SERVER_IPC_PAUSE_HEARTBEAT                     = 16;
 
+// This command handles a player entering quarantine.
+const int ACR_SERVER_IPC_HANDLE_QUARANTINE_PLAYER            = 17;
+
 // IPC event codes:
 
 // The chat tell event is used to transport tells cross-server.
@@ -288,6 +291,11 @@ int ACR_EnableCharacterSave(object PlayerObject);
 //!  - PlayerObject: The DM object that is running player heartbeat.
 //!  - Returns: TRUE if successful
 int ACR_PauseHeartbeat(object PlayerObject);
+
+//! Handle an OnQuarantinePlayer event for a player.
+//!  - PlayerObject: The player object of the player entering quarantine.
+//!  - Returns: TRUE if successful
+int ACR_ServerIPC_OnQuarantinePlayer(object PlayerObject);
 
 //! Make a raw call to the IPC C# control script.
 //!  - Command: Supplies the command to request (e.g. ACR_SERVER_IPC_SIGNAL_IPC_EVENT).
@@ -667,6 +675,19 @@ int ACR_PauseHeartbeat(object PlayerObject)
 
 	return ACR_CallIPCScript(
 		ACR_SERVER_IPC_PAUSE_HEARTBEAT,
+		0,
+		0,
+		0,
+		0,
+		0,
+		"",
+		PlayerObject);
+}
+
+int ACR_ServerIPC_OnQuarantinePlayer(object PlayerObject)
+{
+	return ACR_CallIPCScript(
+		ACR_SERVER_IPC_HANDLE_QUARANTINE_PLAYER,
 		0,
 		0,
 		0,
