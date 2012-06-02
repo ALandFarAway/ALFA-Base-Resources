@@ -289,6 +289,7 @@ namespace ACR_ServerCommunicator
 
             RecordModuleResources();
             PatchContentFiles();
+            ConfigureWer();
 
             RunPatchInitScript();
 
@@ -395,6 +396,22 @@ namespace ACR_ServerCommunicator
                     "ACR_ServerCommunicator.PatchContentFiles: Exception {0} processing content file patches.",
                     e));
             }
+        }
+
+        /// <summary>
+        /// Configure Windows Error Reporting as appropriate.
+        /// </summary>
+        private void ConfigureWer()
+        {
+            uint Module = GetModule();
+            bool WerDisabled = GetLocalInt(Module, "ACR_MOD_WER_DISABLED") != 0;
+
+            DeleteLocalInt(Module, "ACR_MOD_WER_DISABLED");
+
+            if (WerDisabled)
+                SystemInfo.DisableWer();
+            else
+                SystemInfo.EnableWer();
         }
 
         /// <summary>
