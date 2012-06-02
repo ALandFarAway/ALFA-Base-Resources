@@ -628,6 +628,34 @@ namespace ALFA
             Script.NWNXSetString("SRVADMIN", "SETADMINPASSWORD", Password, 0, "");
         }
 
+        /// <summary>
+        /// Disable error reporting for the current process.
+        /// </summary>
+        public static void DisableWer()
+        {
+            try
+            {
+                WerAddExcludedApplication(Process.GetCurrentProcess().MainModule.FileName, 0);
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>
+        /// Enable error reporting for the current process.
+        /// </summary>
+        public static void EnableWer()
+        {
+            try
+            {
+                WerRemoveExcludedApplication(Process.GetCurrentProcess().MainModule.FileName, 0);
+            }
+            catch
+            {
+            }
+        }
+
 
 
         /// <summary>
@@ -685,6 +713,12 @@ namespace ALFA
 
         [DllImport("kernel32.dll", ExactSpelling = true, SetLastError = true, CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         private static extern UInt32 GetPrivateProfileStringW(string lpAppName, string lpKeyName, string lpDefault, StringBuilder lpReturnedString, UInt32 nSize, string lpFileName);
+
+        [DllImport("wer.dll", ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        private static extern UInt32 WerAddExcludedApplication(string pwszExeName, int bAllUsers);
+
+        [DllImport("wer.dll", ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        private static extern UInt32 WerRemoveExcludedApplication(string pwszExeName, int bAllUsers);
     }   
 }
 
