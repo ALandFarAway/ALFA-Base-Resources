@@ -1043,7 +1043,7 @@ void ACR_CreateSQLTables()
 		"`IsPlayable` bool NOT NULL default true," +
 		"`NaturalHair` varchar(128) default NULL," +
 		"`CharacterFileName` varchar(36) DEFAULT NULL COMMENT 'BIC name (36 from 32-byte BIC resref name, plus .bic.)'," +
-		"`RetiredStatus` TINYINT( 3 ) NOT NULL COMMENT '0 is default, 1 is temp retired, 2 is back from retirement, 3 is retired definitely'," +
+		"`RetiredStatus` TINYINT( 3 ) NOT NULL DEFAULT 0 COMMENT '0 is default, 1 is temp retired, 2 is back from retirement, 3 is retired definitely'," +
 		"PRIMARY KEY (`ID`), UNIQUE KEY (`PlayerID`, `Name`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 	
@@ -1256,7 +1256,7 @@ void ACR_AdjustTables() {
 	// check to see if the Characters table has the RetiredStatus column
 	ACR_SQLQuery("SHOW COLUMNS from `characters` WHERE Field = 'RetiredStatus';");
 	if (ACR_SQLFetch() != SQL_SUCCESS) {
-		ACR_SQLQuery("ALTER TABLE `characters` ADD `RetiredStatus` TINYINT( 3 ) NOT NULL COMMENT '0 is default, 1 is temp retired, 2 is back from retirement, 3 is retired definitely'");
+		ACR_SQLQuery("ALTER TABLE `characters` ADD `RetiredStatus` TINYINT( 3 ) NOT NULL DEFAULT 0 COMMENT '0 is default, 1 is temp retired, 2 is back from retirement, 3 is retired definitely'");
 		WriteTimestampedLogEntry("ACR_DB_PERSIST: Characters table altered to record retirement status.");
 	} else {
 		WriteTimestampedLogEntry("ACR_DB_PERSIST: RetiredStatus column existance confirmed.");
