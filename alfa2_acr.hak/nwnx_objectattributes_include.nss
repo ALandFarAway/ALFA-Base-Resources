@@ -240,18 +240,23 @@ void
 XPObjectAttributesSetMovement(
 	object Creature,
 	int MovementSpeed
-	);
+	)
 /*++
 
 Routine Description:
+
 	This routine changes the movement rate of a creature object.
 
 Arguments:
+
 	Creature - Supplies the object id of a creature object to modify.
+
 	MovementSpeed - Supplies the new movement speed, as a reference to a line on creaturespeed.2da
 
 Environment:
-	Any script callout
+
+	Any script callout.
+
 --*/
 {
 	NWNXSetString(
