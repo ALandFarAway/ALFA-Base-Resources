@@ -22,7 +22,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // This line is required on all spawn group scripts.
-#include "acr_spawn_i"
+#include "acr_1sc_spawn_i"
 #include "acr_placeable_i"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -52,57 +52,50 @@ void main();
 void main() {
 
 
-	object oChest;
-	object oTrap;
-	object oCheckTrigger;
-	object o;
+	object oWP, o;
 
-	oCheckTrigger = GetNearestObjectByTag("phat_lewt_trigger", OBJECT_SELF, 1);
-	if (GetDistanceBetween(oCheckTrigger, OBJECT_SELF) > 10.0) {
-		o = GetArea(OBJECT_SELF);
-		WriteTimestampedLogEntry("phat_lewt: Error, no trigger for loot in "+GetName(o) + " (" + GetTag(o) + ")");
-		return;
-	}
+	oWP = OBJECT_SELF;
+	o = ACR_SpawnLootDetector();
         	
 	switch(Random(13)) {
 		case 0:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_altar");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_altar");
 			break;
 		case 1:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_armoire");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_armoire");
 			break;
 		case 2:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_bag");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_bag");
 			break;
 		case 3:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_barrel");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_barrel");
 			break;
 		case 4:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_basket");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_basket");
 			break;
 		case 5:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_bookshelf");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_bookshelf");
 			break;
 		case 6:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_cabinet");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_cabinet");
 			break;
 		case 7:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_chest_large");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_chest_large");
 			break;
 		case 8:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_chest_small");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_chest_small");
 			break;
 		case 9:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_crate");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_crate");
 			break;
 		case 10:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_desk");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_desk");
 			break;
 		case 11:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_urn");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_urn");
 			break;
 		case 12:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_vase");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_vase");
 			break;
 	}
 }

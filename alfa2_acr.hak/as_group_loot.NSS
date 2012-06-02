@@ -22,7 +22,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // This line is required on all spawn group scripts.
-#include "acr_spawn_i"
+#include "acr_1sc_spawn_i"
 #include "acr_placeable_i"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -51,77 +51,67 @@ void main();
 
 void main() {
 
+	object oWP, o;
 
-	object oChest;
-	object oTrap;
-	object oCheckTrigger;
-	object o;
+	oWP = OBJECT_SELF;
+	o = ACR_SpawnLootDetector();
 	        	
-	oCheckTrigger = GetNearestObjectByTag("phat_lewt_trigger", OBJECT_SELF, 1);
-	if (GetDistanceBetween(oCheckTrigger, OBJECT_SELF) > 10.0) {
-		o = GetArea(OBJECT_SELF);
-		WriteTimestampedLogEntry("phat_lewt: Error, no trigger for loot in "+GetName(o) + " (" + GetTag(o) + ")");
-		return;
-	}
-						
-	SetLocalInt(oCheckTrigger, "PL_SPAWNABLE", 1);
-
 	switch (Random(10)) {
 		// 10%
 		case 0:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_sarcophagus");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_sarcophagus");
 			break;
 		// 20%
 		case 1:
 		case 2:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_chest_small");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_chest_small");
 			break;
 		// 20%
 		case 3:
 		case 4:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_chest_large");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_chest_large");
 			break;
 		// 10%
 		case 5:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_bookshelf");
-			SetLocalInt(oCheckTrigger, "PL_NO_TRAP", 1);
+			SetLocalString(o, "PL_RESREF", "phat_lewt_bookshelf");
+			SetLocalInt(o, "PL_NO_TRAP", 1);
 			break;
 		// 10%
 		case 6:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_barrel");
-			SetLocalInt(oCheckTrigger, "PL_NO_TRAP", 1);
+			SetLocalString(o, "PL_RESREF", "phat_lewt_barrel");
+			SetLocalInt(o, "PL_NO_TRAP", 1);
 			break;
 		// 10%
 		case 7:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_crate");
-			SetLocalInt(oCheckTrigger, "PL_NO_TRAP", 1);
+			SetLocalString(o, "PL_RESREF", "phat_lewt_crate");
+			SetLocalInt(o, "PL_NO_TRAP", 1);
 			break;
 		// 10%
 		case 8:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_vase");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_vase");
 			break;
 		default:
 			switch (Random(4)) {
 				// 2.5%
 				case 0:
-					SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_corpse_female");
+					SetLocalString(o, "PL_RESREF", "phat_lewt_corpse_female");
 					break;
 				// 2.5%
 				case 1:
-					SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_corpse_male");
+					SetLocalString(o, "PL_RESREF", "phat_lewt_corpse_male");
 					break;
 				// 2.5%
 				case 2:
-					SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_skeleton");
+					SetLocalString(o, "PL_RESREF", "phat_lewt_skeleton");
 					break;
 				// 2.5%
 				default:
-					SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_corpse_ogre");
+					SetLocalString(o, "PL_RESREF", "phat_lewt_corpse_ogre");
 			}
-			SetLocalInt(oCheckTrigger, "PL_NO_TRAP", 1);
+			SetLocalInt(o, "PL_NO_TRAP", 1);
 	}
 
-	// 20%
+	// 20% deactivate forever
 	if (!Random(5))
-		ACR_DestroySpawnPoint(OBJECT_SELF);
+		ACR_DestroySpawnPoint(oWP);
 }
