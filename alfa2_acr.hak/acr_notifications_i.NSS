@@ -73,8 +73,51 @@ void NotifyPlayer( object oPC, int nNotifyType, string sNotifyAbbreviation, stri
 // *** BEGIN PUBLIC FUNCTIONS ***
 ////////////////////////////////////////////////////////////////////////////////
 
+int _GetUniqueMessageId()
+{
+    int nReturn = GetLocalInt(GetModule(), "ACR_NOTIFY_MESSAGE_NUMBER") + 1;
+    SetLocalInt(GetModule(), "ACR_NOTIFY_MESSAGE_NUMBER", nReturn);
+    return nReturn;
+}
+
+string _GetIconFromType(int nNotifyType)
+{
+    if(nType == NOTIFY_TYPE_URGENT)  return "notify_urg.tga";
+    if(nType == NOTIFY_TYPE_ERROR)   return "notify_err.tga";
+    if(nType == NOTIFY_TYPE_WARNING) return "notify_war.tga";
+    if(nType == NOTIFY_TYPE_INFO)    return "notify_inf.tga";
+    if(nType == NOTIFY_TYPE_TIP)     return "notify_tip.tga";
+}
+
 void NotifyPlayer( object oPC, int nNotifyType, string sNotifyWindow, string sNotifyAbbreviation, string sNotifyMessage)
 {
-// TODO: Everything here
+    // Temporary standin-- we'll get rid of this line once the GUI is working.
+    SendMessageToPC(oPC, sNotifyMessage);
+
+    DisplayGuiScreen(oPC, "SCREEN_NOTIFY", FALSE, "notifylist.xml");
+
+    // Assign the message a unique number, so we can check against it later.
+    int nMessageNumber = _GetUniqueMessageId();
+    string sRowName = "NOTIFY_PLAYER_"+IntToString(nMessageNumber);
+    SetLocalString(GetModule(), sRowName, GetName(oPC));
+    string sIcon = _GetIconFromType(nNotifyType);
+    AddListBoxRow(OBJECT_SELF, "SCREEN_NOTIFY", "notify", sRowName, "LISTBOX_ITEM_TEXT="+sNotifyAbbreviation, "LISTBOX_ITEM_ICON="+sIcon, "6="+sRowName+";7="+sNotifyWindow+";8="+sNotifyMessage, "unhide");
+}
+
+void HandleRowClick( object oPC, string sRowName, string sNotifyWindow, string sNotifyMessage)
+{
+    string sTargetName = GetLocalString(GetModule(), sRowName);
+    if(sTargetName != GetName(oPC))
+    {
+        // This might actually be a malicious user, but let's be coy. Plus, what if it's a bug?
+        SendMessageToPC(oPC, "Whoops! That message wasn't actually for you. Please ignore it.");
+        RemoveListBoxRow(OBJECT_SELF, "SCREEN_NOTIFY", "notify", sRowName);
+        return;
+    }
+
+    // Make sure we only use the message once.
+    DeleteLocalString(GetModule(), sRowName);
+
+    // Temporary standin-- we'll get rid of this line once we have better message boxes.
     SendMessageToPC(oPC, sNotifyMessage);
 }
