@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<UIScene name="SCREEN_NOTIFY" x=ALIGN_RIGHT y=568 width=220 height=120 draggable=false capturemouseclicks=false
+	priority="SCENE_INGAME" backoutkey=false scriptloadable=true />	
+	
+	<UIListbox name="notify" x=0 y=0 width=220 height=120 yPadding=0 xPadding=0 selectonleftclick=false capturemouseclicks=false
+		showpartialchild=false scrollbaronright=true unequalcontrols=false scrollsegmentsize=1 update=true tupple=true > 
+
+		<UIPane name="notify_Item" width=200 height=40 tupple=true prototype=true draggable=false
+		 OnLeftClick0=UIObject_Misc_ExtractData("self:","string",6,local:6)
+		 OnLeftClick1=UIObject_Misc_ExtractData("self:","string",7,local:7)
+		 OnLeftClick2=UIObject_Misc_ExtractData("self:","string",8,local:8)
+		 OnLeftClick3=UIObject_Misc_ExecuteServerScript("gui_notifylist",1,local:6,local:7,local:8)>
+
+			<UIButton name="LISTBOX_ITEM_ICON"  x=160 y=0 style="STYLE_LOOT_ICON" prototype=true draggable=false>
+				<UIText align=right valign=bottom fontfamily="Default" style="1"/> 
+			</UIButton> 
+
+			<UIButton name="LISTBOX_ITEM_TEXT" x=0 y=0 style="BEHAVIOR_TEXT_BUTTON" width=160 height=40 prototype=true draggable=false>
+				<UIText align=center valign=center fontfamily="Default" style="1"/>
+			</UIButton> 
+		</UIPane> 
+		<UIScrollBar name="SB" style="STYLE_SB_THIN" /> 
+	</UIListbox>
+

@@ -112,6 +112,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\ginc_group.nss                        \
             $(OUTPUTDIR)\acr_report_i.nss                      \
             $(OUTPUTDIR)\acr_combateffects_i.nss               \
+            $(OUTPUTDIR)\acr_notifications_i.nss               \
             $(OUTPUTDIR)\hench_i0_ai.nss                       
 
 NSS_OBJECTS=                                                   \
@@ -512,6 +513,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\as_group_loot_death.ncs               \
             $(OUTPUTDIR)\as_group_loot_furnishing.ncs          \
             $(OUTPUTDIR)\as_group_loot_nature.ncs              \
+            $(OUTPUTDIR)\gui_notifylist.ncs                    \
             $(OUTPUTDIR)\d_appearance_action.ncs               
 
 #

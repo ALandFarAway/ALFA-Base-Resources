@@ -53,6 +53,10 @@ const int NOTIFY_TYPE_INFO    = 3;
 // This type of message can be supressed.
 const int NOTIFY_TYPE_TIP     = 4;
 
+const string NOTIFY_EVENT_CLICKED_TICKER = "1";
+
+const string NOTIFY_EVENT_DISMISSED_TICKLER = "2";
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -64,6 +68,14 @@ const int NOTIFY_TYPE_TIP     = 4;
 // sNotifyMessage is the full content of the message to be sent to oPC
 // sNotifyWindow is the GUI window to be used. If left blank, a generic message box will be used.
 void NotifyPlayer( object oPC, int nNotifyType, string sNotifyAbbreviation, string sNotifyMessage, string sNotifyWindow="");
+
+// This is a generic function used to continue the message-sending process after a
+// player has responded to the tickler.
+// oPC is the clicking object.
+// sRowName is the name of the row and the ID of the event.
+// sNotifyWindow is the kind of window used to send the message.
+// sNotifyMessage is the full text of the message.
+void HandleRowClick( object oPC, string sRowName, string sNotifyWindow, string sNotifyMessage);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -82,11 +94,12 @@ int _GetUniqueMessageId()
 
 string _GetIconFromType(int nNotifyType)
 {
-    if(nType == NOTIFY_TYPE_URGENT)  return "notify_urg.tga";
-    if(nType == NOTIFY_TYPE_ERROR)   return "notify_err.tga";
-    if(nType == NOTIFY_TYPE_WARNING) return "notify_war.tga";
-    if(nType == NOTIFY_TYPE_INFO)    return "notify_inf.tga";
-    if(nType == NOTIFY_TYPE_TIP)     return "notify_tip.tga";
+    if(nNotifyType == NOTIFY_TYPE_URGENT)  return "notify_urg.tga";
+    if(nNotifyType == NOTIFY_TYPE_ERROR)   return "notify_err.tga";
+    if(nNotifyType == NOTIFY_TYPE_WARNING) return "notify_war.tga";
+    if(nNotifyType == NOTIFY_TYPE_INFO)    return "notify_inf.tga";
+    if(nNotifyType == NOTIFY_TYPE_TIP)     return "notify_tip.tga";
+    return "";
 }
 
 void NotifyPlayer( object oPC, int nNotifyType, string sNotifyWindow, string sNotifyAbbreviation, string sNotifyMessage)
@@ -101,7 +114,7 @@ void NotifyPlayer( object oPC, int nNotifyType, string sNotifyWindow, string sNo
     string sRowName = "NOTIFY_PLAYER_"+IntToString(nMessageNumber);
     SetLocalString(GetModule(), sRowName, GetName(oPC));
     string sIcon = _GetIconFromType(nNotifyType);
-    AddListBoxRow(OBJECT_SELF, "SCREEN_NOTIFY", "notify", sRowName, "LISTBOX_ITEM_TEXT="+sNotifyAbbreviation, "LISTBOX_ITEM_ICON="+sIcon, "6="+sRowName+";7="+sNotifyWindow+";8="+sNotifyMessage, "unhide");
+    AddListBoxRow(oPC, "SCREEN_NOTIFY", "notify", sRowName, "LISTBOX_ITEM_TEXT="+sNotifyAbbreviation, "LISTBOX_ITEM_ICON="+sIcon, "6="+sRowName+";7="+sNotifyWindow+";8="+sNotifyMessage, "unhide");
 }
 
 void HandleRowClick( object oPC, string sRowName, string sNotifyWindow, string sNotifyMessage)
@@ -120,4 +133,7 @@ void HandleRowClick( object oPC, string sRowName, string sNotifyWindow, string s
 
     // Temporary standin-- we'll get rid of this line once we have better message boxes.
     SendMessageToPC(oPC, sNotifyMessage);
+
+    // Still want to dismiss the row at the end.
+    RemoveListBoxRow(OBJECT_SELF, "SCREEN_NOTIFY", "notify", sRowName);
 }
