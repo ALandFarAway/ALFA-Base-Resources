@@ -112,13 +112,10 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\ginc_group.nss                        \
             $(OUTPUTDIR)\acr_report_i.nss                      \
             $(OUTPUTDIR)\acr_combateffects_i.nss               \
-<<<<<<< HEAD
             $(OUTPUTDIR)\acr_notifications_i.nss               \
-            $(OUTPUTDIR)\hench_i0_ai.nss                       
-=======
+
             $(OUTPUTDIR)\hench_i0_ai.nss                       \
             $(OUTPUTDIR)\acr_1sc_spawn_i.nss                   
->>>>>>> origin/master
 
 NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\1sc_plc_ontrapdisarm.ncs              \
