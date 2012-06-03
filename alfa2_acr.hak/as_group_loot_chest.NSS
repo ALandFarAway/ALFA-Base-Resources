@@ -22,7 +22,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // This line is required on all spawn group scripts.
-#include "acr_spawn_i"
+#include "acr_1sc_spawn_i"
 #include "acr_placeable_i"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -50,26 +50,17 @@ void main();
 ////////////////////////////////////////////////////////////////////////////////
 
 void main() {
+	object oWP, o;
 
-
-	object oChest;
-	object oTrap;
-	object oCheckTrigger;
-	object o;
-
-	oCheckTrigger = GetNearestObjectByTag("phat_lewt_trigger", OBJECT_SELF, 1);
-	if (GetDistanceBetween(oCheckTrigger, OBJECT_SELF) > 10.0) {
-		o = GetArea(OBJECT_SELF);
-		WriteTimestampedLogEntry("phat_lewt: Error, no trigger for loot in "+GetName(o) + " (" + GetTag(o) + ")");
-		return;
-	}
-        	
+	oWP = OBJECT_SELF;
+	o = ACR_SpawnLootDetector();
+	    
 	switch(Random(2)) {
 		case 0:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_chest_small");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_chest_small");
 			break;
 		case 1:
-			SetLocalString(oCheckTrigger, "PL_RESREF", "phat_lewt_chest_small");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_chest_small");
 			break;
 	}
 }

@@ -456,6 +456,7 @@ const string _SPAWN_PRESPAWN_PREDICTION_GB = "ACR_SPA_PP";
 
 const string ACR_LOG_SPAWNS	= "ACR_LOG_SPAWNS";
 
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -630,6 +631,14 @@ string ACR_SpawnPointToString(object oWP);
 //! On an error, it returns 0.
 int ACR_GetSpawnEvent(object oWP = OBJECT_SELF);
 
+//! Return if presently this WP is spawned
+int ACR_GetIsSpawned(object oWP);
+
+//! Explicitly adds a non-spawnpoint generated object to the spawnpoint group
+//! Therefore, is cleaned up when the spawn point is despawned.
+//! Returns TRUE on success FALSE on failure
+int ACR_AddObjectToSpawnPoint(object oWP, object oObject);
+
 //! *** PRIVATE FUNCTIONS ***
 
 //! Returns 1 of the spawn point oWP should be considered currently spawned
@@ -732,6 +741,10 @@ location _GetNewLocationFromVectorAndFacing(location lOrigin, float fXOffset, fl
 
 //!  Runs a loop through spawn points in an area prior to it's activation
 void _RunSpawnIsActiveLoop(object oArea);
+
+//! Handles internal accounting for adding instanced objects to spawn WP
+void _AddObjectToSpawnPoint(object oWP, object oObject);
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -973,6 +986,32 @@ void ACR_SpawnPoint(object oWP) {
 location ACR_GetSpawnLocation(object oWP = OBJECT_SELF) {
     return GetLocalLocation(oWP, _SPAWN_LAST_LOCATION);
 }
+
+string ACR_SpawnPointToString(object oWP)
+{
+	object oArea = GetArea(oWP);
+
+	return "(Tag: " + GetTag(oWP) + ", Name: " + GetName(oWP) + ", Resref: " + GetResRef(oWP) + ", Location: " + LocationToString(GetLocation(oWP)) + ") IN (Tag: " + GetTag(oArea) + ", Name: " + GetName(oArea) + ") ";
+}
+
+int ACR_GetIsSpawned(object oWP)
+{
+	return GetLocalInt(oWP, _SPAWN_FLAGS) & _SPAWN_FLAGS_SPAWNED;
+}
+
+
+int ACR_AddObjectToSpawnPoint(object oWP, object oObject)
+{
+	_AddObjectToSpawnPoint(oWP, oObject);
+
+	// Spit debug information to logfile
+	if (GetLocalInt(GetModule(), ACR_LOG_SPAWNS)) {
+        	WriteTimestampedLogEntry("ACR_Spawn: ACR_AddObjectToSpawnPoint "+GetTag(oObject)+" - "+ACR_SpawnPointToString(oWP));
+	}
+
+	return TRUE;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // *** BEGIN PRIVATE FUNCTIONS ***
@@ -1884,20 +1923,12 @@ object _SpawnObject(string sResRef, int nObjectType, object oWP, location lLoc, 
         i++;
     }
 
-    // Add this creature to the list of creatures spawned from this waypoint and
-    // area.
-    i = GetLocalInt(oWP, _SPAWNED_OBJECT_ARRAY_LENGTH);
-    SetLocalArrayObject(oWP, _SPAWNED_OBJECT_ARRAY, i, oSpawned);
-    SetLocalInt(oWP, _SPAWNED_OBJECT_ARRAY_LENGTH, i+1);
-	
-	// Add a pointer back to the waypoint, for death reporting.
-	SetLocalObject(oSpawned, _SPAWN_PARENT_WP, oWP);
+    _AddObjectToSpawnPoint(oWP, oSpawned);
 
-	if (GetLocalInt(GetModule(), ACR_LOG_SPAWNS)) {
-		object oArea = GetArea(oWP);
-		// Spit debug information to logfile
-		WriteTimestampedLogEntry("ACR_Spawn: ACR_SpawnObject "+sResRef+" in "+GetName(oArea) + " (" + GetTag(oArea) + ")");
-	}
+    // Spit debug information to logfile
+    if (GetLocalInt(GetModule(), ACR_LOG_SPAWNS)) {
+        WriteTimestampedLogEntry("ACR_Spawn: ACR_SpawnObject "+sResRef+" - "+ACR_SpawnPointToString(oWP));
+    }
 
     return oSpawned;
 }
@@ -1972,4 +2003,19 @@ void _RunSpawnIsActiveLoop(object oArea) {
         object oPoint = GetLocalArrayObject(oArea, _SPAWN_WAYPOINT_ARRAY, n);
         ExecuteScript(GetLocalString(oPoint, _WP_IS_ACTIVE_SCRIPT), oPoint);
     }
+}
+
+void _AddObjectToSpawnPoint(object oWP, object oObject)
+{
+	int i;
+
+	// Add this creature to the list of creatures spawned from this waypoint and
+	// area.
+
+	i = GetLocalInt(oWP, _SPAWNED_OBJECT_ARRAY_LENGTH);
+	SetLocalArrayObject(oWP, _SPAWNED_OBJECT_ARRAY, i, oObject);
+	SetLocalInt(oWP, _SPAWNED_OBJECT_ARRAY_LENGTH, i+1);
+
+	// Add a pointer back to the waypoint, for death reporting.
+	SetLocalObject(oObject, _SPAWN_PARENT_WP, oWP);
 }
