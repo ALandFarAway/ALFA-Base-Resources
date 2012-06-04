@@ -571,6 +571,110 @@ void _DistributeTranslation(string sOriginalMessage, string sScrambledMessage, s
         AssignCommand(oSpeaker, _SpeakString(sScrambledMessage, nTalkVolume));
 }
 
+void ACR_CheckBodyPartsOnLevelUp(object oPC)
+{
+    if(GetLevelByClass(CLASS_TYPE_FAVORED_SOUL, oPC) == 17)
+    {
+        int nRace = GetRacialType(oPC);
+        int nWings = 0;
+        if(GetAlignmentGoodEvil(oPC) == ALIGNMENT_EVIL)
+        {
+            if(nRace == RACIAL_TYPE_DWARF)
+            {
+                if(GetGender(oPC) == GENDER_FEMALE)
+                    nWings = WING_MODEL_DWARF_LEATHER_FEMALE;
+                else
+                    nWings = WING_MODEL_DWARF_LEATHER_MALE;
+            }
+            else if(nRace == RACIAL_TYPE_GNOME)
+            {
+                if(GetGender(oPC) == GENDER_FEMALE)
+                    nWings = WING_MODEL_GNOME_LEATHER_FEMALE;
+                else
+                    nWings = WING_MODEL_GNOME_LEATHER_MALE;
+            }
+            else if(nRace == RACIAL_TYPE_HALFORC)
+            {
+                if(GetGender(oPC) == GENDER_FEMALE)
+                    nWings = WING_MODEL_HALFORC_LEATHER_FEMALE;
+                else
+                    nWings = WING_MODEL_HALFORC_LEATHER_MALE;
+            }
+            else
+            {
+                if(GetGender(oPC) == GENDER_FEMALE)
+                    nWings = WING_MODEL_HUMAN_LEATHER_FEMALE;
+                else
+                    nWings = WING_MODEL_HUMAN_LEATHER_MALE;
+            }
+        }
+        else
+        {
+            if(nRace == RACIAL_TYPE_DWARF)
+            {
+                if(GetGender(oPC) == GENDER_FEMALE)
+                    nWings = WING_MODEL_DWARF_WHITE_FEMALE;
+                else
+                    nWings = WING_MODEL_DWARF_WHITE_MALE;
+            }
+            else if(nRace == RACIAL_TYPE_GNOME)
+            {
+                if(GetGender(oPC) == GENDER_FEMALE)
+                    nWings = WING_MODEL_GNOME_WHITE_FEMALE;
+                else
+                    nWings = WING_MODEL_GNOME_WHITE_MALE;
+            }
+            else if(nRace == RACIAL_TYPE_HALFORC)
+            {
+                if(GetGender(oPC) == GENDER_FEMALE)
+                    nWings = WING_MODEL_HALFORC_WHITE_FEMALE;
+                else
+                    nWings = WING_MODEL_HALFORC_WHITE_MALE;
+            }
+            else
+            {
+                if(GetGender(oPC) == GENDER_FEMALE)
+                    nWings = WING_MODEL_HUMAN_WHITE_FEMALE;
+                else
+                    nWings = WING_MODEL_HUMAN_WHITE_MALE;
+            }
+        }
+        XPObjectAttributesSetWingVariation(oPC, nWings);
+    }
+    if(GetLevelByClass(CLASS_TYPE_DRAGONDISCIPLE, oPC) == 9)
+    {
+        if(nRace == RACIAL_TYPE_DWARF)
+        {
+            if(GetGender(oPC) == GENDER_FEMALE)
+                nWings = WING_MODEL_DWARF_RED_FEMALE;
+            else
+                nWings = WING_MODEL_DWARF_RED_MALE;
+        }
+        else if(nRace == RACIAL_TYPE_GNOME)
+        {
+            if(GetGender(oPC) == GENDER_FEMALE)
+                nWings = WING_MODEL_GNOME_RED_FEMALE;
+            else
+                nWings = WING_MODEL_GNOME_RED_MALE;
+        }
+        else if(nRace == RACIAL_TYPE_HALFORC)
+        {
+            if(GetGender(oPC) == GENDER_FEMALE)
+                nWings = WING_MODEL_HALFORC_RED_FEMALE;
+            else
+                nWings = WING_MODEL_HALFORC_RED_MALE;
+        }
+        else
+        {
+            if(GetGender(oPC) == GENDER_FEMALE)
+                nWings = WING_MODEL_HUMAN_RED_FEMALE;
+            else
+                nWings = WING_MODEL_HUMAN_RED_MALE;
+        }
+        XPObjectAttributesSetWingVariation(oPC, nWings);
+    }
+}
+
 void ACR_ModuleOnModuleLoad()
 {
     // Set global module settings.
@@ -1104,6 +1208,9 @@ void ACR_ModuleOnPlayerLevelUp() {
 
     // apply extra languages if necessary
     ACR_LanguagesOnLevelUp(oPC);
+
+    // check for major changes to anatomy.
+    ACR_CheckBodyPartsOnLevelUp(oPC);
     
     // log the level up attempt
     ACR_LogEvent(oPC, ACR_LOG_LEVELUP, "Character: " + ACR_SQLEncodeSpecialChars(GetName(oPC)) + ", Level: " + IntToString(GetHitDice(oPC)));

@@ -623,3 +623,4 @@ $(HAKFILE): $(HAK_SOURCES)
 	$(BUILD_MSG) (ERF) Creating - $(HAKFILE)
 	@$(MKERF_NWN2) -c $(HAKFILE) -z $(HAK_SOURCES)
 !endif
+
