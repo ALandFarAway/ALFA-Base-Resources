@@ -619,7 +619,7 @@ namespace ACR_CreatureBehavior
                 return;
 
             // We're mindless, and thus too stupid to do anything special. Hit the nearest bad guy.
-            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_MINDLESS)
+            if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_MINDLESS)
             {
                 CreatureObject AttackTarget = Party.GetNearest(this, Party.Enemies);
                 _AttackWrapper(AttackTarget);
@@ -639,7 +639,7 @@ namespace ACR_CreatureBehavior
                 // Everyone gather around the healer; he or she might be using mass heals.
                 if(Healer != null)
                     Script.ActionMoveToObject(Healer.ObjectId, CLRScriptBase.TRUE, 1.0f);
-                if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_MEDIC &&
+                if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_MEDIC &&
                     CurrentAction == CLRScriptBase.ACTION_INVALID)
                 {
                     if (TryToHealAll())
@@ -691,49 +691,49 @@ namespace ACR_CreatureBehavior
 
             // Time to break off into the particular types
             // Animals are simple creatures; they want to protect themselves and their masters.
-            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_ANIMAL)
+            if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_ANIMAL)
             {
 
                 return;
             }
 
             // Archers have the advantage of reach and accuracy with acceptable damage. They strike weak and soft targets.
-            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_ARCHER)
+            if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_ARCHER)
             {
 
                 return;
             }
 
             // Buffs try to boost the capabilities of their allies
-            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_BUFFS)
+            if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_BUFFS)
             {
 
                 return;
             }
 
             // Controls try to debuff enemies and impede movement on the field.
-            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_CONTROL)
+            if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_CONTROL)
             {
 
                 return;
             }
 
             // Cowards avoid fights and look for help.
-            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_COWARD)
+            if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_COWARD)
             {
 
                 return;
             }
 
             // Flanks try to backstab people, and counter attack people who come after squishies.
-            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_FLANK)
+            if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_FLANK)
             {
 
                 return;
             }
 
             // Medics try to heal their friends.
-            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_MEDIC)
+            if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_MEDIC)
             {
                 if (TryToHealAll())
                     return;
@@ -741,28 +741,28 @@ namespace ACR_CreatureBehavior
             }
 
             // Nukes try to explode hardened targets.
-            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_NUKE)
+            if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_NUKE)
             {
 
                 return;
             }
 
             // Shocks try to break through the lines and take down squishies.
-            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_SHOCK)
+            if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_SHOCK)
             {
 
                 return;
             }
 
             // Skirmishers try to resist shocks, flanks, and other skirmishers.
-            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_SKIRMISH)
+            if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_SKIRMISH)
             {
 
                 return;
             }
 
             // Tanks try to hold ground and contain dangerous foes.
-            if (TacticsType == (int)AIParty.AIType.BEHAVIOR_TYPE_TANK)
+            if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_TANK)
             {
 
                 return;
@@ -1525,7 +1525,7 @@ namespace ACR_CreatureBehavior
 
         public uint OverrideTarget = CLRScriptBase.OBJECT_INVALID;
 
-        public int TacticsType = (int)AIParty.AIType.BEHAVIOR_TYPE_UNDEFINED;
+        public AIParty.AIType TacticsType = AIParty.AIType.BEHAVIOR_TYPE_UNDEFINED;
 
         public enum SpellTargetAOE
         {

@@ -73,72 +73,74 @@ namespace ACR_CreatureBehavior
             }
 
             // Now that leadership is established, what sort of guy is this?
-            int TacticsType = Creature.Script.GetLocalInt(Creature.ObjectId, "ACR_CREATURE_BEHAVIOR");
+            AIParty.AIType TacticsType = (AIParty.AIType)Creature.Script.GetLocalInt(Creature.ObjectId, "ACR_CREATURE_BEHAVIOR");
+            if(TacticsType == AIType.BEHAVIOR_TYPE_UNDEFINED)
+                Enum.TryParse<AIParty.AIType>(Creature.Script.GetLocalString(Creature.ObjectId, "ACR_CREATURE_BEHAVIOR"), out TacticsType);
             if(TacticsType != 0)
             {
-                if(TacticsType == (int)AIType.BEHAVIOR_TYPE_ANIMAL)
+                if(TacticsType == AIType.BEHAVIOR_TYPE_ANIMAL)
                 {
                     this.PartyAnimals.Add(Creature);
                     Creature.TacticsType = TacticsType;
                 }
-                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_ARCHER)
+                else if(TacticsType == AIType.BEHAVIOR_TYPE_ARCHER)
                 {
                     this.PartyArchers.Add(Creature);
                     Creature.TacticsType = TacticsType;
                 }
-                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_BUFFS)
+                else if(TacticsType == AIType.BEHAVIOR_TYPE_BUFFS)
                 {
                     this.PartyBuffs.Add(Creature);
                     Creature.TacticsType = TacticsType;
                 }
-                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_CONTROL)
+                else if(TacticsType == AIType.BEHAVIOR_TYPE_CONTROL)
                 {
                     this.PartyControls.Add(Creature);
                     Creature.TacticsType = TacticsType;
                 }
-                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_COWARD)
+                else if(TacticsType == AIType.BEHAVIOR_TYPE_COWARD)
                 {
                     this.PartyCowards.Add(Creature);
                     Creature.TacticsType = TacticsType;
                 }
-                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_FLANK)
+                else if(TacticsType == AIType.BEHAVIOR_TYPE_FLANK)
                 {
                     this.PartyFlanks.Add(Creature);
                     Creature.TacticsType = TacticsType;
                 }
-                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_MEDIC)
+                else if(TacticsType == AIType.BEHAVIOR_TYPE_MEDIC)
                 {
                     this.PartyMedics.Add(Creature);
                     Creature.TacticsType = TacticsType;
                 }
-                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_MINDLESS)
+                else if(TacticsType == AIType.BEHAVIOR_TYPE_MINDLESS)
                 {
                     this.PartyMindless.Add(Creature);
                     Creature.TacticsType = TacticsType;
                 }
-                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_NUKE)
+                else if(TacticsType == AIType.BEHAVIOR_TYPE_NUKE)
                 {
                     this.PartyNukes.Add(Creature);
                     Creature.TacticsType = TacticsType;
                 }
-                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_SHOCK)
+                else if(TacticsType == AIType.BEHAVIOR_TYPE_SHOCK)
                 {
                     this.PartyShocks.Add(Creature);
                     Creature.TacticsType = TacticsType;
                 }
-                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_SKIRMISH)
+                else if(TacticsType == AIType.BEHAVIOR_TYPE_SKIRMISH)
                 {
                     this.PartySkrimishers.Add(Creature);
                     Creature.TacticsType = TacticsType;
                 }
-                else if(TacticsType == (int)AIType.BEHAVIOR_TYPE_TANK)
+                else if(TacticsType == AIType.BEHAVIOR_TYPE_TANK)
                 {
                     this.PartyTanks.Add(Creature);
                     Creature.TacticsType = TacticsType;
                 }
                 else
                 {
-                    TacticsType = (int)AIType.BEHAVIOR_TYPE_UNDEFINED;
+                    TacticsType = AIType.BEHAVIOR_TYPE_UNDEFINED;
                     throw new ApplicationException(String.Format("Creature {0} has an AI type {1} defined, but that type is not understood by CreatureBehavior.", Creature, TacticsType));
                 }
             }
@@ -151,14 +153,14 @@ namespace ACR_CreatureBehavior
                 // The creature is mindless; that's a simple thing.
                 if (Creature.Script.GetAbilityScore(Creature.ObjectId, CLRScriptBase.ABILITY_INTELLIGENCE, CLRScriptBase.TRUE) == 0)
                 {
-                    Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_MINDLESS;
+                    Creature.TacticsType = AIType.BEHAVIOR_TYPE_MINDLESS;
                     this.PartyMindless.Add(Creature);
                 }
                 
                 // The creature is too dumb to take more than simple orders.
                 else if (Creature.Script.GetAbilityScore(Creature.ObjectId, CLRScriptBase.ABILITY_INTELLIGENCE, CLRScriptBase.TRUE) < 6)
                 {
-                    Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_ANIMAL;
+                    Creature.TacticsType = AIType.BEHAVIOR_TYPE_ANIMAL;
                     this.PartyAnimals.Add(Creature);
                 }
 
@@ -272,7 +274,7 @@ namespace ACR_CreatureBehavior
                             Cont > Heal)
                         {
                             this.PartyControls.Add(Creature);
-                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_CONTROL;
+                            Creature.TacticsType = AIType.BEHAVIOR_TYPE_CONTROL;
                         }
 
                         // Spellcaster is better at support magic than others.
@@ -280,21 +282,21 @@ namespace ACR_CreatureBehavior
                                 Buff > Heal)
                         {
                             this.PartyBuffs.Add(Creature);
-                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_BUFFS;
+                            Creature.TacticsType = AIType.BEHAVIOR_TYPE_BUFFS;
                         }
 
                         // Spellcaster is better at destroying things than not.
                         else if (Blast > Heal)
                         {
                             this.PartyNukes.Add(Creature);
-                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_NUKE;
+                            Creature.TacticsType = AIType.BEHAVIOR_TYPE_NUKE;
                         }
 
                         // Spellcaster is either a healer or we don't know. We'll set them to taking care of pals.
                         else
                         {
                             this.PartyMedics.Add(Creature);
-                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_MEDIC;
+                            Creature.TacticsType = AIType.BEHAVIOR_TYPE_MEDIC;
                         }
                     }
 
@@ -304,12 +306,12 @@ namespace ACR_CreatureBehavior
                         if (Tank > Crush)
                         {
                             this.PartyTanks.Add(Creature);
-                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_TANK;
+                            Creature.TacticsType = AIType.BEHAVIOR_TYPE_TANK;
                         }
                         else
                         {
                             this.PartyShocks.Add(Creature);
-                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_SHOCK;
+                            Creature.TacticsType = AIType.BEHAVIOR_TYPE_SHOCK;
                         }
                     }
 
@@ -320,17 +322,17 @@ namespace ACR_CreatureBehavior
                             Flank > Arch)
                         {
                             this.PartyFlanks.Add(Creature);
-                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_FLANK;
+                            Creature.TacticsType = AIType.BEHAVIOR_TYPE_FLANK;
                         }
                         else if (Arch > Skirm)
                         {
                             this.PartyArchers.Add(Creature);
-                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_ARCHER;
+                            Creature.TacticsType = AIType.BEHAVIOR_TYPE_ARCHER;
                         }
                         else
                         {
                             this.PartySkrimishers.Add(Creature);
-                            Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_SKIRMISH;
+                            Creature.TacticsType = AIType.BEHAVIOR_TYPE_SKIRMISH;
                         }
                     }
 
@@ -338,7 +340,7 @@ namespace ACR_CreatureBehavior
                     else
                     {
                         this.PartyCowards.Add(Creature);
-                        Creature.TacticsType = (int)AIType.BEHAVIOR_TYPE_COWARD;
+                        Creature.TacticsType = AIType.BEHAVIOR_TYPE_COWARD;
                     }
                 }
             }
