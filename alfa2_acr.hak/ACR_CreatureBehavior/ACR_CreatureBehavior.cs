@@ -207,7 +207,8 @@ namespace ACR_CreatureBehavior
                     break;
             }
 
-            Server.ObjectManager.ProcessPendingDeletions();
+            if (Server.ObjectManager != null)
+                Server.ObjectManager.ProcessPendingDeletions();
 
             return ReturnCode;
         }
