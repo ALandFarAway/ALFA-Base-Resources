@@ -573,10 +573,10 @@ void _DistributeTranslation(string sOriginalMessage, string sScrambledMessage, s
 
 void ACR_CheckBodyPartsOnLevelUp(object oPC)
 {
+    int nRace = GetRacialType(oPC);
+    int nWings = 0;
     if(GetLevelByClass(CLASS_TYPE_FAVORED_SOUL, oPC) == 17)
     {
-        int nRace = GetRacialType(oPC);
-        int nWings = 0;
         if(GetAlignmentGoodEvil(oPC) == ALIGNMENT_EVIL)
         {
             if(nRace == RACIAL_TYPE_DWARF)
