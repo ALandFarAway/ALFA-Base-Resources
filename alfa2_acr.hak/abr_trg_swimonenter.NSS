@@ -1,14 +1,4 @@
 ////////////////////////////////////////////////////////////////////////////////
-//
-//  System Name : 
-//     Filename : 
-//    $Revision:: 
-//        $Date:: 
-//       Author : 
-//
-////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -18,6 +8,18 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+// Local trigger variable name: DC to swim in these waters.
+const string ACR_SWIM_DC = "ACR_SWIM_DC";
+
+// Local trigger variable name: Is there air above this body of water?
+const string ACR_NO_AIR = "ACR_NO_AIR";
+
+// Local trigger variable name: What is the difficulty of getting air?
+const string ACR_NO_AIR_DC = "NO_AIR_DC";
+
+// Local PC variable name: How long the PC has gone without air.
+const string ACR_NO_AIR_FOR = "NO_AIR_FOR";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -127,6 +129,7 @@ void _WalkToSwim(object oPC)
 
 void _ProcessNoAir(object oPC)
 {
+	// Does the player have a metabolism?
     if(GetHasSpellEffect(SPELL_LIVING_UNDEATH) ||
        GetHasSpellEffect(SPELL_STONE_BODY) ||
        GetHasSpellEffect(SPELL_IRON_BODY) ||
@@ -136,11 +139,11 @@ void _ProcessNoAir(object oPC)
         return;
     }
 	
-    int nSuffocatingFor = GetLocalInt(oPC, "NO_AIR_FOR") + 1;
-    SetLocalInt(oPC, "NO_AIR_FOR", nSuffocatingFor);
+    int nSuffocatingFor = GetLocalInt(oPC, ACR_NO_AIR_FOR) + 1;
+    SetLocalInt(oPC, ACR_NO_AIR_FOR, nSuffocatingFor);
     if(nSuffocatingFor > (GetAbilityScore(oPC, ABILITY_CONSTITUTION) * 2))
     {
-        int nCheckDC = GetLocalInt(oPC, "NO_AIR_DC") + 1;
+        int nCheckDC = GetLocalInt(oPC, ACR_NO_AIR_DC) + 1;
         if(nCheckDC < 10)
             nCheckDC = 10;
         int nConCheck = d20();
@@ -173,7 +176,7 @@ void _ProcessNoAir(object oPC)
         }
         else
         {
-            SetLocalInt(oPC, "NO_AIR_DC", nCheckDC);
+            SetLocalInt(oPC, ACR_NO_AIR_DC, nCheckDC);
             SendMessageToPC(oPC, "You're barely clutching to consciousness! Get to air NOW!");
             return;
         }
@@ -221,14 +224,14 @@ void _SwimHeartBeat(object oPC)
     if(bProceed == FALSE)
     {
         _SwimToWalk(oPC);
-        DeleteLocalInt(oPC, "NO_AIR_DC");
-        DeleteLocalInt(oPC, "NO_AIR_FOR");
+        DeleteLocalInt(oPC, ACR_NO_AIR_DC);
+        DeleteLocalInt(oPC, ACR_NO_AIR_FOR);
         return;
     }
 
-    int nSwimDC = GetLocalInt(OBJECT_SELF, "ACR_SWIM_DC");
+    int nSwimDC = GetLocalInt(OBJECT_SELF, ACR_SWIM_DC);
     int nSinkDC = nSwimDC - 5;
-    int bNoAir = GetLocalInt(OBJECT_SELF, "ACR_NO_AIR");
+    int bNoAir = GetLocalInt(OBJECT_SELF, ACR_NO_AIR);
 
     int nDice = d20(1);
     int nBonus = GetSkillRank(SKILL_SWIM, oPC);
@@ -261,8 +264,8 @@ void _SwimHeartBeat(object oPC)
 
             if(bNoAir == FALSE)
             {
-                DeleteLocalInt(oPC, "NO_AIR_DC");
-                DeleteLocalInt(oPC, "NO_AIR_FOR");
+                DeleteLocalInt(oPC, ACR_NO_AIR_DC);
+                DeleteLocalInt(oPC, ACR_NO_AIR_FOR);
             }
             else
             {
@@ -277,8 +280,8 @@ void _SwimHeartBeat(object oPC)
             SendMessageToPC(oPC, sMessage);
             if(bNoAir == FALSE)
             {
-                DeleteLocalInt(oPC, "NO_AIR_DC");
-                DeleteLocalInt(oPC, "NO_AIR_FOR");
+                DeleteLocalInt(oPC, ACR_NO_AIR_DC);
+                DeleteLocalInt(oPC, ACR_NO_AIR_FOR);
             }
             else
             {
