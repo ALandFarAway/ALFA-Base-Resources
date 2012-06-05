@@ -783,6 +783,8 @@ namespace ACR_CreatureBehavior
             {
                 if (TryToHealAll())
                     return;
+                if (TryToBuffAll())
+                    return;
 
                 return;
             }
@@ -1069,6 +1071,133 @@ namespace ACR_CreatureBehavior
                 }
             }
             return false;
+        }
+        #endregion
+
+        #region === Buffing Methods ===
+        /// <summary>
+        /// This will search for an ability to buff an ally, or oneself, which is not already applied to its target.
+        /// </summary>
+        /// <returns>true if an ability is found.</returns>
+        public bool TryToBuffAll()
+        {
+            NWTalent Buff;
+            // We look for party buffs first if we have a party with noting.
+            if (this.Party.PartyMembers.Count() > 2)
+            {
+                Buff = _GetKnownPartyBuff();
+                if (Script.GetIsTalentValid(Buff) == CLRScriptBase.FALSE)
+                    Buff = _GetKnownSingleBuff();
+            }
+            // Otherwise we look for single-target buffs.
+            else
+            {
+                Buff = _GetKnownSingleBuff();
+                if (Script.GetIsTalentValid(Buff) == CLRScriptBase.FALSE)
+                    Buff = _GetKnownPartyBuff();
+            }
+            if (Script.GetIsTalentValid(Buff) == CLRScriptBase.TRUE)
+            {
+                uint TargetId = _FindTargetForBuff(Buff);
+                if (TargetId != OBJECT_INVALID)
+                {
+                    Script.ActionUseTalentOnObject(Buff, TargetId);
+                    return true;
+                }
+            }
+
+            // And if we haven't found anything, try buffing ourselves.
+            if (Script.GetIsTalentValid(Buff) == CLRScriptBase.FALSE)
+                Buff = _GetKnownSelfBuff();
+            if (Script.GetIsTalentValid(Buff) == CLRScriptBase.TRUE)
+            {
+                int SpellId = Script.GetIdFromTalent(Buff);
+                if (Script.GetHasSpellEffect(SpellId, ObjectId) == CLRScriptBase.FALSE)
+                {
+                    Script.ActionUseTalentOnObject(Buff, ObjectId);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// This seeks a known talent which can provide benefit to the party.
+        /// </summary>
+        /// <returns>The talent</returns>
+        private NWTalent _GetKnownPartyBuff()
+        {
+            NWTalent Buff = Script.GetCreatureTalentBest(CLRScriptBase.TALENT_CATEGORY_BENEFICIAL_PROTECTION_AREAEFFECT, 20, ObjectId, 0);
+            if (Script.GetIsTalentValid(Buff) == CLRScriptBase.FALSE)
+                Buff = Script.GetCreatureTalentBest(CLRScriptBase.TALENT_CATEGORY_BENEFICIAL_ENHANCEMENT_AREAEFFECT, 20, ObjectId, 0);
+            return Buff;
+        }
+
+        /// <summary>
+        /// This seeks a known talent which can provide benefit to one ally.
+        /// </summary>
+        /// <returns>The talent</returns>
+        private NWTalent _GetKnownSingleBuff()
+        {
+            NWTalent Buff = Script.GetCreatureTalentBest(CLRScriptBase.TALENT_CATEGORY_BENEFICIAL_PROTECTION_SINGLE, 20, ObjectId, 0);
+            if (Script.GetIsTalentValid(Buff) == CLRScriptBase.FALSE)
+                Buff = Script.GetCreatureTalentBest(CLRScriptBase.TALENT_CATEGORY_BENEFICIAL_ENHANCEMENT_SINGLE, 20, ObjectId, 0);
+            return Buff;
+        }
+
+        /// <summary>
+        /// This seeks a known talent which can provide benefit to oneself.
+        /// </summary>
+        /// <returns>The talent</returns>
+        private NWTalent _GetKnownSelfBuff()
+        {
+            NWTalent Buff = Script.GetCreatureTalentBest(CLRScriptBase.TALENT_CATEGORY_BENEFICIAL_PROTECTION_SELF, 20, ObjectId, 0);
+            if (Script.GetIsTalentValid(Buff) == CLRScriptBase.FALSE)
+                Buff = Script.GetCreatureTalentBest(CLRScriptBase.TALENT_CATEGORY_BENEFICIAL_ENHANCEMENT_SELF, 20, ObjectId, 0);
+            return Buff;
+        }
+
+        /// <summary>
+        /// This seeks a target for a buff talent, prioritizing on high-risk allies, but only selecting one who doesn't already have the effect.
+        /// </summary>
+        /// <param name="Buff">The talent to check</param>
+        /// <returns>the object ID of a valid target</returns>
+        private uint _FindTargetForBuff(NWTalent Buff)
+        {
+            int SpellId = Script.GetIdFromTalent(Buff);
+            foreach (CreatureObject PartyMember in Party.PartyTanks)
+            {
+                if (Script.GetHasSpellEffect(SpellId, PartyMember.ObjectId) == CLRScriptBase.FALSE)
+                    return PartyMember.ObjectId;
+            }
+            foreach (CreatureObject PartyMember in Party.PartyShocks)
+            {
+                if (Script.GetHasSpellEffect(SpellId, PartyMember.ObjectId) == CLRScriptBase.FALSE)
+                    return PartyMember.ObjectId;
+            }
+            foreach (CreatureObject PartyMember in Party.PartySkrimishers)
+            {
+                if (Script.GetHasSpellEffect(SpellId, PartyMember.ObjectId) == CLRScriptBase.FALSE)
+                    return PartyMember.ObjectId;
+            }
+            foreach (CreatureObject PartyMember in Party.PartyFlanks)
+            {
+                if (Script.GetHasSpellEffect(SpellId, PartyMember.ObjectId) == CLRScriptBase.FALSE)
+                    return PartyMember.ObjectId;
+            }
+            foreach (CreatureObject PartyMember in Party.PartyAnimals)
+            {
+                if (Script.GetHasSpellEffect(SpellId, PartyMember.ObjectId) == CLRScriptBase.FALSE)
+                    return PartyMember.ObjectId;
+            }
+            foreach (CreatureObject PartyMember in Party.PartyMindless)
+            {
+                if (Script.GetHasSpellEffect(SpellId, PartyMember.ObjectId) == CLRScriptBase.FALSE)
+                    return PartyMember.ObjectId;
+            }
+            if (Script.GetHasSpellEffect(SpellId, ObjectId) == CLRScriptBase.FALSE)
+                return ObjectId;            
+            return OBJECT_INVALID;
         }
         #endregion
 
