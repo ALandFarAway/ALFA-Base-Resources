@@ -25,6 +25,7 @@ namespace ACR_CreatureBehavior
     public class CreatureObject : GameObject
     {
 
+        #region === Incoming Events ===
         /// <summary>
         /// Construct a creature object and insert it into the object table.
         /// </summary>
@@ -608,12 +609,38 @@ namespace ACR_CreatureBehavior
         }
 
         /// <summary>
+        /// Called when the creature is attacked.
+        /// </summary>
+        /// <param name="AttackerObjectId">Supplies the attacker object id.
+        /// </param>
+        public void OnAttacked(uint AttackerObjectId)
+        {
+            if (!IsAIControlled)
+                return;
+
+            uint Attacker = Script.GetLastAttacker(this.ObjectId);
+
+            // Attacker is under the influence of mind-affecting stuff; we don't need to get angry.
+            if (_IsMindMagiced(Attacker))
+                return;
+
+            // This creature is under the influence of mind-affecting stuff. It isn't cognizant enough to be angry.
+            if (_IsMindMagiced(this.ObjectId))
+                return;
+        }
+        #endregion
+
+        #region === Generic Action Triage ===
+        /// <summary>
         /// This function is the primary means by which actions are selected for a given combat round.
         /// </summary>
         public void SelectCombatRoundAction()
         {
+            #region Gather Data on Status
             RefreshNegativeStatuses();
+            #endregion
 
+            #region Early Returns: Can't Act; Constructs
             // Can't do anything. Might as well give up early and pray there's help on the way.
             if (!CanAct())
                 return;
@@ -625,7 +652,9 @@ namespace ACR_CreatureBehavior
                 _AttackWrapper(AttackTarget);
                 return;
             }
+            #endregion
 
+            #region Specify panic behavior due to injury
             int nWellBeing = HealthPercentage;
             int nMissingHitPoints = MaxHitPoints - CurrentHitPoints;
 
@@ -688,91 +717,129 @@ namespace ACR_CreatureBehavior
                 if (TryToHeal(this, nMissingHitPoints))
                     return;
             }
+            #endregion
 
+            #region AIType-Specific Behaviors
+            #region Animals
             // Time to break off into the particular types
             // Animals are simple creatures; they want to protect themselves and their masters.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_ANIMAL)
             {
-
+                // Animals are too dumb to do anything other than use their direct attacks on foes.
+                CreatureObject AttackTarget = Party.GetNearest(this, Party.Enemies);
+                _AttackWrapper(AttackTarget);
                 return;
             }
+            #endregion
 
+            #region Archers
             // Archers have the advantage of reach and accuracy with acceptable damage. They strike weak and soft targets.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_ARCHER)
             {
 
                 return;
             }
+            #endregion
 
+            #region Buffs
             // Buffs try to boost the capabilities of their allies
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_BUFFS)
             {
 
                 return;
             }
+            #endregion
 
+            #region Controls
             // Controls try to debuff enemies and impede movement on the field.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_CONTROL)
             {
 
                 return;
             }
+            #endregion
 
+            #region Cowards
             // Cowards avoid fights and look for help.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_COWARD)
             {
 
                 return;
             }
+            #endregion
 
+            #region Flanks
             // Flanks try to backstab people, and counter attack people who come after squishies.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_FLANK)
             {
 
                 return;
             }
+            #endregion
 
+            #region Medics
             // Medics try to heal their friends.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_MEDIC)
             {
                 if (TryToHealAll())
                     return;
+
                 return;
             }
+            #endregion
 
+            #region Nukes
             // Nukes try to explode hardened targets.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_NUKE)
             {
 
                 return;
             }
+            #endregion
 
+            #region Shocks
             // Shocks try to break through the lines and take down squishies.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_SHOCK)
             {
 
                 return;
             }
+            #endregion
 
+            #region Skirmishers
             // Skirmishers try to resist shocks, flanks, and other skirmishers.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_SKIRMISH)
             {
 
                 return;
             }
+            #endregion
 
+            #region Tanks
             // Tanks try to hold ground and contain dangerous foes.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_TANK)
             {
 
                 return;
             }
-
+            #endregion
+            #endregion
             // Making it this far is some kind of error case. Try to salvage something.
 
             return;
         }
 
+        /// <summary>
+        /// This orders this creature to perform whatever it's supposed to perform when not engaged in something
+        /// else.
+        /// </summary>
+        private void _AmbientBehavior()
+        {
+
+        }
+        #endregion
+
+        #region === Healing Methods ===
         /// <summary>
         /// This will look for an action that will improve the condition of the party.
         /// </summary>
@@ -1003,7 +1070,43 @@ namespace ACR_CreatureBehavior
             }
             return false;
         }
+        #endregion
 
+        #region === Physical Attack Methods ===
+        /// <summary>
+        /// This serves as a wrapper about calls to ActionAttack, to apply things like the uncanny
+        /// dodge modifiers
+        /// </summary>
+        /// <returns>true if the attack is successfully staged</returns>
+        public bool _AttackWrapper(CreatureObject AttackTarget)
+        {
+            Script.ActionAttack(AttackTarget.ObjectId, CLRScriptBase.FALSE);
+            return false;
+        }
+
+        /// <summary>
+        /// This orders Creature to bash Target until it is destroyed.
+        /// </summary>
+        /// <param name="Target">The target to be bashed</param>
+        private void _BashObject(uint Target)
+        {
+            OverrideTarget = Target;
+            Script.ActionAttack(Target, CLRScriptBase.FALSE);
+        }
+
+        /// <summary>
+        /// This function causes Creature to switch to change to ranged weapons temporarily. It should be used when
+        /// ranged combat is only a good idea for a moment, because of battlefield conditions.
+        /// </summary>
+        /// <param name="Reason">The object we should wait to move or go away before changing back</param>
+        /// <param name="WaitForDeath">If set to false, the creature will wait until Reason is destroyed before switching back to melee</param>
+        private void _TemporaryRangedCombat(uint Reason, bool WaitForDeath = false)
+        {
+
+        }
+        #endregion
+
+        #region === Discovery Methods ===
         /// <summary>
         /// This refreshes the public variables which track status afflictions on the creature.
         /// </summary>
@@ -1113,59 +1216,6 @@ namespace ACR_CreatureBehavior
         }
 
         /// <summary>
-        /// This orders this creature to perform whatever it's supposed to perform when not engaged in something
-        /// else.
-        /// </summary>
-        private void _AmbientBehavior()
-        {
-
-        }
-
-        /// <summary>
-        /// This serves as a wrapper about calls to ActionAttack, to apply things like the uncanny
-        /// dodge modifiers
-        /// </summary>
-        /// <returns>true if the attack is successfully staged</returns>
-        public bool _AttackWrapper(CreatureObject AttackTarget)
-        {
-            Script.ActionAttack(AttackTarget.ObjectId, CLRScriptBase.FALSE);
-            return false;
-        }
-
-        /// <summary>
-        /// This orders Creature to bash Target until it is destroyed.
-        /// </summary>
-        /// <param name="Target">The target to be bashed</param>
-        private void _BashObject(uint Target)
-        {
-            OverrideTarget = Target;
-            Script.ActionAttack(Target, CLRScriptBase.FALSE);
-        }
-
-        /// <summary>
-        /// This function causes Creature to switch to change to ranged weapons temporarily. It should be used when
-        /// ranged combat is only a good idea for a moment, because of battlefield conditions.
-        /// </summary>
-        /// <param name="Reason">The object we should wait to move or go away before changing back</param>
-        /// <param name="WaitForDeath">If set to false, the creature will wait until Reason is destroyed before switching back to melee</param>
-        private void _TemporaryRangedCombat(uint Reason, bool WaitForDeath = false)
-        {
-
-        }
-
-        /// <summary>
-        /// This function causes Creature1 and Creature2 to be flagged as temporary enemies of one another, with no specified decay
-        /// time. They, thus, will fight until killed or separated, but will not break the rest of their factions.
-        /// </summary>
-        /// <param name="Creature1"></param>
-        /// <param name="Creature2"></param>
-        private void _SetMutualEnemies(uint Creature1, uint Creature2)
-        {
-            Script.SetIsTemporaryEnemy(Creature1, Creature2, CLRScriptBase.FALSE, 0.0f);
-            Script.SetIsTemporaryEnemy(Creature2, Creature1, CLRScriptBase.FALSE, 0.0f);
-        }
-
-        /// <summary>
         /// This function attempts to determine if the spell just cast on this creature was plausibly friendly fire, based on the
         /// locations of nearby enemies.
         /// </summary>
@@ -1255,28 +1305,23 @@ namespace ACR_CreatureBehavior
             }
             return false;
         }
+        #endregion
 
+        #region === Attitude Methods ===
         /// <summary>
-        /// Called when the creature is attacked.
+        /// This function causes Creature1 and Creature2 to be flagged as temporary enemies of one another, with no specified decay
+        /// time. They, thus, will fight until killed or separated, but will not break the rest of their factions.
         /// </summary>
-        /// <param name="AttackerObjectId">Supplies the attacker object id.
-        /// </param>
-        public void OnAttacked(uint AttackerObjectId)
+        /// <param name="Creature1"></param>
+        /// <param name="Creature2"></param>
+        private void _SetMutualEnemies(uint Creature1, uint Creature2)
         {
-            if (!IsAIControlled)
-                return;
-
-            uint Attacker = Script.GetLastAttacker(this.ObjectId);
-
-            // Attacker is under the influence of mind-affecting stuff; we don't need to get angry.
-            if (_IsMindMagiced(Attacker))
-                return;
-
-            // This creature is under the influence of mind-affecting stuff. It isn't cognizant enough to be angry.
-            if (_IsMindMagiced(this.ObjectId))
-                return;
+            Script.SetIsTemporaryEnemy(Creature1, Creature2, CLRScriptBase.FALSE, 0.0f);
+            Script.SetIsTemporaryEnemy(Creature2, Creature1, CLRScriptBase.FALSE, 0.0f);
         }
+        #endregion
 
+        #region === Status Information ===
         /// <summary>
         /// This contains whether a target is charmed, and thus is unwilling to fight enemies
         /// </summary>
@@ -1406,7 +1451,9 @@ namespace ACR_CreatureBehavior
         /// lesser restoration, restoration, or greater restoration.
         /// </summary>
         public bool AbilityDamaged = false;
+        #endregion
 
+        #region === Event Management Information ===
         /// <summary>
         /// This determines if a healer believes that a party still needs healing after a fight is over.
         /// </summary>
@@ -1552,5 +1599,6 @@ namespace ACR_CreatureBehavior
         const string EFFECT_VISUAL = "_EFFECT_VISUAL";
         const string EFFECT_PHYSICAL = "_EFFECT_PHYSICAL";
         const string EFFECT_DAMAGE = "_EFFECT_DAMAGE";
+        #endregion
     }
 }
