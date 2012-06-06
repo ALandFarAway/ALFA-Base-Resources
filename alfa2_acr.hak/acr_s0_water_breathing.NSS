@@ -11,10 +11,10 @@ void main() {
 	
 	// Get the caster and location of the target.
 	object oCaster = OBJECT_SELF;
-    object oTarget = GetSpellTargetObject();
+	object oTarget = GetSpellTargetObject();
 	
 	// Signal event.
-    SignalEvent( oTarget, EventSpellCastAt( oCaster, GetSpellId(), FALSE ) );
+	SignalEvent( oTarget, EventSpellCastAt( oCaster, GetSpellId(), FALSE ) );
 	
 	// Get duration and limit.
 	float fDuration = ACR_GetSpellDuration( oCaster, ACR_DURATION_TYPE_PER_CL, ACR_DURATION_2H );
