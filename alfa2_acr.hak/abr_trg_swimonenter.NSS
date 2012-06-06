@@ -141,7 +141,7 @@ void _ProcessNoAir(object oPC)
 	
 	// Is the player otherwise immune to drowning?
 	if ( GetHasSpellEffect( SPELL_WATER_BREATHING, oPC ) ) {
-		SendMessageToPC( oPC, "You cannot breathe air, but your transmutation allows you to breathe water. If you do not find air before the spell expires, you will begin to suffocate." );
+		SendMessageToPC( oPC, "Your transmutation allows you to breathe water, but if you do not find air before the spell expires, you will begin to suffocate." );
 		return;
 	}
 	
