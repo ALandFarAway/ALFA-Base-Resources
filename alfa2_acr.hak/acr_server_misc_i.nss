@@ -116,17 +116,6 @@ void ACR_InternalReleaseAreaInstance(object InstancedArea);
 //!  - Returns: TRUE if the script ran without an exception.
 int ACR_RunPowerShellScriptlet(string Script, object ObjectSelf = OBJECT_SELF);
 
-//! Make a raw call to the support script.
-//!  - Command: Supplies the command to request (e.g. ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT).
-//!  - P0: Supplies the first command-specific parameter.
-//!  - P1: Supplies the second command-specific parameter.
-//!  - P2: Supplies the third command-specific parameter.
-//!  - P3: Supplies the fourth command-specific parameter.
-//!  - P4: Supplies the fifth command-specific parameter.
-//!  - ObjectSelf: Supplies the OBJECT_SELF to run the script on.
-//!  - Returns: The command-specific return code is returned.
-int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, object P4, object ObjectSelf = OBJECT_SELF);
-
 //! Create a database connection object.
 //!  - ConnectionString: Supplies the database connection string.
 //!  - Flags: Supplies connection flags.  Legal values are drawn from the
@@ -181,6 +170,17 @@ int ACR_GetAffectedRowCountDatabaseConnection(int ConnectionHandle);
 //!  - String: Supplies the string to escape.
 //!  - Returns: The escaped string is returned.
 string ACR_EscapeStringDatabaseConnection(int ConnectionHandle, string String);
+
+//! Make a raw call to the support script.
+//!  - Command: Supplies the command to request (e.g. ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT).
+//!  - P0: Supplies the first command-specific parameter.
+//!  - P1: Supplies the second command-specific parameter.
+//!  - P2: Supplies the third command-specific parameter.
+//!  - P3: Supplies the fourth command-specific parameter.
+//!  - P4: Supplies the fifth command-specific parameter.
+//!  - ObjectSelf: Supplies the OBJECT_SELF to run the script on.
+//!  - Returns: The command-specific return code is returned.
+int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, object P4, object ObjectSelf = OBJECT_SELF);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
