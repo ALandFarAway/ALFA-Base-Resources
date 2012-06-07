@@ -189,7 +189,8 @@ namespace ACR_ServerMisc
         /// handle.</param>
         /// <param name="Str">Supplies the string to escape.</param>
         /// <param name="Script">Supplies the script object.</param>
-        /// <returns>True if the operation succeeded.</returns>
+        /// <returns>The escaped string if the operation succeeded, else null.
+        /// </returns>
         public static string EscapeStringDatabaseConnection(int ConnectionHandle, string Str, ACR_ServerMisc Script)
         {
             ScriptDatabaseConnection Connection;
