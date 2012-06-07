@@ -49,7 +49,7 @@ void main()
     //Fire cast spell at event for the specified target
     SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, SPELL_SEE_INVISIBILITY, FALSE));
 
-    float fDuration = TurnsToSeconds(GetCasterLevel(OBJECT_SELF) * 10);
+    float fDuration = TurnsToSeconds(GetCasterLevel(OBJECT_SELF) * 10 * 10);
 
     //Enter Metamagic conditions
     fDuration = ApplyMetamagicDurationMods(fDuration);
