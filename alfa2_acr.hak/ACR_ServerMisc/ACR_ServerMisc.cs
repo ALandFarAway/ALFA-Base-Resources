@@ -91,6 +91,68 @@ namespace ACR_ServerMisc
                     }
                     break;
 
+                case REQUEST_TYPE.CREATE_DATABASE_CONNECTION:
+                    {
+                        ReturnCode = ScriptDatabaseConnection.CreateScriptDatabaseConnection(P3, (ScriptDatabaseConnectionFlags)P0);
+                    }
+                    break;
+
+                case REQUEST_TYPE.DESTROY_DATABASE_CONNECTION:
+                    {
+                        ReturnCode = ScriptDatabaseConnection.DestroyDatabaseConnection(P0) ? TRUE : FALSE;
+                    }
+                    break;
+
+                case REQUEST_TYPE.QUERY_DATABASE_CONNECTION:
+                    {
+                        ReturnCode = ScriptDatabaseConnection.QueryDatabaseConnection(P0, P3, this) ? TRUE : FALSE;
+                    }
+                    break;
+
+                case REQUEST_TYPE.FETCH_DATABASE_CONNECTION:
+                    {
+                        ReturnCode = ScriptDatabaseConnection.FetchDatabaseConnection(P0, this) ? TRUE : FALSE;
+                    }
+                    break;
+
+                case REQUEST_TYPE.GET_COLUMN_DATABASE_CONNECTION:
+                    {
+                        string Data = ScriptDatabaseConnection.GetColumnDatabaseConnection(P0, P2, this);
+
+                        if (Data == null)
+                        {
+                            ReturnCode = FALSE;
+                        }
+                        else
+                        {
+                            SetLocalString(GetModule(), "ACR_SERVER_MISC_RETURN_STRING", Data);
+                            ReturnCode = TRUE;
+                        }
+                    }
+                    break;
+
+                case REQUEST_TYPE.GET_AFFECTED_ROW_COUNT_DATABASE_CONNECTION:
+                    {
+                        ReturnCode = ScriptDatabaseConnection.GetAffectedRowCountDatabaseConnection(P0, this);
+                    }
+                    break;
+
+                case REQUEST_TYPE.ESCAPE_STRING_DATABASE_CONNECTION:
+                    {
+                        string Data = ScriptDatabaseConnection.EscapeStringDatabaseConnection(P0, P3, this);
+
+                        if (Data == null)
+                        {
+                            ReturnCode = FALSE;
+                        }
+                        else
+                        {
+                            SetLocalString(GetModule(), "ACR_SERVER_MISC_RETURN_STRING", Data);
+                            ReturnCode = TRUE;
+                        }
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid server misc command " + RequestType.ToString());
 
@@ -273,7 +335,14 @@ namespace ACR_ServerMisc
             EXECUTE_UPDATER_SCRIPT,
             CREATE_AREA_INSTANCE,
             RELEASE_AREA_INSTANCE,
-            RUN_POWERSHELL_SCRIPTLET
+            RUN_POWERSHELL_SCRIPTLET,
+            CREATE_DATABASE_CONNECTION,
+            DESTROY_DATABASE_CONNECTION,
+            QUERY_DATABASE_CONNECTION,
+            FETCH_DATABASE_CONNECTION,
+            GET_COLUMN_DATABASE_CONNECTION,
+            GET_AFFECTED_ROW_COUNT_DATABASE_CONNECTION,
+            ESCAPE_STRING_DATABASE_CONNECTION
         }
 
         /// <summary>

@@ -43,9 +43,12 @@ namespace ALFA
         /// Create a new database object (which can be shared by multiple
         /// script objects).
         /// </summary>
-        public MySQLDatabase()
+        /// <param name="ConnectionString">Optionally supplies an overload
+        /// connection string.  If null, the default string is built from the
+        /// NWNX MySQL plugin's configuration file.</param>
+        public MySQLDatabase(string ConnectionString = null)
         {
-            LinkToMySQLAssembly();
+            LinkToMySQLAssembly(ConnectionString);
         }
 
         /// <summary>
@@ -164,7 +167,10 @@ namespace ALFA
         /// assembly is loaded.  If necessary the assembly is loaded from the
         /// NWNX4 installation directory.
         /// </summary>
-        private void LinkToMySQLAssembly()
+        /// <param name="ConnectionString">Optionally supplies an overload
+        /// connection string.  If null, the default string is built from the
+        /// NWNX MySQL plugin's configuration file.</param>
+        private void LinkToMySQLAssembly(string ConnectionString = null)
         {
             AppDomain CurrentDomain = AppDomain.CurrentDomain;
 
@@ -181,7 +187,7 @@ namespace ALFA
                 CurrentDomain.AssemblyResolve -= new ResolveEventHandler(LinkToMySQLAssembly_AssemblyResolve);
             }
 
-            Implementation = new MySQLDatabaseInternal();
+            Implementation = new MySQLDatabaseInternal(ConnectionString);
         }
 
         /// <summary>
@@ -241,9 +247,15 @@ namespace ALFA
         /// <summary>
         /// Create a new MySQLDatabaseInternal object.
         /// </summary>
-        internal MySQLDatabaseInternal()
+        /// <param name="ConnectionString">Optionally supplies an overload
+        /// connection string.  If null, the default string is built from the
+        /// NWNX MySQL plugin's configuration file.</param>
+        internal MySQLDatabaseInternal(string ConnectionString = null)
         {
-            SetupConnectionString();
+            if (ConnectionString == null)
+                SetupConnectionString();
+            else
+                this.ConnectionString = ConnectionString;
         }
 
         /// <summary>
