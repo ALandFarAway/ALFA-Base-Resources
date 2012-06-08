@@ -74,8 +74,12 @@ namespace ACR_CreatureBehavior
 
             // Now that leadership is established, what sort of guy is this?
             AIParty.AIType TacticsType = (AIParty.AIType)Creature.Script.GetLocalInt(Creature.ObjectId, "ACR_CREATURE_BEHAVIOR");
-            if(TacticsType == AIType.BEHAVIOR_TYPE_UNDEFINED)
-                Enum.TryParse<AIParty.AIType>(Creature.Script.GetLocalString(Creature.ObjectId, "ACR_CREATURE_BEHAVIOR"), out TacticsType);
+            if (TacticsType == AIType.BEHAVIOR_TYPE_UNDEFINED)
+            {
+                string Tactics = Creature.Script.GetLocalString(Creature.ObjectId, "ACR_CREATURE_BEHAVIOR");
+                if (!Enum.TryParse<AIParty.AIType>(Tactics.ToUpper(), out TacticsType))
+                    TacticsType = AIType.BEHAVIOR_TYPE_UNDEFINED;
+            }
             if(TacticsType != 0)
             {
                 if(TacticsType == AIType.BEHAVIOR_TYPE_ANIMAL)
