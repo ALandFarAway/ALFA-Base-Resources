@@ -167,6 +167,14 @@ Environment:
 			(unsigned short) strtoul( Value, 0, NULL));
 		return;
 	}
+	else if ((!strcmp( Function, "SetMovementSpeed" )) &&
+		     (Creature != NULL))
+	{
+		XPObjectAttributesSetMovementSpeed(
+			Creature,
+			(unsigned short) stroul( Value, 0, NULL));
+		return;
+	}
 	else
 	{
 	}
@@ -436,6 +444,29 @@ Environment:
 --*/
 {
 	Creature->SetSubRace( SubRace );
+}
+
+	void
+	XPObjectAttributesSetMovementSpeed(
+		__in CreatureObject * Creature,
+		__in unsigned short Speed
+		)
+/*++
+Routine Description:
+	This routine alters the movement speed of a creature on behalf of a script.
+
+Arguments:
+	Creature - the creature object to modify
+	SubRace - the new subrace value
+
+Return Value:
+	None
+
+Environment:
+	User mode
+--*/
+{
+	Creature->SetMovementSpeed( Speed );
 }
 void
 ObjectAttributesPlugin::XPObjectAttributesSetHeadTint(

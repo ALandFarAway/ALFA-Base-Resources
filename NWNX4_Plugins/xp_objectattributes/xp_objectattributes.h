@@ -169,6 +169,16 @@ private:
 		);
 
 	//
+	// Set the movement speed for a creature
+	//
+
+	void
+	XPObjectAttributesSetMovementSpeed(
+		__in CreatureObject * Creature,
+		__in unsigned short Speed
+		);
+
+	//
 	// Parse a string tint set into the raw tintset data structure.
 	//
 
