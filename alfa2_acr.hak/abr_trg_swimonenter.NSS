@@ -242,6 +242,22 @@ void _SwimHeartBeat(object oPC)
     int nDice = d20(1);
     int nBonus = GetSkillRank(SKILL_SWIM, oPC);
 
+    object oArmor = GetItemInSlot(INVENTORY_SLOT_CHEST, oPC);
+    int nPenalty = 0;
+    if (GetIsObjectValid(oArmor))
+    {
+        nPenalty += StringToInt(Get2DAString("armorrulesstats", "ACCHECK", GetArmorRulesType(oArmor)));
+    }
+    object oShield = GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oPC);
+    if (GetBaseItemType(oShield) == BASE_ITEM_LARGESHIELD)
+        nPenalty += 2;
+    if(GetBaseItemType(oShield) == BASE_ITEM_SMALLSHIELD)
+        nPenalty += 1;
+    if(GetBaseItemType(oShield) == BASE_ITEM_TOWERSHIELD)
+        nPenalty += 10;
+
+    nBonus -= nPenalty;
+
     if(10 + nBonus <= nSwimDC)
     {
         // swimming is easy for this PC in this water. Take 10.
