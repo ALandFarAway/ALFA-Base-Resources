@@ -38,8 +38,6 @@ void main()
     object oTarget;
 	int nSaveDC =  GetSpellSaveDC();
     effect eParal = EffectParalyze(nSaveDC, SAVING_THROW_FORT);
-    effect eDur = EffectVisualEffect(VFX_DUR_PARALYZED);
-    effect eLink = EffectLinkEffects(eDur, eParal);
     effect eDam;
 
     int nMetaMagic = GetMetaMagicFeat();
@@ -71,32 +69,27 @@ void main()
                 if( ((nRoll >= nAC) || (nRoll == 25)) && (nRoll != 6) )
                 {
                     nDamage = d6() + 4;
-                    //Enter Metamagic conditions
-                    if (nMetaMagic == METAMAGIC_MAXIMIZE)
+                    //Grapple damag comes from the tentacles' strength, not magic effects. No metamagic.
+                    /*if (nMetaMagic == METAMAGIC_MAXIMIZE)
                     {
                         nDamage = 6 + 4;//Damage is at max
                     }
                     else if (nMetaMagic == METAMAGIC_EMPOWER)
                     {
                         nDamage = nDamage + (nDamage/2); //Damage/Healing is +50%
-                    }
+                    }*/
 					
-		            eDam = EffectDamage(nDamage, DAMAGE_TYPE_BLUDGEONING, DAMAGE_POWER_PLUS_TWO);
-		            DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam, oTarget));
-					
-		            if(!MySavingThrow(SAVING_THROW_FORT, oTarget, nSaveDC, SAVING_THROW_TYPE_NONE, oCaster, fDelay))
-		            {
-		                DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eLink, oTarget, RoundsToSeconds(1)));
-		            }
+                    eDam = EffectDamage(nDamage, DAMAGE_TYPE_BLUDGEONING, DAMAGE_POWER_PLUS_TWO);
+                    DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam, oTarget));
                 }
             }
 	        
-	        // Apply Cold Damage regardless of whether or not any tentacles struck the target.... 
-	        fDelay  = GetRandomDelay(0.4, 0.8);
-	        nDamage = d6(2);
-	        nDamage = ApplyMetamagicVariableMods( nDamage, 2*6 );
-	        eDam = EffectDamage(nDamage, DAMAGE_TYPE_COLD);
-	        DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam, oTarget));
+            // Apply Cold Damage regardless of whether or not any tentacles struck the target.... 
+            fDelay  = GetRandomDelay(0.4, 0.8);
+            nDamage = d6(2);
+            nDamage = ApplyMetamagicVariableMods( nDamage, 2*6 );
+            eDam = EffectDamage(nDamage, DAMAGE_TYPE_COLD);
+            DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam, oTarget));
         }
 		
         oTarget = GetNextInPersistentObject();
