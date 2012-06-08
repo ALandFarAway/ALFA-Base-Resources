@@ -36,9 +36,6 @@
 #include "nwn2_inc_spells"
 
 
-
-void DispelAoECallback(object oTarget, object oCaster);
-
 void main()
 {
     //--------------------------------------------------------------------------
@@ -81,41 +78,6 @@ void main()
          DispelMagicWithCallback(oTarget, oCaster, nCasterLevel, eVis, eImpact, TRUE, nSpellID );
          
     }
-    else
-    {
-        //----------------------------------------------------------------------
-        // Area of Effect - Only dispel best effect
-        //----------------------------------------------------------------------
+    // No AoE allowed. Abort.
 
-        oTarget = GetFirstObjectInShape(SHAPE_SPHERE, RADIUS_SIZE_LARGE, lLocal, FALSE, OBJECT_TYPE_CREATURE | OBJECT_TYPE_AREA_OF_EFFECT | OBJECT_TYPE_PLACEABLE );
-        while (GetIsObjectValid(oTarget))
-        {
-            if(GetObjectType(oTarget) == OBJECT_TYPE_AREA_OF_EFFECT)
-            {
-                //--------------------------------------------------------------
-                // Handle Area of Effects
-                //--------------------------------------------------------------
-                spellsDispelAoE(oTarget, OBJECT_SELF, nCasterLevel);
-                DelayCommand(0.1f, DispelAoECallback(oTarget, oCaster));
-            }
-            else if (GetObjectType(oTarget) == OBJECT_TYPE_PLACEABLE)
-            {
-                SignalEvent( oTarget, EventSpellCastAt(oCaster, SPELL_I_VORACIOUS_DISPELLING) );
-            }
-            else
-            {
-                DelayCommand( GetRandomDelay(0.51, 0.93), DispelMagicWithCallback(oTarget, oCaster, nCasterLevel, eVis, eImpact, FALSE, nSpellID ) );
-            }
-
-           oTarget = GetNextObjectInShape(SHAPE_SPHERE, RADIUS_SIZE_LARGE,lLocal, FALSE, OBJECT_TYPE_CREATURE | OBJECT_TYPE_AREA_OF_EFFECT | OBJECT_TYPE_PLACEABLE);
-        }
-    }
-
-}
-
-//AoE destroyed -> gain temporary hit points
-void DispelAoECallback(object oTarget, object oCaster)
-{
-    if (!GetIsObjectValid(oTarget))
-        DevourDispelCallback(oCaster);
 }
