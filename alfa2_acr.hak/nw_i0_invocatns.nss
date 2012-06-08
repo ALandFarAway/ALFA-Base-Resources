@@ -495,9 +495,7 @@ int DoEssenceBeshadowedBlast(object oCaster, object oTarget, int bCalledFromShap
 				
 
                 //effect eDark = EffectDarkness();
-				effect eDark = EffectBlindness();
-				effect eAC = EffectACDecrease( 2 );
-				effect eLink = EffectLinkEffects( eDark, eAC );
+				effect eLink = EffectBlindness();
                 //effect eDur = EffectVisualEffect(VFX_INVOCATION_BESHADOWED_HIT);	// handled by DoEldritchBlast()
                 //effect eLink = EffectLinkEffects(eDark, eDur);	// handled by DoEldritchBlast()
 
@@ -507,13 +505,6 @@ int DoEssenceBeshadowedBlast(object oCaster, object oTarget, int bCalledFromShap
                 //Apply the effect and VFX impact
                 ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eLink, oTarget, fDuration);
 				
-				if (nDex > 10)
-				{
-					int nDecr = (nDex-10);
-					effect eDex = EffectAbilityDecrease( ABILITY_DEXTERITY, nDecr);
-					
-					ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eDex, oTarget, fDuration);
-				}
                 return TRUE;
             }
         }
