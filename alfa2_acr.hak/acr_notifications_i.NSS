@@ -67,7 +67,7 @@ const string NOTIFY_EVENT_DISMISSED_TICKLER = "2";
 // sNotifyAbbreviation is the one-line message to be displayed in the tickler display
 // sNotifyMessage is the full content of the message to be sent to oPC
 // sNotifyWindow is the GUI window to be used. If left blank, a generic message box will be used.
-void NotifyPlayer( object oPC, int nNotifyType, string sNotifyAbbreviation, string sNotifyMessage, string sNotifyWindow="");
+void NotifyPlayer( object oPC, int nNotifyType, string sNotifyAbbreviation, string sNotifyMessage, string sNotifyWindow="", string sOKCB="", string sCancelCB="", string sOKText="", string sCancelText="");
 
 // This is a generic function used to continue the message-sending process after a
 // player has responded to the tickler.
@@ -75,7 +75,7 @@ void NotifyPlayer( object oPC, int nNotifyType, string sNotifyAbbreviation, stri
 // sRowName is the name of the row and the ID of the event.
 // sNotifyWindow is the kind of window used to send the message.
 // sNotifyMessage is the full text of the message.
-void HandleRowClick( object oPC, string sRowName, string sNotifyWindow, string sNotifyMessage);
+void HandleRowClick( object oPC, string sRowName, string sNotifyWindow, string sNotifyMessage, string sOKCB="", string sCancelCB="", string sOKText="", string sCancelText="");
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -102,7 +102,7 @@ string _GetIconFromType(int nNotifyType)
     return "";
 }
 
-void NotifyPlayer( object oPC, int nNotifyType, string sNotifyWindow, string sNotifyAbbreviation, string sNotifyMessage)
+void NotifyPlayer( object oPC, int nNotifyType, string sNotifyAbbreviation, string sNotifyMessage, string sNotifyWindow="", string sOKCB="", string sCancelCB="", string sOKText="", string sCancelText="")
 {
     // Temporary standin-- we'll get rid of this line once the GUI is working.
     SendMessageToPC(oPC, sNotifyMessage);
@@ -114,17 +114,17 @@ void NotifyPlayer( object oPC, int nNotifyType, string sNotifyWindow, string sNo
     string sRowName = "NOTIFY_PLAYER_"+IntToString(nMessageNumber);
     SetLocalString(GetModule(), sRowName, GetName(oPC));
     string sIcon = _GetIconFromType(nNotifyType);
-    AddListBoxRow(oPC, "SCREEN_NOTIFY", "notify", sRowName, "LISTBOX_ITEM_TEXT="+sNotifyAbbreviation, "LISTBOX_ITEM_ICON="+sIcon, "6="+sRowName+";7="+sNotifyWindow+";8="+sNotifyMessage, "unhide");
+    AddListBoxRow(oPC, "SCREEN_NOTIFY", "notify", sRowName, "LISTBOX_ITEM_TEXT="+sNotifyAbbreviation, "LISTBOX_ITEM_ICON="+sIcon, "6="+sRowName+";7="+sNotifyWindow+";8="+sNotifyMessage+";9="+sOKCB+";10="+sCancelCB+";11="+sOKText+";12="+sCancelText, "unhide");
 }
 
-void HandleRowClick( object oPC, string sRowName, string sNotifyWindow, string sNotifyMessage)
+void HandleRowClick( object oPC, string sRowName, string sNotifyWindow, string sNotifyMessage, string sOKCB="", string sCancelCB="", string sOKText="", string sCancelText="")
 {
     string sTargetName = GetLocalString(GetModule(), sRowName);
     if(sTargetName != GetName(oPC))
     {
         // This might actually be a malicious user, but let's be coy. Plus, what if it's a bug?
         SendMessageToPC(oPC, "Whoops! That message wasn't actually for you. Please ignore it.");
-        RemoveListBoxRow(OBJECT_SELF, "SCREEN_NOTIFY", "notify", sRowName);
+        RemoveListBoxRow(oPC, "SCREEN_NOTIFY", "notify", sRowName);
         return;
     }
 
@@ -134,6 +134,13 @@ void HandleRowClick( object oPC, string sRowName, string sNotifyWindow, string s
     // Temporary standin-- we'll get rid of this line once we have better message boxes.
     SendMessageToPC(oPC, sNotifyMessage);
 
+    // If we didn't specify a cancel button text, then we don't show it.
+    int bCancel = TRUE;
+    if(sCancelText == "") bCancel = FALSE;
+
+    // Message box
+    DisplayMessageBox(oPC, -1, sNotifyMessage, sOKCB, sCancelCB, bCancel, "SCREEN_MESSAGEBOX_DEFAULT", -1, sOKText, -1, sCancelText);
+
     // Still want to dismiss the row at the end.
-    RemoveListBoxRow(OBJECT_SELF, "SCREEN_NOTIFY", "notify", sRowName);
+    RemoveListBoxRow(oPC, "SCREEN_NOTIFY", "notify", sRowName);
 }
