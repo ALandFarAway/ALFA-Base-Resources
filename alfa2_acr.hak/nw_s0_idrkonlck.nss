@@ -43,12 +43,34 @@ void main()
     object oTarget = GetSpellTargetObject();
     float fDuration = HoursToSeconds(24);
     int nBonus = GetAbilityModifier(ABILITY_CHARISMA, OBJECT_SELF);
+    if(nBonus > GetCasterLevel(OBJECT_SELF))
+        nBonus = GetCasterLevel(OBJECT_SELF);
+
+    int nSpellId = GetSpellId();
+    if(GetHasSpellEffect(nSpellId))
+    {
+        effect eEffect = GetFirstEffect(OBJECT_SELF);
+        while(GetIsEffectValid(eEffect))
+        {
+            if(GetEffectSpellId(eEffect) == nSpellId)
+                RemoveEffect(OBJECT_SELF, eEffect);
+            eEffect = GetNextEffect(OBJECT_SELF);
+        }
+    }
 
     //Enter Metamagic conditions
     fDuration = ApplyMetamagicDurationMods(fDuration);
     int nDurType = ApplyMetamagicDurationTypeMods(DURATION_TYPE_TEMPORARY);
 
-    effect eSave = EffectSavingThrowIncrease(SAVING_THROW_ALL, nBonus, SAVING_THROW_TYPE_ALL);
+    int nSaveType = SAVING_THROW_FORT;
+    if(GetFortitudeSavingThrow(OBJECT_SELF) > GetReflexSavingThrow(OBJECT_SELF) &&
+       GetWillSavingThrow(OBJECT_SELF) > GetReflexSavingThrow(OBJECT_SELF))
+        nSaveType = SAVING_THROW_REFLEX;
+    if(GetFortitudeSavingThrow(OBJECT_SELF) > GetWillSavingThrow(OBJECT_SELF) &&
+       GetReflexSavingThrow(OBJECT_SELF) > GetWillSavingThrow(OBJECT_SELF))
+        nSaveType = SAVING_THROW_WILL;
+
+    effect eSave = EffectSavingThrowIncrease(nSaveType, nBonus, SAVING_THROW_TYPE_ALL);
     effect eDur = EffectVisualEffect(VFX_DUR_INVOCATION_DARKONESLUCK);
     effect eLink = EffectLinkEffects(eSave, eDur);
 
