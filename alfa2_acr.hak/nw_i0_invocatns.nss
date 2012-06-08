@@ -517,11 +517,11 @@ void RunEssenceBrimstoneBlastImpact(object oTarget, object oCaster, int nRoundsL
 {
 	//SpeakString("RunEssenceBrimstoneBlastImpact(...): Entering function.");	// DEBUG!
 	
-	// AFW-OEI 07/06/2006: Can't "dispel" fire, so no need to check effects
-    //if (GZGetDelayedSpellEffectsExpired(SPELL_I_BRIMSTONE_BLAST, oTarget, oCaster))
-    //{
-    //    return;
-    //}
+    // Magic fire can indeed be dispelled; check. - Zelknolf
+    if (GZGetDelayedSpellEffectsExpired(SPELL_I_BRIMSTONE_BLAST, oTarget, oCaster))
+    {
+        return;
+    }
 
 	
     if ((GetIsDead(oTarget) == FALSE) && (nRoundsLeft > 0))
@@ -580,11 +580,14 @@ int DoEssenceBrimstoneBlast(object oCaster, object oTarget, int bCalledFromShape
 
             int nDC = GetSpellSaveDC();
             SaveDelayedSpellInfo(SPELL_I_BRIMSTONE_BLAST, oTarget, oCaster, nDC);
-			effect eVFX = ExtraordinaryEffect(EffectVisualEffect(894));
-			ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eVFX, oTarget, RoundsToSeconds(nRoundsLeft));	
-			DelayCommand(RoundsToSeconds(1), RunEssenceBrimstoneBlastImpact(oTarget, oCaster, nRoundsLeft));	// First check should be one round after the blast hit
+            effect eVFX = ExtraordinaryEffect(EffectVisualEffect(894));
+            ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eVFX, oTarget, RoundsToSeconds(nRoundsLeft));
+
+            // Brimstone blast should not be able to stack with itself. - Zelknolf
+            if (!GZGetDelayedSpellEffectsExpired(SPELL_I_BRIMSTONE_BLAST, oTarget, oCaster))
+                DelayCommand(RoundsToSeconds(1), RunEssenceBrimstoneBlastImpact(oTarget, oCaster, nRoundsLeft));	// First check should be one round after the blast hit
 				
-	        return TRUE;
+            return TRUE;
         }
     }
     return FALSE;
