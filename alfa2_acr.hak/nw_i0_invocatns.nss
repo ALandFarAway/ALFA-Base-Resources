@@ -782,14 +782,13 @@ int DoEssenceUtterdarkBlast(object oCaster, object oTarget, int bCalledFromShape
         {
             effect eVis = EffectVisualEffect( VFX_DUR_SPELL_ENERGY_DRAIN );
             effect eDrain = EffectNegativeLevel(2);
-            eDrain = SupernaturalEffect(eDrain);
             effect eLink = EffectLinkEffects( eDrain, eVis );
 
             // Spell Effects not allowed to stack...
             RemoveEffectsFromSpell(oTarget, GetSpellId());
 
-            ApplyEffectToObject(DURATION_TYPE_PERMANENT, eLink, oTarget);
-            //ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eDrain, oTarget, HoursToSeconds(1));
+            //ApplyEffectToObject(DURATION_TYPE_PERMANENT, eLink, oTarget);
+            ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eDrain, oTarget, HoursToSeconds(1));
             //ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, oTarget);
             return TRUE;
         }
