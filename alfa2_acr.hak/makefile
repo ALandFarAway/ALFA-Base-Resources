@@ -214,6 +214,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\kemo_animation_hb.ncs                 \
             $(OUTPUTDIR)\kemo_chair.ncs                        \
             $(OUTPUTDIR)\gui_kemo_anim.ncs                     \
+            $(OUTPUTDIR)\nw_s0_wordfaith.ncs                   \
             $(OUTPUTDIR)\gui_kemo_anim_lap.ncs                 \
             $(OUTPUTDIR)\gui_kemo_animation.ncs                \
             $(OUTPUTDIR)\gui_kemo_bio.ncs                      \
@@ -305,8 +306,6 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s0_iretinvis.ncs                   \
             $(OUTPUTDIR)\nw_s0_iseeunsen.ncs                   \
             $(OUTPUTDIR)\nw_s0_itenplage.ncs                   \
-            $(OUTPUTDIR)\nw_s0_itenplagea.ncs                  \
-            $(OUTPUTDIR)\nw_s0_itenplageb.ncs                  \
             $(OUTPUTDIR)\nw_s0_itenplagec.ncs                  \
             $(OUTPUTDIR)\nw_s0_iuttrblst.ncs                   \
             $(OUTPUTDIR)\nw_s0_ivitrblst.ncs                   \
