@@ -59,11 +59,7 @@ void main()
     //Set the four unique armor bonuses
     effect eShield =  EffectConcealment(20, MISS_CHANCE_TYPE_VS_RANGED);
     effect eDur = EffectVisualEffect(VFX_DUR_SPELL_ENTROPIC_SHIELD);	// Using the same VFX as entropic shield
-    effect eMoveSilently = EffectSkillIncrease(SKILL_MOVE_SILENTLY, 4);
-    effect eHide = EffectSkillIncrease(SKILL_HIDE, 4);
     effect eLink = EffectLinkEffects(eShield, eDur);
-    eLink = EffectLinkEffects(eLink, eMoveSilently);
-    eLink = EffectLinkEffects(eLink, eHide);
 
     RemoveEffectsFromSpell(oTarget, GetSpellId());
 
