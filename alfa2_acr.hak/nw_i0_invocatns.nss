@@ -696,28 +696,26 @@ void RunEssenceVitriolicBlastImpact(object oTarget, object oCaster, int nRoundsL
 {
 // AFW-OEI 07/06/2006: Vitriolic Blast has no save and ignores spell resistance!.
 
-// JLR-OEI 06/30/06: Delayed spell info not desired here...because no associated effect keyed to target
-//    if (GZGetDelayedSpellEffectsExpired(SPELL_I_VITRIOLIC_BLAST, oTarget, oCaster))
-//    {
-//        return;
-//    }
+// Spell effect information is actually entirely available here, because of the visual.
+    if (GZGetDelayedSpellEffectsExpired(SPELL_I_VITRIOLIC_BLAST, oTarget, oCaster))
+    {
+        return;
+    }
 
     //SpeakString("RunEssenceVitriolicBlastImpact(...): Entering function.");    // DEBUG!
 
     if ((GetIsDead(oTarget) == FALSE) && (nRoundsLeft > 0))
     {
-//        int nDC = GetDelayedSpellInfoSaveDC(SPELL_I_VITRIOLIC_BLAST, oTarget, oCaster);
-//        {
-            int nDmg = d6(2);
-            effect eDmg = EffectDamage(nDmg,DAMAGE_TYPE_ACID);
-            //effect eVFX = EffectVisualEffect( VFX_IMP_ACID_S );    // handled by DoEldritchBlast()
 
-            ApplyEffectToObject(DURATION_TYPE_INSTANT,eDmg,oTarget);
-            //ApplyEffectToObject(DURATION_TYPE_INSTANT,eVFX,oTarget);    // handled by DoEldritchBlast()
+        int nDmg = d6(2);
+        effect eDmg = EffectDamage(nDmg,DAMAGE_TYPE_ACID);
+        //effect eVFX = EffectVisualEffect( VFX_IMP_ACID_S );    // handled by DoEldritchBlast()
 
-            nRoundsLeft = nRoundsLeft - 1;
-            DelayCommand(RoundsToSeconds(1), RunEssenceVitriolicBlastImpact(oTarget, oCaster, nRoundsLeft));    // Delay for one more round
-//        }
+        ApplyEffectToObject(DURATION_TYPE_INSTANT,eDmg,oTarget);
+        //ApplyEffectToObject(DURATION_TYPE_INSTANT,eVFX,oTarget);    // handled by DoEldritchBlast()
+
+        nRoundsLeft = nRoundsLeft - 1;
+        DelayCommand(RoundsToSeconds(1), RunEssenceVitriolicBlastImpact(oTarget, oCaster, nRoundsLeft));    // Delay for one more round
     }
     else
     {
@@ -760,11 +758,13 @@ int DoEssenceVitriolicBlast(object oCaster, object oTarget, int bCalledFromShape
 
                 // JLR-OEI 06/30/06: Delayed spell info not desired here...because no associated effect keyed to target
 //                SaveDelayedSpellInfo(SPELL_I_VITRIOLIC_BLAST, oTarget, oCaster, nDC);
-
+                
+                // Make sure it doesn't stack with itself.
                 DelayCommand(RoundsToSeconds(1), RunEssenceVitriolicBlastImpact(oTarget, oCaster, nRoundsLeft)); // First check should be one round after the blast hit
 
                 //Apply the effect and VFX impact
-//                ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, oTarget);
+                ApplyEffectToObject(DURATION_TYPE_TEMPORARY, EffectVisualEffect(100005), oTarget, RoundsToSeconds(nRoundsLeft));
+//              ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, oTarget);
                 return TRUE;
             }
         }
