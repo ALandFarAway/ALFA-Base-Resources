@@ -584,8 +584,7 @@ int DoEssenceBrimstoneBlast(object oCaster, object oTarget, int bCalledFromShape
             ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eVFX, oTarget, RoundsToSeconds(nRoundsLeft));
 
             // Brimstone blast should not be able to stack with itself. - Zelknolf
-            if (!GZGetDelayedSpellEffectsExpired(SPELL_I_BRIMSTONE_BLAST, oTarget, oCaster))
-                DelayCommand(RoundsToSeconds(1), RunEssenceBrimstoneBlastImpact(oTarget, oCaster, nRoundsLeft));    // First check should be one round after the blast hit
+            DelayCommand(RoundsToSeconds(1), RunEssenceBrimstoneBlastImpact(oTarget, oCaster, nRoundsLeft));    // First check should be one round after the blast hit
                 
             return TRUE;
         }
