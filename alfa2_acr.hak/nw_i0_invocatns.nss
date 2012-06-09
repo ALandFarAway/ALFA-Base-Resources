@@ -604,7 +604,7 @@ int DoEssenceHellrimeBlast(object oCaster, object oTarget, int bCalledFromShape,
         {
             if(!MySavingThrow(SAVING_THROW_FORT, oTarget, GetSpellSaveDC()))
             {
-                float fDuration = RoundsToSeconds(3);
+                float fDuration = TurnsToSeconds(10);
 
                 effect eDex = EffectAbilityDecrease(ABILITY_DEXTERITY, 4);
                 //effect eDur = EffectVisualEffect(VFX_DUR_CESSATE_NEGATIVE);
