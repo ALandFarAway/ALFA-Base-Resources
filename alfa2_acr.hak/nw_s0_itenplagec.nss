@@ -36,10 +36,6 @@ void main()
     effect eVis = EffectVisualEffect(VFX_HIT_SPELL_NECROMANCY);
     object oTarget;
     float fDelay;
-    if(nSwarm < 1)
-    {
-        nSwarm = 1;
-    }
 
     //--------------------------------------------------------------------------
     // GZ 2003-Oct-15
@@ -73,10 +69,10 @@ void main()
                 DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam, oTarget));
             }
         }
-        if(!FortitudeSave(oTarget, 12 + GetAbilityModifier(GetAreaOfEffectCreator(), ABILITY_CHARISMA), SAVING_THROW_TYPE_DISEASE))
+        if(!FortitudeSave(oTarget, 12 + GetAbilityModifier(ABILITY_CHARISMA, GetAreaOfEffectCreator()), SAVING_THROW_TYPE_DISEASE))
         {
             effect eNaus = EffectDazed();
-            ApplyEffectToCreature(DURATION_TYPE_TEMPORARY, eNaus, oTarget, RoundsToSeconds(1));
+            ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eNaus, oTarget, RoundsToSeconds(1));
         }
         //Get next target in spell area
         oTarget = GetNextInPersistentObject();
