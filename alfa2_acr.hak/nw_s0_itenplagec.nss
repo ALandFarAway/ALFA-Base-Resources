@@ -34,11 +34,7 @@ void main()
     int nDamage;
     effect eDam;
     effect eVis = EffectVisualEffect(VFX_HIT_SPELL_NECROMANCY);
-    object oTarget = GetEnteringObject();
-    string sConstant1 = "NW_SPELL_CONSTANT_CREEPING_DOOM1" + ObjectToString(GetAreaOfEffectCreator());
-    string sConstant2 = "NW_SPELL_CONSTANT_CREEPING_DOOM2" + ObjectToString(GetAreaOfEffectCreator());
-    int nSwarm = GetLocalInt(OBJECT_SELF, sConstant1);
-    int nDamCount = GetLocalInt(OBJECT_SELF, sConstant2);
+    object oTarget;
     float fDelay;
     if(nSwarm < 1)
     {
@@ -59,49 +55,30 @@ void main()
 
     //Get first target in spell area
     oTarget = GetFirstInPersistentObject();
-    while(GetIsObjectValid(oTarget) && nDamCount < 1000)
+    while(GetIsObjectValid(oTarget))
     {
-        if (spellsIsTarget(oTarget, SPELL_TARGET_STANDARDHOSTILE, GetAreaOfEffectCreator()))
+        int bAttackRollMade = FALSE;
+        fDelay = GetRandomDelay(1.0, 2.2);
+        if(bAttackRollMade == FALSE)
         {
-            fDelay = GetRandomDelay(1.0, 2.2);
-            //------------------------------------------------------------------
-            // According to the book, SR Does not count against creeping doom
-            //------------------------------------------------------------------
-            //Spell resistance check
-//            if(!MyResistSpell(GetAreaOfEffectCreator(), oTarget, fDelay))
-//            {
+            if(d20() + 4 > GetAC(oTarget))
+            {
                 SignalEvent(oTarget,EventSpellCastAt(GetAreaOfEffectCreator(), SPELL_I_TENACIOUS_PLAGUE));
                 //Roll Damage
-                nDamage = d6(nSwarm);
+                nDamage = d6(2);
                 //Set Damage Effect with the modified damage
                 eDam = EffectDamage(nDamage, DAMAGE_TYPE_PIERCING);
                 //Apply damage and visuals
                 DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, oTarget));
                 DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam, oTarget));
-                nDamCount = nDamCount + nDamage;
-//            }
+            }
+        }
+        if(!FortitudeSave(oTarget, 12 + GetAbilityModifier(GetAreaOfEffectCreator(), ABILITY_CHARISMA), SAVING_THROW_TYPE_DISEASE))
+        {
+            effect eNaus = EffectDazed();
+            ApplyEffectToCreature(DURATION_TYPE_TEMPORARY, eNaus, oTarget, RoundsToSeconds(1));
         }
         //Get next target in spell area
         oTarget = GetNextInPersistentObject();
-    }
-
-	/*
-    if(nDamCount >= 1000)
-    {
-        DestroyObject(OBJECT_SELF, 1.0);
-    }
-    else */
-    {
-        nSwarm++;
-
-		if ( nSwarm >= 10 )
-		{
-			DestroyObject(OBJECT_SELF, 1.0);
-		}
-		else
-		{
-	        SetLocalInt(OBJECT_SELF, sConstant1, nSwarm);
-	        SetLocalInt(OBJECT_SELF, sConstant2, nDamCount);
-		}
     }
 }
