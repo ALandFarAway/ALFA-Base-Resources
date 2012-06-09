@@ -10,7 +10,11 @@
 		 OnLeftClick0=UIObject_Misc_ExtractData("self:","string",6,local:6)
 		 OnLeftClick1=UIObject_Misc_ExtractData("self:","string",7,local:7)
 		 OnLeftClick2=UIObject_Misc_ExtractData("self:","string",8,local:8)
-		 OnLeftClick3=UIObject_Misc_ExecuteServerScript("gui_notifylist",1,local:6,local:7,local:8)>
+		 OnLeftClick3=UIObject_Misc_ExtractData("self:","string",9,local:9)
+		 OnLeftClick4=UIObject_Misc_ExtractData("self:","string",10,local:10)
+		 OnLeftClick5=UIObject_Misc_ExtractData("self:","string",11,local:11)
+		 OnLeftClick6=UIObject_Misc_ExtractData("self:","string",12,local:12)
+		 OnLeftClick7=UIObject_Misc_ExecuteServerScript("gui_notifylist",1,local:6,local:7,local:8,local:9,local:10,local:11,local:12)>
 
 			<UIButton name="LISTBOX_ITEM_ICON"  x=160 y=0 style="STYLE_LOOT_ICON" prototype=true draggable=false>
 				<UIText align=right valign=bottom fontfamily="Default" style="1"/> 
