@@ -60,7 +60,7 @@ void main() {
 			SetLocalString(o, "PL_RESREF", "phat_lewt_chest_small");
 			break;
 		case 1:
-			SetLocalString(o, "PL_RESREF", "phat_lewt_chest_small");
+			SetLocalString(o, "PL_RESREF", "phat_lewt_chest_large");
 			break;
 	}
 }
