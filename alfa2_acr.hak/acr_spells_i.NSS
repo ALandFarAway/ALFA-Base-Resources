@@ -78,7 +78,7 @@ float ACR_GetSpellDuration( object oCaster, int nDurationType, float nDurationBa
 	
 	// Adjust to caster level if not static.
 	if ( nDurationType == ACR_DURATION_TYPE_PER_CL ) {
-		nDuration = nDuration * ACR_GetCorrectCasterLevel( oCaster );
+		nDuration = nDuration * GetCasterLevel( oCaster );
 	}
 	
 	// Check for spell extension metamagics.
