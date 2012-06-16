@@ -785,7 +785,8 @@ namespace ACR_CreatureBehavior
                     return;
                 if (TryToBuffAll())
                     return;
-
+                if (TryToDebuffAll())
+                    return;
                 return;
             }
             #endregion
@@ -1082,7 +1083,7 @@ namespace ACR_CreatureBehavior
         public bool TryToBuffAll()
         {
             NWTalent Buff;
-            // We look for party buffs first if we have a party with noting.
+            // We look for party buffs first if we have a party worth noting.
             if (this.Party.PartyMembers.Count() > 2)
             {
                 Buff = _GetKnownPartyBuff();
@@ -1161,7 +1162,7 @@ namespace ACR_CreatureBehavior
         /// This seeks a target for a buff talent, prioritizing on high-risk allies, but only selecting one who doesn't already have the effect.
         /// </summary>
         /// <param name="Buff">The talent to check</param>
-        /// <returns>the object ID of a valid target</returns>
+        /// <returns>the object ID of a valid target, or OBJECT_INVALID on error</returns>
         private uint _FindTargetForBuff(NWTalent Buff)
         {
             int SpellId = Script.GetIdFromTalent(Buff);
@@ -1198,6 +1199,155 @@ namespace ACR_CreatureBehavior
             if (Script.GetHasSpellEffect(SpellId, ObjectId) == CLRScriptBase.FALSE)
                 return ObjectId;            
             return OBJECT_INVALID;
+        }
+        #endregion
+
+        #region === Debuffing Methods ===
+        /// <summary>
+        /// This attempts to find a valid place to put down large field-altering effects, and destructive (but dangerous
+        /// and indiscriminate) spells. It will attempt to avoid friendly fire, but might hit allies who just happen to
+        /// be within the area of effect anyway.
+        /// </summary>
+        /// <returns>true if successful</returns>
+        public bool TryToDebuffAll()
+        {
+            NWTalent Debuff = Script.GetCreatureTalentBest(CLRScriptBase.TALENT_CATEGORY_DISPEL, 20, this.ObjectId, 0);
+            uint Target = OBJECT_INVALID;
+            if (Script.GetIsTalentValid(Debuff) == CLRScriptBase.TRUE)
+            {
+                Target = _FindTargetForDispel();
+                if (Target != OBJECT_INVALID)
+                {
+                    Script.ActionUseTalentOnObject(Debuff, Target);
+                    return true;
+                }
+            }
+            Debuff = _GetKnownFieldAlteringEffect();
+            if (Script.GetIsTalentValid(Debuff) == CLRScriptBase.TRUE)
+            {
+                Target = _FindTargetForDebuff(Debuff);
+                if (Target != OBJECT_INVALID)
+                {
+                    Script.ActionUseTalentOnObject(Debuff, Target);
+                    return true;
+                }
+            }
+            Debuff = _GetKnownUnfriendlyDebuff();
+            if (Script.GetIsTalentValid(Debuff) == CLRScriptBase.TRUE)
+            {
+                Target = _FindTargetForDebuff(Debuff);
+                if (Target != OBJECT_INVALID)
+                {
+                    Script.ActionUseTalentOnObject(Debuff, Target);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private NWTalent _GetKnownFieldAlteringEffect()
+        {
+            NWTalent Talent = Script.GetCreatureTalentBest(CLRScriptBase.TALENT_CATEGORY_PERSISTENT_AREA_OF_EFFECT, 20, ObjectId, 0);
+            return Talent;
+        }
+
+        private NWTalent _GetKnownUnfriendlyDebuff()
+        {
+            NWTalent Talent = Script.GetCreatureTalentBest(CLRScriptBase.TALENT_CATEGORY_HARMFUL_AREAEFFECT_INDISCRIMINANT, 20, ObjectId, 0);
+            return Talent;
+        }
+
+        /// <summary>
+        /// This seeks a target for for large terrain-altering or wide effect spells meant to sway battles. It prioritizes distant and high-danger targets.
+        /// </summary>
+        /// <param name="Debuff">Provides the NWTalent for the buff to check against.</param>
+        /// <returns>the object ID of the target, or OBJECT_INVALID on error.</returns>
+        private uint _FindTargetForDebuff(NWTalent Debuff)
+        {
+            int SpellId = Script.GetIdFromTalent(Debuff);
+            CreatureObject Target = Party.GetFarthest(this, Party.Enemies);
+            if (Target != null && Script.GetHasSpellEffect(SpellId, Target.ObjectId) == CLRScriptBase.FALSE)
+            {
+                foreach (uint Collateral in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_MEDIUM, Script.GetLocation(Target.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
+                {
+                    if (Script.GetReputation(ObjectId, Collateral) != CLRScriptBase.REPUTATION_TYPE_ENEMY)
+                        Target = null;
+                }
+                if(Target != null)
+                    return Target.ObjectId;
+            }
+            Target = Party.GetFarthest(this, Party.EnemySpellcasters);
+            if (Target != null && Script.GetHasSpellEffect(SpellId, Target.ObjectId) == CLRScriptBase.FALSE)
+            {
+                foreach (uint Collateral in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_MEDIUM, Script.GetLocation(Target.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
+                {
+                    if (Script.GetReputation(ObjectId, Collateral) != CLRScriptBase.REPUTATION_TYPE_ENEMY)
+                        Target = null;
+                }
+                if (Target != null)
+                    return Target.ObjectId;
+            }
+            Target = Party.GetFarthest(this, Party.EnemyHealers);
+            if (Target != null && Script.GetHasSpellEffect(SpellId, Target.ObjectId) == CLRScriptBase.FALSE)
+            {
+                foreach (uint Collateral in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_MEDIUM, Script.GetLocation(Target.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
+                {
+                    if (Script.GetReputation(ObjectId, Collateral) != CLRScriptBase.REPUTATION_TYPE_ENEMY)
+                        Target = null;
+                }
+                if (Target != null)
+                    return Target.ObjectId;
+            }
+            Target = Party.GetFarthest(this, Party.EnemySoftTargets);
+            if (Target != null && Script.GetHasSpellEffect(SpellId, Target.ObjectId) == CLRScriptBase.FALSE)
+            {
+                foreach (uint Collateral in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_MEDIUM, Script.GetLocation(Target.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
+                {
+                    if (Script.GetReputation(ObjectId, Collateral) != CLRScriptBase.REPUTATION_TYPE_ENEMY)
+                        Target = null;
+                }
+                if (Target != null)
+                    return Target.ObjectId;
+            }
+            foreach(CreatureObject SpellTarget in Party.EnemyHardTargets)
+            {
+                if (Script.GetHasSpellEffect(SpellId, SpellTarget.ObjectId) == CLRScriptBase.FALSE)
+                {
+                    foreach (uint Collateral in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_MEDIUM, Script.GetLocation(Target.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
+                    {
+                        if (Script.GetReputation(ObjectId, Collateral) != CLRScriptBase.REPUTATION_TYPE_ENEMY)
+                            Target = null;
+                    }
+                    if (Target != null)
+                        return Target.ObjectId;
+                }
+            }
+            return OBJECT_INVALID;
+        }
+
+        /// <summary>
+        /// This seeks an enemy target with the most visual effects present, which would imply an in-character motivation to dispel.
+        /// </summary>
+        /// <returns>the object ID of the target.</returns>
+        private uint _FindTargetForDispel()
+        {
+            uint RetTarget = OBJECT_INVALID;
+            uint CurrentMaxVFX = 0;
+            foreach (CreatureObject Target in Party.Enemies)
+            {
+                uint TargetEffectCount = 0;                
+                foreach (NWEffect Effect in Script.GetEffects(Target.ObjectId))
+                {
+                    if (Script.GetEffectType(Effect) == CLRScriptBase.EFFECT_TYPE_VISUALEFFECT)
+                        TargetEffectCount++;
+                }
+                if (TargetEffectCount > CurrentMaxVFX)
+                {
+                    TargetEffectCount = CurrentMaxVFX;
+                    RetTarget = Target.ObjectId;
+                }
+            }
+            return RetTarget;
         }
         #endregion
 

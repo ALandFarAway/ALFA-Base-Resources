@@ -508,6 +508,32 @@ namespace ACR_CreatureBehavior
             return RetValue;
         }
 
+        public CreatureObject GetFarthest(CreatureObject Source, List<CreatureObject> Creatures)
+        {
+            AreaObject SourceArea = Source.Area;
+            Vector3 SourcePos = Source.Position;
+            CreatureObject RetValue = null;
+            if (Creatures.Count == 0) return RetValue;
+
+            float LongestDistance = -1.0f;
+            foreach (CreatureObject Target in Creatures)
+            {
+                // Only interested in objects in the same area.
+                if (SourceArea != Target.Area)
+                    continue;
+
+                Vector3 TargetPos = Target.Position;
+                float Distance = MathOps.DistanceSq(SourcePos, TargetPos);
+
+                if ((LongestDistance < 0) || ((Distance > LongestDistance) && (Distance < 100.0f * 100.0f))) // 100 meters is about as far as we'd expect combat to reach.
+                {
+                    LongestDistance = Distance;
+                    RetValue = Target;
+                }
+            }
+            return RetValue;
+        }
+
         public enum AIType
         {
             BEHAVIOR_TYPE_UNDEFINED = 0,
