@@ -183,7 +183,7 @@ namespace ACR_ServerMisc
         }
 
         /// <summary>
-        /// GetEscape a stirng for subsequent safe use in a database query.
+        /// GetEscape a string for subsequent safe use in a database query.
         /// </summary>
         /// <param name="ConnectionHandle">Supplies a database connection
         /// handle.</param>
