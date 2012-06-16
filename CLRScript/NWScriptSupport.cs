@@ -456,6 +456,71 @@ namespace CLRScriptFramework
         }
 
         /// <summary>
+        /// This provides an IEnumerator for effects active on a creature.
+        /// </summary>
+        public class EffectEnumerator : IEnumerator<NWEffect>
+        {
+            public EffectEnumerator(CLRScriptBase TheScript, uint TheObjectId)
+            {
+                Script = TheScript;
+                ObjectId = TheObjectId;
+                Reset();
+            }
+
+            public void Dispose() { }
+
+            public bool MoveNext()
+            {
+                if (IsReset)
+                    CurrentEffect = Script.GetFirstEffect(ObjectId);
+                else
+                    CurrentEffect = Script.GetNextEffect(ObjectId);
+
+                IsReset = false;
+
+                return Script.GetIsEffectValid(CurrentEffect) == CLRScriptBase.TRUE;
+            }
+
+            public void Reset()
+            {
+                IsReset = true;
+            }
+
+            public NWEffect Current { get { return CurrentEffect; } }
+
+            object IEnumerator.Current { get { return CurrentEffect; } }
+
+            protected CLRScriptBase Script;
+            protected bool IsReset = true;
+            protected NWEffect CurrentEffect;
+            protected uint ObjectId = OBJECT_INVALID;
+        }
+
+        public class EffectEnumeratorHelper : IEnumerable<NWEffect>
+        {
+            public EffectEnumeratorHelper(CLRScriptBase TheScript, uint TheObjectId)
+            {
+                Script = TheScript;
+                ObjectId = TheObjectId;
+            }
+
+            public IEnumerator<NWEffect> GetEnumerator() { return new EffectEnumerator(Script, ObjectId); }
+            IEnumerator IEnumerable.GetEnumerator() { return new EffectEnumerator(Script, ObjectId); }
+
+            protected CLRScriptBase Script;
+            protected uint ObjectId;
+        }
+
+        /// <summary>
+        /// This routine returns an enumerator for effects active on ObjectId.
+        /// </summary>
+        /// <returns>The enumerator is returned.</returns>
+        public EffectEnumeratorHelper GetEffects(uint ObjectId)
+        {
+            return new EffectEnumeratorHelper(this, ObjectId);
+        }
+
+        /// <summary>
         /// This provides an IEnumerator for players present.
         /// </summary>
         public class PlayerEnumerator : IEnumerator<uint>
@@ -589,7 +654,7 @@ namespace CLRScriptFramework
         }
 
         /// <summary>
-        /// This provides an IEnumerator for objects present in an area.
+        /// This provides an IEnumerator for objects in an area.
         /// </summary>
         public class AreaObjectEnumerator : IEnumerator<uint>
         {
