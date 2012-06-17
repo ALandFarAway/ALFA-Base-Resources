@@ -516,7 +516,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\as_group_loot_furnishing.ncs          \
             $(OUTPUTDIR)\as_group_loot_nature.ncs              \
             $(OUTPUTDIR)\gui_notifylist.ncs                    \
-            $(OUTPUTDIR)\d_appearance_action.ncs               
+            $(OUTPUTDIR)\d_appearance_action.ncs               \
+            $(OUTPUTDIR)\acr_ipc_logmsg.ncs                    
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and

@@ -626,6 +626,27 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Run a script on a remote server.  The script must exist on the
+        /// server.  If acknowledgement is desired, it must be implemented in
+        /// the form of a reply IPC request initiated by the script invoked.
+        /// 
+        /// A script executed by this function must follow this prototype:
+        /// 
+        /// void main(int SourceServerID, string Argument);
+        /// </summary>
+        /// <param name="DestinationServerID">Supplies the destination server
+        /// ID.</param>
+        /// <param name="ScriptName">Supplies the name of the script.</param>
+        /// <param name="ScriptArgument">Supplies an optional argument to pass
+        /// to the script.</param>
+        public bool ACR_RunScriptOnServer(int DestinationServerID, string ScriptName, string ScriptArgument)
+        {
+            DemandInitialize();
+
+            return (int)ACR_RunScriptOnServer_Method.Invoke(DBLibraryScript, new object[] { DestinationServerID, ScriptName, ScriptArgument }) != CLRScriptBase.FALSE ? true : false;
+        }
+
+        /// <summary>
         /// This routine performs a synchronous SQL query.  If there were
         /// pending asynchronous queries in the queue, the pending queries are
         /// drained first.
@@ -841,6 +862,7 @@ namespace ALFA
             ACR_GetHAKVersion_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetHAKVersion");
             ACR_GetHAKBuildDate_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetHAKBuildDate");
             ACR_IncrementStatistic_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_IncrementStatistic");
+            ACR_RunScriptOnServer_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_RunScriptOnServer");
 
             DBLibraryScript = ScriptObject;
 
@@ -898,5 +920,6 @@ namespace ALFA
         private static MethodInfo ACR_GetHAKVersion_Method;
         private static MethodInfo ACR_GetHAKBuildDate_Method;
         private static MethodInfo ACR_IncrementStatistic_Method;
+        private static MethodInfo ACR_RunScriptOnServer_Method;
     }
 }

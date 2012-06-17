@@ -473,6 +473,35 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// Run a script on a remote server.  The script must exist on the
+        /// server.  If acknowledgement is desired, it must be implemented in
+        /// the form of a reply IPC request initiated by the script invoked.
+        /// 
+        /// A script executed by this function must follow this prototype:
+        /// 
+        /// void main(int SourceServerID, string Argument);
+        /// </summary>
+        /// <param name="DestinationServerID">Supplies the destination server
+        /// ID.</param>
+        /// <param name="ScriptName">Supplies the name of the script.</param>
+        /// <param name="ScriptArgument">Supplies an optional argument to pass
+        /// to the script.</param>
+        private void RunScriptOnServer(int DestinationServerID, string ScriptName, string ScriptArgument)
+        {
+            string EventText = ScriptName;
+
+            if (!String.IsNullOrEmpty(ScriptArgument))
+                EventText += ":" + ScriptArgument;
+
+            SignalIPCEvent(0,
+                GetDatabase().ACR_GetServerID(),
+                0,
+                DestinationServerID,
+                GameWorldManager.ACR_SERVER_IPC_EVENT_RUN_SCRIPT,
+                EventText);
+        }
+
+        /// <summary>
         /// Look up a character by name and return the owning player id.  The
         /// local cache (only) is queried.  If the character was not in the
         /// local cache (which implies that the player was not online), then no

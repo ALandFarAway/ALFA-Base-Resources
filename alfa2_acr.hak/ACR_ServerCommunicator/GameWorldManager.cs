@@ -683,6 +683,20 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method is called when a run script IPC event is received.
+        /// </summary>
+        /// <param name="SourceServer">Supplies the sender server, which may be
+        /// may be null if the request was not sent by a server but external
+        /// automation.</param>
+        /// <param name="ScriptName">Supplies the name of the script.</param>
+        /// <param name="ScriptArgument">Supplies an optional argument for the
+        /// script main function.</param>
+        private void OnRunScript(GameServer SourceServer, string ScriptName, string ScriptArgument)
+        {
+            EnqueueEvent(new RunScriptEvent(SourceServer, ScriptName, ScriptArgument));
+        }
+
+        /// <summary>
         /// This method is called when an unsupported IPC event code is
         /// received.
         /// </summary>
@@ -1583,6 +1597,38 @@ namespace ACR_ServerCommunicator
                            }
                            break;
 
+                       case ACR_SERVER_IPC_EVENT_RUN_SCRIPT:
+                           lock (this)
+                           {
+                               GameServer SourceServer = ReferenceServerById(SourceServerId, Database);
+                               string ScriptName;
+                               string ScriptArgument;
+                               int i;
+
+                               if (SourceServerId != 0 && SourceServer == null)
+                               {
+                                   WriteDiagnosticLog(String.Format(
+                                       "GameWorldManager.SynchronizeIPCEventQueue: Source {0} server ID is invalid for ACR_SERVER_IPC_EVENT_RUN_SCRIPT.", SourceServerId));
+                                   continue;
+                               }
+
+                               i = EventText.IndexOf(':');
+
+                               if (i == -1)
+                               {
+                                   ScriptName = EventText.ToLowerInvariant();
+                                   ScriptArgument = "";
+                               }
+                               else
+                               {
+                                   ScriptName = EventText.Substring(0, i).ToLowerInvariant();
+                                   ScriptArgument = EventText.Substring(i + 1);
+                               }
+
+                               OnRunScript(SourceServer, ScriptName, ScriptArgument);
+                           }
+                           break;
+
                        default:
                            lock (this)
                            {
@@ -2069,6 +2115,19 @@ namespace ACR_ServerCommunicator
         /// and the event text represents the chat text to deliver.
         /// </summary>
         public const int ACR_SERVER_IPC_EVENT_PAGE                   = 5;
+
+        /// <summary>
+        /// Generic run script events use this event type.  For this event,
+        /// there are three parameters.  The source and destination server IDs
+        /// represent the routing information for the request (with the source
+        /// server ID potentially being zero), and the event text represents
+        /// the script name, followed by a colon and the script main argument.
+        /// 
+        /// The script is prototyped as follows:
+        /// 
+        /// void main(int SourceServerID, string Argument);
+        /// </summary>
+        public const int ACR_SERVER_IPC_EVENT_RUN_SCRIPT             = 6;
 
 
 

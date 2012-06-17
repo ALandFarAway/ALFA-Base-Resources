@@ -118,6 +118,19 @@ const int ACR_SERVER_IPC_EVENT_SHUTDOWN_SERVER               = 4;
 // player that is logged in.
 const int ACR_SERVER_IPC_EVENT_PAGE                          = 5;
 
+// The run script event is used to transport a request to run a script to a
+// remote server.  The script in question must exist on the target server for
+// the operation to succeed.  Any acknowledgement, if desired, must be
+// implemented by the script invoked on the remote server.
+//
+// Scripts executed may have a single string argument and receive the server ID
+// that requested the run script event (which may be zero if a source outside
+// of the game made the request, such as website automation).  The prototype
+// for the entrypoint of a script called by this event is as follows:
+//
+// void main(int SourceServerID, string Argument);
+const int ACR_SERVER_IPC_EVENT_RUN_SCRIPT                    = 6;
+
 // Maximum length of an IPC event text field.
 
 const int ACR_SERVER_IPC_MAX_EVENT_LENGTH                    = 256;
@@ -296,6 +309,24 @@ int ACR_PauseHeartbeat(object PlayerObject);
 //!  - PlayerObject: The player object of the player entering quarantine.
 //!  - Returns: TRUE if successful
 int ACR_ServerIPC_OnQuarantinePlayer(object PlayerObject);
+
+//! Execute a script on a remote server.
+//!  - DestinationServerID: Supplies the server ID of the server that should
+//                          run the script.  This must be a valid server ID,
+//                          and the server must be online and must contain the
+//                          script to run.
+//!  - ScriptName: Supplies the name of the script to run.  The script must
+//                 exist on the destination server and needs to follow the
+//                 prototype described for ACR_SERVER_IPC_EVENT_RUN_SCRIPT.
+//!  - ScriptArgument: Supplies a single argument to supply to the script.  The
+//                     length of the argument and ScriptName must sum to less
+//                     than ACR_SERVER_IPC_MAX_EVENT_LENGTH-1 or the request
+//                     will fail.
+//!  - Returns: TRUE if the operation was initiated successfully.  There is no
+//              structured indication of success; if acknowledgement is desired
+//              then it must be implemented in the form of a reply IPC event
+//              initiated by the script executed on the remote server.
+int ACR_RunScriptOnServer(int DestinationServerID, string ScriptName, string ScriptArgument);
 
 //! Make a raw call to the IPC C# control script.
 //!  - Command: Supplies the command to request (e.g. ACR_SERVER_IPC_SIGNAL_IPC_EVENT).
@@ -695,6 +726,30 @@ int ACR_ServerIPC_OnQuarantinePlayer(object PlayerObject)
 		0,
 		"",
 		PlayerObject);
+}
+
+int ACR_RunScriptOnServer(int DestinationServerID, string ScriptName, string ScriptArgument)
+{
+	struct ACR_SERVER_IPC_EVENT IPCEvent;
+
+	if (GetStringLength(ScriptName) + GetStringLength(ScriptArgument) + 1 > ACR_SERVER_IPC_MAX_EVENT_LENGTH)
+	{
+		WriteTimestampedLogEntry("ACR_RunScriptOnServer(" + IntToString(DestinationServerID) + ", " + ScriptName + ", " + ScriptArgument + "): Request failed due to too long script argument.");
+		return FALSE;
+	}
+
+	IPCEvent.SourcePlayerID = 0;
+	IPCEvent.SourceServerID = ACR_GetServerID();
+	IPCEvent.DestinationPlayerID = 0;
+	IPCEvent.DestinationServerID = DestinationServerID;
+	IPCEvent.EventType = ACR_SERVER_IPC_EVENT_RUN_SCRIPT;
+	IPCEvent.EventText = ScriptName;
+
+	if (ScriptArgument != "")
+		IPCEvent.EventText += ":" + ScriptArgument;
+
+	ACR_SignalServerIPCEvent(IPCEvent);
+	return TRUE;
 }
 
 void ACR_SignalServerIPCEvent(struct ACR_SERVER_IPC_EVENT IPCEvent)
