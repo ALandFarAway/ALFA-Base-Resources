@@ -536,7 +536,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_writepersistentint.ncs            \
             $(OUTPUTDIR)\acr_check_same_race.ncs               \
             $(OUTPUTDIR)\abr_spawn_debug.ncs                   \
-            $(OUTPUTDIR)\abr_plc_onclosereturns.ncs            
+            $(OUTPUTDIR)\abr_plc_onclosereturns.ncs            \
+            $(OUTPUTDIR)\abr_storeopen2.ncs                    
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and
