@@ -524,7 +524,17 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_cs_regionchk.ncs                  \
             $(OUTPUTDIR)\acr_cs_regions.ncs                    \
             $(OUTPUTDIR)\acr_cs_skillpoints.ncs                \
-            $(OUTPUTDIR)\acr_cs_skillptchk.ncs                 
+            $(OUTPUTDIR)\acr_cs_skillptchk.ncs                 \
+            $(OUTPUTDIR)\acr_addpersistentint.ncs              \
+            $(OUTPUTDIR)\acr_check_language.ncs                \
+            $(OUTPUTDIR)\acr_cs_doorcheck.ncs                  \
+            $(OUTPUTDIR)\acr_cs_settrapdet.ncs                 \
+            $(OUTPUTDIR)\acr_cs_settrapdis.ncs                 \
+            $(OUTPUTDIR)\acr_cs_setunlock.ncs                  \
+            $(OUTPUTDIR)\acr_cs_trapcheck.ncs                  \
+            $(OUTPUTDIR)\acr_setpersistentint.ncs              \
+            $(OUTPUTDIR)\acr_writepersistentint.ncs            \
+            $(OUTPUTDIR)\acr_check_same_race.ncs               
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and
