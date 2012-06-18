@@ -48,6 +48,8 @@ namespace ACR_ServerCommunicator
             Script.AddScriptParameterInt(SourceServerId);
             Script.AddScriptParameterString(ScriptArgument);
             Script.ExecuteScriptEnhanced(ScriptName, Script.GetModule(), CLRScriptBase.TRUE);
+
+            Database.ACR_IncrementStatistic("RUN_REMOTE_SCRIPT");
         }
 
         /// <summary>
