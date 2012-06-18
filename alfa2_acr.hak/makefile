@@ -534,7 +534,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_cs_trapcheck.ncs                  \
             $(OUTPUTDIR)\acr_setpersistentint.ncs              \
             $(OUTPUTDIR)\acr_writepersistentint.ncs            \
-            $(OUTPUTDIR)\acr_check_same_race.ncs               
+            $(OUTPUTDIR)\acr_check_same_race.ncs               \
+            $(OUTPUTDIR)\abr_spawn_debug.ncs                   
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and
