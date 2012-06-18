@@ -541,7 +541,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\abr_storeopen2.ncs                    \
             $(OUTPUTDIR)\abr_onuse_rezlever.ncs                \
             $(OUTPUTDIR)\i_abr_dmquarantine_ac.ncs             \
-            $(OUTPUTDIR)\i_abr_it_gr_oil_ac.ncs                
+            $(OUTPUTDIR)\i_abr_it_gr_oil_ac.ncs                \
+            $(OUTPUTDIR)\i_abr_it_msc_bagpipes_ac.ncs          
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and
