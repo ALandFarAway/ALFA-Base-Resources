@@ -517,7 +517,14 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\as_group_loot_nature.ncs              \
             $(OUTPUTDIR)\gui_notifylist.ncs                    \
             $(OUTPUTDIR)\d_appearance_action.ncs               \
-            $(OUTPUTDIR)\acr_ipc_logmsg.ncs                    
+            $(OUTPUTDIR)\acr_ipc_logmsg.ncs                    \
+            $(OUTPUTDIR)\acr_checkpersistentint.ncs            \
+            $(OUTPUTDIR)\acr_subdual.ncs                       \
+            $(OUTPUTDIR)\acr_cs_classkill.ncs                  \
+            $(OUTPUTDIR)\acr_cs_regionchk.ncs                  \
+            $(OUTPUTDIR)\acr_cs_regions.ncs                    \
+            $(OUTPUTDIR)\acr_cs_skillpoints.ncs                \
+            $(OUTPUTDIR)\acr_cs_skillptchk.ncs                 
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and
