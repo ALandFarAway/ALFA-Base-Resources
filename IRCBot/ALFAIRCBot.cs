@@ -341,6 +341,8 @@ namespace ALFAIRCBot
                 ServerData.Name = "MS";
             if (ServerInfoTable.TryGetValue(10, out ServerData))
                 ServerData.Name = "BG";
+            if (ServerInfoTable.TryGetValue(11, out ServerData))
+                ServerData.Name = "WHL";
 
             //
             // Now show the results.
