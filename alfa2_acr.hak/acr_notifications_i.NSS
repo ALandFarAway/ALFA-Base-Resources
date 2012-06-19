@@ -57,6 +57,22 @@ const string NOTIFY_EVENT_CLICKED_TICKER = "1";
 
 const string NOTIFY_EVENT_DISMISSED_TICKLER = "2";
 
+// When provided as a window type for use with the notifications system, this 
+// refers to a typical message box with the OK and Cancel buttons. If no
+// cancel button is specified, no cancel button is drawn.
+const string NOTIFY_WINDOW_MESSAGE_BOX = "messagebox";
+
+// When provided as a window type for use with the notifications system, this
+// refers to a message with no message box. If a verbose message is provided
+// anyway, the verbose message will be sent to the server window.
+const string NOTIFY_WINDOW_NO_CALLBACK = "nocallback";
+
+
+// When provided as a window type for use with the notifications system, this
+// refers to a message box which has the URL element associated with the on
+// click. In this unique case, the OK Callback is the URL to be used.
+const string NOTIFY_WINDOW_URL_BOX = "urlbox";
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -131,15 +147,24 @@ void HandleRowClick( object oPC, string sRowName, string sNotifyWindow, string s
     // Make sure we only use the message once.
     DeleteLocalString(GetModule(), sRowName);
 
-    // Temporary standin-- we'll get rid of this line once we have better message boxes.
-    SendMessageToPC(oPC, sNotifyMessage);
-
-    // If we didn't specify a cancel button text, then we don't show it.
-    int bCancel = TRUE;
-    if(sCancelText == "") bCancel = FALSE;
-
     // Message box
-    DisplayMessageBox(oPC, -1, sNotifyMessage, sOKCB, sCancelCB, bCancel, "SCREEN_MESSAGEBOX_DEFAULT", -1, sOKText, -1, sCancelText);
+    if(sNotifyWindow == NOTIFY_WINDOW_MESSAGE_BOX)
+    {
+        // If we didn't specify a cancel button text, then we don't show it.
+        int bCancel = TRUE;
+        if(sCancelText == "") bCancel = FALSE;
+        DisplayMessageBox(oPC, -1, sNotifyMessage, sOKCB, sCancelCB, bCancel, "SCREEN_MESSAGEBOX_DEFAULT", -1, sOKText, -1, sCancelText);
+    }
+    else if(sNotifyWindow == NOTIFY_WINDOW_URL_BOX)
+    {
+        // TODO: hook up Basilica's URL box and call this for the Client Extension version and 
+        // Community ID to Drupal ID link messages.
+    }
+    else
+    {
+        if(sNotifyMessage != "")
+            SendMessageToPC( oPC, sNotifyMessage );
+    }
 
     // Still want to dismiss the row at the end.
     RemoveListBoxRow(oPC, "SCREEN_NOTIFY", "notify", sRowName);
