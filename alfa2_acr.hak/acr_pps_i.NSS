@@ -206,6 +206,21 @@ void _playerStartQuarantinePortalDialog(int nDesiredServerID);
 //!  - Returns: nothing
 void _playerStartQuarantineAutoPortal(int nDesiredServerID);
 
+//! This function schedules a periodic check for a player still remaining in
+//  the quarantine area, to prevent DMs from accidentally teleporting players
+//  outside of quarantine (instead of validating), and thus forgetting about
+//  it while the player isn't saving.
+//!  - oPC: The player object to check.
+//!  - Returns: nothing
+void _playerScheduleQuarantineAreaCheck(object oPC);
+
+//! This function checks that the player is in the quarantine area while they
+//  are still in quarantine.  If not, the player is moved back.  Another
+//  continuation is rescheduled unless the player is out of quarantine now.
+//!  - oPC: The player object to check.
+//!  - Returns: nothing
+void _playerQuarantineAreaCheck(object oPC);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -665,6 +680,7 @@ void ACR_PCOnPCLoaded(object oPC)
        			// deposit the player in quarantine
        			AssignCommand(oPC, JumpToObject(GetLocalObject(oModule, ACR_PPS_QUARANTINE_WP), FALSE)); 
 				DelayCommand(0.5, (_playerFreeze(oPC)));
+				_playerScheduleQuarantineAreaCheck(oPC);
 
 				float QuarantinePortalDelay;
 
@@ -986,3 +1002,37 @@ void _playerStartQuarantineAutoPortal(int nDesiredServerID)
 	ACR_StartServerToServerPortal(nDesiredServerID, -1, OBJECT_SELF);
 }
 
+void _playerScheduleQuarantineAreaCheck(object oPC)
+{
+	DelayCommand(30.0f, _playerQuarantineAreaCheck(oPC));
+}
+
+void _playerQuarantineAreaCheck(object oPC)
+{
+	// Only interested in PCs in quarantine.
+
+	if (!GetLocalInt(oPC, ACR_PPS_QUARANTINED))
+		return;
+
+	if (GetArea(OBJECT_SELF) == OBJECT_INVALID || GetScriptHidden(OBJECT_SELF))
+	{
+		// The PC may still be loading the area.  Wait until they seem to have
+		// finished.
+		//
+
+		_playerScheduleQuarantineAreaCheck(oPC);
+		return;
+	}
+
+	object oWaypoint = GetLocalObject(GetModule(), ACR_PPS_QUARANTINE_WP);
+	if (GetArea(OBJECT_SELF) != GetArea(oWaypoint))
+	{
+		AssignCommand(oPC, JumpToObject(oWaypoint, FALSE));
+		DelayCommand(0.5, (_playerFreeze(oPC)));
+	}
+
+	_playerScheduleQuarantineAreaCheck(oPC);
+	SendMessageToPC(oPC, "Quarantined players must be validated using the DM validating tool instead of teleported out of the quarantine area.  Moving back to the quarantine area.");
+	SendMessageToAllDMs("Quarantined player " + GetName(oPC) + " was moved outside of the quarantine area without using the standard validation tool; moving them back.  Players must be validated using the validation tool or character changes might not be saved properly.");
+	ACR_PrintDebugMessage("acr_pps_i: Moving quarantined player " + GetName(oPC) + " back to quarantine area after improper exit from quarantine zone.");
+}
