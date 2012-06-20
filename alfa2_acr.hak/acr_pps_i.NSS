@@ -1024,7 +1024,7 @@ void _playerQuarantineAreaCheck(object oPC)
 	if (!ACR_PPSIsPlayerQuarantined(oPC))
 		return;
 
-	if (GetArea(OBJECT_SELF) == OBJECT_INVALID || GetScriptHidden(OBJECT_SELF))
+	if (GetArea(oPC) == OBJECT_INVALID || GetScriptHidden(oPC))
 	{
 		// The PC may still be loading the area.  Wait until they seem to have
 		// finished.
@@ -1035,7 +1035,7 @@ void _playerQuarantineAreaCheck(object oPC)
 	}
 
 	object oWaypoint = GetLocalObject(GetModule(), ACR_PPS_QUARANTINE_WP);
-	if (GetArea(OBJECT_SELF) != GetArea(oWaypoint))
+	if (GetArea(oPC) != GetArea(oWaypoint))
 	{
 		AssignCommand(oPC, JumpToObject(oWaypoint, FALSE));
 		DelayCommand(0.5, (_playerFreeze(oPC)));
