@@ -332,7 +332,7 @@ void ACR_OnPlayerRest(object oPC, int nRestEvent)
 	if (ACR_GetIsPlayerDead(oPC)) { AssignCommand(oPC, ClearAllActions()); return; }
 
 	// do not permit quarantined players to rest
-	if (GetLocalInt(oPC, ACR_PPS_QUARANTINED)) { AssignCommand(oPC, ClearAllActions()); return; }
+	if (ACR_PPSIsPlayerQuarantined(oPC)) { AssignCommand(oPC, ClearAllActions()); return; }
 	
 	//SetLocalInt(oPC, ACR_REST_STRENGTH, GetAbilityScore(oPC, ABILITY_STRENGTH));
     //SetLocalInt(oPC, ACR_REST_DEXTERITY, GetAbilityScore(oPC, ABILITY_DEXTERITY));
@@ -421,7 +421,7 @@ void ACR_RestOnClientLeave(object oPC)
     // PC object may not be available by the time this is invoked - might require workaround
 
     // store the logout time stamp, but only if the PC is not logging out of Quarantine
-	if (!GetLocalInt(oPC, ACR_PPS_QUARANTINED)) {
+	if (!ACR_PPSIsPlayerQuarantined(oPC)) {
     	ACR_SetPersistentInt(oPC, ACR_REST_LOGOUT_TIMER, ACR_GetTimeStampInMinutes());
 	}
 }
@@ -440,7 +440,7 @@ void ACR_RestOnClientEnter(object oPC)
 	    return; 
 	}
 	// do not process Quarantined PCs
-	if (GetLocalInt(oPC, ACR_PPS_QUARANTINED)) {
+	if (ACR_PPSIsPlayerQuarantined(oPC)) {
 	    SendMessageToPC(oPC, "Offline resting is disabled for Quarantined PCs");
 	    return; 	
 	}
@@ -503,7 +503,7 @@ void ACR_PrayForSpells(object oCaster)
             return;
         }
         // block spell restoration for Quarantined PCs
-        if (GetLocalInt(oCaster, ACR_PPS_QUARANTINED)) 
+        if (ACR_PPSIsPlayerQuarantined(oCaster)) 
         {
             SendMessageToPC(oCaster, "Spell restoration is disabled while in Quarantine.");
             return;
@@ -547,7 +547,7 @@ void ACR_StudyForSpells(object oCaster)
             return;
         }
         // block spell restoration for Quarantined PCs
-        if (GetLocalInt(oCaster, ACR_PPS_QUARANTINED)) 
+        if (ACR_PPSIsPlayerQuarantined(oCaster)) 
         {
             SendMessageToPC(oCaster, "Spell restoration is disabled while in Quarantine.");
             return;

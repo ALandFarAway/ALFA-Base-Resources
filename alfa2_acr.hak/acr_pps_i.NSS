@@ -178,6 +178,11 @@ void ACR_PPSBootPC(object oPC, string sMessage, int bDisableSave);
 //!  Called by ACR_PCSave, and by ACR_PersistentStorageOnClose.
 void ACR_PCExportSingleCharacter(object oPC);
 
+//! Function to check if a PC is quarantined.
+//!  - oPC: Supplies the player to query.
+//!  - Returns: TRUE if the player is in quarantine.
+int ACR_PPSIsPlayerQuarantined(object oPC);
+
 //! *** PRIVATE FUNCTIONS ***
 
 //! This function transitions the PC to their last saved location upon spawning in
@@ -235,7 +240,7 @@ void ACR_PCSave(object oPC, int bExport = TRUE, int bSaveLocation = TRUE)
     if (GetIsDM(oPC)) { return; }
 
 	// ignore players in quarantine??
-	if (GetLocalInt(oPC, ACR_PPS_QUARANTINED)) { return; }
+	if (ACR_PPSIsPlayerQuarantined(oPC)) { return; }
     //if (GetTag(GetArea(oPC)) == ACR_PPS_QUARANTINE_AR_TAG) { return; }
 
     ACR_PrintDebugMessage("acr_pps_i: Saving " + GetName(oPC) + " Character Data", ACR_PPS_DEBUG_ID, DEBUG_LEVEL_WARNING);
@@ -272,7 +277,7 @@ void ACR_PCAutoSave(object oPC, int bUpdateStatusOnly)
 		} else {
 			SetLocalInt(oPC, ACR_PPS_COUNT, nCycleIndex);
 		}
-		if (GetLocalInt(oPC, ACR_PPS_QUARANTINED) == FALSE) {
+		if (ACR_PPSIsPlayerQuarantined(oPC) == FALSE) {
 			SetLocalString(oPC, ACR_PPS_LOCATION, ACR_LocationToString(GetLocation(oPC)));
 		}
         // schedule the next auto save check
@@ -907,6 +912,11 @@ void ACR_PCExportSingleCharacter(object oPC)
 #endif
 }
 
+int ACR_PPSIsPlayerQuarantined(object oPC)
+{
+	return GetLocalInt(oPC, ACR_PPS_QUARANTINED);
+}
+
 void ACR_PPSValidatePC(object oTarget) {
 
 	// need to activate all the ACR systems that were suspended by Quarantine
@@ -1011,7 +1021,7 @@ void _playerQuarantineAreaCheck(object oPC)
 {
 	// Only interested in PCs in quarantine.
 
-	if (!GetLocalInt(oPC, ACR_PPS_QUARANTINED))
+	if (!ACR_PPSIsPlayerQuarantined(oPC))
 		return;
 
 	if (GetArea(OBJECT_SELF) == OBJECT_INVALID || GetScriptHidden(OBJECT_SELF))

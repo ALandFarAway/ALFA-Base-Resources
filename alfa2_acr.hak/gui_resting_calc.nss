@@ -54,7 +54,7 @@ void main(string sParam)
         SendMessageToPC(OBJECT_SELF, "Whoops! We didn't realise you were dead until just now. Sorry about that!");
         return; 
     }
-    if (GetLocalInt(OBJECT_SELF, ACR_PPS_QUARANTINED)) 
+    if (ACR_PPSIsPlayerQuarantined(OBJECT_SELF))
     { 
         SendMessageToPC(OBJECT_SELF, "Whoops! We didn't realise you were in quarantine until just now. Sorry about that!");
         return; 
