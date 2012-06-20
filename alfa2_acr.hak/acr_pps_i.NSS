@@ -1039,10 +1039,10 @@ void _playerQuarantineAreaCheck(object oPC)
 	{
 		AssignCommand(oPC, JumpToObject(oWaypoint, FALSE));
 		DelayCommand(0.5, (_playerFreeze(oPC)));
+		SendMessageToPC(oPC, "Quarantined players must be validated using the DM validating tool instead of teleported out of the quarantine area.  Moving back to the quarantine area.");
+		SendMessageToAllDMs("Quarantined player " + GetName(oPC) + " was moved outside of the quarantine area without using the standard validation tool; moving them back.  Players must be validated using the validation tool or character changes might not be saved properly.");
+		ACR_PrintDebugMessage("acr_pps_i: Moving quarantined player " + GetName(oPC) + " back to quarantine area after improper exit from quarantine zone.");
 	}
 
 	_playerScheduleQuarantineAreaCheck(oPC);
-	SendMessageToPC(oPC, "Quarantined players must be validated using the DM validating tool instead of teleported out of the quarantine area.  Moving back to the quarantine area.");
-	SendMessageToAllDMs("Quarantined player " + GetName(oPC) + " was moved outside of the quarantine area without using the standard validation tool; moving them back.  Players must be validated using the validation tool or character changes might not be saved properly.");
-	ACR_PrintDebugMessage("acr_pps_i: Moving quarantined player " + GetName(oPC) + " back to quarantine area after improper exit from quarantine zone.");
 }
