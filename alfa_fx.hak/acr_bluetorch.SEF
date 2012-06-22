@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<EventList>
+  <Name>
+  </Name>
+  <MaxDuration>0</MaxDuration>
+  <SpecialTargetPosition>0</SpecialTargetPosition>
+  <FogMultiplier>1</FogMultiplier>
+  <Event0>
+    <Type>1</Type>
+    <Name>Blue Flame</Name>
+    <DefinitionFile>fx_torchgl_blue.pfx</DefinitionFile>
+    <DelayTime>0</DelayTime>
+    <MaxDuration>0</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>1</SourceAttachment>
+    <TargetAttachment>5</TargetAttachment>
+    <SourceAttachmentObject>1</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+  </Event0>
+</EventList>
