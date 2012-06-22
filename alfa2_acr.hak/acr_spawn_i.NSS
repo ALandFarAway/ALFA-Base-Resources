@@ -991,7 +991,7 @@ string ACR_SpawnPointToString(object oWP)
 {
 	object oArea = GetArea(oWP);
 
-	return "(Tag: " + GetTag(oWP) + ", Name: " + GetName(oWP) + ", Resref: " + GetResRef(oWP) + ", Location: " + LocationToString(GetLocation(oWP)) + ") IN (Tag: " + GetTag(oArea) + ", Name: " + GetName(oArea) + ") ";
+	return "(Tag: " + GetTag(oWP) + ", Name: " + GetName(oWP) + ", Location: " + LocationToString(GetLocation(oWP)) + ") IN (Tag: " + GetTag(oArea) + ", Name: " + GetName(oArea) + ") ";
 }
 
 int ACR_GetIsSpawned(object oWP)
