@@ -46,6 +46,9 @@ void main() {
 			nTargetCount++;
 			oTarget = GetNextObjectInShape( SHAPE_SPHERE, WATER_BREATHING_RADIUS, lTarget, FALSE, OBJECT_TYPE_CREATURE );
 		}
+
+		if( nTargetCount == 0 )
+			return;
 		
 		// Apply effect to all in area.
 		fDuration = fDuration / nTargetCount;
