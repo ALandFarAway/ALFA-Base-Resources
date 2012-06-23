@@ -43,6 +43,9 @@ void main() {
 		int nTargetCount = 0;
 		oTarget = GetFirstObjectInShape( SHAPE_SPHERE, WATER_BREATHING_RADIUS, lTarget, FALSE, OBJECT_TYPE_CREATURE );
 		while ( GetIsObjectValid( oTarget ) ) {
+			if( !GetFactionEqual( oCaster, oTarget ))
+				continue;
+
 			nTargetCount++;
 			oTarget = GetNextObjectInShape( SHAPE_SPHERE, WATER_BREATHING_RADIUS, lTarget, FALSE, OBJECT_TYPE_CREATURE );
 		}
@@ -54,6 +57,9 @@ void main() {
 		fDuration = fDuration / nTargetCount;
 		oTarget = GetFirstObjectInShape( SHAPE_SPHERE, WATER_BREATHING_RADIUS, lTarget, FALSE, OBJECT_TYPE_CREATURE );
 		while ( GetIsObjectValid( oTarget ) ) {
+			if( !GetFactionEqual( oCaster, oTarget ))
+				continue;
+
 			_ApplyWaterBreathing( oCaster, oTarget, fDuration );
 			oTarget = GetNextObjectInShape( SHAPE_SPHERE, WATER_BREATHING_RADIUS, lTarget, FALSE, OBJECT_TYPE_CREATURE );
 		}
