@@ -98,7 +98,7 @@ void main()
 {
     ACR_TriggerOnEnter();
 
-    object oPC = GetEnteringObject();
+    object oPC = GetExitingObject();
 
     effect eEffect = GetFirstEffect(oPC);
     while(GetIsEffectValid(eEffect))
