@@ -52,15 +52,20 @@ void main() {
 			oTarget = GetNextObjectInShape( SHAPE_SPHERE, WATER_BREATHING_RADIUS, lTarget, FALSE, OBJECT_TYPE_CREATURE );
 		}
 
-		if( nTargetCount == 0 )
+		// If we have no valid targets, just apply it to the caster.
+		if ( nTargetCount == 0 ) {
+			_ApplyWaterBreathing( oCaster, oCaster, fDuration );
 			return;
+		}
 		
 		// Apply effect to all in area.
 		fDuration = fDuration / nTargetCount;
 		oTarget = GetFirstObjectInShape( SHAPE_SPHERE, WATER_BREATHING_RADIUS, lTarget, FALSE, OBJECT_TYPE_CREATURE );
 		while ( GetIsObjectValid( oTarget ) ) {
-			if( !GetFactionEqual( oCaster, oTarget ))
+			if ( !GetFactionEqual( oCaster, oTarget ) ) {
+				oTarget = GetNextObjectInShape( SHAPE_SPHERE, WATER_BREATHING_RADIUS, lTarget, FALSE, OBJECT_TYPE_CREATURE );
 				continue;
+			}
 
 			_ApplyWaterBreathing( oCaster, oTarget, fDuration );
 			oTarget = GetNextObjectInShape( SHAPE_SPHERE, WATER_BREATHING_RADIUS, lTarget, FALSE, OBJECT_TYPE_CREATURE );
