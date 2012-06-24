@@ -43,8 +43,10 @@ void main() {
 		int nTargetCount = 0;
 		oTarget = GetFirstObjectInShape( SHAPE_SPHERE, WATER_BREATHING_RADIUS, lTarget, FALSE, OBJECT_TYPE_CREATURE );
 		while ( GetIsObjectValid( oTarget ) ) {
-			if( !GetFactionEqual( oCaster, oTarget ))
+			if ( !GetFactionEqual( oCaster, oTarget ) ) {
+				oTarget = GetNextObjectInShape( SHAPE_SPHERE, WATER_BREATHING_RADIUS, lTarget, FALSE, OBJECT_TYPE_CREATURE );
 				continue;
+			}
 
 			nTargetCount++;
 			oTarget = GetNextObjectInShape( SHAPE_SPHERE, WATER_BREATHING_RADIUS, lTarget, FALSE, OBJECT_TYPE_CREATURE );
