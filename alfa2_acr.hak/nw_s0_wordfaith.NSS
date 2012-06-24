@@ -22,7 +22,7 @@ int SPELL_WORD_OF_CHAOS = 3117;
 
 void main()
 {
-    if(!!X2PreSpellCastCode()) return;
+    if(!X2PreSpellCastCode()) return;
 	
     effect eUpper, eMid, eLow, eVFX, eAreaVFX;
     effect eDeath = EffectDeath();
@@ -99,16 +99,13 @@ void main()
     object oTarget = GetFirstObjectInShape(SHAPE_SPHERE, RADIUS_SIZE_COLOSSAL, lSource);
     while(GetIsObjectValid(oTarget))
     {
-        SendMessageToPC(OBJECT_SELF, GetName(oTarget) + " is in AOE.");
         if((nSpell == SPELL_HOLY_WORD     && GetAlignmentGoodEvil(oTarget) != ALIGNMENT_GOOD) ||
            (nSpell == SPELL_BLASPHEMY     && GetAlignmentGoodEvil(oTarget) != ALIGNMENT_EVIL) ||
            (nSpell == SPELL_DICTUM        && GetAlignmentLawChaos(oTarget) != ALIGNMENT_LAWFUL) ||
            (nSpell == SPELL_WORD_OF_CHAOS && GetAlignmentLawChaos(oTarget) != ALIGNMENT_CHAOTIC))
         {
-            if(!ResistSpell(OBJECT_SELF, oTarget) &&
-               GetHasSpellEffect(SPELL_SILENCE, oTarget) == FALSE)
+            if(!ResistSpell(OBJECT_SELF, oTarget) && !GetHasSpellEffect(SPELL_SILENCE, oTarget))
             {
-                SendMessageToPC(GetFirstPC(), GetName(oTarget) + " is targetable.");
                 if(GetRacialType(oTarget) == RACIAL_TYPE_OUTSIDER)
                 {
                     if(!WillSave(oTarget, nSaveDC, nSaveType))
