@@ -36,7 +36,11 @@ void main()
     }
 
 // End of Spell Cast Hook
-
+    if(GetActionMode(OBJECT_SELF, ACTION_MODE_COMBAT_EXPERTISE) ||
+       GetActionMode(OBJECT_SELF, ACTION_MODE_IMPROVED_COMBAT_EXPERTISE))
+    {
+        ACR_LogEvent(OBJECT_SELF, ACR_LOG_COMBAT, "Character "+GetName(OBJECT_SELF)+" has activated Eldritch Blast while using Combat Expertise.");
+    }
 
     //Declare major variables
     object oTarget = GetSpellTargetObject();

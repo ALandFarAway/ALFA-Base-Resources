@@ -35,6 +35,5 @@ void main()
 
 // End of Spell Cast Hook
 
-
     DoShapeEldritchDoom();
 }
