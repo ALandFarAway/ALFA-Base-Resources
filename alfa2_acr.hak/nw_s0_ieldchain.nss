@@ -13,7 +13,6 @@
 //:://////////////////////////////////////////////
 //:: VFX Pass By: Preston W, On: June 20, 2001
 
-
 #include "nw_i0_invocatns"
 #include "x2_inc_spellhook" 
 

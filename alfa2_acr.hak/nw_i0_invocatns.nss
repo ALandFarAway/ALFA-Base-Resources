@@ -981,7 +981,7 @@ int DoShapeEldritchChain()
     location lSpellLocation;
     //Hit the initial target
 
-    int nInitTouchAttack = TouchAttackRanged( oTarget );
+    int nInitTouchAttack = TouchAttackRanged( oFirstTarget );
     if ( nInitTouchAttack == TOUCH_ATTACK_RESULT_MISS )
     {
         // Failed
