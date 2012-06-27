@@ -1027,7 +1027,7 @@ int DoShapeEldritchChain()
     }   
     
     //Get the first target in the spell shape
-    oTarget = GetFirstObjectInShape(SHAPE_SPHERE, RADIUS_SIZE_MEDIUM, GetLocation(oFirstTarget), TRUE, OBJECT_TYPE_CREATURE );
+    oTarget = GetFirstObjectInShape(SHAPE_SPHERE, 9.144f, GetLocation(oFirstTarget), TRUE, OBJECT_TYPE_CREATURE );
 
     int nTouch = GetLocalInt(OBJECT_SELF, "NW_EB_TOUCH_RESULT");
     
@@ -1084,7 +1084,7 @@ int DoShapeEldritchChain()
         }
         
         //Get the next target in the shape.
-        oTarget = GetNextObjectInShape(SHAPE_SPHERE, RADIUS_SIZE_MEDIUM, GetLocation(oFirstTarget), TRUE, OBJECT_TYPE_CREATURE);
+        oTarget = GetNextObjectInShape(SHAPE_SPHERE, 9.144f, GetLocation(oFirstTarget), TRUE, OBJECT_TYPE_CREATURE);
     }
     if (IsHellfireBlastActive() && nHellfireConDmg > 0)
     {
