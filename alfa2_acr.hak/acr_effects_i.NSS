@@ -26,6 +26,7 @@
 
 #include "acr_tools_i"
 #include "nwn2_inc_spells"
+#include "x2_inc_itemprop"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -331,4 +332,16 @@ int ACR_GetAOERadiusID(float fRadius)
 		ret = AOE_PER_RADIUS_MAX;
 
 	return ret;
+}
+
+void ACR_AddTemporaryDarkvision(object player, object item)
+{
+	IPSafeAddItemProperty(item, ItemPropertyBonusFeat(IP_CONST_FEAT_DARKVISION));
+	SetActionMode(player, ACTION_MODE_DARKVISION, 1);
+}
+
+void ACR_RemoveTemporaryDarkvision(object player, object item)
+{
+	SetActionMode(player, ACTION_MODE_DARKVISION, 0);
+	IPRemoveMatchingItemProperties(item, ITEM_PROPERTY_BONUS_FEAT, DURATION_TYPE_PERMANENT);
 }

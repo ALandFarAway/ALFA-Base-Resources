@@ -386,10 +386,15 @@ void ACR_ItemOnEquip(object oItem, object oPC) {
 			}
 		}
 	}
+
+	// Handle items for equip/remove darkvision
+	
+	if (GetItemHasItemProperty(oItem, ITEM_PROPERTY_DARKVISION))
+		ACR_AddTemporaryDarkvision(oPC, oItem);
+
 	// allow tag-based onEquip scripts
 	string sAcquireScript = "i_"+GetTag(oItem)+"_oe";
 	ExecuteScript(sAcquireScript, OBJECT_SELF); 
-
 }
 
 
@@ -418,6 +423,12 @@ void ACR_ItemOnUnEquip(object oItem, object oPC) {
 		}	  
 		ApplyEffectToObject(DURATION_TYPE_PERMANENT, eVFX, oPC);
 	}
+
+	// Handle items for equip/remove darkvision
+	
+	if (GetItemHasItemProperty(oItem, ITEM_PROPERTY_DARKVISION))
+		ACR_RemoveTemporaryDarkvision(oPC, oItem);
+
 
 	// allow tag-based onEquip scripts
 	string sAcquireScript = "i_"+GetTag(oItem)+"_oue";

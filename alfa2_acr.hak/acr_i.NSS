@@ -56,6 +56,14 @@ const int CLASS_MYSTICTHEURGE = 44;
 const int RACIAL_TYPE_PLANT = 22;
 
 
+// Item Property Feats:
+const int IP_CONST_FEAT_DARKVISION = 500;
+
+
+// Action Modes:
+const int ACTION_MODE_DARKVISION = 24;
+
+
 // Chat Modes:
 
 const int CHAT_MODE_SILENT_TALK = 13;
