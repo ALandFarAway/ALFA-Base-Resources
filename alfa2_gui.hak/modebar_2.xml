@@ -19,6 +19,16 @@
     </UIButton>
 
     <UIPane name="POW_PAGE" x=0 y=0 width=169 height=68 hidden=false capturemouseclicks=false capturemouseevents=false >
+        <UIIcon name="OVERLAY_ICON_PA_1" img="b_overlay_active.tga" x=132 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_2" img="b_overlay_active.tga" x=100 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_3" img="b_overlay_active.tga" x=68 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_4" img="b_overlay_active.tga" x=36 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_5" img="b_overlay_active.tga" x=4 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_6" img="b_overlay_active.tga" x=132 y=0 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_7" img="b_overlay_active.tga" x=100 y=0 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_8" img="b_overlay_active.tga" x=68 y=0 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_9" img="b_overlay_active.tga" x=36 y=0 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_10" img="b_overlay_active.tga" x=4 y=0 height=32 width=32 hidden=true />
         <UIButton name="POWER_ATTACK_1" x=132 y=32 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,1)
             OnToolTip='UIObject_Tooltip_DisplayTooltipString("-1 Attack, +1 Damage","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
@@ -30,7 +40,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_PA_1" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="POWER_ATTACK_2" x=100 y=32 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,2)
@@ -43,7 +52,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_PA_2" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="POWER_ATTACK_3" x=68 y=32 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,3)
@@ -56,7 +64,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_PA_3" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="POWER_ATTACK_4" x=36 y=32 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,4)
@@ -69,7 +76,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_PA_4" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="POWER_ATTACK_5" x=4 y=32 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,5)
@@ -82,7 +88,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_PA_5" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="POWER_ATTACK_6" x=132 y=0 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,6)
@@ -95,7 +100,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_PA_6" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="POWER_ATTACK_7" x=100 y=0 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,7)
@@ -108,7 +112,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_PA_7" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="POWER_ATTACK_8" x=68 y=0 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,8)
@@ -121,7 +124,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_PA_8" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="POWER_ATTACK_9" x=36 y=0 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,9)
@@ -134,7 +136,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_PA_9" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="POWER_ATTACK_10" x=4 y=0 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,10)
@@ -147,11 +148,20 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_PA_10" img="b_overlay_active.tga" hidden=true />
         </UIButton>
     </UIPane>
 
     <UIPane name="CE_PAGE" x=0 y=0 width=169 height=68 hidden=true >
+        <UIIcon name="OVERLAY_ICON_CE_1" img="b_overlay_active.tga" x=132 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_2" img="b_overlay_active.tga" x=100 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_3" img="b_overlay_active.tga" x=68 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_4" img="b_overlay_active.tga" x=36 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_5" img="b_overlay_active.tga" x=4 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_6" img="b_overlay_active.tga" x=132 y=0 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_7" img="b_overlay_active.tga" x=100 y=0 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_8" img="b_overlay_active.tga" x=68 y=0 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_9" img="b_overlay_active.tga" x=36 y=0 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_10" img="b_overlay_active.tga" x=4 y=0 height=32 width=32 hidden=true />
         <UIButton name="COMBAT_EXPERTISE_1" x=132 y=32 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,1)
             OnToolTip='UIObject_Tooltip_DisplayTooltipString("-1 Attack, +1 AC","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
@@ -163,7 +173,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_CE_1" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="COMBAT_EXPERTISE_2" x=100 y=32 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,2)
@@ -176,7 +185,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_CE_2" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="COMBAT_EXPERTISE_3" x=68 y=32 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,3)
@@ -189,7 +197,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_CE_3" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="COMBAT_EXPERTISE_4" x=36 y=32 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,4)
@@ -202,7 +209,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_CE_4" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="COMBAT_EXPERTISE_5" x=4 y=32 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,5)
@@ -215,7 +221,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_CE_5" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="COMBAT_EXPERTISE_6" x=132 y=0 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,6)
@@ -228,7 +233,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_CE_6" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="COMBAT_EXPERTISE_7" x=100 y=0 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,7)
@@ -241,7 +245,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_CE_7" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="COMBAT_EXPERTISE_8" x=68 y=0 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,8)
@@ -254,7 +257,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_CE_8" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="COMBAT_EXPERTISE_9" x=36 y=0 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,9)
@@ -267,7 +269,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_CE_9" img="b_overlay_active.tga" hidden=true />
         </UIButton>
         <UIButton name="COMBAT_EXPERTISE_10" x=4 y=0 height=32 width=32
             OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,10)
@@ -280,7 +281,6 @@
             <UIFrame state=hilited  fill="b_overlay.tga" />
             <UIFrame state=hifocus  fill="b_overlay.tga" />
             <UIFrame state=disabled fill="b_emptyframe.tga" />
-            <UIIcon name="OVERLAY_ICON_CE_10" img="b_overlay_active.tga" hidden=true />
         </UIButton>
     </UIPane>
 
