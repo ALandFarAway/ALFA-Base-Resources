@@ -78,82 +78,80 @@ void _ClearCombatModes(object oCreature);
 ////////////////////////////////////////////////////////////////////////////////
 
 void CombatActionsOnEquip(object oCreature, object oItem) {
-	if(GetIsFightingDefensively(oCreature) && GetWeaponRanged(oItem)) {
-		_NotifyCombatAction("You cannot fight defensively with a ranged weapon equiped.", oCreature);
-		_ClearCombatModes(oCreature);
-	}
+    if(GetIsFightingDefensively(oCreature) && GetWeaponRanged(oItem)) {
+        _NotifyCombatAction("You cannot fight defensively with a ranged weapon equiped.", oCreature);
+        _ClearCombatModes(oCreature);
+    }
 }
 
 void FightNormally(object oCreature) {
-	_TrySwitchModes(oCreature);
-	_ClearCombatModes(oCreature);
+    _TrySwitchModes(oCreature);
+    _ClearCombatModes(oCreature);
 }
 
 void FightDefensively(object oCreature) {
-	_FightDefensively(oCreature, 2, 4);
+    _FightDefensively(oCreature, 2, 4);
 }
 
 void FightTotallyDefensively(object oCreature) {
-	_FightDefensively(oCreature, 4, 100);
+    _FightDefensively(oCreature, 4, 100);
 }
 
 void FightWithExpertise(object oCreature, int nAmount) {
-	if(nAmount <= 0) {
-		return;
-	}
-	
-	int nBAB = GetBaseAttackBonus(oCreature);
-	
-	if(nAmount > nBAB) nAmount = nBAB;
-	
-	_FightDefensively(oCreature, nAmount, nAmount);
+    if(nAmount <= 0) {
+        return;
+    }
+    
+    int nBAB = GetBaseAttackBonus(oCreature);
+    
+    if(nAmount > nBAB) nAmount = nBAB;
+    
+    _FightDefensively(oCreature, nAmount, nAmount);
 }
 
 int GetIsFightingDefensively(object oCreature) {
-	return CountTrackingEffectsFor(oCreature, ACR_EFFECT_SOURCE_COMBAT_ACTION);
+    return CountTrackingEffectsFor(oCreature, ACR_EFFECT_SOURCE_COMBAT_ACTION);
 }
 
 int _TrySwitchModes(object oCreature) {
-	if((ACR_GetGameSecondsSinceStart() - GetLocalInt(oCreature, ACR_COMBAT_ACTION_TIMESTAMP)) < ACR_COMBAT_ACTION_COOLDOWN_TIME) {
-		_NotifyCombatAction("You cannot switch combat modes yet. You must wait " + IntToString(ACR_COMBAT_ACTION_COOLDOWN_TIME) + " in between switches.", oCreature);
-		return 0;
-	}
-	
-	SetLocalInt(oCreature, ACR_COMBAT_ACTION_TIMESTAMP, ACR_GetGameSecondsSinceStart());
-	
-	return 1;
+    if((ACR_GetGameSecondsSinceStart() - GetLocalInt(oCreature, ACR_COMBAT_ACTION_TIMESTAMP)) < ACR_COMBAT_ACTION_COOLDOWN_TIME) {
+        _NotifyCombatAction("You cannot switch combat modes yet. You must wait " + IntToString(ACR_COMBAT_ACTION_COOLDOWN_TIME) + " in between switches.", oCreature);
+        return 0;
+    }
+    
+    SetLocalInt(oCreature, ACR_COMBAT_ACTION_TIMESTAMP, ACR_GetGameSecondsSinceStart());
+    
+    return 1;
 }
 
 void _FightDefensively(object oCreature, int nACBonus, int nABPenalty) {
 
-	if(GetHasRangedWeaponEquiped(oCreature)) {
-		_NotifyCombatAction("You cannot fight defensively with a ranged weapon equiped.", oCreature);
-	}
-	
-	_TrySwitchModes(oCreature);
-	_ClearCombatModes(oCreature);
-	
-	_NotifyCombatAction("You are now fighting defensively. You gain " + IntToString(nACBonus) + " AC and lose " + IntToString(nABPenalty) + " AB.", oCreature);
+    if(IPGetIsRangedWeapon(GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oCreature))) {
+        _NotifyCombatAction("You cannot fight defensively with a ranged weapon equiped.", oCreature);
+    }
+    
+    _ClearCombatModes(oCreature);
+    
+    _NotifyCombatAction("You are now fighting defensively. You gain " + IntToString(nACBonus) + " AC and lose " + IntToString(nABPenalty) + " AB.", oCreature);
 
-	ApplyEffectFromSource(
-		ACR_EFFECT_COMBAT_ACTION,
-		DURATION_TYPE_PERMANENT,
-		ExtraordinaryEffect(EffectLinkEffects(EffectACIncrease(nACBonus), EffectAttackDecrease(nABPenalty))),
-		oCreature
-	);
+    ApplyEffectFromSource(
+        ACR_EFFECT_SOURCE_COMBAT_ACTION,
+        DURATION_TYPE_PERMANENT,
+        ExtraordinaryEffect(EffectLinkEffects(EffectACIncrease(nACBonus), EffectAttackDecrease(nABPenalty))),
+        oCreature
+    );
 }
 
 void _NotifyCombatAction(string sMsg, object oCreature) {
-	FloatingTextStringOnCreature(
-		sMsg,
-		oCreature,
-		TRUE,
-		6.0
-	);
+    FloatingTextStringOnCreature(
+        sMsg,
+        oCreature,
+        TRUE,
+        6.0
+    );
 }
 
 void _ClearCombatModes(object oCreature) {
-	if(RemoveAllEffectsFromSource(oCreature, ACR_EFFECT_COMBAT_ACTION)) {
-		_NotifyCombatAction("You are no longer fighting defensively.", oCreature);
-	}
+    RemoveAllEffectsFromSource(oCreature, ACR_EFFECT_SOURCE_COMBAT_ACTION);
+    _NotifyCombatAction("You are no longer fighting defensively.", oCreature);
 }

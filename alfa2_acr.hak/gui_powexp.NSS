@@ -10,6 +10,8 @@
 */
 //========================================================
 
+#include "acr_combat_actions_i"
+
 int POWER_EXPERT_EVENT_OPEN_MENU                  = 0;
 int POWER_EXPERT_EVENT_COMBAT_EXPERTISE_MENU      = 1;
 int POWER_EXPERT_EVENT_POWER_ATTACK_MENU          = 2;
@@ -27,8 +29,8 @@ void main ( string sEvent, string sAmount )
 
     if(nEvent == POWER_EXPERT_EVENT_OPEN_MENU)
     {
-        int bHasCE  = GetHasFeat(FEAT_COMBAT_EXPERTISE);
-        int bHasPA  = GetHasFeat(FEAT_POWER_ATTACK);
+        int bHasCE  = GetHasFeat(FEAT_ACR_COMBAT_EXPERTISE);
+        int bHasPA  = GetHasFeat(FEAT_ACR_POWER_ATTACK);
 
         if(bHasCE)
         {
@@ -54,8 +56,8 @@ void main ( string sEvent, string sAmount )
     if(nEvent == POWER_EXPERT_EVENT_COMBAT_EXPERTISE_MENU || nEvent == POWER_EXPERT_EVENT_OPEN_MENU)
     {
         int nBAB = GetBaseAttackBonus(OBJECT_SELF);
-        int bHasCE  = GetHasFeat(FEAT_COMBAT_EXPERTISE);
-        int bHasICE = GetHasFeat(FEAT_IMPROVED_COMBAT_EXPERTISE);
+        int bHasCE  = GetHasFeat(FEAT_ACR_COMBAT_EXPERTISE);
+        int bHasICE = GetHasFeat(FEAT_ACR_IMPROVED_COMBAT_EXPERTISE);
 
         ClearListBox(OBJECT_SELF, "SCREEN_MODEBAR_2", "CEBAR_GRID");
 
@@ -119,8 +121,8 @@ void main ( string sEvent, string sAmount )
     else if(nEvent == POWER_EXPERT_EVENT_POWER_ATTACK_MENU || nEvent == POWER_EXPERT_EVENT_OPEN_MENU)
     {
         int nBAB = GetBaseAttackBonus(OBJECT_SELF);
-        int bHasPA  = GetHasFeat(FEAT_POWER_ATTACK);
-        int bHasIPA = GetHasFeat(FEAT_IMPROVED_POWER_ATTACK);
+        int bHasPA  = GetHasFeat(FEAT_ACR_POWER_ATTACK);
+        int bHasIPA = GetHasFeat(FEAT_ACR_IMPROVED_POWER_ATTACK);
 
         ClearListBox(OBJECT_SELF, "SCREEN_MODEBAR_2", "POWBAR_GRID");
 
@@ -183,6 +185,7 @@ void main ( string sEvent, string sAmount )
     }
     else if(nEvent == POWER_EXPERT_EVENT_COMBAT_EXPERTISE_TOGGLE)
     {
+        if(!_TrySwitchModes(OBJECT_SELF)) return;
         int nOldMode = GetLocalInt(OBJECT_SELF, COMBAT_EXPERTISE_MODE_ACTIVE);
         int nNewMode = nAmount;
         if(nOldMode > 0)
@@ -192,7 +195,7 @@ void main ( string sEvent, string sAmount )
         }
         if(nNewMode == nOldMode)
         {
-            SendMessageToPC(OBJECT_SELF, "Command to disable Combat Expertise received.");
+            FightNormally(OBJECT_SELF);
             DeleteLocalInt(OBJECT_SELF, COMBAT_EXPERTISE_MODE_ACTIVE);
         }
         else
@@ -200,11 +203,12 @@ void main ( string sEvent, string sAmount )
             string sMode = "OVERLAY_ICON_CE_"+IntToString(nNewMode);
             SetGUIObjectHidden( OBJECT_SELF, "SCREEN_MODEBAR_2", sMode, FALSE );
             SetLocalInt(OBJECT_SELF, COMBAT_EXPERTISE_MODE_ACTIVE, nNewMode);
-            SendMessageToPC(OBJECT_SELF, "Combat Expertise intensity set to "+sAmount+".");
+            FightWithExpertise(OBJECT_SELF, nNewMode);
         }
     }
     else if(nEvent == POWER_EXPERT_EVENT_POWER_ATTACK_TOGGLE)
     {
+        if(!_TrySwitchModes(OBJECT_SELF)) return;
         int nOldMode = GetLocalInt(OBJECT_SELF, POWER_ATTACK_MODE_ACTIVE);
         int nNewMode = nAmount;
         if(nOldMode > 0)
@@ -219,7 +223,7 @@ void main ( string sEvent, string sAmount )
         }
         else
         {
-            string sMode = "OVERLAY_ICON_PA_"+IntToString(nOldMode);
+            string sMode = "OVERLAY_ICON_PA_"+IntToString(nNewMode);
             SetGUIObjectHidden( OBJECT_SELF, "SCREEN_MODEBAR_2", sMode, FALSE );
             SetLocalInt(OBJECT_SELF, POWER_ATTACK_MODE_ACTIVE, nNewMode);
             SendMessageToPC(OBJECT_SELF, "Power Attack intensity set to "+sAmount+".");
