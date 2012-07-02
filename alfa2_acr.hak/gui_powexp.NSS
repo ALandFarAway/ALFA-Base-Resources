@@ -12,16 +12,6 @@
 
 #include "acr_combat_actions_i"
 
-int POWER_EXPERT_EVENT_OPEN_MENU                  = 0;
-int POWER_EXPERT_EVENT_COMBAT_EXPERTISE_MENU      = 1;
-int POWER_EXPERT_EVENT_POWER_ATTACK_MENU          = 2;
-int POWER_EXPERT_EVENT_POWER_ATTACK_TOGGLE        = 3;
-int POWER_EXPERT_EVENT_COMBAT_EXPERTISE_TOGGLE    = 4;
-
-string POWER_ATTACK_MODE_ACTIVE     = "POWER_ATTACK_MODE_ACTIVE";
-string COMBAT_EXPERTISE_MODE_ACTIVE = "COMBAT_EXPERTISE_MODE_ACTIVE";
-
-
 void main ( string sEvent, string sAmount )
 {
     int nEvent = StringToInt(sEvent);

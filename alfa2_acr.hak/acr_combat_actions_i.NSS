@@ -32,6 +32,15 @@ const int ACR_COMBAT_ACTION_COOLDOWN_TIME = 6;
 
 const string ACR_COMBAT_ACTION_TIMESTAMP = "ACR_CACT_TS";
 
+const int POWER_EXPERT_EVENT_OPEN_MENU                  = 0;
+const int POWER_EXPERT_EVENT_COMBAT_EXPERTISE_MENU      = 1;
+const int POWER_EXPERT_EVENT_POWER_ATTACK_MENU          = 2;
+const int POWER_EXPERT_EVENT_POWER_ATTACK_TOGGLE        = 3;
+const int POWER_EXPERT_EVENT_COMBAT_EXPERTISE_TOGGLE    = 4;
+
+const string POWER_ATTACK_MODE_ACTIVE     = "POWER_ATTACK_MODE_ACTIVE";
+const string COMBAT_EXPERTISE_MODE_ACTIVE = "COMBAT_EXPERTISE_MODE_ACTIVE";
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////

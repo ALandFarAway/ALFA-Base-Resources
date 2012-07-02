@@ -31,6 +31,7 @@
 #include "acr_spelltrack_i"
 #include "acr_tradescroll_i"
 #include "acr_craft_progress_i"
+#include "acr_combat_actions_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -80,6 +81,13 @@ void main()
 			// if the master is conscious, log and track the spell as if cast by the master.
 		    oCaster = GetMaster(oCaster);
 		}
+	}
+
+	// Combat Mode Hooks
+	if(GetIsFightingDefensively(oCaster))
+	{
+		FightNormally(oCaster);
+		DelayCommand(4.5f, ExecuteScript("acr_restartcombatmode", oCaster)); // Because this is in the impact script, it's 4.5 seconds until next round.
 	}
 	
 	
