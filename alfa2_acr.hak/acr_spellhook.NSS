@@ -87,6 +87,7 @@ void main()
 	if(GetIsFightingDefensively(oCaster))
 	{
 		FightNormally(oCaster);
+		SetLocalInt(oCaster, POST_SPELLCAST_NO_COMBAT_MODE, 1);
 		DelayCommand(4.5f, ExecuteScript("acr_restartcombatmode", oCaster)); // Because this is in the impact script, it's 4.5 seconds until next round.
 	}
 	

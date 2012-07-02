@@ -19,7 +19,7 @@
 
 void main()
 {
-    object oUser = OBJECT_SELF;
+    DeleteLocalInt(OBJECT_SELF, POST_SPELLCAST_NO_COMBAT_MODE);
     int nMode = GetLocalInt(OBJECT_SELF, COMBAT_EXPERTISE_MODE_ACTIVE);
     if(nMode > 0)
     {

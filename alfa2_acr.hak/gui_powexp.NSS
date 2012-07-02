@@ -193,7 +193,8 @@ void main ( string sEvent, string sAmount )
             string sMode = "OVERLAY_ICON_CE_"+IntToString(nNewMode);
             SetGUIObjectHidden( OBJECT_SELF, "SCREEN_MODEBAR_2", sMode, FALSE );
             SetLocalInt(OBJECT_SELF, COMBAT_EXPERTISE_MODE_ACTIVE, nNewMode);
-            FightWithExpertise(OBJECT_SELF, nNewMode);
+            if(!GetLocalInt(OBJECT_SELF, POST_SPELLCAST_NO_COMBAT_MODE))
+                FightWithExpertise(OBJECT_SELF, nNewMode);
         }
     }
     else if(nEvent == POWER_EXPERT_EVENT_POWER_ATTACK_TOGGLE)
