@@ -893,6 +893,14 @@ void ACR_ModuleOnClientEnter()
     ACR_IncrementStatistic("PLAYER_LOGINS");
 }
 
+void _createPlayerGUIs( object oPC )
+{
+    if(GetHasFeat(FEAT_ACR_COMBAT_EXPERTISE, oPC))
+    {
+	DisplayGuiScreen(oPC, "SCREEN_MODEBAR_2", FALSE, "modebar_2.xml");
+    }
+}
+
 void ACR_ModuleOnPCLoaded()
 {
     object oPC = GetEnteringObject();
@@ -984,6 +992,9 @@ void ACR_ModuleOnPCLoaded()
     }
 
     ACR_SCliExtOnPCLoaded(oPC);
+
+    // Open any GUIs that we expect to linger open.
+    _createPlayerGUIs(oPC);
 }
 
 void ACR_ModuleOnClientLeave()
