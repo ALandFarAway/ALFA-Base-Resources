@@ -2,68 +2,287 @@
 <!-- Neverwinter Nights 2 -->
 <!-- Copyright (C) 2006 Obsidian Entertainment, Inc. -->
 
-<UIScene name="SCREEN_MODEBAR_2" x="ALIGN_RIGHT" y="636" width="169" height="132" draggable="true" fadeout="0.2" fadein="0.2"
-    capturemouseclicks="false" capturemouseevents="false" scriptloadable="true"
-    OnAdd=UIScene_OnAdd_SetupSpecificHotbar("MODEBAR_GRID",120) priority="SCENE_INGAME"/>
+<UIScene name="SCREEN_MODEBAR_2" x="855" y="636" width="169" height="100" draggable="true" fadeout="0.2" fadein="0.2"
+    capturemouseclicks="true" capturemouseevents="true" scriptloadable="true" priority="SCENE_INGAME"
+    OnAdd=UIObject_Misc_ExecuteServerScript("gui_powexp",0,0) />
 
-    <UIButton name="SHOW_CE_PAGE" x="5" y="102" text="Expertise" style="STYLE_MODEBAR_BUTTON" groupid="1" groupmemberid="2" hidden="true"
+    <UIButton name="SHOW_CE_PAGE" x="5" y="70" text="Expertise" style="STYLE_MODEBAR_BUTTON" groupid="1" groupmemberid="2"
         OnSelected0=UIButton_Input_ShowObject("CE_PAGE") 
         OnSelected1=UIObject_Misc_ExecuteServerScript("gui_powexp",1,0)
         OnUnselected=UIButton_Input_HideObject("CE_PAGE") >
     </UIButton>
 
-    <UIButton name="SHOW_POW_PAGE" x="87" y="102" text="Power" style="STYLE_MODEBAR_BUTTON" groupid="1" groupmemberid="1" hidden="true"
+    <UIButton name="SHOW_POW_PAGE" x="87" y="70" text="Power" style="STYLE_MODEBAR_BUTTON" groupid="1" groupmemberid="1"
         OnSelected0=UIButton_Input_ShowObject("POW_PAGE") 
         OnSelected1=UIObject_Misc_ExecuteServerScript("gui_powexp",2,0)
-        OnUnselected=UIButton_Input_HideObject("POW_PAGE")
-        update="true" OnUpdate=UIButton_OnUpdate_UpdateNotBardButton() >
+        OnUnselected=UIButton_Input_HideObject("POW_PAGE") >
     </UIButton>
 
-    <UIPane name="POW_PAGE" x=0 y=0 width=169 height=100 hidden=false capturemouseclicks=false capturemouseevents=false >
-		<UIGrid name="POWBAR_GRID" x=4 y=0 rows=3 columns=5 xPadding=0 yPadding=0 capturemouseclicks=false capturemouseevents=false >
-			<UIHotbarButton name="PrototypeButton" height=32 width=32 prototype=true 
-				draggable=true
-				hotbartype="HOTBAR_TOGGLEMODE_BUTTON"
-				OnLeftClick0=UIObject_Misc_ExtractData("self:","string",5,local:0)
-				OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_powexp",3,local:0)
-				OnToolTip0=UIObject_Misc_ExtractData("self:","string",6,local:1)
-				OnToolTip1=OnToolTip='UIObject_Tooltip_DisplayTooltipString(local:1,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
-				<UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
-				<UIFrame state=base		fill="b_emptyframe.tga" />
-				<UIFrame state=up		fill="b_empty.tga" />
-				<UIFrame state=down		fill="b_overlay.tga" />
-				<UIFrame state=focused	fill="b_empty.tga" />
-				<UIFrame state=hilited	fill="b_overlay.tga" />
-				<UIFrame state=hifocus	fill="b_overlay.tga" />
-				<UIFrame state=disabled fill="b_emptyframe.tga" />
-                                <UIIcon name="BASE_ICON" x=0 y=0 height=32 width=32 />
-				<UIIcon name="OVERLAY_ICON" img="b_overlay_active.tga" hidden=true />
-			</UIHotbarButton>
-		</UIGrid>
-	</UIPane>
+    <UIPane name="POW_PAGE" x=0 y=0 width=169 height=68 hidden=false capturemouseclicks=false capturemouseevents=false >
+        <UIIcon name="OVERLAY_ICON_PA_1" img="b_overlay_active.tga" x=132 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_2" img="b_overlay_active.tga" x=100 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_3" img="b_overlay_active.tga" x=68 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_4" img="b_overlay_active.tga" x=36 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_5" img="b_overlay_active.tga" x=4 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_6" img="b_overlay_active.tga" x=132 y=0 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_7" img="b_overlay_active.tga" x=100 y=0 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_8" img="b_overlay_active.tga" x=68 y=0 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_9" img="b_overlay_active.tga" x=36 y=0 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_PA_10" img="b_overlay_active.tga" x=4 y=0 height=32 width=32 hidden=true />
+        <UIButton name="POWER_ATTACK_1" x=132 y=32 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,1)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-1 Attack, +1 Damage","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="powatt_01.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="POWER_ATTACK_2" x=100 y=32 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,2)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-2 Attack, +2 Damage","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="powatt_02.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="POWER_ATTACK_3" x=68 y=32 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,3)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-3 Attack, +3 Damage","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="powatt_03.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="POWER_ATTACK_4" x=36 y=32 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,4)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-4 Attack, +4 Damage","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="powatt_04.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="POWER_ATTACK_5" x=4 y=32 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,5)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-5 Attack, +5 Damage","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="powatt_05.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="POWER_ATTACK_6" x=132 y=0 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,6)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-6 Attack, +6 Damage","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="powatt_06.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="POWER_ATTACK_7" x=100 y=0 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,7)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-7 Attack, +7 Damage","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="powatt_07.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="POWER_ATTACK_8" x=68 y=0 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,8)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-8 Attack, +8 Damage","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="powatt_08.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="POWER_ATTACK_9" x=36 y=0 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,9)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-9 Attack, +9 Damage","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="powatt_09.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="POWER_ATTACK_10" x=4 y=0 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",3,10)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-10 Attack, +10 Damage","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="powatt_10.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+    </UIPane>
 
-	<UIPane name="CE_PAGE" x=0 y=0 width=169 height=100 hidden=true >
-		<UIGrid name="CEBAR_GRID" x=4 y=0 rows=3 columns=5 xPadding=0 yPadding=0 update=true >
-			<UIHotbarButton name="PrototypeButton" height=32 width=32 prototype=true 
-				draggable=true
-				hotbartype="HOTBAR_TOGGLEMODE_BUTTON"
-				OnLeftClick0=UIObject_Misc_ExtractData("self:","string",5,local:0)
-				OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_powexp",4,local:0)
-				OnToolTip0=UIObject_Misc_ExtractData("self:","string",6,local:1)
-				OnToolTip1=OnToolTip='UIObject_Tooltip_DisplayTooltipString(local:1,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
-				<UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
-				<UIFrame state=base		fill="b_emptyframe.tga" />
-				<UIFrame state=up		fill="b_empty.tga" />
-				<UIFrame state=down		fill="b_overlay.tga" />
-				<UIFrame state=focused	fill="b_empty.tga" />
-				<UIFrame state=hilited	fill="b_overlay.tga" />
-				<UIFrame state=hifocus	fill="b_overlay.tga" />
-				<UIFrame state=disabled fill="b_emptyframe.tga" />
-                                <UIIcon name="BASE_ICON" x=0 y=0 height=32 width=32 />
-				<UIIcon name="OVERLAY_ICON" img="b_overlay_active.tga" hidden=true />
-			</UIHotbarButton>
-		</UIGrid>
-	</UIPane>
+    <UIPane name="CE_PAGE" x=0 y=0 width=169 height=68 hidden=true >
+        <UIIcon name="OVERLAY_ICON_CE_1" img="b_overlay_active.tga" x=132 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_2" img="b_overlay_active.tga" x=100 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_3" img="b_overlay_active.tga" x=68 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_4" img="b_overlay_active.tga" x=36 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_5" img="b_overlay_active.tga" x=4 y=32 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_6" img="b_overlay_active.tga" x=132 y=0 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_7" img="b_overlay_active.tga" x=100 y=0 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_8" img="b_overlay_active.tga" x=68 y=0 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_9" img="b_overlay_active.tga" x=36 y=0 height=32 width=32 hidden=true />
+        <UIIcon name="OVERLAY_ICON_CE_10" img="b_overlay_active.tga" x=4 y=0 height=32 width=32 hidden=true />
+        <UIButton name="COMBAT_EXPERTISE_1" x=132 y=32 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,1)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-1 Attack, +1 AC","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="comexp_01.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="COMBAT_EXPERTISE_2" x=100 y=32 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,2)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-2 Attack, +2 AC","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="comexp_02.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="COMBAT_EXPERTISE_3" x=68 y=32 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,3)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-3 Attack, +3 AC","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="comexp_03.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="COMBAT_EXPERTISE_4" x=36 y=32 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,4)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-4 Attack, +4 AC","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="comexp_04.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="COMBAT_EXPERTISE_5" x=4 y=32 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,5)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-5 Attack, +5 AC","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="comexp_05.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="COMBAT_EXPERTISE_6" x=132 y=0 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,6)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-6 Attack, +6 AC","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="comexp_06.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="COMBAT_EXPERTISE_7" x=100 y=0 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,7)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-7 Attack, +7 AC","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="comexp_07.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="COMBAT_EXPERTISE_8" x=68 y=0 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,8)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-8 Attack, +8 AC","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="comexp_08.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="COMBAT_EXPERTISE_9" x=36 y=0 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,9)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-9 Attack, +9 AC","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="comexp_09.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+        <UIButton name="COMBAT_EXPERTISE_10" x=4 y=0 height=32 width=32
+            OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_powexp",4,10)
+            OnToolTip='UIObject_Tooltip_DisplayTooltipString("-10 Attack, +10 AC","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' >
+            <UIText name="HOTBAR_TEXT" width=PARENT_WIDTH height=PARENT_HEIGHT align=right valign=bottom fontfamily="Special_Font" style="1" />
+            <UIFrame state=base     fill="comexp_10.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_emptyframe.tga" />
+        </UIButton>
+    </UIPane>
 
-	<!-- Background Image -->
-    <UIIcon x="ALIGN_LEFT" y="98" width="169" height="23" img="mb_background.tga" />
+    <!-- Background Image -->
+    <UIIcon x="ALIGN_LEFT" y="66" width="169" height="23" img="mb_background.tga" capturemouseclicks=false capturemouseevents=false />

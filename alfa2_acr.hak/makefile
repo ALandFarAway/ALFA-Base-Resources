@@ -115,6 +115,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_notifications_i.nss               \
             $(OUTPUTDIR)\hench_i0_ai.nss                       \
             $(OUTPUTDIR)\acr_1sc_spawn_i.nss                   \
+            $(OUTPUTDIR)\acr_conversions_i.nss                 \
             $(OUTPUTDIR)\acr_travelmap_i.nss                   
 
 NSS_OBJECTS=                                                   \
@@ -543,6 +544,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\i_abr_dmquarantine_ac.ncs             \
             $(OUTPUTDIR)\i_abr_it_gr_oil_ac.ncs                \
             $(OUTPUTDIR)\i_abr_it_msc_bagpipes_ac.ncs          \
+            $(OUTPUTDIR)\acr_restartcombatmode.ncs             \
             $(OUTPUTDIR)\i_abr_it_gr_rope_climb_ac.ncs         
 
 #
