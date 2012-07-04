@@ -388,7 +388,6 @@ void ACR_ItemOnEquip(object oItem, object oPC) {
 	}
 
 	// Handle items for equip/remove darkvision
-	
 	if (GetItemHasItemProperty(oItem, ITEM_PROPERTY_DARKVISION))
 		ACR_AddTemporaryDarkvision(oPC, oItem);
 
@@ -425,7 +424,6 @@ void ACR_ItemOnUnEquip(object oItem, object oPC) {
 	}
 
 	// Handle items for equip/remove darkvision
-	
 	if (GetItemHasItemProperty(oItem, ITEM_PROPERTY_DARKVISION))
 		ACR_RemoveTemporaryDarkvision(oPC, oItem);
 

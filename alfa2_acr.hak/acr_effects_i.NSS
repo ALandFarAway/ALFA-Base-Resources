@@ -338,10 +338,14 @@ void ACR_AddTemporaryDarkvision(object player, object item)
 {
 	IPSafeAddItemProperty(item, ItemPropertyBonusFeat(IP_CONST_FEAT_DARKVISION));
 	SetActionMode(player, ACTION_MODE_DARKVISION, 1);
+
+	SetItemCursedFlag(item, 1);
 }
 
 void ACR_RemoveTemporaryDarkvision(object player, object item)
 {
 	SetActionMode(player, ACTION_MODE_DARKVISION, 0);
 	IPRemoveMatchingItemProperties(item, ITEM_PROPERTY_BONUS_FEAT, DURATION_TYPE_PERMANENT);
+
+	SetItemCursedFlag(item, 0);
 }
