@@ -22,6 +22,16 @@
 
 #include "x2_inc_itemprop"
 
+// VFX Constants
+const int ACR_VFX_BACKAXE = 1999;
+const int ACR_VFX_BACKPACK = 1992;
+const int ACR_VFX_BACKSWORD = 1996;
+const int ACR_VFX_BELTSWORD = 1993;
+const int ACR_VFX_BOW = 1994;
+const int ACR_VFX_QUIVER = 1998;
+const int ACR_VFX_LUTE = 1997;
+const int ACR_VFX_SHIELD = 1995;
+
 void main()
 {
     //Declare major variables
@@ -79,6 +89,29 @@ void main()
             nPoly = POLYMORPH_TYPE_DIRE_BROWN_BEAR;
         }
     }
+	
+	// Remove PC Tool VFXs on polymorph.
+	effect eCheckP = GetFirstEffect( OBJECT_SELF ); 
+	while ( GetIsEffectValid( eCheckP ) ) {
+		if ( GetEffectSpellId( eCheckP ) == ACR_VFX_BACKAXE ) {
+			RemoveEffect( OBJECT_SELF, eCheckP );
+		} else if ( GetEffectSpellId( eCheckP ) == ACR_VFX_BACKPACK ) {
+			RemoveEffect( OBJECT_SELF, eCheckP );
+		} else if ( GetEffectSpellId( eCheckP ) == ACR_VFX_BACKSWORD ) {
+			RemoveEffect( OBJECT_SELF, eCheckP );
+		} else if ( GetEffectSpellId( eCheckP ) == ACR_VFX_BELTSWORD ) {
+			RemoveEffect( OBJECT_SELF, eCheckP );
+		} else if ( GetEffectSpellId( eCheckP ) == ACR_VFX_BOW ) {
+			RemoveEffect( OBJECT_SELF, eCheckP );
+		} else if ( GetEffectSpellId( eCheckP ) == ACR_VFX_QUIVER ) {
+			RemoveEffect( OBJECT_SELF, eCheckP );
+		} else if ( GetEffectSpellId( eCheckP ) == ACR_VFX_LUTE ) {
+			RemoveEffect( OBJECT_SELF, eCheckP );
+		} else if ( GetEffectSpellId( eCheckP ) == ACR_VFX_SHIELD ) {
+			RemoveEffect( OBJECT_SELF, eCheckP );
+		}
+		eCheckP = GetNextEffect( OBJECT_SELF );	  
+	}
 
     ePoly = EffectPolymorph(nPoly, FALSE, TRUE);	// AFW-OEI 11/27/2006: Use 3rd boolean to say this is a wildshape polymorph.
     ePoly = SupernaturalEffect(ePoly);
