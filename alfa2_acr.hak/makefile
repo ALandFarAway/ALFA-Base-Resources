@@ -111,6 +111,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\ginc_crafting.nss                     \
             $(OUTPUTDIR)\ginc_group.nss                        \
             $(OUTPUTDIR)\acr_report_i.nss                      \
+            $(OUTPUTDIR)\acr_combat_actions_i.nss              \
             $(OUTPUTDIR)\acr_combateffects_i.nss               \
             $(OUTPUTDIR)\acr_notifications_i.nss               \
             $(OUTPUTDIR)\hench_i0_ai.nss                       \
