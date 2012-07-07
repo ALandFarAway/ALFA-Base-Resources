@@ -474,7 +474,9 @@ float _GetBaseCombatXP(float fCR) {
 // --- DangerFactor(+1 to +4) = ((2 + Argument)/2)*BaseXP(CharLev)
 // --- DangerFactor(> +4) = 3.5*BaseXP(CharLev) OverCR Condition
 float _GetXPForDangerFactor(float fDangerFactor) {
-    if(fDangerFactor < -3.0) {
+    if(fDangerFactor < -8.0) {
+        return 0.0;
+    } else if(fDangerFactor < -3.0) {
         return 0.1;
     } else if(fDangerFactor <= -1.0) {
         return 2.0/(2.0-fDangerFactor);
