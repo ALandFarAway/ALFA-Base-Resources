@@ -66,6 +66,11 @@ int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion )
             FeatAdd(oPC, FEAT_ACR_COMBAT_EXPERTISE, FALSE, FALSE);
             FeatRemove(oPC, FEAT_COMBAT_EXPERTISE);
         }
+        if(GetHasFeat(FEAT_IMPROVED_COMBAT_EXPERTISE, oPC))
+        {
+            FeatAdd(oPC, FEAT_ACR_IMPROVED_COMBAT_EXPERTISE, FALSE, FALSE);
+            FeatRemove(oPC, FEAT_IMPROVED_COMBAT_EXPERTISE);
+        }
         bChanged = TRUE;
     }
     return bChanged;
