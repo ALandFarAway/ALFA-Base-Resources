@@ -46,6 +46,14 @@ const string ACR_CONVERSION_MAXIMUM = "ACR_CONVERSION_MAXIMUM";
 // Returns TRUE on success.
 int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion );
 
+// Swap a feat, if the PC has the feat already.
+void _SwapFeat( object oPC, int OldFeat, int NewFeat ) {
+	if ( GetHasFeat( OldFeat, oPC ) ) {
+		FeatAdd( oPC, NewFeat, FALSE, FALSE );
+		FeatRemove( oPC, OldFeat );
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -61,16 +69,8 @@ int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion )
 
     if(sCurrentVersion == "" && fTargetVersion > 1.865) // v1.86 -> v1.87
     {
-        if(GetHasFeat(FEAT_COMBAT_EXPERTISE, oPC))
-        {
-            FeatAdd(oPC, FEAT_ACR_COMBAT_EXPERTISE, FALSE, FALSE);
-            FeatRemove(oPC, FEAT_COMBAT_EXPERTISE);
-        }
-        if(GetHasFeat(FEAT_IMPROVED_COMBAT_EXPERTISE, oPC))
-        {
-            FeatAdd(oPC, FEAT_ACR_IMPROVED_COMBAT_EXPERTISE, FALSE, FALSE);
-            FeatRemove(oPC, FEAT_IMPROVED_COMBAT_EXPERTISE);
-        }
+		_SwapFeat( oPC, FEAT_COMBAT_EXPERTISE, FEAT_ACR_COMBAT_EXPERTISE );
+		_SwapFeat( oPC, FEAT_IMPROVED_COMBAT_EXPERTISE, FEAT_ACR_IMPROVED_COMBAT_EXPERTISE );
         bChanged = TRUE;
     }
     return bChanged;
