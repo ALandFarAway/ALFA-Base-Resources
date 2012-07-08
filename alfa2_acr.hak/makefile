@@ -252,6 +252,9 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\x0_s3_holy.ncs                        \
             $(OUTPUTDIR)\x0_s3_tangle.ncs                      \
             $(OUTPUTDIR)\x0_s3_thunder.ncs                     \
+            $(OUTPUTDIR)\X2_S0_BattTide.ncs                    \
+            $(OUTPUTDIR)\X2_S0_BattTideA.ncs                   \
+            $(OUTPUTDIR)\X2_S0_BattTideB.ncs                   \
             $(OUTPUTDIR)\x2_s0_cureother.ncs                   \
             $(OUTPUTDIR)\gui_zspawn_open.ncs                   \
             $(OUTPUTDIR)\gui_zspawn_close.ncs                  \
