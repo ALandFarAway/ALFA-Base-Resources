@@ -100,12 +100,6 @@ int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion )
         _SwapFeat( oPC, FEAT_SKILL_FOCUS_JUMP, FEAT_SKILL_FOCUS_RIDE_ACR );
         _SwapFeat( oPC, FEAT_SKILL_FOCUS_HAND_ANIM, FEAT_SKILL_FOCUS_JUMP );
         _SwapFeat( oPC, FEAT_SKILL_FOCUS_GATH_INFO, FEAT_SKILL_FOCUS_HAND_ANIM );
-        _SwapFeat( oPC, FEAT_SKILL_FOCUS_SPK_LANG, FEAT_SKILL_FOCUS_HAND_ANIM );
-        _SwapFeat( oPC, FEAT_SKILL_FOCUS_SENS_MOTV, FEAT_SKILL_FOCUS_SPK_LANG );
-        _SwapFeat( oPC, FEAT_SKILL_FOCUS_RIDE_ACR, FEAT_SKILL_FOCUS_SENS_MOTV );
-        _SwapFeat( oPC, FEAT_SKILL_FOCUS_JUMP, FEAT_SKILL_FOCUS_RIDE_ACR );
-        _SwapFeat( oPC, FEAT_SKILL_FOCUS_HAND_ANIM, FEAT_SKILL_FOCUS_JUMP );
-        _SwapFeat( oPC, FEAT_SKILL_FOCUS_GATH_INFO, FEAT_SKILL_FOCUS_HAND_ANIM );
         bChanged = TRUE;
     }
     return bChanged;
