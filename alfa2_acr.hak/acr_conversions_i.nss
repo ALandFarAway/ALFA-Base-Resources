@@ -47,12 +47,7 @@ const string ACR_CONVERSION_MAXIMUM = "ACR_CONVERSION_MAXIMUM";
 int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion );
 
 // Swap a feat, if the PC has the feat already.
-void _SwapFeat( object oPC, int OldFeat, int NewFeat ) {
-	if ( GetHasFeat( OldFeat, oPC ) ) {
-		FeatAdd( oPC, NewFeat, FALSE, FALSE );
-		FeatRemove( oPC, OldFeat );
-	}
-}
+void _SwapFeat( object oPC, int OldFeat, int NewFeat );
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -110,4 +105,11 @@ int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion )
         bChanged = TRUE;
     }
     return bChanged;
+}
+
+void _SwapFeat( object oPC, int OldFeat, int NewFeat ) {
+	if ( GetHasFeat( OldFeat, oPC ) ) {
+		FeatAdd( oPC, NewFeat, FALSE, FALSE );
+		FeatRemove( oPC, OldFeat );
+	}
 }
