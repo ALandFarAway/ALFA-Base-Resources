@@ -24,16 +24,17 @@
 #include "x2_inc_spellhook"
 
 void main() {
-    //Declare major variables
-    //Get the object that is exiting the AOE
+    // Declare major variables.
     object oTarget = GetExitingObject();
     int bValid = FALSE;
+	
+	// Remove effects from Battletide.
     effect eAOE;
     if ( GetHasSpellEffect( 517, oTarget ) || GetHasSpellEffect( 963, oTarget ) ) {
         //Search through the valid effects on the target.
         eAOE = GetFirstEffect( oTarget );
         while ( GetIsEffectValid( eAOE ) && bValid == FALSE ) {
-            if ( GetEffectCreator( eAOE ) == GetAreaOfEffectCreator() ) {
+            if ( GetEffectCreator( eAOE ) == GetAreaOfEffectCreator() || GetEffectCreator(eAOE) == OBJECT_INVALID ) {
                 if ( GetEffectType( eAOE ) == EFFECT_TYPE_ATTACK_DECREASE ||
                         EFFECT_TYPE_DAMAGE_DECREASE || EFFECT_TYPE_SAVING_THROW_DECREASE ) {
                     //If the effect was created by the Battletide then remove it
