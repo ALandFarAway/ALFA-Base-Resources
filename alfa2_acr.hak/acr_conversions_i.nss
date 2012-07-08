@@ -64,8 +64,12 @@ int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion )
 
     if(sCurrentVersion == "" && fTargetVersion > 1.865) // v1.86 -> v1.87
     {
+		// Replace Combat Expertise with the ACR version.
 		_SwapFeat( oPC, FEAT_COMBAT_EXPERTISE, FEAT_ACR_COMBAT_EXPERTISE );
 		_SwapFeat( oPC, FEAT_IMPROVED_COMBAT_EXPERTISE, FEAT_ACR_IMPROVED_COMBAT_EXPERTISE );
+		
+		// Before ACR 1.87, the new skill focus feats pointed to the wrong TLK entries.
+		// These swaps give the player the skill focus they thought they picked.
 		_SwapFeat( oPC, FEAT_SKILL_FOCUS_GATH_INFO, FEAT_SKILL_FOCUS_HAND_ANIM );
 		_SwapFeat( oPC, FEAT_SKILL_FOCUS_HAND_ANIM, FEAT_SKILL_FOCUS_JUMP );
 		_SwapFeat( oPC, FEAT_SKILL_FOCUS_JUMP, FEAT_SKILL_FOCUS_RIDE_ACR );
