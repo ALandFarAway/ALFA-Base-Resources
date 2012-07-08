@@ -35,6 +35,13 @@ void main() {
     object oCreator = GetAreaOfEffectCreator();
     float fDelay;
 
+    // We'll cause problems if we apply effects from an invalid caster. Self-destruct if this is the case.
+    if(!GetIsObjectValid(GetAreaOfEffectCreator()))
+    {
+        DestroyObject(OBJECT_SELF);
+        return;
+    }
+
     //Check faction of spell targets.
     if ( spellsIsTarget( oTarget, SPELL_TARGET_SELECTIVEHOSTILE, oCreator ) ) {
         //Fire cast spell at event for the specified target
