@@ -205,7 +205,7 @@ void ACR_SetLoadingScreen(object oClicker)
     int nCheck = Random(11);
     if(nCheck == 0) // coming soon
     {
-        nScreen = Random(6) + 151;
+        nScreen = Random(3) + 151;
     }
     else if(nCheck == 1) // Knowledge: Arcana
     {
@@ -242,7 +242,7 @@ void ACR_SetLoadingScreen(object oClicker)
     
     if(nScreen == 0)
     {
-        nScreen = Random(59) + 2;
+        nScreen = Random(60) + 2;
     }
 
     AssignCommand(oClicker, SetAreaTransitionBMP(nScreen));
