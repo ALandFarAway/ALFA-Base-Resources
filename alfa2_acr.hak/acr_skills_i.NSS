@@ -250,8 +250,8 @@ int ACR_SkillCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int
 	sSkill = _SkillIdToString(nSkillID);
 	nBaseRank = GetSkillRank(nSkillID, oPC, TRUE);
 
+	// Skill is being attempted untrained, check for autofail.
 	if (nBaseRank < 1) {
-		// Skill is being attempted untrained, check for autofail
 		switch (nSkillID) {
 			case SKILL_DISABLE_TRAP:
 			case SKILL_OPEN_LOCK:
@@ -290,6 +290,48 @@ int ACR_SkillCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int
 				nModifier += GetAbilityModifier(ABILITY_INTELLIGENCE);
 				break;
 		}
+	}
+	
+	// Check for new skill focus feats.
+	switch ( nSkillID ) {
+		case SKILL_BALANCE: if ( GetHasFeat( FEAT_SKILL_FOCUS_BALANCE, oPC ) ) nModifier += 3; break;
+		case SKILL_CLIMB: if ( GetHasFeat( FEAT_SKILL_FOCUS_CLIMB, oPC ) ) nModifier += 3; break;
+		case SKILL_DECIPHER_SCRIPT: if ( GetHasFeat( FEAT_SKILL_FOCUS_DECIPHER, oPC ) ) nModifier += 3; break;
+		case SKILL_DISGUISE: if ( GetHasFeat( FEAT_SKILL_FOCUS_DISGUISE, oPC ) ) nModifier += 3; break;
+		case SKILL_ESCAPE_ARTIST: if ( GetHasFeat( FEAT_SKILL_FOCUS_ESC_ART, oPC ) ) nModifier += 3; break;
+		case SKILL_FORGERY: if ( GetHasFeat( FEAT_SKILL_FOCUS_FORGERY, oPC ) ) nModifier += 3; break;
+		case SKILL_GATHER_INFORMATION: if ( GetHasFeat( FEAT_SKILL_FOCUS_GATH_INFO, oPC ) ) nModifier += 3; break;
+		case SKILL_HANDLE_ANIMAL: if ( GetHasFeat( FEAT_SKILL_FOCUS_HAND_ANIM, oPC ) ) nModifier += 3; break;
+		case SKILL_JUMP: if ( GetHasFeat( FEAT_SKILL_FOCUS_JUMP, oPC ) ) nModifier += 3; break;
+		case SKILL_PROFESSION: if ( GetHasFeat( FEAT_SKILL_FOCUS_PROF, oPC ) ) nModifier += 3; break;
+		case SKILL_RIDE: if ( GetHasFeat( FEAT_SKILL_FOCUS_RIDE_ACR, oPC ) ) nModifier += 3; break;
+		case SKILL_SENSE_MOTIVE: if ( GetHasFeat( FEAT_SKILL_FOCUS_SENS_MOTV, oPC ) ) nModifier += 3; break;
+		case SKILL_SPEAK_LANGUAGE: if ( GetHasFeat( FEAT_SKILL_FOCUS_SPK_LANG, oPC ) ) nModifier += 3; break;
+		case SKILL_SWIM: if ( GetHasFeat( FEAT_SKILL_FOCUS_SWIM, oPC ) ) nModifier += 3; break;
+		case SKILL_USE_ROPE: if ( GetHasFeat( FEAT_SKILL_FOCUS_USE_ROPE, oPC ) ) nModifier += 3; break;
+		case SKILL_KNOWLEDGE_ARCANA: if ( GetHasFeat( FEAT_SKILL_FOCUS_KNOW_ARC, oPC ) ) nModifier += 3; break;
+		case SKILL_KNOWLEDGE_DUNGEONEERING: if ( GetHasFeat( FEAT_SKILL_FOCUS_KNOW_DUNG, oPC ) ) nModifier += 3; break;
+		case SKILL_KNOWLEDGE_ENGINEERING: if ( GetHasFeat( FEAT_SKILL_FOCUS_KNOW_ENG, oPC ) ) nModifier += 3; break;
+		case SKILL_KNOWLEDGE_GEOGRAPHY: if ( GetHasFeat( FEAT_SKILL_FOCUS_KNOW_GEO, oPC ) ) nModifier += 3; break;
+		case SKILL_KNOWLEDGE_HISTORY: if ( GetHasFeat( FEAT_SKILL_FOCUS_KNOW_HIST, oPC ) ) nModifier += 3; break;
+		case SKILL_KNOWLEDGE_LOCAL: if ( GetHasFeat( FEAT_SKILL_FOCUS_KNOW_LOC, oPC ) ) nModifier += 3; break;
+		case SKILL_KNOWLEDGE_NATURE: if ( GetHasFeat( FEAT_SKILL_FOCUS_KNOW_NATR, oPC ) ) nModifier += 3; break;
+		case SKILL_KNOWLEDGE_NOBILITY: if ( GetHasFeat( FEAT_SKILL_FOCUS_KNOW_NOBL, oPC ) ) nModifier += 3; break;
+		case SKILL_KNOWLEDGE_THE_PLANES: if ( GetHasFeat( FEAT_SKILL_FOCUS_KNOW_PLAN, oPC ) ) nModifier += 3; break;
+		case SKILL_KNOWLEDGE_RELIGION: if ( GetHasFeat( FEAT_SKILL_FOCUS_KNOW_RELG, oPC ) ) nModifier += 3; break;
+		case SKILL_PERFORM_ACT: if ( GetHasFeat( FEAT_SKILL_FOCUS_PERF_ACT, oPC ) ) nModifier += 3; break;
+		case SKILL_PERFORM_COMEDY: if ( GetHasFeat( FEAT_SKILL_FOCUS_PERF_COMD, oPC ) ) nModifier += 3; break;
+		case SKILL_PERFORM_DANCE: if ( GetHasFeat( FEAT_SKILL_FOCUS_PERF_DANC, oPC ) ) nModifier += 3; break;
+		case SKILL_PERFORM_KEYBOARD: if ( GetHasFeat( FEAT_SKILL_FOCUS_PERF_KEYB, oPC ) ) nModifier += 3; break;
+		case SKILL_PERFORM_ORATORY: if ( GetHasFeat( FEAT_SKILL_FOCUS_PERF_ORAT, oPC ) ) nModifier += 3; break;
+		case SKILL_PERFORM_PERCUSSION: if ( GetHasFeat( FEAT_SKILL_FOCUS_PERF_PERC, oPC ) ) nModifier += 3; break;
+		case SKILL_PERFORM_SING: if ( GetHasFeat( FEAT_SKILL_FOCUS_PERF_SING, oPC ) ) nModifier += 3; break;
+		case SKILL_PERFORM_STRING_INSTRUMENTS: if ( GetHasFeat( FEAT_SKILL_FOCUS_PERF_STRG, oPC ) ) nModifier += 3; break;
+		case SKILL_PERFORM_WIND_INSTRUMENTS: if ( GetHasFeat( FEAT_SKILL_FOCUS_PERF_WIND, oPC ) ) nModifier += 3; break;
+		case SKILL_CRAFT__ALCHEMY: if ( GetHasFeat( FEAT_SKILL_FOCUS_CRFT_ALCH, oPC ) ) nModifier += 3; break;
+		case SKILL_CRAFT_ARMORSMITHING: if ( GetHasFeat( FEAT_SKILL_FOCUS_CRFT_ARM, oPC ) ) nModifier += 3; break;
+		case SKILL_CRAFT_BOWMAKING: if ( GetHasFeat( FEAT_SKILL_FOCUS_CRFT_BOW, oPC ) ) nModifier += 3; break;
+		case SKILL_CRAFT_WEAPONSMITHING: if ( GetHasFeat( FEAT_SKILL_FOCUS_CRFT_WPN, oPC ) ) nModifier += 3; break;
 	}
 
 	nModifiedRank = GetSkillRank(nSkillID, oPC, FALSE) + _LookupSynergy(nSkillID, oPC, bShowRoll) + nModifier;
