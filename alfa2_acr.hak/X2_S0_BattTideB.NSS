@@ -34,7 +34,7 @@ void main() {
         //Search through the valid effects on the target.
         eAOE = GetFirstEffect( oTarget );
         while ( GetIsEffectValid( eAOE ) && bValid == FALSE ) {
-            if ( GetEffectCreator( eAOE ) == GetAreaOfEffectCreator() || GetAreaOfEffectCreator(eAOE) == OBJECT_INVALID ) {
+            if ( GetEffectCreator( eAOE ) == GetAreaOfEffectCreator() || GetAreaOfEffectCreator() == OBJECT_INVALID ) {
                 if ( GetEffectType( eAOE ) == EFFECT_TYPE_ATTACK_DECREASE ||
                         EFFECT_TYPE_DAMAGE_DECREASE || EFFECT_TYPE_SAVING_THROW_DECREASE ) {
                     //If the effect was created by the Battletide then remove it
