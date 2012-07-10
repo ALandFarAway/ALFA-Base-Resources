@@ -100,6 +100,30 @@ int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion )
         _SwapFeat( oPC, FEAT_SKILL_FOCUS_JUMP, FEAT_SKILL_FOCUS_RIDE_ACR );
         _SwapFeat( oPC, FEAT_SKILL_FOCUS_HAND_ANIM, FEAT_SKILL_FOCUS_JUMP );
         _SwapFeat( oPC, FEAT_SKILL_FOCUS_GATH_INFO, FEAT_SKILL_FOCUS_HAND_ANIM );
+		
+		// Give wizards their new cantrips.
+		if ( GetLevelByClass( CLASS_TYPE_WIZARD, oPC ) >= 1 ) {
+			int i, nPosition = -1;
+			for ( i = 1; i <= 4; i++ ) {
+				if ( GetClassByPosition( i, oPC ) == CLASS_TYPE_WIZARD ) {
+					nPosition = i;
+					break;
+				}
+			}
+			if ( nPosition != -1 ) {
+				SetSpellKnown( oPC, nPosition, 3066, TRUE, FALSE ); // Arcane Mark
+				SetSpellKnown( oPC, nPosition, 3060, TRUE, FALSE ); // Dancing Lights
+				SetSpellKnown( oPC, nPosition, 3059, TRUE, FALSE ); // Detect Poison
+				SetSpellKnown( oPC, nPosition, 3061, TRUE, FALSE ); // Ghost Sound
+				SetSpellKnown( oPC, nPosition, 3062, TRUE, FALSE ); // Mage Hand
+				SetSpellKnown( oPC, nPosition, 3063, TRUE, FALSE ); // Mending
+				SetSpellKnown( oPC, nPosition, 3064, TRUE, FALSE ); // Message
+				SetSpellKnown( oPC, nPosition, 3065, TRUE, FALSE ); // Open/Close
+				SetSpellKnown( oPC, nPosition, 3067, TRUE, FALSE ); // Prestidigitation
+				SetSpellKnown( oPC, nPosition, 3003, TRUE, FALSE ); // Read Magic
+			}
+		}
+		
         bChanged = TRUE;
     }
     return bChanged;
