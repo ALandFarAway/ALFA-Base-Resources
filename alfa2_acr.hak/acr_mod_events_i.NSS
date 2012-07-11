@@ -131,6 +131,7 @@
 #include "acr_craft_creation_i"
 #include "acr_notifications_i"
 #include "nwnx_objectattributes_include"
+#include "acr_combat_actions_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -299,6 +300,12 @@ void _DistributeTranslation(string sOriginalMessage, string sScrambledMessage, s
 //  really run but must make a reference to every symbol that should be force
 //  included so that it can be resolved at runtime.
 void ACR_ModuleInit_ForceLinkageForCLRScripts();
+
+//! Show player UIs.
+void _createPlayerGUIs( object oPC );
+
+//! Update player UIs for mod events.
+void _updatePlayerGUIs( object oPC );
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -897,8 +904,19 @@ void _createPlayerGUIs( object oPC )
 {
     if(GetHasFeat(FEAT_ACR_COMBAT_EXPERTISE, oPC))
     {
-	DisplayGuiScreen(oPC, "SCREEN_MODEBAR_2", FALSE, "modebar_2.xml");
+		DisplayGuiScreen(oPC, "SCREEN_MODEBAR_2", FALSE, "modebar_2.xml");
     }
+}
+
+void _updatePlayerGUIs( object oPC ) {
+	if ( GetHasFeat( FEAT_ACR_COMBAT_EXPERTISE, oPC ) ) {
+		_HandlePowExpGUIEvent( oPC, POWER_EXPERT_EVENT_OPEN_MENU, 0 );
+		_HandlePowExpGUIEvent( oPC, POWER_EXPERT_EVENT_COMBAT_EXPERTISE_MENU, 0 );
+	}
+	if ( GetHasFeat( FEAT_ACR_POWER_ATTACK, oPC ) ) {
+		_HandlePowExpGUIEvent( oPC, POWER_EXPERT_EVENT_OPEN_MENU, 0 );
+		_HandlePowExpGUIEvent( oPC, POWER_EXPERT_EVENT_POWER_ATTACK_MENU, 0 );
+	}
 }
 
 void ACR_ModuleOnPCLoaded()
@@ -1224,7 +1242,7 @@ void ACR_ModuleOnPlayerLevelUp() {
     // ACR_CheckBodyPartsOnLevelUp(oPC); // DMA opposes wings on PCs; this feature is disabled pending agreement or LA ruling.
     
     // Update GUIs.
-    _createPlayerGUIs( oPC );
+    _updatePlayerGUIs( oPC );
 	
     // log the level up attempt
     ACR_LogEvent(oPC, ACR_LOG_LEVELUP, "Character: " + ACR_SQLEncodeSpecialChars(GetName(oPC)) + ", Level: " + IntToString(GetHitDice(oPC)));

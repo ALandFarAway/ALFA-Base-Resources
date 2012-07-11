@@ -83,6 +83,9 @@ int _TrySwitchModes(object oCreature);
 //! Cancels all combat action modes.
 void _ClearCombatModes(object oCreature);
 
+//! Handle or force Combat Expertise/Power Attack GUI events.
+void _HandlePowExpGUIEvent( object oPC, int nEvent, int nAmount );
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -164,4 +167,210 @@ void _NotifyCombatAction(string sMsg, object oCreature) {
 void _ClearCombatModes(object oCreature) {
     RemoveAllEffectsFromSource(oCreature, ACR_EFFECT_SOURCE_COMBAT_ACTION);
     _NotifyCombatAction("You are no longer fighting defensively.", oCreature);
+}
+
+void _HandlePowExpGUIEvent( object oPC, int nEvent, int nAmount ) {
+    if(nEvent == POWER_EXPERT_EVENT_OPEN_MENU)
+    {
+        int bHasCE  = GetHasFeat(FEAT_ACR_COMBAT_EXPERTISE, oPC);
+        int bHasPA  = GetHasFeat(FEAT_ACR_POWER_ATTACK, oPC);
+
+        if(bHasCE)
+        {
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "SHOW_CE_PAGE", FALSE );
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "CE_PAGE", FALSE );
+        }
+        else
+        {
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "SHOW_CE_PAGE", TRUE );
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "CE_PAGE", TRUE );
+        }
+        if(bHasPA)
+        {
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "SHOW_POW_PAGE", FALSE );
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POW_PAGE", FALSE );
+        }
+        else
+        {
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "SHOW_POW_PAGE", TRUE );
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POW_PAGE", TRUE );
+        }
+    }
+    if(nEvent == POWER_EXPERT_EVENT_COMBAT_EXPERTISE_MENU || nEvent == POWER_EXPERT_EVENT_OPEN_MENU)
+    {
+        int nBAB = GetBaseAttackBonus(oPC);
+        int bHasCE  = GetHasFeat(FEAT_ACR_COMBAT_EXPERTISE, oPC);
+        int bHasICE = GetHasFeat(FEAT_ACR_IMPROVED_COMBAT_EXPERTISE, oPC);
+
+        ClearListBox(oPC, "SCREEN_MODEBAR_2", "CEBAR_GRID");
+
+        if(nBAB >= 1 && bHasCE)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_1", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_1", TRUE );
+
+        if(nBAB >= 2 && bHasCE)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_2", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_2", TRUE );
+
+        if(nBAB >= 3 && bHasCE)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_3", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_3", TRUE );
+
+        if(nBAB >= 4 && bHasCE)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_4", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_4", TRUE );
+
+        if(nBAB >= 5 && bHasCE)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_5", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_5", TRUE );
+
+        if(nBAB >= 6 && bHasICE)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_6", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_6", TRUE );
+
+        if(nBAB >= 7 && bHasICE)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_7", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_7", TRUE );
+
+        if(nBAB >= 8 && bHasICE)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_8", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_8", TRUE );
+
+        if(nBAB >= 9 && bHasICE)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_9", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_9", TRUE );
+
+        if(nBAB >= 10 && bHasICE)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_10", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "COMBAT_EXPERTISE_10", TRUE );
+
+        int nMode = GetLocalInt(oPC, COMBAT_EXPERTISE_MODE_ACTIVE);
+        if(nMode > 0)
+        {
+            string sMode = "OVERLAY_ICON_CE_"+IntToString(nMode);
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", sMode, FALSE );
+        }
+    }
+    else if(nEvent == POWER_EXPERT_EVENT_POWER_ATTACK_MENU || nEvent == POWER_EXPERT_EVENT_OPEN_MENU)
+    {
+        int nBAB = GetBaseAttackBonus(oPC);
+        int bHasPA  = GetHasFeat(FEAT_ACR_POWER_ATTACK, oPC);
+        int bHasIPA = GetHasFeat(FEAT_ACR_IMPROVED_POWER_ATTACK, oPC);
+
+        ClearListBox(oPC, "SCREEN_MODEBAR_2", "POWBAR_GRID");
+
+        if(nBAB >= 1 && bHasPA)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_1", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_1", TRUE );
+
+        if(nBAB >= 2 && bHasPA)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_2", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_2", TRUE );
+
+        if(nBAB >= 3 && bHasPA)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_3", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_3", TRUE );
+
+        if(nBAB >= 4 && bHasPA)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_4", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_4", TRUE );
+
+        if(nBAB >= 5 && bHasPA)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_5", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_5", TRUE );
+
+        if(nBAB >= 6 && bHasIPA)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_6", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_6", TRUE );
+
+        if(nBAB >= 7 && bHasIPA)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_7", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_7", TRUE );
+
+        if(nBAB >= 8 && bHasIPA)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_8", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_8", TRUE );
+
+        if(nBAB >= 9 && bHasIPA)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_9", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_9", TRUE );
+
+        if(nBAB >= 10 && bHasIPA)
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_10", FALSE );
+        else
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", "POWER_ATTACK_10", TRUE );
+
+        int nMode = GetLocalInt(oPC, POWER_ATTACK_MODE_ACTIVE);
+        if(nMode > 0)
+        {
+            string sMode = "OVERLAY_ICON_PA_"+IntToString(nMode);
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", sMode, FALSE );
+        }
+    }
+    else if(nEvent == POWER_EXPERT_EVENT_COMBAT_EXPERTISE_TOGGLE)
+    {
+        if(!_TrySwitchModes(oPC)) return;
+        int nOldMode = GetLocalInt(oPC, COMBAT_EXPERTISE_MODE_ACTIVE);
+        int nNewMode = nAmount;
+        if(nOldMode > 0)
+        {
+            string sMode = "OVERLAY_ICON_CE_"+IntToString(nOldMode);
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", sMode, TRUE );
+        }
+        if(nNewMode == nOldMode)
+        {
+            FightNormally(oPC);
+            DeleteLocalInt(oPC, COMBAT_EXPERTISE_MODE_ACTIVE);
+        }
+        else
+        {
+            string sMode = "OVERLAY_ICON_CE_"+IntToString(nNewMode);
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", sMode, FALSE );
+            SetLocalInt(oPC, COMBAT_EXPERTISE_MODE_ACTIVE, nNewMode);
+            if(!GetLocalInt(oPC, POST_SPELLCAST_NO_COMBAT_MODE))
+                FightWithExpertise(oPC, nNewMode);
+        }
+    }
+    else if(nEvent == POWER_EXPERT_EVENT_POWER_ATTACK_TOGGLE)
+    {
+        if(!_TrySwitchModes(oPC)) return;
+        int nOldMode = GetLocalInt(oPC, POWER_ATTACK_MODE_ACTIVE);
+        int nNewMode = nAmount;
+        if(nOldMode > 0)
+        {
+            string sMode = "OVERLAY_ICON_PA_"+IntToString(nOldMode);
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", sMode, TRUE );
+        }
+        if(nNewMode == nOldMode)
+        {
+            SendMessageToPC(oPC, "Command to disable Power Attack received.");
+            DeleteLocalInt(oPC, POWER_ATTACK_MODE_ACTIVE);
+        }
+        else
+        {
+            string sMode = "OVERLAY_ICON_PA_"+IntToString(nNewMode);
+            SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", sMode, FALSE );
+            SetLocalInt(oPC, POWER_ATTACK_MODE_ACTIVE, nNewMode);
+            SendMessageToPC(oPC, "Power Attack intensity set to "+IntToString(nAmount)+".");
+        }
+    }
 }
