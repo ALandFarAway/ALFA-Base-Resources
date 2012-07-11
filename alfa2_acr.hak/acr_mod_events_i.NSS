@@ -1223,6 +1223,9 @@ void ACR_ModuleOnPlayerLevelUp() {
     // check for major changes to anatomy.
     // ACR_CheckBodyPartsOnLevelUp(oPC); // DMA opposes wings on PCs; this feature is disabled pending agreement or LA ruling.
     
+    // Update GUIs.
+    _createPlayerGUIs( oPC );
+	
     // log the level up attempt
     ACR_LogEvent(oPC, ACR_LOG_LEVELUP, "Character: " + ACR_SQLEncodeSpecialChars(GetName(oPC)) + ", Level: " + IntToString(GetHitDice(oPC)));
 }

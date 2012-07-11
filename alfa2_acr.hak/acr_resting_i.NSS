@@ -803,6 +803,9 @@ void _playerRestFinish(object oPC)
             ApplyEffectToObject(DURATION_TYPE_PERMANENT, eDisease, oPC);
         }
     }
+    
+    // Restart combat modes.
+    DelayCommand( 0.5f, ExecuteScript( "acr_restartcombatmode", oPC ) );
 
     // remove temporary data
     _garbageCollection(oPC);
