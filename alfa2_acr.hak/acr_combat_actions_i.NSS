@@ -127,7 +127,9 @@ int GetIsFightingDefensively(object oCreature) {
 }
 
 int _TrySwitchModes(object oCreature) {
-    if((ACR_GetGameSecondsSinceStart() - GetLocalInt(oCreature, ACR_COMBAT_ACTION_TIMESTAMP)) < ACR_COMBAT_ACTION_COOLDOWN_TIME) {
+    if(((ACR_GetGameSecondsSinceStart() - GetLocalInt(oCreature, ACR_COMBAT_ACTION_TIMESTAMP)) < ACR_COMBAT_ACTION_COOLDOWN_TIME) &&
+       GetLocalInt(oCreature, ACR_COMBAT_ACTION_TIMESTAMP) != 0) 
+    {
         _NotifyCombatAction("You cannot switch combat modes yet. You must wait " + IntToString(ACR_COMBAT_ACTION_COOLDOWN_TIME) + " in between switches.", oCreature);
         return 0;
     }
