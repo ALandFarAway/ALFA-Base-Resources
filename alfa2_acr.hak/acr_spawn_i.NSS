@@ -1719,13 +1719,8 @@ float _GetSecondsSinceSpawnRefresh(object oArea) {
 }
 
 void _DespawnAreaPoll(object oArea) {
-    float fDelay = GetDespawnDelay();
     float nLastRefreshed = _GetSecondsSinceSpawnRefresh(oArea) + 1.0;
-
-    // Increase timeout for non-natural areas
-    fDelay *= (GetIsAreaNatural(oArea) ? 1.0 : 2.0);
-
-    if( nLastRefreshed > fDelay) {
+    if( nLastRefreshed > GetDespawnDelay()) {
         _DespawnArea(oArea);
     }
 }

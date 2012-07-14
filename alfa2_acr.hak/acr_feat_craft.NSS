@@ -40,6 +40,8 @@ void main() {
 			int highestCasterLevel = ACR_GetHighestCasterLevel(oCrafter);
 			string errors;
 			
+			if(GetLocalInt(oCrafter, ACR_FREE_SPELL_PREP))
+				errors += "You must finish selecting spells before you can craft.";
 			if(highestCasterLevel < status.casterLevel) 
 				errors += "You need a caster level of " + IntToString(status.casterLevel) + ", but your highest is " + IntToString(highestCasterLevel) + ".";
 			if(GetIsInCombat(oCrafter))
