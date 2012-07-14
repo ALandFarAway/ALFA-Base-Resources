@@ -403,6 +403,11 @@ int GetSpellIdOfItemPropertySubtype(int nSubType);
 //! Returns 0 if ip does not cast a spell.
 int GetSpellLevelOfItemProperty(itemproperty ip);
 
+//! Gets the master spell for nSpellId.
+//! Returns 0 if there is no master.
+//! Warning: 0 is the spell id for Acid Fog.
+int GetMasterSpellId(int nSpellId);
+
 //LIST MANAGEMENT
 //note about lists : List have to be like "#1#5#26#99# ..." in order to work properly. See nwnx_craft_set_constatns for details
 
@@ -518,6 +523,10 @@ int GetSpellLevelOfItemProperty(itemproperty ip) {
 	} else if (type == ITEM_PROPERTY_ONHITCASTSPELL) {
 		return GetItemPropertyCostTableValue(ip) + 1;
 	} else return 0;
+}
+
+int GetMasterSpellId(int nSpellId) {
+	return StringToInt(Get2DAString("spells", "Master", nSpellId));
 }
 
 void ACR_TransferInventory(object oSource, object oTarget, string sResRef = "")
