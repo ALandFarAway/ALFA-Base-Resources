@@ -726,7 +726,7 @@ void ACR_PCOnPCLoaded(object oPC)
                 while (GetIsEffectValid(ePC)) 
                 {
                     // loop through effects till we find the cutscene freeze, then remove it
-                    if (GetEffectType(ePC) == EFFECT_TYPE_CUTSCENEIMMOBILIZE) 
+                    if (GetEffectType(ePC) == EFFECT_TYPE_CUTSCENEIMMOBILIZE ) 
                     {
                         RemoveEffect(oPC, ePC);
                     } 
@@ -766,6 +766,19 @@ void ACR_PCOnPCLoaded(object oPC)
         // restore condition (disease, curse, poison, level and ability damage effects)
         // TBD - effects tracking not yet in place - do this before restoring ability damage
         // because diseases and curses can affect ability scores
+
+        effect eEffect = GetFirstEffect(oPC);
+        while(GetIsEffectValid(eEffect))
+        {
+            int nType = GetEffectType(eEffect);
+            if(nType == EFFECT_TYPE_AC_INCREASE)
+                RemoveEffect(oPC, eEffect);
+        }
+
+        DeleteLocalInt(oPC, "COMBAT_EXPERTISE_MODE_ACTIVE");
+        DeleteLocalInt(oPC, "ACR_CACT_TS");
+        DeleteLocalInt(oPC, "POWER_ATTACK_MODE_ACTIVE");
+        DeleteLocalInt(oPC, "POST_SPELLCAST_NO_COMBAT_MODE");
 
         // restore attributes
         if (GetAbilityScore(oPC, ABILITY_STRENGTH) > nSTR) 
