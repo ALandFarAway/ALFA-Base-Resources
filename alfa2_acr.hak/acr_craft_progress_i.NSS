@@ -24,6 +24,7 @@
 #include "acr_i"
 #include "acr_tools_i"
 #include "acr_tradescroll_i"
+#include "acr_array_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -46,6 +47,8 @@ const string ACR_CRAFT_PROPERTY_ACTIVATION = "ACR_CRAFT_PROPERTY_ACTIVATION";
 const string ACR_CRAFT_SPELLS_IMBUED = "ACR_CRAFT_SPELLS_IMBUED";
 const string ACR_CRAFT_STACK_SIZE = "ACR_CRAFT_STACK_SIZE";
 const string ACR_CRAFT_TAG = "ACR_CRAFT_TAG";
+
+const string ACR_CRAFT_CAST_SPELL_IPS = "ACR_CRAFT_CAST_SPELL_";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -224,6 +227,22 @@ object MakeCraftingProjectFromItem(object oItem, int gpInvested = 0) {
 	SetItemStackSize(oItem, 1, FALSE);
 	SetTag(oItem, ACR_CRAFT_TAG);
 	
+	// Remove cast-spell properties on scrolls, so scrolls in-crafting cannot be scribed.
+	if(GetBaseItemType(oItem) == BASE_ITEM_SPELLSCROLL) {
+		itemproperty ip = GetFirstItemProperty(oItem);
+		int i = 0;
+		while(GetIsItemPropertyValid(ip)) {
+			if(GetItemPropertyType(ip) == ITEM_PROPERTY_CAST_SPELL && GetItemPropertyCostTableValue(ip) == IP_CONST_CASTSPELL_NUMUSES_SINGLE_USE && GetItemPropertyDurationType(ip) == DURATION_TYPE_PERMANENT) {
+				// Handle the special case of acid fog ip being zero.
+				int ipst = GetItemPropertySubType(ip) ? GetItemPropertySubType(ip) : -1;
+				SetLocalArrayInt(oItem, ACR_CRAFT_CAST_SPELL_IPS, i, GetItemPropertySubType(ip));
+				RemoveItemProperty(oItem, ip);
+				i++;
+			}
+			ip = GetNextItemProperty(oItem);
+		}
+	}
+	
 	SaveCraftingStatus(status);
 	
 	return status.item;
@@ -238,6 +257,19 @@ object MakeItemFromCraftingProject(struct CraftingStatus status) {
 	SetPlotFlag(status.item, status.plotFlag);
 	SetItemStackSize(status.item, status.stackSize);
 	SetTag(status.item, status.tag);
+	
+	// Add cast-spell properties back onto scrolls.
+	if(GetBaseItemType(status.item) == BASE_ITEM_SPELLSCROLL) {
+		int i = 0;
+		while(TRUE) {
+			int ip = GetLocalArrayInt(status.item, ACR_CRAFT_CAST_SPELL_IPS, i);
+			if(!ip) break;
+			// Handle the special case of acid fog ip being zero.
+			if(ip == -1) ip = 0;
+			AddItemProperty(DURATION_TYPE_PERMANENT, ItemPropertyCastSpell(ip, IP_CONST_CASTSPELL_NUMUSES_SINGLE_USE), status.item);
+			i++;
+		}
+	}
 		
 	DeleteCraftingStatus(status.item);
 	
@@ -511,6 +543,14 @@ string GetCraftingSpellsRequired(object oItem) {
 		ip = GetNextItemProperty(oItem);
 	}
 	
+	int i = 0;
+	while(TRUE) {
+		int nSpell = GetLocalArrayInt(oItem, ACR_CRAFT_CAST_SPELL_IPS, i);
+		if(!nSpell) break;
+		spells += "#" + IntToString(GetSpellIdOfItemPropertySubtype(nSpell));
+		i++;
+	}
+	
 	if(spells == "")
 		return "";
 	else return spells + "#";
@@ -600,6 +640,9 @@ int ACR_CraftingSpellhook(object oCaster, object oTarget, object oItem, int nSpe
 		SetModuleOverrideSpellScriptFinished();
 		return TRUE;
 	} else if(GetIsCraftingProject(oTarget)) {
+		int nMasterId = GetMasterSpellId(nSpellId);
+		if(nMasterId) nSpellId = nMasterId;
+	
 		struct CraftingStatus status = GetCraftingStatus(oTarget);
 
 		if(status.spellsImbued == "") status.spellsImbued = "#";

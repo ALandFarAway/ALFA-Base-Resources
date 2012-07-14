@@ -905,7 +905,7 @@ int DoShapeEldritchChain()
     int nHitVFX = VFX_INVOCATION_ELDRITCH_HIT;    // default nHitVFX is Eldritch
 
     // adjust the VFX according to the essence
-    if ( nMetaMagic & METAMAGIC_INVOC_DRAINING_BLAST )         
+    if ( nMetaMagic & METAMAGIC_INVOC_DRAINING_BLAST )
     { 
         nChain1VFX = VFX_INVOCATION_DRAINING_CHAIN; 
         nChain2VFX = VFX_INVOCATION_DRAINING_CHAIN2;
@@ -992,7 +992,7 @@ int DoShapeEldritchChain()
     SetLocalInt(OBJECT_SELF, "NW_EB_TOUCH_RESULT", nInitTouchAttack); // also, miss is 0. - Zelknolf
 
     //Apply effect to the first target and the VFX impact.
-    if(DoEldritchCombinedEffects(oFirstTarget))
+    if(DoEldritchCombinedEffects(oFirstTarget, FALSE))
     {
         ApplyEffectToObject(DURATION_TYPE_INSTANT,eVis,oFirstTarget);
     }
