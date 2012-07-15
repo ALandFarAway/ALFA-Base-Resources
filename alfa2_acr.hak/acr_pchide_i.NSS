@@ -92,7 +92,7 @@ void _InitializePCHide( object oPC ) {
 			// Not in the inventory. Create the item.
 			oHide = CreateItemOnObject( ACR_PCH_RESREF, oPC, 1 );
 			AssignCommand( oPC, ActionEquipItem( oHide, ACR_PCH_SLOT ) );
-			if ( GetIsObjectValid( oHide ) ) {
+			if ( GetResRef( GetItemInSlot( ACR_PCH_SLOT, oPC ) ) != ACR_PCH_RESREF ) {
 				// Item creation failed.
 				SendMessageToPC( oPC, Colorize( "ERROR: Could not create PC Hide item!", "FF0000" ) );
 				return;
