@@ -101,6 +101,22 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// Get the server UDP listener port number.
+        /// </summary>
+        public static int ServerUdpListenerPort
+        {
+            get { return LocalDataPort; }
+        }
+
+        /// <summary>
+        /// Get the server UDP listener address.
+        /// </summary>
+        public static int ServerUdpListenerAddress
+        {
+            get { return LocalListenerAddress; }
+        }
+
+        /// <summary>
         /// sockaddr_in layout in C#.
         /// </summary>
         [StructLayout(LayoutKind.Sequential)]
@@ -115,6 +131,9 @@ namespace ACR_ServerCommunicator
 
         [DllImport("ws2_32.dll")]
         private static extern int sendto(IntPtr s, IntPtr buf, int len, int flags, ref sockaddr_in to, int tolen);
+
+        [DllImport("ws2_32.dll")]
+        private static extern int getsockname(IntPtr s, out sockaddr_in name, ref int namelen);
 
         //
         // The following are used with the new xp_bugfix recvfrom hook.  Note
@@ -156,6 +175,35 @@ namespace ACR_ServerCommunicator
         {
             if (RecvfromSocket == IntPtr.Zero)
                 RecvfromSocket = s;
+
+            if (LocalDataPort == 0)
+            {
+                try
+                {
+                    sockaddr_in LocalSocketName;
+                    int NameLen = Marshal.SizeOf(typeof(sockaddr_in));
+
+                    if (getsockname(RecvfromSocket, out LocalSocketName, ref NameLen) == 0)
+                    {
+                        //
+                        // Use loopback (disable deprecation warning) if we have no
+                        // bound address.
+                        //
+
+#pragma warning disable 618
+                        if (LocalSocketName.sin_addr == 0)
+                            LocalSocketName.sin_addr = (uint)(ulong)IPAddress.Loopback.Address;
+#pragma warning restore 618
+
+                        LocalDataPort = (int)IPAddress.NetworkToHostOrder((short)LocalSocketName.sin_port);
+                        LocalListenerAddress = (int)LocalSocketName.sin_addr;
+                    }
+                }
+                catch
+                {
+
+                }
+            }
 
             if (len < 5 || Marshal.ReadInt32(fromlen) < Marshal.SizeOf(typeof(sockaddr_in)))
                 return len;
@@ -250,6 +298,16 @@ namespace ACR_ServerCommunicator
         /// the recvfrom callout.
         /// </summary>
         private static GCHandle RecvfromDelegateHandle;
+
+        /// <summary>
+        /// The local port number of the server's data socket.
+        /// </summary>
+        private static int LocalDataPort = 0;
+
+        /// <summary>
+        /// The local IP address of the server's data socket.
+        /// </summary>
+        private static int LocalListenerAddress = 0;
 
     }
 }

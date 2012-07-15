@@ -2244,6 +2244,21 @@ namespace ACR_ServerCommunicator
             {
                 WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.DispatchPeriodicEvents(): Encountered exception in external address update: {0}", e));
             }
+
+            //
+            // GetExtendedUdpTable appears to be unreliable under some
+            // conditions, hitting a problem in the network stack.  If the
+            // socket I/O subsystem has obtained the local port, use it from
+            // there in case the standard mechanism to auto detect it failed.
+            //
+
+            if ((GetGlobalInt("ACR_SERVERLISTENER_PORT") == 0) &&
+                (SocketIo.ServerUdpListenerPort != 0))
+            {
+                SetGlobalInt("ACR_SERVERLISTENER_PORT", SocketIo.ServerUdpListenerPort);
+                SetGlobalInt("ACR_SERVERLISTENER_ADDRESS", SocketIo.ServerUdpListenerAddress);
+                WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.DispatchPeriodicEvents(): Detected server data port as {0}.", SocketIo.ServerUdpListenerPort));
+            }
         }
 
         /// <summary>
