@@ -220,6 +220,11 @@ namespace ALFA
                     Status = GetExtendedUdpTable(Table, ref TableSize, 1, AF_INET, UDP_TABLE_CLASS.UDP_TABLE_OWNER_PID, 0);
                 } while (Status == ERROR_INSUFFICIENT_BUFFER);
 
+                if (Status != NO_ERROR)
+                {
+                    throw new ApplicationException(String.Format("ALFA.SystemInfo.GetServerUdpListener: GetExtendedUdpTable failed, status = {0}", Status));
+                }
+
                 MIB_UDPTABLE_OWNER_PID UdpTable = (MIB_UDPTABLE_OWNER_PID) Marshal.PtrToStructure(Table, typeof(MIB_UDPTABLE_OWNER_PID));
 
                 for (uint Row = 0; Row < UdpTable.dwNumEntries; Row += 1)
