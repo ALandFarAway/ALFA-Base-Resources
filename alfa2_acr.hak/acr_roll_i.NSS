@@ -49,6 +49,9 @@ void ParseRoll(object pc, string cmd);
 //!  - Returns: TRUE if there was a match, else FALE.
 int ACR_RollCompareLeft(string str, string ref);
 
+//! Custom dice roll.
+int ACR_Roll( int nDieCount, int nDieSides );
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -340,4 +343,13 @@ void ParseRoll(object pc, string cmd)
 	{
 		SendMessageToPC(pc, "I don't understand the command '"+text+"'.  (Try #help for a list of commands.)");
 	}
+}
+
+int ACR_Roll( int nDieCount, int nDieSides ) {
+	int nTotal = 0;
+	int i = 0;
+	for ( i = 0; i < nDieCount; i++ ) {
+		nTotal += Random( nDieSides ) + 1;
+	}
+	return nTotal;
 }
