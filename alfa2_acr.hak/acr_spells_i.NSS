@@ -23,9 +23,11 @@
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "NW_I0_SPELLS"
+#include "nw_i0_spells"
 #include "x2_inc_spellhook"
-#include "acr_i.nss"
+#include "acr_i"
+#include "acr_roll_i"
+#include "acr_creature_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -68,6 +70,18 @@ int ACR_GetCorrectCasterLevel(object oCreature, int nClass);
 void WarnWhenSpellExpires(object oCreature, int nSpellId, string sMessage, float fDuration);
 
 void _floatMessageIfHasSpellEffect(object oCreature, int nSpellId, string sMessage, float fDuration);
+
+//! ACR's version of nw_i0_spells spellCure function.
+void ACR_SpellCure( object oTarget, int nDieCount, int nDieSides, int nMaxExtraDamage, int nSpellID, int vfxImpactHeal, int vfxImpactHarm );
+
+//! ACR's version of x0_i0_spells spellsInflictTouchAttack function.
+void ACR_SpellsInflictTouchAttack( object oTarget, int nDieCount, int nDieSides, int nMaxExtraDamage, int nSpellID, int vfxImpactHeal, int vfxImpactHarm );
+
+//! ACR's version of nw_i0_spells spellsHealOrHarmTarget function.
+void ACR_SpellsHealOrHarmTarget( object oTarget, int nDamageTotal, int vfx_impactNormalHurt, int vfx_impactUndeadHurt, int vfx_impactHeal, int nSpellID, int bIsHealingSpell=TRUE, int bHarmTouchAttack=TRUE );
+
+//! ACR's version of nw_i0_spells GetCureDamageTotal. Handles changes to our feats.
+int ACR_GetCureDamageTotal( object oTarget, int nDieCount, int nDieSides, int nMaxExtraDamage, int nSpellID );
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -278,4 +292,99 @@ void WarnWhenSpellExpires(object oCreature, int nSpellId, string sMessage, float
 void _floatMessageIfHasSpellEffect(object oCreature, int nSpellId, string sMessage, float fDuration) {
 	if(GetHasSpellEffect(nSpellId, oCreature))
 		FloatingTextStringOnCreature(sMessage, oCreature, TRUE, fDuration);
+}
+
+void ACR_SpellCure( object oTarget, int nDieCount, int nDieSides, int nMaxExtraDamage, int nSpellID, int vfxImpactHeal, int vfxImpactHarm ) {
+	int nDamageTotal = ACR_GetCureDamageTotal( oTarget, nDieCount, nDieSides, nMaxExtraDamage, nSpellID );
+ 	int bIsHealingSpell = TRUE;
+	int bHarmTouchAttack = TRUE;
+	ACR_SpellsHealOrHarmTarget( oTarget, nDamageTotal, vfxImpactHarm, vfxImpactHarm, vfxImpactHeal, nSpellID, bIsHealingSpell, bHarmTouchAttack );
+}
+
+void ACR_SpellsInflictTouchAttack( object oTarget, int nDieCount, int nDieSides, int nMaxExtraDamage, int nSpellID, int vfxImpactHeal, int vfxImpactHarm ) {
+	int nMetaMagic = GetMetaMagicFeat();
+	
+	// Calculate damage.
+	int nDamage = ACR_Roll( nDieCount, nDieSides );
+	
+	// Handle metamagics.
+	if ( nMetaMagic == METAMAGIC_MAXIMIZE ) {
+		nDamage = ( nDieCount * nDieSides );
+	} else if ( nMetaMagic == METAMAGIC_EMPOWER ) {
+		nDamage += ( nDamage / 2 );
+	}
+	
+	// Get caster level bonus damage.
+	int nExtraDamage = GetCasterLevel(OBJECT_SELF);
+	if ( nSpellID == SPELLABILITY_BG_INFLICT_SERIOUS_WOUNDS ) nExtraDamage = GetLevelByClass( CLASS_TYPE_BLACKGUARD );
+	if ( nSpellID == SPELLABILITY_BG_INFLICT_CRITICAL_WOUNDS ) nExtraDamage = GetLevelByClass( CLASS_TYPE_BLACKGUARD );
+	if ( nExtraDamage > nMaxExtraDamage ) nExtraDamage = nMaxExtraDamage;
+	nDamage += nExtraDamage;
+	
+	// Do the harming.
+	int bIsHealingSpell = FALSE;
+	int bHarmTouchAttack = TRUE;
+	ACR_SpellsHealOrHarmTarget( oTarget, nDamage, vfxImpactHarm, vfxImpactHarm, vfxImpactHeal, nSpellID, bIsHealingSpell, bHarmTouchAttack );
+}
+
+void ACR_SpellsHealOrHarmTarget( object oTarget, int nDamageTotal, int vfx_impactNormalHurt, int vfx_impactUndeadHurt, int vfx_impactHeal, int nSpellID, int bIsHealingSpell=TRUE, int bHarmTouchAttack=TRUE ) {
+	int bIsHarmful = FALSE;
+	
+	// Immune to healing effects?
+	if ( GetLocalInt( oTarget, VAR_IMMUNE_TO_HEAL ) == TRUE ) {
+		return;
+	}
+	
+	// Apply effects.
+	if ( !ACR_GetIsUndead( oTarget ) ) {
+		if ( bIsHealingSpell ) {
+			DoHealing( oTarget, nDamageTotal, vfx_impactHeal );
+		} else {
+			DoHarming( oTarget, nDamageTotal, DAMAGE_TYPE_NEGATIVE, vfx_impactNormalHurt, bHarmTouchAttack );
+			bIsHarmful = TRUE;
+		}
+	} else {
+		if ( bIsHealingSpell ) {
+			DoHarming( oTarget, nDamageTotal, DAMAGE_TYPE_POSITIVE, vfx_impactUndeadHurt, bHarmTouchAttack );
+			bIsHarmful = TRUE;
+		} else {
+			DoHealing( oTarget, nDamageTotal, vfx_impactHeal );
+		}
+	}
+}
+
+int ACR_GetCureDamageTotal( object oTarget, int nDieCount, int nDieSides, int nMaxExtraDamage, int nSpellID ) {
+	// Get base data.
+	object oCaster = OBJECT_SELF;
+	int nCasterClass = GetLastSpellCastClass();
+	int nCasterLevel = ACR_GetCorrectCasterLevel( oCaster, nCasterClass );
+	int nMetaMagic = GetMetaMagicFeat();
+	
+	// Cure spells are treated one level higher if we're a healing domain cleric.
+	if ( nCasterClass == CLASS_TYPE_CLERIC && GetHasFeat( FEAT_HEALING_DOMAIN_POWER, oCaster ) ) {
+		nCasterLevel++;
+	}
+	
+	// Get the damage.
+	int nDamage = ACR_Roll( nDieCount, nDieSides );
+	
+	// Apply metamagic.
+	if ( nMetaMagic == METAMAGIC_MAXIMIZE ) {
+		nDamage = ( nDieCount * nDieSides );
+	} else if ( nMetaMagic == METAMAGIC_EMPOWER ) {
+		nDamage += ( nDamage / 2 );
+	}
+
+	// Add the caster level as bonus, to a maximum.
+	int nExtraDamage = nCasterLevel;
+	if ( nExtraDamage > nMaxExtraDamage ) nExtraDamage = nMaxExtraDamage;
+	nDamage += nExtraDamage;
+	
+	// Handle the Augment Healing feat.
+	if ( GetHasFeat( FEAT_AUGMENT_HEALING ) && !GetIsObjectValid( GetSpellCastItem() ) ) {
+		int nSpellLvl = GetSpellLevel( nSpellID );
+		nDamage += ( 2 * nSpellLvl );
+	}
+	
+	return nDamage;
 }
