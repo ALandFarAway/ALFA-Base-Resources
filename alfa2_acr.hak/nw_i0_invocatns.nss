@@ -41,6 +41,8 @@
 #include "nwn2_inc_spells"
 #include "ginc_debug"
 
+const string ACR_WRLK_VITRIOLIC_BLAST_ROUNDS_REMAINING = "ACR_WRLK_VB_ROUNDS";
+
 const int STRREF_HELLFIRE_BONUS            = 220796;  // Bonus Damage (Hellfire): ( in use )
 const int STRREF_HELLFIRE_SHIELD_NAME   = 220779;  // Hellfire Shield ( in use )
 const int STRREF_HELLFIRE_BLAST_NAME    = 220783;  // Hellfire Blast ( in use )
@@ -92,7 +94,7 @@ int DoEssenceBrimstoneBlast(object oCaster, object oTarget, int bCalledFromShape
 int DoEssenceHellrimeBlast(object oCaster, object oTarget, int bCalledFromShape = FALSE, int bDoTouchTest = TRUE, int nAllowReflexSave=FALSE, int nHalfDmg=FALSE);
 int DoEssenceBewitchingBlast(object oCaster, object oTarget, int bCalledFromShape = FALSE, int bDoTouchTest = TRUE, int nAllowReflexSave=FALSE, int nHalfDmg=FALSE);
 int DoEssenceNoxiousBlast(object oCaster, object oTarget, int bCalledFromShape = FALSE, int bDoTouchTest = TRUE, int nAllowReflexSave=FALSE, int nHalfDmg=FALSE);
-void RunEssenceVitriolicBlastImpact(object oTarget, object oCaster, int nRoundsLeft);
+void RunEssenceVitriolicBlastImpact(object oTarget, object oCaster, int nHalfDmg);
 int DoEssenceVitriolicBlast(object oCaster, object oTarget, int bCalledFromShape = FALSE, int bDoTouchTest = TRUE, int nAllowReflexSave=FALSE, int nHalfDmg=FALSE);
 int DoEssenceUtterdarkBlast(object oCaster, object oTarget, int bCalledFromShape = FALSE, int bDoTouchTest = TRUE, int nAllowReflexSave=FALSE, int nHalfDmg=FALSE);
 int DoEssenceHinderingBlast(object oCaster, object oTarget, int bCalledFromShape = FALSE, int bDoTouchTest = TRUE, int nAllowReflexSave=FALSE, int nHalfDmg=FALSE);
@@ -691,15 +693,17 @@ int DoEssenceNoxiousBlast(object oCaster, object oTarget, int bCalledFromShape, 
 }
 
 
-void RunEssenceVitriolicBlastImpact(object oTarget, object oCaster, int nRoundsLeft)
+void RunEssenceVitriolicBlastImpact(object oTarget, object oCaster, int nHalfDmg)
 {
+	int nRoundsLeft = GetLocalInt(oTarget, ACR_WRLK_VITRIOLIC_BLAST_ROUNDS_REMAINING);
 // AFW-OEI 07/06/2006: Vitriolic Blast has no save and ignores spell resistance!.
 
 // Spell effect information is actually entirely available here, because of the visual.
-    if (GZGetDelayedSpellEffectsExpired(SPELL_I_VITRIOLIC_BLAST, oTarget, oCaster))
+    /*if (GZGetDelayedSpellEffectsExpired(SPELL_I_VITRIOLIC_BLAST, oTarget, oCaster))
     {
         return;
-    }
+    }  // The spell id can vary from different eldrich shapes, making this unreliable.
+	*/
 
     //SpeakString("RunEssenceVitriolicBlastImpact(...): Entering function.");    // DEBUG!
 
@@ -707,19 +711,19 @@ void RunEssenceVitriolicBlastImpact(object oTarget, object oCaster, int nRoundsL
     {
 
         int nDmg = d6(2);
+		if(nHalfDmg) nDmg = nDmg / 2;
         effect eDmg = EffectDamage(nDmg,DAMAGE_TYPE_ACID);
         //effect eVFX = EffectVisualEffect( VFX_IMP_ACID_S );    // handled by DoEldritchBlast()
 
         ApplyEffectToObject(DURATION_TYPE_INSTANT,eDmg,oTarget);
         //ApplyEffectToObject(DURATION_TYPE_INSTANT,eVFX,oTarget);    // handled by DoEldritchBlast()
 
-        nRoundsLeft = nRoundsLeft - 1;
-        DelayCommand(RoundsToSeconds(1), RunEssenceVitriolicBlastImpact(oTarget, oCaster, nRoundsLeft));    // Delay for one more round
+		SetLocalInt(oTarget, ACR_WRLK_VITRIOLIC_BLAST_ROUNDS_REMAINING, nRoundsLeft - 1);
+        DelayCommand(RoundsToSeconds(1), RunEssenceVitriolicBlastImpact(oTarget, oCaster, nHalfDmg));    // Delay for one more round
     }
     else
     {
-//        RemoveDelayedSpellInfo(SPELL_I_VITRIOLIC_BLAST, oTarget, oCaster);
-//        GZRemoveSpellEffects(SPELL_I_VITRIOLIC_BLAST, oTarget);
+		DeleteLocalInt(oTarget, ACR_WRLK_VITRIOLIC_BLAST_ROUNDS_REMAINING);
     }
 }
 
@@ -759,7 +763,13 @@ int DoEssenceVitriolicBlast(object oCaster, object oTarget, int bCalledFromShape
 //                SaveDelayedSpellInfo(SPELL_I_VITRIOLIC_BLAST, oTarget, oCaster, nDC);
                 
                 // Make sure it doesn't stack with itself.
-                DelayCommand(RoundsToSeconds(1), RunEssenceVitriolicBlastImpact(oTarget, oCaster, nRoundsLeft)); // First check should be one round after the blast hit
+				// Does it have vitriolic effects active?
+				if(!GetLocalInt(oTarget, ACR_WRLK_VITRIOLIC_BLAST_ROUNDS_REMAINING))
+					// If not, schedule an impact 1 round after the blast hit.
+					DelayCommand(RoundsToSeconds(1), RunEssenceVitriolicBlastImpact(oTarget, oCaster, nHalfDmg));
+					
+				// Either way we need two more rounds of vitriolic damage.
+                SetLocalInt(oTarget, ACR_WRLK_VITRIOLIC_BLAST_ROUNDS_REMAINING, nRoundsLeft);
 
                 //Apply the effect and VFX impact
                 ApplyEffectToObject(DURATION_TYPE_TEMPORARY, EffectVisualEffect(100005), oTarget, RoundsToSeconds(nRoundsLeft));
