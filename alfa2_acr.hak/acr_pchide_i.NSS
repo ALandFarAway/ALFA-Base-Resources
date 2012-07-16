@@ -48,7 +48,7 @@ void _InitializePCHide( object oPC );
 
 object ACR_GetPCHide( object oPC ) {
 	// Only check player characters.
-	if ( !GetIsPC( oPC ) && !GetIsDM( oPC ) ) {
+	if ( !GetIsPC( oPC ) ) {
 		return OBJECT_INVALID;
 	}
 	
@@ -64,6 +64,11 @@ object ACR_GetPCHide( object oPC ) {
 void _InitializePCHide( object oPC ) {
 	// Get the object in the PCH slot.
 	object oHide = GetItemInSlot( ACR_PCH_SLOT, oPC );
+	
+	// Does the PC have required proficiencies?
+	if ( !GetHasFeat( FEAT_WEAPON_PROFICIENCY_CREATURE, oPC ) ) {
+		FeatAdd( oPC, FEAT_WEAPON_PROFICIENCY_CREATURE, FALSE );
+	}
 	
 	// Is this our valid item?
 	if ( GetIsObjectValid( oHide ) ) {
@@ -87,7 +92,7 @@ void _InitializePCHide( object oPC ) {
 			// Not in the inventory. Create the item.
 			oHide = CreateItemOnObject( ACR_PCH_RESREF, oPC, 1 );
 			AssignCommand( oPC, ActionEquipItem( oHide, ACR_PCH_SLOT ) );
-			if ( GetIsObjectValid( oHide ) ) {
+			if ( GetResRef( GetItemInSlot( ACR_PCH_SLOT, oPC ) ) != ACR_PCH_RESREF ) {
 				// Item creation failed.
 				SendMessageToPC( oPC, Colorize( "ERROR: Could not create PC Hide item!", "FF0000" ) );
 				return;
