@@ -36,6 +36,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_language_i.nss                    \
             $(OUTPUTDIR)\acr_mod_events_i.nss                  \
             $(OUTPUTDIR)\acr_nonlethal_i.nss                   \
+            $(OUTPUTDIR)\acr_pchide_i.nss                      \
             $(OUTPUTDIR)\acr_physical_object_i.nss             \
             $(OUTPUTDIR)\acr_placeable_i.nss                   \
             $(OUTPUTDIR)\acr_portal_i.nss                      \

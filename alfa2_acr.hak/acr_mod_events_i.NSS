@@ -1234,6 +1234,9 @@ void ACR_ModuleOnPlayerLevelUp() {
     
     // apply any hidden skill changes  
     ACR_SkillsOnPCLevelUp(oPC);
+    
+    // Handle ALFA's custom feat events.
+    ACR_FeatsOnPCLevelUp( oPC );
 
     // apply extra languages if necessary
     ACR_LanguagesOnLevelUp(oPC);

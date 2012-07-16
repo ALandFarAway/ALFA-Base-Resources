@@ -52,6 +52,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 const string _CRE_NO_AI = "ACR_CRE_NO_AI";
+const string ACR_CRE_ISUNDEAD = "ACR_CRE_ISUNDEAD";
+const int ACR_CRE_FORCE_NOT_UNDEAD = 2;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -109,6 +111,9 @@ void ACR_CreatureOnUserDefined();
 
 //! This function performs a creature identification check by oPC on oTarget
 void ACR_CreatureIdentify(object oPC, object oTarget);
+
+//! Checks if the creature is an undead type, even if it is not racially categorized as undead.
+int ACR_GetIsUndead( object oTarget );
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -471,3 +476,10 @@ void ACR_CreatureIdentify(object oPC, object oTarget)
 	SendMessageToPC(oPC, "You recognize it as "+GetArticle(sName)+" <color=Magenta><i>"+sName+"</i></color>!");
 }
 
+int ACR_GetIsUndead( object oTarget ) {
+	if ( GetLocalInt( oTarget, ACR_CRE_ISUNDEAD ) == ACR_CRE_FORCE_NOT_UNDEAD ) return FALSE;
+	if ( GetRacialType( oTarget ) == RACIAL_TYPE_UNDEAD ) return TRUE;
+	if ( GetLevelByClass( CLASS_TYPE_UNDEAD, oTarget ) > 0 ) return TRUE;
+	if ( GetLocalInt( oTarget, ACR_CRE_ISUNDEAD ) == TRUE ) return TRUE;
+	return FALSE;
+}

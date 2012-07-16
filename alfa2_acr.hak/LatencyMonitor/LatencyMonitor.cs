@@ -77,7 +77,23 @@ namespace LatencyMonitor
             if (LatencyMeasurementThread != null)
                 return DefaultReturnCode;
 
-            ServerUdpListener = SystemInfo.GetServerUdpListener(this);
+            InitializeLatencyMonitor();
+
+            return DefaultReturnCode;
+        }
+
+        private void InitializeLatencyMonitor()
+        {
+            try
+            {
+                ServerUdpListener = SystemInfo.GetServerUdpListener(this);
+            }
+            catch (Exception)
+            {
+                WriteTimestampedLogEntry("LatencyMonitor.InitializeLatencyMonitor(): Failed to query server data port, retrying in 10 minutes.");
+                DelayCommand(600.0f, delegate() { InitializeLatencyMonitor(); });
+                return;
+            }
 
             //
             // Create a dummy object so that we may block on its SyncBlock.
@@ -118,7 +134,7 @@ namespace LatencyMonitor
 
             PollServerLatency();
 
-            return DefaultReturnCode;
+            WriteTimestampedLogEntry(String.Format("LatencyMonitor.InitializeLatencyMonitor(): Latency monitoring initialized on data port {0}.", ServerUdpListener));
         }
 
         /// <summary>

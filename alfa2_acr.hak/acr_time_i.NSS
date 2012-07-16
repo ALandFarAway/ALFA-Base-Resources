@@ -103,7 +103,8 @@ float ACR_GameSecondsToRealSeconds(float nSeconds);
 int ACR_GetGameMillisecondsSinceStart();
 
 //! Gets the game clock as an integer counting the number of seconds passed since
-//! the server started.
+//  the server started.  Note that the value may be negative and should only be
+//  used to track relative time.
 int ACR_GetGameSecondsSinceStart();
 
 //! Gets the game clock as an integer counting the number of minutes passed since
