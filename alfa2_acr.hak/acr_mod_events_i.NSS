@@ -896,6 +896,9 @@ void ACR_ModuleOnClientEnter()
 
     // Let the wealth subsystem know of the login event.
     ACR_WealthOnClientEnter(oPC);
+	
+	// Check for player offline messages.
+	ACR_ReportOfflineMessages( oPC );
 
     ACR_IncrementStatistic("PLAYER_LOGINS");
 }

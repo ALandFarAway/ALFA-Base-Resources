@@ -1106,6 +1106,16 @@ void ACR_CreateSQLTables()
 		"`Date` timestamp NOT NULL default CURRENT_TIMESTAMP," +
 		"PRIMARY KEY  (`ID`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
+	
+	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `offline_messages` (" +
+		"`ID` int(11) NOT NULL AUTO_INCREMENT," +
+		"`CharacterID` int(10) unsigned DEFAULT NULL," +
+		"`Date` timestamp NOT NULL default CURRENT_TIMESTAMP," +
+		"`Date_IG` varchar(64) DEFAULT NULL," +
+		"`Message` varchar(256) DEFAULT NULL," +
+		"PRIMARY KEY (`ID`)," +
+		"UNIQUE KEY `id_UNIQUE` (`ID`)" +
+	") ENGINE=MyISAM DEFAULT CHARSET=latin1;" );
 
 	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `players` (" +
 		"`ID` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT," +

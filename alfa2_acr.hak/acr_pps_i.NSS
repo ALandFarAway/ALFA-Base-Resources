@@ -11,7 +11,7 @@
 //
 //  Description
 //  Persistent PC status system implementation based on ALFA requirements:
-//  http://www.alandfaraway.org/phpBB2/viewtopic.php?t=30615
+//  http://www.alandfaraway.org/forums/viewtopic.php?f=168&t=30615
 //
 //  Revision History
 //  2006/07/22  Cipher  Inception
@@ -66,6 +66,7 @@
 #include "acr_server_ipc_i"
 #include "acr_tools_i"
 #include "acr_conversions_i"
+#include "acr_time_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -183,6 +184,16 @@ void ACR_PCExportSingleCharacter(object oPC);
 //!  - oPC: Supplies the player to query.
 //!  - Returns: TRUE if the player is in quarantine.
 int ACR_PPSIsPlayerQuarantined(object oPC);
+
+//! Function to log a message to be delivered later to a player character.
+//!  - oPC: Player character to log a message for.
+//!  - sMessage: Message to be delivered on login.
+void ACR_LogOfflineMessage( object oPC, string sMessage );
+
+//! Function to check for offline messages. Will report the messages
+//! to th eplayer if any are available.
+//!  - oPC: Player character object to check for messages.
+void ACR_ReportOfflineMessages( object oPC );
 
 //! *** PRIVATE FUNCTIONS ***
 
@@ -955,6 +966,47 @@ void ACR_PCExportSingleCharacter(object oPC)
 int ACR_PPSIsPlayerQuarantined(object oPC)
 {
     return GetLocalInt(oPC, ACR_PPS_QUARANTINED);
+}
+
+void ACR_LogOfflineMessage( object oPC, string sMessage ) {
+	string sDateIG = ACR_FRDateToString();
+	string sCharID = IntToString( ACR_GetCharacterID( oPC ) );
+	sMessage = ACR_SQLEncodeSpecialChars( sMessage );
+	ACR_SQLQuery( "INSERT INTO `offline_messages` ( `CharacterID`, `Date_IG`, `Message` ) VALUES ( " + sCharID + ", '" + sDateIG + "', '" + sMessage + "' );" );
+}
+
+void ACR_ReportOfflineMessages( object oPC ) {
+	// We only care about player character messages.
+	if ( !GetIsPC( oPC ) ) {
+		return;
+	}
+	
+	// Get messages.
+	ACR_SQLQuery( "SELECT * FROM `offline_messages` WHERE CharacterID=" + IntToString( ACR_GetCharacterID( oPC ) ) + " ORDER BY `Date` DESC;" );
+	while ( ACR_SQLFetch() == SQL_SUCCESS ) {
+		// Get message data.
+		string sDate = ACR_SQLGetData(2);
+		string sDateIG = ACR_SQLGetData(3);
+		string sMessage = ACR_SQLGetData(4);
+		
+		// Build message.
+		string sOutput;
+		if ( sDate != "" && sDateIG != "" ) {
+			sOutput = "<c=lightblue>" + sDateIG + " [" + sDate + "] : " + sMessage + "</c>";
+		} else if ( sDate != "" ) {
+			sOutput = "<c=lightblue>" + sDate + " : " + sMessage + "</c>";
+		} else if ( sDateIG != "" ) {
+			sOutput = "<c=lightblue>" + sDateIG + " : " + sMessage + "</c>";
+		} else {
+			sOutput = "<c=lightblue>" + sMessage + "</c>";
+		}
+		
+		// Deliver to PC.
+		SendMessageToPC( oPC, sOutput );
+	}
+	
+	// Delete messages.
+	ACR_SQLQuery( "DELETE FROM `offline_messages` WHERE CharacterID=" + IntToString( ACR_GetCharacterID( oPC ) ) + ";" );
 }
 
 void ACR_PPSValidatePC(object oTarget) {
