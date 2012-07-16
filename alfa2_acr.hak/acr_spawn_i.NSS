@@ -945,7 +945,8 @@ void ACR_ForceSpawn(object oWP = OBJECT_SELF) {
 }
 
 object ACR_SpawnObject(string sResRef, int nObjectType, object oWP = OBJECT_SELF) {
-    return _SpawnObject(sResRef, nObjectType, oWP, ACR_GetSpawnLocation(oWP), GetLocalInt(oWP, _SPAWN_FLAGS));
+	location lLoc = _RandomizeLocation(ACR_GetSpawnLocation(oWP), GetLocalFloat(oWP, _WP_SPAWN_RANDOM_RADIUS));
+    return _SpawnObject(sResRef, nObjectType, oWP, lLoc, GetLocalInt(oWP, _SPAWN_FLAGS));
 }
 
 object ACR_SpawnObjectAtLocation(string sResRef, int nObjectType, location lLoc, object oWP = OBJECT_SELF) {
@@ -1614,9 +1615,12 @@ void _SpawnPoint(object oWP, int nFlags) {
     float fRandomSpawnRange = GetLocalFloat(oWP, _WP_SPAWN_RANDOM_RANGE);
 	float fRandomSpawnRadius = GetLocalFloat(oWP, _WP_SPAWN_RANDOM_RADIUS);
 	if (fRandomSpawnRange > 0.0) {
-	   lLoc = _RandomizeLocation(lLoc, fRandomSpawnRange);
+	   lLoc = _RandomizeLocation(lLoc, fRandomSpawnRange);	   
 	   nOffsiteChild = TRUE;
 	}
+	
+	// Save the location of the spawn point so other scripts can access it.
+	SetLocalLocation(oWP, _SPAWN_LAST_LOCATION, lLoc);
 
     // Do the spawning for the list of random resrefs.
     int nNumChoices = GetPiecewiseInteger(nNums, _SPAWN_NUMS_NUM_RESREFS_START, _SPAWN_NUMS_NUM_RESREFS_END);
