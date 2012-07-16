@@ -53,6 +53,7 @@
 
 const string _CRE_NO_AI = "ACR_CRE_NO_AI";
 const string ACR_CRE_ISUNDEAD = "ACR_CRE_ISUNDEAD";
+const int ACR_CRE_FORCE_NOT_UNDEAD = 2;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -476,6 +477,7 @@ void ACR_CreatureIdentify(object oPC, object oTarget)
 }
 
 int ACR_GetIsUndead( object oTarget ) {
+	if ( GetLocalInt( oTarget, ACR_CRE_ISUNDEAD ) == ACR_CRE_FORCE_NOT_UNDEAD ) return FALSE;
 	if ( GetRacialType( oTarget ) == RACIAL_TYPE_UNDEAD ) return TRUE;
 	if ( GetLevelByClass( CLASS_TYPE_UNDEAD, oTarget ) > 0 ) return TRUE;
 	if ( GetLocalInt( oTarget, ACR_CRE_ISUNDEAD ) == TRUE ) return TRUE;
