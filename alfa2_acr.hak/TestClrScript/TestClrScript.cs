@@ -13,6 +13,7 @@ using CLRScriptFramework;
 using ALFA;
 using NWScript;
 using NWScript.ManagedInterfaceLayer.NWScriptManagedInterface;
+using System.Diagnostics;
 
 using NWEffect = NWScript.NWScriptEngineStructure0;
 using NWEvent = NWScript.NWScriptEngineStructure1;
@@ -45,6 +46,9 @@ namespace TestClrScript
         {
             string ServerDescription;
             string Message;
+
+            NWEffect e = EffectNWN2SpecialEffectFile("TESTFILE", OBJECT_SELF, GetPosition(OBJECT_SELF));
+            SendMessageToPC(OBJECT_SELF, "Effect type was: " + new ALFA.GameEffect(e).EffectType);
 
             Database.ACR_SQLQuery(String.Format("SELECT Name FROM servers WHERE ID = {0}", Database.ACR_GetServerID()));
 
