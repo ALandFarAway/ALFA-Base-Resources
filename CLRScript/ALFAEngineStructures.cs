@@ -1,6 +1,6 @@
 //
 // This module contains support for operating with game-defined data
-// structures.  The contents of this module are highly version pecific.
+// structures.  The contents of this module are highly version specific.
 // 
 
 using System;
