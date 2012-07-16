@@ -65,7 +65,7 @@ float ACR_DURATION_24H = ACR_DURATION_1H * 24.0f;
 //! Calculates the duration of a spell's effects.
 float ACR_GetSpellDuration( object oCaster, int nDurationType, float nDurationBase );
 
-int ACR_GetCorrectCasterLevel(object oCreature, int nClass);
+int ACR_GetCorrectCasterLevel(object oCreature, int nClass = -1);
 
 void WarnWhenSpellExpires(object oCreature, int nSpellId, string sMessage, float fDuration);
 
@@ -93,7 +93,7 @@ float ACR_GetSpellDuration( object oCaster, int nDurationType, float nDurationBa
 	
 	// Adjust to caster level if not static.
 	if ( nDurationType == ACR_DURATION_TYPE_PER_CL ) {
-		nDuration = nDuration * GetCasterLevel( oCaster );
+		nDuration = nDuration * ACR_GetCorrectCasterLevel( oCaster );
 	}
 	
 	// Check for spell extension metamagics.
@@ -116,10 +116,12 @@ int _GetPracticedSpellcasterCL(object oCreature, int nCasterLevel, int nFeat) {
 	return (GetHasFeat(nFeat, oCreature) != 0) * ((nCasterLevel + 4) > nHd) ? nHd : (nCasterLevel + 4);
 }
 
-int ACR_GetCorrectCasterLevel(object oCreature, int nClass) {
+int ACR_GetCorrectCasterLevel(object oCreature, int nClass = -1) {
 	int nCasterLevel;
 	int nClassLevels = GetLevelByClass(nClass, oCreature);
 	int nHd = GetHitDice(oCreature);
+	
+	if ( nClass == -1 ) nClass = GetLastSpellCastClass();
 	
 	if(GetHasFeat(FEAT_SPELL_POWER_5))
 		nCasterLevel += 5;
