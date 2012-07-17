@@ -179,6 +179,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s0_disruptundead.ncs              \
             $(OUTPUTDIR)\acr_s0_exretreat.ncs                  \
             $(OUTPUTDIR)\acr_s0_fear.ncs                       \
+            $(OUTPUTDIR)\acr_s0_glibness.ncs                   \
             $(OUTPUTDIR)\acr_s0_haltundead.ncs                 \
             $(OUTPUTDIR)\acr_s0_haste.ncs                      \
             $(OUTPUTDIR)\acr_s0_jump.ncs                       \

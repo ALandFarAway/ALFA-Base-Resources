@@ -130,6 +130,7 @@ const int SPELL_ELDRITCH_BLAST_7 = 954;
 const int SPELL_ELDRITCH_BLAST_8 = 955;
 const int SPELL_ELDRITCH_BLAST_9 = 956;
 const int SPELL_WATER_BREATHING = 3113;
+const int SPELL_GLIBNESS = 3125;
 
 // Feat spell scripts:
 

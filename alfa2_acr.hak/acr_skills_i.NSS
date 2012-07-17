@@ -291,6 +291,11 @@ int ACR_SkillCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int
 				break;
 		}
 	}
+	
+	// Hook for the "Glibness" spell.
+	if ( nSkillID == SKILL_BLUFF && GetHasSpellEffect( SPELL_GLIBNESS, oPC ) ) {
+		nModifier += 30;
+	}
 
 	nModifiedRank = GetSkillRank(nSkillID, oPC, FALSE) + _LookupSynergy(nSkillID, oPC, bShowRoll) + nModifier;
 
