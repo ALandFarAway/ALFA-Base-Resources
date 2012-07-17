@@ -183,9 +183,18 @@ namespace ACR_ServerCommunicator
                             }
                             catch
                             {
-                                if (PatchFile.Location == "hak" && File.Exists(LocalPath))
+                                if (PatchFile.Location == "hak")
                                 {
                                     string OldFileName = LocalPath + ".old";
+
+                                    try
+                                    {
+                                        if (File.Exists(LocalPath))
+                                            File.Delete(LocalPath);
+                                    }
+                                    catch
+                                    {
+                                    }
 
                                     File.Move(OldFileName, LocalPath);
                                 }
