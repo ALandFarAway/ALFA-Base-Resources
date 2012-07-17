@@ -2258,6 +2258,15 @@ namespace ACR_ServerCommunicator
                 SetGlobalInt("ACR_SERVERLISTENER_PORT", SocketIo.ServerUdpListenerPort);
                 SetGlobalInt("ACR_SERVERLISTENER_ADDRESS", SocketIo.ServerUdpListenerAddress);
                 WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.DispatchPeriodicEvents(): Detected server data port as {0}.", SocketIo.ServerUdpListenerPort));
+
+                try
+                {
+                    RunUpdateServerExternalAddress();
+                }
+                catch (Exception e)
+                {
+                    WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.DispatchPeriodicEvents(): Encountered exception in external address update: {0}", e));
+                }
             }
         }
 
