@@ -2493,8 +2493,9 @@ namespace ACR_ServerCommunicator
                         ExternalHostname = Hostname;
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.UpdateServerExternalAddress(): Encountered exception: {0}", e));
                 }
             });
 
