@@ -264,6 +264,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\X2_S0_BattTideB.ncs                   \
             $(OUTPUTDIR)\X2_S0_BattTideC.ncs                   \
             $(OUTPUTDIR)\x2_s0_cureother.ncs                   \
+            $(OUTPUTDIR)\x2_s1_ether.ncs                       \
             $(OUTPUTDIR)\gui_zspawn_open.ncs                   \
             $(OUTPUTDIR)\gui_zspawn_close.ncs                  \
             $(OUTPUTDIR)\gui_zspawn_new.ncs                    \
@@ -329,6 +330,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s0_iwallflamc.ncs                  \
             $(OUTPUTDIR)\nw_s0_iwordchng.ncs                   \
             $(OUTPUTDIR)\nw_s0_impmagarm.ncs                   \
+            $(OUTPUTDIR)\x0_s0_ether.ncs                       \
             $(OUTPUTDIR)\x0_s0_shield.ncs                      \
             $(OUTPUTDIR)\acr_s0_shadow_acidfog.ncs             \
             $(OUTPUTDIR)\acr_s0_shadow_acidfoga.ncs            \
