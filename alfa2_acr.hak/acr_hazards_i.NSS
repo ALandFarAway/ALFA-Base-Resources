@@ -60,6 +60,13 @@ const string ACR_SOFT_SURFACE = "ACR_SOFT_SURFACE";
 void ACR_HazardousAreaOnEnter();
 void ACR_HazardousAreaOnExit();
 
+//! Cause the character to perform a balance check, until the balance situation ends.
+//! Note that ACR_BALANCING must be set to TRUE on the balancing character prior to
+//! this function being called.
+//!  - oPC : Creature to make a balance check for.
+//!  - nBalanceDC : The balance DC.
+//!  - sFallWaypoint : Where the character will fall to if they significantly fail a check.
+//!  - nFallDistance : How far they will fall on a significant failure.
 void ACR_PerformBalanceCheck( object oPC, int nBalanceDC, string sFallWaypoint, int nFallDistance );
 
 //! Cause the target to fall.
