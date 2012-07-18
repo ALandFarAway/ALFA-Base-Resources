@@ -44,6 +44,11 @@ const string ACR_SOFT_SURFACE = "ACR_SOFT_SURFACE";
 //!  - oPC: Falling object.
 //!  - nDistance: Falling distance.
 //!  - lTarget: Target destination to port to after falling.
+//!  - nWilling: TRUE if the target is willingly falling (i.e., jumped).
+//!  - nWaterDepth: Depth of the water where the fall is occuring. If none is provided, it will search for
+//!		data on triggers at the location.
+//!  - bYieldingSurface: TRUE if the fall goes to a soft surface. If none is provided, it will search for
+//!		data on triggers at the location.
 void ACR_FallToLocation( object oPC, int nDistance, location lTarget, int nWilling = FALSE, int nWaterDepth = -1, int bYieldingSurface = -1 );
 void ACR_FallToWaypoint( object oPC, int nDistance, string sTarget, int nWilling = FALSE, int nWaterDepth = -1, int bYieldingSurface = -1 );
 
@@ -81,7 +86,7 @@ void ACR_FallToLocation( object oPC, int nDistance, location lTarget, int nWilli
 		object oTestObject = CreateObject( OBJECT_TYPE_WAYPOINT, "nw_waypoint001", lTarget );
 		object oTrigger = GetFirstObjectInArea( oTargetArea );
 		while ( GetIsObjectValid( oTrigger ) ) {
-			if ( GetObjectType( oTrigger ) == OBJECT_TYPE_TRIGGER ) {
+			if ( GetObjectType( oTrigger ) == OBJECT_TYPE_TRIGGER && GetIsInSubArea( oTestObject, oTrigger ) ) {
 				// 
 				int nDepth = GetLocalInt( oTrigger, ACR_WATER_DEPTH );
 				if ( nDepth != 0 && nDepth > nWaterDepth ) nWaterDepth = nDepth;
