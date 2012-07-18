@@ -94,6 +94,9 @@ void ACR_ItemOnUnAcquire(object oItem, object oPC);
 //! Handles activation of items.
 void ACR_ItemOnActivate(object oItem, object oPC, object oTarget, location lAimedAt);
 
+//! Checks all items in the inventory for an active item property.
+int ACR_HasActiveItemProperty( object oPC, int nItemProperty, int bFullCheck = FALSE );
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -598,4 +601,34 @@ void ACR_ItemOnActivate(object oItem, object oPC, object oTarget, location lAime
     // NWN2-style activate scripts (preferred)
     string sActivateScript = "i_"+sItemTag+"_ac";
     ExecuteScript(sActivateScript, OBJECT_SELF);
+}
+
+int ACR_HasActiveItemProperty( object oPC, int nItemProperty, int bFullCheck = FALSE ) {
+	int i = 0;
+	
+	// Check equipped items.
+	for ( i = 0; i < NUM_INVENTORY_SLOTS; i++ ) {
+		// Some equipment slots don't count.
+		if ( i == INVENTORY_SLOT_ARROWS ) continue;
+		if ( i == INVENTORY_SLOT_BOLTS ) continue;
+		if ( i == INVENTORY_SLOT_BULLETS ) continue;
+	
+		object oEquipment = GetItemInSlot( i, oPC );
+		if ( GetIsObjectValid( oEquipment ) && GetItemHasItemProperty( oEquipment, nItemProperty ) ) {
+			return TRUE;
+		}
+	}
+	
+	// Check constant effect items.
+	if ( bFullCheck == TRUE ) {
+		object oEquipment = GetFirstItemInInventory( oPC );
+		while ( GetIsObjectValid( oEquipment ) ) {
+			if ( GetItemPropActivation( oEquipment ) > 0 && GetItemHasItemProperty( oEquipment, nItemProperty ) ) {
+				return TRUE;
+			}
+			oEquipment = GetNextItemInInventory( oPC );
+		}
+	}
+	
+	return FALSE;
 }
