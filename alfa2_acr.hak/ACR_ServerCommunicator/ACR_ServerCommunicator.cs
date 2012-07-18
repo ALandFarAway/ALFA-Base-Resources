@@ -777,8 +777,10 @@ namespace ACR_ServerCommunicator
                 foreach (GameServer Server in WorldManager.Servers)
                 {
                     SendMessageToPC(PlayerObject, String.Format(
-                        "Server {0} - online {1}, databaseonline {2}, {3} users.",
+                        "Server {0} ({1}:{2}) - online {3}, databaseonline {4}, {5} users.",
                         Server.Name,
+                        Server.GetIPAddress(),
+                        Server.ServerPort,
                         Server.Online,
                         Server.DatabaseOnline,
                         Server.Characters.Count
