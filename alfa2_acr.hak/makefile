@@ -30,6 +30,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_feat_events_i.nss                 \
             $(OUTPUTDIR)\acr_feat_i.nss                        \
             $(OUTPUTDIR)\acr_game_loc_i.nss                    \
+            $(OUTPUTDIR)\acr_hazards_i.nss                     \
             $(OUTPUTDIR)\acr_i.nss                             \
             $(OUTPUTDIR)\acr_items_i.nss                       \
             $(OUTPUTDIR)\acr_it_persist_i.nss                  \
@@ -182,6 +183,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s0_disruptundead.ncs              \
             $(OUTPUTDIR)\acr_s0_exretreat.ncs                  \
             $(OUTPUTDIR)\acr_s0_fear.ncs                       \
+            $(OUTPUTDIR)\acr_s0_feather_fall.ncs               \
             $(OUTPUTDIR)\acr_s0_glibness.ncs                   \
             $(OUTPUTDIR)\acr_s0_haltundead.ncs                 \
             $(OUTPUTDIR)\acr_s0_haste.ncs                      \
