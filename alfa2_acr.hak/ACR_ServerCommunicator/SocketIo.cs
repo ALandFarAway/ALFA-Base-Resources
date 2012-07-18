@@ -19,8 +19,9 @@ namespace ACR_ServerCommunicator
         /// <summary>
         /// Initialize the socket subsystem.
         /// </summary>
+        /// <param name="Script">Supplies the main script object.</param>
         /// <returns>True if socket I/O is connected.</returns>
-        public static bool Initialize()
+        public static bool Initialize(ACR_ServerCommunicator Script)
         {
             if (Initialized)
                 return true;
@@ -34,8 +35,9 @@ namespace ACR_ServerCommunicator
                 {
                     SetRecvfromCallout(Marshal.GetFunctionPointerForDelegate(RecvfromDelegate));
                 }
-                catch
+                catch (Exception e)
                 {
+                    Script.WriteTimestampedLogEntry(String.Format("SocketIo.Initialize: Exception: {0}", e));
                     RecvfromDelegate = null;
                     RecvfromDelegateHandle.Free();
                     throw;

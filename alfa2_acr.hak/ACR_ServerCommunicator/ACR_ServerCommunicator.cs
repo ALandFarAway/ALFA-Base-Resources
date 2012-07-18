@@ -266,7 +266,7 @@ namespace ACR_ServerCommunicator
             WorldManager = new GameWorldManager(
                 ServerId,
                 GetName(GetModule()));
-            NetworkManager = new ServerNetworkManager(WorldManager, ServerId);
+            NetworkManager = new ServerNetworkManager(WorldManager, ServerId, this);
             PlayerStateTable = new Dictionary<uint, PlayerState>();
 
             //

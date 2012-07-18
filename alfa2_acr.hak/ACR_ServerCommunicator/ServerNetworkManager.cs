@@ -23,9 +23,10 @@ namespace ACR_ServerCommunicator
         /// the network manager instance is bound.</param>
         /// <param name="LocalServerId">Supplies the server id of the local
         /// server.</param>
-        public ServerNetworkManager(GameWorldManager WorldManager, int LocalServerId)
+        /// <param name="Script">Supplies the main script object.</param>
+        public ServerNetworkManager(GameWorldManager WorldManager, int LocalServerId, ACR_ServerCommunicator Script)
         {
-            SocketIo.Initialize();
+            SocketIo.Initialize(Script);
 
             this.WorldManager = WorldManager;
             this.LocalServerId = LocalServerId;
