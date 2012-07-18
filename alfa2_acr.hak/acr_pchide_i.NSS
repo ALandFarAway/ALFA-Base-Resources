@@ -34,34 +34,19 @@ const int ACR_PCH_SLOT = INVENTORY_SLOT_CWEAPON_L;
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+//! Ensures that the player has a PC Hide object.
+//! Warning: Will delete any other object in the ACR_PCH_SLOT slot.
+void ACR_InitializePCHide( object oPC );
+
 //! Get the player hidden creature slot equipment.
 //! Returns OBJECT_INVALID if there is a problem.
 object ACR_GetPCHide( object oPC );
-
-//! Ensures that the player has a PC Hide object.
-//! Warning: Will delete any other object in the slot.
-void _InitializePCHide( object oPC );
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-object ACR_GetPCHide( object oPC ) {
-	// Only check player characters.
-	if ( !GetIsPC( oPC ) ) {
-		return OBJECT_INVALID;
-	}
-	
-	// Confirm that we have the item set up.
-	_InitializePCHide( oPC );
-	
-	// Return the item.
-	object oHide = GetItemInSlot( ACR_PCH_SLOT, oPC );
-	if ( GetResRef( oHide ) != ACR_PCH_RESREF ) oHide = OBJECT_INVALID;
-	return oHide;
-}
-
-void _InitializePCHide( object oPC ) {
+void ACR_InitializePCHide( object oPC ) {
 	// Get the object in the PCH slot.
 	object oHide = GetItemInSlot( ACR_PCH_SLOT, oPC );
 	
@@ -84,19 +69,28 @@ void _InitializePCHide( object oPC ) {
 	} else {
 		// No item in the slot.
 		oHide = GetItemPossessedBy( oPC, ACR_PCH_RESREF );
-		if ( GetIsObjectValid( oHide ) ) {
-			// Has it somehow been unequipped? Equip it.
-			AssignCommand( oPC, ActionEquipItem( oHide, ACR_PCH_SLOT ) );
-			return;
-		} else {
+		if ( !GetIsObjectValid( oHide ) ) {
 			// Not in the inventory. Create the item.
 			oHide = CreateItemOnObject( ACR_PCH_RESREF, oPC, 1 );
-			AssignCommand( oPC, ActionEquipItem( oHide, ACR_PCH_SLOT ) );
-			if ( GetResRef( GetItemInSlot( ACR_PCH_SLOT, oPC ) ) != ACR_PCH_RESREF ) {
-				// Item creation failed.
+			if ( !GetIsObjectValid( oHide ) ) {
 				SendMessageToPC( oPC, Colorize( "ERROR: Could not create PC Hide item!", "FF0000" ) );
-				return;
 			}
 		}
+		AssignCommand( oPC, ActionEquipItem( oHide, ACR_PCH_SLOT ) );
 	}
+}
+
+object ACR_GetPCHide( object oPC ) {
+	// Only check player characters.
+	if ( !GetIsPC( oPC ) ) {
+		return OBJECT_INVALID;
+	}
+	
+	// Confirm that we have the item set up.
+	ACR_InitializePCHide( oPC );
+	
+	// Return the item.
+	object oHide = GetItemInSlot( ACR_PCH_SLOT, oPC );
+	if ( GetResRef( oHide ) != ACR_PCH_RESREF ) oHide = OBJECT_INVALID;
+	return oHide;
 }
