@@ -184,6 +184,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s0_haste.ncs                      \
             $(OUTPUTDIR)\acr_s0_jump.ncs                       \
             $(OUTPUTDIR)\acr_s0_lsdispel.ncs                   \
+            $(OUTPUTDIR)\acr_s0_open_close.ncs                 \
             $(OUTPUTDIR)\acr_s0_rayenfeeb.ncs                  \
             $(OUTPUTDIR)\acr_s0_rayexhaustion.ncs              \
             $(OUTPUTDIR)\acr_s0_rayfrost.ncs                   \
