@@ -56,6 +56,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_time_i.nss                        \
             $(OUTPUTDIR)\acr_tools_i.nss                       \
             $(OUTPUTDIR)\acr_tradescroll_i.nss                 \
+            $(OUTPUTDIR)\acr_travel_i.nss                      \
             $(OUTPUTDIR)\acr_trigger_i.nss                     \
             $(OUTPUTDIR)\acr_vfx_i.nss                         \
             $(OUTPUTDIR)\acr_wealth_i.nss                      \
@@ -175,6 +176,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s0_daze.ncs                       \
             $(OUTPUTDIR)\acr_s0_dazemonster.ncs                \
             $(OUTPUTDIR)\acr_s0_detectmagic.ncs                \
+            $(OUTPUTDIR)\acr_s0_dimdoor.ncs                    \
+            $(OUTPUTDIR)\acr_s0_dimensional_anchor.ncs         \
             $(OUTPUTDIR)\acr_s0_dismagic.ncs                   \
             $(OUTPUTDIR)\acr_s0_disruptundead.ncs              \
             $(OUTPUTDIR)\acr_s0_exretreat.ncs                  \
@@ -284,7 +287,6 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_tkl_performer_input.ncs           \
             $(OUTPUTDIR)\gui_tkl_performer_message.ncs         \
             $(OUTPUTDIR)\x2_s3_onhitcast.ncs                   \
-            $(OUTPUTDIR)\acr_s0_dimdoor.ncs                    \
             $(OUTPUTDIR)\nw_s0_ibeguinfl.ncs                   \
             $(OUTPUTDIR)\nw_s0_ibeshblst.ncs                   \
             $(OUTPUTDIR)\nw_s0_ibewiblst.ncs                   \
