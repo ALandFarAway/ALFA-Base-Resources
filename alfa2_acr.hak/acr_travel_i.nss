@@ -4,7 +4,7 @@
 //     Filename : acr_travel_i    
 //    $Revision:: 1          $ current version of the file
 //        $Date:: 2012-07-18#$ date the file was created or modified
-//       Author : Cipher
+//       Author : FoamBats4All
 //
 //    Var Prefix: ACR_TRV 
 //  Dependencies: None
