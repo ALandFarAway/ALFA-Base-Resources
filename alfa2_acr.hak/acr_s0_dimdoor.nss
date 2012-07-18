@@ -10,6 +10,7 @@
 //=====================================================================================
 
 #include "x2_inc_spellhook"
+#include "acr_travel_i"
 
 void main()
 {
@@ -18,6 +19,12 @@ void main()
 	// If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell
         return;
     }
+	
+	// Can the caster travel dimensionally?
+	if ( !ACR_CanExtradimensionalTravel( OBJECT_SELF ) ) {
+		SendMessageToPC( OBJECT_SELF, "Something prevents you from using the dimensional door!" );
+		return;
+	}
 	
 	int nCasterLevel = GetCasterLevel(OBJECT_SELF);
 	
@@ -32,6 +39,11 @@ void main()
 	{
 		if(GetFactionEqual(oPC, OBJECT_SELF) || oPC == OBJECT_SELF)
 		{
+			if ( !ACR_CanExtradimensionalTravel( oPC ) ) {
+				oPC = GetNextObjectInShape(SHAPE_SPHERE, 5.0f, GetLocation(OBJECT_SELF), TRUE);
+				continue;
+			}
+		
 			if(oPC != OBJECT_SELF)
 			{
 				int nSize = GetCreatureSize(oPC);
