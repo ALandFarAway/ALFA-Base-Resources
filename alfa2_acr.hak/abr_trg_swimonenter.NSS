@@ -4,22 +4,11 @@
 
 #include "acr_trigger_i"
 #include "acr_skills_i"
+#include "acr_hazards_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-
-// Local trigger variable name: DC to swim in these waters.
-const string ACR_SWIM_DC = "ACR_SWIM_DC";
-
-// Local trigger variable name: Is there air above this body of water?
-const string ACR_NO_AIR = "ACR_NO_AIR";
-
-// Local trigger variable name: What is the difficulty of getting air?
-const string ACR_NO_AIR_DC = "NO_AIR_DC";
-
-// Local PC variable name: How long the PC has gone without air.
-const string ACR_NO_AIR_FOR = "NO_AIR_FOR";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////

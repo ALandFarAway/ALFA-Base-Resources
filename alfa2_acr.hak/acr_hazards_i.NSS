@@ -26,8 +26,24 @@
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-// Local trigger variable name: Depth of a water trigger.
-const string ACR_WATER_DEPTH = "ACR_WATER_DEPTH";
+// Local trigger variable name: Hazard safe condition check.
+const string ACR_HAZ_SAFE_COND = "ACR_HAZ_SAFE_COND";
+const int ACR_HAZ_SAFE_COND_NEVER = 0;			// Hazard will trigger every time an object enters.
+const int ACR_HAZ_SAFE_COND_ON_SUCCESS = 1;		// Hazard will trigger only the first time an object enters.
+const int ACR_HAZ_SAFE_COND_AFTER_ONCE = 2;		// Hazard will twigger only the first time an object enters, and won't trigger for anyone else.
+
+// Balance hazard local variables.
+const string ACR_BALANCING = "ACR_IS_BALANCING";				// TRUE if the PC is currently trying to balance.
+const string ACR_BALANCE_DC = "ACR_BALANCE_DC";					// Base DC of the balance effort.
+const string ACR_BALANCE_FALL_WP = "ACR_BALANCE_FALL_WP";		// What waypoint the player will fall to if they fail their check.
+const string ACR_BALANCE_FALL_DIST = "ACR_BALANCE_FALL_DIST";	// How far the player will fall if they fail their balance check.
+
+// Water hazards local variables.
+const string ACR_SWIM_DC = "ACR_SWIM_DC";			// Swim DC.
+const string ACR_NO_AIR = "ACR_NO_AIR";				// Is there air above this body of water?
+const string ACR_NO_AIR_DC = "NO_AIR_DC";			// What is the difficulty of getting air?
+const string ACR_NO_AIR_FOR = "NO_AIR_FOR";			// How long the PC has gone without air?
+const string ACR_WATER_DEPTH = "ACR_WATER_DEPTH";	// How deep are the waters?
 
 // Local trigger variable name: Depth of a water trigger.
 const string ACR_SOFT_SURFACE = "ACR_SOFT_SURFACE";
@@ -39,6 +55,12 @@ const string ACR_SOFT_SURFACE = "ACR_SOFT_SURFACE";
 ////////////////////////////////////////////////////////////////////////////////
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+//! Trigger calls for entering/exiting hazardous areas.
+void ACR_HazardousAreaOnEnter();
+void ACR_HazardousAreaOnExit();
+
+void ACR_PerformBalanceCheck( object oPC, int nBalanceDC, string sFallWaypoint, int nFallDistance );
 
 //! Cause the target to fall.
 //!  - oPC: Falling object.
@@ -62,6 +84,99 @@ int ACR_IsFeatherFalling( object oPC );
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions : PUBLIC ///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+void ACR_HazardousAreaOnEnter() {
+	object oPC = GetEnteringObject();
+	
+	// Is this hazard removed?
+	int nSafeCondition = GetLocalInt( OBJECT_SELF, ACR_HAZ_SAFE_COND );
+	if ( nSafeCondition == ACR_HAZ_SAFE_COND_ON_SUCCESS ) {
+		// ACR_HAZ_SAFE_COND_ON_SUCCESS : We only want a hazard to apply once per character.
+		string sKey = "haz_passed_" + ObjectToString( oPC );
+		if ( GetLocalInt( OBJECT_SELF, sKey ) ) return;
+		SetLocalInt( OBJECT_SELF, sKey, TRUE );
+	} else if ( nSafeCondition == ACR_HAZ_SAFE_COND_AFTER_ONCE ) {
+		// ACR_HAZ_SAFE_COND_AFTER_ONCE : Hazard only applies once.
+		string sKey = "haz_passed";
+		if ( GetLocalInt( OBJECT_SELF, sKey ) ) return;
+		SetLocalInt( OBJECT_SELF, sKey, TRUE );
+	}
+	
+	// Check for balance hazards.
+	int nBalanceDC = GetLocalInt( OBJECT_SELF, ACR_BALANCE_DC );
+	if ( nBalanceDC > 0 ) {
+		SetLocalInt( oPC, ACR_BALANCING, TRUE );
+		string sFallWP = GetLocalString( OBJECT_SELF, ACR_BALANCE_FALL_WP );
+		int sFallDistance = GetLocalInt( OBJECT_SELF, ACR_BALANCE_FALL_DIST );
+		ACR_PerformBalanceCheck( oPC, nBalanceDC, sFallWP, sFallDistance );
+	}
+}
+
+
+void ACR_HazardousAreaOnExit() {
+	object oPC = GetExitingObject();
+	
+	// Remove effects.
+	effect eEffect = GetFirstEffect( oPC );
+	while ( GetIsEffectValid( eEffect ) ) {
+		if ( GetEffectCreator( eEffect ) == OBJECT_SELF ) RemoveEffect( oPC, eEffect );
+		eEffect = GetNextEffect(oPC);
+	}
+	
+	// Clean up local variables..
+	DeleteLocalInt( oPC, ACR_BALANCING );
+}
+
+
+void ACR_PerformBalanceCheck( object oPC, int nBalanceDC, string sFallWaypoint, int nFallDistance ) {
+	if ( !GetIsObjectValid( oPC ) ) return;
+	
+	// Remove effects.
+	effect eEffect = GetFirstEffect( oPC );
+	while ( GetIsEffectValid( eEffect ) ) {
+		if ( GetEffectCreator( eEffect ) == OBJECT_SELF ) RemoveEffect( oPC, eEffect );
+		eEffect = GetNextEffect(oPC);
+	}
+	
+	// Are we still balancing?
+	if ( GetLocalInt( oPC, ACR_BALANCING ) != TRUE ) return;
+	
+	// Adjust the DC if we are running.
+	int nActualDC = nBalanceDC;
+	int bIsRunning = ( GetMovementRateFactor( oPC ) >= 4.0f );
+	
+	// Roll balance for the hazard.
+	int nCheck = ACR_SkillCheck( SKILL_BALANCE, oPC, 0, TRUE );
+	
+	// If we're running, we require two checks.
+	if ( bIsRunning ) {
+		SendMessageToPC( oPC, "Your quickened pace requires you to focus harder on balancing." );
+		int nCheck2 = ACR_SkillCheck( SKILL_BALANCE, oPC, 0, TRUE );
+		if ( nCheck2 < nCheck ) nCheck = nCheck2;
+	}
+	
+	// Parse our balance check results.
+	if ( nCheck >= nActualDC + 5 ) {
+		// If we beat the DC by 5 or more, we move at the normal rate.
+		SendMessageToPC( oPC, "To make it easily along your path." );
+		DelayCommand( 6.0f, ACR_PerformBalanceCheck( oPC, nBalanceDC, sFallWaypoint, nFallDistance ) );
+	} else if ( nCheck >= nActualDC ) {
+		// A successful check lets you move at half your speed along the surface for 1 round.
+		SendMessageToPC( oPC, "By picking your steps carefully, you manage to move forward." );
+		ApplyEffectToObject( DURATION_TYPE_PERMANENT, EffectMovementSpeedDecrease( 50 ), oPC );
+		DelayCommand( 6.0f, ACR_PerformBalanceCheck( oPC, nBalanceDC, sFallWaypoint, nFallDistance ) );
+	} else if ( ( nActualDC - nCheck ) <= 4 ) {
+		// A failure by 4 or less means you can’t move for 1 round.
+		SendMessageToPC( oPC, "You slip, wavering to catch your balance!" );
+		ApplyEffectToObject( DURATION_TYPE_PERMANENT, EffectCutsceneImmobilize(), oPC );
+		DelayCommand( 6.0f, ACR_PerformBalanceCheck( oPC, nBalanceDC, sFallWaypoint, nFallDistance ) );
+	} else {
+		// A failure by 5 or more means you fall.
+		SendMessageToPC( oPC, "You slip, falling from your path!" );
+		DelayCommand( 2.0f, ACR_FallToWaypoint( oPC, nFallDistance, sFallWaypoint ) );
+	}
+}
+
 
 void ACR_FallToLocation( object oPC, int nDistance, location lTarget, int nWilling = FALSE, int nWaterDepth = -1, int bYieldingSurface = -1 ) {
 	// Are we falling to a valid location?
@@ -103,9 +218,11 @@ void ACR_FallToLocation( object oPC, int nDistance, location lTarget, int nWilli
 	ACR_InflictFallDamage( oPC, nDistance, nWilling, nWaterDepth, bYieldingSurface );
 }
 
+
 void ACR_FallToWaypoint( object oPC, int nDistance, string sTarget, int nWilling = FALSE, int nWaterDepth = -1, int bYieldingSurface = -1 ) {
 	ACR_FallToLocation( oPC, nDistance, GetLocation( GetWaypointByTag( sTarget ) ), nWilling, nWaterDepth, bYieldingSurface );
 }
+
 
 void ACR_InflictFallDamage( object oPC, int nDistance, int bWilling = FALSE, int nWaterDepth = 0, int bYieldingSurface = FALSE ) {
 	if ( !GetIsObjectValid( oPC ) ) return;
@@ -218,6 +335,7 @@ void ACR_InflictFallDamage( object oPC, int nDistance, int bWilling = FALSE, int
 	ApplyEffectToObject( DURATION_TYPE_INSTANT, EffectDamage( d6( nLethalDamageDice ), DAMAGE_TYPE_BLUDGEONING, TRUE ), oPC );
 	ACR_ApplyNonlethalDamageToCreature( oPC, d6( nNonlethalDamageDice ) );
 }
+
 
 int ACR_IsFeatherFalling( object oPC ) {
 	if ( GetHasSpellEffect( SPELL_FEATHER_FALL, oPC ) ) return TRUE;
