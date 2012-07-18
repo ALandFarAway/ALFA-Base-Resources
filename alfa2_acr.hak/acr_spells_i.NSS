@@ -117,6 +117,9 @@ int _GetPracticedSpellcasterCL(object oCreature, int nCasterLevel, int nFeat) {
 }
 
 int ACR_GetCorrectCasterLevel(object oCreature, int nClass = -1) {
+	// If no class is provided, get the last caster class.
+	if ( nClass == -1 ) nClass = GetLastSpellCastClass();
+
 	int nCasterLevel;
 	int nClassLevels = GetLevelByClass(nClass, oCreature);
 	int nHd = GetHitDice(oCreature);
