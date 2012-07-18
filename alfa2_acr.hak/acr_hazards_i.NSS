@@ -33,13 +33,18 @@ const int ACR_HAZ_SAFE_COND_NEVER = 0;			// Hazard will trigger every time an ob
 const int ACR_HAZ_SAFE_COND_ON_SUCCESS = 1;		// Hazard will trigger only the first time an object enters.
 const int ACR_HAZ_SAFE_COND_AFTER_ONCE = 2;		// Hazard will twigger only the first time an object enters, and won't trigger for anyone else.
 
-// Cold hazard constants and local variables.
-
 // Balance hazard local variables.
-const string ACR_HAZ_BALANCING = "ACR_IS_BALANCING";				// TRUE if the PC is currently trying to balance.
+const string ACR_HAZ_BALANCING = "ACR_IS_BALANCING";					// TRUE if the PC is currently trying to balance.
 const string ACR_HAZ_BALANCE_DC = "ACR_HAZ_BALANCE_DC";					// Base DC of the balance effort.
 const string ACR_HAZ_BALANCE_FALL_WP = "ACR_HAZ_BALANCE_FALL_WP";		// What waypoint the player will fall to if they fail their check.
 const string ACR_HAZ_BALANCE_FALL_DIST = "ACR_HAZ_BALANCE_FALL_DIST";	// How far the player will fall if they fail their balance check.
+
+// Temperature hazard local variables.
+const string ACR_HAZ_TEMP_IS = "ACR_HAZ_TEMP_IS";	// Currently suffering temperature effects?
+const string ACR_HAZ_TEMP_CUR = "ACR_HAZ_TEMP_CUR";	// Current climate hazard temperature.
+const string ACR_HAZ_TEMP_CNT = "ACR_HAZ_TEMP_CNT";	// Current climate hazard counter.
+const string ACR_HAZ_TEMP_CHK = "ACR_HAZ_TEMP_CHK";	// Number of climate checks made so far.
+const string ACR_HAZ_TEMP_LCK = "ACR_HAZ_TEMP_LCK";	// Current climate hazard lock.
 
 // Water hazards local variables.
 const string ACR_SWIM_DC = "ACR_SWIM_DC";			// Swim DC.
@@ -61,7 +66,8 @@ const string ACR_SOFT_SURFACE = "ACR_SOFT_SURFACE";
 
 //! Trigger calls for entering/exiting hazardous areas.
 void ACR_HazardousAreaOnEnter();
-void ACR_HazardousAreaOnExit();
+void ACR_HazardousTriggerOnEnter();
+void ACR_HazardousTriggerOnExit();
 
 //! Cause the character to perform a balance check, until the balance situation ends.
 //! Note that ACR_HAZ_BALANCING must be set to TRUE on the balancing character prior to
@@ -71,6 +77,8 @@ void ACR_HazardousAreaOnExit();
 //!  - sFallWaypoint : Where the character will fall to if they significantly fail a check.
 //!  - nFallDistance : How far they will fall on a significant failure.
 void ACR_PerformBalanceCheck( object oPC, int nBalanceDC, string sFallWaypoint, int nFallDistance );
+
+void ACR_DoTemperatureHazard( object oPC, float fTemperature = ACR_TEMP_INVALID );
 
 //! Cause the target to fall.
 //!  - oPC: Falling object.
@@ -91,11 +99,33 @@ void ACR_InflictFallDamage( object oPC, int nDistance, int bWilling = FALSE, int
 //!  - oPC: Object that should be teleporting.
 int ACR_IsFeatherFalling( object oPC );
 
+// Temperature condition private functions.
+void _DoHeat( object oPC );
+void _DoSevereHeat( object oPC );
+void _DoExtremeHeat( object oPC );
+void _DoColdDamage( object oPC, int nDamage, int nLethal );
+void _DoCold( object oPC );
+void _DoSevereCold( object oPC );
+void _DoExtremeCold( object oPC );
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions : PUBLIC ///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
 void ACR_HazardousAreaOnEnter() {
+	object oPC = GetEnteringObject();
+	
+	// Check for temperature hazards.
+	if ( ACR_GetHasTemperature( OBJECT_SELF ) ) {
+		if ( !ACR_IsComfortableTemperature( oPC, ACR_GetCurrentTemperature( OBJECT_SELF ) ) ) {
+			SetLocalInt( oPC, ACR_HAZ_TEMP_IS, TRUE );
+			ACR_DoTemperatureHazard( oPC );
+		}
+	}
+}
+
+
+void ACR_HazardousTriggerOnEnter() {
 	object oPC = GetEnteringObject();
 	
 	// Is this hazard removed?
@@ -120,10 +150,18 @@ void ACR_HazardousAreaOnEnter() {
 		int sFallDistance = GetLocalInt( OBJECT_SELF, ACR_HAZ_BALANCE_FALL_DIST );
 		ACR_PerformBalanceCheck( oPC, nBalanceDC, sFallWP, sFallDistance );
 	}
+	
+	// Check for temperature hazards.
+	if ( ACR_GetHasTemperature( OBJECT_SELF ) ) {
+		if ( !ACR_IsComfortableTemperature( oPC, ACR_GetCurrentTemperature( OBJECT_SELF ) ) ) {
+			SetLocalInt( oPC, ACR_HAZ_TEMP_IS, TRUE );
+			ACR_DoTemperatureHazard( oPC );
+		}
+	}
 }
 
 
-void ACR_HazardousAreaOnExit() {
+void ACR_HazardousTriggerOnExit() {
 	object oPC = GetExitingObject();
 	
 	// Remove effects.
@@ -185,6 +223,77 @@ void ACR_PerformBalanceCheck( object oPC, int nBalanceDC, string sFallWaypoint, 
 		SendMessageToPC( oPC, "You slip, falling from your path!" );
 		DelayCommand( 2.0f, ACR_FallToWaypoint( oPC, nFallDistance, sFallWaypoint ) );
 	}
+}
+
+
+void ACR_DoTemperatureHazard( object oPC, float fTemperature = ACR_TEMP_INVALID ) {
+	// Only run one temperature script at a time.
+	int nLock = GetLocalInt( oPC, ACR_HAZ_TEMP_LCK ) + 1;
+	if ( nLock > 1 ) {
+		nLock--;
+		SetLocalInt( oPC, ACR_HAZ_TEMP_LCK, nLock );
+		return;
+	}
+	
+	// Check if the PC handles the temperature comfortably.
+	if ( ACR_IsComfortableTemperature( oPC, fTemperature ) ) {
+		DeleteLocalFloat( oPC, ACR_HAZ_TEMP_IS );
+		DeleteLocalFloat( oPC, ACR_HAZ_TEMP_CUR );
+		DeleteLocalInt( oPC, ACR_HAZ_TEMP_CNT );
+		DeleteLocalInt( oPC, ACR_HAZ_TEMP_CHK );
+		DeleteLocalInt( oPC, ACR_HAZ_TEMP_LCK );
+		return;
+	}
+	
+	// Make sure we're still doing temperature checks.
+	if ( !GetLocalInt( oPC, ACR_HAZ_TEMP_IS ) != TRUE ) {
+		DeleteLocalFloat( oPC, ACR_HAZ_TEMP_IS );
+		DeleteLocalFloat( oPC, ACR_HAZ_TEMP_CUR );
+		DeleteLocalInt( oPC, ACR_HAZ_TEMP_CNT );
+		DeleteLocalInt( oPC, ACR_HAZ_TEMP_CHK );
+		DeleteLocalInt( oPC, ACR_HAZ_TEMP_LCK );
+		return;
+	}
+	
+	// If this temperature is more dangerous than the last, update.
+	float fCurTemp = GetLocalFloat( oPC, ACR_HAZ_TEMP_CUR );
+	if ( fCurTemp <= ACR_TEMP_COLD ) {
+		if ( fTemperature < fCurTemp ) SetLocalFloat( oPC, ACR_HAZ_TEMP_CUR, fTemperature );
+		else fTemperature = fCurTemp;
+	} else if ( fCurTemp >= ACR_TEMP_HOT ) {
+		if ( fTemperature > fCurTemp ) SetLocalFloat( oPC, ACR_HAZ_TEMP_CUR, fTemperature );
+		else fTemperature = fCurTemp;
+	} else {
+		// This should never happen. If it does, still update our lock.
+		SetLocalInt( oPC, ACR_HAZ_TEMP_LCK, nLock - 1 );
+		return;
+	}
+	
+	// What type of hazard are we doing?
+	if ( fTemperature >= ACR_TEMP_HOT_EXTREME ) {
+		_DoExtremeHeat( oPC );
+	} else if ( fTemperature >= ACR_TEMP_HOT_SEVERE ) {
+		_DoSevereHeat( oPC );
+	} else if ( fTemperature >= ACR_TEMP_HOT ) {
+		_DoHeat( oPC );
+	} else if ( fTemperature <= ACR_TEMP_COLD_EXTREME ) {
+		_DoExtremeCold( oPC );
+	} else if ( fTemperature <= ACR_TEMP_COLD_SEVERE ) {
+		_DoSevereCold( oPC );
+	} else if ( fTemperature <= ACR_TEMP_COLD ) {
+		_DoCold( oPC );
+	} else {
+		// This should never happen. If it does, still update our lock.
+		SetLocalInt( oPC, ACR_HAZ_TEMP_LCK, nLock - 1 );
+		return;
+	}
+	
+	// Increment the counter.
+	int nCounter = GetLocalInt( oPC, ACR_HAZ_TEMP_CNT );
+	SetLocalInt( oPC, ACR_HAZ_TEMP_CNT, nCounter + 1 );
+	
+	// Call this script again every minute.
+	DelayCommand( 60.0f, ACR_DoTemperatureHazard( oPC, fTemperature ) );
 }
 
 
@@ -356,3 +465,125 @@ int ACR_IsFeatherFalling( object oPC ) {
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions : PRIVATE //////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+void _DoHeat( object oPC ) {
+	
+}
+
+
+void _DoSevereHeat( object oPC ) {
+	
+}
+
+
+void _DoExtremeHeat( object oPC ) {
+	
+}
+
+
+void _DoColdDamage( object oPC, int nDamage, int nLethal ) {
+	int nCurrentHP = GetCurrentHitPoints( oPC );
+
+	if ( !nLethal && ( _GetNLDTotal( oPC ) <= nCurrentHP ) ) {
+		ACR_ApplyNonlethalDamageToCreature( oPC, d6() );
+	} else {
+		ApplyEffectToObject( DURATION_TYPE_INSTANT, EffectDamage( nDamage, DAMAGE_TYPE_COLD, FALSE ), oPC );
+		if ( nCurrentHP != GetCurrentHitPoints( oPC ) ) {
+			ACR_SetIsFatigued( oPC, TRUE );
+		}
+	}
+}
+
+
+void _DoCold( object oPC ) {
+	// Basic data.
+	int nChecks = GetLocalInt( oPC, ACR_HAZ_TEMP_CHK );
+	int nCounter = GetLocalInt( oPC, ACR_HAZ_TEMP_CNT );
+	int nDC = 15 + nChecks;
+	int nBonus = 0;
+	
+	// Determine how often we make this check.
+	int nCheckRate = 60;
+	//! TODO: Add winter clothing checks.
+
+	// Cold checks are made once every hour.
+	if ( nCounter % nCheckRate != 0 ) return;
+	
+	// Make a DC 15 survival check to help resist conditions.
+	if ( ACR_SkillCheck( SKILL_SURVIVAL, oPC, 15, TRUE ) ) {
+		SendMessageToPC( oPC, "Your survival skills help you ward yourself against the cold." );
+		nBonus += 3; // This should be +2 if moving, +4 if stationary. We can't really detect that here very well, so we compromise.
+	}
+	
+	// Make a DC 15 + nChecks fortitude save, or take nonlethal damage.
+	if ( !ACR_SaveCheck( SAVING_THROW_FORT, oPC, nDC, TRUE, FALSE, nBonus ) ) {
+		SendMessageToPC( oPC, "The cold seeps in, aching your bones." );
+		_DoColdDamage( oPC, d6(), FALSE );
+	}
+	
+	// Increment check counter.
+	nChecks++;
+	SetLocalInt( oPC, ACR_HAZ_TEMP_CHK, nChecks );
+}
+
+
+void _DoSevereCold( object oPC ) {
+	// Basic data.
+	int nChecks = GetLocalInt( oPC, ACR_HAZ_TEMP_CHK );
+	int nCounter = GetLocalInt( oPC, ACR_HAZ_TEMP_CNT );
+	int nDC = 15 + nChecks;
+	int nBonus = 0;
+	
+	// Determine how often we make this check.
+	int nCheckRate = 10;
+	//! TODO: Add winter clothing checks.
+
+	// Cold checks are made once every hour.
+	if ( nCounter % nCheckRate != 0 ) return;
+	
+	// Make a DC 15 survival check to help resist conditions.
+	if ( ACR_SkillCheck( SKILL_SURVIVAL, oPC, 15, TRUE ) ) {
+		SendMessageToPC( oPC, "Your survival skills help you ward yourself against the cold." );
+		nBonus += 3; // This should be +2 if moving, +4 if stationary. We can't really detect that here very well, so we compromise.
+	}
+	
+	// Make a DC 15 + nChecks fortitude save, or take nonlethal damage.
+	if ( !ACR_SaveCheck( SAVING_THROW_FORT, oPC, nDC, TRUE, FALSE, nBonus ) ) {
+		SendMessageToPC( oPC, "The cold seeps in, aching your bones." );
+		_DoColdDamage( oPC, d6(), FALSE );
+	}
+	
+	// Increment check counter.
+	nChecks++;
+	SetLocalInt( oPC, ACR_HAZ_TEMP_CHK, nChecks );
+}
+
+
+void _DoExtremeCold( object oPC ) {
+	// Basic data.
+	int nChecks = GetLocalInt( oPC, ACR_HAZ_TEMP_CHK );
+	int nCounter = GetLocalInt( oPC, ACR_HAZ_TEMP_CNT );
+	int nDC = 15 + nChecks;
+	int nBonus = 0;
+	
+	// Make a DC 15 survival check to help resist conditions.
+	if ( ACR_SkillCheck( SKILL_SURVIVAL, oPC, 15, TRUE ) ) {
+		SendMessageToPC( oPC, "Your survival skills help you ward yourself against the cold." );
+		nBonus += 3; // This should be +2 if moving, +4 if stationary. We can't really detect that here very well, so we compromise.
+	}
+	
+	// Always take lethal damage.
+	SendMessageToPC( oPC, "The cold seeps in, aching your bones." );
+	_DoColdDamage( oPC, d6(), TRUE );
+	
+	// Make a DC 15 + nChecks fortitude save, or take nonlethal damage. 
+	if ( !ACR_SaveCheck( SAVING_THROW_FORT, oPC, nDC, TRUE, FALSE, nBonus ) ) {
+		_DoColdDamage( oPC, d4(), FALSE );
+	}
+	
+	// TODO: Chill equipment.
+	
+	// Increment check counter.
+	nChecks++;
+	SetLocalInt( oPC, ACR_HAZ_TEMP_CHK, nChecks );
+}
