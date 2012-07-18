@@ -789,9 +789,9 @@ void ACR_ModuleOnModuleLoad()
     else
     {    
         // update server name and ip address if they've changed
-        if (ACR_SQLGetData(1) != sServerName || ACR_SQLGetData(2) != sExtAddress)
+        if (ACR_SQLGetData(1) != sServerName)
         {
-            ACR_SQLQuery("UPDATE servers SET Name='" + ACR_SQLEncodeSpecialChars(sServerName) + "', IPAddress='" + sExtAddress + "' WHERE ID=" + sSID);
+            ACR_SQLQuery("UPDATE servers SET Name='" + ACR_SQLEncodeSpecialChars(sServerName) + "' WHERE ID=" + sSID);
         }
     }
 
