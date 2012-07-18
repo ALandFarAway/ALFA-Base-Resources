@@ -18,7 +18,7 @@ void main() {
 	
 	// Is the target locked or stuck?
 	if ( GetLocked( oTarget ) || ACR_DoorGetIsStuck( oTarget ) ) {
-		SendMessageToPC( oCaster, "Spell failed: Your spell is unable to force the door open." );
+		SendMessageToPC( oCaster, "Spell failed: Your spell is unable to force the target open." );
 		SignalEvent( oTarget, EventSpellCastAt( oCaster, GetSpellId(), FALSE ) );
 		return;
 	}
