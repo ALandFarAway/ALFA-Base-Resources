@@ -104,9 +104,6 @@ const string ACR_PPS_QUARANTINED_AUTOPORTAL_TARGET = "ACR_PPS_QUARANTINED_AUTOPO
 //! Debug ID string for debug messaging
 const string ACR_PPS_DEBUG_ID = "acr_pps_i";
 
-//! Color for delivered offline messages.
-const string ACR_OFFMSG_COLOR = "lightblue";
-
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -785,7 +782,11 @@ void ACR_PCOnPCLoaded(object oPC)
         while(GetIsEffectValid(eEffect))
         {
             int nType = GetEffectType(eEffect);
-            if(nType == EFFECT_TYPE_AC_INCREASE)
+            int nSubType = GetEffectSubType(eEffect);
+            int nDurationType = GetEffectDurationType(eEffect);
+            if(nType == EFFECT_TYPE_AC_INCREASE || nType == EFFECT_TYPE_ATTACK_DECREASE) &&
+               nSubType = SUBTYPE_EXTRAORDINARY &&
+               nDurationType = DURATION_TYPE_PERMANENT)
                 RemoveEffect(oPC, eEffect);
         }
 
@@ -985,7 +986,7 @@ void ACR_ReportOfflineMessages( object oPC ) {
 	}
 	
 	// Get messages.
-	ACR_SQLQuery( "SELECT * FROM `offline_messages` WHERE `CharacterID`=" + IntToString( ACR_GetCharacterID( oPC ) ) + " ORDER BY `Date` ASC;" );
+	ACR_SQLQuery( "SELECT * FROM `offline_messages` WHERE CharacterID=" + IntToString( ACR_GetCharacterID( oPC ) ) + " ORDER BY `Date` DESC;" );
 	while ( ACR_SQLFetch() == SQL_SUCCESS ) {
 		// Get message data.
 		string sDate = ACR_SQLGetData(2);
@@ -995,13 +996,13 @@ void ACR_ReportOfflineMessages( object oPC ) {
 		// Build message.
 		string sOutput;
 		if ( sDate != "" && sDateIG != "" ) {
-			sOutput = "<C=" + ACR_OFFMSG_COLOR + ">" + sDateIG + " [" + sDate + "] : " + sMessage + "</C>";
+			sOutput = "<c=lightblue>" + sDateIG + " [" + sDate + "] : " + sMessage + "</c>";
 		} else if ( sDate != "" ) {
-			sOutput = "<C=" + ACR_OFFMSG_COLOR + ">" + sDate + " : " + sMessage + "</C>";
+			sOutput = "<c=lightblue>" + sDate + " : " + sMessage + "</c>";
 		} else if ( sDateIG != "" ) {
-			sOutput = "<C=" + ACR_OFFMSG_COLOR + ">" + sDateIG + " : " + sMessage + "</C>";
+			sOutput = "<c=lightblue>" + sDateIG + " : " + sMessage + "</c>";
 		} else {
-			sOutput = "<C=" + ACR_OFFMSG_COLOR + ">" + sMessage + "</C>";
+			sOutput = "<c=lightblue>" + sMessage + "</c>";
 		}
 		
 		// Deliver to PC.
@@ -1009,7 +1010,7 @@ void ACR_ReportOfflineMessages( object oPC ) {
 	}
 	
 	// Delete messages.
-	ACR_SQLQuery( "DELETE FROM `offline_messages` WHERE `CharacterID`=" + IntToString( ACR_GetCharacterID( oPC ) ) + ";" );
+	ACR_SQLQuery( "DELETE FROM `offline_messages` WHERE CharacterID=" + IntToString( ACR_GetCharacterID( oPC ) ) + ";" );
 }
 
 void ACR_PPSValidatePC(object oTarget) {
