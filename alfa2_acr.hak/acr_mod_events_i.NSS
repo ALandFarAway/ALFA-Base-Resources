@@ -885,6 +885,7 @@ void ACR_ModuleOnClientEnter()
         
         // manage dead PCs - important for this to be done first
         ACR_DeathOnClientEnter(oPC);
+		
         ACR_SkillsOnClientEnter(oPC);
     }
     
@@ -896,9 +897,6 @@ void ACR_ModuleOnClientEnter()
 
     // Let the wealth subsystem know of the login event.
     ACR_WealthOnClientEnter(oPC);
-	
-	// Check for player offline messages.
-	ACR_ReportOfflineMessages( oPC );
 
     ACR_IncrementStatistic("PLAYER_LOGINS");
 }
@@ -1016,6 +1014,9 @@ void ACR_ModuleOnPCLoaded()
 
     // Open any GUIs that we expect to linger open.
     _createPlayerGUIs(oPC);
+	
+	// Check for player offline messages.
+	ACR_ReportOfflineMessages( oPC );
 }
 
 void ACR_ModuleOnClientLeave()
