@@ -270,7 +270,7 @@ namespace ACR_ServerCommunicator
                     else
                     {
                         Server = (from S in WorldManager.Servers
-                                  where S.Online && S.ServerPort == Port && S.GetIPAddress() == Address
+                                  where S.Online && S.ServerPort == Port && S.GetIPAddress().Equals(Address)
                                   select S).FirstOrDefault();
                     }
 
