@@ -2261,7 +2261,7 @@ namespace ACR_ServerCommunicator
 
                 try
                 {
-                    RunUpdateServerExternalAddress();
+                    UpdateServerExternalAddress();
                 }
                 catch (Exception e)
                 {
