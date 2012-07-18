@@ -63,7 +63,7 @@ void ACR_InitializePCHide( object oPC ) {
 		} else {
 			// Some other item? Not good! Delete it and reinitialize.
 			DestroyObject( oHide );
-			_InitializePCHide( oPC );
+			ACR_InitializePCHide( oPC );
 			return;
 		}
 	} else {
