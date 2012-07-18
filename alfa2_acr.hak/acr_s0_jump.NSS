@@ -8,6 +8,9 @@ void main() {
 	int nCasterLevel = ACR_GetCorrectCasterLevel( oCaster );
 	float fDuration = ACR_GetSpellDuration( oCaster, ACR_DURATION_TYPE_PER_CL, ACR_DURATION_1M );
 	
+	// If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell.
+	if ( !X2PreSpellCastCode() ) return;
+	
 	// Determine bonus.
 	int nBonus = 10;
 	if ( nCasterLevel >= 5 ) nBonus = 20;
