@@ -6,7 +6,7 @@
 //        $Date:: 2012-97-18#$ date the file was created or modified
 //       Author : FoamBats4All
 //
-//  Local Variable Prefix = ACR_HAZ\
+//  Local Variable Prefix = ACR_HAZ
 //
 //  Description
 //    Provides functions that represent game hazards, such as zones where the
@@ -18,6 +18,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "acr_i"
+#include "acr_environment_i"
 #include "acr_items_i"
 #include "acr_nonlethal_i"
 #include "acr_skills_i"
@@ -32,11 +33,13 @@ const int ACR_HAZ_SAFE_COND_NEVER = 0;			// Hazard will trigger every time an ob
 const int ACR_HAZ_SAFE_COND_ON_SUCCESS = 1;		// Hazard will trigger only the first time an object enters.
 const int ACR_HAZ_SAFE_COND_AFTER_ONCE = 2;		// Hazard will twigger only the first time an object enters, and won't trigger for anyone else.
 
+// Cold hazard constants and local variables.
+
 // Balance hazard local variables.
-const string ACR_BALANCING = "ACR_IS_BALANCING";				// TRUE if the PC is currently trying to balance.
-const string ACR_BALANCE_DC = "ACR_BALANCE_DC";					// Base DC of the balance effort.
-const string ACR_BALANCE_FALL_WP = "ACR_BALANCE_FALL_WP";		// What waypoint the player will fall to if they fail their check.
-const string ACR_BALANCE_FALL_DIST = "ACR_BALANCE_FALL_DIST";	// How far the player will fall if they fail their balance check.
+const string ACR_HAZ_BALANCING = "ACR_IS_BALANCING";				// TRUE if the PC is currently trying to balance.
+const string ACR_HAZ_BALANCE_DC = "ACR_HAZ_BALANCE_DC";					// Base DC of the balance effort.
+const string ACR_HAZ_BALANCE_FALL_WP = "ACR_HAZ_BALANCE_FALL_WP";		// What waypoint the player will fall to if they fail their check.
+const string ACR_HAZ_BALANCE_FALL_DIST = "ACR_HAZ_BALANCE_FALL_DIST";	// How far the player will fall if they fail their balance check.
 
 // Water hazards local variables.
 const string ACR_SWIM_DC = "ACR_SWIM_DC";			// Swim DC.
@@ -61,7 +64,7 @@ void ACR_HazardousAreaOnEnter();
 void ACR_HazardousAreaOnExit();
 
 //! Cause the character to perform a balance check, until the balance situation ends.
-//! Note that ACR_BALANCING must be set to TRUE on the balancing character prior to
+//! Note that ACR_HAZ_BALANCING must be set to TRUE on the balancing character prior to
 //! this function being called.
 //!  - oPC : Creature to make a balance check for.
 //!  - nBalanceDC : The balance DC.
@@ -110,11 +113,11 @@ void ACR_HazardousAreaOnEnter() {
 	}
 	
 	// Check for balance hazards.
-	int nBalanceDC = GetLocalInt( OBJECT_SELF, ACR_BALANCE_DC );
+	int nBalanceDC = GetLocalInt( OBJECT_SELF, ACR_HAZ_BALANCE_DC );
 	if ( nBalanceDC > 0 ) {
-		SetLocalInt( oPC, ACR_BALANCING, TRUE );
-		string sFallWP = GetLocalString( OBJECT_SELF, ACR_BALANCE_FALL_WP );
-		int sFallDistance = GetLocalInt( OBJECT_SELF, ACR_BALANCE_FALL_DIST );
+		SetLocalInt( oPC, ACR_HAZ_BALANCING, TRUE );
+		string sFallWP = GetLocalString( OBJECT_SELF, ACR_HAZ_BALANCE_FALL_WP );
+		int sFallDistance = GetLocalInt( OBJECT_SELF, ACR_HAZ_BALANCE_FALL_DIST );
 		ACR_PerformBalanceCheck( oPC, nBalanceDC, sFallWP, sFallDistance );
 	}
 }
@@ -131,7 +134,7 @@ void ACR_HazardousAreaOnExit() {
 	}
 	
 	// Clean up local variables..
-	DeleteLocalInt( oPC, ACR_BALANCING );
+	DeleteLocalInt( oPC, ACR_HAZ_BALANCING );
 }
 
 
@@ -146,7 +149,7 @@ void ACR_PerformBalanceCheck( object oPC, int nBalanceDC, string sFallWaypoint, 
 	}
 	
 	// Are we still balancing?
-	if ( GetLocalInt( oPC, ACR_BALANCING ) != TRUE ) return;
+	if ( GetLocalInt( oPC, ACR_HAZ_BALANCING ) != TRUE ) return;
 	
 	// Adjust the DC if we are running.
 	int nActualDC = nBalanceDC;

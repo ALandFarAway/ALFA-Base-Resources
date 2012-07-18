@@ -26,6 +26,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_debug_i.nss                       \
             $(OUTPUTDIR)\acr_door_i.nss                        \
             $(OUTPUTDIR)\acr_effects_i.nss                     \
+            $(OUTPUTDIR)\acr_environment_i.nss                 \
             $(OUTPUTDIR)\acr_events_i.nss                      \
             $(OUTPUTDIR)\acr_feat_events_i.nss                 \
             $(OUTPUTDIR)\acr_feat_i.nss                        \
