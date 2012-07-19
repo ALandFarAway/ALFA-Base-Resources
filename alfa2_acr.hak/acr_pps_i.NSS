@@ -872,29 +872,37 @@ void ACR_PCOnPCLoaded(object oPC)
 
         BicFileName = GetBicFileName(oPC);
         Len = GetStringLength(BicFileName);
-        Len -= 12;
-        BicFileName = GetStringRight(BicFileName, Len); // strip "SERVERVAULT:"
 
-        // Can't directly reference a backslash in NWScript.  Find it the hard
-        // way.
-        for (i = 0; i < Len; i += 1)
-        {
-            if (CharToASCII(GetSubString(BicFileName, i, 1)) == 92) // '\\'
-            {
-                Offset = i;
-                break;
-            }
-        }
+		  if (Len < 12)
+		  {
+				WriteTimestampedLogEntry("ACR_PCOnPCLoaded: Invalid bic file name " + BicFileName + " obtained for character " + GetName(oPC));
+		  }
+		  else
+		  {
+			  Len -= 12;
+			  BicFileName = GetStringRight(BicFileName, Len); // strip "SERVERVAULT:"
 
-        if (Offset == -1)
-            Offset = FindSubString(BicFileName, "/", 0);
+			  // Can't directly reference a backslash in NWScript.  Find it the hard
+			  // way.
+			  for (i = 0; i < Len; i += 1)
+			  {
+					if (CharToASCII(GetSubString(BicFileName, i, 1)) == 92) // '\\'
+					{
+						 Offset = i;
+						 break;
+					}
+			  }
 
-        // Strip the account name and append to the query.
-        if (Offset != -1)
-        {
-            BicFileName = GetStringRight(BicFileName, Len - (Offset + 1)) + ".bic"; // Strip "ACCOUNT\"
-            SaveBicFileNamePart = ", characters.CharacterFileName = '" + ACR_SQLEncodeSpecialChars(BicFileName) + "'";
-        }
+			  if (Offset == -1)
+					Offset = FindSubString(BicFileName, "/", 0);
+
+			  // Strip the account name and append to the query.
+			  if (Offset != -1)
+			  {
+					BicFileName = GetStringRight(BicFileName, Len - (Offset + 1)) + ".bic"; // Strip "ACCOUNT\"
+					SaveBicFileNamePart = ", characters.CharacterFileName = '" + ACR_SQLEncodeSpecialChars(BicFileName) + "'";
+			  }
+		  }
     }
 
     if (bUpdateLocation)
