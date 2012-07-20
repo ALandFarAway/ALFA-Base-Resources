@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DeploymentTool.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="PatchURL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://www.alandfaraway.org/patches/latest.xml</Value>
+    </Setting>
+    <Setting Name="NWN2InstallPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files (x86)\Atari\Neverwinter Nights 2</Value>
+    </Setting>
+    <Setting Name="NWN2HomePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\[User]\Documents\Neverwinter Nights 2</Value>
+    </Setting>
+    <Setting Name="ModuleName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">alfa000_buildmod</Value>
+    </Setting>
+    <Setting Name="NWNX4Path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files (x86)\Atari\Neverwinter Nights 2\nwnx4</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
