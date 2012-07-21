@@ -16,9 +16,17 @@ namespace DeploymentTool
     {
         public void Run()
         {
+            // Check configuration.
             LoadConfiguration();
+
+            // Commonly used variables.
+            wcDownloader = new WebClient();
+            ADLResources = new List<ADLResource>();
+
+            // Run through update process.
             CheckForCommonIssues();
             DownloadLatestACR();
+            PatchModuleResourceXML();
             RecompileModuleScripts();
             AdjustModuleVariables();
         }
@@ -74,30 +82,26 @@ namespace DeploymentTool
             // Download the latest ACR patch.
             Console.WriteLine("Downloading latest ACR patch...");
             WebClient downloader = new WebClient();
-            downloader.DownloadFile(PatchURL, "patch.xml");
+            wcDownloader.DownloadFile(PatchURL, "patch.xml");
 
             // Load the patch document.
             XDocument PatchDoc = XDocument.Load("patch.xml");
 
             // Load servers.
-            Dictionary<int, string> ServerList = PatchDoc.Root.Element("servers").Elements().ToDictionary(el => (int)el.Attribute("id"), el => (string)el.Attribute("url"));
+            ServerList = PatchDoc.Root.Element("servers").Elements().ToDictionary(el => (int)el.Attribute("id"), el => (string)el.Attribute("url"));
             if (ServerList.Count == 0) throw new Exception("No download servers found. Contact the technical administrator.");
             Console.WriteLine("Found {0} servers.", ServerList.Count);
 
-            // Parse ADL resoures.
-            List<ADLResource> ADLResources = new List<ADLResource>();
-            List<XElement> resources = PatchDoc.Root.Element("files").Elements().ToList();
+            // Parse module dependency/ADL resoures.
+            List<XElement> resources = PatchDoc.Root.Element("module_externs").Elements().ToList();
             for (int i = 0; i < resources.Count; i++) ADLResources.Add(new ADLResource(resources[i]));
             if (ADLResources.Count == 0) throw new Exception("No resources found. Contact the technical administrator.");
             Console.WriteLine("Loaded {0} resource entries.", ADLResources.Count);
 
-            // Create our download directory if it doesn't already exist.
-            if (!Directory.Exists("downloads/")) Directory.CreateDirectory("downloads/");
-
             // Download files.
             foreach (ADLResource resource in ADLResources)
             {
-                string filename = "downloads/" + resource.name + ".lzma";
+                string filename = GetHomeSubfolder("staging\\client\\") + resource.name + ".lzma";
 
                 // Does the file already exist?
                 if (File.Exists(filename))
@@ -130,7 +134,7 @@ namespace DeploymentTool
                         // Try to download.
                         float sizeInMB = (float)(resource.dlsize) / 1024 / 1024;
                         Console.WriteLine("Downloading '{0}' from server {1} ({2} MB)", resource.name, server, sizeInMB);
-                        downloader.DownloadFile(url, filename);
+                        wcDownloader.DownloadFile(url, filename);
 
                         // Download. Verify file again.
                         if (!VerifyFile(filename, resource))
@@ -165,7 +169,7 @@ namespace DeploymentTool
             // Extract files.
             foreach (ADLResource resource in ADLResources)
             {
-                string filename = "downloads\\" + resource.name + ".lzma";
+                string filename = GetHomeSubfolder("staging\\client\\") + resource.name + ".lzma";
                 string destination = NWN2HomePath + "\\" + resource.type.ToLower() + "\\" + resource.name;
 
                 // Check to see if the destination is valid.
@@ -270,6 +274,11 @@ namespace DeploymentTool
             cmdProcess.WaitForExit();
         }
 
+        private void PatchModuleResourceXML()
+        {
+
+        }
+
         private void AdjustModuleVariables()
         {
 
@@ -354,11 +363,29 @@ namespace DeploymentTool
             return formatted.ToString().ToUpper();
         }
 
+        public string GetHomeSubfolder(string folder)
+        {
+            string target = NWN2HomePath + Path.DirectorySeparatorChar + folder;
+            if (!Directory.Exists(target)) throw new Exception(string.Format("Home subfolder '{0}' does not exist.", folder));
+            return target;
+        }
+
+        public string GetModuleFolder(string module = null)
+        {
+            if (module == null) module = ModuleName;
+            return GetHomeSubfolder("modules" + Path.DirectorySeparatorChar + module);
+        }
+
+        // Common files.
+        public WebClient wcDownloader;
+        public Dictionary<int, string> ServerList;
+        public List<ADLResource> ADLResources;
+
         // Configuration values.
-        private string PatchURL;
-        private string NWN2InstallPath;
-        private string NWN2HomePath;
-        private string NWNX4Path;
-        private string ModuleName;
+        public string PatchURL;
+        public string NWN2InstallPath;
+        public string NWN2HomePath;
+        public string NWNX4Path;
+        public string ModuleName;
     }
 }

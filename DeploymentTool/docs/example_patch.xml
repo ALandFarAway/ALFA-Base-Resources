@@ -6,7 +6,7 @@
     <server id="2" url="http://download2.alandfaraway.org/PWC/alfa000/" password="" username="" />
     <server id="3" url="http://download2.alandfaraway.org/HAK/v187/" password="" username="" />
   </servers>
-  <files>
+  <module_externs>
     <resource type="Hak" hash="4A156F5C9804C2E204F4F78C1677AA6561FDC7AC" downloadHash="4416F32FC955DD26CA57945C508043132CABBB53" name="alfa2_2da.hak" dlsize="333298" size="16420362" critical="false" exclude="false" urlOverride="">
     <server-ref>
       <string>1</string>
@@ -67,7 +67,7 @@
       <string>3</string>
     </server-ref>
     </resource>
-  </files>
+  </module_externs>
   <variables>
     <variable name="test_var" type="string">Success!</variable>
   </variables>
