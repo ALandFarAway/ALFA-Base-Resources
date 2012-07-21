@@ -159,6 +159,9 @@ namespace DeploymentTool
             if (!File.Exists("7z.exe")) throw new Exception("7z.exe not found. Redownload the ALFA Deployer Tool.");
             string CmdArguments = "x \"{0}\" -o\"" + NWN2HomePath + "\\{1}\\\"";
 
+            // Delete previous 7zip log file if it exists.
+            if (File.Exists("DeploymentTool_7zip.log")) File.Delete("DeploymentTool_7zip.log");
+
             // Extract files.
             foreach (ADLResource resource in ADLResources)
             {
@@ -184,8 +187,8 @@ namespace DeploymentTool
 
                 Process SevenZip = new Process();
                 SevenZip.StartInfo = SevenZipInfo;
-                SevenZip.OutputDataReceived += OutputDataReceived;
-                SevenZip.ErrorDataReceived += OutputDataReceived;
+                SevenZip.OutputDataReceived += ParseOutput_7zip;
+                SevenZip.ErrorDataReceived += ParseOutput_7zip;
 
                 Console.WriteLine("Extracting '{0}' ...", resource.name);
                 SevenZip.Start();
@@ -228,6 +231,10 @@ namespace DeploymentTool
             string ScriptCompilerFilename = "NWNScriptCompiler.exe";
             if (!File.Exists(ScriptCompilerFilename)) throw new Exception(string.Format("{0} not found!", ScriptCompilerFilename));
 
+
+            // Delete previous compile log file if it exists.
+            if (File.Exists("DeploymentTool_Recompile.log")) File.Delete("DeploymentTool_Recompile.log");
+
             // Recompile all scripts in the module.
             string Command = ScriptCompilerFilename;
             string Arguments = "-e -v1.70 -o";
@@ -251,8 +258,8 @@ namespace DeploymentTool
             // Create recompile process.
             Process cmdProcess = new Process();
             cmdProcess.StartInfo = cmdStartInfo;
-            cmdProcess.OutputDataReceived += OutputDataReceived;
-            cmdProcess.ErrorDataReceived += OutputDataReceived;
+            cmdProcess.OutputDataReceived += ParseOutput_Recompile;
+            cmdProcess.ErrorDataReceived += ParseOutput_Recompile;
             cmdProcess.EnableRaisingEvents = true;
 
             // Begin processing.
@@ -268,14 +275,30 @@ namespace DeploymentTool
 
         }
 
-        void OutputDataReceived(object sender, DataReceivedEventArgs e)
+        void ParseOutput_7zip(object sender, DataReceivedEventArgs e)
         {
             if (e.Data == null) return;
-            string data = e.Data;
-            if (data.ToLower().Contains("error") || data.ToLower().Contains("warning"))
+
+            // Log all output to the log file.
+            StreamWriter log = File.AppendText("DeploymentTool_7zip.log");
+            log.WriteLine("{0}", e.Data);
+            log.Close();
+        }
+
+        void ParseOutput_Recompile(object sender, DataReceivedEventArgs e)
+        {
+            if (e.Data == null) return;
+
+            // Log errors or warnings to console.
+            if (e.Data.ToLower().Contains("error") || e.Data.ToLower().Contains("warning"))
             {
-                Console.WriteLine(data.Trim());
+                Console.WriteLine(e.Data);
             }
+
+            // Log all output to the log file.
+            StreamWriter log = File.AppendText("DeploymentTool_Recompile.log");
+            log.WriteLine("{0}", e.Data);
+            log.Close();
         }
 
         private bool VerifyFile(string filename, ADLResource resource, string hash = "")
