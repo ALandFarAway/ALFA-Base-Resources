@@ -276,7 +276,41 @@ namespace DeploymentTool
 
         private void PatchModuleResourceXML()
         {
+            string ModuleDLResourcePath = GetModuleFolder() + "\\moduledownloaderresources.xml";
+            Console.WriteLine("Patching '{0}'", ModuleDLResourcePath);
 
+            // Load the XML file.
+            XDocument ModuleDLResource = XDocument.Load(ModuleDLResourcePath);
+
+            // Find each resource and adjust values.
+            List<XElement> elements = ModuleDLResource.Root.Elements().ToList();
+            foreach (ADLResource resource in ADLResources)
+            {
+                // Find element.
+                XElement element = null;
+                foreach (XElement e in elements)
+                {
+                    if ((string)e.Attribute("name") == resource.name)
+                    {
+                        element = e;
+                        break;
+                    }
+                }
+
+                // TODO: Add an element if it doesn't exist.
+                if (element == null) throw new Exception(string.Format("Could not find resource: {0}", resource.name));
+
+                // Adjust data.
+                element.SetAttributeValue("hash", resource.hash);
+                element.SetAttributeValue("downloadHash", resource.downloadHash);
+                element.SetAttributeValue("dlsize", resource.dlsize);
+                element.SetAttributeValue("size", resource.size);
+                element.SetAttributeValue("critical", resource.critical);
+                element.SetAttributeValue("exclude", resource.exclude);
+                element.SetAttributeValue("urlOverride", resource.urlOverride);
+            }
+
+            ModuleDLResource.Save(ModuleDLResourcePath);
         }
 
         private void AdjustModuleVariables()
@@ -301,12 +335,12 @@ namespace DeploymentTool
             // Log errors or warnings to console.
             if (e.Data.ToLower().Contains("error") || e.Data.ToLower().Contains("warning"))
             {
-                Console.WriteLine(e.Data);
+                Console.WriteLine(e.Data.Trim());
             }
 
             // Log all output to the log file.
             StreamWriter log = File.AppendText("DeploymentTool_Recompile.log");
-            log.WriteLine("{0}", e.Data);
+            log.WriteLine("{0}", e.Data.Trim());
             log.Close();
         }
 
@@ -373,7 +407,9 @@ namespace DeploymentTool
         public string GetModuleFolder(string module = null)
         {
             if (module == null) module = ModuleName;
-            return GetHomeSubfolder("modules" + Path.DirectorySeparatorChar + module);
+            string folder = GetHomeSubfolder("modules") + "\\" + module;
+            if (!Directory.Exists(folder)) throw new Exception(string.Format("Folder does not exist: {0}", folder));
+            return folder;
         }
 
         // Common files.
