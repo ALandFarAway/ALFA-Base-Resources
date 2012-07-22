@@ -574,6 +574,7 @@ CLRSCRIPT_OBJECTS=$(OUTPUTDIR)\TestClrScript.ncs               \
                   $(OUTPUTDIR)\LatencyMonitor.ncs              \
                   $(OUTPUTDIR)\ACR_HealthMonitor.ncs           \
                   $(OUTPUTDIR)\ACR_ServerCommunicator.ncs      \
+                  $(OUTPUTDIR)\ACR_Time.ncs                    \
                   $(OUTPUTDIR)\ACR_ServerMisc.ncs              \
                   $(OUTPUTDIR)\ACR_CreatureBehavior.ncs        \
                   $(OUTPUTDIR)\ACR_EmptyScript.ncs             \
@@ -626,6 +627,8 @@ makeclrscripts:
 	@$(MSBUILD) ACR_HealthMonitor\ACR_HealthMonitor.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_ServerCommunicator
 	@$(MSBUILD) ACR_ServerCommunicator\ACR_ServerCommunicator.csproj $(MSBUILD_FLAGS)
+	$(BUILD_MSG) (CSProj) Building - ACR_Time
+	@$(MSBUILD) ACR_Time\ACR_Time.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_ServerMisc
 	@$(MSBUILD) ACR_ServerMisc\ACR_ServerMisc.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_CreatureBehavior
@@ -651,6 +654,8 @@ clean:
 	@if exist ACR_HealthMonitor\obj rd /s /q ACR_HealthMonitor\obj
 	@if exist ACR_ServerCommunicator\bin rd /s /q ACR_ServerCommunicator\bin
 	@if exist ACR_ServerCommunicator\obj rd /s /q ACR_ServerCommunicator\obj
+	@if exist ACR_Time\bin rd /s /q ACR_Time\bin
+	@if exist ACR_Time\obj rd /s /q ACR_Time\obj
 	@if exist ACR_ServerMisc\bin rd /s /q ACR_ServerMisc\bin
 	@if exist ACR_ServerMisc\obj rd /s /q ACR_ServerMisc\obj
 	@if exist ACR_CreatureBehavior\bin rd /s /q ACR_CreatureBehavior\bin
