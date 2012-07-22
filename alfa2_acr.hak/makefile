@@ -513,6 +513,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_measure_latency.ncs               \
             $(OUTPUTDIR)\acr_version_check.ncs                 \
             $(OUTPUTDIR)\acr_portal_exe.ncs                    \
+            $(OUTPUTDIR)\acr_portal_cnd.ncs                    \
             $(OUTPUTDIR)\abr_trg_swimonenter.ncs               \
             $(OUTPUTDIR)\abr_trg_swimonexit.ncs                \
             $(OUTPUTDIR)\gui_playerreport.ncs                  \
