@@ -12,12 +12,19 @@ namespace DeploymentTool
     {
         static void Main(string[] args)
         {
-            Console.Clear();
+            // Delete the old deployment logs.
+            if (File.Exists("DeploymentTool.log")) File.Delete("DeploymentTool.log");
+            if (File.Exists(SevenzipExtractor.LogFilename)) File.Delete(SevenzipExtractor.LogFilename);
+            if (File.Exists("DeploymentTool_Recompile.log")) File.Delete("DeploymentTool_Recompile.log");
 
-            File.Delete("DeploymentTool.log");
+
+            // Make sure that we have the 7-zip extractor.
+            if (!File.Exists(SevenZipFilename)) throw new Exception(string.Format("{0} not found!", SevenZipFilename));
+
+            // Verify that we have the Advanced Script Compiler.
+            if (!File.Exists(ScriptCompilerFilename)) throw new Exception(string.Format("{0} not found!", ScriptCompilerFilename));
 
             ALFADeployerTool DeployerTool = new ALFADeployerTool();
-
             try
             {
                 DeployerTool.Run();
@@ -29,8 +36,13 @@ namespace DeploymentTool
                 log.WriteLine("{0}", e);
                 log.Close();
             }
+
+            // Pause for user interaction before closing.
             Console.Write("Press any key to exit.");
             Console.ReadKey(true);
         }
+
+        public static string ScriptCompilerFilename = "NWNScriptCompiler.exe";
+        public static string SevenZipFilename = "7z.exe";
     }
 }

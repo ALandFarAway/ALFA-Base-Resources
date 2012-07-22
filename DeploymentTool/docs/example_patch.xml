@@ -7,7 +7,7 @@
     <server id="3" url="http://download2.alandfaraway.org/HAK/v187/" password="" username="" />
   </servers>
   <module_externs>
-    <resource type="Hak" hash="4A156F5C9804C2E204F4F78C1677AA6561FDC7AC" downloadHash="4416F32FC955DD26CA57945C508043132CABBB53" name="alfa2_2da.hak" dlsize="333298" size="16420362" critical="false" exclude="false" urlOverride="">
+    <resource type="Hak" hash="4A156F5C9804C2E204F4F78C1677AA6561FDC7AC" downloadHash="4416F32FC955DD26CA57945C508043132CABBB53" name="alfa2_2da.hak" dlsize="333298" size="16420362" critical="true" exclude="false" urlOverride="">
     <server-ref>
       <string>1</string>
       <string>3</string>
@@ -68,6 +68,104 @@
     </server-ref>
     </resource>
   </module_externs>
+  <files>
+    <file name="AuroraServerNetLayer.dll" hash="" downloadHash="" size="" downloadSize="" location="InstallDir">
+	  <server-ref>
+	    <string>1</string>
+	    <string>3</string>
+	  </server-ref>
+	</file>
+    <file name="AuroraServerNetLayer.pdb" hash="" downloadHash="" size="" downloadSize="" location="InstallDir">
+	  <server-ref>
+	    <string>1</string>
+	    <string>3</string>
+	  </server-ref>
+	</file>
+    <file name="NWNScriptJIT.dll" hash="" downloadHash="" size="" downloadSize="" location="InstallDir">
+	  <server-ref>
+	    <string>1</string>
+	    <string>3</string>
+	  </server-ref>
+	</file>
+    <file name="NWNScriptJITIntrinsics.dll" hash="" downloadHash="" size="" downloadSize="" location="InstallDir">
+	  <server-ref>
+	    <string>1</string>
+	    <string>3</string>
+	  </server-ref>
+	</file>
+    <file name="AuroraServerNWScript.pdb" hash="" downloadHash="" size="" downloadSize="" location="NWNX4Dir">
+	  <server-ref>
+	    <string>1</string>
+	    <string>3</string>
+	  </server-ref>
+	</file>
+    <file name="AuroraServerVault.pdb" hash="" downloadHash="" size="" downloadSize="" location="NWNX4Dir">
+	  <server-ref>
+	    <string>1</string>
+	    <string>3</string>
+	  </server-ref>
+	</file>
+    <file name="MySql.Data.dll" hash="" downloadHash="" size="" downloadSize="" location="NWNX4Dir">
+	  <server-ref>
+	    <string>1</string>
+	    <string>3</string>
+	  </server-ref>
+	</file>
+    <file name="NWNScriptJIT.dll" hash="" downloadHash="" size="" downloadSize="" location="NWNX4Dir">
+	  <server-ref>
+	    <string>1</string>
+	    <string>3</string>
+	  </server-ref>
+	</file>
+    <file name="NWNScriptJITIntrinsics.dll" hash="" downloadHash="" size="" downloadSize="" location="NWNX4Dir">
+	  <server-ref>
+	    <string>1</string>
+	    <string>3</string>
+	  </server-ref>
+	</file>
+    <file name="xp_AuroraServerNWScript.dll" hash="" downloadHash="" size="" downloadSize="" location="NWNX4Dir">
+	  <server-ref>
+	    <string>1</string>
+	    <string>3</string>
+	  </server-ref>
+	</file>
+    <file name="xp_bugfix.dll" hash="" downloadHash="" size="" downloadSize="" location="NWNX4Dir">
+	  <server-ref>
+	    <string>1</string>
+	    <string>3</string>
+	  </server-ref>
+	</file>
+    <file name="xp_bugfix.pdb" hash="" downloadHash="" size="" downloadSize="" location="NWNX4Dir">
+	  <server-ref>
+	    <string>1</string>
+	    <string>3</string>
+	  </server-ref>
+	</file>
+    <file name="xp_craft.dll" hash="" downloadHash="" size="" downloadSize="" location="NWNX4Dir">
+	  <server-ref>
+	    <string>1</string>
+	    <string>3</string>
+	  </server-ref>
+	</file>
+    <file name="xp_objectattributes.dll" hash="" downloadHash="" size="" downloadSize="" location="NWNX4Dir">
+	  <server-ref>
+	    <string>1</string>
+	    <string>3</string>
+	  </server-ref>
+	</file>
+    <file name="xp_ServerVault.dll" hash="" downloadHash="" size="" downloadSize="" location="NWNX4Dir">
+	  <server-ref>
+	    <string>1</string>
+	    <string>3</string>
+	  </server-ref>
+	</file>
+    <file name="xp_srvadmin.dll" hash="" downloadHash="" size="" downloadSize="" location="NWNX4Dir">
+	  <server-ref>
+	    <string>1</string>
+	    <string>3</string>
+	  </server-ref>
+	</file>
+  </files>
   <variables>
     <variable name="test_var" type="string">Success!</variable>
   </variables>

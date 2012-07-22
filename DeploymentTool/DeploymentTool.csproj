@@ -113,6 +113,9 @@
     <Compile Include="..\CLRScript\NWScriptSupport.cs">
       <Link>NWScriptSupport.cs</Link>
     </Compile>
+    <Compile Include="DependencyResource.cs" />
+    <Compile Include="FileVerification.cs" />
+    <Compile Include="SevenzipExtractor.cs" />
     <Compile Include="ADLResource.cs" />
     <Compile Include="ALFADeployerTool.cs" />
     <Compile Include="Program.cs" />

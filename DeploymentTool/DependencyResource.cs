@@ -9,20 +9,17 @@ using System.Xml.Linq;
 
 namespace DeploymentTool
 {
-    class ADLResource
+    class DependencyResource
     {
-        public ADLResource(XElement xmlElement)
+        public DependencyResource(XElement xmlElement)
         {
             // Load basic resources.
-            type = (string)xmlElement.Attribute("type");
+            name = (string)xmlElement.Attribute("name");
             hash = (string)xmlElement.Attribute("hash");
             downloadHash = (string)xmlElement.Attribute("downloadHash");
-            name = (string)xmlElement.Attribute("name");
-            dlsize = (long)xmlElement.Attribute("dlsize");
             size = (long)xmlElement.Attribute("size");
-            critical = ((string)xmlElement.Attribute("critical")).Equals("true");
-            exclude = ((string)xmlElement.Attribute("exclude")).Equals("true");
-            urlOverride = (string)xmlElement.Attribute("urlOverride");
+            downloadSize = (long)xmlElement.Attribute("downloadSize");
+            location = (string)xmlElement.Attribute("location");
 
             // Get download resources.
             servers = new List<int>();
@@ -33,15 +30,18 @@ namespace DeploymentTool
             }
             if (servers.Count == 0)
             {
-                Console.WriteLine(string.Format("WARNING: Resource entry '{0}' contains no valid server references.", name));
+                Console.WriteLine(string.Format("WARNING: Dependency entry '{0}' contains no valid server references.", name));
             }
         }
 
-        public void Update(string NWN2HomeDir, string DownloadDirectory, Dictionary<int, string> ServerList)
+        public void Update(ALFADeployerTool deployer, string DownloadDirectory)
         {
-            string FileDir = NWN2HomeDir + "\\" + type;
-            string FilePath = FileDir + "\\" + name;
+            // Get the download location.
             string DownloadPath = DownloadDirectory + "\\" + name + ".lzma";
+
+            // Get the file location.
+            string FileDir = null;
+            string FilePath = FileDir + "\\" + name;
 
             Console.WriteLine("Updating '{0}' ...", name);
 
@@ -85,13 +85,13 @@ namespace DeploymentTool
                     try
                     {
                         // Valid server?
-                        if (!ServerList.Keys.Contains(server)) throw new Exception("Server not found.");
+                        if (!deployer.ServerList.Keys.Contains(server)) throw new Exception("Server not found.");
 
                         // Get local and remote destinations.
-                        string url = ServerList[server] + name + ".lzma";
+                        string url = deployer.ServerList[server] + name + ".lzma";
 
                         // Try to download.
-                        float sizeInMB = (float)(dlsize) / 1024 / 1024;
+                        float sizeInMB = (float)(downloadSize) / 1024 / 1024;
                         Console.WriteLine("Downloading update from server {1} ({2} MB)", name, server, sizeInMB);
                         downloader.DownloadFile(url, DownloadPath);
 
@@ -146,15 +146,12 @@ namespace DeploymentTool
             }
         }
 
-        public string type;
+        public string name;
         public string hash;
         public string downloadHash;
-        public string name;
-        public long dlsize;
         public long size;
-        public bool critical;
-        public bool exclude;
-        public string urlOverride;
+        public long downloadSize;
+        public string location;
         public List<int> servers;
     }
 }
