@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{14C09F2F-4411-42FB-9A0A-A7E011F7129E}</ProjectGuid>
+    <ProjectGuid>{B9BE5563-7212-40BB-8976-7881E9F314D7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ACR_Time</RootNamespace>
