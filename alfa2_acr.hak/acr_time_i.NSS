@@ -298,6 +298,27 @@ int ACR_GetGameYearsSinceStart()
     return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE) / (168 * DAYS_PER_MONTH * 12);
 }
 
+int ACR_GetRealDaysSinceStart()
+{
+    ClearScriptParams();
+    AddScriptParameterInt(ACR_TIME_DAYS_SINCE_START);
+    return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE);
+}
+
+int ACR_GetRealMonthsSinceStart()
+{
+    ClearScriptParams();
+    AddScriptParameterInt(ACR_TIME_MONTHS_SINCE_START);
+    return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE);
+}
+
+int ACR_GetRealYearsSinceStart()
+{
+    ClearScriptParams();
+    AddScriptParameterInt(ACR_TIME_YEARS_SINCE_START);
+    return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE);
+}
+
 float ACR_GetSecondsUntilNextHour(int nNextHour) {
     int nTime = GetTimeHour();
     nTime = nNextHour - nTime;
