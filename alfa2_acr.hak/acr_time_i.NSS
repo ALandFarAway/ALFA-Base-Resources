@@ -258,63 +258,54 @@ int ACR_GetGameMillisecondsSinceStart()
 
 int ACR_GetGameSecondsSinceStart()
 {
-    ClearScriptParams();
     AddScriptParameterInt(ACR_TIME_SECONDS_SINCE_START);
     return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE);
 }
 
 int ACR_GetGameMinutesSinceStart()
 {
-    ClearScriptParams();
     AddScriptParameterInt(ACR_TIME_MINUTES_SINCE_START);
     return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE);
 }
 
 int ACR_GetGameHoursSinceStart()
 {
-    ClearScriptParams();
     AddScriptParameterInt(ACR_TIME_MINUTES_SINCE_START);
     return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE) / 7;
 }
 
 int ACR_GetGameDaysSinceStart()
 {
-    ClearScriptParams();
     AddScriptParameterInt(ACR_TIME_MINUTES_SINCE_START);
     return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE) / 168;
 }
 
 int ACR_GetGameMonthsSinceStart()
 {
-    ClearScriptParams();
     AddScriptParameterInt(ACR_TIME_MINUTES_SINCE_START);
     return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE) / (168 * DAYS_PER_MONTH);
 }
 
 int ACR_GetGameYearsSinceStart()
 {
-    ClearScriptParams();
     AddScriptParameterInt(ACR_TIME_MINUTES_SINCE_START);
     return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE) / (168 * DAYS_PER_MONTH * 12);
 }
 
 int ACR_GetRealDaysSinceStart()
 {
-    ClearScriptParams();
     AddScriptParameterInt(ACR_TIME_DAYS_SINCE_START);
     return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE);
 }
 
 int ACR_GetRealMonthsSinceStart()
 {
-    ClearScriptParams();
     AddScriptParameterInt(ACR_TIME_MONTHS_SINCE_START);
     return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE);
 }
 
 int ACR_GetRealYearsSinceStart()
 {
-    ClearScriptParams();
     AddScriptParameterInt(ACR_TIME_YEARS_SINCE_START);
     return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE);
 }
