@@ -47,17 +47,19 @@ const int TIME_YEAR_START = 1373;
 const int ALFA2_FR_YEAR_START = 1375;
 const int ALFA2_RL_YEAR_START = 2008;
 
-/*const int _TIME_SECONDS_START = 0;
-const int _TIME_SECONDS_END = 5;
-const int _TIME_MINUTES_START = 6;
-const int _TIME_MINUTES_END = 11;
-const int _TIME_HOURS_START = 12;
-const int _TIME_HOURS_END = 16;
-const int _TIME_DAYS_START = 17;
-const int _TIME_DAYS_END = 21;
-const int _TIME_MONTH_START = 22;
-const int _TIME_MONTH_END = 25;
-const int _TIME_YEAR_START =*/
+const int ACR_TIME_SECONDS_SINCE_START = 1;
+const int ACR_TIME_MINUTES_SINCE_START = 2;
+const int ACR_TIME_HOURS_SINCE_START = 3;
+const int ACR_TIME_DAYS_SINCE_START = 4;
+const int ACR_TIME_MONTHS_SINCE_START = 5;
+const int ACR_TIME_YEARS_SINCE_START = 6;
+
+const int ACR_TIME_SECONDS_IN_UTC = 11;
+const int ACR_TIME_MINUTES_IN_UTC = 12;
+const int ACR_TIME_HOURS_IN_UTC = 13;
+const int ACR_TIME_DAYS_IN_UTC = 14;
+const int ACR_TIME_MONTHS_IN_UTC = 15;
+const int ACR_TIME_YEARS_IN_UTC = 16;
 
 // Game to real time ratio local float.
 const string _TIME_RATIO_LF = "ACR_TIME_RATIO";
@@ -256,43 +258,44 @@ int ACR_GetGameMillisecondsSinceStart()
 
 int ACR_GetGameSecondsSinceStart()
 {
-    int nMinutes = ACR_GetGameMinutesSinceStart();
-    int nSeconds = nMinutes * 60 + GetTimeSecond();
-    return nSeconds;
+    ClearScriptParams();
+    AddScriptParameterInt(ACR_TIME_SECONDS_SINCE_START);
+    return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE);
 }
 
 int ACR_GetGameMinutesSinceStart()
 {
-    int nHours = ACR_GetGameHoursSinceStart();
-    int nMinutes = nHours * 60 + GetTimeMinute();
-    return nMinutes;
+    ClearScriptParams();
+    AddScriptParameterInt(ACR_TIME_MINUTES_SINCE_START);
+    return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE);
 }
 
 int ACR_GetGameHoursSinceStart()
 {
-    int nDays = ACR_GetGameDaysSinceStart();
-    int nHours = nDays * 24 + GetTimeHour();
-    return nHours;
+    ClearScriptParams();
+    AddScriptParameterInt(ACR_TIME_MINUTES_SINCE_START);
+    return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE) / 7;
 }
 
 int ACR_GetGameDaysSinceStart()
 {
-    int nMonths = ACR_GetGameMonthsSinceStart();
-    int nDays = nMonths * DAYS_PER_MONTH + GetCalendarDay() - 1;
-    return nDays;
+    ClearScriptParams();
+    AddScriptParameterInt(ACR_TIME_MINUTES_SINCE_START);
+    return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE) / 168;
 }
 
 int ACR_GetGameMonthsSinceStart()
 {
-    int nYears = ACR_GetGameYearsSinceStart();
-    int nMonths = nYears * 12 + GetCalendarMonth() - 1;
-    return nMonths;
+    ClearScriptParams();
+    AddScriptParameterInt(ACR_TIME_MINUTES_SINCE_START);
+    return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE) / (168 * DAYS_PER_MONTH);
 }
 
 int ACR_GetGameYearsSinceStart()
 {
-    int nYears = GetCalendarYear() - TIME_YEAR_START;
-    return nYears;
+    ClearScriptParams();
+    AddScriptParameterInt(ACR_TIME_MINUTES_SINCE_START);
+    return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE) / (168 * DAYS_PER_MONTH * 12);
 }
 
 float ACR_GetSecondsUntilNextHour(int nNextHour) {
