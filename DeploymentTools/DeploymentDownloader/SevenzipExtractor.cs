@@ -46,7 +46,7 @@ namespace DeploymentDownloader
             log.WriteLine("{0}", e.Data);
             log.Close();
         }
-        public static string LogFilename = "Log_7zip.log";
+        public static string LogFilename = "DeploymentStager_7zip.log";
         private static string CmdArguments = "x \"{0}\" -o\"{1}\\\"";
 
         private string Filename;

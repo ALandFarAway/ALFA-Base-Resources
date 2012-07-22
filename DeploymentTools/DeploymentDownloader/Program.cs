@@ -13,9 +13,9 @@ namespace DeploymentDownloader
         static void Main(string[] args)
         {
             // Delete the old deployment logs.
-            if (File.Exists("DeploymentTool.log")) File.Delete("DeploymentTool.log");
+            if (File.Exists("DeploymentStager.log")) File.Delete("DeploymentStager.log");
             if (File.Exists(SevenzipExtractor.LogFilename)) File.Delete(SevenzipExtractor.LogFilename);
-            if (File.Exists("DeploymentTool_Recompile.log")) File.Delete("DeploymentTool_Recompile.log");
+            if (File.Exists("DeploymentStager_Recompile.log")) File.Delete("DeploymentStager_Recompile.log");
 
 
             // Make sure that we have the 7-zip extractor.
