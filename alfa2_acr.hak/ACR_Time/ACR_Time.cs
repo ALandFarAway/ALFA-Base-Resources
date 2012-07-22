@@ -27,7 +27,12 @@ namespace ACR_Time
         const int ACR_TIME_DAYS_SINCE_START = 4;
         const int ACR_TIME_MONTHS_SINCE_START = 5;
         const int ACR_TIME_YEARS_SINCE_START = 6;
-        
+
+        public ACR_Time([In] NWScriptJITIntrinsics Intrinsics, [In] INWScriptProgram Host)
+        {
+            InitScript(Intrinsics, Host);
+        }
+
         private ACR_Time([In] ACR_Time Other)
         {
             InitScript(Other);
@@ -43,40 +48,30 @@ namespace ACR_Time
             int Value = (int)ScriptParameters[0]; // ScriptParameterTypes[0] is typeof(int)
             int retValue = -1;
 
+            DateTime startTime = new DateTime(2012, 1, 1);
+            DateTime currentTime = DateTime.Now.ToUniversalTime();
+            TimeSpan differenceInTime = currentTime - startTime;
+
             switch (Value)
             {
                 case ACR_TIME_SECONDS_SINCE_START:
                     {
-                        retValue = DateTime.Now.Second +
-                            (DateTime.Now.Minute * 60) +
-                            (DateTime.Now.Hour * 60 * 60) +
-                            (DateTime.Now.Day * 24 * 60 * 60) +
-                            (DaysUntilStartOfMonth(DateTime.Now.Month, DateTime.Now.Year) * 24 * 60 * 60) +
-                            (DaysFrom2012UntilStartOfYear(DateTime.Now.Year) * 24 * 60 * 60);
+                        retValue = (int)differenceInTime.TotalSeconds;
                         break;
                     }
                 case ACR_TIME_MINUTES_SINCE_START:
                     {
-                        retValue = DateTime.Now.Minute +
-                            (DateTime.Now.Hour * 60) +
-                            (DateTime.Now.Day * 24 * 60) +
-                            (DaysUntilStartOfMonth(DateTime.Now.Month, DateTime.Now.Year) * 24 * 60) +
-                            (DaysFrom2012UntilStartOfYear(DateTime.Now.Year) * 24 * 60);
+                        retValue = (int)differenceInTime.TotalMinutes;
                         break;
                     }
                 case ACR_TIME_HOURS_SINCE_START:
                     {
-                        retValue = DateTime.Now.Hour +
-                            (DateTime.Now.Day * 24) +
-                            (DaysUntilStartOfMonth(DateTime.Now.Month, DateTime.Now.Year) * 24) +
-                            (DaysFrom2012UntilStartOfYear(DateTime.Now.Year) * 24);
+                        retValue = (int)differenceInTime.TotalHours;
                         break;
                     }
                 case ACR_TIME_DAYS_SINCE_START:
                     {
-                        retValue = DateTime.Now.Day +
-                            DaysUntilStartOfMonth(DateTime.Now.Month, DateTime.Now.Year) +
-                            DaysFrom2012UntilStartOfYear(DateTime.Now.Year);
+                        retValue = (int)differenceInTime.TotalDays;
                         break;
                     }
                 case ACR_TIME_MONTHS_SINCE_START:

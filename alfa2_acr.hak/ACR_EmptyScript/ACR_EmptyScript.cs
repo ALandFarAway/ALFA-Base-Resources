@@ -21,6 +21,11 @@ namespace ACR_EmptyScript
 {
     public partial class ACR_EmptyScript : CLRScriptBase, IGeneratedScriptProgram
     {
+        public ACR_EmptyScript([In] NWScriptJITIntrinsics Intrinsics, [In] INWScriptProgram Host)
+        {
+            InitScript(Intrinsics, Host);
+        }
+
         private ACR_EmptyScript([In] ACR_EmptyScript Other)
         {
             InitScript(Other);
