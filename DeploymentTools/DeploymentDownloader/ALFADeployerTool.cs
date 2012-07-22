@@ -153,7 +153,7 @@ namespace DeploymentDownloader
             if (e.Data == null) return;
 
             // Log errors or warnings to console.
-            if (e.Data.ToLower().Contains("error") || e.Data.ToLower().Contains("warning"))
+            if (e.Data.ToLower().Contains("error:") || e.Data.ToLower().Contains("warning:"))
             {
                 Console.WriteLine(e.Data.Trim());
             }

@@ -5,20 +5,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace DeploymentDownloader
+namespace DeploymentStager
 {
-    class SevenzipExtractor
+    class SevenzipCompresser
     {
-        public SevenzipExtractor(string path)
+        public SevenzipCompresser(string path)
         {
             Filename = path;
         }
 
-        public int extract( string destination )
+        public int compress( string destination )
         {
             ProcessStartInfo SevenZipInfo = new ProcessStartInfo();
             SevenZipInfo.FileName = Program.SevenZipFilename;
-            SevenZipInfo.Arguments = string.Format(CmdArguments, Filename, destination);
+            SevenZipInfo.Arguments = string.Format(CmdArguments, destination, Filename);
             SevenZipInfo.RedirectStandardOutput = true;
             SevenZipInfo.RedirectStandardError = true;
             SevenZipInfo.UseShellExecute = false;
@@ -29,7 +29,7 @@ namespace DeploymentDownloader
             SevenZip.OutputDataReceived += ReadOutput;
             SevenZip.ErrorDataReceived += ReadOutput;
 
-            Console.WriteLine("Extracting '{0}' ...", Filename);
+            Console.WriteLine("Compressing '{0}' ...", Filename);
             SevenZip.Start();
             SevenZip.BeginOutputReadLine();
             SevenZip.BeginErrorReadLine();
@@ -42,14 +42,13 @@ namespace DeploymentDownloader
             if (e.Data == null) return;
 
             // Log all output to the log file.
-            StreamWriter log = File.AppendText("DeploymentTool_7zip.log");
+            StreamWriter log = File.AppendText("DeploymentStager_7zip.log");
             log.WriteLine("{0}", e.Data);
             log.Close();
         }
-        public static string LogFilename = "DeploymentStager_7zip.log";
-        private static string CmdArguments = "x \"{0}\" -o\"{1}\\\"";
+        public static string LogFilename = "Log_7zip.log";
+        private static string CmdArguments = "a \"{0}\" \"{1}\"";
 
         private string Filename;
-        private bool Success;
     }
 }
