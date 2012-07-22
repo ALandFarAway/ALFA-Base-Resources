@@ -6,7 +6,7 @@ using System.Text;
 using ALFA;
 using CLRScriptFramework;
 
-namespace DeploymentTool
+namespace DeploymentDownloader
 {
     class Program
     {

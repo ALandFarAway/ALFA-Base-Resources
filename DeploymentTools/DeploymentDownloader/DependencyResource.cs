@@ -7,7 +7,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace DeploymentTool
+namespace DeploymentDownloader
 {
     class DependencyResource
     {
@@ -41,6 +41,8 @@ namespace DeploymentTool
 
             // Get the file location.
             string FileDir = null;
+            if (location == "InstallDir") FileDir = deployer.NWN2InstallPath;
+            if (location == "NWNX4Dir") FileDir = deployer.NWNX4Path;
             string FilePath = FileDir + "\\" + name;
 
             Console.WriteLine("Updating '{0}' ...", name);

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace DeploymentTool
+namespace DeploymentDownloader
 {
     class FileVerification
     {

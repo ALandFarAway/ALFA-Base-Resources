@@ -10,7 +10,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace DeploymentTool
+namespace DeploymentDownloader
 {
     class ALFADeployerTool
     {
