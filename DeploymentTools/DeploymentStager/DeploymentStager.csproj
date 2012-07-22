@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\dependencies\7zip\ICoder.cs">
+      <Link>ICoder.cs</Link>
+    </Compile>
     <Compile Include="DependencyResource.cs" />
     <Compile Include="DeploymentStager.cs" />
     <Compile Include="FileVerification.cs" />
