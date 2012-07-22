@@ -28,6 +28,13 @@ namespace ACR_Time
         const int ACR_TIME_MONTHS_SINCE_START = 5;
         const int ACR_TIME_YEARS_SINCE_START = 6;
 
+        const int ACR_TIME_SECONDS_IN_UTC = 11;
+        const int ACR_TIME_MINUTES_IN_UTC = 12;
+        const int ACR_TIME_HOURS_IN_UTC = 13;
+        const int ACR_TIME_DAYS_IN_UTC = 14;
+        const int ACR_TIME_MONTHS_IN_UTC = 15;
+        const int ACR_TIME_YEARS_IN_UTC = 16;
+
         public ACR_Time([In] NWScriptJITIntrinsics Intrinsics, [In] INWScriptProgram Host)
         {
             InitScript(Intrinsics, Host);
@@ -48,7 +55,7 @@ namespace ACR_Time
             int Value = (int)ScriptParameters[0]; // ScriptParameterTypes[0] is typeof(int)
             int retValue = -1;
 
-            DateTime startTime = new DateTime(2012, 1, 1);
+            DateTime startTime = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             DateTime currentTime = DateTime.Now.ToUniversalTime();
             TimeSpan differenceInTime = currentTime - startTime;
 
@@ -77,12 +84,42 @@ namespace ACR_Time
                 case ACR_TIME_MONTHS_SINCE_START:
                     {
                         retValue = DateTime.Now.Month +
-                            (DateTime.Now.Year - 2012) * 12;
+                            (DateTime.UtcNow.Year - 2012) * 12;
                         break;
                     }
                 case ACR_TIME_YEARS_SINCE_START:
                     {
-                        retValue = DateTime.Now.Year - 2012;
+                        retValue = DateTime.UtcNow.Year - 2012;
+                        break;
+                    }
+                case ACR_TIME_SECONDS_IN_UTC:
+                    {
+                        retValue = DateTime.UtcNow.Second;
+                        break;
+                    }
+                case ACR_TIME_MINUTES_IN_UTC:
+                    {
+                        retValue = DateTime.UtcNow.Minute;
+                        break;
+                    }
+                case ACR_TIME_HOURS_IN_UTC:
+                    {
+                        retValue = DateTime.UtcNow.Hour;
+                        break;
+                    }
+                case ACR_TIME_DAYS_IN_UTC:
+                    {
+                        retValue = DateTime.UtcNow.Day;
+                        break;
+                    }
+                case ACR_TIME_MONTHS_IN_UTC:
+                    {
+                        retValue = DateTime.UtcNow.Month;
+                        break;
+                    }
+                case ACR_TIME_YEARS_IN_UTC:
+                    {
+                        retValue = DateTime.UtcNow.Year;
                         break;
                     }
             }
