@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<input>
+  <files>
+    <file name="AuroraServerNetLayer.dll" location="InstallDir" />
+    <file name="AuroraServerNetLayer.pdb" location="InstallDir" />
+    <file name="NWNScriptJIT.dll" location="InstallDir" />
+    <file name="NWNScriptJITIntrinsics.dll" location="InstallDir" />
+    <file name="AuroraServerNWScript.pdb" location="NWNX4Dir" />
+    <file name="AuroraServerVault.pdb" location="NWNX4Dir" />
+    <file name="MySql.Data.dll" location="NWNX4Dir" />
+    <file name="NWNScriptJIT.dll" location="NWNX4Dir" />
+    <file name="NWNScriptJITIntrinsics.dll" location="NWNX4Dir" />
+    <file name="xp_AuroraServerNWScript.dll" location="NWNX4Dir" />
+    <file name="xp_bugfix.dll" location="NWNX4Dir" />
+    <file name="xp_bugfix.pdb" location="NWNX4Dir" />
+    <file name="xp_craft.dll" location="NWNX4Dir" />
+    <file name="xp_objectattributes.dll" location="NWNX4Dir" />
+    <file name="xp_ServerVault.dll" location="NWNX4Dir" />
+    <file name="xp_srvadmin.dll" location="NWNX4Dir" />
+  </files>
+</input>
