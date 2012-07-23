@@ -8,7 +8,7 @@ void main() {
 	float fDuration = ACR_GetSpellDuration( oCaster, ACR_DURATION_TYPE_PER_CL, ACR_DURATION_10M );
 	
 	// If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell.
-	if ( !X2PreSpellCastCode() ) return;
+	if ( !ACR_PrecastEvent() ) return;
 	
 	// Apply bonus. We treat this purely as a visual effect, and check
 	// for the spell in rolls. This prevents abuse with the feint feat.

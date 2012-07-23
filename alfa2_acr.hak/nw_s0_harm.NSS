@@ -29,7 +29,7 @@
 
 void main()
 {
-    if (!X2PreSpellCastCode()) return;
+    if (!ACR_PrecastEvent()) return;
 
     object oCaster   = OBJECT_SELF;
     object oTarget   = GetSpellTargetObject();

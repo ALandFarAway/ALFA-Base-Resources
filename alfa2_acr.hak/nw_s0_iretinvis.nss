@@ -102,7 +102,7 @@ void OnDispellCallback( object oCaster, int nSaveDC, float fDuration )
 void main()
 {
 
-    if (!X2PreSpellCastCode())
+    if (!ACR_PrecastEvent())
     {
            // If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell
         return;

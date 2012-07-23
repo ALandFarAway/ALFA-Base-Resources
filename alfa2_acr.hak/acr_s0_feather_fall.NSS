@@ -9,7 +9,7 @@ void main() {
 	float fDuration = ACR_GetSpellDuration( oCaster, ACR_DURATION_TYPE_PER_CL, ACR_DURATION_1R );
 	
 	// If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell.
-	if ( !X2PreSpellCastCode() ) return;
+	if ( !ACR_PrecastEvent() ) return;
 	
 	// Dummy effect.
 	effect eVFX = EffectVisualEffect( VFX_DUR_SPELL_EAGLE_SPLENDOR );

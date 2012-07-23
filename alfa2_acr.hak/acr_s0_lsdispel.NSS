@@ -25,7 +25,7 @@ void main()
       check x2_inc_spellhook.nss to find out more
     */
     //--------------------------------------------------------------------------
-    if (!X2PreSpellCastCode())
+    if (!ACR_PrecastEvent())
     {
         return;
     }

@@ -45,7 +45,7 @@ int CureNearby( int nMaxToCure, effect eVis, effect eVis2, int nCasterLvl, int n
 void main()
 {
 
-    if (!X2PreSpellCastCode())
+    if (!ACR_PrecastEvent())
     {
 		// If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell
         return;

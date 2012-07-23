@@ -26,7 +26,7 @@ void main()
   check x2_inc_spellhook.nss to find out more
   
 */
-    if (!X2PreSpellCastCode())
+    if (!ACR_PrecastEvent())
     {
 	// If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell
         return;

@@ -9,7 +9,7 @@ void main() {
 	float fDuration = ACR_GetSpellDuration( oCaster, ACR_DURATION_TYPE_PER_CL, ACR_DURATION_1M );
 	
 	// If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell.
-	if ( !X2PreSpellCastCode() ) return;
+	if ( !ACR_PrecastEvent() ) return;
 	
 	// Determine bonus.
 	int nBonus = 10;

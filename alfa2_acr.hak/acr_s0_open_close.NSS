@@ -7,7 +7,7 @@ void main() {
 	object oTarget = GetSpellTargetObject();
 	
 	// If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell.
-	if ( !X2PreSpellCastCode() ) return;
+	if ( !ACR_PrecastEvent() ) return;
 	
 	// Are we actually casting the spell on a door?
 	if ( GetObjectType( oTarget ) != OBJECT_TYPE_DOOR && GetObjectType( oTarget ) != OBJECT_TYPE_PLACEABLE ) {

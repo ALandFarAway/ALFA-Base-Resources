@@ -26,7 +26,7 @@
 
 void main()
 {
-    if (!X2PreSpellCastCode()) return;
+    if (!ACR_PrecastEvent()) return;
 
     //Declare major variables
     object oCaster   = OBJECT_SELF;

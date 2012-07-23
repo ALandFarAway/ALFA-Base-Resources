@@ -11,7 +11,7 @@ void main()
     object oPC = OBJECT_SELF;
     object oTarget = GetSpellTargetObject();
 
-    if (!X2PreSpellCastCode())
+    if (!ACR_PrecastEvent())
     {
 	// If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell
         return;

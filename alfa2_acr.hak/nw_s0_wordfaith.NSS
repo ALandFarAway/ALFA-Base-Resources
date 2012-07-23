@@ -22,7 +22,7 @@ int SPELL_WORD_OF_CHAOS = 3117;
 
 void main()
 {
-    if(!X2PreSpellCastCode()) return;
+    if(!ACR_PrecastEvent()) return;
 	
     effect eUpper, eMid, eLow, eVFX, eAreaVFX;
     effect eDeath = EffectDeath();

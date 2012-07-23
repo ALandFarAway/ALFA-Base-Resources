@@ -17,7 +17,7 @@ void main()
 {
 
 
-    if (!X2PreSpellCastCode())
+    if (!ACR_PrecastEvent())
     {
         return;
     }

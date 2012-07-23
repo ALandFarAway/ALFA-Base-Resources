@@ -81,6 +81,10 @@ const int ACR_SPELL_DESCRIPT_WATER = 18;
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+// Precast and post-cast events.
+int ACR_PrecastEvent();
+int ACR_PostcastEvent();
+
 //! Calculates the duration of a spell's effects.
 float ACR_GetSpellDuration( object oCaster, int nDurationType, float nDurationBase );
 
@@ -105,6 +109,15 @@ int ACR_GetCureDamageTotal( object oTarget, int nDieCount, int nDieSides, int nM
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+int ACR_PrecastEvent() {
+	if ( !X2PreSpellCastCode() ) return FALSE;
+	return TRUE;
+}
+
+int ACR_PostcastEvent() {
+	return TRUE;
+}
 
 float ACR_GetSpellDuration( object oCaster, int nDurationType, float nDurationBase ) {
 	// Get base duration.

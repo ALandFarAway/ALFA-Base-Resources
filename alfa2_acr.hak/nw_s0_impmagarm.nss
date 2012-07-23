@@ -24,7 +24,7 @@ void CheckArmor(object oArmor, object oTarget, float fDuration);
 
 void main()
 {
-	if (!X2PreSpellCastCode()) return;
+	if (!ACR_PrecastEvent()) return;
 	
 	object oTarget = GetSpellTargetObject();
 	object oArmor = GetItemInSlot(INVENTORY_SLOT_CHEST, oTarget);

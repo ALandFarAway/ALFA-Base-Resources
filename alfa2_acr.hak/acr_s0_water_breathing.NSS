@@ -25,7 +25,7 @@ void _ApplyWaterBreathing( object oCaster, object oTarget, float fDuration ) {
 
 void main() {
 	// If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell.
-    if ( !X2PreSpellCastCode() ) return;
+    if ( !ACR_PrecastEvent() ) return;
 	
 	// Get the caster and location of the target.
 	object oCaster = OBJECT_SELF;
