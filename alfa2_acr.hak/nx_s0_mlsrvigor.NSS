@@ -26,7 +26,8 @@
 //  2008/08/30 - ALFA ACR edits for subdual system
 
 #include "nw_i0_spells"
-#include "x2_inc_spellhook" 
+#include "x2_inc_spellhook"
+#include "acr_spells_i" 
 #include "nwn2_inc_metmag"
 #include "nwn2_inc_spells"
 

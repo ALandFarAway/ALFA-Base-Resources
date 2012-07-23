@@ -14,7 +14,8 @@
 // Changed duration to 1 rnd, affects only 4HD or less
 
 #include "x0_I0_SPELLS"    
-#include "x2_inc_spellhook" 
+#include "x2_inc_spellhook"
+#include "acr_spells_i" 
 
 void main()
 {

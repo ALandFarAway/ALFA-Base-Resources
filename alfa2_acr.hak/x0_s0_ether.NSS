@@ -23,6 +23,7 @@
 
 #include "x2_inc_spellhook" 
 #include "acr_travel_i"
+#include "acr_spells_i"
 
 void main()
 {

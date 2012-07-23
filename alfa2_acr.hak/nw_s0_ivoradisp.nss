@@ -26,6 +26,7 @@
 //: PKM-OEI 07.08.06: VFX pass, changed abjuration hit to eldritch hit
 #include "x0_i0_spells"
 #include "x2_inc_spellhook"
+#include "acr_spells_i"
 #include "nwn2_inc_spells"
 
 void main()

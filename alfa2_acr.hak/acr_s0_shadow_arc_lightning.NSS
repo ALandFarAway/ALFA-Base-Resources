@@ -25,6 +25,7 @@
 
 #include "nwn2_inc_spells"
 #include "x2_inc_spellhook"
+#include "acr_spells_i"
 
 // Gets a random creature near target creature
 object GetRandomCreature(object oTarget)

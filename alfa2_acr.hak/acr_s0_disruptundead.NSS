@@ -10,7 +10,8 @@
 //:: Created On: 2008/12/26
 
 #include "X0_I0_SPELLS"    
-#include "x2_inc_spellhook" 
+#include "x2_inc_spellhook"
+#include "acr_spells_i" 
 #include "nwn2_inc_spells"
 
 void main()

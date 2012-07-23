@@ -19,6 +19,7 @@
 #include "nwn2_inc_spells"
 #include "nw_i0_spells"
 #include "x2_inc_spellhook" 
+#include "acr_spells_i"
 
 void CheckArmor(object oShield, object oTarget, float fDuration);
 

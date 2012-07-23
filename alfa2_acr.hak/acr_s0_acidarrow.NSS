@@ -28,6 +28,7 @@
 
 #include "X0_I0_SPELLS"
 #include "x2_inc_spellhook"
+#include "acr_spells_i"
 #include "x2_i0_spells"
 #include "nw_i0_spells"
 

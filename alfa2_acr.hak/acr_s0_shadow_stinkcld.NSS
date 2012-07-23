@@ -13,7 +13,8 @@
 //:://////////////////////////////////////////////
 // Modified by NESchampion 3 November 2011
 
-#include "x2_inc_spellhook" 
+#include "x2_inc_spellhook"
+#include "acr_spells_i" 
 
 void main()
 {

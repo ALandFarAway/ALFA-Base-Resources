@@ -38,6 +38,7 @@
 #include "X0_I0_SPELLS"
 #include "x2_inc_spellhook"
 #include "x2_i0_spells"
+#include "acr_spells_i"
 
 const float SPELL_EFFECT_RADIUS = 3.048;
 const float DELAY_ONE_ROUND     = 6.0f;

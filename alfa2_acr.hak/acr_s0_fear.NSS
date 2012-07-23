@@ -18,7 +18,8 @@
 // On successful save, is still shaken for 1 round
 
 #include "X0_I0_SPELLS"
-#include "x2_inc_spellhook" 
+#include "x2_inc_spellhook"
+#include "acr_spells_i" 
 
 void main()
 {

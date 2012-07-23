@@ -15,6 +15,7 @@
 //:: RPGplayer1 08/29/2008: Will ignore SR check, in case of Acid Bomb (won't work otherwise)
 
 #include "X0_I0_SPELLS"
+#include "acr_spells_i"
 
 void main()
 {

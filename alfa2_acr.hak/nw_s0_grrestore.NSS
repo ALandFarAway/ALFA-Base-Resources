@@ -20,7 +20,8 @@
 // 2008/08/30 - ALFA ACR edit for subdual, line 101
 #include "acr_nonlethal_i"
 
-#include "x2_inc_spellhook" 
+#include "x2_inc_spellhook"
+#include "acr_spells_i" 
 
 // return TRUE if the effect created by a supernatural force and can't be dispelled by spells
 int GetIsSupernaturalCurse(effect eEff);

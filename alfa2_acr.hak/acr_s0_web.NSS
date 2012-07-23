@@ -19,7 +19,8 @@
 // Modified by Riotnrrd for ALFA 5/1/2009
 // Corrected duration to 1 min / level
 
-#include "x2_inc_spellhook" 
+#include "x2_inc_spellhook"
+#include "acr_spells_i"
 
 void main()
 {

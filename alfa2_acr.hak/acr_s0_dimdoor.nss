@@ -10,6 +10,7 @@
 //=====================================================================================
 
 #include "x2_inc_spellhook"
+#include "acr_spells_i"
 #include "acr_travel_i"
 
 void main()

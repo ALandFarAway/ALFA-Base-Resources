@@ -30,7 +30,8 @@
 #include "nwn2_inc_spells"
 
 #include "NW_I0_SPELLS"
-#include "x2_inc_spellhook" 
+#include "x2_inc_spellhook"
+#include "acr_spells_i" 
 
 void DoExpeditiousRetreatEffects( object oCaster, object oTarget, int nMetaMagic )
 {

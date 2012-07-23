@@ -23,7 +23,8 @@
 //	Update creature blueprints
 // RPGplayer1 12/20/08 - Changed to match updated Animate Dead spell
 
-#include "x2_inc_spellhook" 
+#include "x2_inc_spellhook"
+#include "acr_spells_i" 
 
 void main()
 {

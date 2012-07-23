@@ -12,7 +12,8 @@
     try to guess which spell they'd likely be casting.
 */
 //:://////////////////////////////////////////////
-#include "x2_inc_spellhook" 
+#include "x2_inc_spellhook"
+#include "acr_spells_i" 
 
 int SPELL_HOLY_WORD     = 3114;
 int SPELL_BLASPHEMY     = 3115;

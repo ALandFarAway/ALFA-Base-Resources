@@ -4,7 +4,8 @@
 // Added by Riotnrrd for ALFA 2/2009
 
 #include "x0_I0_SPELLS"    
-#include "x2_inc_spellhook" 
+#include "x2_inc_spellhook"
+#include "acr_spells_i" 
 
 void main()
 {

@@ -49,6 +49,7 @@ const float ACR_DURATION_1H = 3600.0f * ACR_DURATION_HOUR_SCALE;
 const float ACR_DURATION_2H = ACR_DURATION_1H * 2.0f;
 const float ACR_DURATION_24H = ACR_DURATION_1H * 24.0f;
 
+const string ACR_SPELL_DESCRIPT_VAR_PREFIX = "ACR_SPELL_DESC_";
 const int ACR_SPELL_DESCRIPT_ACID = 0;
 const int ACR_SPELL_DESCRIPT_AIR = 1;
 const int ACR_SPELL_DESCRIPT_CHAOTIC = 2;
@@ -90,6 +91,9 @@ float ACR_GetSpellDuration( object oCaster, int nDurationType, float nDurationBa
 
 int ACR_GetCorrectCasterLevel(object oCreature, int nClass = -1);
 
+//! Sets if the currently casting spell is a domain spell or not.
+void ACR_SetIsDomainSpell( int nDomain, int bValue );
+
 void WarnWhenSpellExpires(object oCreature, int nSpellId, string sMessage, float fDuration);
 
 void _floatMessageIfHasSpellEffect(object oCreature, int nSpellId, string sMessage, float fDuration);
@@ -106,16 +110,41 @@ void ACR_SpellsHealOrHarmTarget( object oTarget, int nDamageTotal, int vfx_impac
 //! ACR's version of nw_i0_spells GetCureDamageTotal. Handles changes to our feats.
 int ACR_GetCureDamageTotal( object oTarget, int nDieCount, int nDieSides, int nMaxExtraDamage, int nSpellID );
 
+string _GetDomainVarName( int nDomain );
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
 int ACR_PrecastEvent() {
+	// First call NWN2's precast code.
 	if ( !X2PreSpellCastCode() ) return FALSE;
+	
 	return TRUE;
 }
 
 int ACR_PostcastEvent() {
+	// Delete temp description variables.
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_ACID, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_AIR, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_CHAOTIC, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_COLD, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_DARKNESS, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_DEATH, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_EARTH, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_ELECTRICITY, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_EVIL, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_FEAR, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_FIRE, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_FORCE, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_GOOD, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_LANGUAGE_DEP, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_LAWFUL, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_LIGHT, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_MIND_AFFECTING, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_SONIC, FALSE );
+	ACR_SetIsDomainSpell( ACR_SPELL_DESCRIPT_WATER, FALSE );
+
 	return TRUE;
 }
 
@@ -287,6 +316,22 @@ int ACR_GetCorrectCasterLevel(object oCreature, int nClass = -1) {
 	return nCasterLevel;
 }
 
+void ACR_SetIsDomainSpell( int nDomain, int nValue ) {
+	string sVarName = _GetDomainVarName( nDomain );
+
+	// Are we deleting?
+	if ( nValue = FALSE ) {
+		DeleteLocalInt( OBJECT_SELF, sVarName );
+		return;
+	}
+	
+	SetLocalInt( OBJECT_SELF, sVarName, nValue );
+}
+
+int ACR_GetIsDomainSpell( int nDomain ) {
+	return ( GetLocalInt( OBJECT_SELF, _GetDomainVarName( nDomain ) ) != FALSE );
+}
+
 int ACR_GetHighestCasterLevel(object oCreature) {
 	int nCL;
 	
@@ -422,4 +467,8 @@ int ACR_GetCureDamageTotal( object oTarget, int nDieCount, int nDieSides, int nM
 	}
 	
 	return nDamage;
+}
+
+string _GetDomainVarName( int nDomain ) {
+	return ACR_SPELL_DESCRIPT_VAR_PREFIX + IntToString( nDomain );
 }

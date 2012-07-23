@@ -28,6 +28,7 @@
 
 #include "x0_i0_spells"
 #include "x2_inc_spellhook"
+#include "acr_spells_i"
 #include "ginc_henchman"
 
 void main()

@@ -19,6 +19,7 @@
 // Modified by NESchampion 2 Dec 2011
 
 #include "x2_inc_spellhook" 
+#include "acr_spells_i"
 
 void main()
 {

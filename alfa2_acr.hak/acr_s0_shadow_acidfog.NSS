@@ -16,6 +16,7 @@
 
 
 #include "x2_inc_spellhook" 
+#include "acr_spells_i"
 
 void main()
 {

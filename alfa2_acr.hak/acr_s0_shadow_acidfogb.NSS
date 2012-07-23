@@ -15,6 +15,8 @@
 //:: Update Pass By: Preston W, On: July 20, 2001
 //:: RPGplayer1 08/29/2008: Added support for Acid Bomb (SpellID: 745)
 
+#include "acr_spells_i"
+
 void main()
 {
 

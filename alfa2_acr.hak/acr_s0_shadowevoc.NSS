@@ -14,6 +14,7 @@
 //:://////////////////////////////////////////////
 
 #include "nwn2_inc_spells"
+#include "acr_spells_i"
 
 void main()
 {

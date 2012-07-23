@@ -13,6 +13,7 @@
 //:://////////////////////////////////////////////
 
 #include "X0_I0_SPELLS"
+#include "acr_spells_i"
 
 void main()
 {

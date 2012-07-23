@@ -1,5 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
-#include "x2_inc_spellhook" 
+#include "x2_inc_spellhook"
+#include "acr_spells_i" 
 #include "x0_I0_SPELLS" 
 #include "acr_tools_i"
 

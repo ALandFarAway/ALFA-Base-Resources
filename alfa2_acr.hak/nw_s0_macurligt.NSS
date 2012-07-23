@@ -27,7 +27,8 @@
 
 
 #include "NW_I0_SPELLS"    
-#include "x2_inc_spellhook" 
+#include "x2_inc_spellhook"
+#include "acr_spells_i" 
 
 
 // Brock H. - OEI 10/06/05 -- Added code to heal faction, then nearby, and cap based on level

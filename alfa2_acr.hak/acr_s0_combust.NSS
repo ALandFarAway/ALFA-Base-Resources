@@ -29,6 +29,7 @@
 #include "x2_I0_SPELLS"
 #include "x2_inc_toollib"
 #include "x2_inc_spellhook"
+#include "acr_spells_i"
 
 void RunCombustImpact(object oTarget, object oCaster, int nLevel, int nMetaMagic);
 

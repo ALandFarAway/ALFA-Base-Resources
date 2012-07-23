@@ -23,6 +23,7 @@
 //pkm oei 10.20.06 - AB +4 was way too low for mid-late game.  Changed rules.
 
 #include "x2_inc_spellhook"
+#include "acr_spells_i"
 #include "x0_i0_spells"
 
 
