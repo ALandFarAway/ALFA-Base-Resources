@@ -33,6 +33,42 @@
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+const float ACR_DURATION_GLOBAL_SCALE = 1.0f;
+const float ACR_DURATION_10M_SCALE = 1.0f;
+const float ACR_DURATION_HOUR_SCALE = 7.0f / 60.0f;
+
+const int ACR_DURATION_TYPE_STATIC = 0;
+const int ACR_DURATION_TYPE_PER_CL = 1;
+
+const float ACR_DURATION_1R = 6.0f;
+const float ACR_DURATION_6S = 6.0f;
+const float ACR_DURATION_60S = 60.0f;
+const float ACR_DURATION_1M = 60.0f;
+const float ACR_DURATION_10M = 600.0f * ACR_DURATION_10M_SCALE;
+const float ACR_DURATION_1H = 3600.0f * ACR_DURATION_HOUR_SCALE;
+const float ACR_DURATION_2H = ACR_DURATION_1H * 2.0f;
+const float ACR_DURATION_24H = ACR_DURATION_1H * 24.0f;
+
+const int ACR_SPELL_DESCRIPT_ACID = 0;
+const int ACR_SPELL_DESCRIPT_AIR = 1;
+const int ACR_SPELL_DESCRIPT_CHAOTIC = 2;
+const int ACR_SPELL_DESCRIPT_COLD = 3;
+const int ACR_SPELL_DESCRIPT_DARKNESS = 4;
+const int ACR_SPELL_DESCRIPT_DEATH = 5;
+const int ACR_SPELL_DESCRIPT_EARTH = 6;
+const int ACR_SPELL_DESCRIPT_ELECTRICITY = 7;
+const int ACR_SPELL_DESCRIPT_EVIL = 8;
+const int ACR_SPELL_DESCRIPT_FEAR = 9;
+const int ACR_SPELL_DESCRIPT_FIRE = 10;
+const int ACR_SPELL_DESCRIPT_FORCE = 11;
+const int ACR_SPELL_DESCRIPT_GOOD = 12;
+const int ACR_SPELL_DESCRIPT_LANGUAGE_DEP = 13;
+const int ACR_SPELL_DESCRIPT_LAWFUL = 14;
+const int ACR_SPELL_DESCRIPT_LIGHT = 15;
+const int ACR_SPELL_DESCRIPT_MIND_AFFECTING = 16;
+const int ACR_SPELL_DESCRIPT_SONIC = 17;
+const int ACR_SPELL_DESCRIPT_WATER = 18;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -40,23 +76,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Global Variables ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-
-float ACR_DURATION_GLOBAL_SCALE = 1.0f;
-float ACR_DURATION_10M_SCALE = 1.0f;
-float ACR_DURATION_HOUR_SCALE = 7.0f / 60.0f;
-
-int ACR_DURATION_TYPE_STATIC = 0;
-int ACR_DURATION_TYPE_PER_CL = 1;
-
-float ACR_DURATION_1R = 6.0f;
-float ACR_DURATION_6S = 6.0f;
-float ACR_DURATION_60S = 60.0f;
-float ACR_DURATION_1M = 60.0f;
-float ACR_DURATION_10M = 600.0f * ACR_DURATION_10M_SCALE;
-float ACR_DURATION_1H = 3600.0f * ACR_DURATION_HOUR_SCALE;
-float ACR_DURATION_2H = ACR_DURATION_1H * 2.0f;
-float ACR_DURATION_24H = ACR_DURATION_1H * 24.0f;
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Prototypes /////////////////////////////////////////////////////////
@@ -123,8 +142,6 @@ int ACR_GetCorrectCasterLevel(object oCreature, int nClass = -1) {
 	int nCasterLevel;
 	int nClassLevels = GetLevelByClass(nClass, oCreature);
 	int nHd = GetHitDice(oCreature);
-	
-	if ( nClass == -1 ) nClass = GetLastSpellCastClass();
 	
 	if(GetHasFeat(FEAT_SPELL_POWER_5))
 		nCasterLevel += 5;
