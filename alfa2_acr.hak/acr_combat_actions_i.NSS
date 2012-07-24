@@ -143,7 +143,7 @@ int _TrySwitchModes(object oCreature) {
 
 void _FightDefensively(object oCreature, int nACBonus, int nABPenalty) {
 
-    if(IPGetIsRangedWeapon(GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oCreature))) {
+    if(GetWeaponRanged(GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oCreature))) {
         _NotifyCombatAction("You cannot fight defensively with a ranged weapon equiped.", oCreature);
     }
     
