@@ -16,7 +16,7 @@ namespace DeploymentDownloader
             try
             {
                 // Delete the old deployment logs.
-                if (File.Exists("DeploymentStager.log")) File.Delete("DeploymentStager.log");
+                if (File.Exists(Program.LogFilename)) File.Delete(Program.LogFilename);
                 if (File.Exists(SevenzipExtractor.LogFilename)) File.Delete(SevenzipExtractor.LogFilename);
                 if (File.Exists("DeploymentStager_Recompile.log")) File.Delete("DeploymentStager_Recompile.log");
 
@@ -43,7 +43,8 @@ namespace DeploymentDownloader
             Console.ReadKey(true);
         }
 
-        public static string ScriptCompilerFilename = "NWNScriptCompiler.exe";
-        public static string SevenZipFilename = "7z.exe";
+        public static string LogFilename = "DeploymentStager.log";
+        public static string ScriptCompilerFilename = "tools\\NWNScriptCompiler.exe";
+        public static string SevenZipFilename = "tools\\7z.exe";
     }
 }
