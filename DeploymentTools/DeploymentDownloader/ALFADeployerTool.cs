@@ -32,7 +32,7 @@ namespace DeploymentDownloader
             AdjustModuleVariables();
 
             // Give completion feedback.
-            Console.WriteLine("Update process complete.");
+            Program.LogEvent("Update process complete.");
         }
 
         public void LoadConfiguration()
@@ -42,15 +42,15 @@ namespace DeploymentDownloader
 
             // Check for the NWN2 install path.
             NWN2InstallPath = Properties.Settings.Default.NWN2InstallPath;
-            if (!Directory.Exists(NWN2InstallPath)) throw new Exception("NWN2 instal path does not exist. Check the config file.");
+            if (!Directory.Exists(NWN2InstallPath)) throw new Exception(string.Format("NWN2 instal path '{0}' does not exist. Check the config file.",NWN2InstallPath));
 
             // Check for the NWN2 install path.
             NWNX4Path = Properties.Settings.Default.NWNX4Path;
-            if (!Directory.Exists(NWNX4Path)) throw new Exception("NWNx4 path does not exist. Check the config file.");
+            if (!Directory.Exists(NWNX4Path)) throw new Exception(string.Format("NWNx4 path '{0}' does not exist. Check the config file.", NWNX4Path));
 
             // Check for the NWN2 home directory.
             NWN2HomePath = Properties.Settings.Default.NWN2HomePath;
-            if (!Directory.Exists(NWN2HomePath)) throw new Exception("NWN2 home path does not exist. Check the config file.");
+            if (!Directory.Exists(NWN2HomePath)) throw new Exception(string.Format("NWNx4 home '{0}' does not exist. Check the config file.", NWN2HomePath));
 
             // Check for the module.
             ModuleName = Properties.Settings.Default.ModuleName;
@@ -65,7 +65,7 @@ namespace DeploymentDownloader
             if (xpFiles.Length > 0)
             {
                 // Report the warning.
-                Console.WriteLine("WARNING: NWNX plugin files were found in the NWN2 install directory. These files are being moved to the a backup folder.");
+                Program.LogEvent("WARNING: NWNX plugin files were found in the NWN2 install directory. These files are being moved to the a backup folder.");
 
                 // Ensure that the backup directory exists.
                 string BackupDirectory = NWN2InstallPath + "\\backup\\";
@@ -75,7 +75,7 @@ namespace DeploymentDownloader
                 foreach (string filename in xpFiles)
                 {
                     string destination = BackupDirectory + filename.Remove(0, NWN2InstallPath.Length + 1);
-                    Console.WriteLine(string.Format("Moving '{0}' to '{1}'", filename, destination));
+                    Program.LogEvent(string.Format("Moving '{0}' to '{1}'", filename, destination));
                     File.Move(filename, destination);
                 }
             }
@@ -84,7 +84,7 @@ namespace DeploymentDownloader
         private void DownloadLatestACR()
         {
             // Download the latest ACR patch.
-            Console.WriteLine("Downloading latest ACR patch...");
+            Program.LogEvent(string.Format("Downloading latest ACR patch..."));
             WebClient downloader = new WebClient();
             wcDownloader.DownloadFile(PatchURL, "patch.xml");
 
@@ -94,13 +94,13 @@ namespace DeploymentDownloader
             // Load servers.
             ServerList = PatchDoc.Root.Element("servers").Elements().ToDictionary(el => (int)el.Attribute("id"), el => (string)el.Attribute("url"));
             if (ServerList.Count == 0) throw new Exception("No download servers found. Contact the technical administrator.");
-            Console.WriteLine("Found {0} servers.", ServerList.Count);
+            Program.LogEvent(string.Format("Found {0} servers.", ServerList.Count));
 
             // Parse module dependency/ADL resoures.
             List<XElement> resources = PatchDoc.Root.Element("module_externs").Elements().ToList();
             for (int i = 0; i < resources.Count; i++) ADLResources.Add(new ADLResource(resources[i]));
             if (ADLResources.Count == 0) throw new Exception("No resources found. Contact the technical administrator.");
-            Console.WriteLine("Loaded {0} resource entries.", ADLResources.Count);
+            Program.LogEvent(string.Format("Loaded {0} resource entries.", ADLResources.Count));
 
             // Update ADL resources.
             string DownloadFolder = GetHomeSubfolder("staging\\client");
@@ -140,12 +140,12 @@ namespace DeploymentDownloader
             cmdProcess.EnableRaisingEvents = true;
 
             // Begin processing.
-            Console.WriteLine("Recompiling '{0}'", NWN2HomePath + "\\modules\\" + ModuleName + "\\*.nss");
+            Program.LogEvent(string.Format("Recompiling '{0}'", NWN2HomePath + "\\modules\\" + ModuleName + "\\*.nss"));
             cmdProcess.Start();
             cmdProcess.BeginOutputReadLine();
             cmdProcess.BeginErrorReadLine();
             cmdProcess.WaitForExit();
-            Console.WriteLine("Recompile complete. Logs available in '{0}'.", "DeploymentTool_Recompile.log");
+            Program.LogEvent(string.Format("Recompile complete. Logs available in '{0}'.", "DeploymentTool_Recompile.log"));
         }
 
         void ParseOutput_Recompile(object sender, DataReceivedEventArgs e)
@@ -155,7 +155,7 @@ namespace DeploymentDownloader
             // Log errors or warnings to console.
             if (e.Data.ToLower().Contains("error:") || e.Data.ToLower().Contains("warning:"))
             {
-                Console.WriteLine(e.Data.Trim());
+                Program.LogEvent(string.Format(e.Data.Trim()));
             }
 
             // Log all output to the log file.
@@ -167,7 +167,7 @@ namespace DeploymentDownloader
         private void PatchModuleResourceXML()
         {
             string ModuleDLResourcePath = GetModuleFolder() + "\\moduledownloaderresources.xml";
-            Console.WriteLine("Patching '{0}'", "moduledownloaderresources.xml");
+            Program.LogEvent(string.Format("Patching '{0}'", "moduledownloaderresources.xml"));
 
             // Load the XML file.
             XDocument ModuleDLResource = XDocument.Load(ModuleDLResourcePath);
@@ -188,7 +188,11 @@ namespace DeploymentDownloader
                 }
 
                 // TODO: Add an element if it doesn't exist.
-                if (element == null) throw new Exception(string.Format("Could not find resource: {0}", resource.name));
+                if (element == null)
+                {
+                    Program.LogEvent(string.Format("WARNING: Could not find resource: {0}", resource.name));
+                    continue;
+                }
 
                 // Adjust data.
                 element.SetAttributeValue("hash", resource.hash);
@@ -205,10 +209,20 @@ namespace DeploymentDownloader
 
         private void FetchExternalDependencies()
         {
+            Program.LogEvent("Fetching external dependencies...");
+            
             List<DependencyResource> Dependencies = new List<DependencyResource>();
 
             // Load the dependencies from the patch xml.
             XDocument PatchDoc = XDocument.Load("patch.xml");
+
+            // Check for the files section.
+            if (PatchDoc.Root.Element("files") == null)
+            {
+                Program.LogEvent("ERROR: Malformed patch file! Files section missing. Skipping dependency checking.");
+                return;
+            }
+
             List<XElement> elements = PatchDoc.Root.Element("files").Elements().ToList();
             for (int i = 0; i < elements.Count; i++)
             {
@@ -217,11 +231,11 @@ namespace DeploymentDownloader
 
             if (ADLResources.Count == 0)
             {
-                Console.WriteLine("WARNING: No external dependency records found.");
+                Program.LogEvent(string.Format("WARNING: No external dependency records found."));
                 return;
             }
 
-            Console.WriteLine("Found {0} external dependencies.", ADLResources.Count);
+            Program.LogEvent(string.Format("Found {0} external dependencies.", ADLResources.Count));
 
             // Upgrade dependencies.
             string DownloadFolder = GetHomeSubfolder("staging\\client");

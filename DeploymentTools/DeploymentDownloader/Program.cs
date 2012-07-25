@@ -32,10 +32,7 @@ namespace DeploymentDownloader
             }
             catch (Exception e)
             {
-                Console.WriteLine(String.Format("ERROR: {0}", e.Message));
-                StreamWriter log = File.AppendText("DeploymentTool.log");
-                log.WriteLine("{0}", e);
-                log.Close();
+                LogEvent(e.ToString());
             }
 
             // Pause for user interaction before closing.
@@ -43,7 +40,15 @@ namespace DeploymentDownloader
             Console.ReadKey(true);
         }
 
-        public static string LogFilename = "DeploymentStager.log";
+        public static void LogEvent(string Event)
+        {
+            Console.WriteLine(Event);
+            StreamWriter log = File.AppendText(LogFilename);
+            log.WriteLine("{0}", Event);
+            log.Close();
+        }
+
+        public static string LogFilename = "DeploymentDownloader.log";
         public static string ScriptCompilerFilename = "tools\\NWNScriptCompiler.exe";
         public static string SevenZipFilename = "tools\\7z.exe";
     }
