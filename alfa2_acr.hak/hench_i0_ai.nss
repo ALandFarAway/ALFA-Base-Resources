@@ -371,6 +371,7 @@ int HenchTalentFlee(object oIntruder = OBJECT_INVALID)
 object GetNearestSeenOrHeardEnemyNotDead(int bCheckIsPC = FALSE)
 {
     int curCount = 1;
+    int bNeutralExhausted = 0, bEnemyExhausted = 0;
     object oTarget, oLeader;
     oLeader = GetFactionLeader(OBJECT_SELF);
 
@@ -380,17 +381,31 @@ object GetNearestSeenOrHeardEnemyNotDead(int bCheckIsPC = FALSE)
     // Rewrote to account for NPCs to account for DM-possessed enemies as Neutral not Hostile
     while (1)
     {
-        oTarget = GetNearestCreature(CREATURE_TYPE_PERCEPTION, PERCEPTION_SEEN, OBJECT_SELF, curCount, CREATURE_TYPE_IS_ALIVE, TRUE);
-	
-	if (!GetIsObjectValid(oTarget))
-	{
-	    break;
+        if (!bNeutralExhausted)
+            oTarget = GetNearestCreature(CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_NEUTRAL, OBJECT_SELF, curCount, CREATURE_TYPE_PERCEPTION, PERCEPTION_SEEN, CREATURE_TYPE_IS_ALIVE, TRUE);
+
+	if (!GetIsObjectValid(oTarget)) {
+		bNeutralExhausted = 1;
+	}
+	else if (GetIsEnemy(oTarget, oLeader) && !GetPlotFlag(oTarget))
+        {
+            return oTarget;
 	}
 
-        if (GetIsEnemy(oTarget, oLeader) && !GetPlotFlag(oTarget))
+        if (!bEnemyExhausted)
+            oTarget = GetNearestCreature(CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_ENEMY, OBJECT_SELF, curCount, CREATURE_TYPE_PERCEPTION, PERCEPTION_SEEN, CREATURE_TYPE_IS_ALIVE, TRUE);
+
+	if (!GetIsObjectValid(oTarget)) {
+		bEnemyExhausted = 1;
+	}
+	else if (GetIsEnemy(oTarget, oLeader) && !GetPlotFlag(oTarget))
         {
             return oTarget;
         }
+
+	if (bEnemyExhausted && bNeutralExhausted)
+		return OBJECT_INVALID;
+
         curCount ++;
     }
     curCount = 1;
