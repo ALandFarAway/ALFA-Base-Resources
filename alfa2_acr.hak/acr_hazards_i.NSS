@@ -305,7 +305,7 @@ void ACR_FallToLocation( object oPC, int nDistance, location lTarget, int nWilli
 	}
 	
 	// Is it a valid object?
-	if ( GetIsObjectValid( oPC ) ) return;
+	if ( !GetIsObjectValid( oPC ) ) return;
 	AssignCommand( oPC, ClearAllActions() );
 	
 	// Check the distance.
@@ -345,10 +345,14 @@ void ACR_FallToWaypoint( object oPC, int nDistance, string sTarget, int nWilling
 
 void ACR_InflictFallDamage( object oPC, int nDistance, int bWilling = FALSE, int nWaterDepth = 0, int bYieldingSurface = FALSE ) {
 	if ( !GetIsObjectValid( oPC ) ) return;
-	if ( nDistance < 0 ) nDistance = 0;
 	if ( nWaterDepth < 0 ) nWaterDepth = 0;
-	
 	int i = 0;
+	
+	// Valid distance?
+	if ( nDistance <= 0 ) {
+		WriteTimestampedLogEntry( "ERROR - ACR_InflictFallDamage failed: Distance <= 0" );
+		return;
+	}
 	
 	// Are we feather falling? Well, no problem then.
 	if ( ACR_IsFeatherFalling( oPC ) ) {
@@ -391,7 +395,7 @@ void ACR_InflictFallDamage( object oPC, int nDistance, int bWilling = FALSE, int
 		// However, if they're not so agile or a diver...
 		if ( bSuccessfulDive == FALSE ) {
 			// If the water is at least 10 feet deep, the first 20 feet of falling do no damage.
-			if ( nWaterDepth > 10 ) {
+			if ( nWaterDepth >= 10 ) {
 				nDistance -= 20;
 				if ( nDistance < 0 ) nDistance = 0;
 			}
@@ -451,8 +455,8 @@ void ACR_InflictFallDamage( object oPC, int nDistance, int bWilling = FALSE, int
 	}
 	
 	// Inflict damage.
-	ApplyEffectToObject( DURATION_TYPE_INSTANT, EffectDamage( d6( nLethalDamageDice ), DAMAGE_TYPE_BLUDGEONING, TRUE ), oPC );
-	ACR_ApplyNonlethalDamageToCreature( oPC, d6( nNonlethalDamageDice ) );
+	if ( nLethalDamageDice > 0 ) ApplyEffectToObject( DURATION_TYPE_INSTANT, EffectDamage( d6( nLethalDamageDice ), DAMAGE_TYPE_BLUDGEONING, TRUE ), oPC );
+	if ( nNonlethalDamageDice > 0 ) ACR_ApplyNonlethalDamageToCreature( oPC, d6( nNonlethalDamageDice ) );
 }
 
 
