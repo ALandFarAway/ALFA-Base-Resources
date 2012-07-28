@@ -301,8 +301,11 @@ void ACR_AwardCombatXP(object oPCParty, object oKill)
             // switched out to even split over PCs rather than proportional by ECL - AL 11/15/2008
             //ACR_GiveXPToPC(oPC, FloatToInt(fXP * IntToFloat(ACR_GetECL(oPC)) / IntToFloat(nLevelSum)));
             //ACR_LogEvent(oPC, ACR_LOG_COMBATXP, FloatToString(fXP * IntToFloat(ACR_GetECL(oPC)) / IntToFloat(nLevelSum), 6, 0)+" XP for combat against "+GetName(oKill));
-            ACR_GiveXPToPC(oPC, FloatToInt(fXP  / IntToFloat(nNumPCs)));
-            ACR_LogEvent(oPC, ACR_LOG_COMBATXP, FloatToString(fXP  / IntToFloat(nNumPCs), 4, 0)+" XP for combat against "+GetName(oKill));
+            if(ACR_GetECL(oPC) - FloatToInt(fCR) <= 8)
+            {
+                ACR_GiveXPToPC(oPC, FloatToInt(fXP  / IntToFloat(nNumPCs)));
+                ACR_LogEvent(oPC, ACR_LOG_COMBATXP, FloatToString(fXP  / IntToFloat(nNumPCs), 4, 0)+" XP for combat against "+GetName(oKill));
+            }
         }
         oPC = GetNextFactionMember(oPCParty);
     }
@@ -474,9 +477,7 @@ float _GetBaseCombatXP(float fCR) {
 // --- DangerFactor(+1 to +4) = ((2 + Argument)/2)*BaseXP(CharLev)
 // --- DangerFactor(> +4) = 3.5*BaseXP(CharLev) OverCR Condition
 float _GetXPForDangerFactor(float fDangerFactor) {
-    if(fDangerFactor < -8.0) {
-        return 0.0;
-    } else if(fDangerFactor < -3.0) {
+    if(fDangerFactor < -3.0) {
         return 0.1;
     } else if(fDangerFactor <= -1.0) {
         return 2.0/(2.0-fDangerFactor);
