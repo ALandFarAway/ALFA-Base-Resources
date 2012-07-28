@@ -1,3 +1,5 @@
+#include "acr_spells_i" 
+
 void main() {
     if ( !ACR_PrecastEvent() ) return;
 
