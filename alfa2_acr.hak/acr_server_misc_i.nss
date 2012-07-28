@@ -76,7 +76,10 @@ const int ACR_SERVER_MISC_GET_COLUMN_DATABASE_CONNECTION     = 8;
 const int ACR_SERVER_MISC_GET_AFFECTED_ROW_COUNT_DATABASE_CONNECTION = 9;
 
 // This command escapes a string for safe use within a SQL query.
-const int ACR_SERVER_MISC_ESCAPE_STRING_DATABASE_CONNECTION = 10;
+const int ACR_SERVER_MISC_ESCAPE_STRING_DATABASE_CONNECTION  = 10;
+
+// This command obtains a stack trace of the current thread.
+const int ACR_SERVER_MISC_GET_STACK_TRACE                    = 11;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -170,6 +173,12 @@ int ACR_GetAffectedRowCountDatabaseConnection(int ConnectionHandle);
 //!  - String: Supplies the string to escape.
 //!  - Returns: The escaped string is returned.
 string ACR_EscapeStringDatabaseConnection(int ConnectionHandle, string String);
+
+//! Obtain a stack trace for use in debug logging.  The stack trace includes
+//  the frames for the call into ACR_ServerMisc itself.
+//!  - Returns: The stack trace string.
+string ACR_GetStackTrace(void);
+
 
 //! Make a raw call to the support script.
 //!  - Command: Supplies the command to request (e.g. ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT).
@@ -322,6 +331,26 @@ string ACR_EscapeStringDatabaseConnection(int ConnectionHandle, string String)
 		ConnectionHandle,
 		0,
 		String,
+		"",
+		OBJECT_INVALID))
+	{
+		return "";
+	}
+
+	object Module = GetModule();
+	string Data = GetLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
+	DeleteLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
+
+	return Data;
+}
+
+string ACR_GetStackTrace(void)
+{
+	if (!ACR_CallServerMiscScript(
+		ACR_SERVER_MISC_GET_STACK_TRACE,
+		0,
+		0,
+		"",
 		"",
 		OBJECT_INVALID))
 	{

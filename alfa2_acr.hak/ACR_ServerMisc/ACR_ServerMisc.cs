@@ -153,6 +153,15 @@ namespace ACR_ServerMisc
                     }
                     break;
 
+                case REQUEST_TYPE.GET_STACK_TRACE:
+                    {
+                        StackTrace Trace = new StackTrace(true);
+
+                        SetLocalString(GetModule(), "ACR_SERVER_MISC_RETURN_STRING", Trace.ToString());
+                        ReturnCode = TRUE;
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid server misc command " + RequestType.ToString());
 
@@ -342,7 +351,8 @@ namespace ACR_ServerMisc
             FETCH_DATABASE_CONNECTION,
             GET_COLUMN_DATABASE_CONNECTION,
             GET_AFFECTED_ROW_COUNT_DATABASE_CONNECTION,
-            ESCAPE_STRING_DATABASE_CONNECTION
+            ESCAPE_STRING_DATABASE_CONNECTION,
+            GET_STACK_TRACE
         }
 
         /// <summary>
