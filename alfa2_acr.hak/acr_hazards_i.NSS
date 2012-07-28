@@ -362,7 +362,7 @@ void ACR_InflictFallDamage( object oPC, int nDistance, int bWilling = FALSE, int
 	
 	// Do we have feather falling memorized? If so, let's use it. This only applies for ourself.
 	if ( GetHasSpell( SPELL_FEATHER_FALL, oPC ) ) {
-		SendMessageToPC( oPC, "Casting Feather Fall as an instant action." );
+		SendMessageToPC( oPC, "Casting Feather Fall as an instant action!" );
 		SendMessageToPC( oPC, "You fall gracefully downwards." );
 		DecrementRemainingSpellUses( oPC, SPELL_FEATHER_FALL );
 		return;
@@ -386,7 +386,7 @@ void ACR_InflictFallDamage( object oPC, int nDistance, int bWilling = FALSE, int
 			nDC	+= ( nDistance / 50 ) * 5;
 
 			// Make the actual check.
-			if ( ACR_SkillCheck( SKILL_SWIM, oPC, nDC, TRUE ) || !ACR_SkillCheck( SKILL_TUMBLE, oPC, nDC, TRUE ) ) {
+			if ( ACR_SkillCheck( SKILL_SWIM, oPC, nDC, TRUE ) || ACR_SkillCheck( SKILL_TUMBLE, oPC, nDC, TRUE ) ) {
 				SendMessageToPC( oPC, "The water is deep enough for you to dive harmlessly." );
 				bSuccessfulDive = TRUE;
 			}
@@ -431,7 +431,7 @@ void ACR_InflictFallDamage( object oPC, int nDistance, int bWilling = FALSE, int
 		}
 		
 		// A DC 15 Jump check or DC 15 Tumble check allows the character to avoid any damage from the first 10 feet fallen and converts any damage from the second 10 feet to nonlethal damage.
-		if ( ACR_SkillCheck( SKILL_JUMP, oPC, 15, TRUE ) || !ACR_SkillCheck( SKILL_TUMBLE, oPC, 15, TRUE ) ) {
+		if ( ACR_SkillCheck( SKILL_JUMP, oPC, 15, TRUE ) || ACR_SkillCheck( SKILL_TUMBLE, oPC, 15, TRUE ) ) {
 			nLethalDamageDice--;
 			if ( bWilling == FALSE ) {
 				nLethalDamageDice--;
