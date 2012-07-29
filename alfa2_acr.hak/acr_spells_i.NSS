@@ -477,7 +477,7 @@ string _GetDomainVarName( int nDomain ) {
 	return ACR_SPELL_DESCRIPT_VAR_PREFIX + IntToString( nDomain );
 }
 
-int _GetPersistantACBonusTarget(object oTarget, int nACType, int nACBonus) {
+int _GetPersistentACBonusTarget(object oTarget, int nACType, int nACBonus) {
 	// Find the base and enhancement AC bonuses.
 	// Base should not stack with the effect.
 	// Enhancement should.
@@ -507,7 +507,7 @@ int _GetPersistantACBonusTarget(object oTarget, int nACType, int nACBonus) {
 	return nResult;
 }
 
-void _AddPersistantACBonusEffects(object oTarget, int nSpellId, int nACType, int nBonus, float fDurationRemaining, effect eLinkedEffects) {	
+void _AddPersistentACBonusEffects(object oTarget, int nSpellId, int nACType, int nBonus, float fDurationRemaining, effect eLinkedEffects) {	
 
 	if(nBonus <= 0) {
 		// If there's no AC bonus needed, persist this effect as something else so the spell won't be ended.
@@ -536,11 +536,11 @@ void _PersistACBonusFromSpell(object oTarget, int nSpellId, int nACType, int nAC
 
 	if(CountTrackingEffectsFor(oTarget, nSource)) {
 		// Spell is still active. See if we need to change the AC effects.
-		int nNeededACBonus = _GetPersistantACBonusTarget(oTarget, nACType, nACBonus);
+		int nNeededACBonus = _GetPersistentACBonusTarget(oTarget, nACType, nACBonus);
 		if(nNeededACBonus != nLastACBonus) {
 			// Change AC effects.
 			RemoveAllEffectsFromSource(oTarget, nSource);
-			_AddPersistantACBonusEffects(oTarget, nSpellId, nACType, nNeededACBonus, fDurationRemaining, eLinkedEffects);
+			_AddPersistentACBonusEffects(oTarget, nSpellId, nACType, nNeededACBonus, fDurationRemaining, eLinkedEffects);
 		}
 		if(fDurationRemaining > 0.0)
 			DelayCommand(6.0, _PersistACBonusFromSpell(oTarget, nSpellId, nACType, nACBonus, nNeededACBonus, fDurationRemaining - 6.0, eLinkedEffects, bIsPC));
@@ -549,7 +549,7 @@ void _PersistACBonusFromSpell(object oTarget, int nSpellId, int nACType, int nAC
 
 void PersistACBonusFromSpell(object oTarget, int nSpellId, int nACType, int nACBonus, float fDurationRemaining, effect eLinkedEffects) {
 	SetEffectSpellId(eLinkedEffects, nSpellId);
-	int nTarget = _GetPersistantACBonusTarget(oTarget, nACType, nACBonus);
-	_AddPersistantACBonusEffects(oTarget, nSpellId, nACType, nTarget, fDurationRemaining, eLinkedEffects);
+	int nTarget = _GetPersistentACBonusTarget(oTarget, nACType, nACBonus);
+	_AddPersistentACBonusEffects(oTarget, nSpellId, nACType, nTarget, fDurationRemaining, eLinkedEffects);
 	DelayCommand(6.0, _PersistACBonusFromSpell(oTarget, nSpellId, nACType, nACBonus, nTarget, fDurationRemaining - 6.0, eLinkedEffects, GetIsPC(oTarget) && !GetIsDMPossessed(oTarget)));
 }
