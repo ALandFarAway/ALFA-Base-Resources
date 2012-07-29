@@ -177,7 +177,7 @@ string ACR_EscapeStringDatabaseConnection(int ConnectionHandle, string String);
 //! Obtain a stack trace for use in debug logging.  The stack trace includes
 //  the frames for the call into ACR_ServerMisc itself.
 //!  - Returns: The stack trace string.
-string ACR_GetStackTrace(void);
+string ACR_GetStackTrace();
 
 
 //! Make a raw call to the support script.
@@ -344,7 +344,7 @@ string ACR_EscapeStringDatabaseConnection(int ConnectionHandle, string String)
 	return Data;
 }
 
-string ACR_GetStackTrace(void)
+string ACR_GetStackTrace()
 {
 	if (!ACR_CallServerMiscScript(
 		ACR_SERVER_MISC_GET_STACK_TRACE,
