@@ -202,10 +202,12 @@ string GetObjectTypeName(int nObjectType);
 string GetBaseItemTypeName(object oItem);
 
 // Returns oItem's armor class before any item properties are taken into
-// account. Returns -1 if oItem is not armor.
-//int GetBaseArmorClass(object oItem);
-// Does work, no GetIP* function seems to return the magical AC bonus.
-// Fix in NWN2?
+// account. Returns 0 if oItem is not armor.
+int GetBaseArmorClass(object oItem);
+
+// Returns oItem's armor class enhancement.
+// Returns 0 on error.
+int GetACEnhancementBonus(object oItem);
 
 // Returns oItem's spell failure % before any item properties are taken into
 // account. Returns 0 if oItem is not armor.
@@ -890,15 +892,25 @@ string GetBaseItemTypeName(object oItem) {
     return "";
 }
 
-/*int GetBaseArmorClass(object oItem) {
-    // FIX ME !!
-    // This just doesn't work. Any way to get the AC of an item property?
-    if(!GetIsObjectValid(oItem) || GetBaseItemType(oItem) != BASE_ITEM_ARMOR) {
-        return -1;
-    }
-    //SendMessageToPC(GetFirstPC(), "Highest: " + IntToString(GetHighestItemPropertyParam1Value(oItem, ITEM_PROPERTY_AC_BONUS)));
-    return GetAC(oItem) - GetHighestItemPropertyParam1Value(oItem, ITEM_PROPERTY_AC_BONUS);
-}*/
+int GetBaseArmorClass(object oItem) {
+    int nType = GetArmorRulesType(oItem);
+	if(!nType) return 0;
+	
+	return StringToInt(Get2DAString("armorrulestats", "ACBONUS", nType));
+}
+
+int GetACEnhancementBonus(object oItem) {
+	itemproperty ip = GetFirstItemProperty(oItem);
+	int enhanced = 0;
+	while(GetIsItemPropertyValid(ip)) {
+		if(GetItemPropertyType(ip) == ITEM_PROPERTY_AC_BONUS) {
+			int n = GetItemPropertyCostTableValue(ip);
+			if(n > enhanced) enhanced = n;
+		}
+		ip = GetNextItemProperty(oItem);
+	}
+	return enhanced;
+}
 
 int GetBaseSpellFailure(object oItem) {
     if(GetObjectType(oItem) != OBJECT_TYPE_ITEM || GetBaseItemType(oItem) != BASE_ITEM_ARMOR) {

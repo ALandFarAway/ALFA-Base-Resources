@@ -28,6 +28,7 @@
 #include "acr_i"
 #include "acr_roll_i"
 #include "acr_creature_i"
+#include "acr_effects_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -111,6 +112,9 @@ void ACR_SpellsHealOrHarmTarget( object oTarget, int nDamageTotal, int vfx_impac
 int ACR_GetCureDamageTotal( object oTarget, int nDieCount, int nDieSides, int nMaxExtraDamage, int nSpellID );
 
 string _GetDomainVarName( int nDomain );
+
+//! Adds a persistant AC bonus effect to oTarget, such as is used in Mage Armor and Shield spells.
+void PersistACBonusFromSpell(object oTarget, int nSpellId, int nACType, int nACBonus, float fDurationRemaining, effect eLinkedEffects);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -471,4 +475,81 @@ int ACR_GetCureDamageTotal( object oTarget, int nDieCount, int nDieSides, int nM
 
 string _GetDomainVarName( int nDomain ) {
 	return ACR_SPELL_DESCRIPT_VAR_PREFIX + IntToString( nDomain );
+}
+
+int _GetPersistantACBonusTarget(object oTarget, int nACType, int nACBonus) {
+	// Find the base and enhancement AC bonuses.
+	// Base should not stack with the effect.
+	// Enhancement should.
+	int nEnhancement = 0;
+	int nBaseAC = 0;
+	if(nACType == AC_ARMOUR_ENCHANTMENT_BONUS) {
+		object oArmor = GetItemInSlot(INVENTORY_SLOT_CHEST, oTarget);
+		nBaseAC = GetBaseArmorClass(oArmor);
+		nEnhancement = GetACEnhancementBonus(oArmor);
+		/* Not sure what to do with bracers...
+		object oBracers = GetItemInSlot(INVENTORY_SLOT_ARMS, oTarget);
+		if(GetBaseItemType(oBracers) == BASE_ITEM_BRACER) {
+			int nBracersEnhancement = GetACEnhancementBonus(oBracers);
+			if(nBracersEnhancement > nEnhancement) nEnhancement = nBracersEnhancement;
+		}*/
+	} else if(nACType = AC_SHIELD_ENCHANTMENT_BONUS) {
+		object oShield = GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oTarget);
+		int nType = GetBaseItemType(oShield);
+		if(nType == BASE_ITEM_TOWERSHIELD || nType == BASE_ITEM_LARGESHIELD || nType == BASE_ITEM_SMALLSHIELD) {
+			nEnhancement = GetACEnhancementBonus(oShield);
+			nBaseAC = GetBaseArmorClass(oShield);
+		}
+	}
+	
+	int nResult = nACBonus + nEnhancement - nBaseAC;
+	if(nResult < 0) nResult = 0;
+	return nResult;
+}
+
+void _AddPersistantACBonusEffects(object oTarget, int nSpellId, int nACType, int nBonus, float fDurationRemaining, effect eLinkedEffects) {	
+
+	if(nBonus <= 0) {
+		// If there's no AC bonus needed, persist this effect as something else so the spell won't be ended.
+		if(GetEffectType(eLinkedEffects) != EFFECT_TYPE_INVALIDEFFECT)
+			ApplyEffectFromSpell(nSpellId, DURATION_TYPE_TEMPORARY, eLinkedEffects, oTarget, fDurationRemaining);
+			else ApplyTrackingEffectFromSpell(nSpellId, DURATION_TYPE_TEMPORARY, oTarget, fDurationRemaining);
+	} else {
+		effect newEffect = EffectACIncrease(nBonus, nACType);
+		SetEffectSpellId(newEffect, nSpellId);
+		if(GetEffectType(eLinkedEffects) != EFFECT_TYPE_INVALIDEFFECT) 
+			newEffect = EffectLinkEffects(eLinkedEffects, newEffect);
+			
+		ApplyEffectFromSpell(nSpellId, DURATION_TYPE_TEMPORARY, newEffect, oTarget, fDurationRemaining);
+	}
+}
+
+void _PersistACBonusFromSpell(object oTarget, int nSpellId, int nACType, int nACBonus, int nLastACBonus, float fDurationRemaining, effect eLinkedEffects, int bIsPC) {	
+	
+	if(bIsPC && !GetIsObjectValid(oTarget)) {
+		// If the PC has logged out, skip this heartbeat.
+		DelayCommand(6.0, _PersistACBonusFromSpell(oTarget, nSpellId, nACType, nACBonus, nLastACBonus, fDurationRemaining - 6.0, eLinkedEffects, bIsPC));
+		return;
+	}
+	
+	int nSource = ACR_EFFECT_SOURCE_SPELL_OFFSET + nSpellId;
+
+	if(CountTrackingEffectsFor(oTarget, nSource)) {
+		// Spell is still active. See if we need to change the AC effects.
+		int nNeededACBonus = _GetPersistantACBonusTarget(oTarget, nACType, nACBonus);
+		if(nNeededACBonus != nLastACBonus) {
+			// Change AC effects.
+			RemoveAllEffectsFromSource(oTarget, nSource);
+			_AddPersistantACBonusEffects(oTarget, nSpellId, nACType, nNeededACBonus, fDurationRemaining, eLinkedEffects);
+		}
+		if(fDurationRemaining > 0.0)
+			DelayCommand(6.0, _PersistACBonusFromSpell(oTarget, nSpellId, nACType, nACBonus, nNeededACBonus, fDurationRemaining - 6.0, eLinkedEffects, bIsPC));
+	}
+}
+
+void PersistACBonusFromSpell(object oTarget, int nSpellId, int nACType, int nACBonus, float fDurationRemaining, effect eLinkedEffects) {
+	SetEffectSpellId(eLinkedEffects, nSpellId);
+	int nTarget = _GetPersistantACBonusTarget(oTarget, nACType, nACBonus);
+	_AddPersistantACBonusEffects(oTarget, nSpellId, nACType, nTarget, fDurationRemaining, eLinkedEffects);
+	DelayCommand(6.0, _PersistACBonusFromSpell(oTarget, nSpellId, nACType, nACBonus, nTarget, fDurationRemaining - 6.0, eLinkedEffects, GetIsPC(oTarget) && !GetIsDMPossessed(oTarget)));
 }

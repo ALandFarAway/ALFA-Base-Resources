@@ -32,7 +32,7 @@
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-const int ACR_EFFECT_SOURCE_START = 100000;
+const int _ACR_EFFECT_SOURCE_START = 100000;
 
 const int ACR_EFFECT_SOURCE_RESTING = 1;
 const int ACR_EFFECT_SOURCE_COMBAT_ACTION = 2;
@@ -69,6 +69,14 @@ const int AOE_PER_RADIUS_MAX = 120;
 //! For spell sources, add ACR_EFFECT_SOURCE_SPELL_OFFSET to the SpellId.
 //! For feat sources, add ACR_EFFECT_SOURCE_FEAT_OFFSET to the FeatId.
 void ApplyEffectFromSource(int nSource, int nDurationType, effect eEffect, object oTarget, float fDuration=0.0f);
+
+//! Should be used for spell-sourced effects instead of ApplyEffectFromSource, so the SpellId of the applied effect is
+//! set correctly.
+void ApplyEffectFromSpell(int nSpellId, int nDurationType, effect eEffect, object oTarget, float fDuration=0.0f);
+
+//! Applies a tracking effect without any attached effects.
+//! Used for effects which depend on scripts to affect the game world.
+void ApplyTrackingEffectFromSpell(int nSpellId, int nDurationType, object oTarget, float fDuration=0.0f);
 
 //! Removes all effects sSource placed on oTarget.
 //! For spell sources, add ACR_EFFECT_SOURCE_SPELL_OFFSET to the SpellId.
@@ -152,14 +160,29 @@ int ACR_GetAOERadiusID(float fRadius);
 void ApplyEffectFromSource(int nSource, int nDurationType, effect eEffect, object oTarget, float fDuration=0.0f) {
 	ApplyEffectToObject(
 		nDurationType,
-		EffectLinkEffects(eEffect, EffectVisualEffect(ACR_EFFECT_SOURCE_START + nSource)),
+		EffectLinkEffects(eEffect, EffectVisualEffect(_ACR_EFFECT_SOURCE_START + nSource)),
 		oTarget,
 		fDuration);
 }
 
+void ApplyEffectFromSpell(int nSpellId, int nDurationType, effect eEffect, object oTarget, float fDuration=0.0f) {
+	SetEffectSpellId(eEffect, nSpellId);
+	effect eff = EffectVisualEffect(_ACR_EFFECT_SOURCE_START + ACR_EFFECT_SOURCE_SPELL_OFFSET + nSpellId);
+	SetEffectSpellId(eff, nSpellId);
+	eff = EffectLinkEffects(eEffect, eff);
+	SetEffectSpellId(eff, nSpellId);
+	ApplyEffectToObject(nDurationType, eff, oTarget, fDuration);
+}
+
+void ApplyTrackingEffectFromSpell(int nSpellId, int nDurationType, object oTarget, float fDuration=0.0f) {
+	effect eff = EffectVisualEffect(_ACR_EFFECT_SOURCE_START + ACR_EFFECT_SOURCE_SPELL_OFFSET + nSpellId);
+	SetEffectSpellId(eff, nSpellId);
+	ApplyEffectToObject(nDurationType, eff, oTarget, fDuration);
+}
+
 
 int GetIsTrackingEffect(effect eEffect, int nSourceId) {
-	return GetEffectType(eEffect) == EFFECT_TYPE_VISUALEFFECT && GetEffectInteger(eEffect, 0) > ACR_EFFECT_SOURCE_START;
+	return GetEffectType(eEffect) == EFFECT_TYPE_VISUALEFFECT && GetEffectInteger(eEffect, 0) > _ACR_EFFECT_SOURCE_START;
 }
 
 
@@ -172,7 +195,7 @@ int GetIsTrackingEffectFor(effect eEffect, int nSourceId) {
 int GetTrackingEffectSource(effect eEffect) {
 	if(GetEffectType(eEffect) != EFFECT_TYPE_VISUALEFFECT) return 0;
 	int nSource = GetEffectInteger(eEffect, 0);
-	return (nSource > ACR_EFFECT_SOURCE_START) ? (nSource - ACR_EFFECT_SOURCE_START) : 0;
+	return (nSource > _ACR_EFFECT_SOURCE_START) ? (nSource - _ACR_EFFECT_SOURCE_START) : 0;
 }
 
 
