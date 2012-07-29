@@ -3,7 +3,7 @@
 
 void main()
 {
-	if (!X2PreSpellCastCode()) return;
+	if (!ACR_PrecastEvent()) return;
 	
 	float fDuration = ACR_GetSpellDuration(OBJECT_SELF, ACR_DURATION_TYPE_PER_CL, ACR_DURATION_1H);
 	effect noEffect;
