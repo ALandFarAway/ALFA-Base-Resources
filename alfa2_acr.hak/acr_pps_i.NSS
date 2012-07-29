@@ -958,7 +958,24 @@ void ACR_PPSBootPC(object oPC, string sMessage, int bDisableSave)
     if (bDisableSave)
         ACR_DisableCharacterSave(oPC);
 
-    BootPC(oPC);
+    // The server may crash in GetGold() from ACR_PCOnClientEnter() on the
+    // next login if we boot the player too early.  Attempt to hack around
+    // this bug by delaying the boot request to a clean state after the rest
+    // of the PC setup code gets a chance to complete executing in the
+    // server.
+	 //
+    // 0018f81c 0e506501 NWScript.JITCode.acf_mod_oncliententer.ScriptProgram.ExecuteActionService_418_1_GetGold(UInt32)
+    // 0018f848 23a877b5 NWScript.JITCode.acf_mod_oncliententer.ScriptProgram.NWScriptSubroutine_ACR_PCOnClientEnter(UInt32)
+    // 0018f87c 23a8679d NWScript.JITCode.acf_mod_oncliententer.ScriptProgram.NWScriptSubroutine_ACR_ModuleOnClientEnter()
+    // 0018f89c 23a86650 NWScript.JITCode.acf_mod_oncliententer.ScriptProgram.NWScriptEntryPoint()
+	 //
+    // eax=00000000 ebx=00000004 ecx=00000000 edx=07a9a9f0 esi=7ffffec2 edi=00000000
+    // eip=005ec83c esp=0018f668 ebp=0018f6f8 iopl=0         nv up ei pl zr na pe nc
+    // cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010246
+    // nwn2server+0x1ec83c:
+    // 005ec83c 8b80e80e0000    mov     eax,dword ptr [eax+0EE8h] ds:002b:00000ee8=????????
+
+    DelayCommand(0.5f, BootPC(oPC));
 }
 
 void ACR_PCExportSingleCharacter(object oPC)
