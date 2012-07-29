@@ -123,8 +123,7 @@ namespace ACR_Time
                         break;
                     }
             }
-            PrintInteger(Value);
-                    
+
             return retValue;
         }
 
