@@ -89,7 +89,7 @@ namespace ABM_creator
                     NWN2Toolset.NWN2.Rules.CNWSpell spell = Globals.spells.GetSpell(spellId);
                     ipHash.Add(tdaSpellId.ToString() + "_" + tdaCasterLevel.ToString());
 
-                    if (spell != null && spell.IsValid() == 1)
+                    if (spell != null && spell.IsValid() == 1 && spell.GetSpellMasterSpell() == spellId)
                     {
                         int targets = spell.GetSpellTargetType();
                         int wizardLevel = spell.GetSpellWizardLevel();
@@ -119,6 +119,7 @@ namespace ABM_creator
                                 Globals.AddBlueprint(potion.blueprint);
                                 potionStore.addToPotionItems(potion.blueprint);
                             }
+                            DebugWindow.PrintDebugMessage("Potion handled.");
 
                             if (lowestSpellLevel <= 4)
                             {
@@ -128,6 +129,7 @@ namespace ABM_creator
                                 Globals.AddBlueprint(wand.blueprint);
                                 wandStore.addToPotionItems(wand.blueprint);
                             }
+                            DebugWindow.PrintDebugMessage("Wand handled.");
 
                             int lowestDivineLevel = clericLevel;
                             if (druidLevel < clericLevel)
@@ -148,6 +150,7 @@ namespace ABM_creator
                                 Globals.AddBlueprint(scroll.blueprint);
                                 scrollStore.addToPotionItems(scroll.blueprint);
                             }
+                            DebugWindow.PrintDebugMessage("Divine Scroll handled.");
 
                             int lowestArcaneLevel = wizardLevel;
                             if (wizardLevel == 255)
@@ -158,10 +161,11 @@ namespace ABM_creator
                             if (wizardLevel < 255 && !tradeScrollList.Contains(spellId))
                             {
                                 // Can be a trade scroll.
-                                TradeScroll tradescroll = new TradeScroll(spellId, lowestSpellLevel, spell);
+                                TradeScroll tradescroll = new TradeScroll(ip, spellId, lowestSpellLevel, spell);
                                 Globals.AddBlueprint(tradescroll.blueprint);
                                 tradeScrollList.Add(spellId);
                             }
+                            DebugWindow.PrintDebugMessage("Trade scroll handled.");
 
                             if (lowestArcaneLevel < 255)
                             {
@@ -171,6 +175,7 @@ namespace ABM_creator
                                 Globals.AddBlueprint(scroll.blueprint);
                                 scrollStore.addToPotionItems(scroll.blueprint);
                             }
+                            DebugWindow.PrintDebugMessage("Arcane scroll handled.");
                         }
                     }
                 }

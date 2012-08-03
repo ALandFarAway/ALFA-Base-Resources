@@ -213,7 +213,7 @@ namespace ABM_creator
                 valsEnum.MoveNext();
                 string label = (string)keysEnum.Current;
                 OEIShared.IO.GFF.GFFField field = (OEIShared.IO.GFF.GFFField)valsEnum.Current;
-                str += label.ToString() + " (" + field.Type.ToString() + "): " + field.Value.ToString() + "\n\r";
+                str += label.ToString() + " (" + field.Type.ToString() + "): " + field.Value.ToString() + Environment.NewLine;
             }
             return str;
         }
