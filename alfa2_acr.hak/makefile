@@ -563,6 +563,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\i_abr_it_msc_bagpipes_ac.ncs          \
             $(OUTPUTDIR)\acr_restartcombatmode.ncs             \
             $(OUTPUTDIR)\i_abr_it_gr_rope_climb_ac.ncs         \
+            $(OUTPUTDIR)\acr_touchattack.ncs                   \
             $(OUTPUTDIR)\ga_faction_join.ncs         
 
 #
