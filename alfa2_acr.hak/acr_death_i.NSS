@@ -538,7 +538,7 @@ void ACR_CorpseOnResurrect(object oCaster, object oCorpse, int nSpellId)
     }
 
     // check if the corpse has decayed
-    if (ACR_GetHasCorpseDecayed(oCorpse))
+    if (ACR_GetHasCorpseDecayed(oCorpse) && (nSpellId == SPELL_RAISE_DEAD))
     {
         // alert the player that's resurrecting the corpse
         SendMessageToPC(oCaster, "The corpse has decayed and is beyond resurrection.");
@@ -546,8 +546,8 @@ void ACR_CorpseOnResurrect(object oCaster, object oCorpse, int nSpellId)
         // flag the corpse as decayed - a corpse will no longer appear for this character
         ACR_SetPlayerStatusFlags(oCorpse, ACR_PLAYER_FLAG_DECAYED);
 
-		// delete the corpse location so the corpse will be expunged from the game
-		ACR_DeletePersistentVariable(oCorpse, ACR_DTH_LOCATION);
+        // delete the corpse location so the corpse will be expunged from the game
+        ACR_DeletePersistentVariable(oCorpse, ACR_DTH_LOCATION);
 
         // label the corpse appropriately
         SetFirstName(oCorpse, "Decayed Corpse");
@@ -568,27 +568,27 @@ void ACR_CorpseOnResurrect(object oCaster, object oCorpse, int nSpellId)
 	}
 
         // apply the death penalties only if the caster is not a DM
-        if (nSpellId != SPELL_RECALL_SPIRIT && nSpellId != SPELL_TRUE_RESURRECTION && !(GetIsDM(oCaster) || GetIsDMPossessed(oCaster))) { _applyDeathPenalty(oPC); }
+        if (nSpellId != SPELL_RECALL_SPIRIT && nSpellId != SPELL_TRUE_RESURRECTION && !GetIsDM(oCaster) && !GetIsDMPossessed(oCaster)) { _applyDeathPenalty(oPC); }
 
         // clear the death flags on the player - necessary to be freed from the morgue
         ACR_UnsetPlayerStatusFlags(oPC, ACR_PLAYER_FLAG_DEAD | ACR_PLAYER_FLAG_MUTILATED);
         DeleteLocalInt(oPC, "ACR_DTH_DEAD");
-		SetLocalInt(oPC, "ACR_DTH_REZ", TRUE);
-		// delete the corpse location so the corpse will be expunged from the game
-		ACR_DeletePersistentVariable(oCorpse, ACR_DTH_LOCATION);
+        SetLocalInt(oPC, "ACR_DTH_REZ", TRUE);
+        // delete the corpse location so the corpse will be expunged from the game
+        ACR_DeletePersistentVariable(oCorpse, ACR_DTH_LOCATION);
 		
-	    // remove death VFX
-		effect eTest = GetFirstEffect(oPC);
-		do {
-		    if (GetEffectType(eTest) == EFFECT_TYPE_VISUALEFFECT) {
-			    RemoveEffect(oPC, eTest);
-			} 
-			eTest = GetNextEffect(oPC);
-		} while (GetIsEffectValid(eTest));
+        // remove death VFX
+        effect eTest = GetFirstEffect(oPC);
+        do {
+            if (GetEffectType(eTest) == EFFECT_TYPE_VISUALEFFECT) {
+                RemoveEffect(oPC, eTest);
+            } 
+            eTest = GetNextEffect(oPC);
+        } while (GetIsEffectValid(eTest));
 		
-		// Pre-load the corpse with persistent inventory, in case they are rezed before
-		//   they can be opened.
-		ACR_PreLoadStorageObject(oCorpse);
+        // Pre-load the corpse with persistent inventory, in case they are rezed before
+        //   they can be opened.
+        ACR_PreLoadStorageObject(oCorpse);
 		
         // give the player back any items remaining on the corpse
         // uses action commands, which will always execute after the script ends
@@ -601,10 +601,10 @@ void ACR_CorpseOnResurrect(object oCaster, object oCorpse, int nSpellId)
         // delay the jump to allow inventory items to transfer first (important for saving)
         AssignCommand(oPC, DelayCommand(0.3, JumpToLocation(lLocation)));
 		
-		// get rid of the empty placeable corpse as well
-		DelayCommand(3.0, DestroyObject(oCorpse));
-		
-		DelayCommand(5.0, DeleteLocalInt(oPC, "ACR_DTH_REZ"));
+        // get rid of the empty placeable corpse as well
+        DelayCommand(3.0, DestroyObject(oCorpse));
+	
+        DelayCommand(5.0, DeleteLocalInt(oPC, "ACR_DTH_REZ"));
     }
     // otherwise, resurrection will be applied on the player's next login
     else
