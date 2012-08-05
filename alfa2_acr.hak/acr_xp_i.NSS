@@ -56,7 +56,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "acr_i"
-#include "acr_array_i"
 #include "acr_tools_i"
 #include "acr_1984_i"
 #include "acr_db_persist_i"
