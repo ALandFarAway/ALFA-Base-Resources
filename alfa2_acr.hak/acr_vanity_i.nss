@@ -783,7 +783,10 @@ void ResetModel(object oCreature)
 {
 	effect ePoly;
 	SetScriptHidden(oCreature,1);
-	ePoly = EffectPolymorph(POLYMORPH_TYPE_LIZARDFOLK, 1);
+
+	// Seems they yanked this constant. This corresponds to POLYMORPH_TYPE_LIZARDFOLK on polymorph.2da
+	ePoly = EffectPolymorph(82, 1);
+
 	ApplyEffectToObject(DURATION_TYPE_TEMPORARY, ePoly, oCreature, 0.0f);
 	DelayCommand(0.1f,SetScriptHidden(oCreature,0));
 
