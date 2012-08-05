@@ -785,12 +785,10 @@ void ACR_PCOnPCLoaded(object oPC)
         while(GetIsEffectValid(eEffect))
         {
             int nType = GetEffectType(eEffect);
-            int nSubType = GetEffectSubType(eEffect);
             int nDurationType = GetEffectDurationType(eEffect);
 
             // Combat Expertise effects appear to unlink from their VFX somewhere before here; we yank 'em here.
             if((nType == EFFECT_TYPE_AC_INCREASE || nType == EFFECT_TYPE_ATTACK_DECREASE) &&
-               (nSubType == SUBTYPE_EXTRAORDINARY) &&
                (nDurationType == DURATION_TYPE_PERMANENT))
             {
                 RemoveEffect(oPC, eEffect);
