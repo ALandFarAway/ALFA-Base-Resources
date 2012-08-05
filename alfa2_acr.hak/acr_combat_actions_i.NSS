@@ -154,7 +154,7 @@ void _FightDefensively(object oCreature, int nACBonus, int nABPenalty) {
     ApplyEffectFromSource(
         ACR_EFFECT_SOURCE_COMBAT_ACTION,
         DURATION_TYPE_PERMANENT,
-        ExtraordinaryEffect(EffectLinkEffects(EffectACIncrease(nACBonus), EffectAttackDecrease(nABPenalty))),
+        EffectLinkEffects(ExtraordinaryEffect(EffectACIncrease(nACBonus)), ExtraordinaryEffect(EffectAttackDecrease(nABPenalty)))),
         oCreature
     );
 }
