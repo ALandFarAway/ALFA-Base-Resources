@@ -787,13 +787,21 @@ void ACR_PCOnPCLoaded(object oPC)
             int nType = GetEffectType(eEffect);
             int nSubType = GetEffectSubType(eEffect);
             int nDurationType = GetEffectDurationType(eEffect);
+
+            // Combat Expertise effects appear to unlink from their VFX somewhere before here; we yank 'em here.
             if((nType == EFFECT_TYPE_AC_INCREASE || nType == EFFECT_TYPE_ATTACK_DECREASE) &&
                (nSubType == SUBTYPE_EXTRAORDINARY) &&
                (nDurationType == DURATION_TYPE_PERMANENT))
-				{
+            {
                 RemoveEffect(oPC, eEffect);
-				}
-				eEffect = GetNextEffect(oPC);
+            }
+            // Polymorphed folk seem to be unstable at login; fortunately, these spells are usually super-short duration, and people won't
+            // cry themselves to sleep to lose one for client stability.
+            else if(nType == EFFECT_TYPE_POLYMORPH)
+            {
+                RemoveEffect(oPC, eEffect);
+            }
+            eEffect = GetNextEffect(oPC);
         }
 
         DeleteLocalInt(oPC, "COMBAT_EXPERTISE_MODE_ACTIVE");
