@@ -567,6 +567,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_touchattack.ncs                   \
             $(OUTPUTDIR)\x2_s0_grmagweap.ncs                   \
             $(OUTPUTDIR)\x2_s0_magcweap.ncs                    \
+            $(OUTPUTDIR)\nw_s2_turndead.ncs                    \
             $(OUTPUTDIR)\ga_faction_join.ncs         
 
 #
