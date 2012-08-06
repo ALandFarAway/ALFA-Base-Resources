@@ -9,6 +9,11 @@
 #include "wand_inc"
 #include "wand_inc_misc"
 
+void Error()
+{
+	SendMessageToPC(OBJECT_SELF, "You cannot examine that item right now; try moving into the same area as it or refreshing your GUI.");
+}
+
 void main(int iItemId)
 {    	
 	object oSubject = OBJECT_SELF;		
@@ -19,10 +24,21 @@ void main(int iItemId)
 	}
 			
 	object oItem = IntToObject(iItemId);
+
+	if(!GetIsObjectValid(oItem) || GetArea(oSubject) != GetArea(GetItemPossessor(oItem)))
+	{
+		Error();
+		return;
+	}
 	
 	DisplayGuiScreen(oSubject, "SCREEN_INVENTORY", FALSE);
 
 	oItem = CopyItem(oItem, oSubject, TRUE);
+	if(!GetIsObjectValid(oItem))
+	{
+		Error();
+		return;
+	}
 	SetIdentified(oItem, TRUE);
 	DelayCommand(0.4, AssignCommand(oSubject, ActionExamine(oItem)));
 	DestroyObject(oItem, 0.6, FALSE);

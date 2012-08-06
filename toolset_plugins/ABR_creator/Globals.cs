@@ -73,6 +73,13 @@ namespace ABM_creator
             mod.GetBlueprintCollectionForType(NWN2Toolset.NWN2.Data.Templates.NWN2ObjectType.Store).Add(bp);
         }
 
+        static public string GetTlkEntry(uint num)
+        {
+            if (num >= OEIShared.IO.TalkTable.TalkTable.nCustomMask)
+                return Globals.customTlk[num].String;
+            else return OEIShared.IO.TalkTable.TalkTable.Instance[num].String;
+        }
+
         static public int getIconId(string iconName)
         {
             try

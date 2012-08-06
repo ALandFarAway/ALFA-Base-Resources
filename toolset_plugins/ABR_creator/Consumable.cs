@@ -20,7 +20,7 @@ namespace ABM_creator
     abstract class Consumable
     {
         public abstract string tagPrefix { get; }
-        public abstract string baseDescription { get; }        
+        public abstract string baseDescription { get; }
         public abstract string baseCategory { get; }
 
         public abstract int baseType { get; }
@@ -38,7 +38,7 @@ namespace ABM_creator
         protected void flagIconMissingForSpell(int spellId, string spellName)
         {
             try { GetMissingIcons().Add(spellId, spellName); }
-            catch { }
+            catch { DebugWindow.PrintDebugMessage("Error adding " + spellName + "(" + spellId + ") to missing icon list."); }
         }
 
         public NWN2ItemBlueprint blueprint;
@@ -61,18 +61,23 @@ namespace ABM_creator
 
         protected virtual string GetAuraDescription(int spellLevel, CNWSpell spell)
         {
-            return "\n\nThis item radiates a " + GetAuraStrength(spellLevel) + " aura of " + Globals.spellschools2da["Label"][spell.GetSpellSchool()].ToLower();
+            if (Globals.spellschools2da["Label"][spell.GetSpellSchool()].ToLower() == "g")
+                return "Under a Detect Magic or similar spell, this item radiates a " + GetAuraStrength(spellLevel) + " magical aura.";
+            return "Under a Detect Magic or similar spell, this item radiates a " + GetAuraStrength(spellLevel) + " magical aura of " + Globals.spellschools2da["Label"][spell.GetSpellSchool()].ToLower();
         }
 
         private string GetSpellName(NWN2Toolset.NWN2.Rules.CNWSpell spell)
         {
+            return Globals.GetTlkEntry((uint)spell.GetSpellName());
+
+            /*return GetTlkEntry(spell.GetSpellName());
             string spellName;
             uint spellNameId = (uint)spell.GetSpellName();
             if (spellNameId >= OEIShared.IO.TalkTable.TalkTable.nCustomMask)
                 spellName = Globals.customTlk[spellNameId].String;
             else spellName = spell.GetSpellNameText().CStr();
 
-            return spellName;
+            return spellName;*/
         }
 
         private string ConsumableName(CNWSpell spell, int spellId, int spellLevel, int casterLevel)
@@ -82,9 +87,9 @@ namespace ABM_creator
                 prefix = spellLevel + ", CL " + casterLevel;
             else if(casterLevel > 0)
                 prefix = spellLevel + ", CL 0" + casterLevel;
-            else prefix = casterLevel.ToString();
+            else prefix = spellLevel.ToString();
             
-            return "{" + prefix + "} " + GetSpellName(spell) + ", " + baseName(spellId);
+            return "{" + prefix + "}" + GetSpellName(spell) + ", " + baseName(spellId);
         }
 
         protected virtual int cost(int spellLevel, int casterLevel)
@@ -114,7 +119,10 @@ namespace ABM_creator
             blueprint.LocalizedName[OEIShared.Utils.BWLanguages.BWLanguage.English] = name;
 
             blueprint.LocalizedDescriptionIdentified = new OEIShared.Utils.OEIExoLocString();
-            blueprint.LocalizedDescriptionIdentified[OEIShared.Utils.BWLanguages.BWLanguage.English] = baseDescription + "\n\n" + spell.GetSpellDescriptionText().CStr() + GetAuraDescription(spellLevel, spell);
+            blueprint.LocalizedDescriptionIdentified[OEIShared.Utils.BWLanguages.BWLanguage.English] =
+                baseDescription + Environment.NewLine + Environment.NewLine +
+                Globals.GetTlkEntry((uint)spell.GetSpellDescription()) + Environment.NewLine + Environment.NewLine +
+                GetAuraDescription(spellLevel, spell);
 
             if (ip >= 0) blueprint.Properties.Add(itemProperty(ip));
 
@@ -150,7 +158,7 @@ namespace ABM_creator
 
         protected override string findIconName(int spellId, CNWSpell spell, int spellLevel)
         {
-            return null;
+            return spell.GetSpellIcon().ToString();
         }
     }
 
@@ -181,7 +189,7 @@ namespace ABM_creator
         override public string baseCategory { get { return "ALFA_Scrolls_Trade"; } }
         override public string tagPrefix { get { return "abr_it_sc_trade_"; } }
 
-        override public string baseDescription { get { return base.baseDescription + "\n\nA tradescroll is a text teaching a wizard how to prepare a spell, similar to a spell in her spellbook. It cannot be cast."; } }
+        override public string baseDescription { get { return base.baseDescription + "A tradescroll is a text teaching a wizard how to prepare a spell, similar to a spell in her spellbook. It cannot be cast."; } }
 
         override public string baseName(int spellId) { return "trade scroll"; }
 
@@ -196,7 +204,7 @@ namespace ABM_creator
 
         override protected string GetAuraDescription(int spellLevel, CNWSpell spell) { return ""; }
 
-        public TradeScroll(int spellId, int spellLevel, CNWSpell spell) : base(-1, spellId, spellLevel, 0, spell, "it_yellowparch") {
+        public TradeScroll(int ip, int spellId, int spellLevel, CNWSpell spell) : base(ip, spellId, spellLevel, 0, spell, "it_yellowparch") {
             blueprint.Tag = "acr_it_tradescroll";
         }
     }
@@ -218,6 +226,7 @@ namespace ABM_creator
                 case 861:
                 case 546:
                 case 100:
+                case 3066:
                     return "oil";
                 default: return "potion";
             }
@@ -309,6 +318,15 @@ namespace ABM_creator
                         case 1: return "it_pot_blacktube";
                         case 2: return "it_pot_blackbot";
                         case 3: return "it_pot_blackflask";
+                    }
+                    break;
+                case "G":
+                    switch (spellLevel)
+                    {
+                        case 0:
+                        case 1: return "it_pot_whitetube";
+                        case 2: return "it_pot_whitebot";
+                        case 3: return "it_pot_whiteflask";
                     }
                     break;
             }
@@ -405,6 +423,7 @@ namespace ABM_creator
                 case "N": return "it_wm_wanddisjunct";
                 case "T": return "it_wm_wandnegenergy";
                 case "V": return "it_wd_qstaff05";
+                case "G": return "it_wm_wandstinkcloud";
             }
 
             return null;

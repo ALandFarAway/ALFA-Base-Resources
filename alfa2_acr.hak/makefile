@@ -121,6 +121,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\hench_i0_ai.nss                       \
             $(OUTPUTDIR)\acr_1sc_spawn_i.nss                   \
             $(OUTPUTDIR)\acr_conversions_i.nss                 \
+            $(OUTPUTDIR)\x2_inc_itemprop.nss                   \
             $(OUTPUTDIR)\acr_travelmap_i.nss                   \
             $(OUTPUTDIR)\gui_bhvr_inc.nss                      
 
@@ -564,6 +565,11 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\i_abr_it_msc_bagpipes_ac.ncs          \
             $(OUTPUTDIR)\acr_restartcombatmode.ncs             \
             $(OUTPUTDIR)\i_abr_it_gr_rope_climb_ac.ncs         \
+            $(OUTPUTDIR)\acr_touchattack.ncs                   \
+            $(OUTPUTDIR)\x2_s0_grmagweap.ncs                   \
+            $(OUTPUTDIR)\x2_s0_magcweap.ncs                    \
+            $(OUTPUTDIR)\nw_s2_turndead.ncs                    \
+            $(OUTPUTDIR)\x0_s0_masscamo.ncs                    \
             $(OUTPUTDIR)\ga_faction_join.ncs         
 
 #

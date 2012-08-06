@@ -779,15 +779,18 @@ void ACR_RandomizeAppearance(object oSpawn,int nHead = ACR_FEATURE_TYPE_RANDOM,i
 }
 
 
-void ResetModel(object o)
+void ResetModel(object oCreature)
 {
-	effect e;
-	SetScriptHidden(o,1);
-	e = EffectPolymorph(POLYMORPH_TYPE_CHICKEN,1);
-	ApplyEffectToObject(DURATION_TYPE_TEMPORARY, e, o, 0.0f);
-	DelayCommand(0.1f,SetScriptHidden(o,0));
+	effect ePoly;
+	SetScriptHidden(oCreature,1);
 
-	DeleteLocalInt(o, "ACR_APP_TYPE");
+	// Seems they yanked this constant. This corresponds to POLYMORPH_TYPE_LIZARDFOLK on polymorph.2da
+	ePoly = EffectPolymorph(82, 1);
+
+	ApplyEffectToObject(DURATION_TYPE_TEMPORARY, ePoly, oCreature, 0.0f);
+	DelayCommand(0.1f,SetScriptHidden(oCreature,0));
+
+	DeleteLocalInt(oCreature, "ACR_APP_TYPE");
 }
 
 void SetFacialHair(object o, int arg=1)
