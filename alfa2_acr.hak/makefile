@@ -568,6 +568,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\x2_s0_grmagweap.ncs                   \
             $(OUTPUTDIR)\x2_s0_magcweap.ncs                    \
             $(OUTPUTDIR)\nw_s2_turndead.ncs                    \
+            $(OUTPUTDIR)\x0_s0_masscamo.ncs                    \
             $(OUTPUTDIR)\ga_faction_join.ncs         
 
 #
