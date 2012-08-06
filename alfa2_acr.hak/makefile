@@ -121,7 +121,8 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\hench_i0_ai.nss                       \
             $(OUTPUTDIR)\acr_1sc_spawn_i.nss                   \
             $(OUTPUTDIR)\acr_conversions_i.nss                 \
-            $(OUTPUTDIR)\acr_travelmap_i.nss                   
+            $(OUTPUTDIR)\acr_travelmap_i.nss                   \
+            $(OUTPUTDIR)\gui_bhvr_inc.nss                      
 
 NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\1sc_plc_ontrapdisarm.ncs              \
