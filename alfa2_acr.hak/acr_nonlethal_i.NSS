@@ -391,8 +391,9 @@ void ACR_NLD_OnWeaponSwitch( object oUser, object oWeapon, int bEquipped = TRUE 
                 if ( GetItemPropertyType( iProp ) == ITEM_PROPERTY_ONHITCASTSPELL
                         || GetItemPropertyType( iProp ) == ITEM_PROPERTY_NO_DAMAGE )
                     DelayCommand( 0.5,AssignCommand( oUser,RemoveItemProperty( oWeapon,iProp ) ) );
-                if ( GetItemPropertyType( iProp ) == ITEM_PROPERTY_DECREASED_DAMAGE &&
-                        GetItemPropertyCostTableValue( iProp ) == 5 )
+                if (GetItemPropertyType( iProp ) == ITEM_PROPERTY_DECREASED_DAMAGE &&
+                    GetItemPropertyCostTableValue( iProp ) == 5 &&
+                    GetItemPropertyDurationType( iProp ) == DURATION_TYPE_TEMPORARY)
                     DelayCommand( 0.5,AssignCommand( oUser,RemoveItemProperty( oWeapon,iProp ) ) );
                 iProp = GetNextItemProperty( oWeapon );
             }
@@ -421,9 +422,9 @@ void ACR_NLD_OnWeaponSwitch( object oUser, object oWeapon, int bEquipped = TRUE 
             SetLocalInt( oWeapon,ACR_NLD_DICE_DAMAGE,nDiceDam );
             SetLocalInt( oWeapon,ACR_NLD_DICE_NUMBER,nDiceNum );
             SetLocalInt( oWeapon,ACR_NLD_SA_DICE,nSADice );
-            AssignCommand( oUser,AddItemProperty( DURATION_TYPE_PERMANENT,iHit,oWeapon ) );
-            AssignCommand( oUser,AddItemProperty( DURATION_TYPE_PERMANENT,iNoDam,oWeapon ) );
-            AssignCommand( oUser,AddItemProperty( DURATION_TYPE_PERMANENT,iNoStr,oWeapon ) );
+            AssignCommand(oUser, AddItemProperty(DURATION_TYPE_TEMPORARY, iHit, oWeapon, 24.0f * 60.0f * 60.0f)); // lasts 24 hours.
+            AssignCommand(oUser, AddItemProperty(DURATION_TYPE_TEMPORARY, iNoDam, oWeapon, 24.0f * 60.0f * 60.0f));
+            AssignCommand(oUser, AddItemProperty(DURATION_TYPE_TEMPORARY, iNoStr, oWeapon, 24.0f * 60.0f * 60.0f));
         }
     }
 }
