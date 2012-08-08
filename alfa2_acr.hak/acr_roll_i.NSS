@@ -137,7 +137,7 @@ void ParseRoll(object pc, string cmd)
 	else if (ACR_RollCompareLeft(cmd,"cons") || cmd == "con") { 
 		ACR_Checks(CHECK_TYPE_STAT, pc, ABILITY_CONSTITUTION);
 	}
-	else if (ACR_RollCompareLeft(cmd,"int")) {
+	else if (ACR_RollCompareLeft(cmd,"inte")) {
 		ACR_Checks(CHECK_TYPE_STAT, pc, ABILITY_INTELLIGENCE);
 	}
 	else if (ACR_RollCompareLeft(cmd,"wis")) {
@@ -200,6 +200,9 @@ void ParseRoll(object pc, string cmd)
 	}
 	else if (ACR_RollCompareLeft(cmd,"esc") || ACR_RollCompareLeft(cmd,"art") || cmd == "ea") {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_ESCAPE_ARTIST);
+	}
+	else if (ACR_RollCompareLeft(cmd,"inti")) {
+		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_INTIMIDATE);
 	}
 	else if (ACR_RollCompareLeft(cmd,"for")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_FORGERY);
