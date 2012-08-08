@@ -137,7 +137,7 @@ void ParseRoll(object pc, string cmd)
 	else if (ACR_RollCompareLeft(cmd,"cons") || cmd == "con") { 
 		ACR_Checks(CHECK_TYPE_STAT, pc, ABILITY_CONSTITUTION);
 	}
-	else if (ACR_RollCompareLeft(cmd,"inte")) {
+	else if (ACR_RollCompareLeft(cmd,"int")) {
 		ACR_Checks(CHECK_TYPE_STAT, pc, ABILITY_INTELLIGENCE);
 	}
 	else if (ACR_RollCompareLeft(cmd,"wis")) {
