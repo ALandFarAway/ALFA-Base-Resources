@@ -1654,6 +1654,12 @@ void HSS_PCTools_Create(object oPC, string sItem = "Tent")
    int nTentCount = GetLocalInt(oMod, "HSS_PCTOOLS_TENT_ITEM_COUNT_" + sPCID);
    int nFireCount = GetLocalInt(oMod, "HSS_PCTOOLS_CAMPFIRE_ITEM_COUNT_" + sPCID);
 
+   if (GetIsInCombat(oPC)) {
+   	     SendMessageToPC(oPC, HSS_PCTOOLS_COLOUR1 +
+         "Not in combat!");
+	   return;
+   }
+
    if (HSS_PCTOOLS_OBJECT_CREATE_RESTRICT == 1 && !GetIsDM(oPC) && GetIsPC(oPC))
       {
       if (GetIsAreaAboveGround(oArea) && GetIsAreaInterior(oArea) &&  
