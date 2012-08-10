@@ -77,7 +77,8 @@ const int iDefaultAreaSize = 5;
 //!  -SpotDC sets the difficulty of this check. 
 const float fDangerRadius = 15.0f;
 const float fReportRadius = 4.0f;
-const int iSpotDC = 20;
+const int iSpotDC = 15;
+const int iListenDC = 15;
 
 //! Set the length of the time delay before ATing, normally or when danger is present at destination.
 const float fNormalATDelay = 3.0f;
@@ -597,7 +598,7 @@ int ACR_SAT_ReconInfo(object oCreature, object oPC)
      return FALSE;
   }
   
-  if (GetIsSkillSuccessful(oPC, SKILL_SPOT, iSpotDC)) {
+  if (GetIsSkillSuccessful(oPC, SKILL_SPOT, iSpotDC + Random(6))) {
     for (ObjectToInt(oNextCreature = GetFirstObjectInShape(SHAPE_SPHERE, fReportRadius, lDanger, TRUE, OBJECT_TYPE_CREATURE));
           (oNextCreature != OBJECT_INVALID) && (oNextCreature != oPC);
           ObjectToInt(oNextCreature = GetNextObjectInShape(SHAPE_SPHERE, fReportRadius, lDanger, TRUE, OBJECT_TYPE_CREATURE))) {
@@ -621,7 +622,12 @@ int ACR_SAT_ReconInfo(object oCreature, object oPC)
     return TRUE;
   }
   else {
-    SendMessageToPC(oPC, "You see something just ahead, best not to transition here.");
+    if (GetIsSkillSuccessful(oPC, SKILL_SPOT, iListenDC + Random(6))) {
+      SendMessageToPC(oPC, "You hear movement up ahead, likely not friendly; caution is advised.");
+    }
+    else {
+      SendMessageToPC(oPC, "You can make out something just ahead; would be wise to be cautious.");
+    }
     SetLocalInt(oPC, "ACR_SAT_WARNED", TRUE);
     DelayCommand(fWarningReset, _ClearWarnedFlag(oPC));
   }
