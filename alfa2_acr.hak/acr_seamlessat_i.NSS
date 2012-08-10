@@ -728,7 +728,7 @@ void ACR_CheckAT(object oPC, object oDest, location lDest)
 	}
 	
 	if (GetObjectType(oTransition) == OBJECT_TYPE_DOOR) {
-	    if (GetTransitionTarget(oDestination) != oTransition) {
+	    if ((GetTransitionTarget(oDestination) != oTransition) && (!GetLocalInt(oTransition, "ACR_SAT_NO_WARN"))) {
 		    SendMessageToPC(oPC, "This door is not linked from the other side, it may be a one-way transition.");
 			AssignCommand(oPC, ActionSpeakString("((This door is not linked from the other side, it may be a one-way transition.))"));
 			SendMessageToAllDMs("Door Transition "+GetName(oTransition)+" in area "+GetName(GetArea(oTransition))+" is not reciprocally linked to its destination in area "+GetName(oTargetArea)+".");
