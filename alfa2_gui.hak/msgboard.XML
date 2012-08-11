@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8">
+
+<!-- Neverwinter Nights 2, Bulletin Board por Qk www.neverwinteros.com for DMFI-->
+<!-- Copyright (c) 2008, Qk
+
+v1.0
+
+-->
+
+
+<UIScene name="SCREEN_MSGBRD" x=ALIGN_CENTER y=ALIGN_CENTER modal=false width=560
+        OnAdd=UIObject_Misc_ExecuteServerScript("gui_msgboard","0","2")
+        OnRemove=UIObject_Misc_ExecuteServerScript("gui_msgboard","0","3")
+        OnCreate=UIObject_Misc_ExecuteServerScript("gui_msgboard","0","4")
+        height=550 capturemouseclicks=false 
+        draggable=true dragregion_x=0 dragregion_y=250 dragregion_width=30 dragregion_height=260
+        priority="SCENE_SCRIPT" scriptloadable=true />
+
+
+        <!-- Raiz Pane -->
+	      <UIPane name="EVENTCAL_RAIZ_PANE" x=0 y=0 width=560 height=550 capturemouseclicks=false hidden=false >
+
+		
+                <UIButton name="CloseButton" x=9 y=10 style="STYLE_CLOSE_BUTTON" 
+		    OnLeftClick=UIButton_Input_ScreenClose()>
+		</UIButton>
+
+	     <UIButton name="MSGB_HELP" text="" x=8 y=36 width=30 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"               OnToolTip='UIObject_Tooltip_DisplayTooltipString(<b>"Help"</b>,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")' 
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","5","0") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="2" color=000000 />	                  
+		    <UIFrame state=up		fill="temp0.tga" />
+                    <UIFrame state=down		fill="temp0.tga" />
+		    <UIFrame state=focused		fill="temp0.tga" />
+                    <UIFrame state=disabled		fill="temp0.tga" />
+		    <UIFrame state=hilited		fill="temp0.tga" />
+                    <UIFrame state=hifocus		fill="temp0.tga" />
+
+	      </UIButton>
+
+
+        <UIIcon name="EVENTCAL_ICON" img="board_cat_1.tga" x=8 y=75 width=30 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnToolTip='UIObject_Tooltip_DisplayTooltipString(<b>"General"</b> ,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")' 
+	      />
+
+        <UIIcon name="EVENTCAL_ICON" img="board_cat_2.tga" x=8 y=105 width=30 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnToolTip='UIObject_Tooltip_DisplayTooltipString(<b>"Quests"</b> ,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")' 
+	      />
+
+        <UIIcon name="EVENTCAL_ICON" img="board_cat_3.tga" x=8 y=135 width=30 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnToolTip='UIObject_Tooltip_DisplayTooltipString(<b>"Guilds-Factions"</b> ,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")' 
+	      />
+
+        <UIIcon name="EVENTCAL_ICON" img="board_cat_4.tga" x=8 y=165 width=30 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnToolTip='UIObject_Tooltip_DisplayTooltipString(<b>"Shows"</b> ,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")' 
+	      />
+
+        <UIIcon name="EVENTCAL_ICON" img="board_cat_5.tga" x=8 y=195 width=30 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnToolTip='UIObject_Tooltip_DisplayTooltipString(<b>"Sells"</b> ,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")' 
+	      />
+
+        <UIIcon name="EVENTCAL_ICON" img="board_cat_6.tga" x=8 y=225 width=30 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnToolTip='UIObject_Tooltip_DisplayTooltipString(<b>"Announcements"</b> ,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")' 
+	      />
+
+
+	     <UIButton name="MSGB_HOL_1" text="" x=60 y=20 width=90 height=90 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","3","1") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="2" color=000000 />	                  
+		    <UIFrame state=up		fill="" />
+
+	      </UIButton>
+
+	     <UIButton name="MSGB_HOL_2" text="" x=160 y=20 width=90 height=90 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","3","2") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="2" color=000000 />	                  
+		    <UIFrame state=up		fill="" />
+
+	      </UIButton>
+
+	     <UIButton name="MSGB_HOL_3" text="" x=260 y=20 width=90 height=90 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","3","3") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="2" color=000000 />	                  
+		    <UIFrame state=up		fill="" />
+
+	      </UIButton>
+
+	     <UIButton name="MSGB_HOL_4" text="" x=360 y=20 width=90 height=90 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","3","4") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="2" color=000000 />	                  
+		    <UIFrame state=up		fill="" />
+
+	      </UIButton>
+
+	     <UIButton name="MSGB_HOL_5" text="" x=460 y=20 width=90 height=90 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","3","5") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="2" color=000000 />	                  
+		    <UIFrame state=up		fill="" />
+
+	      </UIButton>
+
+	     <UIButton name="MSGB_HOL_6" text="" x=60 y=120 width=90 height=90 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","3","6") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="2" color=000000 />	                  
+		    <UIFrame state=up		fill="" />
+
+	      </UIButton>
+
+	     <UIButton name="MSGB_HOL_7" text="" x=160 y=120 width=90 height=90 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","3","7") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="2" color=000000 />	                  
+		    <UIFrame state=up		fill="" />
+
+	      </UIButton>
+
+	     <UIButton name="MSGB_HOL_8" text="" x=260 y=120 width=90 height=90 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","3","8") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="2" color=000000 />	                  
+		    <UIFrame state=up		fill="" />
+
+	      </UIButton>
+
+	     <UIButton name="MSGB_HOL_9" text="" x=360 y=120 width=90 height=90 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","3","9") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="2" color=000000 />	                  
+		    <UIFrame state=up		fill="" />
+
+	      </UIButton>
+
+	     <UIButton name="MSGB_HOL_10" text="" x=460 y=120 width=90 height=90 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","3","10") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="2" color=000000 />	                  
+		    <UIFrame state=up		fill="" />
+
+	      </UIButton>
+
+	     <UIButton name="MSGB_HOL_11" text="" x=60 y=220 width=90 height=90 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","3","11") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="2" color=000000 />	                  
+		    <UIFrame state=up		fill="" />
+
+	      </UIButton>
+
+	     <UIButton name="MSGB_HOL_12" text="" x=160 y=220 width=90 height=90 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","3","12") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="2" color=000000 />	                  
+		    <UIFrame state=up		fill="" />
+
+	      </UIButton>
+
+	     <UIButton name="MSGB_HOL_13" text="" x=260 y=220 width=90 height=90 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","3","13") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="2" color=000000 />	                  
+		    <UIFrame state=up		fill="" />
+
+	      </UIButton>
+
+	     <UIButton name="MSGB_HOL_14" text="" x=360 y=220 width=90 height=90 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","3","14") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="2" color=000000 />	                  
+		    <UIFrame state=up		fill="" />
+
+	      </UIButton>
+
+	     <UIButton name="MSGB_HOL_15" text="" x=460 y=220 width=90 height=90 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","3","15") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="2" color=000000 />	                  
+		    <UIFrame state=up		fill="" />
+
+	      </UIButton>
+
+
+	      <UIListbox name="MSG" x=40 y=350 width=490 height=161 yPadding=12 xPadding=10
+		    showpartialchild=true scrollbaronright=true hidescrollbarwhennotneeded=true unequalcontrols=true scrollsegmentsize=30 selectonleftclick=false >
+
+	      <UIText name="FULL_MESSAGE" text="No Message" uppercase=false x=0 y=0 width=410 height=DYNAMIC align=left valign=top fontfamily="Default" style="1" color=000033 />
+	      
+		    <UIScrollBar name="SB" style="STYLE_SB_THIN"></UIScrollBar>
+	<UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+		bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+		left="frame1_l.tga" right="frame1_r.tga" border=22 />	
+	</UIListbox>
+
+
+
+	     <UIButton name="MSGB_NEWTOPIC" text="New Topic" x=50 y=513 width=90 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","1","0") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_mb_normal.tga" />
+		    <UIFrame state=down		fill="b_mb_normal.tga" />
+		    <UIFrame state=focused	fill="b_mb_normal.tga" />
+		    <UIFrame state=hilited	fill="b_mb_pressed.tga" />
+		    <UIFrame state=hifocus	fill="b_mb_pressed.tga" />
+		    <UIFrame state=disabled	fill="b_mb_pressed.tga" />
+	      </UIButton>
+
+	     <UIButton name="MSGB_REPLYTOPIC" text="Reply Topic" x=150 y=513 width=90 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","1","1") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_mb_normal.tga" />
+		    <UIFrame state=down		fill="b_mb_normal.tga" />
+		    <UIFrame state=focused	fill="b_mb_normal.tga" />
+		    <UIFrame state=hilited	fill="b_mb_pressed.tga" />
+		    <UIFrame state=hifocus	fill="b_mb_pressed.tga" />
+		    <UIFrame state=disabled	fill="b_mb_pressed.tga" />
+	      </UIButton>
+
+	     <UIButton name="MSGB_DELTOPIC" text="Delete Topic" x=250 y=513 width=90 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","1","2") disabledcolor="white" >
+              <UIText align=center valign=middle fontfamily="Default" style="1" color=C1AB89 />	                  
+		    <UIFrame state=up		fill="b_mb_normal.tga" />
+		    <UIFrame state=down		fill="b_mb_normal.tga" />
+		    <UIFrame state=focused	fill="b_mb_normal.tga" />
+		    <UIFrame state=hilited	fill="b_mb_pressed.tga" />
+		    <UIFrame state=hifocus	fill="b_mb_pressed.tga" />
+		    <UIFrame state=disabled	fill="b_mb_pressed.tga" />
+	      </UIButton>
+
+
+	      <!-- Background Image -->	
+	      <UIIcon name="EVENTCAL_BACKGROUND" img="bboard_bg.tga" x=0 y=0 width=560 height=550 capturemouseclicks=true />
+
+        <!-- Fin Raiz Pane -->	      
+        </UIPane>
+
+

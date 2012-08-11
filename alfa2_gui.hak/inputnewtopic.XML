@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8">
+
+<UIScene name="SCREEN_DMFI_MSGBOARD" width=320 height=405 x="ALIGN_RIGHT" y="ALIGN_CENTER" draggable="true" scriptloadable="true" 
+	priority="SCENE_SCRIPT" modal="false"
+	OnAdd=UIScene_OnAdd_SetFocus(inputnewtitle) />
+
+	<!-- Message Listbox -->
+	<UIListBox name="messageboxlb" x=ALIGN_CENTER y=20 width=300 height=28 showpartialchild="true" xPadding=0 yPadding=0
+		hidescrollbarwhennotneeded=true scrollsegmentsize="17" unequalcontrols="true">
+
+		<UIText name="messagetextNT" text="New Topic" fontfamily="Body_Font" style=1 width="PARENT_WIDTH" height="DYNAMIC" color="EEEEEE" sizetofit="true" align="center" />
+
+		<UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>
+	</UIListBox>
+		<UIText name="messagetexttitle" text="Title" y=50 x=25 fontfamily="Body_Font" style=3 width="PARENT_WIDTH" height="DYNAMIC" color="EEEEEE" sizetofit="true" align="left" />
+
+	<UIPane name="INPUT_TITCONTAINER" x=ALIGN_CENTER y=70 width=275 height=25 >
+
+		<UIListBox name="INPUTBOX_LISTBOX2" x=4 y=4 width=215 height=30 showpartialchild=true
+			unequalcontrols=true hidescrollbarwhennotneeded=true >
+
+			<!-- WAS filter="alphanumeric" and not allowspace="true" -->
+			<UIText name="inputnewtitle" allowspace="true" width=PARENT_WIDTH height=DYNAMIC align=left valign=top 
+				fontfamily="International" multiline="false" returnrestricted="true" editable="true" update="true" selectable="true" OnUpdate=UIObject_Misc_SetLocalVarString(local:1) />
+
+		</UIListBox>	
+
+		<!-- Input Frame-->
+		<UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+			bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+			left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+			border=5 />
+	</UIPane>
+
+		<UIText name="messagetextbody" text="Body Message" y=110 x=25 fontfamily="Body_Font" style=3 width="PARENT_WIDTH" height="DYNAMIC" color="EEEEEE" sizetofit="true" align="left" />
+
+	<UIPane name="INPUT_CONTAINER" x=ALIGN_CENTER y=130 width=275 height=150 >
+
+		<UIListBox name="INPUTBOX_LISTBOX" x=4 y=4 width=215 height=150 showpartialchild=true
+			unequalcontrols=true hidescrollbarwhennotneeded=true >
+
+			<!-- WAS filter="alphanumeric" and not allowspace="true" -->
+			<UIText name="inputnewtopic" allowspace="true" width=PARENT_WIDTH height=DYNAMIC align=left valign=top 
+				fontfamily="International" multiline="true" returnrestricted="false" editable="true" update="true" selectable="true" OnUpdate=UIObject_Misc_SetLocalVarString(local:0) />
+
+		</UIListBox>	
+
+		<!-- Input Frame-->
+		<UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+			bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+			left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+			border=5 />
+	</UIPane>
+
+
+
+
+	<!-- BUTTON CONTAINER -->
+	<UIPane name="BUTTON_CONTAINER" x=ALIGN_CENTER y=ALIGN_BOTTOM width=258 height=110 >
+
+              <UIText name="messagetextbutts" text="Choose a category for the message" y=0 x=0 fontfamily="Body_Font" style=3 width="PARENT_WIDTH" height="DYNAMIC" color="EEEEEE" sizetofit="true" align="left" />
+		<!-- Choose Buttons -->
+
+	      <UIButton name="RADIO_1_BUTTON" text="MesssageRT" x=0 y=20 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=1 groupmemberid=1 
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","4","1") >
+		    <UIFrame state=up		fill="b_radio_off.tga" />
+		    <UIFrame state=down		fill="b_radio_on.tga" />
+		    <UIFrame state=focused	fill="b_radio_on.tga" />
+		    <UIFrame state=hilited	fill="b_radio_on.tga" />
+		    <UIFrame state=hifocus	fill="b_radio_on.tga" />
+		    <UIFrame state=disabled	fill="b_radio_off.tga" />
+	      </UIButton>
+              <UIText name="messagetextbody1" text="Message" y=20 x=17 fontfamily="Body_Font" style=3 width="PARENT_WIDTH" height="DYNAMIC" color="EEEEEE" sizetofit="true" align="left" />
+
+	      <UIButton name="RADIO_2_BUTTON" text="QuestRT" x=80 y=20 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=1 groupmemberid=2 
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","4","2") >
+		    <UIFrame state=up		fill="b_radio_off.tga" />
+		    <UIFrame state=down		fill="b_radio_on.tga" />
+		    <UIFrame state=focused	fill="b_radio_on.tga" />
+		    <UIFrame state=hilited	fill="b_radio_on.tga" />
+		    <UIFrame state=hifocus	fill="b_radio_on.tga" />
+		    <UIFrame state=disabled	fill="b_radio_off.tga" />
+	      </UIButton>
+              <UIText name="messagetextbody2" text="Quest" y=20 x=97 fontfamily="Body_Font" style=3 width="PARENT_WIDTH" height="DYNAMIC" color="EEEEEE" sizetofit="true" align="left" />
+
+              <UIButton name="RADIO_3_BUTTON" text="FactionsRT" x=150 y=20 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=1 groupmemberid=3 
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","4","3") >
+		    <UIFrame state=up		fill="b_radio_off.tga" />
+		    <UIFrame state=down		fill="b_radio_on.tga" />
+		    <UIFrame state=focused	fill="b_radio_on.tga" />
+		    <UIFrame state=hilited	fill="b_radio_on.tga" />
+		    <UIFrame state=hifocus	fill="b_radio_on.tga" />
+		    <UIFrame state=disabled	fill="b_radio_off.tga" />
+	      </UIButton>
+              <UIText name="messagetextbody3" text="Guilds/Factions" y=20 x=167 fontfamily="Body_Font" style=3 width="PARENT_WIDTH" height="DYNAMIC" color="EEEEEE" sizetofit="true" align="left" />
+
+              <UIButton name="RADIO_4_BUTTON" text="ShowsRT" x=0 y=40 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=1 groupmemberid=4 
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","4","4") >
+		    <UIFrame state=up		fill="b_radio_off.tga" />
+		    <UIFrame state=down		fill="b_radio_on.tga" />
+		    <UIFrame state=focused	fill="b_radio_on.tga" />
+		    <UIFrame state=hilited	fill="b_radio_on.tga" />
+		    <UIFrame state=hifocus	fill="b_radio_on.tga" />
+		    <UIFrame state=disabled	fill="b_radio_off.tga" />
+	      </UIButton>
+              <UIText name="messagetextbody4" text="Shows" y=40 x=17 fontfamily="Body_Font" style=3 width="PARENT_WIDTH" height="DYNAMIC" color="EEEEEE" sizetofit="true" align="left" />
+
+	      <UIButton name="RADIO_5_BUTTON" text="SellRT" x=80 y=40 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=1 groupmemberid=5 
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","4","5") >
+		    <UIFrame state=up		fill="b_radio_off.tga" />
+		    <UIFrame state=down		fill="b_radio_on.tga" />
+		    <UIFrame state=focused	fill="b_radio_on.tga" />
+		    <UIFrame state=hilited	fill="b_radio_on.tga" />
+		    <UIFrame state=hifocus	fill="b_radio_on.tga" />
+		    <UIFrame state=disabled	fill="b_radio_off.tga" />
+	      </UIButton>
+              <UIText name="messagetextbody5" text="Sell" y=40 x=97 fontfamily="Body_Font" style=3 width="PARENT_WIDTH" height="DYNAMIC" color="EEEEEE" sizetofit="true" align="left" />
+
+              <UIButton name="RADIO_6_BUTTON" text="SellRT" x=150 y=40 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=1 groupmemberid=6 
+	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","4","6") >
+		    <UIFrame state=up		fill="b_radio_off.tga" />
+		    <UIFrame state=down		fill="b_radio_on.tga" />
+		    <UIFrame state=focused	fill="b_radio_on.tga" />
+		    <UIFrame state=hilited	fill="b_radio_on.tga" />
+		    <UIFrame state=hifocus	fill="b_radio_on.tga" />
+		    <UIFrame state=disabled	fill="b_radio_off.tga" />
+	      </UIButton>
+              <UIText name="messagetextbody6" text="Announcements" y=40 x=167 fontfamily="Body_Font" style=3 width="PARENT_WIDTH" height="DYNAMIC" color="EEEEEE" sizetofit="true" align="left" />
+
+
+		<!-- OK Button -->
+		<UIButton name="okbutton" strref="66" x=0 y=70 style="STYLE_SMALL_BUTTON" 
+               OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","2","",local:0,local:1) />
+
+		<!-- Cancel Button -->
+		<UIButton name="cancelbutton" strref="67" x=134 y=70 style="STYLE_SMALL_BUTTON" OnLeftClick=UIButton_Input_ScreenClose()/>
+	</UIPane>
+
+	<UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+		bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+		left="frame1_l.tga" right="frame1_r.tga" border=32 />	
+
+	<UIFrame x=8 y=8 width=305 height=390 fillstyle="tile" fill="frame_main_bg.tga"/>		

@@ -570,7 +570,9 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\x2_s0_magcweap.ncs                    \
             $(OUTPUTDIR)\nw_s2_turndead.ncs                    \
             $(OUTPUTDIR)\x0_s0_masscamo.ncs                    \
-            $(OUTPUTDIR)\ga_faction_join.ncs         
+            $(OUTPUTDIR)\ga_faction_join.ncs                   \
+            $(OUTPUTDIR)\gui_msgboard.ncs                      \
+            $(OUTPUTDIR)\gui_startboard.ncs                    
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and
