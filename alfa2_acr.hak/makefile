@@ -572,7 +572,9 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\x0_s0_masscamo.ncs                    \
             $(OUTPUTDIR)\ga_faction_join.ncs                   \
             $(OUTPUTDIR)\gui_msgboard.ncs                      \
-            $(OUTPUTDIR)\gui_startboard.ncs                    
+            $(OUTPUTDIR)\gui_startboard.ncs                    \
+            $(OUTPUTDIR)\gui_bhvr_update.ncs                   \
+            $(OUTPUTDIR)\gui_bhvr_hench_change.ncs             
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and
