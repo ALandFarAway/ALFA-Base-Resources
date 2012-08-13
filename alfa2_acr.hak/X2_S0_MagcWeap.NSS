@@ -24,11 +24,11 @@ void AddEnhancementEffectToWeapon(object oMyWeapon, float fDuration)
 {
     if(GetWeaponRanged(oMyWeapon) || GetBaseItemType(oMyWeapon) == BASE_ITEM_GLOVES)
     {
-        IPSafeAddItemProperty(oMyWeapon,ItemPropertyAttackBonus(1), fDuration, X2_IP_ADDPROP_POLICY_KEEP_EXISTING ,TRUE,TRUE);
+        IPSafeAddItemProperty(oMyWeapon,ItemPropertyAttackBonus(1), fDuration, X2_IP_ADDPROP_POLICY_KEEP_EXISTING,FALSE,TRUE);
     }
     else if(IPGetIsMeleeWeapon(oMyWeapon))
     {
-        IPSafeAddItemProperty(oMyWeapon,ItemPropertyEnhancementBonus(1), fDuration, X2_IP_ADDPROP_POLICY_KEEP_EXISTING ,TRUE,TRUE);
+        IPSafeAddItemProperty(oMyWeapon,ItemPropertyEnhancementBonus(1), fDuration, X2_IP_ADDPROP_POLICY_KEEP_EXISTING,FALSE,TRUE);
     }
     else
     {
