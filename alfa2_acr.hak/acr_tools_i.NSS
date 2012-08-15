@@ -379,6 +379,7 @@ string SafeGetVariableValueString(object oObject, int nIndex);
 //! argument object id isn't a valid item object id.
 //!  - oItem: the item to query.
 //!  - Returns: the armorrulesstats.2da row on success, else 0 on failure.
+//!             Also returns 0 when oItem is cloth armor!
 int ACR_GetArmorRulesType(object oItem);
 
 //! Wrapper for ApplyEffectAtLocation that returns the created area of effect

@@ -235,7 +235,7 @@ void _SwimHeartBeat(object oPC)
     int nPenalty = 0;
     if (GetIsObjectValid(oArmor))
     {
-        nPenalty += StringToInt(Get2DAString("armorrulesstats", "ACCHECK", GetArmorRulesType(oArmor)));
+        nPenalty += StringToInt(Get2DAString("armorrulesstats", "ACCHECK", ACR_GetArmorRulesType(oArmor)));
     }
     object oShield = GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oPC);
     if (GetBaseItemType(oShield) == BASE_ITEM_LARGESHIELD)
