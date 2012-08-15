@@ -893,7 +893,7 @@ string GetBaseItemTypeName(object oItem) {
 }
 
 int GetBaseArmorClass(object oItem) {
-    int nType = GetArmorRulesType(oItem);
+    int nType = ACR_GetArmorRulesType(oItem);
 	if(!nType) return 0;
 	
 	return StringToInt(Get2DAString("armorrulestats", "ACBONUS", nType));
