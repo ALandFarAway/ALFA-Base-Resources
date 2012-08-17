@@ -46,7 +46,10 @@ const string ACR_CRAFT_PLOT_FLAG = "ACR_CRAFT_PLOT_FLAG";
 const string ACR_CRAFT_PROPERTY_ACTIVATION = "ACR_CRAFT_PROPERTY_ACTIVATION";
 const string ACR_CRAFT_SPELLS_IMBUED = "ACR_CRAFT_SPELLS_IMBUED";
 const string ACR_CRAFT_STACK_SIZE = "ACR_CRAFT_STACK_SIZE";
-const string ACR_CRAFT_TAG = "ACR_CRAFT_TAG";
+const string ACR_CRAFT_TAG = "acr_craft_tag";
+const string ACR_CRAFT_COST = "ACR_CRAFT_COST";
+const string ACR_CRAFT_MINIMUM_CASTER_LEVEL = "ACR_CRAFT_MIN_CL";
+const string ACR_CRAFT_XP_COST = "ACR_CRAFT_XP_COST";
 
 const string ACR_CRAFT_CAST_SPELL_IPS = "ACR_CRAFT_CAST_SPELL_";
 
@@ -89,6 +92,9 @@ object MakeItemFromCraftingProject(struct CraftingStatus status);
 //! Returns OBJECT_INVALID on an error.
 object MakeCraftingProjectFromItem(object oItem, int gpInvested = 0);
 
+//! Returns TRUE if oItem is a crafting project, and FALSE otherwise.
+int GetIsCraftingProject(object oItem);
+
 int CraftingFeatNeeded(object oItem);
 
 string GetCraftingSpellsRequired(object oItem);
@@ -102,6 +108,8 @@ int _GetCraftingSpellForItemProperty(object oItem, itemproperty ip);
 int _GetMinimumCasterLevel(object oItem, int nGP);
 
 int ACR_CraftingSpellhook(object oCaster, object oTarget, object oItem, int nSpellId);
+
+int _GetCraftingXPCost(int nGPCost);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -117,17 +125,17 @@ struct CraftingStatus GetCraftingStatus(object oItem) {
 	status.xpInvested = GetLocalInt(oItem, ACR_CRAFT_XP_INVESTED);
 	status.plotFlag = GetLocalInt(oItem, ACR_CRAFT_PLOT_FLAG);
 	SetPlotFlag(oItem, FALSE);
-	status.gpTotal = GetGoldPieceValue(oItem) / 2;
+	status.gpTotal = GetLocalInt(oItem, ACR_CRAFT_COST);
 	SetPlotFlag(oItem, status.plotFlag);
-	status.xpTotal = FloatToInt(IntToFloat(status.gpTotal) * ACR_CRAFTING_XP_PER_GP);
+	status.xpTotal = GetLocalInt(oItem, ACR_CRAFT_XP_COST);
 	status.featRequired = CraftingFeatNeeded(oItem);
 	status.name = GetLocalString(oItem, ACR_CRAFT_NAME);
 	status.description = GetLocalString(oItem, ACR_CRAFT_DESCRIPTION);
 	status.propActivation = GetLocalInt(oItem, ACR_CRAFT_PROPERTY_ACTIVATION);
 	status.spellsNeeded = GetCraftingSpellsRequired(status.item);
 	status.spellsImbued = GetLocalString(oItem, ACR_CRAFT_SPELLS_IMBUED);
-	status.isProject = status.name != "";
-	status.casterLevel = _GetMinimumCasterLevel(status.item, status.gpTotal * 2);
+	status.isProject = GetIsCraftingProject(oItem);
+	status.casterLevel = GetLocalInt(oItem, ACR_CRAFT_MINIMUM_CASTER_LEVEL);
 	status.stackSize = GetLocalInt(oItem, ACR_CRAFT_STACK_SIZE);
 	status.tag = GetLocalString(oItem, ACR_CRAFT_TAG);
 	
@@ -137,6 +145,7 @@ struct CraftingStatus GetCraftingStatus(object oItem) {
 void SaveCraftingStatus(struct CraftingStatus status) {
 	SetLocalInt(status.item, ACR_CRAFT_GP_INVESTED, status.gpInvested);
 	SetLocalInt(status.item, ACR_CRAFT_XP_INVESTED, status.xpInvested);
+	SetLocalInt(status.item, ACR_CRAFT_COST, status.gpTotal);
 	SetLocalInt(status.item, ACR_CRAFT_PLOT_FLAG, status.plotFlag);
 	SetLocalString(status.item, ACR_CRAFT_NAME, status.name);
 	SetLocalString(status.item, ACR_CRAFT_DESCRIPTION, status.description);
@@ -144,7 +153,9 @@ void SaveCraftingStatus(struct CraftingStatus status) {
 	SetLocalString(status.item, ACR_CRAFT_SPELLS_IMBUED, status.spellsImbued);
 	SetLocalInt(status.item, ACR_CRAFT_STACK_SIZE, status.stackSize);
 	SetLocalString(status.item, ACR_CRAFT_TAG, status.tag);
-	SetDescription(status.item, GetCraftingProgressSummary(status) + "\n\n");
+	SetDescription(status.item, GetCraftingProgressSummary(status));
+	SetLocalInt(status.item, ACR_CRAFT_MINIMUM_CASTER_LEVEL, status.casterLevel);
+	SetLocalInt(status.item, ACR_CRAFT_XP_COST, status.xpTotal);
 }
 
 void DeleteCraftingStatus(object oItem) {
@@ -157,6 +168,9 @@ void DeleteCraftingStatus(object oItem) {
 	DeleteLocalString(oItem, ACR_CRAFT_SPELLS_IMBUED);
 	DeleteLocalString(oItem, ACR_CRAFT_STACK_SIZE);
 	DeleteLocalString(oItem, ACR_CRAFT_TAG);
+	DeleteLocalInt(oItem, ACR_CRAFT_COST);
+	DeleteLocalInt(oItem, ACR_CRAFT_MINIMUM_CASTER_LEVEL);
+	DeleteLocalInt(oItem, ACR_CRAFT_XP_COST);
 }
 
 int XpAvailableForCrafting(object oCreature) {
@@ -207,7 +221,7 @@ void CraftingOnPCLoaded(object oPC) {
 	FeatAdd(oPC, FEAT_CRAFT, FALSE);
 }
 
-int GetIsCraftingProject(object oItem) { return GetTag(oItem) == ACR_CRAFT_TAG; }
+int GetIsCraftingProject(object oItem) { return FindSubString(GetStringLowerCase(GetTag(oItem)), ACR_CRAFT_TAG) != -1; }
 
 object MakeCraftingProjectFromItem(object oItem, int gpInvested = 0) {
 	struct CraftingStatus status = GetCraftingStatus(oItem);
@@ -220,12 +234,15 @@ object MakeCraftingProjectFromItem(object oItem, int gpInvested = 0) {
 	status.gpInvested = gpInvested;
 	status.stackSize = GetItemStackSize(oItem);
 	status.tag = GetTag(oItem);
+	SetPlotFlag(status.item, FALSE);
+	status.gpTotal = GetGoldPieceValue(oItem) / 2;
+	status.xpTotal = FloatToInt(IntToFloat(status.gpTotal) * ACR_CRAFTING_XP_PER_GP);;
+	SetPlotFlag(status.item, TRUE);
+	status.casterLevel = _GetMinimumCasterLevel(oItem, status.gpTotal);
 	
 	SetFirstName(oItem, "Unfinished " + status.name);
-	SetItemPropActivation(status.item, 0);
-	SetPlotFlag(status.item, TRUE);
-	SetItemStackSize(oItem, 1, FALSE);
-	SetTag(oItem, ACR_CRAFT_TAG);
+	SetItemPropActivation(status.item, 0);	
+	SetTag(oItem, ACR_CRAFT_TAG + "_" + IntToString(GenerateRandomSeed()));
 	
 	// Remove cast-spell properties on scrolls, so scrolls in-crafting cannot be scribed.
 	if(GetBaseItemType(oItem) == BASE_ITEM_SPELLSCROLL) {
@@ -270,7 +287,7 @@ object MakeItemFromCraftingProject(struct CraftingStatus status) {
 			i++;
 		}
 	}
-		
+
 	DeleteCraftingStatus(status.item);
 	
 	return status.item;
@@ -651,11 +668,13 @@ int ACR_CraftingSpellhook(object oCaster, object oTarget, object oItem, int nSpe
 			SendMessageToPC(oCaster, "This spell was already imbued in the item.");
 		else if(!IsElementInStringList(status.spellsNeeded, nSpellId))
 			SendMessageToPC(oCaster, "This spell is not needed to craft this item.");
+		else if(GetItemStackSize(oTarget) > 1)
+			SendMessageToPC(oCaster, "You can only imbue one item at a time. Separate one from the stack and try again.");
 		else {
 			status.spellsImbued += IntToString(nSpellId) + "#";
 			SaveCraftingStatus(status);
 			string message = "You imbue the spell into the item. ";
-			message += (GetIsProjectReadyForWork(status)) ? ("It is ready to be worked on.") : ("The item needs more spells imbued. Examine it for details.");
+			message += (GetIsProjectReadyForWork(status)) ? ("It is ready to be worked on. Use the Craft feat on the item from within a rest zone.") : ("The item needs more spells imbued. Examine it for details.");
 			SendMessageToPC(oCaster, message);
 		}
 		

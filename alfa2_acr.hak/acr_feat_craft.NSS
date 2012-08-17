@@ -40,12 +40,14 @@ void main() {
 			int highestCasterLevel = ACR_GetHighestCasterLevel(oCrafter);
 			string errors;
 			
+			if(GetItemStackSize(oTarget) > 1)
+				errors += "\nCrafting projects should not be stackable! This is a bug; please report it and ask for a refund for the stacked projects.";
 			if(GetLocalInt(oCrafter, ACR_FREE_SPELL_PREP))
-				errors += "You must finish selecting spells before you can craft.";
+				errors += "\nYou must finish selecting spells before you can craft.";
 			if(highestCasterLevel < status.casterLevel) 
-				errors += "You need a caster level of " + IntToString(status.casterLevel) + ", but your highest is " + IntToString(highestCasterLevel) + ".";
+				errors += "\nYou need a caster level of " + IntToString(status.casterLevel) + ", but your highest is " + IntToString(highestCasterLevel) + ".";
 			if(GetIsInCombat(oCrafter))
-				errors += "You can't craft while in combat.";
+				errors += "\nYou can't craft while in combat.";
 			if(!GetLocalInt(oCrafter, ACR_REST_ZONE))
 				errors += "\nYou must be inside a rest zone (such as an inn, home, etc.). This represents the PC having a quiet place to work with tools and other implements handy. Tents in the wilderness don't cut it.";
 			if(!GetHasFeat(status.featRequired, oCrafter))
