@@ -204,8 +204,10 @@ int _GetLevelIfHasFeat(int nClass, object oCreature, int nFeat) {
 }
 
 int _GetPracticedSpellcasterCL(object oCreature, int nCasterLevel, int nFeat) {
-	int nHd = GetHitDice(oCreature);
-	return (GetHasFeat(nFeat, oCreature) != 0) * ((nCasterLevel + 4) > nHd) ? nHd : (nCasterLevel + 4);
+	int nHd = GetHitDice( oCreature );
+	if ( GetHasFeat( nFeat, oCreature ) ) nCasterLevel += 4;
+	if ( nCasterLevel > nHd ) nCasterLevel = nHd;
+	return nCasterLevel;
 }
 
 int ACR_GetCorrectCasterLevel(object oCreature, int nClass = -1) {
