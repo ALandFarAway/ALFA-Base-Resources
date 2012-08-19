@@ -1119,7 +1119,7 @@ void _playerStartQuarantinePortalDialog(int nDesiredServerID)
     // Don't try and shunt the player if their home server is offline.
     if (!ACR_GetIsServerOnline(nDesiredServerID))
     {
-        SendMessageToPC(OBJECT_SELF, "Your character's home server appears to be offline, not initiating automatic transfer.");
+        SendMessageToPC(OBJECT_SELF, "Your characters home server appears to be offline, not initiating automatic transfer.");
         return;
     }
 
@@ -1129,7 +1129,7 @@ void _playerStartQuarantinePortalDialog(int nDesiredServerID)
     // target will be cleared.
     ActionStartConversation(OBJECT_SELF, "acr_convo_quarantine_portal", TRUE, TRUE, TRUE, TRUE);
 
-    SendMessageToPC(OBJECT_SELF, "Initiating automatic transfer to correct server in 20 seconds (cancel dialog to abort)...");
+    SendMessageToPC(OBJECT_SELF, "Initiating automatic transfer to correct server in 60 seconds (cancel dialog to abort)...");
     DelayCommand(60.0, _playerStartQuarantineAutoPortal(nDesiredServerID));
 }
 
