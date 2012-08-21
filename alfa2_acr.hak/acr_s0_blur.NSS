@@ -17,6 +17,9 @@
 
 void main()
 {
+	// If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell.
+	if ( !ACR_PrecastEvent() ) return;
+	
     //Declare major variables
     object oTarget = GetSpellTargetObject();
 
