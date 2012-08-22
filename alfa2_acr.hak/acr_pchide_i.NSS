@@ -51,38 +51,24 @@ void ACR_CopyPropertiesToHide( object oPC );
 
 object ACR_InitializePCHide( object oPC ) {
 	// Get the object in the PCH slot.
-	object oHide = GetItemInSlot( ACR_PCH_SLOT, oPC );
+	object oHide = GetItemPossessedBy( oPC, ACR_PCH_RESREF );
 	
 	// Does the PC have required proficiencies?
 	if ( !GetHasFeat( FEAT_WEAPON_PROFICIENCY_CREATURE, oPC ) ) {
 		FeatAdd( oPC, FEAT_WEAPON_PROFICIENCY_CREATURE, FALSE );
 	}
 	
-	// Is this our valid item?
-	if ( GetIsObjectValid( oHide ) ) {
-		if ( GetResRef( oHide ) == ACR_PCH_RESREF ) {
-			// All is good.
-			return oHide;
-		} else {
-			// Some other item? Not good! Delete it and reinitialize.
-			DestroyObject( oHide );
-			return ACR_InitializePCHide( oPC );
-		}
-	} else {
-		// No item in the slot.
-		oHide = GetItemPossessedBy( oPC, ACR_PCH_RESREF );
+	// Not in the inventory. Create the item.
+	if ( !GetIsObjectValid( oHide ) ) {
+		oHide = CreateItemOnObject( ACR_PCH_RESREF, oPC, 1 );
 		if ( !GetIsObjectValid( oHide ) ) {
-			// Not in the inventory. Create the item.
-			oHide = CreateItemOnObject( ACR_PCH_RESREF, oPC, 1 );
-			if ( !GetIsObjectValid( oHide ) ) {
-				SendMessageToPC( oPC, Colorize( "ERROR: Could not create PC Hide item!", "FF0000" ) );
-			}
-			
-			// Equip if we don't have another item in the slot.
-			if ( !GetIsObjectValid( GetItemInSlot( ACR_PCH_SLOT, oPC ) ) ) {
-				AssignCommand( oPC, ActionEquipItem( oHide, ACR_PCH_SLOT ) );
-			}
+			SendMessageToPC( oPC, Colorize( "ERROR: Could not create PC Hide item!", "FF0000" ) );
 		}
+	}
+	
+	// Equip if we don't have another item in the slot.
+	if ( !GetIsObjectValid( GetItemInSlot( ACR_PCH_SLOT, oPC ) ) ) {
+		AssignCommand( oPC, ActionEquipItem( oHide, ACR_PCH_SLOT ) );
 	}
 	
 	return oHide;
@@ -118,9 +104,6 @@ object ACR_GetPCHide( object oPC ) {
 	if ( !GetIsPC( oPC ) ) {
 		return OBJECT_INVALID;
 	}
-	
-	// Confirm that we have the item set up.
-	ACR_InitializePCHide( oPC );
 	
 	// Get the item.
 	object oHide = GetItemPossessedBy( oPC, ACR_PCH_RESREF );
