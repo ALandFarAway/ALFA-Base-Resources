@@ -21,6 +21,7 @@
 //:: 	Default to brown bear
 
 #include "x2_inc_itemprop"
+#include "acr_pchide_i"
 
 // VFX Constants
 const int ACR_VFX_BACKAXE = 1999;
@@ -176,4 +177,6 @@ void main()
         IPWildShapeCopyItemProperties(oBeltOld,oArmorNew);
     }
 
+	// Copy PC hide properties.
+	ACR_CopyPropertiesToHide( OBJECT_SELF );
 }

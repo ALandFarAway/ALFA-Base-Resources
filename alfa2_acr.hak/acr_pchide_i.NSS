@@ -36,17 +36,20 @@ const int ACR_PCH_SLOT = INVENTORY_SLOT_CWEAPON_L;
 
 //! Ensures that the player has a PC Hide object.
 //! Warning: Will delete any other object in the ACR_PCH_SLOT slot.
-void ACR_InitializePCHide( object oPC );
+object ACR_InitializePCHide( object oPC );
 
 //! Get the player hidden creature slot equipment.
 //! Returns OBJECT_INVALID if there is a problem.
 object ACR_GetPCHide( object oPC );
 
+//! Get the properties from the PC's hide
+void ACR_CopyPropertiesToHide( object oPC );
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void ACR_InitializePCHide( object oPC ) {
+object ACR_InitializePCHide( object oPC ) {
 	// Get the object in the PCH slot.
 	object oHide = GetItemInSlot( ACR_PCH_SLOT, oPC );
 	
@@ -59,12 +62,11 @@ void ACR_InitializePCHide( object oPC ) {
 	if ( GetIsObjectValid( oHide ) ) {
 		if ( GetResRef( oHide ) == ACR_PCH_RESREF ) {
 			// All is good.
-			return;
+			return oHide;
 		} else {
 			// Some other item? Not good! Delete it and reinitialize.
 			DestroyObject( oHide );
-			ACR_InitializePCHide( oPC );
-			return;
+			return ACR_InitializePCHide( oPC );
 		}
 	} else {
 		// No item in the slot.
@@ -75,8 +77,39 @@ void ACR_InitializePCHide( object oPC ) {
 			if ( !GetIsObjectValid( oHide ) ) {
 				SendMessageToPC( oPC, Colorize( "ERROR: Could not create PC Hide item!", "FF0000" ) );
 			}
+			
+			// Equip if we don't have another item in the slot.
+			if ( !GetIsObjectValid( GetItemInSlot( ACR_PCH_SLOT, oPC ) ) ) {
+				AssignCommand( oPC, ActionEquipItem( oHide, ACR_PCH_SLOT ) );
+			}
 		}
-		AssignCommand( oPC, ActionEquipItem( oHide, ACR_PCH_SLOT ) );
+	}
+	
+	return oHide;
+}
+
+void ACR_CopyPropertiesToHide( object oPC ) {
+	// Get the PC hide object.
+	object oHide = ACR_GetPCHide( oPC );
+	if ( !GetIsObjectValid( oHide ) ) {
+		WriteTimestampedLogEntry( "PC Hide could not be found for ACR_CopyPropertiesToHide. Creature: " + GetName( oPC ) );
+		return;
+	}
+	
+	// Get the current hide item.
+	object oCurrentHide = GetItemInSlot( ACR_PCH_SLOT, oPC );
+	if ( !GetIsObjectValid( oCurrentHide ) ) {
+		WriteTimestampedLogEntry( "No current hide for ACR_CopyPropertiesToHide to copy to. Creature: " + GetName( oPC ) );
+		return;
+	}
+	
+	// Copy permanent properties.
+	itemproperty ipProp = GetFirstItemProperty( oHide );
+	while ( GetIsItemPropertyValid( ipProp ) ) {
+		if ( GetItemPropertyDurationType( ipProp ) == DURATION_TYPE_PERMANENT ) {
+			AddItemProperty( DURATION_TYPE_PERMANENT, ipProp, oCurrentHide );
+		}
+		ipProp = GetNextItemProperty( oHide );
 	}
 }
 
@@ -89,8 +122,13 @@ object ACR_GetPCHide( object oPC ) {
 	// Confirm that we have the item set up.
 	ACR_InitializePCHide( oPC );
 	
-	// Return the item.
-	object oHide = GetItemInSlot( ACR_PCH_SLOT, oPC );
-	if ( GetResRef( oHide ) != ACR_PCH_RESREF ) oHide = OBJECT_INVALID;
+	// Get the item.
+	object oHide = GetItemPossessedBy( oPC, ACR_PCH_RESREF );
+	
+	// Invalid item?
+	if ( !GetIsObjectValid( oHide ) ) {
+		oHide = ACR_InitializePCHide( oPC );
+	}
+	
 	return oHide;
 }
