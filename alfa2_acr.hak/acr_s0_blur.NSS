@@ -15,6 +15,9 @@
 //	02/03/2009
 //	Add visual effects, included ability to target other creatures
 
+#include "acr_i"
+#include "acr_spells_i"
+
 void main()
 {
 	// If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell.
