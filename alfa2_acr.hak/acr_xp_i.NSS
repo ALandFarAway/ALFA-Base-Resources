@@ -297,13 +297,11 @@ void ACR_AwardCombatXP(object oPCParty, object oKill)
         // check to make sure the PC is actually nearby, since areas are BIG in NWN2, only award ones in range
         if ((GetArea(oPC) == oArea) && (GetDistanceToObject(oPC) < _ACR_XP_COMBAT_RANGE))
         {
-            // switched out to even split over PCs rather than proportional by ECL - AL 11/15/2008
-            //ACR_GiveXPToPC(oPC, FloatToInt(fXP * IntToFloat(ACR_GetECL(oPC)) / IntToFloat(nLevelSum)));
-            //ACR_LogEvent(oPC, ACR_LOG_COMBATXP, FloatToString(fXP * IntToFloat(ACR_GetECL(oPC)) / IntToFloat(nLevelSum), 6, 0)+" XP for combat against "+GetName(oKill));
             if(ACR_GetECL(oPC) - FloatToInt(fCR) <= 8)
             {
-                ACR_GiveXPToPC(oPC, FloatToInt(fXP  / IntToFloat(nNumPCs)));
-                ACR_LogEvent(oPC, ACR_LOG_COMBATXP, FloatToString(fXP  / IntToFloat(nNumPCs), 4, 0)+" XP for combat against "+GetName(oKill));
+                int nXP = FloatToInt(fXP  / IntToFloat(nNumPCs));
+                ACR_GiveXPToPC(oPC, nXP);
+                ACR_LogEvent(oPC, ACR_LOG_COMBATXP, IntToString(nXP) + " XP for combat against " + GetName(oKill) + " (resref: " + GetResRef(oKill) + ")");
             }
         }
         oPC = GetNextFactionMember(oPCParty);
