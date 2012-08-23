@@ -736,7 +736,42 @@ namespace ACR_CreatureBehavior
             // Archers have the advantage of reach and accuracy with acceptable damage. They strike weak and soft targets.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_ARCHER)
             {
+                if (TryToAttackRanged())
+                    return;
+                if (TryToDebuffAll())
+                    return;
+                if (TryToCallForHelp())
+                    return;
+                if (TryToDebuffCareful())
+                    return;
+                if (TryToBuffAll())
+                    return;
+                if (TryToAttackMelee(true, false))
+                    return;
+                if (TryToHealAll())
+                    return;
 
+                // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
+                if (Party.PartyMedics.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMedics).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyBuffs.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyBuffs).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyArchers.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyArchers).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyMembers.Count > 1)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMembers).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
                 return;
             }
             #endregion
@@ -745,7 +780,42 @@ namespace ACR_CreatureBehavior
             // Buffs try to boost the capabilities of their allies
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_BUFFS)
             {
+                if (TryToBuffAll())
+                    return;
+                if (TryToHealAll())
+                    return;
+                if (TryToCallForHelp())
+                    return;
+                if (TryToDebuffAll())
+                    return;
+                if (TryToDebuffCareful())
+                    return;
+                if (TryToAttackRanged())
+                    return;
+                if (TryToAttackMelee())
+                    return;
 
+                // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
+                if (Party.PartyMedics.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMedics).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }                
+                if (Party.PartyControls.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyControls).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyNukes.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyNukes).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyMembers.Count > 1)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMembers).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
                 return;
             }
             #endregion
@@ -754,7 +824,42 @@ namespace ACR_CreatureBehavior
             // Controls try to debuff enemies and impede movement on the field.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_CONTROL)
             {
+                if (TryToDebuffAll())
+                    return;
+                if (TryToCallForHelp())
+                    return;
+                if (TryToDebuffCareful())
+                    return;
+                if (TryToBuffAll())
+                    return;
+                if (TryToHealAll())
+                    return;
+                if (TryToAttackRanged())
+                    return;
+                if (TryToAttackMelee())
+                    return;
 
+                // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
+                if (Party.PartyMedics.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMedics).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyBuffs.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyBuffs).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyNukes.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyNukes).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyMembers.Count > 1)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMembers).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
                 return;
             }
             #endregion
@@ -772,7 +877,42 @@ namespace ACR_CreatureBehavior
             // Flanks try to backstab people, and counter attack people who come after squishies.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_FLANK)
             {
+                if (TryToAttackMelee(true, false))
+                    return; 
+                if (TryToAttackRanged())
+                    return;
+                if (TryToDebuffAll())
+                    return;
+                if (TryToDebuffCareful())
+                    return;
+                if (TryToBuffAll())
+                    return;
+                if (TryToCallForHelp())
+                    return;
+                if (TryToHealAll())
+                    return;
 
+                // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
+                if (Party.PartyMedics.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMedics).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyBuffs.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyBuffs).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyArchers.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyArchers).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyMembers.Count > 1)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMembers).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
                 return;
             }
             #endregion
@@ -787,6 +927,46 @@ namespace ACR_CreatureBehavior
                     return;
                 if (TryToDebuffAll())
                     return;
+                if (TryToDebuffCareful())
+                    return;
+                if (TryToCallForHelp())
+                    return;
+                if (TryToAttackRanged())
+                    return;
+                if (TryToAttackMelee())
+                    return;
+
+                // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
+                if(Party.PartyArchers.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyArchers).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if(Party.PartyBuffs.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyBuffs).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if(Party.PartyControls.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyControls).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyNukes.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyNukes).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyMedics.Count > 1)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMedics).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if(Party.PartyMembers.Count > 1)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMembers).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
                 return;
             }
             #endregion
@@ -795,7 +975,47 @@ namespace ACR_CreatureBehavior
             // Nukes try to explode hardened targets.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_NUKE)
             {
+                if (TryToDebuffAll())
+                    return;
+                if (TryToDebuffCareful())
+                    return;
+                if (TryToBuffAll())
+                    return;
+                if (TryToCallForHelp())
+                    return;                
+                if (TryToHealAll())
+                    return;
+                if (TryToAttackRanged())
+                    return;
+                if (TryToAttackMelee())
+                    return;
 
+                // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
+                if (Party.PartyMedics.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMedics).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyArchers.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyArchers).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyBuffs.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyBuffs).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyControls.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyControls).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyMembers.Count > 1)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMembers).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
                 return;
             }
             #endregion
@@ -804,7 +1024,42 @@ namespace ACR_CreatureBehavior
             // Shocks try to break through the lines and take down squishies.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_SHOCK)
             {
+                if (TryToAttackMelee(true, false))
+                    return;
+                if (TryToAttackRanged())
+                    return;
+                if (TryToDebuffAll())
+                    return;
+                if (TryToDebuffCareful())
+                    return;
+                if (TryToBuffAll())
+                    return;
+                if (TryToCallForHelp())
+                    return;
+                if (TryToHealAll())
+                    return;
 
+                // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
+                if (Party.PartyMedics.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMedics).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyBuffs.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyBuffs).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyArchers.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyArchers).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyMembers.Count > 1)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMembers).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
                 return;
             }
             #endregion
@@ -813,7 +1068,42 @@ namespace ACR_CreatureBehavior
             // Skirmishers try to resist shocks, flanks, and other skirmishers.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_SKIRMISH)
             {
+                if (TryToAttackRanged())
+                    return;                
+                if (TryToAttackMelee(true, false))
+                    return;
+                if (TryToDebuffAll())
+                    return;
+                if (TryToDebuffCareful())
+                    return;
+                if (TryToBuffAll())
+                    return;
+                if (TryToCallForHelp())
+                    return;
+                if (TryToHealAll())
+                    return;
 
+                // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
+                if (Party.PartyMedics.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMedics).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyBuffs.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyBuffs).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return; 
+                }
+                if (Party.PartyArchers.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyArchers).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return; 
+                }
+                if (Party.PartyMembers.Count > 1)
+                { 
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMembers).ObjectId, CLRScriptBase.TRUE, 3.0f); 
+                    return; 
+                }
                 return;
             }
             #endregion
@@ -822,7 +1112,42 @@ namespace ACR_CreatureBehavior
             // Tanks try to hold ground and contain dangerous foes.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_TANK)
             {
+                if (TryToAttackMelee(false, true))
+                    return;
+                if (TryToAttackRanged())
+                    return;
+                if (TryToDebuffAll())
+                    return;
+                if (TryToDebuffCareful())
+                    return;
+                if (TryToBuffAll())
+                    return;
+                if (TryToCallForHelp())
+                    return;
+                if (TryToHealAll())
+                    return;
 
+                // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
+                if (Party.PartyMedics.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMedics).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return; 
+                }
+                if (Party.PartyBuffs.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyBuffs).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return; 
+                }
+                if (Party.PartyArchers.Count > 0)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyArchers).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
+                if (Party.PartyMembers.Count > 1)
+                {
+                    Script.ActionMoveToObject(Party.GetNearest(this, Party.PartyMembers).ObjectId, CLRScriptBase.TRUE, 3.0f);
+                    return;
+                }
                 return;
             }
             #endregion
@@ -839,6 +1164,24 @@ namespace ACR_CreatureBehavior
         private void _AmbientBehavior()
         {
 
+        }
+        #endregion
+
+        #region === Crowd Control Methods ===
+        bool TryToCallForHelp()
+        {
+            // Summons are generally short-duration spells which are better used like traps, sprung
+            // on hapless opponents.
+            if (GetAlliesInMelee() > 0)
+            {
+                NWTalent Summon = Script.GetCreatureTalentBest(CLRScriptBase.TALENT_CATEGORY_BENEFICIAL_OBTAIN_ALLIES, 20, ObjectId, 0);
+                if (Script.GetIsTalentValid(Summon) == CLRScriptBase.TRUE)
+                {
+                    Script.ActionUseTalentAtLocation(Summon, Script.GetLocation(ObjectId));
+                    return true;
+                }
+            }
+            return false;
         }
         #endregion
 
@@ -1245,6 +1588,50 @@ namespace ACR_CreatureBehavior
             return false;
         }
 
+        /// <summary>
+        /// This attempts to find a place to send an attack which either only harms enemies or which only harms single targets.
+        /// </summary>
+        /// <returns>true if such an ability is found</returns>
+        public bool TryToDebuffCareful()
+        {
+            NWTalent Debuff = Script.GetCreatureTalentBest(CLRScriptBase.TALENT_CATEGORY_HARMFUL_AREAEFFECT_DISCRIMINANT, 20, ObjectId, 0);
+            CreatureObject Target = Party.GetNearest(this, Party.Enemies);
+            
+            // If there is no nearest enemy, might as well abort.
+            if (Target == null)
+                return false;
+
+            if (Script.GetIsTalentValid(Debuff) == CLRScriptBase.TRUE)
+            {
+                Script.ActionUseTalentOnObject(Debuff, Target.ObjectId);
+                return true;
+            }
+
+            Debuff = Script.GetCreatureTalentBest(CLRScriptBase.TALENT_CATEGORY_HARMFUL_RANGED, 20, ObjectId, 0);
+            if (Script.GetIsTalentValid(Debuff) == CLRScriptBase.TRUE)
+            {
+                uint newTarget = _FindTargetForDispel();
+                if (Script.GetIsObjectValid(newTarget) == CLRScriptBase.TRUE)
+                {
+                    Script.ActionUseTalentOnObject(Debuff, newTarget);
+                    return true;
+                }
+                else
+                {
+                    Script.ActionUseTalentOnObject(Debuff, Target.ObjectId);
+                    return true;
+                }
+            }
+
+            Debuff = Script.GetCreatureTalentBest(CLRScriptBase.TALENT_CATEGORY_HARMFUL_TOUCH, 20, ObjectId, 0);
+            if (Script.GetIsTalentValid(Debuff) == CLRScriptBase.TRUE)
+            {
+                Script.ActionUseTalentOnObject(Debuff, Target.ObjectId);
+                return true;
+            }
+            return false;
+        }
+
         private NWTalent _GetKnownFieldAlteringEffect()
         {
             NWTalent Talent = Script.GetCreatureTalentBest(CLRScriptBase.TALENT_CATEGORY_PERSISTENT_AREA_OF_EFFECT, 20, ObjectId, 0);
@@ -1383,9 +1770,124 @@ namespace ACR_CreatureBehavior
         {
 
         }
+
+        /// <summary>
+        /// This function causes Creature to switch to ranged weapons, if the weapon wielded isn't already ranged, and attack
+        /// from a distance.
+        /// </summary>
+        /// <returns>true if a target and a ranged weapon are found, and an attack is ordered.</returns>
+        public bool TryToAttackRanged()
+        {
+            CreatureObject killObject = null;
+            foreach (CreatureObject enemy in Party.EnemySoftTargets)
+            {
+                if (Script.LineOfSightObject(this.ObjectId, enemy.ObjectId) == CLRScriptBase.TRUE)
+                    killObject = enemy;
+            }
+            if (killObject == null)
+            {
+                foreach (CreatureObject enemy in Party.Enemies)
+                {
+                    if (Script.LineOfSightObject(this.ObjectId, enemy.ObjectId) == CLRScriptBase.TRUE)
+                        killObject = enemy;
+                }
+            }
+            
+            // We don't have any enemies who we can shoot without moving.
+            if (killObject == null)
+                return false;
+            else
+            {
+                _EquipWeapon(false);
+                
+                // Looks like we found something to kill and something to kill it with.
+                _AttackWrapper(killObject);
+                return true;
+            }
+        }
+
+        public bool TryToAttackMelee(bool PrioritizeSoftTargets = false, bool DistributeAttacks = false)
+        {
+            CreatureObject finalTarget = null;
+            if (PrioritizeSoftTargets)
+            {
+                foreach (CreatureObject enemy in Party.EnemySoftTargets)
+                {
+                    if (finalTarget == null || enemy.HealthPercentage < finalTarget.HealthPercentage)
+                    {
+                        if((DistributeAttacks && Script.GetDistanceBetween(Script.GetLastAttacker(enemy.ObjectId), enemy.ObjectId) > 5.0f) ||
+                            !DistributeAttacks)
+                                finalTarget = enemy;
+                    }
+                }
+            }
+            if (DistributeAttacks && finalTarget == null)
+            {
+                foreach (CreatureObject enemy in Party.EnemySoftTargets)
+                {
+                    if (Script.GetDistanceBetween(Script.GetLastAttacker(enemy.ObjectId), enemy.ObjectId) > 5.0f)
+                        finalTarget = enemy;
+                }
+            }
+            if(finalTarget == null)
+                finalTarget = Party.GetNearest(this, Party.Enemies);
+            if(finalTarget == null)
+                return false;
+
+            _EquipWeapon();
+            _AttackWrapper(finalTarget);
+            return true;
+        }
+
+        private void _EquipWeapon(bool meleeWeapon = true)
+        {
+            uint item = Script.GetItemInSlot(CLRScriptBase.INVENTORY_SLOT_RIGHTHAND, ObjectId);
+            if ((Script.GetWeaponRanged(item) == CLRScriptBase.FALSE && !meleeWeapon) ||
+                (Script.GetWeaponRanged(item) == CLRScriptBase.TRUE && meleeWeapon))
+            {
+                int weaponValue = 0;
+                uint weapon = OBJECT_INVALID;
+                foreach (uint bagItem in Script.GetItemsInInventory(ObjectId))
+                {
+                    // We can make this more robust later. For now, assume that the most-expensive ranged weapon
+                    // is the one preferred. We don't want them to metagame the best weapon for their target without
+                    // at least -some- experimentation.                        
+                    if (((Script.GetWeaponRanged(bagItem) == CLRScriptBase.TRUE && !meleeWeapon) || (Script.GetWeaponRanged(bagItem) == CLRScriptBase.FALSE && Script.GetWeaponType(bagItem) != CLRScriptBase.WEAPON_TYPE_NONE && meleeWeapon)) &&
+                       Script.GetGoldPieceValue(bagItem) > weaponValue)
+                    {
+                        weaponValue = Script.GetGoldPieceValue(bagItem);
+                        weapon = bagItem;
+                    }
+                }
+                if (Script.GetIsObjectValid(weapon) == CLRScriptBase.TRUE)
+                    Script.ActionEquipItem(weapon, CLRScriptBase.INVENTORY_SLOT_RIGHTHAND);
+            }
+        }
         #endregion
 
         #region === Discovery Methods ===
+        /// <summary>
+        /// This returns the number of allies who are near hostile opponents.
+        /// </summary>
+        /// <returns></returns>
+        public int GetAlliesInMelee()
+        {
+            int returnVal = 0;
+            foreach (CreatureObject partymember in Party.PartyMembers)
+            {
+                foreach(uint target in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, 5.0f, Script.GetLocation(partymember.ObjectId), true, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
+                {
+                    int add = 0;
+                    if(Script.GetReputation(partymember.ObjectId, target) < 10)
+                    {
+                        add = 1;
+                    }
+                    returnVal += add;
+                }
+            }
+            return returnVal;
+        }
+
         /// <summary>
         /// This refreshes the public variables which track status afflictions on the creature.
         /// </summary>
@@ -1873,7 +2375,7 @@ namespace ACR_CreatureBehavior
             SPELL_TARGET_PURPLE_LARGE = 15,
             SPELL_TARGET_SHORT_CONE_D = 16,
         }
-        
+
         const string ON_SPAWN_EVENT = "ACR_VFX_ON_SPAWN";
         const string EFFECT_VISUAL = "_EFFECT_VISUAL";
         const string EFFECT_PHYSICAL = "_EFFECT_PHYSICAL";
