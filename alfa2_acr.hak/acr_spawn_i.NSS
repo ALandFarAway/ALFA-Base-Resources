@@ -1182,7 +1182,11 @@ void _RefreshArea(object oArea) {
     int i;
     for(i=0; i<nNumSpawns; i++) {
         object oWP = GetLocalArrayObject(oArea, _SPAWN_WAYPOINT_ARRAY, i);
-		ExecuteScript(GetLocalString(oWP, _WP_IS_ACTIVE_SCRIPT), oWP);
+        string sScript = GetLocalString(oWP, _WP_IS_ACTIVE_SCRIPT);
+
+        if (sScript != "")
+            ExecuteScript(sScript, oWP);
+
         _RefreshActiveSpawnPoint(oWP);
     }
 }
