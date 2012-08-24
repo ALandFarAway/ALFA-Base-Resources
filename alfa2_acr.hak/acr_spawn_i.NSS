@@ -517,6 +517,8 @@ void ACR_ReportSpawnDeath(object oObject);
 
 //! Destroys oWP, removing it as a spawn point.
 //! If bDespawnChildren is 1, its children are despawned as well.
+//! This function does not actually destroy a spawn point, and really should not be used.
+//! Use ACR_SetIsSpawnPointEnabled() instead.
 void ACR_DestroySpawnPoint(object oWP, int bDespawnChildren = 0);
 
 //! The script the spawn system executes when a PC enters an area.
@@ -739,9 +741,6 @@ location _GetNewLocationFromDirectionAndFacing(location lStart, float fDist, flo
 //!   and a defined orientation, fOrientAngle.  
 location _GetNewLocationFromVectorAndFacing(location lOrigin, float fXOffset, float fYOffset, float fOrientAngle);
 
-//!  Runs a loop through spawn points in an area prior to it's activation
-void _RunSpawnIsActiveLoop(object oArea);
-
 //! Handles internal accounting for adding instanced objects to spawn WP
 void _AddObjectToSpawnPoint(object oWP, object oObject);
 
@@ -797,38 +796,19 @@ int GetPrespawnsSeamless() { return GetGlobalInt(_SPAWN_PRESPAWN_SEAMLESS_GB); }
 int GetPrespawnPrediction() { return GetGlobalInt(_SPAWN_PRESPAWN_PREDICTION_GB); }
 
 void ACR_SpawnOnAreaEnter(object oCreature) {
-    object oArea = GetArea(oCreature);
     if(GetIsPC(oCreature)) {
-        // Entering object is a PC.   
-		int nAreaFlags = GetLocalInt(oArea, _SPAWN_AREA_FLAGS);
-		if(!(nAreaFlags & _SPAWN_AREA_FLAG_ACTIVE)) {
-			// run the scripts to check for overriding waypoint conditions
-			_RunSpawnIsActiveLoop(oArea);
-		  // The area does not have an active spawn heartbeat running. So, we'll start one.
-		  	_RefreshArea(oArea);
-            _StartSpawnAreaHeartbeat(oArea, nAreaFlags);
-	    } else {
-            // SendMessageToAllDMs("Allowing existing Heartbeats to continue for area "+GetName(oArea));
-        }
-    } else {
-        // Entering object is not a PC.
+        ACR_PreSpawnArea(GetArea(oCreature));
     }
 }
 
 void ACR_PreSpawnArea(object oArea) {
-    // called from AT scripts, allows an area to be activated before a PC actually enters it.
-    //int nLastRefreshed = GetLocalInt(oArea, _SPAWN_LAST_REFRESHED);
-    //float fTime = _GetSecondsSinceSpawnRefresh(oArea);
 	int nAreaFlag = GetLocalInt(oArea, _SPAWN_AREA_FLAGS);
-    //if(fTime > _SPAWN_REFRESH_DELAY) {
+
 	if(!(nAreaFlag & _SPAWN_AREA_FLAG_ACTIVE)) {
-	    ACR_PrintDebugMessage("Prespawning "+GetName(oArea), _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
-		// run the scripts to check for overriding waypoint conditions
-		_RunSpawnIsActiveLoop(oArea);		
+	    ACR_PrintDebugMessage("Spawning "+GetName(oArea), _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
         _RefreshArea(oArea);
 		_StartSpawnAreaHeartbeat(oArea, nAreaFlag);
     }
-    
 }
 
 void ACR_SpawnOnAreaExit(object oCreature) {
@@ -933,7 +913,9 @@ void ACR_SetIsSpawnPointEnabled(object oWP, int bEnabled, int bChangeCurrentStat
 }
 
 void ACR_DestroySpawnPoint(object oWP, int bDespawnChildren = 0) {
-    SetLocalInt(oWP, _SPAWN_FLAGS, GetLocalInt(oWP, _SPAWN_FLAGS) | _SPAWN_DISALLOWED);
+	int nFlags = GetLocalInt(oWP, _SPAWN_FLAGS);
+    SetLocalInt(oWP, _SPAWN_FLAGS, nFlags | _SPAWN_DISALLOWED);
+	if(bDespawnChildren) _DespawnPoint(oWP, nFlags);
 }
 
 void ACR_DisallowSpawn(object oWP = OBJECT_SELF) {
@@ -1200,6 +1182,7 @@ void _RefreshArea(object oArea) {
     int i;
     for(i=0; i<nNumSpawns; i++) {
         object oWP = GetLocalArrayObject(oArea, _SPAWN_WAYPOINT_ARRAY, i);
+		ExecuteScript(GetLocalString(oWP, _WP_IS_ACTIVE_SCRIPT), oWP);
         _RefreshActiveSpawnPoint(oWP);
     }
 }
@@ -1210,7 +1193,6 @@ void _DespawnArea(object oArea) {
     if(nDespawnAreaFlags & _SPAWN_AREA_FLAG_ACTIVE) { return; }
 	// check for PCs anyway, in case some slipped through the cracks. If they're present, the area is active and heartbeats restart.
     if(GetArePCsInArea(oArea)) {
-		_RunSpawnIsActiveLoop(oArea);
 		_RefreshArea(oArea);
 		_StartSpawnAreaHeartbeat(oArea, nDespawnAreaFlags);
 		return;
@@ -1989,19 +1971,6 @@ location _GetNewLocationFromVectorAndFacing(location lOrigin, float fXOffset, fl
   vector vOldVector = GetPositionFromLocation(lOrigin);
   vector vNewVector = Vector(vOldVector.x+fXOffset, vOldVector.y+fYOffset, vOldVector.z);
   return Location(GetAreaFromLocation(lOrigin), vNewVector, fOrientAngle);
-}
-
-
-void _RunSpawnIsActiveLoop(object oArea) {
-
-	// run a loop through all spawn points in the area, attempting to activate a
-	//  SPAWN_IS_ACTIVE script as defined by each waypoint. 
-    int nNumPoints = GetLocalInt(oArea, _SPAWN_WAYPOINT_ARRAY_LENGTH);
-    int n;
-    for(n=0; n<nNumPoints; n++) {
-        object oPoint = GetLocalArrayObject(oArea, _SPAWN_WAYPOINT_ARRAY, n);
-        ExecuteScript(GetLocalString(oPoint, _WP_IS_ACTIVE_SCRIPT), oPoint);
-    }
 }
 
 void _AddObjectToSpawnPoint(object oWP, object oObject)
