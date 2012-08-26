@@ -1,3 +1,5 @@
+#include "acr_db_persist_i"
+
 /**************************************************************
 DMFI MESSAGE BOARD - Dungeon Master Friendly Initiative Plugin
 por Qkrch http://www.neverwinteros.com
@@ -5,13 +7,13 @@ por Qkrch http://www.neverwinteros.com
 Esto lo tendría que haber hecho Lagarto....en fin...
 *******************Constants******************************************/
 
+
 const string PENCIL_TAG = "dmfi_it_pencil";
 const string SCREEN_NEWTOPIC = "SCREEN_INPUTNEWTOPIC";
 const string NEWTOPIC_XML = "inputnewtopic.xml";
 
 const string SCREEN_MSGBOARD = "SCREEN_MSGBRD"; 
 const string MSGBOARD_XML = "msgboard.xml";
-const string DATABASE = "DMFI_DB_BULLETIN";
 const string SLOT = "MSGB_HOL_";
 const string BOARD_OBJECT = "DMFI_BulletinBoard";
 /************************Text************************************/
@@ -39,7 +41,7 @@ string WhatCategory(int nKat)
 	string sMsg="On ";
 	if (nKat==1) {sMsg = sMsg+"General Message";}
 	if (nKat==2) {sMsg = sMsg+"Quests";}
-	if (nKat==3) {sMsg = sMsg+"Guild/Factions";}
+	if (nKat==3) {sMsg = sMsg+"Guild";}
 	if (nKat==4) {sMsg = sMsg+"Shows";}
 	if (nKat==5) {sMsg = sMsg+"Sells";}
 	if (nKat==6) {sMsg = sMsg+"Announcements";}
@@ -50,75 +52,108 @@ string WhatCategory(int nKat)
 
 void WriteDatabase(string sTitle, string sBody, object oPC)
 {
-	int iIndex = GetCampaignInt(DATABASE,"Index");
 	int iCat = GetLocalInt(oPC,"DMFI_NUM_MSG_CAT");
-	if (iCat <1) iCat =1;
-	string sName = GetName(oPC);
-	string sPlayer = GetPCPlayerName(oPC);
-	iIndex = iIndex+1;
-	string sIndex = IntToString(iIndex);
-	
-	SetCampaignInt(DATABASE,"Index",iIndex);
-	SetCampaignString(DATABASE,"Title_"+sIndex,sTitle);
-	SetCampaignInt(DATABASE,"Category_"+sIndex,iCat);
-	SetCampaignString(DATABASE,"Body_"+sIndex,sBody);
-	SetCampaignString(DATABASE,"Name_"+sIndex,sName);
-	SetCampaignString(DATABASE,"Player_"+sIndex,sPlayer);
+	int iCID = ACR_GetCharacterID(oPC);
+
+	iCat = (iCat > 0 ? iCat : 1);
+
+	ACR_AsyncSQLQueryEx(
+			"INSERT INTO `bulletin_board` "+
+		       		"(`Category`, `Title`, `Message`, `PlayerID`) "+
+			"VALUES " +
+				"(" + IntToString(iCat) + ", '" + ACR_SQLEncodeSpecialChars(sTitle) + "', '" + ACR_SQLEncodeSpecialChars(sBody) + "')",
+			GetModule(),
+			ACR_QUERY_LOW_PRIORITY
+			);
 	
 	SendMessageToPC(oPC,"Sucessfully added");
 }
 
 void ReplyDatabase(string sTitle, string sBody, object oPC)
 {
-	object oBoard = GetNearestObjectByTag(BOARD_OBJECT,oPC);
-	int iIndex = GetCampaignInt(DATABASE,"Index");
-    string sName = GetName(oPC);
-	string sPlayer = GetPCPlayerName(oPC);
+	int iCID = ACR_GetCharacterID(oPC);
 	int iMsg = GetLocalInt(oPC,"BBOARD_VIEWING");
-	int iRes = (iIndex+1)-iMsg;
-	
-	string sMsg = GetLocalString(oBoard,"Body_"+IntToString(iMsg));
-	sMsg = sMsg+"\n\n<i>Reply from "+sName+" - "+sPlayer+"\n"+sTitle+"\n     "+sBody+".</i>";
-	SetCampaignString(DATABASE,"Body_"+IntToString(iRes),sMsg);
-	
+
+	ACR_AsyncSQLQueryEx(
+			"INSERT INTO `bulletin_board` "+
+		       		"(`Category`, `Title`, `Message`, `PlayerID`, `Parent`) "+
+			"VALUES " +
+				"(0, '" + ACR_SQLEncodeSpecialChars(sTitle) + "', '" + ACR_SQLEncodeSpecialChars(sBody) + "', " + IntToString(iMsg) + ")",
+			GetModule(),
+			ACR_QUERY_LOW_PRIORITY
+			);
+
+
 	SendMessageToPC(oPC,"Sucessfully replied");
 }
 
 void ReadDatabase(object oPC)
 {
-    object oBoard = GetNearestObjectByTag(BOARD_OBJECT,oPC);
-    int iIndex = GetCampaignInt(DATABASE,"Index");
+	object oBoard = GetNearestObjectByTag(BOARD_OBJECT,oPC);
+	int i, max = 16, cat, id, f_cat;
+	string title,msg,name,gsid,f_title,f_msg,f_name,f_gsid,s_index;
 
-	if (iIndex == 0) iIndex=1;
-	
-	int j;
-	string sTitle, sBody, sName, sPlayer;
-	int Z = 1;
-	for (j=iIndex; j>=iIndex-15 ; j--)
-		{
-		if (j==0) return;
-		
-		string sZ = IntToString(Z);
-		string sJ = IntToString(j);
-		sTitle = GetCampaignString(DATABASE,"Title_"+sJ);
-		sBody = GetCampaignString(DATABASE,"Body_"+sJ);
-		sName = GetCampaignString(DATABASE,"Name_"+sJ);
-		sPlayer = GetCampaignString(DATABASE,"Player_"+sJ);
-		
-		int iCatz = GetCampaignInt(DATABASE,"Category_"+sJ);
-		
-		SetLocalString(oBoard,"Title_"+sZ,sTitle);
-		SetLocalString(oBoard,"Body_"+sZ,sBody);
-		SetLocalString(oBoard,"Name_"+sZ, sName);
-		SetLocalString(oBoard,"Player_"+sZ, sPlayer);
-		SetLocalInt(oBoard,"Category_"+sZ,iCatz);
-		
-		SetGUIObjectText(oPC,SCREEN_MSGBOARD,SLOT+sZ , -1,sTitle);
-		SetGUITexture(oPC,SCREEN_MSGBOARD,SLOT+sZ,"board_cat_"+IntToString(iCatz)+".tga");
-		//SendMessageToPC(oPC,"T"+sTitle);
-		Z=Z+1;
+	ACR_SQLQuery(
+			"SELECT " +
+				" b2.`ID`, b2.`Category`, b2.`Title`, b2.`Message`, c.`Name`, p.`Name` "+
+			"FROM " +
+				"`bulletin_board` b1, `bulletin_board` b2, `players` p, `characters` c "+
+			"WHERE " +
+				"p.id = c.playerid AND " +
+				"c.id = b2.characterid AND " +
+				"(b1.id = b2.id OR " +
+					"(b2.category = 0 AND " +
+					"b2.parent = b1.id)) " +
+			"ORDER BY " + 
+				"b1.id desc, b2.id asc"
+			);
+
+	// iterate through max postings to fill screen
+	for (i=0; i <= max; ) {
+		if (ACR_SQLFetch() != SQL_SUCCESS)
+			break;
+
+		id = StringToInt(ACR_SQLGetData(0));
+		cat = StringToInt(ACR_SQLGetData(1));
+		title = ACR_SQLGetData(2);
+		msg = ACR_SQLGetData(3);
+		name = ACR_SQLGetData(4);
+		gsid = ACR_SQLGetData(5);
+
+		// this is a root msg
+		if (cat > 0) {
+			f_title = title;
+			f_msg = msg;
+			f_name = name;
+			f_gsid = gsid;
+			f_cat = cat;
+
+			++i;
 		}
-		//SendMessageToPC(oPC,"Sucessfully read");
+		// this is a reply, tack on msg
+		else
+		{
+			f_msg = f_msg + "\n\nReply by <b>" + name + "</b> <i>(" + gsid + ")</i>:\n"+title+"\n" + msg;
+		}
+
+		s_index = IntToString(i);
+
+		SetLocalString(oBoard,"Title_"+s_index,f_title);
+		SetLocalString(oBoard,"Body_"+s_index,f_msg);
+		SetLocalString(oBoard,"Name_"+s_index, f_name);
+		SetLocalString(oBoard,"Player_"+s_index, f_gsid);
+		SetLocalInt(oBoard,"Category_"+s_index,f_cat);
+	}
+	
+	for (i=0; i < max; ++i) {
+		s_index = IntToString(i);
+
+		cat = GetLocalInt(oBoard,"Category_"+s_index);
+		title = GetLocalString(oBoard,"Title_"+s_index);
+
+		SetGUIObjectText(oPC,SCREEN_MSGBOARD,SLOT+s_index, -1,title);
+		SetGUITexture(oPC,SCREEN_MSGBOARD,SLOT+s_index,"board_cat_"+IntToString(cat)+".tga");
+	}
 }
 
 void main(int N1, int N2, string sVar, string sVar2)
@@ -197,6 +232,7 @@ void main(int N1, int N2, string sVar, string sVar2)
 						}break;
 						case 2: //delete persistent
 						{
+							/*
 							int iMsg = GetLocalInt(oPC,"BBOARD_VIEWING");
 							int iIndex = GetCampaignInt(DATABASE,"Index");
 							int iRes = (iIndex+1)-iMsg;
@@ -204,6 +240,7 @@ void main(int N1, int N2, string sVar, string sVar2)
 							SetCampaignString(DATABASE,"Title_"+IntToString(iRes),TXT_INQUISITION);
 							CloseGUIScreen(oPC,SCREEN_MSGBOARD);
 							SendMessageToPC(oPC,"Succesfully censored");
+							*/
 						}break;
 						
 						
