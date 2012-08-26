@@ -502,7 +502,6 @@ int GetPrespawnsSeamless();
 //  even within sight of a PC. (ACR_SPAWN_IN_PC_SIGHT = 1)
 int GetPrespawnPrediction();
 
-
 //! Enables or disables (1 or 0) spawn point oWP.
 //! If bChangeState is true, the spawn point will try to spawn if it was
 //! inactive, and despawn if it was active.
@@ -648,15 +647,7 @@ int ACR_AddObjectToSpawnPoint(object oWP, object oObject);
 //! nFlags is passed because it contains information which is likely needed
 //! outside this function call, and we want to cut down on GetLocal* calls.
 //   -Ronan passes nSeconds to this as well.
-int _GetShouldSpawnBeActive(object oWP, int nFlags);
-
-//! Activates spawn point oWP, spawning in its children in real-time.
-//   -Ronan passes nSeconds to this as well.
-void _ActivateSpawnPoint(object oWP, int nFlags);
-
-//! Deactivates spawn point oWP, despawning in its children in real-time.
-//   -Ronan passes nSeconds to this as well.
-void _DeactivateSpawnPoint(object oWP, int nFlags);
+int _GetShouldSpawnBeActive(object oWP);
 
 //! Spawns spawn point oWP, creating its children instantly at their
 //! destinations.
@@ -681,13 +672,6 @@ void _RefreshArea(object oArea);
 
 //! This function despawns all the spawn points in oArea.
 void _DespawnArea(object oArea);
-
-//! Look at the status of oWP, and spawns or despawns it, depending.
-//! Any creatures (de)spawned by this function are spawned in real-time, since
-//! its assumed refreshed areas are ones with PCs in them, who may wish to see
-//! creatures entering and exiting the area.
-//   -Ronan passes nSeconds to this one as well
-void _RefreshActiveSpawnPoint(object oWP);
 
 //! Spawns oWP if it should be spawned, and despawns it if it shouldn't be.
 //! Creatures spawned by this function are done so instantly, as it is assumed
@@ -1163,17 +1147,6 @@ void _AddSpawnPointFromWaypoint(object oWP) {
     SetLocalLocation(oWP, _SPAWN_LAST_LOCATION, GetLocation(oWP));
 }
 
-void _SpawnArea(object oArea) {
-
-    SetLocalInt(oArea, _SPAWN_LAST_REFRESHED, ACR_GetGameSecondsSinceStart() );
-    int nNumSpawns = GetLocalInt(oArea, _SPAWN_WAYPOINT_ARRAY_LENGTH);
-    int i;
-    for(i=0; i<nNumSpawns; i++) {
-        object oWP = GetLocalArrayObject(oArea, _SPAWN_WAYPOINT_ARRAY, i);
-        _RefreshSpawnPoint(oWP);
-    }
-}
-
 void _RefreshArea(object oArea) {
 
     // ACR_PrintDebugMessage(GetName(oArea) + "'s spawns are being refreshed.", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
@@ -1182,12 +1155,7 @@ void _RefreshArea(object oArea) {
     int i;
     for(i=0; i<nNumSpawns; i++) {
         object oWP = GetLocalArrayObject(oArea, _SPAWN_WAYPOINT_ARRAY, i);
-        string sScript = GetLocalString(oWP, _WP_IS_ACTIVE_SCRIPT);
-
-        if (sScript != "")
-            ExecuteScript(sScript, oWP);
-
-        _RefreshActiveSpawnPoint(oWP);
+        _RefreshSpawnPoint(oWP);
     }
 }
 
@@ -1242,51 +1210,12 @@ void _DespawnPoint(object oWP, int nFlags) {
 	SetLocalInt(oWP, _SPAWN_CHILD_COUNT, 0);
 }
 
-
-void _RefreshActiveSpawnPoint(object oWP) {
-    // We get these values now because they are used across multiple
-    // functions, and we want to cut down on the number of GetLocal* calls.
-    int nFlags = GetLocalInt(oWP, _SPAWN_FLAGS);
-
-    ACR_PrintDebugMessage("Refreshing active spawn point: " + GetName(oWP) + ".", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
-
-    if( _GetShouldSpawnBeActive(oWP, nFlags) ) {
-        // The spawn should be active.
-        if( _SPAWN_FLAGS_SPAWNED & nFlags ) {
-            // Is spawned.
-            // ACR_PrintDebugMessage("SP should be active and is already spawned.", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
-        } else {
-            // Is not spawned.
-            ACR_PrintDebugMessage(GetName(oWP)+" should be active but is not yet spawned.", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
-            _ActivateSpawnPoint(oWP, nFlags);
-        }
-    } else {
-        // The spawn should not be active.
-        if( _SPAWN_FLAGS_SPAWNED & nFlags ) {
-            // Is spawned.
-            ACR_PrintDebugMessage(GetName(oWP)+" should be inactive but is currently spawned.", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
-            _DeactivateSpawnPoint(oWP, nFlags);
-        } else {
-            // ACR_PrintDebugMessage("SP should be inactive and is not currently spawned.", _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
-            // Is not spawned.
-        }
-    }
-}
-
-void _ActivateSpawnPoint(object oWP, int nFlags) {
-    _SpawnPoint(oWP, nFlags);
-}
-
-void _DeactivateSpawnPoint(object oWP, int nFlags) {
-    _DespawnPoint(oWP, nFlags);
-}
-
 void _RefreshSpawnPoint(object oWP) {
     // We get these values now to because they are used across multiple
     // functions, and we want to cut down on the number of GetLocal* calls.
     int nFlags = GetLocalInt(oWP, _SPAWN_FLAGS);
 
-    if( _GetShouldSpawnBeActive(oWP, nFlags) ) {
+    if( _GetShouldSpawnBeActive(oWP) ) {
         // The spawn should be active.
         if( _SPAWN_FLAGS_SPAWNED & nFlags ) {
             // Is spawned.
@@ -1305,7 +1234,12 @@ void _RefreshSpawnPoint(object oWP) {
     }
 }
 
-int _GetShouldSpawnBeActive(object oWP, int nFlags) {
+int _GetShouldSpawnBeActive(object oWP) {
+
+	// Run any forcing spawn/despawn scripts.
+	ExecuteScript(GetLocalString(oWP, _WP_IS_ACTIVE_SCRIPT), oWP);
+	
+	int nFlags = GetLocalInt(oWP, _SPAWN_FLAGS);
 
     // SendMessageToAllDMs("###### Waypoint "+GetName(oWP)+": _SPAWN_TIMES = "+IntToString(GetLocalInt(oWP, _SPAWN_TIMES)));
     // Has this spawn been forced by any custom pre-spawn script?
@@ -1537,7 +1471,7 @@ int _GetShouldSpawnBeActive(object oWP, int nFlags) {
         // We haven't checked today.
         float fRoll = ACR_RandomFloat(0.0, 100.0);
 		SetLocalInt(oWP, _WP_LAST_DAY_CHECKED, nToday);
-		//
+		
         if(fRoll <= fChance) {
             // Yes, it spawns.
             nFlags = nFlags & ~_SPAWN_FLAGS_NOT_TODAY;
@@ -1577,7 +1511,6 @@ void _SpawnPoint(object oWP, int nFlags) {
     //int nDuration = Random(nMaxDuration - nMinDuration + 1) + nMinDuration;
 	//      Duration, how is this enforced?  Delaycommand for despawn?
 	
-
     // Erase the records of the last spawns to come from this point ??
 
     // Find and spawn/despawn waypoints.
