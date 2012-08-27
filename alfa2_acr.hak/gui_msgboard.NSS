@@ -59,9 +59,9 @@ void WriteDatabase(string sTitle, string sBody, object oPC)
 
 	ACR_AsyncSQLQueryEx(
 			"INSERT INTO `bulletin_board` "+
-		       		"(`Category`, `Title`, `Message`, `PlayerID`) "+
+		       		"(`Category`, `Title`, `Message`, `CharacterID`) "+
 			"VALUES " +
-				"(" + IntToString(iCat) + ", '" + ACR_SQLEncodeSpecialChars(sTitle) + "', '" + ACR_SQLEncodeSpecialChars(sBody) + "')",
+				"(" + IntToString(iCat) + ", '" + ACR_SQLEncodeSpecialChars(sTitle) + "', '" + ACR_SQLEncodeSpecialChars(sBody) + "', " + IntToString(iCID) + ")",
 			GetModule(),
 			ACR_QUERY_LOW_PRIORITY
 			);
@@ -76,9 +76,9 @@ void ReplyDatabase(string sTitle, string sBody, object oPC)
 
 	ACR_AsyncSQLQueryEx(
 			"INSERT INTO `bulletin_board` "+
-		       		"(`Category`, `Title`, `Message`, `PlayerID`, `Parent`) "+
+		       		"(`Category`, `Title`, `Message`, `CharacterID`, `Parent`) "+
 			"VALUES " +
-				"(0, '" + ACR_SQLEncodeSpecialChars(sTitle) + "', '" + ACR_SQLEncodeSpecialChars(sBody) + "', " + IntToString(iMsg) + ")",
+				"(0, '" + ACR_SQLEncodeSpecialChars(sTitle) + "', '" + ACR_SQLEncodeSpecialChars(sBody) + "', " + IntToString(iCID) + ", " + IntToString(iMsg) + ")",
 			GetModule(),
 			ACR_QUERY_LOW_PRIORITY
 			);
@@ -110,8 +110,10 @@ void ReadDatabase(object oPC)
 
 	// iterate through max postings to fill screen
 	for (i=0; i <= max; ) {
-		if (ACR_SQLFetch() != SQL_SUCCESS)
+		if (ACR_SQLFetch() != SQL_SUCCESS) {
+			max = i;
 			break;
+		}
 
 		id = StringToInt(ACR_SQLGetData(0));
 		cat = StringToInt(ACR_SQLGetData(1));
@@ -133,7 +135,7 @@ void ReadDatabase(object oPC)
 		// this is a reply, tack on msg
 		else
 		{
-			f_msg = f_msg + "\n\nReply by <b>" + name + "</b> <i>(" + gsid + ")</i>:\n"+title+"\n" + msg;
+			f_msg = f_msg + "\n\nReply by <b>" + name + "</b> (<i>" + gsid + "</i>):\n"+title+"\n" + msg;
 		}
 
 		s_index = IntToString(i);
@@ -300,7 +302,7 @@ void main(int N1, int N2, string sVar, string sVar2)
 					//SendMessageToPC(oPC,"iCat="+IntToString(iCat));
 					string sCat = WhatCategory(iCat);
 					
-					sFin = sCat+"\n\n<Color=Black><b>"+sTitle+"</b> \n    by "+sName+" - "+sPlayer+".\n\n <i>"+sBody+".</i></color>";
+					sFin = sCat+"\n\n<Color=Black><b>"+sTitle+"</b> \n    <b>"+sName+"</b> (<i>"+sPlayer+"</i>)\n\n "+sBody+"</color>";
 					
 					SetGUIObjectText(oPC,SCREEN_MSGBOARD,"FULL_MESSAGE",-1,sFin);
 				}
