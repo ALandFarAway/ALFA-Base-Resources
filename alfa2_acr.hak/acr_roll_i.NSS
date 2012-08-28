@@ -111,7 +111,7 @@ void ParseRoll(object pc, string cmd)
 	}
 
 	// saves
-	if (ACR_RollCompareLeft(cmd,"for")) {
+	if (ACR_RollCompareLeft(cmd,"fort") || cmd == "for") {
 		ACR_Checks(CHECK_TYPE_SAVE, pc, SAVING_THROW_FORT);
 	}
 	else if (ACR_RollCompareLeft(cmd,"ref")) {
@@ -204,7 +204,7 @@ void ParseRoll(object pc, string cmd)
 	else if (ACR_RollCompareLeft(cmd,"inti")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_INTIMIDATE);
 	}
-	else if (ACR_RollCompareLeft(cmd,"for")) {
+	else if (ACR_RollCompareLeft(cmd,"forg")) {
 		ACR_Checks(CHECK_TYPE_SKILL, pc, SKILL_FORGERY);
 	}
 	else if (ACR_RollCompareLeft(cmd,"gat") || ACR_RollCompareLeft(cmd,"inf") || cmd == "gi") {
