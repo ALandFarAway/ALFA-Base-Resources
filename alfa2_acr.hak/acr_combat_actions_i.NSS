@@ -163,7 +163,7 @@ void _NotifyCombatAction(string sMsg, object oCreature) {
     FloatingTextStringOnCreature(
         sMsg,
         oCreature,
-        TRUE,
+        FALSE,
         6.0
     );
 }
