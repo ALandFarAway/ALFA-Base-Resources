@@ -1247,12 +1247,13 @@ void ACR_CreateSQLTables()
 
 	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `bulletin_board` (" +
 		"`ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, " +
-		"`Parent` int(10) UNSIGNED, " +
+		"`BoardID` int(10) UNSIGNED NOT NULL, " +
 		"`Category` tinyint(1) UNSIGNED NOT NULL," +
 		"`CharacterID` mediumint(11) UNSIGNED NOT NULL," +
 		"`Title` varchar(32) NOT NULL," +
 		"`Message` varchar(256) NOT NULL," +
-		"PRIMARY KEY (`ID`), INDEX(`Parent`, `CharacterID`)" +
+		"`Parent` int(10) UNSIGNED, " +
+		"PRIMARY KEY (`ID`), INDEX(`Parent`, `CharacterID`, `BoardID`)" +
 	") ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 }
 

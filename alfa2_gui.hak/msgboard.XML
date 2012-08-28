@@ -47,7 +47,7 @@ v1.0
 	      />
 
         <UIIcon name="EVENTCAL_ICON" img="board_cat_3.tga" x=8 y=135 width=30 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
-	      OnToolTip='UIObject_Tooltip_DisplayTooltipString(<b>"Guilds-Factions"</b> ,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")' 
+	      OnToolTip='UIObject_Tooltip_DisplayTooltipString(<b>"Guilds"</b> ,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")' 
 	      />
 
         <UIIcon name="EVENTCAL_ICON" img="board_cat_4.tga" x=8 y=165 width=30 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
@@ -55,7 +55,7 @@ v1.0
 	      />
 
         <UIIcon name="EVENTCAL_ICON" img="board_cat_5.tga" x=8 y=195 width=30 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
-	      OnToolTip='UIObject_Tooltip_DisplayTooltipString(<b>"Sells"</b> ,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")' 
+	      OnToolTip='UIObject_Tooltip_DisplayTooltipString(<b>"Trade"</b> ,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2","ALIGN_NONE","ALIGN_NONE","0","0","ALIGN_LEFT","ALIGN_CENTER")' 
 	      />
 
         <UIIcon name="EVENTCAL_ICON" img="board_cat_6.tga" x=8 y=225 width=30 height=30 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"

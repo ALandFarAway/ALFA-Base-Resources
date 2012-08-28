@@ -92,7 +92,7 @@
 		    <UIFrame state=hifocus	fill="b_radio_on.tga" />
 		    <UIFrame state=disabled	fill="b_radio_off.tga" />
 	      </UIButton>
-              <UIText name="messagetextbody3" text="Guilds/Factions" y=20 x=167 fontfamily="Body_Font" style=3 width="PARENT_WIDTH" height="DYNAMIC" color="EEEEEE" sizetofit="true" align="left" />
+              <UIText name="messagetextbody3" text="Guilds" y=20 x=167 fontfamily="Body_Font" style=3 width="PARENT_WIDTH" height="DYNAMIC" color="EEEEEE" sizetofit="true" align="left" />
 
               <UIButton name="RADIO_4_BUTTON" text="ShowsRT" x=0 y=40 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=1 groupmemberid=4 
 	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","4","4") >
@@ -114,7 +114,7 @@
 		    <UIFrame state=hifocus	fill="b_radio_on.tga" />
 		    <UIFrame state=disabled	fill="b_radio_off.tga" />
 	      </UIButton>
-              <UIText name="messagetextbody5" text="Sell" y=40 x=97 fontfamily="Body_Font" style=3 width="PARENT_WIDTH" height="DYNAMIC" color="EEEEEE" sizetofit="true" align="left" />
+              <UIText name="messagetextbody5" text="Trade" y=40 x=97 fontfamily="Body_Font" style=3 width="PARENT_WIDTH" height="DYNAMIC" color="EEEEEE" sizetofit="true" align="left" />
 
               <UIButton name="RADIO_6_BUTTON" text="SellRT" x=150 y=40 width=13 height=13 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" buttontype=radio groupid=1 groupmemberid=6 
 	      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_msgboard","4","6") >
