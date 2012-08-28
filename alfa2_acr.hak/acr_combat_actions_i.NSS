@@ -160,7 +160,12 @@ void _FightDefensively(object oCreature, int nACBonus, int nABPenalty) {
 }
 
 void _NotifyCombatAction(string sMsg, object oCreature) {
-	SendMessageToPC( oCreature, sMsg );
+    FloatingTextStringOnCreature(
+        sMsg,
+        oCreature,
+        FALSE,
+        6.0
+    );
 }
 
 void _ClearCombatModes(object oCreature) {
