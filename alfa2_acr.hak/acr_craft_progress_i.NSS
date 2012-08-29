@@ -578,13 +578,20 @@ string _ReadableSpellList(string spellIds) {
 	if(spellIds == "" || spellIds == "#") return "";
 
 	string spellNames;
-	int first = GetFirstEntryInStringList(spellIds);
-	int e = first;
-	do {
-		spellNames += GetSpellName(e);
-		e = GetNextEntryInStringList(spellIds, e);
-		if(e != first) spellNames += ", ";
-	} while(e != first);
+	struct IntListIterator it;
+	int first = TRUE;
+
+	for (it = ACR_GetFirstInIntList(spellIds);
+	     !ACR_IsIntListAtEnd(it);
+		  it = ACR_GetNextInIntList(spellIds, it)) {
+
+		if (first == TRUE)
+			first = FALSE;
+		else
+			spellNames += ", ";
+
+		spellNames += GetSpellName(ACR_GetIntListValue(spellIds, it));
+	}
 	
 	return spellNames;
 }

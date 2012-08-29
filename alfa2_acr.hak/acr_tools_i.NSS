@@ -105,6 +105,12 @@ const float ACR_AREA_TRANSITION_ZDIFF_MAX = 1.0f;
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+struct IntListIterator
+{
+	int Position;
+	int Value;
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 // Global Variables ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -424,6 +430,51 @@ int GetFirstEntryInStringList(string sList);
 int GetLastEntryInStringList(string sList);
 //Check if an element is in a list (returns TRUE if found, else FALSE if not).
 int IsElementInStringList(string sList, int nElement);
+
+//
+// Safe int list iterator support.  This should be used instead of the above,
+// unsafe (and worse performing) functions.  These functions handle duplicates
+// in the list safely.
+//
+// string List = "#1#2#3#4#";
+// struct IntListIterator it;
+//
+// for (it = ACR_GetFirstInIntList(List);
+//      !ACR_IsIntListAtEnd(it);
+//      it = ACR_GetNextInIntList(List, it))
+// {
+//    int Value = ACR_GetIntListValue(List, it);
+// }
+//
+
+//!  Begin enumeration of a #value#value2#valueN# style int list.
+//!  - List: The list to enumerate.
+//!  - Returns: An iterator for the list.
+struct IntListIterator ACR_GetFirstInIntList(string List);
+
+//!  Continue forward enumeration of a #value#value2#valueN# style int list.
+//!  - List: The list to enumerate.
+//!  - It: The iterator, from ACR_GetFirstInIntList or ACR_GetNextInIntList.
+//!  - Returns: An iterator for the list.
+struct IntListIterator ACR_GetNextInIntList(string List, struct IntListIterator It);
+
+//! Determine whether the list iterator is at the end of the list.
+//!  - It: The iterator to check.
+//!  - Returns: TRUE if the iterator points to the end of the list.
+int ACR_IsIntListAtEnd(struct IntListIterator It);
+
+//!  Get the value held at the current iterator position in an int list.  The
+//   iterator must not be at the end of the list.
+//!  - List: The list to retrieve the value in.
+//!  - It: The iterator to retrieve the value for.
+//!  - Returns: The int value at the position designated by It.
+int ACR_GetIntListValue(string List, struct IntListIterator It);
+
+//!  Internal function to get the next delimiter in the int list (not a public
+//   API).
+//!  - List: The list to search.
+//!  - Position: The search position.
+int ACR__IntListNextDelimiter(string List, int Position);
 
 // Return name of race constant
 string RacialTypeName(int n);
@@ -1800,6 +1851,53 @@ int IsElementInStringList(string sList, int nElement)
 }
 
 
+struct IntListIterator ACR_GetFirstInIntList(string List)
+{
+	struct IntListIterator it;
+
+	if (GetSubString(List, 0, 1) != "#")
+	{
+		it.Position = -1;
+		return it;
+	}
+
+	it.Position = 0;
+	return ACR_GetNextInIntList(List, it);
+}
+
+struct IntListIterator ACR_GetNextInIntList(string List, struct IntListIterator It)
+{
+	int NextPosition;
+
+	// Advance to the next delimiter.
+	NextPosition = ACR__IntListNextDelimiter(List, It.Position + 1);
+
+	if (NextPosition != -1)
+	{
+		It.Value = StringToInt(GetSubString(List, It.Position + 1, NextPosition - (It.Position + 1)));
+	}
+
+	It.Position = NextPosition;
+
+	return It;
+}
+
+int ACR_IsIntListAtEnd(struct IntListIterator It)
+{
+	return (It.Position == -1);
+}
+
+int ACR_GetIntListValue(string List, struct IntListIterator It)
+{
+	return It.Value;
+}
+
+int ACR__IntListNextDelimiter(string List, int Position)
+{
+	return FindSubString(List, "#", Position);
+}
+
+
 // Return name of race constant
 string RacialTypeName(int n)
 {
@@ -1987,3 +2085,4 @@ void ACR_IgnoreAcquire(object o)
 	SetTag(o,"acr_ignore_acquire");
 	SetLocalString(o, "ACR_IGNORE_ACQUIRE_TEMP", GetTag(o));
 }
+
