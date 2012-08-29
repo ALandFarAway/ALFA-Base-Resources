@@ -417,7 +417,7 @@ int GetSpellLevelOfItemProperty(itemproperty ip);
 //! Warning: 0 is the spell id for Acid Fog.
 int GetMasterSpellId(int nSpellId);
 
-//LIST MANAGEMENT
+//LIST MANAGEMENT (consider using ACR_GetFirstInIntList, etc., instead!)
 //note about lists : List have to be like "#1#5#26#99# ..." in order to work properly. See nwnx_craft_set_constatns for details
 
 //loops forwards entries in the given list and the current value  
