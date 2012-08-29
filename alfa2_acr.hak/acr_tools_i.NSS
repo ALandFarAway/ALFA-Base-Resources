@@ -436,6 +436,8 @@ int IsElementInStringList(string sList, int nElement);
 // unsafe (and worse performing) functions.  These functions handle duplicates
 // in the list safely.
 //
+// The list must not change during the iteration process.
+//
 // string List = "#1#2#3#4#";
 // struct IntListIterator it;
 //
