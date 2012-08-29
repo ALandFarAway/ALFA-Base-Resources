@@ -55,12 +55,10 @@ int GetCurrentDBID(object oPC, object oBoard)
 
 void DeleteDatabase(int nIndex, object oPC)
 {
-	ACR_AsyncSQLQueryEx(
+	ACR_SQLQuery(
 		"DELETE FROM `bulletin_board` "+
 		"WHERE " +
-			"ID = " + IntToString(nIndex),
-		GetModule(),
-		ACR_QUERY_LOW_PRIORITY
+			"ID = " + IntToString(nIndex) + " OR Parent = " + IntToString(nIndex)
 	);
 
 	CloseGUIScreen(oPC,SCREEN_MSGBOARD);
@@ -100,7 +98,7 @@ void ReplyDatabase(string sTitle, string sBody, int iCat, int iBID, int iDBID, o
 
 void ReadDatabase(int b_index, object oBoard, object oPC)
 {
-	int i, max = 16, cat, id, f_cat;
+	int i, max = 16, cat, id, f_cat, f_id, num_used;
 	string title,msg,name,gsid,f_title,f_msg,f_name,f_gsid,s_index;
 
 	ACR_SQLQuery(
@@ -122,7 +120,7 @@ void ReadDatabase(int b_index, object oBoard, object oPC)
 	// iterate through max postings to fill screen
 	for (i=0; i <= max; ) {
 		if (ACR_SQLFetch() != SQL_SUCCESS) {
-			max = i;
+			num_used = i;
 			break;
 		}
 
@@ -140,13 +138,14 @@ void ReadDatabase(int b_index, object oBoard, object oPC)
 			f_name = name;
 			f_gsid = gsid;
 			f_cat = cat;
+			f_id = id;
 
 			++i;
 		}
 		// this is a reply, tack on msg
 		else
 		{
-			f_msg = f_msg + "\n\nReply:  <b>"+title+"</b>" + "    "+name + " (<i>" + gsid + "</i>):\n\n" + msg;
+			f_msg = f_msg + "\n\nReply:  <b>"+title+"</b>\n" + "    "+name + " (<i>" + gsid + "</i>)\n\n<i>" + msg + "</i>;
 		}
 
 		s_index = IntToString(i);
@@ -156,10 +155,11 @@ void ReadDatabase(int b_index, object oBoard, object oPC)
 		SetLocalString(oBoard,"Name_"+s_index, f_name);
 		SetLocalString(oBoard,"Player_"+s_index, f_gsid);
 		SetLocalInt(oBoard,"Category_"+s_index,f_cat);
-		SetLocalInt(oBoard,"dbid_"+s_index,id);
+		SetLocalInt(oBoard,"dbid_"+s_index,f_id);
 	}
+
 	
-	for (i=0; i <= max; ++i) {
+	for (i=0; i <= num_used; ++i) {
 		s_index = IntToString(i);
 
 		cat = GetLocalInt(oBoard,"Category_"+s_index);
@@ -167,6 +167,24 @@ void ReadDatabase(int b_index, object oBoard, object oPC)
 
 		SetGUIObjectText(oPC,SCREEN_MSGBOARD,SLOT+s_index, -1,title);
 		SetGUITexture(oPC,SCREEN_MSGBOARD,SLOT+s_index,"board_cat_"+IntToString(cat)+".tga");
+	}
+
+	for (i=num_used+1; i <= max; ++i) {
+		s_index = IntToString(i);
+
+		cat = GetLocalInt(oBoard,"Category_"+s_index);
+
+		SetGUIObjectText(oPC,SCREEN_MSGBOARD,SLOT+s_index, -1,"");
+		SetGUITexture(oPC,SCREEN_MSGBOARD,SLOT+s_index,"");
+
+
+
+		DeleteLocalString(oBoard,"Title_"+s_index);
+		DeleteLocalString(oBoard,"Body_"+s_index);
+		DeleteLocalString(oBoard,"Name_"+s_index);
+		DeleteLocalString(oBoard,"Player_"+s_index);
+		DeleteLocalInt(oBoard,"Category_"+s_index);
+		DeleteLocalInt(oBoard,"dbid_"+s_index);
 	}
 }
 
@@ -196,8 +214,8 @@ void AddPost(object oPC, object oBoard, string title, string msg, int iDBID, int
 	}
 
 	CloseGUIScreen(oPC,SCREEN_NEWTOPIC);
-	//CloseGUIScreen(oPC,SCREEN_MSGBOARD);
-	ReadDatabase(iBID, oBoard, oPC);
+	CloseGUIScreen(oPC,SCREEN_MSGBOARD);
+	//ReadDatabase(iBID, oBoard, oPC);
 }
 
 void ShowPost(object oPC, object oBoard, int nSlot)
@@ -215,9 +233,14 @@ void ShowPost(object oPC, object oBoard, int nSlot)
 	string sCat = WhatCategory(iCat);
 
 	if (iCat != 0)
-		sMsg = sCat+"\n\n<Color=Black><b>"+sTitle+"</b> \n    "+sName+" (<i>"+sPlayer+"</i>)\n\n "+sBody+"</color>";
+		sMsg = sCat+"\n\n<Color=Black><b>"+sTitle+"</b> \n    "+sName+" (<i>"+sPlayer+"</i>)\n\n<i>"+sBody+"</i></color>";
 					
 	SetGUIObjectText(oPC,SCREEN_MSGBOARD,"FULL_MESSAGE",-1,sMsg);
+}
+
+void RemovePost(object oPC, object oBoard, int iDBID)
+{
+	DeleteDatabase(iDBID, oPC);
 }
 
 void main(int N1, int N2, string sVar, string sVar2)
@@ -289,7 +312,7 @@ void main(int N1, int N2, string sVar, string sVar2)
 					break;
 				// Delete thread
 				case 2:
-					DeleteDatabase(iDBID, oPC);
+					RemovePost(oPC, oBoard, iDBID);
 					break;
 			}
 			break;
