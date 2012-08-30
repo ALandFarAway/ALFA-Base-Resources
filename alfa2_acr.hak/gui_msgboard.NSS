@@ -145,7 +145,7 @@ void ReadDatabase(int b_index, object oBoard, object oPC)
 		// this is a reply, tack on msg
 		else
 		{
-			f_msg = f_msg + "\n\nReply:  <b>"+title+"</b>\n" + "    "+name + " (<i>" + gsid + "</i>)\n\n<i>" + msg + "</i>;
+			f_msg = f_msg + "\n\nReply:  <b>"+title+"</b>\n" + "    "+name + " (<i>" + gsid + "</i>)\n\n<i>" + msg + "</i>";
 		}
 
 		s_index = IntToString(i);
