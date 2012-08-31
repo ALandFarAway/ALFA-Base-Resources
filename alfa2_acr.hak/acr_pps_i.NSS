@@ -929,7 +929,7 @@ void ACR_PCOnPCLoadedAsDM(object oPC)
     // *** STEP 2: RESTORE PLAYER STATUS *** //
     ///////////////////////////////////////////
 
-    ACR_SQLQuery("UPDATE characters SET IsOnline=1, ServerID=" + IntToString(ACR_GetServerID()) + " WHERE ID=" + IntToString(ACR_GetCharacterID(oPC)));
+    ACR_SQLQuery("UPDATE characters, players SET characters.IsOnline=1, characters.ServerID=" + IntToString(ACR_GetServerID()) + ", players.LastLogin=now(), players.Logins=players.Logins+1, players.IsDM=1 WHERE characters.ID=" + IntToString(ACR_GetCharacterID(oPC)) + " and players.ID=characters.PlayerID");
 
     // schedule the auto save (since this only exports after a PPS_CYCLE, start counting after 60 seconds)
     DelayCommand(60.0, ACR_PCAutoSave(oPC, TRUE));
