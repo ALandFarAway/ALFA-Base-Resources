@@ -163,10 +163,10 @@ void DeleteCraftingStatus(object oItem) {
 	DeleteLocalInt(oItem, ACR_CRAFT_XP_INVESTED);
 	DeleteLocalString(oItem, ACR_CRAFT_NAME);
 	DeleteLocalString(oItem, ACR_CRAFT_DESCRIPTION);
-	DeleteLocalString(oItem, ACR_CRAFT_PLOT_FLAG);
-	DeleteLocalString(oItem, ACR_CRAFT_PROPERTY_ACTIVATION);
+	DeleteLocalInt(oItem, ACR_CRAFT_PLOT_FLAG);
+	DeleteLocalInt(oItem, ACR_CRAFT_PROPERTY_ACTIVATION);
 	DeleteLocalString(oItem, ACR_CRAFT_SPELLS_IMBUED);
-	DeleteLocalString(oItem, ACR_CRAFT_STACK_SIZE);
+	DeleteLocalInt(oItem, ACR_CRAFT_STACK_SIZE);
 	DeleteLocalString(oItem, ACR_CRAFT_TAG);
 	DeleteLocalInt(oItem, ACR_CRAFT_COST);
 	DeleteLocalInt(oItem, ACR_CRAFT_MINIMUM_CASTER_LEVEL);
