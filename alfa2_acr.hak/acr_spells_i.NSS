@@ -71,6 +71,8 @@ const int ACR_SPELL_DESCRIPT_MIND_AFFECTING = 16;
 const int ACR_SPELL_DESCRIPT_SONIC = 17;
 const int ACR_SPELL_DESCRIPT_WATER = 18;
 
+const string _DM_CASTER_LEVEL = "ACR_SPELLS_DM_CL";
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -260,8 +262,16 @@ int _GetClassCLContribution(object oCreature, int nCasterClass, int nClass) {
 }
 
 int ACR_GetCorrectCasterLevel(object oCreature, int nClass = -1) {
+
+	if(GetSpellCastItem() != OBJECT_INVALID) return GetCasterLevel(oCreature);
+
 	// If no class is provided, get the last caster class.
 	if ( nClass == -1 ) nClass = GetLastSpellCastClass();
+	
+	if(GetIsDM(oCreature)) {
+		int nCL = GetLocalInt(oCreature, "_DM_CASTER_LEVEL");
+		return nCL ? nCL : 10;
+	}
 
 	int i = 1;
 	int nCL;
