@@ -269,7 +269,7 @@ int ACR_GetCorrectCasterLevel(object oCreature, int nClass = -1) {
 	if ( nClass == -1 ) nClass = GetLastSpellCastClass();
 	
 	if(GetIsDM(oCreature)) {
-		int nCL = GetLocalInt(oCreature, "_DM_CASTER_LEVEL");
+		int nCL = GetLocalInt(oCreature, _DM_CASTER_LEVEL);
 		return nCL ? nCL : 10;
 	}
 
