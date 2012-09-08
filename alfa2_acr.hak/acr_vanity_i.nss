@@ -269,7 +269,7 @@ string GetNaturalHairColor(object oCharacter)
 		ACR_SQLQuery("SELECT NaturalHair FROM characters WHERE ID='"+sCID+"'");
 		
 //=== Fetch succeeded. Harvest data and copy to the data item. ===//		
-		if(ACR_SQLFetch() != SQL_SUCCESS)
+		if(ACR_SQLFetch() == SQL_SUCCESS)
 		{
 			sHair = ACR_SQLGetData(0);
 		}
@@ -782,13 +782,11 @@ void ACR_RandomizeAppearance(object oSpawn,int nHead = ACR_FEATURE_TYPE_RANDOM,i
 void ResetModel(object oCreature)
 {
 	effect ePoly;
-	SetScriptHidden(oCreature,1);
 
 	// Seems they yanked this constant. This corresponds to POLYMORPH_TYPE_LIZARDFOLK on polymorph.2da
 	ePoly = EffectPolymorph(82, 1);
 
 	ApplyEffectToObject(DURATION_TYPE_TEMPORARY, ePoly, oCreature, 0.0f);
-	DelayCommand(0.1f,SetScriptHidden(oCreature,0));
 
 	DeleteLocalInt(oCreature, "ACR_APP_TYPE");
 }
