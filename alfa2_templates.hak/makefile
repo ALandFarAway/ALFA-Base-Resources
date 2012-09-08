@@ -7,6 +7,7 @@
 HAKFILE=$(OUTPUTDIR)\alfa2_templates.hak
 HAK_SOURCES=                                                   \
             .\*.TXT                                            \
+            .\*.DLG                                            \
             .\*.UTC                                            \
             .\*.UTI                                            \
             .\*.UTP                                            \
