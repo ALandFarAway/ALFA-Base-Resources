@@ -6072,3 +6072,32 @@ void SearchChest(int SearchDC)
 			}	
 		}
 	}
+
+
+void PL_UseChest(int t0, int t1, int t2, int t3)
+{
+	object oPC = GetLastOpenedBy(), self = OBJECT_SELF;
+	string sTag = "SC_CHECK_" + ObjectToString(oPC);	
+
+	if (GetLocalInt(self, sTag))
+		return;
+
+	if (!GetLocalInt(self,"searched")) {
+	
+		FillContainer(t0, t1, t2, t3);
+	}
+	// Do a search check and show it to the openingobject
+	int iCheck = d20(1);
+	int iSkill = GetSkillRank(SKILL_SEARCH, oPC, FALSE);
+	int iTotalDC = iCheck + iSkill;
+
+	//SendMessageToPC(oPC, ("Searching container " + IntToString(iCheck) + 
+	//							" + " + IntToString(iSkill) + 
+	//							" = " +  IntToString(iTotalDC)));
+	
+	// Fill the chest with items that can be found with the 
+	// DC that has been rolled							
+	SearchChest(iTotalDC);
+	SetLocalInt(self,"searched",1);
+	SetLocalInt(self, sTag, 1);
+}
