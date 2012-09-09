@@ -1447,8 +1447,8 @@ namespace ACR_ServerCommunicator
                 //
                 // Disable actions on the player while we are waiting for them
                 // to transfer.  This is intended to help prevent a player from
-                // causing the canonical save from missing something important,
-                // like an item dropped on the ground.
+                // causing the canonical save to miss something important, like
+                // an item dropped on the ground.
                 //
 
                 int WasCommandable = GetCommandable(PlayerObjectId);
