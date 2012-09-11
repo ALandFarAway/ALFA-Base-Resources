@@ -353,6 +353,7 @@ namespace ACR_ServerMisc
             }
 
             Dict[Key] = Value;
+            StorageIteratorList.Remove(DictID);
         }
 
         /// <summary>
@@ -437,7 +438,10 @@ namespace ACR_ServerMisc
 
             // If another element does not exist, return false
             if (ide.MoveNext() == false)
+            {
+                StorageIteratorList.Remove(DictID);
                 return false;
+            }
 
             Key = (string)ide.Key;
 
