@@ -116,7 +116,8 @@ const int ACR_SERVER_MISC_CLEAR_DICTIONARY                   = 17;
 //!  - Returns: TRUE if the updater was launched.
 int ACR_ExecuteServerUpdaterScript();
 
-//! Set a Dictionary's Key-Value pair
+//! Set a Dictionary's Key-Value pair.  Doing so resets any active iterator for
+//  the dictionary.
 //!  - DictionaryID: Dictionary to reference
 //!  - Key: Key-Value pair to reference
 //!  - Value: String Value to set for Key-Value pair
