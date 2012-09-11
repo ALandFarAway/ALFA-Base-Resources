@@ -4,6 +4,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,7 +44,7 @@ namespace ACR_ServerMisc
             LoadScriptGlobals(Other.SaveScriptGlobals());
         }
 
-        public static Type[] ScriptParameterTypes = { typeof(int), typeof(int), typeof(int), typeof(string), typeof(string), typeof(uint) };
+        public static Type[] ScriptParameterTypes = { typeof(int), typeof(int), typeof(int), typeof(string), typeof(string), typeof(string), typeof(uint) };
 
         public Int32 ScriptMain([In] object[] ScriptParameters, [In] Int32 DefaultReturnCode)
         {
@@ -53,7 +54,8 @@ namespace ACR_ServerMisc
             int P2 = (int)ScriptParameters[2];
             string P3 = (string)ScriptParameters[3];
             string P4 = (string)ScriptParameters[4];
-            uint P5 = (uint)ScriptParameters[5];
+            string P5 = (string)ScriptParameters[5];
+            uint P6 = (uint)ScriptParameters[6];
 
             switch ((REQUEST_TYPE)RequestType)
             {
@@ -66,7 +68,7 @@ namespace ACR_ServerMisc
 
                 case REQUEST_TYPE.CREATE_AREA_INSTANCE:
                     {
-                        uint ReturnArea = CreateAreaInstance(P5);
+                        uint ReturnArea = CreateAreaInstance(P6);
 
                         if (ReturnArea == OBJECT_INVALID)
                             ReturnCode = FALSE;
@@ -80,14 +82,66 @@ namespace ACR_ServerMisc
 
                 case REQUEST_TYPE.RELEASE_AREA_INSTANCE:
                     {
-                        ReleaseInstancedArea(P5);
+                        ReleaseInstancedArea(P6);
                         ReturnCode = TRUE;
+                    }
+                    break;
+
+                case REQUEST_TYPE.SET_DICTIONARY_VALUE:
+                    {
+                        DictionarySetString(P3, P4, P5);
+                        ReturnCode = TRUE;
+                    }
+                    break;
+
+                case REQUEST_TYPE.GET_DICTIONARY_VALUE:
+                    {
+                        string ReturnValue;
+                        bool CompletedOk = DictionaryGetString(P3, P4, out ReturnValue);
+
+                        if (!CompletedOk)
+                            ReturnCode = FALSE;
+                        else
+                        {
+                            SetLocalString(GetModule(), "ACR_SERVER_MISC_RETURN_STRING", ReturnValue);
+                            ReturnCode = TRUE;
+                        }
+                    }
+                    break;
+
+                case REQUEST_TYPE.FIRST_ITERATE_DICTIONARY:
+                    {
+                        string ReturnKey;
+                        bool CompletedOk = DictionaryIterateFirst(P3, out ReturnKey);
+
+                        if (!CompletedOk)
+                            ReturnCode = FALSE;
+                        else
+                        {
+                            SetLocalString(GetModule(), "ACR_SERVER_MISC_RETURN_STRING", ReturnKey);
+                            ReturnCode = TRUE;
+                        }
+                    }
+                    break;
+
+                case REQUEST_TYPE.NEXT_ITERATE_DICTIONARY:
+                    {
+                        string ReturnKey;
+                        bool CompletedOk = DictionaryIterateNext(P3, out ReturnKey);
+
+                        if (!CompletedOk)
+                            ReturnCode = FALSE;
+                        else
+                        {
+                            SetLocalString(GetModule(), "ACR_SERVER_MISC_RETURN_STRING", ReturnKey);
+                            ReturnCode = TRUE;
+                        }                   
                     }
                     break;
 
                 case REQUEST_TYPE.RUN_POWERSHELL_SCRIPTLET:
                     {
-                        ReturnCode = RunPowerShellScriptlet(P3, P5) ? TRUE : FALSE;
+                        ReturnCode = RunPowerShellScriptlet(P3, P6) ? TRUE : FALSE;
                     }
                     break;
 
@@ -265,6 +319,120 @@ namespace ACR_ServerMisc
         }
 
         /// <summary>
+        /// Set Dictionary DictID's Key to a String Value.
+        /// </summary>
+        /// <param name="DictID">Supplies the id of the Dictionary to access.
+        /// If this Dictionary does not exist, create it. </param>
+        /// <param name="Key">Supplies the Key for lookup of the target dictionary.
+        /// If no such Key exists, create a new Key/Value pair. </param>
+        /// <param name="Value">Supplies the Value to associate to the Key in the
+        /// target dictionary. </param>
+        private void DictionarySetString(string DictID, string Key, string Value)
+        {
+            SortedDictionary<string, string> Dict;
+
+            // Create if does not exist
+            if (StorageList.TryGetValue(DictID, out Dict) == false)
+            {
+                Dict = new SortedDictionary<string, string>();
+                StorageList[DictID] = Dict;
+            }
+
+            Dict[Key] = Value;
+        }
+
+        /// <summary>
+        /// Get Value corresponding to Dictionary DictID's Key.  On error return
+        /// null string.
+        /// </summary>
+        /// <param name="DictID">Supplies the id of the Dictionary to access.
+        /// </param>
+        /// <param name="Key">Supplies the Key for lookup of the target dictionary.
+        /// </param>
+        /// <param name="Value">Output is the Value corresponding to Key.
+        /// </param>
+        /// <returns>True if Dictionary DictID exists and Key exists within it,
+        /// otherwise false.</returns>
+        private bool DictionaryGetString(string DictID, string Key, out string Value)
+        {
+            SortedDictionary<string, string> Dict;
+
+	    Value = "";
+
+            if (StorageList.TryGetValue(DictID, out Dict) == false)
+                return false;
+
+            Dict = StorageList[DictID];
+
+            if (Dict.TryGetValue(Key, out Value) == false)
+                return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Set Dictionary Iterator to first Key-Value pair and return its Key.
+        /// </summary>
+        /// <param name="DictID">Supplies the id of the Dictionary to access.
+        /// </param>
+        /// <param name="Key">Output is the first Key in the SortedDictionary.
+        /// </param>
+        /// <returns>True if Dictionary DictID exists and contains elements,
+        /// otherwise false.</returns>
+        private bool DictionaryIterateFirst(string DictID, out string Key)
+        {
+            SortedDictionary<string, string> Dict;
+            IDictionaryEnumerator ide;
+
+	    Key = "";
+
+            if (StorageList.TryGetValue(DictID, out Dict) == false)
+                return false;
+
+            ide = Dict.GetEnumerator();
+
+            // Confirm there exists an element within this dictionary,
+            // if not simply return false
+            if (ide.MoveNext() == false)
+                return false;
+
+            Key = (string)ide.Key;
+
+            // Store iterator for future use
+            StorageIteratorList[DictID] = ide;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Advance Dictionary Iterator to next Key-Value pair and return its Key.
+        /// </summary>
+        /// <param name="DictID">Supplies the id of the Dictionary to access.
+        /// </param>
+        /// <param name="Key">Output is the first Key in the SortedDictionary.
+        /// </param>
+        /// <returns>True if Dictionary DictID exists (and its iterator has been
+        /// properly initialized with DictionaryIterateFirst) and the next
+        /// Key-Value pair exists, otherwise false.</returns>
+        private bool DictionaryIterateNext(string DictID, out string Key)
+        {
+            IDictionaryEnumerator ide;
+
+	    Key = "";
+
+            if (StorageIteratorList.TryGetValue(DictID, out ide) == false)
+                return false;
+
+            // If another element does not exist, return false
+            if (ide.MoveNext() == false)
+                return false;
+
+            Key = (string)ide.Key;
+
+            return true;
+        }
+
+        /// <summary>
         /// Run a PowerShell script and send the results to a player.
         /// </summary>
         /// <param name="Script">Supplies the script source text to
@@ -352,7 +520,11 @@ namespace ACR_ServerMisc
             GET_COLUMN_DATABASE_CONNECTION,
             GET_AFFECTED_ROW_COUNT_DATABASE_CONNECTION,
             ESCAPE_STRING_DATABASE_CONNECTION,
-            GET_STACK_TRACE
+            GET_STACK_TRACE,
+            SET_DICTIONARY_VALUE,
+            GET_DICTIONARY_VALUE,
+            FIRST_ITERATE_DICTIONARY,
+            NEXT_ITERATE_DICTIONARY
         }
 
         /// <summary>
@@ -365,5 +537,16 @@ namespace ACR_ServerMisc
         /// stored here.
         /// </summary>
         private static Dictionary<uint, Stack<uint>> InstancedAreaFreeList = new Dictionary<uint, Stack<uint>>();
+
+        /// <summary>
+        /// A dictionary of all string dictionaries (referenced first by DictionaryID,
+        /// then by individual Keys) is stored here.
+        /// </summary>
+        private static Dictionary<string, SortedDictionary<string, string>> StorageList = new Dictionary<string, SortedDictionary<string, string>>();
+
+        /// <summary>
+        /// A dictionary of all SortedDictionary Iterators is stored here.
+        /// </summary>
+        private static Dictionary<string, IDictionaryEnumerator> StorageIteratorList = new Dictionary<string, IDictionaryEnumerator>();
     }
 }

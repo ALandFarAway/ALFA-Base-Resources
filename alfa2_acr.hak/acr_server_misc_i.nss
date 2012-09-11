@@ -17,6 +17,7 @@
 //  2012/01/08  Basilica    - Created.
 //  2012/01/19  Basilica    - Added area instancing support.
 //  2012/06/06  Basilica    - Added auxiliary database connectivity support.
+//  2012/09/10  Paazin      - Added limited C# Dictionary access.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -81,6 +82,18 @@ const int ACR_SERVER_MISC_ESCAPE_STRING_DATABASE_CONNECTION  = 10;
 // This command obtains a stack trace of the current thread.
 const int ACR_SERVER_MISC_GET_STACK_TRACE                    = 11;
 
+// This command sets a Dictionary Key-Value pair.
+const int ACR_SERVER_MISC_SET_DICTIONARY_VALUE               = 12;
+
+// This command gets a Dictionary Key-Value pair.
+const int ACR_SERVER_MISC_GET_DICTIONARY_VALUE               = 13;
+
+// This command sets the Dictionary Iterator to the First Key-Value pair.
+const int ACR_SERVER_MISC_FIRST_ITERATE_DICTIONARY           = 14;
+
+// This command sets the Dictionary Iterator to the Next Key-Value pair.
+const int ACR_SERVER_MISC_NEXT_ITERATE_DICTIONARY            = 15;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -96,6 +109,33 @@ const int ACR_SERVER_MISC_GET_STACK_TRACE                    = 11;
 //! Execute the server's updater script, if one is defined.
 //!  - Returns: TRUE if the updater was launched.
 int ACR_ExecuteServerUpdaterScript();
+
+//! Set a Dictionary's Key-Value pair
+//!  - DictionaryID: Dictionary to reference
+//!  - Key: Key-Value pair to reference
+//!  - Value: String Value to set for Key-Value pair
+void ACR_DictionarySet(string DictionaryID, string Key, string Value);
+
+//! Get a Dictionary's Key-Value pair
+//!  - DictionaryID: Dictionary to reference
+//!  - Key: Key-Value pair to reference
+//!  - Returns: String Value of Key-Value pair or empty string
+//              upon error
+string ACR_DictionaryGet(string DictionaryID, string Key);
+
+//! Get a Dictionary's first Key, sorted alphanumerically, and then set the
+//  dictionary iterator to that element.
+//!  - DictionaryID: Dictionary to reference
+//!  - Returns: String Key of current location of Iterator or
+//              empty string upon error/end of list
+string ACR_DictionaryIterateFirst(string DictionaryID);
+
+//! Get a Dictionary's next Key, sorted alphanumerically, and then set the
+//  dictionary iterator to that element.
+//!  - DictionaryID: Dictionary to reference
+//!  - Returns: String Key of current location of Iterator or
+//              empty string upon error/end of list
+string ACR_DictionaryIterateNext(string DictionaryID);
 
 //! Create an instanced area.  If an available instance in the free pool can be
 //  found, it will be reused.
@@ -187,9 +227,10 @@ string ACR_GetStackTrace();
 //!  - P2: Supplies the third command-specific parameter.
 //!  - P3: Supplies the fourth command-specific parameter.
 //!  - P4: Supplies the fifth command-specific parameter.
+//!  - P5: Supplies the sixth command-specific parameter.
 //!  - ObjectSelf: Supplies the OBJECT_SELF to run the script on.
 //!  - Returns: The command-specific return code is returned.
-int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, object P4, object ObjectSelf = OBJECT_SELF);
+int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, string P4, object P5, object ObjectSelf = OBJECT_SELF);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -203,7 +244,83 @@ int ACR_ExecuteServerUpdaterScript()
 		0,
 		"",
 		"",
+		"",
 		OBJECT_INVALID);
+}
+
+void ACR_DictionarySet(string DictionaryID, string Key, string Value)
+{
+	ACR_CallServerMiscScript(
+		ACR_SERVER_MISC_SET_DICTIONARY_VALUE,
+		0,
+		0,
+		DictionaryID,
+		Key,
+		Value,
+		OBJECT_INVALID);
+}
+
+string ACR_DictionaryGet(string DictionaryID, string Key)
+{
+	if (!ACR_CallServerMiscScript(
+		ACR_SERVER_MISC_GET_DICTIONARY_VALUE,
+		0,
+		0,
+		DictionaryID,
+		Key,
+		"",
+		OBJECT_INVALID))
+	{
+		return "";
+	}
+
+	object Module = GetModule();
+	string Data = GetLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
+	DeleteLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
+
+	return Data;
+}
+
+string ACR_DictionaryIterateFirst(string DictionaryID)
+{
+	if (!ACR_CallServerMiscScript(
+		ACR_SERVER_MISC_FIRST_ITERATE_DICTIONARY,
+		0,
+		0,
+		DictionaryID,
+		"",
+		"",
+		OBJECT_INVALID))
+	{
+		return "";
+	}
+
+	object Module = GetModule();
+	string Data = GetLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
+	DeleteLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
+
+	return Data;
+}
+
+string ACR_DictionaryIterateNext(string DictionaryID)
+{
+	if (!ACR_CallServerMiscScript(
+		ACR_SERVER_MISC_NEXT_ITERATE_DICTIONARY,
+		0,
+		0,
+		DictionaryID,
+		"",
+		"",
+		OBJECT_INVALID))
+	{
+		return "";
+	}
+
+	object Module = GetModule();
+	string Data = GetLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
+	DeleteLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
+
+	return Data;
 }
 
 object ACR_InternalCreateAreaInstance(object TemplateArea)
@@ -212,6 +329,7 @@ object ACR_InternalCreateAreaInstance(object TemplateArea)
 		ACR_SERVER_MISC_CREATE_AREA_INSTANCE,
 		0,
 		0,
+		"",
 		"",
 		"",
 		TemplateArea) == FALSE)
@@ -234,6 +352,7 @@ void ACR_InternalReleaseAreaInstance(object InstancedArea)
 		0,
 		"",
 		"",
+		"",
 		InstancedArea);
 }
 
@@ -244,6 +363,7 @@ int ACR_RunPowerShellScriptlet(string Script, object ObjectSelf = OBJECT_SELF)
 		0,
 		0,
 		Script,
+		"",
 		"",
 		ObjectSelf,
 		ObjectSelf);
@@ -257,6 +377,7 @@ int ACR_CreateDatabaseConnection(string ConnectionString, int Flags = 0)
 		0,
 		ConnectionString,
 		"",
+		"",
 		OBJECT_INVALID);
 }
 
@@ -266,6 +387,7 @@ int ACR_DestroyDatabaseConnection(int ConnectionHandle)
 		ACR_SERVER_MISC_DESTROY_DATABASE_CONNECTION,
 		ConnectionHandle,
 		0,
+		"",
 		"",
 		"",
 		OBJECT_INVALID);
@@ -279,6 +401,7 @@ int ACR_QueryDatabaseConnection(int ConnectionHandle, string Query)
 		0,
 		Query,
 		"",
+		"",
 		OBJECT_INVALID);
 }
 
@@ -290,6 +413,7 @@ int ACR_FetchDatabaseConnection(int ConnectionHandle)
 		0,
 		"",
 		"",
+		"",
 		OBJECT_INVALID);
 }
 
@@ -299,6 +423,7 @@ string ACR_GetColumnDatabaseConnection(int ConnectionHandle, int ColumnIndex = 0
 		ACR_SERVER_MISC_GET_COLUMN_DATABASE_CONNECTION,
 		ConnectionHandle,
 		ColumnIndex,
+		"",
 		"",
 		"",
 		OBJECT_INVALID))
@@ -321,6 +446,7 @@ int ACR_GetAffectedRowCountDatabaseConnection(int ConnectionHandle)
 		0,
 		"",
 		"",
+		"",
 		OBJECT_INVALID);
 }
 
@@ -331,6 +457,7 @@ string ACR_EscapeStringDatabaseConnection(int ConnectionHandle, string String)
 		ConnectionHandle,
 		0,
 		String,
+		"",
 		"",
 		OBJECT_INVALID))
 	{
@@ -352,6 +479,7 @@ string ACR_GetStackTrace()
 		0,
 		"",
 		"",
+		"",
 		OBJECT_INVALID))
 	{
 		return "";
@@ -364,14 +492,15 @@ string ACR_GetStackTrace()
 	return Data;
 }
 
-int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, object P4, object ObjectSelf = OBJECT_SELF)
+int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, string P4, object P5, object ObjectSelf = OBJECT_SELF)
 {
 	AddScriptParameterInt(Command);
 	AddScriptParameterInt(P0);
 	AddScriptParameterInt(P1);
 	AddScriptParameterString(P2);
 	AddScriptParameterString(P3);
-	AddScriptParameterObject(P4);
+	AddScriptParameterString(P4);
+	AddScriptParameterObject(P5);
 
 	return ExecuteScriptEnhanced(ACR_SERVER_MISC_SUPPORT_SCRIPT, ObjectSelf, TRUE);
 }
