@@ -94,6 +94,12 @@ const int ACR_SERVER_MISC_FIRST_ITERATE_DICTIONARY           = 14;
 // This command sets the Dictionary Iterator to the Next Key-Value pair.
 const int ACR_SERVER_MISC_NEXT_ITERATE_DICTIONARY            = 15;
 
+// This command deletes a Key-Value pair from a Dictionary.
+const int ACR_SERVER_MISC_DELETE_DICTIONARY_KEY              = 16;
+
+// This command empties a Dictionary.
+const int ACR_SERVER_MISC_CLEAR_DICTIONARY                   = 17;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -136,6 +142,17 @@ string ACR_DictionaryIterateFirst(string DictionaryID);
 //!  - Returns: String Key of current location of Iterator or
 //              empty string upon error/end of list
 string ACR_DictionaryIterateNext(string DictionaryID);
+
+//! Delete a Key-Value pair from a Dictionary by Key.  Doing so resets any
+//  active iterator in the dictionary.
+//!  - DictionaryID: Dictionary to reference
+//!  - Key: Key-Value pair to reference
+void ACR_DictionaryDeleteKey(string DictionaryID, string Key);
+
+//! Clear a dictionary (deleting its contents entirely).  Doing so  resets any
+//  active iterator in the dictionary.
+//!  - DictionaryID: Dictionary to reference
+void ACR_DictionaryClear(string DictionaryID);
 
 //! Create an instanced area.  If an available instance in the free pool can be
 //  found, it will be reused.
@@ -321,6 +338,34 @@ string ACR_DictionaryIterateNext(string DictionaryID)
 	DeleteLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
 
 	return Data;
+}
+
+//! Delete a Key-Value pair from a Dictionary by Key.
+//!  - DictionaryID: Dictionary to reference
+//!  - Key: Key-Value pair to reference
+//!  - Returns: TRUE if the value existed and was removed.
+int ACR_DictionaryDeleteKey(string DictionaryID, string Key)
+{
+	return ACR_CallServerMiscScript(
+		ACR_SERVER_MISC_DELETE_DICTIONARY_KEY,
+		0,
+		0,
+		DictionaryID,
+		Key,
+		"",
+		OBJECT_INVALID);
+}
+
+void ACR_DictionaryClear(string DictionaryID)
+{
+	ACR_CallServerMiscScript(
+		ACR_SERVER_MISC_CLEAR_DICTIONARY,
+		0,
+		0,
+		DictionaryID,
+		"",
+		"",
+		OBJECT_INVALID);
 }
 
 object ACR_InternalCreateAreaInstance(object TemplateArea)

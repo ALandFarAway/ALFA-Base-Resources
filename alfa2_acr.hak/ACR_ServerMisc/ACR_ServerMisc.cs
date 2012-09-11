@@ -139,6 +139,20 @@ namespace ACR_ServerMisc
                     }
                     break;
 
+                case REQUEST_TYPE.DELETE_DICTIONARY_KEY:
+                    {
+                        DictionaryDeleteKey(P3, P4);
+                        ReturnCode = TRUE;
+                    }
+                    break;
+
+                case REQUEST_TYPE.CLEAR_DICTIONARY:
+                    {
+                        DictionaryClear(P3);
+                        ReturnCode = TRUE;
+                    }
+                    break;
+
                 case REQUEST_TYPE.RUN_POWERSHELL_SCRIPTLET:
                     {
                         ReturnCode = RunPowerShellScriptlet(P3, P6) ? TRUE : FALSE;
@@ -357,12 +371,10 @@ namespace ACR_ServerMisc
         {
             SortedDictionary<string, string> Dict;
 
-	    Value = "";
+	         Value = "";
 
             if (StorageList.TryGetValue(DictID, out Dict) == false)
                 return false;
-
-            Dict = StorageList[DictID];
 
             if (Dict.TryGetValue(Key, out Value) == false)
                 return false;
@@ -384,7 +396,7 @@ namespace ACR_ServerMisc
             SortedDictionary<string, string> Dict;
             IDictionaryEnumerator ide;
 
-	    Key = "";
+            Key = "";
 
             if (StorageList.TryGetValue(DictID, out Dict) == false)
                 return false;
@@ -418,7 +430,7 @@ namespace ACR_ServerMisc
         {
             IDictionaryEnumerator ide;
 
-	    Key = "";
+            Key = "";
 
             if (StorageIteratorList.TryGetValue(DictID, out ide) == false)
                 return false;
@@ -430,6 +442,37 @@ namespace ACR_ServerMisc
             Key = (string)ide.Key;
 
             return true;
+        }
+
+        /// <summary>
+        /// Delete value from dictionary by key.
+        /// </summary>
+        /// <param name="DictID">Supplies the id of the Dictionary to access.
+        /// </param>
+        /// <param name="Key">Key to search for and delete from the dictionary.
+        /// </param>
+        private void DictionaryDeleteKey(string DictID, string Key)
+        {
+            SortedDictionary<string, string> Dict;
+
+            if (StorageList.TryGetValue(DictID, out Dict) == false)
+                return;
+
+            Dict.Remove(Key);
+            StorageIteratorList.Remove(Key);
+        }
+
+        /// <summary>
+        /// Delete entire contents of dictionary by dictionary id.
+        /// </summary>
+        /// <param name="DictID">Supplies the id of the Dictionary to access.
+        /// </param>
+        private void DictionaryClear(string DictID)
+        {
+            SortedDictionary<string, string> Dict;
+
+            StorageList.Remove(DictID);
+            StorageIteratorList.Remove(DictID);
         }
 
         /// <summary>
@@ -524,7 +567,9 @@ namespace ACR_ServerMisc
             SET_DICTIONARY_VALUE,
             GET_DICTIONARY_VALUE,
             FIRST_ITERATE_DICTIONARY,
-            NEXT_ITERATE_DICTIONARY
+            NEXT_ITERATE_DICTIONARY,
+            DELETE_DICTIONARY_KEY,
+            CLEAR_DICTIONARY
         }
 
         /// <summary>
