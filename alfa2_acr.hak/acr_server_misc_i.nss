@@ -340,13 +340,9 @@ string ACR_DictionaryIterateNext(string DictionaryID)
 	return Data;
 }
 
-//! Delete a Key-Value pair from a Dictionary by Key.
-//!  - DictionaryID: Dictionary to reference
-//!  - Key: Key-Value pair to reference
-//!  - Returns: TRUE if the value existed and was removed.
-int ACR_DictionaryDeleteKey(string DictionaryID, string Key)
+void ACR_DictionaryDeleteKey(string DictionaryID, string Key)
 {
-	return ACR_CallServerMiscScript(
+	ACR_CallServerMiscScript(
 		ACR_SERVER_MISC_DELETE_DICTIONARY_KEY,
 		0,
 		0,
