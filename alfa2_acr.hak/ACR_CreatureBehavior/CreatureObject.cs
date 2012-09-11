@@ -64,6 +64,8 @@ namespace ACR_CreatureBehavior
             {
                 this.Party = new AIParty(Server.PartyManager);
             }
+
+            this.Area = Server.ObjectManager.GetAreaObject(Script.GetArea(ObjectId));
         }
 
         /// <summary>
@@ -2275,6 +2277,11 @@ namespace ACR_CreatureBehavior
         /// The associated AI party, if any.
         /// </summary>
         public AIParty Party { get; set; }
+
+        /// <summary>
+        /// The area that the creature is currently in.
+        /// </summary>
+        public AreaObject Area { get; set; }
 
         /// <summary>
         /// The leader of the party, if any.
