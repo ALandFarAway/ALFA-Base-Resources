@@ -436,6 +436,8 @@ namespace ALFAIRCBot
 
             try
             {
+                string RollsMsg;
+                int[] Rolls;
                 int Dice = Convert.ToInt32(CmdArgs[0]);
                 int Sides = Convert.ToInt32(CmdArgs[1]);
                 int Sum = 0;
@@ -446,10 +448,14 @@ namespace ALFAIRCBot
                     return;
                 }
 
+                Rolls = new int[Dice];
+
                 for (int i = 0; i < Dice; i += 1)
                 {
-                    Sum += (Rng.Next() % Sides) + 1;
+                    Rolls[i] = (Rng.Next() % Sides) + 1;
                 }
+
+                Sum = Rolls.Sum();
 
                 if (PlusMinus == null)
                 {
@@ -460,8 +466,10 @@ namespace ALFAIRCBot
                     Sum += Convert.ToInt32(PlusMinus);
                 }
 
+                RollsMsg = string.Join(", ", Rolls);
+
                 SendMessage(SendType.Message, Source, String.Format(
-                    "Rolled {0}d{1}{2}: {3}", Dice, Sides, PlusMinus, Sum));
+                    "Rolled {0}d{1}{2} ({3}): {4}", Dice, Sides, PlusMinus, RollsMsg, Sum));
             }
             catch (Exception)
             {
