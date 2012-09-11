@@ -40,8 +40,7 @@ namespace ACR_CreatureBehavior
         public Int32 ScriptMain([In] object[] ScriptParameters, [In] Int32 DefaultReturnCode)
         {
             Int32 ReturnCode = 0;
-            int CreatureEventType = (int)ScriptParameters[0];
-            switch ((EVENT_TYPE)CreatureEventType)
+            switch ((EVENT_TYPE)ScriptParameters[0])
             {
                 case EVENT_TYPE.CREATURE_ON_SPAWN:
                     {

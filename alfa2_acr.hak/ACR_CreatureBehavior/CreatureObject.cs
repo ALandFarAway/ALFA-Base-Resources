@@ -50,30 +50,19 @@ namespace ACR_CreatureBehavior
         /// </summary>
         public void OnSpawn()
         {
-            bool PartyAssigned = false;
-            uint NearbyCreatureId = Script.GetFirstObjectInShape(CLRScriptBase.SHAPE_SPHERE, 25.0f, Script.GetLocation(this.ObjectId), CLRScriptBase.TRUE, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f,0.0f,0.0f));
-            if(NearbyCreatureId != OBJECT_INVALID && PartyAssigned == false)
+            foreach(uint NearbyCreatureId in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, 25.0f, Script.GetLocation(this.ObjectId), true, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f,0.0f,0.0f)))
             {
                 if (Script.GetFactionEqual(this.ObjectId, NearbyCreatureId) == CLRScriptBase.TRUE)
                 {
                     CreatureObject NearbyCreature = Server.ObjectManager.GetCreatureObject(NearbyCreatureId);
-                    if (NearbyCreature != null)
-                    {
-                        AIParty Party = NearbyCreature.Party;
-                        if(Party == null)
-                            throw new ApplicationException(String.Format("Creature {0} has spawned without being added to a party.", NearbyCreature));
-                        else
-                        {
-                            Party.AddPartyMember(this);
-                        }
-                    }
-                    else
-                    {
-                        // This is an error-- an existing creature slipped by us?
-                        throw new ApplicationException(String.Format("Creature with ID {0} has spawned, but has not been indexed by ACR_CreatureBehavior.", NearbyCreatureId));
-                    }
+                    if (NearbyCreature != null && NearbyCreature.Party != null)
+                    NearbyCreature.Party.AddPartyMember(this);
+                    break;
                 }
-                Script.GetFirstObjectInShape(CLRScriptBase.SHAPE_SPHERE, 25.0f, Script.GetLocation(this.ObjectId), CLRScriptBase.TRUE, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f,0.0f,0.0f));
+            }
+            if (this.Party == null)
+            {
+                this.Party = new AIParty(Server.PartyManager);
             }
         }
 
