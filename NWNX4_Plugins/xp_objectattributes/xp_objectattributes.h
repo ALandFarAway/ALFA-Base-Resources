@@ -189,7 +189,22 @@ private:
 		);
 
 	std::string
+	XPObjectAttributesTintToString(
+		__in NWN::NWN2_TintSet * TintSet
+		);
+
+	std::string
 	XPObjectAttributesGetHairTint(
+		__in CreatureObject * Creature
+		);
+
+	std::string
+	XPObjectAttributesGetHeadTint(
+		__in CreatureObject * Creature
+		);
+
+	std::string
+	XPObjectAttributesGetBodyTint(
 		__in CreatureObject * Creature
 		);
 

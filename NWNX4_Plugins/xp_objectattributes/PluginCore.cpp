@@ -596,6 +596,54 @@ Environment:
 }
 
 std::string
+ObjectAttributesPlugin::XPObjectAttributesTintToString(
+	__in NWN::NWN2_TintSet * TintSet)
+/*++
+
+Routine Description:
+
+	This routine parses through the TintSet struct and returns it in
+	the form of a string for use in a script.
+
+Arguments:
+
+	TintSet - Supplies the TintSet struct to use
+
+Return Value:
+
+	Tintset, expressed as a string.
+
+Environment:
+
+	User mode.
+
+--*/
+{
+	unsigned long   ColorData[ 3 ];
+	char            StringTintSet[ 256 ];
+
+	C_ASSERT( RTL_NUMBER_OF( TintSet->Colors ) == 3 );
+
+	for (size_t i = 0; i < RTL_NUMBER_OF( TintSet->Colors ); i += 1)
+	{
+		ColorData[ i ]  = ((unsigned long) (TintSet->Colors[ i ].r * 255.0f) & 0xFF) << 24;
+		ColorData[ i ] |= ((unsigned long) (TintSet->Colors[ i ].g * 255.0f) & 0xFF) << 16;
+		ColorData[ i ] |= ((unsigned long) (TintSet->Colors[ i ].b * 255.0f) & 0xFF) <<  8;
+		ColorData[ i ] |= ((unsigned long) (TintSet->Colors[ i ].a * 255.0f) & 0xFF) <<  0;
+	}
+
+	StringCbPrintfA(
+		StringTintSet,
+		sizeof( StringTintSet ),
+		"NWN2_TintSet[0x%08X, 0x%08X, 0x%08X]",
+		ColorData[ 0 ],
+		ColorData[ 1 ],
+		ColorData[ 2 ] );
+
+	return StringTintSet;
+}
+
+std::string
 ObjectAttributesPlugin::XPObjectAttributesGetHairTint(
 	__in CreatureObject * Creature)
 /*++
@@ -620,29 +668,67 @@ Environment:
 {
 	NWN::NWN2_TintSet * TintSet;
 	TintSet = Creature->GetTintSet( NWN::CreatureTintSetHair );
+
+
+	return XPObjectAttributesTintToString(TintSet);
+}
+
+std::string
+ObjectAttributesPlugin::XPObjectAttributesGetHeadTint(
+	__in CreatureObject * Creature)
+/*++
+
+Routine Description:
+
+	This routine gets the head tintset as a string for use in a script.
+
+Arguments:
+
+	Creature - Supplies the creature object to read.
+
+Return Value:
+
+	Tintset, expressed as a string.
+
+Environment:
+
+	User mode.
+
+--*/
+{
+	NWN::NWN2_TintSet * TintSet;
+	TintSet = Creature->GetTintSet( NWN::CreatureTintSetHead );
 	
-	unsigned long   ColorData[ 3 ];
-	char            StringTintSet[ 256 ];
+	return XPObjectAttributesTintToString(TintSet);
+}
 
-	C_ASSERT( RTL_NUMBER_OF( TintSet->Colors ) == 3 );
+std::string
+ObjectAttributesPlugin::XPObjectAttributesGetBodyTint(
+	__in CreatureObject * Creature)
+/*++
 
-	for (size_t i = 0; i < RTL_NUMBER_OF( TintSet->Colors ); i += 1)
-	{
-		ColorData[ i ]  = ((unsigned long) (TintSet->Colors[ i ].r * 255.0f) & 0xFF) << 24;
-		ColorData[ i ] |= ((unsigned long) (TintSet->Colors[ i ].g * 255.0f) & 0xFF) << 16;
-		ColorData[ i ] |= ((unsigned long) (TintSet->Colors[ i ].b * 255.0f) & 0xFF) <<  8;
-		ColorData[ i ] |= ((unsigned long) (TintSet->Colors[ i ].a * 255.0f) & 0xFF) <<  0;
-	}
+Routine Description:
 
-	StringCbPrintfA(
-		StringTintSet,
-		sizeof( StringTintSet ),
-		"NWN2_TintSet[0x%08X, 0x%08X, 0x%08X]",
-		ColorData[ 0 ],
-		ColorData[ 1 ],
-		ColorData[ 2 ] );
+	This routine gets the body tintset as a string for use in a script.
 
-	return StringTintSet;
+Arguments:
+
+	Creature - Supplies the creature object to read.
+
+Return Value:
+
+	Tintset, expressed as a string.
+
+Environment:
+
+	User mode.
+
+--*/
+{
+	NWN::NWN2_TintSet * TintSet;
+	TintSet = Creature->GetTintSet( NWN::CreatureTintSetBody );
+	
+	return XPObjectAttributesTintToString(TintSet);
 }
 
 //
