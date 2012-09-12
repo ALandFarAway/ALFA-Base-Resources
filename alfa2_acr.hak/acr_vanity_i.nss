@@ -98,7 +98,7 @@ void DyeHairRaw(string sDye, object oBeautician, object oTarget, int nRoll = FAL
 	int nFinalLLBlue;
 	
 //=== if/ else if structure handles the values of the skill checks and calculates the finished hair tint. ===//		
-	if(nSkillFinal < 5) // total failure; hair color is random.
+	if(nSkillFinal < 4) // total failure; hair color is random.
 	{
 		nFinalHLRed   = d100(2)+20;
 		nFinalHLGreen = d100(2)+20;
@@ -107,7 +107,7 @@ void DyeHairRaw(string sDye, object oBeautician, object oTarget, int nRoll = FAL
 		nFinalLLBlue  = nFinalHLBlue  - 20;
 		nFinalLLGreen = nFinalHLGreen - 20;
 	}
-	else if(nSkillFinal < 10) // serious failure; either ineffective or washed out.
+	else if(nSkillFinal < 7) // serious failure; either ineffective or washed out.
 	{
 		if(d2() == 2) // calculate ineffective
 		{
@@ -138,7 +138,7 @@ void DyeHairRaw(string sDye, object oBeautician, object oTarget, int nRoll = FAL
 			if(nFinalLLBlue  < 180) nFinalLLBlue  = 180;
 		}
 	}
-	else if(nSkillFinal < 15) // less-than ideal. Hair dye might have a minor effect; it might be less-washed-out
+	else if(nSkillFinal < 10) // less-than ideal. Hair dye might have a minor effect; it might be less-washed-out
 	{
 		if(d2() == 2) // calculate ineffective.
 		{
@@ -169,7 +169,7 @@ void DyeHairRaw(string sDye, object oBeautician, object oTarget, int nRoll = FAL
 			if(nFinalLLBlue  < 130) nFinalLLBlue  = 130;
 		}	
 	}
-	else if(nSkillFinal < 20) // Success. Calculate 50/50 between dye and hair.
+	else if(nSkillFinal < 15) // Success. Calculate 50/50 between dye and hair.
 	{
 		nFinalHLRed   = nHLRed/2   + nDyeRed/2;
 		nFinalHLGreen = nHLGreen/2 + nDyeGreen/2;
@@ -178,7 +178,7 @@ void DyeHairRaw(string sDye, object oBeautician, object oTarget, int nRoll = FAL
 		nFinalLLGreen = nLLGreen/2 + nDyeGreen_ll/2;
 		nFinalLLBlue  = nLLBlue/2  + nDyeBlue_ll/2;	
 	}
-	else if(nSkillFinal < 25) // Greate success. Calculate 75/25 dye/hair.
+	else if(nSkillFinal < 20) // Greate success. Calculate 75/25 dye/hair.
 	{
 		nFinalHLRed   = nHLRed/4   + nDyeRed   - nDyeRed/4;
 		nFinalHLGreen = nHLGreen/4 + nDyeGreen - nDyeGreen/4;
@@ -187,7 +187,7 @@ void DyeHairRaw(string sDye, object oBeautician, object oTarget, int nRoll = FAL
 		nFinalLLGreen = nLLGreen/4 + nDyeGreen_ll - nDyeGreen_ll/4;
 		nFinalLLBlue  = nLLBlue/4  + nDyeBlue_ll  - nDyeBlue_ll/4;	
 	}
-	else if(nSkillFinal < 30) // Winning significantly. Calculate 90/10.
+	else if(nSkillFinal < 25) // Winning significantly. Calculate 90/10.
 	{
 		nFinalHLRed   = nHLRed/10   + nDyeRed   - nDyeRed/10;
 		nFinalHLGreen = nHLGreen/10 + nDyeGreen - nDyeGreen/10;
@@ -781,12 +781,23 @@ void ACR_RandomizeAppearance(object oSpawn,int nHead = ACR_FEATURE_TYPE_RANDOM,i
 
 void ResetModel(object oCreature)
 {
-	effect ePoly;
+	object oOld, oNew, oCopy;
+	location l;
 
-	// Seems they yanked this constant. This corresponds to POLYMORPH_TYPE_LIZARDFOLK on polymorph.2da
-	ePoly = EffectPolymorph(82, 1);
+	oOld = GetItemInSlot(INVENTORY_SLOT_BOOTS, oCreature);
 
-	ApplyEffectToObject(DURATION_TYPE_TEMPORARY, ePoly, oCreature, 0.0f);
+	l = GetLocation(oCreature);
+
+	oNew = CreateObject(OBJECT_TYPE_ITEM, "paladinboots", l, 0);
+	oCopy = CopyItem(oNew, oCreature, 0);
+	ACR_IgnoreAcquire(oCopy);
+	DestroyObject(oNew);
+	DestroyObject(oCopy, 0.75f);
+
+	AssignCommand(oCreature, ActionEquipItem(oCopy, INVENTORY_SLOT_BOOTS));
+	
+	if (oOld != OBJECT_INVALID)
+		AssignCommand(oCreature, DelayCommand(0.5f, ActionEquipItem(oOld, INVENTORY_SLOT_BOOTS)));
 
 	DeleteLocalInt(oCreature, "ACR_APP_TYPE");
 }
