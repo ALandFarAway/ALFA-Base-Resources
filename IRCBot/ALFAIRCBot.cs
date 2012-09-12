@@ -468,6 +468,9 @@ namespace ALFAIRCBot
 
                 RollsMsg = string.Join(", ", Rolls);
 
+                if (RollsMsg.Length > 400)
+                    RollsMsg = RollsMsg.Substring(0, 400);
+
                 SendMessage(SendType.Message, Source, String.Format(
                     "Rolled {0}d{1}{2} ({3}): {4}", Dice, Sides, PlusMinus, RollsMsg, Sum));
             }
