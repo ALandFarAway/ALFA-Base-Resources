@@ -73,6 +73,12 @@ const int ACR_SPELL_DESCRIPT_WATER = 18;
 
 const string _DM_CASTER_LEVEL = "ACR_SPELLS_DM_CL";
 
+const int ACR_MAX_SPELLID = 3200;
+
+const string DICT_SPELL_NAME = "DICT_SPELL_NAME";
+const string DICT_SPELL_LVL = "DICT_SPELL_LVL";
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -101,6 +107,12 @@ void WarnWhenSpellExpires(object oCreature, int nSpellId, string sMessage, float
 
 void _floatMessageIfHasSpellEffect(object oCreature, int nSpellId, string sMessage, float fDuration);
 
+//! Get spell name from ID
+string ACR_GetSpellName(int nSpellId);
+
+//! Get spell innate level from ID
+int ACR_GetSpellInnateLevel(int nSpellId);
+
 //! ACR's version of nw_i0_spells spellCure function.
 void ACR_SpellCure( object oTarget, int nDieCount, int nDieSides, int nMaxExtraDamage, int nSpellID, int vfxImpactHeal, int vfxImpactHarm );
 
@@ -114,6 +126,9 @@ void ACR_SpellsHealOrHarmTarget( object oTarget, int nDamageTotal, int vfx_impac
 int ACR_GetCureDamageTotal( object oTarget, int nDieCount, int nDieSides, int nMaxExtraDamage, int nSpellID );
 
 string _GetDomainVarName( int nDomain );
+
+//! Cache Name/Lvl of Spell 2da for future use
+void ACR_Cache2daSpellListing();
 
 //! Adds a persistant AC bonus effect to oTarget, such as is used in Mage Armor and Shield spells.
 void PersistACBonusFromSpell(object oTarget, int nSpellId, int nACType, int nACBonus, float fDurationRemaining, effect eLinkedEffects);
@@ -144,6 +159,9 @@ int _ScrollMishapCheck(object oCaster, int nScrollID, int nSpellLevel, int nSpel
 //! Handles actual scroll mishap effects.
 //!  takes the user and the level and identity of the spell into account.
 void _ProcessMishap(object oCaster, int nSpellLevel, int nSpellID);
+
+//! Check if we need to cache the spell 2da list
+int ACR__CheckIsReadySpell2daList();
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -347,6 +365,127 @@ void WarnWhenSpellExpires(object oCreature, int nSpellId, string sMessage, float
 void _floatMessageIfHasSpellEffect(object oCreature, int nSpellId, string sMessage, float fDuration) {
 	if(GetHasSpellEffect(nSpellId, oCreature))
 		FloatingTextStringOnCreature(sMessage, oCreature, TRUE, fDuration);
+}
+
+void ACR_Cache2daSpellListing()
+{
+	ACR_Cache2daListing(SPELLS_2DA, SPELLS_NAME_COL, DICT_SPELL_NAME, ACR_MAX_SPELLID);
+	ACR_Cache2daListing(SPELLS_2DA, SPELLS_INNATE_LEVEL_COL, DICT_SPELL_LVL, ACR_MAX_SPELLID);
+}
+
+int ACR__CheckIsReadySpell2daList()
+{
+	if (ACR_CheckIsReady2daList(DICT_SPELL_NAME))
+		return 1;
+
+	if (!ACR_CheckIsStarted2daList(DICT_SPELL_NAME))
+		ACR_Cache2daSpellListing();
+
+	return 0;
+}
+
+string ACR_GetSpellName(int spell_id)
+{
+	string str, strref;
+
+	str = IntToString(spell_id);
+
+	if (!ACR__CheckIsReadySpell2daList()) {
+		return "error";
+	}
+
+	strref  = ACR_DictionaryGet(DICT_SPELL_NAME, str);
+	return GetStringByStrRef(StringToInt(strref));
+}
+
+int ACR_GetSpellInnateLevel(int spell_id)
+{
+	string str;
+
+	str = IntToString(spell_id);
+
+	if (!ACR__CheckIsReadySpell2daList()) {
+		return -1;
+	}
+
+	return StringToInt(ACR_DictionaryGet(DICT_SPELL_LVL, str));
+}
+
+string ACR_GetSpellList(object oCreature, int nMemorized=0)
+{
+	int id, lvl, num, len, old_lvl;
+	string name, str, msg, dict_id = "TMP";
+
+	if (!ACR__CheckIsReadySpell2daList()) {
+		return "Please try again shortly.  Spell list not yet ready.";
+	}
+
+	// Iterate through all possible spells to determine those present
+	for (str = ACR_DictionaryIterateFirst(DICT_SPELL_NAME); str != ""; str = ACR_DictionaryIterateNext(DICT_SPELL_NAME)) {
+		id = StringToInt(str);
+
+		num = (nMemorized ? GetHasSpell(id, oCreature) : GetSpellKnown(oCreature, id));
+
+		if (num) {
+			lvl = ACR_GetSpellInnateLevel(id);
+			name = ACR_GetSpellName(id);
+
+			// Handle sorting (reverse order from highest level spell to lowest)
+			lvl = 10 - lvl;
+
+			if (lvl < 10) {
+				str = "0" + IntToString(lvl);
+			}
+			else
+				str = "10";
+
+			str += " " + name;
+
+			ACR_DictionarySet(dict_id, str, IntToString(num));
+		}
+	}
+
+	old_lvl = -1;
+	msg = "";
+
+	// Iterate through spells present and format
+	for (str = ACR_DictionaryIterateFirst(dict_id); str != ""; str = ACR_DictionaryIterateNext(dict_id)) {
+		len = GetStringLength(str);
+		name = GetStringRight(str, len-3);
+
+		// Shift level back to correct value
+		lvl = 10-StringToInt(GetStringLeft(str, 2));
+
+		num = StringToInt(ACR_DictionaryGet(dict_id, str));
+
+		// Display spell level if new level
+		if (old_lvl != lvl) {
+
+			// Remove trailing comma
+			len = GetStringLength(msg);
+			msg = GetStringLeft(msg, len-2);
+
+			msg += "\n<b>Level " + IntToString(lvl) + "</b>: ";
+			old_lvl = lvl;
+		}
+
+		// Display number if > 1
+		if (num > 1) {
+			msg += IntToString(num) + " ";
+		}
+
+		msg += name + ", ";
+	}
+
+	ACR_DictionaryClear(dict_id);
+
+	// Remove trailing comma
+	if (old_lvl != -1) {
+		len = GetStringLength(msg);
+		msg = GetStringLeft(msg, len-2);
+	}
+
+	return msg;
 }
 
 void ACR_SpellCure( object oTarget, int nDieCount, int nDieSides, int nMaxExtraDamage, int nSpellID, int vfxImpactHeal, int vfxImpactHarm ) {

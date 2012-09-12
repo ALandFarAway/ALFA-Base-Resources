@@ -221,6 +221,7 @@ No (2)
 #include "acr_game_loc_i"
 #include "acr_door_i"
 #include "acr_nonlethal_i"
+#include "acr_spells_i"
 
 /*                                Constants                              */
 
@@ -332,8 +333,8 @@ const string HSS_PCTOOLS_CUSTOM16_TEXT = "Custom 16";
 const string HSS_PCTOOLS_CUSTOM17_TEXT = "Custom 17";
 const string HSS_PCTOOLS_CUSTOM18_TEXT = "Custom 18";
 const string HSS_PCTOOLS_CUSTOM19_TEXT = "Close Door";
-const string HSS_PCTOOLS_CUSTOM20_TEXT = "Target 2";
-const string HSS_PCTOOLS_CUSTOM21_TEXT = "Target 3";
+const string HSS_PCTOOLS_CUSTOM20_TEXT = "Known Spells";
+const string HSS_PCTOOLS_CUSTOM21_TEXT = "Prepared Spells";
 const string HSS_PCTOOLS_CUSTOM22_TEXT = "Target 4";
 const string HSS_PCTOOLS_CUSTOM23_TEXT = "Target 5";
 const string HSS_PCTOOLS_CUSTOM24_TEXT = "Target 6";
@@ -2494,16 +2495,24 @@ void HSS_PCTools_CustomButton(object oPC, int nButton, float fX = 0.0, float fY 
 		   
 		   //custom target mode button 2
 		   case 20:
-           //your custom button code goes here
-		   SendMessageToPC(oPC, HSS_PCTOOLS_COLOUR1 + "Target mode button number " +
-		                  IntToString(nButton - 18) + " has no custom code enabled.");
+
+		   // list spells known if dm
+		   if (GetIsDM(oPC) && GetIsObjectValid(oTarget) || oPC == oTarget) {
+			   string sOutput = HSS_PCTOOLS_COLOUR1+GetName(oTarget) + " knows:\n";
+			   sOutput += ACR_GetSpellList(oTarget, 0);
+		   	   SendMessageToPC(oPC, sOutput);
+		   }
 		   break;			   		   
 
 		   //custom target mode button 3
 		   case 21:
-           //your custom button code goes here
-		   SendMessageToPC(oPC, HSS_PCTOOLS_COLOUR1 + "Target mode button number " +
-		                  IntToString(nButton - 18) + " has no custom code enabled.");
+
+ 		   // list spells memorized if dm
+		   if (GetIsDM(oPC) && GetIsObjectValid(oTarget) || oPC == oTarget) {
+			   string sOutput = HSS_PCTOOLS_COLOUR1+GetName(oTarget) + " has prepared:\n";
+			   sOutput += ACR_GetSpellList(oTarget, 1);
+		   	   SendMessageToPC(oPC, sOutput);
+		   }
 		   break;			   
 		   
 		   //custom target mode button 4

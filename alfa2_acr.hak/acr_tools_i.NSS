@@ -33,6 +33,7 @@
 
 #include "acr_i"
 #include "ginc_math"
+#include "acr_server_misc_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -99,6 +100,9 @@ location LOCATION_INVALID;
 const float ACR_LOCATION_SEARCH_RADIUS = 2.0f;
 
 const float ACR_AREA_TRANSITION_ZDIFF_MAX = 1.0f;
+
+const string LIST_2DA_STARTED = "2da_list_started";
+const string LIST_2DA_READY = "2da_list_ready";
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -478,14 +482,30 @@ int ACR_GetIntListValue(string List, struct IntListIterator It);
 //!  - Position: The search position.
 int ACR__IntListNextDelimiter(string List, int Position);
 
-// Return name of race constant
+//!  Return name of race constant
 string RacialTypeName(int n);
-// Return name of subrace constant
+
+//!  Return name of subrace constant
 string SubRaceName(int n);
 
-// Ignore any subsequent acquire/drop for this item (for reference scripts that move items internally)
+//!  Ignore any subsequent acquire/drop for this item (for reference scripts that move items internally)
 void ACR_IgnoreAcquire(object o);
 
+//!  Cache 2da column in a dictionary entry
+//!  - file_2da: 2da file to cache.
+//!  - col_name: Column name in 2da to cache.
+//!  - dict_name: DictionaryID in which to place cache.
+//!  - max_id: Maximum ID in 2da to cache.
+void ACR_Cache2daListing(string file_2da, string col_name, string dict_name, int max_id);
+
+//! Check if dic_name 2da list has started caching
+int ACR_CheckIsStarted2daList(string dict_name);
+
+//! Check if dic_name 2da list has completed caching
+int ACR_CheckIsReady2daList(string dict_name);
+
+//! Internal function to space out computation
+void ACR__Cache2daListing(string file_2da, string col_name, string dict_name, int max_id, int start, int incr);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -2086,5 +2106,54 @@ void ACR_IgnoreAcquire(object o)
 
 	SetTag(o,"acr_ignore_acquire");
 	SetLocalString(o, "ACR_IGNORE_ACQUIRE_TEMP", GetTag(o));
+}
+
+int ACR_CheckIsStarted2daList(string dict_name)
+{
+	if (ACR_DictionaryGet(dict_name, LIST_2DA_STARTED) != "") {
+		return 1;
+	}
+	return 0;
+}
+
+int ACR_CheckIsReady2daList(string dict_name)
+{
+	if (ACR_DictionaryGet(dict_name, LIST_2DA_READY) != "") {
+		return 1;
+	}
+	return 0;
+}
+
+void ACR__Cache2daListing(string file_2da, string col_name, string dict_name, int max_id, int start, int incr)
+{
+	int i, end;
+	string id, str;
+
+	// if incr+start > max_id, use max_id
+	end = start + incr;
+	end = (end > max_id ? max_id : end);
+
+	for (i=start; i<=end; ++i) {
+		str = Get2DAString(file_2da, col_name, i);
+	
+		if (str == "")
+			continue;
+
+		id = IntToString(i);
+
+		ACR_DictionarySet(dict_name, id, str);
+	}
+
+	if (end != max_id)
+		DelayCommand(0.1f, ACR__Cache2daListing(file_2da, col_name, dict_name, max_id, end, incr));
+	else
+		ACR_DictionarySet(dict_name, LIST_2DA_READY, "true");
+}
+
+void ACR_Cache2daListing(string file_2da, string col_name, string dict_name, int max_id)
+{
+	ACR_DictionarySet(dict_name, LIST_2DA_STARTED, "true");
+
+	DelayCommand(0.1f, ACR__Cache2daListing(file_2da, col_name, dict_name, max_id, 0, 100));
 }
 
