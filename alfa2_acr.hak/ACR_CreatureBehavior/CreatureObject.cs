@@ -64,8 +64,6 @@ namespace ACR_CreatureBehavior
             {
                 this.Party = new AIParty(Server.PartyManager);
             }
-
-            this.Area = Server.ObjectManager.GetAreaObject(Script.GetArea(ObjectId));
         }
 
         /// <summary>
@@ -155,6 +153,7 @@ namespace ACR_CreatureBehavior
                         }
                         this.Party.AddPartyEnemy(Caster);
                         this.Party.EnemySpellcasters.Add(Caster);
+                        HasCombatRoundProcess = true;
                     }
                 }
             }
@@ -211,6 +210,7 @@ namespace ACR_CreatureBehavior
                 }
                 this.Party.AddPartyEnemy(Damager);
                 this.Party.EnemySpellcasters.Add(Damager);
+                HasCombatRoundProcess = true;
             }            
         }
 
@@ -389,6 +389,7 @@ namespace ACR_CreatureBehavior
                     {
                         Party.EnemiesLost.Remove(SeenObject);
                         Party.AddPartyEnemy(SeenObject);
+                        HasCombatRoundProcess = true;
                     }
                 }
                 else if (Script.GetFactionEqual(this.ObjectId, PerceivedObjectId) == CLRScriptBase.TRUE)
@@ -424,6 +425,7 @@ namespace ACR_CreatureBehavior
                     {
                         Party.EnemiesLost.Remove(SeenObject);
                         Party.AddPartyEnemy(SeenObject);
+                        HasCombatRoundProcess = true;
                     }
                 }
                 else if (Script.GetFactionEqual(this.ObjectId, PerceivedObjectId) == CLRScriptBase.TRUE)
@@ -556,26 +558,33 @@ namespace ACR_CreatureBehavior
                     if (!TryToHealAll())
                         CleanUpNeeded = false;
                 }
-                // We're not in a fight, but maybe our leader is.
-                if (this.Party.PartyLeader.HasCombatRoundProcess)
-                {
-                    // And nearby-- we should go find him.
-                    if (this.Area == Party.PartyLeader.Area)
-                        Script.ActionMoveToObject(Party.PartyLeader.ObjectId, CLRScriptBase.TRUE, 1.0f);
 
-                    // Seems Glorious Leader isn't nearby. Bordering area, maybe?
-                    else
+                // We're not in a fight, but maybe our leader is.
+                if (this.Party.PartyLeader != null)
+                {
+                    if (this.Party.PartyLeader.HasCombatRoundProcess)
                     {
-                        foreach (AreaObject.AreaTransition Transition in Area.AreaTransitions)
+                        // And nearby-- we should go find him.
+                        if (this.Area == Party.PartyLeader.Area)
+                            Script.ActionMoveToObject(Party.PartyLeader.ObjectId, CLRScriptBase.TRUE, 1.0f);
+
+                        // Seems Glorious Leader isn't nearby. Bordering area, maybe?
+                        else
                         {
-                            if (Transition.TargetArea == PartyLeader.Area)
+                            if (Area.AreaTransitions.Count > 0)
                             {
-                                Script.ActionInteractObject(Transition.ObjectId);
+                                foreach (AreaObject.AreaTransition Transition in Area.AreaTransitions)
+                                {
+                                    if (Transition.TargetArea == PartyLeader.Area)
+                                    {
+                                        Script.ActionInteractObject(Transition.ObjectId);
+                                    }
+                                }
                             }
                         }
                     }
                 }
-                
+
                 // Guess no one we know is in trouble. Carry on.
                 else _AmbientBehavior();
             }
@@ -2277,11 +2286,6 @@ namespace ACR_CreatureBehavior
         /// The associated AI party, if any.
         /// </summary>
         public AIParty Party { get; set; }
-
-        /// <summary>
-        /// The area that the creature is currently in.
-        /// </summary>
-        public AreaObject Area { get; set; }
 
         /// <summary>
         /// The leader of the party, if any.
