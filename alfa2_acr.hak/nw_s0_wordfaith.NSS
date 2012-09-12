@@ -109,7 +109,7 @@ void main()
             {
                 if(GetRacialType(oTarget) == RACIAL_TYPE_OUTSIDER)
                 {
-                    if(!WillSave(oTarget, nSaveDC, nSaveType))
+                    if(!WillSave(oTarget, nSaveDC + 4, nSaveType))
                     {
                         ApplyEffectToObject(DURATION_TYPE_INSTANT, eDeath, oTarget);
                         ApplyEffectToObject(DURATION_TYPE_INSTANT, eVFX, oTarget);
