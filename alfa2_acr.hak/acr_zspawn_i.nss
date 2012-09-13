@@ -994,6 +994,8 @@ int SetRace(object oCreature, int nRace)
 		
 		FeatAdd(oCreature, 228, FALSE); // darkvision
 		FeatAdd(oCreature, 2179, FALSE); // Shadow touch attack
+
+                SetLocalString(oCreature, "ACR_CREATURE_BEHAVIOR", "BEHAVIOR_TYPE_TANK");
 		
 		UndeadEffects(oCreature);
 		IncorporealEffects(oCreature);
