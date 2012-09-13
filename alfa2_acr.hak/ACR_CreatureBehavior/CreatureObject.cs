@@ -62,7 +62,7 @@ namespace ACR_CreatureBehavior
             }
             if (this.Party == null)
             {
-                this.Party = new AIParty(Server.PartyManager);
+                new AIParty(Server.PartyManager).AddPartyMember(this);
             }
         }
 
@@ -154,6 +154,11 @@ namespace ACR_CreatureBehavior
                         this.Party.AddPartyEnemy(Caster);
                         this.Party.EnemySpellcasters.Add(Caster);
                         HasCombatRoundProcess = true;
+                        if (!UsingEndCombatRound)
+                        {
+                            Thread.Sleep(3000);
+                            if (!UsingEndCombatRound) SelectCombatRoundAction();
+                        }
                     }
                 }
             }
@@ -211,6 +216,11 @@ namespace ACR_CreatureBehavior
                 this.Party.AddPartyEnemy(Damager);
                 this.Party.EnemySpellcasters.Add(Damager);
                 HasCombatRoundProcess = true;
+                if (!UsingEndCombatRound)
+                {
+                    Thread.Sleep(3000);
+                    if (!UsingEndCombatRound) SelectCombatRoundAction();
+                }
             }            
         }
 
@@ -376,20 +386,22 @@ namespace ACR_CreatureBehavior
         private void OnPerceptionSeenObject(uint PerceivedObjectId,
             bool InitialDetection)
         {
-            CreatureObject SeenObject = Server.ObjectManager.GetCreatureObject(PerceivedObjectId);
+            CreatureObject SeenObject = Server.ObjectManager.GetCreatureObject(PerceivedObjectId, true);
 
 //===== If we just started seeing this person again, we need to process memberships. ====//
             if (InitialDetection)
             {
                 int nReputation = Script.GetReputation(this.ObjectId, PerceivedObjectId);
-
                 if (nReputation < 11)
                 {
                     if (Party.EnemiesLost.Contains(SeenObject))
-                    {
                         Party.EnemiesLost.Remove(SeenObject);
-                        Party.AddPartyEnemy(SeenObject);
-                        HasCombatRoundProcess = true;
+                    Party.AddPartyEnemy(SeenObject);
+                    HasCombatRoundProcess = true;
+                    if (!UsingEndCombatRound)
+                    {
+                        Thread.Sleep(3000);
+                        if (!UsingEndCombatRound) SelectCombatRoundAction();
                     }
                 }
                 else if (Script.GetFactionEqual(this.ObjectId, PerceivedObjectId) == CLRScriptBase.TRUE)
@@ -412,7 +424,7 @@ namespace ACR_CreatureBehavior
         private void OnPerceptionHeardObject(uint PerceivedObjectId,
             bool InitialDetection)
         {
-            CreatureObject SeenObject = Server.ObjectManager.GetCreatureObject(PerceivedObjectId);
+            CreatureObject SeenObject = Server.ObjectManager.GetCreatureObject(PerceivedObjectId, true);
 
 //===== If we just started hearing this person again, we need to process memberships. ====//
             if (InitialDetection)
@@ -426,6 +438,11 @@ namespace ACR_CreatureBehavior
                         Party.EnemiesLost.Remove(SeenObject);
                         Party.AddPartyEnemy(SeenObject);
                         HasCombatRoundProcess = true;
+                        if (!UsingEndCombatRound)
+                        {
+                            Thread.Sleep(3000);
+                            if (!UsingEndCombatRound) SelectCombatRoundAction();
+                        }
                     }
                 }
                 else if (Script.GetFactionEqual(this.ObjectId, PerceivedObjectId) == CLRScriptBase.TRUE)
@@ -640,20 +657,6 @@ namespace ACR_CreatureBehavior
             RefreshNegativeStatuses();
             #endregion
 
-            #region Early Returns: Can't Act; Constructs
-            // Can't do anything. Might as well give up early and pray there's help on the way.
-            if (!CanAct())
-                return;
-
-            // We're mindless, and thus too stupid to do anything special. Hit the nearest bad guy.
-            if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_MINDLESS)
-            {
-                CreatureObject AttackTarget = Party.GetNearest(this, Party.Enemies);
-                _AttackWrapper(AttackTarget);
-                return;
-            }
-            #endregion
-
             #region Specify panic behavior due to injury
             int nWellBeing = HealthPercentage;
             int nMissingHitPoints = MaxHitPoints - CurrentHitPoints;
@@ -666,7 +669,7 @@ namespace ACR_CreatureBehavior
                 UsingEndCombatRound = false;
                 CreatureObject Healer = Party.GetNearest(this, Party.PartyMedics);
                 // Everyone gather around the healer; he or she might be using mass heals.
-                if(Healer != null)
+                if (Healer != null)
                     Script.ActionMoveToObject(Healer.ObjectId, CLRScriptBase.TRUE, 1.0f);
                 if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_MEDIC &&
                     CurrentAction == CLRScriptBase.ACTION_INVALID)
@@ -710,6 +713,22 @@ namespace ACR_CreatureBehavior
 
                 if (TryToHeal(this, nMissingHitPoints)) return;
             }
+
+            #region Early Returns: Can't Act; Constructs
+            // Can't do anything. Might as well give up early and pray there's help on the way.
+            if (!CanAct())
+            {
+                return;
+            }
+
+            // We're mindless, and thus too stupid to do anything special. Hit the nearest bad guy.
+            if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_MINDLESS)
+            {
+                CreatureObject AttackTarget = Party.GetNearest(this, Party.Enemies);
+                _AttackWrapper(AttackTarget);
+                return;
+            }
+            #endregion
 
             // Bad enough to self heal?
             else if (nWellBeing < 50)
@@ -1746,7 +1765,19 @@ namespace ACR_CreatureBehavior
         /// <returns>true if the attack is successfully staged</returns>
         public bool _AttackWrapper(CreatureObject AttackTarget)
         {
-            Script.ActionAttack(AttackTarget.ObjectId, CLRScriptBase.FALSE);
+            if (Script.GetIsObjectValid(AttackTarget.ObjectId) == CLRScriptBase.TRUE)
+            {
+                if (Script.GetHasFeat(2179, ObjectId, CLRScriptBase.TRUE) == CLRScriptBase.TRUE) // Shadow touch attack
+                {
+                    Script.ActionUseTalentOnObject(Script.TalentFeat(2179), AttackTarget.ObjectId);
+                    return true;
+                }
+                else
+                {
+                    Script.ActionAttack(AttackTarget.ObjectId, CLRScriptBase.FALSE);
+                    return true;
+                }
+            }
             return false;
         }
 
@@ -1768,7 +1799,7 @@ namespace ACR_CreatureBehavior
         /// <param name="WaitForDeath">If set to false, the creature will wait until Reason is destroyed before switching back to melee</param>
         private void _TemporaryRangedCombat(uint Reason, bool WaitForDeath = false)
         {
-
+            TryToAttackRanged();
         }
 
         /// <summary>
@@ -2381,5 +2412,7 @@ namespace ACR_CreatureBehavior
         const string EFFECT_PHYSICAL = "_EFFECT_PHYSICAL";
         const string EFFECT_DAMAGE = "_EFFECT_DAMAGE";
         #endregion
+
+        bool debug = true;
     }
 }
