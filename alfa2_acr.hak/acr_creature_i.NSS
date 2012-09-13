@@ -156,6 +156,13 @@ void ACR_CreatureOnSpawnIn()
 	SetIdentified(GetItemInSlot(INVENTORY_SLOT_RIGHTHAND), TRUE);
 	SetIdentified(GetItemInSlot(INVENTORY_SLOT_RIGHTRING), TRUE);
 	
+    if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+    {
+        AddScriptParameterInt(0);
+        ExecuteScriptEnhanced("acr_creaturebehavior", OBJECT_SELF, TRUE);
+        return;
+    }
     
     // Scavenged code from nw_c2_default9.nss 
     // ---------- Begin scavenged code --------------------
@@ -201,6 +208,13 @@ void ACR_CreatureOnSpellCastAt()
 
     // apply any effects on the creature
     //ACR_VFXOnSpellCastAt(oCaster, OBJECT_SELF);
+    if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+    {
+        AddScriptParameterInt(1);
+        ExecuteScriptEnhanced("acr_creaturebehavior", OBJECT_SELF, TRUE);
+        return;
+    }
     if (GetLocalInt(OBJECT_SELF, _CRE_NO_AI) == FALSE) {
     	// still call the Obsidian script for AI for now.
     	ExecuteScript("nw_c2_defaultb", OBJECT_SELF);  
@@ -216,6 +230,13 @@ void ACR_CreatureOnPhysicallyAttacked()
     
     // apply any effects on the creature
     //ACR_VFXOnAttack(oAttacker, OBJECT_SELF);
+    if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+    {
+        AddScriptParameterInt(2);
+        ExecuteScriptEnhanced("acr_creaturebehavior", OBJECT_SELF, TRUE);
+        return;
+    }
     if (GetLocalInt(OBJECT_SELF, _CRE_NO_AI) == FALSE) { 
    		// still call the Obsidian script for AI for now.
     	ExecuteScript("nw_c2_default5", OBJECT_SELF);
@@ -230,6 +251,14 @@ void ACR_CreatureOnDamaged()
 	
 	// I've probably been spotted. Get out of modes that keep me from running.
 	_startRunning();
+
+    if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+    {
+        AddScriptParameterInt(3);
+        ExecuteScriptEnhanced("acr_creaturebehavior", OBJECT_SELF, TRUE);
+        return;
+    }
     
     // apply any effects on the creature
     //ACR_VFXOnDamage(oDamager, OBJECT_SELF);
@@ -268,10 +297,25 @@ void ACR_CreatureOnDeath()
 
     // process bounties
     ACR_QuestCreatureOnDeath(oKiller);
+
+    if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+    {
+        AddScriptParameterInt(4);
+        ExecuteScriptEnhanced("acr_creaturebehavior", OBJECT_SELF, TRUE);
+        return;
+    }
 }
 
 void ACR_CreatureOnBlocked()
 {
+    if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+    {
+        AddScriptParameterInt(5);
+        ExecuteScriptEnhanced("acr_creaturebehavior", OBJECT_SELF, TRUE);
+        return;
+    }
 	if (GetLocalInt(OBJECT_SELF, _CRE_NO_AI) == FALSE) {
     	// still call the Obsidian script for AI for now.
     	ExecuteScript("nw_c2_defaulte", OBJECT_SELF);
@@ -280,6 +324,13 @@ void ACR_CreatureOnBlocked()
 
 void ACR_CreatureOnEndCombatRound()
 {
+    if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+    {
+        AddScriptParameterInt(6);
+        ExecuteScriptEnhanced("acr_creaturebehavior", OBJECT_SELF, TRUE);
+        return;
+    }
 	if (GetLocalInt(OBJECT_SELF, _CRE_NO_AI) == FALSE) {
     	// still call the Obsidian script for AI for now.
     	ExecuteScript("nw_c2_default3", OBJECT_SELF);
@@ -288,6 +339,13 @@ void ACR_CreatureOnEndCombatRound()
 
 void ACR_CreatureOnConversation()
 {
+    if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+    {
+        AddScriptParameterInt(7);
+        ExecuteScriptEnhanced("acr_creaturebehavior", OBJECT_SELF, TRUE);
+        return;
+    }
     if (GetLocalInt(OBJECT_SELF, _CRE_NO_AI) == FALSE) {
     	// still call the Obsidian script for AI for now.
     	ExecuteScript("nw_c2_default4", OBJECT_SELF);
@@ -301,6 +359,13 @@ void ACR_CreatureOnInventoryDisturbed()
     // apply any effects on the creature
     ACR_VFXOnDisturb(oDisturber, OBJECT_SELF);
 
+    if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+    {
+        AddScriptParameterInt(8);
+        ExecuteScriptEnhanced("acr_creaturebehavior", OBJECT_SELF, TRUE);
+        return;
+    }
     if (GetLocalInt(OBJECT_SELF, _CRE_NO_AI) == FALSE) {	    
     	// still call the Obsidian script for AI for now.
     	ExecuteScript("nw_c2_default8", OBJECT_SELF);
@@ -362,6 +427,13 @@ void ACR_CreatureOnHeartBeat()
         // apply any effects on the creature
         ACR_VFXOnHeartBeat(OBJECT_SELF);
     */
+    if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+    {
+        AddScriptParameterInt(9);
+        ExecuteScriptEnhanced("acr_creaturebehavior", OBJECT_SELF, TRUE);
+        return;
+    }
 	if (GetLocalInt(OBJECT_SELF, _CRE_NO_AI) == FALSE) {
         // still call the Obsidian script for AI for now.
         ExecuteScript("nw_c2_default1", OBJECT_SELF);
@@ -371,6 +443,13 @@ void ACR_CreatureOnHeartBeat()
 
 void ACR_CreatureOnRested()
 {
+    if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+    {
+        AddScriptParameterInt(10);
+        ExecuteScriptEnhanced("acr_creaturebehavior", OBJECT_SELF, TRUE);
+        return;
+    }
     if (GetLocalInt(OBJECT_SELF, _CRE_NO_AI) == FALSE) {
     	// still call the Obsidian script for AI for now.
     	ExecuteScript("nw_c2_defaulta", OBJECT_SELF);
@@ -381,6 +460,13 @@ void ACR_CreatureOnPerception()
 {
     object oPerceived = GetLastPerceived();
 
+    if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+    {
+        AddScriptParameterInt(11);
+        ExecuteScriptEnhanced("acr_creaturebehavior", OBJECT_SELF, TRUE);
+        return;
+    }
     // apply any effects on the creature
     //ACR_VFXOnPerception(oPerceived, OBJECT_SELF);
     if (GetLocalInt(OBJECT_SELF, _CRE_NO_AI) == FALSE) {    
@@ -391,6 +477,13 @@ void ACR_CreatureOnPerception()
 
 void ACR_CreatureOnUserDefined()
 {
+    if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+    {
+        AddScriptParameterInt(12);
+        ExecuteScriptEnhanced("acr_creaturebehavior", OBJECT_SELF, TRUE);
+        return;
+    }
     if (GetLocalInt(OBJECT_SELF, _CRE_NO_AI) == FALSE) {
     	// still call the Obsidian script for AI for now.
     	ExecuteScript("nw_c2_defaultd", OBJECT_SELF);
