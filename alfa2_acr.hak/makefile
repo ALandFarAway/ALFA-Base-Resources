@@ -574,7 +574,9 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_msgboard.ncs                      \
             $(OUTPUTDIR)\gui_startboard.ncs                    \
             $(OUTPUTDIR)\gui_bhvr_update.ncs                   \
-            $(OUTPUTDIR)\gui_bhvr_hench_change.ncs             
+            $(OUTPUTDIR)\gui_bhvr_hench_change.ncs             \
+            $(OUTPUTDIR)\nw_s0_darkvis.ncs                     \
+            $(OUTPUTDIR)\nw_s0_lowltvisn.ncs                   
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and
