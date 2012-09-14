@@ -145,10 +145,14 @@ void _GiveSkillFocusBonus( object oPC, object oHide, int nFeat, int nSkill ) {
 	
 	// The property.
 	itemproperty ipSkillFocus = ItemPropertySkillBonus( nSkill, 3 );
+
+	// Marker that this feat is enabled.
+	itemproperty ipFeat = ItemPropertyVisualEffect(IP_FEAT_OFFSET + nFeat);
 	
 	// Has this feat already been handled?
-	if ( IPGetItemHasProperty( oHide, ipSkillFocus, DURATION_TYPE_PERMANENT ) ) return;
+	if ( IPGetItemHasProperty( oHide, ipFeat, DURATION_TYPE_PERMANENT ) ) return;
 	
-	// Add the property.
+	// Add the properties.
 	AddItemProperty( DURATION_TYPE_PERMANENT, ipSkillFocus, oHide );
+	AddItemProperty( DURATION_TYPE_PERMANENT, ipFeat, oHide );
 }
