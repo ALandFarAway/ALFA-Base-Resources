@@ -56,10 +56,6 @@ const int CLASS_MYSTICTHEURGE = 44;
 const int RACIAL_TYPE_PLANT = 22;
 
 
-// Item Property Feats:
-const int IP_CONST_FEAT_DARKVISION = 500;
-
-
 // Action Modes:
 const int ACTION_MODE_DARKVISION = 24;
 
@@ -275,6 +271,29 @@ const int FEAT_REGION_WESTERN_HEARTLANDS = 3559;
 const int FEAT_REGION_WIZARDS_REACH = 3571;
 const int FEAT_REGION_OTHER = 3560;
 
+// Standard and Background feats
+const int FEAT_COSMOPOLITAN      = 2600;
+const int FEAT_DISCIPLINE        = 2601;
+const int FEAT_FEARLESS_BK       = 2602;
+const int FEAT_FORGEHEART        = 2603;
+const int FEAT_FORESTER          = 2604;
+const int FEAT_SPELLWISE         = 2605;
+const int FEAT_STREET_SMART      = 2606;
+const int FEAT_SUREFOOTED        = 2607;
+const int FEAT_SURVIVOR          = 2608;
+const int FEAT_TREETOPPER        = 2609;
+
+const int FEAT_ACROBATIC         = 2610;
+const int FEAT_AGILE             = 2611;
+const int FEAT_ANIMAL_AFFINITY   = 2612;
+const int FEAT_ATHLETIC          = 2613;
+const int FEAT_DECEITFUL         = 2614;
+const int FEAT_DEFT_HANDS        = 2615;
+const int FEAT_DILIGENT          = 2616;
+const int FEAT_INVESTIGATOR      = 2617;
+const int FEAT_MAGICAL_APTITUDE  = 2618;
+const int FEAT_PERSUASIVE        = 2619;
+
 // Skill focus feats.
 const int FEAT_SKILL_FOCUS_BALANCE = 3630;
 const int FEAT_SKILL_FOCUS_CLIMB = 3631;
@@ -465,6 +484,11 @@ int ITEM_PROPERTY_MATERIAL = 208;
 int ITEM_PROPERTY_AMBIENT_COLD_PROTECTION = 209;
 int ITEM_PROPERTY_CRAFTING_PROJECT = 126;
 int ITEM_PROPERTY_FEATHER_FALL = 127;
+int IP_FEAT_OFFSET = 10000;
+
+// Item Property Feats:
+const int IP_CONST_FEAT_DARKVISION = 500;
+const int IP_CONST_FEAT_LOWLIGHTVISION = 501;
 
 const int IPRP_FEATS_ALERTNESS = 0;
 const int IPRP_FEATS_COMBAT_CASTING = 3;
