@@ -128,5 +128,5 @@
 		border=32 />
 	
 	<UIFrame name="FILL_BG" x=6 y=6 height=407 width=512
-		fill="bg_60_alpha.tga" fillstyle=tile />
+		fill="acr_black.tga" fillstyle=tile />
 

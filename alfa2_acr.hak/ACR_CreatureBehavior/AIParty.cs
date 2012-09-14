@@ -80,7 +80,7 @@ namespace ACR_CreatureBehavior
                 if (!Enum.TryParse<AIParty.AIType>(Tactics.ToUpper(), out TacticsType))
                     TacticsType = AIType.BEHAVIOR_TYPE_UNDEFINED;
             }
-            if(TacticsType != 0)
+            if(TacticsType != AIType.BEHAVIOR_TYPE_UNDEFINED)
             {
                 if(TacticsType == AIType.BEHAVIOR_TYPE_ANIMAL)
                 {
@@ -145,11 +145,11 @@ namespace ACR_CreatureBehavior
                 else
                 {
                     TacticsType = AIType.BEHAVIOR_TYPE_UNDEFINED;
-                    throw new ApplicationException(String.Format("Creature {0} has an AI type {1} defined, but that type is not understood by CreatureBehavior.", Creature, TacticsType));
+                    Creature.Script.SendMessageToAllDMs(String.Format("** ERROR ** : {0} has an AI type {1} defined, but that type is not understood by ACR_CreatureBehavior. This creature DOES NOT KNOW HOW TO FIGHT, and needs to be despawned.", Creature, TacticsType));
+                    throw new ApplicationException(String.Format("Creature {0} has an AI type {1} defined, but that type is not understood by ACR_CreatureBehavior.", Creature, TacticsType));
                 }
             }
-
-            if (TacticsType == 0)
+            else if (TacticsType == AIType.BEHAVIOR_TYPE_UNDEFINED)
             {
 //==================================================================================================================================================
 //                                         Maybe this is an easy question. Is the creature stupid?
@@ -182,7 +182,7 @@ namespace ACR_CreatureBehavior
                     int Skirm = 0;
                     int Arch = 0;
                     int Cont = 0;
-                    for (int nClassPosition = 0; nClassPosition < 5; nClassPosition++)
+                    for (int nClassPosition = 0; nClassPosition < 4; nClassPosition++)
                     {
                         int nClass = Creature.Script.GetClassByPosition(nClassPosition, Creature.ObjectId);
                         int nClassLevel = Creature.Script.GetLevelByClass(nClass, Creature.ObjectId);
