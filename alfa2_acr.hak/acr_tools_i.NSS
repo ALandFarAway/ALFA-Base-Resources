@@ -1761,11 +1761,11 @@ int ACR_GetArmorRulesType(object oItem)
 
 int ACR_GetArmorCheckPenalty(int nType)
 {
-	string dict = "armorrulesstats-ACCHECK";
+	string dict = "armorrulestats-ACCHECK";
 
 	if (!ACR_CheckIsReady2daList(dict)) {
 		if (!ACR_CheckIsStarted2daList(dict)) {
-			ACR_Cache2daListing("armorrulesstats", "ACCHECK", dict, 100, 0);
+			ACR_Cache2daListing("armorrulestats", "ACCHECK", dict, 50, 0);
 		}
 	}
 
