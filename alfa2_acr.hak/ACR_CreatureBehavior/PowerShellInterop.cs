@@ -21,7 +21,10 @@ namespace ACR_CreatureBehavior
 {
     /// <summary>
     /// This class is used to expose methods and functionality to PowerShell
-    /// scriptlets.
+    /// scriptlets.  Note that methods on this object are called without there
+    /// necessarily being a valid current script object on the
+    /// ACR_CreatureBehavior object, so only local properties are generally
+    /// accessible.
     /// </summary>
     public class PowerShellInterop
     {
