@@ -90,6 +90,8 @@ namespace ACR_CreatureBehavior
         /// known to have an already existing object state.</returns>
         public GameObject GetGameObject(uint ObjectId)
         {
+            ObjectId &= 0x7FFFFFFF;
+
             return Server.ObjectManager.GetGameObjectUnsafe(ObjectId);
         }
 
