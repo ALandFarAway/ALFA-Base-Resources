@@ -39,6 +39,8 @@ namespace ACR_CreatureBehavior
             foreach (uint AreaObjectId in Script.GetAreas())
             {
                 AreaObject Area = new AreaObject(AreaObjectId, ObjectManager);
+
+                Areas.Add(Area);
             }
         }
 
@@ -50,6 +52,8 @@ namespace ACR_CreatureBehavior
         public AreaObject AddInstancedArea(uint AreaObjectId)
         {
             AreaObject Area = new AreaObject(AreaObjectId, ObjectManager);
+
+            Areas.Add(Area);
 
             return Area;
         }

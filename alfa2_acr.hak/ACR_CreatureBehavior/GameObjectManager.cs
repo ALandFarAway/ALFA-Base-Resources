@@ -170,6 +170,43 @@ namespace ACR_CreatureBehavior
 
 
         /// <summary>
+        /// Return an enumerator over all of the GameObject instances in the
+        /// system.  Note that this enumerator does NOT check for deleted
+        /// objects that need garbage collection!  It is intended only for use
+        /// by the PowerShell diagnostics interop infrastructure.  Use the
+        /// standard Get*Object interfaces instead otherwise.
+        /// </summary>
+        /// <returns>The list of known GameObject instances.  There may be
+        /// stale or deleted (as far as the engine is concerned) objects in the
+        /// list.</returns>
+        internal ICollection<GameObject> GetGameObjectsUnsafe()
+        {
+            return GameObjectTable.Values;
+        }
+
+        /// <summary>
+        /// Resolve an object ID to a GameObject without checking for deleted
+        /// objects that need garbage collection.  This function should only
+        /// be used by the PowerShell diagnostics infrastructure.
+        /// </summary>
+        /// <param name="ObjectId">Supplies the object id to look up.</param>
+        /// <returns>The object in question, else null.</returns>
+        internal GameObject GetGameObjectUnsafe(uint ObjectId)
+        {
+            GameObject GameObj;
+
+            if (ObjectId == CLRScriptBase.OBJECT_INVALID)
+                return null;
+
+            if (!GameObjectTable.TryGetValue(ObjectId, out GameObj))
+                return null;
+
+            return GameObj;
+        }
+
+
+
+        /// <summary>
         /// Called during initial script object initialization to set up the
         /// periodic garbage collection of objects to delete from the
         /// object dictionary.

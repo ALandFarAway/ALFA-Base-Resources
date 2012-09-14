@@ -68,6 +68,7 @@
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjectManager.cs" />
     <Compile Include="ModuleObject.cs" />
+    <Compile Include="PowerShellInterop.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="StandardEntrypoints.cs" />
     <Compile Include="TransitionSource.cs" />

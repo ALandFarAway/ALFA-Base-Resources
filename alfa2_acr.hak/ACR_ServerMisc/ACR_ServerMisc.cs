@@ -473,8 +473,6 @@ namespace ACR_ServerMisc
         /// </param>
         private void DictionaryClear(string DictID)
         {
-            SortedDictionary<string, string> Dict;
-
             StorageList.Remove(DictID);
             StorageIteratorList.Remove(DictID);
         }
@@ -495,16 +493,18 @@ namespace ACR_ServerMisc
 
             try
             {
-                Script = "Param([Parameter()] $s, [Parameter()] [System.UInt32] $OBJECT_SELF, [Parameter()] [System.UInt32] $OBJECT_INVALID, [Parameter()] $sql)" + Script;
+                Script = "Param([Parameter()] $s, [Parameter()] [System.UInt32] $OBJECT_SELF, [Parameter()] [System.UInt32] $OBJECT_INVALID, [Parameter()] $sql, [Parameter()] $CreatureAI)" + Script;
 
                 using (PowerShell Shell = PowerShell.Create())
                 {
                     Dictionary<string, object> Arguments = new Dictionary<string, object>();
+                    object CreatureAIServer = GetCreatureAIServer();
 
                     Arguments["s"] = this;
                     Arguments["OBJECT_SELF"] = PCObjectID;
                     Arguments["OBJECT_INVALID"] = OBJECT_INVALID;
                     Arguments["sql"] = GetDatabase();
+                    Arguments["CreatureAI"] = CreatureAIServer;
 
                     Shell.AddScript(Script);
                     Shell.AddParameters(Arguments);
@@ -552,6 +552,53 @@ namespace ACR_ServerMisc
         }
 
         /// <summary>
+        /// Get an instance of the ACR_CreatureBehavior.PowerShellInterop.
+        /// </summary>
+        /// <returns>An ACR_CreatureBehavior.PowerShellInterop on success, else
+        /// null failure.</returns>
+        private object GetCreatureAIServer()
+        {
+            Assembly CreatureBehaviorAsm;
+            string AsmName;
+            object AIServer;
+
+            if (CreatureAIServer != null)
+                return CreatureAIServer;
+
+            AsmName = "ACR_CreatureBehavior, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
+            CreatureBehaviorAsm = (from LoadedAsm in AppDomain.CurrentDomain.GetAssemblies()
+                                   where LoadedAsm.FullName == AsmName
+                                   select LoadedAsm).FirstOrDefault();
+
+            if (CreatureBehaviorAsm == null)
+                return null;
+
+            try
+            {
+                AIServer = CreatureBehaviorAsm.CreateInstance(
+                    "ACR_CreatureBehavior.PowerShellInterop",
+                    false,
+                    BindingFlags.CreateInstance,
+                    null,
+                    null,
+                    null,
+                    null);
+
+                CreatureAIServer = AIServer;
+            }
+            catch (Exception e)
+            {
+                WriteTimestampedLogEntry(String.Format(
+                    "ACR_ServerMisc.GetCreatureAIServer(): Exception creating ACR_CreatureBehavior interop object: {0}",
+                    e));
+
+                AIServer = null;
+            }
+
+            return AIServer;
+        }
+
+        /// <summary>
         /// Define type codes for requests to ScriptMain.
         /// </summary>
         private enum REQUEST_TYPE
@@ -580,6 +627,11 @@ namespace ACR_ServerMisc
         /// The interop SQL database instance is stored here.
         /// </summary>
         private ALFA.Database Database = null;
+
+        /// <summary>
+        /// The creature AI server object type.
+        /// </summary>
+        private static object CreatureAIServer = null;
 
         /// <summary>
         /// The list of free instance areas (for a given template area) is
