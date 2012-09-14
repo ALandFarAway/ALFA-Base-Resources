@@ -781,20 +781,18 @@ void ACR_RandomizeAppearance(object oSpawn,int nHead = ACR_FEATURE_TYPE_RANDOM,i
 
 void ResetModel(object oCreature)
 {
-	object oOld, oNew, oCopy;
+	object oOld, oNew;
 	location l;
 
 	oOld = GetItemInSlot(INVENTORY_SLOT_BOOTS, oCreature);
 
 	l = GetLocation(oCreature);
 
-	oNew = CreateObject(OBJECT_TYPE_ITEM, "paladinboots", l, 0);
-	oCopy = CopyItem(oNew, oCreature, 0);
-	ACR_IgnoreAcquire(oCopy);
-	DestroyObject(oNew);
-	DestroyObject(oCopy, 0.75f);
+	oNew = CreateItemOnObject("paladinboots", oCreature);
+	ACR_IgnoreAcquire(oNew);
+	DestroyObject(oNew, 0.75f);
 
-	AssignCommand(oCreature, ActionEquipItem(oCopy, INVENTORY_SLOT_BOOTS));
+	AssignCommand(oCreature, ActionEquipItem(oNew, INVENTORY_SLOT_BOOTS));
 	
 	if (oOld != OBJECT_INVALID)
 		AssignCommand(oCreature, DelayCommand(0.5f, ActionEquipItem(oOld, INVENTORY_SLOT_BOOTS)));
