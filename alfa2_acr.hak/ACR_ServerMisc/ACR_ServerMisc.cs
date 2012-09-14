@@ -498,13 +498,13 @@ namespace ACR_ServerMisc
                 using (PowerShell Shell = PowerShell.Create())
                 {
                     Dictionary<string, object> Arguments = new Dictionary<string, object>();
-                    object CreatureAIServer = GetCreatureAIServer();
+                    object AIServer = GetCreatureAIServer();
 
                     Arguments["s"] = this;
                     Arguments["OBJECT_SELF"] = PCObjectID;
                     Arguments["OBJECT_INVALID"] = OBJECT_INVALID;
                     Arguments["sql"] = GetDatabase();
-                    Arguments["CreatureAI"] = CreatureAIServer;
+                    Arguments["CreatureAI"] = AIServer;
 
                     Shell.AddScript(Script);
                     Shell.AddParameters(Arguments);
