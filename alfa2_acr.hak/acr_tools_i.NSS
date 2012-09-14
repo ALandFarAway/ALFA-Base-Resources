@@ -95,6 +95,7 @@ const int ARMOR_TYPE_HEAVY = 4;
 const float MATH_CONSTANT_E = 2.718281828459045235360287471352662497757247093699959574966;
 
 location LOCATION_INVALID;
+itemproperty IP_INVALID;
 
 
 const float ACR_LOCATION_SEARCH_RADIUS = 2.0f;
@@ -392,6 +393,12 @@ string SafeGetVariableValueString(object oObject, int nIndex);
 //!             Also returns 0 when oItem is cloth armor!
 int ACR_GetArmorRulesType(object oItem);
 
+//! Wrapper for Get2DAString for querying armorsstats.2da's ACCHECK column
+//!  - nType: Armor type, armorrulesstats.2da row
+//!  - Returns: Armor Check Penalty (negative) of Armor type.
+//!             Returns 0 on error or non-negative ACP
+int ACR_GetArmorCheckPenalty(int nType);
+
 //! Wrapper for ApplyEffectAtLocation that returns the created area of effect
 //  object.
 //!  - nDurationType: the duration type.
@@ -496,7 +503,8 @@ void ACR_IgnoreAcquire(object o);
 //!  - col_name: Column name in 2da to cache.
 //!  - dict_name: DictionaryID in which to place cache.
 //!  - max_id: Maximum ID in 2da to cache.
-void ACR_Cache2daListing(string file_2da, string col_name, string dict_name, int max_id);
+//!  - delay: Allow delayed computation for caching
+void ACR_Cache2daListing(string file_2da, string col_name, string dict_name, int max_id, int delay=1);
 
 //! Check if dic_name 2da list has started caching
 int ACR_CheckIsStarted2daList(string dict_name);
@@ -1751,6 +1759,19 @@ int ACR_GetArmorRulesType(object oItem)
 		return GetArmorRulesType(oItem);
 }
 
+int ACR_GetArmorCheckPenalty(int nType)
+{
+	string dict = "armorrulesstats-ACCHECK";
+
+	if (!ACR_CheckIsReady2daList(dict)) {
+		if (!ACR_CheckIsStarted2daList(dict)) {
+			ACR_Cache2daListing("armorrulesstats", "ACCHECK", dict, 100, 0);
+		}
+	}
+
+	return StringToInt(ACR_DictionaryGet(dict, IntToString(nType)));
+}
+
 object ACR_ApplyEffectAtLocation(int nDurationType, effect eEffect, location lLocation, float fDuration = 0.0f)
 {
 	object NextObject = CreateObject(OBJECT_TYPE_WAYPOINT, "nw_waypoint001", GetStartingLocation(), FALSE);
@@ -2150,10 +2171,16 @@ void ACR__Cache2daListing(string file_2da, string col_name, string dict_name, in
 		ACR_DictionarySet(dict_name, LIST_2DA_READY, "true");
 }
 
-void ACR_Cache2daListing(string file_2da, string col_name, string dict_name, int max_id)
+void ACR_Cache2daListing(string file_2da, string col_name, string dict_name, int max_id, int delay)
 {
+	int step_size = 250;
+
 	ACR_DictionarySet(dict_name, LIST_2DA_STARTED, "true");
 
-	DelayCommand(0.1f, ACR__Cache2daListing(file_2da, col_name, dict_name, max_id, 0, 100));
+	if (!delay)
+		step_size = max_id;
+
+	ACR__Cache2daListing(file_2da, col_name, dict_name, max_id, 0, step_size);
 }
+
 
