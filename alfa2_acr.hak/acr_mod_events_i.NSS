@@ -308,7 +308,7 @@ void _updatePlayerGUIs( object oPC );
 
 // This is needed to establish the server and gameobject structures that 
 // ACR_CreatureBehavior uses.
-ACR_InitializeCreatureBehavior();
+void ACR_InitializeCreatureBehavior();
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -1710,8 +1710,8 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts()
 
 // This is needed to establish the server and gameobject structures that 
 // ACR_CreatureBehavior uses.
-ACR_InitializeCreatureBehavior()
+void ACR_InitializeCreatureBehavior()
 {
     AddScriptParameterInt(100); // Is CREATUREBEHAVIOR_MODULE_ON_STARTED; acr_creature_i was being mean, so has to be magic numbered.
-    ExecuteScriptEnhanced("acr_creaturebehavior", oCreature, TRUE);
+    ExecuteScriptEnhanced("acr_creaturebehavior", GetModule(), TRUE);
 }
