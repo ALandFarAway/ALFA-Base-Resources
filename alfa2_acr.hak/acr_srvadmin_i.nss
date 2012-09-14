@@ -332,7 +332,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 	else
 	{
 		ACR_SrvAdmin_SendFeedback(oPC, "Unrecognized command.  Legal commands include:");
-		ACR_SrvAdmin_SendFeedback(oPC, " - rs <scriptlet> : Run a PowerShell/NWScript scriptlet.  The $s object can be used to access NWScript functions, like $s.SendMessageToPC($OBJECT_SELF, 'Message');.  The $sql object (an ALFA.Database) can be used to make database accesses.  The $CreatureAI object can be used to interface with the creature AI systme.");
+		ACR_SrvAdmin_SendFeedback(oPC, " - rs <scriptlet> : Run a PowerShell/NWScript scriptlet.  The $s object can be used to access NWScript functions, like $s.SendMessageToPC($OBJECT_SELF, 'Message');.  The $sql object (an ALFA.Database) can be used to make database accesses.  The $CreatureAI object can be used to interface with the creature AI system.");
 		ACR_SrvAdmin_SendFeedback(oPC, " - runscript <scriptname> : Run a script by name.");
 		ACR_SrvAdmin_SendFeedback(oPC, " - getglobalint <var> : Read a variable.");
 		ACR_SrvAdmin_SendFeedback(oPC, " - getglobalfloat <var> : Read a variable.");
