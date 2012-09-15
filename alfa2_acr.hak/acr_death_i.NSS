@@ -421,7 +421,15 @@ void ACR_PlayerOnDying(object oPC, object oLastAttacker)
     SetActionMode(oPC, ACTION_MODE_PARRY, FALSE);
     SetActionMode(oPC, ACTION_MODE_COMBAT_EXPERTISE, FALSE);
     SetActionMode(oPC, ACTION_MODE_IMPROVED_COMBAT_EXPERTISE, FALSE);
-    SetActionMode(oPC, ACTION_MODE_DEFENSIVE_CAST, FALSE);	
+    SetActionMode(oPC, ACTION_MODE_DEFENSIVE_CAST, FALSE);
+    effect eEffect = GetFirstEffect(oPC);
+    while(GetIsEffectValid(eEffect))
+    {
+        if(GetEffectType(eEffect) == EFFECT_TYPE_GREATERINVISIBILITY ||
+           GetEffectType(eEffect) == EFFECT_TYPE_INVISIBILITY)
+            RemoveEffect(oPC, eEffect);
+        eEffect = GetNextEffect(oPC);
+    }
     ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectVisualEffect(VFX_COM_BLOOD_REG_RED), oPC);
     PlayCustomAnimation(oPC, "proneb", 1);
     //DelayCommand(0.1, SetCommandable(FALSE, oPC));
