@@ -336,7 +336,27 @@ void ACR_CorrectXPTotals(object oPC) {
 
 int ACR_GetECL(object oTarget)
 {
-    return (GetHitDice(oTarget) + StringToInt(Get2DAString("RacialSubTypes", "ECL", GetSubRace(oTarget))));
+    int nXP = GetXP(oTarget);
+    if(nXP < 1000) return 1;
+    if(nXP < 3000) return 2;
+    if(nXP < 6000) return 3;
+    if(nXP < 10000) return 4;
+    if(nXP < 15000) return 5;
+    if(nXP < 21000) return 6;
+    if(nXP < 28000) return 7;
+    if(nXP < 36000) return 8;
+    if(nXP < 45000) return 9;
+    if(nXP < 55000) return 10;
+    if(nXP < 66000) return 11;
+    if(nXP < 78000) return 12;
+    if(nXP < 91000) return 13;
+    if(nXP < 105000) return 14;
+    if(nXP < 120000) return 15;
+    if(nXP < 136000) return 16;
+    if(nXP < 153000) return 17;
+    if(nXP < 171000) return 18;
+    if(nXP < 190000) return 19;
+    return 20;
 }
 
 int ACR_ProcessLevelUpAttempt(object oPC) {
