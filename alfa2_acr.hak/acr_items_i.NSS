@@ -34,6 +34,7 @@
 #include "acr_quest_i"
 #include "acr_tools_i"
 #include "acr_combat_actions_i"
+#include "acr_pchide_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -63,6 +64,9 @@ const int ACR_VFX_POS_EARRINGS = 2000;         // for activatable earring VFX
 const int ACR_VFX_POS_EAR_LEFT = 2001;
 const int ACR_VFX_POS_EAR_RIGHT = 2002;
 
+
+int ACR_IP_ACP_OFFSET = 7 + IP_MISC_OFFSET;
+
 //! Constant strings for VFX variables
 const string ACR_VFX_NAME = "ACR_VFX_NAME";
 const string ACR_VFX_POS = "ACR_VFX_POS";
@@ -78,6 +82,9 @@ const string ACR_VFX_POS = "ACR_VFX_POS";
 ////////////////////////////////////////////////////////////////////////////////
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+// Public
+//
 
 //! Handles equipping of items.
 void ACR_ItemOnEquip(object oItem, object oPC);
@@ -97,9 +104,71 @@ void ACR_ItemOnActivate(object oItem, object oPC, object oTarget, location lAime
 //! Checks all items in the inventory for an active item property.
 int ACR_HasActiveItemProperty( object oPC, int nItemProperty, int bFullCheck = FALSE );
 
+
+// Private
+//
+
+//! Apply ACP effect for armor (double swim)
+void _RecalcACP(object oPC);
+
+//! Apply ACP effect for armor
+void _ApplyACPSwim(object oItem, object oPC);
+
+//! Remove ACP effect for armor
+void _RemoveACPSwim(object oItem, object oPC);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+
+void _RecalcACP(object oPC)
+{
+	object oChest, oShield, oHide;
+	int t0, t1, penalty;
+
+	oChest = GetItemInSlot(INVENTORY_SLOT_CHEST, oPC);
+	oShield = GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oPC);
+
+	t0 = ACR_GetArmorRulesType(oChest);
+	t1 = ACR_GetArmorRulesType(oShield);
+
+	penalty = - (ACR_GetArmorCheckPenalty(t0) + ACR_GetArmorCheckPenalty(t1));
+
+	WriteTimestampedLogEntry("calculated penalty " + IntToString(penalty));
+
+	oHide = ACR_GetPCHide(oPC);
+
+	if (ACR_RemoveFlagFromHide(oHide, ACR_IP_ACP_OFFSET)) {
+		WriteTimestampedLogEntry("removing previous");
+		IPRemoveMatchingItemProperties(oHide, ITEM_PROPERTY_DECREASED_SKILL_MODIFIER, DURATION_TYPE_PERMANENT, SKILL_SWIM);
+	}
+
+	if (penalty > 0) {
+		itemproperty ip;
+
+		WriteTimestampedLogEntry("adding new");
+
+		ACR_AddFlagToHide(oHide, ACR_IP_ACP_OFFSET);
+
+		WriteTimestampedLogEntry("has flag? " + IntToString(ACR_GetFlagFromHide(oHide, ACR_IP_ACP_OFFSET)));
+		
+		
+		ip = ItemPropertyDecreaseSkill(SKILL_SWIM, penalty);
+		AddItemProperty(DURATION_TYPE_PERMANENT, ip, oHide);
+	}
+}
+
+void _ApplyACPSwim(object oItem, object oPC)
+{
+	_RecalcACP(oPC);
+}
+
+void _RemoveACPSwim(object oItem, object oPC)
+{
+	_RecalcACP(oPC);
+}
+
 
 void ACR_ItemOnEquip(object oItem, object oPC) {
 
@@ -398,6 +467,9 @@ void ACR_ItemOnEquip(object oItem, object oPC) {
     if (GetItemHasItemProperty(oItem, ITEM_PROPERTY_DARKVISION))
         ACR_AddTemporaryDarkvision(oPC, oItem);
 
+    if (nItemType == BASE_ITEM_ARMOR || nItemType == BASE_ITEM_SMALLSHIELD || nItemType == BASE_ITEM_LARGESHIELD || nItemType == BASE_ITEM_TOWERSHIELD)
+	    _ApplyACPSwim(oItem, oPC);
+
     // allow tag-based onEquip scripts
     string sAcquireScript = "i_"+GetTag(oItem)+"_oe";
     ExecuteScript(sAcquireScript, OBJECT_SELF); 
@@ -429,6 +501,9 @@ void ACR_ItemOnUnEquip(object oItem, object oPC) {
         }      
         ApplyEffectToObject(DURATION_TYPE_PERMANENT, eVFX, oPC);
     }
+
+    if (nItemType == BASE_ITEM_ARMOR || nItemType == BASE_ITEM_SMALLSHIELD || nItemType == BASE_ITEM_LARGESHIELD || nItemType == BASE_ITEM_TOWERSHIELD)
+    	_RemoveACPSwim(oItem, oPC);
 
     // Handle items for equip/remove darkvision
     if (GetItemHasItemProperty(oItem, ITEM_PROPERTY_DARKVISION))
