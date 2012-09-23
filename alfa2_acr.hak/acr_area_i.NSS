@@ -205,7 +205,7 @@ void ACR_SetLoadingScreen(object oClicker)
     int nCheck = Random(11);
     if(nCheck == 0) // coming soon
     {
-        nScreen = Random(3) + 151;
+        // currently no valid coming soon screens.
     }
     else if(nCheck == 1) // Knowledge: Arcana
     {
