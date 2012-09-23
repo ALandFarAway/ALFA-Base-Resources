@@ -1340,6 +1340,9 @@ string _ParseLang(object oSpeaker, string sText)
 
 int _canXPForChatEvent(object oSpeaker, string sText)
 {
+    // Convert the text into a salted MD5 representation.
+    sText = ACR_GetSaltedMD5(sText);
+
     string sOldChat1 = GetLocalString(oSpeaker, "SAVED_CHAT_1");
     string sOldChat2 = GetLocalString(oSpeaker, "SAVED_CHAT_2");
     string sOldChat3 = GetLocalString(oSpeaker, "SAVED_CHAT_3");

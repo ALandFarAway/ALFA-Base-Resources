@@ -18,6 +18,7 @@ using NWScript.ManagedInterfaceLayer.NWScriptManagedInterface;
 using System.IO;
 using System.Diagnostics;
 using System.Management.Automation;
+using System.Security.Cryptography;
 
 using NWEffect = NWScript.NWScriptEngineStructure0;
 using NWEvent = NWScript.NWScriptEngineStructure1;
@@ -135,7 +136,7 @@ namespace ACR_ServerMisc
                         {
                             SetLocalString(GetModule(), "ACR_SERVER_MISC_RETURN_STRING", ReturnKey);
                             ReturnCode = TRUE;
-                        }                   
+                        }
                     }
                     break;
 
@@ -226,6 +227,15 @@ namespace ACR_ServerMisc
                         StackTrace Trace = new StackTrace(true);
 
                         SetLocalString(GetModule(), "ACR_SERVER_MISC_RETURN_STRING", Trace.ToString());
+                        ReturnCode = TRUE;
+                    }
+                    break;
+
+                case REQUEST_TYPE.GET_SALTED_MD5:
+                    {
+                        string SaltedMD5 = GetSaltedMD5(P3);
+
+                        SetLocalString(GetModule(), "ACR_SERVER_MISC_RETURN_STRING", SaltedMD5);
                         ReturnCode = TRUE;
                     }
                     break;
@@ -599,6 +609,56 @@ namespace ACR_ServerMisc
         }
 
         /// <summary>
+        /// Get a salted MD5 of a given string using a per-server-instance
+        /// hash salt.
+        /// </summary>
+        /// <param name="S">Supplies the string to hash.</param>
+        /// <returns>The salted MD5 is returned as a hex string.</returns>
+        public static string GetSaltedMD5(string S)
+        {
+            using (MD5CryptoServiceProvider MD5Csp = new MD5CryptoServiceProvider())
+            {
+                string Salt;
+                byte[] Data;
+                StringBuilder ReturnString = new StringBuilder();
+
+                Salt = GetSaltString();
+                Data = MD5Csp.ComputeHash(Encoding.UTF8.GetBytes(Salt + S));
+
+                for (int i = 0; i < Data.Length; i += 1)
+                    ReturnString.Append(Data[i].ToString("x2"));
+
+                return ReturnString.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Create a randomized salt string, or return the existing one if the
+        /// string has already been created for this server instance.
+        /// </summary>
+        /// <returns>The salt string.</returns>
+        private static string GetSaltString()
+        {
+            if (PerInstanceSalt != null)
+                return PerInstanceSalt;
+
+            using (RandomNumberGenerator Rng = RandomNumberGenerator.Create())
+            {
+                byte[] RandomData = new byte[16];
+                StringBuilder RandomDataString = new StringBuilder();
+
+                Rng.GetBytes(RandomData);
+
+                for (int i = 0; i < RandomData.Length; i += 1)
+                    RandomDataString.Append(RandomData[i].ToString("x2"));
+
+                PerInstanceSalt = RandomDataString.ToString();
+            }
+
+            return PerInstanceSalt;
+        }
+
+        /// <summary>
         /// Define type codes for requests to ScriptMain.
         /// </summary>
         private enum REQUEST_TYPE
@@ -620,7 +680,8 @@ namespace ACR_ServerMisc
             FIRST_ITERATE_DICTIONARY,
             NEXT_ITERATE_DICTIONARY,
             DELETE_DICTIONARY_KEY,
-            CLEAR_DICTIONARY
+            CLEAR_DICTIONARY,
+            GET_SALTED_MD5
         }
 
         /// <summary>
@@ -649,5 +710,10 @@ namespace ACR_ServerMisc
         /// A dictionary of all SortedDictionary Iterators is stored here.
         /// </summary>
         private static Dictionary<string, IDictionaryEnumerator> StorageIteratorList = new Dictionary<string, IDictionaryEnumerator>();
+
+        /// <summary>
+        /// A per server instance salt string, for checksum usage.
+        /// </summary>
+        private static string PerInstanceSalt = null;
     }
 }

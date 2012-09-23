@@ -100,6 +100,10 @@ const int ACR_SERVER_MISC_DELETE_DICTIONARY_KEY              = 16;
 // This command empties a Dictionary.
 const int ACR_SERVER_MISC_CLEAR_DICTIONARY                   = 17;
 
+// This command gets a salted MD5 of a string using a salt that is random,
+// per server start.
+const int ACR_SERVER_MISC_GET_SALTED_MD5                     = 18;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -237,6 +241,12 @@ string ACR_EscapeStringDatabaseConnection(int ConnectionHandle, string String);
 //!  - Returns: The stack trace string.
 string ACR_GetStackTrace();
 
+//! Obtain a salted MD5 of a given string.  The salt is a random value that is
+//  generated on server startup.  Useful for hashed values that are only used
+//  while a server is running.
+//!  - Returns: The salted MD5 checksum as a hex string.
+string ACR_GetSaltedMD5(string s);
+
 
 //! Make a raw call to the support script.
 //!  - Command: Supplies the command to request (e.g. ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT).
@@ -249,6 +259,16 @@ string ACR_GetStackTrace();
 //!  - ObjectSelf: Supplies the OBJECT_SELF to run the script on.
 //!  - Returns: The command-specific return code is returned.
 int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, string P4, object P5, object ObjectSelf = OBJECT_SELF);
+
+//! Get the server misc script return string.  The return value is cleared on
+//  return.
+//!  - Returns: The return value of the script.
+string ACR__GetServerMiscReturnString();
+
+//! Get the server misc script return object.  The return value is cleared on
+//   return.
+//!  - Returns: The return value of the script.
+object ACR__GetServerMiscReturnObject();
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -292,11 +312,7 @@ string ACR_DictionaryGet(string DictionaryID, string Key)
 		return "";
 	}
 
-	object Module = GetModule();
-	string Data = GetLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
-	DeleteLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
-
-	return Data;
+	return ACR__GetServerMiscReturnString();
 }
 
 string ACR_DictionaryIterateFirst(string DictionaryID)
@@ -313,11 +329,7 @@ string ACR_DictionaryIterateFirst(string DictionaryID)
 		return "";
 	}
 
-	object Module = GetModule();
-	string Data = GetLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
-	DeleteLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
-
-	return Data;
+	return ACR__GetServerMiscReturnString();
 }
 
 string ACR_DictionaryIterateNext(string DictionaryID)
@@ -334,11 +346,7 @@ string ACR_DictionaryIterateNext(string DictionaryID)
 		return "";
 	}
 
-	object Module = GetModule();
-	string Data = GetLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
-	DeleteLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
-
-	return Data;
+	return ACR__GetServerMiscReturnString();
 }
 
 void ACR_DictionaryDeleteKey(string DictionaryID, string Key)
@@ -379,11 +387,7 @@ object ACR_InternalCreateAreaInstance(object TemplateArea)
 		return OBJECT_INVALID;
 	}
 
-	object Module = GetModule();
-	object InstancedArea = GetLocalObject(Module, ACR_SERVER_MISC_OBJECT_RETVAL_VAR);
-	DeleteLocalObject(Module, ACR_SERVER_MISC_OBJECT_RETVAL_VAR);
-
-	return InstancedArea;
+	return ACR__GetServerMiscReturnObject();
 }
 
 void ACR_InternalReleaseAreaInstance(object InstancedArea)
@@ -473,11 +477,7 @@ string ACR_GetColumnDatabaseConnection(int ConnectionHandle, int ColumnIndex = 0
 		return "";
 	}
 
-	object Module = GetModule();
-	string Data = GetLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
-	DeleteLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
-
-	return Data;
+	return ACR__GetServerMiscReturnString();
 }
 
 int ACR_GetAffectedRowCountDatabaseConnection(int ConnectionHandle)
@@ -506,11 +506,7 @@ string ACR_EscapeStringDatabaseConnection(int ConnectionHandle, string String)
 		return "";
 	}
 
-	object Module = GetModule();
-	string Data = GetLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
-	DeleteLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
-
-	return Data;
+	return ACR__GetServerMiscReturnString();
 }
 
 string ACR_GetStackTrace()
@@ -527,11 +523,24 @@ string ACR_GetStackTrace()
 		return "";
 	}
 
-	object Module = GetModule();
-	string Data = GetLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
-	DeleteLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
+	return ACR__GetServerMiscReturnString();
+}
 
-	return Data;
+string ACR_GetSaltedMD5(string s)
+{
+	if (!ACR_CallServerMiscScript(
+		ACR_SERVER_MISC_GET_SALTED_MD5,
+		0,
+		0,
+		s,
+		"",
+		"",
+		OBJECT_INVALID))
+	{
+		return "";
+	}
+
+	return ACR__GetServerMiscReturnString();
 }
 
 int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, string P4, object P5, object ObjectSelf = OBJECT_SELF)
@@ -547,3 +556,22 @@ int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, 
 	return ExecuteScriptEnhanced(ACR_SERVER_MISC_SUPPORT_SCRIPT, ObjectSelf, TRUE);
 }
 
+string ACR__GetServerMiscReturnString()
+{
+	object Module = GetModule();
+	string Data = GetLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
+
+	DeleteLocalString(Module, ACR_SERVER_MISC_STRING_RETVAL_VAR);
+
+	return Data;
+}
+
+object ACR__GetServerMiscReturnObject()
+{
+	object Module = GetModule();
+	object Data = GetLocalObject(Module, ACR_SERVER_MISC_OBJECT_RETVAL_VAR);
+
+	DeleteLocalObject(Module, ACR_SERVER_MISC_OBJECT_RETVAL_VAR);
+
+	return Data;
+}
