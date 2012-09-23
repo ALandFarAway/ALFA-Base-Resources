@@ -1338,13 +1338,37 @@ string _ParseLang(object oSpeaker, string sText)
     return sLangPick;
 }
 
+int _canXPForChatEvent(object oSpeaker, string sText)
+{
+    string sOldChat1 = GetLocalString(oSpeaker, "SAVED_CHAT_1");
+    string sOldChat2 = GetLocalString(oSpeaker, "SAVED_CHAT_2");
+    string sOldChat3 = GetLocalString(oSpeaker, "SAVED_CHAT_3");
+    string sOldChat4 = GetLocalString(oSpeaker, "SAVED_CHAT_4");
+    string sOldChat5 = GetLocalString(oSpeaker, "SAVED_CHAT_5");
+
+    SetLocalString(oSpeaker, "SAVED_CHAT_1", sText);
+    SetLocalString(oSpeaker, "SAVED_CHAT_2", sOldChat1);
+    SetLocalString(oSpeaker, "SAVED_CHAT_3", sOldChat2);
+    SetLocalString(oSpeaker, "SAVED_CHAT_4", sOldChat3);
+    SetLocalString(oSpeaker, "SAVED_CHAT_5", sOldChat4);
+
+    if(sText == sOldChat1) return FALSE;
+    if(sText == sOldChat2) return FALSE;
+    if(sText == sOldChat3) return FALSE;
+    if(sText == sOldChat4) return FALSE;
+    if(sText == sOldChat5) return FALSE;
+
+    return TRUE;
+}
+
 int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 {
     int len;
     string sMessage, sCommand, c, sLangPick;
 
     // iterate the RPXP function to indicate an active PC
-    ACR_RPXPMarkActive(oSpeaker);
+    if(_canXPForChatEvent(oSpeaker, sText))
+        ACR_RPXPMarkActive(oSpeaker);
 
     switch (nMode) {
         case CHAT_MODE_SERVER:
