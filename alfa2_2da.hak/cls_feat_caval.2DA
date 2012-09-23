@@ -1,0 +1,33 @@
+2DA V2.0                                                                                      
+                                                                                              
+           FeatLabel                             FeatIndex   List   GrantedOnLevel   OnMenu   
+0          FEAT_ENHANCED_SPECIAL_MOUNT           1431        3      1                0        
+1          FEAT_MOUNTED_WPN_BONUS_LANCE_1        1432        3      1                0        
+2          FEAT_MOUNTED_WPN_BONUS_LANCE_2        1433        3      5                0        
+3          FEAT_MOUNTED_WPN_BONUS_LANCE_3        1434        3      9                0        
+4          FEAT_MOUNTED_WPN_BONUS_SWORD_1        1435        3      2                0        
+5          FEAT_MOUNTED_WPN_BONUS_SWORD_2        1436        3      6                0        
+6          FEAT_MOUNTED_WPN_BONUS_SWORD_3        1437        3      10               0        
+7          FEAT_RIDE_BONUS_1                     1438        3      1                0        
+8          FEAT_RIDE_BONUS_2                     1439        3      4                0        
+9          FEAT_RIDE_BONUS_3                     1440        3      7                0        
+10         FEAT_RIDE_BONUS_4                     1441        3      9                0        
+11         FEAT_COURTLY_KNOWLEDGE                1442        3      1                0        
+12         FEAT_ENHANCED_MOUNT_SPEED             1444        3      3                0        
+13         FEAT_FULL_MOUNTED_ATTACK              1445        3      6                0        
+14         FEAT_DEADLY_CHARGE_1                  1443        3      2                0        
+15         FEAT_DEADLY_CHARGE_2                  1588        3      2                0        
+16         FEAT_DEADLY_CHARGE_3                  1589        3      2                0        
+17         FEAT_DEADLY_CHARGE_4                  1590        3      2                0        
+18         FEAT_UNSTOPPABLE_CHARGE               1446        3      10               0        
+19         padding               ****        3      ****               0        
+20         padding               ****        3      ****               0        
+21         padding               ****        3      ****               0        
+22         padding               ****        3      ****               0        
+23         padding               ****        3      ****               0        
+24         padding               ****        3      ****               0        
+25         padding               ****        3      ****               0        
+26         padding               ****        3      ****               0        
+27         padding               ****        3      ****               0        
+28         padding               ****        3      ****               0        
+29         padding               ****        3      ****               0        

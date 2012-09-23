@@ -1,0 +1,21 @@
+2DA V2.0                                                                                      
+                                                                                              
+           FeatLabel                                  FeatIndex   List   GrantedOnLevel   OnMenu   
+0          FEAT_CONTEMPLATIVE_SPELLCASTING_CLERIC     1515        1      -1               0        
+1          FEAT_CONTEMPLATIVE_SPELLCASTING_DRUID      1516        1      -1               0        
+2          FEAT_CONTEMPLATIVE_SPELLCASTING_PALADIN    1517        1      -1               0        
+3          FEAT_CONTEMPLATIVE_SPELLCASTING_RANGER     1518        1      -1               0        
+4          FEAT_DIVINE_HEALTH                         219         3      1                0        
+5          FEAT_SLIPPERY_MIND                         259         3      2                0        
+6          FEAT_DIVINE_WHOLENESS                      1538        3      3                0        
+7          FEAT_DIVINE_BODY                           1539        3      5                0        
+8          FEAT_DIVINE_SOUL                           1540        3      7                0        
+9          FEAT_MYSTIC_UNION                          1541        3      10               0        
+10          padding                          ****        0      ****               0        
+11          padding                          ****        0      ****               0        
+12          padding                          ****        0      ****               0        
+13          padding                          ****        0      ****               0        
+14          padding                          ****        0      ****               0        
+15          padding                          ****        0      ****               0        
+16          padding                          ****        0      ****               0        
+17          padding                          ****        0      ****               0        
