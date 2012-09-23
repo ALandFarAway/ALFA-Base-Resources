@@ -1,0 +1,37 @@
+2DA V2.0
+
+   FeatLabel                  FeatIndex List GrantedOnLevel OnMenu 
+0  FEAT_FRENZY_1              1447      3    1              0      
+1  FEAT_FRENZY_2              1448      3    3              0      
+2  FEAT_FRENZY_3              1449      3    5              0      
+3  FEAT_FRENZY_4              1450      3    7              0      
+4  FEAT_FRENZY_5              1451      3    9              0      
+5  FEAT_FRENZY_6              1452      3    11             0      
+6  FEAT_FRENZY_7              1453      3    13             0      
+7  FEAT_FRENZY_8              1454      3    15             0      
+8  FEAT_FRENZY_9              1455      3    17             0      
+9  FEAT_FRENZY_10             1456      3    19             0      
+10 Toughness                  40        3    1              0      
+11 FEAT_SUPREME_CLEAVE        1457      3    2              0      
+12 FEAT_DEATHLESS_FRENZY      1458      3    4              0      
+13 FEAT_ENHANCED_POWER_ATTACK 1459      3    5              0      
+14 FEAT_INSPIRE_FRENZY_1      1460      3    6              0      
+15 FEAT_INSPIRE_FRENZY_2      1461      3    8              0      
+16 FEAT_INSPIRE_FRENZY_3      1462      3    10             0      
+17 FEAT_GREATER_FRENZY        1463      3    8              0      
+18 FEAT_SUPREME_POWER_ATTACK  1464      3    10             0      
+19 padding                    ****      0    ****           0      
+20 padding                    ****      0    ****           0      
+21 padding                    ****      0    ****           0      
+22 padding                    ****      0    ****           0      
+23 padding                    ****      0    ****           0      
+24 padding                    ****      0    ****           0      
+25 padding                    ****      0    ****           0      
+26 padding                    ****      0    ****           0      
+27 padding                    ****      0    ****           0      
+28 padding                    ****      0    ****           0      
+29 padding                    ****      0    ****           0      
+30 padding                    ****      0    ****           0      
+31 padding                    ****      0    ****           0      
+32 padding                    ****      0    ****           0      
+33 padding                    ****      0    ****           0      
