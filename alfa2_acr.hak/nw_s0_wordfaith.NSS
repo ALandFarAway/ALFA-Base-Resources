@@ -64,6 +64,7 @@ void main()
         eVFX     = EffectVisualEffect(VFX_HIT_SPELL_HOLY);
         eAreaVFX = EffectVisualEffect(VFX_FNF_LOS_HOLY_30);
         nSaveType = SAVING_THROW_TYPE_GOOD;
+        if(GetHasFeat(FEAT_GOOD_DOMAIN_POWER)) nCasterLevel++;
     }
     else if(nSpell == SPELL_BLASPHEMY)
     {
@@ -74,6 +75,7 @@ void main()
         eAreaVFX = EffectVisualEffect(VFX_FNF_LOS_EVIL_30);
         fUpper   = 6.0f;
         nSaveType = SAVING_THROW_TYPE_EVIL;
+        if(GetHasFeat(FEAT_EVIL_DOMAIN_POWER)) nCasterLevel++;
     }
     else if(nSpell == SPELL_DICTUM)
     {
@@ -83,6 +85,7 @@ void main()
         eVFX     = EffectVisualEffect(VFX_HIT_SPELL_SONIC);
         eAreaVFX = EffectVisualEffect(VFX_FNF_LOS_NORMAL_30);
         nSaveType = SAVING_THROW_TYPE_LAW;
+        if(GetHasFeat(FEAT_LAW_DOMAIN_POWER)) nCasterLevel++;
     }
     else if(nSpell == SPELL_WORD_OF_CHAOS)
     {
@@ -93,6 +96,7 @@ void main()
         eAreaVFX = EffectVisualEffect(VFX_FNF_LOS_NORMAL_30);
         fMid     = 6.0f;
         nSaveType = SAVING_THROW_TYPE_CHAOS;
+        if(GetHasFeat(FEAT_CHAOS_DOMAIN_POWER)) nCasterLevel++;
     }
 
     location lSource = GetLocation(OBJECT_SELF);

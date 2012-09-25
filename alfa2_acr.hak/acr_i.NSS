@@ -447,6 +447,10 @@ const int FEAT_ACR_IMPROVED_COMBAT_EXPERTISE = 3669;
 const int FEAT_ACR_POWER_ATTACK              = 3670;
 const int FEAT_ACR_IMPROVED_POWER_ATTACK     = 3671;
 
+// Domain feats
+const int FEAT_CHAOS_DOMAIN_POWER      = 3672;
+const int FEAT_LAW_DOMAIN_POWER        = 3673;
+
 // Item materials:
 int    GMATERIAL_INVALID = -1;
 int    GMATERIAL_WOOD = 100;

@@ -123,6 +123,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_conversions_i.nss                 \
             $(OUTPUTDIR)\x2_inc_itemprop.nss                   \
             $(OUTPUTDIR)\acr_travelmap_i.nss                   \
+            $(OUTPUTDIR)\x0_i0_spells.nss                      \
             $(OUTPUTDIR)\gui_bhvr_inc.nss                      
 
 NSS_OBJECTS=                                                   \
@@ -576,6 +577,21 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_bhvr_update.ncs                   \
             $(OUTPUTDIR)\gui_bhvr_hench_change.ncs             \
             $(OUTPUTDIR)\nw_s0_darkvis.ncs                     \
+            $(OUTPUTDIR)\nw_s0_holyaura.ncs                    \
+            $(OUTPUTDIR)\nw_s0_unhaura.ncs                     \
+            $(OUTPUTDIR)\x2_s0_holyswrd.ncs                    \
+            $(OUTPUTDIR)\nw_s0_circgood.ncs                    \
+            $(OUTPUTDIR)\nw_s0_circevil.ncs                    \
+            $(OUTPUTDIR)\nw_s0_previl.ncs                      \
+            $(OUTPUTDIR)\nw_s0_prgood.ncs                      \
+            $(OUTPUTDIR)\x2_s0_blssweap.ncs                    \
+            $(OUTPUTDIR)\nw_s0_crgrund.ncs                     \
+            $(OUTPUTDIR)\nw_s0_crundead.ncs                    \
+            $(OUTPUTDIR)\nw_s0_grplanar.ncs                    \
+            $(OUTPUTDIR)\nw_s0_lsplanar.ncs                    \
+            $(OUTPUTDIR)\nw_s0_planar.ncs                      \
+            $(OUTPUTDIR)\nw_s0_hammgods.ncs                    \
+            $(OUTPUTDIR)\nw_s0_summon.ncs                      \
             $(OUTPUTDIR)\nw_s0_lowltvisn.ncs                   
 
 #
