@@ -592,6 +592,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s0_planar.ncs                      \
             $(OUTPUTDIR)\nw_s0_hammgods.ncs                    \
             $(OUTPUTDIR)\nw_s0_summon.ncs                      \
+            $(OUTPUTDIR)\acr_s2_deathtouch.ncs                 \
             $(OUTPUTDIR)\nw_s0_lowltvisn.ncs                   
 
 #
