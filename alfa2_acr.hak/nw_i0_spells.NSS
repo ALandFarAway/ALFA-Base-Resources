@@ -480,10 +480,11 @@ int GetCureDamageTotal(object oTarget, int nDamage, int nMaxExtraDamage, int nMa
 	
 	// 8/9/06 - BDF-OEI: added the GetSpellCastItem() check to the GetHasFeat() check to make sure that 
 	// 	clerics with the healing domain power don't get a bonus when using a healin potion
-    if ( nMetaMagic == METAMAGIC_EMPOWER || (GetHasFeat( FEAT_HEALING_DOMAIN_POWER ) && !GetIsObjectValid( GetSpellCastItem() )) )
+    if (nMetaMagic == METAMAGIC_EMPOWER && !GetIsObjectValid(GetSpellCastItem()))
     {
         nDamage = nDamage + (nDamage/2);
     }
+    if(GetHasFeat( FEAT_HEALING_DOMAIN_POWER )) nDamage++;
 
 
     // JLR - OEI 06/06/05 NWN2 3.5
