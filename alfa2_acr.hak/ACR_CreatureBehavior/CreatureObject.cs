@@ -64,6 +64,8 @@ namespace ACR_CreatureBehavior
             {
                 new AIParty(Server.PartyManager).AddPartyMember(this);
             }
+            if (Script.GetLocalInt(this.ObjectId, "X2_L_IS_INCORPOREAL") != 0) SetIncorporealEffects();
+
         }
 
         /// <summary>
@@ -2263,6 +2265,19 @@ namespace ACR_CreatureBehavior
         /// lesser restoration, restoration, or greater restoration.
         /// </summary>
         public bool AbilityDamaged = false;
+        #endregion
+
+        #region === Creature Type Handling ===
+        private void SetIncorporealEffects()
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectConcealment(50, CLRScriptBase.MISS_CHANCE_TYPE_NORMAL)), ObjectId, 0.0f);
+            int nACBonus = Script.GetAbilityModifier(CLRScriptBase.ABILITY_CHARISMA, ObjectId);
+            if (nACBonus < 1) nACBonus = 1;
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectACIncrease(nACBonus, CLRScriptBase.AC_DEFLECTION_BONUS, CLRScriptBase.DAMAGE_TYPE_ALL, CLRScriptBase.FALSE)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_ENTANGLE)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_KNOCKDOWN)), ObjectId, 0.0f);
+            Script.SetCollision(ObjectId, CLRScriptBase.FALSE);
+        }
         #endregion
 
         #region === Event Management Information ===
