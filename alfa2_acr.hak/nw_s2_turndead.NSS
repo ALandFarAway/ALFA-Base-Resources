@@ -34,6 +34,7 @@
 //::  Turning failed message will not show for creatures that can't be turned
 
 #include "x0_i0_spells"
+#include "acr_i"
 
 //const int STRREF_TURNING_CHECK 		= 0;
 const int STRREF_TURNING_LEVEL	 	= 184687;
@@ -83,7 +84,7 @@ void main()
     // Why are you leveling that combination anyways?!
 
     //Flags for bonus turning types
-    int nElemental = GetHasFeat(FEAT_AIR_DOMAIN_POWER) + GetHasFeat(FEAT_EARTH_DOMAIN_POWER) + GetHasFeat(FEAT_FIRE_DOMAIN_POWER) + GetHasFeat(FEAT_WATER_DOMAIN_POWER);
+    int nElemental = GetHasFeat(FEAT_AIR_DOMAIN_POWER) + GetHasFeat(FEAT_EARTH_DOMAIN_POWER) + GetHasFeat(FEAT_FIRE_DOMAIN_POWER) + GetHasFeat(FEAT_WATER_DOMAIN_POWER) + GetHasFeat(FEAT_COLD_DOMAIN_POWER);
     int nPlant = GetHasFeat(FEAT_PLANT_DOMAIN_POWER);
     int nConstructs = GetHasFeat(FEAT_DESTRUCTION_DOMAIN_POWER);
     int nGoodOrEvilDomain =  GetHasFeat(FEAT_GOOD_DOMAIN_POWER) + GetHasFeat(FEAT_EVIL_DOMAIN_POWER);

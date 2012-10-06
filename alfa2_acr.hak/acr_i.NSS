@@ -450,6 +450,7 @@ const int FEAT_ACR_IMPROVED_POWER_ATTACK     = 3671;
 // Domain feats
 const int FEAT_CHAOS_DOMAIN_POWER      = 3672;
 const int FEAT_LAW_DOMAIN_POWER        = 3673;
+const int FEAT_COLD_DOMAIN_POWER       = 3674;
 
 // Item materials:
 int    GMATERIAL_INVALID = -1;
