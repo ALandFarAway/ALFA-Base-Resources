@@ -452,6 +452,9 @@ const int FEAT_CHAOS_DOMAIN_POWER      = 3672;
 const int FEAT_LAW_DOMAIN_POWER        = 3673;
 const int FEAT_COLD_DOMAIN_POWER       = 3674;
 const int FEAT_MOON_DOMAIN_POWER       = 3725;
+const int FEAT_SCALYKIND_DOMAIN_POWER  = 3732;
+const int FEAT_SLIME_DOMAIN_POWER      = 3733;
+const int FEAT_SPIDER_DOMAIN_POWER     = 3734;
 
 // Item materials:
 int    GMATERIAL_INVALID = -1;

@@ -89,6 +89,9 @@ void main()
     int nConstructs = GetHasFeat(FEAT_DESTRUCTION_DOMAIN_POWER);
     int nGoodOrEvilDomain =  GetHasFeat(FEAT_GOOD_DOMAIN_POWER) + GetHasFeat(FEAT_EVIL_DOMAIN_POWER);
     int nShapechanger = GetHasFeat(FEAT_MOON_DOMAIN_POWER);
+    int nAnimal = GetHasFeat(FEAT_SCALYKIND_DOMAIN_POWER);
+    int nOoze = GetHasFeat(FEAT_SLIME_DOMAIN_POWER);
+    int nVermin = GetHasFeat(FEAT_SPIDER_DOMAIN_POWER);
     int nPlanar = GetHasFeat(FEAT_EPIC_PLANAR_TURNING);	// AFW-OEI 02/08/2007: Planar turning is back in.
 
     //Flag for improved turning ability
@@ -255,6 +258,18 @@ void main()
                     nHDCount += nHD;
                 }
                 else if (nRacial == RACIAL_TYPE_SHAPECHANGER && nShapechanger > 0)
+                {
+                    bValid = TRUE;
+                }
+                else if (nRacial == RACIAL_TYPE_ANIMAL && nAnimal > 0)
+                {
+                    bValid = TRUE;
+                }
+                else if (nRacial == RACIAL_TYPE_OOZE && nOoze > 0)
+                {
+                    bValid = TRUE;
+                }
+                else if (nRacial == RACIAL_TYPE_VERMIN && nVermin > 0)
                 {
                     bValid = TRUE;
                 }
