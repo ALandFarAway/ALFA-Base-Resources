@@ -88,6 +88,7 @@ void main()
     int nPlant = GetHasFeat(FEAT_PLANT_DOMAIN_POWER);
     int nConstructs = GetHasFeat(FEAT_DESTRUCTION_DOMAIN_POWER);
     int nGoodOrEvilDomain =  GetHasFeat(FEAT_GOOD_DOMAIN_POWER) + GetHasFeat(FEAT_EVIL_DOMAIN_POWER);
+    int nShapechanger = GetHasFeat(FEAT_MOON_DOMAIN_POWER);
     int nPlanar = GetHasFeat(FEAT_EPIC_PLANAR_TURNING);	// AFW-OEI 02/08/2007: Planar turning is back in.
 
     //Flag for improved turning ability
@@ -252,6 +253,10 @@ void main()
                     ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, oTarget);
                     DelayCommand(0.01, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDamage, oTarget));
                     nHDCount += nHD;
+                }
+                else if (nRacial == RACIAL_TYPE_SHAPECHANGER && nShapechanger > 0)
+                {
+                    bValid = TRUE;
                 }
                 //FIX: turned outsiders should not count against HD limit either
                 else if (nRacial == RACIAL_TYPE_OUTSIDER && (nGoodOrEvilDomain+nPlanar > 0) && !GetHasEffect(EFFECT_TYPE_TURNED, oTarget) )
