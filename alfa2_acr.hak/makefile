@@ -595,6 +595,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s2_deathtouch.ncs                 \
             $(OUTPUTDIR)\acr_s2_baldom.ncs                     \
             $(OUTPUTDIR)\acr_s2_charmdom.ncs                   \
+            $(OUTPUTDIR)\acr_cre_roundwrapper.ncs              \
             $(OUTPUTDIR)\nw_s0_lowltvisn.ncs                   
 
 #

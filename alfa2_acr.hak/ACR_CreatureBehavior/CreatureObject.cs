@@ -158,8 +158,7 @@ namespace ACR_CreatureBehavior
                         HasCombatRoundProcess = true;
                         if (!UsingEndCombatRound)
                         {
-                            Thread.Sleep(3000);
-                            if (!UsingEndCombatRound) SelectCombatRoundAction();
+                            Script.ExecuteScript("acr_cre_roundwrapper", ObjectId);
                         }
                     }
                 }
@@ -220,8 +219,7 @@ namespace ACR_CreatureBehavior
                 HasCombatRoundProcess = true;
                 if (!UsingEndCombatRound)
                 {
-                    Thread.Sleep(3000);
-                    if (!UsingEndCombatRound) SelectCombatRoundAction();
+                    Script.ExecuteScript("acr_cre_roundwrapper", ObjectId);
                 }
             }            
         }
@@ -402,8 +400,7 @@ namespace ACR_CreatureBehavior
                     HasCombatRoundProcess = true;
                     if (!UsingEndCombatRound)
                     {
-                        Thread.Sleep(3000);
-                        if (!UsingEndCombatRound) SelectCombatRoundAction();
+                        Script.ExecuteScript("acr_cre_roundwrapper", ObjectId);
                     }
                 }
                 else if (Script.GetFactionEqual(this.ObjectId, PerceivedObjectId) == CLRScriptBase.TRUE)
@@ -442,8 +439,7 @@ namespace ACR_CreatureBehavior
                         HasCombatRoundProcess = true;
                         if (!UsingEndCombatRound)
                         {
-                            Thread.Sleep(3000);
-                            if (!UsingEndCombatRound) SelectCombatRoundAction();
+                            Script.ExecuteScript("acr_cre_roundwrapper", ObjectId);
                         }
                     }
                 }
