@@ -158,7 +158,7 @@ namespace ACR_CreatureBehavior
                         HasCombatRoundProcess = true;
                         if (!UsingEndCombatRound)
                         {
-                            Script.ExecuteScript("acr_cre_roundwrapper", ObjectId);
+                            Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(); });
                         }
                     }
                 }
@@ -219,7 +219,7 @@ namespace ACR_CreatureBehavior
                 HasCombatRoundProcess = true;
                 if (!UsingEndCombatRound)
                 {
-                    Script.ExecuteScript("acr_cre_roundwrapper", ObjectId);
+                    Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(); });
                 }
             }            
         }
@@ -400,7 +400,7 @@ namespace ACR_CreatureBehavior
                     HasCombatRoundProcess = true;
                     if (!UsingEndCombatRound)
                     {
-                        Script.ExecuteScript("acr_cre_roundwrapper", ObjectId);
+                        Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(); });
                     }
                 }
                 else if (Script.GetFactionEqual(this.ObjectId, PerceivedObjectId) == CLRScriptBase.TRUE)
@@ -439,7 +439,7 @@ namespace ACR_CreatureBehavior
                         HasCombatRoundProcess = true;
                         if (!UsingEndCombatRound)
                         {
-                            Script.ExecuteScript("acr_cre_roundwrapper", ObjectId);
+                            Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(); });
                         }
                     }
                 }
@@ -651,6 +651,8 @@ namespace ACR_CreatureBehavior
         /// </summary>
         public void SelectCombatRoundAction()
         {
+            if (Script.GetIsObjectValid(ObjectId) != CLRScriptBase.TRUE) return;
+
             #region Gather Data on Status
             RefreshNegativeStatuses();
             #endregion
