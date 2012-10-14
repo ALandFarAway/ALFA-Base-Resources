@@ -67,13 +67,13 @@ namespace ACR_ServerCommunicator
                         }
 
                         if (Server.ServerId == Script.GetDatabase().ACR_GetServerID())
-                            Script.AddListBoxRow(PlayerObject, "ChatSelect", sPlayerListBox, Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "5=/t \"" + Character.CharacterName + "\" ", "");
+                            Script.AddListBoxRow(Player.ObjectId, "ChatSelect", sPlayerListBox, Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "5=/t \"" + Character.CharacterName + "\" ", "");
                         else
                         {
                             if (Player.Flags.HasFlag(PlayerStateFlags.ChatSelectShowLocalPlayersOnlyWhenCollapsed))
                                 continue;
 
-                            Script.AddListBoxRow(PlayerObject, "ChatSelect", sPlayerListBox, Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
+                            Script.AddListBoxRow(Player.ObjectId, "ChatSelect", sPlayerListBox, Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
                         }
                     }
                     else
@@ -89,7 +89,7 @@ namespace ACR_ServerCommunicator
                             Player.ChatSelectRemotePlayersShown += 1;
                         }
 
-                        Script.AddListBoxRow(PlayerObject, "ChatSelect", sPlayerListBox, Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
+                        Script.AddListBoxRow(Player.ObjectId, "ChatSelect", sPlayerListBox, Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
                     }
 
                     Player.CharacterIdsShown.Add(Character.CharacterId);

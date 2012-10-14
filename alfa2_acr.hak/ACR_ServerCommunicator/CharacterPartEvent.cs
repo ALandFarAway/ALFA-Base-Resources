@@ -81,7 +81,7 @@ namespace ACR_ServerCommunicator
                         }
                     }
 
-                    Script.RemoveListBoxRow(PlayerObject, "ChatSelect", sPlayerListBox, Character.CharacterName);
+                    Script.RemoveListBoxRow(Player.ObjectId, "ChatSelect", sPlayerListBox, Character.CharacterName);
                     Player.CharacterIdsShown.Remove(Character.CharacterId);
                     Player.UpdateChatSelectGUIHeaders();
                 }

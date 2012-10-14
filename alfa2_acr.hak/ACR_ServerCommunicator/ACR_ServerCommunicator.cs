@@ -652,12 +652,12 @@ namespace ACR_ServerCommunicator
             Player.ChatSelectRemotePlayersShown = 0;
             Player.ChatSelectRemoteDMsShown = 0;
 
-            ClearListBox(PlayerObject, "ChatSelect", "LocalPlayerList");
-            ClearListBox(PlayerObject, "ChatSelect", "LocalDMList");
-            ClearListBox(PlayerObject, "ChatSelect", "RemotePlayerList");
-            ClearListBox(PlayerObject, "ChatSelect", "RemoteDMList");
+            ClearListBox(Player.ObjectId, "ChatSelect", "LocalPlayerList");
+            ClearListBox(Player.ObjectId, "ChatSelect", "LocalDMList");
+            ClearListBox(Player.ObjectId, "ChatSelect", "RemotePlayerList");
+            ClearListBox(Player.ObjectId, "ChatSelect", "RemoteDMList");
 
-            int bExpanded = GetLocalInt(PlayerObject, "chatselect_expanded");
+            int bExpanded = GetLocalInt(Player.ObjectId, "chatselect_expanded");
 
             lock (WorldManager)
             {
@@ -676,13 +676,13 @@ namespace ACR_ServerCommunicator
                             {
                                 if (Character.Player.IsDM)
                                 {
-                                    AddListBoxRow(PlayerObject, "ChatSelect", "LocalDMList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "5=/t \"" + Character.CharacterName + "\" ", "");
+                                    AddListBoxRow(Player.ObjectId, "ChatSelect", "LocalDMList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "5=/t \"" + Character.CharacterName + "\" ", "");
                                     Player.CharacterIdsShown.Add(Character.CharacterId);
                                     Player.ChatSelectLocalDMsShown += 1;
                                 }
                                 else
                                 {
-                                    AddListBoxRow(PlayerObject, "ChatSelect", "LocalPlayerList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "5=/t \"" + Character.CharacterName + "\" ", "");
+                                    AddListBoxRow(Player.ObjectId, "ChatSelect", "LocalPlayerList", Character.CharacterName, "RosterData=/t \"" + Character.CharacterName + "\"", "", "5=/t \"" + Character.CharacterName + "\" ", "");
                                     Player.CharacterIdsShown.Add(Character.CharacterId);
                                     Player.ChatSelectLocalPlayersShown += 1;
                                 }
@@ -697,13 +697,13 @@ namespace ACR_ServerCommunicator
                             {
                                 if (Character.Player.IsDM)
                                 {
-                                    AddListBoxRow(PlayerObject, "ChatSelect", "LocalDMList", Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
+                                    AddListBoxRow(Player.ObjectId, "ChatSelect", "LocalDMList", Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
                                     Player.CharacterIdsShown.Add(Character.CharacterId);
                                     Player.ChatSelectLocalDMsShown += 1;
                                 }
                                 else
                                 {
-                                    AddListBoxRow(PlayerObject, "ChatSelect", "LocalPlayerList", Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
+                                    AddListBoxRow(Player.ObjectId, "ChatSelect", "LocalPlayerList", Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
                                     Player.CharacterIdsShown.Add(Character.CharacterId);
                                     Player.ChatSelectLocalPlayersShown += 1;
                                 }
@@ -716,13 +716,13 @@ namespace ACR_ServerCommunicator
                         {
                             if (Character.Player.IsDM)
                             {
-                                AddListBoxRow(PlayerObject, "ChatSelect", "RemoteDMList", Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
+                                AddListBoxRow(Player.ObjectId, "ChatSelect", "RemoteDMList", Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
                                 Player.CharacterIdsShown.Add(Character.CharacterId);
                                 Player.ChatSelectRemoteDMsShown += 1;
                             }
                             else
                             {
-                                AddListBoxRow(PlayerObject, "ChatSelect", "RemotePlayerList", Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
+                                AddListBoxRow(Player.ObjectId, "ChatSelect", "RemotePlayerList", Character.CharacterName, "RosterData=#t \"" + Character.CharacterName + "\"", "", "5=#t \"" + Character.CharacterName + "\" ", "");
                                 Player.CharacterIdsShown.Add(Character.CharacterId);
                                 Player.ChatSelectRemotePlayersShown += 1;
                             }
