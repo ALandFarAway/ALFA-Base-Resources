@@ -145,6 +145,7 @@ void _FightDefensively(object oCreature, int nACBonus, int nABPenalty) {
 
     if(GetWeaponRanged(GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oCreature))) {
         _NotifyCombatAction("You cannot fight defensively with a ranged weapon equiped.", oCreature);
+        return;
     }
     
     _ClearCombatModes(oCreature);
