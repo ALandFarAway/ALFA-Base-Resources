@@ -1856,10 +1856,16 @@ namespace ACR_CreatureBehavior
             {
                 foreach (CreatureObject enemy in Party.EnemySoftTargets)
                 {
-                    if (Script.GetDistanceBetween(Script.GetLastAttacker(enemy.ObjectId), enemy.ObjectId) > 5.0f)
-                        finalTarget = enemy;
+                    foreach (CreatureObject ally in Party.PartyMembers)
+                    {
+                        if (Script.GetAttackTarget(ally.ObjectId) == enemy.ObjectId)
+                            finalTarget = enemy;
+                    }
                 }
             }
+            if (finalTarget == null &&
+                Script.GetIsObjectValid(Script.GetAttackTarget(this.ObjectId)) == CLRScriptBase.TRUE)
+                    finalTarget = Server.ObjectManager.GetCreatureObject(Script.GetAttackTarget(this.ObjectId));
             if(finalTarget == null)
                 finalTarget = Party.GetNearest(this, Party.Enemies);
             if(finalTarget == null)
