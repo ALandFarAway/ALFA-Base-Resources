@@ -1,6 +1,8 @@
 void main()
 {
 	object oTarget = GetSpellTargetObject();
+	int SaveDC = GetHitDice(OBJECT_SELF) / 2 + GetAbilityModifier(ABILITY_CHARISMA, OBJECT_SELF) + 10;
+
 	if(GetLocalString(OBJECT_SELF, "ACR_TOUCH_ATTACK") == "WRAITH")
 	{
 		if(GetObjectType(oTarget) == OBJECT_TYPE_CREATURE)
@@ -9,7 +11,7 @@ void main()
 			int nDamage = d4();
 			if(nTouch == 2) nDamage += d4();
 			int nDrain = d6();
-			if(nTouch)
+			if(nTouch && !FortitudeSave(oTarget, SaveDC, SAVING_THROW_TYPE_NEGATIVE, OBJECT_SELF))
 			{
 				if(nDrain >  GetAbilityScore(oTarget, ABILITY_CONSTITUTION) &&
 				   !GetIsImmune(oTarget, IMMUNITY_TYPE_ABILITY_DECREASE))
