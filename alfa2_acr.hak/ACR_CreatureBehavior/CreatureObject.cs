@@ -65,6 +65,7 @@ namespace ACR_CreatureBehavior
                 new AIParty(Server.PartyManager).AddPartyMember(this);
             }
             if (Script.GetLocalInt(this.ObjectId, "X2_L_IS_INCORPOREAL") != 0) SetIncorporealEffects();
+            if (Script.GetRacialType(this.ObjectId) == CLRScriptBase.RACIAL_TYPE_UNDEAD) SetUndeadEffects();
 
         }
 
@@ -2281,6 +2282,21 @@ namespace ACR_CreatureBehavior
             Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_ENTANGLE)), ObjectId, 0.0f);
             Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_KNOCKDOWN)), ObjectId, 0.0f);
             Script.SetCollision(ObjectId, CLRScriptBase.FALSE);
+        }
+
+        private void SetUndeadEffects()
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDarkVision()), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_MIND_SPELLS)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_POISON)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_SLEEP)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_PARALYSIS)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_STUN)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_DISEASE)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_DEATH)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_CRITICAL_HIT)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_SNEAK_ATTACK)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_ABILITY_DECREASE)), ObjectId, 0.0f);
         }
         #endregion
 
