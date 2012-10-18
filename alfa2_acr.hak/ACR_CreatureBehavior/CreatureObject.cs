@@ -64,9 +64,23 @@ namespace ACR_CreatureBehavior
             {
                 new AIParty(Server.PartyManager).AddPartyMember(this);
             }
-            if (Script.GetLocalInt(this.ObjectId, "X2_L_IS_INCORPOREAL") != 0) SetIncorporealEffects();
-            if (Script.GetRacialType(this.ObjectId) == CLRScriptBase.RACIAL_TYPE_UNDEAD) SetUndeadEffects();
 
+            // Set effects inherent to subtype.
+            if (Script.GetLocalInt(this.ObjectId, "X2_L_IS_INCORPOREAL") != 0) SetIncorporealEffects();
+
+            // Set effects inherent to type.
+            if (Script.GetRacialType(this.ObjectId) == CLRScriptBase.RACIAL_TYPE_ABERRATION) SetAbberationEffects();
+            else if (Script.GetRacialType(this.ObjectId) == CLRScriptBase.RACIAL_TYPE_ANIMAL) SetAnimalEffects();
+            else if (Script.GetRacialType(this.ObjectId) == CLRScriptBase.RACIAL_TYPE_CONSTRUCT) SetConstructEffects();
+            else if (Script.GetRacialType(this.ObjectId) == CLRScriptBase.RACIAL_TYPE_DRAGON) SetDragonEffects();
+            else if (Script.GetRacialType(this.ObjectId) == CLRScriptBase.RACIAL_TYPE_ELEMENTAL) SetElementalEffects();
+            else if (Script.GetRacialType(this.ObjectId) == CLRScriptBase.RACIAL_TYPE_FEY) SetFeyEffects();
+            else if (Script.GetRacialType(this.ObjectId) == CLRScriptBase.RACIAL_TYPE_GIANT) SetGiantEffects();
+            else if (Script.GetRacialType(this.ObjectId) == CLRScriptBase.RACIAL_TYPE_HUMANOID_MONSTROUS) SetMonstrousHumanoidEffects();
+            else if (Script.GetRacialType(this.ObjectId) == CLRScriptBase.RACIAL_TYPE_MAGICAL_BEAST) SetMagicalBeastEffects();
+            else if (Script.GetRacialType(this.ObjectId) == CLRScriptBase.RACIAL_TYPE_OOZE) SetOozeEffects();
+            else if (Script.GetRacialType(this.ObjectId) == CLRScriptBase.RACIAL_TYPE_UNDEAD) SetUndeadEffects();
+            else if (Script.GetRacialType(this.ObjectId) == CLRScriptBase.RACIAL_TYPE_VERMIN) SetVerminEffects();
         }
 
         /// <summary>
@@ -2273,15 +2287,90 @@ namespace ACR_CreatureBehavior
         #endregion
 
         #region === Creature Type Handling ===
-        private void SetIncorporealEffects()
+        private void SetAbberationEffects()
         {
-            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectConcealment(50, CLRScriptBase.MISS_CHANCE_TYPE_NORMAL)), ObjectId, 0.0f);
-            int nACBonus = Script.GetAbilityModifier(CLRScriptBase.ABILITY_CHARISMA, ObjectId);
-            if (nACBonus < 1) nACBonus = 1;
-            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectACIncrease(nACBonus, CLRScriptBase.AC_DEFLECTION_BONUS, CLRScriptBase.DAMAGE_TYPE_ALL, CLRScriptBase.FALSE)), ObjectId, 0.0f);
-            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_ENTANGLE)), ObjectId, 0.0f);
-            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_KNOCKDOWN)), ObjectId, 0.0f);
-            Script.SetCollision(ObjectId, CLRScriptBase.FALSE);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDarkVision()), ObjectId, 0.0f);
+        }
+
+        private void SetAnimalEffects()
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectLowLightVision()), ObjectId, 0.0f);
+        }
+
+        private void SetConstructEffects()
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDarkVision()), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_MIND_SPELLS)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_POISON)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_SLEEP)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_PARALYSIS)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_STUN)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_DISEASE)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_DEATH)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_CRITICAL_HIT)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_SNEAK_ATTACK)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_ABILITY_DECREASE)), ObjectId, 0.0f);            
+        }
+
+        private void SetDragonEffects()
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDarkVision()), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_SLEEP)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_PARALYSIS)), ObjectId, 0.0f);
+        }
+
+        private void SetElementalEffects()
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDarkVision()), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_POISON)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_SLEEP)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_PARALYSIS)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_STUN)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_CRITICAL_HIT)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_SNEAK_ATTACK)), ObjectId, 0.0f);
+        }
+
+        private void SetFeyEffects()
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectLowLightVision()), ObjectId, 0.0f);
+        }
+
+        private void SetGiantEffects()
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectLowLightVision()), ObjectId, 0.0f);
+        }
+
+        private void SetMagicalBeastEffects()
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDarkVision()), ObjectId, 0.0f);
+        }
+
+        private void SetMonstrousHumanoidEffects()
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDarkVision()), ObjectId, 0.0f);
+        }
+
+        private void SetOozeEffects()
+        {
+            // TODO: Oozes should be blind and have blindsight.
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_MIND_SPELLS)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_POISON)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_SLEEP)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_PARALYSIS)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_STUN)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_CRITICAL_HIT)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_SNEAK_ATTACK)), ObjectId, 0.0f);
+        }
+
+        private void SetPlantEffects()
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_MIND_SPELLS)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_POISON)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_SLEEP)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_PARALYSIS)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_STUN)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_CRITICAL_HIT)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_SNEAK_ATTACK)), ObjectId, 0.0f);
         }
 
         private void SetUndeadEffects()
@@ -2297,6 +2386,57 @@ namespace ACR_CreatureBehavior
             Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_CRITICAL_HIT)), ObjectId, 0.0f);
             Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_SNEAK_ATTACK)), ObjectId, 0.0f);
             Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_ABILITY_DECREASE)), ObjectId, 0.0f);
+        }
+
+        private void SetVerminEffects()
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDarkVision()), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_MIND_SPELLS)), ObjectId, 0.0f);
+        }
+        #endregion
+
+        #region === Creature Subtype Handling ===
+        private void SetAngelEffects()
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDarkVision()), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDamageImmunityIncrease(CLRScriptBase.DAMAGE_TYPE_ACID, 100)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDamageImmunityIncrease(CLRScriptBase.DAMAGE_TYPE_COLD, 100)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDamageResistance(CLRScriptBase.DAMAGE_TYPE_ELECTRICAL, 10, 0)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDamageResistance(CLRScriptBase.DAMAGE_TYPE_FIRE, 10, 0)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectSavingThrowIncrease(CLRScriptBase.SAVING_THROW_ALL, 4, CLRScriptBase.SAVING_THROW_TYPE_POISON, CLRScriptBase.FALSE)), ObjectId, 0.0f);
+            // TODO: Angels have a protective aura that gives all friends +4 deflection/saves vs. evil, and immunity to spells of 3rd level or less.
+        }
+
+        private void SetArchonEffects()
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDarkVision()), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDamageImmunityIncrease(CLRScriptBase.DAMAGE_TYPE_ELECTRICAL, 100)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectSavingThrowIncrease(CLRScriptBase.SAVING_THROW_ALL, 4, CLRScriptBase.SAVING_THROW_TYPE_POISON, CLRScriptBase.FALSE)), ObjectId, 0.0f);
+            // TODO: Archons have a permenant magic circle vs. evil
+            // TODO: Archons have an aura of fear, which makes enemies who fail a will save shaken.
+        }
+
+        private void SetColdEffects()
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDamageImmunityIncrease(CLRScriptBase.DAMAGE_TYPE_COLD, 100)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDamageImmunityDecrease(CLRScriptBase.DAMAGE_TYPE_FIRE, 50)), ObjectId, 0.0f);
+        }
+
+        private void SetFireEffects()
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDamageImmunityIncrease(CLRScriptBase.DAMAGE_TYPE_FIRE, 100)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDamageImmunityDecrease(CLRScriptBase.DAMAGE_TYPE_COLD, 50)), ObjectId, 0.0f);
+        }
+
+        private void SetIncorporealEffects()
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectConcealment(50, CLRScriptBase.MISS_CHANCE_TYPE_NORMAL)), ObjectId, 0.0f);
+            int nACBonus = Script.GetAbilityModifier(CLRScriptBase.ABILITY_CHARISMA, ObjectId);
+            if (nACBonus < 1) nACBonus = 1;
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectACIncrease(nACBonus, CLRScriptBase.AC_DEFLECTION_BONUS, CLRScriptBase.DAMAGE_TYPE_ALL, CLRScriptBase.FALSE)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_ENTANGLE)), ObjectId, 0.0f);
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectImmunity(CLRScriptBase.IMMUNITY_TYPE_KNOCKDOWN)), ObjectId, 0.0f);
+            Script.SetCollision(ObjectId, CLRScriptBase.FALSE);
         }
         #endregion
 
