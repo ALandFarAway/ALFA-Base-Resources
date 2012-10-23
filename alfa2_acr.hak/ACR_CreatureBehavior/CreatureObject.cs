@@ -264,10 +264,13 @@ namespace ACR_CreatureBehavior
             {
                 if (Script.GetReputation(this.ObjectId, BlockerObjectId) < 11)
                 {
+                    CreatureObject Blocker = Server.ObjectManager.GetCreatureObject(BlockerObjectId, true);
+                    _AttackWrapper(Blocker);
                 }
                 else
                 {
-                    _TemporaryRangedCombat(BlockerObjectId);
+                    if (!TryToAttackRanged())
+                        Script.ActionMoveToObject(BlockerObjectId, CLRScriptBase.TRUE, 1.0f);
                 }
             }
             else if (Script.GetObjectType(BlockerObjectId) == CLRScriptBase.OBJECT_TYPE_DOOR)
