@@ -234,7 +234,7 @@ namespace ACR_ServerCommunicator
                     }
                     break;
 
-                case REQUEST_TYPE.HANDLE_CHAT_SELECT_RESYNC:
+                case REQUEST_TYPE.HANDLE_GUI_RESYNC:
                     {
                         int SourceServerId = (int)ScriptParameters[1];
                         string ResyncCommand = (string)ScriptParameters[6];
@@ -2791,7 +2791,7 @@ namespace ACR_ServerCommunicator
             ENABLE_CHARACTER_SAVE,
             PAUSE_HEARTBEAT,
             HANDLE_QUARANTINE_PLAYER,
-            HANDLE_CHAT_SELECT_RESYNC
+            HANDLE_GUI_RESYNC
         }
 
         /// <summary>
