@@ -36,7 +36,8 @@ void main(string sParam)
 {
     if(sParam == "10")
     {
-        // Extra click-- return.
+        // Extra click, make sure the GUI is closed and-- return.
+        CloseGUIScreen(OBJECT_SELF, "acr_resting");
         return;
     }
     if (!GetLocalInt(OBJECT_SELF, ACR_FREE_SPELL_PREP))
