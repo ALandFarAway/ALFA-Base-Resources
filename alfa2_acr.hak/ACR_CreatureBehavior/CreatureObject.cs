@@ -54,7 +54,7 @@ namespace ACR_CreatureBehavior
             {
                 if (Script.GetFactionEqual(this.ObjectId, NearbyCreatureId) == CLRScriptBase.TRUE)
                 {
-                    CreatureObject NearbyCreature = Server.ObjectManager.GetCreatureObject(NearbyCreatureId);
+                    CreatureObject NearbyCreature = Server.ObjectManager.GetCreatureObject(NearbyCreatureId, true);
                     if (NearbyCreature != null && NearbyCreature.Party != null)
                     NearbyCreature.Party.AddPartyMember(this);
                     break;
@@ -173,7 +173,7 @@ namespace ACR_CreatureBehavior
                         HasCombatRoundProcess = true;
                         if (!UsingEndCombatRound)
                         {
-                            Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(); });
+                            SelectCombatRoundAction();
                         }
                     }
                 }
@@ -234,7 +234,7 @@ namespace ACR_CreatureBehavior
                 HasCombatRoundProcess = true;
                 if (!UsingEndCombatRound)
                 {
-                    Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(); });
+                    SelectCombatRoundAction();
                 }
             }            
         }
@@ -413,8 +413,9 @@ namespace ACR_CreatureBehavior
                         Party.EnemiesLost.Remove(SeenObject);
                     Party.AddPartyEnemy(SeenObject);
                     HasCombatRoundProcess = true;
-                    if (!UsingEndCombatRound)
+                    if (!HasCombatRoundProcess)
                     {
+                        HasCombatRoundProcess = true;
                         Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(); });
                     }
                 }
@@ -423,6 +424,17 @@ namespace ACR_CreatureBehavior
                     // Might as well try to recover if we've messed up party memberships.
                     if (SeenObject.Party == null && Script.GetIsPC(SeenObject.ObjectId) == CLRScriptBase.FALSE)
                         SeenObject.Party.AddPartyMember(SeenObject);
+                }
+            }
+            else
+            {
+                int nReputation = Script.GetReputation(this.ObjectId, PerceivedObjectId);
+                {
+                    if (!HasCombatRoundProcess)
+                    {
+                        HasCombatRoundProcess = true;
+                        Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(); });
+                    }
                 }
             }
         }
@@ -478,7 +490,7 @@ namespace ACR_CreatureBehavior
         private void OnPerceptionLostSightObject(uint PerceivedObjectId,
             bool LastDetection)
         {
-            CreatureObject SeenObject = Server.ObjectManager.GetCreatureObject(PerceivedObjectId);
+            CreatureObject SeenObject = Server.ObjectManager.GetCreatureObject(PerceivedObjectId, true);
 
 //===== If we've actually lost this creature, we need to populate missing lists. ====//
             if (LastDetection)
@@ -500,6 +512,87 @@ namespace ACR_CreatureBehavior
         }
 
         /// <summary>
+        /// This method speaks a string of the creature calling out to its friends that it
+        /// has spotted trouble.
+        /// </summary>
+        private void CallToFriends()
+        {
+            string sShout = Script.GetLocalString(ObjectId, "ACR_CREATURE_SURPRISE_SHOUT");
+            if (sShout == "")
+            {
+                if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_MINDLESS)
+                {
+                    switch (new Random().Next(4))
+                    {
+                        case 1:
+                            sShout = "Nnnnnraaaaaagh!";
+                            break;
+                        case 2:
+                            sShout = "*groans*";
+                            break;
+                        case 3:
+                            sShout = "Mmmmmmrrrrrrn.";
+                            break;
+                        case 4:
+                            sShout = "Chseeeeeeeeeeeeh.";
+                            break;
+                    }
+                }
+                else if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_ANIMAL)
+                {
+                    sShout = "*howls!*";
+                }
+                else
+                {
+                    switch (new Random().Next(8))
+                    {
+                        case 1:
+                            sShout = "Bwuh?";
+                            break;
+                        case 2:
+                            sShout = "Bane's black balls!";
+                            break;
+                        case 3:
+                            sShout = "Ack!";
+                            break;
+                        case 4:
+                            sShout = "Galad!";
+                            break;
+                        case 5:
+                            sShout = "Hrast!";
+                            break;
+                        case 6:
+                            sShout = "Naeth!";
+                            break;
+                        case 7:
+                            sShout = "Stlarning hells!";
+                            break;
+                        case 8:
+                            sShout = "*says something that's <i>certainly</i> profanity.*";
+                            break;
+                    }
+                }
+            }
+
+            Script.ActionSpeakString(sShout, CLRScriptBase.TALKVOLUME_TALK);
+            foreach (CreatureObject ally in Party.PartyMembers)
+            {
+                if (Script.GetArea(ally.ObjectId) == Script.GetArea(ObjectId))
+                {
+                    int X = Script.abs((int)(Script.GetPosition(ally.ObjectId).x - Script.GetPosition(ObjectId).x)) * Script.abs((int)(Script.GetPosition(ally.ObjectId).x - Script.GetPosition(ObjectId).x));
+                    int Y = Script.abs((int)(Script.GetPosition(ally.ObjectId).y - Script.GetPosition(ObjectId).y)) * Script.abs((int)(Script.GetPosition(ally.ObjectId).y - Script.GetPosition(ObjectId).y));
+                    if (X + Y < 40 * 40 && // Within earshot.
+                        !ally.HasCombatRoundProcess)
+                    {
+                        ally.HasCombatRoundProcess = true;
+                        Script.DelayCommand(0.5f, delegate() { ally.CallToFriends(); });
+                        Script.DelayCommand(3.0f, delegate() { ally.SelectCombatRoundAction(); });
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Called when an object loses hearing of another object.
         /// </summary>
         /// <param name="PerceivedObjectId">Supplies the perceived object id.
@@ -510,7 +603,7 @@ namespace ACR_CreatureBehavior
         private void OnPerceptionLostHearingObject(uint PerceivedObjectId,
             bool LastDetection)
         {
-            CreatureObject SeenObject = Server.ObjectManager.GetCreatureObject(PerceivedObjectId);
+            CreatureObject SeenObject = Server.ObjectManager.GetCreatureObject(PerceivedObjectId, true);
 
             //===== If we've actually lost this creature, we need to populate missing lists. ====//
             if (LastDetection)
@@ -672,6 +765,14 @@ namespace ACR_CreatureBehavior
             RefreshNegativeStatuses();
             #endregion
 
+            #region Early return for not being able to act.
+            // Can't do anything. Might as well give up early and pray there's help on the way.
+            if (!CanAct())
+            {
+                return;
+            }
+            #endregion
+
             #region Specify panic behavior due to injury
             int nWellBeing = HealthPercentage;
             int nMissingHitPoints = MaxHitPoints - CurrentHitPoints;
@@ -729,13 +830,7 @@ namespace ACR_CreatureBehavior
                 if (TryToHeal(this, nMissingHitPoints)) return;
             }
 
-            #region Early Returns: Can't Act; Constructs
-            // Can't do anything. Might as well give up early and pray there's help on the way.
-            if (!CanAct())
-            {
-                return;
-            }
-
+            #region Early Returns: Mindless
             // We're mindless, and thus too stupid to do anything special. Hit the nearest bad guy.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_MINDLESS)
             {
@@ -1789,8 +1884,17 @@ namespace ACR_CreatureBehavior
                 }
                 else
                 {
-                    Script.ActionAttack(AttackTarget.ObjectId, CLRScriptBase.FALSE);
-                    return true;
+                    if (Script.GetCurrentAction(ObjectId) == CLRScriptBase.ACTION_ATTACKOBJECT &&
+                       Script.GetAttackTarget(ObjectId) == AttackTarget.ObjectId)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        Script.ClearAllActions(CLRScriptBase.FALSE);
+                        Script.ActionAttack(AttackTarget.ObjectId, CLRScriptBase.FALSE);
+                        return true;
+                    }
                 }
             }
             return false;
@@ -1869,18 +1973,32 @@ namespace ACR_CreatureBehavior
             }
             if (DistributeAttacks && finalTarget == null)
             {
+                int maxAttacking = 999;
                 foreach (CreatureObject enemy in Party.EnemySoftTargets)
                 {
+                    int numberAttacking = 0;
                     foreach (CreatureObject ally in Party.PartyMembers)
                     {
                         if (Script.GetAttackTarget(ally.ObjectId) == enemy.ObjectId)
-                            finalTarget = enemy;
+                        {
+                            numberAttacking++;
+                        }
+                    }
+                    if (numberAttacking == 0)
+                    {
+                        finalTarget = enemy;
+                        break;
+                    }
+                    else if (numberAttacking < maxAttacking)
+                    {
+                        maxAttacking = numberAttacking;
+                        finalTarget = enemy;
                     }
                 }
             }
             if (finalTarget == null &&
                 Script.GetIsObjectValid(Script.GetAttackTarget(this.ObjectId)) == CLRScriptBase.TRUE)
-                    finalTarget = Server.ObjectManager.GetCreatureObject(Script.GetAttackTarget(this.ObjectId));
+                    finalTarget = Server.ObjectManager.GetCreatureObject(Script.GetAttackTarget(this.ObjectId), true);
             if(finalTarget == null)
                 finalTarget = Party.GetNearest(this, Party.Enemies);
             if(finalTarget == null)
