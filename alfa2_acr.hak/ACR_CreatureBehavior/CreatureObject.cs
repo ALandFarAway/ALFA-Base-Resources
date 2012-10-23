@@ -582,8 +582,10 @@ namespace ACR_CreatureBehavior
             {
                 if (Script.GetArea(ally.ObjectId) == Script.GetArea(ObjectId))
                 {
-                    int X = Script.abs((int)(Script.GetPosition(ally.ObjectId).x - Script.GetPosition(ObjectId).x)) * Script.abs((int)(Script.GetPosition(ally.ObjectId).x - Script.GetPosition(ObjectId).x));
-                    int Y = Script.abs((int)(Script.GetPosition(ally.ObjectId).y - Script.GetPosition(ObjectId).y)) * Script.abs((int)(Script.GetPosition(ally.ObjectId).y - Script.GetPosition(ObjectId).y));
+                    Vector3 allyPosition = Script.GetPosition(ally.ObjectId);
+                    Vector3 personalPosition = Script.GetPosition(ObjectId);
+                    int X = (int)Math.Pow(allyPosition.x - personalPosition.x, 2);
+                    int Y = (int)Math.Pow(allyPosition.y - personalPosition.y, 2);
                     if (X + Y < 40 * 40 && // Within earshot.
                         !ally.HasCombatRoundProcess)
                     {
