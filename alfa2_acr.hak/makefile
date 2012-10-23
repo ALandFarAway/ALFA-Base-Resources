@@ -596,6 +596,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s2_baldom.ncs                     \
             $(OUTPUTDIR)\acr_s2_charmdom.ncs                   \
             $(OUTPUTDIR)\acr_s0_longstride.ncs                 \
+            $(OUTPUTDIR)\acr_resync_gui.ncs                    \
             $(OUTPUTDIR)\nw_s0_lowltvisn.ncs                   
 
 #

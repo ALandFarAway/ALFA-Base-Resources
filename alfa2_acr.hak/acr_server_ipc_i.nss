@@ -93,6 +93,9 @@ const int ACR_SERVER_IPC_PAUSE_HEARTBEAT                     = 16;
 // This command handles a player entering quarantine.
 const int ACR_SERVER_IPC_HANDLE_QUARANTINE_PLAYER            = 17;
 
+// This command handles a GUI resync (after portal) event.
+const int ACR_SERVER_IPC_HANDLE_GUI_RESYNC                   = 18;
+
 // IPC event codes:
 
 // The chat tell event is used to transport tells cross-server.
@@ -214,6 +217,12 @@ void ACR_SendOnlineUserList(object Player);
 
 //! Handle client leave and clean up internal player state.
 void ACR_ServerIPC_OnClientEnter(object LeavingPC);
+
+//! Handle chat select resync.
+//!  - SourceServerId: Supplies the server ID of the source server.
+//!  - ResyncCmd: Supplies the resynchronization command line.  This value is
+//                consumed by the ACR_ServerCommunicator.GUIResynchronizer.
+void ACR_ServerIPC_OnGUIResynchronization(int SourceServerId, string ResyncCmd);
 
 //! Send a feedback error message to a player.
 //!  - Target: Supplies the player to send the message to.
@@ -790,6 +799,20 @@ void ACR_ServerIPC_OnClientEnter(object EnteringPC)
 		0,
 		"",
 		EnteringPC);
+#endif
+}
+
+void ACR_ServerIPC_OnGUIResynchronization(int SourceServerId, string ResyncCmd)
+{
+#if SERVER_IPC_ENABLED
+	ACR_CallIPCScript(
+		ACR_SERVER_IPC_HANDLE_GUI_RESYNC,
+		SourceServerId,
+		0,
+		0,
+		0,
+		0,
+		ResyncCmd);
 #endif
 }
 

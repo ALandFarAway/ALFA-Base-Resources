@@ -127,6 +127,24 @@ namespace ACR_ServerCommunicator
         public int ChatSelectRemoteDMsShown { get; set; }
 
         /// <summary>
+        /// Get or set whether the chat select GUI is expanded.
+        /// </summary>
+        public bool ChatSelectGUIExpanded
+        {
+            get
+            {
+                return Communicator.GetLocalInt(ObjectId, "chatselect_expanded") != CLRScriptBase.FALSE;
+            }
+            set
+            {
+                if (value)
+                    Communicator.SetLocalInt(ObjectId, "chatselect_expanded", CLRScriptBase.TRUE);
+                else
+                    Communicator.DeleteLocalInt(ObjectId, "chatselect_expanded");
+            }
+        }
+
+        /// <summary>
         /// The player state flags.
         /// </summary>
         public PlayerStateFlags Flags
@@ -153,7 +171,7 @@ namespace ACR_ServerCommunicator
         /// </summary>
         public void UpdateChatSelectGUIHeaders()
         {
-            bool Expanded = Communicator.GetLocalInt(ObjectId, "chatselect_expanded") != CLRScriptBase.FALSE;
+            bool Expanded = ChatSelectGUIExpanded;
 
             string LocalPlayerListHeading = (!Expanded ? "Players" : "Local Players");
             string LocalDMListHeading = (!Expanded ? "DMs" : "Local DMs");

@@ -234,6 +234,15 @@ namespace ACR_ServerCommunicator
                     }
                     break;
 
+                case REQUEST_TYPE.HANDLE_CHAT_SELECT_RESYNC:
+                    {
+                        int SourceServerId = (int)ScriptParameters[1];
+                        string ResyncCommand = (string)ScriptParameters[6];
+
+                        ReturnCode = GUIResynchronizer.HandleGUIResync(SourceServerId, ResyncCommand, this);
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid IPC script command " + RequestType.ToString());
 
@@ -486,7 +495,7 @@ namespace ACR_ServerCommunicator
         /// <param name="ScriptName">Supplies the name of the script.</param>
         /// <param name="ScriptArgument">Supplies an optional argument to pass
         /// to the script.</param>
-        private void RunScriptOnServer(int DestinationServerID, string ScriptName, string ScriptArgument)
+        public void RunScriptOnServer(int DestinationServerID, string ScriptName, string ScriptArgument)
         {
             string EventText = ScriptName;
 
@@ -1347,6 +1356,8 @@ namespace ACR_ServerCommunicator
 
             if (EnableLatencyCheck)
                 UpdatePlayerLatency(PlayerObject);
+
+            GUIResynchronizer.OnClientEnter(PlayerObject, this);
         }
 
         /// <summary>
@@ -1859,6 +1870,20 @@ namespace ACR_ServerCommunicator
                     GetDatabase().ACR_SetPCLocalFlags(
                         PlayerObjectId,
                         GetDatabase().ACR_GetPCLocalFlags(PlayerObjectId) | ALFA.Database.ACR_PC_LOCAL_FLAG_PORTAL_COMMITTED);
+
+                    //
+                    // Transfer any GUI state needed over to the remote server,
+                    // because the local GUI state is kept (mostly) across the
+                    // portal, but the remote server is ordinarily none-the-
+                    // wiser about this.
+                    //
+
+                    PlayerState State = TryGetPlayerState(PlayerObjectId);
+
+                    if (State != null)
+                    {
+                        GUIResynchronizer.SendGUIStateToServer(State, Server, this);
+                    }
 
                     lock (WorldManager)
                     {
@@ -2765,7 +2790,8 @@ namespace ACR_ServerCommunicator
             DISABLE_CHARACTER_SAVE,
             ENABLE_CHARACTER_SAVE,
             PAUSE_HEARTBEAT,
-            HANDLE_QUARANTINE_PLAYER
+            HANDLE_QUARANTINE_PLAYER,
+            HANDLE_CHAT_SELECT_RESYNC
         }
 
         /// <summary>

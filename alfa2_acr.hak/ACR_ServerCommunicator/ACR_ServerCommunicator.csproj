@@ -78,6 +78,7 @@
     <Compile Include="GameServer.cs" />
     <Compile Include="GameWorldConfiguration.cs" />
     <Compile Include="GameWorldManager.cs" />
+    <Compile Include="GUIResynchronizer.cs" />
     <Compile Include="IGameEntity.cs" />
     <Compile Include="ModuleContentPatcher.cs" />
     <Compile Include="PageEvent.cs" />
