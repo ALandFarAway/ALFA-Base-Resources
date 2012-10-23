@@ -96,7 +96,7 @@ namespace ACR_ServerCommunicator
                 //
                 // Deserialize the remote resynchronization state.  On null, an
                 // obviously invalid request was received.  Otherwise a protocol
-                // violation that is atypical was received an an exception is
+                // violation that is atypical was received and an exception is
                 // raised.
                 //
 
