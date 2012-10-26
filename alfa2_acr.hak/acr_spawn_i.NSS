@@ -1638,7 +1638,7 @@ void _StartSpawnAreaHeartbeat(object oArea, int nAreaFlags) {
 }
 
 float _GetSecondsSinceSpawnRefresh(object oArea) {
-    return IntToFloat(ACR_GetGameSecondsSinceStart() - GetLocalInt(oArea, _SPAWN_LAST_REFRESHED)) / ACR_GetGameToRealTimeRatio();
+    return IntToFloat(ACR_GetGameSecondsSinceStart() - GetLocalInt(oArea, _SPAWN_LAST_REFRESHED));
 }
 
 void _DespawnAreaPoll(object oArea) {
