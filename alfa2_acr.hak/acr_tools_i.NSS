@@ -1103,12 +1103,12 @@ int GetKnowlegeSkillOfRace(int nRace) {
 }
 
 int GetArePCsInArea(object oArea) {
-    object oPC = GetFirstPC();
+    object oPC = GetFirstPC(FALSE);
     while(oPC != OBJECT_INVALID) {
         if(GetArea(oPC) == oArea) {
             return 1;
         }
-        oPC = GetNextPC();
+        oPC = GetNextPC(FALSE);
     }
     return 0;
 }
