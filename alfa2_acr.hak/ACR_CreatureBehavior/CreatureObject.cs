@@ -81,6 +81,10 @@ namespace ACR_CreatureBehavior
             else if (Script.GetRacialType(this.ObjectId) == CLRScriptBase.RACIAL_TYPE_OOZE) SetOozeEffects();
             else if (Script.GetRacialType(this.ObjectId) == CLRScriptBase.RACIAL_TYPE_UNDEAD) SetUndeadEffects();
             else if (Script.GetRacialType(this.ObjectId) == CLRScriptBase.RACIAL_TYPE_VERMIN) SetVerminEffects();
+
+            int extraAttacks = Script.GetLocalInt(ObjectId, "ACR_CREATURE_EXTRA_ATTACKS");
+            if(extraAttacks != 0)
+                SetExtraAttacks(extraAttacks);
         }
 
         /// <summary>
@@ -2410,6 +2414,11 @@ namespace ACR_CreatureBehavior
         #endregion
 
         #region === Creature Type Handling ===
+        private void SetExtraAttacks(int Attacks)
+        {
+            Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectModifyAttacks(Attacks)), ObjectId, 0.0f);
+        }
+
         private void SetAbberationEffects()
         {
             Script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, Script.SupernaturalEffect(Script.EffectDarkVision()), ObjectId, 0.0f);
