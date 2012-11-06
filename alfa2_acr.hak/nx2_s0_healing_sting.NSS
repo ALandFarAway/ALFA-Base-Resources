@@ -55,21 +55,25 @@ void main()
 	effect eHeal			= EffectHeal(nHeal);
 	effect eVisual			= EffectVisualEffect(VFX_HIT_SPELL_HEALING_STING);
 	effect eVisual2			= EffectVisualEffect(VFX_HEAL_SPELL_HEALING_STING);
-	effect eLink			= EffectLinkEffects(eVisual, eDamage);
-	eLink			= EffectLinkEffects(eVisual2, eHeal);
+	effect eDamLink			= EffectLinkEffects(eVisual, eDamage);
+	effect eHealLink		= EffectLinkEffects(eVisual2, eHeal);
 	
 	// Make sure spell target is valid and living
 	if (GetIsObjectValid(oTarget) && !MatchNonliving(GetRacialType(oTarget)))
 	{
-		// check to see if hostile
-		if (spellsIsTarget(oTarget, SPELL_TARGET_STANDARDHOSTILE, oCaster)) 
+		int nTouch = TouchAttackMelee(oTarget, TRUE, 0);
+		if(nTouch > 0)
 		{
-			ApplyEffectToObject(DURATION_TYPE_INSTANT, eLink, oTarget);
-			ApplyEffectToObject(DURATION_TYPE_INSTANT, eHeal, oCaster);
-			// ALFA ACR edit for Subdual
-			ACR_NLD_HealNLD(oCaster, nHeal);
-			//Fire cast spell at event for the specified target
-  			SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, GetSpellId(), TRUE));
+			// check to see if hostile
+			if (spellsIsTarget(oTarget, SPELL_TARGET_STANDARDHOSTILE, oCaster)) 
+			{
+				ApplyEffectToObject(DURATION_TYPE_INSTANT, eDamLink, oTarget);
+				ApplyEffectToObject(DURATION_TYPE_INSTANT, eHealLink, oCaster);
+				// ALFA ACR edit for Subdual
+				ACR_NLD_HealNLD(oCaster, nHeal);
+				//Fire cast spell at event for the specified target
+	  			SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, GetSpellId(), TRUE));
+			}
 		}
 	}
 }
