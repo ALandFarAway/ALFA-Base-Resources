@@ -1561,13 +1561,7 @@ void _RestoreNLDSneakAttackFeats( object oPC ) {
         }
     }
 
-// Restore any missing neverwinter nine feats
-    nLevel = GetLevelByClass( CLASS_NWNINE_WARDER, oPC );
-    if ( nLevel >= 3 ) {
-        FeatAdd( oPC, 1497, TRUE );
-        FeatAdd( oPC, 1498, TRUE );
-        FeatAdd( oPC, 1499, TRUE );
-    }
+// Skip NWN9. They're knight protectors for us, and thus don't get sneak attack.
 
 // Restore any missing invisible blade feats
     nLevel = GetLevelByClass( CLASS_TYPE_INVISIBLE_BLADE, oPC );
