@@ -95,6 +95,7 @@ namespace ALFA
                 StartInfo.UseShellExecute = false;
                 StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 StartInfo.RedirectStandardOutput = true;
+                StartInfo.WorkingDirectory = ALFA.SystemInfo.GetModuleDirectory();
 
                 CompilerProcess = Process.Start(StartInfo);
                 Result.Compiled = true;
