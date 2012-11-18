@@ -78,6 +78,10 @@ const string ACR_MOD_CONTENT_PATCH_PATH = "ACR_MOD_CONTENT_PATCH_PATH";
 //  is consumed and then deleted by the IPC subsystem at module startup.
 const string ACR_MOD_WER_DISABLED = "ACR_MOD_WER_DISABLED";
 
+//! Module local variable indicating the compiler options that the content
+//  patch system should use if a module recompile was required.
+const string ACR_MOD_COMPILER_OPTIONS = "ACR_MOD_COMPILER_OPTIONS";
+
 //! Database configuration setting indicating that module resource files should
 //  be tallied.
 const string ACR_MODULERESOURCEFILES_DB = "ModuleResourceFiles";
@@ -92,6 +96,9 @@ const string ACR_CONTENT_PATCH_PATH = "ContentPatchPath";
 
 //! Database configuration setting indicating that WER should be disabled.
 const string ACR_WER_DISABLED = "WerDisabled";
+
+//! Database configuration setting indicating compiler options to use.
+const string ACR_COMPILER_OPTIONS = "CompilerOptions";
 
 //! Values for ACR_SRVADMIN local on PC object.
 const int ACR_SRVADMIN_INDETERMINITE = 0;  // Need to query database
@@ -599,6 +606,11 @@ void ACR_LoadDatabaseConfiguration()
 		{
 			WriteTimestampedLogEntry("acr_db_persist_i: WerDisabled: " + VarValue);
 			SetLocalInt(Module, ACR_MOD_WER_DISABLED, StringToInt(VarValue));
+		}
+		else if (VarName == ACR_COMPILER_OPTIONS)
+		{
+			WriteTimestampedLogEntry("acr_db_persist_i: CompilerOptions: " + VarValue);
+			SetLocalString(Module, ACR_MOD_COMPILER_OPTIONS, VarValue);
 		}
 	}
 }
