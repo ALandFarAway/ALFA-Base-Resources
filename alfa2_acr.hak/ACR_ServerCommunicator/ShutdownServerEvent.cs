@@ -61,6 +61,10 @@ namespace ACR_ServerCommunicator
             Script.WriteTimestampedLogEntry("Received shutdown request: " + Message);
 
             Database.ACR_IncrementStatistic("SERVER_SHUTDOWN");
+            Script.SendInfrastructureIrcMessage(String.Format(
+                "Server '{0}' shutting down or restarting: {1}",
+                Script.GetName(Script.GetModule()),
+                Message));
 
             Script.DelayCommand(5.0f, delegate()
             {

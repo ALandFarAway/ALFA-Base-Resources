@@ -966,6 +966,26 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// Send an infrastructure notification message to the default IRC
+        /// gateway and recipient.
+        /// </summary>
+        /// <param name="Message">Supplies the message to send.</param>
+        public void SendInfrastructureIrcMessage(string Message)
+        {
+            string Recipient = WorldManager.Configuration.DefaultIrcRecipient;
+
+            if (String.IsNullOrEmpty(Recipient))
+            {
+                return;
+            }
+
+            SendIrcMessage(WorldManager.Configuration.DefaultIrcGatewayId,
+                Recipient,
+                OBJECT_INVALID,
+                Message);
+        }
+
+        /// <summary>
         /// Send an IRC message via an IRC gateway.
         /// </summary>
         /// <param name="GatewayId">Supplies the destination IRC gateway
@@ -973,18 +993,44 @@ namespace ACR_ServerCommunicator
         /// <param name="Recipient">Supplies the destination IRC recipient.
         /// </param>
         /// <param name="SenderObjectId">Supplies the object id of the sender.
+        /// May be OBJECT_INVALID to send a message using the notification
+        /// service infrastructure.
         /// </param>
         /// <param name="Message">Supplies the message to send.</param>
         private void SendIrcMessage(int GatewayId, string Recipient, uint SenderObjectId, string Message)
         {
             IALFADatabase Database = GetDatabase();
             PlayerState State = TryGetPlayerState(SenderObjectId);
+            int CharacterId;
             string FormattedMessage;
 
             if (State == null)
             {
-                SendFeedbackError(SenderObjectId, "Unable to locate player state.");
-                return;
+                //
+                // If the sender object is OBJECT_INVALID, then send the
+                // message using the infrastructure notification service
+                // account.  Otherwise, the sender has already logged out or is
+                // not considered online.
+                //
+
+                if (SenderObjectId == OBJECT_INVALID)
+                {
+                    CharacterId = GetLocalInt(GetModule(), "ACR_NOTIFY_SERVICE_CID");
+
+                    if (CharacterId == 0)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    SendFeedbackError(SenderObjectId, "Unable to locate player state.");
+                    return;
+                }
+            }
+            else
+            {
+                CharacterId = State.CharacterId;
             }
 
             if (Recipient.Length > IRC_GATEWAY_MAX_RECIPIENT_LENGTH)
@@ -1017,7 +1063,7 @@ namespace ACR_ServerCommunicator
                 EnqueueExecuteQuery(String.Format(
                     "INSERT INTO `irc_gateway_messages` (`ID`, `GatewayID`, `SourceCharacterID`, `Recipient`, `Message`) VALUES (0, {0}, {1}, '{2}', '{3}')",
                     GatewayId,
-                    State.CharacterId,
+                    CharacterId,
                     Database.ACR_SQLEncodeSpecialChars(Recipient),
                     Database.ACR_SQLEncodeSpecialChars(MessagePart)));
             }

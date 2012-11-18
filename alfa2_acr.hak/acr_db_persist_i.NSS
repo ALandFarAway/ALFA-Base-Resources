@@ -90,6 +90,8 @@ const string ACR_MODULERESOURCEFILES_DB = "ModuleResourceFiles";
 //  be tallied.
 const string ACR_MODULERESOURCEFILES_MOD = "ACR_MODULERESOURCEFILES";
 
+const string ACR_NOTIFY_SERVICE_CHARACTER_ID_MOD = "ACR_NOTIFY_SERVICE_CID";
+
 //! Database configuration setting indicating the location to search for
 //  content patches at.
 const string ACR_CONTENT_PATCH_PATH = "ContentPatchPath";
@@ -99,6 +101,9 @@ const string ACR_WER_DISABLED = "WerDisabled";
 
 //! Database configuration setting indicating compiler options to use.
 const string ACR_COMPILER_OPTIONS = "CompilerOptions";
+
+//! Database configuration setting indicating the notify service character ID.
+const string ACR_NOTIFY_SERVICE_CHARACTER_ID = "NotifyServiceCid";
 
 //! Values for ACR_SRVADMIN local on PC object.
 const int ACR_SRVADMIN_INDETERMINITE = 0;  // Need to query database
@@ -611,6 +616,11 @@ void ACR_LoadDatabaseConfiguration()
 		{
 			WriteTimestampedLogEntry("acr_db_persist_i: CompilerOptions: " + VarValue);
 			SetLocalString(Module, ACR_MOD_COMPILER_OPTIONS, VarValue);
+		}
+		else if (VarName == ACR_NOTIFY_SERVICE_CHARACTER_ID)
+		{
+			WriteTimestampedLogEntry("acr_db_persist_i: NotifyServiceCid: " + VarValue);
+			SetLocalInt(Module, ACR_NOTIFY_SERVICE_CHARACTER_ID_MOD, StringToInt(VarValue));
 		}
 	}
 }

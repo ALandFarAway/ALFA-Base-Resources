@@ -65,6 +65,7 @@ namespace ACR_ServerCommunicator
             string LocalContentPatchHakPath = ALFA.SystemInfo.GetHakDirectory();
             string RemoteContentPatchPath = String.Format("{0}{1}\\{2}", ALFA.SystemInfo.GetCentralVaultPath(), ContentPatchPath, Version);
             bool RecompileModule = false;
+            bool SentNotification = false;
 
             Database.ACR_SQLQuery(String.Format(
                 "SELECT `FileName`, `Location`, `Checksum`, `RecompileModule` FROM `content_patch_files` WHERE `HakVersion` = '{0}'",
@@ -161,6 +162,14 @@ namespace ACR_ServerCommunicator
                                 "ModuleContentPatcher.ProcessContentPatches: Content patch file {0} requires a module recompile, flagging module for recompilation.",
                                 PatchFile.FileName));
                             RecompileModule = true;
+                        }
+
+                        if (!SentNotification)
+                        {
+                            Script.SendInfrastructureIrcMessage(String.Format(
+                                "Server '{0}' is applying a content patch, and will restart shortly.",
+                                Script.GetName(Script.GetModule())));
+                            SentNotification = true;
                         }
 
                         //
