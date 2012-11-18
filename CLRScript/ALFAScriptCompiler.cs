@@ -176,7 +176,7 @@ namespace ALFA
             if (Options == null)
                 Options = "";
 
-            return String.Format("-c -n {0} -r {1} {2} {3}",
+            return String.Format("-c -n \"{0}\" -r \"{1}\" {2} {3}",
                 InstallDir,
                 ModuleDir,
                 Options,
