@@ -408,6 +408,19 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// Force synchronization of database configuration.
+        /// </summary>
+        /// <param name="Database">Supplies the database object to use for
+        /// database connectivity.</param>
+        public void SynchronizeInitialConfiguration(IALFADatabase Database)
+        {
+            lock (this)
+            {
+                ConfigurationStore.ReadConfigurationFromDatabase(Database);
+            }
+        }
+
+        /// <summary>
         /// This structure contains the raw data for an IPC event queue entry.
         /// </summary>
         public class IPC_EVENT

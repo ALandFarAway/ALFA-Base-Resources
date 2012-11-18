@@ -304,6 +304,8 @@ namespace ACR_ServerCommunicator
             if (!EnableLatencyCheck)
                 WriteTimestampedLogEntry("ACR_ServerCommunicator.InitializeServerCommunicator: Latency check turned off by configuration.");
 
+            WorldManager.SynchronizeInitialConfiguration(Database);
+
             RecordModuleResources();
             PatchContentFiles();
             ConfigureWer();
