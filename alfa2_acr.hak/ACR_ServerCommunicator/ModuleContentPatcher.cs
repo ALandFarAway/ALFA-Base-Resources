@@ -268,7 +268,7 @@ namespace ACR_ServerCommunicator
                 if (RecompileModule)
                 {
                     Script.WriteTimestampedLogEntry("ModuleContentPatcher.ProcessContentPatches: A module recompile is required; recompiling module...");
-                    CompileModuleScripts(Script);
+                    CompileModuleScripts(Script, Database);
                 }
 
                 Database.ACR_IncrementStatistic("CONTENT_PATCH_REBOOT");
@@ -298,7 +298,8 @@ namespace ACR_ServerCommunicator
         /// Recompile all scripts in the module.
         /// </summary>
         /// <param name="Script">Supplies the main script object.</param>
-        private static void CompileModuleScripts(ACR_ServerCommunicator Script)
+        /// <param name="Database">Supplies the database connection.</param>
+        private static void CompileModuleScripts(ACR_ServerCommunicator Script, ALFA.Database Database)
         {
             ALFA.ScriptCompiler.CompilerResult Result;
             string CompilerOptions = Script.GetLocalString(Script.GetModule(), "ACR_MOD_COMPILER_OPTIONS");
@@ -315,6 +316,7 @@ namespace ACR_ServerCommunicator
             if (Result.Compiled)
             {
                 Script.WriteTimestampedLogEntry("ModuleContentPatcher.CompileModuleScripts: Module successfully recompiled.");
+                Database.ACR_IncrementStatistic("CONTENT_PATCH_RECOMPILE");
             }
             else
             {
@@ -326,6 +328,8 @@ namespace ACR_ServerCommunicator
                     Script.WriteTimestampedLogEntry(String.Format(
                         "ModuleContentPatcher.CompileModuleScripts: Error '{0}'.", Message));
                 }
+
+                Database.ACR_IncrementStatistic("CONTENT_PATCH_RECOMPILE_FAILED");
             }
 
         }
