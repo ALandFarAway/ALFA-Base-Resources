@@ -30,6 +30,11 @@ namespace ACR_ServerCommunicator
             /// </summary>
             public string Checksum;
 
+            /// <summary>
+            /// Whether the module must be recompiled if this file is updated.
+            /// </summary>
+            public bool RecompileModule;
+
             public string GetLocalPath(string OverridePath, string HakPath)
             {
                 if (Location == "override")
@@ -59,9 +64,10 @@ namespace ACR_ServerCommunicator
             string LocalContentPatchPath = ALFA.SystemInfo.GetOverrideDirectory() + "ACR_ContentPatches";
             string LocalContentPatchHakPath = ALFA.SystemInfo.GetHakDirectory();
             string RemoteContentPatchPath = String.Format("{0}{1}\\{2}", ALFA.SystemInfo.GetCentralVaultPath(), ContentPatchPath, Version);
+            bool RecompileModule = false;
 
             Database.ACR_SQLQuery(String.Format(
-                "SELECT `FileName`, `Location`, `Checksum` FROM `content_patch_files` WHERE `HakVersion` = '{0}'",
+                "SELECT `FileName`, `Location`, `Checksum`, `RecompileModule` FROM `content_patch_files` WHERE `HakVersion` = '{0}'",
                 Database.ACR_SQLEncodeSpecialChars(Version)));
 
             while (Database.ACR_SQLFetch())
@@ -71,6 +77,7 @@ namespace ACR_ServerCommunicator
                 PatchFile.FileName = Database.ACR_SQLGetData(0);
                 PatchFile.Location = Database.ACR_SQLGetData(1);
                 PatchFile.Checksum = Database.ACR_SQLGetData(2);
+                PatchFile.RecompileModule = ALFA.Database.ACR_ConvertDatabaseStringToBoolean(Database.ACR_SQLGetData(3));
 
                 if (PatchFile.Location != "override" &&
                     PatchFile.Location != "hak")
@@ -147,6 +154,14 @@ namespace ACR_ServerCommunicator
                             PatchFile.FileName,
                             LocalHashString,
                             PatchFile.Checksum));
+
+                        if (PatchFile.RecompileModule)
+                        {
+                            Script.WriteTimestampedLogEntry(String.Format(
+                                "ModuleContentPatcher.ProcessContentPatches: Content patch file {0} requires a module recompile, flagging module for recompilation.",
+                                PatchFile.FileName));
+                            RecompileModule = true;
+                        }
 
                         //
                         // The file needs to be updated.  Copy it over and
@@ -249,7 +264,15 @@ namespace ACR_ServerCommunicator
             }
 
             if (ContentChanged)
+            {
+                if (RecompileModule)
+                {
+                    Script.WriteTimestampedLogEntry("ModuleContentPatcher.ProcessContentPatches: A module recompile is required; recompiling module...");
+                    CompileModuleScripts(Script);
+                }
+
                 Database.ACR_IncrementStatistic("CONTENT_PATCH_REBOOT");
+            }
 
             return ContentChanged;
         }
@@ -269,6 +292,42 @@ namespace ACR_ServerCommunicator
                 HashString.Append(Hash[i].ToString("x2"));
 
             return HashString.ToString();
+        }
+
+        /// <summary>
+        /// Recompile all scripts in the module.
+        /// </summary>
+        /// <param name="Script">Supplies the main script object.</param>
+        private static void CompileModuleScripts(ACR_ServerCommunicator Script)
+        {
+            ALFA.ScriptCompiler.CompilerResult Result;
+            string CompilerOptions = Script.GetLocalString(Script.GetModule(), "ACR_MOD_COMPILER_OPTIONS");
+
+            Script.WriteTimestampedLogEntry(String.Format(
+                "ModuleContentPatcher.CompileModuleScripts: Compiling module scripts with compiler options '{0}'...", CompilerOptions));
+
+            Result = ALFA.ScriptCompiler.CompileScript("*.nss", CompilerOptions, delegate(string Line)
+            {
+                Script.WriteTimestampedLogEntry(Line);
+                return false;
+            });
+
+            if (Result.Compiled)
+            {
+                Script.WriteTimestampedLogEntry("ModuleContentPatcher.CompileModuleScripts: Module successfully recompiled.");
+            }
+            else
+            {
+                Script.WriteTimestampedLogEntry(String.Format(
+                    "ModuleContentPatcher.CompileModuleScripts: {0} error(s) compiling module!", Result.Errors.Count));
+
+                foreach (string Message in Result.Errors)
+                {
+                    Script.WriteTimestampedLogEntry(String.Format(
+                        "ModuleContentPatcher.CompileModuleScripts: Error '{0}'.", Message));
+                }
+            }
+
         }
 
     }

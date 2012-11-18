@@ -1965,14 +1965,7 @@ namespace ACR_ServerCommunicator
         /// <returns>The corresponding Boolean value is returned.</returns>
         public static bool ConvertToBoolean(string Str)
         {
-            Str = Str.ToLowerInvariant();
-
-            if (Str.StartsWith("t"))
-                return true;
-            else if (Str.StartsWith("f"))
-                return false;
-            else
-                return Convert.ToInt32(Str) != 0;
+            return ALFA.Database.ACR_ConvertDatabaseStringToBoolean(Str);
         }
 
         /// <summary>

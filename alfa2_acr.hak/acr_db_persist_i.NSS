@@ -1244,6 +1244,7 @@ void ACR_CreateSQLTables()
 		"`Location` varchar(32) NOT NULL," +
 		"`HakVersion` varchar(16) NOT NULL," +
 		"`Checksum` varchar(32) NOT NULL," +
+		"`RecompileModule` bool NOT NULL default false," +
 		"PRIMARY KEY (`FileName`, `Location`, `HakVersion`), INDEX (`HakVersion`)" +
 	") ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 
@@ -1327,7 +1328,14 @@ void ACR_AdjustTables() {
 		WriteTimestampedLogEntry("ACR_DB_PERSIST: Is18Plus column existance confirmed.");
 	}
 
-
+	// check to see if content_patch_files table has the RecompileModule column
+	ACR_SQLQuery("SHOW COLUMNS from `content_patch_files` WHERE Field = 'RecompileModule';");
+	if (ACR_SQLFetch() != SQL_SUCCESS) {
+		ACR_SQLQuery("ALTER TABLE `content_patch_files` ADD `RecompileModule` bool NOT NULL default false");
+		WriteTimestampedLogEntry("ACR_DB_PERSIST: content_patch_files table altered to record RecompileModule.");
+	} else {
+		WriteTimestampedLogEntry("ACR_DB_PERSIST: RecompileModule column existance confirmed.");
+	}
 	return;
 }
 
