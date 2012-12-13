@@ -661,7 +661,7 @@ int _playerCanRest(object oPC)
     if (nReturn == ACR_REST_TYPE_VALID)
     {
         nLastRestTimeStamp = ACR_GetPersistentInt(oPC, ACR_REST_TIMER);
-		nHoursToWait = ACR_GetTimeStampInHours() - nLastRestTimeStamp;
+		int nHoursToWait = ACR_GetTimeStampInHours() - nLastRestTimeStamp;
 
         // check if enough time hasn't elapsed between attempts, and if the area is valid, make sure that the number of hours to rest isn't over the rest cycle.
         if ( nHoursToWait < ACR_REST_CYCLE && ( ACR_REST_CYCLE - nHoursToWait ) < ACR_REST_CYCLE )
