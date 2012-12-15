@@ -1069,6 +1069,9 @@ void _AddSpawnPointFromWaypoint(object oWP) {
 		case 7:
 			SetLocalInt(oWP, _WP_SPAWN_TYPE, OBJECT_TYPE_LIGHT);
 			break;
+		case 8:
+			SetLocalInt(oWP, _WP_SPAWN_TYPE, OBJECT_TYPE_PLACED_EFFECT);
+			break;
     }
 
     // Now we combine the numbers and min/maxes of the spawn resrefs and groups
