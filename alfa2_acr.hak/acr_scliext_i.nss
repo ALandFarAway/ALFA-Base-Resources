@@ -48,7 +48,7 @@ const string ACR_SCLIEXT_FEATURES = "ACR_SCLIEXT_FEATURES";
 // This symbol is intended to be used as an argument to the
 // ACR_MakeClientExtensionVersion() function to form the latest version number
 // of the extension that has been released, for version checks.
-#define ACR_SCLIEXT_LATEST_VERSION 1, 0, 0, 21
+#define ACR_SCLIEXT_LATEST_VERSION 1, 0, 0, 22
 
 // This constant represents the default feature bits that are reported as
 // supported by the server.  By default we turn on DM area polling which lets
