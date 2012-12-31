@@ -1211,21 +1211,25 @@ int DMFI_RunCommandCode(object oTool, object oPC, string sOriginal)
 	}
 	else if (sTool==PRM_BATTLE)
 	{
+		oArea = GetArea( oPC );
 		if (sCommand==PRM_ON)
 		{
-			n = 1;
-			oTarget = GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_NOT_PC, oPC, n);
-			while (GetIsObjectValid(oTarget))
-			{
-				AssignCommand(oTarget, ClearAllActions(TRUE));
-				ChangeToStandardFaction(oTarget, STANDARD_FACTION_HOSTILE);
-				oTest = GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_IS_PC, oTarget, 1);
-				if (GetIsObjectValid(oTest))
-					DelayCommand(1.0, AssignCommand(oTarget, ActionAttack(oTest, FALSE)));
-				n++;
-				oTarget = GetNearestCreature(CREATURE_TYPE_PLAYER_CHAR, PLAYER_CHAR_NOT_PC, oPC, n);
+			object oTarget = GetFirstObjectInArea( oArea );
+			while ( GetIsObjectValid( oTarget ) ) {
+				// Is it something we want to make hostile?
+				if ( GetObjectType( oTarget ) != OBJECT_TYPE_CREATURE ) continue;
+				if ( GetIsPC( oTarget ) ) continue;
+				if ( GetIsOwnedByPlayer( oTarget ) ) continue;
+				if ( GetIsPlayerCreated( oTarget ) ) continue;
+				
+				// Set to hostile.
+				AssignCommand( oTarget, ClearAllActions( TRUE ) );
+				ChangeToStandardFaction( oTarget, STANDARD_FACTION_HOSTILE );
+				
+				// Get the next target.
+				oTarget = GetNextObjectInArea( oArea );
 			}
-			SendText(oPC, TXT_FACTION_HOSTILE, TRUE, COLOR_GREEN);
+			SendText( oPC, TXT_FACTION_HOSTILE, TRUE, COLOR_GREEN );
 		}
 		else 
 		{
