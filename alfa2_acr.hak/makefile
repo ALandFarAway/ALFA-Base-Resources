@@ -200,6 +200,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s0_readmagic.ncs                  \
             $(OUTPUTDIR)\acr_s0_scare.ncs                      \
             $(OUTPUTDIR)\acr_s0_seeinvis.ncs                   \
+            $(OUTPUTDIR)\acr_s0_sleep.ncs                      \
             $(OUTPUTDIR)\acr_s0_snillocsnowball.ncs            \
             $(OUTPUTDIR)\acr_s0_spiderclimb.ncs                \
             $(OUTPUTDIR)\acr_s0_water_breathing.ncs            \
