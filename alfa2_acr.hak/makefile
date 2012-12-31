@@ -277,6 +277,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_zspawn_new.ncs                    \
             $(OUTPUTDIR)\acr_zspawn_one.ncs                    \
             $(OUTPUTDIR)\acr_zspawn_2d4.ncs                    \
+            $(OUTPUTDIR)\acr_zspawn_one_nh.ncs                 \
+            $(OUTPUTDIR)\acr_zspawn_2d4_nh.ncs                 \
             $(OUTPUTDIR)\nw_s0_magearm.ncs                     \
             $(OUTPUTDIR)\gui_atsign.ncs                        \
             $(OUTPUTDIR)\gui_setlanguse.ncs                    \

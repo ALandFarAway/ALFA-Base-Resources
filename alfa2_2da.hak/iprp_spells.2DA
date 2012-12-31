@@ -1473,3 +1473,5 @@
 1469 Tree_Shape_(3)                                    16778510 3         2         2160   3123       1         1       1          it_s_polymorphself         
 1470 Lullaby_(0)                                       16778512 0         0         0      3124       1         1       1          ife_BR_havensong           
 1471 Glibness_(5)                                      16778514 5         3         5400   3125       1         1       1          ia_customtextmacro         
+1472 ACR_ZSPAWN_ONE                                    16790211 1         1         1      3131       1         1       1          acr_spawnone               
+1472 ACR_ZSPAWN_2D4                                    16790212 1         1         1      3132       1         1       1          acr_spawn2d4               
