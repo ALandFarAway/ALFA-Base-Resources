@@ -1460,6 +1460,28 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         SendMessageToPC(oSpeaker, "You cannot anchor your chat to that object.");
         return FALSE;
     }
+	// Do we want to know what our currently set anchors are?
+	else if ( sText == "#alist" )
+	{
+		object PlayerAvatar = GetOwnedCharacter(oSpeaker);
+		int i = 0;
+		int nListed = 0;
+		SendMessageToPC( oSpeaker, "Listing speaking anchors:" );
+		SendMessageToPC( oSpeaker, "#<C=lightblue>index</C> - <C=lightblue>name</C> ( <C=lightblue>tag</C> ) - <C=lightblue>area name</C> ( <C=lightblue>area_tag</C> ) - <C=lightblue>health</C>" );
+		for ( i = 0; i < 10; i++ ) {
+			string sAnchor = "SpeakTo_#" + IntToString( i );
+			object oAnchor = GetLocalObject( PlayerAvatar, sAnchor );
+			if ( GetIsObjectValid( oAnchor ) ) {
+				string sOutput = "#" + IntToString(i);
+				sOutput += " - " + GetName( oAnchor ); + " ( " + GetTag( oAnchor ) + " )";
+				sOutput += " - " + GetName( GetArea( oAnchor ) ) + " ( " + GetTag( GetArea( oAnchor ) ) + " )";
+				sOutput += " - " + IntToString( GetCurrentHitPoints( oAnchor ) ) + "/" + IntToString( GetMaxHitPoints( oAnchor ) ) + " HP";
+				SendMessageToPC( oSpeaker, sOutput );
+				nListed++;
+			}
+			if ( nListed == 0 ) SendMessageToPC( oSpeaker, "<i>No anchors found.</i>" );
+		}
+	}
     // Is this someone speaking through the anchor?
     else if(GetStringLeft(sText, 2) == "#1" || GetStringLeft(sText, 2) == "#2" || GetStringLeft(sText, 2) == "#3" || GetStringLeft(sText, 2) == "#4" || GetStringLeft(sText, 2) == "#5" || GetStringLeft(sText, 2) == "#6" || GetStringLeft(sText, 2) == "#7" || GetStringLeft(sText, 2) == "#8" || GetStringLeft(sText, 2) == "#9" || GetStringLeft(sText, 2) == "#0")
     {
