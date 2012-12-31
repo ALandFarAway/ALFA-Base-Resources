@@ -1217,10 +1217,11 @@ int DMFI_RunCommandCode(object oTool, object oPC, string sOriginal)
 			object oTarget = GetFirstObjectInArea( oArea );
 			while ( GetIsObjectValid( oTarget ) ) {
 				// Is it something we want to make hostile?
-				if ( GetObjectType( oTarget ) != OBJECT_TYPE_CREATURE ) continue;
-				if ( GetIsPC( oTarget ) ) continue;
-				if ( GetIsOwnedByPlayer( oTarget ) ) continue;
-				if ( GetIsPlayerCreated( oTarget ) ) continue;
+				if ( GetObjectType( oTarget ) != OBJECT_TYPE_CREATURE || GetIsPC( oTarget )
+					||  GetIsOwnedByPlayer( oTarget ) || GetIsPlayerCreated( oTarget ) ) {
+					oTarget = GetNextObjectInArea( oArea );
+					continue;
+				}
 				
 				// Set to hostile.
 				AssignCommand( oTarget, ClearAllActions( TRUE ) );
