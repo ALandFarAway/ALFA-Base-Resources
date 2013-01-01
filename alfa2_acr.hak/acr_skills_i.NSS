@@ -102,6 +102,9 @@ int ACR_SkillsCheckIsPCAdapted(object oPC);
 //!! Caches important data on the PC in order to implement the automated rebuild. 
 void ACR_SkillsPrepareAdaption(object oPC);
 
+//!! Calculates the size bonus to a particular skill.
+int ACR_GetSizeBonusToSkill( object oPC, int nSkillId );
+
 // Private functions
 
 //! Rolls a CHECK_TYPE of SKILL, SAVE, STAT, INITIAIVE or ROLL.
@@ -291,6 +294,9 @@ int ACR_SkillCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int
 				break;
 		}
 	}
+	
+	// Check for size bonuses.
+	nModifier += ACR_GetSizeBonusToSkill( oPC, nSkillID );
 	
 	// Hook for the "Glibness" spell.
 	if ( nSkillID == SKILL_BLUFF && GetHasSpellEffect( SPELL_GLIBNESS, oPC ) ) {
@@ -1293,6 +1299,30 @@ void ACR_SkillsPrepareAdaption(object oPC) {
 	FeatRemove(oPC, FEAT_BACKGROUND_TROUBLE_MAKER);
 	FeatRemove(oPC, FEAT_BACKGROUND_WILD_CHILD);
 	FeatRemove(oPC, FEAT_BACKGROUND_WIZARDS_APPRENTICE);
+}
+
+int ACR_GetSizeBonusToSkill( object oPC, int nSkillId ) {
+	if ( !GetIsObjectValid( oPC ) ) return 0;
+	
+	// Check the size.
+	int nSize = GetCreatureSize( oPC );
+	if ( nSize > CREATURE_SIZE_HUGE || nSize < CREATURE_SIZE_INVALID ) return 0;
+	
+	// Get the base modifier.
+	int nBaseMod =  - 3;
+	if ( nBaseMod == 0 ) return 0;
+	
+	// Expand it based on the skill.
+	int nTotalBonus = 0;
+	switch ( nSkillId ) {
+		case SKILL_HIDE:
+			nTotalBonus = nBaseMod * 4 * -1;
+			break;
+		default:
+			return 0;
+	}
+	
+	return nTotalBonus;
 }
 
 void _ReLevelPC (object oLeveled) {
