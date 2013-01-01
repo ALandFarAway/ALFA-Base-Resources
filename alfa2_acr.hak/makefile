@@ -505,6 +505,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\omega_lock_unlock.ncs                 \
             $(OUTPUTDIR)\omega_lockable.ncs                    \
             $(OUTPUTDIR)\omega_plc_onused.ncs                  \
+            $(OUTPUTDIR)\omega_remove_effects.ncs              \
             $(OUTPUTDIR)\omega_settrapdet.ncs                  \
             $(OUTPUTDIR)\omega_settrapdis.ncs                  \
             $(OUTPUTDIR)\omega_setunlock.ncs                   \
