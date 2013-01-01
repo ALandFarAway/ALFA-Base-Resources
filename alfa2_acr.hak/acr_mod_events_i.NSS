@@ -1473,7 +1473,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 			object oAnchor = GetLocalObject( PlayerAvatar, sAnchor );
 			if ( GetIsObjectValid( oAnchor ) ) {
 				string sOutput = "#" + IntToString(i);
-				sOutput += " - " + GetName( oAnchor ); + " ( " + GetTag( oAnchor ) + " )";
+				sOutput += " - " + GetName( oAnchor ) + " ( " + GetTag( oAnchor ) + " )";
 				sOutput += " - " + GetName( GetArea( oAnchor ) ) + " ( " + GetTag( GetArea( oAnchor ) ) + " )";
 				sOutput += " - " + IntToString( GetCurrentHitPoints( oAnchor ) ) + "/" + IntToString( GetMaxHitPoints( oAnchor ) ) + " HP";
 				SendMessageToPC( oSpeaker, sOutput );
