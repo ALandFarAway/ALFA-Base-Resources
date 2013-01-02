@@ -449,8 +449,10 @@ void ACR_ApplyNLDEffects( object oTarget, int nSubdualTotal ) {
             _RemoveNLDStaggeredEffect( oTarget );
         }
         if ( nState != ACR_NLD_STATE_HELPLESS ) {
-            effect eHelpless = ExtraordinaryEffect( EffectAbilityDecrease( ABILITY_DEXTERITY, GetAbilityScore( oTarget, ABILITY_DEXTERITY ) ) );
-            AssignCommand( GetModule(), ApplyEffectToObject( DURATION_TYPE_PERMANENT, eHelpless, oTarget ) );
+            effect eHelplessDex = ExtraordinaryEffect( EffectAbilityDecrease( ABILITY_DEXTERITY, GetAbilityScore( oTarget, ABILITY_DEXTERITY ) ) );
+			effect eHelplessStun = ExtraordinaryEffect( EffectStunned() );
+            AssignCommand( GetModule(), ApplyEffectToObject( DURATION_TYPE_PERMANENT, eHelplessDex, oTarget ) );
+            AssignCommand( GetModule(), ApplyEffectToObject( DURATION_TYPE_PERMANENT, eHelplessStun, oTarget ) );
             AssignCommand( oTarget,SpeakString( "<c=orange>Subdued</c>" ) );
             // log the event
             object oSubduer = GetLocalObject( oTarget, ACR_NLD_ATTACKER );
@@ -1420,7 +1422,7 @@ void _RemoveNLDHelplessEffect( object oTarget ) {
     effect eTest = GetFirstEffect( oTarget );
     // loop through to clear DEX penalty.
     while ( GetIsEffectValid( eTest ) ) {
-        if ( GetEffectType( eTest ) == EFFECT_TYPE_ABILITY_DECREASE ) {
+        if ( GetEffectType( eTest ) == EFFECT_TYPE_ABILITY_DECREASE || GetEffectType( eTest ) == EFFECT_TYPE_STUNNED ) {
             DelayCommand( 0.2, RemoveEffect( oTarget, eTest ) );
         }
         eTest = GetNextEffect( oTarget );
