@@ -37,10 +37,10 @@
 33	FEAT_SKILL_FOCUS_CRAFT_ALCHEMY	1331	1	-1	0
 34	FEAT_SKILL_FOCUS_RIDE	1332	1	-1	0
 35	FEAT_SKILL_FOCUS_SURVIVAL	1333	1	-1	0
-36	CombatExpertise	389	1	-1	0
+36	CombatExpertise	3668	1	-1	0
 37	DefArrow	8	1	-1	0
 38	Dodge	10	1	-1	0
-39	ImpCombatExpertise	390	1	-1	0
+39	ImpCombatExpertise	3669	1	-1	0
 40	ImpInit	377	1	-1	0
 41	ImpTwo	20	1	-1	0
 42	Mobility	26	1	-1	0

@@ -2,7 +2,7 @@
 
    LABEL              ReqType  ReqParam1 ReqParam2 
 0  Arcane             ARCSPELL 1         ****      
-2  CombatExpertise    FEAT     389       ****      
+2  CombatExpertise    FEAT     3668      ****      
 3  WeapFocRapier      FEATOR   104       ****      
 4  WeapFocLSw         FEATOR   106       ****      
 5  Elf                RACE     1         ****      
