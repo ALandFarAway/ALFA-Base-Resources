@@ -60,6 +60,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_tradescroll_i.nss                 \
             $(OUTPUTDIR)\acr_travel_i.nss                      \
             $(OUTPUTDIR)\acr_trigger_i.nss                     \
+            $(OUTPUTDIR)\acr_ugui_i.nss                        \
             $(OUTPUTDIR)\acr_vfx_i.nss                         \
             $(OUTPUTDIR)\acr_wealth_i.nss                      \
             $(OUTPUTDIR)\acr_xp_i.nss                          \
@@ -407,6 +408,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gb_assoc_spawn.ncs                    \
             $(OUTPUTDIR)\gb_assoc_spell.ncs                    \
             $(OUTPUTDIR)\gb_assoc_usrdef.ncs                   \
+            $(OUTPUTDIR)\gui_alfaui.ncs                        \
             $(OUTPUTDIR)\gui_hss_pc_tool.ncs                   \
             $(OUTPUTDIR)\gui_cre_identify.ncs                  \
             $(OUTPUTDIR)\gui_dmc_crexamine.ncs                 \
