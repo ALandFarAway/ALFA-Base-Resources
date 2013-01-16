@@ -21,6 +21,7 @@
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+#include "acr_interface_i"
 #include "acr_ugui_i"
 
 
@@ -43,19 +44,21 @@
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void main( int iActionType, string sParam0, string sParam1, string sParam2 );
+void main( int iActionType, string sParam0, string sParam1, string sParam2, string sParam3 );
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void main( int iActionType, string sParam0, string sParam1, string sParam2 ) {
+void main( int iActionType, string sParam0, string sParam1, string sParam2, string sParam3 ) {
 	// Current GUI user.
 	object oPC = OBJECT_SELF;
+	SendMessageToPC( oPC, "You used the UI!" );
 
 	// Generic UI actions.
 	switch ( iActionType ) {
 		case ACR_UGUI_ACT_CALL_INTERFACE:
+			ACR_FI_RunCommand( sParam0, sParam1, sParam2, sParam3 );
 			break;
 		case ACR_UGUI_ACT_OPEN_CATEGORY:
 			ACR_UGUI_CloseCurrentSubcategory( oPC );

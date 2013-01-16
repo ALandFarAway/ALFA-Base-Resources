@@ -13,6 +13,9 @@
 //	None.
 //
 //  Description:
+//  This module defines functions to control the ALFA Universal Graphical User
+//  Interface, including functionalities to open, close, and set (sub)category
+//  content.
 //  
 ////////////////////////////////////////////////////////////////////////////////
 

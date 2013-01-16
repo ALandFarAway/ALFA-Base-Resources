@@ -33,6 +33,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_game_loc_i.nss                    \
             $(OUTPUTDIR)\acr_hazards_i.nss                     \
             $(OUTPUTDIR)\acr_i.nss                             \
+            $(OUTPUTDIR)\acr_interface_i.nss                   \
             $(OUTPUTDIR)\acr_items_i.nss                       \
             $(OUTPUTDIR)\acr_it_persist_i.nss                  \
             $(OUTPUTDIR)\acr_language_i.nss                    \
@@ -408,7 +409,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gb_assoc_spawn.ncs                    \
             $(OUTPUTDIR)\gb_assoc_spell.ncs                    \
             $(OUTPUTDIR)\gb_assoc_usrdef.ncs                   \
-            $(OUTPUTDIR)\gui_alfaui.ncs                        \
+            $(OUTPUTDIR)\gui_acr_ugui.ncs                      \
             $(OUTPUTDIR)\gui_hss_pc_tool.ncs                   \
             $(OUTPUTDIR)\gui_cre_identify.ncs                  \
             $(OUTPUTDIR)\gui_dmc_crexamine.ncs                 \
