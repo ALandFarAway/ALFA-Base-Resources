@@ -58,7 +58,7 @@ void main( int iActionType, string sParam0, string sParam1, string sParam2, stri
 	// Generic UI actions.
 	switch ( iActionType ) {
 		case ACR_UGUI_ACT_CALL_INTERFACE:
-			ACR_FI_RunCommand( sParam0, sParam1, sParam2, sParam3 );
+			ACR_FI_RunCommand( oPC, sParam0, sParam1, sParam2, sParam3 );
 			break;
 		case ACR_UGUI_ACT_OPEN_CATEGORY:
 			ACR_UGUI_CloseCurrentSubcategory( oPC );
