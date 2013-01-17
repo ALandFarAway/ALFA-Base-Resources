@@ -53,7 +53,6 @@ void main( int iActionType, string sParam0, string sParam1, string sParam2, stri
 void main( int iActionType, string sParam0, string sParam1, string sParam2, string sParam3 ) {
 	// Current GUI user.
 	object oPC = OBJECT_SELF;
-	SendMessageToPC( oPC, "You used the UI!" );
 
 	// Generic UI actions.
 	switch ( iActionType ) {
