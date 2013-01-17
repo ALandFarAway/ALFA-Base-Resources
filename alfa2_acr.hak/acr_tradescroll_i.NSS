@@ -134,7 +134,7 @@ void ACR_CreateTradeScroll( object oPC, int nSpellId ) {
 	// Set name, description, item property, and local variable.
 	SetFirstName( oScroll, "Tradescroll: " + sSpellName );
 	SetLastName( oScroll, "" );
-	SetDescription( oScroll, "This scroll represents the work done and resources used to copy a spell from one wizard's spellbook to another." );
+	SetDescription( oScroll, "This scroll represents the work done and resources used to copy a spell from one wizard's spellbook to another. This holds to knowledge of " + sSpellName + "." );
 	itemproperty ipTradescrollProp = ItemPropertyCastSpell( ACR_TRADESCROLL_IPRP_SPELL, IP_CONST_CASTSPELL_NUMUSES_UNLIMITED_USE );
 	AddItemProperty( DURATION_TYPE_PERMANENT, ipTradescrollProp, oScroll );
 	SetLocalInt( oScroll, ACR_TRADESCROLL_VAR, nSpellToCreate );
