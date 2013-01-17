@@ -191,6 +191,11 @@ void ACR_RestOnClientLeave(object oPC);
 //! Call this function OnClientEnter event handler
 void ACR_RestOnClientEnter(object oPC);
 
+//! Get the amount of time until resting is enabled.
+//!  - oPC - Player to check.
+//!  - Returns: Number of IG hours left to wait.
+int ACR_GetHoursUntilRest( object oPC );
+
 //! This function manages (toggles) the long term care status on demand
 //!  - oPC: player to whom long term care applies
 //!  - bStatus: boolean status - TRUE or FALSE
@@ -463,6 +468,19 @@ void ACR_RestOnClientEnter(object oPC)
     _ProcessOffCameraRest(oPC, nOfflineCycles);
 }
 
+int ACR_GetHoursUntilRest( object oPC ) {
+	// Calculate hours to wait.
+	int nLastRestTimeStamp = ACR_GetPersistentInt( oPC, ACR_REST_TIMER );
+	int nHoursToWait = ACR_GetTimeStampInHours() - nLastRestTimeStamp;
+
+	// Does our value make sense?
+	if ( nHoursToWait > ACR_REST_CYCLE ) {
+		nHoursToWait = 0;
+	}
+	
+	return nHoursToWait;
+}
+
 void ACR_SetLongTermCare(object oPC, int bStatus)
 {
     // check if LTC is being activated or deactivated
@@ -660,13 +678,11 @@ int _playerCanRest(object oPC)
     // get the time the PC last rested (only if still valid)
     if (nReturn == ACR_REST_TYPE_VALID)
     {
-        nLastRestTimeStamp = ACR_GetPersistentInt(oPC, ACR_REST_TIMER);
-		int nHoursToWait = ACR_GetTimeStampInHours() - nLastRestTimeStamp;
-
-        // check if enough time hasn't elapsed between attempts, and if the area is valid, make sure that the number of hours to rest isn't over the rest cycle.
-        if ( nHoursToWait < ACR_REST_CYCLE && ( ACR_REST_CYCLE - nHoursToWait ) < ACR_REST_CYCLE )
-        {
-            SendMessageToPC(oPC, "You must wait another " + IntToString(ACR_REST_CYCLE - nHoursToWait) + " hours to rest."); 
+        // Check if enough time hasn't elapsed between attempts.
+        int nHoursToWait = ACR_GetHoursUntilRest( oPC );
+        if ( nHoursToWait > 0 ) {
+			
+            SendMessageToPC(oPC, "You must wait another " + IntToString( nHoursToWait ) + " hours to rest."); 
             nReturn = ACR_REST_TYPE_NOTTIRED;
         }
     }
