@@ -116,6 +116,7 @@
 #include "acr_scliext_i"
 #include "acr_area_instance_i"
 #include "acr_wealth_i"
+#include "acr_ugui_i"
 
 #include "acf_spawn_i"
 #include "acf_settings_i"
@@ -881,7 +882,6 @@ void ACR_ModuleOnClientEnter()
     {
         // log the entry
         ACR_LogEvent(oPC, ACR_LOG_LOGIN, "Dungeon Master: " + ACR_SQLEncodeSpecialChars(GetName(oPC)) + " from IP: "+GetPCIPAddress(oPC));
-            DisplayGuiScreen(oPC, "zspawn_b", FALSE, "zspawn_b.xml");
 
         ACR_IncrementStatistic("DM_LOGINS");
     }
@@ -910,6 +910,8 @@ void ACR_ModuleOnClientEnter()
 
 void _createPlayerGUIs( object oPC )
 {
+    ACR_OpenUniversalGUI( oPC );
+
     if(GetHasFeat(FEAT_ACR_COMBAT_EXPERTISE, oPC))
     {
 		DisplayGuiScreen(oPC, "SCREEN_MODEBAR_2", FALSE, "modebar_2.xml");
