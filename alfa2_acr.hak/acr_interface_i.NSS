@@ -93,7 +93,7 @@ void ACR_FI_StudyForSpells( object oPC ) {
 }
 
 
-void ACR_FI_Craft( object oPC, sParam ) {
+void ACR_FI_Craft( object oPC, string sParam ) {
 	if ( sParam == "" ) {
 		object oTarget = GetPlayerCurrentTarget( oPC );
 		DecrementRemainingFeatUses( oPC, FEAT_CRAFT );
@@ -163,7 +163,7 @@ void ACR_FI_RunCommand( object oPC, string sCommand, string sParam0 = "", string
 	// Actual commands.
 	if ( sCmd == "subdual" ) ACR_FI_SetSubdualMode( oPC, sP1 );
 	else if ( sCmd == "managespells" ) ACR_FI_ManageSpells( oPC );
-	else if ( sCmd == "pray" ) ACR_FI_PrayForSpells( oPC, );
+	else if ( sCmd == "pray" ) ACR_FI_PrayForSpells( oPC );
 	else if ( sCmd == "spellbook" ) ACR_FI_StudyForSpells( oPC );
 	else if ( sCmd == "craft" ) ACR_FI_Craft( oPC, sP1 );
 	else if ( sCmd == "tradescroll" ) ACR_FI_MakeTradescroll( oPC, sP1 );
