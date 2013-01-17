@@ -171,8 +171,8 @@ object ACR_FI_ParameterToObject( object oPC, string sParam ) {
 	if ( sParam == "$companion" ) return GetHenchman( oPC );
 	
 	// String object?
-	object oStrObj = StringToObject( sParam );
-	if ( GetIsObjectValid( oStrObj ) ) return oStrObj;
+	object oIntObj = IntToObject( StringToInt( sParam ) );
+	if ( GetIsObjectValid( oIntObj ) ) return oIntObj;
 	
 	// All other posibilities are invalid.
 	return OBJECT_INVALID;

@@ -57,7 +57,7 @@ void main( int iActionType, string sParam0, object oParam1, string sParam2, stri
 	object oPC = OBJECT_SELF;
 	
 	// Convert parameter.
-	string sParam1 = ObjectToString( oParam1 );
+	string sParam1 = IntToString( ObjectToInt( oParam1 ) );
 
 	// Generic UI actions.
 	switch ( iActionType ) {
