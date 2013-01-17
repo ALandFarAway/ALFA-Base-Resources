@@ -35,7 +35,7 @@
 const int ACR_TRADESCROLL_COST = 25;
 
 //! Index of the tradescroll item property.
-const int ACR_TRADESCROLL_IPRP_SPELL = 1473;
+const int ACR_TRADESCROLL_IPRP_SPELL = 1474;
 
 //! resref for tradescrolls
 const string ACR_TRADESCROLL_RESREF = "acr_it_tradescroll";
