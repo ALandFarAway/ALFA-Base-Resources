@@ -134,10 +134,7 @@ string ACR_FI_GetParameter( string sCommand, int nParamNumber ) {
 	iParamLength = FindSubString( sCommand, " ", iStartPosition ) - iStartPosition;
 	if ( iParamLength == -1 ) iParamLength = GetStringLength( sCommand ) - iStartPosition;
 	
-	// Verify output and return.
-	if ( iStartPosition < 1 || iParamLength < 1 ) {
-		return "";
-	}
+	// Return.
 	return GetSubString( sCommand, iStartPosition, iParamLength );
 }
 
