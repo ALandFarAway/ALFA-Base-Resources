@@ -94,15 +94,21 @@ void ACR_FI_StudyForSpells( object oPC ) {
 
 
 void ACR_FI_Craft( object oPC, string sParam ) {
-	if ( sParam == "" ) {
-		object oTarget = GetPlayerCurrentTarget( oPC );
-		DecrementRemainingFeatUses( oPC, FEAT_CRAFT );
-		ACR_DoCrafting( oPC, oTarget );
+	// Decypher our target.
+	object oTarget = ACR_FI_ParameterToObject( oPC, sParam );
+
+	if ( GetIsCraftingProject( oTarget ) ) {
+		if ( GetHasFeat( FEAT_CRAFT, oPC, FALSE ) ) {
+			DecrementRemainingFeatUses( oPC, FEAT_CRAFT );
+			ACR_DoCrafting( oPC, oTarget );
+		} else {
+			SendMessageToPC( oPC, "You must wait to craft." );
+		}
 	} else if ( sParam == "wand" || sParam == "potion" || sParam == "scroll" ) {
 		OpenCraftingInterface( ACR_CRAFT_STORE_PREFIX + sParam, oPC );
 	} else {
 		SendMessageToPC( oPC, "Incorrect use of interface. Usage:" );
-		SendMessageToPC( oPC, "Do crafting on targetted item: #craft" );
+		SendMessageToPC( oPC, "Do crafting on targetted item: #craft $target" );
 		SendMessageToPC( oPC, "Open crafting store: #craft (wand/potion/scroll)" );
 	}
 }
@@ -144,6 +150,10 @@ object ACR_FI_ParameterToObject( object oPC, string sParam ) {
 	
 	// Allow targetting our animal companion/familiar.
 	if ( sParam == "$companion" ) return GetHenchman( oPC );
+	
+	// String object?
+	object oStrObj = StringToObject( sParam );
+	if ( GetIsObjectValid( oStrObj ) ) return oStrObj;
 	
 	// All other posibilities are invalid.
 	return OBJECT_INVALID;
