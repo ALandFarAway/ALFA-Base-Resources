@@ -78,9 +78,9 @@ void ACR_CreateTradeScroll( object oPC, int nSpellId ) {
 	}
 	
 	// Determine which spell to create.
-	int nSpellToCreate = nSpellId;
 	int nMasterSpell = StringToInt( Get2DAString( "spells", "Master", nSpellId ) );
-	if ( !GetIsDM( oPC ) && nMasterSpell > 0 ) nSpellToCreate = nSpellId;
+	int nSpellToCreate = nSpellId;
+	if ( !GetIsDM( oPC ) && nMasterSpell > 0 ) nSpellToCreate = nMasterSpell;
 	
 	// Find spell data.
 	string sSpellName = GetStringByStrRef( StringToInt( Get2DAString( "spells", "Name", nSpellToCreate ) ) );
@@ -109,13 +109,19 @@ void ACR_CreateTradeScroll( object oPC, int nSpellId ) {
 		}
 	}
 	
+	// Create the tradescroll.
+	object oScroll = CreateItemOnObject( ACR_TRADESCROLL_RESREF, oPC );
+	if ( !GetIsObjectValid( oScroll ) ) {
+		SendMessageToPC( oPC, "<C=red>Could not create tradescroll. Please report this bug on the forums.</C>" );
+		return;
+	}
+	
 	// Remove resources.
 	if ( !GetIsDM( oPC ) ) {
 		TakeGoldFromCreature( nCost, oPC, TRUE, TRUE );
 	}
-	
-	// Create the tradescroll.
-	object oScroll = CreateItemOnObject( ACR_TRADESCROLL_RESREF, oPC );
+	SetFirstName( oScroll, "Tradescroll: " + sSpellName );
+	SetLastName( oScroll, "" );
 	SetLocalInt( oScroll, ACR_TRADESCROLL_VAR, nSpellToCreate );
 }
 
