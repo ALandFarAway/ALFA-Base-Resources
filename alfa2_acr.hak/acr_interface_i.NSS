@@ -15,11 +15,17 @@
 //  them all. 
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef ACR_INTERFACE_I
+#define ACR_INTERFACE_I
+
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+#include "acr_craft_creation_i"
+#include "acr_craft_progress_i"
 #include "acr_nonlethal_i"
+#include "acr_resting_i"
 #include "acr_tradescroll_i"
 
 
@@ -72,48 +78,38 @@ void ACR_FI_SetSubdualMode( object oPC, string sState ) {
 }
 
 
-void ACR_FI_Pray( object oPC ) {
-	
+void ACR_FI_ManageSpells( object oPC ) {
+	SendMessageToPC( oPC, "Functionality not yet implemented." );
 }
 
 
-void ACR_FI_MemorizeSpells( object oPC ) {
-	
+void ACR_FI_PrayForSpells( object oPC ) {
+	ACR_PrayForSpells( oPC );
 }
 
 
-void ACR_FI_ListKnownSpells( object oPC, string sClass ) {
-	
+void ACR_FI_StudyForSpells( object oPC ) {
+	ACR_StudyForSpells( oPC );
 }
 
 
-void ACR_FI_ListPreparedSpells( object oPC, string sClass ) {
-	
-}
-
-
-void ACR_FI_Craft( object oPC, object oTarget ) {
-	
-}
-
-
-void ACR_FI_ScribeScroll( object oPC ) {
-	
+void ACR_FI_Craft( object oPC, sParam ) {
+	if ( sParam == "" ) {
+		object oTarget = GetPlayerCurrentTarget( oPC );
+		DecrementRemainingFeatUses( oPC, FEAT_CRAFT );
+		ACR_DoCrafting( oPC, oTarget );
+	} else if ( sParam == "wand" || sParam == "potion" || sParam == "scroll" ) {
+		OpenCraftingInterface( ACR_CRAFT_STORE_PREFIX + sParam, oPC );
+	} else {
+		SendMessageToPC( oPC, "Incorrect use of interface. Usage:" );
+		SendMessageToPC( oPC, "Do crafting on targetted item: #craft" );
+		SendMessageToPC( oPC, "Open crafting store: #craft (wand/potion/scroll)" );
+	}
 }
 
 
 void ACR_FI_MakeTradescroll( object oPC, string sSpell ) {
 	ACR_CreateTradeScroll( oPC, StringToInt( sSpell ) );
-}
-
-
-void ACR_FI_BrewPotion( object oPC ) {
-	
-}
-
-
-void ACR_FI_CraftWand( object oPC ) {
-	
 }
 
 
@@ -166,6 +162,10 @@ void ACR_FI_RunCommand( object oPC, string sCommand, string sParam0 = "", string
 	
 	// Actual commands.
 	if ( sCmd == "subdual" ) ACR_FI_SetSubdualMode( oPC, sP1 );
+	else if ( sCmd == "managespells" ) ACR_FI_ManageSpells( oPC );
+	else if ( sCmd == "pray" ) ACR_FI_PrayForSpells( oPC, );
+	else if ( sCmd == "spellbook" ) ACR_FI_StudyForSpells( oPC );
+	else if ( sCmd == "craft" ) ACR_FI_Craft( oPC, sP1 );
 	else if ( sCmd == "tradescroll" ) ACR_FI_MakeTradescroll( oPC, sP1 );
 }
 
@@ -182,3 +182,5 @@ void ACR_FI_ParseAndRunCommand( object oPC, string sInput ) {
 	// Call our parent method.
 	ACR_FI_RunCommand( oPC, sCommand, sParam0, sParam1, sParam2 );
 }
+
+#endif
