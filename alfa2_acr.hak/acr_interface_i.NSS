@@ -27,6 +27,7 @@
 #include "acr_nonlethal_i"
 #include "acr_pps_i"
 #include "acr_resting_i"
+#include "acr_time_i"
 #include "acr_tradescroll_i"
 
 
