@@ -12,9 +12,10 @@
 //  Description
 //  This file contains the code necessary to support tradescroll generation
 //
-//  Revision History
-//  2009/01/14 AcadiusLost Inception
 ////////////////////////////////////////////////////////////////////////////////
+
+#ifndef ACR_TRADESCROLL_I
+#define ACR_TRADESCROLL_I
 
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
@@ -163,40 +164,11 @@ int _DoTradeScrollSpellHook()
 
     if (GetResRef(oTarget) == ACR_MOD_SPELLBOOK_RESREF)
     {
-        if ((GetLastSpellCastClass() == CLASS_TYPE_WIZARD) || GetIsDM(OBJECT_SELF))
-        {
-            int nPropID = IPGetIPConstCastSpellFromSpellID(nSpell);
-            if (nPropID == -1)
-            {
-                SendMessageToPC(OBJECT_SELF, "For some reason you can't copy this spell. Possibly a bug! Ask!");
-            }
-            else
-            {
-				string sSpellName = GetStringByStrRef(StringToInt(Get2DAString("spells", "Name", nSpell)));
-				int nSpellLevel = StringToInt(Get2DAString("spells", "Wiz_Sorc", nSpell));
-            	nCost =  nSpellLevel * ACR_TRADESCROLL_COST;
-				// cantrips should cost half of a 1st level spell.
-				if (nCost == 0) { nCost = 12; }
-                if (GetGold() >= nCost || GetIsDM(OBJECT_SELF))
-                {
-                    object oScroll = CreateItemOnObject(ACR_TRADESCROLL_RESREF, OBJECT_SELF);
-                    IPRemoveAllItemProperties(oScroll, DURATION_TYPE_PERMANENT);
-                    itemproperty iProp = ItemPropertyCastSpell(nPropID, IP_CONST_CASTSPELL_NUMUSES_SINGLE_USE);
-                    AddItemProperty(DURATION_TYPE_PERMANENT, iProp, oScroll);
-                    SendMessageToPC(OBJECT_SELF, "You have created a trading copy.");
-					SetFirstName(oScroll, "Tradescroll, "+sSpellName);
-					SetDescription(oScroll, "This is a nonmagical trade copy of the spell "+sSpellName+".  It does not hold the energy necessary to actually cast the spell, but may be used to copy into a spellbook.  Tradescrolls cost 25 gp per spell level to transcribe, with cantrips costing 12gp.");
-                    TakeGoldFromCreature(nCost, OBJECT_SELF, TRUE);
-                }
-                else SendMessageToPC(OBJECT_SELF, "You don't have enough gold to make a copy of this spell.");
-            }
-        }
-        else
-        {
-                SendMessageToPC(OBJECT_SELF, "Only wizard spells may be copied into tradescrolls.");
-        }
+        ACR_CreateTradeScroll( OBJECT_SELF, nSpell );
         SetModuleOverrideSpellScriptFinished();
         nReturn = TRUE;
     }
     return nReturn;
 }
+
+#endif
