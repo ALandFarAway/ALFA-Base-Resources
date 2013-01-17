@@ -98,6 +98,7 @@ void ACR_FI_StudyForSpells( object oPC ) {
 void ACR_FI_Craft( object oPC, string sParam ) {
 	// Decypher our target.
 	object oTarget = ACR_FI_ParameterToObject( oPC, sParam );
+	SendMessageToPC( oPC, GetName( oTarget ) );
 
 	if ( GetIsCraftingProject( oTarget ) ) {
 		if ( GetHasFeat( FEAT_CRAFT, oPC, FALSE ) ) {
@@ -128,7 +129,7 @@ void ACR_FI_SetAFK( object oPC ) {
 
 void ACR_FI_ShowCurrentTime( object oPC ) {
 	SendMessageToPC( oPC, ACR_FRDateToString( TRUE, FALSE, TRUE, TRUE, TRUE, TRUE ) );
-	int nHoursToRest = ACR_GetHoursUntilRest( oPC );
+	int nHoursToWait = ACR_GetHoursUntilRest( oPC );
 	if ( nHoursToWait > 0 ) {
 		SendMessageToPC(oPC, "You must wait another " + IntToString( nHoursToWait ) + " hours to rest.");
 	} else {

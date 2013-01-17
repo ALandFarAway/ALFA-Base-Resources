@@ -205,7 +205,7 @@ void ACR_SetAFK( object oPC, int nState );
 
 //! Function to get the player's AFK state.
 //!  - oPC : Player to get AFK status.
-int ACR_GetAFK( object oPC nState );
+int ACR_GetAFK( object oPC );
 
 //! *** PRIVATE FUNCTIONS ***
 
@@ -1066,7 +1066,7 @@ effect ACR_GetAFKEffect() {
 void ACR_SetAFK( object oPC, int nState ) {
 	if ( nState == 0 ) {
 		effect e;
-		for ( e = GetFirstEffect( oPC );  GetIsEffectValid(e); GetNextEffect(e) ) {
+		for ( e = GetFirstEffect( oPC );  GetIsEffectValid( e ); GetNextEffect( oPC ) ) {
 			if ( GetEffectSpellId(e) == -999 ) RemoveEffect( oPC, e );
 		}
 	} else {
@@ -1076,7 +1076,7 @@ void ACR_SetAFK( object oPC, int nState ) {
 	SetLocalInt( oPC, "ACR_PPS_AFK", nState );
 }
 
-int ACR_GetAFK( object oPC nState ) {
+int ACR_GetAFK( object oPC ) {
 	return GetLocalInt( oPC, "ACR_PPS_AFK" );
 }
 
