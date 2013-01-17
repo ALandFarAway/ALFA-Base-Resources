@@ -411,6 +411,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gb_assoc_spell.ncs                    \
             $(OUTPUTDIR)\gb_assoc_usrdef.ncs                   \
             $(OUTPUTDIR)\gui_acr_ugui.ncs                      \
+            $(OUTPUTDIR)\gui_acr_ugui_target.ncs               \
             $(OUTPUTDIR)\gui_hss_pc_tool.ncs                   \
             $(OUTPUTDIR)\gui_cre_identify.ncs                  \
             $(OUTPUTDIR)\gui_dmc_crexamine.ncs                 \
