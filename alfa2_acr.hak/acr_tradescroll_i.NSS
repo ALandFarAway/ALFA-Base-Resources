@@ -24,6 +24,7 @@
 #include "x2_inc_craft"
 
 #include "acr_items_i"
+#include "acr_tools_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -84,6 +85,13 @@ void ACR_CreateTradeScroll( object oPC, int nSpellId ) {
 	
 	// Check requirements.
 	if ( !GetIsDM( oPC ) ) {
+		// Has wizard levels?
+		int nWizardPosition = GetClassPosition( oPC, CLASS_TYPE_WIZARD );
+		if ( nWizardPosition == -1 ) {
+			SendMessageToPC( oPC, "Only wizards may use tradescrolls." );
+			return;
+		}
+		
 		// Do you know the spell?
 		if ( !GetSpellKnown( oPC, nSpellId ) ) {
 			SendMessageToPC( oPC, "You cannot create tradescrolls of spells you do not know." );
@@ -122,18 +130,16 @@ void ACR_LearnTradescroll( object oPC, object oTradescroll ) {
 		return;
 	}
 	
-	// Do we already know the spell?
-	if ( GetSpellKnown( oPC, nSpellId ) ) {
-		SendMessageToPC( oPC, "You already know this spell." );
+	// Has wizard levels?
+	int nWizardPosition = GetClassPosition( oPC, CLASS_TYPE_WIZARD );
+	if ( nWizardPosition == -1 ) {
+		SendMessageToPC( oPC, "Only wizards may use tradescrolls." );
 		return;
 	}
 	
-	// Has wizard levels?
-	int nWizardPosition = -1;
-	int i = 0;
-	for ( i = 0; i < 4; i++ ) if ( GetClassByPosition( i, oPC ) == CLASS_TYPE_WIZARD ) nWizardPosition = i;
-	if ( nWizardPosition == -1 ) {
-		SendMessageToPC( oPC, "Only wizards may use tradescrolls." );
+	// Do we already know the spell?
+	if ( GetSpellKnown( oPC, nSpellId ) ) {
+		SendMessageToPC( oPC, "You already know this spell." );
 		return;
 	}
 	
