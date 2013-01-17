@@ -1066,7 +1066,7 @@ effect ACR_GetAFKEffect() {
 void ACR_SetAFK( object oPC, int nState ) {
 	if ( nState == 0 ) {
 		effect e;
-		for ( e = GetFirstEffect( oPC );  GetIsEffectValid( e ); GetNextEffect( oPC ) ) {
+		for ( e = GetFirstEffect( oPC );  GetIsEffectValid( e ); e = GetNextEffect( oPC ) ) {
 			if ( GetEffectSpellId(e) == -999 ) RemoveEffect( oPC, e );
 		}
 	} else {
