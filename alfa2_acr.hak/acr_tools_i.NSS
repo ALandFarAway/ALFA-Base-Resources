@@ -132,6 +132,10 @@ int RemoveAllEffectsFrom(object oObject, object oSource);
 // Returns 0 on error.
 int GetClassCasterLevel(int nClass, object oPC);
 
+//! Returns the position of the class.
+//! Provides -1 if the object does not have the class.
+int GetClassPosition( object oPC, int nClass );
+
 // Returns the ability score (one of the ABILITY_* constants) nClasses uses
 // to cast spells.
 // Returns 0 on error.
@@ -544,6 +548,13 @@ int GetClassCasterLevel(int nClass, object oPC) {
     } else {
         return GetLevelByClass(nClass, oPC);
     }
+}
+
+int GetClassPosition( object oPC, int nClass ) {
+	if ( !GetIsObjectValid( oPC ) ) return -1;
+	int i = 0;
+	for ( i = 0; i < 4; i++ ) if ( GetClassByPosition( i, oPC ) == nClass ) return i;
+	return -1;
 }
 
 int GetCasterClassAbilityScore(int nClass) {
