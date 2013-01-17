@@ -120,7 +120,7 @@ void ACR_CreateTradeScroll( object oPC, int nSpellId ) {
 	}
 	
 	// Create the tradescroll.
-	object oScroll = CreateItemOnObject( ACR_TRADESCROLL_RESREF, oPC );
+	object oScroll = CreateItemOnObject( ACR_TRADESCROLL_RESREF, oPC, 1, "", FALSE );
 	if ( !GetIsObjectValid( oScroll ) ) {
 		SendMessageToPC( oPC, "<C=red>Could not create tradescroll. Please report this bug on the forums.</C>" );
 		return;
@@ -128,16 +128,18 @@ void ACR_CreateTradeScroll( object oPC, int nSpellId ) {
 	
 	// Remove resources.
 	if ( !GetIsDM( oPC ) ) {
-		TakeGoldFromCreature( nCost, oPC, TRUE, TRUE );
+		AssignCommand( oPC, ClearAllActions() );
+		AssignCommand( oPC, TakeGoldFromCreature( nCost, oPC, TRUE, FALSE ) );
 	}
 	
 	// Set name, description, item property, and local variable.
 	SetFirstName( oScroll, "Tradescroll: " + sSpellName );
 	SetLastName( oScroll, "" );
-	SetDescription( oScroll, "This scroll represents the work done and resources used to copy a spell from one wizard's spellbook to another. This holds to knowledge of " + sSpellName + "." );
+	SetDescription( oScroll, "This scroll represents the work done and resources used to copy a spell from one wizard's spellbook to another. This scroll holds the knowledge of " + sSpellName + "." );
 	itemproperty ipTradescrollProp = ItemPropertyCastSpell( ACR_TRADESCROLL_IPRP_SPELL, IP_CONST_CASTSPELL_NUMUSES_UNLIMITED_USE );
 	AddItemProperty( DURATION_TYPE_PERMANENT, ipTradescrollProp, oScroll );
 	SetLocalInt( oScroll, ACR_TRADESCROLL_VAR, nSpellToCreate );
+	SendMessageToPC( oPC, "Created a tradescroll of " + sSpellName + " for " + IntToString( nCost ) + "gp in supplies." );
 }
 
 
@@ -176,7 +178,6 @@ void ACR_LearnTradescroll( object oPC, object oTradescroll ) {
 
 int _DoTradeScrollSpellHook()
 {
-    int nCost = 0;
     int nReturn = FALSE;
     int nSpell = GetSpellId();
     object oTarget = GetSpellTargetObject();
