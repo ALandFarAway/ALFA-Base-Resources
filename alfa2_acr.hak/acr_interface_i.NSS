@@ -25,6 +25,7 @@
 #include "acr_craft_creation_i"
 #include "acr_craft_progress_i"
 #include "acr_nonlethal_i"
+#include "acr_pps_i"
 #include "acr_resting_i"
 #include "acr_tradescroll_i"
 
@@ -119,6 +120,22 @@ void ACR_FI_MakeTradescroll( object oPC, string sSpell ) {
 }
 
 
+void ACR_FI_SetAFK( object oPC ) {
+	ACR_SetAFK( oPC, !ACR_GetAFK( oPC ) );
+}
+
+
+void ACR_FI_ShowCurrentTime( object oPC ) {
+	SendMessageToPC( oPC, ACR_FRDateToString( TRUE, FALSE, TRUE, TRUE, TRUE, TRUE ) );
+	int nHoursToRest = ACR_GetHoursUntilRest( oPC );
+	if ( nHoursToWait > 0 ) {
+		SendMessageToPC(oPC, "You must wait another " + IntToString( nHoursToWait ) + " hours to rest.");
+	} else {
+		SendMessageToPC(oPC, "You may rest.");
+	}
+}
+
+
 string ACR_FI_GetParameter( string sCommand, int nParamNumber ) {
 	// Reusable variables.
 	int i;
@@ -177,6 +194,8 @@ void ACR_FI_RunCommand( object oPC, string sCommand, string sParam0 = "", string
 	else if ( sCmd == "spellbook" ) ACR_FI_StudyForSpells( oPC );
 	else if ( sCmd == "craft" ) ACR_FI_Craft( oPC, sP1 );
 	else if ( sCmd == "tradescroll" ) ACR_FI_MakeTradescroll( oPC, sP1 );
+	else if ( sCmd == "afk" ) ACR_FI_SetAFK( oPC );
+	else if ( sCmd == "time" ) ACR_FI_ShowCurrentTime( oPC );
 }
 
 
