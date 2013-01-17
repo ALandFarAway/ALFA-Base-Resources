@@ -198,6 +198,15 @@ void ACR_LogOfflineMessage( object oPC, string sMessage );
 //!  - oPC: Player character object to check for messages.
 void ACR_ReportOfflineMessages( object oPC );
 
+//! Function to set the player as AFK.
+//!  - oPC : Player to set AFK.
+//!  - nState : TRUE for AFK, FALSE to remove state.
+void ACR_SetAFK( object oPC, int nState );
+
+//! Function to get the player's AFK state.
+//!  - oPC : Player to get AFK status.
+int ACR_GetAFK( object oPC nState );
+
 //! *** PRIVATE FUNCTIONS ***
 
 //! This function transitions the PC to their last saved location upon spawning in
@@ -1048,6 +1057,27 @@ void ACR_ReportOfflineMessages( object oPC ) {
 	
 	// Delete messages.
 	ACR_SQLQuery( "DELETE FROM `offline_messages` WHERE `CharacterID`=" + IntToString( ACR_GetCharacterID( oPC ) ) + ";" );
+}
+
+effect ACR_GetAFKEffect() {
+	return SupernaturalEffect( SetEffectSpellId( EffectNWN2SpecialEffectFile( "fx_hss_afk_01" ), -999 ) );
+}
+
+void ACR_SetAFK( object oPC, int nState ) {
+	if ( nState == 0 ) {
+		effect e;
+		for ( e = GetFirstEffect( oPC );  GetIsEffectValid(e); GetNextEffect(e) ) {
+			if ( GetEffectSpellId(e) == -999 ) RemoveEffect( oPC, e );
+		}
+	} else {
+		ACR_SetAFK( oPC, 0 );
+		ApplyEffectToObject( DURATION_TYPE_PERMANENT, ACR_GetAFKEffect(), oPC );
+	}
+	SetLocalInt( oPC, "ACR_PPS_AFK", nState );
+}
+
+int ACR_GetAFK( object oPC nState ) {
+	return GetLocalInt( oPC, "ACR_PPS_AFK" );
 }
 
 void ACR_PPSValidatePC(object oTarget) {
