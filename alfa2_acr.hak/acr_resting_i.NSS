@@ -681,7 +681,6 @@ int _playerCanRest(object oPC)
         // Check if enough time hasn't elapsed between attempts.
         int nHoursToWait = ACR_GetHoursUntilRest( oPC );
         if ( nHoursToWait > 0 ) {
-			
             SendMessageToPC(oPC, "You must wait another " + IntToString( nHoursToWait ) + " hours to rest."); 
             nReturn = ACR_REST_TYPE_NOTTIRED;
         }
