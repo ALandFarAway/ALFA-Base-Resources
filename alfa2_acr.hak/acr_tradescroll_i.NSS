@@ -77,10 +77,14 @@ void ACR_CreateTradeScroll( object oPC, int nSpellId ) {
 		return;
 	}
 	
-	// Find spell data.
+	// Determine which spell to create.
+	int nSpellToCreate = nSpellId;
 	int nMasterSpell = StringToInt( Get2DAString( "spells", "Master", nSpellId ) );
-	string sSpellName = GetStringByStrRef( StringToInt( Get2DAString( "spells", "Name", nSpellId ) ) );
-	int nSpellLevel = StringToInt( Get2DAString( "spells", "Wiz_Sorc", nSpellId ) );
+	if ( !GetIsDM( oPC ) && nMasterSpell > 0 ) nSpellToCreate = nSpellId;
+	
+	// Find spell data.
+	string sSpellName = GetStringByStrRef( StringToInt( Get2DAString( "spells", "Name", nSpellToCreate ) ) );
+	int nSpellLevel = StringToInt( Get2DAString( "spells", "Wiz_Sorc", nSpellToCreate ) );
 	int nCost = ACR_TRADESCROLL_COST * nSpellLevel;
 	
 	// Check requirements.
@@ -104,10 +108,6 @@ void ACR_CreateTradeScroll( object oPC, int nSpellId ) {
 			return;
 		}
 	}
-	
-	// Determine which spell to create.
-	int nSpellToCreate = nSpellId;
-	if ( !GetIsDM( oPC ) && nMasterSpell > 0 ) nSpellToCreate = nSpellId;
 	
 	// Remove resources.
 	if ( !GetIsDM( oPC ) ) {
