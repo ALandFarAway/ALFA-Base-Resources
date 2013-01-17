@@ -34,6 +34,9 @@
 //! TRADE_SCROLL_COST is per spell level
 const int ACR_TRADESCROLL_COST = 25;
 
+//! Index of the tradescroll item property.
+const int ACR_TRADESCROLL_IPRP_SPELL = 1473;
+
 //! resref for tradescrolls
 const string ACR_TRADESCROLL_RESREF = "acr_it_tradescroll";
 
@@ -84,8 +87,15 @@ void ACR_CreateTradeScroll( object oPC, int nSpellId ) {
 	
 	// Find spell data.
 	string sSpellName = GetStringByStrRef( StringToInt( Get2DAString( "spells", "Name", nSpellToCreate ) ) );
-	int nSpellLevel = StringToInt( Get2DAString( "spells", "Wiz_Sorc", nSpellToCreate ) );
+	string sSpellLevel = Get2DAString( "spells", "Wiz_Sorc", nSpellToCreate );
+	int nSpellLevel = StringToInt( sSpellLevel );
 	int nCost = ACR_TRADESCROLL_COST * nSpellLevel;
+	
+	// Must be a wizard spell.
+	if ( nSpellLevel == 0 && sSpellLevel != "0" ) {
+		SendMessageToPC( oPC, "Only wizard spells can be made into tradescrolls." );
+		return;
+	}
 	
 	// Check requirements.
 	if ( !GetIsDM( oPC ) ) {
@@ -120,8 +130,13 @@ void ACR_CreateTradeScroll( object oPC, int nSpellId ) {
 	if ( !GetIsDM( oPC ) ) {
 		TakeGoldFromCreature( nCost, oPC, TRUE, TRUE );
 	}
+	
+	// Set name, description, item property, and local variable.
 	SetFirstName( oScroll, "Tradescroll: " + sSpellName );
 	SetLastName( oScroll, "" );
+	SetDescription( oScroll, "This scroll represents the work done and resources used to copy a spell from one wizard's spellbook to another." );
+	itemproperty ipTradescrollProp = ItemPropertyCastSpell( ACR_TRADESCROLL_IPRP_SPELL, IP_CONST_CASTSPELL_NUMUSES_UNLIMITED_USE );
+	AddItemProperty( DURATION_TYPE_PERMANENT, ipTradescrollProp, oScroll );
 	SetLocalInt( oScroll, ACR_TRADESCROLL_VAR, nSpellToCreate );
 }
 

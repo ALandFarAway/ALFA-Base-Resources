@@ -1475,3 +1475,4 @@
 1471 Glibness_(5)                                      16778514 5         3         5400   3125       1         1       1          ia_customtextmacro         
 1472 ACR_ZSPAWN_ONE                                    16790211 1         1         1      3131       1         1       1          acr_spawnone               
 1472 ACR_ZSPAWN_2D4                                    16790212 1         1         1      3132       1         1       1          acr_spawn2d4               
+1473 ACR_SCRIBE_TRADESCROLL                            68895    1         1         1      3133       1         1       1          it_whiteparch               

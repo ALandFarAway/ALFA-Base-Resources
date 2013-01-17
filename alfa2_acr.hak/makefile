@@ -274,6 +274,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\X2_S0_BattTideC.ncs                   \
             $(OUTPUTDIR)\x2_s0_cureother.ncs                   \
             $(OUTPUTDIR)\x2_s1_ether.ncs                       \
+            $(OUTPUTDIR)\acr_tradescroll_impact.ncs            \
             $(OUTPUTDIR)\gui_zspawn_open.ncs                   \
             $(OUTPUTDIR)\gui_zspawn_close.ncs                  \
             $(OUTPUTDIR)\gui_zspawn_new.ncs                    \
