@@ -118,6 +118,7 @@ int ACR_AddAnchor( object oPC, object oTarget, int nIndex = -1 ) {
 			if ( !GetIsObjectValid( ACR_GetAnchor( oPC, i ) ) ) {
 				nIndex = i;
 				bFoundIndex = TRUE;
+				break;
 			}
 		}
 		if ( !bFoundIndex ) {
@@ -196,12 +197,15 @@ int ACR_IsAnchorable( object oPC, object oTarget ) {
 	if ( !GetIsObjectValid( oPC ) ) return FALSE;
 	if ( !GetIsObjectValid( oTarget ) ) return FALSE;
 	
+	// Can only anchor creatures.
+	if ( GetObjectType( oTarget ) != OBJECT_TYPE_CREATURE ) return FALSE;
+	
 	// Anyone can anchor themselves or their creation.
 	if ( oPC == oTarget ) return TRUE;
 	if ( oPC == GetOwnedCharacter( oTarget ) ) return TRUE;
 	
 	// Players can take anchor of nothing else.
-//	if ( !GetIsDM( oPC ) ) return FALSE;
+	if ( !GetIsDM( oPC ) ) return FALSE;
 	
 	// DMs cannot take control of player-owned objects.
 	if ( GetIsPC( oTarget ) ) return FALSE;
