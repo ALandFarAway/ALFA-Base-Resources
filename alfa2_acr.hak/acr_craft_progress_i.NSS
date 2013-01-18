@@ -719,6 +719,8 @@ void ACR_DoCrafting( object oCrafter, object oTarget ) {
 			if(GetNumStackedItems(oTarget) > 1) {
 				// Don't convert stacks of items - who knows what would happen. Later we might want to autmatically seperate them.
 				SendMessageToPC(oCrafter, "You cannot convert a stack of items into a crafting project. Seperate one a single item first.");
+				IncrementRemainingFeatUses(oCrafter, FEAT_CRAFT);
+				return;
 			}
 			SendMessageToPC(oCrafter, "Turning " + GetName(oTarget) + " into a crafting project.");
 			MakeCraftingProjectFromItem(oTarget);
