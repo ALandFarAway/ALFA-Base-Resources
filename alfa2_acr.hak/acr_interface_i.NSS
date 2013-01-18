@@ -22,6 +22,7 @@
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+#include "acr_anchor_i"
 #include "acr_craft_creation_i"
 #include "acr_craft_progress_i"
 #include "acr_nonlethal_i"
@@ -98,7 +99,6 @@ void ACR_FI_StudyForSpells( object oPC ) {
 void ACR_FI_Craft( object oPC, string sParam ) {
 	// Decypher our target.
 	object oTarget = ACR_FI_ParameterToObject( oPC, sParam );
-	SendMessageToPC( oPC, GetName( oTarget ) );
 
 	if ( GetIsCraftingProject( oTarget ) ) {
 		if ( GetHasFeat( FEAT_CRAFT, oPC, FALSE ) ) {
@@ -134,6 +134,23 @@ void ACR_FI_ShowCurrentTime( object oPC ) {
 		SendMessageToPC(oPC, "You must wait another " + IntToString( nHoursToWait ) + " hours to rest.");
 	} else {
 		SendMessageToPC(oPC, "You may rest.");
+	}
+}
+
+
+void ACR_FI_Anchor( object oPC, string sTarget, string sIndex ) {
+	object oTarget = ACR_FI_ParameterToObject( oPC, sTarget );
+	int nIndex = StringToInt( sIndex );
+	if ( sIndex == "" ) nIndex = -1;
+	
+	if ( sTarget == "" ) {
+		ACR_OpenAnchorManager( oPC );
+	} else if ( GetIsObjectValid( oTarget ) ) {
+		ACR_AddAnchor( oPC, oTarget, nIndex );
+	} else {
+		SendMessageToPC( oPC, "Incorrect use of interface. Usage:" );
+		SendMessageToPC( oPC, "Anchor target to next available index: #anchor $target" );
+		SendMessageToPC( oPC, "Anchor familiar to index 1: #anchor $companion 1" );
 	}
 }
 
@@ -198,6 +215,7 @@ void ACR_FI_RunCommand( object oPC, string sCommand, string sParam0 = "", string
 	else if ( sCmd == "tradescroll" ) ACR_FI_MakeTradescroll( oPC, sP1 );
 	else if ( sCmd == "afk" ) ACR_FI_SetAFK( oPC );
 	else if ( sCmd == "time" ) ACR_FI_ShowCurrentTime( oPC );
+	else if ( sCmd == "anchor" ) ACR_FI_Anchor( oPC, sP1, sP2 );
 }
 
 
