@@ -8,6 +8,7 @@ const int ACTION_REMOVE_ONE = 4;
 const int ACTION_REMOVE_ALL = 5;
 const int ACTION_JUMP_DM = 6;
 const int ACTION_JUMP_ANCHOR = 7;
+const int ACTION_SELECTED = 8;
 
 void ACR_GUI_RefreshAnchorList( object oPC ) {
 	// Clear our current list.
@@ -40,6 +41,8 @@ void ACR_GUI_RefreshAnchorList( object oPC ) {
 void main( int nAction, string sParam0, string sParam1, string sParam2 ) {
 	object oPC = OBJECT_SELF;
 	
+	SendMessageToPC( oPC, "gui_acr_anchoman( " + IntToString( nAction ) + ", " + sParam1 + ", " + sParam2 + " )" );
+	
 	switch ( nAction ) {
 		case ACTION_CLOSE:
 			CloseGUIScreen( oPC, ACR_ANCR_UI_SCENE );
@@ -62,6 +65,9 @@ void main( int nAction, string sParam0, string sParam1, string sParam2 ) {
 			
 			break;
 		case ACTION_JUMP_ANCHOR:
+			
+			break;
+		case ACTION_SELECTED:
 			
 			break;
 	}
