@@ -201,8 +201,13 @@ int ACR_IsAnchorable( object oPC, object oTarget ) {
 	if ( GetObjectType( oTarget ) != OBJECT_TYPE_CREATURE ) return FALSE;
 	
 	// Anyone can anchor themselves or their creation.
-	if ( oPC == oTarget ) return TRUE;
-	if ( oPC == GetOwnedCharacter( oTarget ) ) return TRUE;
+	if ( oTarget == oPC ) return TRUE;
+	if ( oTarget == GetAssociate( ASSOCIATE_TYPE_ANIMALCOMPANION, oPC ) ) return TRUE;
+	if ( oTarget == GetAssociate( ASSOCIATE_TYPE_DOMINATED, oPC ) ) return TRUE;
+	if ( oTarget == GetAssociate( ASSOCIATE_TYPE_FAMILIAR, oPC ) ) return TRUE;
+	if ( oTarget == GetAssociate( ASSOCIATE_TYPE_HENCHMAN, oPC ) ) return TRUE;
+	if ( oTarget == GetAssociate( ASSOCIATE_TYPE_SUMMONED, oPC ) ) return TRUE;
+	if ( oTarget == GetOwnedCharacter( oPC ) ) return TRUE;
 	
 	// Players can take anchor of nothing else.
 	if ( !GetIsDM( oPC ) ) return FALSE;
