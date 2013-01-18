@@ -1,21 +1,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
 //  System Name : ALFA Core Rules
-//     Filename : acr_ugui_i.nss
+//     Filename : acr_gui_i.nss
 //      Version : 1.0
 //         Date : 2012-01-08
 //       Author : FoamBats4All
-//
-//  Local Variable Prefix:
-//	ACR_UGUI
 //
 //  Dependencies:
 //	None.
 //
 //  Description:
-//  This module defines functions to control the ALFA Universal Graphical User
-//  Interface, including functionalities to open, close, and set (sub)category
-//  content.
+//  This module defines functions to control various functions of ALFA's UIs.
 //  
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -28,20 +23,17 @@
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-// UI Scene and File Data
+// ALFA Universal GUI
 const string ACR_UGUI_SCENE = "SCREEN_ACR_UGUI";
-const string ACR_UGUI_FILE = "alfaui.xml";
+const string ACR_UGUI_FILE = "acr_ugui.xml";
 const string ACR_UGUI_MAINOBJ = "UGUI_MainInterface";
-
-// Player Local Variables
-const string ACR_UGUI_CURRENT_CAT = "ACR_UGUI_CURRENT_CAT";
-const string ACR_UGUI_CURRENT_SUBCAT = "ACR_UGUI_CURRENT_SUBCAT";
-
-// Callback Actions
+const string ACR_UGUI_VAR_CURRENT_CAT = "ACR_UGUI_CURRENT_CAT";
+const string ACR_UGUI_VAR_CURRENT_SUBCAT = "ACR_UGUI_CURRENT_SUBCAT";
 const int ACR_UGUI_ACT_CALL_INTERFACE = 1;
 const int ACR_UGUI_ACT_SET_COLLAPSED = 2;
 const int ACR_UGUI_ACT_OPEN_CATEGORY = 3;
 const int ACR_UGUI_ACT_OPEN_SUBCATEGORY = 4;
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -104,7 +96,7 @@ void ACR_UGUI_SetCurrentCategory( object oPC, string sCategory ) {
 	if ( sCategory == "" ) return;
 
 	// Get and disable our current category.
-	string sCurCategory = GetLocalString( oPC, ACR_UGUI_CURRENT_CAT );
+	string sCurCategory = GetLocalString( oPC, ACR_UGUI_VAR_CURRENT_CAT );
 	if ( sCurCategory != "" ) {
 		SetGUIObjectHidden( oPC, ACR_UGUI_SCENE, sCurCategory, TRUE );
 		SetGUIObjectHidden( oPC, ACR_UGUI_SCENE, sCurCategory + "_HINT", TRUE );
@@ -115,14 +107,14 @@ void ACR_UGUI_SetCurrentCategory( object oPC, string sCategory ) {
 	
 	// Allow toggling by clicking the same category twice.
 	if ( sCurCategory == sCategory ) {
-		DeleteLocalString( oPC, ACR_UGUI_CURRENT_CAT );
+		DeleteLocalString( oPC, ACR_UGUI_VAR_CURRENT_CAT );
 		return;
 	}
 	
 	// Show new category.
 	SetGUIObjectHidden( oPC, ACR_UGUI_SCENE, sCategory, FALSE );
 	SetGUIObjectHidden( oPC, ACR_UGUI_SCENE, sCategory + "_HINT", FALSE );
-	SetLocalString( oPC, ACR_UGUI_CURRENT_CAT, sCategory );
+	SetLocalString( oPC, ACR_UGUI_VAR_CURRENT_CAT, sCategory );
 }
 
 
@@ -131,10 +123,10 @@ void ACR_UGUI_CloseCurrentSubcategory( object oPC ) {
 	if ( !GetIsObjectValid( oPC ) ) return;
 
 	// Get and disable our current subcategory.
-	string sCurSubcategory = GetLocalString( oPC, ACR_UGUI_CURRENT_SUBCAT );
+	string sCurSubcategory = GetLocalString( oPC, ACR_UGUI_VAR_CURRENT_SUBCAT );
 	if ( sCurSubcategory != "" ) {
 		SetGUIObjectHidden( oPC, ACR_UGUI_SCENE, sCurSubcategory, TRUE );
-		DeleteLocalString( oPC, ACR_UGUI_CURRENT_SUBCAT );
+		DeleteLocalString( oPC, ACR_UGUI_VAR_CURRENT_SUBCAT );
 	}
 }
 
@@ -145,7 +137,7 @@ void ACR_UGUI_SetCurrentSubcategory( object oPC, string sSubcategory ) {
 	if ( sSubcategory == "" ) return;
 	
 	// Get and disable our current subcategory.
-	string sCurSubcategory = GetLocalString( oPC, ACR_UGUI_CURRENT_SUBCAT );
+	string sCurSubcategory = GetLocalString( oPC, ACR_UGUI_VAR_CURRENT_SUBCAT );
 	ACR_UGUI_CloseCurrentSubcategory( oPC );
 	
 	// Allow toggling by clicking the same category twice.
@@ -153,5 +145,5 @@ void ACR_UGUI_SetCurrentSubcategory( object oPC, string sSubcategory ) {
 	
 	// Show new subcategory.
 	SetGUIObjectHidden( oPC, ACR_UGUI_SCENE, sSubcategory, FALSE );
-	SetLocalString( oPC, ACR_UGUI_CURRENT_SUBCAT, sSubcategory );
+	SetLocalString( oPC, ACR_UGUI_VAR_CURRENT_SUBCAT, sSubcategory );
 }

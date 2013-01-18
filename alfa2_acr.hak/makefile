@@ -14,6 +14,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\1sc_searchable.nss                    \
             $(OUTPUTDIR)\1sc_searchable_treasure.nss           \
             $(OUTPUTDIR)\acr_1984_i.nss                        \
+            $(OUTPUTDIR)\acr_anchor_i.nss                      \
             $(OUTPUTDIR)\acr_area_i.nss                        \
             $(OUTPUTDIR)\acr_array_i.nss                       \
             $(OUTPUTDIR)\acr_list_i.nss                        \
@@ -61,7 +62,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_tradescroll_i.nss                 \
             $(OUTPUTDIR)\acr_travel_i.nss                      \
             $(OUTPUTDIR)\acr_trigger_i.nss                     \
-            $(OUTPUTDIR)\acr_ugui_i.nss                        \
+            $(OUTPUTDIR)\acr_gui_i.nss                         \
             $(OUTPUTDIR)\acr_vfx_i.nss                         \
             $(OUTPUTDIR)\acr_wealth_i.nss                      \
             $(OUTPUTDIR)\acr_xp_i.nss                          \
@@ -410,6 +411,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gb_assoc_spawn.ncs                    \
             $(OUTPUTDIR)\gb_assoc_spell.ncs                    \
             $(OUTPUTDIR)\gb_assoc_usrdef.ncs                   \
+            $(OUTPUTDIR)\gui_acr_anchorman.ncs                 \
             $(OUTPUTDIR)\gui_acr_ugui.ncs                      \
             $(OUTPUTDIR)\gui_acr_ugui_target.ncs               \
             $(OUTPUTDIR)\gui_hss_pc_tool.ncs                   \
