@@ -179,7 +179,7 @@ void ACR_RemoveAllAnchors( object oPC ) {
 
 object ACR_GetAnchor( object oPC, int nIndex ) {
 	// Get the anchor.
-	object oAnchor = ACR_GetAnchor( oPC, nIndex );
+	object oAnchor = GetLocalObject( oPC, ACR_ANCR_VAR_PREFIX + IntToString( nIndex ) );
 	
 	// Make sure it's still valid.
 	if ( !GetIsObjectValid( oAnchor ) ) {
