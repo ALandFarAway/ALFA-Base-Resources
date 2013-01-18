@@ -116,7 +116,7 @@
 #include "acr_scliext_i"
 #include "acr_area_instance_i"
 #include "acr_wealth_i"
-#include "acr_ugui_i"
+#include "acr_gui_i"
 
 #include "acf_spawn_i"
 #include "acf_settings_i"
