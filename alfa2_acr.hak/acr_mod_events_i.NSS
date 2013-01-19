@@ -117,6 +117,7 @@
 #include "acr_area_instance_i"
 #include "acr_wealth_i"
 #include "acr_gui_i"
+#include "acr_language_i"
 
 #include "acf_spawn_i"
 #include "acf_settings_i"
@@ -464,7 +465,7 @@ void _DistributeTranslationParty(string sTranslatedMessage, string sScrambledMes
          GetIsObjectValid(oListener);
          oListener = GetNextPC(FALSE))
     {
-        if ((_IsLanguageKnown(oListener, sLanguage) && GetFactionEqual(oSpeaker, oListener))
+        if ((ACR_IsLanguageKnown(oListener, sLanguage) && GetFactionEqual(oSpeaker, oListener))
             || GetIsDM(oListener) || GetIsDMPossessed(oListener) || oListener == oSpeaker)
         {
 #if DEBUG_LANG
@@ -496,7 +497,7 @@ void _DistributeTranslationSpoken(string sTranslatedMessage, string sScrambledMe
          GetIsObjectValid(oListener);
          oListener = GetNextObjectInShape(SHAPE_SPHERE, fRange, lSpeaker))
     {
-        if (bTranslate && _IsLanguageKnown(oListener, sLanguage) && !GetIsDM(oListener))
+        if (bTranslate && ACR_IsLanguageKnown(oListener, sLanguage) && !GetIsDM(oListener))
         {
 #if DEBUG_LANG
             WriteTimestampedLogEntry("_DistributeTranslationSpoken: Distributing message to non-DM listener " + GetName(oListener) + ".");
@@ -1325,16 +1326,16 @@ string _ParseLang(object oSpeaker, string sText)
     string sLangPick;
     int n;
 
-    n = FindSubString(sText,"@");
+    n = FindSubString(sText,ACR_LANG_MSG_TOKEN);
 
     // @Abcdef -> abc
     sText = GetStringLowerCase(GetStringRight(GetSubString(sText, n, 4),3));
 
-    sLangPick = ACR_LangAbbToLangID(sText);
+    sLangPick = ACR_LanguageAbbreviationToFullName(sText);
 
-    if (!_IsLanguageKnown(oSpeaker, sLangPick) && !GetIsDM(oSpeaker) && !GetIsDMPossessed(oSpeaker)) {
+    if ( !ACR_IsLanguageKnown(oSpeaker, sLangPick) ) {
         SendMessageToPC(oSpeaker, "You don't know how to speak "+ACR_LangIDToString(sLangPick)+".");
-        return GetLocalString(oSpeaker, "DefaultLanguage");
+        return GetLocalString(oSpeaker, ACR_LANG_VAR_DEFAULT);
     }
 
     return sLangPick;
@@ -1531,7 +1532,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
                 }
                 else
                 {
-                    sLangPick = GetLocalString(PlayerAvatar, "DefaultLanguage");
+                    sLangPick = GetLocalString(PlayerAvatar, ACR_LANG_VAR_DEFAULT);
                 }
             int nHandleLang = _HandleLang(oAnchor, sText, nMode, sLangPick, PlayerAvatar);
             if (nHandleLang)
@@ -1577,7 +1578,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         return FALSE;
     }
 
-    sLangPick = GetLocalString(oSpeaker, "DefaultLanguage");
+    sLangPick = GetLocalString(oSpeaker, ACR_LANG_VAR_DEFAULT);
 
     // the player is attempting to specify a different language.
     if (c == "@" || TestStringAgainstPattern("**@**",sText)) {
