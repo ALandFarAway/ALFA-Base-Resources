@@ -86,10 +86,10 @@ void _AddBonusLanguagesByRegion(int nRegion, object oPC);
 object _GetDMFITool(object oPC);
 
 // checks if a language is known
-int _IsLanguageKnown(object oPC, string sLang);
+int ACR_IsLanguageKnown(object oPC, string sLang);
 
 // grants an additional language
-void _GrantLanguage(object oPC, string sLang);
+void ACR_GrantLanguage(object oPC, string sLang);
 
 // adds a language to the list of language options
 void _GrantChoosenLang(object oPC, string sLang);
@@ -183,8 +183,8 @@ void ACR_LanguagesOnLevelUp(object oLeveled) {
 
 	// Check to see if the PC has any Druid levels, and needs Druidic
 	if (GetLevelByClass(CLASS_TYPE_DRUID, oLeveled) > 0) {
-		if (!_IsLanguageKnown(oLeveled, LNG_DRUIDIC)) {
-			_GrantLanguage(oLeveled, LNG_DRUIDIC);
+		if (!ACR_IsLanguageKnown(oLeveled, LNG_DRUIDIC)) {
+			ACR_GrantLanguage(oLeveled, LNG_DRUIDIC);
 		}
 	}
 	// if the PC is in the process of an automated rebuild, skip the rest of this for now.
@@ -240,7 +240,7 @@ void _AddAutomaticLanguagesByClass(object oPC) {
 	int nClass = GetClassByPosition(1, oPC);
 	// for now, just base this on the base class of the PC.
 	if (nClass == CLASS_TYPE_DRUID) {
-		_GrantLanguage(oPC, LNG_DRUIDIC);
+		ACR_GrantLanguage(oPC, LNG_DRUIDIC);
 	}
 	// cant isn't really canon as a universal rogue language, so leaving this for now.
 }
@@ -255,58 +255,58 @@ void _AddAutomaticLanguagesByRace(object oPC) {
 	if (nRace==RACIAL_TYPE_DWARF)
 	{
 		if (nSubRace==RACIAL_SUBTYPE_GRAY_DWARF) {
-			_GrantLanguage(oPC, LNG_UNDERCOMMON);
+			ACR_GrantLanguage(oPC, LNG_UNDERCOMMON);
 		} else {
-		    _GrantLanguage(oPC, LNG_COMMON);
+		    ACR_GrantLanguage(oPC, LNG_COMMON);
 		}
-		_GrantLanguage(oPC, LNG_DWARF);
+		ACR_GrantLanguage(oPC, LNG_DWARF);
 	}
 	else if (nRace==RACIAL_TYPE_ELF)
 	{
 		if (nSubRace==RACIAL_SUBTYPE_DROW) {
-			_GrantLanguage(oPC, LNG_DROW);
-			_GrantLanguage(oPC, LNG_UNDERCOMMON);
+			ACR_GrantLanguage(oPC, LNG_DROW);
+			ACR_GrantLanguage(oPC, LNG_UNDERCOMMON);
 		} else {
-			_GrantLanguage(oPC, LNG_COMMON);
-			_GrantLanguage(oPC, LNG_ELVEN);
+			ACR_GrantLanguage(oPC, LNG_COMMON);
+			ACR_GrantLanguage(oPC, LNG_ELVEN);
 		}	
 	}
 	else if (nSubRace==RACIAL_SUBTYPE_HALFELF)
 	{
-		_GrantLanguage(oPC, LNG_COMMON);
-		_GrantLanguage(oPC, LNG_ELVEN);
+		ACR_GrantLanguage(oPC, LNG_COMMON);
+		ACR_GrantLanguage(oPC, LNG_ELVEN);
 	}
 	else if (nSubRace==RACIAL_SUBTYPE_HALFDROW)
 	{
-		_GrantLanguage(oPC, LNG_COMMON);
-		_GrantLanguage(oPC, LNG_DROW);
+		ACR_GrantLanguage(oPC, LNG_COMMON);
+		ACR_GrantLanguage(oPC, LNG_DROW);
 	}
 	else if ((nRace==RACIAL_TYPE_HALFORC) || (nRace==RACIAL_TYPE_GRAYORC))
 	{
-		_GrantLanguage(oPC, LNG_COMMON);
-		_GrantLanguage(oPC, LNG_ORC);
+		ACR_GrantLanguage(oPC, LNG_COMMON);
+		ACR_GrantLanguage(oPC, LNG_ORC);
 	}	
 	else if (nRace==RACIAL_TYPE_HALFLING)
 	{
-		_GrantLanguage(oPC, LNG_COMMON);
-		_GrantLanguage(oPC, LNG_HALFLING);
+		ACR_GrantLanguage(oPC, LNG_COMMON);
+		ACR_GrantLanguage(oPC, LNG_HALFLING);
 	}
 	else if (nRace==RACIAL_TYPE_GNOME)
 	{
 	    if (nSubRace==RACIAL_SUBTYPE_SVIRFNEBLIN) {
-			_GrantLanguage(oPC, LNG_UNDERCOMMON);
+			ACR_GrantLanguage(oPC, LNG_UNDERCOMMON);
 		} else {
-			_GrantLanguage(oPC, LNG_COMMON);
+			ACR_GrantLanguage(oPC, LNG_COMMON);
 		}
-		_GrantLanguage(oPC, LNG_GNOME);
+		ACR_GrantLanguage(oPC, LNG_GNOME);
 	}
 	else if (nRace==RACIAL_TYPE_YUANTI)
 	{
-		_GrantLanguage(oPC, LNG_YUANTI);
+		ACR_GrantLanguage(oPC, LNG_YUANTI);
 	}
 	else 
 	{
-	 	_GrantLanguage(oPC, LNG_COMMON);
+	 	ACR_GrantLanguage(oPC, LNG_COMMON);
 	}
 }
 
@@ -316,192 +316,192 @@ void _AddAutomaticLanguagesByRegion(object oPC) {
 	int nRegion = ACR_GetCharacterRegion(oPC);
 	
 	if (nRegion == FEAT_REGION_AGLAROND) {
-		_GrantLanguage(oPC, LNG_ALGARONDAN);
+		ACR_GrantLanguage(oPC, LNG_ALGARONDAN);
 		
 	} else if (nRegion == FEAT_REGION_ALTUMBEL) {
-		_GrantLanguage(oPC, LNG_ALGARONDAN);
+		ACR_GrantLanguage(oPC, LNG_ALGARONDAN);
 		
 	} else if (nRegion == FEAT_REGION_AMN) {
-		_GrantLanguage(oPC, LNG_CHONDATHAN);
+		ACR_GrantLanguage(oPC, LNG_CHONDATHAN);
 
 	} else if (nRegion == FEAT_REGION_ANAUROCH) {
-		_GrantLanguage(oPC, LNG_MIDANI);
+		ACR_GrantLanguage(oPC, LNG_MIDANI);
 		
 	} else if (nRegion == FEAT_REGION_CALIMSHAN) {
-		_GrantLanguage(oPC, LNG_ALZHEDO);
+		ACR_GrantLanguage(oPC, LNG_ALZHEDO);
 		
 	} else if (nRegion == FEAT_REGION_CHESSENTA) {
-		_GrantLanguage(oPC, LNG_CHESSENTAN);
+		ACR_GrantLanguage(oPC, LNG_CHESSENTAN);
 		
 	} else if (nRegion == FEAT_REGION_CHONDALWOOD) {
-		_GrantLanguage(oPC, LNG_SHAARAN);
+		ACR_GrantLanguage(oPC, LNG_SHAARAN);
 			
 	} else if (nRegion == FEAT_REGION_CHULT) {
-		_GrantLanguage(oPC, LNG_CHULTAN);
+		ACR_GrantLanguage(oPC, LNG_CHULTAN);
 	
 	} else if (nRegion == FEAT_REGION_CORMYR) {
-		_GrantLanguage(oPC, LNG_CHONDATHAN);
+		ACR_GrantLanguage(oPC, LNG_CHONDATHAN);
 		
 	} else if (nRegion == FEAT_REGION_DALELANDS) {
-		_GrantLanguage(oPC, LNG_CHONDATHAN);
+		ACR_GrantLanguage(oPC, LNG_CHONDATHAN);
 		
 	} else if (nRegion == FEAT_REGION_DAMARA) {
-		_GrantLanguage(oPC, LNG_DAMARAN);
+		ACR_GrantLanguage(oPC, LNG_DAMARAN);
 		
 	} else if (nRegion == FEAT_REGION_DAMBRATH) {
-		_GrantLanguage(oPC, LNG_DAMBRATHAN);	
+		ACR_GrantLanguage(oPC, LNG_DAMBRATHAN);	
 			
 	} else 	if (nRegion == FEAT_REGION_DRAGON_COAST) {
-		_GrantLanguage(oPC, LNG_CHONDATHAN);
+		ACR_GrantLanguage(oPC, LNG_CHONDATHAN);
 		
 	} else if (nRegion == FEAT_REGION_EVERMEET) {
-		_GrantLanguage(oPC, LNG_ELVEN);
+		ACR_GrantLanguage(oPC, LNG_ELVEN);
 		
 	} else if (nRegion == FEAT_REGION_GOLDEN_WATER) {
-		_GrantLanguage(oPC, LNG_DURPARI);	
+		ACR_GrantLanguage(oPC, LNG_DURPARI);	
 			
 	} else if (nRegion == FEAT_REGION_GREAT_DALE) {
-		_GrantLanguage(oPC, LNG_DAMARAN);
+		ACR_GrantLanguage(oPC, LNG_DAMARAN);
 
 	} else if (nRegion == FEAT_REGION_GREAT_GLACIER) {
-		_GrantLanguage(oPC, LNG_ULUIK);
+		ACR_GrantLanguage(oPC, LNG_ULUIK);
 			
 	} else if (nRegion == FEAT_REGION_HALRUAA) {
-		_GrantLanguage(oPC, LNG_HALRUAAN);
+		ACR_GrantLanguage(oPC, LNG_HALRUAAN);
 				
 	} else if (nRegion == FEAT_REGION_HIGH_FOREST) {
-		_GrantLanguage(oPC, LNG_CHONDATHAN);
+		ACR_GrantLanguage(oPC, LNG_CHONDATHAN);
 		
 	} else if (nRegion == FEAT_REGION_HORDELANDS) {
-		_GrantLanguage(oPC, LNG_TUIGAN);
+		ACR_GrantLanguage(oPC, LNG_TUIGAN);
 		
 	} else 	if (nRegion == FEAT_REGION_IMPILTUR) {
-		_GrantLanguage(oPC, LNG_DAMARAN);
+		ACR_GrantLanguage(oPC, LNG_DAMARAN);
 		
 	} else if (nRegion == FEAT_REGION_LAKE_OF_STEAM) {
-		_GrantLanguage(oPC, LNG_SHAARAN);
+		ACR_GrantLanguage(oPC, LNG_SHAARAN);
 			
 	} else if (nRegion == FEAT_REGION_LANTAN) {
-		_GrantLanguage(oPC, LNG_LANTANESE);
+		ACR_GrantLanguage(oPC, LNG_LANTANESE);
 
 	} else if (nRegion == FEAT_REGION_LAPALIIYA) {
-		_GrantLanguage(oPC, LNG_TASHALAN);
+		ACR_GrantLanguage(oPC, LNG_TASHALAN);
 		
 	} else if (nRegion == FEAT_REGION_LUIREN) {
-		_GrantLanguage(oPC, LNG_HALFLING);
+		ACR_GrantLanguage(oPC, LNG_HALFLING);
 						
 	} else if (nRegion == FEAT_REGION_MOONSEA) {
-		_GrantLanguage(oPC, LNG_DAMARAN);
+		ACR_GrantLanguage(oPC, LNG_DAMARAN);
 											
 	} else if (nRegion == FEAT_REGION_MOONSHAE_ISLES) {
-		_GrantLanguage(oPC, LNG_ILLUSKAN);
+		ACR_GrantLanguage(oPC, LNG_ILLUSKAN);
 			
 	} else if (nRegion == FEAT_REGION_MULHORAND) {
-		_GrantLanguage(oPC, LNG_MULHORANDI);
+		ACR_GrantLanguage(oPC, LNG_MULHORANDI);
 		
 	} else if (nRegion == FEAT_REGION_NARFELL) {
-		_GrantLanguage(oPC, LNG_DAMARAN);
+		ACR_GrantLanguage(oPC, LNG_DAMARAN);
 			
 	} else if (nRegion == FEAT_REGION_NELANTHER) {
-		_GrantLanguage(oPC, LNG_CHONDATHAN);
+		ACR_GrantLanguage(oPC, LNG_CHONDATHAN);
 				
 	} else if (nRegion == FEAT_REGION_NORTH) {
-		// DMFI_GrantLanguage(oPC, LNG_CHONDATHAN); PGtF lists Illuskan alone
-		_GrantLanguage(oPC, LNG_ILLUSKAN);
+		// DMFIACR_GrantLanguage(oPC, LNG_CHONDATHAN); PGtF lists Illuskan alone
+		ACR_GrantLanguage(oPC, LNG_ILLUSKAN);
 		
 	} else if (nRegion == FEAT_REGION_RASHEMEN) {
-		_GrantLanguage(oPC, LNG_RASHEMI);
+		ACR_GrantLanguage(oPC, LNG_RASHEMI);
 
 	} else if (nRegion == FEAT_REGION_RIDE) {
-		_GrantLanguage(oPC, LNG_DAMARAN);
+		ACR_GrantLanguage(oPC, LNG_DAMARAN);
 				
 	} else if (nRegion == FEAT_REGION_SEMBIA) {
-		_GrantLanguage(oPC, LNG_CHONDATHAN);
+		ACR_GrantLanguage(oPC, LNG_CHONDATHAN);
 		
 	} else if (nRegion == FEAT_REGION_SESPECH) {
-		_GrantLanguage(oPC, LNG_SHAARAN);			
+		ACR_GrantLanguage(oPC, LNG_SHAARAN);			
 
 	} else if (nRegion == FEAT_REGION_SHAAR) {
-		_GrantLanguage(oPC, LNG_SHAARAN);
+		ACR_GrantLanguage(oPC, LNG_SHAARAN);
 			
 	} else if (nRegion == FEAT_REGION_SHADOVAR) {
-		_GrantLanguage(oPC, LNG_NETHERESE);
+		ACR_GrantLanguage(oPC, LNG_NETHERESE);
 		
 	} else if (nRegion == FEAT_REGION_SHOU_EXPATRIATE) {
-		_GrantLanguage(oPC, LNG_SHOU);
+		ACR_GrantLanguage(oPC, LNG_SHOU);
 										
 	} else if (nRegion == FEAT_REGION_SILVERYMOON) {
-		_GrantLanguage(oPC, LNG_CHONDATHAN);
-		// DMFI_GrantLanguage(oPC, LNG_ILLUSKAN); PGtF lists Chondathan only
+		ACR_GrantLanguage(oPC, LNG_CHONDATHAN);
+		// DMFIACR_GrantLanguage(oPC, LNG_ILLUSKAN); PGtF lists Chondathan only
 		
 	} else if (nRegion == FEAT_REGION_SWORD_COAST) {
-		_GrantLanguage(oPC, LNG_ILLUSKAN);
+		ACR_GrantLanguage(oPC, LNG_ILLUSKAN);
 			
 	} else if (nRegion == FEAT_REGION_TASHALAR) {
-		_GrantLanguage(oPC, LNG_TASHALAN);
+		ACR_GrantLanguage(oPC, LNG_TASHALAN);
 		
 	} else if (nRegion == FEAT_REGION_TETHYR) {
-		_GrantLanguage(oPC, LNG_CHONDATHAN);
+		ACR_GrantLanguage(oPC, LNG_CHONDATHAN);
 			
 	} else if (nRegion == FEAT_REGION_THAY) {
-		_GrantLanguage(oPC, LNG_MULHORANDI);
+		ACR_GrantLanguage(oPC, LNG_MULHORANDI);
 			
 	} else if (nRegion == FEAT_REGION_THESK) {
-		_GrantLanguage(oPC, LNG_DAMARAN);
+		ACR_GrantLanguage(oPC, LNG_DAMARAN);
 		
 	} else if (nRegion == FEAT_REGION_TURMISH) {
-		_GrantLanguage(oPC, LNG_TURMIC);
+		ACR_GrantLanguage(oPC, LNG_TURMIC);
 		
 	} else if (nRegion == FEAT_REGION_UNTHER) {
-		_GrantLanguage(oPC, LNG_UNTHERIC);
+		ACR_GrantLanguage(oPC, LNG_UNTHERIC);
 		
 	} else if (nRegion == FEAT_REGION_UTHGART) {
-		_GrantLanguage(oPC, LNG_ILLUSKAN);
+		ACR_GrantLanguage(oPC, LNG_ILLUSKAN);
 			
 	} else if (nRegion == FEAT_REGION_VAASA) {
-		_GrantLanguage(oPC, LNG_DAMARAN);
+		ACR_GrantLanguage(oPC, LNG_DAMARAN);
 		
 	} else if (nRegion == FEAT_REGION_VAST) {
-		_GrantLanguage(oPC, LNG_DAMARAN);
+		ACR_GrantLanguage(oPC, LNG_DAMARAN);
 		
 	} else if (nRegion == FEAT_REGION_VILHON_REACH) {
-		_GrantLanguage(oPC, LNG_CHONDATHAN);
+		ACR_GrantLanguage(oPC, LNG_CHONDATHAN);
 						
 	} else if (nRegion == FEAT_REGION_WATERDEEP) {
-		_GrantLanguage(oPC, LNG_CHONDATHAN);
+		ACR_GrantLanguage(oPC, LNG_CHONDATHAN);
 				
 	} else if (nRegion == FEAT_REGION_WESTERN_HEARTLANDS) {
-		_GrantLanguage(oPC, LNG_CHONDATHAN);
+		ACR_GrantLanguage(oPC, LNG_CHONDATHAN);
 		
 	} else if (nRegion == FEAT_REGION_WIZARDS_REACH) {
-		_GrantLanguage(oPC, LNG_UNTHERIC);
+		ACR_GrantLanguage(oPC, LNG_UNTHERIC);
 			
 	} else if ((nRegion == FEAT_REGION_DWARF_GOLD) || (nRegion == FEAT_REGION_DWARF_SHIELD)) {
-		_GrantLanguage(oPC, LNG_DWARF);
+		ACR_GrantLanguage(oPC, LNG_DWARF);
 		
 	} else if (nRegion == FEAT_REGION_DWARF_GRAY) {
-		_GrantLanguage(oPC, LNG_DWARF);
-		_GrantLanguage(oPC, LNG_UNDERCOMMON);	
+		ACR_GrantLanguage(oPC, LNG_DWARF);
+		ACR_GrantLanguage(oPC, LNG_UNDERCOMMON);	
 		
 	} else if ((nRegion == FEAT_REGION_ELF_MOON) || (nRegion == FEAT_REGION_ELF_SUN) || (nRegion == FEAT_REGION_ELF_WILD) || (nRegion == FEAT_REGION_ELF_WOOD)) {
-		_GrantLanguage(oPC, LNG_ELVEN);		
+		ACR_GrantLanguage(oPC, LNG_ELVEN);		
 
 	} else if (nRegion == FEAT_REGION_ELF_DROW) {
-		_GrantLanguage(oPC, LNG_DROW);
-		_GrantLanguage(oPC, LNG_UNDERCOMMON);
+		ACR_GrantLanguage(oPC, LNG_DROW);
+		ACR_GrantLanguage(oPC, LNG_UNDERCOMMON);
 
 	} else if (nRegion == FEAT_REGION_GNOME_DEEP) {
-		_GrantLanguage(oPC, LNG_GNOME);
-		_GrantLanguage(oPC, LNG_UNDERCOMMON);
+		ACR_GrantLanguage(oPC, LNG_GNOME);
+		ACR_GrantLanguage(oPC, LNG_UNDERCOMMON);
 		
 	} else if (nRegion == FEAT_REGION_GNOME_ROCK) {
-		_GrantLanguage(oPC, LNG_GNOME);
+		ACR_GrantLanguage(oPC, LNG_GNOME);
 				
 	} else if ((nRegion == FEAT_REGION_HALFLING_GHOSTWISE) || (nRegion == FEAT_REGION_HALFLING_LIGHTFOOT) || (nRegion == FEAT_REGION_HALFLING_STRONGHEART)) {
-		_GrantLanguage(oPC, LNG_HALFLING);	
+		ACR_GrantLanguage(oPC, LNG_HALFLING);	
 
 	} else if ((nRegion == FEAT_REGION_ORC) || (nRegion == FEAT_REGION_HALFORC)) {
-		_GrantLanguage(oPC, LNG_ORC);
+		ACR_GrantLanguage(oPC, LNG_ORC);
 							
 	} else {
 		SendMessageToPC(oPC, "ERROR: Automatic Languages for Region: Starting region "+IntToString(nRegion)+" not yet implemented.");
@@ -1322,7 +1322,14 @@ object _GetDMFITool(object oPC) {
 	return oTool;
 }
 
-int _IsLanguageKnown(object oPC, string sLang)
+
+// Legacy support for _IsLanguageKnown
+int _IsLanguageKnown( object oPC, string sLang ) {
+	return ACR_IsLanguageKnown( oPC, sLang );
+}
+
+
+int ACR_IsLanguageKnown(object oPC, string sLang)
 { 
     //Purpose: Returns TRUE / FALSE whether sLang is known
     //Original Scripter: Demetrious
@@ -1348,12 +1355,18 @@ int _IsLanguageKnown(object oPC, string sLang)
 }
 
 
-void _GrantLanguage(object oPC, string sLang)
+// Legacy support for _GrantLanguage
+int _GrantLanguage( object oPC, string sLang ) {
+	return ACR_GrantLanguage( oPC, sLang );
+}
+
+
+void ACR_GrantLanguage(object oPC, string sLang)
 {  //Purpose: Sets sLang as a valid Language for oPC.
    //Original Scripter: Demetrious
    //Last Modified By: Demetrious 1/1/7
    	object oTool = _GetDMFITool(oPC);
-   	if (!_IsLanguageKnown(oPC, sLang))
+   	if (!ACR_IsLanguageKnown(oPC, sLang))
    	{   
    		int n = GetLocalInt(oTool, "LanguageMAX");
 		SendMessageToPC(oPC, "Language Granted: "+sLang);
@@ -1374,7 +1387,7 @@ void _GrantChoosenLang(object oPC, string sLang)
 	// AcadiusLost 2008/09/17 - added check to keep a possible language from adding twice.
 	object oTool = _GetDMFITool(oPC);
 	
-	if (!_IsLanguageKnown(oPC, sLang)) 
+	if (!ACR_IsLanguageKnown(oPC, sLang)) 
 		_AddUniqueStringElement(_CapitalizeWord(sLang), "LIST_POSSLANGUAGE", oTool);
 
 }		
