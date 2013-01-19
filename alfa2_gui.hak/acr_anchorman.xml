@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<!-- ALFA Anchor Manager -->
+
+<!-- Main scene. MUST be given. -->
+<UIScene name="SCREEN_ACR_ANCHMAN" x="ALIGN_CENTER" y="ALIGN_CENTER" modal="false" width="367" height="490"
+	fadeout="0.0" fadein="0.0" draggable="true" dragregion_x="8" dragregion_y="8" dragregion_width="352" dragregion_height="30"
+	priority="SCENE_SCRIPT" scriptloadable="true" />
+
+<UIPane name="pnWrapper" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" capturemouseclicks="false" capturemouseevents="false" >
+	
+	<!-- Close Button -->
+	<UIButton name="btnClose" x="326" y="9" style="STYLE_CLOSE_BUTTON"
+		OnToolTip='UIObject_Tooltip_DisplayTooltipString("Close",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)'
+		OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_anchorman","1","","","")' />
+		
+	<!-- Refresh Button -->
+	<UIButton name="btnRefresh" x="294" y="9" width="27" height="27"
+		OnToolTip='UIObject_Tooltip_DisplayTooltipString("Refresh List",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)'
+		OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_anchorman","2","","","")' >
+		<UIFrame state="base"		fill="b_empty.tga" />
+		<UIFrame state="up"			fill="b_rsize_normal.tga" />
+		<UIFrame state="down"		fill="b_rsize_pressed.tga" />
+		<UIFrame state="focused"	fill="b_rsize_normal.tga" />
+		<UIFrame state="hilited"	fill="b_rsize_hover.tga" />
+		<UIFrame state="hifocus"	fill="b_rsize_hover_pressed.tga" />
+	</UIButton>
+	
+	<!-- Function Grid -->
+	<UIGrid name="grdFunctions" x="13" y="45" columns="5" rows="1" xPadding="8" yPadding="0" >
+		<!-- Add Anchor -->
+		<UIButton name="btnAdd" width="30" height="30"
+			OnToolTip='UIObject_Tooltip_DisplayTooltipString("Set Target as Anchor",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)'
+			OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_anchorman","3","","","")' >
+			<UIFrame state="base"		fill="ia_accept.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+		</UIButton>
+		
+		<!-- Remove Selected Anchor -->
+		<UIButton name="btnRemove" width="30" height="30"
+			OnToolTip='UIObject_Tooltip_DisplayTooltipString("Remove Selected Anchor",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)'
+			OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_anchorman","4",local:10,"","")' >
+			<UIFrame state="base"		fill="ia_bootplayer.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+		</UIButton>
+		
+		<!-- Remove All Anchors -->
+		<UIButton name="btnRemove" width="30" height="30"
+			OnToolTip='UIObject_Tooltip_DisplayTooltipString("Remove All Anchors",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)'
+			OnLeftClick0='UIObject_Misc_ExecuteServerScript("gui_acr_anchorman","5","","","")' >
+			<UIFrame state="base"		fill="ia_kickplayer.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+		</UIButton>
+		
+		<!-- Jump DM to Anchor -->
+		<UIButton name="btnJumpDM" width="30" height="30" hidden="true"
+			OnToolTip='UIObject_Tooltip_DisplayTooltipString("Jump DM to Anchor",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)'
+			OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_anchorman","6",local:10,"","")' >
+			<UIFrame state="base"		fill="ia_follow.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+		</UIButton>
+		
+		<!-- Jump Anchor to DM -->
+		<UIButton name="btnJumpAnchor" width="30" height="30" hidden="true"
+			OnToolTip='UIObject_Tooltip_DisplayTooltipString("Jump Anchor to DM",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)'
+			OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_anchorman","7",local:10,"","")' >
+			<UIFrame state="base"		fill="ia_jump.tga" />
+			<UIFrame state="up"			fill="b_empty.tga" />
+			<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+		</UIButton>
+	</UIGrid>
+	
+	<!-- List Headers -->
+	<UIPane name="pnListHeader" x="19" y="84" width="330" height="16" prototype="true" >
+		<UIText name="txtID" x="0" y="0" width="30" height="16" text="ID" valign="middle" align="center" fontfamily="Title_Font" style="2" />
+		<UIText name="txtName" x="35" y="0" width="135" height="16" text="Name" valign="middle" align="center" fontfamily="Title_Font" style="2" />
+		<UIText name="txtArea" x="175" y="0" width="135" height="16" text="Area" valign="middle" align="center" fontfamily="Title_Font" style="2" />
+	</UIPane>
+	
+	<!-- List View -->
+	<UIListbox name="lbAnchors" x="20" y="100" width="330" height="300" xPadding="0" yPadding="5"
+		showpartialchild="false" scrollbaronright="true" unequalcontrols="false"
+		hidescrollbarwhennotneeded="false" selectonleftclick="true" update="true" >
+
+		<UIPane name="pnPlayerPane" x="0" y="0" width="PARENT_WIDTH" height="32" tupple="true" prototype="true"
+			OnLeftClick='UIObject_Misc_ExtractData("self:","string",10,local:10)' >
+			<!-- Anchor ID -->
+			<UIButton name="txtID" x="0" y="0" width="30" height="PARENT_HEIGHT" prototype="true"
+				OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_anchorman","8",local:10)' >
+				<UIText align="center" valign="middle" fontfamily="Default" style="1" prototype="true" />
+				<UIFrame state="up"			fill="b_g_lg01_normal.tga" />
+				<UIFrame state="down"		fill="b_g_lg01_hover.tga" />
+				<UIFrame state="focused"	fill="b_g_lg01_hover.tga" />
+				<UIFrame state="hilited"	fill="b_g_lg01_hover.tga" />
+				<UIFrame state="hifocus"	fill="b_g_lg01_hover.tga" />
+				<UIFrame state="disabled"	fill="b_g_lg01_normal.tga" />
+			</UIButton>
+			
+			<!-- Anchor Name -->
+			<UIButton name="txtName" x="35" y="0" width="135" height="PARENT_HEIGHT" prototype="true"
+				OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_anchorman","8",local:10)' >
+				<UIText align="center" valign="middle" fontfamily="Default" style="1" prototype="true" />
+				<UIFrame state="up"			fill="b_g_lg01_normal.tga" />
+				<UIFrame state="down"		fill="b_g_lg01_hover.tga" />
+				<UIFrame state="focused"	fill="b_g_lg01_hover.tga" />
+				<UIFrame state="hilited"	fill="b_g_lg01_hover.tga" />
+				<UIFrame state="hifocus"	fill="b_g_lg01_hover.tga" />
+				<UIFrame state="disabled"	fill="b_g_lg01_normal.tga" />
+			</UIButton>
+			
+			<!-- Anchor Area -->
+			<UIButton name="txtArea" x="175" y="0" width="135" height="PARENT_HEIGHT" prototype="true"
+				OnLeftClick1='UIObject_Misc_ExecuteServerScript("gui_acr_anchorman","8",local:10)' >
+				<UIText align="center" valign="middle" fontfamily="Default" style="1" prototype="true" />
+				<UIFrame state="up"			fill="b_g_lg01_normal.tga" />
+				<UIFrame state="down"		fill="b_g_lg01_hover.tga" />
+				<UIFrame state="focused"	fill="b_g_lg01_hover.tga" />
+				<UIFrame state="hilited"	fill="b_g_lg01_hover.tga" />
+				<UIFrame state="hifocus"	fill="b_g_lg01_hover.tga" />
+				<UIFrame state="disabled"	fill="b_g_lg01_normal.tga" />
+			</UIButton>
+		</UIPane>		
+		
+		<UIScrollBar name="SB" style="STYLE_SB_THIN" />
+	</UIListbox>
+	
+	<!-- Selected Anchor Data -->
+	<UIPane x="30" y="415" width="300" height="60">
+		<!-- Text shown when nothing is selected -->
+		<UIText name="txtSelectInfo" x="0" y="0" text="Selected Anchor Information" align="center" valign="middle" fontfamily="Default" style="1" />
+		
+		<!-- First Column of Data -->
+		<UIText name="txtHealth" x="0" y="0" text="" fontfamily="Default" style="1" />
+		<UIText name="txtFaction" x="0" y="20" text="" fontfamily="Default" style="1" />
+		<UIText name="txtCR" x="0" y="40" text="" fontfamily="Default" style="1" />
+		
+		<!-- Second Column of Data -->
+		
+	</UIPane>
+		
+	<!-- Title Text -->
+	<UIText x="18" y="14" text="Anchor Manager" fontfamily="Title_Font" style="2" />
+	
+	<!-- Background Graphic -->
+	<UIIcon name="imgBackground" img="re_background.tga" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" />
+</UIPane>
