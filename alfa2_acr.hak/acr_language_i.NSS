@@ -1356,8 +1356,8 @@ int ACR_IsLanguageKnown(object oPC, string sLang)
 
 
 // Legacy support for _GrantLanguage
-int _GrantLanguage( object oPC, string sLang ) {
-	return ACR_GrantLanguage( oPC, sLang );
+void _GrantLanguage( object oPC, string sLang ) {
+	ACR_GrantLanguage( oPC, sLang );
 }
 
 
