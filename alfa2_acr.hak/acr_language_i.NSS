@@ -41,67 +41,73 @@ const string ACR_LANG_VAR_MAX = "LanguageMAX";
 //! Prefix for all language variables.
 const string ACR_LANG_VAR_PREFIX = "Language";
 
+//! Local variable that holds the default language the player will speak.
+const string ACR_LANG_VAR_DEFAULT = "DefaultLanguage";
+
+//! Token for in-message language selection.
+const string ACR_LANG_MSG_TOKEN = "@";
+
 //! Number of the intial and final rows of feats.2da, used to iterate through all possible regions.
 const int ACR_REGIONS_START = 3502;
 const int ACR_REGIONS_END = 3571;
 
 //! Index values for all the languages.
-const int ACR_LNG_ID_ANIMAL = 0;
-const int ACR_LNG_ID_ASSASSIN = 1;
-const int ACR_LNG_ID_ABYSSAL = 2;
-const int ACR_LNG_ID_ALZHEDO = 3;
-const int ACR_LNG_ID_AQUAN = 4;
-const int ACR_LNG_ID_AURAN = 5;
-const int ACR_LNG_ID_ALGARONDAN = 6;
-const int ACR_LNG_ID_CANT = 7;
-const int ACR_LNG_ID_CELESTIAL = 8;
-const int ACR_LNG_ID_CHESSENTAN = 9;
-const int ACR_LNG_ID_CHONDATHAN = 10;
-const int ACR_LNG_ID_CHULTAN = 11;
-const int ACR_LNG_ID_DWARF = 12;
-const int ACR_LNG_ID_DROW = 13;
-const int ACR_LNG_ID_DROWSIGN = 14;
-const int ACR_LNG_ID_DRUIDIC = 15;
-const int ACR_LNG_ID_DRACONIC = 16;
-const int ACR_LNG_ID_DAMARAN = 17;
-const int ACR_LNG_ID_DAMBRATHAN = 18;
-const int ACR_LNG_ID_DURPARI = 19;
-const int ACR_LNG_ID_ELVEN = 20;
-const int ACR_LNG_ID_GNOME = 21;
-const int ACR_LNG_ID_GOBLIN = 22;
-const int ACR_LNG_ID_GIANT = 23;
-const int ACR_LNG_ID_GNOLL = 24;
-const int ACR_LNG_ID_HALFLING = 25;
-const int ACR_LNG_ID_IGNAN = 26;
-const int ACR_LNG_ID_HALARDRIM = 27;
-const int ACR_LNG_ID_HALRUAAN = 28;
-const int ACR_LNG_ID_ILLUSKAN = 29;
-const int ACR_LNG_ID_IMASKAR = 30;
-const int ACR_LNG_ID_INFERNAL = 31;
-const int ACR_LNG_ID_LEETSPEAK = 32;
-const int ACR_LNG_ID_LANTANESE = 33;
-const int ACR_LNG_ID_LOROSS = 34;
-const int ACR_LNG_ID_MIDANI = 35;
-const int ACR_LNG_ID_MULHORANDI = 36;
-const int ACR_LNG_ID_NETHERESE = 37;
-const int ACR_LNG_ID_RASHEMI = 38;
-const int ACR_LNG_ID_SERUSAN = 39;
-const int ACR_LNG_ID_SHAARAN = 40;
-const int ACR_LNG_ID_SHOU = 41;
-const int ACR_LNG_ID_SYLVAN = 42;
-const int ACR_LNG_ID_TERRAN = 43;
-const int ACR_LNG_ID_TREANT = 44;
-const int ACR_LNG_ID_TASHALAN = 45;
-const int ACR_LNG_ID_TUIGAN = 46;
-const int ACR_LNG_ID_TURMIC = 47;
-const int ACR_LNG_ID_ORC = 48;
-const int ACR_LNG_ID_NEXALAN = 49;
-const int ACR_LNG_ID_YUANTI = 50;
-const int ACR_LNG_ID_UNDERCOMMON = 51;
-const int ACR_LNG_ID_ULUIK = 52;
-const int ACR_LNG_ID_UNTHERIC = 53;
-const int ACR_LNG_ID_VAASAN = 54;
-const int ACR_LNG_ID_MAX = 55;
+const int ACR_LANG_ID_ANIMAL = 0;
+const int ACR_LANG_ID_ASSASSIN = 1;
+const int ACR_LANG_ID_ABYSSAL = 2;
+const int ACR_LANG_ID_ALZHEDO = 3;
+const int ACR_LANG_ID_AQUAN = 4;
+const int ACR_LANG_ID_AURAN = 5;
+const int ACR_LANG_ID_ALGARONDAN = 6;
+const int ACR_LANG_ID_CANT = 7;
+const int ACR_LANG_ID_CELESTIAL = 8;
+const int ACR_LANG_ID_CHESSENTAN = 9;
+const int ACR_LANG_ID_CHONDATHAN = 10;
+const int ACR_LANG_ID_CHULTAN = 11;
+const int ACR_LANG_ID_DWARF = 12;
+const int ACR_LANG_ID_DROW = 13;
+const int ACR_LANG_ID_DROWSIGN = 14;
+const int ACR_LANG_ID_DRUIDIC = 15;
+const int ACR_LANG_ID_DRACONIC = 16;
+const int ACR_LANG_ID_DAMARAN = 17;
+const int ACR_LANG_ID_DAMBRATHAN = 18;
+const int ACR_LANG_ID_DURPARI = 19;
+const int ACR_LANG_ID_ELVEN = 20;
+const int ACR_LANG_ID_GNOME = 21;
+const int ACR_LANG_ID_GOBLIN = 22;
+const int ACR_LANG_ID_GIANT = 23;
+const int ACR_LANG_ID_GNOLL = 24;
+const int ACR_LANG_ID_HALFLING = 25;
+const int ACR_LANG_ID_IGNAN = 26;
+const int ACR_LANG_ID_HALARDRIM = 27;
+const int ACR_LANG_ID_HALRUAAN = 28;
+const int ACR_LANG_ID_ILLUSKAN = 29;
+const int ACR_LANG_ID_IMASKAR = 30;
+const int ACR_LANG_ID_INFERNAL = 31;
+const int ACR_LANG_ID_LEETSPEAK = 32;
+const int ACR_LANG_ID_LANTANESE = 33;
+const int ACR_LANG_ID_LOROSS = 34;
+const int ACR_LANG_ID_MIDANI = 35;
+const int ACR_LANG_ID_MULHORANDI = 36;
+const int ACR_LANG_ID_NETHERESE = 37;
+const int ACR_LANG_ID_RASHEMI = 38;
+const int ACR_LANG_ID_SERUSAN = 39;
+const int ACR_LANG_ID_SHAARAN = 40;
+const int ACR_LANG_ID_SHOU = 41;
+const int ACR_LANG_ID_SYLVAN = 42;
+const int ACR_LANG_ID_TERRAN = 43;
+const int ACR_LANG_ID_TREANT = 44;
+const int ACR_LANG_ID_TASHALAN = 45;
+const int ACR_LANG_ID_TUIGAN = 46;
+const int ACR_LANG_ID_TURMIC = 47;
+const int ACR_LANG_ID_ORC = 48;
+const int ACR_LANG_ID_NEXALAN = 49;
+const int ACR_LANG_ID_YUANTI = 50;
+const int ACR_LANG_ID_UNDERCOMMON = 51;
+const int ACR_LANG_ID_ULUIK = 52;
+const int ACR_LANG_ID_UNTHERIC = 53;
+const int ACR_LANG_ID_VAASAN = 54;
+const int ACR_LANG_ID_MAX = 55;
 
 // Public functions
 
@@ -123,11 +129,23 @@ void ACR_LanguagesOnPCModuleLoaded();
 //!! Handles new languages after a levelup.
 void ACR_LanguagesOnLevelUp(object oLeveled);
 
+//!! Sets the player to speak a language by default.
+void ACR_SetDefaultLanguage( object oPC, string sLangauge );
+
+//!! Returns the language that the user speaks by default.
+string ACR_GetDefaultLanguage( object oPC );
+
 //!! Converts a a language ID to its name.
 string ACR_LanguageIDToName( int nID );
 
 //!! Converts a language name to its ID.
 int ACR_LanguageNameToID( string sLanguage );
+
+//!! Converts a language string to its fully formatted name.
+string ACR_LangIDToString( string s_id );
+
+//!! Converts a language abbreviation to its full name.
+string ACR_LanguageAbbreviationToFullName( string sLang );
 
 //!! Gets a list of all of the languages that the player knows.
 string ACR_GetLanguageList( object oPC, int bSort = TRUE );
@@ -309,124 +327,151 @@ void ACR_LanguagesOnLevelUp(object oLeveled) {
 }
 
 
+void ACR_SetDefaultLanguage( object oPC, string sLangauge ) {
+	// Valid object?
+	if ( !GetIsObjectValid( oPC ) ) return;
+	
+	// Get string ID and validate it.
+	int nLanguage = ACR_LanguageNameToID( sLangauge );
+	if ( nLanguage == -1 ) return;
+	
+	// Does the player know it?
+	if ( !ACR_IsLanguageKnown( oPC, sLanguage ) ) {
+		SendMessageToPC( oPC, "You may not speak languages you do not know." );
+		return;
+	}
+	
+	// Finally set it.
+	SetLocalString( oPC, ACR_LANG_VAR_DEFAULT, sLanguage );
+}
+
+
+string ACR_GetDefaultLanguage( object oPC ) {
+	return GetLocalString( oPC, ACR_LANG_VAR_DEFAULT );
+}
+
+
 string ACR_LanguageIDToName( int nID ) {
 	switch ( nID ) {
-		case ACR_LNG_ID_ANIMAL: return LNG_ANIMAL; break;
-		case ACR_LNG_ID_ASSASSIN: return LNG_ASSASSIN; break;
-		case ACR_LNG_ID_ABYSSAL: return LNG_ABYSSAL; break;
-		case ACR_LNG_ID_ALZHEDO: return LNG_ALZHEDO; break;
-		case ACR_LNG_ID_AQUAN: return LNG_AQUAN; break;
-		case ACR_LNG_ID_AURAN: return LNG_AURAN; break;
-		case ACR_LNG_ID_ALGARONDAN: return LNG_ALGARONDAN; break;
-		case ACR_LNG_ID_CANT: return LNG_CANT; break;
-		case ACR_LNG_ID_CELESTIAL: return LNG_CELESTIAL; break;
-		case ACR_LNG_ID_CHESSENTAN: return LNG_CHESSENTAN; break;
-		case ACR_LNG_ID_CHONDATHAN: return LNG_CHONDATHAN; break;
-		case ACR_LNG_ID_CHULTAN: return LNG_CHULTAN; break;
-		case ACR_LNG_ID_DWARF: return LNG_DWARF; break;
-		case ACR_LNG_ID_DROW: return LNG_DROW; break;
-		case ACR_LNG_ID_DROWSIGN: return LNG_DROWSIGN; break;
-		case ACR_LNG_ID_DRUIDIC: return LNG_DRUIDIC; break;
-		case ACR_LNG_ID_DRACONIC: return LNG_DRACONIC; break;
-		case ACR_LNG_ID_DAMARAN: return LNG_DAMARAN; break;
-		case ACR_LNG_ID_DAMBRATHAN: return LNG_DAMBRATHAN; break;
-		case ACR_LNG_ID_DURPARI: return LNG_DURPARI; break;
-		case ACR_LNG_ID_ELVEN: return LNG_ELVEN; break;
-		case ACR_LNG_ID_GNOME: return LNG_GNOME; break;
-		case ACR_LNG_ID_GOBLIN: return LNG_GOBLIN; break;
-		case ACR_LNG_ID_GIANT: return LNG_GIANT; break;
-		case ACR_LNG_ID_GNOLL: return LNG_GNOLL; break;
-		case ACR_LNG_ID_HALFLING: return LNG_HALFLING; break;
-		case ACR_LNG_ID_IGNAN: return LNG_IGNAN; break;
-		case ACR_LNG_ID_HALARDRIM: return LNG_HALARDRIM; break;
-		case ACR_LNG_ID_HALRUAAN: return LNG_HALRUAAN; break;
-		case ACR_LNG_ID_ILLUSKAN: return LNG_ILLUSKAN; break;
-		case ACR_LNG_ID_IMASKAR: return LNG_IMASKAR; break;
-		case ACR_LNG_ID_INFERNAL: return LNG_INFERNAL; break;
-		case ACR_LNG_ID_LEETSPEAK: return LNG_LEETSPEAK; break;
-		case ACR_LNG_ID_LANTANESE: return LNG_LANTANESE; break;
-		case ACR_LNG_ID_LOROSS: return LNG_LOROSS; break;
-		case ACR_LNG_ID_MIDANI: return LNG_MIDANI; break;
-		case ACR_LNG_ID_MULHORANDI: return LNG_MULHORANDI; break;
-		case ACR_LNG_ID_NETHERESE: return LNG_NETHERESE; break;
-		case ACR_LNG_ID_RASHEMI: return LNG_RASHEMI; break;
-		case ACR_LNG_ID_SERUSAN: return LNG_SERUSAN; break;
-		case ACR_LNG_ID_SHAARAN: return LNG_SHAARAN; break;
-		case ACR_LNG_ID_SHOU: return LNG_SHOU; break;
-		case ACR_LNG_ID_SYLVAN: return LNG_SYLVAN; break;
-		case ACR_LNG_ID_TERRAN: return LNG_TERRAN; break;
-		case ACR_LNG_ID_TREANT: return LNG_TREANT; break;
-		case ACR_LNG_ID_TASHALAN: return LNG_TASHALAN; break;
-		case ACR_LNG_ID_TUIGAN: return LNG_TUIGAN; break;
-		case ACR_LNG_ID_TURMIC: return LNG_TURMIC; break;
-		case ACR_LNG_ID_ORC: return LNG_ORC; break;
-		case ACR_LNG_ID_NEXALAN: return LNG_NEXALAN; break;
-		case ACR_LNG_ID_YUANTI: return LNG_YUANTI; break;
-		case ACR_LNG_ID_UNDERCOMMON: return LNG_UNDERCOMMON; break;
-		case ACR_LNG_ID_ULUIK: return LNG_ULUIK; break;
-		case ACR_LNG_ID_UNTHERIC: return LNG_UNTHERIC; break;
-		case ACR_LNG_ID_VAASAN: return LNG_VAASAN; break;
+		case ACR_LANG_ID_ANIMAL: return LNG_ANIMAL; break;
+		case ACR_LANG_ID_ASSASSIN: return LNG_ASSASSIN; break;
+		case ACR_LANG_ID_ABYSSAL: return LNG_ABYSSAL; break;
+		case ACR_LANG_ID_ALZHEDO: return LNG_ALZHEDO; break;
+		case ACR_LANG_ID_AQUAN: return LNG_AQUAN; break;
+		case ACR_LANG_ID_AURAN: return LNG_AURAN; break;
+		case ACR_LANG_ID_ALGARONDAN: return LNG_ALGARONDAN; break;
+		case ACR_LANG_ID_CANT: return LNG_CANT; break;
+		case ACR_LANG_ID_CELESTIAL: return LNG_CELESTIAL; break;
+		case ACR_LANG_ID_CHESSENTAN: return LNG_CHESSENTAN; break;
+		case ACR_LANG_ID_CHONDATHAN: return LNG_CHONDATHAN; break;
+		case ACR_LANG_ID_CHULTAN: return LNG_CHULTAN; break;
+		case ACR_LANG_ID_DWARF: return LNG_DWARF; break;
+		case ACR_LANG_ID_DROW: return LNG_DROW; break;
+		case ACR_LANG_ID_DROWSIGN: return LNG_DROWSIGN; break;
+		case ACR_LANG_ID_DRUIDIC: return LNG_DRUIDIC; break;
+		case ACR_LANG_ID_DRACONIC: return LNG_DRACONIC; break;
+		case ACR_LANG_ID_DAMARAN: return LNG_DAMARAN; break;
+		case ACR_LANG_ID_DAMBRATHAN: return LNG_DAMBRATHAN; break;
+		case ACR_LANG_ID_DURPARI: return LNG_DURPARI; break;
+		case ACR_LANG_ID_ELVEN: return LNG_ELVEN; break;
+		case ACR_LANG_ID_GNOME: return LNG_GNOME; break;
+		case ACR_LANG_ID_GOBLIN: return LNG_GOBLIN; break;
+		case ACR_LANG_ID_GIANT: return LNG_GIANT; break;
+		case ACR_LANG_ID_GNOLL: return LNG_GNOLL; break;
+		case ACR_LANG_ID_HALFLING: return LNG_HALFLING; break;
+		case ACR_LANG_ID_IGNAN: return LNG_IGNAN; break;
+		case ACR_LANG_ID_HALARDRIM: return LNG_HALARDRIM; break;
+		case ACR_LANG_ID_HALRUAAN: return LNG_HALRUAAN; break;
+		case ACR_LANG_ID_ILLUSKAN: return LNG_ILLUSKAN; break;
+		case ACR_LANG_ID_IMASKAR: return LNG_IMASKAR; break;
+		case ACR_LANG_ID_INFERNAL: return LNG_INFERNAL; break;
+		case ACR_LANG_ID_LEETSPEAK: return LNG_LEETSPEAK; break;
+		case ACR_LANG_ID_LANTANESE: return LNG_LANTANESE; break;
+		case ACR_LANG_ID_LOROSS: return LNG_LOROSS; break;
+		case ACR_LANG_ID_MIDANI: return LNG_MIDANI; break;
+		case ACR_LANG_ID_MULHORANDI: return LNG_MULHORANDI; break;
+		case ACR_LANG_ID_NETHERESE: return LNG_NETHERESE; break;
+		case ACR_LANG_ID_RASHEMI: return LNG_RASHEMI; break;
+		case ACR_LANG_ID_SERUSAN: return LNG_SERUSAN; break;
+		case ACR_LANG_ID_SHAARAN: return LNG_SHAARAN; break;
+		case ACR_LANG_ID_SHOU: return LNG_SHOU; break;
+		case ACR_LANG_ID_SYLVAN: return LNG_SYLVAN; break;
+		case ACR_LANG_ID_TERRAN: return LNG_TERRAN; break;
+		case ACR_LANG_ID_TREANT: return LNG_TREANT; break;
+		case ACR_LANG_ID_TASHALAN: return LNG_TASHALAN; break;
+		case ACR_LANG_ID_TUIGAN: return LNG_TUIGAN; break;
+		case ACR_LANG_ID_TURMIC: return LNG_TURMIC; break;
+		case ACR_LANG_ID_ORC: return LNG_ORC; break;
+		case ACR_LANG_ID_NEXALAN: return LNG_NEXALAN; break;
+		case ACR_LANG_ID_YUANTI: return LNG_YUANTI; break;
+		case ACR_LANG_ID_UNDERCOMMON: return LNG_UNDERCOMMON; break;
+		case ACR_LANG_ID_ULUIK: return LNG_ULUIK; break;
+		case ACR_LANG_ID_UNTHERIC: return LNG_UNTHERIC; break;
+		case ACR_LANG_ID_VAASAN: return LNG_VAASAN; break;
 		default: return "invalid"; break;
 	}
+	return "invalid";
 }
 
 
 int ACR_LanguageNameToID( string sLanguage ) {
-	if ( sLanguage == LNG_ANIMAL ) return ACR_LNG_ID_ANIMAL;
-	else if ( sLanguage == LNG_ASSASSIN ) return ACR_LNG_ID_ASSASSIN;
-	else if ( sLanguage == LNG_ABYSSAL ) return ACR_LNG_ID_ABYSSAL;
-	else if ( sLanguage == LNG_ALZHEDO ) return ACR_LNG_ID_ALZHEDO;
-	else if ( sLanguage == LNG_AQUAN ) return ACR_LNG_ID_AQUAN;
-	else if ( sLanguage == LNG_AURAN ) return ACR_LNG_ID_AURAN;
-	else if ( sLanguage == LNG_ALGARONDAN ) return ACR_LNG_ID_ALGARONDAN;
-	else if ( sLanguage == LNG_CANT ) return ACR_LNG_ID_CANT;
-	else if ( sLanguage == LNG_CELESTIAL ) return ACR_LNG_ID_CELESTIAL;
-	else if ( sLanguage == LNG_CHESSENTAN ) return ACR_LNG_ID_CHESSENTAN;
-	else if ( sLanguage == LNG_CHONDATHAN ) return ACR_LNG_ID_CHONDATHAN;
-	else if ( sLanguage == LNG_CHULTAN ) return ACR_LNG_ID_CHULTAN;
-	else if ( sLanguage == LNG_DWARF ) return ACR_LNG_ID_DWARF;
-	else if ( sLanguage == LNG_DROW ) return ACR_LNG_ID_DROW;
-	else if ( sLanguage == LNG_DROWSIGN ) return ACR_LNG_ID_DROWSIGN;
-	else if ( sLanguage == LNG_DRUIDIC ) return ACR_LNG_ID_DRUIDIC;
-	else if ( sLanguage == LNG_DRACONIC ) return ACR_LNG_ID_DRACONIC;
-	else if ( sLanguage == LNG_DAMARAN ) return ACR_LNG_ID_DAMARAN;
-	else if ( sLanguage == LNG_DAMBRATHAN ) return ACR_LNG_ID_DAMBRATHAN;
-	else if ( sLanguage == LNG_DURPARI ) return ACR_LNG_ID_DURPARI;
-	else if ( sLanguage == LNG_ELVEN ) return ACR_LNG_ID_ELVEN;
-	else if ( sLanguage == LNG_GNOME ) return ACR_LNG_ID_GNOME;
-	else if ( sLanguage == LNG_GOBLIN ) return ACR_LNG_ID_GOBLIN;
-	else if ( sLanguage == LNG_GIANT ) return ACR_LNG_ID_GIANT;
-	else if ( sLanguage == LNG_GNOLL ) return ACR_LNG_ID_GNOLL;
-	else if ( sLanguage == LNG_HALFLING ) return ACR_LNG_ID_HALFLING;
-	else if ( sLanguage == LNG_IGNAN ) return ACR_LNG_ID_IGNAN;
-	else if ( sLanguage == LNG_HALARDRIM ) return ACR_LNG_ID_HALARDRIM;
-	else if ( sLanguage == LNG_HALRUAAN ) return ACR_LNG_ID_HALRUAAN;
-	else if ( sLanguage == LNG_ILLUSKAN ) return ACR_LNG_ID_ILLUSKAN;
-	else if ( sLanguage == LNG_IMASKAR ) return ACR_LNG_ID_IMASKAR;
-	else if ( sLanguage == LNG_INFERNAL ) return ACR_LNG_ID_INFERNAL;
-	else if ( sLanguage == LNG_LEETSPEAK ) return ACR_LNG_ID_LEETSPEAK;
-	else if ( sLanguage == LNG_LANTANESE ) return ACR_LNG_ID_LANTANESE;
-	else if ( sLanguage == LNG_LOROSS ) return ACR_LNG_ID_LOROSS;
-	else if ( sLanguage == LNG_MIDANI ) return ACR_LNG_ID_MIDANI;
-	else if ( sLanguage == LNG_MULHORANDI ) return ACR_LNG_ID_MULHORANDI;
-	else if ( sLanguage == LNG_NETHERESE ) return ACR_LNG_ID_NETHERESE;
-	else if ( sLanguage == LNG_RASHEMI ) return ACR_LNG_ID_RASHEMI;
-	else if ( sLanguage == LNG_SERUSAN ) return ACR_LNG_ID_SERUSAN;
-	else if ( sLanguage == LNG_SHAARAN ) return ACR_LNG_ID_SHAARAN;
-	else if ( sLanguage == LNG_SHOU ) return ACR_LNG_ID_SHOU;
-	else if ( sLanguage == LNG_SYLVAN ) return ACR_LNG_ID_SYLVAN;
-	else if ( sLanguage == LNG_TERRAN ) return ACR_LNG_ID_TERRAN;
-	else if ( sLanguage == LNG_TREANT ) return ACR_LNG_ID_TREANT;
-	else if ( sLanguage == LNG_TASHALAN ) return ACR_LNG_ID_TASHALAN;
-	else if ( sLanguage == LNG_TUIGAN ) return ACR_LNG_ID_TUIGAN;
-	else if ( sLanguage == LNG_TURMIC ) return ACR_LNG_ID_TURMIC;
-	else if ( sLanguage == LNG_ORC ) return ACR_LNG_ID_ORC;
-	else if ( sLanguage == LNG_NEXALAN ) return ACR_LNG_ID_NEXALAN;
-	else if ( sLanguage == LNG_YUANTI ) return ACR_LNG_ID_YUANTI;
-	else if ( sLanguage == LNG_UNDERCOMMON ) return ACR_LNG_ID_UNDERCOMMON;
-	else if ( sLanguage == LNG_ULUIK ) return ACR_LNG_ID_ULUIK;
-	else if ( sLanguage == LNG_UNTHERIC ) return ACR_LNG_ID_UNTHERIC;
-	else if ( sLanguage == LNG_VAASAN ) return ACR_LNG_ID_VAASAN;
+	if ( sLanguage == "" ) return -1;
+
+	if ( sLanguage == LNG_ANIMAL ) return ACR_LANG_ID_ANIMAL;
+	else if ( sLanguage == LNG_ASSASSIN ) return ACR_LANG_ID_ASSASSIN;
+	else if ( sLanguage == LNG_ABYSSAL ) return ACR_LANG_ID_ABYSSAL;
+	else if ( sLanguage == LNG_ALZHEDO ) return ACR_LANG_ID_ALZHEDO;
+	else if ( sLanguage == LNG_AQUAN ) return ACR_LANG_ID_AQUAN;
+	else if ( sLanguage == LNG_AURAN ) return ACR_LANG_ID_AURAN;
+	else if ( sLanguage == LNG_ALGARONDAN ) return ACR_LANG_ID_ALGARONDAN;
+	else if ( sLanguage == LNG_CANT ) return ACR_LANG_ID_CANT;
+	else if ( sLanguage == LNG_CELESTIAL ) return ACR_LANG_ID_CELESTIAL;
+	else if ( sLanguage == LNG_CHESSENTAN ) return ACR_LANG_ID_CHESSENTAN;
+	else if ( sLanguage == LNG_CHONDATHAN ) return ACR_LANG_ID_CHONDATHAN;
+	else if ( sLanguage == LNG_CHULTAN ) return ACR_LANG_ID_CHULTAN;
+	else if ( sLanguage == LNG_DWARF ) return ACR_LANG_ID_DWARF;
+	else if ( sLanguage == LNG_DROW ) return ACR_LANG_ID_DROW;
+	else if ( sLanguage == LNG_DROWSIGN ) return ACR_LANG_ID_DROWSIGN;
+	else if ( sLanguage == LNG_DRUIDIC ) return ACR_LANG_ID_DRUIDIC;
+	else if ( sLanguage == LNG_DRACONIC ) return ACR_LANG_ID_DRACONIC;
+	else if ( sLanguage == LNG_DAMARAN ) return ACR_LANG_ID_DAMARAN;
+	else if ( sLanguage == LNG_DAMBRATHAN ) return ACR_LANG_ID_DAMBRATHAN;
+	else if ( sLanguage == LNG_DURPARI ) return ACR_LANG_ID_DURPARI;
+	else if ( sLanguage == LNG_ELVEN ) return ACR_LANG_ID_ELVEN;
+	else if ( sLanguage == LNG_GNOME ) return ACR_LANG_ID_GNOME;
+	else if ( sLanguage == LNG_GOBLIN ) return ACR_LANG_ID_GOBLIN;
+	else if ( sLanguage == LNG_GIANT ) return ACR_LANG_ID_GIANT;
+	else if ( sLanguage == LNG_GNOLL ) return ACR_LANG_ID_GNOLL;
+	else if ( sLanguage == LNG_HALFLING ) return ACR_LANG_ID_HALFLING;
+	else if ( sLanguage == LNG_IGNAN ) return ACR_LANG_ID_IGNAN;
+	else if ( sLanguage == LNG_HALARDRIM ) return ACR_LANG_ID_HALARDRIM;
+	else if ( sLanguage == LNG_HALRUAAN ) return ACR_LANG_ID_HALRUAAN;
+	else if ( sLanguage == LNG_ILLUSKAN ) return ACR_LANG_ID_ILLUSKAN;
+	else if ( sLanguage == LNG_IMASKAR ) return ACR_LANG_ID_IMASKAR;
+	else if ( sLanguage == LNG_INFERNAL ) return ACR_LANG_ID_INFERNAL;
+	else if ( sLanguage == LNG_LEETSPEAK ) return ACR_LANG_ID_LEETSPEAK;
+	else if ( sLanguage == LNG_LANTANESE ) return ACR_LANG_ID_LANTANESE;
+	else if ( sLanguage == LNG_LOROSS ) return ACR_LANG_ID_LOROSS;
+	else if ( sLanguage == LNG_MIDANI ) return ACR_LANG_ID_MIDANI;
+	else if ( sLanguage == LNG_MULHORANDI ) return ACR_LANG_ID_MULHORANDI;
+	else if ( sLanguage == LNG_NETHERESE ) return ACR_LANG_ID_NETHERESE;
+	else if ( sLanguage == LNG_RASHEMI ) return ACR_LANG_ID_RASHEMI;
+	else if ( sLanguage == LNG_SERUSAN ) return ACR_LANG_ID_SERUSAN;
+	else if ( sLanguage == LNG_SHAARAN ) return ACR_LANG_ID_SHAARAN;
+	else if ( sLanguage == LNG_SHOU ) return ACR_LANG_ID_SHOU;
+	else if ( sLanguage == LNG_SYLVAN ) return ACR_LANG_ID_SYLVAN;
+	else if ( sLanguage == LNG_TERRAN ) return ACR_LANG_ID_TERRAN;
+	else if ( sLanguage == LNG_TREANT ) return ACR_LANG_ID_TREANT;
+	else if ( sLanguage == LNG_TASHALAN ) return ACR_LANG_ID_TASHALAN;
+	else if ( sLanguage == LNG_TUIGAN ) return ACR_LANG_ID_TUIGAN;
+	else if ( sLanguage == LNG_TURMIC ) return ACR_LANG_ID_TURMIC;
+	else if ( sLanguage == LNG_ORC ) return ACR_LANG_ID_ORC;
+	else if ( sLanguage == LNG_NEXALAN ) return ACR_LANG_ID_NEXALAN;
+	else if ( sLanguage == LNG_YUANTI ) return ACR_LANG_ID_YUANTI;
+	else if ( sLanguage == LNG_UNDERCOMMON ) return ACR_LANG_ID_UNDERCOMMON;
+	else if ( sLanguage == LNG_ULUIK ) return ACR_LANG_ID_ULUIK;
+	else if ( sLanguage == LNG_UNTHERIC ) return ACR_LANG_ID_UNTHERIC;
+	else if ( sLanguage == LNG_VAASAN ) return ACR_LANG_ID_VAASAN;
 	else return -1;
 }
 
@@ -1552,6 +1597,11 @@ int _IsLanguageKnown( object oPC, string sLang ) {
 
 int ACR_IsLanguageKnown(object oPC, string sLang)
 { 
+	// DMs auto-know all languages.
+	if ( GetIsDM( oPC ) || GetIsDMPossessed( oPC ) ) {
+		return TRUE;
+	}
+
     //Purpose: Returns TRUE / FALSE whether sLang is known
     //Original Scripter: Demetrious
     //Last Modified By: Demetrious 6/28/6
@@ -1903,7 +1953,7 @@ string ACR_LangIDToString(string s_id)
 }
 
 
-string ACR_LangAbbToLangID(string sLang)
+string ACR_LanguageAbbreviationToFullName( string sLang )
 {
 	sLang = GetStringLowerCase(GetStringLeft(sLang,3));
 
