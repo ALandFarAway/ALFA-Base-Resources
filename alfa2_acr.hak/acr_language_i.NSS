@@ -368,8 +368,12 @@ string ACR_GetDefaultLanguage( object oPC ) {
 	// Valid object?
 	if ( !GetIsObjectValid( oPC ) ) return "";
 	
+	// Get the value.
+	string sLanguage = GetLocalString( oPC, ACR_LANG_VAR_DEFAULT );
+	if ( sLanguage == "" ) sLanguage = "common";
+	
 	// Return value.
-	return GetLocalString( oPC, ACR_LANG_VAR_DEFAULT );
+	return sLanguage;
 }
 
 
