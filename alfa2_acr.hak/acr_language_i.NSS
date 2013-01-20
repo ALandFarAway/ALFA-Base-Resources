@@ -109,7 +109,21 @@ const int ACR_LANG_ID_UNTHERIC = 53;
 const int ACR_LANG_ID_VAASAN = 54;
 const int ACR_LANG_ID_MAX = 55;
 
+// Language UI Core Data
+const string ACR_LANGUI_SCENE = "SCREEN_ACR_SLANG";
+const string ACR_LANGUI_FILE = "acr_slang.xml";
+
+// Language UI Elements
+const string ACR_LANG_UI_LISTBOX = "lbLanguages";
+const string ACR_LANG_UI_CURRENT = "txtCurrent";
+
+// Language UI Local Variables
+const int ACR_LANG_UI_VAR_SELECTED = 10;
+
 // Public functions
+
+//!! Open the language selection UI.
+void ACR_OpenLanguageSelectionUI( object oPC );
 
 //!! Returns the character's starting region constant.
 int ACR_GetCharacterRegion(object oPC);
@@ -224,6 +238,11 @@ void _ReInitializeDMFITool(object oPC, object oTool);
 //
 //  Function bodies
 //
+
+void ACR_OpenLanguageSelectionUI( object oPC ) {
+	DisplayGuiScreen( oPC, ACR_LANGUI_SCENE, FALSE, ACR_LANGUI_FILE );
+}
+
 
 int ACR_GetCharacterRegion(object oPC) {
 

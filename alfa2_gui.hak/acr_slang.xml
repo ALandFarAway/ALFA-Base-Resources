@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<!-- ALFA Select Language UI -->
+
+<!-- Local Variables:
+       10 | Current Language
+  -->
+
+<!-- Main scene. MUST be given. -->
+<UIScene name="SCREEN_ACR_SLANG" x="ALIGN_CENTER" y="ALIGN_CENTER" modal="false" width="309" height="400"
+	capturemouseclicks="false" fadeout="0.0" fadein="0.0"
+	draggable="true" dragregion_x="8" dragregion_y="8" dragregion_width="291" dragregion_height="30"
+	priority="SCENE_SCRIPT" scriptloadable="true" OnAdd='UIObject_Misc_ExecuteServerScript("gui_acr_slang","1","")' />
+
+<!-- Close Button -->
+<UIButton name="CloseButton" x="271" y="8" style="STYLE_CLOSE_BUTTON" 
+	OnLeftClick='UIButton_Input_ScreenClose()'>
+</UIButton>
+
+<UIPane name="SLANG_Collapsed" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" capturemouseclicks="false" capturemouseevents="false" hidden="true" >
+	<!-- Expand Button -->
+	<UIButton x="244" y="10" style="STYLE_PLUS_BUTTON"
+		OnLeftClick0='UIButton_Input_HideObject("SLANG_Collapsed")' OnLeftClick1='UIButton_Input_ShowObject("SLANG_Expanded")' />
+	
+	<!-- Background Graphics -->
+	<UIText x="15" y="13" text="Language Selection" fontfamily="Title_Font" style="2" capturemouseclicks="false" capturemouseevents="false" />
+	<UIIcon x="9" y="8" width="291" height="30" img="title_nwn_dialog.tga" />
+	<UIFrame x="0" y="0" width="PARENT_WIDTH" height="50" border="32"
+		topleft="frame1_tl.tga" 	topright="frame1_tr.tga"
+		bottomleft="frame1_bl.tga"	bottomright="frame1_BR.tga"
+		top="frame1_t.tga"			bottom="frame1_b.tga"
+		left="frame1_l.tga"			right="frame1_r.tga" />
+	<UIFrame x="8" y="8" width="291" height="34" fillstyle="tile" fill="frame_main_bg.tga" alpha="1.0" capturemouseclicks="true" capturemouseevents="true" />
+</UIPane>
+
+<UIPane name="SLANG_Expanded" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" capturemouseclicks="false" capturemouseevents="true" >
+	<!-- Collapse Button -->
+	<UIButton x="244" y="10" style="STYLE_MINUS_BUTTON"
+		OnLeftClick0='UIButton_Input_HideObject("SLANG_Expanded")' OnLeftClick1='UIButton_Input_ShowObject("SLANG_Collapsed")' />
+	
+	<!-- List Header -->
+	<UIPane name="pnListHeader" x="18" y="40" width="252" height="16" prototype="true" >
+		<UIText name="txtName" x="0" y="0" width="PARENT_WIDTH" height="16" text="Language" valign="middle" align="left" fontfamily="Title_Font" style="2" />
+		<UIText name="txtShorthand" x="0" y="0" width="PARENT_WIDTH" height="16" text="Abbrev." valign="middle" align="right" fontfamily="Title_Font" style="2" />
+	</UIPane>
+	
+	<!-- Language List -->
+	<UIListbox name="lbLanguages" x="16" y="64" width="281" height="303" xPadding="0" yPadding="5"
+		showpartialchild="false" scrollbaronright="true" unequalcontrols="false"
+		hidescrollbarwhennotneeded="false" selectonleftclick="true" >
+		
+		<!-- Prototype Row -->
+		<UIPane name="pnPlayerPane" x="0" y="0" width="261" height="32" tupple="true" prototype="true"
+			OnLeftClick='UIObject_Misc_ExtractData("self:","string",10,local:10)' >
+			<!-- Language Name -->
+			<UIButton name="txtName" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" prototype="true"
+				OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_slang","2",local:10)' >
+				<UIText indent="7" align="left" valign="middle" fontfamily="Default" style="1" prototype="true" />
+				<UIFrame state="up"			fill="b_g_lg05_normal.tga" />
+				<UIFrame state="down"		fill="b_g_lg05_normal.tga" />
+				<UIFrame state="focused"	fill="b_g_lg05_hover.tga" />
+				<UIFrame state="hilited"	fill="b_g_lg05_hover.tga" />
+				<UIFrame state="hifocus"	fill="b_g_lg05_hover.tga" />
+				<UIFrame state="disabled"	fill="b_g_lg05_normal.tga" />
+			</UIButton>
+			
+			<!-- Language Abbreviation -->
+			<UIText name="txtAbbrev" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" indent="7" align="right" valign="middle" fontfamily="Default" style="1" prototype="true" />
+		</UIPane>
+		<UIScrollBar style="STYLE_SB_THIN" hidescrollbarwhennotneeded="false" />
+	</UIListbox>
+	
+	<!-- Current Language Text -->
+	<UIText name="txtCurrent" x="13" y="371" width="281" height="16" valign="middle" align="center" fontfamily="Title_Font" style="2" />
+	
+	<!-- Background Graphics -->
+	<UIText x="15" y="13" text="Language Selection" fontfamily="Title_Font" style="2" />
+	<UIIcon x="9" y="8" width="291" height="30" img="title_nwn_dialog.tga" />
+	<UIFrame x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" border="32"
+		topleft="frame1_tl.tga" 	topright="frame1_tr.tga"
+		bottomleft="frame1_bl.tga"	bottomright="frame1_BR.tga"
+		top="frame1_t.tga"			bottom="frame1_b.tga"
+		left="frame1_l.tga"			right="frame1_r.tga" />
+	<UIFrame x="8" y="37" width="291" height="32" fillstyle="tile" fill="frame1_b.tga" />
+	<UIFrame x="8" y="363" width="291" height="32" fillstyle="tile" fill="frame1_t.tga" />
+	<UIFrame x="8" y="8" width="291" height="384" fillstyle="tile" fill="frame_main_bg.tga" />
+</UIPane>
