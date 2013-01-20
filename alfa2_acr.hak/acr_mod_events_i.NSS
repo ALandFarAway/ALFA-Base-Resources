@@ -164,7 +164,7 @@ const float ACR_TALK_SPHERE_RADIUS = 20.0f;
 const float ACR_WHISPER_SPHERE_RADIUS = 3.0f;
 
 //! Define to 1 to enable language handling debugging.
-#define DEBUG_LANG 0
+#define DEBUG_LANG 1
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1335,7 +1335,7 @@ string _ParseLang(object oSpeaker, string sText)
 
     if ( !ACR_IsLanguageKnown(oSpeaker, sLangPick) ) {
         SendMessageToPC(oSpeaker, "You don't know how to speak "+ACR_LangIDToString(sLangPick)+".");
-        return GetLocalString(oSpeaker, ACR_LANG_VAR_DEFAULT);
+        return ACR_GetDefaultLanguage( oSpeaker );
     }
 
     return sLangPick;
@@ -1532,7 +1532,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
                 }
                 else
                 {
-                    sLangPick = GetLocalString(PlayerAvatar, ACR_LANG_VAR_DEFAULT);
+                    sLangPick = ACR_GetDefaultLanguage(PlayerAvatar);
                 }
             int nHandleLang = _HandleLang(oAnchor, sText, nMode, sLangPick, PlayerAvatar);
             if (nHandleLang)
@@ -1578,7 +1578,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         return FALSE;
     }
 
-    sLangPick = GetLocalString(oSpeaker, ACR_LANG_VAR_DEFAULT);
+    sLangPick = ACR_GetDefaultLanguage( oSpeaker );
 
     // the player is attempting to specify a different language.
     if (c == "@" || TestStringAgainstPattern("**@**",sText)) {
