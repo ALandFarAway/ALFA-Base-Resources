@@ -161,6 +161,9 @@ string ACR_LangIDToString( string s_id );
 //!! Converts a language abbreviation to its full name.
 string ACR_LanguageAbbreviationToFullName( string sLang );
 
+//!! Converts a language ID to its abbreviation.
+string ACR_LanguageIDToAbbreviation( int nLanguage );
+
 //!! Gets a list of all of the languages that the player knows.
 string ACR_GetLanguageList( object oPC, int bSort = TRUE );
 
@@ -2117,6 +2120,69 @@ string ACR_LanguageAbbreviationToFullName( string sLang )
 	
 	return "invalidlanguage";
 }
+
+
+string ACR_LanguageIDToAbbreviation( int nLanguage ) {
+	switch ( nLanguage ) {
+		case ACR_LANG_ID_ANIMAL: return "anm"; break;
+		case ACR_LANG_ID_ASSASSIN: return "ass"; break;
+		case ACR_LANG_ID_ABYSSAL: return "aby"; break;
+		case ACR_LANG_ID_ALZHEDO: return "alz"; break;
+		case ACR_LANG_ID_AQUAN: return "aqu"; break;
+		case ACR_LANG_ID_AURAN: return "aur"; break;
+		case ACR_LANG_ID_ALGARONDAN: return "alg"; break;
+		case ACR_LANG_ID_CANT: return "can"; break;
+		case ACR_LANG_ID_CELESTIAL: return "cel"; break;
+		case ACR_LANG_ID_CHESSENTAN: return "che"; break;
+		case ACR_LANG_ID_CHONDATHAN: return "cho"; break;
+		case ACR_LANG_ID_CHULTAN: return "chu"; break;
+		case ACR_LANG_ID_DWARF: return "dwa"; break;
+		case ACR_LANG_ID_DROW: return "dro"; break;
+		case ACR_LANG_ID_DROWSIGN: return "drs"; break;
+		case ACR_LANG_ID_DRUIDIC: return "dru"; break;
+		case ACR_LANG_ID_DRACONIC: return "dra"; break;
+		case ACR_LANG_ID_DAMARAN: return "dam"; break;
+		case ACR_LANG_ID_DAMBRATHAN: return "dmb"; break;
+		case ACR_LANG_ID_DURPARI: return "dur"; break;
+		case ACR_LANG_ID_ELVEN: return "elf"; break;
+		case ACR_LANG_ID_GNOME: return "gno"; break;
+		case ACR_LANG_ID_GOBLIN: return "gob"; break;
+		case ACR_LANG_ID_GIANT: return "gia"; break;
+		case ACR_LANG_ID_GNOLL: return "gnl"; break;
+		case ACR_LANG_ID_HALFLING: return "hlf"; break;
+		case ACR_LANG_ID_IGNAN: return "ign"; break;
+		case ACR_LANG_ID_HALARDRIM: return "hdr"; break;
+		case ACR_LANG_ID_HALRUAAN: return "hlr"; break;
+		case ACR_LANG_ID_ILLUSKAN: return "ill"; break;
+		case ACR_LANG_ID_IMASKAR: return "ims"; break;
+		case ACR_LANG_ID_INFERNAL: return "inf"; break;
+		case ACR_LANG_ID_LEETSPEAK: return "l37"; break;
+		case ACR_LANG_ID_LANTANESE: return "lan"; break;
+		case ACR_LANG_ID_LOROSS: return "lor"; break;
+		case ACR_LANG_ID_MIDANI: return "mid"; break;
+		case ACR_LANG_ID_MULHORANDI: return "mul"; break;
+		case ACR_LANG_ID_NETHERESE: return "nth"; break;
+		case ACR_LANG_ID_RASHEMI: return "rsh"; break;
+		case ACR_LANG_ID_SERUSAN: return "ser"; break;
+		case ACR_LANG_ID_SHAARAN: return "sha"; break;
+		case ACR_LANG_ID_SHOU: return "sho"; break;
+		case ACR_LANG_ID_SYLVAN: return "syl"; break;
+		case ACR_LANG_ID_TERRAN: return "ter"; break;
+		case ACR_LANG_ID_TREANT: return "tre"; break;
+		case ACR_LANG_ID_TASHALAN: return "tsh"; break;
+		case ACR_LANG_ID_TUIGAN: return "tui"; break;
+		case ACR_LANG_ID_TURMIC: return "tur"; break;
+		case ACR_LANG_ID_ORC: return "orc"; break;
+		case ACR_LANG_ID_NEXALAN: return "nex"; break;
+		case ACR_LANG_ID_YUANTI: return "yti"; break;
+		case ACR_LANG_ID_UNDERCOMMON: return "und"; break;
+		case ACR_LANG_ID_ULUIK: return "ulu"; break;
+		case ACR_LANG_ID_UNTHERIC: return "unt"; break;
+		case ACR_LANG_ID_VAASAN: return "vas"; break;
+	}
+	return "inv";
+}
+
 
 string _RemoveLangTag(string sText)
 {
