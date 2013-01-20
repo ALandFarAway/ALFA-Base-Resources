@@ -477,18 +477,21 @@ string ACR_GetLanguageList( object oPC, int bSort = TRUE ) {
 	
 	// Treat DMs and players differently.
 	if ( !GetIsDM( oPC ) && !GetIsDMPossessed( oPC ) ) {
-		// Fetch the DMFI widget.
-		object oLangItem = _GetDMFITool( oPC );
-		
 		// Get the number of languages that the player knows.
 		int nLanguagesKnown = ACR_GetLangagesKnown( oPC );
 		
 		// Itterate through the known languages.
 		int i = 0;
 		for ( i = 0; i < nLanguagesKnown; i++ ) {
-			string sLanguage = GetLocalString( oLangItem, ACR_LANG_VAR_PREFIX + IntToString( i ) );
+			// Get the language.
+			string sLanguage = ACR_GetLangaugeAtIndex( oPC, i );
 			if ( sLanguage == "" ) continue;
-			if ( i != 0 ) sList += ",";
+			
+			// We skip over common, since we always want that to be last.
+			if ( sLanguage == "common" ) continue;
+			
+			// Add our list dilimiter then the string.
+			if ( sList != "" ) sList += ",";
 			sList += sLanguage;
 		}
 	} else {
@@ -503,6 +506,11 @@ string ACR_GetLanguageList( object oPC, int bSort = TRUE ) {
 	// Sort list?
 	if ( bSort ) {
 		sList = Sort( sList );
+	}
+	
+	// Make sure common is always on the top of the list, assuming the player knows common.
+	if ( ACR_IsLanguageKnown( oPC, "common" ) ) {
+		sList = "common," + sList;
 	}
 	
 	return sList;
@@ -1597,21 +1605,21 @@ object _GetDMFITool(object oPC) {
 }
 
 
-// Legacy support for _IsLanguageKnown
-int _IsLanguageKnown( object oPC, string sLang ) {
-	return ACR_IsLanguageKnown( oPC, sLang );
-}
-
-
 int ACR_GetLangagesKnown( object oPC ) {
 	object oTool = _GetDMFITool(oPC);
-	return ( GetLocalInt( oTool, ACR_LANG_VAR_MAX ) +  1 );
+	return GetLocalInt( oTool, ACR_LANG_VAR_MAX );
 }
 
 
 string ACR_GetLangaugeAtIndex( object oPC, int nIndex ) {
-	object oTool = _GetDMFITool(oPC);
+	object oTool = _GetDMFITool( oPC );
 	return GetLocalString( oTool, ACR_LANG_VAR_PREFIX + IntToString( nIndex ) );
+}
+
+
+// Legacy support for _IsLanguageKnown
+int _IsLanguageKnown( object oPC, string sLang ) {
+	return ACR_IsLanguageKnown( oPC, sLang );
 }
 
 
@@ -1622,17 +1630,20 @@ int ACR_IsLanguageKnown( object oPC, string sLang )
 		return TRUE;
 	}
 	
-	// Fetch the DMFI widget.
-	object oLangItem = _GetDMFITool( oPC );
-	
 	// Get the number of languages that the player knows.
 	int nLanguagesKnown = ACR_GetLangagesKnown( oPC );
 	
 	// Itterate through the known languages.
 	int i = 0;
 	for ( i = 0; i < nLanguagesKnown; i++ ) {
-		string sTest = GetLocalString( oLangItem, ACR_LANG_VAR_PREFIX + IntToString( i ) );
-		if ( sLanguage == sTest ) return TRUE;
+		// Get the language.
+		string sTest = ACR_GetLangaugeAtIndex( oPC, i );
+		if ( sTest == "" ) continue;
+		
+		// Test to see if it's the one we want.
+		if ( sTest == sLang ) return TRUE;
+		
+		// Drow and elven are treated as the same.
         if ( ( sTest == "drow" || sTest == "elven" ) && ( sLang == "drow" || sLang == "elven" ) ) return TRUE;
 	}
 	
@@ -1857,7 +1868,7 @@ string ACR_LangIDToString(string s_id)
 		return "Animal";
 	else if (s_id == LNG_ASSASSIN)
 		return "Assassin";
-	else if (s_id == LNG_ASSASSIN)
+	else if (s_id == LNG_ABYSSAL)
 		return "Abyssal";
 	else if (s_id == LNG_ALZHEDO)
 		return "Alzhedo";
