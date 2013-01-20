@@ -144,7 +144,7 @@ void ACR_LanguagesOnPCModuleLoaded();
 void ACR_LanguagesOnLevelUp(object oLeveled);
 
 //!! Sets the player to speak a language by default.
-void ACR_SetDefaultLanguage( object oPC, string sLangauge );
+void ACR_SetDefaultLanguage( object oPC, string sLanguage );
 
 //!! Returns the language that the user speaks by default.
 string ACR_GetDefaultLanguage( object oPC );
@@ -196,8 +196,8 @@ object _GetDMFITool(object oPC);
 // Returns the number of languages known.
 int ACR_GetLangagesKnown( object oPC );
 
-// Returns the langauge at a given index.
-string ACR_GetLangaugeAtIndex( object oPC, int nIndex );
+// Returns the language at a given index.
+string ACR_GetLanguageAtIndex( object oPC, int nIndex );
 
 // checks if a language is known
 int ACR_IsLanguageKnown(object oPC, string sLang);
@@ -355,7 +355,7 @@ void ACR_LanguagesOnLevelUp(object oLeveled) {
 }
 
 
-void ACR_SetDefaultLanguage( object oPC, string sLangauge ) {
+void ACR_SetDefaultLanguage( object oPC, string sLanguage ) {
 	// Valid object?
 	if ( !GetIsObjectValid( oPC ) ) return;
 	
@@ -365,6 +365,10 @@ void ACR_SetDefaultLanguage( object oPC, string sLangauge ) {
 
 
 string ACR_GetDefaultLanguage( object oPC ) {
+	// Valid object?
+	if ( !GetIsObjectValid( oPC ) ) return "";
+	
+	// Return value.
 	return GetLocalString( oPC, ACR_LANG_VAR_DEFAULT );
 }
 
@@ -506,7 +510,7 @@ string ACR_GetLanguageList( object oPC, int bSort = TRUE ) {
 		int i = 0;
 		for ( i = 0; i < nLanguagesKnown; i++ ) {
 			// Get the language.
-			string sLanguage = ACR_GetLangaugeAtIndex( oPC, i );
+			string sLanguage = ACR_GetLanguageAtIndex( oPC, i );
 			if ( sLanguage == "" ) continue;
 			
 			// We skip over common, since we always want that to be last.
@@ -1633,7 +1637,7 @@ int ACR_GetLangagesKnown( object oPC ) {
 }
 
 
-string ACR_GetLangaugeAtIndex( object oPC, int nIndex ) {
+string ACR_GetLanguageAtIndex( object oPC, int nIndex ) {
 	object oTool = _GetDMFITool( oPC );
 	return GetLocalString( oTool, ACR_LANG_VAR_PREFIX + IntToString( nIndex ) );
 }
@@ -1659,7 +1663,7 @@ int ACR_IsLanguageKnown( object oPC, string sLang )
 	int i = 0;
 	for ( i = 0; i < nLanguagesKnown; i++ ) {
 		// Get the language.
-		string sTest = ACR_GetLangaugeAtIndex( oPC, i );
+		string sTest = ACR_GetLanguageAtIndex( oPC, i );
 		if ( sTest == "" ) continue;
 		
 		// Test to see if it's the one we want.
