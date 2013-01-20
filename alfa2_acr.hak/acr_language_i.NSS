@@ -527,6 +527,9 @@ string ACR_GetLanguageList( object oPC, int bSort = TRUE ) {
 			if ( i != 0 ) sList += ",";
 			sList += ACR_LanguageIDToName( i );
 		}
+		
+		// DMs are pre-sorted.
+		bSort = FALSE;
 	}
 	
 	// Sort list?
