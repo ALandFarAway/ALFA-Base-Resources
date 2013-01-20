@@ -19,8 +19,9 @@ void PopulateLanguageUI( object oPC ) {
 		if ( sLanguage == "" ) continue;
 		
 		// Get data we care about.
+		int nID = ACR_LanguageNameToID( sLanguage );
 		string sName = ACR_LangIDToString( sLanguage );
-		string sAbbrev = ACR_LANG_MSG_TOKEN + GetStringLowerCase( GetStringLeft( sLanguage, 3 ) );
+		string sAbbrev = ACR_LANG_MSG_TOKEN + ACR_LanguageIDToAbbreviation( nID );
 		
 		// GUI data.
 		string sRowName = "lang_" + sLanguage;
