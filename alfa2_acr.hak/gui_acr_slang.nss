@@ -1,6 +1,10 @@
 
 #include "acr_language_i"
 
+// Language UI Action Codes
+const int ACR_LANG_UI_ACT_POPULATE = 1;
+const int ACR_LANG_UI_ACT_ONSELECT = 2;
+
 void PopulateLanguageUI( object oPC ) {
 	// Clear our current list.
 	ClearListBox( oPC, ACR_LANGUI_SCENE, ACR_LANG_UI_LISTBOX );
