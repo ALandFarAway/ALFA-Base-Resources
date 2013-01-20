@@ -176,6 +176,12 @@ void _AddBonusLanguagesByRegion(int nRegion, object oPC);
 // gets a DMFI tool to access languages
 object _GetDMFITool(object oPC);
 
+// Returns the number of languages known.
+int ACR_GetLangagesKnown( object oPC );
+
+// Returns the langauge at a given index.
+string ACR_GetLangaugeAtIndex( object oPC, int nIndex );
+
 // checks if a language is known
 int ACR_IsLanguageKnown(object oPC, string sLang);
 
@@ -331,17 +337,7 @@ void ACR_SetDefaultLanguage( object oPC, string sLangauge ) {
 	// Valid object?
 	if ( !GetIsObjectValid( oPC ) ) return;
 	
-	// Get string ID and validate it.
-	int nLanguage = ACR_LanguageNameToID( sLangauge );
-	if ( nLanguage == -1 ) return;
-	
-	// Does the player know it?
-	if ( !ACR_IsLanguageKnown( oPC, sLanguage ) ) {
-		SendMessageToPC( oPC, "You may not speak languages you do not know." );
-		return;
-	}
-	
-	// Finally set it.
+	// Set it.
 	SetLocalString( oPC, ACR_LANG_VAR_DEFAULT, sLanguage );
 }
 
@@ -479,17 +475,29 @@ int ACR_LanguageNameToID( string sLanguage ) {
 string ACR_GetLanguageList( object oPC, int bSort = TRUE ) {
 	string sList = "";
 	
-	// Fetch the DMFI widget.
-	object oLangItem = _GetDMFITool( oPC );
-	
-	// Get the number of languages that the player knows.
-	int nLanguagesKnown = GetLocalInt( oLangItem, ACR_LANG_VAR_MAX );
-	
-	// Itterate through the known languages.
-	int i = 0;
-	for ( i = 0; i < nLanguagesKnown; i++ ) {
-		if ( i != 0 ) sList += ",";
-		sList += GetLocalString( oLangItem, ACR_LANG_VAR_PREFIX + IntToString( i ) );
+	// Treat DMs and players differently.
+	if ( !GetIsDM( oPC ) && !GetIsDMPossessed( oPC ) ) {
+		// Fetch the DMFI widget.
+		object oLangItem = _GetDMFITool( oPC );
+		
+		// Get the number of languages that the player knows.
+		int nLanguagesKnown = ACR_GetLangagesKnown( oPC );
+		
+		// Itterate through the known languages.
+		int i = 0;
+		for ( i = 0; i < nLanguagesKnown; i++ ) {
+			string sLanguage = GetLocalString( oLangItem, ACR_LANG_VAR_PREFIX + IntToString( i ) );
+			if ( sLanguage == "" ) continue;
+			if ( i != 0 ) sList += ",";
+			sList += sLanguage;
+		}
+	} else {
+		// For DMs, we just build a list of all of the languages.
+		int i = 0;
+		for ( i = 0; i < ACR_LANG_ID_MAX; i++ ) {
+			if ( i != 0 ) sList += ",";
+			sList += ACR_LanguageIDToName( i );
+		}
 	}
 	
 	// Sort list?
@@ -1595,33 +1603,40 @@ int _IsLanguageKnown( object oPC, string sLang ) {
 }
 
 
-int ACR_IsLanguageKnown(object oPC, string sLang)
+int ACR_GetLangagesKnown( object oPC ) {
+	object oTool = _GetDMFITool(oPC);
+	return ( GetLocalInt( oTool, ACR_LANG_VAR_MAX ) +  1 );
+}
+
+
+string ACR_GetLangaugeAtIndex( object oPC, int nIndex ) {
+	object oTool = _GetDMFITool(oPC);
+	return GetLocalString( oTool, ACR_LANG_VAR_PREFIX + IntToString( nIndex ) );
+}
+
+
+int ACR_IsLanguageKnown( object oPC, string sLang )
 { 
 	// DMs auto-know all languages.
 	if ( GetIsDM( oPC ) || GetIsDMPossessed( oPC ) ) {
 		return TRUE;
 	}
-
-    //Purpose: Returns TRUE / FALSE whether sLang is known
-    //Original Scripter: Demetrious
-    //Last Modified By: Demetrious 6/28/6
-    object oTool = _GetDMFITool(oPC);
-    int n;
-    int nMax = GetLocalInt(oTool, ACR_LANG_VAR_MAX);
-    string sTest;
-    // All languages stored in lower case strings.
-    sLang = GetStringLowerCase(sLang);
-    for (n=0; n<nMax; n++)
-    {
-        sTest = GetLocalString(oTool, ACR_LANG_VAR_PREFIX + IntToString(n));
-        if (sTest == sLang) return TRUE;
-
-        // Elven and drow are different dialects of the same language, and should be treated mechanically
-        // as the same language, even though they sound quite different.
-        if ((sTest == "drow" || sTest == "elven") &&
-            (sLang == "drow" || sLang == "elven"))
-              return TRUE;
-    }
+	
+	// Fetch the DMFI widget.
+	object oLangItem = _GetDMFITool( oPC );
+	
+	// Get the number of languages that the player knows.
+	int nLanguagesKnown = ACR_GetLangagesKnown( oPC );
+	
+	// Itterate through the known languages.
+	int i = 0;
+	for ( i = 0; i < nLanguagesKnown; i++ ) {
+		string sTest = GetLocalString( oLangItem, ACR_LANG_VAR_PREFIX + IntToString( i ) );
+		if ( sLanguage == sTest ) return TRUE;
+        if ( ( sTest == "drow" || sTest == "elven" ) && ( sLang == "drow" || sLang == "elven" ) ) return TRUE;
+	}
+	
+	// Otherwise they do not know it.
     return FALSE;
 }
 
