@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_EmptyScript", "..\ACR_E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_ReadRawString", "..\ACR_ReadRawString\ACR_ReadRawString.csproj", "{B27D41BC-5DB7-48E2-8D8B-872AD99665CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_CollectionLib", "..\ACR_CollectionLib\ACR_CollectionLib.csproj", "{C2D3F797-F1BD-46AF-BCB5-4A077A71024E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

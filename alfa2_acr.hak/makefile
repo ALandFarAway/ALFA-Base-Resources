@@ -624,7 +624,8 @@ CLRSCRIPT_OBJECTS=$(OUTPUTDIR)\TestClrScript.ncs               \
                   $(OUTPUTDIR)\ACR_ServerMisc.ncs              \
                   $(OUTPUTDIR)\ACR_CreatureBehavior.ncs        \
                   $(OUTPUTDIR)\ACR_EmptyScript.ncs             \
-                  $(OUTPUTDIR)\ACR_ReadRawString.ncs           
+                  $(OUTPUTDIR)\ACR_ReadRawString.ncs           \
+                  $(OUTPUTDIR)\ACR_CollectionLib.ncs           
 
 HAKFILE=$(OUTPUTDIR)\alfa2_acr.hak
 
@@ -683,6 +684,8 @@ makeclrscripts:
 	@$(MSBUILD) ACR_EmptyScript\ACR_EmptyScript.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_ReadRawString
 	@$(MSBUILD) ACR_ReadRawString\ACR_ReadRawString.csproj $(MSBUILD_FLAGS)
+	$(BUILD_MSG) (CSProj) Building - ACR_CollectionLib
+	@$(MSBUILD) ACR_CollectionLib\ACR_CollectionLib.csproj $(MSBUILD_FLAGS)
 
 clean:
 	@if exist $(OUTPUTDIR)\*.ncs del $(OUTPUTDIR)\*.ncs
@@ -708,6 +711,8 @@ clean:
 	@if exist ACR_CreatureBehavior\obj rd /s /q ACR_CreatureBehavior\obj
 	@if exist ACR_EmptyScript\bin rd /s /q ACR_EmptyScript\bin
 	@if exist ACR_EmptyScript\obj rd /s /q ACR_EmptyScript\obj
+	@if exist ACR_CollectionLib\bin rd /s /q ACR_CollectionLib\bin
+	@if exist ACR_CollectionLib\obj rd /s /q ACR_CollectionLib\obj
 
 $(HAKFILE): script $(HAK_SOURCES_MISC)
 	$(BUILD_MSG) (ERF) Creating - $(HAKFILE)
