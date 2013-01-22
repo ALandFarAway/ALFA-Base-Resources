@@ -23,9 +23,6 @@ void PopulateLanguageUI( object oPC ) {
 		string sName = ACR_LangIDToString( sLanguage );
 		string sAbbrev = ACR_LANG_MSG_TOKEN + ACR_LanguageIDToAbbreviation( nID );
 		
-		// Common has no abbreviation.
-		if ( sLanguage == "common" ) sAbbrev = "";
-		
 		// GUI data.
 		string sRowName = "lang_" + sLanguage;
 		string sTextFields = "txtName=" + sName + ";txtAbbrev=" + sAbbrev + ";";
