@@ -107,7 +107,8 @@ const int ACR_LANG_ID_UNDERCOMMON = 51;
 const int ACR_LANG_ID_ULUIK = 52;
 const int ACR_LANG_ID_UNTHERIC = 53;
 const int ACR_LANG_ID_VAASAN = 54;
-const int ACR_LANG_ID_MAX = 55;
+const int ACR_LANG_ID_COMMON = 55;
+const int ACR_LANG_ID_MAX = 56;
 
 // Language UI Core Data
 const string ACR_LANGUI_SCENE = "SCREEN_ACR_SLANG";
@@ -391,6 +392,7 @@ string ACR_LanguageIDToName( int nID ) {
 		case ACR_LANG_ID_CHESSENTAN: return LNG_CHESSENTAN; break;
 		case ACR_LANG_ID_CHONDATHAN: return LNG_CHONDATHAN; break;
 		case ACR_LANG_ID_CHULTAN: return LNG_CHULTAN; break;
+		case ACR_LANG_ID_COMMON: return LNG_COMMON; break;
 		case ACR_LANG_ID_DWARF: return LNG_DWARF; break;
 		case ACR_LANG_ID_DROW: return LNG_DROW; break;
 		case ACR_LANG_ID_DROWSIGN: return LNG_DROWSIGN; break;
@@ -455,6 +457,7 @@ int ACR_LanguageNameToID( string sLanguage ) {
 	else if ( sLanguage == LNG_CHESSENTAN ) return ACR_LANG_ID_CHESSENTAN;
 	else if ( sLanguage == LNG_CHONDATHAN ) return ACR_LANG_ID_CHONDATHAN;
 	else if ( sLanguage == LNG_CHULTAN ) return ACR_LANG_ID_CHULTAN;
+	else if ( sLanguage == LNG_COMMON ) return ACR_LANG_ID_COMMON;
 	else if ( sLanguage == LNG_DWARF ) return ACR_LANG_ID_DWARF;
 	else if ( sLanguage == LNG_DROW ) return ACR_LANG_ID_DROW;
 	else if ( sLanguage == LNG_DROWSIGN ) return ACR_LANG_ID_DROWSIGN;
@@ -2147,6 +2150,7 @@ string ACR_LanguageIDToAbbreviation( int nLanguage ) {
 		case ACR_LANG_ID_CHESSENTAN: return "che"; break;
 		case ACR_LANG_ID_CHONDATHAN: return "cho"; break;
 		case ACR_LANG_ID_CHULTAN: return "chu"; break;
+		case ACR_LANG_ID_COMMON: return "com"; break;
 		case ACR_LANG_ID_DWARF: return "dwa"; break;
 		case ACR_LANG_ID_DROW: return "dro"; break;
 		case ACR_LANG_ID_DROWSIGN: return "drs"; break;
