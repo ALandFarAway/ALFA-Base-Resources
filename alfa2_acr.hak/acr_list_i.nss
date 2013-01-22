@@ -1,3 +1,42 @@
+string ACR_GetTokenAtIndex( string sList, int nIndex, string sDelim = ";" ) {
+	int nStartPosition = -1;
+	int nDelimLength = GetStringLength( sDelim );
+	
+	// Find the start of the token.
+	int i;
+	for ( i = 0; i < nIndex; i++ ) {
+		nStartPosition = FindSubString( sList, sDelim, nStartPosition ) + nDelimLength;
+		if ( nStartPosition == -1 ) return "";
+	}
+	
+	// Get the length of the parameter.
+	int nParamLength = FindSubString( sList, sDelim, nStartPosition ) - nStartPosition;
+	if ( nParamLength == -1 ) nParamLength = GetStringLength( sList ) - nStartPosition;
+	
+	// Return.
+	return GetSubString( sList, nStartPosition, nParamLength );
+}
+
+int ACR_GetTokenCount( string sList, string sDelim = ";" ) {
+	int nCurrentPos = 0;
+	int nCount = 0;
+	int nDelimLength = GetStringLength( sDelim );
+	
+	if ( sDelim == "" ) return 0;
+	
+	while ( nCurrentPos != -1 ) {
+		nCurrentPos = FindSubString( sList, sDelim, nCurrentPos ) + nDelimLength;
+		nCount++;
+	}
+	
+	return nCount;
+}
+
+// Currently unimplemented.
+string ACR_SortTokens( string sList ) {
+	return sList;
+}
+
 object _check_object(object o)
 {
 	return ((o == OBJECT_INVALID) ? GetModule() : o);
