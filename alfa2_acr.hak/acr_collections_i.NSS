@@ -22,7 +22,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Our script.
-string ACR_COLLECTION_LIB_SCRIPT = "ACR_CollectionLib"
+string ACR_COLLECTION_LIB_SCRIPT = "acr_collectionlib";
 
 // Result variables.
 string ACR_COLLECTION_RESULT_VAR_INT = "ACR_COLLECTION_RES_INT";
@@ -70,6 +70,9 @@ const int ACR_COLLECTION_METHOD_SUM = 9;
 
 // Error codes.
 const int ACR_COLLECTION_ERROR_NAME = -3400;
+const int ACR_COLLECTION_ERROR_COLLECTION_ALREADY_EXISTS = -3401;
+const int ACR_COLLECTION_ERROR_COLLECTION_DOES_NOT_EXIST = -3402;
+const int ACR_COLLECTION_ERROR_COLLECTION_NO_METHOD = -3403;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -90,7 +93,7 @@ const int ACR_COLLECTION_ERROR_NAME = -3400;
 // GENERIC FUNCTIONS
 //
 
-int ACR_CallCollectionLib( int nCollection, int nMethodCode, string sCollectionName, int nParamInt1 = 0, int nParamInt2 = 0, float fParamFlt1 = 0.0, float fParamFlt2 = 0.0, string sParamStr1 = "", string sParamStr2 = "", int nParamObj1 = OBJECT_INVALID, int nParamObj2 = OBJECT_INVALID );
+int ACR_CallCollectionLib( int nCollection, int nMethodCode, string sCollectionName, int nParamInt1 = 0, int nParamInt2 = 0, float fParamFlt1 = 0.0, float fParamFlt2 = 0.0, string sParamStr1 = "", string sParamStr2 = "", object oParamObj1 = OBJECT_INVALID, object oParamObj2 = OBJECT_INVALID );
 
 int ACR_GetCollectionResultInt();
 
@@ -121,7 +124,8 @@ int ACR_IntList_Sum( string sName );
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-int ACR_CallCollectionLib( int nCollection, int nMethodCode, string sCollectionName, int nParamInt1 = 0, int nParamInt2 = 0, float fParamFlt1 = 0.0, float fParamFlt2 = 0.0, string sParamStr1 = "", string sParamStr2 = "", int nParamObj1 = OBJECT_INVALID, int nParamObj2 = OBJECT_INVALID ) {
+int ACR_CallCollectionLib( int nCollection, int nMethodCode, string sCollectionName, int nParamInt1 = 0, int nParamInt2 = 0, float fParamFlt1 = 0.0, float fParamFlt2 = 0.0, string sParamStr1 = "", string sParamStr2 = "", object oParamObj1 = OBJECT_INVALID, object oParamObj2 = OBJECT_INVALID ) {
+	// Add parameters
 	AddScriptParameterInt( nCollection );
 	AddScriptParameterInt( nMethodCode );
 	AddScriptParameterString( sCollectionName );
@@ -131,14 +135,23 @@ int ACR_CallCollectionLib( int nCollection, int nMethodCode, string sCollectionN
 	AddScriptParameterFloat( fParamFlt2 );
 	AddScriptParameterString( sParamStr1 );
 	AddScriptParameterString( sParamStr2 );
-	AddScriptParameterObject( oParamObj1 );
-	AddScriptParameterObject( oParamObj2 );
-	return ExecuteScriptEnhanced( ACR_COLLECTION_LIB_SCRIPT, OBJECT_SELF, TRUE );
+	
+	// Execute our script.
+	WriteTimestampedLogEntry( "Executing " + ACR_COLLECTION_LIB_SCRIPT + "." );
+	int nReturnCode = ExecuteScriptEnhanced( ACR_COLLECTION_LIB_SCRIPT, OBJECT_SELF, TRUE );
+	
+	// Write some information in case of an error.
+	if ( nReturnCode != 0 ) {
+		WriteTimestampedLogEntry( "ACR_CollectionLib returned error code " + IntToString( nReturnCode ) + "." );
+	}
+	
+	// Throw our return value back.
+	return nReturnCode;
 }
 
 int ACR_GetCollectionResultInt() {
 	object oModule = GetModule();
-	int nValue = GetLocalString( oModule, ACR_COLLECTION_RESULT_VAR_INT );
+	int nValue = GetLocalInt( oModule, ACR_COLLECTION_RESULT_VAR_INT );
 	DeleteLocalString( oModule, ACR_COLLECTION_RESULT_VAR_INT );
 	return nValue;
 }
@@ -190,21 +203,25 @@ void ACR_IntList_Clear( string sName ) {
 
 int ACR_IntList_Contains( string sName, int nValue ) {
 	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_CONTAINS, sName, nValue );
+	return ACR_GetCollectionResultInt();
 }
 
 
 int ACR_IntList_Count( string sName ) {
 	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_COUNT, sName );
+	return ACR_GetCollectionResultInt();
 }
 
 
 int ACR_IntList_ElementAt( string sName, int nIndex ) {
 	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_ELEMENTAT, sName, nIndex );
+	return ACR_GetCollectionResultInt();
 }
 
 
 int ACR_IntList_Max( string sName ) {
 	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_MAX, sName );
+	return ACR_GetCollectionResultInt();
 }
 
 
@@ -215,6 +232,7 @@ void ACR_IntList_Reverse( string sName ) {
 
 int ACR_IntList_Sum( string sName ) {
 	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_SUM, sName );
+	return ACR_GetCollectionResultInt();
 }
 
 
