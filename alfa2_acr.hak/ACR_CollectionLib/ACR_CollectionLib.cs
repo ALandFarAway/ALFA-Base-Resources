@@ -24,37 +24,31 @@ namespace ACR_CollectionLib
     {
 
         // Generic array.
-        private Dictionary<string, ArrayList> m_ArrayLists;
+        //private Dictionary<string, ArrayList> m_ArrayLists;
 
         // Lists for the NW data types.
-        public Dictionary<string, List<int>> m_IntList;
-        public Dictionary<string, List<float>> m_FloatList;
-        public Dictionary<string, List<string>> m_StringList;
-        public Dictionary<string, List<int>> m_ObjectList;
+        public static Dictionary<string, List<int>> m_IntList = new Dictionary<string, List<int>>();
+        //public Dictionary<string, List<float>> m_FloatList;
+        //public Dictionary<string, List<string>> m_StringList;
+        //public Dictionary<string, List<int>> m_ObjectList;
 
         // Dictionaries for NW data types.
-        public Dictionary<string, Dictionary<string, int>> m_IntDict;
-        public Dictionary<string, Dictionary<string, float>> m_FloatDict;
-        public Dictionary<string, Dictionary<string, string>> m_StringDict;
-        public Dictionary<string, Dictionary<string, int>> m_ObjectDict;
+        //public Dictionary<string, Dictionary<string, int>> m_IntDict;
+        //public Dictionary<string, Dictionary<string, float>> m_FloatDict;
+        //public Dictionary<string, Dictionary<string, string>> m_StringDict;
+        //public Dictionary<string, Dictionary<string, int>> m_ObjectDict;
 
         // Queues for NWN2 data types.
-        public Dictionary<string, Queue<int>> m_IntQueue;
-        public Dictionary<string, Queue<float>> m_FloatQueue;
-        public Dictionary<string, Queue<string>> m_StringQueue;
-        public Dictionary<string, Queue<int>> m_ObjectQueue;
+        //public Dictionary<string, Queue<int>> m_IntQueue;
+        //public Dictionary<string, Queue<float>> m_FloatQueue;
+        //public Dictionary<string, Queue<string>> m_StringQueue;
+        //public Dictionary<string, Queue<int>> m_ObjectQueue;
 
         // Stacks for NWN2 data types.
-        public Dictionary<string, Stack<int>> m_IntStack;
-        public Dictionary<string, Stack<float>> m_FloatStack;
-        public Dictionary<string, Stack<string>> m_StringStack;
-        public Dictionary<string, Stack<int>> m_ObjectStack;
-
-        // Results.
-        public int m_ResultInt;
-        public float m_ResultFloat;
-        public string m_ResultString;
-        public int m_ResultObject;
+        //public Dictionary<string, Stack<int>> m_IntStack;
+        //public Dictionary<string, Stack<float>> m_FloatStack;
+        //public Dictionary<string, Stack<string>> m_StringStack;
+        //public Dictionary<string, Stack<int>> m_ObjectStack;
 
         /// <summary>
         /// Define type codes for request collection types to ScriptMain.
@@ -106,6 +100,12 @@ namespace ACR_CollectionLib
             OBJECT
         }
 
+        // Module variables for return values.
+        const string ACR_COLLECTION_RESULT_VAR_INT = "ACR_COLLECTION_RES_INT";
+        const string ACR_COLLECTION_RESULT_VAR_FLOAT = "ACR_COLLECTION_RES_FLT";
+        const string ACR_COLLECTION_RESULT_VAR_STRING = "ACR_COLLECTION_RES_STR";
+        const string ACR_COLLECTION_RESULT_VAR_OBJECT = "ACR_COLLECTION_RES_OBJ";
+
         public ACR_CollectionLib([In] NWScriptJITIntrinsics Intrinsics, [In] INWScriptProgram Host)
         {
             InitScript(Intrinsics, Host);
@@ -118,14 +118,18 @@ namespace ACR_CollectionLib
             LoadScriptGlobals(Other.SaveScriptGlobals());
         }
 
-        // ACR_CollectionLib( COLLECTION_CODE nCollection, METHOD_CODE nMethodCode, string sCollectionName, int nParamInt1, int nParamInt2, float fParamFlt1, float fParamFlt2, string sParamStr1, string sParamStr2, int nParamObj1, int nParamObj2 );
-        public static Type[] ScriptParameterTypes = { typeof(int), typeof(int), typeof(string), typeof(int), typeof(int), typeof(float), typeof(float), typeof(string), typeof(string), typeof(int), typeof(int) };
+        // ACR_CollectionLib( COLLECTION_CODE nCollection, METHOD_CODE nMethodCode, string sCollectionName, int nParamInt1, int nParamInt2, float fParamFlt1, float fParamFlt2, string sParamStr1, string sParamStr2 );
+        public static Type[] ScriptParameterTypes = { typeof(int), typeof(int), typeof(string), typeof(int), typeof(int), typeof(float), typeof(float), typeof(string), typeof(string) };
 
         public Int32 ScriptMain([In] object[] ScriptParameters, [In] Int32 DefaultReturnCode)
         {
+            DelayCommand(1.0f, delegate() { WriteTimestampedLogEntry("ScriptMain called #1."); });
+            DelayCommand(1.0f, delegate() { WriteTimestampedLogEntry("ScriptMain called #2."); });
+            PrintString("ScriptMain called #3.");
+
             // Parse our parameters.
-            COLLECTION_CODE nCollection = (COLLECTION_CODE)ScriptParameters[0];
-            METHOD_CODE nMethodCode = (METHOD_CODE)ScriptParameters[1];
+            int nCollection = (int)ScriptParameters[0];
+            int nMethodCode = (int)ScriptParameters[1];
             string sCollectionName = (string)ScriptParameters[2];
             int nParamInt1 = (int)ScriptParameters[3];
             int nParamInt2 = (int)ScriptParameters[4];
@@ -133,29 +137,108 @@ namespace ACR_CollectionLib
             float fParamFlt2 = (float)ScriptParameters[6];
             string sParamStr1 = (string)ScriptParameters[7];
             string sParamStr2 = (string)ScriptParameters[8];
-            int nParamObj1 = (int)ScriptParameters[9];
-            int nParamObj2 = (int)ScriptParameters[10];
+
 
             // Return value.
             Int32 nReturnValue = DefaultReturnCode;
 
             // What type of request are we making?
-            switch (nCollection)
+            switch ((COLLECTION_CODE)nCollection)
             {
                 case COLLECTION_CODE.INT_LIST:
-                    HandleIntList(sCollectionName, nMethodCode, nParamInt1, nParamInt2);
+                    nReturnValue = HandleIntList(sCollectionName, (METHOD_CODE)nMethodCode, nParamInt1, nParamInt2);
                     break;
             }
 
             return nReturnValue;
         }
 
-        private Int32 HandleIntList( string sCollectionName, METHOD_CODE nMethod, int nParam1, int nParam2 ) {
+        private void SetReturnInt(int nValue)
+        {
+
+            WriteTimestampedLogEntry("SetReturnInt called.");
+            SetLocalInt(GetModule(), ACR_COLLECTION_RESULT_VAR_INT, nValue);
+        }
+
+        private void SetReturnFloat(float fValue)
+        {
+
+            WriteTimestampedLogEntry("SetReturnFloat called.");
+            SetLocalFloat(GetModule(), ACR_COLLECTION_RESULT_VAR_FLOAT, fValue);
+        }
+
+        private void SetReturnString(string sValue)
+        {
+
+            WriteTimestampedLogEntry("SetReturnString called.");
+            SetLocalString(GetModule(), ACR_COLLECTION_RESULT_VAR_STRING, sValue);
+        }
+
+        private void SetReturnObject(uint uValue)
+        {
+
+            WriteTimestampedLogEntry("SetReturnObject called.");
+            SetLocalObject(GetModule(), ACR_COLLECTION_RESULT_VAR_OBJECT, uValue);
+        }
+
+        private Int32 HandleIntList(string sCollectionName, METHOD_CODE nMethod, int nParam1, int nParam2)
+        {
             Int32 nReturnValue = 0;
+            WriteTimestampedLogEntry("HandleIntList called.");
+
+            // Make sure the collection does (or does not) exist.
+            if (nMethod == METHOD_CODE.CREATE)
+            {
+                if (m_IntList.ContainsKey(sCollectionName))
+                {
+                    // This collection already exists.
+                    return -3401;
+                }
+                else
+                {
+                    if (!m_IntList.ContainsKey(sCollectionName))
+                    {
+                        // Collection does not exist, cannot be accessed.
+                        return -3402;
+                    }
+                }
+            }
 
             switch (nMethod)
             {
-
+                case METHOD_CODE.CREATE:
+                    m_IntList.Add(sCollectionName, new List<int>());
+                    break;
+                case METHOD_CODE.DELETE:
+                    m_IntList.Remove(sCollectionName);
+                    break;
+                case METHOD_CODE.ADD:
+                    m_IntList[sCollectionName].Add(nParam1);
+                    break;
+                case METHOD_CODE.CLEAR:
+                    m_IntList[sCollectionName].Clear();
+                    break;
+                case METHOD_CODE.CONTAINS:
+                    SetReturnInt(Convert.ToInt32(m_IntList[sCollectionName].Contains(nParam1)));
+                    break;
+                case METHOD_CODE.COUNT:
+                    SetReturnInt(m_IntList[sCollectionName].Count());
+                    break;
+                case METHOD_CODE.ELEMENTAT:
+                    SetReturnInt(m_IntList[sCollectionName].ElementAt(nParam1));
+                    break;
+                case METHOD_CODE.MAX:
+                    SetReturnInt(m_IntList[sCollectionName].Max());
+                    break;
+                case METHOD_CODE.REVERSE:
+                    m_IntList[sCollectionName].Reverse();
+                    break;
+                case METHOD_CODE.SUM:
+                    SetReturnInt(m_IntList[sCollectionName].Sum());
+                    break;
+                default:
+                    nReturnValue = -3403;
+                    break;
             }
 
             return nReturnValue;
