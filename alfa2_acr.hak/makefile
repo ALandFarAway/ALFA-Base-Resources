@@ -19,6 +19,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_array_i.nss                       \
             $(OUTPUTDIR)\acr_list_i.nss                        \
             $(OUTPUTDIR)\acr_chat_i.nss                        \
+            $(OUTPUTDIR)\acr_collections_i.nss                 \
             $(OUTPUTDIR)\acr_craft_creation_i.nss              \
             $(OUTPUTDIR)\acr_craft_progress_i.nss              \
             $(OUTPUTDIR)\acr_creature_i.nss                    \
