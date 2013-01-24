@@ -388,7 +388,7 @@ int ACR_FloatList_Exists( string sName ) {
 
 
 void ACR_FloatList_Add( string sName, float fValue ) {
-	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_DELETE, sName );
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_ADD, sName, 0, 0, fValue );
 }
 
 
@@ -495,7 +495,7 @@ int ACR_StringList_Exists( string sName ) {
 
 
 void ACR_StringList_Add( string sName, string sValue ) {
-	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_DELETE, sName );
+	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_ADD, sName, 0, 0, 0.0f, 0.0f, sValue );
 }
 
 
