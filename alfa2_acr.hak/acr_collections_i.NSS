@@ -173,6 +173,27 @@ void ACR_FloatList_Sort( string sName );
 float ACR_FloatList_Sum( string sName );
 
 
+//
+// STRING LIST
+//
+
+void ACR_StringList_Create( string sName );
+void ACR_StringList_Delete( string sName );
+void ACR_StringList_Add( string sName, string sValue );
+void ACR_StringList_Clear( string sName );
+int ACR_StringList_Contains( string sName, string sValue );
+int ACR_StringList_Count( string sName );
+string ACR_StringList_ElementAt( string sName, int nIndex );
+string ACR_StringList_First( string sName );
+int ACR_StringList_IndexOf( string sName, string sValue );
+void ACR_StringList_Insert( string sName, int nIndex, string sValue );
+void ACR_StringList_Remove( string sName, string sValue );
+void ACR_StringList_RemoveAt( string sName, int nIndex );
+void ACR_StringList_RemoveRange( string sName, int nIndex, int nCount );
+void ACR_StringList_Reverse( string sName );
+void ACR_StringList_Sort( string sName );
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -235,6 +256,9 @@ object ACR_GetCollectionResultObject() {
 	DeleteLocalObject( oModule, ACR_COLLECTION_RESULT_VAR_OBJECT );
 	return oValue;
 }
+
+
+// Begin IntList
 
 
 void ACR_IntList_Create( string sName ) {
@@ -335,6 +359,9 @@ int ACR_IntList_Sum( string sName ) {
 }
 
 
+// Begin FloatList
+
+
 void ACR_FloatList_Create( string sName ) {
 	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_CREATE, sName );
 }
@@ -430,6 +457,89 @@ void ACR_FloatList_Sort( string sName ) {
 float ACR_FloatList_Sum( string sName ) {
 	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_SUM, sName );
 	return ACR_GetCollectionResultFloat();
+}
+
+
+// Begin StringList
+
+
+void ACR_StringList_Create( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_CREATE, sName );
+}
+
+
+void ACR_StringList_Delete( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_DELETE, sName );
+}
+
+
+void ACR_StringList_Add( string sName, string sValue ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_DELETE, sName );
+}
+
+
+void ACR_StringList_Clear( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_CLEAR, sName );
+}
+
+
+int ACR_StringList_Contains( string sName, string sValue ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_CONTAINS, sName, 0, 0, 0.0f, 0.0f, sValue );
+	return ACR_GetCollectionResultInt();
+}
+
+
+int ACR_StringList_Count( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_COUNT, sName );
+	return ACR_GetCollectionResultInt();
+}
+
+
+string ACR_StringList_ElementAt( string sName, int nIndex ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_ELEMENT_AT, sName, nIndex );
+	return ACR_GetCollectionResultString();
+}
+
+
+string ACR_StringList_First( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_FIRST, sName );
+	return ACR_GetCollectionResultString();
+}
+
+
+int ACR_StringList_IndexOf( string sName, string sValue ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_INDEX_OF, sName, 0, 0, 0.0f, 0.0f, sValue );
+	return ACR_GetCollectionResultInt();
+}
+
+
+void ACR_StringList_Insert( string sName, int nIndex, string sValue ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_INSERT, sName, nIndex, 0, 0.0f, 0.0f, sValue );
+}
+
+
+void ACR_StringList_Remove( string sName, string sValue ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_REMOVE, sName, 0, 0, 0.0f, 0.0f, sValue );
+}
+
+
+void ACR_StringList_RemoveAt( string sName, int nIndex ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_REMOVE_AT, sName, nIndex );
+}
+
+
+void ACR_StringList_RemoveRange( string sName, int nIndex, int nCount ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_REMOVE_RANGE, sName, nIndex, nCount );
+}
+
+
+void ACR_StringList_Reverse( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_REVERSE, sName );
+}
+
+
+void ACR_StringList_Sort( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_SORT, sName );
 }
 
 
