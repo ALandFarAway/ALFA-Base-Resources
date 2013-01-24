@@ -24,10 +24,10 @@ namespace ACR_CollectionLib
     {
 
         // Generic array.
-        //private Dictionary<string, ArrayList> m_ArrayLists;
+        private static Dictionary<string, ArrayList> m_ArrayList = new Dictionary<string, ArrayList>();
 
         // Lists for the NW data types.
-        public static Dictionary<string, List<int>> m_IntList = new Dictionary<string, List<int>>();
+        private static Dictionary<string, List<int>> m_IntList = new Dictionary<string, List<int>>();
         //public Dictionary<string, List<float>> m_FloatList;
         //public Dictionary<string, List<string>> m_StringList;
         //public Dictionary<string, List<int>> m_ObjectList;
@@ -78,14 +78,35 @@ namespace ACR_CollectionLib
         private enum METHOD_CODE
         {
             CREATE,
+            CREATE_IF_NOT_EXISTS,
             DELETE,
+            DELETE_IF_EXISTS,
+            EXISTS,
             ADD,
+            COUNT,
             CLEAR,
             CONTAINS,
-            COUNT,
-            ELEMENTAT,
+            CONTAINS_KEY,
+            CONTAINS_VALUE,
+            ELEMENT_AT,
+            FIND,
+            FIND_LAST,
+            FIRST,
+            INDEX_OF,
+            INSERT,
+            LAST,
+            LAST_INDEX_OF,
             MAX,
+            MIN,
+            PEEK,
+            POP,
+            PUSH,
+            REMOVE,
+            REMOVE_AT,
+            REMOVE_RANGE,
             REVERSE,
+            SET_AT_INDEX,
+            SORT,
             SUM
         }
 
@@ -123,10 +144,6 @@ namespace ACR_CollectionLib
 
         public Int32 ScriptMain([In] object[] ScriptParameters, [In] Int32 DefaultReturnCode)
         {
-            DelayCommand(1.0f, delegate() { WriteTimestampedLogEntry("ScriptMain called #1."); });
-            DelayCommand(1.0f, delegate() { WriteTimestampedLogEntry("ScriptMain called #2."); });
-            PrintString("ScriptMain called #3.");
-
             // Parse our parameters.
             int nCollection = (int)ScriptParameters[0];
             int nMethodCode = (int)ScriptParameters[1];
@@ -155,56 +172,48 @@ namespace ACR_CollectionLib
 
         private void SetReturnInt(int nValue)
         {
-
-            WriteTimestampedLogEntry("SetReturnInt called.");
             SetLocalInt(GetModule(), ACR_COLLECTION_RESULT_VAR_INT, nValue);
         }
 
         private void SetReturnFloat(float fValue)
         {
-
-            WriteTimestampedLogEntry("SetReturnFloat called.");
             SetLocalFloat(GetModule(), ACR_COLLECTION_RESULT_VAR_FLOAT, fValue);
         }
 
         private void SetReturnString(string sValue)
         {
-
-            WriteTimestampedLogEntry("SetReturnString called.");
             SetLocalString(GetModule(), ACR_COLLECTION_RESULT_VAR_STRING, sValue);
         }
 
         private void SetReturnObject(uint uValue)
         {
-
-            WriteTimestampedLogEntry("SetReturnObject called.");
             SetLocalObject(GetModule(), ACR_COLLECTION_RESULT_VAR_OBJECT, uValue);
         }
 
-        private Int32 HandleIntList(string sCollectionName, METHOD_CODE nMethod, int nParam1, int nParam2)
+        private Int32 HandleIntList(string sCollectionName, METHOD_CODE nMethodCode, int nParam1, int nParam2)
         {
             Int32 nReturnValue = 0;
-            WriteTimestampedLogEntry("HandleIntList called.");
 
             // Make sure the collection does (or does not) exist.
-            if (nMethod == METHOD_CODE.CREATE)
+            if (nMethodCode == METHOD_CODE.CREATE)
             {
                 if (m_IntList.ContainsKey(sCollectionName))
                 {
                     // This collection already exists.
                     return -3401;
                 }
-                else
+            }
+            else
+            {
+                if (!m_IntList.ContainsKey(sCollectionName))
                 {
-                    if (!m_IntList.ContainsKey(sCollectionName))
-                    {
-                        // Collection does not exist, cannot be accessed.
-                        return -3402;
-                    }
+                    // Collection does not exist, cannot be accessed.
+                    return -3402;
                 }
             }
 
-            switch (nMethod)
+            // Handle the request.
+            switch (nMethodCode)
             {
                 case METHOD_CODE.CREATE:
                     m_IntList.Add(sCollectionName, new List<int>());
@@ -224,14 +233,38 @@ namespace ACR_CollectionLib
                 case METHOD_CODE.COUNT:
                     SetReturnInt(m_IntList[sCollectionName].Count());
                     break;
-                case METHOD_CODE.ELEMENTAT:
+                case METHOD_CODE.ELEMENT_AT:
                     SetReturnInt(m_IntList[sCollectionName].ElementAt(nParam1));
+                    break;
+                case METHOD_CODE.FIRST:
+                    SetReturnInt(m_IntList[sCollectionName].First());
+                    break;
+                case METHOD_CODE.INDEX_OF:
+                    SetReturnInt(m_IntList[sCollectionName].IndexOf(nParam1));
+                    break;
+                case METHOD_CODE.INSERT:
+                    m_IntList[sCollectionName].Insert(nParam1, nParam2);
                     break;
                 case METHOD_CODE.MAX:
                     SetReturnInt(m_IntList[sCollectionName].Max());
                     break;
+                case METHOD_CODE.MIN:
+                    SetReturnInt(m_IntList[sCollectionName].Min());
+                    break;
+                case METHOD_CODE.REMOVE:
+                    m_IntList[sCollectionName].Remove(nParam1);
+                    break;
+                case METHOD_CODE.REMOVE_AT:
+                    m_IntList[sCollectionName].RemoveAt(nParam1);
+                    break;
+                case METHOD_CODE.REMOVE_RANGE:
+                    m_IntList[sCollectionName].RemoveRange(nParam1, nParam2);
+                    break;
                 case METHOD_CODE.REVERSE:
                     m_IntList[sCollectionName].Reverse();
+                    break;
+                case METHOD_CODE.SET_AT_INDEX:
+                    m_IntList[sCollectionName].Sort();
                     break;
                 case METHOD_CODE.SUM:
                     SetReturnInt(m_IntList[sCollectionName].Sum());

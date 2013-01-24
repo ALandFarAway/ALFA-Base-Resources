@@ -57,16 +57,37 @@ const int ACR_COLLECTION_OBJECT_STACK = 16;
 const int ACR_COLLECTION_RESULT = 17;
 
 // Method codes for interacting with ACR_CollectionLib collections.
-const int ACR_COLLECTION_METHOD_CREATE = 0;
-const int ACR_COLLECTION_METHOD_DELETE = 1;
-const int ACR_COLLECTION_METHOD_ADD = 2;
-const int ACR_COLLECTION_METHOD_CLEAR = 3;
-const int ACR_COLLECTION_METHOD_CONTAINS = 4;
-const int ACR_COLLECTION_METHOD_COUNT = 5;
-const int ACR_COLLECTION_METHOD_ELEMENTAT = 6;
-const int ACR_COLLECTION_METHOD_MAX = 7;
-const int ACR_COLLECTION_METHOD_REVERSE = 8;
-const int ACR_COLLECTION_METHOD_SUM = 9;
+const int ACR_COLLECTION_METHOD_CREATE= 0;
+const int ACR_COLLECTION_METHOD_CREATE_IF_NOT_EXISTS = 1;
+const int ACR_COLLECTION_METHOD_DELETE = 2;
+const int ACR_COLLECTION_METHOD_DELETE_IF_EXISTS = 3;
+const int ACR_COLLECTION_METHOD_EXISTS = 4;
+const int ACR_COLLECTION_METHOD_ADD = 5;
+const int ACR_COLLECTION_METHOD_CLEAR = 7;
+const int ACR_COLLECTION_METHOD_CONTAINS = 8;
+const int ACR_COLLECTION_METHOD_CONTAINS_KEY = 9;
+const int ACR_COLLECTION_METHOD_CONTAINS_VALUE = 10;
+const int ACR_COLLECTION_METHOD_COUNT = 6;
+const int ACR_COLLECTION_METHOD_ELEMENT_AT = 11;
+const int ACR_COLLECTION_METHOD_FIND = 12;
+const int ACR_COLLECTION_METHOD_FIND_LAST = 13;
+const int ACR_COLLECTION_METHOD_FIRST = 14;
+const int ACR_COLLECTION_METHOD_INDEX_OF = 15;
+const int ACR_COLLECTION_METHOD_INSERT = 16;
+const int ACR_COLLECTION_METHOD_LAST = 17;
+const int ACR_COLLECTION_METHOD_LAST_INDEX_OF = 18;
+const int ACR_COLLECTION_METHOD_MAX = 19;
+const int ACR_COLLECTION_METHOD_MIN = 20;
+const int ACR_COLLECTION_METHOD_PEEK = 21;
+const int ACR_COLLECTION_METHOD_POP = 22;
+const int ACR_COLLECTION_METHOD_PUSH = 23;
+const int ACR_COLLECTION_METHOD_REMOVE = 24;
+const int ACR_COLLECTION_METHOD_REMOVE_AT = 25;
+const int ACR_COLLECTION_METHOD_REMOVE_RANGE = 26;
+const int ACR_COLLECTION_METHOD_REVERSE = 27;
+const int ACR_COLLECTION_METHOD_SET_AT_INDEX = 28;
+const int ACR_COLLECTION_METHOD_SORT = 29;
+const int ACR_COLLECTION_METHOD_SUM = 30;
 
 // Error codes.
 const int ACR_COLLECTION_ERROR_NAME = -3400;
@@ -115,8 +136,16 @@ void ACR_IntList_Clear( string sName );
 int ACR_IntList_Contains( string sName, int nValue );
 int ACR_IntList_Count( string sName );
 int ACR_IntList_ElementAt( string sName, int nIndex );
+int ACR_IntList_First( string sName );
+int ACR_IntList_IndexOf( string sName, int nValue );
+void ACR_IntList_Insert( string sName, int nIndex, int nValue );
 int ACR_IntList_Max( string sName );
+int ACR_IntList_Min( string sName );
+void ACR_IntList_Remove( string sName, int nValue );
+void ACR_IntList_RemoveAt( string sName, int nIndex );
+void ACR_IntList_RemoveRange( string sName, int nIndex, int nCount );
 void ACR_IntList_Reverse( string sName );
+void ACR_IntList_Sort( string sName );
 int ACR_IntList_Sum( string sName );
 
 
@@ -137,7 +166,6 @@ int ACR_CallCollectionLib( int nCollection, int nMethodCode, string sCollectionN
 	AddScriptParameterString( sParamStr2 );
 	
 	// Execute our script.
-	WriteTimestampedLogEntry( "Executing " + ACR_COLLECTION_LIB_SCRIPT + "." );
 	int nReturnCode = ExecuteScriptEnhanced( ACR_COLLECTION_LIB_SCRIPT, OBJECT_SELF, TRUE );
 	
 	// Write some information in case of an error.
@@ -214,8 +242,25 @@ int ACR_IntList_Count( string sName ) {
 
 
 int ACR_IntList_ElementAt( string sName, int nIndex ) {
-	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_ELEMENTAT, sName, nIndex );
+	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_ELEMENT_AT, sName, nIndex );
 	return ACR_GetCollectionResultInt();
+}
+
+
+int ACR_IntList_First( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_FIRST, sName );
+	return ACR_GetCollectionResultInt();
+}
+
+
+int ACR_IntList_IndexOf( string sName, int nValue ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_ELEMENT_AT, sName, nValue );
+	return ACR_GetCollectionResultInt();
+}
+
+
+void ACR_IntList_Insert( string sName, int nIndex, int nValue ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_INSERT, sName, nIndex, nValue );
 }
 
 
@@ -225,8 +270,34 @@ int ACR_IntList_Max( string sName ) {
 }
 
 
+int ACR_IntList_Min( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_MIN, sName );
+	return ACR_GetCollectionResultInt();
+}
+
+
+void ACR_IntList_Remove( string sName, int nValue ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_REMOVE, sName, nValue );
+}
+
+
+void ACR_IntList_RemoveAt( string sName, int nIndex ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_REMOVE_AT, sName, nIndex );
+}
+
+
+void ACR_IntList_RemoveRange( string sName, int nIndex, int nCount ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_REMOVE_AT, sName, nIndex, nCount );
+}
+
+
 void ACR_IntList_Reverse( string sName ) {
 	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_REVERSE, sName );
+}
+
+
+void ACR_IntList_Sort( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_SORT, sName );
 }
 
 
