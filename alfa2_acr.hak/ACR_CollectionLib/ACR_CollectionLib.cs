@@ -223,6 +223,11 @@ namespace ACR_CollectionLib
             {
                 return (int)RETURN_CODE.SUCCESS;
             }
+            else if (nMethodCode == METHOD_CODE.EXISTS)
+            {
+                SetReturnInt(Convert.ToInt32(m_IntList.ContainsKey(sCollectionName)));
+                return (int)RETURN_CODE.SUCCESS;
+            }
             else if (!m_IntList.ContainsKey(sCollectionName))
             {
                 // Collection does not exist, cannot be accessed.
@@ -316,6 +321,11 @@ namespace ACR_CollectionLib
             {
                 return (int)RETURN_CODE.SUCCESS;
             }
+            else if (nMethodCode == METHOD_CODE.EXISTS)
+            {
+                SetReturnInt(Convert.ToInt32(m_FloatList.ContainsKey(sCollectionName)));
+                return (int)RETURN_CODE.SUCCESS;
+            }
             else if (!m_FloatList.ContainsKey(sCollectionName))
             {
                 // Collection does not exist, cannot be accessed.
@@ -407,6 +417,11 @@ namespace ACR_CollectionLib
             }
             else if (nMethodCode == METHOD_CODE.DELETE_IF_EXISTS && !m_StringList.ContainsKey(sCollectionName))
             {
+                return (int)RETURN_CODE.SUCCESS;
+            }
+            else if (nMethodCode == METHOD_CODE.EXISTS)
+            {
+                SetReturnInt(Convert.ToInt32(m_StringList.ContainsKey(sCollectionName)));
                 return (int)RETURN_CODE.SUCCESS;
             }
             else if (!m_StringList.ContainsKey(sCollectionName))

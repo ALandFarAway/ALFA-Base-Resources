@@ -131,6 +131,7 @@ object ACR_GetCollectionResultObject();
 
 void ACR_IntList_Create( string sName );
 void ACR_IntList_Delete( string sName );
+int ACR_IntList_Exists( string sName );
 void ACR_IntList_Add( string sName, int nValue );
 void ACR_IntList_Clear( string sName );
 int ACR_IntList_Contains( string sName, int nValue );
@@ -155,6 +156,7 @@ int ACR_IntList_Sum( string sName );
 
 void ACR_FloatList_Create( string sName );
 void ACR_FloatList_Delete( string sName );
+int ACR_FloatList_Exists( string sName );
 void ACR_FloatList_Add( string sName, float fValue );
 void ACR_FloatList_Clear( string sName );
 int ACR_FloatList_Contains( string sName, float fValue );
@@ -179,6 +181,7 @@ float ACR_FloatList_Sum( string sName );
 
 void ACR_StringList_Create( string sName );
 void ACR_StringList_Delete( string sName );
+int ACR_StringList_Exists( string sName );
 void ACR_StringList_Add( string sName, string sValue );
 void ACR_StringList_Clear( string sName );
 int ACR_StringList_Contains( string sName, string sValue );
@@ -268,6 +271,12 @@ void ACR_IntList_Create( string sName ) {
 
 void ACR_IntList_Delete( string sName ) {
 	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_DELETE, sName );
+}
+
+
+int ACR_IntList_Exists( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_EXISTS, sName );
+	return ACR_GetCollectionResultInt();
 }
 
 
@@ -372,6 +381,12 @@ void ACR_FloatList_Delete( string sName ) {
 }
 
 
+int ACR_FloatList_Exists( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_EXISTS, sName );
+	return ACR_GetCollectionResultInt();
+}
+
+
 void ACR_FloatList_Add( string sName, float fValue ) {
 	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_DELETE, sName );
 }
@@ -470,6 +485,12 @@ void ACR_StringList_Create( string sName ) {
 
 void ACR_StringList_Delete( string sName ) {
 	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_DELETE, sName );
+}
+
+
+int ACR_StringList_Exists( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_STRING_LIST, ACR_COLLECTION_METHOD_EXISTS, sName );
+	return ACR_GetCollectionResultInt();
 }
 
 
