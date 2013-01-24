@@ -26,7 +26,7 @@
 #include "acr_db_persist_i"
 #include "acr_settings_i"
 #include "dmfi_inc_english"
-#include "x0_i0_stringlib"
+#include "acr_collections_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -506,13 +506,25 @@ int ACR_LanguageNameToID( string sLanguage ) {
 
 
 string ACR_GetLanguageList( object oPC, int bSort = TRUE ) {
-	string sList = "";
+	// Get the name of our list identifier.
+	string sCollectionName = GetName( oPC) + " - Languages";
 	
+	// Store useful data used no matter what.
+	int nLanguagesKnown = ACR_GetLangagesKnown( oPC );
+	
+	// If the collection already exists, let's see if it needs updating.
+	if ( ACR_StringList_Exists( sCollectionName ) ) {
+		if ( ACR_StringList_Count( sCollectionName ) == nLanguagesKnown ) {
+			// If the collection is already up to date, do nothing.
+			return sCollectionName;
+		} else {
+			// If it is not up-to-date, recreate it.
+			ACR_StringList_Delete( sCollectionName );
+		}
+	}
+
 	// Treat DMs and players differently.
 	if ( !GetIsDM( oPC ) && !GetIsDMPossessed( oPC ) ) {
-		// Get the number of languages that the player knows.
-		int nLanguagesKnown = ACR_GetLangagesKnown( oPC );
-		
 		// Itterate through the known languages.
 		int i = 0;
 		for ( i = 0; i < nLanguagesKnown; i++ ) {
@@ -523,33 +535,30 @@ string ACR_GetLanguageList( object oPC, int bSort = TRUE ) {
 			// We skip over common, since we always want that to be last.
 			if ( sLanguage == "common" ) continue;
 			
-			// Add our list dilimiter then the string.
-			if ( sList != "" ) sList += ",";
-			sList += sLanguage;
+			// Add it to our list.
+			ACR_StringList_Add( sCollectionName, sLanguage );
 		}
 	} else {
 		// For DMs, we just build a list of all of the languages.
 		int i = 0;
 		for ( i = 0; i < ACR_LANG_ID_MAX; i++ ) {
-			if ( i != 0 ) sList += ",";
-			sList += ACR_LanguageIDToName( i );
+			if ( i == ACR_LANG_ID_COMMON ) continue;
+			ACR_StringList_Add( sCollectionName, ACR_LanguageIDToName( i ) );
 		}
-		
-		// DMs are pre-sorted.
-		bSort = FALSE;
 	}
 	
 	// Sort list?
 	if ( bSort ) {
-		sList = Sort( sList );
+		ACR_StringList_Sort( sCollectionName );
 	}
 	
 	// Make sure common is always on the top of the list, assuming the player knows common.
 	if ( ACR_IsLanguageKnown( oPC, "common" ) ) {
-		sList = "common," + sList;
+		ACR_StringList_Remove( sCollectionName, "common" );
+		ACR_StringList_Insert( sCollectionName, 0, "common" );
 	}
 	
-	return sList;
+	return sCollectionName;
 }
 
 
