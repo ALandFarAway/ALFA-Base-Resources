@@ -39,7 +39,7 @@
 		OnLeftClick0='UIButton_Input_HideObject("SLANG_Expanded")' OnLeftClick1='UIButton_Input_ShowObject("SLANG_Collapsed")' />
 	
 	<!-- List Header -->
-	<UIPane name="pnListHeader" x="18" y="40" width="252" height="16" prototype="true" >
+	<UIPane name="pnListHeader" x="18" y="40" width="252" height="16">
 		<UIText name="txtName" x="0" y="0" width="PARENT_WIDTH" height="16" text="Language" valign="middle" align="left" fontfamily="Title_Font" style="2" />
 		<UIText name="txtShorthand" x="0" y="0" width="PARENT_WIDTH" height="16" text="Abbrev." valign="middle" align="right" fontfamily="Title_Font" style="2" />
 	</UIPane>
