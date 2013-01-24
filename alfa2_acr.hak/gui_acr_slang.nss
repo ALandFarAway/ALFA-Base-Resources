@@ -11,11 +11,11 @@ void PopulateLanguageUI( object oPC ) {
 	
 	// Go through our known languages and add them to the UI.
 	int i;
-	string sLanguageList = ACR_GetLanguageList( oPC );
-	int nNumLanguages = GetNumberTokens( sLanguageList, "," );
+	string sCollectionName = ACR_GetLanguageList( oPC );
+	int nNumLanguages = ACR_StringList_Count( sCollectionName );
 	for ( i = 0; i < nNumLanguages; i++ ) {
 		// Valid anchor?
-		string sLanguage = GetTokenByPosition( sLanguageList, ",", i );
+		string sLanguage = ACR_StringList_ElementAt( sCollectionName, i );
 		if ( sLanguage == "" ) continue;
 		
 		// Get data we care about.
