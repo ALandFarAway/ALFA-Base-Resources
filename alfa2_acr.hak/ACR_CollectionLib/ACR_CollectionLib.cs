@@ -110,6 +110,16 @@ namespace ACR_CollectionLib
             SUM
         }
 
+        private enum RETURN_CODE
+        {
+            SUCCESS = 0,
+            ERROR_NAME_CONFLICT = -3400,
+            ERROR_COLLECTION_EXISTS = -3401,
+            ERROR_COLLECTION_DOES_NOT_EXIST = -3402,
+            ERROR_COLLECTION_NO_METHOD = -3403,
+            ERROR_COLLECTION_NOT_FOUND = -3404
+        }
+
         /// <summary>
         /// Define type codes for request collection types to ScriptMain.
         /// </summary>
@@ -157,13 +167,16 @@ namespace ACR_CollectionLib
 
 
             // Return value.
-            Int32 nReturnValue = DefaultReturnCode;
+            Int32 nReturnValue = (int)RETURN_CODE.SUCCESS;
 
             // What type of request are we making?
             switch ((COLLECTION_CODE)nCollection)
             {
                 case COLLECTION_CODE.INT_LIST:
                     nReturnValue = HandleIntList(sCollectionName, (METHOD_CODE)nMethodCode, nParamInt1, nParamInt2);
+                    break;
+                default:
+                    nReturnValue = (int)RETURN_CODE.ERROR_COLLECTION_NOT_FOUND;
                     break;
             }
 
@@ -190,27 +203,124 @@ namespace ACR_CollectionLib
             SetLocalObject(GetModule(), ACR_COLLECTION_RESULT_VAR_OBJECT, uValue);
         }
 
-        private Int32 HandleIntList(string sCollectionName, METHOD_CODE nMethodCode, int nParam1, int nParam2)
+        private Int32 HandleArrayList(string sCollectionName, METHOD_CODE nMethodCode, int nParamInt1, int nParamInt2, float fParamFlt1, float fParamFlt2, string sParamStr1, string sParamStr2)
         {
-            Int32 nReturnValue = 0;
+            Int32 nReturnValue = (int)RETURN_CODE.SUCCESS;
 
             // Make sure the collection does (or does not) exist.
-            if (nMethodCode == METHOD_CODE.CREATE)
+            if (nMethodCode == METHOD_CODE.CREATE && m_IntList.ContainsKey(sCollectionName))
             {
-                if (m_IntList.ContainsKey(sCollectionName))
+                // This collection already exists.
+                return (int)RETURN_CODE.ERROR_COLLECTION_EXISTS;
+            }
+            else if (nMethodCode == METHOD_CODE.CREATE_IF_NOT_EXISTS && m_IntList.ContainsKey(sCollectionName))
+            {
+                return (int)RETURN_CODE.SUCCESS;
+            }
+            else if (nMethodCode == METHOD_CODE.DELETE_IF_EXISTS && !m_IntList.ContainsKey(sCollectionName))
+            {
+                return (int)RETURN_CODE.SUCCESS;
+            }
+            else if (!m_IntList.ContainsKey(sCollectionName))
+            {
+                // Collection does not exist, cannot be accessed.
+                return (int)RETURN_CODE.ERROR_COLLECTION_DOES_NOT_EXIST;
+            }
+
+            // Switch out the DELETE_IF and CREATE_IF functions.
+            if (nMethodCode == METHOD_CODE.CREATE_IF_NOT_EXISTS) nMethodCode = METHOD_CODE.CREATE;
+            else if (nMethodCode == METHOD_CODE.DELETE_IF_EXISTS) nMethodCode = METHOD_CODE.DELETE;
+
+            // Determine which value we're adding, if we're adding one.
+            object oValue = 0;
+            if (nMethodCode == METHOD_CODE.ADD)
+            {
+                switch ((DATA_TYPE)nParamInt2)
                 {
-                    // This collection already exists.
-                    return -3401;
+                    case DATA_TYPE.INT:
+                    case DATA_TYPE.OBJECT:
+                        oValue = nParamInt1;
+                        break;
+                    case DATA_TYPE.FLOAT:
+                        oValue = fParamFlt1;
+                        break;
+                    case DATA_TYPE.STRING:
+                        oValue = sParamStr1;
+                        break;
                 }
             }
-            else
+
+            // Handle the request.
+            switch (nMethodCode)
             {
-                if (!m_IntList.ContainsKey(sCollectionName))
-                {
-                    // Collection does not exist, cannot be accessed.
-                    return -3402;
-                }
+                case METHOD_CODE.CREATE:
+                    m_ArrayList.Add(sCollectionName, new ArrayList());
+                    break;
+                case METHOD_CODE.DELETE:
+                    m_ArrayList.Remove(sCollectionName);
+                    break;
+                case METHOD_CODE.ADD:
+                    m_ArrayList[sCollectionName].Add(oValue);
+                    break;
+                case METHOD_CODE.CLEAR:
+                    m_ArrayList[sCollectionName].Clear();
+                    break;
+                case METHOD_CODE.CONTAINS:
+                    SetReturnInt(Convert.ToInt32(m_ArrayList[sCollectionName].Contains(oValue)));
+                    break;
+                case METHOD_CODE.COUNT:
+                    SetReturnInt(Convert.ToInt32(m_ArrayList[sCollectionName].Count));
+                    break;
+                case METHOD_CODE.INDEX_OF:
+                    SetReturnInt(Convert.ToInt32(m_ArrayList[sCollectionName].IndexOf(oValue)));
+                    break;
+                case METHOD_CODE.REMOVE:
+                    m_ArrayList[sCollectionName].Remove(oValue);
+                    break;
+                case METHOD_CODE.REVERSE:
+                    m_ArrayList[sCollectionName].Reverse();
+                    break;
+                case METHOD_CODE.SORT:
+                    m_ArrayList[sCollectionName].Sort();
+                    break;
+                default:
+                    nReturnValue = (int)RETURN_CODE.ERROR_COLLECTION_NO_METHOD;
+                    break;
             }
+
+            // Determine return value.
+
+            // Return any error code.
+            return nReturnValue;
+        }
+
+        private Int32 HandleIntList(string sCollectionName, METHOD_CODE nMethodCode, int nParam1, int nParam2)
+        {
+            Int32 nReturnValue = (int)RETURN_CODE.SUCCESS;
+
+            // Make sure the collection does (or does not) exist.
+            if (nMethodCode == METHOD_CODE.CREATE && m_IntList.ContainsKey(sCollectionName))
+            {
+                // This collection already exists.
+                return (int)RETURN_CODE.ERROR_COLLECTION_EXISTS;
+            }
+            else if (nMethodCode == METHOD_CODE.CREATE_IF_NOT_EXISTS && m_IntList.ContainsKey(sCollectionName))
+            {
+                return (int)RETURN_CODE.SUCCESS;
+            }
+            else if (nMethodCode == METHOD_CODE.DELETE_IF_EXISTS && !m_IntList.ContainsKey(sCollectionName))
+            {
+                return (int)RETURN_CODE.SUCCESS;
+            }
+            else if (!m_IntList.ContainsKey(sCollectionName))
+            {
+                // Collection does not exist, cannot be accessed.
+                return (int)RETURN_CODE.ERROR_COLLECTION_DOES_NOT_EXIST;
+            }
+
+            // Switch out the DELETE_IF and CREATE_IF functions.
+            if (nMethodCode == METHOD_CODE.CREATE_IF_NOT_EXISTS) nMethodCode = METHOD_CODE.CREATE;
+            else if (nMethodCode == METHOD_CODE.DELETE_IF_EXISTS) nMethodCode = METHOD_CODE.DELETE;
 
             // Handle the request.
             switch (nMethodCode)
@@ -263,14 +373,14 @@ namespace ACR_CollectionLib
                 case METHOD_CODE.REVERSE:
                     m_IntList[sCollectionName].Reverse();
                     break;
-                case METHOD_CODE.SET_AT_INDEX:
+                case METHOD_CODE.SORT:
                     m_IntList[sCollectionName].Sort();
                     break;
                 case METHOD_CODE.SUM:
                     SetReturnInt(m_IntList[sCollectionName].Sum());
                     break;
                 default:
-                    nReturnValue = -3403;
+                    nReturnValue = (int)RETURN_CODE.ERROR_COLLECTION_NO_METHOD;
                     break;
             }
 
