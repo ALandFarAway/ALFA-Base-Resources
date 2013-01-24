@@ -126,7 +126,7 @@ object ACR_GetCollectionResultObject();
 
 
 //
-// ARRAY LIST
+// INTEGER LIST
 //
 
 void ACR_IntList_Create( string sName );
@@ -149,10 +149,38 @@ void ACR_IntList_Sort( string sName );
 int ACR_IntList_Sum( string sName );
 
 
+//
+// FLOAT LIST
+//
+
+void ACR_FloatList_Create( string sName );
+void ACR_FloatList_Delete( string sName );
+void ACR_FloatList_Add( string sName, float fValue );
+void ACR_FloatList_Clear( string sName );
+int ACR_FloatList_Contains( string sName, float fValue );
+int ACR_FloatList_Count( string sName );
+float ACR_FloatList_ElementAt( string sName, int nIndex );
+float ACR_FloatList_First( string sName );
+int ACR_FloatList_IndexOf( string sName, float fValue );
+void ACR_FloatList_Insert( string sName, int nIndex, float fValue );
+float ACR_FloatList_Max( string sName );
+float ACR_FloatList_Min( string sName );
+void ACR_FloatList_Remove( string sName, float fValue );
+void ACR_FloatList_RemoveAt( string sName, int nIndex );
+void ACR_FloatList_RemoveRange( string sName, int nIndex, int nCount );
+void ACR_FloatList_Reverse( string sName );
+void ACR_FloatList_Sort( string sName );
+float ACR_FloatList_Sum( string sName );
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+//! Main interface with the ACR_CollectionLib managed script. The variables are
+//! different depending on what you are trying to accomplish. It is not
+//! recommended that you change anything with this function unless you know
+//! what you are doing.
 int ACR_CallCollectionLib( int nCollection, int nMethodCode, string sCollectionName, int nParamInt1 = 0, int nParamInt2 = 0, float fParamFlt1 = 0.0, float fParamFlt2 = 0.0, string sParamStr1 = "", string sParamStr2 = "", object oParamObj1 = OBJECT_INVALID, object oParamObj2 = OBJECT_INVALID ) {
 	// Add parameters
 	AddScriptParameterInt( nCollection );
@@ -304,6 +332,104 @@ void ACR_IntList_Sort( string sName ) {
 int ACR_IntList_Sum( string sName ) {
 	ACR_CallCollectionLib( ACR_COLLECTION_INT_LIST, ACR_COLLECTION_METHOD_SUM, sName );
 	return ACR_GetCollectionResultInt();
+}
+
+
+void ACR_FloatList_Create( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_CREATE, sName );
+}
+
+
+void ACR_FloatList_Delete( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_DELETE, sName );
+}
+
+
+void ACR_FloatList_Add( string sName, float fValue ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_DELETE, sName );
+}
+
+
+void ACR_FloatList_Clear( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_CLEAR, sName );
+}
+
+
+int ACR_FloatList_Contains( string sName, float fValue ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_CONTAINS, sName, 0, 0, fValue );
+	return ACR_GetCollectionResultInt();
+}
+
+
+int ACR_FloatList_Count( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_COUNT, sName );
+	return ACR_GetCollectionResultInt();
+}
+
+
+float ACR_FloatList_ElementAt( string sName, int nIndex ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_ELEMENT_AT, sName, nIndex );
+	return ACR_GetCollectionResultFloat();
+}
+
+
+float ACR_FloatList_First( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_FIRST, sName );
+	return ACR_GetCollectionResultFloat();
+}
+
+
+int ACR_FloatList_IndexOf( string sName, float fValue ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_INDEX_OF, sName, 0, 0, fValue );
+	return ACR_GetCollectionResultInt();
+}
+
+
+void ACR_FloatList_Insert( string sName, int nIndex, float fValue ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_INSERT, sName, nIndex, 0, fValue );
+}
+
+
+float ACR_FloatList_Max( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_MAX, sName );
+	return ACR_GetCollectionResultFloat();
+}
+
+
+float ACR_FloatList_Min( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_MIN, sName );
+	return ACR_GetCollectionResultFloat();
+}
+
+
+void ACR_FloatList_Remove( string sName, float fValue ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_REMOVE, sName, 0, 0, fValue );
+}
+
+
+void ACR_FloatList_RemoveAt( string sName, int nIndex ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_REMOVE_AT, sName, nIndex );
+}
+
+
+void ACR_FloatList_RemoveRange( string sName, int nIndex, int nCount ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_REMOVE_RANGE, sName, nIndex, nCount );
+}
+
+
+void ACR_FloatList_Reverse( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_REVERSE, sName );
+}
+
+
+void ACR_FloatList_Sort( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_SORT, sName );
+}
+
+
+float ACR_FloatList_Sum( string sName ) {
+	ACR_CallCollectionLib( ACR_COLLECTION_FLOAT_LIST, ACR_COLLECTION_METHOD_SUM, sName );
+	return ACR_GetCollectionResultFloat();
 }
 
 

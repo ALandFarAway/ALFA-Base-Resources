@@ -22,13 +22,9 @@ namespace ACR_CollectionLib
 {
     public partial class ACR_CollectionLib : CLRScriptBase, IGeneratedScriptProgram
     {
-
-        // Generic array.
-        private static Dictionary<string, ArrayList> m_ArrayList = new Dictionary<string, ArrayList>();
-
         // Lists for the NW data types.
         private static Dictionary<string, List<int>> m_IntList = new Dictionary<string, List<int>>();
-        //public Dictionary<string, List<float>> m_FloatList;
+        public static Dictionary<string, List<float>> m_FloatList = new Dictionary<string,List<float>>();
         //public Dictionary<string, List<string>> m_StringList;
         //public Dictionary<string, List<int>> m_ObjectList;
 
@@ -175,6 +171,9 @@ namespace ACR_CollectionLib
                 case COLLECTION_CODE.INT_LIST:
                     nReturnValue = HandleIntList(sCollectionName, (METHOD_CODE)nMethodCode, nParamInt1, nParamInt2);
                     break;
+                case COLLECTION_CODE.FLOAT_LIST:
+                    nReturnValue = HandleFloatList(sCollectionName, (METHOD_CODE)nMethodCode, fParamFlt1, nParamInt1, nParamInt2);
+                    break;
                 default:
                     nReturnValue = (int)RETURN_CODE.ERROR_COLLECTION_NOT_FOUND;
                     break;
@@ -201,97 +200,6 @@ namespace ACR_CollectionLib
         private void SetReturnObject(uint uValue)
         {
             SetLocalObject(GetModule(), ACR_COLLECTION_RESULT_VAR_OBJECT, uValue);
-        }
-
-        private Int32 HandleArrayList(string sCollectionName, METHOD_CODE nMethodCode, int nParamInt1, int nParamInt2, float fParamFlt1, float fParamFlt2, string sParamStr1, string sParamStr2)
-        {
-            Int32 nReturnValue = (int)RETURN_CODE.SUCCESS;
-
-            // Make sure the collection does (or does not) exist.
-            if (nMethodCode == METHOD_CODE.CREATE && m_IntList.ContainsKey(sCollectionName))
-            {
-                // This collection already exists.
-                return (int)RETURN_CODE.ERROR_COLLECTION_EXISTS;
-            }
-            else if (nMethodCode == METHOD_CODE.CREATE_IF_NOT_EXISTS && m_IntList.ContainsKey(sCollectionName))
-            {
-                return (int)RETURN_CODE.SUCCESS;
-            }
-            else if (nMethodCode == METHOD_CODE.DELETE_IF_EXISTS && !m_IntList.ContainsKey(sCollectionName))
-            {
-                return (int)RETURN_CODE.SUCCESS;
-            }
-            else if (!m_IntList.ContainsKey(sCollectionName))
-            {
-                // Collection does not exist, cannot be accessed.
-                return (int)RETURN_CODE.ERROR_COLLECTION_DOES_NOT_EXIST;
-            }
-
-            // Switch out the DELETE_IF and CREATE_IF functions.
-            if (nMethodCode == METHOD_CODE.CREATE_IF_NOT_EXISTS) nMethodCode = METHOD_CODE.CREATE;
-            else if (nMethodCode == METHOD_CODE.DELETE_IF_EXISTS) nMethodCode = METHOD_CODE.DELETE;
-
-            // Determine which value we're adding, if we're adding one.
-            object oValue = 0;
-            if (nMethodCode == METHOD_CODE.ADD)
-            {
-                switch ((DATA_TYPE)nParamInt2)
-                {
-                    case DATA_TYPE.INT:
-                    case DATA_TYPE.OBJECT:
-                        oValue = nParamInt1;
-                        break;
-                    case DATA_TYPE.FLOAT:
-                        oValue = fParamFlt1;
-                        break;
-                    case DATA_TYPE.STRING:
-                        oValue = sParamStr1;
-                        break;
-                }
-            }
-
-            // Handle the request.
-            switch (nMethodCode)
-            {
-                case METHOD_CODE.CREATE:
-                    m_ArrayList.Add(sCollectionName, new ArrayList());
-                    break;
-                case METHOD_CODE.DELETE:
-                    m_ArrayList.Remove(sCollectionName);
-                    break;
-                case METHOD_CODE.ADD:
-                    m_ArrayList[sCollectionName].Add(oValue);
-                    break;
-                case METHOD_CODE.CLEAR:
-                    m_ArrayList[sCollectionName].Clear();
-                    break;
-                case METHOD_CODE.CONTAINS:
-                    SetReturnInt(Convert.ToInt32(m_ArrayList[sCollectionName].Contains(oValue)));
-                    break;
-                case METHOD_CODE.COUNT:
-                    SetReturnInt(Convert.ToInt32(m_ArrayList[sCollectionName].Count));
-                    break;
-                case METHOD_CODE.INDEX_OF:
-                    SetReturnInt(Convert.ToInt32(m_ArrayList[sCollectionName].IndexOf(oValue)));
-                    break;
-                case METHOD_CODE.REMOVE:
-                    m_ArrayList[sCollectionName].Remove(oValue);
-                    break;
-                case METHOD_CODE.REVERSE:
-                    m_ArrayList[sCollectionName].Reverse();
-                    break;
-                case METHOD_CODE.SORT:
-                    m_ArrayList[sCollectionName].Sort();
-                    break;
-                default:
-                    nReturnValue = (int)RETURN_CODE.ERROR_COLLECTION_NO_METHOD;
-                    break;
-            }
-
-            // Determine return value.
-
-            // Return any error code.
-            return nReturnValue;
         }
 
         private Int32 HandleIntList(string sCollectionName, METHOD_CODE nMethodCode, int nParam1, int nParam2)
@@ -378,6 +286,99 @@ namespace ACR_CollectionLib
                     break;
                 case METHOD_CODE.SUM:
                     SetReturnInt(m_IntList[sCollectionName].Sum());
+                    break;
+                default:
+                    nReturnValue = (int)RETURN_CODE.ERROR_COLLECTION_NO_METHOD;
+                    break;
+            }
+
+            return nReturnValue;
+        }
+
+        private Int32 HandleFloatList(string sCollectionName, METHOD_CODE nMethodCode, float fParam1, int nParam1, int nParam2)
+        {
+            Int32 nReturnValue = (int)RETURN_CODE.SUCCESS;
+
+            // Make sure the collection does (or does not) exist.
+            if (nMethodCode == METHOD_CODE.CREATE && m_FloatList.ContainsKey(sCollectionName))
+            {
+                // This collection already exists.
+                return (int)RETURN_CODE.ERROR_COLLECTION_EXISTS;
+            }
+            else if (nMethodCode == METHOD_CODE.CREATE_IF_NOT_EXISTS && m_FloatList.ContainsKey(sCollectionName))
+            {
+                return (int)RETURN_CODE.SUCCESS;
+            }
+            else if (nMethodCode == METHOD_CODE.DELETE_IF_EXISTS && !m_FloatList.ContainsKey(sCollectionName))
+            {
+                return (int)RETURN_CODE.SUCCESS;
+            }
+            else if (!m_FloatList.ContainsKey(sCollectionName))
+            {
+                // Collection does not exist, cannot be accessed.
+                return (int)RETURN_CODE.ERROR_COLLECTION_DOES_NOT_EXIST;
+            }
+
+            // Switch out the DELETE_IF and CREATE_IF functions.
+            if (nMethodCode == METHOD_CODE.CREATE_IF_NOT_EXISTS) nMethodCode = METHOD_CODE.CREATE;
+            else if (nMethodCode == METHOD_CODE.DELETE_IF_EXISTS) nMethodCode = METHOD_CODE.DELETE;
+
+            // Handle the request.
+            switch (nMethodCode)
+            {
+                case METHOD_CODE.CREATE:
+                    m_FloatList.Add(sCollectionName, new List<float>());
+                    break;
+                case METHOD_CODE.DELETE:
+                    m_FloatList.Remove(sCollectionName);
+                    break;
+                case METHOD_CODE.ADD:
+                    m_FloatList[sCollectionName].Add(fParam1);
+                    break;
+                case METHOD_CODE.CLEAR:
+                    m_FloatList[sCollectionName].Clear();
+                    break;
+                case METHOD_CODE.CONTAINS:
+                    SetReturnInt(Convert.ToInt32(m_FloatList[sCollectionName].Contains(fParam1)));
+                    break;
+                case METHOD_CODE.COUNT:
+                    SetReturnInt(m_FloatList[sCollectionName].Count());
+                    break;
+                case METHOD_CODE.ELEMENT_AT:
+                    SetReturnFloat(m_FloatList[sCollectionName].ElementAt(nParam1));
+                    break;
+                case METHOD_CODE.FIRST:
+                    SetReturnFloat(m_FloatList[sCollectionName].First());
+                    break;
+                case METHOD_CODE.INDEX_OF:
+                    SetReturnInt(m_FloatList[sCollectionName].IndexOf(fParam1));
+                    break;
+                case METHOD_CODE.INSERT:
+                    m_FloatList[sCollectionName].Insert(nParam1, fParam1);
+                    break;
+                case METHOD_CODE.MAX:
+                    SetReturnFloat(m_FloatList[sCollectionName].Max());
+                    break;
+                case METHOD_CODE.MIN:
+                    SetReturnFloat(m_FloatList[sCollectionName].Min());
+                    break;
+                case METHOD_CODE.REMOVE:
+                    m_FloatList[sCollectionName].Remove(fParam1);
+                    break;
+                case METHOD_CODE.REMOVE_AT:
+                    m_FloatList[sCollectionName].RemoveAt(nParam1);
+                    break;
+                case METHOD_CODE.REMOVE_RANGE:
+                    m_FloatList[sCollectionName].RemoveRange(nParam1, nParam2);
+                    break;
+                case METHOD_CODE.REVERSE:
+                    m_FloatList[sCollectionName].Reverse();
+                    break;
+                case METHOD_CODE.SORT:
+                    m_FloatList[sCollectionName].Sort();
+                    break;
+                case METHOD_CODE.SUM:
+                    SetReturnFloat(m_FloatList[sCollectionName].Sum());
                     break;
                 default:
                     nReturnValue = (int)RETURN_CODE.ERROR_COLLECTION_NO_METHOD;
