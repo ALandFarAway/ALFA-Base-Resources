@@ -161,7 +161,6 @@ namespace ACR_CollectionLib
             string sParamStr1 = (string)ScriptParameters[7];
             string sParamStr2 = (string)ScriptParameters[8];
 
-
             // Return value.
             Int32 nReturnValue = (int)RETURN_CODE.SUCCESS;
 
@@ -228,15 +227,17 @@ namespace ACR_CollectionLib
                 SetReturnInt(Convert.ToInt32(m_IntList.ContainsKey(sCollectionName)));
                 return (int)RETURN_CODE.SUCCESS;
             }
-            else if (!m_IntList.ContainsKey(sCollectionName))
-            {
-                // Collection does not exist, cannot be accessed.
-                return (int)RETURN_CODE.ERROR_COLLECTION_DOES_NOT_EXIST;
-            }
 
             // Switch out the DELETE_IF and CREATE_IF functions.
             if (nMethodCode == METHOD_CODE.CREATE_IF_NOT_EXISTS) nMethodCode = METHOD_CODE.CREATE;
             else if (nMethodCode == METHOD_CODE.DELETE_IF_EXISTS) nMethodCode = METHOD_CODE.DELETE;
+
+            // Unless we're creating the collection, make sure it exists.
+            if (nMethodCode != METHOD_CODE.CREATE && !m_IntList.ContainsKey(sCollectionName))
+            {
+                // Collection does not exist, cannot be accessed.
+                return (int)RETURN_CODE.ERROR_COLLECTION_DOES_NOT_EXIST;
+            }
 
             // Handle the request.
             switch (nMethodCode)
@@ -326,15 +327,17 @@ namespace ACR_CollectionLib
                 SetReturnInt(Convert.ToInt32(m_FloatList.ContainsKey(sCollectionName)));
                 return (int)RETURN_CODE.SUCCESS;
             }
-            else if (!m_FloatList.ContainsKey(sCollectionName))
-            {
-                // Collection does not exist, cannot be accessed.
-                return (int)RETURN_CODE.ERROR_COLLECTION_DOES_NOT_EXIST;
-            }
 
             // Switch out the DELETE_IF and CREATE_IF functions.
             if (nMethodCode == METHOD_CODE.CREATE_IF_NOT_EXISTS) nMethodCode = METHOD_CODE.CREATE;
             else if (nMethodCode == METHOD_CODE.DELETE_IF_EXISTS) nMethodCode = METHOD_CODE.DELETE;
+
+            // Unless we're creating the collection, make sure it exists.
+            if (nMethodCode != METHOD_CODE.CREATE && !m_FloatList.ContainsKey(sCollectionName))
+            {
+                // Collection does not exist, cannot be accessed.
+                return (int)RETURN_CODE.ERROR_COLLECTION_DOES_NOT_EXIST;
+            }
 
             // Handle the request.
             switch (nMethodCode)
@@ -424,15 +427,17 @@ namespace ACR_CollectionLib
                 SetReturnInt(Convert.ToInt32(m_StringList.ContainsKey(sCollectionName)));
                 return (int)RETURN_CODE.SUCCESS;
             }
-            else if (!m_StringList.ContainsKey(sCollectionName))
-            {
-                // Collection does not exist, cannot be accessed.
-                return (int)RETURN_CODE.ERROR_COLLECTION_DOES_NOT_EXIST;
-            }
 
             // Switch out the DELETE_IF and CREATE_IF functions.
             if (nMethodCode == METHOD_CODE.CREATE_IF_NOT_EXISTS) nMethodCode = METHOD_CODE.CREATE;
             else if (nMethodCode == METHOD_CODE.DELETE_IF_EXISTS) nMethodCode = METHOD_CODE.DELETE;
+
+            // Unless we're creating the collection, make sure it exists.
+            if (nMethodCode != METHOD_CODE.CREATE && !m_StringList.ContainsKey(sCollectionName))
+            {
+                // Collection does not exist, cannot be accessed.
+                return (int)RETURN_CODE.ERROR_COLLECTION_DOES_NOT_EXIST;
+            }
 
             // Handle the request.
             switch (nMethodCode)
