@@ -507,7 +507,7 @@ int ACR_LanguageNameToID( string sLanguage ) {
 
 string ACR_GetLanguageList( object oPC, int bSort = TRUE ) {
 	// Get the name of our list identifier.
-	string sCollectionName = GetName( oPC) + " - Languages";
+	string sCollectionName = GetName( oPC ) + " - Languages";
 	
 	// Store useful data used no matter what.
 	int nLanguagesKnown = ACR_GetLangagesKnown( oPC );
@@ -522,6 +522,9 @@ string ACR_GetLanguageList( object oPC, int bSort = TRUE ) {
 			ACR_StringList_Delete( sCollectionName );
 		}
 	}
+	
+	// Create our collection.
+	ACR_StringList_Create( sCollectionName );
 
 	// Treat DMs and players differently.
 	if ( !GetIsDM( oPC ) && !GetIsDMPossessed( oPC ) ) {
