@@ -507,7 +507,7 @@ int ACR_LanguageNameToID( string sLanguage ) {
 
 string ACR_GetLanguageList( object oPC, int bSort = TRUE ) {
 	// Get the name of our list identifier.
-	string sCollectionName = GetName( oPC ) + " - Languages";
+	string sCollectionName = "C" + IntToString( ACR_GetCharacterID( oPC ) ) + "_languages";
 	
 	// Store useful data used no matter what.
 	int nLanguagesKnown = ACR_GetLangagesKnown( oPC );
