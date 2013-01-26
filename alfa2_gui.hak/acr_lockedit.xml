@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<!-- ALFA Lock Editor -->
+
+<!-- Main scene. MUST be given. -->
+<UIScene name="SCREEN_ACR_ELOCK" x="ALIGN_CENTER" y="ALIGN_CENTER" modal="false" width="400" height="400"
+	capturemouseclicks="false" fadeout="0.0" fadein="0.0"
+	draggable="true" dragregion_x="8" dragregion_y="8" dragregion_width="291" dragregion_height="30"
+	priority="SCENE_SCRIPT" scriptloadable="true"
+	OnAdd='UIObject_Misc_SetLocalVarString(local:11,"Hover over an object for information.")' />
+
+<UIPane name="pnWrapper" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" capturemouseclicks="false" capturemouseevents="false" >
+	<!-- Apply Button -->
+	<UIButton x="303" y="9" width="24" height="24"
+		OnToolTip='UIObject_Tooltip_DisplayTooltipString("Save changes.",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)'
+		OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_lockedit","1",local:12,local:20,local:21,local:22,local:23,local:30,local:31,local:32,local:33,local:34,local:35,local:40,local:41,local:42,local:43,local:44,local:45,local:46,local:47)' >
+		<UIFrame state="base"		fill="ia_accept.tga" />
+		<UIFrame state="up"			fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	
+	<!-- Refresh Button -->
+	<UIButton x="333" y="9" width="24" height="24"
+		OnToolTip='UIObject_Tooltip_DisplayTooltipString("Reload data.",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)'
+		OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_lockedit","2",local:12)' >
+		<UIFrame state="base"		fill="ia_previous.tga" />
+		<UIFrame state="up"			fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+		
+	<!-- Close Button -->
+	<UIButton x="363" y="9" width="24" height="24"
+		OnToolTip='UIObject_Tooltip_DisplayTooltipString("Exit editor.",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)'
+		OnLeftClick='UIButton_Input_ScreenClose()' >
+		<UIFrame state="base"		fill="ia_exit.tga" />
+		<UIFrame state="up"			fill="b_empty.tga" />
+		<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	
+	<!-- Tabs -->
+	<UIPane name="grTabs" x="20" y="39" height="30" capturemouseclicks="false" capturemouseevents="false">
+		<!-- Tab: Appearance -->
+		<UIButton name="btnTabData" x="0" y="0" groupid="1" groupmemberid="1" style="STYLE_SMALL_TAB" text="Data" capturemouseevents="true"
+			OnLeftClick0='UIButton_Input_HideObject("pnPageData")'
+			OnLeftClick1='UIButton_Input_HideObject("pnPageState")'
+			OnLeftClick2='UIButton_Input_HideObject("pnPageLock")'
+			OnLeftClick3='UIButton_Input_HideObject("pnPageTools")'
+			OnLeftClick4='UIObject_Misc_SetLocalVarString(local:10,"pnPageData")'
+			OnLeftClick5='UIButton_Input_ShowObject(local:10)'
+			OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Health, name, tag, description.")'
+			OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' />
+		<UIButton name="btnTabState" x="90" y="0" groupid="1" groupmemberid="2" style="STYLE_SMALL_TAB" text="State" capturemouseevents="true"
+			OnLeftClick0='UIButton_Input_HideObject("pnPageData")'
+			OnLeftClick1='UIButton_Input_HideObject("pnPageState")'
+			OnLeftClick2='UIButton_Input_HideObject("pnPageLock")'
+			OnLeftClick3='UIButton_Input_HideObject("pnPageTools")'
+			OnLeftClick4='UIObject_Misc_SetLocalVarString(local:10,"pnPageState")'
+			OnLeftClick5='UIButton_Input_ShowObject(local:10)'
+			OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Open, usable, plot, broken, hardness.")'
+			OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' />
+		<UIButton name="btnTabLock" x="180" y="0" groupid="1" groupmemberid="3" style="STYLE_SMALL_TAB" text="Lock" capturemouseevents="true"
+			OnLeftClick0='UIButton_Input_HideObject("pnPageData")'
+			OnLeftClick1='UIButton_Input_HideObject("pnPageState")'
+			OnLeftClick2='UIButton_Input_HideObject("pnPageLock")'
+			OnLeftClick3='UIButton_Input_HideObject("pnPageTools")'
+			OnLeftClick4='UIObject_Misc_SetLocalVarString(local:10,"pnPageLock")'
+			OnLeftClick5='UIButton_Input_ShowObject(local:10)'
+			OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Locked, lockable, key, autolock.")'
+			OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' />
+		<UIButton name="btnTabTools" x="270" y="0" groupid="1" groupmemberid="4" style="STYLE_SMALL_TAB" text="Tools" capturemouseevents="true"
+			OnLeftClick0='UIButton_Input_HideObject("pnPageData")'
+			OnLeftClick1='UIButton_Input_HideObject("pnPageState")'
+			OnLeftClick2='UIButton_Input_HideObject("pnPageLock")'
+			OnLeftClick3='UIButton_Input_HideObject("pnPageTools")'
+			OnLeftClick4='UIObject_Misc_SetLocalVarString(local:10,"pnPageTools")'
+			OnLeftClick5='UIButton_Input_ShowObject(local:10)'
+			OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Destroy, unlink, modify variables.")'
+			OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' />
+	</UIPane>
+	
+	<!-- Pages -->
+	<UIPane name="pnPages" x="13" y="77" width="372" height="284">
+		<!-- Page: Data -->
+		<UIPane name="pnPageData" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT">
+			<!-- Name -->
+			<UIPane x="0" y="0" width="PARENT_WIDTH" height="24"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"The readable name of the object.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<UIText x="5" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" valign="middle" align="top" text="Name:" fontfamily="Title_Font" style="2" />
+				<UIText name="txtName" x="101" y="6" width="260" height="PARENT_HEIGHT" valign="top" align="left" allowspace="true" allowpunc="true"
+					editable="true" multiline="false" maxlength="64" selectable="true" prevcontrol="txtDescription" nextcontrol="txtTag"
+					OnUpdate0='UIText_OnUpdate_DisplayLocalVar("local:20")' OnUpdate1='UIObject_Misc_SetLocalVarString("local:20")' update="true" />
+				<UIFrame x="94" y="2" width="275" height="PARENT_HEIGHT" border="8"
+					topleft="frame_g_tl.tga" 	topright="frame_g_tr.tga"
+					bottomleft="frame_g_bl.tga"	bottomright="frame_g_BR.tga"
+					top="frame_g_t.tga"			bottom="frame_g_b.tga"
+					left="frame_g_l.tga"		right="frame_g_r.tga"
+					fill="frame_g_bg.tga"		fillstyle="stretch" />
+			</UIPane>
+			
+			<!-- Tag -->
+			<UIPane x="0" y="32" width="PARENT_WIDTH" height="24"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"A script-referenceable tag.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<UIText x="5" y="2" width="PARENT_WIDTH" height="PARENT_HEIGHT" valign="top" align="left" text="Tag:" fontfamily="Title_Font" style="2" />
+				<UIText name="txtTag" x="101" y="6" width="260" height="PARENT_HEIGHT" valign="top" align="left" allowpunc="true"
+					editable="true" multiline="false" maxlength="64" selectable="true" prevcontrol="txtName" nextcontrol="txtDescription"
+					OnUpdate0='UIText_OnUpdate_DisplayLocalVar("local:21")' OnUpdate1='UIObject_Misc_SetLocalVarString("local:21")' update="true" />
+				<UIFrame x="94" y="0" width="275" height="PARENT_HEIGHT" border="8"
+					topleft="frame_g_tl.tga" 	topright="frame_g_tr.tga"
+					bottomleft="frame_g_bl.tga"	bottomright="frame_g_BR.tga"
+					top="frame_g_t.tga"			bottom="frame_g_b.tga"
+					left="frame_g_l.tga"		right="frame_g_r.tga"
+					fill="frame_g_bg.tga"		fillstyle="stretch" />
+			</UIPane>
+			
+			<!-- Health -->
+			<UIPane x="0" y="64" width="PARENT_WIDTH" height="24"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"The current health of the object.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<!-- Button: Kill -->
+				<UIButton x="94" y="0" width="24" height="24"
+					OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_lockedit","3",local:12)'
+					OnToolTip='UIObject_Tooltip_DisplayTooltipString("Destroy",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)' >
+					<UIFrame state="base"		fill="ia_kill.tga" />
+					<UIFrame state="up"			fill="b_empty.tga" />
+					<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+					<UIFrame state="focused"	fill="b_empty.tga" />
+					<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+					<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+				</UIButton>
+				<!-- Button: -1hp -->
+				<UIButton x="122" y="0" width="9" height="24"
+					OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_lockedit","4",local:12,"-1")'
+					OnToolTip='UIObject_Tooltip_DisplayTooltipString("Remove 1 HP",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)' >
+					<UIFrame state="base"		fill="b_empty.tga" />
+					<UIFrame state="up"			fill="b_addl_normal.tga" />
+					<UIFrame state="down"		fill="b_addl_pressed.tga" />
+					<UIFrame state="focused"	fill="b_addl_normal.tga" />
+					<UIFrame state="hilited"	fill="b_addl_hover.tga" />
+					<UIFrame state="hifocus"	fill="b_addl_hover.tga" />
+				</UIButton>
+				<!-- Button: +1hp -->
+				<UIButton x="332" y="0" width="9" height="24"
+					OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_lockedit","4",local:12,"1")'
+					OnToolTip='UIObject_Tooltip_DisplayTooltipString("Add 1 HP",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)' >
+					<UIFrame state="base"		fill="b_empty.tga" />
+					<UIFrame state="up"			fill="b_addr_normal.tga" />
+					<UIFrame state="down"		fill="b_addr_pressed.tga" />
+					<UIFrame state="focused"	fill="b_addr_normal.tga" />
+					<UIFrame state="hilited"	fill="b_addr_hover.tga" />
+					<UIFrame state="hifocus"	fill="b_addr_hover.tga" />
+				</UIButton>
+				<!-- Button: Fully Heal -->
+				<UIButton x="345" y="0" width="24" height="24"
+					OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_lockedit","5",local:12)'
+					OnToolTip='UIObject_Tooltip_DisplayTooltipString("Fully Heal",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)' >
+					<UIFrame state="base"		fill="ia_heal.tga" />
+					<UIFrame state="up"			fill="b_empty.tga" />
+					<UIFrame state="down"		fill="b_overlay_active.tga" alpha="0.85" />
+					<UIFrame state="focused"	fill="b_empty.tga" />
+					<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+					<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+				</UIButton>
+				<!-- Basic Data -->
+				<UIText x="5" y="2" width="PARENT_WIDTH" height="PARENT_HEIGHT" valign="top" align="left" text="Health:" fontfamily="Title_Font" style="2" />
+				<UIText name="txtHealth" x="144" y="0" width="175" height="PARENT_HEIGHT" valign="middle" align="center" text="0/0" />
+				<!-- Progress Bar for Health -->
+				<UIProgressBar name="pbHealth" x="135" y="0" width="193" height="PARENT_HEIGHT" img="char_xp_fill.tga" />
+				<UIFrame x="135" y="0" width="193" height="PARENT_HEIGHT" border="8"
+					topleft="frame_g_tl.tga" 	topright="frame_g_tr.tga"
+					bottomleft="frame_g_bl.tga"	bottomright="frame_g_BR.tga"
+					top="frame_g_t.tga"			bottom="frame_g_b.tga"
+					left="frame_g_l.tga"		right="frame_g_r.tga"
+					fill="frame_g_bg.tga"		fillstyle="stretch" />
+			</UIPane>
+			
+			<!-- Description -->
+			<UIPane x="0" y="96" width="PARENT_WIDTH" height="200"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Examine text for object.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<UIText x="5" y="12" width="PARENT_WIDTH" height="32" valign="top" align="left" text="Description:" fontfamily="Title_Font" style="2" />
+				<UIListbox x="8" y="38" width="358" height="141" showpartialchild="true" unequalcontrols="true" hidescrollbarwhennotneeded="true">
+					<UIText name="txtDescription" x="0" y="0" width="PARENT_WIDTH" height="DYNAMIC" valign="top" align="left" editable="true" multiline="true"
+						selectable="true" returnrestricted="false" allowspace="true" allowpunc="true" prevcontrol="txtTag" nextcontrol="txtName"
+						OnUpdate0='UIText_OnUpdate_DisplayLocalVar("local:23")' OnUpdate1='UIObject_Misc_SetLocalVarString("local:23")' update="true" />
+					<UIScrollBar style="STYLE_SB_THIN" />
+				</UIListbox>
+				<UIFrame x="0" y="32" width="PARENT_WIDTH" height="152" border="8"
+					topleft="frame_g_tl.tga" 	topright="frame_g_tr.tga"
+					bottomleft="frame_g_bl.tga"	bottomright="frame_g_BR.tga"
+					top="frame_g_t.tga"			bottom="frame_g_b.tga"
+					left="frame_g_l.tga"		right="frame_g_r.tga"
+					fill="frame_g_bg.tga"		fillstyle="stretch" />
+			</UIPane>
+		</UIPane>
+		
+		<!-- Page: State -->
+		<UIPane name="pnPageState" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" hidden="true">
+			<!-- Open -->
+			<UIPane x="0" y="0" width="Broken" height="24"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Determines if the door is open or not.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<UIText x="3" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" valign="top" align="top" text="Open:" fontfamily="Title_Font" style="2" />
+				<UIButton name="btnOpenClosed" x="101" y="0" style="SQUARE_CHECKBOX_BUTTON" update="true"
+					OnSelected='UIObject_Misc_SetLocalVarString(local:30,"1")' 
+					OnUnselected='UIObject_Misc_SetLocalVarString(local:30,"0")'
+					OnUpdate='UIButton_OnUpdate_SetCheckedIfLocalVarEquals(local:30,"1")' />
+			</UIPane>
+			
+			<!-- Plot -->
+			<UIPane x="0" y="32" width="Broken" height="24"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Plot doors cannot be destroyed.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<UIText x="3" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" valign="top" align="top" text="Plot:" fontfamily="Title_Font" style="2" />
+				<UIButton name="btnPlot" x="101" y="0" style="SQUARE_CHECKBOX_BUTTON" update="true"
+					OnSelected='UIObject_Misc_SetLocalVarString(local:32,"1")' 
+					OnUnselected='UIObject_Misc_SetLocalVarString(local:32,"0")'
+					OnUpdate='UIButton_OnUpdate_SetCheckedIfLocalVarEquals(local:32,"1")' />
+			</UIPane>
+			
+			<!-- Usable -->
+			<UIPane x="0" y="64" width="Broken" height="24"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Must be checked to open/close.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<UIText x="3" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" valign="top" align="top" text="Usable:" fontfamily="Title_Font" style="2" />
+				<UIButton name="btnUsable" x="101" y="0" style="SQUARE_CHECKBOX_BUTTON" update="true"
+					OnSelected='UIObject_Misc_SetLocalVarString(local:31,"1")' 
+					OnUnselected='UIObject_Misc_SetLocalVarString(local:31,"0")'
+					OnUpdate='UIButton_OnUpdate_SetCheckedIfLocalVarEquals(local:31,"1")' />
+			</UIPane>
+			
+			<!-- Broken -->
+			<UIPane x="0" y="96" width="Broken" height="24"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Broken doors have been forced open.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<UIText x="3" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" valign="top" align="top" text="Broken:" fontfamily="Title_Font" style="2" />
+				<UIButton name="btnBroken" x="101" y="0" style="SQUARE_CHECKBOX_BUTTON" update="true"
+					OnSelected='UIObject_Misc_SetLocalVarString(local:33,"1")' 
+					OnUnselected='UIObject_Misc_SetLocalVarString(local:33,"0")'
+					OnUpdate='UIButton_OnUpdate_SetCheckedIfLocalVarEquals(local:33,"1")' />
+			</UIPane>
+			
+			<!-- Break DC -->
+			<UIPane x="0" y="128" width="Break DC" height="24"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"The difficulty check to break the door.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<UIText x="3" y="2" width="PARENT_WIDTH" height="PARENT_HEIGHT" valign="top" align="top" text="Break DC:" fontfamily="Title_Font" style="2" />
+				<UIText name="txtBreakDC" x="101" y="6" width="260" height="PARENT_HEIGHT" valign="top" align="left" allowpunc="false"
+					editable="true" multiline="false" maxlength="8" selectable="true" filter="numeric" prevcontrol="txtHardness" nextcontrol="txtHardness"
+					OnUpdate0='UIText_OnUpdate_DisplayLocalVar("local:34")' OnUpdate1='UIObject_Misc_SetLocalVarString("local:34")' update="true" />
+				<UIFrame x="94" y="0" width="275" height="PARENT_HEIGHT" border="8"
+					topleft="frame_g_tl.tga" 	topright="frame_g_tr.tga"
+					bottomleft="frame_g_bl.tga"	bottomright="frame_g_BR.tga"
+					top="frame_g_t.tga"			bottom="frame_g_b.tga"
+					left="frame_g_l.tga"		right="frame_g_r.tga"
+					fill="frame_g_bg.tga"		fillstyle="stretch" />
+			</UIPane>
+			
+			<!-- Hardness -->
+			<UIPane x="0" y="160" width="Break DC" height="24"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Damage removed due to hardness.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<UIText x="3" y="2" width="PARENT_WIDTH" height="PARENT_HEIGHT" valign="top" align="top" text="Hardness:" fontfamily="Title_Font" style="2" />
+				<UIText name="txtHardness" x="101" y="6" width="260" height="PARENT_HEIGHT" valign="top" align="left" allowpunc="false"
+					editable="true" multiline="false" maxlength="8" selectable="true" filter="numeric" prevcontrol="txtBreakDC" nextcontrol="txtBreakDC"
+					OnUpdate0='UIText_OnUpdate_DisplayLocalVar("local:35")' OnUpdate1='UIObject_Misc_SetLocalVarString("local:35")' update="true" />
+				<UIFrame x="94" y="0" width="275" height="PARENT_HEIGHT" border="8"
+					topleft="frame_g_tl.tga" 	topright="frame_g_tr.tga"
+					bottomleft="frame_g_bl.tga"	bottomright="frame_g_BR.tga"
+					top="frame_g_t.tga"			bottom="frame_g_b.tga"
+					left="frame_g_l.tga"		right="frame_g_r.tga"
+					fill="frame_g_bg.tga"		fillstyle="stretch" />
+			</UIPane>
+		</UIPane>
+		
+		<!-- Page: Lock -->
+		<UIPane name="pnPageLock" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" hidden="true">
+			<!-- Locked -->
+			<UIPane x="0" y="0" width="PARENT_WIDTH" height="24"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"If checked, the door is locked.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<UIText x="5" y="2" width="PARENT_WIDTH" height="PARENT_HEIGHT" valign="top" align="left" text="Locked:" fontfamily="Title_Font" style="2" />
+				<UIButton name="btnLocked" x="101" y="0" style="SQUARE_CHECKBOX_BUTTON" update="true"
+					OnSelected='UIObject_Misc_SetLocalVarString(local:40,"1")' 
+					OnUnselected='UIObject_Misc_SetLocalVarString(local:40,"0")'
+					OnUpdate='UIButton_OnUpdate_SetCheckedIfLocalVarEquals(local:40,"1")' />
+			</UIPane>
+			
+			<!-- Key Required -->
+			<UIPane x="0" y="32" width="PARENT_WIDTH" height="24"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Key must be used to unlock.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<UIText x="5" y="2" width="PARENT_WIDTH" height="PARENT_HEIGHT" valign="top" align="left" text="Key Req.:" fontfamily="Title_Font" style="2" />
+				<UIButton name="btnKeyReq" x="101" y="0" style="SQUARE_CHECKBOX_BUTTON" update="true"
+					OnSelected='UIObject_Misc_SetLocalVarString(local:41,"1")' 
+					OnUnselected='UIObject_Misc_SetLocalVarString(local:41,"0")'
+					OnUpdate='UIButton_OnUpdate_SetCheckedIfLocalVarEquals(local:41,"1")' />
+			</UIPane>
+			
+			<!-- Key Required Message -->
+			<UIPane x="0" y="64" width="PARENT_WIDTH" height="24"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Message when user does not have key.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<UIText x="5" y="2" width="PARENT_WIDTH" height="PARENT_HEIGHT" valign="top" align="left" text="Key Msg.:" fontfamily="Title_Font" style="2" />
+				<UIText name="txtKeyReqMsg" x="101" y="6" width="260" height="PARENT_HEIGHT" valign="top" align="left" allowpunc="true" allowspace="true"
+					editable="true" multiline="false" maxlength="64" selectable="true" prevcontrol="txtName" nextcontrol="txtDescription"
+					OnUpdate0='UIText_OnUpdate_DisplayLocalVar("local:42")' OnUpdate1='UIObject_Misc_SetLocalVarString("local:42")' update="true" />
+				<UIFrame x="94" y="0" width="275" height="PARENT_HEIGHT" border="8"
+					topleft="frame_g_tl.tga" 	topright="frame_g_tr.tga"
+					bottomleft="frame_g_bl.tga"	bottomright="frame_g_BR.tga"
+					top="frame_g_t.tga"			bottom="frame_g_b.tga"
+					left="frame_g_l.tga"		right="frame_g_r.tga"
+					fill="frame_g_bg.tga"		fillstyle="stretch" />
+			</UIPane>
+			
+			<!-- Key Tag -->
+			<UIPane x="0" y="96" width="PARENT_WIDTH" height="24"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Tag of the needed key.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<UIText x="5" y="2" width="PARENT_WIDTH" height="PARENT_HEIGHT" valign="top" align="left" text="Key Tag:" fontfamily="Title_Font" style="2" />
+				<UIText name="txtKeyReqTag" x="101" y="6" width="260" height="PARENT_HEIGHT" valign="top" align="left" allowpunc="true"
+					editable="true" multiline="false" maxlength="64" selectable="true" prevcontrol="txtName" nextcontrol="txtDescription"
+					OnUpdate0='UIText_OnUpdate_DisplayLocalVar("local:43")' OnUpdate1='UIObject_Misc_SetLocalVarString("local:43")' update="true" />
+				<UIFrame x="94" y="0" width="275" height="PARENT_HEIGHT" border="8"
+					topleft="frame_g_tl.tga" 	topright="frame_g_tr.tga"
+					bottomleft="frame_g_bl.tga"	bottomright="frame_g_BR.tga"
+					top="frame_g_t.tga"			bottom="frame_g_b.tga"
+					left="frame_g_l.tga"		right="frame_g_r.tga"
+					fill="frame_g_bg.tga"		fillstyle="stretch" />
+			</UIPane>
+			
+			<!-- Lockable -->
+			<UIPane x="0" y="128" width="PARENT_WIDTH" height="24"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Can be locked by non-DMs.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<UIText x="5" y="2" width="PARENT_WIDTH" height="PARENT_HEIGHT" valign="top" align="left" text="Lockable:" fontfamily="Title_Font" style="2" />
+				<UIButton name="btnLockable" x="101" y="0" style="SQUARE_CHECKBOX_BUTTON" update="true"
+					OnSelected='UIObject_Misc_SetLocalVarString(local:44,"1")' 
+					OnUnselected='UIObject_Misc_SetLocalVarString(local:44,"0")'
+					OnUpdate='UIButton_OnUpdate_SetCheckedIfLocalVarEquals(local:44,"1")' />
+			</UIPane>
+			
+			<!-- Lock DC -->
+			<UIPane x="0" y="160" width="Break DC" height="24"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"The difficulty check to lock.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<UIText x="3" y="2" width="PARENT_WIDTH" height="PARENT_HEIGHT" valign="top" align="top" text="Lock DC:" fontfamily="Title_Font" style="2" />
+				<UIText name="txtLockDC" x="101" y="6" width="260" height="PARENT_HEIGHT" valign="top" align="left" allowpunc="false"
+					editable="true" multiline="false" maxlength="8" selectable="true" filter="numeric" prevcontrol="txtHardness" nextcontrol="txtHardness"
+					OnUpdate0='UIText_OnUpdate_DisplayLocalVar("local:45")' OnUpdate1='UIObject_Misc_SetLocalVarString("local:45")' update="true" />
+				<UIFrame x="94" y="0" width="275" height="PARENT_HEIGHT" border="8"
+					topleft="frame_g_tl.tga" 	topright="frame_g_tr.tga"
+					bottomleft="frame_g_bl.tga"	bottomright="frame_g_BR.tga"
+					top="frame_g_t.tga"			bottom="frame_g_b.tga"
+					left="frame_g_l.tga"		right="frame_g_r.tga"
+					fill="frame_g_bg.tga"		fillstyle="stretch" />
+			</UIPane>
+			
+			<!-- Unlock DC -->
+			<UIPane x="0" y="192" width="Break DC" height="24"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"The difficulty check to unlock.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<UIText x="3" y="2" width="PARENT_WIDTH" height="PARENT_HEIGHT" valign="top" align="top" text="Unlk DC:" fontfamily="Title_Font" style="2" />
+				<UIText name="txtLockDC" x="101" y="6" width="260" height="PARENT_HEIGHT" valign="top" align="left" allowpunc="false"
+					editable="true" multiline="false" maxlength="8" selectable="true" filter="numeric" prevcontrol="txtHardness" nextcontrol="txtHardness"
+					OnUpdate0='UIText_OnUpdate_DisplayLocalVar("local:46")' OnUpdate1='UIObject_Misc_SetLocalVarString("local:46")' update="true" />
+				<UIFrame x="94" y="0" width="275" height="PARENT_HEIGHT" border="8"
+					topleft="frame_g_tl.tga" 	topright="frame_g_tr.tga"
+					bottomleft="frame_g_bl.tga"	bottomright="frame_g_BR.tga"
+					top="frame_g_t.tga"			bottom="frame_g_b.tga"
+					left="frame_g_l.tga"		right="frame_g_r.tga"
+					fill="frame_g_bg.tga"		fillstyle="stretch" />
+			</UIPane>
+			
+			<!-- Autolock -->
+			<UIPane x="0" y="224" width="PARENT_WIDTH" height="24"
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Auto-locks when closed.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' >
+				<UIText x="5" y="2" width="PARENT_WIDTH" height="PARENT_HEIGHT" valign="top" align="left" text="Autolock:" fontfamily="Title_Font" style="2" />
+				<UIButton name="btnAutolock" x="101" y="0" style="SQUARE_CHECKBOX_BUTTON" update="true"
+					OnSelected='UIObject_Misc_SetLocalVarString(local:47,"1")' 
+					OnUnselected='UIObject_Misc_SetLocalVarString(local:47,"0")'
+					OnUpdate='UIButton_OnUpdate_SetCheckedIfLocalVarEquals(local:47,"1")' />
+			</UIPane>
+		</UIPane>
+		
+		<!-- Page: Tools -->
+		<UIPane name="pnPageTools" x="0" y="32" width="PARENT_WIDTH" height="PARENT_HEIGHT" hidden="true">
+			<UIButton name="btnManageVars" x="ALIGN_CENTER" y="0" style="STYLE_LARGE_BUTTON" text="Edit Local Variables"
+				OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_wand_lvm_show",local:12)'
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Modify local variables.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' />
+			<UIButton name="btnUnlink" x="ALIGN_CENTER" y="64" style="STYLE_LARGE_BUTTON" text="Unlink"
+				OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_lockedit","6",local:12)'
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Cut object off from any transitions.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' />
+			<UIButton name="btnDestroy" x="ALIGN_CENTER" y="128" style="STYLE_LARGE_BUTTON" text="Destroy"
+				OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_lockedit","3",local:12)'
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Destroy transition and object.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' />
+		</UIPane>
+	</UIPane>
+	
+	<!-- Bottom Bar Text -->
+	<UIText name="txtBottom" x="13" y="371" width="379" height="16" valign="middle" align="left" fontfamily="Title_Font" style="2"
+		OnUpdate='UIText_OnUpdate_DisplayLocalVar(local:11)' update="true" />
+	
+	<!-- Background Graphics -->
+	<UIText x="15" y="13" text="Edit Lock" fontfamily="Title_Font" style="2" />
+	<UIIcon x="9" y="8" width="382" height="35" img="title_small.tga" />
+	<UIFrame x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" border="32"
+		topleft="frame1_tl.tga" 	topright="frame1_tr.tga"
+		bottomleft="frame1_bl.tga"	bottomright="frame1_BR.tga"
+		top="frame1_t.tga"			bottom="frame1_b.tga"
+		left="frame1_l.tga"			right="frame1_r.tga" />
+	<UIFrame x="8" y="363" width="382" height="32" fillstyle="tile" fill="frame1_t.tga" />
+	<UIFrame x="8" y="46" width="385" height="32" fillstyle="tile" fill="frame1_b.tga" />
+	<UIFrame x="8" y="8" width="382" height="384" fillstyle="tile" fill="frame_main_bg.tga" capturemouseclicks="true" />
+</UIPane>
+
+<!-- Local Variables:
+		10 - Current Page
+		11 - Bottom Bar Text
+		12 - Current Object ID
+		
+		20 - Name
+		21 - Tag
+		22 - Health
+		23 - Description
+		30 - Open
+		31 - Usable
+		32 - Plot
+		33 - Broken
+		34 - Break DC
+		35 - Hardness
+		40 - Locked
+		41 - Key Required
+		42 - Key Required Message
+		43 - Key Tag
+		44 - Lockable
+		45 - Lock DC
+		45 - Unlock DC
+		46 - Autolock
+  -->
+
+<!-- Functions:
+		Data
+			Name
+			Tag
+			Health
+			Description
+		State
+			Open
+			Usable
+			Plot
+			Broken
+			Break DC
+			Hardness
+		Lock
+			Locked
+			Key Required
+			Key Required Feedback Message
+			Key Tag
+			Lockable
+			Lock DC
+			Unlock DC
+			Autolocks
+		Tools
+			Script Hidden
+			Modify Local Variables
+			Destroy
+			Unlink
+  -->

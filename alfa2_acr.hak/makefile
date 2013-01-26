@@ -286,6 +286,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_zspawn_2d4_nh.ncs                 \
             $(OUTPUTDIR)\nw_s0_magearm.ncs                     \
             $(OUTPUTDIR)\gui_atsign.ncs                        \
+            $(OUTPUTDIR)\gui_acr_lockedit.ncs                  \
             $(OUTPUTDIR)\gui_acr_slang.ncs                     \
             $(OUTPUTDIR)\tkl_cardgame_chair.ncs                \
             $(OUTPUTDIR)\tkl_performer_lute.ncs                \
