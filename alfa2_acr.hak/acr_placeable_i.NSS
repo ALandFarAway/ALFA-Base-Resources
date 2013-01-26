@@ -41,12 +41,6 @@
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-// Local integer strength check break open DC.
-const string _BREAK_DC_LI = "ACR_PLC_BREAK_DC";
-
-// Local boolean autolock.
-const string _AUTOLOCK_LI = "ACR_PLC_AUTO_LOCK";
-
 // Local interger, the placeables weight in pounds.
 const string _WEIGHT_LI = "ACR_PLC_WEIGHT";
 
@@ -57,10 +51,12 @@ const string _OBJECT_STATUS = "ACR_PLC_S";
 const float _ACR_PCHEST_SAVE_TIME = 2.0f;
 const float _ACR_PCHEST_SAVE_DELAY = 0.1f;
 
+// Local variables to store the broken state and DC.
+const string ACR_VAR_IS_BROKEN = "ACR_PLC_IS_BROKEN";
+const string ACR_VAR_BREAK_DC = "ACR_PLC_BREAK_DC";
 
-const int _INITIALIZED_BIT = BIT_31;
-const int _AUTOLOCK_BIT = BIT_30;
-const int _BROKEN_BIT = BIT_29;
+// Local variable to store the autolock state.
+const string ACR_VAR_AUTOLOCK = "ACR_PLC_AUTO_LOCK";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -121,6 +117,24 @@ void ACR_PlaceableOnUserDefined();
 //! The event handler for something trying to break a placeable open.
 void ACR_PlaceableOnBreakAttempt(object oObject, object oPC, int nRollModifier = 0);
 
+//! Returns TRUE if the object has been broken open.
+int ACR_GetIsBrokenOpen( object oObject );
+
+//! Sets if the door is broken open or not.
+void ACR_SetIsBrokenOpen( object oObject, int nBroken );
+
+//! Returns the DC to break a door open.
+int ACR_GetBreakDC( object oObject );
+
+//! Sets the DC to break a door open.
+void ACR_SetBreakDC( object oObject, int nDC );
+
+//! Returns TRUE if the door is set to autolock.
+int ACR_GetDoesAutolock( object oObject );
+
+//! Sets if the door should autolock.
+void ACR_SetDoesAutolock( object oObject, int nAutolock );
+
 //! *** PRIVATE FUNCTIONS ***
 
 //! Gets this object's strength DC to break open.
@@ -143,7 +157,9 @@ void _SavePchestEnd(object oChest, object oCloser);
 void ACR_PlaceableOnClose() {
     object oCloser = GetLastClosedBy();
 
-    if( (GetLocalInt(OBJECT_SELF, _OBJECT_STATUS) & _AUTOLOCK_BIT) && GetLockLockable(OBJECT_SELF) ) { SetLocked(OBJECT_SELF, 1); }
+    if( ACR_GetDoesAutolock( OBJECT_SELF ) && GetLockLockable( OBJECT_SELF ) ) {
+		SetLocked( OBJECT_SELF, TRUE );
+	}
 
     // apply any effects on the placeable
     ACR_VFXOnClose(oCloser, OBJECT_SELF);
@@ -193,21 +209,7 @@ void ACR_PlaceableOnDeath() {
 }
 
 void ACR_PlaceableOnHeartbeat() {
-    int nStatus = GetLocalInt(OBJECT_SELF, _OBJECT_STATUS);
-    if( !(nStatus & _INITIALIZED_BIT) ) {
-
-        if( !GetPlotFlag() ) {
-            ACR_InitializePhysicalObject(OBJECT_SELF);
-        }
-        nStatus = nStatus + ApplyIntegerLimit( GetLocalInt(OBJECT_SELF, _BREAK_DC_LI), 0, 255 );
-        DeleteLocalInt(OBJECT_SELF, _BREAK_DC_LI);
-
-        nStatus = CombineBooleanLocalInt(nStatus, OBJECT_SELF, _AUTOLOCK_LI, _AUTOLOCK_BIT);
-
-        SetLocalInt(OBJECT_SELF, _OBJECT_STATUS, nStatus | _INITIALIZED_BIT);
-    }
-
-    // apply any effects on the placeable
+    // Apply any effects on the placeable.
     ACR_VFXOnHeartBeat(OBJECT_SELF);
 }
 
@@ -235,7 +237,7 @@ void ACR_PlaceableOnDisturbed() {
 void ACR_PlaceableOnLock() {
     object oLocker = GetLastLocked();
 
-    if( GetLocalInt(OBJECT_SELF, _OBJECT_STATUS) & _BROKEN_BIT ) {
+    if( ACR_GetIsBrokenOpen( OBJECT_SELF ) ) {
         FloatingTextStringOnCreature("The object has been broken open and cannot be locked.", oLocker);
         SetLocked(OBJECT_SELF, 0);
     }
@@ -299,13 +301,13 @@ void ACR_PlaceableOnBreakAttempt(object oObject, object oPC, int nRollModifier =
     if(GetIsOpen(oObject) || !GetHasInventory(oObject) || GetObjectType(oObject) != OBJECT_TYPE_PLACEABLE) {
         return;
     }
-    int nStatus = GetLocalInt(oObject, _OBJECT_STATUS);
-    if(nStatus & _BROKEN_BIT) {
+	
+    if ( ACR_GetIsBrokenOpen( oObject ) ) {
         // Its already been forced open.
         AssignCommand(oObject, ActionSpeakString("*Swings open quickly, its lock already broken*"));
         return;
     }
-    int nDC = GetPiecewiseInteger(nStatus, 0, 7);
+    int nDC = ACR_GetBreakDC( oObject );
     //SendMessageToPC(oPC, "Force open door DC: " + IntToString(nDC));
     int nRollNeeded = nDC - GetAbilityModifier(ABILITY_STRENGTH, oPC) - nRollModifier - ACR_GetBreakSizeModifier(GetCreatureSize(oPC));
 
@@ -317,10 +319,7 @@ void ACR_PlaceableOnBreakAttempt(object oObject, object oPC, int nRollModifier =
 
     if(d20() >= nRollNeeded) {
         // Successfully forced the door open.
-        nStatus = nStatus | _BROKEN_BIT;
-        SetLocalInt(oObject, _OBJECT_STATUS, nStatus);
-        SetLocked(oObject, 0);
-        SetLockLockable(oObject, 0);
+        ACR_SetIsBrokenOpen( oObject, TRUE );
         AssignCommand(oObject, ActionSpeakString("*The lock breaks, and it flies open*"));
         return;
     }
@@ -333,6 +332,52 @@ void ACR_PlaceableOnBreakAttempt(object oObject, object oPC, int nRollModifier =
     } else {
         AssignCommand(oObject, ActionSpeakString("*Creaks under the strain, but holds fast for now*"));
     }
+}
+
+
+int ACR_GetIsBrokenOpen( object oObject ) {
+	return GetLocalInt( oObject, ACR_VAR_IS_BROKEN );
+}
+
+
+void ACR_SetIsBrokenOpen( object oObject, int nBroken ) {
+	// Are we doing anything?
+	if ( ACR_GetIsBrokenOpen( oObject ) == nBroken ) {
+		return;
+	}
+	
+	// Limit nBroken to be a boolean.
+	if ( nBroken ) nBroken = 1;
+	
+	// Toggle status.
+	SetLocalInt( oObject, ACR_VAR_IS_BROKEN, nBroken );
+	SetLocked( oObject, !nBroken );
+	SetLockLockable( oObject, !nBroken );
+}
+
+
+int ACR_GetBreakDC( object oObject ) {
+	return GetLocalInt( oObject, ACR_VAR_BREAK_DC );
+}
+
+
+void ACR_SetBreakDC( object oObject, int nDC ) {
+	if ( nDC < 0 ) nDC = 0;
+	SetLocalInt( oObject, ACR_VAR_BREAK_DC, nDC );
+}
+
+
+int ACR_GetDoesAutolock( object oObject ) {
+	return GetLocalInt( oObject, ACR_VAR_AUTOLOCK );
+}
+
+
+void ACR_SetDoesAutolock( object oObject, int nAutolock ) {
+	// Limit nBroken to be a boolean.
+	if ( nAutolock ) nAutolock = 1;
+	
+	// Set the local variable.
+	SetLocalInt( oObject, ACR_VAR_AUTOLOCK, nAutolock );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
