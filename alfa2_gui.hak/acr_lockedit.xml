@@ -400,11 +400,15 @@
 				OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_wand_lvm_show",local:12)'
 				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Modify local variables.")'
 				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' />
-			<UIButton name="btnUnlink" x="ALIGN_CENTER" y="64" style="STYLE_LARGE_BUTTON" text="Unlink"
+			<UIButton name="btnMakeKey" x="ALIGN_CENTER" y="64" style="STYLE_LARGE_BUTTON" text="CreateKey"
+				OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_lockedit","7",local:12)'
+				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Create a key for this door.")'
+				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' />
+			<UIButton name="btnUnlink" x="ALIGN_CENTER" y="128" style="STYLE_LARGE_BUTTON" text="Unlink"
 				OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_lockedit","6",local:12)'
 				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Cut object off from any transitions.")'
 				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' />
-			<UIButton name="btnDestroy" x="ALIGN_CENTER" y="128" style="STYLE_LARGE_BUTTON" text="Destroy"
+			<UIButton name="btnDestroy" x="ALIGN_CENTER" y="192" style="STYLE_LARGE_BUTTON" text="Destroy"
 				OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_lockedit","3",local:12)'
 				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Destroy transition and object.")'
 				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' />

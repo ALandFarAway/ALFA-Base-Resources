@@ -17,6 +17,7 @@ const int ACR_LOCKEDIT_UI_ACT_DESTROY = 3;
 const int ACR_LOCKEDIT_UI_ACT_BUMP_HEALTH = 4;
 const int ACR_LOCKEDIT_UI_ACT_MAX_HEALTH = 5;
 const int ACR_LOCKEDIT_UI_ACT_UNLINK = 6;
+const int ACR_LOCKEDIT_UI_ACT_MAKE_KEY = 7;
 
 // Local GUI variables.
 const int ACR_LOCKEDIT_UI_VAR_CURRENT_PAGE = 10;
@@ -248,6 +249,35 @@ void BumpHealth( object oPC, object oTarget, int nHealthMod ) {
 }
 
 
+void MakeKey( object oPC, object oTarget ) {
+	// Validate target.
+	if ( !GetIsObjectValid( oTarget ) ) {
+		SendMessageToPC( oPC, "<C=red>Could not find target!</C>" );
+		return;
+	}
+	
+	// Does it actually have a key to it?
+	string sKeyTag = GetLockKeyTag( oTarget );
+	if ( sKeyTag == "" ) {
+		SendMessageToPC( oPC, "<C=red>This object does not have a paired key.</C>" );
+		return;
+	}
+	
+	// Create a dummy key.
+	object oKey = CreateItemOnObject( "thnmisc001", oPC, 1, sKeyTag );
+	if ( !GetIsObjectValid( oKey ) ) {
+		SendMessageToPC( oPC, "<C=red>Could not create key! Please report this issue.</C>" );
+		return;
+	}
+	
+	// Set it to look like a key, and change its name/description.
+	SetFirstName( oKey, "Key to " + GetName( oTarget ) );
+	SetLastName( oKey, "" );
+	SetItemIcon( oKey, 1664 );
+	SetDescription( oKey, "This key has been generated from the Lock Editor UI by " + GetName( oPC ) + " (" + GetPCPlayerName( oPC ) + ") for the object " + GetName( oTarget ) + " (" + GetTag( oTarget ) + ")." );
+}
+
+
 void main( int nActionCode, int nParam0, string sParam0, string sParam1, string sParam2, string sParam3, string sParam4, string sParam5, string sParam6, string sParam7, string sParam8, string sParam9, string sParam10, string sParam11, string sParam12, string sParam13, string sParam14, string sParam15, string sParam16, string sParam17 ) {
 	object oPC = OBJECT_SELF;
 	object oTarget = IntToObject( nParam0 );
@@ -280,6 +310,9 @@ void main( int nActionCode, int nParam0, string sParam0, string sParam1, string 
 			break;
 		case ACR_LOCKEDIT_UI_ACT_UNLINK:
 			Unlink( oPC, oTarget );
+			break;
+		case ACR_LOCKEDIT_UI_ACT_MAKE_KEY:
+			MakeKey( oPC, oTarget );
 			break;
 	}
 }
