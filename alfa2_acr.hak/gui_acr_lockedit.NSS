@@ -264,7 +264,7 @@ void MakeKey( object oPC, object oTarget ) {
 	}
 	
 	// Create a dummy key.
-	object oKey = CreateItemOnObject( "thnmisc001", oPC, 1, sKeyTag );
+	object oKey = CreateItemOnObject( "acr_created_key", oPC, 1, sKeyTag );
 	if ( !GetIsObjectValid( oKey ) ) {
 		SendMessageToPC( oPC, "<C=red>Could not create key! Please report this issue.</C>" );
 		return;
@@ -273,7 +273,6 @@ void MakeKey( object oPC, object oTarget ) {
 	// Set it to look like a key, and change its name/description.
 	SetFirstName( oKey, "Key to " + GetName( oTarget ) );
 	SetLastName( oKey, "" );
-	SetItemIcon( oKey, 1664 );
 	SetDescription( oKey, "This key has been generated from the Lock Editor UI by " + GetName( oPC ) + " (" + GetPCPlayerName( oPC ) + ") for the object " + GetName( oTarget ) + " (" + GetTag( oTarget ) + ")." );
 }
 

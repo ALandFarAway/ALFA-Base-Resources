@@ -400,7 +400,7 @@
 				OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_wand_lvm_show",local:12)'
 				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Modify local variables.")'
 				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' />
-			<UIButton name="btnMakeKey" x="ALIGN_CENTER" y="64" style="STYLE_LARGE_BUTTON" text="CreateKey"
+			<UIButton name="btnMakeKey" x="ALIGN_CENTER" y="64" style="STYLE_LARGE_BUTTON" text="Create Key"
 				OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_lockedit","7",local:12)'
 				OnMouseEnter='UIObject_Misc_SetLocalVarString(local:11,"Create a key for this door.")'
 				OnMouseLeave='UIObject_Misc_SetLocalVarString(local:11," ")' />
