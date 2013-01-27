@@ -2007,11 +2007,6 @@ void ACR_ApplyPersonalVFX( object oPC, int nEffectID ) {
 	
 	// Create the effect.
 	effect ePVFX = SupernaturalEffect( SetEffectSpellId( EffectNWN2SpecialEffectFile( sEffectFile ), nSpellID ) );
-	SendMessageToPC( oPC, "sEffectFile = " + sEffectFile );
-//	if ( !GetIsEffectValid( ePVFX ) ) {
-//		SendMessageToPC( oPC, "<C=red>Could not apply effect #" + IntToString( nEffectID ) + ", please report this bug.</C>" );
-//		return;
-//	}
 	
 	// All is good, apply it.
 	ApplyEffectToObject( DURATION_TYPE_PERMANENT, ePVFX, oPC );
