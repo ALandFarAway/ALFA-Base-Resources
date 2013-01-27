@@ -32,6 +32,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
 #include "x0_i0_spawncond"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -121,6 +122,73 @@ const int VFX_FLAG_ON_PERCEPTION = 0x00002000;
 const int VFX_FLAG_ON_ENTER      = 0x00004000;
 const int VFX_FLAG_ON_EXIT       = 0x00008000;
 const int VFX_FLAG_ON_CLICK      = 0x00010000;
+
+// Personal VFX unique IDs.
+const int ACR_PVFX_ID_INVALID = -1;
+const int ACR_PVFX_ID_BEERSTEIN = 0;
+const int ACR_PVFX_ID_WINE_BOTTLE = 1;
+const int ACR_PVFX_ID_DRUM_DARK = 2;
+const int ACR_PVFX_ID_DRUM_LIGHT = 3;
+const int ACR_PVFX_ID_FLUTE_DARK = 4;
+const int ACR_PVFX_ID_FLUTE_LIGHT = 5;
+const int ACR_PVFX_ID_SMITHY_HAMMER = 6;
+const int ACR_PVFX_ID_MANDOLIN_AGED = 7;
+const int ACR_PVFX_ID_MANDOLIN_DARK = 8;
+const int ACR_PVFX_ID_MANDOLIN_LIGHT = 9;
+const int ACR_PVFX_ID_PAN = 10;
+const int ACR_PVFX_ID_RAKE = 11;
+const int ACR_PVFX_ID_SHOVEL = 12;
+const int ACR_PVFX_ID_SPOON = 13;
+const int ACR_PVFX_ID_BACKPACK_BROWN = 14;
+const int ACR_PVFX_ID_BACKPACK_GREEN = 15;
+const int ACR_PVFX_ID_LONGSWORD = 16;
+const int ACR_PVFX_ID_LONGSWORD_HIP = 17;
+const int ACR_PVFX_ID_LARGE_SWORD = 18;
+const int ACR_PVFX_ID_GREATAXE = 19;
+const int ACR_PVFX_ID_DWARFAXE = 20;
+const int ACR_PVFX_ID_SHIELD_MEDIUM = 21;
+const int ACR_PVFX_ID_SHIELD_LARGE = 22;
+const int ACR_PVFX_ID_BOW = 23;
+const int ACR_PVFX_ID_QUIVER_BROWN = 24;
+const int ACR_PVFX_ID_QUIVER_RED = 25;
+const int ACR_PVFX_ID_LUTE = 26;
+const int ACR_PVFX_ID_ARCANE_SIGHT = 27;
+const int ACR_PVFX_ID_IOUN_STONE = 28;
+const int ACR_PVFX_ID_MAX = 29;
+
+// Spell IDs for personal VFXs.
+const int ACR_PVFX_SID_INVALID = -1;
+const int ACR_PVFX_SID_START = 2000;
+/* These are actually just ACR_PVFX_SID_START + the PVFX ID. */
+
+// Personal VFX types.
+const int ACR_PVFX_TYPE_INVALID = -1;
+const int ACR_PVFX_TYPE_HAND = 0;
+const int ACR_PVFX_TYPE_EQUIPMENT = 1;
+const int ACR_PVFX_TYPE_MAGIC = 3;
+const int ACR_PVFX_TYPE_MAX = 4;
+
+// Personal VFX database collection names.
+const string ACR_PVFX_COLLECTION_HAND = "glob_pvfx_hand";
+const string ACR_PVFX_COLLECTION_EQUIPMENT = "glob_pvfx_equipment";
+const string ACR_PVFX_COLLECTION_MAGIC = "glob_pvfx_magic";
+
+// Personal VFX Item requirements.
+const string ACR_PVFX_ITREQ_ARCANE_SIGHT = "acr_token_arcanesight";
+const string ACR_PVFX_ITREQ_IOUN_STONE = "acr_token_iounstone";
+
+// Personal VFX GUI data.
+const string ACR_PVFX_GUI_SCENE = "SCENE_ACR_PVFX";
+const string ACR_PVFX_GUI_FILENAME = "acr_personal_vfx.xml";
+
+// Personal VFX GUI elements.
+const string ACR_PVFX_GUI_ELE_LISTBOX_HAND = "lbHand";
+const string ACR_PVFX_GUI_ELE_LISTBOX_EQUIPMENT = "lbEquip";
+const string ACR_PVFX_GUI_ELE_LISTBOX_MAGIC = "lbMagic";
+
+// Personal VFX GUI local variables.
+const int ACR_PVFX_GUI_LVAR_CUR_PAGE = 10;
+const int ACR_PVFX_GUI_LVAR_TARGET = 11;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -232,6 +300,42 @@ void ACR_VFXOnHeartBeat(object oObject);
 //!  - Returns: nothing
 void ACR_VFXOnSpawn(object oObject);
 
+//! Returns the PVFX type of the given PVFX ID.
+int ACR_GetPersonalVFXType( int nEffectID );
+
+//! Returns a well-formatted visual name for a given PVFX ID.
+string ACR_GetPersonalVFXName( int nEffectID );
+
+//! Returns the tag of an item required to activate a given PVFX ID.
+string ACR_GetPersonalVFXItemRequired( int nEffectID );
+
+//! Returns the SpellId for a given PVFX ID.
+int ACR_GetPersonalVFXSpellID( int nEffectID );
+
+//! Returns the special FX file name for a given PVFX ID.
+string ACR_GetPersonalVFXEffectFile( int nEffectID );
+
+//! Determines if a PVFX ID is active on a target.
+int ACR_GetHasPersonalVFXActive( object oPC, int nEffectID );
+
+//! Remove a given PVFX from a player.
+void ACR_RemovePersonalVFX( object oPC, int nEffectID );
+
+//! Remove all PVFXs from a player.
+void ACR_RemoveAllPersonalVFX( object oPC );
+
+//! Remove any PVFX that conflict with a given PVFX ID.
+void ACR_RemoveConflictingVFX( object oPC, int nEffectID );
+
+//! Apply a PVFX to a given player.
+void ACR_ApplyPersonalVFX( object oPC, int nEffectID );
+
+//! Called whenever an item is equipped.
+void ACR_PersonalVFXItemOnEquip( object oPC, object oItem );
+
+//! Called whenever an item is unequipped.
+void ACR_PersonalVFXItemOnUnEquip( object oPC, object oItem );
+
 // *** PRIVATE FUNCTIONS ***
 
 // Return the integer equivalent for the effect requested
@@ -281,6 +385,12 @@ void _vFXPulse(vector vCurrent, vector vDiff, int nTimesLeft, int nVFX, float fD
 
 // This function returns a vector from a string using the coordinate format x,y,z
 vector _createVectorFromString(string sVectorString);
+
+//! Returns the listbox name that an effect should use.
+string ACR_GetPersonalVFXListbox( int nEffectID );
+
+//! Refreshes the PVFX UI.
+void ACR_RefreshPersonalVFXUI( object oPC );
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -1639,4 +1749,341 @@ vector _createVectorFromString(string sVectorString)
     vVector.z = StringToFloat(GetSubString(sVectorString, nBegin, nLen - nEnd));
 
     return vVector;
+}
+
+
+int ACR_GetPersonalVFXType( int nEffectID ) {
+	switch ( nEffectID ) {
+		case ACR_PVFX_ID_BEERSTEIN:
+		case ACR_PVFX_ID_DRUM_DARK:
+		case ACR_PVFX_ID_DRUM_LIGHT:
+		case ACR_PVFX_ID_FLUTE_DARK:
+		case ACR_PVFX_ID_FLUTE_LIGHT:
+		case ACR_PVFX_ID_MANDOLIN_AGED:
+		case ACR_PVFX_ID_MANDOLIN_DARK:
+		case ACR_PVFX_ID_MANDOLIN_LIGHT:
+		case ACR_PVFX_ID_PAN:
+		case ACR_PVFX_ID_RAKE:
+		case ACR_PVFX_ID_SHOVEL:
+		case ACR_PVFX_ID_SMITHY_HAMMER:
+		case ACR_PVFX_ID_SPOON:
+		case ACR_PVFX_ID_WINE_BOTTLE:
+			return ACR_PVFX_TYPE_HAND;
+			break;
+		case ACR_PVFX_ID_BACKPACK_BROWN:
+		case ACR_PVFX_ID_BACKPACK_GREEN:
+		case ACR_PVFX_ID_QUIVER_BROWN:
+		case ACR_PVFX_ID_QUIVER_RED:
+		case ACR_PVFX_ID_SHIELD_MEDIUM:
+		case ACR_PVFX_ID_SHIELD_LARGE:
+		case ACR_PVFX_ID_LUTE:
+		case ACR_PVFX_ID_LARGE_SWORD:
+		case ACR_PVFX_ID_GREATAXE:
+		case ACR_PVFX_ID_DWARFAXE:
+		case ACR_PVFX_ID_LONGSWORD:
+		case ACR_PVFX_ID_LONGSWORD_HIP:
+		case ACR_PVFX_ID_BOW:
+			return ACR_PVFX_TYPE_EQUIPMENT;
+			break;
+		case ACR_PVFX_ID_ARCANE_SIGHT:
+		case ACR_PVFX_ID_IOUN_STONE:
+			return ACR_PVFX_TYPE_MAGIC;
+			break;
+	}
+	
+	return -1;
+}
+
+
+string ACR_GetPersonalVFXName( int nEffectID ) {
+	switch ( nEffectID ) {
+		case ACR_PVFX_ID_BEERSTEIN: return "Beer Stein"; break;
+		case ACR_PVFX_ID_DRUM_DARK: return "Drum, Dark"; break;
+		case ACR_PVFX_ID_DRUM_LIGHT: return "Drum, Light"; break;
+		case ACR_PVFX_ID_FLUTE_DARK: return "Flute, Dark"; break;
+		case ACR_PVFX_ID_FLUTE_LIGHT: return "Flute, Light"; break;
+		case ACR_PVFX_ID_MANDOLIN_AGED: return "Mandolin, Aged"; break;
+		case ACR_PVFX_ID_MANDOLIN_DARK: return "Mandolin, Dark"; break;
+		case ACR_PVFX_ID_MANDOLIN_LIGHT: return "Mandolin, Light"; break;
+		case ACR_PVFX_ID_PAN: return "Pan"; break;
+		case ACR_PVFX_ID_RAKE: return "Rake"; break;
+		case ACR_PVFX_ID_SHOVEL: return "Shovel"; break;
+		case ACR_PVFX_ID_SMITHY_HAMMER: return "Hammer, Smithy"; break;
+		case ACR_PVFX_ID_SPOON: return "Spoon"; break;
+		case ACR_PVFX_ID_WINE_BOTTLE: return "Bottle"; break;
+		case ACR_PVFX_ID_BACKPACK_BROWN: return "Backpack, Brown"; break;
+		case ACR_PVFX_ID_BACKPACK_GREEN: return "Backpack, Green"; break;
+		case ACR_PVFX_ID_QUIVER_BROWN: return "Quiver, Brown"; break;
+		case ACR_PVFX_ID_QUIVER_RED: return "Quiver, Red"; break;
+		case ACR_PVFX_ID_SHIELD_MEDIUM: return "Shield, Medium"; break;
+		case ACR_PVFX_ID_SHIELD_LARGE: return "Shield, Large"; break;
+		case ACR_PVFX_ID_LUTE: return "Lute"; break;
+		case ACR_PVFX_ID_LARGE_SWORD: return "Large Sword"; break;
+		case ACR_PVFX_ID_GREATAXE: return "Greataxe"; break;
+		case ACR_PVFX_ID_DWARFAXE: return "Dwarfaxe"; break;
+		case ACR_PVFX_ID_LONGSWORD: return "Longsword, Back"; break;
+		case ACR_PVFX_ID_LONGSWORD_HIP: return "Longsword, Hip"; break;
+		case ACR_PVFX_ID_BOW: return "Bow, Slung"; break;
+		case ACR_PVFX_ID_ARCANE_SIGHT: return "Arcane Sight"; break;
+		case ACR_PVFX_ID_IOUN_STONE: return "Ioun Stone"; break;
+	}
+	
+	return "Invalid Effect";
+}
+
+
+string ACR_GetPersonalVFXItemRequired( int nEffectID ) {
+	switch ( nEffectID ) {
+		case ACR_PVFX_ID_ARCANE_SIGHT:
+			return ACR_PVFX_ITREQ_ARCANE_SIGHT;
+			break;
+		case ACR_PVFX_ID_IOUN_STONE:
+			return ACR_PVFX_ITREQ_IOUN_STONE;
+			break;
+	}
+	
+	return "";
+}
+
+
+int ACR_GetPersonalVFXSpellID( int nEffectID ) {
+	if ( nEffectID < 0 || nEffectID >= ACR_PVFX_ID_MAX ) {
+		return ACR_PVFX_SID_INVALID;
+	}
+	return ACR_PVFX_SID_START + nEffectID;
+}
+
+
+string ACR_GetPersonalVFXEffectFile( int nEffectID ) {
+	switch ( nEffectID ) {
+		case ACR_PVFX_ID_BEERSTEIN: return "fx_hss_drinkbeer"; break;
+		case ACR_PVFX_ID_DRUM_DARK: return "fx_hss_druma"; break;
+		case ACR_PVFX_ID_DRUM_LIGHT: return "fx_hss_drumb"; break;
+		case ACR_PVFX_ID_FLUTE_DARK: return "fx_hss_flutea"; break;
+		case ACR_PVFX_ID_FLUTE_LIGHT: return "fx_hss_fluteb"; break;
+		case ACR_PVFX_ID_MANDOLIN_AGED: return "fx_hss_mandolina"; break;
+		case ACR_PVFX_ID_MANDOLIN_DARK: return "fx_hss_mandolinb"; break;
+		case ACR_PVFX_ID_MANDOLIN_LIGHT: return "fx_hss_mandolinc"; break;
+		case ACR_PVFX_ID_PAN: return "fx_hss_pan"; break;
+		case ACR_PVFX_ID_RAKE: return "fx_hss_rake"; break;
+		case ACR_PVFX_ID_SHOVEL: return "fx_hss_shovel"; break;
+		case ACR_PVFX_ID_SMITHY_HAMMER: return "fx_hss_smithyhammer"; break;
+		case ACR_PVFX_ID_SPOON: return "fx_hss_spoon"; break;
+		case ACR_PVFX_ID_WINE_BOTTLE: return "fx_hss_wine"; break;
+		case ACR_PVFX_ID_BACKPACK_BROWN: return "fx_at_gepaeck01"; break;
+		case ACR_PVFX_ID_BACKPACK_GREEN: return "fx_at_gepaeck02"; break;
+		case ACR_PVFX_ID_QUIVER_BROWN: return "fx_at_backquiver"; break;
+		case ACR_PVFX_ID_QUIVER_RED: return "fx_at_backquiver_red"; break;
+		case ACR_PVFX_ID_SHIELD_MEDIUM: return "fx_at_back_she_metal03"; break;
+		case ACR_PVFX_ID_SHIELD_LARGE: return "fx_at_back_she_large02"; break;
+		case ACR_PVFX_ID_LUTE: return "fx_at_backmandolin01"; break;
+		case ACR_PVFX_ID_LARGE_SWORD: return "fx_at_back_grsword02"; break;
+		case ACR_PVFX_ID_GREATAXE: return "fx_at_back_gaxe01"; break;
+		case ACR_PVFX_ID_DWARFAXE: return "fx_at_back_dwarax01"; break;
+		case ACR_PVFX_ID_LONGSWORD: return "fx_at_backls_sword"; break;
+		case ACR_PVFX_ID_LONGSWORD_HIP: return "fx_at_beltls_sword"; break;
+		case ACR_PVFX_ID_BOW: return "fx_at_back_lbow01"; break;
+		case ACR_PVFX_ID_ARCANE_SIGHT: return ""; break;
+		case ACR_PVFX_ID_IOUN_STONE: return ""; break;
+	}
+	
+	return "";
+}
+
+
+int ACR_GetHasPersonalVFXActive( object oPC, int nEffectID ) {
+	int nSpellID = ACR_GetPersonalVFXSpellID( nEffectID );
+	if ( nSpellID == ACR_PVFX_SID_INVALID ) return FALSE;
+	return GetHasSpellEffect( nSpellID, oPC );
+}
+
+
+void ACR_RemovePersonalVFX( object oPC, int nEffectID ) {
+	// Validate PC.
+	if ( !GetIsObjectValid( oPC ) ) return;
+	
+	// Validate effect.
+	if ( nEffectID < 0 || nEffectID >= ACR_PVFX_ID_MAX ) return;
+	
+	// Get the paired spell effect.
+	int nSpellID = ACR_GetPersonalVFXSpellID( nEffectID );
+	
+	// Search and destroy.
+	effect e;
+	for ( e = GetFirstEffect(oPC); GetIsEffectValid(e); e = GetNextEffect(oPC) ) {
+		if ( GetEffectSpellId(e) == nSpellID ) {
+			RemoveEffect( oPC, e );
+			break;
+		}
+	}
+	
+	// In case the UI is up, try to refresh the listbox.
+	string sListbox = ACR_GetPersonalVFXListbox( nEffectID );
+	if ( sListbox != "" ) {
+		string sRowName = "vfx_" + IntToString( nEffectID );
+		ModifyListBoxRow( oPC, ACR_PVFX_GUI_SCENE, sListbox, sRowName, "", "", "21=1;", "icoEnabled=hide;icoDisabled=unhide;" );
+	}
+}
+
+
+void ACR_RemoveAllPersonalVFX( object oPC ) {
+	// Great purge.
+	int nEffectID = 0;
+	for ( nEffectID = 0; nEffectID < ACR_PVFX_ID_MAX; nEffectID++ ) {
+		ACR_RemovePersonalVFX( oPC, nEffectID );
+	}
+}
+
+
+void ACR_RemoveConflictingVFX( object oPC, int nEffectID ) {
+	// Validate PC.
+	if ( !GetIsObjectValid( oPC ) ) return;
+	
+	// Validate effect.
+	if ( nEffectID < 0 || nEffectID >= ACR_PVFX_ID_MAX ) return;
+	
+	// Get the type.
+	int nType = ACR_GetPersonalVFXType( nEffectID );
+	
+	// Magic currently doesn't conflict with anything.
+	if ( nType == ACR_PVFX_TYPE_MAGIC ) return;
+	
+	// If it's a hand-slot, it simply conflicts with all other hand slots.
+	if ( nType == ACR_PVFX_TYPE_HAND ) {
+		int i;
+		for ( i = 0; i < ACR_PVFX_ID_MAX; i++ ) {
+			if ( ACR_GetPersonalVFXType( i ) != ACR_PVFX_TYPE_HAND ) continue;
+			if ( ACR_GetHasPersonalVFXActive( oPC, i ) ) ACR_RemovePersonalVFX( oPC, i );
+		}
+		return;
+	}
+	
+	// For others, it's a case-by-case basis.
+	switch ( nEffectID ) {
+		case ACR_PVFX_ID_BACKPACK_BROWN:
+			ACR_RemovePersonalVFX( oPC, ACR_PVFX_ID_BACKPACK_GREEN );
+			break;
+		case ACR_PVFX_ID_BACKPACK_GREEN:
+			ACR_RemovePersonalVFX( oPC, ACR_PVFX_ID_BACKPACK_BROWN );
+			break;
+		case ACR_PVFX_ID_SHIELD_MEDIUM:
+			ACR_RemovePersonalVFX( oPC, ACR_PVFX_ID_SHIELD_LARGE );
+			break;
+		case ACR_PVFX_ID_SHIELD_LARGE:
+			ACR_RemovePersonalVFX( oPC, ACR_PVFX_ID_SHIELD_MEDIUM );
+			break;
+		case ACR_PVFX_ID_QUIVER_BROWN:
+			ACR_RemovePersonalVFX( oPC, ACR_PVFX_ID_QUIVER_RED );
+			break;
+		case ACR_PVFX_ID_QUIVER_RED:
+			ACR_RemovePersonalVFX( oPC, ACR_PVFX_ID_QUIVER_BROWN );
+			break;
+	}
+}
+
+
+void ACR_ApplyPersonalVFX( object oPC, int nEffectID ) {
+	// Validate PC.
+	if ( !GetIsObjectValid( oPC ) ) return;
+	
+	// Validate effect.
+	if ( nEffectID < 0 || nEffectID >= ACR_PVFX_ID_MAX ) return;
+	
+	// Do we have the required item?
+	string sItemReq = ACR_GetPersonalVFXItemRequired( nEffectID );
+	if ( sItemReq != "" ) {
+		if ( !GetIsObjectValid( GetItemPossessedBy( oPC, sItemReq ) ) ) {
+			SendMessageToPC( oPC, "<C=red>You cannot apply that effect without the required item.</C>" );
+			return;
+		}
+	}
+
+	// Remove any conflicting visual effects.
+	ACR_RemoveConflictingVFX( oPC, nEffectID );
+	
+	// Get the spell ID and effect file.
+	int nSpellID = ACR_GetPersonalVFXSpellID( nEffectID );
+	string sEffectFile = ACR_GetPersonalVFXEffectFile( nEffectID );
+	
+	// Create the effect.
+	effect ePVFX = SupernaturalEffect( SetEffectSpellId( EffectNWN2SpecialEffectFile( sEffectFile ), nSpellID ) );
+	SendMessageToPC( oPC, "sEffectFile = " + sEffectFile );
+//	if ( !GetIsEffectValid( ePVFX ) ) {
+//		SendMessageToPC( oPC, "<C=red>Could not apply effect #" + IntToString( nEffectID ) + ", please report this bug.</C>" );
+//		return;
+//	}
+	
+	// All is good, apply it.
+	ApplyEffectToObject( DURATION_TYPE_PERMANENT, ePVFX, oPC );
+	
+	// In case the UI is up, try to refresh the listbox.
+	string sListbox = ACR_GetPersonalVFXListbox( nEffectID );
+	if ( sListbox != "" ) {
+		string sRowName = "vfx_" + IntToString( nEffectID );
+		ModifyListBoxRow( oPC, ACR_PVFX_GUI_SCENE, sListbox, sRowName, "", "", "21=2;", "icoEnabled=unhide;icoDisabled=hide;" );
+	}
+}
+
+
+string ACR_GetPersonalVFXListbox( int nEffectID ) {
+	int nType = ACR_GetPersonalVFXType( nEffectID );
+	switch ( nType ) {
+		case ACR_PVFX_TYPE_HAND: return ACR_PVFX_GUI_ELE_LISTBOX_HAND; break;
+		case ACR_PVFX_TYPE_EQUIPMENT: return ACR_PVFX_GUI_ELE_LISTBOX_EQUIPMENT; break;
+		case ACR_PVFX_TYPE_MAGIC: return ACR_PVFX_GUI_ELE_LISTBOX_MAGIC; break;
+	}
+	return "";
+}
+
+
+void ACR_RefreshPersonalVFXUI( object oPC ) {
+	// First we clear out the listboxes.
+	ClearListBox( oPC, ACR_PVFX_GUI_SCENE, ACR_PVFX_GUI_ELE_LISTBOX_HAND );
+	ClearListBox( oPC, ACR_PVFX_GUI_SCENE, ACR_PVFX_GUI_ELE_LISTBOX_EQUIPMENT );
+	ClearListBox( oPC, ACR_PVFX_GUI_SCENE, ACR_PVFX_GUI_ELE_LISTBOX_MAGIC );
+	
+	// Next we go through our effects and add them to our respective listboxes.
+	int nID = 0;
+	for ( nID = 0; nID < ACR_PVFX_ID_MAX; nID++ ) {
+		// Gather the info we care about.
+		string sName = ACR_GetPersonalVFXName( nID );
+		string sItemReq = ACR_GetPersonalVFXItemRequired( nID );
+		int nType = ACR_GetPersonalVFXType( nID );
+		
+		// Determine which listbox we are adding to.
+		string sListbox = ACR_GetPersonalVFXListbox( nID );
+		if ( sListbox == "" ) continue;
+		
+		// Get ready to add our row.
+		string sRowName = "vfx_" + IntToString(nID);
+		string sTextFields = "txtName=" + sName + ";";
+		string sTextures = "";
+		string sVariables = "20=" + IntToString(nID) + ";";
+		string sHideUnhide = "";
+		
+		// Say you require a token if you do.
+		if ( sItemReq != "" ) {
+			sTextFields += "txtNote=Token Required;";
+		}
+		
+		// Do we have this effect active?
+		if ( ACR_GetHasPersonalVFXActive( oPC, nID ) ) {
+			sVariables += "21=2;";
+			sHideUnhide = "icoEnabled=unhide;icoDisabled=hide;";
+		} else {
+			sVariables += "21=1;";
+		}
+		
+		// Add our list row.
+		AddListBoxRow( oPC, ACR_PVFX_GUI_SCENE, sListbox, sRowName, sTextFields, sTextures, sVariables, sHideUnhide );
+	}
+}
+
+void ACR_PersonalVFXItemOnEquip( object oPC, object oItem ) {
+	// Not quite yet supported. :(
+}
+
+
+void ACR_PersonalVFXItemOnUnEquip( object oPC, object oItem ) {
+	// Not quite yet supported. :(
 }

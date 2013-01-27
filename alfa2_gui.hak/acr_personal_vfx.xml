@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<!-- ALFA Personal VFX Manager -->
+
+<!-- Main scene. MUST be given. -->
+<UIScene name="SCENE_ACR_PVFX" x="ALIGN_CENTER" y="ALIGN_CENTER" modal="false" width="400" height="400"
+	capturemouseclicks="false" fadeout="0.0" fadein="0.0"
+	draggable="true" dragregion_x="8" dragregion_y="8" dragregion_width="334" dragregion_height="30"
+	priority="SCENE_SCRIPT" scriptloadable="true" idleexpiretime="0.1f"
+	OnAdd='UIObject_Misc_ExecuteServerScript("gui_acr_pvfx","0")' />
+	
+<!-- Close Button -->
+<UIButton x="363" y="8" style="STYLE_CLOSE_BUTTON"
+	OnToolTip='UIObject_Tooltip_DisplayTooltipString("Close",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)'
+	OnLeftClick='UIButton_Input_ScreenClose()' />
+
+<!-- Collapsed -->
+<UIPane name="pneCollapsed" x="0" y="0" width="PARENT_WIDTH" height="50" capturemouseclicks="false" capturemouseevents="false" hidden="true" >
+	<!-- Expand Button -->
+	<UIButton x="336" y="10" style="STYLE_PLUS_BUTTON"
+		OnLeftClick0='UIButton_Input_HideObject("pneCollapsed")' OnLeftClick1='UIButton_Input_ShowObject("pneExpanded")' />
+	
+	<!-- Background Graphics -->
+	<UIText x="15" y="13" text="Personal Visual Effects" fontfamily="Title_Font" style="2" />
+	<UIIcon x="9" y="8" width="382" height="35" img="title_small.tga" />
+	<UIFrame x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" border="32"
+		topleft="frame1_tl.tga" 	topright="frame1_tr.tga"
+		bottomleft="frame1_bl.tga"	bottomright="frame1_BR.tga"
+		top="frame1_t.tga"			bottom="frame1_b.tga"
+		left="frame1_l.tga"			right="frame1_r.tga" />
+	<UIFrame x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" fillstyle="tile" fill="frame_main_bg.tga" border="8" capturemouseclicks="true" capturemouseevents="true" />
+</UIPane>
+
+<!-- Expanded -->
+<UIPane name="pneExpanded" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" capturemouseclicks="false" capturemouseevents="false" >
+	<!-- Collapse Button -->
+	<UIButton x="336" y="10" style="STYLE_MINUS_BUTTON"
+		OnLeftClick0='UIButton_Input_HideObject("pneExpanded")' OnLeftClick1='UIButton_Input_ShowObject("pneCollapsed")' />
+	
+	<!-- Tabs -->
+	<UIFrame x="8" y="47" width="385" height="32" fillstyle="tile" fill="frame1_b.tga" />
+	<UIGrid x="10" y="39" width="PARENT_WIDTH" columns="4" rows="1" xPadding="7" yPadding="0" >
+		<UIButton name="btnTabHand" groupid="1" groupmemberid="1" style="STYLE_SMALL_TAB" text="Hand" capturemouseevents="true"
+			OnLeftClick0='UIButton_Input_HideObject("pnPageHand")'
+			OnLeftClick1='UIButton_Input_HideObject("pnPageEquip")'
+			OnLeftClick2='UIButton_Input_HideObject("pnPageMagic")'
+			OnLeftClick3='UIButton_Input_HideObject("pnPageTools")'
+			OnLeftClick4='UIObject_Misc_SetLocalVarString(local:10,"pnPageHand")'
+			OnLeftClick5='UIButton_Input_ShowObject(local:10)' />
+		<UIButton name="btnTabEquip" groupid="1" groupmemberid="2" style="STYLE_SMALL_TAB" text="Equip." capturemouseevents="true"
+			OnLeftClick0='UIButton_Input_HideObject("pnPageHand")'
+			OnLeftClick1='UIButton_Input_HideObject("pnPageEquip")'
+			OnLeftClick2='UIButton_Input_HideObject("pnPageMagic")'
+			OnLeftClick3='UIButton_Input_HideObject("pnPageTools")'
+			OnLeftClick4='UIObject_Misc_SetLocalVarString(local:10,"pnPageEquip")'
+			OnLeftClick5='UIButton_Input_ShowObject(local:10)' />
+		<UIButton name="btnTabMagic" groupid="1" groupmemberid="3" style="STYLE_SMALL_TAB" text="Magic" capturemouseevents="true"
+			OnLeftClick0='UIButton_Input_HideObject("pnPageHand")'
+			OnLeftClick1='UIButton_Input_HideObject("pnPageEquip")'
+			OnLeftClick2='UIButton_Input_HideObject("pnPageMagic")'
+			OnLeftClick3='UIButton_Input_HideObject("pnPageTools")'
+			OnLeftClick4='UIObject_Misc_SetLocalVarString(local:10,"pnPageMagic")'
+			OnLeftClick5='UIButton_Input_ShowObject(local:10)' />
+		<UIButton name="btnTabTools" groupid="1" groupmemberid="4" style="STYLE_SMALL_TAB" text="Tools" capturemouseevents="true"
+			OnLeftClick0='UIButton_Input_HideObject("pnPageHand")'
+			OnLeftClick1='UIButton_Input_HideObject("pnPageEquip")'
+			OnLeftClick2='UIButton_Input_HideObject("pnPageMagic")'
+			OnLeftClick3='UIButton_Input_HideObject("pnPageTools")'
+			OnLeftClick4='UIObject_Misc_SetLocalVarString(local:10,"pnPageTools")'
+			OnLeftClick5='UIButton_Input_ShowObject(local:10)' />
+	</UIGrid>
+	
+	<!-- Pages -->
+	<UIPane name="pnPages" x="13" y="78" width="372" height="305">
+		<!-- Page: Hand -->
+		<UIPane name="pnPageHand" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT">
+			<UIListbox name="lbHand" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" xPadding="0" yPadding="5"
+				showpartialchild="false" scrollbaronright="true" unequalcontrols="false"
+				hidescrollbarwhennotneeded="false" selectonleftclick="true" >
+				<!-- Prototype Row -->
+				<UIPane name="pnEffectPane" x="0" y="0" width="357" height="32" tupple="true" prototype="true"
+					OnLeftClick0='UIObject_Misc_ExtractData("self:","string",20,local:12)'
+					OnLeftClick1='UIObject_Misc_ExtractData("self:","string",21,local:13)' >
+					<!-- Enabled Checkbox -->
+					<UIIcon name="icoDisabled" x="7" y="7" width="20" height="20" img="b_checkbox_off.tga" capturemouseclicks="false" capturemouseevents="false" prototype="true" />
+					<UIIcon name="icoEnabled" x="7" y="7" width="20" height="20" img="b_checkbox_on.tga" capturemouseclicks="false" capturemouseevents="false" prototype="true" hidden="true" />
+					
+					<!-- Effect Name -->
+					<UIButton name="txtName" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" prototype="true"
+						OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_pvfx",local:13,local:11,local:12)' >
+						<UIText indent="37" align="left" valign="middle" fontfamily="Default" style="1" prototype="true" />
+						<UIFrame state="up"			fill="b_g_lg05_normal.tga" />
+						<UIFrame state="down"		fill="b_g_lg05_normal.tga" />
+						<UIFrame state="focused"	fill="b_g_lg05_hover.tga" />
+						<UIFrame state="hilited"	fill="b_g_lg05_hover.tga" />
+						<UIFrame state="hifocus"	fill="b_g_lg05_hover.tga" />
+						<UIFrame state="disabled"	fill="b_g_lg05_normal.tga" />
+					</UIButton>
+					
+					<!-- Effect Note -->
+					<UIText name="txtNote" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" indent="7" align="right" valign="middle" fontfamily="Default" style="1" prototype="true" />
+				</UIPane>
+				
+				<UIScrollBar style="STYLE_SB_THIN" hidescrollbarwhennotneeded="false" />
+			</UIListbox>
+		</UIPane>
+		
+		<!-- Page: Equipment -->
+		<UIPane name="pnPageEquip" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" hidden="true">
+			<UIListbox name="lbEquip" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" xPadding="0" yPadding="5"
+				showpartialchild="false" scrollbaronright="true" unequalcontrols="false"
+				hidescrollbarwhennotneeded="false" selectonleftclick="true" >
+				<!-- Prototype Row -->
+				<UIPane name="pnEffectPane" x="0" y="0" width="357" height="32" tupple="true" prototype="true"
+					OnLeftClick0='UIObject_Misc_ExtractData("self:","string",20,local:12)'
+					OnLeftClick1='UIObject_Misc_ExtractData("self:","string",21,local:13)' >
+					<!-- Enabled Checkbox -->
+					<UIIcon name="icoDisabled" x="7" y="7" width="20" height="20" img="b_checkbox_off.tga" capturemouseclicks="false" capturemouseevents="false" prototype="true" />
+					<UIIcon name="icoEnabled" x="7" y="7" width="20" height="20" img="b_checkbox_on.tga" capturemouseclicks="false" capturemouseevents="false" prototype="true" hidden="true" />
+					
+					<!-- Effect Name -->
+					<UIButton name="txtName" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" prototype="true"
+						OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_pvfx",local:13,local:11,local:12)' >
+						<UIText indent="37" align="left" valign="middle" fontfamily="Default" style="1" prototype="true" />
+						<UIFrame state="up"			fill="b_g_lg05_normal.tga" />
+						<UIFrame state="down"		fill="b_g_lg05_normal.tga" />
+						<UIFrame state="focused"	fill="b_g_lg05_hover.tga" />
+						<UIFrame state="hilited"	fill="b_g_lg05_hover.tga" />
+						<UIFrame state="hifocus"	fill="b_g_lg05_hover.tga" />
+						<UIFrame state="disabled"	fill="b_g_lg05_normal.tga" />
+					</UIButton>
+					
+					<!-- Effect Note -->
+					<UIText name="txtNote" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" indent="7" align="right" valign="middle" fontfamily="Default" style="1" prototype="true" />
+				</UIPane>
+				
+				<UIScrollBar style="STYLE_SB_THIN" hidescrollbarwhennotneeded="false" />
+			</UIListbox>
+		</UIPane>
+		
+		<!-- Page: Magic -->
+		<UIPane name="pnPageMagic" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" hidden="true">
+			<UIListbox name="lbMagic" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" xPadding="0" yPadding="5"
+				showpartialchild="false" scrollbaronright="true" unequalcontrols="false"
+				hidescrollbarwhennotneeded="false" selectonleftclick="true" >
+				<!-- Prototype Row -->
+				<UIPane name="pnEffectPane" x="0" y="0" width="357" height="32" tupple="true" prototype="true"
+					OnLeftClick0='UIObject_Misc_ExtractData("self:","string",20,local:12)'
+					OnLeftClick1='UIObject_Misc_ExtractData("self:","string",21,local:13)' >
+					<!-- Enabled Checkbox -->
+					<UIIcon name="icoDisabled" x="7" y="7" width="20" height="20" img="b_checkbox_off.tga" capturemouseclicks="false" capturemouseevents="false" prototype="true" />
+					<UIIcon name="icoEnabled" x="7" y="7" width="20" height="20" img="b_checkbox_on.tga" capturemouseclicks="false" capturemouseevents="false" prototype="true" hidden="true" />
+					
+					<!-- Effect Name -->
+					<UIButton name="txtName" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" prototype="true"
+						OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_pvfx",local:13,local:11,local:12)' >
+						<UIText indent="37" align="left" valign="middle" fontfamily="Default" style="1" prototype="true" />
+						<UIFrame state="up"			fill="b_g_lg05_normal.tga" />
+						<UIFrame state="down"		fill="b_g_lg05_normal.tga" />
+						<UIFrame state="focused"	fill="b_g_lg05_hover.tga" />
+						<UIFrame state="hilited"	fill="b_g_lg05_hover.tga" />
+						<UIFrame state="hifocus"	fill="b_g_lg05_hover.tga" />
+						<UIFrame state="disabled"	fill="b_g_lg05_normal.tga" />
+					</UIButton>
+					
+					<!-- Effect Note -->
+					<UIText name="txtNote" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" indent="7" align="right" valign="middle" fontfamily="Default" style="1" prototype="true" />
+				</UIPane>
+				
+				<UIScrollBar style="STYLE_SB_THIN" hidescrollbarwhennotneeded="false" />
+			</UIListbox>
+		</UIPane>
+		
+		<!-- Page: Tools -->
+		<UIPane name="pnPageTools" x="0" y="32" width="PARENT_WIDTH" height="PARENT_HEIGHT" hidden="true">
+			<UIButton name="btnRemoveAll" x="ALIGN_CENTER" y="0" style="STYLE_LARGE_BUTTON" text="Remove All"
+				OnLeftClick='UIObject_Misc_ExecuteServerScript("gui_acr_pvfx","3")' />
+			<UIButton name="btnChangeTarget" x="ALIGN_CENTER" y="64" style="STYLE_LARGE_BUTTON" text="Change Target"
+				OnLeftClick='UIObject_Misc_ExecuteServerScript("")' />
+		</UIPane>
+	</UIPane>
+	
+	<!-- Background Graphics -->
+	<UIText x="15" y="13" text="Personal Visual Effects" fontfamily="Title_Font" style="2" />
+	<UIIcon x="9" y="8" width="382" height="35" img="title_small.tga" />
+	<UIFrame x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" border="32"
+		topleft="frame1_tl.tga" 	topright="frame1_tr.tga"
+		bottomleft="frame1_bl.tga"	bottomright="frame1_BR.tga"
+		top="frame1_t.tga"			bottom="frame1_b.tga"
+		left="frame1_l.tga"			right="frame1_r.tga" />
+	<UIFrame x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" fillstyle="tile" fill="frame_main_bg.tga" border="8" capturemouseclicks="true" capturemouseevents="true" />
+</UIPane>
+
+<!-- Local Variables:
+		10 - Current Page
+		11 - Current Target
+		12 - Clicked VFX ID
+  -->
+
+<!-- Functions:
+		[Category:]
+			[Name]				[slot]		[note]
+		Hand:
+			Beer Stein			R. Hand		
+			Drum, Dark			L. Hand		
+			Drum, Light			L. Hand		
+			Flute, Dark			L. Hand		
+			Flute, Light		L. Hand		
+			Mandolin, Aged		L. Hand		
+			Mandolin, Dark		L. Hand		
+			Mandolin, Light		L. Hand		
+			Pan					R. Hand		
+			Rake				R. Hand		
+			Shovel				R. Hand		
+			Smithy Hammer		R. Hand		
+			Spoon				R. Hand		
+			Wine Bottle			R. Hand		
+		Equipment:
+			Backpack, Brown		Back		
+			Backpack, Green		Back		
+			Quiver, Brown		R. Shoulder	
+			Quiver, Red			R. Shoulder	
+			Shield, Medium		Back		
+			Shield, Large		Back		
+			Lute				Low Back	
+			Large Sword			L. Shoulder	
+			Greataxe			Back		
+			Dwarfaxe			Back		
+			Longsword			L. Shoulder	
+			Longsword			L. Hip		
+			Bow					Back		
+		Magic:
+			Arcane Sight		Eyes		DM Req.
+			Ioun Stone			Head		DM Req.
+		Tools:
+			Remove All
+  -->

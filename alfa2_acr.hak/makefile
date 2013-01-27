@@ -286,8 +286,12 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_zspawn_2d4_nh.ncs                 \
             $(OUTPUTDIR)\nw_s0_magearm.ncs                     \
             $(OUTPUTDIR)\gui_atsign.ncs                        \
+            $(OUTPUTDIR)\gui_acr_anchorman.ncs                 \
             $(OUTPUTDIR)\gui_acr_lockedit.ncs                  \
+            $(OUTPUTDIR)\gui_acr_pvfx.ncs                      \
             $(OUTPUTDIR)\gui_acr_slang.ncs                     \
+            $(OUTPUTDIR)\gui_acr_ugui.ncs                      \
+            $(OUTPUTDIR)\gui_acr_ugui_target.ncs               \
             $(OUTPUTDIR)\tkl_cardgame_chair.ncs                \
             $(OUTPUTDIR)\tkl_performer_lute.ncs                \
             $(OUTPUTDIR)\tkl_performer_drum.ncs                \
@@ -413,9 +417,6 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gb_assoc_spawn.ncs                    \
             $(OUTPUTDIR)\gb_assoc_spell.ncs                    \
             $(OUTPUTDIR)\gb_assoc_usrdef.ncs                   \
-            $(OUTPUTDIR)\gui_acr_anchorman.ncs                 \
-            $(OUTPUTDIR)\gui_acr_ugui.ncs                      \
-            $(OUTPUTDIR)\gui_acr_ugui_target.ncs               \
             $(OUTPUTDIR)\gui_hss_pc_tool.ncs                   \
             $(OUTPUTDIR)\gui_cre_identify.ncs                  \
             $(OUTPUTDIR)\gui_dmc_crexamine.ncs                 \
