@@ -12,7 +12,7 @@
       <string>3</string>
     </server-ref>
   </resource>
-  <resource type="Hak" hash="15DEF83E41FAA1FF4B752B4E3D5F786A3F71A1D8" downloadHash="7687662E465A56FBDB94307DAB0DBE5B07A33D03" name="alfa2_acr.hak" dlsize="2743848" size="101698317" critical="false" exclude="false" urlOverride="">
+  <resource type="Hak" hash="220B012EF0E98DEC669E843255927755E643EB10" downloadHash="F5552A88202FF75B855BE9BFA951E548D5C21609" name="alfa2_acr.hak" dlsize="2746287" size="101698229" critical="false" exclude="false" urlOverride="">
     <server-ref>
       <string>1</string>
       <string>3</string>
