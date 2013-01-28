@@ -37,15 +37,15 @@
   <ItemGroup>
     <Reference Include="NWN2Toolset, Version=1.0.807.0, Culture=neutral, PublicKeyToken=6bb96f3d82daa243, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files\Atari\Neverwinter Nights 2\NWN2Toolset.dll</HintPath>
+      <HintPath>..\..\dependencies\NWN2 DLLs\NWN2Toolset.dll</HintPath>
     </Reference>
     <Reference Include="OEIShared, Version=1.0.807.0, Culture=neutral, PublicKeyToken=6bb96f3d82daa243, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files\Atari\Neverwinter Nights 2\OEIShared.dll</HintPath>
+      <HintPath>..\..\dependencies\NWN2 DLLs\OEIShared.dll</HintPath>
     </Reference>
     <Reference Include="SandBar, Version=1.3.4.1, Culture=neutral, PublicKeyToken=75b7ec17dd7c14c3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files\Atari\Neverwinter Nights 2\SandBar.dll</HintPath>
+      <HintPath>..\..\dependencies\NWN2 DLLs\SandBar.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
