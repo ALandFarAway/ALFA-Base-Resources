@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<content xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <resource type="Tlk" hash="CBE38265A667BE4DB0F6E2D78F7BE44E738FEC99" downloadHash="BBE3569B98556AD7CD33F484523D2915E38D2CF1" name="alfa_acr02.tlk" dlsize="141106" size="1159660" critical="false" exclude="false" urlOverride="">
+    <server-ref>
+      <string>1</string>
+      <string>3</string>
+    </server-ref>
+  </resource>
+  <resource type="Hak" hash="AEE10E8C6C626DCA7831368A9FA6A11C3722E815" downloadHash="FAE8D1C214ABFF2B685650DA59E5C1E14FF65DC7" name="alfa2_2da.hak" dlsize="352538" size="17181726" critical="false" exclude="false" urlOverride="">
+    <server-ref>
+      <string>1</string>
+      <string>3</string>
+    </server-ref>
+  </resource>
+  <resource type="Hak" hash="15DEF83E41FAA1FF4B752B4E3D5F786A3F71A1D8" downloadHash="7687662E465A56FBDB94307DAB0DBE5B07A33D03" name="alfa2_acr.hak" dlsize="2743848" size="101698317" critical="false" exclude="false" urlOverride="">
+    <server-ref>
+      <string>1</string>
+      <string>3</string>
+    </server-ref>
+  </resource>
+  <resource type="Hak" hash="50070F0466F73A175415224F456953256E4719F8" downloadHash="B8CE5B58628949164E57ED5AA9DBDF180641AB44" name="alfa_creatures.hak" dlsize="139919657" size="457580504" critical="false" exclude="false" urlOverride="">
+    <server-ref>
+      <string>1</string>
+      <string>3</string>
+    </server-ref>
+  </resource>
+  <resource type="Hak" hash="9603A391F613ADA8C4FE8797881815DB1B63A36C" downloadHash="D2DAC9D841C6DB083D83B75D700A6DEAA25EA966" name="alfa_fx.hak" dlsize="82220104" size="212930160" critical="false" exclude="false" urlOverride="">
+    <server-ref>
+      <string>1</string>
+      <string>3</string>
+    </server-ref>
+  </resource>
+  <resource type="Hak" hash="5744F328E3D7CCFD6C4311E1004758BE522B999C" downloadHash="CC30881E05EDEFDE221CB76342CE60A9A5FFB5AA" name="alfa2_gui.hak" dlsize="10075013" size="37658936" critical="false" exclude="false" urlOverride="">
+    <server-ref>
+      <string>1</string>
+      <string>3</string>
+    </server-ref>
+  </resource>
+  <resource type="Hak" hash="EF12374AF74D95C52F83F445BE712995CB508311" downloadHash="8954D4F50BF689F6C339D09B415761957E4DB051" name="alfa_items.hak" dlsize="151549235" size="810667673" critical="false" exclude="false" urlOverride="">
+    <server-ref>
+      <string>1</string>
+      <string>3</string>
+    </server-ref>
+  </resource>
+  <resource type="Hak" hash="76DF3A7A09142D6887C3E73BD3806E926E9099FE" downloadHash="5BB0071A24B2DCCE211D25D735D603E50E5F705C" name="alfa_placeables.hak" dlsize="176648960" size="562267900" critical="false" exclude="false" urlOverride="">
+    <server-ref>
+      <string>1</string>
+      <string>3</string>
+    </server-ref>
+  </resource>
+  <resource type="Hak" hash="D35815FA1C5660EF1E4B4135A7C5C994A151E7D8" downloadHash="B3DBDE8A51853F560084793DB70FB67980D0C66E" name="alfa_terrain.hak" dlsize="8556437" size="24041952" critical="false" exclude="false" urlOverride="">
+    <server-ref>
+      <string>1</string>
+      <string>3</string>
+    </server-ref>
+  </resource>
+  <resource type="Hak" hash="2A6DD1DF8BE8F993EADA62A7BB5DEAB9096409CB" downloadHash="FD08E2AF42DCD319D6B6C70E8E64BF2118967E19" name="alfa_tiles.hak" dlsize="104584599" size="367960228" critical="false" exclude="false" urlOverride="">
+    <server-ref>
+      <string>1</string>
+      <string>3</string>
+    </server-ref>
+  </resource>
+  <resource type="Hak" hash="7F0B7B8906D69CB6715E7016625310EF3970BB77" downloadHash="D2B4B2ECB7F53ABEAD9604452B5CF6481167ABE0" name="alfa2_pr.hak" dlsize="17812886" size="501226458" critical="false" exclude="false" urlOverride="">
+    <server-ref>
+      <string>1</string>
+      <string>3</string>
+    </server-ref>
+  </resource>
+  <resource type="Hak" hash="DEF1D9F140B8573F39C2F52BE903160A6D0C1806" downloadHash="5133932CB8955937AED0CD02B9BA82666EF5F834" name="alfa2_templates.hak" dlsize="188198" size="8446141" critical="false" exclude="false" urlOverride="">
+    <server-ref>
+      <string>1</string>
+      <string>3</string>
+    </server-ref>
+  </resource>
+</content>
