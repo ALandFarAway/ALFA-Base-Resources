@@ -50,6 +50,8 @@ const float ACR_DURATION_1H = 3600.0f * ACR_DURATION_HOUR_SCALE;
 const float ACR_DURATION_2H = ACR_DURATION_1H * 2.0f;
 const float ACR_DURATION_24H = ACR_DURATION_1H * 24.0f;
 
+const float ACR_MC_GOLD_SCALE = 0.0f;
+
 const string ACR_SPELL_DESCRIPT_VAR_PREFIX = "ACR_SPELL_DESC_";
 const int ACR_SPELL_DESCRIPT_ACID = 0;
 const int ACR_SPELL_DESCRIPT_AIR = 1;
@@ -97,6 +99,9 @@ int ACR_PostcastEvent();
 
 //! Calculates the duration of a spell's effects.
 float ACR_GetSpellDuration( object oCaster, int nDurationType, float nDurationBase );
+
+//! Handle and pay a material component.
+int ACR_PayMaterialComponentCost( object oCaster, string sItemName, int nGold, int bPayGoldIfNoItem = TRUE );
 
 int ACR_GetCorrectCasterLevel(object oCreature, int nClass = -1);
 
@@ -217,6 +222,28 @@ float ACR_GetSpellDuration( object oCaster, int nDurationType, float nDurationBa
 	nDuration = nDuration * ACR_DURATION_GLOBAL_SCALE;
 	
 	return nDuration;
+}
+
+int ACR_PayMaterialComponentCost( object oCaster, string sItemName, int nGold, int bPayGoldIfNoItem = TRUE ) {
+	// Dealing with an item or gold?
+	if ( sItemName == "" ) {
+		// Scale our gold by our constant.
+		nGold = FloatToInt( IntToFloat( nGold ) * ACR_MC_GOLD_SCALE );
+		if ( nGold <= 0 ) return TRUE;
+		
+		// Return false if we don't have enough gold.
+		if ( GetGold( oCaster ) < nGold ) {
+			return FALSE;
+		}
+		
+		// Remove the gold.
+		AssignCommand( oCaster, TakeGoldFromCreature( nGold, oCaster, TRUE, FALSE ) );
+		SendMessageToPC( oCaster, "You have paid " + IntToString( nGold ) + "gp in material components." );
+	} else {
+		// We currently don't support item material components.
+		return ACR_PayMaterialComponentCost( oCaster, "", nGold, TRUE );
+	}
+	return TRUE;
 }
 
 int _GetClassCL(int nClass, int nLevel) {
