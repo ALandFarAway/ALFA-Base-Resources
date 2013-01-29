@@ -207,6 +207,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s0_sleep.ncs                      \
             $(OUTPUTDIR)\acr_s0_snillocsnowball.ncs            \
             $(OUTPUTDIR)\acr_s0_spiderclimb.ncs                \
+            $(OUTPUTDIR)\acr_s0_stoneskin.ncs                  \
             $(OUTPUTDIR)\acr_s0_water_breathing.ncs            \
             $(OUTPUTDIR)\acr_s0_web.ncs                        \
             $(OUTPUTDIR)\acr_s0_rp.ncs                         \
