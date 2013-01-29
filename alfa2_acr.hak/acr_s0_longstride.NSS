@@ -26,7 +26,7 @@
 
 #include "nwn2_inc_metmag"
 #include "x2_inc_spellhook"
-#include "acr_spells_i" 
+#include "acr_spells_i"
 
 void main()
 {
@@ -48,7 +48,7 @@ void main()
     effect eMove;
 
     //Signal spell cast at event
-    SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, SPELL_BARKSKIN, FALSE));
+    SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, 3099, FALSE));
 
     //Enter Metamagic conditions
     fDuration = ApplyMetamagicDurationMods(fDuration);
