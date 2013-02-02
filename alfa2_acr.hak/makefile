@@ -44,6 +44,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_pchide_i.nss                      \
             $(OUTPUTDIR)\acr_physical_object_i.nss             \
             $(OUTPUTDIR)\acr_placeable_i.nss                   \
+            $(OUTPUTDIR)\acr_poison_i.nss                      \
             $(OUTPUTDIR)\acr_portal_i.nss                      \
             $(OUTPUTDIR)\acr_pps_i.nss                         \
             $(OUTPUTDIR)\acr_prc_bladesinger_i.nss             \
@@ -173,6 +174,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_quest_progress.ncs                \
             $(OUTPUTDIR)\acr_quest_reward.ncs                  \
             $(OUTPUTDIR)\acr_quest_update.ncs                  \
+            $(OUTPUTDIR)\acr_poison_applied.ncs                \
+            $(OUTPUTDIR)\acr_poison_incubated.ncs              \
             $(OUTPUTDIR)\acr_s0_acidarrow.ncs                  \
             $(OUTPUTDIR)\acr_s0_barkskin.ncs                   \
             $(OUTPUTDIR)\acr_s0_bless.ncs                      \
