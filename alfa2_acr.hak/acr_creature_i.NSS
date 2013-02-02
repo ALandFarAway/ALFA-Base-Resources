@@ -53,6 +53,7 @@
 
 const string _CRE_NO_AI = "ACR_CRE_NO_AI";
 const string ACR_CRE_ISUNDEAD = "ACR_CRE_ISUNDEAD";
+const string ACR_CRE_SPAWN_DAMAGED = "ACR_CRE_SPAWN_DAMAGED";
 const int ACR_CRE_FORCE_NOT_UNDEAD = 2;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -151,6 +152,11 @@ void ACR_CreatureOnSpawnIn()
 {
     // apply any effects on the creature
     ACR_VFXOnSpawn(OBJECT_SELF);
+	
+	// Heal the creature to max HP if they aren't set to spawn damaged.
+	if ( !GetLocalInt( OBJECT_SELF, ACR_CRE_SPAWN_DAMAGED ) ) {
+		ApplyEffectToObject( DURATION_TYPE_INSTANT, EffectHeal( GetMaxHitPoints() ), OBJECT_SELF );
+	}
 	
 	// Process item spawn in:
 	object oItem = GetFirstItemInInventory();
