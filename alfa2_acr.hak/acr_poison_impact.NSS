@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-//  System Name : ACR Poison System
-//     Filename : acr_poison_i
+//  System Name : ACR Poison System : On Custom Poison Spell Impact
+//     Filename : acr_poison_applied
 //      Version : 1.0
 //         Date : 2013-02-01
 //       Author : FoamBats4All
@@ -9,7 +9,8 @@
 //  Local Variable Prefix = ACR_PSN
 //
 //  Description
-//    This script contains functions related to ALFA's poison delivery system.
+//    This script is called when a custom poison 'spell' on an item hits its
+//    target.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -17,23 +18,43 @@
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+#include "acr_poison_i"
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-
-const string ACR_PSN_LVAR_SCRIPT_IMPACT = "acr_psn_script_impact";
-const string ACR_PSN_LVAR_SCRIPT_APPLIED = "acr_psn_script_applied";
-const string ACR_PSN_LVAR_SCRIPT_INCUBATED= "acr_psn_script_incubated";
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+void main();
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-
+void main() {
+	// Our main objects.
+	object oPoisoner = OBJECT_SELF;
+	object oItem = GetSpellCastItem();
+	object oTarget = GetSpellTargetObject();
+	
+	// All valid objects?
+	if ( !GetIsObjectValid( oPoisoner ) || !GetIsObjectValid( oItem ) || !GetIsObjectValid( oTarget ) ) {
+		return;
+	}
+	
+	// Is a custom script assigned?
+	string sScriptName = GetLocalString( oItem, ACR_PSN_LVAR_SCRIPT_IMPACT );
+	if ( sScriptName == "" ) return;
+	
+	// Call our poison script.
+	AddScriptParameterObject( oPoisoner );
+	AddScriptParameterObject( oTarget );
+	AddScriptParameterObject( oItem );
+	ExecuteScriptEnhanced( sScriptName, oPoisoner );
+}
