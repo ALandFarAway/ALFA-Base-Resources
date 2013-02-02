@@ -175,6 +175,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_quest_reward.ncs                  \
             $(OUTPUTDIR)\acr_quest_update.ncs                  \
             $(OUTPUTDIR)\acr_poison_applied.ncs                \
+            $(OUTPUTDIR)\acr_poison_impact.ncs                 \
             $(OUTPUTDIR)\acr_poison_incubated.ncs              \
             $(OUTPUTDIR)\acr_s0_acidarrow.ncs                  \
             $(OUTPUTDIR)\acr_s0_barkskin.ncs                   \
