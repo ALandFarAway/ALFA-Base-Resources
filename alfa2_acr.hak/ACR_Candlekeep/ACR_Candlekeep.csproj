@@ -56,8 +56,14 @@
     <Compile Include="..\..\CLRScript\NWScriptActions.cs" />
     <Compile Include="..\..\CLRScript\NWScriptConstants.cs" />
     <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />
+    <Compile Include="ALFAResourceManager.cs" />
+    <Compile Include="Archives.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_Candlekeep.cs" />
+    <Compile Include="Archivist.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ItemResource.cs" />
     <Compile Include="StandardEntrypoints.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

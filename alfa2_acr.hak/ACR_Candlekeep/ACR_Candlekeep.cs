@@ -40,10 +40,21 @@ namespace ACR_Candlekeep
         {
             int Value = (int)ScriptParameters[0]; // ScriptParameterTypes[0] is typeof(int)
 
-            PrintInteger(Value);
+            Archivist worker = new Archivist();
+            switch((Commands)Value)
+            {
+                case Commands.INITIALIZE_ARCHIVES:
+                    worker.DoWork += worker.InitializeArchives;
+                    worker.RunWorkerAsync();
+                    break;
+            }
 
             return 0;
         }
 
+        enum Commands
+        {
+            INITIALIZE_ARCHIVES = 0,
+        }
     }
 }
