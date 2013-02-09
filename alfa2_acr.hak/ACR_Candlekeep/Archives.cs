@@ -7,6 +7,6 @@ namespace ACR_Candlekeep
 {
     public static class Archives
     {
-        public static List<ItemResource> ModuleCreatures = new List<ItemResource>();
+        public static Dictionary<string, ItemResource> ModuleItems = new Dictionary<string, ItemResource>();
     }
 }

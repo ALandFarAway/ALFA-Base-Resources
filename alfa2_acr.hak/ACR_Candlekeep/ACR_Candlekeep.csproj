@@ -56,7 +56,7 @@
     <Compile Include="..\..\CLRScript\NWScriptActions.cs" />
     <Compile Include="..\..\CLRScript\NWScriptConstants.cs" />
     <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />
-    <Compile Include="ALFAResourceManager.cs" />
+    <Compile Include="..\..\CLRScript\ALFAResourceManager.cs" />
     <Compile Include="Archives.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_Candlekeep.cs" />

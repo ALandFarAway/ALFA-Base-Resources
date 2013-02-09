@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.IO;
 
 using OEIShared.IO;
 using OEIShared.IO.GFF;
@@ -138,7 +139,38 @@ namespace ACR_Candlekeep
             {
                 GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
 
-                // TODO: Harvest useful information from the item.
+                string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
+                if (Archives.ModuleItems.Keys.Contains(currentResRef))
+                {
+                    // If we have competing resources, we expect that GetResourcesByType will give us the
+                    // resource of greatest priority first. Therefore, redundant entries of a given resref
+                    // are trash.
+                    continue;
+                }
+
+                ItemResource addingItem = new ItemResource()
+                {
+                    LocalizedName = currentGFF.TopLevelStruct["LocalizedName"].Value.ToString().Split('"')[1],
+                    Classification = currentGFF.TopLevelStruct["Classification"].Value.ToString(),
+                    TemplateResRef = currentResRef,
+                    Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString()
+                };
+
+                int Cost, BaseItem;
+                bool Cursed = false, Plot = false, Stolen = false;
+                Int32.TryParse(currentGFF.TopLevelStruct["Cost"].Value.ToString(), out Cost);
+                Int32.TryParse(currentGFF.TopLevelStruct["BaseItem"].Value.ToString(), out BaseItem);
+                if (currentGFF.TopLevelStruct["Cursed"].Value.ToString() == "1") Cursed = true;
+                if (currentGFF.TopLevelStruct["Plot"].Value.ToString() == "1") Plot = true;
+                if (currentGFF.TopLevelStruct["Stolen"].Value.ToString() == "1") Stolen = true;
+
+                addingItem.Cost = Cost;
+                addingItem.BaseItem = BaseItem;
+                addingItem.Cursed = Cursed;
+                addingItem.Plot = Plot;
+                addingItem.Stolen = Stolen;
+
+                Archives.ModuleItems.Add(currentResRef, addingItem);
             }
 
             #region Commented-Out Resource Types
@@ -163,6 +195,21 @@ namespace ACR_Candlekeep
             //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResXML))
             //{ }
             #endregion
+        }
+
+        public static void WriteItems()
+        {
+            using (FileStream write = new FileStream("Items.txt", FileMode.OpenOrCreate))
+            {
+                write.Position = write.Length;
+                using(StreamWriter writer = new StreamWriter(write))
+                {
+                    foreach(ItemResource item in Archives.ModuleItems.Values)
+                    {
+                        writer.WriteLine(String.Format("{0} | {1} | {2}", item.LocalizedName, item.TemplateResRef, item.Tag));
+                    }
+                }
+            }
         }
     }
 }

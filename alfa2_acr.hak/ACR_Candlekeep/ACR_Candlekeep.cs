@@ -47,6 +47,9 @@ namespace ACR_Candlekeep
                     worker.DoWork += worker.InitializeArchives;
                     worker.RunWorkerAsync();
                     break;
+                case Commands.WRITE_ITEMS:
+                    Archivist.WriteItems();
+                    break;
             }
 
             return 0;
@@ -55,6 +58,8 @@ namespace ACR_Candlekeep
         enum Commands
         {
             INITIALIZE_ARCHIVES = 0,
+
+            WRITE_ITEMS = 100,
         }
     }
 }
