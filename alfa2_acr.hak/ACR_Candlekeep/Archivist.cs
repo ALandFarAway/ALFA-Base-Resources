@@ -22,6 +22,54 @@ namespace ACR_Candlekeep
 
             manager.LoadCoreResources();
 
+            foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTI))
+            {
+                try
+                {
+                    GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
+
+                    string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
+                    if (Archives.ModuleItems.Keys.Contains(currentResRef))
+                    {
+                        // If we have competing resources, we expect that GetResourcesByType will give us the
+                        // resource of greatest priority first. Therefore, redundant entries of a given resref
+                        // are trash.
+                        continue;
+                    }
+
+                    ItemResource addingItem = new ItemResource();
+                    try
+                    {
+                        addingItem.LocalizedName = currentGFF.TopLevelStruct["LocalizedName"].Value.ToString().Split('"')[1];
+                    }
+                    catch
+                    {
+                        addingItem.LocalizedName = currentGFF.TopLevelStruct["LocalizedName"].Value.ToString();
+                    }
+
+                    addingItem.Classification = currentGFF.TopLevelStruct["Classification"].Value.ToString();
+                    addingItem.TemplateResRef = currentResRef;
+                    addingItem.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
+
+                    int Cost, BaseItem;
+                    bool Cursed = false, Plot = false, Stolen = false;
+                    Int32.TryParse(currentGFF.TopLevelStruct["Cost"].Value.ToString(), out Cost);
+                    Int32.TryParse(currentGFF.TopLevelStruct["BaseItem"].Value.ToString(), out BaseItem);
+                    if (currentGFF.TopLevelStruct["Cursed"].Value.ToString() == "1") Cursed = true;
+                    if (currentGFF.TopLevelStruct["Plot"].Value.ToString() == "1") Plot = true;
+                    if (currentGFF.TopLevelStruct["Stolen"].Value.ToString() == "1") Stolen = true;
+
+                    addingItem.Cost = Cost;
+                    addingItem.BaseItem = BaseItem;
+                    addingItem.Cursed = Cursed;
+                    addingItem.Plot = Plot;
+                    addingItem.Stolen = Stolen;
+
+                    Archives.ModuleItems.Add(currentResRef, addingItem);
+                }
+                catch { }
+            }
+
             #region Commented-Out Resource Types
             //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.Res2DA))
             //{ }
@@ -133,47 +181,6 @@ namespace ACR_Candlekeep
             //{ }
             //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTE))
             //{ }
-            #endregion
-
-            foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTI))
-            {
-                GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
-
-                string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
-                if (Archives.ModuleItems.Keys.Contains(currentResRef))
-                {
-                    // If we have competing resources, we expect that GetResourcesByType will give us the
-                    // resource of greatest priority first. Therefore, redundant entries of a given resref
-                    // are trash.
-                    continue;
-                }
-
-                ItemResource addingItem = new ItemResource()
-                {
-                    LocalizedName = currentGFF.TopLevelStruct["LocalizedName"].Value.ToString().Split('"')[1],
-                    Classification = currentGFF.TopLevelStruct["Classification"].Value.ToString(),
-                    TemplateResRef = currentResRef,
-                    Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString()
-                };
-
-                int Cost, BaseItem;
-                bool Cursed = false, Plot = false, Stolen = false;
-                Int32.TryParse(currentGFF.TopLevelStruct["Cost"].Value.ToString(), out Cost);
-                Int32.TryParse(currentGFF.TopLevelStruct["BaseItem"].Value.ToString(), out BaseItem);
-                if (currentGFF.TopLevelStruct["Cursed"].Value.ToString() == "1") Cursed = true;
-                if (currentGFF.TopLevelStruct["Plot"].Value.ToString() == "1") Plot = true;
-                if (currentGFF.TopLevelStruct["Stolen"].Value.ToString() == "1") Stolen = true;
-
-                addingItem.Cost = Cost;
-                addingItem.BaseItem = BaseItem;
-                addingItem.Cursed = Cursed;
-                addingItem.Plot = Plot;
-                addingItem.Stolen = Stolen;
-
-                Archives.ModuleItems.Add(currentResRef, addingItem);
-            }
-
-            #region Commented-Out Resource Types
             //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTM))
             //{ }
             //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTP))

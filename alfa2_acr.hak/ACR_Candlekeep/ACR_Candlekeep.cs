@@ -41,6 +41,7 @@ namespace ACR_Candlekeep
             int Value = (int)ScriptParameters[0]; // ScriptParameterTypes[0] is typeof(int)
 
             Archivist worker = new Archivist();
+            SendMessageToPC(OBJECT_SELF, "Starting Candlekeep");
             switch((Commands)Value)
             {
                 case Commands.INITIALIZE_ARCHIVES:
@@ -52,6 +53,7 @@ namespace ACR_Candlekeep
                     break;
             }
 
+            SendMessageToPC(OBJECT_SELF, "Script finished");
             return 0;
         }
 
