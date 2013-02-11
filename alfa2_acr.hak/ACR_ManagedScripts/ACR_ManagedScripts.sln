@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestClrScript", "..\TestClrScript\TestClrScript.csproj", "{66A9BB91-94AE-4BEC-97F8-5028E1DFD710}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptLoader", "..\ScriptLoader\ScriptLoader.csproj", "{FE7A3DBB-AAD7-447E-A993-10451C53B6A5}"
@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_AssemblyLoader", "..\AC
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALFA.Shared", "..\ALFA.Shared\ALFA.Shared.csproj", "{1402AB0C-7040-452C-83D0-DAB7BDF08938}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_Candlekeep", "..\ACR_Candlekeep\ACR_Candlekeep.csproj", "{C0C9E47B-15A2-4F57-9DB9-A530267EE14E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{1402AB0C-7040-452C-83D0-DAB7BDF08938}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1402AB0C-7040-452C-83D0-DAB7BDF08938}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1402AB0C-7040-452C-83D0-DAB7BDF08938}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0C9E47B-15A2-4F57-9DB9-A530267EE14E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0C9E47B-15A2-4F57-9DB9-A530267EE14E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0C9E47B-15A2-4F57-9DB9-A530267EE14E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0C9E47B-15A2-4F57-9DB9-A530267EE14E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

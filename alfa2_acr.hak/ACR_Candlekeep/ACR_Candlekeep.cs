@@ -45,11 +45,10 @@ namespace ACR_Candlekeep
             switch((Commands)Value)
             {
                 case Commands.INITIALIZE_ARCHIVES:
+                    ALFA.Shared.Modules.InfoStore = new Archives();
+                    ALFA.Shared.Modules.InfoStore.ModuleItems = new Dictionary<string,ALFA.Shared.ItemResource>();
                     worker.DoWork += worker.InitializeArchives;
                     worker.RunWorkerAsync();
-                    break;
-                case Commands.WRITE_ITEMS:
-                    Archivist.WriteItems();
                     break;
             }
 
@@ -60,8 +59,6 @@ namespace ACR_Candlekeep
         enum Commands
         {
             INITIALIZE_ARCHIVES = 0,
-
-            WRITE_ITEMS = 100,
         }
     }
 }

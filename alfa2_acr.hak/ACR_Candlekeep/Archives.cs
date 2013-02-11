@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+
+
 namespace ACR_Candlekeep
 {
-    public static class Archives
+    public class Archives : ALFA.Shared.InformationStore
     {
-        public static Dictionary<string, ItemResource> ModuleItems = new Dictionary<string, ItemResource>();
+        public Dictionary<string, ALFA.Shared.ItemResource> ModuleItems { get; set; }
     }
 }

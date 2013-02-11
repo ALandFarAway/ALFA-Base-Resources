@@ -63,8 +63,13 @@
     <Compile Include="Archivist.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ItemResource.cs" />
     <Compile Include="StandardEntrypoints.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ALFA.Shared\ALFA.Shared.csproj">
+      <Project>{1402AB0C-7040-452C-83D0-DAB7BDF08938}</Project>
+      <Name>ALFA.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

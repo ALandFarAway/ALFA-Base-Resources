@@ -29,7 +29,7 @@ namespace ACR_Candlekeep
                     GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
 
                     string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
-                    if (Archives.ModuleItems.Keys.Contains(currentResRef))
+                    if (ALFA.Shared.Modules.InfoStore.ModuleItems.Keys.Contains(currentResRef))
                     {
                         // If we have competing resources, we expect that GetResourcesByType will give us the
                         // resource of greatest priority first. Therefore, redundant entries of a given resref
@@ -37,7 +37,7 @@ namespace ACR_Candlekeep
                         continue;
                     }
 
-                    ItemResource addingItem = new ItemResource();
+                    ALFA.Shared.ItemResource addingItem = new ALFA.Shared.ItemResource();
                     try
                     {
                         addingItem.LocalizedName = currentGFF.TopLevelStruct["LocalizedName"].Value.ToString().Split('"')[1];
@@ -65,7 +65,7 @@ namespace ACR_Candlekeep
                     addingItem.Plot = Plot;
                     addingItem.Stolen = Stolen;
 
-                    Archives.ModuleItems.Add(currentResRef, addingItem);
+                    ALFA.Shared.Modules.InfoStore.ModuleItems.Add(currentResRef, addingItem);
                 }
                 catch { }
             }
@@ -202,21 +202,6 @@ namespace ACR_Candlekeep
             //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResXML))
             //{ }
             #endregion
-        }
-
-        public static void WriteItems()
-        {
-            using (FileStream write = new FileStream("Items.txt", FileMode.OpenOrCreate))
-            {
-                write.Position = write.Length;
-                using(StreamWriter writer = new StreamWriter(write))
-                {
-                    foreach(ItemResource item in Archives.ModuleItems.Values)
-                    {
-                        writer.WriteLine(String.Format("{0} | {1} | {2}", item.LocalizedName, item.TemplateResRef, item.Tag));
-                    }
-                }
-            }
         }
     }
 }
