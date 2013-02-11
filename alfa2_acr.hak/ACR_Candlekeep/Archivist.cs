@@ -95,6 +95,7 @@ namespace ACR_Candlekeep
                     {
                         addingCreature.FirstName = currentGFF.TopLevelStruct["FirstName"].Value.ToString();
                     }
+                    addingCreature.TemplateResRef = currentGFF.TopLevelStruct["Classification"].Value.ToString();
                     addingCreature.TemplateResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
                     addingCreature.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
 
@@ -141,7 +142,12 @@ namespace ACR_Candlekeep
             }
             #endregion
 
-            
+            #region Caching Information about All Placeables
+            foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTP))
+            {
+            }
+            #endregion
+
             #region Commented-Out Resource Types
             //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.Res2DA))
             //{ }
@@ -253,8 +259,7 @@ namespace ACR_Candlekeep
             //{ }
             //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTM))
             //{ }
-            //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTP))
-            //{ }
+
             //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTR))
             //{ }
             //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTS))

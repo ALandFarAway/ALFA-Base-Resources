@@ -9,6 +9,7 @@ namespace ALFA.Shared
     {
         public string FirstName;
         public string LastName;
+        public string Classification;
         public string TemplateResRef;
         public string Tag;
         public bool IsImmortal;
