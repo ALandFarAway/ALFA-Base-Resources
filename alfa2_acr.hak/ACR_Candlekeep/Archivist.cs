@@ -22,6 +22,7 @@ namespace ACR_Candlekeep
 
             manager.LoadCoreResources();
 
+            #region Caching Information about All Items
             foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTI))
             {
                 try
@@ -69,7 +70,78 @@ namespace ACR_Candlekeep
                 }
                 catch { }
             }
+            #endregion
 
+            #region Caching Information about All Creatures
+            foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTC))
+            {
+                try
+                {
+                    GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
+
+                    string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
+                    if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(currentResRef))
+                    {
+                        continue;
+                    }
+
+                    ALFA.Shared.CreatureResource addingCreature = new ALFA.Shared.CreatureResource();
+
+                    try
+                    {
+                        addingCreature.FirstName = currentGFF.TopLevelStruct["FirstName"].Value.ToString().Split('"')[1];
+                    }
+                    catch
+                    {
+                        addingCreature.FirstName = currentGFF.TopLevelStruct["FirstName"].Value.ToString();
+                    }
+                    addingCreature.TemplateResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
+                    addingCreature.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
+
+                    if (currentGFF.TopLevelStruct["IsImmortal"].Value.ToString() == "0")
+                        addingCreature.IsImmortal = false;
+                    else
+                        addingCreature.IsImmortal = true;
+
+                    float calculatedCR = 0.0f;
+                    if (float.TryParse(currentGFF.TopLevelStruct["ChallengeRating"].Value.ToString(), out calculatedCR))
+                    {
+                        addingCreature.ChallengeRating = calculatedCR;
+                    }
+
+                    int faction;
+                    if (Int32.TryParse(currentGFF.TopLevelStruct["FactionID"].Value.ToString(), out faction))
+                    {
+                        addingCreature.FactionID = faction;
+                    }
+
+                    int LawChaos;
+                    if (Int32.TryParse(currentGFF.TopLevelStruct["LawfulChaotic"].Value.ToString(), out LawChaos))
+                    {
+                        addingCreature.LawfulChaotic = LawChaos;
+                    }
+
+                    int GoodEvil;
+                    if (Int32.TryParse(currentGFF.TopLevelStruct["GoodEvil"].Value.ToString(), out GoodEvil))
+                    {
+                        addingCreature.GoodEvil = GoodEvil;
+                    }
+
+                    string AlignSummary;
+                    if (GoodEvil < 31) AlignSummary = "E";
+                    else if (GoodEvil < 70) AlignSummary = "N";
+                    else AlignSummary = "G";
+
+                    if (LawChaos < 31) AlignSummary = "C" + AlignSummary;
+                    else if (LawChaos < 70 && AlignSummary == "N") AlignSummary = "TN";
+                    else if (LawChaos < 70) AlignSummary = "N" + AlignSummary;
+                    else AlignSummary = "L" + AlignSummary;
+                }
+                catch { }
+            }
+            #endregion
+
+            
             #region Commented-Out Resource Types
             //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.Res2DA))
             //{ }
@@ -174,8 +246,6 @@ namespace ACR_Candlekeep
             //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUPE))
             //{ }
             //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUSC))
-            //{ }
-            //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTC))
             //{ }
             //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTD))
             //{ }

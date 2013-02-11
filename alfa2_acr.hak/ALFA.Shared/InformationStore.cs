@@ -12,5 +12,6 @@ namespace ALFA.Shared
     public interface InformationStore
     {
         Dictionary<string, ItemResource> ModuleItems { get; set; }
+        Dictionary<string, CreatureResource> ModuleCreatures { get; set; }
     }
 }
