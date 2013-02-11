@@ -40,9 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreatureResource.cs" />
     <Compile Include="InformationStore.cs" />
     <Compile Include="ItemResource.cs" />
     <Compile Include="Modules.cs" />
+    <Compile Include="PlaceableResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

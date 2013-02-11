@@ -137,6 +137,8 @@ namespace ACR_Candlekeep
                     else if (LawChaos < 70 && AlignSummary == "N") AlignSummary = "TN";
                     else if (LawChaos < 70) AlignSummary = "N" + AlignSummary;
                     else AlignSummary = "L" + AlignSummary;
+
+                    ALFA.Shared.Modules.InfoStore.ModuleCreatures.Add(addingCreature.TemplateResRef, addingCreature);
                 }
                 catch { }
             }
@@ -145,6 +147,47 @@ namespace ACR_Candlekeep
             #region Caching Information about All Placeables
             foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTP))
             {
+                GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
+
+                string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
+                if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(currentResRef))
+                {
+                    continue;
+                }
+
+                ALFA.Shared.PlaceableResource addingPlaceable = new ALFA.Shared.PlaceableResource();
+
+                try
+                {
+                    addingPlaceable.Name = currentGFF.TopLevelStruct["LocName"].Value.ToString().Split('"')[1];
+                }
+                catch
+                {
+                    addingPlaceable.Name = currentGFF.TopLevelStruct["LocName"].Value.ToString();
+                }
+                addingPlaceable.Classification = currentGFF.TopLevelStruct["Classification"].Value.ToString();
+                addingPlaceable.TemplateResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
+                addingPlaceable.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
+                addingPlaceable.Useable = currentGFF.TopLevelStruct["Useable"].Value.ToString() != "0";
+                addingPlaceable.HasInventory = currentGFF.TopLevelStruct["HasInventory"].Value.ToString() != "0";
+                addingPlaceable.Trapped = currentGFF.TopLevelStruct["Useable"].Value.ToString() != "0";
+                addingPlaceable.Locked = currentGFF.TopLevelStruct["Locked"].Value.ToString() != "0";
+
+                int trapDisarmDC = 0, trapDetectDC = 0, unlockDC = 0;
+                if (Int32.TryParse(currentGFF.TopLevelStruct["TrapDetectDC"].Value.ToString(), out trapDetectDC))
+                {
+                    addingPlaceable.TrapDetectDC = trapDetectDC;
+                }
+                if (Int32.TryParse(currentGFF.TopLevelStruct["DisarmDC"].Value.ToString(), out trapDetectDC))
+                {
+                    addingPlaceable.TrapDisarmDC = trapDisarmDC;
+                }
+                if (Int32.TryParse(currentGFF.TopLevelStruct["OpenLockDC"].Value.ToString(), out trapDetectDC))
+                {
+                    addingPlaceable.LockDC = unlockDC;
+                }
+
+                ALFA.Shared.Modules.InfoStore.ModulePlaceables.Add(addingPlaceable.TemplateResRef, addingPlaceable);
             }
             #endregion
 

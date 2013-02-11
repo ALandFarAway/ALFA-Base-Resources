@@ -11,5 +11,6 @@ namespace ACR_Candlekeep
     {
         public Dictionary<string, ALFA.Shared.ItemResource> ModuleItems { get; set; }
         public Dictionary<string, ALFA.Shared.CreatureResource> ModuleCreatures { get; set; }
+        public Dictionary<string, ALFA.Shared.PlaceableResource> ModulePlaceables { get; set; }
     }
 }
