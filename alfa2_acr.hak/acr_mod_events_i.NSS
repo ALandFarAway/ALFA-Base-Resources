@@ -163,6 +163,8 @@ const float ACR_MOD_RELOAD_CYCLE = 10.0;
 const float ACR_TALK_SPHERE_RADIUS = 20.0f;
 const float ACR_WHISPER_SPHERE_RADIUS = 3.0f;
 
+const int ACR_ASSEMBLY_LOADER_INITIALIZE = 0;
+
 //! Define to 1 to enable language handling debugging.
 #define DEBUG_LANG 1
 
@@ -307,6 +309,9 @@ void _createPlayerGUIs( object oPC );
 
 //! Update player UIs for mod events.
 void _updatePlayerGUIs( object oPC );
+
+//! Load CLR script assemblies.
+void LoadAssemblies();
 
 // This is needed to establish the server and gameobject structures that 
 // ACR_CreatureBehavior uses.
@@ -691,6 +696,8 @@ void ACR_ModuleOnModuleLoad()
 {
     // Set global module settings.
     SetServerData(ACR_SERVER_ID, ACR_SERVER_NAME, ACR_SERVER_REGION, ACR_SERVER_IP);
+
+	 _LoadAssemblies();
 
     // Check and warn the user if the module wasn't built with the same ACR
     // version as a script contained within the hak.  (This script is built
@@ -1758,6 +1765,12 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts()
     ACR_IncrementStatistic("DUMMY_STATISTIC");
     ACR_GetHAKVersion();
     ACR_RunScriptOnServer(0, "", "");
+}
+
+void LoadAssemblies()
+{
+	AddScriptParameterInt(ACR_ASSEMBLY_LOADER_INITIALIZE);
+	ExecuteScriptEnhanced("acr_assemblyLoader", GetModule(), TRUE);
 }
 
 // This is needed to establish the server and gameobject structures that 

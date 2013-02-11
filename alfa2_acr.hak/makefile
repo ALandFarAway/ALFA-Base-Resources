@@ -634,7 +634,8 @@ CLRSCRIPT_OBJECTS=$(OUTPUTDIR)\TestClrScript.ncs               \
                   $(OUTPUTDIR)\ACR_EmptyScript.ncs             \
                   $(OUTPUTDIR)\ACR_ReadRawString.ncs           \
                   $(OUTPUTDIR)\ACR_Candlekeep.ncs              \
-                  $(OUTPUTDIR)\ACR_CollectionLib.ncs           
+                  $(OUTPUTDIR)\ACR_CollectionLib.ncs           \
+                  $(OUTPUTDIR)\ACR_AssemblyLoader.ncs          
 
 HAKFILE=$(OUTPUTDIR)\alfa2_acr.hak
 
@@ -673,6 +674,8 @@ scriptincludes:
 	@copy /y *.nss $(OUTPUTDIR)\ >NUL
 
 makeclrscripts:
+	$(BUILD_MSG) (CSProj) Building - ALFA.Shared
+	@$(MSBUILD) ALFA.Shared\ALFA.Shared.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - TestClrScript
 	@$(MSBUILD) TestClrScript\TestClrScript.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ScriptLoader
@@ -697,6 +700,8 @@ makeclrscripts:
 	@$(MSBUILD) ACR_Candlekeep\ACR_Candlekeep.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_CollectionLib
 	@$(MSBUILD) ACR_CollectionLib\ACR_CollectionLib.csproj $(MSBUILD_FLAGS)
+	$(BUILD_MSG) (CSProj) Building - ACR_AssemblyLoader
+	@$(MSBUILD) ACR_AssemblyLoader\ACR_AssemblyLoader.csproj $(MSBUILD_FLAGS)
 
 clean:
 	@if exist $(OUTPUTDIR)\*.ncs del $(OUTPUTDIR)\*.ncs
@@ -704,6 +709,8 @@ clean:
 	@if exist $(OUTPUTDIR)\*.ndb del $(OUTPUTDIR)\*.ndb
 	@if exist $(HAKFILE) del /q $(HAKFILE) >NUL
 	@if exist $(OUTPUTDIR)\CLRBUILDLOG del $(OUTPUTDIR)\CLRBUILDLOG
+	@if exist ALFA.Shared\bin rd /s /q ALFA.Shared\bin
+	@if exist ALFA.Shared\obj rd /s /q ALFA.Shared\obj
 	@if exist TestClrScript\bin rd /s /q TestClrScript\bin
 	@if exist TestClrScript\obj rd /s /q TestClrScript\obj
 	@if exist ScriptLoader\bin rd /s /q ScriptLoader\bin
@@ -726,6 +733,8 @@ clean:
 	@if exist ACR_Candlekeep\obj rd /s /q ACR_Candlekeep\obj
 	@if exist ACR_CollectionLib\bin rd /s /q ACR_CollectionLib\bin
 	@if exist ACR_CollectionLib\obj rd /s /q ACR_CollectionLib\obj
+	@if exist ACR_AssemblyLoader\bin rd /s /q ACR_AssemblyLoader\bin
+	@if exist ACR_AssemblyLoader\obj rd /s /q ACR_AssemblyLoader\obj
 
 $(HAKFILE): script $(HAK_SOURCES_MISC)
 	$(BUILD_MSG) (ERF) Creating - $(HAKFILE)
