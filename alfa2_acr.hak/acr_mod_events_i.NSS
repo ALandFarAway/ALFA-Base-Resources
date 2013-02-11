@@ -311,7 +311,7 @@ void _createPlayerGUIs( object oPC );
 void _updatePlayerGUIs( object oPC );
 
 //! Load CLR script assemblies.
-void LoadAssemblies();
+void _LoadAssemblies();
 
 // This is needed to establish the server and gameobject structures that 
 // ACR_CreatureBehavior uses.
@@ -1767,7 +1767,7 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts()
     ACR_RunScriptOnServer(0, "", "");
 }
 
-void LoadAssemblies()
+void _LoadAssemblies()
 {
 	AddScriptParameterInt(ACR_ASSEMBLY_LOADER_INITIALIZE);
 	ExecuteScriptEnhanced("acr_assemblyLoader", GetModule(), TRUE);
