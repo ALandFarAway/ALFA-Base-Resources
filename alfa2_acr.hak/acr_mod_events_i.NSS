@@ -165,6 +165,8 @@ const float ACR_WHISPER_SPHERE_RADIUS = 3.0f;
 
 const int ACR_ASSEMBLY_LOADER_INITIALIZE = 0;
 
+const int ACR_CANDLEKEEP_INITIALIZE_ARCHIVES = 0;
+
 //! Define to 1 to enable language handling debugging.
 #define DEBUG_LANG 1
 
@@ -1771,6 +1773,9 @@ void _LoadAssemblies()
 {
 	AddScriptParameterInt(ACR_ASSEMBLY_LOADER_INITIALIZE);
 	ExecuteScriptEnhanced("acr_assemblyLoader", GetModule(), TRUE);
+
+	AddScriptParameterInt(ACR_CANDLEKEEP_INITIALIZE_ARCHIVES);
+	SendMessageToPC(oPC, IntToString(ExecuteScriptEnhanced("ACR_Candlekeep", oPC, FALSE)));
 }
 
 // This is needed to establish the server and gameobject structures that 

@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALFA.Shared", "..\ALFA.Shar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_Candlekeep", "..\ACR_Candlekeep\ACR_Candlekeep.csproj", "{C0C9E47B-15A2-4F57-9DB9-A530267EE14E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_ChooserCreator", "..\ACR_ChooserCreator\ACR_ChooserCreator.csproj", "{40B85EFF-56FA-47FA-9103-70B5EF27F524}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{C0C9E47B-15A2-4F57-9DB9-A530267EE14E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0C9E47B-15A2-4F57-9DB9-A530267EE14E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0C9E47B-15A2-4F57-9DB9-A530267EE14E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40B85EFF-56FA-47FA-9103-70B5EF27F524}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40B85EFF-56FA-47FA-9103-70B5EF27F524}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40B85EFF-56FA-47FA-9103-70B5EF27F524}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40B85EFF-56FA-47FA-9103-70B5EF27F524}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

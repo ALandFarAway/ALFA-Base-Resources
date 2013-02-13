@@ -635,6 +635,7 @@ CLRSCRIPT_OBJECTS=$(OUTPUTDIR)\TestClrScript.ncs               \
                   $(OUTPUTDIR)\ACR_ReadRawString.ncs           \
                   $(OUTPUTDIR)\ACR_Candlekeep.ncs              \
                   $(OUTPUTDIR)\ACR_CollectionLib.ncs           \
+                  $(OUTPUTDIR)\ACR_ChooserCreator.ncs          \
                   $(OUTPUTDIR)\ACR_AssemblyLoader.ncs          
 
 HAKFILE=$(OUTPUTDIR)\alfa2_acr.hak
@@ -698,6 +699,8 @@ makeclrscripts:
 	@$(MSBUILD) ACR_ReadRawString\ACR_ReadRawString.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_Candlekeep
 	@$(MSBUILD) ACR_Candlekeep\ACR_Candlekeep.csproj $(MSBUILD_FLAGS)
+	$(BUILD_MSG) (CSProj) Building - ACR_ChooserCreator
+	@$(MSBUILD) ACR_ChooserCreator\ACR_ChooserCreator.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_CollectionLib
 	@$(MSBUILD) ACR_CollectionLib\ACR_CollectionLib.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_AssemblyLoader
@@ -731,6 +734,8 @@ clean:
 	@if exist ACR_EmptyScript\obj rd /s /q ACR_EmptyScript\obj
 	@if exist ACR_Candlekeep\bin rd /s /q ACR_Candlekeep\bin
 	@if exist ACR_Candlekeep\obj rd /s /q ACR_Candlekeep\obj
+	@if exist ACR_ChooserCreator\bin rd /s /q ACR_ChooserCreator\bin
+	@if exist ACR_ChooserCreator\obj rd /s /q ACR_ChooserCreator\obj
 	@if exist ACR_CollectionLib\bin rd /s /q ACR_CollectionLib\bin
 	@if exist ACR_CollectionLib\obj rd /s /q ACR_CollectionLib\obj
 	@if exist ACR_AssemblyLoader\bin rd /s /q ACR_AssemblyLoader\bin
