@@ -14,5 +14,6 @@ namespace ALFA.Shared
         Dictionary<string, ItemResource> ModuleItems { get; set; }
         Dictionary<string, CreatureResource> ModuleCreatures { get; set; }
         Dictionary<string, PlaceableResource> ModulePlaceables { get; set; }
+        Dictionary<int, Faction> ModuleFactions { get; set; }
     }
 }

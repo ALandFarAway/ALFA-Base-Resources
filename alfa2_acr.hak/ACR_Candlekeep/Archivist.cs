@@ -21,6 +21,10 @@ namespace ACR_Candlekeep
             manager = new ALFA.ResourceManager(null);
 
             manager.LoadCoreResources();
+            ALFA.Shared.Modules.InfoStore.ModuleItems = new Dictionary<string, ALFA.Shared.ItemResource>();
+            ALFA.Shared.Modules.InfoStore.ModuleCreatures = new Dictionary<string,ALFA.Shared.CreatureResource>();
+            ALFA.Shared.Modules.InfoStore.ModulePlaceables = new Dictionary<string, ALFA.Shared.PlaceableResource>();
+            ALFA.Shared.Modules.InfoStore.ModuleFactions = new Dictionary<int, ALFA.Shared.Faction>();
 
             #region Caching Information about All Items
             foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTI))
@@ -188,6 +192,25 @@ namespace ACR_Candlekeep
                 }
 
                 ALFA.Shared.Modules.InfoStore.ModulePlaceables.Add(addingPlaceable.TemplateResRef, addingPlaceable);
+            }
+            #endregion
+
+            #region Caching Information about Factions
+            foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResFAC))
+            {
+                GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
+
+                int factionIndex = 0;
+                foreach (GFFStruct field in currentGFF.TopLevelStruct["FactionList"].ValueList.StructList)
+                {                    
+                    ALFA.Shared.Faction addingFaction = new ALFA.Shared.Faction();
+                    addingFaction.Name = field.GetFieldSafe("FactionName").Value.ToString();
+                    ALFA.Shared.Modules.InfoStore.ModuleFactions.Add(factionIndex, addingFaction);
+                    factionIndex++;
+                }
+
+                // If there are multiple .FAC resources, we only care about the one that gets priority.
+                break;
             }
             #endregion
 

@@ -46,7 +46,6 @@ namespace ACR_Candlekeep
             {
                 case Commands.INITIALIZE_ARCHIVES:
                     ALFA.Shared.Modules.InfoStore = new Archives();
-                    ALFA.Shared.Modules.InfoStore.ModuleItems = new Dictionary<string,ALFA.Shared.ItemResource>();
                     worker.DoWork += worker.InitializeArchives;
                     worker.RunWorkerAsync();
                     break;
