@@ -3,9 +3,9 @@
 <UIScene name="SCREEN_ACR_CREATOR" x=676 y=190 width=317 height=546 draggable=true priority="SCENE_INGAME" scalescene="true" hidden="true" fadeout="0.2" fadein="0.2" backoutkey=true scriptloadable="true" />
 
     <!-- Close Button -->
-    <UIButton name="CloseButton" x=265 y=9 style="STYLE_CLOSE_BUTTON" OnLeftClick=UIButton_Input_ScreenClose() />
+    <UIButton name="CloseButton" x=287 y=0 style="STYLE_CLOSE_BUTTON" OnLeftClick=UIButton_Input_ScreenClose() />
 
-    <UIListBox name="LISTBOX_ACR_CREATOR" x="5" y="136" width="300" height="400" xPadding="0" yPadding="5" showpartialchild="true"
+    <UIListBox name="LISTBOX_ACR_CREATOR" x="10" y="136" width="297" height="400" xPadding="0" yPadding="5" showpartialchild="true"
 		    unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded=false >
             <UIPane name="ACR_CREATOR_ITEM" width=300 height=20 tupple=true prototype=true draggable=false
              OnLeftDoubleClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
@@ -17,16 +17,14 @@
                     <UIText align=right valign=bottom fontfamily="Default" style="1"/> 
                 </UIButton> 
 
-                <UIButton name="LISTBOX_ITEM_TEXT" x=20 y=0 height=20 width=280 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+                <UIButton name="LISTBOX_ITEM_TEXT" x=20 y=0 height=20 width=250 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
                     <UIText align=left valign=middle fontfamily="Default" style="1"/> 
                 </UIButton>
             </UIPane> 
         <UIScrollBar name="SB" style="STYLE_SB_THIN" />
     </UIListBox>    
 
-    <UIText name="TITLE" strref="184681" x="12" y="10" width="250" height="23" align=left valign=middle fontfamily="Title_Font" style="2" />
-    <UIFrame x="0" y="0" width="305" height="546" topleft="frame1_TL.tga" topright="frame1_TR.tga" 
+    <UIFrame x="0" y="25" width="317" height="521" topleft="frame1_TL.tga" topright="frame1_TR.tga" 
         bottomleft="frame1_BL.tga" bottomright="frame1_br.tga" top="frame1_T.tga" bottom="frame1_b.tga"
         left="frame1_l.tga" right="frame1_r.tga" fillstyle="stretch" border="32" />
-    <UIIcon name="DETAIL_TOP" img="title_nwn_dialog.tga" x=8 y=8 width=291 height=30 ignoreevents="true" />
     <UIIcon img="frame_main_bg.tga" x="8" y="8" width="303" height="532" />
