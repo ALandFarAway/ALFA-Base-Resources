@@ -9,8 +9,9 @@ namespace ALFA.Shared
     /// This interface defines the contract between the information store
     /// module and other client modules.
     /// </summary>
-    public interface InformationStore
+    public interface IInformationStore : IBackgroundLoadedResource
     {
+        bool ResourcesLoaded { get; set; }
         Dictionary<string, ItemResource> ModuleItems { get; set; }
         Dictionary<string, CreatureResource> ModuleCreatures { get; set; }
         Dictionary<string, PlaceableResource> ModulePlaceables { get; set; }
