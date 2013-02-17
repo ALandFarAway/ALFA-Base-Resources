@@ -2,9 +2,52 @@
 
 <UIScene name="SCREEN_ACR_CREATOR" x=676 y=190 width=317 height=546 draggable=true priority="SCENE_INGAME" scalescene="true" hidden="true" fadeout="0.2" fadein="0.2" backoutkey=true scriptloadable="true" />
 
+    <!-- Spawn Type Tabstrip -->
+    <UIIcon name="CreatureActive" img="activetabbottom.tga" x="11" y="30" width="24" height="4" />
+    <UIButton name="CreatureTab" x=11 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+	 OnLeftClick0=UIButton_Input_ShowObject("CreatureActive")
+	 OnLeftClick1=UIButton_Input_HideObject("ItemActive")
+	 OnLeftClick2=UIButton_Input_HideObject("PlaceableActive")>
+        		<UIFrame state=base     fill="creaturetab.tga"  fillstyle="center"/>
+			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=focused  fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=hilited  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=hifocus  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=disabled fill="b_empty.tga"   fillstyle="center" />
+    </UIButton>
+    <UIIcon name="ItemActive" img="activetabbottom.tga" x="41" y="30" width="24" height="4" hidden=TRUE />
+    <UIButton name="ItemTab" x=41 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+	 OnLeftClick0=UIButton_Input_ShowObject("ItemActive")
+	 OnLeftClick1=UIButton_Input_HideObject("CreatureActive")
+	 OnLeftClick2=UIButton_Input_HideObject("PlaceableActive")>
+        		<UIFrame state=base     fill="itemtab.tga"      fillstyle="center"/>
+			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=focused  fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=hilited  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=hifocus  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=disabled fill="b_empty.tga"   fillstyle="center" />
+    </UIButton>
+    <UIIcon name="PlaceableActive" img="activetabbottom.tga" x="71" y="30" width="24" height="4" hidden=TRUE />
+    <UIButton name="PlaceableTab" x=71 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+	 OnLeftClick0=UIButton_Input_ShowObject("PlaceableActive")
+	 OnLeftClick1=UIButton_Input_HideObject("CreatureActive")
+	 OnLeftClick2=UIButton_Input_HideObject("ItemActive")>
+        		<UIFrame state=base     fill="placeabletab.tga" fillstyle="center"/>
+			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=focused  fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=hilited  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=hifocus  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=disabled fill="b_empty.tga"   fillstyle="center" />
+    </UIButton>
+
     <!-- Close Button -->
     <UIButton name="CloseButton" x=287 y=0 style="STYLE_CLOSE_BUTTON" OnLeftClick=UIButton_Input_ScreenClose() />
 
+
+    <!-- List Box -->
     <UIListBox name="LISTBOX_ACR_CREATOR" x="10" y="136" width="297" height="400" xPadding="0" yPadding="5" showpartialchild="true"
 		    unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded=false >
             <UIPane name="ACR_CREATOR_ITEM" width=300 height=20 tupple=true prototype=true draggable=false
@@ -17,7 +60,15 @@
                     <UIText align=right valign=bottom fontfamily="Default" style="1"/> 
                 </UIButton> 
 
-                <UIButton name="LISTBOX_ITEM_TEXT" x=20 y=0 height=20 width=250 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+                <UIButton name="LISTBOX_ITEM_TEXT" x=20 y=0 height=20 width=150 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+                    <UIText align=left valign=middle fontfamily="Default" style="1"/> 
+                </UIButton>
+
+                <UIButton name="LISTBOX_ITEM_TEXT2" x=170 y=0 height=20 width=70 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+                    <UIText align=left valign=middle fontfamily="Default" style="1"/> 
+                </UIButton>
+
+                <UIButton name="LISTBOX_ITEM_TEXT3" x=240 y=0 height=20 width=40 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
                     <UIText align=left valign=middle fontfamily="Default" style="1"/> 
                 </UIButton>
             </UIPane> 
@@ -27,4 +78,4 @@
     <UIFrame x="0" y="25" width="317" height="521" topleft="frame1_TL.tga" topright="frame1_TR.tga" 
         bottomleft="frame1_BL.tga" bottomright="frame1_br.tga" top="frame1_T.tga" bottom="frame1_b.tga"
         left="frame1_l.tga" right="frame1_r.tga" fillstyle="stretch" border="32" />
-    <UIIcon img="frame_main_bg.tga" x="8" y="8" width="303" height="532" />
+    <UIIcon img="acr_black.tga" x="8" y="33" width="303" height="507" />
