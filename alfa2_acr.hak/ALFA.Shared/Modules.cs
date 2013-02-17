@@ -7,6 +7,6 @@ namespace ALFA.Shared
 {
     public static class Modules
     {
-        public static InformationStore InfoStore;
+        public static IInformationStore InfoStore;
     }
 }

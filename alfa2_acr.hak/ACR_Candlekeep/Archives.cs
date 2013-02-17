@@ -7,8 +7,9 @@ using System.Text;
 
 namespace ACR_Candlekeep
 {
-    public class Archives : ALFA.Shared.InformationStore
+    public class Archives : ALFA.Shared.IInformationStore, ALFA.Shared.IBackgroundLoadedResource
     {
+        public bool ResourcesLoaded { get; set; }
         public Dictionary<string, ALFA.Shared.ItemResource> ModuleItems { get; set; }
         public Dictionary<string, ALFA.Shared.CreatureResource> ModuleCreatures { get; set; }
         public Dictionary<string, ALFA.Shared.PlaceableResource> ModulePlaceables { get; set; }

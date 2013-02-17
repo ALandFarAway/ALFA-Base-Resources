@@ -8,7 +8,6 @@ namespace ACR_ChooserCreator
 {
     interface IDrawableList : IBackgroundLoadedResource
     {
-        bool ResourcesLoaded { get; set; }
         List<Object> drawableList { get; set; }
     }
 }
