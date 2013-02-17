@@ -19,8 +19,9 @@ namespace ACR_Candlekeep
         {
             // TODO: Allow this to be configured.
             manager = new ALFA.ResourceManager(null);
-
+            
             manager.LoadCoreResources();
+            
             ALFA.Shared.Modules.InfoStore.ModuleItems = new Dictionary<string, ALFA.Shared.ItemResource>();
             ALFA.Shared.Modules.InfoStore.ModuleCreatures = new Dictionary<string,ALFA.Shared.CreatureResource>();
             ALFA.Shared.Modules.InfoStore.ModulePlaceables = new Dictionary<string, ALFA.Shared.PlaceableResource>();
@@ -343,6 +344,8 @@ namespace ACR_Candlekeep
             //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResXML))
             //{ }
             #endregion
+
+            ALFA.Shared.Modules.InfoStore.ResourcesLoaded = true;
         }
     }
 }
