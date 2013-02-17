@@ -58,7 +58,12 @@
     <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_ChooserCreator.cs" />
+    <Compile Include="PlaceableList.cs" />
+    <Compile Include="ItemList.cs" />
+    <Compile Include="CreatureList.cs" />
+    <Compile Include="IDrawableList.cs" />
     <Compile Include="StandardEntrypoints.cs" />
+    <Compile Include="Waiter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ALFA.Shared\ALFA.Shared.csproj">
