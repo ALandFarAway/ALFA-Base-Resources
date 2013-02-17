@@ -11,7 +11,6 @@ namespace ALFA.Shared
     /// </summary>
     public interface IInformationStore : IBackgroundLoadedResource
     {
-        bool ResourcesLoaded { get; set; }
         Dictionary<string, ItemResource> ModuleItems { get; set; }
         Dictionary<string, CreatureResource> ModuleCreatures { get; set; }
         Dictionary<string, PlaceableResource> ModulePlaceables { get; set; }
