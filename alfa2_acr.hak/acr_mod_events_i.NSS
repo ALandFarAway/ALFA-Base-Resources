@@ -1775,7 +1775,7 @@ void _LoadAssemblies()
 	ExecuteScriptEnhanced("acr_assemblyLoader", GetModule(), TRUE);
 
 	AddScriptParameterInt(ACR_CANDLEKEEP_INITIALIZE_ARCHIVES);
-	ExecuteScriptEnhanced("ACR_Candlekeep", oPC, FALSE);
+	ExecuteScriptEnhanced("ACR_Candlekeep", oPC, TRUE);
 }
 
 // This is needed to establish the server and gameobject structures that 
