@@ -1772,7 +1772,7 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts()
 void _LoadAssemblies()
 {
 	AddScriptParameterInt(ACR_ASSEMBLY_LOADER_INITIALIZE);
-	ExecuteScriptEnhanced("acr_assemblyLoader", GetModule(), TRUE);
+	ExecuteScriptEnhanced("ACR_AssemblyLoader", GetModule(), TRUE);
 
 	AddScriptParameterInt(ACR_CANDLEKEEP_INITIALIZE_ARCHIVES);
 	ExecuteScriptEnhanced("ACR_Candlekeep", GetModule(), TRUE);
