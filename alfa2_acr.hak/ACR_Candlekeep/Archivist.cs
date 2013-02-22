@@ -344,8 +344,6 @@ namespace ACR_Candlekeep
             //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResXML))
             //{ }
             #endregion
-
-            ALFA.Shared.Modules.InfoStore.ResourcesLoaded = true;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace ACR_ChooserCreator
     {        
         static void WaitForResources(CLRScriptBase script, IBackgroundLoadedResource resource)
         {
-            if (resource.ResourcesLoaded == true)
+            if (resource.WaitForResourcesLoaded(false) == true)
             {
                 DrawListBox(script, resource as IDrawableList);
                 return;

@@ -11,12 +11,9 @@ namespace ACR_ChooserCreator
     {
         public static void BuildNavigators()
         {
-            while (ALFA.Shared.Modules.InfoStore.ResourcesLoaded == false)
-            {
-                Thread.Sleep(1000);
-            }
+            ALFA.Shared.Modules.InfoStore.WaitForResourcesLoaded(true);
 
-            if (Navigators.CreatureNavigator.ResourcesLoaded == false)
+            if (Navigators.CreatureNavigator.WaitForResourcesLoaded(false) == false)
             {
                 foreach(ALFA.Shared.CreatureResource creature in ALFA.Shared.Modules.InfoStore.ModuleCreatures.Values)
                 {
@@ -36,6 +33,8 @@ namespace ACR_ChooserCreator
                         Navigators.CreatureNavigator.bottomCategory.ContainedItems.Add(addedNavItem);
                     }
                 }
+
+                Navigators.CreatureNavigator.SetResourcesLoaded();
             }
         }
     }

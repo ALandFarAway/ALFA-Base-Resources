@@ -45,7 +45,7 @@ namespace ACR_ChooserCreator
                     Info2 = String.Format("{0:N1}", creature.ChallengeRating)
                 });
             }
-            Navigators.CreatureNavigator.ResourcesLoaded = true;
+            Navigators.CreatureNavigator.SetResourcesLoaded();
 
             foreach (ALFA.Shared.ItemResource item in ALFA.Shared.Modules.InfoStore.ModuleItems.Values)
             {
@@ -77,7 +77,7 @@ namespace ACR_ChooserCreator
                     Info2 = item.AppropriateLevel.ToString()
                 });
             }
-            Navigators.CreatureNavigator.ResourcesLoaded = true;
+            Navigators.ItemNavigator.SetResourcesLoaded();
 
             foreach (ALFA.Shared.PlaceableResource placeable in ALFA.Shared.Modules.InfoStore.ModulePlaceables.Values)
             {
@@ -116,7 +116,7 @@ namespace ACR_ChooserCreator
                     Info2 = inventory
                 });
             }
-            Navigators.CreatureNavigator.ResourcesLoaded = true;
+            Navigators.PlaceableNavigator.SetResourcesLoaded();
         }
 
         public static NavigatorCategory GetCategoryByName(NavigatorCategory ContainingCat, string SeekingName)
