@@ -9,8 +9,8 @@ using NWScript.ManagedInterfaceLayer.NWScriptManagedInterface;
 
 namespace ACR_ChooserCreator
 {
-    static class Waiter
-    {
+    public static class Waiter
+    {        
         static void WaitForResources(CLRScriptBase script, IBackgroundLoadedResource resource)
         {
             if (resource.ResourcesLoaded == true)
@@ -29,6 +29,23 @@ namespace ACR_ChooserCreator
         static void DrawListBox(CLRScriptBase script, IDrawableList resource)
         {
             // TODO: Remove the last frame of the 'thinking' animation.
+            Navigator nav = resource as Navigator;
+            if (nav != null)
+            {
+                foreach (NavigatorCategory navCat in nav.bottomCategory.ContainedCategories)
+                {
+                    string textFields = String.Format("LISTBOX_ITEM_TEXT=  {0}", navCat.Name);
+                    string variables = String.Format("5={0}", "Category:"+navCat.Name);
+                    script.AddListBoxRow(script.OBJECT_SELF, "SCREEN_ACR_CREATOR", "LISTBOX_ACR_CREATOR", "Category:"+navCat.Name, textFields, "LISTBOX_ITEM_ICON=folder.tga", variables, "unhide");
+                }
+                foreach (NavigatorItem navItem in nav.bottomCategory.ContainedItems)
+                {
+                    string textFields = String.Format("LISTBOX_ITEM_TEXT=  {0};LISTBOX_ITEM_TEXT2= {1};LISTBOX_ITEM_TEXT= {3}", navItem.Name, navItem.Info1, navItem.Info2);
+                    string variables = String.Format("5={0}", "Category:" + navItem.ResRef);
+                    script.AddListBoxRow(script.OBJECT_SELF, "SCREEN_ACR_CREATOR", "LISTBOX_ACR_CREATOR", "Category:" + navItem.Name, textFields, "LISTBOX_ITEM_ICON=folder.tga", variables, "unhide");
+                }
+            }
+
             CreatureList resourceAsCreatureList = resource as CreatureList;
             if(resourceAsCreatureList != null)
             {
