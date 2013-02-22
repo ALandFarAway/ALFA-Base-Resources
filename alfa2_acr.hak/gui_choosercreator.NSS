@@ -14,8 +14,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 
-void main( ) 
+void main( string ActionType, string ActionArgument ) 
 {
-    ExecuteScriptEnhanced("ACR_ChooserCreator", OBJECT_SELF, FALSE);
+    AddScriptParameterInt(StringToInt(ActionType));
+    AddScriptParameterString(ActionArgument);
+    ExecuteScriptEnhanced("ACR_ChooserCreator", OBJECT_SELF, TRUE);
 }
 

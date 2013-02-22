@@ -33,16 +33,31 @@ namespace ACR_ChooserCreator
             LoadScriptGlobals(Other.SaveScriptGlobals());
         }
 
-        public static Type[] ScriptParameterTypes =
-        { typeof(int) };
+        public static Type[] ScriptParameterTypes = { typeof(int), typeof(string) };
 
         public Int32 ScriptMain([In] object[] ScriptParameters, [In] Int32 DefaultReturnCode)
         {
-            int Value = (int)ScriptParameters[0]; // ScriptParameterTypes[0] is typeof(int)
-
-            PrintInteger(Value);
+            SendMessageToPC(OBJECT_SELF, ScriptParameters[0].ToString());
+            SendMessageToPC(OBJECT_SELF, ScriptParameters[1].ToString());
 
             return 0;
+
+        }
+
+        private enum ACR_CreatorCommand
+        {
+            ACR_CHOOSERCREATOR_INITIALIZE_LISTS = 0,
+
+            ACR_CHOOSERCREATOR_TOP_CREATURE_NAVIGATOR = 10,
+            ACR_CHOOSERCREATOR_TOP_ITEM_NAVIGATOR = 11,
+            ACR_CHOOSERCREATOR_TOP_PLACEABLE_NAVIGATOR = 12,
+
+            ACR_CHOOSERCREATOR_INCOMING_CLICK = 20,
+            ACR_CHOOSERCREATOR_INCOMING_DOUBLECLICK = 21,
+
+            ACR_CHOOSERCREATOR_SEARCH_CREATURES = 30,
+            ACR_CHOOSERCREATOR_SEARCH_ITEMS = 31,
+            ACR_CHOOSERCREATOR_SEARCH_PLACEABLES = 32
         }
 
     }
