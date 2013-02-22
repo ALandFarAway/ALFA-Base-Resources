@@ -40,20 +40,28 @@ namespace ACR_Candlekeep
         {
             int Value = (int)ScriptParameters[0]; // ScriptParameterTypes[0] is typeof(int)
 
-            Archivist worker = new Archivist();
             SendMessageToPC(OBJECT_SELF, "Starting Candlekeep");
-            switch((Commands)Value)
+            switch ((Commands)Value)
             {
                 case Commands.INITIALIZE_ARCHIVES:
-                    ALFA.Shared.Modules.InfoStore = new Archives();
-                    worker.DoWork += worker.InitializeArchives;
-                    worker.RunWorkerAsync();
-                    break;
+                    {
+                        Archivist worker = new Archivist();
+                        if (ArchivesInstance != null)
+                            break;
+
+                        ArchivesInstance = new Archives();
+                        ALFA.Shared.Modules.InfoStore = ArchivesInstance;
+                        worker.DoWork += worker.InitializeArchives;
+                        worker.RunWorkerAsync();
+                        break;
+                    }
             }
 
             SendMessageToPC(OBJECT_SELF, "Script finished");
             return 0;
         }
+
+        internal static Archives ArchivesInstance;
 
         enum Commands
         {
