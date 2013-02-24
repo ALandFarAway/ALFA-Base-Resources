@@ -6,7 +6,8 @@
     <!-- Spawn Type Tabstrip -->
     <UIIcon name="CreatureActive" img="activetabbottom.tga" x="11" y="30" width="24" height="4" />
     <UIButton name="CreatureTab" x=11 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
-	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",1,0)>
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",1,0)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Creatures","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
         		<UIFrame state=base     fill="creaturetab.tga"  fillstyle="center"/>
 			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
 			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
@@ -17,7 +18,8 @@
     </UIButton>
     <UIIcon name="ItemActive" img="activetabbottom.tga" x="41" y="30" width="24" height="4" hidden=TRUE />
     <UIButton name="ItemTab" x=41 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
-	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",2,0)>
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",2,0)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Items","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
         		<UIFrame state=base     fill="itemtab.tga"      fillstyle="center"/>
 			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
 			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
@@ -28,7 +30,8 @@
     </UIButton>
     <UIIcon name="PlaceableActive" img="activetabbottom.tga" x="71" y="30" width="24" height="4" hidden=TRUE />
     <UIButton name="PlaceableTab" x=71 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
-	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",3,0)>
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",3,0)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Placeables","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
         		<UIFrame state=base     fill="placeabletab.tga" fillstyle="center"/>
 			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
 			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
@@ -39,7 +42,8 @@
     </UIButton>
     <UIIcon name="TrapActive" img="activetabbottom.tga" x="101" y="30" width="24" height="4" hidden=TRUE />
     <UIButton name="TrapTab" x=101 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
-	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",4,0)>
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",4,0)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Traps","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
         		<UIFrame state=base     fill="traptab.tga" fillstyle="center"/>
 			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
 			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
@@ -50,7 +54,8 @@
     </UIButton>
     <UIIcon name="VfxActive" img="activetabbottom.tga" x="131" y="30" width="24" height="4" hidden=TRUE />
     <UIButton name="VfxTab" x=131 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
-	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",5,0)>
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",5,0)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Visual Effects","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
         		<UIFrame state=base     fill="vfxtab.tga" fillstyle="center"/>
 			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
 			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
@@ -61,8 +66,21 @@
     </UIButton>
     <UIIcon name="WaypointActive" img="activetabbottom.tga" x="161" y="30" width="24" height="4" hidden=TRUE />
     <UIButton name="WaypointTab" x=161 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
-	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",6,0)>
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",6,0)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Waypoints","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
         		<UIFrame state=base     fill="waypointtab.tga" fillstyle="center"/>
+			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=focused  fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=hilited  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=hifocus  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=disabled fill="b_empty.tga"   fillstyle="center" />
+    </UIButton>
+    <UIIcon name="LightActive" img="activetabbottom.tga" x="191" y="30" width="24" height="4" hidden=TRUE />
+    <UIButton name="LightTab" x=191 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",6,0)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Lights","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+        		<UIFrame state=base     fill="lighttab.tga" fillstyle="center"/>
 			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
 			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
 			<UIFrame state=focused  fill="b_empty.tga"   fillstyle="center" />

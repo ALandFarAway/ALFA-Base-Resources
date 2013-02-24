@@ -67,8 +67,7 @@ namespace ACR_ChooserCreator
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "TrapActive", TRUE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "VfxActive", TRUE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", TRUE);
-                    // TODO: Display current creature classification, or the base
-                    // classification if none are selected.
+                    Waiter.WaitForResources((CLRScriptBase)this, (ALFA.Shared.IBackgroundLoadedResource)currentUser.CurrentCreatureCategory);
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB:
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "CreatureActive", TRUE);
@@ -77,8 +76,7 @@ namespace ACR_ChooserCreator
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "TrapActive", TRUE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "VfxActive", TRUE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", TRUE);
-                    // TODO: Display current item classification, or the base
-                    // classification if none are selected.
+                    Waiter.WaitForResources((CLRScriptBase)this, (ALFA.Shared.IBackgroundLoadedResource)currentUser.CurrentItemCategory);
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_PLACEABLE_TAB:
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "CreatureActive", TRUE);
@@ -87,8 +85,7 @@ namespace ACR_ChooserCreator
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "TrapActive", TRUE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "VfxActive", TRUE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", TRUE);
-                    // TODO: Display current placeable classification, or the base
-                    // classification if none are selected.
+                    Waiter.WaitForResources((CLRScriptBase)this, (ALFA.Shared.IBackgroundLoadedResource)currentUser.CurrentPlaceableCategory);
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_TRAP_TAB:
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "CreatureActive", TRUE);
