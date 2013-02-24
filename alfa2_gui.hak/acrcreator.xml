@@ -6,9 +6,7 @@
     <!-- Spawn Type Tabstrip -->
     <UIIcon name="CreatureActive" img="activetabbottom.tga" x="11" y="30" width="24" height="4" />
     <UIButton name="CreatureTab" x=11 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
-	 OnLeftClick0=UIButton_Input_ShowObject("CreatureActive")
-	 OnLeftClick1=UIButton_Input_HideObject("ItemActive")
-	 OnLeftClick2=UIButton_Input_HideObject("PlaceableActive")>
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",1,0)>
         		<UIFrame state=base     fill="creaturetab.tga"  fillstyle="center"/>
 			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
 			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
@@ -19,9 +17,7 @@
     </UIButton>
     <UIIcon name="ItemActive" img="activetabbottom.tga" x="41" y="30" width="24" height="4" hidden=TRUE />
     <UIButton name="ItemTab" x=41 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
-	 OnLeftClick0=UIButton_Input_ShowObject("ItemActive")
-	 OnLeftClick1=UIButton_Input_HideObject("CreatureActive")
-	 OnLeftClick2=UIButton_Input_HideObject("PlaceableActive")>
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",2,0)>
         		<UIFrame state=base     fill="itemtab.tga"      fillstyle="center"/>
 			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
 			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
@@ -32,10 +28,41 @@
     </UIButton>
     <UIIcon name="PlaceableActive" img="activetabbottom.tga" x="71" y="30" width="24" height="4" hidden=TRUE />
     <UIButton name="PlaceableTab" x=71 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
-	 OnLeftClick0=UIButton_Input_ShowObject("PlaceableActive")
-	 OnLeftClick1=UIButton_Input_HideObject("CreatureActive")
-	 OnLeftClick2=UIButton_Input_HideObject("ItemActive")>
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",3,0)>
         		<UIFrame state=base     fill="placeabletab.tga" fillstyle="center"/>
+			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=focused  fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=hilited  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=hifocus  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=disabled fill="b_empty.tga"   fillstyle="center" />
+    </UIButton>
+    <UIIcon name="TrapActive" img="activetabbottom.tga" x="101" y="30" width="24" height="4" hidden=TRUE />
+    <UIButton name="TrapTab" x=101 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",4,0)>
+        		<UIFrame state=base     fill="traptab.tga" fillstyle="center"/>
+			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=focused  fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=hilited  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=hifocus  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=disabled fill="b_empty.tga"   fillstyle="center" />
+    </UIButton>
+    <UIIcon name="VfxActive" img="activetabbottom.tga" x="131" y="30" width="24" height="4" hidden=TRUE />
+    <UIButton name="VfxTab" x=131 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",5,0)>
+        		<UIFrame state=base     fill="vfxtab.tga" fillstyle="center"/>
+			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=focused  fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=hilited  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=hifocus  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=disabled fill="b_empty.tga"   fillstyle="center" />
+    </UIButton>
+    <UIIcon name="WaypointActive" img="activetabbottom.tga" x="161" y="30" width="24" height="4" hidden=TRUE />
+    <UIButton name="WaypointTab" x=161 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",6,0)>
+        		<UIFrame state=base     fill="waypointtab.tga" fillstyle="center"/>
 			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
 			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
 			<UIFrame state=focused  fill="b_empty.tga"   fillstyle="center" />

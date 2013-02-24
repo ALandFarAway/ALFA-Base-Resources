@@ -167,6 +167,8 @@ const int ACR_ASSEMBLY_LOADER_INITIALIZE = 0;
 
 const int ACR_CANDLEKEEP_INITIALIZE_ARCHIVES = 0;
 
+const int ACR_CHOOSERCREATOR_INITIALIZE = 0;
+
 //! Define to 1 to enable language handling debugging.
 #define DEBUG_LANG 1
 
@@ -1776,6 +1778,9 @@ void _LoadAssemblies()
 
 	AddScriptParameterInt(ACR_CANDLEKEEP_INITIALIZE_ARCHIVES);
 	ExecuteScriptEnhanced("ACR_Candlekeep", GetModule(), TRUE);
+
+	AddScriptParameterInt(ACR_CHOOSERCREATOR_INITIALIZE);
+	ExecuteScriptEnhanced("ACR_ChooserCreator", GetModule(), TRUE);
 }
 
 // This is needed to establish the server and gameobject structures that 

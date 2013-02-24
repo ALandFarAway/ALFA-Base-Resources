@@ -15,6 +15,8 @@ namespace ACR_ChooserCreator
             Navigators.ItemNavigator = new Navigator();
             Navigators.PlaceableNavigator = new Navigator();
 
+            ALFA.Shared.Modules.InfoStore.WaitForResourcesLoaded(true);
+
             foreach(ALFA.Shared.CreatureResource creature in ALFA.Shared.Modules.InfoStore.ModuleCreatures.Values)
             {
                 NavigatorCategory cat;

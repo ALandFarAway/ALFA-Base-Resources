@@ -64,9 +64,6 @@
     <Compile Include="Navigator.cs" />
     <Compile Include="NavigatorCategory.cs" />
     <Compile Include="NavigatorItem.cs" />
-    <Compile Include="NavigatorLoader.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="PlaceableList.cs" />
     <Compile Include="ItemList.cs" />
     <Compile Include="CreatureList.cs" />
