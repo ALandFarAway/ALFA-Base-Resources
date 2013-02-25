@@ -513,6 +513,7 @@ namespace ACR_ServerMisc
                     Arguments["s"] = this;
                     Arguments["OBJECT_SELF"] = PCObjectID;
                     Arguments["OBJECT_INVALID"] = OBJECT_INVALID;
+                    Arguments["OBJECT_TARGET"] = GetPlayerCurrentTarget(PCObjectID);
                     Arguments["sql"] = GetDatabase();
                     Arguments["CreatureAI"] = AIServer;
 
