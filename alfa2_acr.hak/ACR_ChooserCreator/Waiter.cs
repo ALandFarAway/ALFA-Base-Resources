@@ -11,7 +11,7 @@ namespace ACR_ChooserCreator
 {
     public static class Waiter
     {        
-        static void WaitForResources(CLRScriptBase script, IBackgroundLoadedResource resource)
+        public static void WaitForResources(CLRScriptBase script, IBackgroundLoadedResource resource)
         {
             if (resource.WaitForResourcesLoaded(false) == true)
             {
@@ -26,7 +26,7 @@ namespace ACR_ChooserCreator
             }
         }
 
-        static void DrawListBox(CLRScriptBase script, IDrawableList resource)
+        public static void DrawListBox(CLRScriptBase script, IDrawableList resource)
         {
             // TODO: Remove the last frame of the 'thinking' animation.
             Navigator nav = resource as Navigator;
