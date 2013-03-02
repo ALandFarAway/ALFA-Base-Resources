@@ -1773,6 +1773,12 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts()
 
 void _LoadAssemblies()
 {
+	// Note that the assembly loader must be loaded FIRST, before any other
+	// CLRScript assembly that might choose to reference ALFA.Shared.dll.
+	// Otherwise, a LoaderException for an unresolved reference to the shared
+	// assembly is logged to the NWScript Accelerator plugin log file, and the
+	// CLRScript assembly in question does not function properly.
+
 	AddScriptParameterInt(ACR_ASSEMBLY_LOADER_INITIALIZE);
 	ExecuteScriptEnhanced("ACR_AssemblyLoader", GetModule(), TRUE);
 

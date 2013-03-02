@@ -591,6 +591,9 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s2_turndead.ncs                    \
             $(OUTPUTDIR)\x0_s0_masscamo.ncs                    \
             $(OUTPUTDIR)\ga_faction_join.ncs                   \
+            $(OUTPUTDIR)\ga_give_partial_quest_xp.ncs          \
+            $(OUTPUTDIR)\ga_give_quest_xp.ncs                  \
+            $(OUTPUTDIR)\ga_give_xp.ncs                        \
             $(OUTPUTDIR)\gui_msgboard.ncs                      \
             $(OUTPUTDIR)\gui_startboard.ncs                    \
             $(OUTPUTDIR)\gui_bhvr_update.ncs                   \
