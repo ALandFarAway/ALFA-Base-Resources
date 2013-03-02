@@ -469,7 +469,7 @@ namespace ACR_Candlekeep
 
         static public string GetTlkEntry(uint num)
         {
-            if (num >= OEIShared.IO.TalkTable.TalkTable.nCustomMask)
+            if ((num & OEIShared.IO.TalkTable.TalkTable.nCustomMask) != 0)
                 return customTlk[num].String;
             else return OEIShared.IO.TalkTable.TalkTable.Instance[num].String;
         }
