@@ -32,6 +32,20 @@ namespace ACR_ChooserCreator
     public class User
     {
         public uint Id;
+        private int _searchNumber;
+        public int SearchNumber
+        {
+            get
+            {
+                return _searchNumber;
+            }
+            set
+            {
+                if (value > 12) _searchNumber = 1;
+                else if (value < 1) _searchNumber = 1;
+                else _searchNumber = value;
+            }
+        }
         public ACR_ChooserCreator.ACR_CreatorCommand openCommand;
         public NavigatorCategory CurrentCreatureCategory;
         public NavigatorCategory CurrentPlaceableCategory;

@@ -7,11 +7,11 @@ namespace ALFA.Shared
 {
     public class ItemResource
     {
-        public string LocalizedName;
-        public string Classification;
-        public string TemplateResRef;
-        public string Tag;
-        private int _cost;
+        public volatile string LocalizedName;
+        public volatile string Classification;
+        public volatile string TemplateResRef;
+        public volatile string Tag;
+        private volatile int _cost;
         public int Cost
         {
             get
@@ -47,12 +47,24 @@ namespace ALFA.Shared
             get;
             private set;
         }
-        public int BaseItem;
-        public bool Cursed;
-        public bool Plot;
-        public bool Stolen;
+        public volatile int BaseItem;
+        public volatile bool Cursed;
+        public volatile bool Plot;
+        public volatile bool Stolen;
 
         public ItemResource() { }
+
+        public int CompareTo(ItemResource other)
+        {
+            if (other == null) return 1;
+            if (other.LocalizedName == null) return 1;
+            if (String.IsNullOrEmpty(other.LocalizedName)) return 1;
+            if (this == null) return -1;
+            if (LocalizedName == null) return -1;
+            if (String.IsNullOrEmpty(LocalizedName)) return -1;
+
+            return LocalizedName.CompareTo(other.LocalizedName);
+        }
     }
 }
 

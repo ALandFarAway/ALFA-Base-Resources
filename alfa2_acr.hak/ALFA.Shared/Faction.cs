@@ -7,6 +7,6 @@ namespace ALFA.Shared
 {
     public class Faction
     {
-        public string Name;
+        public volatile string Name;
     }
 }

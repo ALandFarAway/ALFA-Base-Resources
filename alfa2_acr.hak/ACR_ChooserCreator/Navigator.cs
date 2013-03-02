@@ -8,13 +8,15 @@ namespace ACR_ChooserCreator
 {
     public static class Navigators
     {
-        public static Navigator CreatureNavigator = new Navigator();
-        public static Navigator ItemNavigator = new Navigator();
-        public static Navigator PlaceableNavigator = new Navigator();
+        public volatile static Navigator CreatureNavigator = new Navigator();
+        public volatile static Navigator ItemNavigator = new Navigator();
+        public volatile static Navigator PlaceableNavigator = new Navigator();
     }
 
     public class Navigator: ALFA.Shared.IBackgroundLoadedResource, IDisposable
     {
+        private volatile bool _resourcesLoaded = false;
+
         /// <summary>
         /// Wait for resources to become available.
         /// </summary>
@@ -25,6 +27,7 @@ namespace ACR_ChooserCreator
         /// false if they are not yet loaded.</returns>
         public bool WaitForResourcesLoaded(bool Wait)
         {
+            if (_resourcesLoaded) return true;
             return ResourcesLoadedEvent.WaitOne(Wait ? Timeout.Infinite : 0);
         }
 
@@ -83,6 +86,7 @@ namespace ACR_ChooserCreator
         internal void SetResourcesLoaded()
         {
             ResourcesLoadedEvent.Set();
+            _resourcesLoaded = true;
         }
 
         /// <summary>
