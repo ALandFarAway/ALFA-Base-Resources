@@ -25,11 +25,16 @@ namespace ACR_Candlekeep
             {
                 manager = new ALFA.ResourceManager(null);
                 manager.LoadCoreResources();
+                LoadModuleProperties();
 
-                customTlk = new OEIShared.IO.TalkTable.TalkTable();
-                customTlk.OpenCustom(OEIShared.Utils.BWLanguages.BWLanguage.English, "alfa_acr02.tlk");
                 dialog = new OEIShared.IO.TalkTable.TalkTable();
                 dialog.Open(OEIShared.Utils.BWLanguages.BWLanguage.English);
+                
+                if (!String.IsNullOrEmpty(customTlkFileName))
+                {
+                    customTlk = new OEIShared.IO.TalkTable.TalkTable();
+                    customTlk.OpenCustom(OEIShared.Utils.BWLanguages.BWLanguage.English, customTlkFileName);
+                }
 
                 ALFA.Shared.Modules.InfoStore.ModuleItems = new Dictionary<string, ALFA.Shared.ItemResource>();
                 ALFA.Shared.Modules.InfoStore.ModuleCreatures = new Dictionary<string, ALFA.Shared.CreatureResource>();
@@ -472,7 +477,7 @@ namespace ACR_Candlekeep
 
         static public string GetTlkEntry(uint num)
         {
-            if (num >= OEIShared.IO.TalkTable.TalkTable.nCustomMask)
+            if (((num & OEIShared.IO.TalkTable.TalkTable.nCustomMask) != 0) && (customTlk != null))
                 return customTlk[num].String;
             else return dialog[num].String;
         }
@@ -489,5 +494,30 @@ namespace ACR_Candlekeep
             }
             return "";
         }
+
+        /// <summary>
+        /// Load various data from the module.ifo file.
+        /// </summary>
+        static private void LoadModuleProperties()
+        {
+            GFFFile moduleIfo = manager.OpenModuleIfo();
+
+            customTlkFileName = moduleIfo.TopLevelStruct.GetExoStringSafe("Mod_CustomTlk").Value;
+
+            if (!String.IsNullOrEmpty(customTlkFileName))
+            {
+                int offset = customTlkFileName.IndexOf('.');
+
+                if (offset != -1)
+                    customTlkFileName = customTlkFileName.Substring(0, offset);
+
+                customTlkFileName += ".tlk";
+            }
+        }
+
+        /// <summary>
+        /// The custom talk table file name, if any.
+        /// </summary>
+        static private string customTlkFileName = null;
     }
 }
