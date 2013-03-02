@@ -24,7 +24,6 @@ namespace ACR_Candlekeep
             try
             {
                 manager = new ALFA.ResourceManager(null);
-                manager.LoadCoreResources();
                 LoadModuleProperties();
 
                 dialog = new OEIShared.IO.TalkTable.TalkTable();
