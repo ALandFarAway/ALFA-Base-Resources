@@ -78,7 +78,7 @@
     </UIButton>
     <UIIcon name="LightActive" img="activetabbottom.tga" x="191" y="30" width="24" height="4" hidden=TRUE />
     <UIButton name="LightTab" x=191 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
-	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",6,0)
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",7,0)
          OnToolTip='UIObject_Tooltip_DisplayTooltipString("Lights","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
         		<UIFrame state=base     fill="lighttab.tga" fillstyle="center"/>
 			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
@@ -92,6 +92,8 @@
     <!-- Close Button -->
     <UIButton name="CloseButton" x=287 y=0 style="STYLE_CLOSE_BUTTON" OnLeftClick=UIButton_Input_ScreenClose() />
 
+    <!-- Search Graphic -->
+    <!-- <UIButton name="SearchGraphic" img="searching1.tga" x="7" y="136" width="300" height="400" /> -->
 
     <!-- List Box -->
     <UIListBox name="LISTBOX_ACR_CREATOR" x="10" y="136" width="297" height="400" xPadding="0" yPadding="5" showpartialchild="true"
