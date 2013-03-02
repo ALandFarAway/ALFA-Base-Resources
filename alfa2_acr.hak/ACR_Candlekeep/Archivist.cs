@@ -16,6 +16,7 @@ namespace ACR_Candlekeep
     {
         public static ALFA.ResourceManager manager;
         static public OEIShared.IO.TalkTable.TalkTable customTlk;
+        static public OEIShared.IO.TalkTable.TalkTable dialog;
 
         public void InitializeArchives(object Sender, EventArgs e)
         {
@@ -27,6 +28,8 @@ namespace ACR_Candlekeep
 
                 customTlk = new OEIShared.IO.TalkTable.TalkTable();
                 customTlk.OpenCustom(OEIShared.Utils.BWLanguages.BWLanguage.English, "alfa_acr02.tlk");
+                dialog = new OEIShared.IO.TalkTable.TalkTable();
+                dialog.Open(OEIShared.Utils.BWLanguages.BWLanguage.English);
 
                 ALFA.Shared.Modules.InfoStore.ModuleItems = new Dictionary<string, ALFA.Shared.ItemResource>();
                 ALFA.Shared.Modules.InfoStore.ModuleCreatures = new Dictionary<string, ALFA.Shared.CreatureResource>();
@@ -471,7 +474,7 @@ namespace ACR_Candlekeep
         {
             if (num >= OEIShared.IO.TalkTable.TalkTable.nCustomMask)
                 return customTlk[num].String;
-            else return OEIShared.IO.TalkTable.TalkTable.Instance[num].String;
+            else return dialog[num].String;
         }
 
         static public string GffStoreToTlk(string num)
