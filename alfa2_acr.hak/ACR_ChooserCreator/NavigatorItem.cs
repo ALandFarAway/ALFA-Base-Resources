@@ -5,12 +5,22 @@ using System.Text;
 
 namespace ACR_ChooserCreator
 {
-    public class NavigatorItem
+    public class NavigatorItem : IComparable<NavigatorItem>
     {
-        public string Name;
-        public string Info1;
-        public string Info2;
-        public string Icon;
-        public string ResRef;
+        public volatile string DisplayName;
+        public volatile string Name;
+        public volatile string Info1;
+        public volatile string Info2;
+        public volatile string Icon;
+        public volatile string ResRef;
+
+        public int CompareTo(NavigatorItem other)
+        {
+            if (other == null) return 1;
+            if (other.Name == null) return 1;
+            if (String.IsNullOrEmpty(other.Name)) return 1;
+
+            return Name.CompareTo(other.Name);
+        }
     }
 }
