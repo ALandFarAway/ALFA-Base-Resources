@@ -10,6 +10,7 @@ namespace ACR_Candlekeep
 {
     public class Archives : ALFA.Shared.IInformationStore, ALFA.Shared.IBackgroundLoadedResource, IDisposable
     {
+        private volatile bool _resourcesLoaded = false;
         /// <summary>
         /// Wait for resources to become available.
         /// </summary>
@@ -20,6 +21,7 @@ namespace ACR_Candlekeep
         /// false if they are not yet loaded.</returns>
         public bool WaitForResourcesLoaded(bool Wait)
         {
+            if (_resourcesLoaded) return true;
             return ResourcesLoadedEvent.WaitOne(Wait ? Timeout.Infinite : 0);
         }
 
@@ -81,6 +83,7 @@ namespace ACR_Candlekeep
         internal void SetResourcesLoaded()
         {
             ResourcesLoadedEvent.Set();
+            _resourcesLoaded = true;
         }
 
         /// <summary>
