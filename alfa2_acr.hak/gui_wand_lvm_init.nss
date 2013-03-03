@@ -3,6 +3,11 @@
 void main () {
 	object oSubject = OBJECT_SELF;
 
+	if (!IsDm(oSubject)) {
+		DisplayMessageBox(oSubject, -1, WAND_NO_SPAM);
+        return;
+    }
+
 	InitAreaList(oSubject);
 
 	//Misc
@@ -49,5 +54,5 @@ void main () {
 	SetLocalGUIVariable(oSubject, WAND_GUI_LV_MANAGER, 1010, WAND_UI_LV_TT_CLICK);
 	SetLocalGUIVariable(oSubject, WAND_GUI_LV_MANAGER, 1011, WAND_UI_LV_TT_OBJ_NAME);
 	
-
 }
+

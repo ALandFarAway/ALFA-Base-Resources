@@ -536,7 +536,7 @@ void main(int nAction, int nTargetObject)
         }
     }
 
-    if(!GetIsDM(oPC))
+    if(!GetIsDM(oPC) && !GetIsDMPossessed(oPC))
     {
         SendMessageToPC(OBJECT_SELF, "You are not a DM, and may not do this.");
         return;

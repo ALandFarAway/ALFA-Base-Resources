@@ -312,7 +312,8 @@ void main(int N1, int N2, string sVar, string sVar2)
 					break;
 				// Delete thread
 				case 2:
-					RemovePost(oPC, oBoard, iDBID);
+					if (GetIsDM(oPC) || GetIsDMPossessed(oPC))
+						RemovePost(oPC, oBoard, iDBID);
 					break;
 			}
 			break;

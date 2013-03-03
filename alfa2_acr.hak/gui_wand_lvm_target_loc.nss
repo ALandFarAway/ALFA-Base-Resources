@@ -6,6 +6,10 @@ void main (int iTarget, float fX, float fY, float fZ) {
 	vector vPosition;
 	float fFacing;
 	object oArea, oTarget = IntToObject(iTarget);
+	
+	if (!IsDm(oSubject))
+		return;
+	
 
 	if (GetIsObjectValid(oTarget)) {
 		vPosition = GetPosition(oTarget);
