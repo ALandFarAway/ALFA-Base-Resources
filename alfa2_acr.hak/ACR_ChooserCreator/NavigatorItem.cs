@@ -13,6 +13,7 @@ namespace ACR_ChooserCreator
         public volatile string Info2;
         public volatile string Icon;
         public volatile string ResRef;
+        public volatile string Vars;
 
         public int CompareTo(NavigatorItem other)
         {

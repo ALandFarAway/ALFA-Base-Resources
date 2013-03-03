@@ -61,7 +61,7 @@ namespace ACR_ChooserCreator
                 foreach (NavigatorItem navItem in nav.ContainedItems)
                 {
                     string textFields = String.Format("LISTBOX_ITEM_TEXT=  {0};LISTBOX_ITEM_TEXT2= {1};LISTBOX_ITEM_TEXT3= {2}", navItem.DisplayName, navItem.Info1, navItem.Info2);
-                    string variables = String.Format("5={0}", navItem.ResRef);
+                    string variables = navItem.Vars;
                     script.AddListBoxRow(script.OBJECT_SELF, "SCREEN_ACR_CREATOR", "LISTBOX_ACR_CREATOR", navItem.Name, textFields, "LISTBOX_ITEM_ICON="+navItem.Icon, variables, "unhide");
                 }
             }

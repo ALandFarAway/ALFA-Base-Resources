@@ -101,6 +101,12 @@
             <UIPane name="ACR_CREATOR_ITEM" width=300 height=20 tupple=true prototype=true draggable=false
              OnLeftDoubleClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
              OnLeftDoubleClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",21,local:6)
+             OnLeftDoubleClick2=UIObject_Misc_ExtractData("self:","string",7,local:7)
+             OnLeftDoubleClick3=UIObject_Misc_ExtractData("self:","string",8,local:8)
+             OnLeftDoubleClick4=UIObject_Misc_ExtractData("self:","string",9,local:9)
+             OnLeftDoubleClick5=UIObject_Misc_ExtractData("self:","string",10,local:10)
+             OnLeftDoubleClick6=UIObject_Misc_ExtractData("self:","string",11,local:11)
+             OnLeftDoubleClick7=UIObject_Input_ActionTargetScript(local:7,local:8,local:9,local:10,"false","gui_creatorspawn","target:object","target:x","target:y","target:z",local:6,local:10,local:11)
              OnLeftClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
              OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",20,local:6)> 
 

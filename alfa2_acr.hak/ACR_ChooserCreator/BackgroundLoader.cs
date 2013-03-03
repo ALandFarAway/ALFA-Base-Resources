@@ -52,6 +52,7 @@ namespace ACR_ChooserCreator
                         try { addedItem.Info1 = ALFA.Shared.Modules.InfoStore.ModuleFactions[creature.FactionID].Name; }
                         catch { loaderError += "\nFaction error: " + creature.FactionID.ToString(); }
                         addedItem.Info2 = String.Format("{0:N1}", creature.ChallengeRating);
+                        addedItem.Vars = String.Format("5={0};7=ground;8=25;9=27;10=6;11={1}", addedItem.ResRef, CLRScriptFramework.CLRScriptBase.OBJECT_TYPE_CREATURE);
                         cat.ContainedItems.Add(addedItem);
                     }
                     catch (Exception ex)
@@ -107,6 +108,7 @@ namespace ACR_ChooserCreator
                         addedItem.ResRef = item.TemplateResRef;
                         addedItem.Info1 = item.Cost.ToString();
                         addedItem.Info2 = item.AppropriateLevel.ToString();
+                        addedItem.Vars = String.Format("5={0};7=self,creature,ground,placeable;8=25;9=27;10=6;11={1}", addedItem.ResRef, CLRScriptFramework.CLRScriptBase.OBJECT_TYPE_ITEM);
                         cat.ContainedItems.Add(addedItem);
                     }
                     catch (Exception ex)
@@ -168,6 +170,7 @@ namespace ACR_ChooserCreator
                         addedItem.ResRef = placeable.TemplateResRef;
                         addedItem.Info1 = lockTrap;
                         addedItem.Info2 = inventory;
+                        addedItem.Vars = String.Format("5={0};7=ground;8=25;9=27;10=6;11={1}", addedItem.ResRef, CLRScriptFramework.CLRScriptBase.OBJECT_TYPE_PLACEABLE);
                         cat.ContainedItems.Add(addedItem);
                     }
                     catch (Exception ex)
