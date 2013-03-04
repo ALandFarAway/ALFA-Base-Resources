@@ -209,25 +209,25 @@ namespace ACR_ChooserCreator
                         SendMessageToPC(OBJECT_SELF, "Preparing to spawn " + commandParam);
 
                         // The name of the script to execute on targeting.
-                        SetGlobalGUIVariable(OBJECT_SELF, 199, "gui_creatorspawn");
+                        SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_TARGET_SCRIPT_NAME, "gui_creatorspawn");
 
                         // The first string parameter being used.
-                        SetGlobalGUIVariable(OBJECT_SELF, 200, commandParam);
+                        SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_TARGET_SCRIPT_NAME_PARAM, commandParam);
 
                         if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_CREATURE_TAB)
                         {
-                            SetGlobalGUIVariable(OBJECT_SELF, 198, "ground");
-                            SetGlobalGUIVariable(OBJECT_SELF, 201, CLRScriptBase.OBJECT_TYPE_CREATURE.ToString());
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_VALID_TARGET_LIST, "ground");
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_CREATE_OBJECT_TYPE, CLRScriptBase.OBJECT_TYPE_CREATURE.ToString());
                         }
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB)
                         {
-                            SetGlobalGUIVariable(OBJECT_SELF, 198, "self,creature,ground,placeable");
-                            SetGlobalGUIVariable(OBJECT_SELF, 201, CLRScriptBase.OBJECT_TYPE_ITEM.ToString());
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_VALID_TARGET_LIST, "self,creature,ground,placeable");
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_CREATE_OBJECT_TYPE, CLRScriptBase.OBJECT_TYPE_ITEM.ToString());
                         }
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_PLACEABLE_TAB)
                         {
-                            SetGlobalGUIVariable(OBJECT_SELF, 198, "ground");
-                            SetGlobalGUIVariable(OBJECT_SELF, 201, CLRScriptBase.OBJECT_TYPE_PLACEABLE.ToString());
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_VALID_TARGET_LIST, "ground");
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_CREATE_OBJECT_TYPE, CLRScriptBase.OBJECT_TYPE_PLACEABLE.ToString());
                         }
                         
                         DisplayGuiScreen(OBJECT_SELF, "TARGET_SINGLE", 0, "target_single.xml", 0);

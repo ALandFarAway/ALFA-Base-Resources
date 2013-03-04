@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="CreatureResource.cs" />
     <Compile Include="Faction.cs" />
+    <Compile Include="GuiGlobals.cs" />
     <Compile Include="IInformationStore.cs" />
     <Compile Include="IBackgroundLoadedResource.cs" />
     <Compile Include="ItemResource.cs" />

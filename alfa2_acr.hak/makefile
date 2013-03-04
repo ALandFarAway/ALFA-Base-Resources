@@ -129,7 +129,8 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\x2_inc_itemprop.nss                   \
             $(OUTPUTDIR)\acr_travelmap_i.nss                   \
             $(OUTPUTDIR)\x0_i0_spells.nss                      \
-            $(OUTPUTDIR)\gui_bhvr_inc.nss                      
+            $(OUTPUTDIR)\gui_bhvr_inc.nss                      \
+            $(OUTPUTDIR)\acr_guiglobal_i.nss                   
 
 NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\1sc_plc_ontrapdisarm.ncs              \
