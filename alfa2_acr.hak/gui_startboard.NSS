@@ -8,7 +8,7 @@ void main()
 	
     DisplayGuiScreen(oPC,SCREEN_MSGBOARD, FALSE, MSGBOARD_XML);
 							
-	if (!GetIsDM(oPC))
+	if (!GetIsDM(oPC) && !GetIsDMPossessed(oPC))
 		SetGUIObjectDisabled(oPC,SCREEN_MSGBOARD,"MSGB_DELTOPIC",TRUE);
 	else
 		SetGUIObjectDisabled(oPC,SCREEN_MSGBOARD,"MSGB_DELTOPIC",FALSE);	

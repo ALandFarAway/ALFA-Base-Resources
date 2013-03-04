@@ -17,6 +17,12 @@
 
 void main( object TargetObject, float posX, float posY, float posZ, string ResRef, int TargetRegion, int ObjectType) 
 {
+	if (!GetIsDM(OBJECT_SELF) && !GetIsDMPossessed(OBJECT_SELF))
+	{
+		SendMessageToPC(OBJECT_SELF, "This functionality is only available to DMs.");
+		return;
+	}
+
 	if(GetIsObjectValid(TargetObject) &&
 	   GetHasInventory(TargetObject) &&
 	   ObjectType == OBJECT_TYPE_ITEM)
