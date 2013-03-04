@@ -180,7 +180,7 @@ namespace ACR_ChooserCreator
                         // the bottom category in the creature navigator.
                         NavigatorCategory currentCat = Navigators.CreatureNavigator.bottomCategory;
                         NavigatorCategory targetCat = Navigators.CreatureNavigator.bottomCategory;
-                        
+
                         // then, we need to know where we are right now.
                         if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_CREATURE_TAB) currentCat = currentUser.CurrentCreatureCategory;
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB) currentCat = currentUser.CurrentItemCategory;
@@ -203,6 +203,34 @@ namespace ACR_ChooserCreator
 
                         // and finally we can draw the new navigator category.
                         Waiter.DrawNavigatorCategory(this, targetCat);
+                    }
+                    else
+                    {
+                        SendMessageToPC(OBJECT_SELF, "Preparing to spawn " + commandParam);
+
+                        // The name of the script to execute on targeting.
+                        SetGlobalGUIVariable(OBJECT_SELF, 199, "gui_creatorspawn");
+
+                        // The first string parameter being used.
+                        SetGlobalGUIVariable(OBJECT_SELF, 200, commandParam);
+
+                        if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_CREATURE_TAB)
+                        {
+                            SetGlobalGUIVariable(OBJECT_SELF, 198, "ground");
+                            SetGlobalGUIVariable(OBJECT_SELF, 201, CLRScriptBase.OBJECT_TYPE_CREATURE.ToString());
+                        }
+                        else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB)
+                        {
+                            SetGlobalGUIVariable(OBJECT_SELF, 198, "self,creature,ground,placeable");
+                            SetGlobalGUIVariable(OBJECT_SELF, 201, CLRScriptBase.OBJECT_TYPE_ITEM.ToString());
+                        }
+                        else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_PLACEABLE_TAB)
+                        {
+                            SetGlobalGUIVariable(OBJECT_SELF, 198, "ground");
+                            SetGlobalGUIVariable(OBJECT_SELF, 201, CLRScriptBase.OBJECT_TYPE_PLACEABLE.ToString());
+                        }
+                        
+                        DisplayGuiScreen(OBJECT_SELF, "TARGET_SINGLE", 0, "target_single.xml", 0);
                     }
                     // TODO: make note of the selected row and provide a suitable
                     // interface to direct the action.
