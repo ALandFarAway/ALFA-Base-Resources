@@ -12,7 +12,7 @@
 //  Description
 //  This file contains global variable GUI constants, which must be coordinated
 //  across all consumers of the GUI global variable system.  These constants
-//  should be kept in sync with ALFA.Shared.GUIGlobals.
+//  should be kept in sync with ALFA.Shared.GuiGlobals.
 //
 //  Revision History
 //  2013/03/03  Basilica    - Created.
