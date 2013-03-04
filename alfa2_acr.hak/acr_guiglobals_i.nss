@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
 //  System Name : ALFA Core Rules
-//     Filename : acr_srvadmin_i
+//     Filename : acr_guiglobals_i
 //    $Revision:: 1          $ current version of the file
 //        $Date:: 2013-03-03#$ date the file was created or modified
 //       Author : Basilica
