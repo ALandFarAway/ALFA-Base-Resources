@@ -77,32 +77,7 @@ namespace ACR_Candlekeep
                             if (attemptingName != "") addingItem.LocalizedName = attemptingName;
                         }
 
-                        addingItem.Classification = currentGFF.TopLevelStruct["Classification"].Value.ToString();
-                        string[] attemptingClasses = addingItem.Classification.Split('|');
-                        if (attemptingClasses.Length > 1)
-                        {
-                            string builtClass = "";
-                            foreach (string attClass in attemptingClasses)
-                            {
-                                if (attClass.Contains('{') && attClass.Contains('}'))
-                                {
-                                    string madeClass = GffStoreToTlk(attClass);
-                                    if (madeClass != "")
-                                    {
-                                        if (builtClass != "") builtClass += "|" + madeClass;
-                                        else builtClass = madeClass;
-                                    }
-                                }
-                                else
-                                {
-                                    if (builtClass != "") builtClass += "|" + attClass;
-                                    else builtClass = attClass;
-                                }
-                            }
-                            builtClass.TrimStart('|');
-                            addingItem.Classification = builtClass;
-                        }
-
+                        addingItem.Classification = ParseClassification(currentGFF.TopLevelStruct["Classification"].Value.ToString());
 
                         addingItem.TemplateResRef = currentResRef;
                         addingItem.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
@@ -169,31 +144,7 @@ namespace ACR_Candlekeep
                             addingCreature.LastName = GetTlkEntry(currentGFF.TopLevelStruct["LastName"].ValueCExoLocString.StringRef);
                         }
 
-                        addingCreature.Classification = currentGFF.TopLevelStruct["Classification"].Value.ToString();
-                        string[] attemptingClasses = addingCreature.Classification.Split('|');
-                        if (attemptingClasses.Length > 1)
-                        {
-                            string builtClass = "";
-                            foreach (string attClass in attemptingClasses)
-                            {
-                                if (attClass.Contains('{') && attClass.Contains('}'))
-                                {
-                                    string madeClass = GffStoreToTlk(attClass);
-                                    if (madeClass != "")
-                                    {
-                                        if (builtClass != "") builtClass += "|" + madeClass;
-                                        else builtClass = madeClass;
-                                    }
-                                }
-                                else
-                                {
-                                    if (builtClass != "") builtClass += "|" + attClass;
-                                    else builtClass = attClass;
-                                }
-                            }
-                            builtClass.TrimStart('|');
-                            addingCreature.Classification = builtClass;
-                        }
+                        addingCreature.Classification = ParseClassification(currentGFF.TopLevelStruct["Classification"].Value.ToString());
 
                         addingCreature.TemplateResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
                         addingCreature.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
@@ -269,31 +220,8 @@ namespace ACR_Candlekeep
                         addingPlaceable.Name = GetTlkEntry(currentGFF.TopLevelStruct["LocalizedName"].ValueCExoLocString.StringRef);
                     }
 
-                    addingPlaceable.Classification = currentGFF.TopLevelStruct["Classification"].Value.ToString();
-                    string[] attemptingClasses = addingPlaceable.Classification.Split('|');
-                    if (attemptingClasses.Length > 1)
-                    {
-                        string builtClass = "";
-                        foreach (string attClass in attemptingClasses)
-                        {
-                            if (attClass.Contains('{') && attClass.Contains('}'))
-                            {
-                                string madeClass = GffStoreToTlk(attClass);
-                                if (madeClass != "")
-                                {
-                                    if (builtClass != "") builtClass += "|" + madeClass;
-                                    else builtClass = madeClass;
-                                }
-                            }
-                            else
-                            {
-                                if (builtClass != "") builtClass += "|" + attClass;
-                                else builtClass = attClass;
-                            }
-                        }
-                        builtClass.TrimStart('|');
-                        addingPlaceable.Classification = builtClass;
-                    }
+                    addingPlaceable.Classification = ParseClassification(currentGFF.TopLevelStruct["Classification"].Value.ToString());
+
 
                     addingPlaceable.TemplateResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
                     addingPlaceable.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
@@ -472,6 +400,47 @@ namespace ACR_Candlekeep
             catch { }
 
             ACR_Candlekeep.ArchivesInstance.SetResourcesLoaded();
+        }
+
+        private static string ParseClassification(string classification)
+        {
+            string[] attemptingClasses = classification.Split('|');
+            if (attemptingClasses.Length > 1)
+            {
+                string builtClass = "";
+                foreach (string attClass in attemptingClasses)
+                {
+                    if (attClass.Contains('{') && attClass.Contains('}'))
+                    {
+                        string madeClass = GffStoreToTlk(attClass);
+                        if (madeClass != "")
+                        {
+                            if (builtClass != "") builtClass += "|" + madeClass;
+                            else builtClass = madeClass;
+                        }
+                    }
+                    else
+                    {
+                        if (builtClass != "") builtClass += "|" + attClass;
+                        else builtClass = attClass;
+                    }
+                }
+                builtClass.TrimStart('|');
+                return builtClass;
+            }
+            else
+            {
+                if (classification.Contains('{') && classification.Contains('}'))
+                {
+                    string madeClass = GffStoreToTlk(classification);
+                    if (madeClass != "")
+                    {
+                        return madeClass;
+                    }
+                    return classification;
+                }
+            }
+            return classification;
         }
 
         static public string GetTlkEntry(uint num)
