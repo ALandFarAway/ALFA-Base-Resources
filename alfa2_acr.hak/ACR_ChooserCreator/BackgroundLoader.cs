@@ -252,7 +252,6 @@ namespace ACR_ChooserCreator
                 {
                     DefaultSortNavigators(containedCat);
                 }
-                loaderError += "\nSorting... " + cat.Name;
                 cat.ContainedCategories.Sort();
                 cat.ContainedItems.Sort();
             }

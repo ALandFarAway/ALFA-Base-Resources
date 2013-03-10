@@ -57,10 +57,6 @@ namespace ACR_ChooserCreator
                     if (debug)
                     {
                         SendMessageToPC(OBJECT_SELF, BackgroundLoader.loaderError);
-                        foreach (int fac in ALFA.Shared.Modules.InfoStore.ModuleFactions.Keys)
-                        {
-                            SendMessageToPC(OBJECT_SELF, "Faction :" + fac.ToString() + " = " + ALFA.Shared.Modules.InfoStore.ModuleFactions[fac].Name);
-                        }
                     }
 
                     command = Users.GetUser(OBJECT_SELF).openCommand;

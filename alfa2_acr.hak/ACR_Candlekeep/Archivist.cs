@@ -40,6 +40,8 @@ namespace ACR_Candlekeep
                 ALFA.Shared.Modules.InfoStore.ModulePlaceables = new Dictionary<string, ALFA.Shared.PlaceableResource>();
                 ALFA.Shared.Modules.InfoStore.ModuleFactions = new Dictionary<int, ALFA.Shared.Faction>();
 
+                List<int> factionIndex = new List<int>();
+
                 #region Caching Information about All Items
                 foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTI))
                 {
@@ -164,6 +166,7 @@ namespace ACR_Candlekeep
                         if (Int32.TryParse(currentGFF.TopLevelStruct["FactionID"].Value.ToString(), out faction))
                         {
                             addingCreature.FactionID = faction;
+                            if (!factionIndex.Contains(faction)) factionIndex.Add(faction);
                         }
 
                         int LawChaos;
@@ -197,73 +200,82 @@ namespace ACR_Candlekeep
                 #region Caching Information about All Placeables
                 foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTP))
                 {
-                    GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
-
-                    string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
-                    if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(currentResRef))
-                    {
-                        continue;
-                    }
-
-                    ALFA.Shared.PlaceableResource addingPlaceable = new ALFA.Shared.PlaceableResource();
-
                     try
                     {
-                        addingPlaceable.Name = currentGFF.TopLevelStruct["LocName"].Value.ToString().Split('"')[1];
-                    }
-                    catch
-                    {
-                        addingPlaceable.Name = currentGFF.TopLevelStruct["LocName"].Value.ToString();
-                    }
-                    if (addingPlaceable.Name == "")
-                    {
-                        addingPlaceable.Name = GetTlkEntry(currentGFF.TopLevelStruct["LocalizedName"].ValueCExoLocString.StringRef);
-                    }
+                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
 
-                    addingPlaceable.Classification = ParseClassification(currentGFF.TopLevelStruct["Classification"].Value.ToString());
+                        string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
+                        if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(currentResRef))
+                        {
+                            continue;
+                        }
+
+                        ALFA.Shared.PlaceableResource addingPlaceable = new ALFA.Shared.PlaceableResource();
+
+                        try
+                        {
+                            addingPlaceable.Name = currentGFF.TopLevelStruct["LocName"].Value.ToString().Split('"')[1];
+                        }
+                        catch
+                        {
+                            addingPlaceable.Name = currentGFF.TopLevelStruct["LocName"].Value.ToString();
+                        }
+                        if (addingPlaceable.Name == "")
+                        {
+                            addingPlaceable.Name = GetTlkEntry(currentGFF.TopLevelStruct["LocalizedName"].ValueCExoLocString.StringRef);
+                        }
+
+                        addingPlaceable.Classification = ParseClassification(currentGFF.TopLevelStruct["Classification"].Value.ToString());
 
 
-                    addingPlaceable.TemplateResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
-                    addingPlaceable.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
-                    addingPlaceable.Useable = currentGFF.TopLevelStruct["Useable"].Value.ToString() != "0";
-                    addingPlaceable.HasInventory = currentGFF.TopLevelStruct["HasInventory"].Value.ToString() != "0";
-                    addingPlaceable.Trapped = currentGFF.TopLevelStruct["Useable"].Value.ToString() != "0";
-                    addingPlaceable.Locked = currentGFF.TopLevelStruct["Locked"].Value.ToString() != "0";
+                        addingPlaceable.TemplateResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
+                        addingPlaceable.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
+                        addingPlaceable.Useable = currentGFF.TopLevelStruct["Useable"].Value.ToString() != "0";
+                        addingPlaceable.HasInventory = currentGFF.TopLevelStruct["HasInventory"].Value.ToString() != "0";
+                        addingPlaceable.Trapped = currentGFF.TopLevelStruct["Useable"].Value.ToString() != "0";
+                        addingPlaceable.Locked = currentGFF.TopLevelStruct["Locked"].Value.ToString() != "0";
 
-                    int trapDisarmDC = 0, trapDetectDC = 0, unlockDC = 0;
-                    if (Int32.TryParse(currentGFF.TopLevelStruct["TrapDetectDC"].Value.ToString(), out trapDetectDC))
-                    {
-                        addingPlaceable.TrapDetectDC = trapDetectDC;
+                        int trapDisarmDC = 0, trapDetectDC = 0, unlockDC = 0;
+                        if (Int32.TryParse(currentGFF.TopLevelStruct["TrapDetectDC"].Value.ToString(), out trapDetectDC))
+                        {
+                            addingPlaceable.TrapDetectDC = trapDetectDC;
+                        }
+                        if (Int32.TryParse(currentGFF.TopLevelStruct["DisarmDC"].Value.ToString(), out trapDetectDC))
+                        {
+                            addingPlaceable.TrapDisarmDC = trapDisarmDC;
+                        }
+                        if (Int32.TryParse(currentGFF.TopLevelStruct["OpenLockDC"].Value.ToString(), out trapDetectDC))
+                        {
+                            addingPlaceable.LockDC = unlockDC;
+                        }
+
+                        ALFA.Shared.Modules.InfoStore.ModulePlaceables.Add(addingPlaceable.TemplateResRef, addingPlaceable);
                     }
-                    if (Int32.TryParse(currentGFF.TopLevelStruct["DisarmDC"].Value.ToString(), out trapDetectDC))
-                    {
-                        addingPlaceable.TrapDisarmDC = trapDisarmDC;
-                    }
-                    if (Int32.TryParse(currentGFF.TopLevelStruct["OpenLockDC"].Value.ToString(), out trapDetectDC))
-                    {
-                        addingPlaceable.LockDC = unlockDC;
-                    }
-
-                    ALFA.Shared.Modules.InfoStore.ModulePlaceables.Add(addingPlaceable.TemplateResRef, addingPlaceable);
+                    catch { }
                 }
                 #endregion
 
                 #region Caching Information about Factions
+                factionIndex.Sort();
                 foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResFAC))
                 {
-                    GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
-
-                    int factionIndex = 1;
-                    foreach (GFFStruct field in currentGFF.TopLevelStruct["FactionList"].ValueList.StructList)
+                    try
                     {
-                        ALFA.Shared.Faction addingFaction = new ALFA.Shared.Faction();
-                        addingFaction.Name = field.GetFieldSafe("FactionName").Value.ToString();
-                        ALFA.Shared.Modules.InfoStore.ModuleFactions.Add(factionIndex, addingFaction);
-                        factionIndex++;
-                    }
+                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
 
-                    // If there are multiple .FAC resources, we only care about the one that gets priority.
-                    if(ALFA.Shared.Modules.InfoStore.ModuleFactions.Count > 0) break;
+                        int count = 0;
+                        foreach (GFFStruct field in currentGFF.TopLevelStruct["FactionList"].ValueList.StructList)
+                        {
+                            ALFA.Shared.Faction addingFaction = new ALFA.Shared.Faction();
+                            addingFaction.Name = field.GetFieldSafe("FactionName").Value.ToString();
+                            ALFA.Shared.Modules.InfoStore.ModuleFactions.Add(factionIndex[count], addingFaction);
+                            count++;
+                        }
+
+                        // If there are multiple .FAC resources, we only care about the one that gets priority.
+                        if (ALFA.Shared.Modules.InfoStore.ModuleFactions.Count > 0) break;
+                    }
+                    catch { }
                 }
                 #endregion
 
