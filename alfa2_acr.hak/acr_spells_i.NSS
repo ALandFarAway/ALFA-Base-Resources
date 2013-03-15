@@ -213,9 +213,14 @@ float ACR_GetSpellDuration( object oCaster, int nDurationType, float nDurationBa
 		nDuration = nDuration * ACR_GetCorrectCasterLevel( oCaster );
 	}
 	
-	// Check for spell extension metamagics.
-	if ( GetMetaMagicFeat() == METAMAGIC_EXTEND ) {
+	// Check for extended metamagic.
+	if ( GetMetaMagicFeat() & METAMAGIC_EXTEND ) {
 		nDuration = nDuration * 2;
+	}
+	
+	// Check for persistent metamagic.
+	if ( GetMetaMagicFeat() & METAMAGIC_PERSISTENT ) {
+		nDuration = ACR_DURATION_24H;
 	}
 	
 	// Apply global duration scaling.
