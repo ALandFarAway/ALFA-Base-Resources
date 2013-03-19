@@ -233,7 +233,7 @@ void _SwimHeartBeat(object oPC)
 
     object oArmor = GetItemInSlot(INVENTORY_SLOT_CHEST, oPC);
 
-    if(10 + nBonus <= nSwimDC)
+    if(10 + nBonus >= nSwimDC)
     {
         // swimming is easy for this PC in this water. Take 10.
         nDice = 10;
@@ -242,7 +242,7 @@ void _SwimHeartBeat(object oPC)
 	
     if(GetSubRace(oPC) != RACIAL_SUBTYPE_WATER_GENASI)
     {
-        if(nDice < nSinkDC)
+        if(nFinal < nSinkDC)
         {
             ApplyEffectToObject(DURATION_TYPE_PERMANENT, ExtraordinaryEffect(EffectMovementSpeedDecrease(75)), oPC);
             string sMessage = _FormatCheck("Swim", nDice, nBonus, GetName(oPC), nSinkDC);
@@ -252,7 +252,7 @@ void _SwimHeartBeat(object oPC)
             SendMessageToPC(oPC, sMessage);
 			
         }
-        else if(nDice < nSwimDC)
+        else if(nFinal < nSwimDC)
         {
             ApplyEffectToObject(DURATION_TYPE_PERMANENT, ExtraordinaryEffect(EffectMovementSpeedDecrease(75)), oPC);
             string sMessage = _FormatCheck("Swim", nDice, nBonus, GetName(oPC), nSwimDC);
