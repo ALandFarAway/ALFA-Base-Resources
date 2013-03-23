@@ -623,6 +623,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_choosercreator.ncs                \
             $(OUTPUTDIR)\gui_creatorspawn.ncs                  \
             $(OUTPUTDIR)\acr_quest_collection.ncs              \
+            $(OUTPUTDIR)\acr_quest_errand.ncs                  \
             $(OUTPUTDIR)\nw_s0_lowltvisn.ncs                   
 
 #
