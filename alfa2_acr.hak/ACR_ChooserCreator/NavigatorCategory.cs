@@ -11,7 +11,7 @@ namespace ACR_ChooserCreator
         public volatile string Name;
         public volatile NavigatorCategory ParentCategory = null;
         public volatile List<NavigatorCategory> ContainedCategories = new List<NavigatorCategory>();
-        public volatile List<NavigatorItem> ContainedItems = new List<NavigatorItem>();
+        public volatile List<ALFA.Shared.IListBoxItem> ContainedItems = new List<ALFA.Shared.IListBoxItem>();
 
         public int CompareTo(NavigatorCategory other)
         {

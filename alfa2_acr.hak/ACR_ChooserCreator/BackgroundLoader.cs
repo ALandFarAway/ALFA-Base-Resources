@@ -43,17 +43,7 @@ namespace ACR_ChooserCreator
                             cat = GetCategoryByName(Navigators.CreatureNavigator.bottomCategory, creature.Classification);
                         }
 
-                        NavigatorItem addedItem = new NavigatorItem();
-                        addedItem.Icon = "creature.tga";
-                        addedItem.Name = creature.FirstName + " " + creature.LastName;
-                        if (addedItem.Name.Length > 18) addedItem.DisplayName = addedItem.Name.Substring(0, 14) + "...";
-                        else addedItem.DisplayName = addedItem.Name;
-                        addedItem.ResRef = creature.TemplateResRef;
-                        try { addedItem.Info1 = ALFA.Shared.Modules.InfoStore.ModuleFactions[creature.FactionID].Name; }
-                        catch { loaderError += "\nFaction error: " + creature.FactionID.ToString(); }
-                        addedItem.Info2 = String.Format("{0:N1}", creature.ChallengeRating);
-                        addedItem.Vars = String.Format("5={0};7=ground;8=25;9=27;10=6;11={1}", addedItem.ResRef, CLRScriptFramework.CLRScriptBase.OBJECT_TYPE_CREATURE);
-                        cat.ContainedItems.Add(addedItem);
+                        cat.ContainedItems.Add(creature);
                     }
                     catch (Exception ex)
                     {
@@ -99,17 +89,7 @@ namespace ACR_ChooserCreator
                             cat = GetCategoryByName(Navigators.ItemNavigator.bottomCategory, item.Classification);
                         }
 
-                        NavigatorItem addedItem = new NavigatorItem();
-
-                        addedItem.Icon = "item.tga";
-                        addedItem.Name = item.LocalizedName;
-                        if (addedItem.Name.Length > 18) addedItem.DisplayName = addedItem.Name.Substring(0, 14) + "...";
-                        else addedItem.DisplayName = addedItem.Name;
-                        addedItem.ResRef = item.TemplateResRef;
-                        addedItem.Info1 = item.Cost.ToString();
-                        addedItem.Info2 = item.AppropriateLevel.ToString();
-                        addedItem.Vars = String.Format("5={0};7=self,creature,ground,placeable;8=25;9=27;10=6;11={1}", addedItem.ResRef, CLRScriptFramework.CLRScriptBase.OBJECT_TYPE_ITEM);
-                        cat.ContainedItems.Add(addedItem);
+                        cat.ContainedItems.Add(item);
                     }
                     catch (Exception ex)
                     {
@@ -155,23 +135,7 @@ namespace ACR_ChooserCreator
                             cat = GetCategoryByName(Navigators.PlaceableNavigator.bottomCategory, placeable.Classification);
                         }
 
-                        string inventory = "";
-                        if (placeable.HasInventory) inventory = "Inv";
-                        string lockTrap = "";
-                        if (placeable.Locked && placeable.Trapped) lockTrap = String.Format("L{0}/T{1}", placeable.LockDC, placeable.TrapDisarmDC);
-                        else if (placeable.Locked) lockTrap = String.Format("L{0}", placeable.LockDC);
-                        else if (placeable.Trapped) lockTrap = String.Format("T{0}", placeable.TrapDisarmDC);
-
-                        NavigatorItem addedItem = new NavigatorItem();
-                        addedItem.Icon = "placeable.tga";
-                        addedItem.Name = placeable.Name;
-                        if (addedItem.Name.Length > 18) addedItem.DisplayName = addedItem.Name.Substring(0, 14) + "...";
-                        else addedItem.DisplayName = addedItem.Name;
-                        addedItem.ResRef = placeable.TemplateResRef;
-                        addedItem.Info1 = lockTrap;
-                        addedItem.Info2 = inventory;
-                        addedItem.Vars = String.Format("5={0};7=ground;8=25;9=27;10=6;11={1}", addedItem.ResRef, CLRScriptFramework.CLRScriptBase.OBJECT_TYPE_PLACEABLE);
-                        cat.ContainedItems.Add(addedItem);
+                        cat.ContainedItems.Add(placeable);
                     }
                     catch (Exception ex)
                     {

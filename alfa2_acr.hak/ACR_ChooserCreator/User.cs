@@ -22,7 +22,8 @@ namespace ACR_ChooserCreator
                     Id = userId,
                     CurrentCreatureCategory = Navigators.CreatureNavigator.bottomCategory,
                     CurrentItemCategory = Navigators.ItemNavigator.bottomCategory,
-                    CurrentPlaceableCategory = Navigators.PlaceableNavigator.bottomCategory
+                    CurrentPlaceableCategory = Navigators.PlaceableNavigator.bottomCategory,
+                    SortingColumn = 1
                 };
                 TrackedUsers.Add(userId, newUser);
                 return newUser;
@@ -33,6 +34,7 @@ namespace ACR_ChooserCreator
     {
         public uint Id;
         private int _searchNumber;
+
         public int SearchNumber
         {
             get
@@ -46,9 +48,11 @@ namespace ACR_ChooserCreator
                 else _searchNumber = value;
             }
         }
+
         public ACR_ChooserCreator.ACR_CreatorCommand openCommand;
         public NavigatorCategory CurrentCreatureCategory;
         public NavigatorCategory CurrentPlaceableCategory;
         public NavigatorCategory CurrentItemCategory;
+        public int SortingColumn;
     }
 }

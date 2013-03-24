@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ALFA.Shared
 {
-    public class CreatureResource : IComparable<CreatureResource>
+    public class CreatureResource : IListBoxItem
     {
         public volatile string FirstName;
         public volatile string LastName;
@@ -21,16 +21,63 @@ namespace ALFA.Shared
 
         public CreatureResource() { }
 
+        public string RowName
+        {
+            get
+            {
+                return this.TemplateResRef;
+            }
+        }
+
+        public string TextFields
+        {
+            get
+            {
+                return String.Format("LISTBOX_ITEM_TEXT=  {0};LISTBOX_ITEM_TEXT2= {1};LISTBOX_ITEM_TEXT3= {2:N1}", String.Format("{0} {1}", this.FirstName, this.LastName), ALFA.Shared.Modules.InfoStore.ModuleFactions[this.FactionID].Name, this.ChallengeRating);
+            }
+        }
+
+        public string Icon
+        {
+            get
+            {
+                return "LISTBOX_ITEM_ICON=creature.tga";
+            }
+        }
+
+        public string Variables
+        {
+            get
+            {
+                return String.Format("5={0}", this.TemplateResRef);
+            }
+        }
+
+        public int CompareTo(IListBoxItem other)
+        {
+            CreatureResource creature = other as CreatureResource;
+            if (creature != null) return CompareTo(creature);
+            return 0;
+        }
+
         public int CompareTo(CreatureResource other)
         {
-            if (other == null) return 1;
-            if (other.FirstName == null) return 1;
-            if (String.IsNullOrEmpty(other.FirstName)) return 1;
-            if (this == null) return -1;
-            if (FirstName == null) return -1;
-            if (String.IsNullOrEmpty(FirstName)) return -1;
-
-            return FirstName.CompareTo(other.FirstName);
+            if (Sorting.Column == 2)
+            {
+                return FactionID.CompareTo(other.FactionID);
+            }
+            else if (Sorting.Column == 3)
+            {
+                return ChallengeRating.CompareTo(other.ChallengeRating);
+            }
+            else
+            {
+                if (FirstName == other.FirstName)
+                {
+                    return LastName.CompareTo(other.LastName);
+                }
+                return FirstName.CompareTo(other.FirstName);
+            }
         }
     }
 }

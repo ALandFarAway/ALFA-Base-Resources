@@ -6,8 +6,8 @@ using ALFA.Shared;
 
 namespace ACR_ChooserCreator
 {
-    public interface IDrawableList : IBackgroundLoadedResource
+    public interface IDrawableList
     {
-        List<Object> drawableList { get; set; }
+        List<IListBoxItem> ListBox {get; set;}
     }
 }

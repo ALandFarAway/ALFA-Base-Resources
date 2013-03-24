@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ALFA.Shared
 {
-    public class ItemResource
+    public class ItemResource: IListBoxItem
     {
         public volatile string LocalizedName;
         public volatile string Classification;
@@ -54,16 +54,59 @@ namespace ALFA.Shared
 
         public ItemResource() { }
 
+        public string RowName
+        {
+            get
+            {
+                return this.TemplateResRef;
+            }
+        }
+
+        public string TextFields
+        {
+            get
+            {
+                return String.Format("LISTBOX_ITEM_TEXT=  {0};LISTBOX_ITEM_TEXT2= {1};LISTBOX_ITEM_TEXT3= {2}", this.LocalizedName, this.Cost, this.AppropriateLevel);
+            }
+        }
+
+        public string Icon
+        {
+            get
+            {
+                return "LISTBOX_ITEM_ICON=item.tga";
+            }
+        }
+
+        public string Variables
+        {
+            get
+            {
+                return String.Format("5={0}", this.TemplateResRef);
+            }
+        }
+
+        public int CompareTo(IListBoxItem other)
+        {
+            ItemResource item = other as ItemResource;
+            if (item != null) return CompareTo(item);
+            return 0;
+        }
+
         public int CompareTo(ItemResource other)
         {
-            if (other == null) return 1;
-            if (other.LocalizedName == null) return 1;
-            if (String.IsNullOrEmpty(other.LocalizedName)) return 1;
-            if (this == null) return -1;
-            if (LocalizedName == null) return -1;
-            if (String.IsNullOrEmpty(LocalizedName)) return -1;
-
-            return LocalizedName.CompareTo(other.LocalizedName);
+            if (Sorting.Column == 2)
+            {
+                return Cost.CompareTo(other.Cost);
+            }
+            else if (Sorting.Column == 3)
+            {
+                return AppropriateLevel.CompareTo(other.AppropriateLevel);
+            }
+            else
+            {
+                return LocalizedName.CompareTo(other.LocalizedName);
+            }
         }
     }
 }

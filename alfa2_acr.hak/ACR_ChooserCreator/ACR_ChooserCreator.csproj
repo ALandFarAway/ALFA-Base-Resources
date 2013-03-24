@@ -61,13 +61,9 @@
     <Compile Include="BackgroundLoader.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="IDrawableList.cs" />
     <Compile Include="Navigator.cs" />
     <Compile Include="NavigatorCategory.cs" />
-    <Compile Include="NavigatorItem.cs" />
-    <Compile Include="PlaceableList.cs" />
-    <Compile Include="ItemList.cs" />
-    <Compile Include="CreatureList.cs" />
-    <Compile Include="IDrawableList.cs" />
     <Compile Include="StandardEntrypoints.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Waiter.cs" />

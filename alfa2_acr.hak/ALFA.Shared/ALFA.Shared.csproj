@@ -45,6 +45,7 @@
     <Compile Include="GuiGlobals.cs" />
     <Compile Include="IInformationStore.cs" />
     <Compile Include="IBackgroundLoadedResource.cs" />
+    <Compile Include="IListBoxItem.cs" />
     <Compile Include="ItemResource.cs" />
     <Compile Include="Modules.cs" />
     <Compile Include="PlaceableResource.cs" />
