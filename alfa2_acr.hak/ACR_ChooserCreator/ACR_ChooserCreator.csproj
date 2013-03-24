@@ -52,10 +52,6 @@
   <ItemGroup>
     <Compile Include="..\..\CLRScript\ALFADatabase.cs" />
     <Compile Include="..\..\CLRScript\ALFAScriptLoader.cs" />
-    <Compile Include="..\..\CLRScript\ALFASystemInfo.cs" />
-    <Compile Include="..\..\CLRScript\NWScriptActions.cs" />
-    <Compile Include="..\..\CLRScript\NWScriptConstants.cs" />
-    <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_ChooserCreator.cs" />
     <Compile Include="BackgroundLoader.cs">

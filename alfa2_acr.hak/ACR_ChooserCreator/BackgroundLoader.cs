@@ -202,8 +202,7 @@ namespace ACR_ChooserCreator
             NavigatorCategory newCat = new NavigatorCategory();
             newCat.Name = SeekingName;
             newCat.ParentCategory = ContainingCat;
-            if (newCat.Name.Length > 18) newCat.DisplayName = newCat.Name.Substring(0, 14) + "...";
-            else newCat.DisplayName = newCat.Name;
+            newCat.DisplayName = ALFA.Shared.DisplayString.ShortenStringToWidth(newCat.Name, 150);
             ContainingCat.ContainedCategories.Add(newCat);
             return newCat;
         }

@@ -8,6 +8,7 @@ namespace ALFA.Shared
     public class ItemResource: IListBoxItem
     {
         public volatile string LocalizedName;
+        public volatile string DisplayName;
         public volatile string Classification;
         public volatile string TemplateResRef;
         public volatile string Tag;
@@ -54,6 +55,12 @@ namespace ALFA.Shared
 
         public ItemResource() { }
 
+        public void ConfigureDisplayName()
+        {
+            DisplayName = "  " + this.LocalizedName;
+            DisplayName = DisplayString.ShortenStringToWidth(DisplayName, 150);
+        }
+
         public string RowName
         {
             get
@@ -66,7 +73,7 @@ namespace ALFA.Shared
         {
             get
             {
-                return String.Format("LISTBOX_ITEM_TEXT=  {0};LISTBOX_ITEM_TEXT2= {1};LISTBOX_ITEM_TEXT3= {2}", this.LocalizedName, this.Cost, this.AppropriateLevel);
+                return String.Format("LISTBOX_ITEM_TEXT={0};LISTBOX_ITEM_TEXT2= {1};LISTBOX_ITEM_TEXT3= {2}", this.DisplayName, this.Cost, this.AppropriateLevel);
             }
         }
 

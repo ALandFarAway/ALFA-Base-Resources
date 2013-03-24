@@ -8,6 +8,7 @@ namespace ALFA.Shared
     public class PlaceableResource: IListBoxItem
     {
         public volatile string Name;
+        public volatile string DisplayName;
         public volatile string Classification;
         public volatile string TemplateResRef;
         public volatile string Tag;
@@ -20,6 +21,12 @@ namespace ALFA.Shared
         public volatile int LockDC;
 
         public PlaceableResource() { }
+
+        public void ConfigureDisplayName()
+        {
+            DisplayName = "  " + this.Name;
+            DisplayName = DisplayString.ShortenStringToWidth(DisplayName, 150);
+        }
 
         public string RowName
         {
@@ -40,7 +47,7 @@ namespace ALFA.Shared
                 else if (this.Locked) lockTrap = String.Format("L{0}", this.LockDC);
                 else if (this.Trapped) lockTrap = String.Format("T{0}", this.TrapDisarmDC);
 
-                return String.Format("LISTBOX_ITEM_TEXT=  {0};LISTBOX_ITEM_TEXT2= {1};LISTBOX_ITEM_TEXT3= {2}", this.Name, lockTrap, inventory);
+                return String.Format("LISTBOX_ITEM_TEXT={0};LISTBOX_ITEM_TEXT2= {1};LISTBOX_ITEM_TEXT3= {2}", this.DisplayName, lockTrap, inventory);
             }
         }
 

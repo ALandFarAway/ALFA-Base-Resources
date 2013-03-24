@@ -31,8 +31,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NWNScriptJITIntrinsics">
+      <HintPath>..\ACR_Candlekeep\bin\Release\NWNScriptJITIntrinsics.dll</HintPath>
+    </Reference>
+    <Reference Include="NWScriptManagedInterface">
+      <HintPath>..\ACR_Candlekeep\bin\Release\NWScriptManagedInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="OEIShared">
+      <HintPath>..\..\dependencies\NWN2 DLLs\OEIShared.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,7 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\CLRScript\ALFASystemInfo.cs" />
+    <Compile Include="..\..\CLRScript\NWScriptActions.cs" />
+    <Compile Include="..\..\CLRScript\NWScriptConstants.cs" />
+    <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />
     <Compile Include="CreatureResource.cs" />
+    <Compile Include="DisplayString.cs" />
     <Compile Include="Faction.cs" />
     <Compile Include="GuiGlobals.cs" />
     <Compile Include="IInformationStore.cs" />

@@ -99,6 +99,8 @@ namespace ACR_Candlekeep
                         addingItem.Plot = Plot;
                         addingItem.Stolen = Stolen;
 
+                        addingItem.ConfigureDisplayName();
+
                         ALFA.Shared.Modules.InfoStore.ModuleItems.Add(currentResRef, addingItem);
                     }
                     catch { }
@@ -191,6 +193,8 @@ namespace ACR_Candlekeep
                         else if (LawChaos < 70) AlignSummary = "N" + AlignSummary;
                         else AlignSummary = "L" + AlignSummary;
 
+                        addingCreature.ConfigureDisplayName();
+
                         ALFA.Shared.Modules.InfoStore.ModuleCreatures.Add(addingCreature.TemplateResRef, addingCreature);
                     }
                     catch { }
@@ -248,6 +252,8 @@ namespace ACR_Candlekeep
                         {
                             addingPlaceable.LockDC = unlockDC;
                         }
+
+                        addingPlaceable.ConfigureDisplayName();
 
                         ALFA.Shared.Modules.InfoStore.ModulePlaceables.Add(addingPlaceable.TemplateResRef, addingPlaceable);
                     }

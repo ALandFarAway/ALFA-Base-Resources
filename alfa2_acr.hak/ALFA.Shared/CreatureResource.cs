@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+
 namespace ALFA.Shared
 {
     public class CreatureResource : IListBoxItem
     {
         public volatile string FirstName;
         public volatile string LastName;
+        public volatile string DisplayName;
         public volatile string Classification;
         public volatile string TemplateResRef;
         public volatile string Tag;
@@ -20,6 +22,12 @@ namespace ALFA.Shared
         public volatile string AlignmentSummary;
 
         public CreatureResource() { }
+
+        public void ConfigureDisplayName()
+        {
+            DisplayName = String.Format("  {0} {1}", this.FirstName, this.LastName);
+            DisplayName = DisplayString.ShortenStringToWidth(DisplayName, 150);
+        }
 
         public string RowName
         {
@@ -33,7 +41,7 @@ namespace ALFA.Shared
         {
             get
             {
-                return String.Format("LISTBOX_ITEM_TEXT=  {0};LISTBOX_ITEM_TEXT2= {1};LISTBOX_ITEM_TEXT3= {2:N1}", String.Format("{0} {1}", this.FirstName, this.LastName), ALFA.Shared.Modules.InfoStore.ModuleFactions[this.FactionID].Name, this.ChallengeRating);
+                return String.Format("LISTBOX_ITEM_TEXT={0};LISTBOX_ITEM_TEXT2= {1};LISTBOX_ITEM_TEXT3= {2:N1}", DisplayName, ALFA.Shared.Modules.InfoStore.ModuleFactions[this.FactionID].Name, this.ChallengeRating);
             }
         }
 
