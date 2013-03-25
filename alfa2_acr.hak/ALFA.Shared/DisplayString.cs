@@ -13,7 +13,14 @@ namespace ALFA.Shared
         static PrivateFontCollection pfc = new PrivateFontCollection();
         public static string ShortenStringToWidth(string input, int pixels)
         {
-            if(pfc.Families.Length == 0) pfc.AddFontFile(ALFA.SystemInfo.GetGameInstallationDirectory() + @"\UI\default\fonts\NWN2_Main.ttf");
+            if (pfc.Families.Length == 0)
+            {
+                lock (pfc)
+                {
+                    if (pfc.Families.Length == 0)
+                        pfc.AddFontFile(ALFA.SystemInfo.GetGameInstallationDirectory() + @"\UI\default\fonts\NWN2_Main.ttf");
+                }
+            }
             
             float width = g.MeasureString(input, new Font(pfc.Families[0], 10.0f)).Width;
             bool shortened = false;
