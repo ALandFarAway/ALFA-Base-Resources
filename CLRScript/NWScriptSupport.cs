@@ -386,7 +386,7 @@ namespace CLRScriptFramework
         /// This function is called from the user's copy constructor.  Its
         /// purpose is to initialize internal library support data.
         /// </summary>
-        /// <param name="Other>Supplies the instance to copy data from.</param>
+        /// <param name="Other">Supplies the instance to copy data from.</param>
         protected void InitScript(CLRScriptBase Other)
         {
             ScriptHost = Other.ScriptHost;
