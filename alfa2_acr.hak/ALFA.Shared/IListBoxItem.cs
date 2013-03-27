@@ -16,5 +16,6 @@ namespace ALFA.Shared
         string TextFields { get; }
         string Icon { get; }
         string Variables { get; }
+        string Classification { get; }
     }
 }

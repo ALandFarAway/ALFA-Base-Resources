@@ -9,7 +9,7 @@ namespace ALFA.Shared
     {
         public volatile string LocalizedName;
         public volatile string DisplayName;
-        public volatile string Classification;
+        public string Classification { get; set; }
         public volatile string TemplateResRef;
         public volatile string Tag;
         private volatile int _cost;

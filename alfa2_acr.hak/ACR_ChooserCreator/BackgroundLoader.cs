@@ -11,71 +11,25 @@ namespace ACR_ChooserCreator
     {
         public static volatile string loaderError = "";
 
-        private static void LoadCreatures()
+        public static void LoadNavigator(List<ALFA.Shared.IListBoxItem> list, Navigator bottomNavigator)
         {
             try
             {
-                foreach (ALFA.Shared.CreatureResource creature in ALFA.Shared.Modules.InfoStore.ModuleCreatures.Values)
-                {
-                    NavigatorCategory cat = null;
-                    try
-                    {
-                        // first, find out if there even is a classification for this.
-                        if (String.IsNullOrWhiteSpace(creature.Classification))
-                        {
-                            cat = Navigators.CreatureNavigator.bottomCategory;
-                        }
-                        // First, we want to find out if we're in one classification or in many.
-                        else if (creature.Classification.Contains('|'))
-                        {
-                            string[] cats = creature.Classification.Split('|');
-                            NavigatorCategory tempCat = Navigators.CreatureNavigator.bottomCategory;
-
-                            foreach (string category in cats)
-                            {
-                                tempCat = GetCategoryByName(tempCat, category);
-                            }
-                            cat = tempCat;
-                        }
-                        else
-                        {
-                            // Looks like it's only one classification deep. Don't need to do anything fancy.
-                            cat = GetCategoryByName(Navigators.CreatureNavigator.bottomCategory, creature.Classification);
-                        }
-
-                        cat.ContainedItems.Add(creature);
-                    }
-                    catch (Exception ex)
-                    {
-                        loaderError += "\n Creature Loading Error: " + ex.Message;
-                    }
-                }
-            }
-            finally
-            {
-                Navigators.CreatureNavigator.SetResourcesLoaded();
-            }
-        }
-
-        private static void LoadItems()
-        {
-            try
-            {
-                foreach (ALFA.Shared.ItemResource item in ALFA.Shared.Modules.InfoStore.ModuleItems.Values)
+                foreach (ALFA.Shared.IListBoxItem boxItem in list)
                 {
                     try
                     {
                         NavigatorCategory cat = null;
                         // first, find out if there even is a classification for this.
-                        if (String.IsNullOrWhiteSpace(item.Classification))
+                        if (String.IsNullOrWhiteSpace(boxItem.Classification))
                         {
-                            cat = Navigators.ItemNavigator.bottomCategory;
+                            cat = bottomNavigator.bottomCategory;
                         }
                         // next, we want to find out if we're in one classification or in many.
-                        else if (item.Classification.Contains('|'))
+                        else if (boxItem.Classification.Contains('|'))
                         {
-                            string[] cats = item.Classification.Split('|');
-                            NavigatorCategory tempCat = Navigators.ItemNavigator.bottomCategory;
+                            string[] cats = boxItem.Classification.Split('|');
+                            NavigatorCategory tempCat = bottomNavigator.bottomCategory;
 
                             foreach (string category in cats)
                             {
@@ -86,56 +40,10 @@ namespace ACR_ChooserCreator
                         // Looks like it's only one classification deep. Don't need to do anything fancy.
                         else
                         {
-                            cat = GetCategoryByName(Navigators.ItemNavigator.bottomCategory, item.Classification);
+                            cat = GetCategoryByName(bottomNavigator.bottomCategory, boxItem.Classification);
                         }
 
-                        cat.ContainedItems.Add(item);
-                    }
-                    catch (Exception ex)
-                    {
-                        loaderError += "\n Item Loading Error: " + ex.Message;
-                    }
-                }
-            }
-            finally
-            {
-                Navigators.ItemNavigator.SetResourcesLoaded();
-            }
-        }
-
-        private static void LoadPlaceables()
-        {
-            try
-            {
-                foreach (ALFA.Shared.PlaceableResource placeable in ALFA.Shared.Modules.InfoStore.ModulePlaceables.Values)
-                {
-                    try
-                    {
-                        NavigatorCategory cat = null;
-                        // first, find out if there even is a classification for this.
-                        if (String.IsNullOrWhiteSpace(placeable.Classification))
-                        {
-                            cat = Navigators.PlaceableNavigator.bottomCategory;
-                        }
-                        // next, we want to find out if we're in one classification or in many.
-                        else if (placeable.Classification.Contains('|'))
-                        {
-                            string[] cats = placeable.Classification.Split('|');
-                            NavigatorCategory tempCat = Navigators.PlaceableNavigator.bottomCategory;
-
-                            foreach (string category in cats)
-                            {
-                                tempCat = GetCategoryByName(tempCat, category);
-                            }
-                            cat = tempCat;
-                        }
-                        // Looks like it's only one classification deep. Don't need to do anything fancy.
-                        else
-                        {
-                            cat = GetCategoryByName(Navigators.PlaceableNavigator.bottomCategory, placeable.Classification);
-                        }
-
-                        cat.ContainedItems.Add(placeable);
+                        cat.ContainedItems.Add(boxItem);
                     }
                     catch (Exception ex)
                     {
@@ -145,7 +53,7 @@ namespace ACR_ChooserCreator
             }
             finally
             {
-                Navigators.PlaceableNavigator.SetResourcesLoaded();
+                bottomNavigator.SetResourcesLoaded();
             }
         }
 
@@ -155,7 +63,12 @@ namespace ACR_ChooserCreator
 
             try
             {
-                LoadItems();
+                List<ALFA.Shared.IListBoxItem> suppliedList = new List<ALFA.Shared.IListBoxItem>();
+                foreach(ALFA.Shared.ItemResource item in ALFA.Shared.Modules.InfoStore.ModuleItems.Values)
+                {
+                    suppliedList.Add(item);
+                }
+                LoadNavigator(suppliedList, Navigators.ItemNavigator);
             }
             catch (Exception ex)
             {
@@ -164,7 +77,12 @@ namespace ACR_ChooserCreator
 
             try
             {
-                LoadCreatures();
+                List<ALFA.Shared.IListBoxItem> suppliedList = new List<ALFA.Shared.IListBoxItem>();
+                foreach (ALFA.Shared.CreatureResource item in ALFA.Shared.Modules.InfoStore.ModuleCreatures.Values)
+                {
+                    suppliedList.Add(item);
+                }
+                LoadNavigator(suppliedList, Navigators.CreatureNavigator);
             }
             catch (Exception ex)
             {
@@ -173,7 +91,12 @@ namespace ACR_ChooserCreator
 
             try
             {
-                LoadPlaceables();
+                List<ALFA.Shared.IListBoxItem> suppliedList = new List<ALFA.Shared.IListBoxItem>();
+                foreach (ALFA.Shared.PlaceableResource item in ALFA.Shared.Modules.InfoStore.ModulePlaceables.Values)
+                {
+                    suppliedList.Add(item);
+                }
+                LoadNavigator(suppliedList, Navigators.PlaceableNavigator);
             }
             catch (Exception ex)
             {

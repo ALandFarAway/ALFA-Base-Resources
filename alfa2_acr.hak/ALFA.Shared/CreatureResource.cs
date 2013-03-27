@@ -11,7 +11,7 @@ namespace ALFA.Shared
         public volatile string FirstName;
         public volatile string LastName;
         public volatile string DisplayName;
-        public volatile string Classification;
+        public string Classification { get; set; }
         public volatile string TemplateResRef;
         public volatile string Tag;
         public volatile bool IsImmortal;
