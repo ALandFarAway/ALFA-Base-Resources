@@ -285,6 +285,48 @@ namespace ACR_Candlekeep
                 }
                 #endregion
 
+                #region Caching Information about Waypoints
+                foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTW))
+                {
+                    try
+                    {
+                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
+
+                        string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
+                        if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(currentResRef))
+                        {
+                            continue;
+                        }
+
+                        ALFA.Shared.WaypointResource addingWaypoint = new ALFA.Shared.WaypointResource();
+
+                        addingWaypoint.TemplateResRef = currentResRef;
+
+                        try
+                        {
+                            addingWaypoint.Name = currentGFF.TopLevelStruct["LocalizedName"].Value.ToString().Split('"')[1];
+                        }
+                        catch
+                        {
+                            addingWaypoint.Name = currentGFF.TopLevelStruct["LocalizedName"].Value.ToString();
+                        }
+                        if (addingWaypoint.Name == "")
+                        {
+                            addingWaypoint.Name = GetTlkEntry(currentGFF.TopLevelStruct["LocalizedName"].ValueCExoLocString.StringRef);
+                        }
+                        
+                        addingWaypoint.Classification = ParseClassification(currentGFF.TopLevelStruct["Classification"].Value.ToString());
+                        addingWaypoint.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
+
+                        addingWaypoint.ConfigureDisplayName();
+
+                        ALFA.Shared.Modules.InfoStore.ModuleWaypoints.Add(addingWaypoint.TemplateResRef, addingWaypoint);
+                    }
+                    catch { }
+                }
+                #endregion
+
+
                 #region Commented-Out Resource Types
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.Res2DA))
                 //{ }
@@ -402,8 +444,6 @@ namespace ACR_Candlekeep
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTS))
                 //{ }
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTT))
-                //{ }
-                //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTW))
                 //{ }
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResWAV))
                 //{ }
