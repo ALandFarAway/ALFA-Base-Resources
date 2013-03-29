@@ -23,6 +23,7 @@ namespace ACR_ChooserCreator
                     CurrentCreatureCategory = Navigators.CreatureNavigator.bottomCategory,
                     CurrentItemCategory = Navigators.ItemNavigator.bottomCategory,
                     CurrentPlaceableCategory = Navigators.PlaceableNavigator.bottomCategory,
+                    CurrentWaypointCategory = Navigators.WaypointNavigator.bottomCategory,
                     SortingColumn = 1
                 };
                 TrackedUsers.Add(userId, newUser);
@@ -53,6 +54,7 @@ namespace ACR_ChooserCreator
         public NavigatorCategory CurrentCreatureCategory;
         public NavigatorCategory CurrentPlaceableCategory;
         public NavigatorCategory CurrentItemCategory;
+        public NavigatorCategory CurrentWaypointCategory;
         public int SortingColumn;
     }
 }

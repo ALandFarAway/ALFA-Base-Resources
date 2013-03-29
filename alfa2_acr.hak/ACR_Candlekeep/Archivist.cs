@@ -38,6 +38,7 @@ namespace ACR_Candlekeep
                 ALFA.Shared.Modules.InfoStore.ModuleItems = new Dictionary<string, ALFA.Shared.ItemResource>();
                 ALFA.Shared.Modules.InfoStore.ModuleCreatures = new Dictionary<string, ALFA.Shared.CreatureResource>();
                 ALFA.Shared.Modules.InfoStore.ModulePlaceables = new Dictionary<string, ALFA.Shared.PlaceableResource>();
+                ALFA.Shared.Modules.InfoStore.ModuleWaypoints = new Dictionary<string, ALFA.Shared.WaypointResource>();
                 ALFA.Shared.Modules.InfoStore.ModuleFactions = new Dictionary<int, ALFA.Shared.Faction>();
 
                 List<int> factionIndex = new List<int>();

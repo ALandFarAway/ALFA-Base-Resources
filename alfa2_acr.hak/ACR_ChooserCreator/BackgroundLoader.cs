@@ -105,9 +105,24 @@ namespace ACR_ChooserCreator
 
             try
             {
+                List<ALFA.Shared.IListBoxItem> suppliedList = new List<ALFA.Shared.IListBoxItem>();
+                foreach (ALFA.Shared.WaypointResource item in ALFA.Shared.Modules.InfoStore.ModuleWaypoints.Values)
+                {
+                    suppliedList.Add(item);
+                }
+                LoadNavigator(suppliedList, Navigators.WaypointNavigator);
+            }
+            catch (Exception ex)
+            {
+                loaderError += "\n LoadWaypoints :" + ex.Message;
+            }
+
+            try
+            {
                 DefaultSortNavigators(Navigators.CreatureNavigator.bottomCategory);
                 DefaultSortNavigators(Navigators.ItemNavigator.bottomCategory);
                 DefaultSortNavigators(Navigators.PlaceableNavigator.bottomCategory);
+                DefaultSortNavigators(Navigators.WaypointNavigator.bottomCategory);
             }
             catch (Exception ex)
             {
