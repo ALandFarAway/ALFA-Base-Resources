@@ -76,6 +76,7 @@ namespace ACR_Candlekeep
         public Dictionary<string, ALFA.Shared.CreatureResource> ModuleCreatures { get; set; }
         public Dictionary<string, ALFA.Shared.PlaceableResource> ModulePlaceables { get; set; }
         public Dictionary<string, ALFA.Shared.WaypointResource> ModuleWaypoints { get; set; }
+        public Dictionary<string, ALFA.Shared.VisualEffectResource> ModuleVisualEffects { get; set; }
         public Dictionary<int, ALFA.Shared.Faction> ModuleFactions { get; set; }
 
         /// <summary>

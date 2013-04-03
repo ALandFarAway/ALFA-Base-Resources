@@ -140,8 +140,15 @@ namespace ACR_ChooserCreator
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "VfxActive", FALSE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", TRUE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "LightActive", TRUE);
-                    // TODO: Display current VFX classification, or the base
-                    // classification if none are selected.
+                    currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB;
+                    if (currentUser.CurrentVisualEffectCategory == Navigators.VisualEffectNavigator.bottomCategory)
+                    {
+                        Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.VisualEffectNavigator);
+                    }
+                    else
+                    {
+                        Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentVisualEffectCategory);
+                    }
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB:
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "CreatureActive", TRUE);
@@ -152,7 +159,7 @@ namespace ACR_ChooserCreator
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", FALSE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "LightActive", TRUE);
                     currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB;
-                    if (currentUser.CurrentItemCategory == Navigators.WaypointNavigator.bottomCategory)
+                    if (currentUser.CurrentWaypointCategory == Navigators.WaypointNavigator.bottomCategory)
                     {
                         Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.WaypointNavigator);
                     }
@@ -160,8 +167,6 @@ namespace ACR_ChooserCreator
                     {
                         Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentWaypointCategory);
                     }
-                    // TODO: Display current waypoint classification, or the base
-                    // classification if none are selected.
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB:
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "CreatureActive", TRUE);
@@ -191,6 +196,7 @@ namespace ACR_ChooserCreator
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB) currentCat = currentUser.CurrentItemCategory;
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_PLACEABLE_TAB) currentCat = currentUser.CurrentPlaceableCategory;
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB) currentCat = currentUser.CurrentWaypointCategory;
+                        else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB) currentCat = currentUser.CurrentVisualEffectCategory;
 
                         // and we figure out where we're going relative to where we are.
                         string searchTerm = commandParam.Split(':')[1];
@@ -201,6 +207,7 @@ namespace ACR_ChooserCreator
                             else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB) targetCat = BackgroundLoader.GetCategoryByName(currentUser.CurrentItemCategory, searchTerm);
                             else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_PLACEABLE_TAB) targetCat = BackgroundLoader.GetCategoryByName(currentUser.CurrentPlaceableCategory, searchTerm);
                             else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB) targetCat = BackgroundLoader.GetCategoryByName(currentUser.CurrentWaypointCategory, searchTerm);
+                            else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB) targetCat = BackgroundLoader.GetCategoryByName(currentUser.CurrentVisualEffectCategory, searchTerm);
                         }
 
                         // and then we have a new current category.
@@ -208,6 +215,7 @@ namespace ACR_ChooserCreator
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB) currentUser.CurrentItemCategory = targetCat;
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_PLACEABLE_TAB) currentUser.CurrentPlaceableCategory = targetCat;
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB) currentUser.CurrentWaypointCategory = targetCat;
+                        else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB) currentUser.CurrentVisualEffectCategory = targetCat;
 
                         // and finally we can draw the new navigator category.
                         Waiter.DrawNavigatorCategory(this, targetCat);
@@ -241,6 +249,11 @@ namespace ACR_ChooserCreator
                         {
                             SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_VALID_TARGET_LIST, "ground");
                             SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_CREATE_OBJECT_TYPE, CLRScriptBase.OBJECT_TYPE_WAYPOINT.ToString());
+                        }
+                        else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB)
+                        {
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_VALID_TARGET_LIST, "ground");
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_CREATE_OBJECT_TYPE, CLRScriptBase.OBJECT_TYPE_PLACED_EFFECT.ToString());
                         }
                         
                         DisplayGuiScreen(OBJECT_SELF, "TARGET_SINGLE", 0, "target_single.xml", 0);

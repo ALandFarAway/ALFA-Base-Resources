@@ -40,6 +40,7 @@ namespace ACR_Candlekeep
                 ALFA.Shared.Modules.InfoStore.ModulePlaceables = new Dictionary<string, ALFA.Shared.PlaceableResource>();
                 ALFA.Shared.Modules.InfoStore.ModuleWaypoints = new Dictionary<string, ALFA.Shared.WaypointResource>();
                 ALFA.Shared.Modules.InfoStore.ModuleFactions = new Dictionary<int, ALFA.Shared.Faction>();
+                ALFA.Shared.Modules.InfoStore.ModuleVisualEffects = new Dictionary<string, ALFA.Shared.VisualEffectResource>();
 
                 List<int> factionIndex = new List<int>();
 
@@ -327,6 +328,46 @@ namespace ACR_Candlekeep
                 }
                 #endregion
 
+                #region Caching Information about Visual Effects
+                foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUPE))
+                {
+                    try
+                    {
+                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
+
+                        string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
+                        if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(currentResRef))
+                        {
+                            continue;
+                        }
+
+                        ALFA.Shared.VisualEffectResource addingVisual = new ALFA.Shared.VisualEffectResource();
+
+                        addingVisual.TemplateResRef = currentResRef;
+
+                        try
+                        {
+                            addingVisual.Name = currentGFF.TopLevelStruct["LocName"].Value.ToString().Split('"')[1];
+                        }
+                        catch
+                        {
+                            addingVisual.Name = currentGFF.TopLevelStruct["LocName"].Value.ToString();
+                        }
+                        if (addingVisual.Name == "")
+                        {
+                            addingVisual.Name = GetTlkEntry(currentGFF.TopLevelStruct["LocName"].ValueCExoLocString.StringRef);
+                        }
+
+                        addingVisual.Classification = ParseClassification(currentGFF.TopLevelStruct["Classification"].Value.ToString());
+                        addingVisual.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
+
+                        addingVisual.ConfigureDisplayName();
+
+                        ALFA.Shared.Modules.InfoStore.ModuleVisualEffects.Add(addingVisual.TemplateResRef, addingVisual);
+                    }
+                    catch { }
+                }
+                #endregion
 
                 #region Commented-Out Resource Types
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.Res2DA))

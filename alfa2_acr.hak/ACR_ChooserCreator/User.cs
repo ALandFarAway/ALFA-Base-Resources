@@ -23,6 +23,7 @@ namespace ACR_ChooserCreator
                     CurrentCreatureCategory = Navigators.CreatureNavigator.bottomCategory,
                     CurrentItemCategory = Navigators.ItemNavigator.bottomCategory,
                     CurrentPlaceableCategory = Navigators.PlaceableNavigator.bottomCategory,
+                    CurrentVisualEffectCategory = Navigators.VisualEffectNavigator.bottomCategory,
                     CurrentWaypointCategory = Navigators.WaypointNavigator.bottomCategory,
                     SortingColumn = 1
                 };
@@ -54,6 +55,7 @@ namespace ACR_ChooserCreator
         public NavigatorCategory CurrentCreatureCategory;
         public NavigatorCategory CurrentPlaceableCategory;
         public NavigatorCategory CurrentItemCategory;
+        public NavigatorCategory CurrentVisualEffectCategory;
         public NavigatorCategory CurrentWaypointCategory;
         public int SortingColumn;
     }
