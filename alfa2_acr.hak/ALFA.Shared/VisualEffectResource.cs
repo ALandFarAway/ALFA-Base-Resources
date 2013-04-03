@@ -55,12 +55,12 @@ namespace ALFA.Shared
 
         public int CompareTo(IListBoxItem other)
         {
-            WaypointResource way = other as WaypointResource;
-            if (way != null) return CompareTo(way);
+            VisualEffectResource vfx = other as VisualEffectResource;
+            if (vfx != null) return CompareTo(vfx);
             return 0;
         }
 
-        public int CompareTo(WaypointResource other)
+        public int CompareTo(VisualEffectResource other)
         {
             return Name.CompareTo(other.Name);
         }
