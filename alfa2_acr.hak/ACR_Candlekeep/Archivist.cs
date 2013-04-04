@@ -41,6 +41,7 @@ namespace ACR_Candlekeep
                 ALFA.Shared.Modules.InfoStore.ModuleWaypoints = new Dictionary<string, ALFA.Shared.WaypointResource>();
                 ALFA.Shared.Modules.InfoStore.ModuleFactions = new Dictionary<int, ALFA.Shared.Faction>();
                 ALFA.Shared.Modules.InfoStore.ModuleVisualEffects = new Dictionary<string, ALFA.Shared.VisualEffectResource>();
+                ALFA.Shared.Modules.InfoStore.ModuleLights = new Dictionary<string, ALFA.Shared.LightResource>();
 
                 List<int> factionIndex = new List<int>();
 
@@ -369,6 +370,50 @@ namespace ACR_Candlekeep
                 }
                 #endregion
 
+                #region Caching Information about Lights
+                foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResULT))
+                {
+                    try
+                    {
+                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
+
+                        string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
+                        if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(currentResRef))
+                        {
+                            continue;
+                        }
+
+                        ALFA.Shared.LightResource addingLight = new ALFA.Shared.LightResource();
+
+                        addingLight.TemplateResRef = currentResRef;
+
+                        try
+                        {
+                            addingLight.Name = currentGFF.TopLevelStruct["LocalizedName"].Value.ToString().Split('"')[1];
+                        }
+                        catch
+                        {
+                            addingLight.Name = currentGFF.TopLevelStruct["LocalizedName"].Value.ToString();
+                        }
+                        if (addingLight.Name == "")
+                        {
+                            addingLight.Name = GetTlkEntry(currentGFF.TopLevelStruct["LocalizedName"].ValueCExoLocString.StringRef);
+                        }
+
+                        addingLight.Classification = ParseClassification(currentGFF.TopLevelStruct["Classification"].Value.ToString());
+                        addingLight.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
+
+                        addingLight.LightRange = currentGFF.TopLevelStruct["Range"].ValueFloat;
+                        addingLight.ShadowIntensity = currentGFF.TopLevelStruct["ShadowIntensity"].ValueFloat * 100;
+
+                        addingLight.ConfigureDisplayName();
+
+                        ALFA.Shared.Modules.InfoStore.ModuleLights.Add(addingLight.TemplateResRef, addingLight);
+                    }
+                    catch { }
+                }
+                #endregion
+
                 #region Commented-Out Resource Types
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.Res2DA))
                 //{ }
@@ -467,8 +512,6 @@ namespace ACR_Candlekeep
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResTXT))
                 //{ }
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUEN))
-                //{ }
-                //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResULT))
                 //{ }
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUPE))
                 //{ }

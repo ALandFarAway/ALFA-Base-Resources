@@ -55,6 +55,7 @@
     <Compile Include="..\..\CLRScript\NWScriptActions.cs" />
     <Compile Include="..\..\CLRScript\NWScriptConstants.cs" />
     <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />
+    <Compile Include="LightResource.cs" />
     <Compile Include="VisualEffectResource.cs" />
     <Compile Include="CreatureResource.cs" />
     <Compile Include="DisplayString.cs" />
