@@ -44,6 +44,11 @@ namespace ACR_Candlekeep
                 ALFA.Shared.Modules.InfoStore.ModuleLights = new Dictionary<string, ALFA.Shared.LightResource>();
 
                 List<int> factionIndex = new List<int>();
+                factionIndex.Add(0); // Player
+                factionIndex.Add(1); // Hostile
+                factionIndex.Add(2); // Commoner
+                factionIndex.Add(3); // Merchant
+                factionIndex.Add(4); // Defender
 
                 #region Caching Information about All Items
                 foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTI))
@@ -242,19 +247,9 @@ namespace ACR_Candlekeep
                         addingPlaceable.Trapped = currentGFF.TopLevelStruct["Useable"].Value.ToString() != "0";
                         addingPlaceable.Locked = currentGFF.TopLevelStruct["Locked"].Value.ToString() != "0";
 
-                        int trapDisarmDC = 0, trapDetectDC = 0, unlockDC = 0;
-                        if (Int32.TryParse(currentGFF.TopLevelStruct["TrapDetectDC"].Value.ToString(), out trapDetectDC))
-                        {
-                            addingPlaceable.TrapDetectDC = trapDetectDC;
-                        }
-                        if (Int32.TryParse(currentGFF.TopLevelStruct["DisarmDC"].Value.ToString(), out trapDetectDC))
-                        {
-                            addingPlaceable.TrapDisarmDC = trapDisarmDC;
-                        }
-                        if (Int32.TryParse(currentGFF.TopLevelStruct["OpenLockDC"].Value.ToString(), out trapDetectDC))
-                        {
-                            addingPlaceable.LockDC = unlockDC;
-                        }
+                        addingPlaceable.TrapDetectDC = currentGFF.TopLevelStruct["TrapDetectDC"].ValueInt;
+                        addingPlaceable.TrapDisarmDC = currentGFF.TopLevelStruct["DisarmDC"].ValueInt;                        
+                        addingPlaceable.LockDC = currentGFF.TopLevelStruct["OpenLockDC"].ValueInt;
 
                         addingPlaceable.ConfigureDisplayName();
 
