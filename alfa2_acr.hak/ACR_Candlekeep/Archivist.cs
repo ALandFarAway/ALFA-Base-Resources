@@ -399,6 +399,7 @@ namespace ACR_Candlekeep
                         addingLight.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
 
                         addingLight.LightRange = currentGFF.TopLevelStruct["Range"].ValueFloat;
+                        addingLight.LightIntensity = currentGFF.TopLevelStruct["Light"].ValueStruct["Intensity"].ValueFloat;
                         addingLight.ShadowIntensity = currentGFF.TopLevelStruct["ShadowIntensity"].ValueFloat * 100;
 
                         addingLight.ConfigureDisplayName();

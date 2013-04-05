@@ -15,6 +15,7 @@ namespace ALFA.Shared
 
         public float ShadowIntensity;
         public float LightRange;
+        public float LightIntensity;
 
         public LightResource() { }
 
@@ -36,7 +37,7 @@ namespace ALFA.Shared
         {
             get
             {
-                return String.Format("LISTBOX_ITEM_TEXT={0};LISTBOX_ITEM_TEXT2= {1:N1};LISTBOX_ITEM_TEXT3= {2:N0}", this.DisplayName, this.LightRange, this.ShadowIntensity);
+                return String.Format("LISTBOX_ITEM_TEXT={0};LISTBOX_ITEM_TEXT2= {1:N1}/{2:N1};LISTBOX_ITEM_TEXT3= {3:N0}%", this.DisplayName, this.LightIntensity, this.LightRange, this.ShadowIntensity);
             }
         }
 
