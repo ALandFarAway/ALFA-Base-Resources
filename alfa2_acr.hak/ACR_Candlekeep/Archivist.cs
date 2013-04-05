@@ -243,9 +243,9 @@ namespace ACR_Candlekeep
                         addingPlaceable.TemplateResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
                         addingPlaceable.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
                         addingPlaceable.Useable = currentGFF.TopLevelStruct["Useable"].Value.ToString() != "0";
-                        addingPlaceable.HasInventory = currentGFF.TopLevelStruct["HasInventory"].Value.ToString() != "0";
-                        addingPlaceable.Trapped = currentGFF.TopLevelStruct["Useable"].Value.ToString() != "0";
-                        addingPlaceable.Locked = currentGFF.TopLevelStruct["Locked"].Value.ToString() != "0";
+                        addingPlaceable.HasInventory = currentGFF.TopLevelStruct["HasInventory"].ValueByte != 0;
+                        addingPlaceable.Trapped = currentGFF.TopLevelStruct["TrapFlag"].ValueByte != 0;
+                        addingPlaceable.Locked = currentGFF.TopLevelStruct["Locked"].ValueByte != 0;
 
                         addingPlaceable.TrapDetectDC = currentGFF.TopLevelStruct["TrapDetectDC"].ValueInt;
                         addingPlaceable.TrapDisarmDC = currentGFF.TopLevelStruct["DisarmDC"].ValueInt;                        
