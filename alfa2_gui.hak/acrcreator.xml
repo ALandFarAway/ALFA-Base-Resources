@@ -95,6 +95,12 @@
     <!-- Search Graphic -->
     <!-- <UIButton name="SearchGraphic" img="searching1.tga" x="7" y="136" width="300" height="400" /> -->
 
+    <!-- Column Headers -->
+    <UIButton name="IconColumn" text=""      x=10  y=116 width=20  height=20 style="STYLE_CHARGEN_TAB" groupid=3 groupmemberid=2 />
+    <UIButton name="Column1"    text="Name"  x=30  y=116 width=150 height=20 style="STYLE_CHARGEN_TAB" groupid=3 groupmemberid=1 />
+    <UIButton name="Column2"    text="Col1"  x=180 y=116 width=70  height=20 style="STYLE_CHARGEN_TAB" groupid=3 groupmemberid=3 />
+    <UIButton name="Column3"    text="Col2"  x=250 y=116 width=40  height=20 style="STYLE_CHARGEN_TAB" groupid=3 groupmemberid=4 />
+
     <!-- List Box -->
     <UIListBox name="LISTBOX_ACR_CREATOR" x="10" y="136" width="297" height="400" xPadding="0" yPadding="5" showpartialchild="true"
 		    unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded=false >

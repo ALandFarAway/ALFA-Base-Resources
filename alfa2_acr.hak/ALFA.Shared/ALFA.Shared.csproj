@@ -32,10 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NWNScriptJITIntrinsics">
-      <HintPath>..\ACR_Candlekeep\bin\Release\NWNScriptJITIntrinsics.dll</HintPath>
+      <HintPath>..\..\CLRScript\CLRv4.0.30319\NWNScriptJITIntrinsics.dll</HintPath>
     </Reference>
     <Reference Include="NWScriptManagedInterface">
-      <HintPath>..\ACR_Candlekeep\bin\Release\NWScriptManagedInterface.dll</HintPath>
+      <HintPath>..\..\CLRScript\CLRv4.0.30319\NWScriptManagedInterface.dll</HintPath>
     </Reference>
     <Reference Include="OEIShared">
       <HintPath>..\..\dependencies\NWN2 DLLs\OEIShared.dll</HintPath>
@@ -55,6 +55,8 @@
     <Compile Include="..\..\CLRScript\NWScriptActions.cs" />
     <Compile Include="..\..\CLRScript\NWScriptConstants.cs" />
     <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />
+    <Compile Include="LightResource.cs" />
+    <Compile Include="VisualEffectResource.cs" />
     <Compile Include="CreatureResource.cs" />
     <Compile Include="DisplayString.cs" />
     <Compile Include="Faction.cs" />

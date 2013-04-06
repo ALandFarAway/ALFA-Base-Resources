@@ -10,8 +10,10 @@ namespace ACR_ChooserCreator
     {
         public volatile static Navigator CreatureNavigator = new Navigator();
         public volatile static Navigator ItemNavigator = new Navigator();
+        public volatile static Navigator LightNavigator = new Navigator();
         public volatile static Navigator PlaceableNavigator = new Navigator();
         public volatile static Navigator WaypointNavigator = new Navigator();
+        public volatile static Navigator VisualEffectNavigator = new Navigator();
     }
 
     public class Navigator: ALFA.Shared.IBackgroundLoadedResource, IDisposable

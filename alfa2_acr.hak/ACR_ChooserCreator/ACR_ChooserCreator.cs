@@ -76,6 +76,8 @@ namespace ACR_ChooserCreator
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", TRUE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "LightActive", TRUE);
                     currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_CREATURE_TAB;
+                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column2", -1, "Fac");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column3", -1, "CR");
                     if (currentUser.CurrentCreatureCategory == Navigators.CreatureNavigator.bottomCategory)
                     {
                         Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.CreatureNavigator);
@@ -94,6 +96,8 @@ namespace ACR_ChooserCreator
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", TRUE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "LightActive", TRUE);
                     currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB;
+                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column2", -1, "Value");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column3", -1, "Lvl");
                     if (currentUser.CurrentItemCategory == Navigators.ItemNavigator.bottomCategory)
                     {
                         Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.ItemNavigator);
@@ -112,6 +116,8 @@ namespace ACR_ChooserCreator
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", TRUE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "LightActive", TRUE);
                     currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_PLACEABLE_TAB;
+                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column2", -1, "Lck/Trp");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column3", -1, "Inv?");
                     if (currentUser.CurrentPlaceableCategory == Navigators.PlaceableNavigator.bottomCategory)
                     {
                         Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.PlaceableNavigator);
@@ -140,8 +146,17 @@ namespace ACR_ChooserCreator
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "VfxActive", FALSE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", TRUE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "LightActive", TRUE);
-                    // TODO: Display current VFX classification, or the base
-                    // classification if none are selected.
+                    currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB;
+                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column2", -1, " ");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column3", -1, " ");
+                    if (currentUser.CurrentVisualEffectCategory == Navigators.VisualEffectNavigator.bottomCategory)
+                    {
+                        Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.VisualEffectNavigator);
+                    }
+                    else
+                    {
+                        Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentVisualEffectCategory);
+                    }
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB:
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "CreatureActive", TRUE);
@@ -152,7 +167,9 @@ namespace ACR_ChooserCreator
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", FALSE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "LightActive", TRUE);
                     currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB;
-                    if (currentUser.CurrentItemCategory == Navigators.WaypointNavigator.bottomCategory)
+                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column2", -1, " ");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column3", -1, " ");
+                    if (currentUser.CurrentWaypointCategory == Navigators.WaypointNavigator.bottomCategory)
                     {
                         Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.WaypointNavigator);
                     }
@@ -160,8 +177,6 @@ namespace ACR_ChooserCreator
                     {
                         Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentWaypointCategory);
                     }
-                    // TODO: Display current waypoint classification, or the base
-                    // classification if none are selected.
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB:
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "CreatureActive", TRUE);
@@ -171,8 +186,17 @@ namespace ACR_ChooserCreator
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "VfxActive", TRUE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", TRUE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "LightActive", FALSE);
-                    // TODO: Display current lights classification, or the base
-                    // classification if none are selected.
+                    currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB;
+                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column2", -1, "Brt/Rd");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column3", -1, "Shd");
+                    if (currentUser.CurrentWaypointCategory == Navigators.LightNavigator.bottomCategory)
+                    {
+                        Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.LightNavigator);
+                    }
+                    else
+                    {
+                        Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentLightCategory);
+                    }
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_INCOMING_CLICK:
                     // TODO: make note of the selected row and provide
@@ -191,6 +215,8 @@ namespace ACR_ChooserCreator
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB) currentCat = currentUser.CurrentItemCategory;
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_PLACEABLE_TAB) currentCat = currentUser.CurrentPlaceableCategory;
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB) currentCat = currentUser.CurrentWaypointCategory;
+                        else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB) currentCat = currentUser.CurrentVisualEffectCategory;
+                        else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB) currentCat = currentUser.CurrentLightCategory;
 
                         // and we figure out where we're going relative to where we are.
                         string searchTerm = commandParam.Split(':')[1];
@@ -201,6 +227,8 @@ namespace ACR_ChooserCreator
                             else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB) targetCat = BackgroundLoader.GetCategoryByName(currentUser.CurrentItemCategory, searchTerm);
                             else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_PLACEABLE_TAB) targetCat = BackgroundLoader.GetCategoryByName(currentUser.CurrentPlaceableCategory, searchTerm);
                             else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB) targetCat = BackgroundLoader.GetCategoryByName(currentUser.CurrentWaypointCategory, searchTerm);
+                            else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB) targetCat = BackgroundLoader.GetCategoryByName(currentUser.CurrentVisualEffectCategory, searchTerm);
+                            else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB) targetCat = BackgroundLoader.GetCategoryByName(currentUser.CurrentLightCategory, searchTerm);
                         }
 
                         // and then we have a new current category.
@@ -208,6 +236,8 @@ namespace ACR_ChooserCreator
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB) currentUser.CurrentItemCategory = targetCat;
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_PLACEABLE_TAB) currentUser.CurrentPlaceableCategory = targetCat;
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB) currentUser.CurrentWaypointCategory = targetCat;
+                        else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB) currentUser.CurrentVisualEffectCategory = targetCat;
+                        else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB) currentUser.CurrentLightCategory = targetCat;
 
                         // and finally we can draw the new navigator category.
                         Waiter.DrawNavigatorCategory(this, targetCat);
@@ -241,6 +271,16 @@ namespace ACR_ChooserCreator
                         {
                             SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_VALID_TARGET_LIST, "ground");
                             SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_CREATE_OBJECT_TYPE, CLRScriptBase.OBJECT_TYPE_WAYPOINT.ToString());
+                        }
+                        else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB)
+                        {
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_VALID_TARGET_LIST, "ground");
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_CREATE_OBJECT_TYPE, CLRScriptBase.OBJECT_TYPE_PLACED_EFFECT.ToString());
+                        }
+                        else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB)
+                        {
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_VALID_TARGET_LIST, "ground");
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_CREATE_OBJECT_TYPE, CLRScriptBase.OBJECT_TYPE_LIGHT.ToString());
                         }
                         
                         DisplayGuiScreen(OBJECT_SELF, "TARGET_SINGLE", 0, "target_single.xml", 0);

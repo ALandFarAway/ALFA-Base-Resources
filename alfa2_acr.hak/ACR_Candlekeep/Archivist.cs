@@ -40,8 +40,15 @@ namespace ACR_Candlekeep
                 ALFA.Shared.Modules.InfoStore.ModulePlaceables = new Dictionary<string, ALFA.Shared.PlaceableResource>();
                 ALFA.Shared.Modules.InfoStore.ModuleWaypoints = new Dictionary<string, ALFA.Shared.WaypointResource>();
                 ALFA.Shared.Modules.InfoStore.ModuleFactions = new Dictionary<int, ALFA.Shared.Faction>();
+                ALFA.Shared.Modules.InfoStore.ModuleVisualEffects = new Dictionary<string, ALFA.Shared.VisualEffectResource>();
+                ALFA.Shared.Modules.InfoStore.ModuleLights = new Dictionary<string, ALFA.Shared.LightResource>();
 
                 List<int> factionIndex = new List<int>();
+                factionIndex.Add(0); // Player
+                factionIndex.Add(1); // Hostile
+                factionIndex.Add(2); // Commoner
+                factionIndex.Add(3); // Merchant
+                factionIndex.Add(4); // Defender
 
                 #region Caching Information about All Items
                 foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUTI))
@@ -236,23 +243,13 @@ namespace ACR_Candlekeep
                         addingPlaceable.TemplateResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
                         addingPlaceable.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
                         addingPlaceable.Useable = currentGFF.TopLevelStruct["Useable"].Value.ToString() != "0";
-                        addingPlaceable.HasInventory = currentGFF.TopLevelStruct["HasInventory"].Value.ToString() != "0";
-                        addingPlaceable.Trapped = currentGFF.TopLevelStruct["Useable"].Value.ToString() != "0";
-                        addingPlaceable.Locked = currentGFF.TopLevelStruct["Locked"].Value.ToString() != "0";
+                        addingPlaceable.HasInventory = currentGFF.TopLevelStruct["HasInventory"].ValueByte != 0;
+                        addingPlaceable.Trapped = currentGFF.TopLevelStruct["TrapFlag"].ValueByte != 0;
+                        addingPlaceable.Locked = currentGFF.TopLevelStruct["Locked"].ValueByte != 0;
 
-                        int trapDisarmDC = 0, trapDetectDC = 0, unlockDC = 0;
-                        if (Int32.TryParse(currentGFF.TopLevelStruct["TrapDetectDC"].Value.ToString(), out trapDetectDC))
-                        {
-                            addingPlaceable.TrapDetectDC = trapDetectDC;
-                        }
-                        if (Int32.TryParse(currentGFF.TopLevelStruct["DisarmDC"].Value.ToString(), out trapDetectDC))
-                        {
-                            addingPlaceable.TrapDisarmDC = trapDisarmDC;
-                        }
-                        if (Int32.TryParse(currentGFF.TopLevelStruct["OpenLockDC"].Value.ToString(), out trapDetectDC))
-                        {
-                            addingPlaceable.LockDC = unlockDC;
-                        }
+                        addingPlaceable.TrapDetectDC = currentGFF.TopLevelStruct["TrapDetectDC"].ValueInt;
+                        addingPlaceable.TrapDisarmDC = currentGFF.TopLevelStruct["DisarmDC"].ValueInt;                        
+                        addingPlaceable.LockDC = currentGFF.TopLevelStruct["OpenLockDC"].ValueInt;
 
                         addingPlaceable.ConfigureDisplayName();
 
@@ -327,6 +324,91 @@ namespace ACR_Candlekeep
                 }
                 #endregion
 
+                #region Caching Information about Visual Effects
+                foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUPE))
+                {
+                    try
+                    {
+                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
+
+                        string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
+                        if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(currentResRef))
+                        {
+                            continue;
+                        }
+
+                        ALFA.Shared.VisualEffectResource addingVisual = new ALFA.Shared.VisualEffectResource();
+
+                        addingVisual.TemplateResRef = currentResRef;
+
+                        try
+                        {
+                            addingVisual.Name = currentGFF.TopLevelStruct["LocName"].Value.ToString().Split('"')[1];
+                        }
+                        catch
+                        {
+                            addingVisual.Name = currentGFF.TopLevelStruct["LocName"].Value.ToString();
+                        }
+                        if (addingVisual.Name == "")
+                        {
+                            addingVisual.Name = GetTlkEntry(currentGFF.TopLevelStruct["LocName"].ValueCExoLocString.StringRef);
+                        }
+
+                        addingVisual.Classification = ParseClassification(currentGFF.TopLevelStruct["Classification"].Value.ToString());
+                        addingVisual.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
+
+                        addingVisual.ConfigureDisplayName();
+
+                        ALFA.Shared.Modules.InfoStore.ModuleVisualEffects.Add(addingVisual.TemplateResRef, addingVisual);
+                    }
+                    catch { }
+                }
+                #endregion
+
+                #region Caching Information about Lights
+                foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResULT))
+                {
+                    try
+                    {
+                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
+
+                        string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
+                        if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(currentResRef))
+                        {
+                            continue;
+                        }
+
+                        ALFA.Shared.LightResource addingLight = new ALFA.Shared.LightResource();
+
+                        addingLight.TemplateResRef = currentResRef;
+
+                        try
+                        {
+                            addingLight.Name = currentGFF.TopLevelStruct["LocalizedName"].Value.ToString().Split('"')[1];
+                        }
+                        catch
+                        {
+                            addingLight.Name = currentGFF.TopLevelStruct["LocalizedName"].Value.ToString();
+                        }
+                        if (addingLight.Name == "")
+                        {
+                            addingLight.Name = GetTlkEntry(currentGFF.TopLevelStruct["LocalizedName"].ValueCExoLocString.StringRef);
+                        }
+
+                        addingLight.Classification = ParseClassification(currentGFF.TopLevelStruct["Classification"].Value.ToString());
+                        addingLight.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
+
+                        addingLight.LightRange = currentGFF.TopLevelStruct["Range"].ValueFloat;
+                        addingLight.LightIntensity = currentGFF.TopLevelStruct["Light"].ValueStruct["Intensity"].ValueFloat;
+                        addingLight.ShadowIntensity = currentGFF.TopLevelStruct["ShadowIntensity"].ValueFloat * 100;
+
+                        addingLight.ConfigureDisplayName();
+
+                        ALFA.Shared.Modules.InfoStore.ModuleLights.Add(addingLight.TemplateResRef, addingLight);
+                    }
+                    catch { }
+                }
+                #endregion
 
                 #region Commented-Out Resource Types
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.Res2DA))
@@ -426,8 +508,6 @@ namespace ACR_Candlekeep
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResTXT))
                 //{ }
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUEN))
-                //{ }
-                //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResULT))
                 //{ }
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResUPE))
                 //{ }
