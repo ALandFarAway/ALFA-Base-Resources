@@ -114,7 +114,6 @@ void ACR_RefreshHide(object oPC)
 	// Clean up hide
 	ACR_RemoveAllPropertiesFromHide(oHide, DURATION_TYPE_PERMANENT);
 
-	ACR_FeatsOnPCLevelUp(oPC);
 	
 	
 	// Examine variables for hide
