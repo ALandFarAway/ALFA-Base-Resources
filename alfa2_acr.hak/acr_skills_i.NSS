@@ -1018,6 +1018,10 @@ int _LookupSynergy(int nSkillID, object oPC, int bShowRoll)
 
 	// Apply any circumstance or synergy modifiers here.
 	switch (nSkillID) {
+	case SKILL_CRAFT__ALCHEMY:
+		if (GetRacialType(oPC) == RACIAL_TYPE_GNOME) {
+			nModifiedRank += 2;
+		}
 	case SKILL_BALANCE:
 		if (GetSkillRank(SKILL_TUMBLE, oPC, TRUE) >= 5) {
 			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Tumble ranks"); }
