@@ -7,8 +7,8 @@
 NSS_FLAVOR=NWN2
 
 NSS_INCLNSS=                                                    \
-    $(OUTPUTDIR)\buildmod\acf_settings_i.ncs                    \
-    $(OUTPUTDIR)\buildmod\acf_spawn_i.ncs
+    $(OUTPUTDIR)\buildmod\acf_settings_i.nss                    \
+    $(OUTPUTDIR)\buildmod\acf_spawn_i.nss
 
 NSS_OBJECTS=                                                    \
     $(OUTPUTDIR)\buildmod\acf_area_client.ncs                   \
@@ -101,9 +101,16 @@ NSS_OBJECTS=                                                    \
     $(OUTPUTDIR)\buildmod\acf_trg_ontraptriggered.ncs           \
     $(OUTPUTDIR)\buildmod\acf_trg_onuserdefined.ncs
 
-all:
-	scriptincludes
-	@copy /y *.* $(OUTPUTDIR)\buildmod\ >NUL
+safedir:
+	@if not exist $(OUTPUTDIR)\buildmod $(OUTPUTDIR)\buildmod
+
+copyfiles:
+	@copy /y *.* $(OUTPUTDIR)\buildmod\
+
+bldscripts:
+	$(NSS_OBJECTS)
+
+all: safedir copyfiles bldscripts
 
 clean:
-	@if exist $(OUTPUTDIR)\buildmod\*.* del $(OUTPUTDIR)\buildmod\*.*
+	@if exist $(OUTPUTDIR)\buildmod del $(OUTPUTDIR)\buildmod
