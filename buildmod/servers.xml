@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<serverlist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" defaultServer="0" nextServerId="1">
+  <servers>
+    <server id="0" url="http://foam.rp-addict.com/adl/alfa_buildmod_01/" password="" username="" />
+  </servers>
+</serverlist>
