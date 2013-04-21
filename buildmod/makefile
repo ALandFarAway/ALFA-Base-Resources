@@ -103,13 +103,13 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acf_trg_ontraptriggered.ncs           \
             $(OUTPUTDIR)\acf_trg_onuserdefined.ncs
 
+all: safedir copyfiles $(NSS_OBJECTS)
+
 safedir:
 	@if not exist $(OUTPUTDIR) mkdir $(OUTPUTDIR)
 
 copyfiles:
 	@copy /y *.* $(OUTPUTDIR)\ >NUL
-
-all: safedir copyfiles $(NSS_OBJECTS)
 
 clean:
 	@if exist $(OUTPUTDIR) del /q $(OUTPUTDIR)\*
