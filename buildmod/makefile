@@ -5,7 +5,7 @@
 NSS_INCLUDES=$(PROJECT_SOURCE_ROOT)\alfa2_acr.hak;$(NSS_INCLUDES);$(PROJECT_SOURCE_ROOT)\NWNX4\inc
 NSS_FLAVOR=NWN2
 
-OUTPUTDIR=$(OUTPUTDIR)\buildmod
+OUTPUTSUBDIR=buildmod\\
 
 !include $(PROJECT_SOURCE_ROOT)\makefile.def
 
@@ -105,7 +105,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acf_trg_onuserdefined.ncs
 
 safedir:
-	@if not exist $(OUTPUTDIR) mkdir $(OUTPUTDIR)
+	if not exist $(OUTPUTDIR) mkdir $(OUTPUTDIR)
 
 copyfiles:
 	@copy /y *.* $(OUTPUTDIR)\ >NUL
@@ -113,5 +113,5 @@ copyfiles:
 all: safedir copyfiles $(NSS_OBJECTS)
 
 clean:
-	@if exist $(OUTPUTDIR) rd /s /q $(OUTPUTDIR)
+	@if exist $(OUTPUTDIR) del /q $(OUTPUTDIR)\*
 
