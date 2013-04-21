@@ -54,7 +54,6 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acf_door_onmeleeattacked.ncs          \
             $(OUTPUTDIR)\acf_door_onopen.ncs                   \
             $(OUTPUTDIR)\acf_door_onspellcastat.ncs            \
-            $(OUTPUTDIR)\acf_door_ontraptriggered .ncs         \
             $(OUTPUTDIR)\acf_door_ontraptriggered.ncs          \
             $(OUTPUTDIR)\acf_door_onunlock.ncs                 \
             $(OUTPUTDIR)\acf_door_onused.ncs                   \
