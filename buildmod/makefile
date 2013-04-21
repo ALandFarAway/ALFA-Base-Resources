@@ -105,7 +105,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acf_trg_onuserdefined.ncs
 
 safedir:
-	if not exist $(OUTPUTDIR) mkdir $(OUTPUTDIR)
+	@if not exist $(OUTPUTDIR) mkdir $(OUTPUTDIR)
 
 copyfiles:
 	@copy /y *.* $(OUTPUTDIR)\ >NUL
