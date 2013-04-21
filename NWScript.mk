@@ -3,7 +3,7 @@
 # files.
 #
 
-NSS_FLAGS=$(NSS_FLAGS) -x "error " -q -e -o -v1.70 -i $(NSS_INC_PATH) -i $(NSS_INCLUDES);
+NSS_FLAGS=$(NSS_FLAGS) -x "error " -q -e -o -v1.70 -i $(NSS_INC_PATH); -i $(NSS_INCLUDES); 
 
 {}.nss{$(OUTPUTDIR)}.ncs:
 	$(BUILD_MSG) (NWScript) Compiling - $(<:.\=)
