@@ -74,9 +74,10 @@ void main(int nXP)
     { 
         // close the GUI and set the target player's experience
         CloseGUIScreen(oDM, ACR_GUI_SCREEN_DM_SETXP);
+        int nOldXP = GetXP(oTarget);
         SetXP(oTarget, nXP); ACR_CorrectXPTotals(oTarget);
-		SendMessageToPC(oDM, "You have set "+GetName(oTarget)+" to "+IntToString(nXP)+" XP.");
+        SendMessageToPC(oDM, "You have set "+GetName(oTarget)+" to "+IntToString(nXP)+" XP.");
         // log the XP change
-        ACR_LogEvent(oTarget, ACR_LOG_SETXP, "DM " + GetName(oDM) + " (" + ACR_GetPCPublicCDKey(oDM) + ") set experience to " + IntToString(nXP), oDM);
+        ACR_LogEvent(oTarget, ACR_LOG_SETXP, "DM " + GetName(oDM) + " (" + ACR_GetPCPublicCDKey(oDM) + ") set experience to " + IntToString(nXP) + " from " + IntToString(nOldXP), oDM);
     }
 }
