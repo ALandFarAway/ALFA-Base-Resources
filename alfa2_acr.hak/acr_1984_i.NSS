@@ -283,7 +283,7 @@ void ACR_LogOnAcquired(object oItem, object oTaker, int bStolen=FALSE)
 		// item has been picked up
 		sAcquireLog += "Item: ";
 		if (nStack > 1) { sAcquireLog += IntToString(nStack) + " of "; }
-		sAcquireLog += ACR_SQLEncodeSpecialChars(GetName(oItem)) + " with ResRef: " + GetResRef(oItem);
+		sAcquireLog += ACR_SQLEncodeSpecialChars(GetName(oItem)) + " with ResRef: " + GetResRef(oItem) + " and value " + IntToString(GetGoldPieceValue(oItem));
     	if (GetIsObjectValid(oAcquiredFrom)) { 
 			sAcquireLog += ", From: " + ACR_SQLEncodeSpecialChars(GetName(oAcquiredFrom)); 
 		}
@@ -326,7 +326,7 @@ void ACR_LogOnUnacquired(object oItem, object oGiver, int bStolen=FALSE)
 	} 
 	sUnAcquireDesc += "Item: ";
 	if (nLost > 1) { sUnAcquireDesc += IntToString(nLost) + " of "; }
-	sUnAcquireDesc += ACR_SQLEncodeSpecialChars(GetName(oItem));
+	sUnAcquireDesc += ACR_SQLEncodeSpecialChars(GetName(oItem))  + " of value " + IntToString(GetGoldPieceValue(oItem));
 	if ( GetIsObjectValid(oNewOwner)) {	
 		sUnAcquireDesc += ", to: " + ACR_SQLEncodeSpecialChars(GetName(oNewOwner)); 
 	} 
