@@ -216,6 +216,10 @@ float _AdjustXPForParty(float fBaseXP, int nSize);
 
 void ACR_AwardStaticQuestXP(object oPC, string sPlotID, int nQuestXP)
 {
+    int ECL = ACR_GetECL(oPC);
+    if(ECL >= 15) nQuestXP = nQuestXP/10;
+    else if(ECL >= 10) nQuestXP = nQuestXP/5;
+    else if(ECL >= 5) nQuestXP = nQuestXP * 2 / 5;
     ACR_GiveXPToPC(oPC, nQuestXP);
     ACR_LogEvent(oPC, ACR_LOG_STATICXP, "Awarded " + IntToString(nQuestXP) + " for completing quest + " + sPlotID);
 }
