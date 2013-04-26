@@ -471,7 +471,7 @@ void ACR_RestOnClientEnter(object oPC)
 int ACR_GetHoursUntilRest( object oPC ) {
 	// Calculate hours to wait.
 	int nLastRestTimeStamp = ACR_GetPersistentInt( oPC, ACR_REST_TIMER );
-	int nHoursToWait = ACR_GetTimeStampInHours() - nLastRestTimeStamp;
+	int nHoursToWait = ACR_REST_CYCLE - (ACR_GetTimeStampInHours() - nLastRestTimeStamp);
 
 	// Does our value make sense?
 	if ( nHoursToWait > ACR_REST_CYCLE ) {
