@@ -132,6 +132,21 @@ const string ACR_QST_CONTAINER_TAG = "ACR_QST_CONTAINER_TAG";
 //!   - nQuestXP: The experience to award
 void ACR_AddPersistentJournalQuestEntry(string sPlotID, int nState, object oCreature, int bAllPartyMembers=TRUE, int bAllPlayers=FALSE, int bAllowOverrideHigher=FALSE, int nQuestXP=0, float fCR=0.0f);
 
+//! transparent wrapper to AddJournalQuestEntry
+//! use this function instead of the original one to store quest/journal data
+//! persistently using the bio DB. all function parameters work similar to the original function
+//!
+//! Add a journal quest entry to oCreature
+//!   - sPlotID: the plot identifier used in the toolset's Journal Editor
+//!   - nState: the state of the plot as seen in the toolset's Journal Editor
+//!   - oCreature: the creature that will receive the quest and quest xp
+//!   - bAllPartyMembers: If this is TRUE, the entry will show up in the journal of everyone in the party
+//!   - bAllPlayers: If this is TRUE, the entry will show up in the journal of everyone in the world
+//!   - bAllowOverrideHigher: If this is TRUE, you can set the state to a lower number than the one it is currently on
+//!   - fHours: The duration of the quest
+//!   - fCR: The challenge rating of the quest
+void ACR_AddPersistentJournalQuestEntryByCR(string sPlotID, int nState, object oCreature, int bAllPartyMembers=TRUE, int bAllPlayers=FALSE, int bAllowOverrideHigher=FALSE, float fHours=0.0f, float fCR=0.0f);
+
 //! transparent wrapper to RemoveJournalQuestEntry()
 //! use this function instead of the original one to remove quest/journal data
 //! persistently using the bio DB. all function parameters work similar to the original function
@@ -253,6 +268,68 @@ void ACR_AddPersistentJournalQuestEntry(string sPlotID, int nState, object oCrea
     	AddJournalQuestEntry(sPlotID, nState, oCreature, bAllPartyMembers, bAllPlayers, bAllowOverrideHigher);
         _insertQuestEntry(sPlotID, nState, oCreature, bAllowOverrideHigher);
         if (nQuestXP > 0) { ACR_AwardStaticQuestXP(oCreature, sPlotID, nQuestXP, fCR); }
+    }
+}
+
+void ACR_AddPersistentJournalQuestEntryByCR(string sPlotID, int nState, object oCreature, int bAllPartyMembers=TRUE, int bAllPlayers=FALSE, int bAllowOverrideHigher=FALSE, float fHours=0.0f, float fCR=0.0f)
+{
+    float fDistance = 0.0;
+    // add the quest data to the database
+    if (bAllPlayers) {
+		// branch for quests that effect all PCs onserver, unlikely to be used much
+        object oPC = GetFirstPC();
+		int nGlobalCachedState = 0;
+        // create a quest entry for all the players in the roster
+        while (GetIsObjectValid(oPC))
+        {
+            fDistance = GetDistanceBetween(oCreature, oPC);
+
+            // ignore players beyond a reasonable distance from the target creature
+            if ((fDistance > 0.0) && (fDistance <= ACR_QST_RADIUS))
+            {
+                // check that the player has the quest but has not completed it
+				nGlobalCachedState = ACR_RetrieveQuestState(sPlotID, oPC);
+                if ((nGlobalCachedState > 0) && (nGlobalCachedState < nState))
+                {
+				    // add the quest data to the journal
+   					AddJournalQuestEntry(sPlotID, nState, oPC, FALSE, FALSE, bAllowOverrideHigher);
+                    _insertQuestEntry(sPlotID, nState, oPC, bAllowOverrideHigher);
+                    ACR_AwardStaticQuestXPFromCR(oPC, sPlotID, fCR, fHours);
+                }
+            }
+		oPC = GetNextPC();
+        }
+    } else if (bAllPartyMembers) {
+		// branch for quests that automatically extend to all party members
+        object oPartyMember = GetFirstFactionMember(oCreature);
+		int nMemberState = 0;
+        // create a quest entry for all the players in the party
+        while (GetIsObjectValid(oPartyMember))
+        {
+            fDistance = GetDistanceBetween(oCreature, oPartyMember);
+			if (oCreature == oPartyMember) { fDistance = 0.1; }
+            // ignore players beyond a reasonable distance from the target creature
+            if ((fDistance > 0.0) && (fDistance <= ACR_QST_RADIUS))
+            {
+				nMemberState = ACR_RetrieveQuestState(sPlotID, oPartyMember);
+                // check that the player has the quest but has not completed it
+                if ((nMemberState > 0) && (nMemberState < nState))
+                {
+				    // add the quest data to the journal
+    				AddJournalQuestEntry(sPlotID, nState, oPartyMember, FALSE, FALSE, bAllowOverrideHigher);
+                    _insertQuestEntry(sPlotID, nState, oPartyMember, bAllowOverrideHigher);
+                    ACR_AwardStaticQuestXPFromCR(oPartyMember, sPlotID, fCR, fHours);
+                }
+            }
+		oPartyMember = GetNextFactionMember(oCreature);
+        }
+    } else {
+        // create a quest entry for this player only
+		//  Most quests will use this branch.
+		// add the quest data to the journal
+    	AddJournalQuestEntry(sPlotID, nState, oCreature, bAllPartyMembers, bAllPlayers, bAllowOverrideHigher);
+        _insertQuestEntry(sPlotID, nState, oCreature, bAllowOverrideHigher);
+        ACR_AwardStaticQuestXPFromCR(oCreature, sPlotID, fCR, fHours);
     }
 }
 

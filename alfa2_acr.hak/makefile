@@ -174,6 +174,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_feat_songoffury.ncs               \
             $(OUTPUTDIR)\acr_quest_progress.ncs                \
             $(OUTPUTDIR)\acr_quest_reward.ncs                  \
+            $(OUTPUTDIR)\acr_quest_rewardbycr.ncs              \
             $(OUTPUTDIR)\acr_quest_update.ncs                  \
             $(OUTPUTDIR)\acr_poison_applied.ncs                \
             $(OUTPUTDIR)\acr_poison_impact.ncs                 \
