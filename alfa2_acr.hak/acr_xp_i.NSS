@@ -89,6 +89,9 @@ const float _ACR_XP_NONLETHAL_RATIO = 0.1;
 // The DMG base would be 300.
 const float _ACR_XP_COMBAT_ANCHOR = 20.0;
 
+// The base XP gained for quests.
+const float _ACR_XP_QUEST_ANCHOR = 80.0;
+
 // The maximum amount of XP a PC can get for an hour's worth of roleplaying.
 const float _ACR_XP_MAX_RP_HOUR = 70.0;
 
@@ -127,7 +130,11 @@ const string _ACR_PPS_QUARANTINED = "ACR_PPS_QUARANTINED";
 //! *** PUBLIC FUNCTIONS ***
 
 //! Award XP to oPC for completing a static quest of some sort.
-void ACR_AwardStaticQuestXP(object oPC, string sPlotID, int nQuestXP);
+void ACR_AwardStaticQuestXP(object oPC, string sPlotID, int nQuestXP, float fCR = 0.0f);
+
+//! Award XP to oPC for completing a static quest of fCR and taking fHours of time to
+//! complete.
+void ACR_AwardStaticQuestXPFromCR(object oPC, string sPlotID, float fCR, float fHours);
 
 //! Award XP to oPC for a DM session.
 void ACR_AwardDMSessionXP(object oPC, object oDM, float fSessionLength, int nRPXP, int nQuestXP = 0, int nBonusXP = 0);
@@ -214,14 +221,19 @@ float _AdjustXPForParty(float fBaseXP, int nSize);
 // *** BEGIN PUBLIC FUNCTIONS ***
 ////////////////////////////////////////////////////////////////////////////////
 
-void ACR_AwardStaticQuestXP(object oPC, string sPlotID, int nQuestXP)
+void ACR_AwardStaticQuestXP(object oPC, string sPlotID, int nQuestXP, float fCR = 0.0f)
 {
-    int ECL = ACR_GetECL(oPC);
-    if(ECL >= 15) nQuestXP = nQuestXP/10;
-    else if(ECL >= 10) nQuestXP = nQuestXP/5;
-    else if(ECL >= 5) nQuestXP = nQuestXP * 2 / 5;
+    float fDiff = ACR_GetECL(oPC) - fCR;
+    if(fDiff < 0.0f) fDiff = 0.0f;
+    nQuestXP = FloatToInt(IntToFloat(nQuestXP) * pow(0.9, fDiff));
     ACR_GiveXPToPC(oPC, nQuestXP);
     ACR_LogEvent(oPC, ACR_LOG_STATICXP, "Awarded " + IntToString(nQuestXP) + " for completing quest + " + sPlotID);
+}
+
+void ACR_AwardStaticQuestXPFromCR(object oPC, string sPlotID, float fCR, float fHours)
+{
+    int nRewardXP = FloatToInt(_ACR_XP_QUEST_ANCHOR * pow(fCR, 0.6) * fHours);
+    ACR_AwardStaticQuestXP(oPC, sPlotID, nRewardXP, fCR);
 }
 
 void ACR_AwardDMSessionXP(object oPC, object oDM, float fSessionLength, int nRPXP, int nQuestXP = 0, int nBonusXP = 0)
