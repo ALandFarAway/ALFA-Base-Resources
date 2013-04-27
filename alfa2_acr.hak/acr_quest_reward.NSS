@@ -39,7 +39,7 @@
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void main(string sQuest, int nGold, int bPartyWide, int bXP)
+void main(string sQuest, int nGold, int bPartyWide, int bXP, float fCR)
 {
 	object oPC = GetPCSpeaker();
 	object oItem = GetLocalObject(oPC, sQuest);
@@ -54,5 +54,5 @@ void main(string sQuest, int nGold, int bPartyWide, int bXP)
 	if (bXP) { nXPaward = GetJournalQuestExperience(sQuest); }
 	
 	// update the quest to its final (completed) state
-	ACR_AddPersistentJournalQuestEntry(sQuest, ACR_RetrieveQuestState(sQuest, oPC) + 1, oPC, bPartyWide, FALSE, FALSE, nXPaward);
+	ACR_AddPersistentJournalQuestEntry(sQuest, ACR_RetrieveQuestState(sQuest, oPC) + 1, oPC, bPartyWide, FALSE, FALSE, nXPaward, fCR);
 }

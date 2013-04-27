@@ -130,7 +130,7 @@ const string ACR_QST_CONTAINER_TAG = "ACR_QST_CONTAINER_TAG";
 //!   - bAllPlayers: If this is TRUE, the entry will show up in the journal of everyone in the world
 //!   - bAllowOverrideHigher: If this is TRUE, you can set the state to a lower number than the one it is currently on
 //!   - nQuestXP: The experience to award
-void ACR_AddPersistentJournalQuestEntry(string sPlotID, int nState, object oCreature, int bAllPartyMembers=TRUE, int bAllPlayers=FALSE, int bAllowOverrideHigher=FALSE, int nQuestXP=0);
+void ACR_AddPersistentJournalQuestEntry(string sPlotID, int nState, object oCreature, int bAllPartyMembers=TRUE, int bAllPlayers=FALSE, int bAllowOverrideHigher=FALSE, int nQuestXP=0, float fCR=0.0f);
 
 //! transparent wrapper to RemoveJournalQuestEntry()
 //! use this function instead of the original one to remove quest/journal data
@@ -193,7 +193,7 @@ void _despawnQuestCreature(object oCreature);
 //  *** BEGIN PUBLIC FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////
 
-void ACR_AddPersistentJournalQuestEntry(string sPlotID, int nState, object oCreature, int bAllPartyMembers=TRUE, int bAllPlayers=FALSE, int bAllowOverrideHigher=FALSE, int nQuestXP=0)
+void ACR_AddPersistentJournalQuestEntry(string sPlotID, int nState, object oCreature, int bAllPartyMembers=TRUE, int bAllPlayers=FALSE, int bAllowOverrideHigher=FALSE, int nQuestXP=0, float fCR=0.0f)
 {
 
     float fDistance = 0.0;
@@ -217,7 +217,7 @@ void ACR_AddPersistentJournalQuestEntry(string sPlotID, int nState, object oCrea
 				    // add the quest data to the journal
    					AddJournalQuestEntry(sPlotID, nState, oPC, FALSE, FALSE, bAllowOverrideHigher);
                     _insertQuestEntry(sPlotID, nState, oPC, bAllowOverrideHigher);
-                    if (nQuestXP > 0) { ACR_AwardStaticQuestXP(oPC, sPlotID, nQuestXP); }
+                    if (nQuestXP > 0) { ACR_AwardStaticQuestXP(oPC, sPlotID, nQuestXP, fCR); }
                 }
             }
 		oPC = GetNextPC();
@@ -241,7 +241,7 @@ void ACR_AddPersistentJournalQuestEntry(string sPlotID, int nState, object oCrea
 				    // add the quest data to the journal
     				AddJournalQuestEntry(sPlotID, nState, oPartyMember, FALSE, FALSE, bAllowOverrideHigher);
                     _insertQuestEntry(sPlotID, nState, oPartyMember, bAllowOverrideHigher);
-                    if (nQuestXP > 0) { ACR_AwardStaticQuestXP(oPartyMember, sPlotID, nQuestXP); }
+                    if (nQuestXP > 0) { ACR_AwardStaticQuestXP(oPartyMember, sPlotID, nQuestXP, fCR); }
                 }
             }
 		oPartyMember = GetNextFactionMember(oCreature);
@@ -252,7 +252,7 @@ void ACR_AddPersistentJournalQuestEntry(string sPlotID, int nState, object oCrea
 		// add the quest data to the journal
     	AddJournalQuestEntry(sPlotID, nState, oCreature, bAllPartyMembers, bAllPlayers, bAllowOverrideHigher);
         _insertQuestEntry(sPlotID, nState, oCreature, bAllowOverrideHigher);
-        if (nQuestXP > 0) { ACR_AwardStaticQuestXP(oCreature, sPlotID, nQuestXP); }
+        if (nQuestXP > 0) { ACR_AwardStaticQuestXP(oCreature, sPlotID, nQuestXP, fCR); }
     }
 }
 
