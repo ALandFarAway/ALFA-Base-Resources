@@ -223,6 +223,7 @@ float _AdjustXPForParty(float fBaseXP, int nSize);
 
 void ACR_AwardStaticQuestXP(object oPC, string sPlotID, int nQuestXP, float fCR = 0.0f)
 {
+    if(fCR < 0.5) fCR = 0.5;
     float fDiff = ACR_GetECL(oPC) - fCR;
     if(fDiff < 0.0f) fDiff = 0.0f;
     nQuestXP = FloatToInt(IntToFloat(nQuestXP) * pow(0.9, fDiff));
@@ -232,6 +233,7 @@ void ACR_AwardStaticQuestXP(object oPC, string sPlotID, int nQuestXP, float fCR 
 
 void ACR_AwardStaticQuestXPFromCR(object oPC, string sPlotID, float fCR, float fHours)
 {
+    if(fCR < 0.5) fCR = 0.5;
     int nRewardXP = FloatToInt(_ACR_XP_QUEST_ANCHOR * pow(fCR, 0.6) * fHours);
     ACR_AwardStaticQuestXP(oPC, sPlotID, nRewardXP, fCR);
 }
