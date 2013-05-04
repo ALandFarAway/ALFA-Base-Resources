@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_Candlekeep", "..\ACR_Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_ChooserCreator", "..\ACR_ChooserCreator\ACR_ChooserCreator.csproj", "{40B85EFF-56FA-47FA-9103-70B5EF27F524}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_Traps", "..\ACR_Traps\ACR_Traps.csproj", "{93EFD897-2CD8-44E0-9498-5C11DBA0D09D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{40B85EFF-56FA-47FA-9103-70B5EF27F524}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40B85EFF-56FA-47FA-9103-70B5EF27F524}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40B85EFF-56FA-47FA-9103-70B5EF27F524}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93EFD897-2CD8-44E0-9498-5C11DBA0D09D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93EFD897-2CD8-44E0-9498-5C11DBA0D09D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93EFD897-2CD8-44E0-9498-5C11DBA0D09D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93EFD897-2CD8-44E0-9498-5C11DBA0D09D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
