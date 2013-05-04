@@ -15,9 +15,9 @@ using NWLocation = NWScript.NWScriptEngineStructure2;
 using NWTalent = NWScript.NWScriptEngineStructure3;
 using NWItemProperty = NWScript.NWScriptEngineStructure4;
 
-namespace ACR_EmptyScript
+namespace ACR_Traps
 {
-    public partial class ACR_EmptyScript : CLRScriptBase, ICLRScriptImplementation
+    public partial class ACR_Traps : CLRScriptBase, ICLRScriptImplementation
     {
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace ACR_EmptyScript
         /// <returns>The cloned script object is returned.</returns>
         public IGeneratedScriptProgram CloneScriptProgram()
         {
-            return new ACR_EmptyScript(this);
+            return new ACR_Traps(this);
         }
 
         /// <summary>
