@@ -713,7 +713,7 @@ makeclrscripts:
 	$(BUILD_MSG) (CSProj) Building - ACR_ChooserCreator
 	@$(MSBUILD) ACR_ChooserCreator\ACR_ChooserCreator.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_Traps
-	@$(MSBUILD) ACR_ChooserCreator\ACR_Traps.csproj $(MSBUILD_FLAGS)
+	@$(MSBUILD) ACR_Traps\ACR_Traps.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_CollectionLib
 	@$(MSBUILD) ACR_CollectionLib\ACR_CollectionLib.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_AssemblyLoader
