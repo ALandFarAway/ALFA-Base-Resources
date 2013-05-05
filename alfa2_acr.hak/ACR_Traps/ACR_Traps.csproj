@@ -32,14 +32,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ALFA.Shared">
+      <HintPath>..\ALFA.Shared\bin\Release\ALFA.Shared.dll</HintPath>
+    </Reference>
     <Reference Include="NWNScriptJITIntrinsics, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CLRScript\CLRv4.0.30319\NWNScriptJITIntrinsics.dll</HintPath>
     </Reference>
     <Reference Include="NWScriptManagedInterface, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CLRScript\CLRv4.0.30319\NWScriptManagedInterface.dll</HintPath>
     </Reference>
-    <Reference Include="OEIShared">
-      <HintPath>..\..\CLRScript\CLRv2.0.50727\OEIShared.dll</HintPath>
+    <Reference Include="OEIShared, Version=1.0.1765.0, Culture=neutral, PublicKeyToken=6bb96f3d82daa243, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CLRScript\CLRv2.0.50727\OEIShared.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -50,15 +56,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\CLRScript\ALFADatabase.cs" />
-    <Compile Include="..\..\CLRScript\ALFAScriptLoader.cs" />
-    <Compile Include="..\..\CLRScript\ALFASystemInfo.cs" />
-    <Compile Include="..\..\CLRScript\NWScriptActions.cs" />
-    <Compile Include="..\..\CLRScript\NWScriptConstants.cs" />
-    <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_Traps.cs" />
+    <Compile Include="CreateTraps.cs" />
+    <Compile Include="TriggerArea.cs" />
     <Compile Include="StandardEntrypoints.cs" />
+    <Compile Include="TrapEvents.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

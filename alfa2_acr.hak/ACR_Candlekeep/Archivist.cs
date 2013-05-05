@@ -43,6 +43,9 @@ namespace ACR_Candlekeep
                 ALFA.Shared.Modules.InfoStore.ModuleVisualEffects = new Dictionary<string, ALFA.Shared.VisualEffectResource>();
                 ALFA.Shared.Modules.InfoStore.ModuleLights = new Dictionary<string, ALFA.Shared.LightResource>();
 
+                ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers = new Dictionary<string, ALFA.Shared.ActiveTrap>();
+                ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect = new Dictionary<string, ALFA.Shared.ActiveTrap>();
+
                 List<int> factionIndex = new List<int>();
                 factionIndex.Add(0); // Player
                 factionIndex.Add(1); // Hostile

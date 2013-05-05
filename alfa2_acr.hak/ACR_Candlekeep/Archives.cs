@@ -80,6 +80,9 @@ namespace ACR_Candlekeep
         public Dictionary<string, ALFA.Shared.VisualEffectResource> ModuleVisualEffects { get; set; }
         public Dictionary<int, ALFA.Shared.Faction> ModuleFactions { get; set; }
 
+        public Dictionary<string, ALFA.Shared.ActiveTrap> SpawnedTrapTriggers { get; set; }
+        public Dictionary<string, ALFA.Shared.ActiveTrap> SpawnedTrapDetect { get; set; }
+
         /// <summary>
         /// Mark resources as fully loaded after initialization completes.
         /// </summary>
