@@ -626,6 +626,10 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_creatorspawn.ncs                  \
             $(OUTPUTDIR)\acr_quest_collection.ncs              \
             $(OUTPUTDIR)\acr_quest_errand.ncs                  \
+            $(OUTPUTDIR)\acr_traponenter.ncs                   \
+            $(OUTPUTDIR)\acr_traponexit.ncs                    \
+            $(OUTPUTDIR)\acr_trapdtctenter.ncs                 \
+            $(OUTPUTDIR)\acr_trapdtctexit.ncs                  \
             $(OUTPUTDIR)\nw_s0_lowltvisn.ncs                   
 
 #

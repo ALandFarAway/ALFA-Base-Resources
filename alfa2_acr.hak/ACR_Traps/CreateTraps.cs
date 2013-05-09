@@ -15,7 +15,7 @@ namespace ACR_Traps
 {
     public class CreateTraps: CLRScriptBase
     {
-        public static void GenericDamage(CLRScriptBase script, NWLocation location, TriggerArea triggerArea, int effectArea, float effectSize, int damageType, int diceNumber, int diceType, int saveDC, int attackBonus, int numberOfShots, uint trapOrigin, int targetAlignment, int targetRace, int minimumToTrigger)
+        public static void GenericDamage(CLRScriptBase script, NWLocation location, TriggerArea triggerArea, int effectArea, float effectSize, int damageType, int diceNumber, int diceType, int saveDC, int attackBonus, int numberOfShots, uint trapOrigin, int targetAlignment, int targetRace, int minimumToTrigger, int detectDC, int disarmDC)
         {
             string tag = uniqueTrapTag();
             string detectTag = tag + detectSuffix();
@@ -49,13 +49,15 @@ namespace ACR_Traps
             createdTrap.TargetAlignment = targetAlignment;
             createdTrap.TargetRace = targetRace;
             createdTrap.TrapOrigin = trapOrigin;
+            createdTrap.DetectDC = detectDC;
+            createdTrap.DisarmDC = disarmDC;
             createdTrap.ConfigureDisplayName();
 
             ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect.Add(detectTag, createdTrap);
             ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers.Add(tag, createdTrap);
         }
 
-        public static void Spell(CLRScriptBase script, NWLocation location, TriggerArea triggerArea, int spellId, int numberOfShots, uint trapOrigin, int targetAlignment, int targetRace, int minimumToTrigger)
+        public static void Spell(CLRScriptBase script, NWLocation location, TriggerArea triggerArea, int spellId, int numberOfShots, uint trapOrigin, int targetAlignment, int targetRace, int minimumToTrigger, int detectDC, int disarmDC)
         {
             string tag = uniqueTrapTag();
             string detectTag = tag + detectSuffix();
@@ -83,6 +85,8 @@ namespace ACR_Traps
             createdTrap.TargetRace = targetRace;
             createdTrap.TrapOrigin = trapOrigin;
             createdTrap.SpellId = spellId;
+            createdTrap.DetectDC = detectDC;
+            createdTrap.DisarmDC = disarmDC;
             createdTrap.ConfigureDisplayName();
 
             ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect.Add(detectTag, createdTrap);

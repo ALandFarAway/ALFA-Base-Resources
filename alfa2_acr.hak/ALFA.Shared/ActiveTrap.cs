@@ -25,6 +25,8 @@ namespace ALFA.Shared
         public int TargetAlignment;
         public int TargetRace;
         public int MinimumToTrigger;
+        public int DetectDC;
+        public int DisarmDC;
 
         // For generic traps
         public int DamageType;

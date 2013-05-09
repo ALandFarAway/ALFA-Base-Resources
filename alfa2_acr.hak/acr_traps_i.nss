@@ -33,6 +33,10 @@ const int TRIGGER_SIZE_COLOSSAL = 6;    // 30 feet aka four tiles
 
 const int TRAP_EVENT_CREATE_GENERIC = 1;
 const int TRAP_EVENT_CREATE_SPELL = 2;
+const int TRAP_EVENT_DETECT_ENTER = 3;
+const int TRAP_EVENT_DETECT_EXIT = 4;
+const int TRAP_EVENT_TRIGGER_ENTER = 5;
+const int TRAP_EVENT_TRIGGER_EXIT = 6;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -69,7 +73,13 @@ const int TRAP_EVENT_CREATE_SPELL = 2;
 //   the trap area before the trap is triggered. If set to 0 and oTrapOrigin is
 //   defined, then the trap will fire every round from the origin to the trap
 //   center.
-void SpawnGenericTrap( location lTarget, int nTriggerArea, int nEffectArea, float fEffectSize, int nDamageType, int nDamageDiceNumber, int nDamageDiceType, int nSaveDC, int nAttackBonus, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1);
+// nDetectDC - the DC required to find this trap with a search check. If left as
+//   -1, then the trap's detect DC will be calculated to match the CR established
+//   by the trap's other features.
+// nDisarmDC - the DC required to disarm this trap with a disable device check. If
+//   left as -1, then the trap's disarm DC Will be calculated to match the CR
+//   established by the trap's other features.
+void SpawnGenericTrap( location lTarget, int nTriggerArea, int nEffectArea, float fEffectSize, int nDamageType, int nDamageDiceNumber, int nDamageDiceType, int nSaveDC, int nAttackBonus, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1, int nDetectDC=-1, int nDisarmDC=-1);
 
 // This creates a trap, assuming the trap to currently be hidden.
 // lTarget - the center location and facing (if applicable) of the trap.
@@ -90,34 +100,75 @@ void SpawnGenericTrap( location lTarget, int nTriggerArea, int nEffectArea, floa
 //   the trap area before the trap is triggered. If set to 0 and oTrapOrigin is
 //   defined, then the trap will fire every round from the origin to the trap
 //   center
-void SpawnSpellTrap( location lTarget, int nTriggerArea, int nSpellId, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1);
+// nDetectDC - the DC required to find this trap with a search check. If left as
+//   -1, then the trap's Detect DC will be 25 + the spell's level.
+// nDisarmDC - the DC required to disarm this trap with a disable device check. If
+//   left as -1, then the trap's Disable DC will be 25 + the spell's level.
+void SpawnSpellTrap( location lTarget, int nTriggerArea, int nSpellId, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1, int nDetectDC=-1, int nDisarmDC=-1);
+
+// This calls into ACR_Traps to have OBJECT_SELF be treated as a detection
+// trigger attempting to detect its associated trap.
+void TrapDetectEnter();
+
+// This calls into ACR_Traps to have OBJECT_SELF be treated as a detection
+// trigger when a player has left the detection area.
+void TrapDetectExit();
+
+// This calls into ACR_Traps to have OBJECT_SELF be treated as the dangerous
+// region of a trap being entered.
+void TrapTriggerEnter();
+
+
+// This calls into ACR_Traps to have OBJECT_SELF be treated as the dangerous
+// region of a trap being exited.
+void TrapTriggerExit();
 
 // Private-- this provides the passed params to C# and calls ACR_Traps
-void _PassToCSharp( int nEvent, float fPosX=0.0f, float fPosY=0.0f, float fPosZ=0.0f, object oArea=OBJECT_INVALID, int nTriggerArea=-1, int nEffectArea=-1, float fEffectSize=-1.0f, int nDamageOrSpellType=-1, int nDamaceDiceNumber=-1, int nDamageDiceType=-1, int nSaveDC=-1, int nAttackBonus=-1, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1);
+void _PassToCSharp( int nEvent, float fPosX=0.0f, float fPosY=0.0f, float fPosZ=0.0f, object oArea=OBJECT_INVALID, int nTriggerArea=-1, int nEffectArea=-1, float fEffectSize=-1.0f, int nDamageOrSpellType=-1, int nDamaceDiceNumber=-1, int nDamageDiceType=-1, int nSaveDC=-1, int nAttackBonus=-1, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1, int nDetectDC=-1, int nDisarmDC=-1);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions : PUBLIC ///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void SpawnGenericTrap( location lTarget, int nTriggerArea, int nEffectArea, float fEffectSize, int nDamageType, int nDamageDiceNumber, int nDamageDiceType, int nSaveDC, int nAttackBonus, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1)
+void SpawnGenericTrap( location lTarget, int nTriggerArea, int nEffectArea, float fEffectSize, int nDamageType, int nDamageDiceNumber, int nDamageDiceType, int nSaveDC, int nAttackBonus, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1, int nDetectDC=-1, int nDisarmDC=-1)
 {
     vector vTarget = GetPositionFromLocation(lTarget);
-    _PassToCSharp(TRAP_EVENT_CREATE_GENERIC, vTarget.x, vTarget.y, vTarget.z, GetAreaFromLocation(lTarget), nTriggerArea, nEffectArea, fEffectSize, nDamageType, nDamageDiceNumber, nDamageDiceType, nSaveDC, nAttackBonus, nNumberOfShots, oTrapOrigin, nTargetAlignment, nTargetRace, nMinimumToTrigger);
+    _PassToCSharp(TRAP_EVENT_CREATE_GENERIC, vTarget.x, vTarget.y, vTarget.z, GetAreaFromLocation(lTarget), nTriggerArea, nEffectArea, fEffectSize, nDamageType, nDamageDiceNumber, nDamageDiceType, nSaveDC, nAttackBonus, nNumberOfShots, oTrapOrigin, nTargetAlignment, nTargetRace, nMinimumToTrigger, nDetectDC, nDisarmDC);
     return;
 }
 
-void SpawnSpellTrap( location lTarget, int nTriggerArea, int nSpellId, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1)
+void SpawnSpellTrap( location lTarget, int nTriggerArea, int nSpellId, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1, int nDetectDC=-1, int nDisarmDC=-1)
 {
     vector vTarget = GetPositionFromLocation(lTarget);
-    _PassToCSharp(TRAP_EVENT_CREATE_SPELL, vTarget.x, vTarget.y, vTarget.z, GetAreaFromLocation(lTarget), nTriggerArea, -1, -1.0f, nSpellId, -1, -1, -1, -1, 1, oTrapOrigin, nTargetAlignment, nTargetRace, nMinimumToTrigger);
+    _PassToCSharp(TRAP_EVENT_CREATE_SPELL, vTarget.x, vTarget.y, vTarget.z, GetAreaFromLocation(lTarget), nTriggerArea, -1, -1.0f, nSpellId, -1, -1, -1, -1, 1, oTrapOrigin, nTargetAlignment, nTargetRace, nMinimumToTrigger, nDetectDC, nDisarmDC);
     return;
+}
+
+void TrapDetectEnter()
+{
+    _PassToCSharp(TRAP_EVENT_DETECT_ENTER);
+}
+
+void TrapDetectExit()
+{
+    _PassToCSharp(TRAP_EVENT_DETECT_EXIT);
+}
+
+void TrapTriggerEnter()
+{
+    _PassToCSharp(TRAP_EVENT_TRIGGER_ENTER);
+}
+
+void TrapTriggerExit()
+{
+    _PassToCSharp(TRAP_EVENT_TRIGGER_EXIT);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions : PRIVATE //////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void _PassToCSharp( int nEvent, float fPosX=0.0f, float fPosY=0.0f, float fPosZ=0.0f, object oArea=OBJECT_INVALID, int nTriggerArea=-1, int nEffectArea=-1, float fEffectSize=-1.0f, int nDamageOrSpellType=-1, int nDamageDiceNumber=-1, int nDamageDiceType=-1, int nSaveDC=-1, int nAttackBonus=-1, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1)
+void _PassToCSharp( int nEvent, float fPosX=0.0f, float fPosY=0.0f, float fPosZ=0.0f, object oArea=OBJECT_INVALID, int nTriggerArea=-1, int nEffectArea=-1, float fEffectSize=-1.0f, int nDamageOrSpellType=-1, int nDamageDiceNumber=-1, int nDamageDiceType=-1, int nSaveDC=-1, int nAttackBonus=-1, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1, int nDetectDC=-1, int nDisarmDC=-1)
 {
     AddScriptParameterInt(nEvent);
     AddScriptParameterFloat(fPosX);
@@ -137,5 +188,7 @@ void _PassToCSharp( int nEvent, float fPosX=0.0f, float fPosY=0.0f, float fPosZ=
     AddScriptParameterInt(nTargetAlignment);
     AddScriptParameterInt(nTargetRace);
     AddScriptParameterInt(nMinimumToTrigger);
+    AddScriptParameterInt(nDetectDC);
+    AddScriptParameterInt(nDisarmDC);
     ExecuteScriptEnhanced("acr_traps", OBJECT_SELF, TRUE);
 }

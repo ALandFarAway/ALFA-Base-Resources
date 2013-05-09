@@ -34,7 +34,7 @@ namespace ACR_Traps
         }
 
         public static Type[] ScriptParameterTypes =
-        { typeof(int), typeof(float), typeof(float), typeof(float), typeof(uint), typeof(int), typeof(int), typeof(float), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(uint), typeof(int), typeof(int), typeof(int) };
+        { typeof(int), typeof(float), typeof(float), typeof(float), typeof(uint), typeof(int), typeof(int), typeof(float), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(uint), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int) };
 
         public Int32 ScriptMain([In] object[] ScriptParameters, [In] Int32 DefaultReturnCode)
         {
@@ -60,7 +60,9 @@ namespace ACR_Traps
                         int targetAlignment = (int)ScriptParameters[15];
                         int targetRace = (int)ScriptParameters[16];
                         int minimumToTrigger = (int)ScriptParameters[17];
-                        CreateTraps.GenericDamage(this, loc, triggerArea, effectArea, effectSize, damageType, diceNumber, diceType, saveDC, attackBonus, numberOfShots, trapOrigin, targetAlignment, targetRace, minimumToTrigger);
+                        int detectDC = (int)ScriptParameters[18];
+                        int disarmDC = (int)ScriptParameters[19];
+                        CreateTraps.GenericDamage(this, loc, triggerArea, effectArea, effectSize, damageType, diceNumber, diceType, saveDC, attackBonus, numberOfShots, trapOrigin, targetAlignment, targetRace, minimumToTrigger, detectDC, disarmDC);
                         break;
                     }
                 case TrapEvent.CreateSpell:
@@ -73,7 +75,9 @@ namespace ACR_Traps
                         int targetAlignment = (int)ScriptParameters[15];
                         int targetRace = (int)ScriptParameters[16];
                         int minimumToTrigger = (int)ScriptParameters[17];
-                        CreateTraps.Spell(this, loc, triggerArea, spellId, numberOfShots, trapOrigin, targetAlignment, targetRace, minimumToTrigger);
+                        int detectDC = (int)ScriptParameters[18];
+                        int disarmDC = (int)ScriptParameters[19];
+                        CreateTraps.Spell(this, loc, triggerArea, spellId, numberOfShots, trapOrigin, targetAlignment, targetRace, minimumToTrigger, detectDC, disarmDC);
                         break;
                     }
             }
