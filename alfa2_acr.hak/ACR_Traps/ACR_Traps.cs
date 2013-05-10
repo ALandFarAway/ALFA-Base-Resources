@@ -80,9 +80,57 @@ namespace ACR_Traps
                         CreateTraps.Spell(this, loc, triggerArea, spellId, numberOfShots, trapOrigin, targetAlignment, targetRace, minimumToTrigger, detectDC, disarmDC);
                         break;
                     }
+                case TrapEvent.DetectEnter:
+                    {
+                        string trapTag = GetTag(OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect.Keys.Contains(trapTag))
+                        {
+                            TrapDetect.Enter(this, ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect[trapTag]);
+                        }
+                        else
+                        {
+                            uint enteringObject = GetEnteringObject();
+                            SendMessageToPC(enteringObject, String.Format("Error: This appears to be a trap detection trigger, but I can not find any trap named {0}", trapTag));
+                        }
+                        break;
+                    }
+                case TrapEvent.DetectExit:
+                    {
+                        string trapTag = GetTag(OBJECT_SELF);
+                        uint enteringObject = GetEnteringObject();
+                        if (ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect.Keys.Contains(trapTag))
+                        {
+                            TrapDetect.Exit(this, ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect[trapTag]);
+                        }                     
+                        break;
+                    }
+                case TrapEvent.TriggerEnter:
+                    {
+                        string trapTag = GetTag(OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers.Keys.Contains(trapTag))
+                        {
+                            TrapTrigger.Enter(this, ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers[trapTag]);
+                        }
+                        else
+                        {
+                            uint enteringObject = GetEnteringObject();
+                            SendMessageToPC(enteringObject, String.Format("Error: This appears to be a trap firing trigger, but I can not find any trap named {0}", trapTag));
+                        }
+                        break;
+                    }
+                case TrapEvent.TriggerExit:
+                    {
+                        string trapTag = GetTag(OBJECT_SELF);
+                        uint enteringObject = GetEnteringObject();
+                        if (ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers.Keys.Contains(trapTag))
+                        {
+                            TrapTrigger.Exit(this, ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers[trapTag]);
+                        }
+                        break;
+                    }
             }
 
-            SendMessageToAllDMs(String.Format("ACR_Traps fired: {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}", ScriptParameters[0], ScriptParameters[1], ScriptParameters[2], ScriptParameters[3], ScriptParameters[4], ScriptParameters[5], ScriptParameters[6], ScriptParameters[7], ScriptParameters[8], ScriptParameters[9], ScriptParameters[10], ScriptParameters[11], ScriptParameters[12], ScriptParameters[13], ScriptParameters[14], ScriptParameters[15], ScriptParameters[16]));
+            SendMessageToAllDMs(String.Format("ACR_Traps fired: {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18}, {19}", ScriptParameters[0], ScriptParameters[1], ScriptParameters[2], ScriptParameters[3], ScriptParameters[4], ScriptParameters[5], ScriptParameters[6], ScriptParameters[7], ScriptParameters[8], ScriptParameters[9], ScriptParameters[10], ScriptParameters[11], ScriptParameters[12], ScriptParameters[13], ScriptParameters[14], ScriptParameters[15], ScriptParameters[16], ScriptParameters[17], ScriptParameters[18], ScriptParameters[19]));
             return 0;
         }
 

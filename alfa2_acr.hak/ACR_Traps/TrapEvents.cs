@@ -9,5 +9,9 @@ namespace ACR_Traps
     {
         CreateGeneric = 1,
         CreateSpell = 2,
+        DetectEnter = 3,
+        DetectExit = 4,
+        TriggerEnter = 5,
+        TriggerExit = 6
     }
 }

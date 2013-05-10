@@ -126,6 +126,9 @@ void TrapTriggerExit();
 // Private-- this provides the passed params to C# and calls ACR_Traps
 void _PassToCSharp( int nEvent, float fPosX=0.0f, float fPosY=0.0f, float fPosZ=0.0f, object oArea=OBJECT_INVALID, int nTriggerArea=-1, int nEffectArea=-1, float fEffectSize=-1.0f, int nDamageOrSpellType=-1, int nDamaceDiceNumber=-1, int nDamageDiceType=-1, int nSaveDC=-1, int nAttackBonus=-1, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1, int nDetectDC=-1, int nDisarmDC=-1);
 
+// Private-- this performs cheap checks to see if we need to use anything in
+// C# before calling into the project
+int _IsTrapEventNeeded();
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions : PUBLIC ///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -146,27 +149,47 @@ void SpawnSpellTrap( location lTarget, int nTriggerArea, int nSpellId, int nNumb
 
 void TrapDetectEnter()
 {
-    _PassToCSharp(TRAP_EVENT_DETECT_ENTER);
+    if(_IsTrapEventNeeded())
+    {
+        _PassToCSharp(TRAP_EVENT_DETECT_ENTER);
+    }
 }
 
 void TrapDetectExit()
 {
-    _PassToCSharp(TRAP_EVENT_DETECT_EXIT);
+    if(_IsTrapEventNeeded())
+    {
+        _PassToCSharp(TRAP_EVENT_DETECT_EXIT);
+    }
 }
 
 void TrapTriggerEnter()
 {
-    _PassToCSharp(TRAP_EVENT_TRIGGER_ENTER);
+    if(_IsTrapEventNeeded())
+    {
+        _PassToCSharp(TRAP_EVENT_TRIGGER_ENTER);
+    }
 }
 
 void TrapTriggerExit()
 {
-    _PassToCSharp(TRAP_EVENT_TRIGGER_EXIT);
+    if(_IsTrapEventNeeded())
+    {
+        _PassToCSharp(TRAP_EVENT_TRIGGER_EXIT);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions : PRIVATE //////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+int _IsTrapEventNeeded()
+{
+    object oEnter = GetEnteringObject();
+    if(GetObjectType(oEnter) != OBJECT_TYPE_CREATURE) return FALSE;
+    if(GetIsDM(oEnter) && !GetIsDMPossessed(oEnter)) return FALSE;
+    return TRUE;
+}
 
 void _PassToCSharp( int nEvent, float fPosX=0.0f, float fPosY=0.0f, float fPosZ=0.0f, object oArea=OBJECT_INVALID, int nTriggerArea=-1, int nEffectArea=-1, float fEffectSize=-1.0f, int nDamageOrSpellType=-1, int nDamageDiceNumber=-1, int nDamageDiceType=-1, int nSaveDC=-1, int nAttackBonus=-1, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1, int nDetectDC=-1, int nDisarmDC=-1)
 {

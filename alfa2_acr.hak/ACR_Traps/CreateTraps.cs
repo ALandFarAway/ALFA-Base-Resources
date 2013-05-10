@@ -26,7 +26,7 @@ namespace ACR_Traps
                 0.0f);
 
             script.ApplyEffectAtLocation(DURATION_TYPE_PERMANENT,
-                script.SupernaturalEffect(script.EffectAreaOfEffect(triggerAreaToDetectArea(triggerArea), "acr_trapdtctenter", "****", "acr_trapdtctexit", tag)),
+                script.SupernaturalEffect(script.EffectAreaOfEffect(triggerAreaToDetectArea(triggerArea), "acr_trapdtctenter", "****", "acr_trapdtctexit", detectTag)),
                 location,
                 0.0f);
 
