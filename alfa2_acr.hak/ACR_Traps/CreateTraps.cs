@@ -49,6 +49,7 @@ namespace ACR_Traps
             createdTrap.TargetAlignment = targetAlignment;
             createdTrap.TargetRace = targetRace;
             createdTrap.TrapOrigin = trapOrigin;
+            createdTrap.TrapTriggerVFX = triggerAreaToTrapVFX(triggerArea);
             createdTrap.DetectDC = detectDC;
             createdTrap.DisarmDC = disarmDC;
             createdTrap.Detected = false;
@@ -86,6 +87,7 @@ namespace ACR_Traps
             createdTrap.TargetRace = targetRace;
             createdTrap.TrapOrigin = trapOrigin;
             createdTrap.SpellId = spellId;
+            createdTrap.TrapTriggerVFX = triggerAreaToTrapVFX(triggerArea);
             createdTrap.DetectDC = detectDC;
             createdTrap.DisarmDC = disarmDC;
             createdTrap.Detected = false;

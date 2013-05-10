@@ -33,7 +33,10 @@ namespace ACR_Traps
         private static void HandleTrapDetected(CLRScriptBase s, ALFA.Shared.ActiveTrap trap, uint detector)
         {
             trap.Detected = true;
-            s.SendMessageToPC(detector, "If I was implemented properly, you'd have just detected a trap!");
+           
+            NWEffect vfx = s.SupernaturalEffect(s.EffectNWN2SpecialEffectFile(trap.TrapTriggerVFX, OBJECT_INVALID, s.Vector(0.0f, 0.0f, 0.0f)));
+            s.ApplyEffectToObject(DURATION_TYPE_PERMANENT, vfx, s.GetObjectByTag(trap.Tag, 0), 0.0f);
+            s.SendMessageToPC(detector, "If I was implemented properly, you'd have also just gotten a trap disarm placeable!");
         }
 
         private static void DetectHeartBeat(CLRScriptBase s, ALFA.Shared.ActiveTrap trap, uint detector)
