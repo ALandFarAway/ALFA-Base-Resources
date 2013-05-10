@@ -51,6 +51,7 @@ namespace ACR_Traps
             createdTrap.TrapOrigin = trapOrigin;
             createdTrap.DetectDC = detectDC;
             createdTrap.DisarmDC = disarmDC;
+            createdTrap.Detected = false;
             createdTrap.ConfigureDisplayName();
 
             ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect.Add(detectTag, createdTrap);
@@ -87,6 +88,7 @@ namespace ACR_Traps
             createdTrap.SpellId = spellId;
             createdTrap.DetectDC = detectDC;
             createdTrap.DisarmDC = disarmDC;
+            createdTrap.Detected = false;
             createdTrap.ConfigureDisplayName();
 
             ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect.Add(detectTag, createdTrap);
