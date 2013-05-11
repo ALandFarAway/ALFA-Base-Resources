@@ -37,6 +37,7 @@ const int TRAP_EVENT_DETECT_ENTER = 3;
 const int TRAP_EVENT_DETECT_EXIT = 4;
 const int TRAP_EVENT_TRIGGER_ENTER = 5;
 const int TRAP_EVENT_TRIGGER_EXIT = 6;
+const int TRAP_EVENT_DISARM_TRAP = 7;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -123,6 +124,10 @@ void TrapTriggerEnter();
 // region of a trap being exited.
 void TrapTriggerExit();
 
+// This calls into ACR_Traps to have OBJECT_SELF be treated as attempting to
+// disarm a trap.
+void TrapDisarmAttempt();
+
 // Private-- this provides the passed params to C# and calls ACR_Traps
 void _PassToCSharp( int nEvent, float fPosX=0.0f, float fPosY=0.0f, float fPosZ=0.0f, object oArea=OBJECT_INVALID, int nTriggerArea=-1, int nEffectArea=-1, float fEffectSize=-1.0f, int nDamageOrSpellType=-1, int nDamaceDiceNumber=-1, int nDamageDiceType=-1, int nSaveDC=-1, int nAttackBonus=-1, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1, int nDetectDC=-1, int nDisarmDC=-1);
 
@@ -177,6 +182,11 @@ void TrapTriggerExit()
     {
         _PassToCSharp(TRAP_EVENT_TRIGGER_EXIT);
     }
+}
+
+void TrapDisarmAttempt()
+{
+    _PassToCSharp(TRAP_EVENT_DISARM_TRAP);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

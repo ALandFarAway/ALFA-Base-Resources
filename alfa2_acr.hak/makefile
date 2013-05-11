@@ -630,6 +630,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_traponexit.ncs                    \
             $(OUTPUTDIR)\acr_trapdtctenter.ncs                 \
             $(OUTPUTDIR)\acr_trapdtctexit.ncs                  \
+            $(OUTPUTDIR)\acr_trapdisarm.ncs                    \
             $(OUTPUTDIR)\nw_s0_lowltvisn.ncs                   
 
 #

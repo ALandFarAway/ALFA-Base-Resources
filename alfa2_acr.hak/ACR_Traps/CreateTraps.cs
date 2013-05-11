@@ -53,6 +53,9 @@ namespace ACR_Traps
             createdTrap.DetectDC = detectDC;
             createdTrap.DisarmDC = disarmDC;
             createdTrap.Detected = false;
+            createdTrap.Disabler = 0;
+            createdTrap.Helpers = new List<uint>();
+            createdTrap.TotalHelp = 0;
             createdTrap.ConfigureDisplayName();
 
             ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect.Add(detectTag, createdTrap);
@@ -91,6 +94,9 @@ namespace ACR_Traps
             createdTrap.DetectDC = detectDC;
             createdTrap.DisarmDC = disarmDC;
             createdTrap.Detected = false;
+            createdTrap.Disabler = 0;
+            createdTrap.Helpers = new List<uint>();
+            createdTrap.TotalHelp = 0;
             createdTrap.ConfigureDisplayName();
 
             ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect.Add(detectTag, createdTrap);

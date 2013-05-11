@@ -60,6 +60,7 @@
     <Compile Include="ACR_Traps.cs" />
     <Compile Include="CreateTraps.cs" />
     <Compile Include="TrapDetect.cs" />
+    <Compile Include="TrapDisable.cs" />
     <Compile Include="TrapTrigger.cs" />
     <Compile Include="TriggerArea.cs" />
     <Compile Include="StandardEntrypoints.cs" />

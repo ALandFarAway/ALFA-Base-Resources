@@ -30,6 +30,10 @@ namespace ALFA.Shared
         public string TrapTriggerVFX;
         public bool Detected;
 
+        public uint Disabler;
+        public List<uint> Helpers;
+        public int TotalHelp;
+
         // For generic traps
         public int DamageType;
         public int DiceNumber;

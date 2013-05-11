@@ -13,7 +13,7 @@ using NWItemProperty = NWScript.NWScriptEngineStructure4;
 
 namespace ACR_Traps
 {
-    public static class TrapTrigger
+    public class TrapTrigger : CLRScriptBase
     {
         public static void Enter(CLRScriptBase s, ALFA.Shared.ActiveTrap trap)
         {
@@ -23,6 +23,14 @@ namespace ACR_Traps
         public static void Exit(CLRScriptBase s, ALFA.Shared.ActiveTrap trap)
         {
             s.SendMessageToPC(s.GetEnteringObject(), String.Format("If I were implemented, {0} no longer be blasting you.", trap.Tag));
+        }
+
+        public static void Fire(CLRScriptBase s, ALFA.Shared.ActiveTrap trap, uint specialTarget = OBJECT_INVALID)
+        {
+            if (s.GetIsObjectValid(specialTarget) == TRUE)
+            {
+                s.SendMessageToPC(specialTarget, String.Format("If I were implemented, {0} would have just fired on you.", trap.Tag));
+            }
         }
     }
 }
