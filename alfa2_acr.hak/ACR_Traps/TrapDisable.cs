@@ -150,7 +150,7 @@ namespace ACR_Traps
         {
             uint triggerAOE = s.GetObjectByTag(trap.Tag, 0);
             uint detectAOE = s.GetObjectByTag(trap.DetectTag, 0);
-            uint disarmPlaceable = s.GetObjectByTag(trap.Tag, 1);
+            uint disarmPlaceable = s.GetObjectByTag(trap.Tag + "_", 0);
 
             s.DestroyObject(triggerAOE, 0.0f, FALSE);
             s.DestroyObject(detectAOE, 0.0f, FALSE);

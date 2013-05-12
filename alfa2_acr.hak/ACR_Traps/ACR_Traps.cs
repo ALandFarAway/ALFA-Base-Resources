@@ -41,7 +41,7 @@ namespace ACR_Traps
             int Value = (int)ScriptParameters[0]; // ScriptParameterTypes[0] is typeof(int)
 
             TrapEvent currentEvent = (TrapEvent)ScriptParameters[0];
-
+            
             switch (currentEvent)
             {
                 case TrapEvent.CreateGeneric:
@@ -131,6 +131,7 @@ namespace ACR_Traps
                 case TrapEvent.TrapDisarm:
                     {
                         string trapTag = GetTag(OBJECT_SELF);
+                        trapTag = trapTag.Substring(0, trapTag.Length - 1);
                         uint disabler = GetLastUsedBy();
                         if (ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers.Keys.Contains(trapTag))
                         {

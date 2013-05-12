@@ -80,7 +80,7 @@ const int TRAP_EVENT_DISARM_TRAP = 7;
 // nDisarmDC - the DC required to disarm this trap with a disable device check. If
 //   left as -1, then the trap's disarm DC Will be calculated to match the CR
 //   established by the trap's other features.
-void SpawnGenericTrap( location lTarget, int nTriggerArea, int nEffectArea, float fEffectSize, int nDamageType, int nDamageDiceNumber, int nDamageDiceType, int nSaveDC, int nAttackBonus, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1, int nDetectDC=-1, int nDisarmDC=-1);
+void SpawnGenericTrap( location lTarget, int nTriggerArea, int nEffectArea, float fEffectSize, int nDamageType, int nDamageDiceNumber, int nDamageDiceType, int nSaveDC=-1, int nAttackBonus=-1, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1, int nDetectDC=-1, int nDisarmDC=-1);
 
 // This creates a trap, assuming the trap to currently be hidden.
 // lTarget - the center location and facing (if applicable) of the trap.
@@ -138,7 +138,7 @@ int _IsTrapEventNeeded();
 // Function Definitions : PUBLIC ///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void SpawnGenericTrap( location lTarget, int nTriggerArea, int nEffectArea, float fEffectSize, int nDamageType, int nDamageDiceNumber, int nDamageDiceType, int nSaveDC, int nAttackBonus, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1, int nDetectDC=-1, int nDisarmDC=-1)
+void SpawnGenericTrap( location lTarget, int nTriggerArea, int nEffectArea, float fEffectSize, int nDamageType, int nDamageDiceNumber, int nDamageDiceType, int nSaveDC=-1, int nAttackBonus=-1, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1, int nDetectDC=-1, int nDisarmDC=-1)
 {
     vector vTarget = GetPositionFromLocation(lTarget);
     _PassToCSharp(TRAP_EVENT_CREATE_GENERIC, vTarget.x, vTarget.y, vTarget.z, GetAreaFromLocation(lTarget), nTriggerArea, nEffectArea, fEffectSize, nDamageType, nDamageDiceNumber, nDamageDiceType, nSaveDC, nAttackBonus, nNumberOfShots, oTrapOrigin, nTargetAlignment, nTargetRace, nMinimumToTrigger, nDetectDC, nDisarmDC);
