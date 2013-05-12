@@ -105,12 +105,12 @@ namespace ACR_Traps
             {
                 foreach (uint victim in s.GetObjectsInShape(trap.EffectArea, trap.EffectSize, s.GetLocation(target), false, OBJECT_TYPE_CREATURE, s.GetPosition(caster)))
                 {
-                    NWEffect vfx;
-                    if (GetTrapVFX(s, trap, caster, out vfx))
-                    {
-                        s.ApplyEffectToObject(DURATION_TYPE_INSTANT, vfx, target,0.0f);
-                    }
                     s.ApplyEffectToObject(DURATION_TYPE_INSTANT, GetTrapEffect(s, trap, victim), victim, 0.0f);
+                }
+                NWEffect vfx;
+                if (GetTrapVFX(s, trap, caster, out vfx))
+                {
+                    s.ApplyEffectToObject(DURATION_TYPE_INSTANT, vfx, target, 0.0f);
                 }
             }
 
@@ -135,8 +135,8 @@ namespace ACR_Traps
             // TODO: This should resolve to fire-and-forget type animations for the broad
             // effects of the trap, not just the damage-related effects for the individuals
             // getting blasted.
-            vfx = s.EffectVisualEffect(VFX_COM_BLOOD_CRT_RED, FALSE);
-            return false;
+            vfx = s.EffectVisualEffect(VFX_FNF_FIREBALL, FALSE);
+            return true;
         }
 
         private static NWEffect GetTrapEffect(CLRScriptBase s, ALFA.Shared.ActiveTrap trap, uint target)
@@ -248,6 +248,10 @@ namespace ACR_Traps
 
         public static bool FitsTrapTargetRestriction(CLRScriptBase s, ALFA.Shared.ActiveTrap trap, uint target)
         {
+            if (s.GetIsDead(target, FALSE) == TRUE)
+            {
+                return false;
+            }
             if (trap.TargetAlignment != ALIGNMENT_ALL)
             {
                 if ((trap.TargetAlignment == ALIGNMENT_CHAOTIC ||
