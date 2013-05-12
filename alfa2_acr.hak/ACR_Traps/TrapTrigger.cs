@@ -105,11 +105,38 @@ namespace ACR_Traps
             {
                 foreach (uint victim in s.GetObjectsInShape(trap.EffectArea, trap.EffectSize, s.GetLocation(target), false, OBJECT_TYPE_CREATURE, s.GetPosition(caster)))
                 {
-                    // TODO: Larger AOEs could probably use some visual to demonstrate that it's exploding and/or how
-                    // big the explosion is.
+                    NWEffect vfx;
+                    if (GetTrapVFX(s, trap, caster, out vfx))
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_INSTANT, vfx, target,0.0f);
+                    }
                     s.ApplyEffectToObject(DURATION_TYPE_INSTANT, GetTrapEffect(s, trap, victim), victim, 0.0f);
                 }
-            }   
+            }
+
+            if (trap.NumberOfShots > -1)
+            {
+                if (trap.NumberOfShots < 2)
+                {
+                    TrapDisable.RemoveTrap(s, trap);
+                    return;
+                }
+                else
+                {
+                    trap.NumberOfShots--;
+                }
+            }
+
+            s.DelayCommand(6.0f, delegate { Fire(s, trap); });
+        }
+
+        private static bool GetTrapVFX(CLRScriptBase s, ALFA.Shared.ActiveTrap trap, uint source, out NWEffect vfx)
+        {
+            // TODO: This should resolve to fire-and-forget type animations for the broad
+            // effects of the trap, not just the damage-related effects for the individuals
+            // getting blasted.
+            vfx = s.EffectVisualEffect(VFX_COM_BLOOD_CRT_RED, FALSE);
+            return false;
         }
 
         private static NWEffect GetTrapEffect(CLRScriptBase s, ALFA.Shared.ActiveTrap trap, uint target)
