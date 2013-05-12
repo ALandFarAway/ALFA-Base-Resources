@@ -15,11 +15,11 @@
 11 FEAT_SUPREME_CLEAVE        1457      3    2              0      
 12 FEAT_DEATHLESS_FRENZY      1458      3    4              0      
 13 FEAT_ENHANCED_POWER_ATTACK 1459      3    5              0      
-14 FEAT_INSPIRE_FRENZY_1      1460      3    6              0      
-15 FEAT_INSPIRE_FRENZY_2      1461      3    8              0      
-16 FEAT_INSPIRE_FRENZY_3      1462      3    10             0      
-17 FEAT_GREATER_FRENZY        1463      3    8              0      
-18 FEAT_SUPREME_POWER_ATTACK  1464      3    10             0      
+14 FEAT_GREATER_FRENZY        1463      3    8              0      
+15 FEAT_SUPREME_POWER_ATTACK  1464      3    10             0      
+16 padding                    ****      0    ****           0      
+17 padding                    ****      0    ****           0      
+18 padding                    ****      0    ****           0      
 19 padding                    ****      0    ****           0      
 20 padding                    ****      0    ****           0      
 21 padding                    ****      0    ****           0      
@@ -32,6 +32,3 @@
 28 padding                    ****      0    ****           0      
 29 padding                    ****      0    ****           0      
 30 padding                    ****      0    ****           0      
-31 padding                    ****      0    ****           0      
-32 padding                    ****      0    ****           0      
-33 padding                    ****      0    ****           0      
