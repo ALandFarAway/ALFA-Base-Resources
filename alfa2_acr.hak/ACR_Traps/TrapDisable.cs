@@ -15,34 +15,50 @@ namespace ACR_Traps
 {
     class TrapDisable : CLRScriptBase
     {
+        const float DisarmMovementThreshhold = 1.0f;
+
         public static void Disable(CLRScriptBase s, ALFA.Shared.ActiveTrap trap, uint disabler)
         {
             if (trap.Disabler == 0)
             {
                 // no one is currently working on this trap.
+                s.SendMessageToPC(disabler, "<c=#98FFFF>You begin to disable the trap...</c>");
                 trap.Disabler = disabler;
                 trap.Helpers = new List<uint>();
             }
             else
             {
-                if (trap.Helpers.Contains(disabler))
+                if (trap.Disabler == disabler)
+                {
+                    s.SendMessageToPC(disabler, "<c=#98FFFF>Error: You are already disabling this device.</c>");
+                }
+                else if (trap.Helpers.Contains(disabler))
                 {
                     s.SendMessageToPC(disabler, "<c=#98FFFF>Disable Device: * Failure * You have already given aid to this attempt.</c>");
+                    return;
                 }
                 else
                 {
                     trap.Helpers.Add(disabler);
-                    if (IsDisableSuccessful(s, 10, disabler) == DisableResult.Success)
+                    if (IsDisableSuccessful(s, trap, 10, disabler) == DisableResult.Success)
                     {
+                        s.SendMessageToPC(disabler, String.Format("<c=#98FFFF>Disable Device: You grant {0} useful assistance with the trap.</c>", s.GetName(trap.Disabler)));
                         trap.TotalHelp += 2;
+                        return;
+                    }
+                    else
+                    {
+                        s.SendMessageToPC(disabler, String.Format("<c=#98FFFF>Disable Device: You are unable to grant {0} useful assistance with the trap.</c>", s.GetName(trap.Disabler)));
+                        return;
                     }
                 }
             }
             float neededTime = s.d4(2) * 6.0f;
-            StallForTime(s, trap, disabler, neededTime, s.GetLocation(disabler));
+            NWLocation oldLoc = s.GetLocation(disabler);
+            s.DelayCommand(2.0f, delegate { StallForTime(s, trap, disabler, neededTime, oldLoc); });
         }
 
-        public static DisableResult IsDisableSuccessful(CLRScriptBase s, int DC, uint disabler)
+        public static DisableResult IsDisableSuccessful(CLRScriptBase s, ALFA.Shared.ActiveTrap trap, int DC, uint disabler)
         {
             if (s.GetSkillRank(SKILL_DISABLE_TRAP, disabler, TRUE) == 0)
             {
@@ -51,7 +67,7 @@ namespace ACR_Traps
             }
             
             int roll = s.d20(1);
-            int skill = s.GetSkillRank(SKILL_DISABLE_TRAP, disabler, FALSE);
+            int skill = s.GetSkillRank(SKILL_DISABLE_TRAP, disabler, FALSE) + trap.TotalHelp;
             int final = roll + skill;
             string resultString = "Failure!";
             DisableResult value = DisableResult.Failure;
@@ -76,10 +92,12 @@ namespace ACR_Traps
             delay -= 2.0f;
             if (delay <= 0.5f)
             {
-                DisableResult result = IsDisableSuccessful(s, trap.DisarmDC, disabler);
+                DisableResult result = IsDisableSuccessful(s, trap, trap.DisarmDC, disabler);
                 if (result == DisableResult.Success)
                 {
                     RemoveTrap(s, trap);
+                    s.SendMessageToPC(disabler, "<c=#98FFFF>This trap is now gone, and needs no more work from you.</c>");
+                    return;
                 }
                 else if (result == DisableResult.CriticalFailure)
                 {
@@ -87,6 +105,15 @@ namespace ACR_Traps
                     trap.Helpers = new List<uint>();
                     trap.TotalHelp = 0;
                     TrapTrigger.Fire(s, trap, disabler);
+                    s.SendMessageToPC(disabler, "<c=#98FFFF>Your disable attempt has backfired, causing you to cease work.</c>");
+                    return;
+                }
+                else
+                {
+                    trap.Disabler = 0;
+                    trap.Helpers = new List<uint>();
+                    trap.TotalHelp = 0;
+                    s.SendMessageToPC(disabler, "<c=#98FFFF>Your disable attempt has failed. You may retry if you like.</c>");
                     return;
                 }
             }
@@ -95,13 +122,14 @@ namespace ACR_Traps
                 Vector3 oldPos = s.GetPositionFromLocation(loc);
                 NWLocation newLoc = s.GetLocation(disabler);
                 Vector3 newPos = s.GetPosition(disabler);
-                if(Math.Abs(oldPos.x - newPos.x) > 0.5 ||
-                    Math.Abs(oldPos.y - newPos.x) > 0.5)
+                if (Math.Abs(oldPos.x - newPos.x) > DisarmMovementThreshhold ||
+                    Math.Abs(oldPos.y - newPos.y) > DisarmMovementThreshhold)
                 {
                     // The disabler has moved. Interpret as canceling.
                     trap.Disabler = 0;
                     trap.Helpers = new List<uint>();
                     trap.TotalHelp = 0;
+                    s.SendMessageToPC(disabler, "<c=#98FFFF>You stop working on the trap, due to having moved from your workspace.</c>");
                     return;
                 }
 
@@ -138,9 +166,11 @@ namespace ACR_Traps
                     trap.Disabler = 0;
                     trap.Helpers = new List<uint>();
                     trap.TotalHelp = 0;
+                    s.SendMessageToPC(disabler, "<c=#98FFFF>You stop working on the trap, due to having begun another task.</c>");
                     return;
                 }
 
+                s.SendMessageToPC(disabler, "<c=#98FFFF>You continue work on the trap...</c>");
                 s.PlayAnimation(ANIMATION_FIREFORGET_KNEELFIDGET, 1.0f, 2.0f);
                 s.DelayCommand(2.0f, delegate { StallForTime(s, trap, disabler, delay, newLoc); });
             }
