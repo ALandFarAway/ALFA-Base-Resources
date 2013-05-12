@@ -926,7 +926,12 @@ void _createPlayerGUIs( object oPC )
 
     if(GetHasFeat(FEAT_ACR_COMBAT_EXPERTISE, oPC))
     {
-		DisplayGuiScreen(oPC, "SCREEN_MODEBAR_2", FALSE, "modebar_2.xml");
+        DisplayGuiScreen(oPC, "SCREEN_MODEBAR_2", FALSE, "modebar_2.xml");
+    }
+
+    if (GetIsDM(oPC) || GetIsDMPossessed(oPC))
+    {
+        DisplayGuiScreen(oPC, "zspawn_b", FALSE, "zspawn_b.xml");
     }
 }
 
