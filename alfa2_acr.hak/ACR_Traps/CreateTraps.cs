@@ -206,32 +206,32 @@ namespace ACR_Traps
             {
                 case TriggerArea.Small:
                     {
-                        visual += "005";
+                        visual += "010";
                         break;
                     }
                 case TriggerArea.Medium:
                     {
-                        visual += "010";
+                        visual += "015";
                         break;
                     }
                 case TriggerArea.Large:
                     {
-                        visual += "015";
+                        visual += "020";
                         break;
                     }
                 case TriggerArea.Huge:
                     {
-                        visual += "020";
+                        visual += "025";
                         break;
                     }
                 case TriggerArea.Gargantuan:
                     {
-                        visual += "025";
+                        visual += "030";
                         break;
                     }
                 case TriggerArea.Colossal:
                     {
-                        visual += "030";
+                        visual += "035";
                         break;
                     }
             }
