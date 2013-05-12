@@ -90,7 +90,7 @@ void main()
 
             _ClearCombatModes(OBJECT_SELF);
             SetLocalInt(OBJECT_SELF, POST_SPELLCAST_NO_COMBAT_MODE, 1);
-            DelayCommand(fDuration, DeleteLocalInt(POST_SPELLCAST_NO_COMBAT_MODE));
+            DelayCommand(fDuration, DeleteLocalInt(OBJECT_SELF, POST_SPELLCAST_NO_COMBAT_MODE));
             
             // Start the fatigue logic half a second before the frenzy ends
             DelayCommand(fDuration - 0.5f, ApplyFatigue(OBJECT_SELF, 5, 0.6f));    // Fatigue duration fixed to 5 rounds

@@ -125,7 +125,7 @@ void main()
             ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eLink, OBJECT_SELF, fRageDuration);
             _ClearCombatModes(OBJECT_SELF);
             SetLocalInt(OBJECT_SELF, POST_SPELLCAST_NO_COMBAT_MODE, 1);
-            DelayCommand(fRageDuration, DeleteLocalInt(POST_SPELLCAST_NO_COMBAT_MODE));
+            DelayCommand(fRageDuration, DeleteLocalInt(OBJECT_SELF, POST_SPELLCAST_NO_COMBAT_MODE));
             //ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, OBJECT_SELF) ;
 
             // 2003-07-08, Georg: Rage Epic Feat Handling
