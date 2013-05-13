@@ -38,8 +38,14 @@ namespace ACR_Traps
             s.ApplyEffectToObject(DURATION_TYPE_PERMANENT, vfx, s.GetObjectByTag(trap.Tag, 0), 0.0f);
 
             s.CreateObject(OBJECT_TYPE_PLACEABLE, "acr_trap_disarm", s.GetLocation(detector), TRUE, trap.Tag + "_");
+            
+            // If they clicked to walk, let's stop them from walking into the hazard they just found.
+            if (s.GetCurrentAction(detector) == ACTION_MOVETOPOINT)
+            {
+                s.AssignCommand(detector, delegate { s.ClearAllActions(0); });
+            }
 
-            s.SendMessageToPC(detector, "If I was implemented properly, you'd have also just gotten an exclamation point VFX!");
+            s.SendMessageToPC(detector, "You spot a trap!");
         }
 
         private static void DetectHeartBeat(CLRScriptBase s, ALFA.Shared.ActiveTrap trap, uint detector)

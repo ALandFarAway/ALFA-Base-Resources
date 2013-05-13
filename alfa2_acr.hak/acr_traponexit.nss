@@ -17,5 +17,5 @@
 
 void main()
 {
-    TrapTriggerExit();
+    //TrapTriggerExit();
 }

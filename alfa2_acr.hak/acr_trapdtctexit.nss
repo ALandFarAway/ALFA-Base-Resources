@@ -17,5 +17,5 @@
 
 void main()
 {
-    TrapDetectExit();
+    //TrapDetectExit();
 }
