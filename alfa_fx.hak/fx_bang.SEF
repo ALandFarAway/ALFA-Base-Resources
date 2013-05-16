@@ -13,7 +13,7 @@
     <Position>
       <x>0</x>
       <y>0</y>
-      <z>0</z>
+      <z>1</z>
     </Position>
     <UseOrientedPosition>0</UseOrientedPosition>
     <SourceAttachment>27</SourceAttachment>
