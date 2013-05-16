@@ -19,6 +19,12 @@ namespace ACR_Traps
         {
             uint enterer = s.GetEnteringObject();
 
+            if (trap.IsFiring)
+            {
+                // Trap's already firing. It'll reset when it runs out of targets.
+                return;
+            }
+
             // If one is enough, we don't need to check the trigger's contents.
             if (trap.MinimumToTrigger == 1)
             {
@@ -42,12 +48,11 @@ namespace ACR_Traps
                     Fire(s, trap);
                 }
             }
-            s.SendMessageToPC(s.GetEnteringObject(), String.Format("If I were implemented, {0} would be blasting you right now.", trap.Tag));
         }
 
         public static void Exit(CLRScriptBase s, ALFA.Shared.ActiveTrap trap)
         {
-            s.SendMessageToPC(s.GetEnteringObject(), String.Format("If I were implemented, {0} no longer be blasting you.", trap.Tag));
+            s.SendMessageToPC(s.GetEnteringObject(), String.Format("This event has no functionality in it. If it has fired, you should write up a ticket about how. Trap ID: {0}", trap.Tag));
         }
 
         public static void Fire(CLRScriptBase s, ALFA.Shared.ActiveTrap trap)
@@ -74,6 +79,7 @@ namespace ACR_Traps
             {
                 // Might be that they all left. In any case
                 // we have nothing to shoot
+                trap.IsFiring = false;
                 return;
             }
             uint target;
@@ -127,6 +133,7 @@ namespace ACR_Traps
                 }
             }
 
+            trap.IsFiring = true;
             s.DelayCommand(6.0f, delegate { Fire(s, trap); });
         }
 
@@ -148,7 +155,7 @@ namespace ACR_Traps
             }
             if (trap.SaveDC > -1)
             {
-                if (s.ReflexSave(target, trap.SaveDC, SAVING_THROW_TYPE_TRAP, s.GetObjectByTag(trap.Tag, 0)) == TRUE)
+                if (s.ReflexSave(target, trap.SaveDC, SAVING_THROW_TYPE_TRAP, s.GetObjectByTag(trap.Tag, 0)) != TRUE)
                 {
                     if (s.GetHasFeat(FEAT_IMPROVED_EVASION, target, TRUE) == TRUE)
                         damage /= 2;

@@ -27,7 +27,7 @@ namespace ACR_Traps
 
         public static void Exit(CLRScriptBase s, ALFA.Shared.ActiveTrap trap)
         {
-            s.SendMessageToPC(s.GetEnteringObject(), String.Format("If I were implemented, {0} would no longer be in detection range.", trap.Tag));
+            s.SendMessageToPC(s.GetEnteringObject(), String.Format("This event has no functionality in it. If it has fired, you should write up a ticket about how. Trap ID: {0}", trap.Tag));
         }
 
         private static void HandleTrapDetected(CLRScriptBase s, ALFA.Shared.ActiveTrap trap, uint detector)

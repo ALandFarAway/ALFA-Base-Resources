@@ -141,7 +141,6 @@ namespace ACR_Traps
                     }
             }
 
-            SendMessageToAllDMs(String.Format("ACR_Traps fired: {0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18}, {19}", ScriptParameters[0], ScriptParameters[1], ScriptParameters[2], ScriptParameters[3], ScriptParameters[4], ScriptParameters[5], ScriptParameters[6], ScriptParameters[7], ScriptParameters[8], ScriptParameters[9], ScriptParameters[10], ScriptParameters[11], ScriptParameters[12], ScriptParameters[13], ScriptParameters[14], ScriptParameters[15], ScriptParameters[16], ScriptParameters[17], ScriptParameters[18], ScriptParameters[19]));
             return 0;
         }
 

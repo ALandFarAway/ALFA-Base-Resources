@@ -33,6 +33,7 @@ namespace ALFA.Shared
         public uint Disabler;
         public List<uint> Helpers;
         public int TotalHelp;
+        public bool IsFiring;
 
         // For generic traps
         public int DamageType;
