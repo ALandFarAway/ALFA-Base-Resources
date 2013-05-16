@@ -44,7 +44,8 @@ namespace ACR_Traps
             {
                 s.AssignCommand(detector, delegate { s.ClearAllActions(0); });
             }
-
+            s.PlaySound("alert", FALSE);
+            s.ApplyEffectToObject(DURATION_TYPE_TEMPORARY, s.SupernaturalEffect(s.EffectNWN2SpecialEffectFile("fx_bang", detector, s.Vector(0.0f,0.0f,0.0f))), detector, 6.0f);
             s.SendMessageToPC(detector, "You spot a trap!");
         }
 
