@@ -42,6 +42,7 @@ namespace ACR_Candlekeep
                 ALFA.Shared.Modules.InfoStore.ModuleFactions = new Dictionary<int, ALFA.Shared.Faction>();
                 ALFA.Shared.Modules.InfoStore.ModuleVisualEffects = new Dictionary<string, ALFA.Shared.VisualEffectResource>();
                 ALFA.Shared.Modules.InfoStore.ModuleLights = new Dictionary<string, ALFA.Shared.LightResource>();
+                ALFA.Shared.Modules.InfoStore.ModuleTraps = new Dictionary<string, ALFA.Shared.TrapResource>();
 
                 ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers = new Dictionary<string, ALFA.Shared.ActiveTrap>();
                 ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect = new Dictionary<string, ALFA.Shared.ActiveTrap>();
@@ -294,7 +295,7 @@ namespace ACR_Candlekeep
                         GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
 
                         string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
-                        if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(currentResRef))
+                        if (ALFA.Shared.Modules.InfoStore.ModuleWaypoints.Keys.Contains(currentResRef))
                         {
                             continue;
                         }
