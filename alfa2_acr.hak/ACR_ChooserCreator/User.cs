@@ -26,6 +26,7 @@ namespace ACR_ChooserCreator
                     CurrentPlaceableCategory = Navigators.PlaceableNavigator.bottomCategory,
                     CurrentVisualEffectCategory = Navigators.VisualEffectNavigator.bottomCategory,
                     CurrentWaypointCategory = Navigators.WaypointNavigator.bottomCategory,
+                    CurrentTrapCategory = Navigators.TrapNavigator.bottomCategory,
                     SortingColumn = 1
                 };
                 TrackedUsers.Add(userId, newUser);
@@ -59,6 +60,7 @@ namespace ACR_ChooserCreator
         public NavigatorCategory CurrentItemCategory;
         public NavigatorCategory CurrentVisualEffectCategory;
         public NavigatorCategory CurrentWaypointCategory;
+        public NavigatorCategory CurrentTrapCategory;
         public int SortingColumn;
     }
 }

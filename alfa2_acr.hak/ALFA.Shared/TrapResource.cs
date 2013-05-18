@@ -27,6 +27,7 @@ namespace ALFA.Shared
         public int MinimumToTrigger;
         public int DetectDC;
         public int DisarmDC;
+        public int TriggerArea;
         public string TrapTriggerVFX;
 
         // For generic traps

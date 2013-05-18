@@ -70,7 +70,15 @@ namespace ACR_Traps
                         }
                         else
                         {
-                            // TODO: Handle traps spawned from a resref here.
+                            ALFA.Shared.TrapResource trapToSpawn = ALFA.Shared.Modules.InfoStore.ModuleTraps[(string)ScriptParameters[20]];
+                            if (trapToSpawn.SpellTrap)
+                            {
+                                CreateTraps.Spell(this, loc, (TriggerArea)trapToSpawn.TriggerArea, trapToSpawn.SpellId, trapToSpawn.NumberOfShots, trapToSpawn.TrapOrigin, trapToSpawn.TargetAlignment, trapToSpawn.TargetRace, trapToSpawn.MinimumToTrigger, trapToSpawn.DetectDC, trapToSpawn.DisarmDC);
+                            }
+                            else
+                            {
+                                CreateTraps.GenericDamage(this, loc, (TriggerArea)trapToSpawn.TriggerArea, trapToSpawn.EffectArea, trapToSpawn.EffectSize, trapToSpawn.DamageType, trapToSpawn.DiceNumber, trapToSpawn.DiceType, trapToSpawn.SaveDC, trapToSpawn.AttackBonus, trapToSpawn.NumberOfShots, trapToSpawn.TrapOrigin, trapToSpawn.TargetAlignment, trapToSpawn.TargetRace, trapToSpawn.MinimumToTrigger, trapToSpawn.DetectDC, trapToSpawn.DisarmDC);
+                            }
                         }
                         break;
                     }

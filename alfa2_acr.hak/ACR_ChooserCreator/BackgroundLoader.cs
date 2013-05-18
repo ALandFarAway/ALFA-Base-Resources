@@ -147,6 +147,20 @@ namespace ACR_ChooserCreator
 
             try
             {
+                List<ALFA.Shared.IListBoxItem> suppliedList = new List<ALFA.Shared.IListBoxItem>();
+                foreach (ALFA.Shared.TrapResource item in ALFA.Shared.Modules.InfoStore.ModuleTraps.Values)
+                {
+                    suppliedList.Add(item);
+                }
+                LoadNavigator(suppliedList, Navigators.TrapNavigator);
+            }
+            catch (Exception ex)
+            {
+                loaderError += "\n LoadTraps :" + ex.Message;
+            }
+
+            try
+            {
                 DefaultSortNavigators(Navigators.CreatureNavigator.bottomCategory);
                 DefaultSortNavigators(Navigators.ItemNavigator.bottomCategory);
                 DefaultSortNavigators(Navigators.PlaceableNavigator.bottomCategory);

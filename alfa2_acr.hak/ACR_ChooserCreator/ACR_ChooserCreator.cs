@@ -135,8 +135,17 @@ namespace ACR_ChooserCreator
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "VfxActive", TRUE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", TRUE);
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "LightActive", TRUE);
-                    // TODO: Display current trap classification, or the base
-                    // classification if none are selected.
+                    currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_TRAP_TAB;
+                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column2", -1, "DC");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column3", -1, "CR");
+                    if (currentUser.CurrentTrapCategory == Navigators.TrapNavigator.bottomCategory)
+                    {
+                        Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.TrapNavigator);
+                    }
+                    else
+                    {
+                        Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentTrapCategory);
+                    }
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB:
                     SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "CreatureActive", TRUE);
@@ -217,6 +226,7 @@ namespace ACR_ChooserCreator
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB) currentCat = currentUser.CurrentWaypointCategory;
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB) currentCat = currentUser.CurrentVisualEffectCategory;
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB) currentCat = currentUser.CurrentLightCategory;
+                        else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_TRAP_TAB) currentCat = currentUser.CurrentTrapCategory;
 
                         // and we figure out where we're going relative to where we are.
                         string searchTerm = commandParam.Split(':')[1];
@@ -229,6 +239,7 @@ namespace ACR_ChooserCreator
                             else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB) targetCat = BackgroundLoader.GetCategoryByName(currentUser.CurrentWaypointCategory, searchTerm);
                             else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB) targetCat = BackgroundLoader.GetCategoryByName(currentUser.CurrentVisualEffectCategory, searchTerm);
                             else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB) targetCat = BackgroundLoader.GetCategoryByName(currentUser.CurrentLightCategory, searchTerm);
+                            else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_TRAP_TAB) targetCat = BackgroundLoader.GetCategoryByName(currentUser.CurrentTrapCategory, searchTerm);
                         }
 
                         // and then we have a new current category.
@@ -238,6 +249,7 @@ namespace ACR_ChooserCreator
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB) currentUser.CurrentWaypointCategory = targetCat;
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB) currentUser.CurrentVisualEffectCategory = targetCat;
                         else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB) currentUser.CurrentLightCategory = targetCat;
+                        else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_TRAP_TAB) currentUser.CurrentTrapCategory = targetCat;
 
                         // and finally we can draw the new navigator category.
                         Waiter.DrawNavigatorCategory(this, targetCat);
@@ -245,6 +257,9 @@ namespace ACR_ChooserCreator
                     else
                     {
                         SendMessageToPC(OBJECT_SELF, "Preparing to spawn " + commandParam);
+
+                        string spawnUI = ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_TARGETUI_SINGLE;
+                        string spawnUIScreenName = ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_UINAME_SINGLE;
 
                         // The name of the script to execute on targeting.
                         SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_TARGET_SCRIPT_NAME, "gui_creatorspawn");
@@ -282,8 +297,44 @@ namespace ACR_ChooserCreator
                             SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_VALID_TARGET_LIST, "ground");
                             SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_CREATE_OBJECT_TYPE, CLRScriptBase.OBJECT_TYPE_LIGHT.ToString());
                         }
+                        else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_TRAP_TAB)
+                        {
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_VALID_TARGET_LIST, "ground");
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_CREATE_OBJECT_TYPE, CLRScriptBase.OBJECT_TYPE_LIGHT.ToString());
+                            ALFA.Shared.TrapResource trapToSpawn = ALFA.Shared.Modules.InfoStore.ModuleTraps[commandParam];
+                            if (trapToSpawn != null)
+                            {
+                                switch(trapToSpawn.TriggerArea)
+                                    {
+                                        case 2:
+                                            spawnUI = ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_TARGETUI_10FT;
+                                            spawnUIScreenName = ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_UINAME_10FT;
+                                            break;
+                                        case 3:
+                                            spawnUI = ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_TARGETUI_20FT;
+                                            spawnUIScreenName = ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_UINAME_20FT;
+                                            break;
+                                        case 4:
+                                            spawnUI = ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_TARGETUI_20FT;
+                                            spawnUIScreenName = ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_UINAME_20FT;
+                                            break;
+                                        case 5:
+                                            spawnUI = ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_TARGETUI_30FT;
+                                            spawnUIScreenName = ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_UINAME_30FT;
+                                            break;
+                                        case 6:
+                                            spawnUI = ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_TARGETUI_30FT;
+                                            spawnUIScreenName = ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_UINAME_30FT;
+                                            break;
+                                        default:
+                                            spawnUI = ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_TARGETUI_SINGLE;
+                                            spawnUIScreenName = ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_UINAME_SINGLE;
+                                            break;
+                                    }
+                            }
+                        }
                         
-                        DisplayGuiScreen(OBJECT_SELF, "TARGET_SINGLE", 0, "target_single.xml", 0);
+                        DisplayGuiScreen(OBJECT_SELF, spawnUIScreenName, 0, spawnUI, 0);
                     }
                     // TODO: make note of the selected row and provide a suitable
                     // interface to direct the action.
