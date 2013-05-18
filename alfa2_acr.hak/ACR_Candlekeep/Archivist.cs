@@ -8,8 +8,10 @@ using System.IO;
 using OEIShared.IO;
 using OEIShared.IO.GFF;
 
+using CLRScriptFramework;
 using ALFA;
-
+using NWScript;
+using NWScript.ManagedInterfaceLayer.NWScriptManagedInterface;
 namespace ACR_Candlekeep
 {
     public class Archivist : BackgroundWorker
@@ -300,6 +302,27 @@ namespace ACR_Candlekeep
                             continue;
                         }
 
+                        GFFStructCollection variables = currentGFF.TopLevelStruct["VarTable"].ValueList.StructList;
+                        if (variables.Count > 0)
+                        {
+                            bool nonWaypoint = false;
+                            // Waypoints can be a lot of things. Let's see if we can figure anything out about this one.
+                            foreach (GFFStruct var in variables)
+                            {
+                                if (var["Name"].Value.ToString() == "ACR_TRAP_TRIGGER_AREA")
+                                {
+                                    // This is a trap. We should process as one.
+                                    ParseTrapWaypoint(currentGFF, currentResRef);
+                                    nonWaypoint = true;
+                                    break;
+                                }
+                            }
+                            if (nonWaypoint)
+                            {
+                                continue;
+                            }
+                        }
+
                         ALFA.Shared.WaypointResource addingWaypoint = new ALFA.Shared.WaypointResource();
 
                         addingWaypoint.TemplateResRef = currentResRef;
@@ -543,6 +566,131 @@ namespace ACR_Candlekeep
             catch { }
 
             ACR_Candlekeep.ArchivesInstance.SetResourcesLoaded();
+        }
+
+        private static void ParseTrapWaypoint(GFFFile trapGff, string resRef)
+        {
+            ALFA.Shared.TrapResource addingTrap = new ALFA.Shared.TrapResource()
+                {
+                    AttackBonus = -1,
+                    ChallengeRating = -1.0f,
+                    Classification = "",
+                    DamageType = -1,
+                    DetectDC = -1,
+                    DiceNumber = -1,
+                    DiceType = -1,
+                    DisarmDC = -1,
+                    DisplayName = "",
+                    EffectArea = -1,
+                    EffectSize = -1.0f,
+                    MinimumToTrigger = 1,
+                    NumberOfShots = 1,
+                    ResRef = resRef,
+                    SaveDC = -1,
+                    SpellId = -1,
+                    SpellTrap = false,
+                    Tag = "",
+                    TargetAlignment = CLRScriptBase.ALIGNMENT_ALL,
+                    TargetRace = CLRScriptBase.RACIAL_TYPE_ALL,
+                    TrapOrigin = CLRScriptBase.OBJECT_INVALID,
+                };
+
+
+            try
+            {
+                addingTrap.DisplayName = trapGff.TopLevelStruct["LocalizedName"].Value.ToString().Split('"')[1];
+            }
+            catch
+            {
+                addingTrap.DisplayName = trapGff.TopLevelStruct["LocalizedName"].Value.ToString();
+            }
+            if (addingTrap.DisplayName == "")
+            {
+                addingTrap.DisplayName = GetTlkEntry(trapGff.TopLevelStruct["LocalizedName"].ValueCExoLocString.StringRef);
+            }
+
+            addingTrap.Classification = ParseClassification(trapGff.TopLevelStruct["Classification"].Value.ToString());
+            addingTrap.Tag = trapGff.TopLevelStruct["Tag"].Value.ToString();
+
+            GFFStructCollection variables = trapGff.TopLevelStruct["VarTable"].ValueList.StructList;
+            // Waypoints can be a lot of things. Let's see if we can figure anything out about this one.
+            foreach (GFFStruct var in variables)
+            {
+                string varName = var["Name"].Value.ToString();
+                if (varName == "ACR_TRAP_ATTACK_BONUS")
+                {
+                    addingTrap.AttackBonus = var["Value"].ValueInt;
+                    continue;
+                }
+                else if (varName == "ACR_TRAP_DAMAGE_TYPE")
+                {
+                    addingTrap.DamageType = var["Value"].ValueInt;
+                    continue;
+                }
+                else if (varName == "ACR_TRAP_DETECT_DC")
+                {
+                    addingTrap.DetectDC = var["Value"].ValueInt;
+                    continue;
+                }
+                else if (varName == "ACR_TRAP_DICE_NUMBER")
+                {
+                    addingTrap.DiceNumber = var["Value"].ValueInt;
+                    continue;
+                }
+                else if (varName == "ACR_TRAP_DICE_TYPE")
+                {
+                    addingTrap.DiceType = var["Value"].ValueInt;
+                    continue;
+                }
+                else if (varName == "ACR_TRAP_DISARM_DC")
+                {
+                    addingTrap.DisarmDC = var["Value"].ValueInt;
+                    continue;
+                }
+                else if (varName == "ACR_TRAP_EFFECT_AREA")
+                {
+                    addingTrap.EffectArea = var["Value"].ValueInt;
+                    continue;
+                }
+                else if (varName == "ACR_TRAP_EFFECT_SIZE")
+                {
+                    addingTrap.EffectSize = var["Value"].ValueFloat;
+                    continue;
+                }
+                else if (varName == "ACR_TRAP_MINIMUM_TO_TRIGGER")
+                {
+                    addingTrap.MinimumToTrigger = var["Value"].ValueInt;
+                    continue;
+                }
+                else if (varName == "ACR_TRAP_NUMBER_OF_SHOTS")
+                {
+                    addingTrap.NumberOfShots = var["Value"].ValueInt;
+                    continue;
+                }
+                else if (varName == "ACR_TRAP_SAVE_DC")
+                {
+                    addingTrap.SaveDC = var["Value"].ValueInt;
+                    continue;
+                }
+                else if (varName == "ACR_TRAP_SPELL_ID")
+                {
+                    addingTrap.SpellId = var["Value"].ValueInt;
+                    addingTrap.SpellTrap = true;
+                    continue;
+                }
+                else if (varName == "ACR_TRAP_TARGET_ALIGNMENT")
+                {
+                    addingTrap.TargetAlignment = var["Value"].ValueInt;
+                    continue;
+                }
+                else if (varName == "ACR_TRAP_TARGET_RACE")
+                {
+                    addingTrap.TargetRace = var["Value"].ValueInt;
+                    continue;
+                }
+            }
+
+            ALFA.Shared.Modules.InfoStore.ModuleTraps.Add(addingTrap.ResRef, addingTrap);
         }
 
         private static string ParseClassification(string classification)

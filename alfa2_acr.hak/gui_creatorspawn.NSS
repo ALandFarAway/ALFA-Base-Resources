@@ -13,7 +13,9 @@
 //  the data from the targeting reticle.
 //
 ////////////////////////////////////////////////////////////////////////////////
+#include "acr_traps_i"
 
+const int CUSTOM_OBJECT_TYPE_TRAP = 99;
 
 void main( object TargetObject, float posX, float posY, float posZ, string ResRef, int TargetRegion, int ObjectType) 
 {
@@ -32,6 +34,15 @@ void main( object TargetObject, float posX, float posY, float posZ, string ResRe
 	}
 
 	location lTarget = Location(GetArea(OBJECT_SELF), Vector(posX, posY, posZ), GetFacing(OBJECT_SELF));
-	CreateObject(ObjectType, ResRef, lTarget, FALSE, "");
+	if(ObjectType != CUSTOM_OBJECT_TYPE_TRAP)
+	{
+		CreateObject(ObjectType, ResRef, lTarget, FALSE, "");
+		return;
+	}
+	else
+	{
+		_PassToCSharp(TRAP_EVENT_CREATE_GENERIC, posX, posY, posZ, GetArea(OBJECT_SELF), -1, -1, -1.0f, -1, -1, -1, -1, -1, 1, OBJECT_INVALID, ALIGNMENT_ALL, RACIAL_TYPE_ALL, 1, -1, -1, ResRef);
+		return;
+	}
 }
 

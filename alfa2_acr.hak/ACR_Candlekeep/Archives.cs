@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-
-
 namespace ACR_Candlekeep
 {
     public class Archives : ALFA.Shared.IInformationStore, ALFA.Shared.IBackgroundLoadedResource, IDisposable
@@ -78,6 +76,7 @@ namespace ACR_Candlekeep
         public Dictionary<string, ALFA.Shared.PlaceableResource> ModulePlaceables { get; set; }
         public Dictionary<string, ALFA.Shared.WaypointResource> ModuleWaypoints { get; set; }
         public Dictionary<string, ALFA.Shared.VisualEffectResource> ModuleVisualEffects { get; set; }
+        public Dictionary<string, ALFA.Shared.TrapResource> ModuleTraps { get; set; }
         public Dictionary<int, ALFA.Shared.Faction> ModuleFactions { get; set; }
 
         public Dictionary<string, ALFA.Shared.ActiveTrap> SpawnedTrapTriggers { get; set; }

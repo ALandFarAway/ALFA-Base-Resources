@@ -56,6 +56,7 @@
     <Compile Include="..\..\CLRScript\NWScriptConstants.cs" />
     <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />
     <Compile Include="ActiveTrap.cs" />
+    <Compile Include="TrapResource.cs" />
     <Compile Include="LightResource.cs" />
     <Compile Include="VisualEffectResource.cs" />
     <Compile Include="CreatureResource.cs" />

@@ -34,7 +34,7 @@ namespace ACR_Traps
         }
 
         public static Type[] ScriptParameterTypes =
-        { typeof(int), typeof(float), typeof(float), typeof(float), typeof(uint), typeof(int), typeof(int), typeof(float), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(uint), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int) };
+        { typeof(int), typeof(float), typeof(float), typeof(float), typeof(uint), typeof(int), typeof(int), typeof(float), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(uint), typeof(int), typeof(int), typeof(int), typeof(int), typeof(int), typeof(string) };
 
         public Int32 ScriptMain([In] object[] ScriptParameters, [In] Int32 DefaultReturnCode)
         {
@@ -47,22 +47,31 @@ namespace ACR_Traps
                 case TrapEvent.CreateGeneric:
                     {
                         NWLocation loc = Location((uint)ScriptParameters[4], Vector((float)ScriptParameters[1], (float)ScriptParameters[2], (float)ScriptParameters[3]), 0.0f);
-                        TriggerArea triggerArea = (TriggerArea)ScriptParameters[5];
-                        int effectArea = (int)ScriptParameters[6];
-                        float effectSize = (float)ScriptParameters[7];
-                        int damageType = (int)ScriptParameters[8];
-                        int diceNumber = (int)ScriptParameters[9];
-                        int diceType = (int)ScriptParameters[10];
-                        int saveDC = (int)ScriptParameters[11];
-                        int attackBonus = (int)ScriptParameters[12];
-                        int numberOfShots = (int)ScriptParameters[13];
-                        uint trapOrigin = (uint)ScriptParameters[14];
-                        int targetAlignment = (int)ScriptParameters[15];
-                        int targetRace = (int)ScriptParameters[16];
-                        int minimumToTrigger = (int)ScriptParameters[17];
-                        int detectDC = (int)ScriptParameters[18];
-                        int disarmDC = (int)ScriptParameters[19];
-                        CreateTraps.GenericDamage(this, loc, triggerArea, effectArea, effectSize, damageType, diceNumber, diceType, saveDC, attackBonus, numberOfShots, trapOrigin, targetAlignment, targetRace, minimumToTrigger, detectDC, disarmDC);
+                        string resRef = (string)ScriptParameters[20];
+                        if (resRef == "")
+                        {
+                            TriggerArea triggerArea = (TriggerArea)ScriptParameters[5];
+                            int effectArea = (int)ScriptParameters[6];
+                            float effectSize = (float)ScriptParameters[7];
+                            int damageType = (int)ScriptParameters[8];
+                            int diceNumber = (int)ScriptParameters[9];
+                            int diceType = (int)ScriptParameters[10];
+                            int saveDC = (int)ScriptParameters[11];
+                            int attackBonus = (int)ScriptParameters[12];
+                            int numberOfShots = (int)ScriptParameters[13];
+                            uint trapOrigin = (uint)ScriptParameters[14];
+                            int targetAlignment = (int)ScriptParameters[15];
+                            int targetRace = (int)ScriptParameters[16];
+                            int minimumToTrigger = (int)ScriptParameters[17];
+                            int detectDC = (int)ScriptParameters[18];
+                            int disarmDC = (int)ScriptParameters[19];
+                            CreateTraps.GenericDamage(this, loc, triggerArea, effectArea, effectSize, damageType, diceNumber, diceType, saveDC, attackBonus, numberOfShots, trapOrigin, targetAlignment, targetRace, minimumToTrigger, detectDC, disarmDC);
+                            break;
+                        }
+                        else
+                        {
+                            // TODO: Handle traps spawned from a resref here.
+                        }
                         break;
                     }
                 case TrapEvent.CreateSpell:
