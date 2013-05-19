@@ -1183,7 +1183,7 @@ void ACR_CreateSQLTables()
 		"`IsDM` bool NOT NULL default false," +
 		"`IsBanned` bool NOT NULL default false," +
 		"`Is18Plus` bool NOT NULL default false," +
-		"`IsMember` bool NOT NULL default true,"
+		"`IsMember` bool NOT NULL default true," +
 		"PRIMARY KEY (`ID`), UNIQUE KEY(`CDKey`, `Name`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 
