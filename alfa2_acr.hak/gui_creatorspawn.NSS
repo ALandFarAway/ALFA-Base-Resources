@@ -41,7 +41,7 @@ void main( object TargetObject, float posX, float posY, float posZ, string ResRe
 	}
 	else
 	{
-		_PassToCSharp(TRAP_EVENT_CREATE_GENERIC, posX, posY, posZ, GetArea(OBJECT_SELF), -1, -1, -1.0f, -1, -1, -1, -1, -1, 1, OBJECT_INVALID, ALIGNMENT_ALL, RACIAL_TYPE_ALL, 1, -1, -1, ResRef);
+		_PassToCSharp(TRAP_EVENT_CREATE_GENERIC, posX, posY, posZ, GetArea(oTargetBuilder), -1, -1, -1.0f, -1, -1, -1, -1, -1, 1, OBJECT_INVALID, ALIGNMENT_ALL, RACIAL_TYPE_ALL, 1, -1, -1, ResRef);
 	}
 	
 	if(TargetRegion == 0)
