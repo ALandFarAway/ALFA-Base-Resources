@@ -61,6 +61,9 @@ const string ACR_CID = "ACR_CID";
 //! Player ID for optimizing database access
 const string ACR_PID = "ACR_PID";
 
+//! Player Membership status for optimizing database access
+const string ACR_MEMBERSHIP = "ACR_ISMEMBER";
+
 //! State variable for whether a character is a server admin
 const string ACR_SRVADMIN = "ACR_SRVADMIN";
 
@@ -400,6 +403,12 @@ int ACR_GetCharacterID(object oPC);
 //!  - oPC: player whose player ID to retrieve
 //!  - Returns: oPC's player ID
 int ACR_GetPlayerID(object oPC);
+
+//! This function retrieves the database setting for if a given player
+//! is a member.
+//! - oPC: the character whose player we wish to check.
+//! - Returns: 0 if the player is not a member. 1 if the player is a member.
+int ACR_GetIsMember(object oPC);
 
 //! This function determines whether the player is a server admin on this server
 //!  - oPC: player whose admin status should be checked
@@ -962,6 +971,29 @@ int ACR_GetCharacterID(object oPC)
 int ACR_GetPlayerID(object oPC)
 {
 	return GetLocalInt(oPC, ACR_PID);
+}
+
+int ACR_GetIsMember(object oPC)
+{
+	// We assume that a player who loses membership is a player
+	// who is banned, so we don't refresh if we've already checked and seen "yes"
+	// once before.
+	if(GetLocalInt(oPC, ACR_MEMBERSHIP))
+	{
+		return TRUE;
+	}
+	
+	string sPlayerID = IntToString(ACR_GetPlayerID(oPC));
+	ACR_SQLQuery("SELECT players.IsMember FROM players WHERE ID = '"+sPlayerID+"'");
+	if(ACR_SQLFetch() != SQL_SUCCESS)
+	{
+		return FALSE;
+	}
+	if(ACR_SQLGetData(0) == "1")
+	{
+		return TRUE;
+	}
+	return FALSE;
 }
 
 int ACR_IsServerAdmin(object oPC)

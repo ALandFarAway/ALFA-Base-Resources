@@ -488,7 +488,13 @@ int ACR_PCOnClientEnter(object oPC)
             return FALSE;
         }
 
-        ACR_SQLQuery("INSERT INTO players (CDKey, Name, FirstLogin, LastLogin, Logins, IsDM, IsBanned) VALUES ('" + ACR_SQLEncodeSpecialChars(sCDKey) + "','" + ACR_SQLEncodeSpecialChars(sPlayerName) + "', now(), now(), 0, " + IntToString(GetIsDM(oPC)) + ", 0)");
+        string sIsMember = "0";
+		ACR_SQLQuery("SELECT IsMember FROM players WHERE CDKey='" + ACR_SQLEncodeSpecialChars(sCDKey) + "'");
+		if(ACR_SQLFetch() == SQL_SUCCESS)
+		{
+			sIsMember = ACR_SQLGetData(0);
+		}
+		ACR_SQLQuery("INSERT INTO players (CDKey, Name, FirstLogin, LastLogin, Logins, IsDM, IsBanned, IsMember) VALUES ('" + ACR_SQLEncodeSpecialChars(sCDKey) + "','" + ACR_SQLEncodeSpecialChars(sPlayerName) + "', now(), now(), 0, " + IntToString(GetIsDM(oPC)) + ", 0, "+sIsMember+")");
         ACR_SQLQuery("SELECT ID, IsBanned, CDKey FROM players WHERE CDKey='" + ACR_SQLEncodeSpecialChars(sCDKey) + "' and Name='" + ACR_SQLEncodeSpecialChars(sPlayerName) + "'");
 
         // if there's a problem with the database - log an error and boot the player

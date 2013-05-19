@@ -1258,6 +1258,18 @@ void ACR_ModuleOnPlayerDying() {
 
 void ACR_ModuleOnPlayerLevelUp() {
     object oPC = GetPCLevellingUp();
+	
+	if(ACR_GetIsMember(oPC) == FALSE)
+	{
+		if(ACR_GetECL(oPC) > 3)
+		{
+			int nRemovedXP = GetXP(oPC) - 5999;
+			SetXP(oPC, 5999);
+			GiveXPToCreature(oPC, nRemovedXP);
+			SendMessageToPC(oPC, "You can not level past level 3 without being accepted as a member. See the 'Joining ALFA' link on the left hand side of www.alandfaraway.org for more information.");
+			return;
+		}
+	}
 
     // handle the level up attempt
     ACR_ProcessLevelUpAttempt(oPC);

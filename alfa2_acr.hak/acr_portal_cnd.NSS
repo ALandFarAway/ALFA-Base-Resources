@@ -27,7 +27,7 @@
 //!				CheckPC - checks oSpeaker for time till valid to portal
 //!				CheckPassport - checks oSpeaker for a valid server pass
 //!
-int StartingConditional(string sFunction) {
+int StartingConditional(string sFunction) { 
 
 	object oPC = GetPCSpeaker();
 	int nDestID = GetLocalInt(oPC, "ACR_PORTAL_DEST_SERVER");
@@ -38,7 +38,7 @@ int StartingConditional(string sFunction) {
 	if (sFunction == "CheckServer") {
 		// call the server check function
 		// return the result
-		return ACR_PortalCheckServer(nDestID);
+		return ACR_PortalCheckServer(nDestID, oPC);
 			
 	} else if (sFunction == "CheckPC") {
 		// if the portal is "adjacent", skip the cooldown check

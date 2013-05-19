@@ -74,11 +74,13 @@ const string _ACR_PTL_PING = "ACR_PTL_PING";
 //!   adjacent to the departure server one (circumvents cooldown settings)
 void ACR_PortalPC_Start(object oPC, int nDestServerID, int nPortalNumber, int bAdjacent=FALSE);
 
-//! Function to check if a given server is online.
+//! Function to check if a given server is online and
+//!  accessible to the requesting player.
 //!   nServerID: The ID# of the server to check.
-//!  returns: 	0 (The server could not be found)
-//!				1 (The server appears to be up)
-int ACR_PortalCheckServer(int nServerID);
+//!   oPC: The character requesting to portal.
+//!  returns: 	0 (The server is not available for use by oPC)
+//!				1 (The server is available for use by oPC)
+int ACR_PortalCheckServer(int nServerID, object oPC);
 
 //! Function to check for a valid pass to portal to a server.
 int ACR_PortalCheckPass(object oPC, int nServerID);
@@ -89,6 +91,12 @@ int ACR_PortalCheckPass(object oPC, int nServerID);
 //!  returns: 	0 (The PC is valid to portal)
 //!				1+ (number of RL hours till they will be valid)
 int ACR_PortalCheckCooldown(object oTraveller);
+
+//! Function to check if a server is public.
+//! nServerID: The ID# of the server to check.
+//! return:    0 (The server is private)
+//!            1 (The server is public)
+int ACR_GetIsServerPublic(int nServerID);
 
 //! Function to display server portalling information on a PC
 //!  oTraveller: the PC who has travelled.
@@ -142,10 +150,18 @@ void ACR_PortalPC_Start(object oPC, int nDestServerID, int nPortalNumber, int bA
 	ACR_StartServerToServerPortal(nDestServerID, nPortalNumber, oPC);
 }
 
-int ACR_PortalCheckServer(int nServerID) {
+int ACR_PortalCheckServer(int nServerID, object oPC) {
 
 #if SERVER_IPC_ENABLED
-	return ACR_GetIsServerOnline(nServerID);
+	if(ACR_GetIsServerOnline(nServerID) == FALSE)
+	{
+		return FALSE;
+	}
+	if(ACR_GetIsMember(oPC))
+	{
+		return TRUE;
+	}
+	return ACR_GetIsServerPublic(nServerID);
 #else
 	string sDestID = IntToString(nServerID);
 	// join the Servers and pwdata tables to get the timestamp corresponding to nServerID.	
@@ -185,6 +201,21 @@ int ACR_PortalCheckCooldown(object oTraveller) {
 			return (24 - nHoursSincePortal);
 		}
 	}
+}
+
+int ACR_GetIsServerPublic(int nServerID)
+{
+	string sDestID = IntToString(nServerID);
+	ACR_SQLQuery("SELECT servers.Public FROM servers WHERE ID = '"+sDestID+"'");
+	if(ACR_SQLFetch() != SQL_SUCCESS)
+	{
+		return FALSE;
+	}
+	if(ACR_SQLGetData(0) == "1")
+	{
+		return TRUE;
+	}	
+	return FALSE;
 }
 
 //! Function to check for a valid pass to portal to a server.
