@@ -224,5 +224,12 @@ void _PassToCSharp( int nEvent, float fPosX=0.0f, float fPosY=0.0f, float fPosZ=
     AddScriptParameterInt(nDetectDC);
     AddScriptParameterInt(nDisarmDC);
 	AddScriptParameterString(sResRef);
-    ExecuteScriptEnhanced("acr_traps", OBJECT_SELF, TRUE);
+	if(nEvent > 2)
+	{
+		ExecuteScriptEnhanced("acr_traps", OBJECT_SELF, TRUE);
+	}
+	else
+	{
+		ExecuteScriptEnhanced("acr_traps", GetModule(), TRUE);
+	}
 }
