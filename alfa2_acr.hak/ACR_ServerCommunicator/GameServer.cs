@@ -36,7 +36,7 @@ namespace ACR_ServerCommunicator
         public void PopulateFromDatabase(IALFADatabase Database)
         {
             Database.ACR_SQLQuery(String.Format(
-                "SELECT `Name`, `IPAddress`, `Public` FROM `servers` WHERE `ID` = {0}",
+                "SELECT `Name`, `IPAddress`, `IsPublic` FROM `servers` WHERE `ID` = {0}",
                 ServerId));
 
             if (!Database.ACR_SQLFetch())

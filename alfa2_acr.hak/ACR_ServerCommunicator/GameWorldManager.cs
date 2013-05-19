@@ -303,7 +303,7 @@ namespace ACR_ServerCommunicator
                 return null;
 
             Database.ACR_SQLQuery(String.Format(
-                "SELECT `ID`, `IPAddress`, `Name`, `Public` FROM `servers` WHERE `Name` = '{0}'",
+                "SELECT `ID`, `IPAddress`, `Name`, `IsPublic` FROM `servers` WHERE `Name` = '{0}'",
                 Database.ACR_SQLEncodeSpecialChars(ServerName)));
 
             if (!Database.ACR_SQLFetch())
@@ -351,7 +351,7 @@ namespace ACR_ServerCommunicator
                 return null;
 
             Database.ACR_SQLQuery(String.Format(
-                "SELECT `Name`, `IPAddress`, `Public` FROM `servers` WHERE `ID` = {0}",
+                "SELECT `Name`, `IPAddress`, `IsPublic` FROM `servers` WHERE `ID` = {0}",
                 ServerId));
 
             if (!Database.ACR_SQLFetch())
@@ -1346,7 +1346,7 @@ namespace ACR_ServerCommunicator
                 "SELECT " +
                     "`servers`.`ID` AS server_id, " +
                     "`servers`.`IPAddress` as ip_address " +
-                    "`servers`.`Public` as public_server " +
+                    "`servers`.`IsPublic` as public_server " +
                 "FROM `servers` " +
                 "INNER JOIN `pwdata` ON `pwdata`.`Name` = `servers`.`Name` " +
                 "WHERE pwdata.`Key` = 'ACR_TIME_SERVERTIME' " +
