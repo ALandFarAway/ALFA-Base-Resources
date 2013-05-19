@@ -92,12 +92,6 @@ int ACR_PortalCheckPass(object oPC, int nServerID);
 //!				1+ (number of RL hours till they will be valid)
 int ACR_PortalCheckCooldown(object oTraveller);
 
-//! Function to check if a server is public.
-//! nServerID: The ID# of the server to check.
-//! return:    0 (The server is private)
-//!            1 (The server is public)
-int ACR_GetIsServerPublic(int nServerID);
-
 //! Function to display server portalling information on a PC
 //!  oTraveller: the PC who has travelled.
 //!  oInquirer: the DM (presumably) who wants to know.
@@ -201,21 +195,6 @@ int ACR_PortalCheckCooldown(object oTraveller) {
 			return (24 - nHoursSincePortal);
 		}
 	}
-}
-
-int ACR_GetIsServerPublic(int nServerID)
-{
-	string sDestID = IntToString(nServerID);
-	ACR_SQLQuery("SELECT servers.Public FROM servers WHERE ID = '"+sDestID+"'");
-	if(ACR_SQLFetch() != SQL_SUCCESS)
-	{
-		return FALSE;
-	}
-	if(ACR_SQLGetData(0) == "1")
-	{
-		return TRUE;
-	}	
-	return FALSE;
 }
 
 //! Function to check for a valid pass to portal to a server.

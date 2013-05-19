@@ -96,6 +96,10 @@ const int ACR_SERVER_IPC_HANDLE_QUARANTINE_PLAYER            = 17;
 // This command handles a GUI resync (after portal) event.
 const int ACR_SERVER_IPC_HANDLE_GUI_RESYNC                   = 18;
 
+// This command queries whether a server is marked as public.
+const int ACR_SERVER_IPC_IS_SERVER_PUBLIC                    = 19;
+
+
 // IPC event codes:
 
 // The chat tell event is used to transport tells cross-server.
@@ -223,6 +227,13 @@ void ACR_ServerIPC_OnClientEnter(object LeavingPC);
 //!  - ResyncCmd: Supplies the resynchronization command line.  This value is
 //                consumed by the ACR_ServerCommunicator.GUIResynchronizer.
 void ACR_ServerIPC_OnGUIResynchronization(int SourceServerId, string ResyncCmd);
+
+//! Check whether a server is marked as public.
+//!  - ServerID: Supplies the server id to query.
+//!  - Returns: TRUE if the server is known and marked as public, FALSE if the
+//              server is not public (or the server id was invalid).
+int ACR_GetIsServerPublic(int ServerID);
+
 
 //! Send a feedback error message to a player.
 //!  - Target: Supplies the player to send the message to.
@@ -814,6 +825,18 @@ void ACR_ServerIPC_OnGUIResynchronization(int SourceServerId, string ResyncCmd)
 		0,
 		ResyncCmd);
 #endif
+}
+
+int ACR_GetIsServerPublic(int ServerID)
+{
+	return ACR_CallIPCScript(
+		ACR_SERVER_IPC_IS_SERVER_PUBLIC,
+		ServerID,
+		0,
+		0,
+		0,
+		0,
+		"");
 }
 
 void ACR_ServerIPC_OnClientLeave(object LeavingPC)

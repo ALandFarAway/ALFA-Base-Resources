@@ -25,6 +25,7 @@ namespace ACR_ServerCommunicator
             this.Characters = new List<GameCharacter>();
             this.ServerIPAddress = IPAddress.None;
             this.DatabaseOnline = true;
+            this.Public = false;
         }
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace ACR_ServerCommunicator
         public void PopulateFromDatabase(IALFADatabase Database)
         {
             Database.ACR_SQLQuery(String.Format(
-                "SELECT `Name`, `IPAddress` FROM `servers` WHERE `ID` = {0}",
+                "SELECT `Name`, `IPAddress`, `Public` FROM `servers` WHERE `ID` = {0}",
                 ServerId));
 
             if (!Database.ACR_SQLFetch())
@@ -45,6 +46,7 @@ namespace ACR_ServerCommunicator
 
             ServerName = Database.ACR_SQLGetData(0);
             SetHostnameAndPort(Database.ACR_SQLGetData(1));
+            Public = GameWorldManager.ConvertToBoolean(Database.ACR_SQLGetData(2));
         }
 
         /// <summary>
@@ -191,6 +193,12 @@ namespace ACR_ServerCommunicator
         /// the central database.
         /// </summary>
         public bool Online { get; set; }
+
+        /// <summary>
+        /// Whether the server is marked as public access for non-members in
+        /// the central database.
+        /// </summary>
+        public bool Public { get; set; }
 
         /// <summary>
         /// Characters logged on to the server are listed here.

@@ -303,7 +303,7 @@ namespace ACR_ServerCommunicator
                 return null;
 
             Database.ACR_SQLQuery(String.Format(
-                "SELECT `ID`, `IPAddress`, `Name` FROM `servers` WHERE `Name` = '{0}'",
+                "SELECT `ID`, `IPAddress`, `Name`, `Public` FROM `servers` WHERE `Name` = '{0}'",
                 Database.ACR_SQLEncodeSpecialChars(ServerName)));
 
             if (!Database.ACR_SQLFetch())
@@ -314,6 +314,7 @@ namespace ACR_ServerCommunicator
             Server.ServerId = Convert.ToInt32(Database.ACR_SQLGetData(0));
             Server.SetHostnameAndPort(Database.ACR_SQLGetData(1));
             Server.ServerName = Database.ACR_SQLGetData(2);
+            Server.Public = ConvertToBoolean(Database.ACR_SQLGetData(3));
 
             InsertNewServer(Server, Database);
 
@@ -350,7 +351,7 @@ namespace ACR_ServerCommunicator
                 return null;
 
             Database.ACR_SQLQuery(String.Format(
-                "SELECT `Name`, `IPAddress` FROM `servers` WHERE `ID` = {0}",
+                "SELECT `Name`, `IPAddress`, `Public` FROM `servers` WHERE `ID` = {0}",
                 ServerId));
 
             if (!Database.ACR_SQLFetch())
@@ -361,6 +362,7 @@ namespace ACR_ServerCommunicator
             Server.ServerName = Database.ACR_SQLGetData(0);
             Server.ServerId = ServerId;
             Server.SetHostnameAndPort(Database.ACR_SQLGetData(1));
+            Server.Public = ConvertToBoolean(Database.ACR_SQLGetData(2));
 
             InsertNewServer(Server, Database);
 
@@ -1303,6 +1305,7 @@ namespace ACR_ServerCommunicator
         {
             public int ServerId;
             public string AddressString;
+            public bool PublicServer;
         };
 
         /// <summary>
@@ -1343,6 +1346,7 @@ namespace ACR_ServerCommunicator
                 "SELECT " +
                     "`servers`.`ID` AS server_id, " +
                     "`servers`.`IPAddress` as ip_address " +
+                    "`servers`.`Public` as public_server " +
                 "FROM `servers` " +
                 "INNER JOIN `pwdata` ON `pwdata`.`Name` = `servers`.`Name` " +
                 "WHERE pwdata.`Key` = 'ACR_TIME_SERVERTIME' " +
@@ -1378,6 +1382,7 @@ namespace ACR_ServerCommunicator
 
                 Row.ServerId = Convert.ToInt32(Database.ACR_SQLGetData(0));
                 Row.AddressString = Database.ACR_SQLGetData(1);
+                Row.PublicServer = ConvertToBoolean(Database.ACR_SQLGetData(2));
 
                 Rowset.Add(Row);
             }
@@ -1405,6 +1410,7 @@ namespace ACR_ServerCommunicator
                     }
 
                     Server.SetHostnameAndPort(AddressString);
+                    Server.Public = Row.PublicServer;
                 }
 
                 //

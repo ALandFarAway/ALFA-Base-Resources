@@ -243,6 +243,14 @@ namespace ACR_ServerCommunicator
                     }
                     break;
 
+                case REQUEST_TYPE.IS_SERVER_PUBLIC:
+                    {
+                        int ServerId = (int)ScriptParameters[1];
+
+                        ReturnCode = IsServerPublic(ServerId) ? TRUE : FALSE;
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid IPC script command " + RequestType.ToString());
 
@@ -788,13 +796,14 @@ namespace ACR_ServerCommunicator
                 foreach (GameServer Server in WorldManager.Servers)
                 {
                     SendMessageToPC(PlayerObject, String.Format(
-                        "Server {0} ({1}:{2}) - online {3}, databaseonline {4}, {5} users.",
+                        "Server {0} ({1}:{2}) - online {3}, databaseonline {4}, {5} users, {6}.",
                         Server.Name,
                         Server.GetIPAddress(),
                         Server.ServerPort,
                         Server.Online,
                         Server.DatabaseOnline,
-                        Server.Characters.Count
+                        Server.Characters.Count,
+                        Server.Public ? "public" : "private"
                         ));
                 }
 
@@ -1438,6 +1447,25 @@ namespace ACR_ServerCommunicator
                     return false;
 
                 return Server.Online;
+            }
+        }
+
+        /// <summary>
+        /// Check whether a server is marked as public.
+        /// </summary>
+        /// <param name="ServerId">Supplies the server id of the server to
+        /// query.</param>
+        /// <returns>True if the server is valid and public.</returns>
+        private bool IsServerPublic(int ServerId)
+        {
+            lock (WorldManager)
+            {
+                GameServer Server = WorldManager.ReferenceServerById(ServerId, GetDatabase());
+
+                if (Server == null)
+                    return false;
+
+                return Server.Public;
             }
         }
 
@@ -2839,7 +2867,8 @@ namespace ACR_ServerCommunicator
             ENABLE_CHARACTER_SAVE,
             PAUSE_HEARTBEAT,
             HANDLE_QUARANTINE_PLAYER,
-            HANDLE_GUI_RESYNC
+            HANDLE_GUI_RESYNC,
+            IS_SERVER_PUBLIC
         }
 
         /// <summary>
