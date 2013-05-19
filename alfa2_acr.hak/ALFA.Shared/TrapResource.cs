@@ -138,7 +138,7 @@ namespace ALFA.Shared
         {
             get
             {
-                return String.Format("LISTBOX_ITEM_TEXT={0};LISTBOX_ITEM_TEXT2= {1:N1}", DisplayName, ChallengeRating);
+                return String.Format("LISTBOX_ITEM_TEXT={0};LISTBOX_ITEM_TEXT2= {1};LISTBOX_ITEM_TEXT3=  {2:N1}", DisplayName, DisarmDC, ChallengeRating);
             }
         }
 
@@ -158,14 +158,143 @@ namespace ALFA.Shared
             }
         }
 
+        public void CalculateCR()
+        {
+            float cr = 0.0f;
+            if (SpellTrap)
+            {
+                // TODO: Finish the spells portion of Candlekeep,
+                // and then use it to calculate CR as spell level + 1
+                // here. In the mean time, we grossly overestimate
+                // spell trap CRs, so everyone knows they're wrong.
+                cr = 99.0f;
+            }
+            else
+            {
+                cr = ((float)DiceType / 2 * (float)DiceNumber) / 7;
+                int baseNumber = (int)cr;
+                if (SaveDC > 0)
+                {
+                    int numberToSave = SaveDC - ((baseNumber / 2) + 4);
+                    if (numberToSave < 2)
+                    {
+                        // We only fail on a natural 1. Any respectable rogue is totally
+                        // unthreatened by this trap.
+                        cr *= 0.05f;
+                    }
+                    else if (numberToSave > 19)
+                    {
+                        // We only succeed on a natural 20. Almost everyone in this trap
+                        // is going to get hurt by it.
+                        cr *= 0.95f;
+                    }
+                    else
+                    {
+                        // Remember this is the target rolling, so low numbers are
+                        // an easier trap.
+                        cr *= (numberToSave * 0.05f);
+                    }
+                }
+                else
+                {
+                    int numberToHit = baseNumber + 14 - AttackBonus;
+                    if (numberToHit < 2)
+                    {
+                        // The trap only misses on a natural 1. Everyone gets punctured
+                        cr *= 0.95f;
+                    }
+                    else if (numberToHit > 19)
+                    {
+                        // The trap only hits on a natural 20. Tanks march through with impunity, 
+                        // and rogues are probably fine.
+                        cr *= 0.05f;
+                    }
+                    else
+                    {
+                        // Remember this is the trap rolling, so low numbers are
+                        // a harder trap.
+                        cr *= ((20 - numberToHit) * 0.05f);
+                    }
+                }
+                
+                if (DetectDC < 0)
+                {
+                    cr /= 2;
+                }
+                else
+                {
+                    float adjust = ((float)DetectDC - 16.0f - cr) * 0.2f;
+                    if (adjust < -1.0f)
+                    {
+                        adjust = -1.0f;
+                    }
+                    if (adjust > 1.0f)
+                    {
+                        adjust = 1.0f;
+                    }
+                    cr += adjust;
+                }
+                if (DisarmDC < 0)
+                {
+                    cr /= 2;
+                }
+                else
+                {
+                    float adjust = ((float)DisarmDC - 16.0f - cr) * 0.2f;
+                    if (adjust < -1.0f)
+                    {
+                        adjust = -1.0f;
+                    }
+                    if (adjust > 1.0f)
+                    {
+                        adjust = 1.0f;
+                    }
+                    cr += adjust;
+                }
+                if ((DamageType & CLRScriptBase.DAMAGE_TYPE_PIERCING) == CLRScriptBase.DAMAGE_TYPE_PIERCING ||
+                   (DamageType & CLRScriptBase.DAMAGE_TYPE_SLASHING) == CLRScriptBase.DAMAGE_TYPE_SLASHING ||
+                   (DamageType & CLRScriptBase.DAMAGE_TYPE_BLUDGEONING) == CLRScriptBase.DAMAGE_TYPE_BLUDGEONING)
+                {
+                    cr *= 1.05f;
+                }
+            }
+            if ((DamageType & CLRScriptBase.DAMAGE_TYPE_NEGATIVE) == CLRScriptBase.DAMAGE_TYPE_NEGATIVE)
+            {
+                cr *= 1.1f;
+            }
+            if ((DamageType & CLRScriptBase.DAMAGE_TYPE_MAGICAL) == CLRScriptBase.DAMAGE_TYPE_MAGICAL)
+            {
+                cr *= 1.15f;
+            }
+            if (EffectSize > 1.0f)
+            {
+                cr *= 1.1f;
+            }
+            if (TargetAlignment != CLRScriptBase.ALIGNMENT_ALL ||
+               TargetRace != CLRScriptBase.RACIAL_TYPE_ALL)
+            {
+                cr *= 1.1f;
+            }
+            if (NumberOfShots < 0)
+            {
+                cr *= 1.5f;
+            }
+            else
+            {
+                float multiplier = 1.0f + (0.05f * (NumberOfShots - 1));
+                cr *= multiplier;
+            }
+            ChallengeRating = cr;
+        }
+
         public int CompareTo(IListBoxItem other)
         {
-            ActiveTrap trap = other as ActiveTrap;
+            TrapResource trap = other as TrapResource;
             if (trap != null) return CompareTo(trap);
             return 0;
         }
 
-        public int CompareTo(ActiveTrap other)
+        public int CompareTo(TrapResource other)
         {
             if (Sorting.Column == 2)
             {
