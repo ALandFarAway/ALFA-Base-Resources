@@ -165,6 +165,7 @@ namespace ACR_ChooserCreator
                 DefaultSortNavigators(Navigators.ItemNavigator.bottomCategory);
                 DefaultSortNavigators(Navigators.PlaceableNavigator.bottomCategory);
                 DefaultSortNavigators(Navigators.VisualEffectNavigator.bottomCategory);
+                DefaultSortNavigators(Navigators.TrapNavigator.bottomCategory);
                 DefaultSortNavigators(Navigators.WaypointNavigator.bottomCategory);
                 DefaultSortNavigators(Navigators.LightNavigator.bottomCategory);
             }
