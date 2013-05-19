@@ -717,6 +717,10 @@ void _playerRestoreSpells(object oCaster, string sClasses, int nHitPoints)
     // remove the healing benefits
     _unhealFromRest(oCaster, nHitPoints);
 	
+	// Make sure that players who relogged before taking their free
+	// spell prep aren't penalized on things like crafting.
+	DeleteLocalInt(OBJECT_SELF, ACR_FREE_SPELL_PREP);
+	
     // remove all logged spell uses
     ACR_RemoveSpellUses(oCaster, sClasses);
 
