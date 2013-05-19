@@ -68,16 +68,16 @@ namespace ACR_ChooserCreator
             switch (command)
             {
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_CREATURE_TAB:
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "CreatureActive", FALSE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "ItemActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "PlaceableActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "TrapActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "VfxActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "LightActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureActive", FALSE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "PlaceableActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "TrapActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "VfxActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
                     currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_CREATURE_TAB;
-                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column2", -1, "Fac");
-                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column3", -1, "CR");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, "Fac");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, "CR");
                     if (currentUser.CurrentCreatureCategory == Navigators.CreatureNavigator.bottomCategory)
                     {
                         Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.CreatureNavigator);
@@ -88,16 +88,16 @@ namespace ACR_ChooserCreator
                     }
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB:
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "CreatureActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "ItemActive", FALSE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "PlaceableActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "TrapActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "VfxActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "LightActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemActive", FALSE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "PlaceableActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "TrapActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "VfxActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
                     currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB;
-                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column2", -1, "Value");
-                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column3", -1, "Lvl");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, "Value");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, "Lvl");
                     if (currentUser.CurrentItemCategory == Navigators.ItemNavigator.bottomCategory)
                     {
                         Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.ItemNavigator);
@@ -108,16 +108,16 @@ namespace ACR_ChooserCreator
                     }
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_PLACEABLE_TAB:
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "CreatureActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "ItemActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "PlaceableActive", FALSE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "TrapActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "VfxActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "LightActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "PlaceableActive", FALSE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "TrapActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "VfxActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
                     currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_PLACEABLE_TAB;
-                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column2", -1, "Lck/Trp");
-                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column3", -1, "Inv?");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, "Lck/Trp");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, "Inv?");
                     if (currentUser.CurrentPlaceableCategory == Navigators.PlaceableNavigator.bottomCategory)
                     {
                         Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.PlaceableNavigator);
@@ -128,16 +128,16 @@ namespace ACR_ChooserCreator
                     }
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_TRAP_TAB:
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "CreatureActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "ItemActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "PlaceableActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "TrapActive", FALSE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "VfxActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "LightActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "PlaceableActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "TrapActive", FALSE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "VfxActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
                     currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_TRAP_TAB;
-                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column2", -1, "DC");
-                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column3", -1, "CR");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, "DC");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, "CR");
                     if (currentUser.CurrentTrapCategory == Navigators.TrapNavigator.bottomCategory)
                     {
                         Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.TrapNavigator);
@@ -148,16 +148,16 @@ namespace ACR_ChooserCreator
                     }
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB:
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "CreatureActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "ItemActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "PlaceableActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "TrapActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "VfxActive", FALSE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "LightActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "PlaceableActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "TrapActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "VfxActive", FALSE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
                     currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB;
-                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column2", -1, " ");
-                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column3", -1, " ");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, " ");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, " ");
                     if (currentUser.CurrentVisualEffectCategory == Navigators.VisualEffectNavigator.bottomCategory)
                     {
                         Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.VisualEffectNavigator);
@@ -168,16 +168,16 @@ namespace ACR_ChooserCreator
                     }
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB:
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "CreatureActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "ItemActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "PlaceableActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "TrapActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "VfxActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", FALSE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "LightActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "PlaceableActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "TrapActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "VfxActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", FALSE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
                     currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB;
-                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column2", -1, " ");
-                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column3", -1, " ");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, " ");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, " ");
                     if (currentUser.CurrentWaypointCategory == Navigators.WaypointNavigator.bottomCategory)
                     {
                         Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.WaypointNavigator);
@@ -188,16 +188,16 @@ namespace ACR_ChooserCreator
                     }
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB:
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "CreatureActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "ItemActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "PlaceableActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "TrapActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "VfxActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "WaypointActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_ACR_CREATOR", "LightActive", FALSE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "PlaceableActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "TrapActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "VfxActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
+                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", FALSE);
                     currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB;
-                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column2", -1, "Brt/Rd");
-                    SetGUIObjectText(currentUser.Id, "SCREEN_ACR_CREATOR", "Column3", -1, "Shd");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, "Brt/Rd");
+                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, "Shd");
                     if (currentUser.CurrentWaypointCategory == Navigators.LightNavigator.bottomCategory)
                     {
                         Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.LightNavigator);

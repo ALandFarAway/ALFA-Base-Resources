@@ -45,22 +45,22 @@ namespace ACR_ChooserCreator
         {
             if (nav != null)
             {
-                script.ClearListBox(script.OBJECT_SELF, "SCREEN_ACR_CREATOR", "LISTBOX_ACR_CREATOR");
+                script.ClearListBox(script.OBJECT_SELF, "SCREEN_DMC_CREATOR", "LISTBOX_ACR_CREATOR");
                 if (nav.ParentCategory != null)
                 {
                     string textFields = "LISTBOX_ITEM_TEXT=  ..";
                     string variables = "5=Category:..";
-                    script.AddListBoxRow(script.OBJECT_SELF, "SCREEN_ACR_CREATOR", "LISTBOX_ACR_CREATOR", "Category:..", textFields, "LISTBOX_ITEM_ICON=folder.tga", variables, "unhide");
+                    script.AddListBoxRow(script.OBJECT_SELF, "SCREEN_DMC_CREATOR", "LISTBOX_ACR_CREATOR", "Category:..", textFields, "LISTBOX_ITEM_ICON=folder.tga", variables, "unhide");
                 }
                 foreach (NavigatorCategory navCat in nav.ContainedCategories)
                 {
                     string textFields = String.Format("LISTBOX_ITEM_TEXT=  {0}", navCat.DisplayName);
                     string variables = String.Format("5={0}", "Category:" + navCat.Name);
-                    script.AddListBoxRow(script.OBJECT_SELF, "SCREEN_ACR_CREATOR", "LISTBOX_ACR_CREATOR", "Category:" + navCat.Name, textFields, "LISTBOX_ITEM_ICON=folder.tga", variables, "unhide");
+                    script.AddListBoxRow(script.OBJECT_SELF, "SCREEN_DMC_CREATOR", "LISTBOX_ACR_CREATOR", "Category:" + navCat.Name, textFields, "LISTBOX_ITEM_ICON=folder.tga", variables, "unhide");
                 }
                 foreach (IListBoxItem navItem in nav.ContainedItems)
                 {
-                    script.AddListBoxRow(script.OBJECT_SELF, "SCREEN_ACR_CREATOR", "LISTBOX_ACR_CREATOR", navItem.RowName, navItem.TextFields, navItem.Icon, navItem.Variables, "unhide");
+                    script.AddListBoxRow(script.OBJECT_SELF, "SCREEN_DMC_CREATOR", "LISTBOX_ACR_CREATOR", navItem.RowName, navItem.TextFields, navItem.Icon, navItem.Variables, "unhide");
                 }
             }
             else
@@ -76,7 +76,7 @@ namespace ACR_ChooserCreator
             {
                 foreach (IListBoxItem item in resource)
                 {
-                    script.AddListBoxRow(script.OBJECT_SELF, "SCREEN_ACR_CREATOR", "LISTBOX_ACR_CREATOR", item.RowName, item.TextFields, item.Icon, item.Variables, "unhide");
+                    script.AddListBoxRow(script.OBJECT_SELF, "SCREEN_DMC_CREATOR", "LISTBOX_ACR_CREATOR", item.RowName, item.TextFields, item.Icon, item.Variables, "unhide");
                 }
             }
         }
