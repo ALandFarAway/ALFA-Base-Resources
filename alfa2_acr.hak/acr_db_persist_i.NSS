@@ -1183,7 +1183,7 @@ void ACR_CreateSQLTables()
 		"`IsDM` bool NOT NULL default false," +
 		"`IsBanned` bool NOT NULL default false," +
 		"`Is18Plus` bool NOT NULL default false," +
-		"`IsMember` smallint(5) NOT NULL default 1,"
+		"`IsMember` bool NOT NULL default true,"
 		"PRIMARY KEY (`ID`), UNIQUE KEY(`CDKey`, `Name`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 
@@ -1220,7 +1220,7 @@ void ACR_CreateSQLTables()
 		"`ID` smallint(5) UNSIGNED NOT NULL," +
 		"`Name` varchar(64) NOT NULL," +
 		"`IPAddress` varchar(21) NOT NULL," +
-		"`IsPublic` smallint(5) UNSIGNED NOT NULL," +
+		"`IsPublic` bool NOT NULL default true," +
 		"PRIMARY KEY (`ID`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 
@@ -1375,7 +1375,7 @@ void ACR_AdjustTables() {
 	// check to see if the Players table has the IsMember column
 	ACR_SQLQuery("SHOW COLUMNS from `players` WHERE Field = 'IsMember';");
 	if (ACR_SQLFetch() != SQL_SUCCESS) {
-		ACR_SQLQuery("ALTER TABLE `players` ADD `IsMember` smallint(5) NOT NULL default 1");
+		ACR_SQLQuery("ALTER TABLE `players` ADD `IsMember` bool NOT NULL default true");
 		WriteTimestampedLogEntry("ACR_DB_PERSIST: Players table altered to record IsMember status.");
 	} else {
 		WriteTimestampedLogEntry("ACR_DB_PERSIST: IsMember column existance confirmed.");
@@ -1394,7 +1394,7 @@ void ACR_AdjustTables() {
 	// check to see if the Servers table has the IsPublic column
 	ACR_SQLQuery("SHOW COLUMNS from `servers` WHERE Field = 'IsPublic';");
 	if (ACR_SQLFetch() != SQL_SUCCESS) {
-		ACR_SQLQuery("ALTER TABLE `servers` ADD `IsPublic` smallint(5) NOT NULL default 1");
+		ACR_SQLQuery("ALTER TABLE `servers` ADD `IsPublic` bool NOT NULL default true");
 		WriteTimestampedLogEntry("ACR_DB_PERSIST: Servers table altered to record IsPublic status.");
 	} else {
 		WriteTimestampedLogEntry("ACR_DB_PERSIST: IsPublic column existance confirmed.");
