@@ -44,7 +44,7 @@
 // sItem = the tag of the item to be taken
 // nGold = the amount of gold that the item is worth
 // nXP = the amount of XP that the item is worth
-void main(string sItem, int nGold, int nXP)
+void main(string sItem, int nGold, int nXP, float fCR)
 {
     object oPC = GetPCSpeaker();
     int nGoldRewarded = 0;
@@ -61,5 +61,5 @@ void main(string sItem, int nGold, int nXP)
         oItem = GetNextItemInInventory(oPC);
     }
     GiveGoldToCreature(oPC, nGoldRewarded);
-    ACR_AwardStaticQuestXP(oPC, "Collected: "+sItem, nXP);
+    ACR_AwardStaticQuestXP(oPC, "Collected: "+sItem, nXP, fCR);
 }
