@@ -58,6 +58,7 @@ namespace ACR_Traps
             createdTrap.TotalHelp = 0;
             createdTrap.IsFiring = false;
             createdTrap.ConfigureDisplayName();
+            createdTrap.CalculateCR();
 
             ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect.Add(detectTag, createdTrap);
             ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers.Add(tag, createdTrap);
@@ -100,6 +101,7 @@ namespace ACR_Traps
             createdTrap.TotalHelp = 0;
             createdTrap.IsFiring = false;
             createdTrap.ConfigureDisplayName();
+            createdTrap.CalculateCR();
 
             ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect.Add(detectTag, createdTrap);
             ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers.Add(tag, createdTrap);
