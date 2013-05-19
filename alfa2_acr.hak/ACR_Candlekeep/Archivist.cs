@@ -1322,6 +1322,11 @@ namespace ACR_Candlekeep
             foreach (GFFStruct var in variables)
             {
                 string varName = var["Name"].Value.ToString();
+                if (varName == "ACR_TRAP_TRIGGER_AREA")
+                {
+                    addingTrap.TriggerArea = var["Value"].ValueInt;
+                    continue;
+                }
                 if (varName == "ACR_TRAP_ATTACK_BONUS")
                 {
                     addingTrap.AttackBonus = var["Value"].ValueInt;
@@ -1380,7 +1385,14 @@ namespace ACR_Candlekeep
                 else if (varName == "ACR_TRAP_SPELL_ID")
                 {
                     addingTrap.SpellId = var["Value"].ValueInt;
-                    addingTrap.SpellTrap = true;
+                    if (addingTrap.SpellId >= 0)
+                    {
+                        addingTrap.SpellTrap = true;
+                    }
+                    else
+                    {
+                        addingTrap.SpellTrap = false;
+                    }
                     continue;
                 }
                 else if (varName == "ACR_TRAP_TARGET_ALIGNMENT")
