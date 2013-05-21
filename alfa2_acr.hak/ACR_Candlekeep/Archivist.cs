@@ -1414,6 +1414,7 @@ namespace ACR_Candlekeep
 
         private static string ParseClassification(string classification)
         {
+            classification = classification.Replace(':','-');
             string[] attemptingClasses = classification.Split('|');
             if (attemptingClasses.Length > 1)
             {
