@@ -93,7 +93,6 @@ const string ACR_LOG_VALIDATED = "Validated";
 const string ACR_LOG_SERVER_ADMIN_COMMAND = "Server Admin Command";
 const string ACR_LOG_DEATH_FLOOR = "Death Floor";
 const string ACR_LOG_SPAWN = "DM Spawn";
-const string ACR_LOG_MULE = "DM Mule";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -217,13 +216,6 @@ void ACR_LogServerAdminCommand(object oPC, string sCmd);
 //!  - sSpawnMessage: Descriptive text of what is being spawned.
 void ACR_LogDMSpawn(object oDM, string sSpawnMessage);
 
-//! Log that a player has acquired an item that was previously carried
-//! by a DM avatar.
-//!  - oPC: The PC who has acquired the item.
-//!  - oItem: The item that was muled.
-//!  - sDMID: The ID of the DM.
-void ACR_LogDMMule(object oPC, object oItem, string sDMID);
-
 //! This is a copy of ACR_LogEvent, which can be run when the DM isn't necessarily logged
 //! on at the time of the event.
 void ACR_LogDMedEvent(object oPC, string sEventName, string sEventDescription, string sDMID);
@@ -332,7 +324,14 @@ void ACR_LogOnAcquired(object oItem, object oTaker, int bStolen=FALSE)
 			sAcquireLog += ", From: " + ACR_SQLEncodeSpecialChars(GetName(oAcquiredFrom)); 
 		}
 	}
-    ACR_LogEvent(oTaker, ACR_LOG_ACQUIRE, sAcquireLog);
+	if(GetLocalInt(oItem, "DM_MULED"))
+	{
+		ACR_LogDMedEvent(oTaker, ACR_LOG_ACQUIRE, sAcquireLog, IntToString(GetLocalInt(oItem, "DM_MULED")));
+	}
+	else
+	{
+		ACR_LogEvent(oTaker, ACR_LOG_ACQUIRE, sAcquireLog);
+	}
 	// SendMessageToPC(oTaker, sAcquireLog);
 }
 
@@ -467,9 +466,4 @@ void ACR_LogServerAdminCommand(object oPC, string sCmd)
 void ACR_LogDMSpawn(object oDM, string sSpawnMessage)
 {
 	ACR_LogEvent(oDM, ACR_LOG_SPAWN, sSpawnMessage, oDM);
-}
-
-void ACR_LogDMMule(object oPC, object oItem, string sDMID)
-{
-	ACR_LogDMedEvent(oPC, ACR_LOG_MULE, "Player has acquired muled item "+GetName(oItem)+" ("+GetResRef(oItem)+") worth "+IntToString(GetGoldPieceValue(oItem))+" gold", sDMID);
 }

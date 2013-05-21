@@ -1177,6 +1177,10 @@ void ACR_ModuleOnUnAcquireItem() {
     
     // only process player drops
     if (! GetIsPC(oLostBy)) { return; }
+	
+	// flag items that are carried by DM avatars, so we can note that if they're ever acquired
+	// by a PC.
+	if (GetIsDM(oLostBy) || GetIsDMPossessed(oLostBy)) { SetLocalInt(oItem, "DM_MULED", ACR_GetCharacterID(oLostBy)); }
  
     // fire handler for special items.
     ACR_ItemOnUnAcquire(oItem, oLostBy);
