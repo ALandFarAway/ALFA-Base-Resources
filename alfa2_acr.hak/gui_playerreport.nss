@@ -555,6 +555,7 @@ void main(int nAction, int nTargetObject)
         ClearListBox(oPC, "SCREEN_INVENTORYREPORT", "inventoryreport");
 
         int nWealth = GetGold(oTarget);
+				AddListBoxRow(OBJECT_SELF, "SCREEN_INVENTORYREPORT", "inventoryreport", "nw_it_gold", "LISTBOX_ITEM_TEXT=  Gold;LISTBOX_ITEM_PRICE=  "+IntToString(GetGold(oTarget))+";LISTBOX_ITEM_LEVEL=  1",   "LISTBOX_ITEM_ICON=it_gold.tga", "5= ", "unhide");
         int nCount = 0;
         object oItem = GetItemInSlot(nCount, oTarget);
         while(nCount < 18)
