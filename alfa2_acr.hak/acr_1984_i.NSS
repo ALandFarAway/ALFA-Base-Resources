@@ -92,6 +92,8 @@ const string ACR_LOG_SERVER_LOAD = "Server Loaded";
 const string ACR_LOG_VALIDATED = "Validated";
 const string ACR_LOG_SERVER_ADMIN_COMMAND = "Server Admin Command";
 const string ACR_LOG_DEATH_FLOOR = "Death Floor";
+const string ACR_LOG_SPAWN = "DM Spawn";
+const string ACR_LOG_MULE = "DM Mule";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -191,7 +193,7 @@ void ACR_LogBanBoot(object oPC);
 //!  - Returns: Nothing
 void ACR_LogQuarantine(object oPC);
 
-//! Log the items possesed by a PC
+//! Log the items possessed by a PC
 //!  - oPC: the PC whose item possessions we are logging
 //!  - Returns: Cumulative Inventory Value
 int ACR_LogInventory(object oPC);
@@ -209,6 +211,22 @@ void ACR_LogModuleLoaded();
 //!  - oPC: the PC that issued the server admin command
 //!  - sCmd: The server admin command that was issued
 void ACR_LogServerAdminCommand(object oPC, string sCmd);
+
+//! Log that a DM has spawned something
+//!  - oDM: The DM performing the spawn
+//!  - sSpawnMessage: Descriptive text of what is being spawned.
+void ACR_LogDMSpawn(object oDM, string sSpawnMessage);
+
+//! Log that a player has acquired an item that was previously carried
+//! by a DM avatar.
+//!  - oPC: The PC who has acquired the item.
+//!  - oItem: The item that was muled.
+//!  - sDMID: The ID of the DM.
+void ACR_LogDMMule(object oPC, object oItem, string sDMID);
+
+//! This is a copy of ACR_LogEvent, which can be run when the DM isn't necessarily logged
+//! on at the time of the event.
+void ACR_LogDMedEvent(object oPC, string sEventName, string sEventDescription, string sDMID);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -245,6 +263,32 @@ void ACR_LogEvent(object oPC, string sEventName, string sEventDescription, objec
     {
         ACR_AsyncSQLQueryEx("INSERT INTO logs (ServerID, CharacterID, Event, Description) VALUES (" + IntToString(ACR_GetServerId()) + "," + IntToString(nCharacterID) + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')", oModule);
     }
+}
+
+void ACR_LogDMedEvent(object oPC, string sEventName, string sEventDescription, string sDMID)
+{
+	object oModule = GetModule();
+	int nCharacterID;
+
+	if (oPC == OBJECT_INVALID)
+		nCharacterID = ACR_CHARACTER_ID_NONE;
+	else
+		nCharacterID = ACR_GetCharacterID(oPC);
+
+    // log the event
+	// add the area and party leader
+	if (GetIsObjectValid(GetArea(oPC))) {
+		sEventDescription = sEventDescription + " in area "+GetName(GetArea(oPC));
+	}
+	if (GetFactionLeader(oPC) != oPC) {
+		sEventDescription = sEventDescription + " with leader: "+GetName(GetFactionLeader(oPC));
+	}
+	// check the overall length and truncate if necessary (varchar 128 field)
+	if (GetStringLength(sEventDescription) > 128) {
+		sEventDescription = GetStringLeft(sEventDescription, 128);
+	}
+	
+    ACR_AsyncSQLQueryEx("INSERT INTO logs (ServerID, CharacterID, DMCharacterID, Event, Description) VALUES (" + IntToString(ACR_GetServerId()) + "," + IntToString(nCharacterID)  + "," + sDMID + ",'" + sEventName + "','" + ACR_SQLEncodeSpecialChars(sEventDescription) + "')", oModule);
 }
 
 void ACR_LogOnEnter(object oPC)
@@ -420,3 +464,12 @@ void ACR_LogServerAdminCommand(object oPC, string sCmd)
 	ACR_LogEvent(oPC, ACR_LOG_SERVER_ADMIN_COMMAND, sCmd);
 }
 
+void ACR_LogDMSpawn(object oDM, string sSpawnMessage)
+{
+	ACR_LogEvent(oDM, ACR_LOG_SPAWN, sSpawnMessage, oDM);
+}
+
+void ACR_LogDMMule(object oPC, object oItem, string sDMID)
+{
+	ACR_LogDMedEvent(oPC, ACR_LOG_MULE, "Player has acquired muled item "+GetName(oItem)+" ("+GetResRef(oItem)+") worth "+IntToString(GetGoldPieceValue(oItem))+" gold", sDMID);
+}
