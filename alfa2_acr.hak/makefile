@@ -633,6 +633,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_trapdisarm.ncs                    \
             $(OUTPUTDIR)\nw_s1_barbrage.ncs                    \
             $(OUTPUTDIR)\nw_s1_frenzy.ncs                      \
+			$(OUTPUTDIR)\nw_s0_findtrap.ncs                    \
             $(OUTPUTDIR)\nw_s0_lowltvisn.ncs                   
 
 #
