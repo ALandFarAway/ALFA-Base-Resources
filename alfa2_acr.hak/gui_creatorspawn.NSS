@@ -32,43 +32,44 @@ void main( object TargetObject, float posX, float posY, float posZ, string ResRe
 	{
 		object oItem = CreateItemOnObject(ResRef, TargetObject);
 		ACR_LogDMSpawn(OBJECT_SELF, "DM has spawned item "+GetName(oItem)+" ("+GetResRef(oItem)+") worth "+IntToString(GetGoldPieceValue(oItem))+" gold into the inventory of "+GetName(TargetObject));
-		return;
-	}
-
-	object oTargetBuilder = GetControlledCharacter(OBJECT_SELF);
-	location lTarget = Location(GetArea(oTargetBuilder), Vector(posX, posY, posZ), GetFacing(oTargetBuilder));
-	if(ObjectType != CUSTOM_OBJECT_TYPE_TRAP)
-	{
-		object oSpawn = CreateObject(ObjectType, ResRef, lTarget, FALSE, "");
-		if(ObjectType == OBJECT_TYPE_CREATURE)
-		{
-			ACR_LogDMSpawn(OBJECT_SELF, "DM has spawned creature "+GetName(oSpawn)+" ("+GetResRef(oSpawn)+") of CR "+FloatToString(GetChallengeRating(oSpawn))+" at ("+FloatToString(posX)+","+FloatToString(posY)+","+FloatToString(posZ)+")");
-		}
-		else if(ObjectType == OBJECT_TYPE_ITEM)
-		{
-			ACR_LogDMSpawn(OBJECT_SELF, "DM has spawned item "+GetName(oSpawn)+" ("+GetResRef(oSpawn)+") of value "+IntToString(GetGoldPieceValue(oSpawn))+" at ("+FloatToString(posX)+","+FloatToString(posY)+","+FloatToString(posZ)+")");
-		}
-		else if(ObjectType == OBJECT_TYPE_PLACEABLE)
-		{
-			ACR_LogDMSpawn(OBJECT_SELF, "DM has spawned placeable "+GetName(oSpawn)+" ("+GetResRef(oSpawn)+") at ("+FloatToString(posX)+","+FloatToString(posY)+","+FloatToString(posZ)+")");
-		}
-		else if(ObjectType == OBJECT_TYPE_WAYPOINT)
-		{
-			ACR_LogDMSpawn(OBJECT_SELF, "DM has spawned waypoint "+GetName(oSpawn)+" ("+GetResRef(oSpawn)+") at ("+FloatToString(posX)+","+FloatToString(posY)+","+FloatToString(posZ)+")");
-		}
-		else if(ObjectType == OBJECT_TYPE_PLACED_EFFECT)
-		{
-			ACR_LogDMSpawn(OBJECT_SELF, "DM has spawned effect "+GetName(oSpawn)+" ("+GetResRef(oSpawn)+") at ("+FloatToString(posX)+","+FloatToString(posY)+","+FloatToString(posZ)+")");
-		}
-		else if(ObjectType == OBJECT_TYPE_LIGHT)
-		{
-			ACR_LogDMSpawn(OBJECT_SELF, "DM has spawned light "+GetName(oSpawn)+" ("+GetResRef(oSpawn)+") at ("+FloatToString(posX)+","+FloatToString(posY)+","+FloatToString(posZ)+")");
-		}
 	}
 	else
 	{
-		_PassToCSharp(TRAP_EVENT_CREATE_GENERIC, posX, posY, posZ, GetArea(oTargetBuilder), -1, -1, -1.0f, -1, -1, -1, -1, -1, 1, OBJECT_INVALID, ALIGNMENT_ALL, RACIAL_TYPE_ALL, 1, -1, -1, ResRef);
-		ACR_LogDMSpawn(OBJECT_SELF, "DM has spawned trap "+ResRef+" at ("+FloatToString(posX)+","+FloatToString(posY)+","+FloatToString(posZ)+")");
+		object oTargetBuilder = GetControlledCharacter(OBJECT_SELF);
+		location lTarget = Location(GetArea(oTargetBuilder), Vector(posX, posY, posZ), GetFacing(oTargetBuilder));
+		if(ObjectType != CUSTOM_OBJECT_TYPE_TRAP)
+		{
+			object oSpawn = CreateObject(ObjectType, ResRef, lTarget, FALSE, "");
+			if(ObjectType == OBJECT_TYPE_CREATURE)
+			{
+				ACR_LogDMSpawn(OBJECT_SELF, "DM has spawned creature "+GetName(oSpawn)+" ("+GetResRef(oSpawn)+") of CR "+FloatToString(GetChallengeRating(oSpawn))+" at ("+FloatToString(posX)+","+FloatToString(posY)+","+FloatToString(posZ)+")");
+			}
+			else if(ObjectType == OBJECT_TYPE_ITEM)
+			{
+				ACR_LogDMSpawn(OBJECT_SELF, "DM has spawned item "+GetName(oSpawn)+" ("+GetResRef(oSpawn)+") of value "+IntToString(GetGoldPieceValue(oSpawn))+" at ("+FloatToString(posX)+","+FloatToString(posY)+","+FloatToString(posZ)+")");
+			}
+			else if(ObjectType == OBJECT_TYPE_PLACEABLE)
+			{
+				ACR_LogDMSpawn(OBJECT_SELF, "DM has spawned placeable "+GetName(oSpawn)+" ("+GetResRef(oSpawn)+") at ("+FloatToString(posX)+","+FloatToString(posY)+","+FloatToString(posZ)+")");
+			}
+			else if(ObjectType == OBJECT_TYPE_WAYPOINT)
+			{
+				ACR_LogDMSpawn(OBJECT_SELF, "DM has spawned waypoint "+GetName(oSpawn)+" ("+GetResRef(oSpawn)+") at ("+FloatToString(posX)+","+FloatToString(posY)+","+FloatToString(posZ)+")");
+			}
+			else if(ObjectType == OBJECT_TYPE_PLACED_EFFECT)
+			{
+				ACR_LogDMSpawn(OBJECT_SELF, "DM has spawned effect "+GetName(oSpawn)+" ("+GetResRef(oSpawn)+") at ("+FloatToString(posX)+","+FloatToString(posY)+","+FloatToString(posZ)+")");
+			}
+			else if(ObjectType == OBJECT_TYPE_LIGHT)
+			{
+				ACR_LogDMSpawn(OBJECT_SELF, "DM has spawned light "+GetName(oSpawn)+" ("+GetResRef(oSpawn)+") at ("+FloatToString(posX)+","+FloatToString(posY)+","+FloatToString(posZ)+")");
+			}
+		}
+		else
+		{
+			_PassToCSharp(TRAP_EVENT_CREATE_GENERIC, posX, posY, posZ, GetArea(oTargetBuilder), -1, -1, -1.0f, -1, -1, -1, -1, -1, 1, OBJECT_INVALID, ALIGNMENT_ALL, RACIAL_TYPE_ALL, 1, -1, -1, ResRef);
+			ACR_LogDMSpawn(OBJECT_SELF, "DM has spawned trap "+ResRef+" at ("+FloatToString(posX)+","+FloatToString(posY)+","+FloatToString(posZ)+")");
+		}
 	}
 	
 	if(TargetRegion == 0)
