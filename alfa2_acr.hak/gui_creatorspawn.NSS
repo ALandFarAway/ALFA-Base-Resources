@@ -31,6 +31,15 @@ void main( object TargetObject, float posX, float posY, float posZ, string ResRe
 	   ObjectType == OBJECT_TYPE_ITEM)
 	{
 		object oItem = CreateItemOnObject(ResRef, TargetObject);
+		if(GetBaseItemType(oItem) == BASE_ITEM_ARROW ||
+			GetBaseItemType(oItem) == BASE_ITEM_BOLT ||
+			GetBaseItemType(oItem) == BASE_ITEM_BULLET ||
+			GetBaseItemType(oItem) == BASE_ITEM_DART ||
+			GetBaseItemType(oItem) == BASE_ITEM_SHURIKEN ||
+			GetBaseItemType(oItem) == BASE_ITEM_THROWINGAXE)
+		{
+			object oItem = CreateItemOnObject(ResRef, TargetObject, 49);
+		}
 		ACR_LogDMSpawn(OBJECT_SELF, "DM has spawned item "+GetName(oItem)+" ("+GetResRef(oItem)+") worth "+IntToString(GetGoldPieceValue(oItem))+" gold into the inventory of "+GetName(TargetObject));
 	}
 	else
