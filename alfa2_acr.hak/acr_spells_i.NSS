@@ -98,6 +98,11 @@ int ACR_PrecastEvent();
 int ACR_PostcastEvent();
 
 //! Calculates the duration of a spell's effects.
+//!  - oCaster: the spell caster for whom the duration is being calculated
+//!  - nDurationType: the ACR_DURATION_TYPE_ constant to determine if caster
+//!     level is involved in duration calculation
+//!  - nDurationBase: the duration of the spell in seconds, or the number which
+//!     is manipulated by the caster level.
 float ACR_GetSpellDuration( object oCaster, int nDurationType, float nDurationBase );
 
 //! Handle and pay a material component.
