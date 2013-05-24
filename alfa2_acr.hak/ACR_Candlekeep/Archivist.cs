@@ -1168,6 +1168,105 @@ namespace ACR_Candlekeep
                 });
             #endregion
 
+            #region Sonic
+            ALFA.Shared.Modules.InfoStore.ModuleTraps.Add("std_minor_sonic",
+                new ALFA.Shared.TrapResource()
+                {
+                    AttackBonus = -1,
+                    Classification = "Standard",
+                    DamageType = CLRScriptBase.DAMAGE_TYPE_SONIC,
+                    DetectDC = 12,
+                    DiceNumber = 2,
+                    DiceType = 4,
+                    DisarmDC = 12,
+                    DisplayName = "  Sonic, Minor",
+                    EffectArea = CLRScriptBase.SHAPE_SPHERE,
+                    EffectSize = 3.0f,
+                    MinimumToTrigger = 1,
+                    NumberOfShots = 1,
+                    ResRef = "std_minor_sonic",
+                    SaveDC = 12,
+                    SpellId = -1,
+                    SpellTrap = false,
+                    TargetAlignment = CLRScriptBase.ALIGNMENT_ALL,
+                    TargetRace = CLRScriptBase.RACIAL_TYPE_ALL,
+                    Tag = "std_minor_sonic",
+                    TriggerArea = 2,
+                });
+            ALFA.Shared.Modules.InfoStore.ModuleTraps.Add("std_average_sonic",
+                new ALFA.Shared.TrapResource()
+                {
+                    AttackBonus = -1,
+                    Classification = "Standard",
+                    DamageType = CLRScriptBase.DAMAGE_TYPE_SONIC,
+                    DetectDC = 14,
+                    DiceNumber = 3,
+                    DiceType = 4,
+                    DisarmDC = 14,
+                    DisplayName = "  Sonic, Average",
+                    EffectArea = CLRScriptBase.SHAPE_SPHERE,
+                    EffectSize = 3.0f,
+                    MinimumToTrigger = 1,
+                    NumberOfShots = 1,
+                    ResRef = "std_average_sonic",
+                    SaveDC = 14,
+                    SpellId = -1,
+                    SpellTrap = false,
+                    TargetAlignment = CLRScriptBase.ALIGNMENT_ALL,
+                    TargetRace = CLRScriptBase.RACIAL_TYPE_ALL,
+                    Tag = "std_average_sonic",
+                    TriggerArea = 2,
+                });
+            ALFA.Shared.Modules.InfoStore.ModuleTraps.Add("std_strong_sonic",
+                new ALFA.Shared.TrapResource()
+                {
+                    AttackBonus = -1,
+                    Classification = "Standard",
+                    DamageType = CLRScriptBase.DAMAGE_TYPE_SONIC,
+                    DetectDC = 17,
+                    DiceNumber = 5,
+                    DiceType = 4,
+                    DisarmDC = 17,
+                    DisplayName = "  Sonic, Strong",
+                    EffectArea = CLRScriptBase.SHAPE_SPHERE,
+                    EffectSize = 3.0f,
+                    MinimumToTrigger = 1,
+                    NumberOfShots = 1,
+                    ResRef = "std_strong_sonic",
+                    SaveDC = 17,
+                    SpellId = -1,
+                    SpellTrap = false,
+                    TargetAlignment = CLRScriptBase.ALIGNMENT_ALL,
+                    TargetRace = CLRScriptBase.RACIAL_TYPE_ALL,
+                    Tag = "std_strong_sonic",
+                    TriggerArea = 2,
+                });
+            ALFA.Shared.Modules.InfoStore.ModuleTraps.Add("std_deadly_sonic",
+                new ALFA.Shared.TrapResource()
+                {
+                    AttackBonus = -1,
+                    Classification = "Standard",
+                    DamageType = CLRScriptBase.DAMAGE_TYPE_SONIC,
+                    DetectDC = 20,
+                    DiceNumber = 8,
+                    DiceType = 4,
+                    DisarmDC = 20,
+                    DisplayName = "  Sonic, Deadly",
+                    EffectArea = CLRScriptBase.SHAPE_SPHERE,
+                    EffectSize = 3.0f,
+                    MinimumToTrigger = 1,
+                    NumberOfShots = 1,
+                    ResRef = "std_deadly_sonic",
+                    SaveDC = 20,
+                    SpellId = -1,
+                    SpellTrap = false,
+                    TargetAlignment = CLRScriptBase.ALIGNMENT_ALL,
+                    TargetRace = CLRScriptBase.RACIAL_TYPE_ALL,
+                    Tag = "std_deadly_sonic",
+                    TriggerArea = 2,
+                });
+            #endregion
+
             #region Spike
             ALFA.Shared.Modules.InfoStore.ModuleTraps.Add("std_minor_spike",
                 new ALFA.Shared.TrapResource()
