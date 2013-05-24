@@ -53,6 +53,12 @@ namespace ACR_Traps
                     }
                 }
             }
+            if (s.GetIsDM(disabler) == TRUE && s.GetIsDMPossessed(disabler) == FALSE)
+            {
+                RemoveTrap(s, trap);
+                s.SendMessageToPC(disabler, String.Format("<c=#98FFFF>Removing trap {0}</c>", trap.Tag));
+                return;
+            }
             float neededTime = s.d4(2) * 6.0f;
             NWLocation oldLoc = s.GetLocation(disabler);
             s.DelayCommand(2.0f, delegate { StallForTime(s, trap, disabler, neededTime, oldLoc); });
