@@ -118,6 +118,10 @@ namespace ACR_Traps
                 {
                     s.ApplyEffectAtLocation(DURATION_TYPE_INSTANT, vfx, s.GetLocation(target), 0.0f);
                 }
+                else
+                {
+                    s.ApplyEffectToObject(DURATION_TYPE_INSTANT, vfx, target, 0.0f);
+                }
             }
 
             if (trap.NumberOfShots > -1)
@@ -139,10 +143,80 @@ namespace ACR_Traps
 
         private static bool GetTrapVFX(CLRScriptBase s, ALFA.Shared.ActiveTrap trap, uint source, out NWEffect vfx)
         {
-            // TODO: This should resolve to fire-and-forget type animations for the broad
-            // effects of the trap, not just the damage-related effects for the individuals
-            // getting blasted.
-            //vfx = s.EffectNWN2SpecialEffectFile("sp_fireball_hit_aoe", source, s.Vector(0.0f, 0.0f, 0.0f));
+            // TODO: This should be refined-- we could plausibly divide out things that make attack
+            // rolls to shoot beams, and find thins other than fireballs to be our explosions.
+            if (trap.EffectSize < 2.0f)
+            {
+                // These are pretty much single-target effects.
+                if ((trap.DamageType & DAMAGE_TYPE_ACID) == DAMAGE_TYPE_ACID)
+                {
+                    vfx = s.EffectVisualEffect(VFX_IMP_ACID_S, FALSE);
+                    return true;
+                }
+                if ((trap.DamageType & DAMAGE_TYPE_BLUDGEONING) == DAMAGE_TYPE_BLUDGEONING)
+                {
+                    vfx = s.EffectVisualEffect(VFX_COM_BLOOD_CRT_RED, FALSE);
+                    return true;
+                }
+                if ((trap.DamageType & DAMAGE_TYPE_COLD) == DAMAGE_TYPE_COLD)
+                {
+                    vfx = s.EffectVisualEffect(VFX_IMP_FROST_L, FALSE);
+                    return false;
+                }
+                if ((trap.DamageType & DAMAGE_TYPE_DIVINE) == DAMAGE_TYPE_DIVINE)
+                {
+                    vfx = s.EffectVisualEffect(VFX_COM_HIT_DIVINE, FALSE);
+                    return true;
+                }
+                if ((trap.DamageType & DAMAGE_TYPE_ELECTRICAL) == DAMAGE_TYPE_ELECTRICAL)
+                {
+                    vfx = s.EffectVisualEffect(VFX_IMP_LIGHTNING_S, FALSE);
+                    return true;
+                }
+                if ((trap.DamageType & DAMAGE_TYPE_FIRE) == DAMAGE_TYPE_FIRE)
+                {
+                    vfx = s.EffectVisualEffect(VFX_IMP_FLAME_S, FALSE);
+                    return true;
+                }
+                if ((trap.DamageType & DAMAGE_TYPE_MAGICAL) == DAMAGE_TYPE_MAGICAL)
+                {
+                    vfx = s.EffectVisualEffect(VFX_COM_HIT_DIVINE, FALSE);
+                    return true;
+                }
+                if ((trap.DamageType & DAMAGE_TYPE_NEGATIVE) == DAMAGE_TYPE_NEGATIVE)
+                {
+                    vfx = s.EffectVisualEffect(VFX_IMP_NEGATIVE_ENERGY, FALSE);
+                    return true;
+                }
+                if ((trap.DamageType & DAMAGE_TYPE_PIERCING) == DAMAGE_TYPE_PIERCING)
+                {
+                    vfx = s.EffectVisualEffect(VFX_IMP_SPIKE_TRAP, FALSE);
+                    return true;
+                }
+                if ((trap.DamageType & DAMAGE_TYPE_POSITIVE) == DAMAGE_TYPE_POSITIVE)
+                {
+                    vfx = s.EffectVisualEffect(VFX_COM_HIT_DIVINE, FALSE);
+                    return true;
+                }
+                if ((trap.DamageType & DAMAGE_TYPE_SLASHING) == DAMAGE_TYPE_SLASHING)
+                {
+                    vfx = s.EffectVisualEffect(VFX_COM_BLOOD_CRT_RED, FALSE);
+                    return true;
+                }
+                if ((trap.DamageType & DAMAGE_TYPE_SONIC) == DAMAGE_TYPE_SONIC)
+                {
+                    vfx = s.EffectVisualEffect(VFX_IMP_SONIC, FALSE);
+                    return true;
+                }
+            }
+            else
+            {
+                // these ones blow up.
+                vfx = s.EffectVisualEffect(VFX_FNF_FIREBALL, FALSE);
+                return true;
+            }
+
+            // Oh well, guess it blows up then.
             vfx = s.EffectVisualEffect(VFX_FNF_FIREBALL, FALSE);
             return true;
         }
