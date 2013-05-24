@@ -1374,6 +1374,12 @@ namespace ACR_Candlekeep
 
         private static void ParseTrapWaypoint(GFFFile trapGff, string resRef)
         {
+            if (ALFA.Shared.Modules.InfoStore.ModuleTraps.Keys.Contains(resRef))
+            {
+                // We've already got one of those. We'll crash if we try to
+                // add another.
+                return;
+            }
             ALFA.Shared.TrapResource addingTrap = new ALFA.Shared.TrapResource()
                 {
                     AttackBonus = -1,
