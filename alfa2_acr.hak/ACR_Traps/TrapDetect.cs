@@ -85,7 +85,7 @@ namespace ACR_Traps
             int searchBonus = s.GetSkillRank(SKILL_SEARCH, detector, FALSE);
             int roll = s.d20(1);
             int finalDice = roll + searchBonus;
-            if (trap.DetectDC <= searchBonus)
+            if (trap.DetectDC <= finalDice)
             {
                 return true;
             }
