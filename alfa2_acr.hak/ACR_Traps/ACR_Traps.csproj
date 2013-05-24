@@ -43,10 +43,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CLRScript\CLRv4.0.30319\NWScriptManagedInterface.dll</HintPath>
     </Reference>
-    <Reference Include="OEIShared, Version=1.0.1765.0, Culture=neutral, PublicKeyToken=6bb96f3d82daa243, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\CLRScript\CLRv2.0.50727\OEIShared.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

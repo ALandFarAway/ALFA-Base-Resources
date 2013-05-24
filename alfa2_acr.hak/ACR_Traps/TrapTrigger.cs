@@ -116,7 +116,7 @@ namespace ACR_Traps
                 NWEffect vfx;
                 if (GetTrapVFX(s, trap, caster, out vfx))
                 {
-                    s.ApplyEffectToObject(DURATION_TYPE_INSTANT, vfx, target, 0.0f);
+                    s.ApplyEffectAtLocation(DURATION_TYPE_INSTANT, vfx, s.GetLocation(target), 0.0f);
                 }
             }
 
@@ -142,6 +142,7 @@ namespace ACR_Traps
             // TODO: This should resolve to fire-and-forget type animations for the broad
             // effects of the trap, not just the damage-related effects for the individuals
             // getting blasted.
+            //vfx = s.EffectNWN2SpecialEffectFile("sp_fireball_hit_aoe", source, s.Vector(0.0f, 0.0f, 0.0f));
             vfx = s.EffectVisualEffect(VFX_FNF_FIREBALL, FALSE);
             return true;
         }
