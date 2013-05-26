@@ -13,6 +13,7 @@ namespace ACR_Traps
         DetectExit = 4,
         TriggerEnter = 5,
         TriggerExit = 6,
-        TrapDisarm = 7
+        TrapDisarm = 7,
+        TrapDespawn = 8
     }
 }

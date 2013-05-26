@@ -88,6 +88,7 @@
 #include "acr_debug_i"
 #include "acr_array_i"
 #include "acr_death_i"
+#include "acr_traps_i"
 // #include "acr_weather_i"
 // #include "acr_game_const_i"
 
@@ -728,6 +729,8 @@ location _GetNewLocationFromVectorAndFacing(location lOrigin, float fXOffset, fl
 //! Handles internal accounting for adding instanced objects to spawn WP
 void _AddObjectToSpawnPoint(object oWP, object oObject);
 
+//! Handles internal accounting for adding instances of traps to spawn WP
+void _AddTrapToSpawnPoint(object oWP, string sTag);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -1211,6 +1214,16 @@ void _DespawnPoint(object oWP, int nFlags) {
     DeleteLocalInt(oWP, _SPAWNED_OBJECT_ARRAY_LENGTH);
 	SetLocalInt(oWP, _SPAWN_FLAGS, nFlags & ~_SPAWN_FLAGS_SPAWNED);
 	SetLocalInt(oWP, _SPAWN_CHILD_COUNT, 0);
+	
+	int count = 0;
+	string root = "ACR_TRAP_";
+	while(GetLocalString(oWP, root + IntToString(count)) != "")
+	{
+		object oTrap = GetObjectByTag(GetLocalString(oWP, root + IntToString(count)), 0);
+		AssignCommand(oTrap, _PassToCSharp(TRAP_EVENT_DESPAWN_TRAP));
+		DeleteLocalString(oWP, root + IntToString(count));
+		count++;
+	}
 }
 
 void _RefreshSpawnPoint(object oWP) {
@@ -1777,74 +1790,85 @@ object _SpawnObject(string sResRef, int nObjectType, object oWP, location lLoc, 
 	      }
 	   }
 	} 
-    object oSpawned = CreateObject(nObjectType, sResRef, lLoc, nFlags & _SPAWN_FLAGS_WITH_ANIMATION);
+	
+	object oSpawned = OBJECT_INVALID;
+	if(nObjectType == SPECIAL_OBJECT_TYPE_TRAP)
+	{
+		vector vPos = GetPositionFromLocation(lLoc);
+		_PassToCSharp(TRAP_EVENT_CREATE_GENERIC, vPos.x, vPos.y, vPos.z, GetAreaFromLocation(lLoc), -1, -1, -1.0f, -1, -1, -1, -1, -1, 1, OBJECT_INVALID, ALIGNMENT_ALL, RACIAL_TYPE_ALL, 1, -1, -1, sResRef);
+		_AddTrapToSpawnPoint(oWP, GetLocalString(GetModule(), "ACR_TRAPS_LAST_TAG"));
+	}
+	else
+	{
+		oSpawned = CreateObject(nObjectType, sResRef, lLoc, nFlags & _SPAWN_FLAGS_WITH_ANIMATION);
 
-    // Check to make sure it spawned ok, print an error and exit if not.
-    if(!GetIsObjectValid(oSpawned)) {
-        // Spawn failed, CreateObject() didn't work!
-        int nNums = GetLocalInt(oWP, _SPAWN_NUMS);
-        ACR_PrintDebugMessage("Error spawning resref " + sResRef + " of object type " + GetObjectTypeName(nObjectType) + ".\nSpawn nums: " + IntToHexString(nNums) + "\nSpawn Flags: " + IntToHexString(nFlags), _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
-        return OBJECT_INVALID;
-    }
+		// Check to make sure it spawned ok, print an error and exit if not.
+		if(!GetIsObjectValid(oSpawned)) {
+			// Spawn failed, CreateObject() didn't work!
+			int nNums = GetLocalInt(oWP, _SPAWN_NUMS);
+			ACR_PrintDebugMessage("Error spawning resref " + sResRef + " of object type " + GetObjectTypeName(nObjectType) + ".\nSpawn nums: " + IntToHexString(nNums) + "\nSpawn Flags: " + IntToHexString(nFlags), _SPAWN_SYSTEM_NAME, DEBUG_LEVEL_INFO);
+			return OBJECT_INVALID;
+		}
 
-    // Set the spawned object's name.
-	// disabled for now, SetFirstName / GetFirstName are acting unpredictably
-    //string sName = GetLocalString(oWP, _WP_SPAWN_NAME);
-    //if(sName == "") {
-    //    sName = GetFirstName(oSpawned);
-    //}
-    //SetFirstName(oSpawned, GetLocalString(oWP, _WP_SPAWN_NAME_PREFIX)
-    //        + sName
-    //        + GetLocalString(oWP, _WP_SPAWN_NAME_SUFFIX) );
+		// Set the spawned object's name.
+		// disabled for now, SetFirstName / GetFirstName are acting unpredictably
+		//string sName = GetLocalString(oWP, _WP_SPAWN_NAME);
+		//if(sName == "") {
+		//    sName = GetFirstName(oSpawned);
+		//}
+		//SetFirstName(oSpawned, GetLocalString(oWP, _WP_SPAWN_NAME_PREFIX)
+		//        + sName
+		//        + GetLocalString(oWP, _WP_SPAWN_NAME_SUFFIX) );
 
-    // If it should be in stealth mode, place it there.
-    if(nFlags & _SPAWN_IN_STEALTH) {
-        SetActionMode(oSpawned, ACTION_MODE_STEALTH, 1);
-    }
+		// If it should be in stealth mode, place it there.
+		if(nFlags & _SPAWN_IN_STEALTH) {
+			SetActionMode(oSpawned, ACTION_MODE_STEALTH, 1);
+		}
 
-    // If it should be in detect mode, place it there.
-    if(nFlags & _SPAWN_IN_DETECT) {
-        SetActionMode(oSpawned, ACTION_MODE_DETECT, 1);
-    }
+		// If it should be in detect mode, place it there.
+		if(nFlags & _SPAWN_IN_DETECT) {
+			SetActionMode(oSpawned, ACTION_MODE_DETECT, 1);
+		}
 
-    // If this creature should buff himself, do it.
-    if(nFlags & _SPAWN_BUFFED) {
-        ActivateLongTermBuffs(oSpawned);
-    }
+		// If this creature should buff himself, do it.
+		if(nFlags & _SPAWN_BUFFED) {
+			ActivateLongTermBuffs(oSpawned);
+		}
 
-    // Play the spawn animation.
-    PlayAnimation( GetLocalInt(oWP, _WP_SPAWN_ANIMATION) );
+		// Play the spawn animation.
+		PlayAnimation( GetLocalInt(oWP, _WP_SPAWN_ANIMATION) );
 
-    // Play the spawn in VFX.
-    ApplyEffectAtLocation(DURATION_TYPE_INSTANT, EffectVisualEffect( GetLocalInt(oWP, _WP_SPAWN_IN_VFX) ), GetLocation(oSpawned));
+		// Play the spawn in VFX.
+		ApplyEffectAtLocation(DURATION_TYPE_INSTANT, EffectVisualEffect( GetLocalInt(oWP, _WP_SPAWN_IN_VFX) ), GetLocation(oSpawned));
 
-    // Play the spawn in SFX.
-    AssignCommand(oSpawned, PlaySound(GetLocalString(oWP, _WP_SPAWN_IN_SFX)) );
+		// Play the spawn in SFX.
+		AssignCommand(oSpawned, PlaySound(GetLocalString(oWP, _WP_SPAWN_IN_SFX)) );
 
-    // Determine facing.
-    if(nFlags & _SPAWN_FLAGS_RANDOM_FACING) {
-        // Spawn facing is random.
-        AssignCommand(oSpawned, SetFacing(ACR_RandomFloat(0.0, 360.0)) );
-    } else {
-        // Spawn facing is not random, do nothing.
-    }
+		// Determine facing.
+		if(nFlags & _SPAWN_FLAGS_RANDOM_FACING) {
+			// Spawn facing is random.
+			AssignCommand(oSpawned, SetFacing(ACR_RandomFloat(0.0, 360.0)) );
+		} else {
+			// Spawn facing is not random, do nothing.
+		}
 
-    // Set the faction.
-    // FIX ME !! Come NWN2.
-    // string sSpawnFaction = GetLocalString(oWP, _WP_SPAWN_FACTION);
+		// Set the faction.
+		// FIX ME !! Come NWN2.
+		// string sSpawnFaction = GetLocalString(oWP, _WP_SPAWN_FACTION);
 
-    // Run the spawn-in scripts, if any.
-    int i = 1;
-    while(1) {
-        string sScript = GetLocalString(oWP, _WP_SPAWN_IN_SCRIPT_ARRAY + IntToString(i));
-        if(sScript == "") {
-            break;
-        }
-        ExecuteScript(sScript, oSpawned);
-        i++;
-    }
+		// Run the spawn-in scripts, if any.
+		int i = 1;
+		while(1) {
+			string sScript = GetLocalString(oWP, _WP_SPAWN_IN_SCRIPT_ARRAY + IntToString(i));
+			if(sScript == "") {
+				break;
+			}
+			ExecuteScript(sScript, oSpawned);
+			i++;
+		}
 
-    _AddObjectToSpawnPoint(oWP, oSpawned);
+		_AddObjectToSpawnPoint(oWP, oSpawned);
+	}
 
     // Spit debug information to logfile
     if (GetLocalInt(GetModule(), ACR_LOG_SPAWNS)) {
@@ -1926,4 +1950,16 @@ void _AddObjectToSpawnPoint(object oWP, object oObject)
 
 	// Add a pointer back to the waypoint, for death reporting.
 	SetLocalObject(oObject, _SPAWN_PARENT_WP, oWP);
+}
+
+void _AddTrapToSpawnPoint(object oWP, string sTag)
+{
+	int count = 0;
+	string root = "ACR_TRAP_";
+	while(GetLocalString(oWP, root + IntToString(count)) != "")
+	{
+		count++;
+	}
+	
+	SetLocalString(oWP, root + IntToString(count), sTag);
 }

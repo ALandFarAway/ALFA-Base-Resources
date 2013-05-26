@@ -62,6 +62,8 @@ namespace ACR_Traps
 
             ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect.Add(detectTag, createdTrap);
             ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers.Add(tag, createdTrap);
+
+            script.SetLocalString(script.GetModule(), "ACR_TRAPS_LAST_TAG", tag);
         }
 
         public static void Spell(CLRScriptBase script, NWLocation location, TriggerArea triggerArea, int spellId, int numberOfShots, uint trapOrigin, int targetAlignment, int targetRace, int minimumToTrigger, int detectDC, int disarmDC)
@@ -105,6 +107,8 @@ namespace ACR_Traps
 
             ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect.Add(detectTag, createdTrap);
             ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers.Add(tag, createdTrap);
+
+            script.SetLocalString(script.GetModule(), "ACR_TRAPS_LAST_TAG", tag);
         }
 
         /// <summary>

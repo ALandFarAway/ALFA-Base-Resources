@@ -38,7 +38,9 @@ const int TRAP_EVENT_DETECT_EXIT = 4;
 const int TRAP_EVENT_TRIGGER_ENTER = 5;
 const int TRAP_EVENT_TRIGGER_EXIT = 6;
 const int TRAP_EVENT_DISARM_TRAP = 7;
+const int TRAP_EVENT_DESPAWN_TRAP = 8;
 
+const int SPECIAL_OBJECT_TYPE_TRAP = 99;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
