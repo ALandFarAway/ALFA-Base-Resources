@@ -1,4 +1,4 @@
-#include "acr_db_persist_i"
+#include "acr_1984_i"
 #include "acr_zspawn_i"
 
 void main()
@@ -13,6 +13,7 @@ void main()
 	string sTag = GetTag(oData);
 	string sLevel = GetStringLeft(sTag, 1);
 	int nLevel = DataStringToInt(sLevel);
+	ACR_LogDMSpawn(OBJECT_SELF, "Spawned one "+IntToString(nLevel)+" HD non-hostile creature with tag: "+sTag);
 	sTag = GetStringRight(sTag, GetStringLength(sTag) - 1);
 	int nGender = StringToInt(GetStringLeft(sTag, 1));
 	sTag = GetStringRight(sTag, GetStringLength(sTag) - 1);
