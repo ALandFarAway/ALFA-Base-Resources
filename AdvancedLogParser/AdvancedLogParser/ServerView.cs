@@ -79,6 +79,12 @@ namespace AdvancedLogParser
             advancementList.View = View.Details;
             deathList.View = View.Details;
 
+            characterList.FullRowSelect = true;
+            dmList.FullRowSelect = true;
+            enforcementList.FullRowSelect = true;
+            advancementList.FullRowSelect = true;
+            deathList.FullRowSelect = true;
+
             characterList.ColumnClick += ColumnSort;
             dmList.ColumnClick += ColumnSort;
             enforcementList.ColumnClick += ColumnSort;
