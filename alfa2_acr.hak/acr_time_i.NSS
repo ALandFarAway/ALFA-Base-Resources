@@ -271,25 +271,25 @@ int ACR_GetGameMinutesSinceStart()
 int ACR_GetGameHoursSinceStart()
 {
     AddScriptParameterInt(ACR_TIME_MINUTES_SINCE_START);
-    return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE) / 7;
+    return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE) / (HoursToSeconds(1) / 60.0f);
 }
 
 int ACR_GetGameDaysSinceStart()
 {
     AddScriptParameterInt(ACR_TIME_MINUTES_SINCE_START);
-    return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE) / 168;
+    return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE) / (HoursToSeconds(24) / 60.0f);
 }
 
 int ACR_GetGameMonthsSinceStart()
 {
     AddScriptParameterInt(ACR_TIME_MINUTES_SINCE_START);
-    return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE) / (168 * DAYS_PER_MONTH);
+    return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE) / ((HoursToSeconds(24) / 60.0f) * DAYS_PER_MONTH);
 }
 
 int ACR_GetGameYearsSinceStart()
 {
     AddScriptParameterInt(ACR_TIME_MINUTES_SINCE_START);
-    return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE) / (168 * DAYS_PER_MONTH * 12);
+    return ExecuteScriptEnhanced("ACR_Time", GetModule(), TRUE) / ((HoursToSeconds(24) / 60.0f) * DAYS_PER_MONTH * 12);
 }
 
 int ACR_GetRealDaysSinceStart()
