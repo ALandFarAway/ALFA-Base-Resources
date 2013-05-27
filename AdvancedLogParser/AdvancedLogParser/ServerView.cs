@@ -86,6 +86,7 @@ namespace AdvancedLogParser
             deathList.FullRowSelect = true;
 
             characterList.DoubleClick += DoubleClickCharacterList;
+            dmList.DoubleClick += DoubleClickDMList;
 
             characterList.ColumnClick += ColumnSort;
             dmList.ColumnClick += ColumnSort;
@@ -184,7 +185,7 @@ namespace AdvancedLogParser
                         name += "/ " + gsid;
                     }
                 }
-                dmList.Items.Add(new ListViewItem(new string[] { name }));
+                dmList.Items.Add(new ListViewItem(new string[] { name, dm.playerIds[0].ToString() }));
             }
             dmList.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
 
@@ -321,6 +322,19 @@ namespace AdvancedLogParser
                 if (Characters.List.ContainsKey(characterId))
                 {
                     new CharacterDetails(Characters.List[characterId]).Show();
+                }
+            }
+        }
+
+        private void DoubleClickDMList(object Sender, EventArgs e)
+        {
+            string ClickedRow = dmList.SelectedItems[0].SubItems[1].Text;
+            uint playerId = 0;
+            if (uint.TryParse(ClickedRow, out playerId))
+            {
+                if (Players.ListByPlayerId.ContainsKey(playerId))
+                {
+                    new PlayerDetails(Players.ListByPlayerId[playerId]).Show();
                 }
             }
         }
