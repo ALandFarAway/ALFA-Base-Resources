@@ -100,9 +100,18 @@ namespace AdvancedLogParser
                     charClass += "/" + PlayerDetails.ClassToAbbreviation(currentChar.Class3) + currentChar.Level3;
                 }
                 string alerts = "";
-                if (InfoGather.GetWealthLevel(currentChar) == WealthLevel.VeryPoor)
+                WealthLevel currentWeath = InfoGather.GetWealthLevel(currentChar);
+                if (currentWeath == WealthLevel.VeryPoor)
                 {
-                    alerts = "Very Poor!";
+                    alerts += "Poor!";
+                }
+                else if (currentWeath == WealthLevel.VeryRich)
+                {
+                    alerts += "Rich!";
+                }
+                else if (currentWeath == WealthLevel.Cutoff)
+                {
+                    alerts += "CUTOFF WEALTH!";
                 }
                 characterList.Items.Add(new ListViewItem(new string[] { currentChar.Name, charClass, String.Format("{0:N1}", currentChar.DMTime), alerts }));
             }
