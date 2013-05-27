@@ -35,10 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MySql.Data">
-      <HintPath>..\..\..\Neverwinter Nights 2\Git\CLRScript\CLRv4.0.30319\MySql.Data.dll</HintPath>
+      <HintPath>..\CLRScript\CLRv4.0.30319\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="SmartIrc4Net">
-      <HintPath>..\..\..\Neverwinter Nights 2\Git\CLRScript\CLRv4.0.30319\SmartIrc4Net.dll</HintPath>
+      <HintPath>..\CLRScript\CLRv4.0.30319\SmartIrc4Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
