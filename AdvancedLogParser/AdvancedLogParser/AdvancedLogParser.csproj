@@ -61,6 +61,9 @@
     <Compile Include="LoadingForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="LogDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Logs.cs" />
     <Compile Include="PlayerDetails.cs">
       <SubType>Form</SubType>

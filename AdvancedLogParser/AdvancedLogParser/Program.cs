@@ -26,10 +26,10 @@ namespace AdvancedLogParser
             Players.ListByPlayerId = new Dictionary<uint, Player>();
             Players.ListByKey = new Dictionary<string, Player>();
             Characters.List = new Dictionary<uint, Character>();
-            Logs.AdvancementAlerts = new List<Log>();
-            Logs.DeathAlerts = new List<Log>();
-            Logs.EnforcementAlerts = new List<Log>();
-            Logs.RecentLogins = new List<Log>();
+            Logs.AdvancementAlerts = new Dictionary<uint, Log>();
+            Logs.DeathAlerts = new Dictionary<uint, Log>();
+            Logs.EnforcementAlerts = new Dictionary<uint, Log>();
+            Logs.RecentLogins = new Dictionary<uint, Log>();
             Servers.List = new Dictionary<uint, Server>();
             if (InfoGather.GetPlayers())
             {

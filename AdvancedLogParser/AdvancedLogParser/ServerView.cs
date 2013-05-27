@@ -30,9 +30,9 @@ namespace AdvancedLogParser
 
         public ServerView(Server server)
         {
-            List<Log> serverEnforcementLogs = new List<Log>();
-            List<Log> serverAdvancementLogs = new List<Log>();
-            List<Log> serverDeathLogs = new List<Log>();
+            Dictionary<uint, Log> serverEnforcementLogs = new Dictionary<uint, Log>();
+            Dictionary<uint, Log> serverAdvancementLogs = new Dictionary<uint, Log>();
+            Dictionary<uint, Log> serverDeathLogs = new Dictionary<uint, Log>();
             if (server == null)
             {
                 server = MakeMegaServer();
@@ -44,25 +44,25 @@ namespace AdvancedLogParser
             }
             else
             {
-                foreach (Log log in Logs.EnforcementAlerts)
+                foreach (Log log in Logs.EnforcementAlerts.Values)
                 {
                     if (log.ServerId == server.ServerId)
                     {
-                        serverEnforcementLogs.Add(log);
+                        serverEnforcementLogs.Add(log.Id, log);
                     }
                 }
-                foreach (Log log in Logs.AdvancementAlerts)
+                foreach (Log log in Logs.AdvancementAlerts.Values)
                 {
                     if (log.ServerId == server.ServerId)
                     {
-                        serverAdvancementLogs.Add(log);
+                        serverAdvancementLogs.Add(log.Id, log);
                     }
                 }
-                foreach (Log log in Logs.DeathAlerts)
+                foreach (Log log in Logs.DeathAlerts.Values)
                 {
                     if (log.ServerId == server.ServerId)
                     {
-                        serverDeathLogs.Add(log);
+                        serverDeathLogs.Add(log.Id, log);
                     }
                 }
                 this.Name = String.Format("ALFA{0:000} ({1} Characters, {2} DMs, {3} Alerts)", server.ServerId, server.RecentCharacters.Count, server.RecentDMs.Count, serverEnforcementLogs.Count + serverAdvancementLogs.Count + serverDeathLogs.Count);
@@ -87,6 +87,9 @@ namespace AdvancedLogParser
 
             characterList.DoubleClick += DoubleClickCharacterList;
             dmList.DoubleClick += DoubleClickDMList;
+            enforcementList.DoubleClick += DoubleClickEnforcementList;
+            advancementList.DoubleClick += DoubleClickAdvancementList;
+            deathList.DoubleClick += DoubleClickDeathList;
 
             characterList.ColumnClick += ColumnSort;
             dmList.ColumnClick += ColumnSort;
@@ -199,11 +202,11 @@ namespace AdvancedLogParser
             enforcementList.Columns.Add("Character");
             enforcementList.Columns.Add("Time");
             enforcementList.Columns.Add("Event");
-            foreach (Log log in serverEnforcementLogs)
+            foreach (Log log in serverEnforcementLogs.Values)
             {
                 string character = "Unknown Character";
                 if (log.CharacterId > 0) character = Characters.List[log.CharacterId].Name;
-                enforcementList.Items.Add(new ListViewItem(new string[] { character, String.Format("{0}/{1}/{2}", log.Time.Year, log.Time.Month, log.Time.Day), log.Event }));
+                enforcementList.Items.Add(new ListViewItem(new string[] { character, String.Format("{0}/{1}/{2}", log.Time.Year, log.Time.Month, log.Time.Day), log.Event, log.Id.ToString() }));
             }
             enforcementList.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             enforcementList.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -219,11 +222,11 @@ namespace AdvancedLogParser
             advancementList.Columns.Add("Character");
             advancementList.Columns.Add("Time");
             advancementList.Columns.Add("Event");
-            foreach (Log log in serverAdvancementLogs)
+            foreach (Log log in serverAdvancementLogs.Values)
             {
                 string character = "Unknown Character";
                 if(log.CharacterId > 0) character = Characters.List[log.CharacterId].Name;
-                advancementList.Items.Add(new ListViewItem(new string[] { character, String.Format("{0}/{1}/{2}", log.Time.Year, log.Time.Month, log.Time.Day), log.Event }));
+                advancementList.Items.Add(new ListViewItem(new string[] { character, String.Format("{0}/{1}/{2}", log.Time.Year, log.Time.Month, log.Time.Day), log.Event, log.Id.ToString() }));
             }
             advancementList.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             advancementList.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -239,11 +242,11 @@ namespace AdvancedLogParser
             deathList.Columns.Add("Character");
             deathList.Columns.Add("Time");
             deathList.Columns.Add("Event");
-            foreach (Log log in serverDeathLogs)
+            foreach (Log log in serverDeathLogs.Values)
             {
                 string character = "Unknown Character";
                 if (log.CharacterId > 0) character = Characters.List[log.CharacterId].Name;
-                deathList.Items.Add(new ListViewItem(new string[] { character, String.Format("{0}/{1}/{2}", log.Time.Year, log.Time.Month, log.Time.Day), log.Event }));
+                deathList.Items.Add(new ListViewItem(new string[] { character, String.Format("{0}/{1}/{2}", log.Time.Year, log.Time.Month, log.Time.Day), log.Event, log.Id.ToString() }));
             }
             deathList.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             deathList.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -315,28 +318,87 @@ namespace AdvancedLogParser
 
         private void DoubleClickCharacterList(object Sender, EventArgs e)
         {
-            string ClickedRow = characterList.SelectedItems[0].SubItems[5].Text;
-            uint characterId = 0;
-            if(uint.TryParse(ClickedRow, out characterId))
+            try
             {
-                if (Characters.List.ContainsKey(characterId))
+                string ClickedRow = characterList.SelectedItems[0].SubItems[5].Text;
+                uint characterId = 0;
+                if (uint.TryParse(ClickedRow, out characterId))
                 {
-                    new CharacterDetails(Characters.List[characterId]).Show();
+                    if (Characters.List.ContainsKey(characterId))
+                    {
+                        new CharacterDetails(Characters.List[characterId]).Show();
+                    }
                 }
             }
+            catch { }
         }
 
         private void DoubleClickDMList(object Sender, EventArgs e)
         {
-            string ClickedRow = dmList.SelectedItems[0].SubItems[1].Text;
-            uint playerId = 0;
-            if (uint.TryParse(ClickedRow, out playerId))
+            try
             {
-                if (Players.ListByPlayerId.ContainsKey(playerId))
+                string ClickedRow = dmList.SelectedItems[0].SubItems[1].Text;
+                uint playerId = 0;
+                if (uint.TryParse(ClickedRow, out playerId))
                 {
-                    new PlayerDetails(Players.ListByPlayerId[playerId]).Show();
+                    if (Players.ListByPlayerId.ContainsKey(playerId))
+                    {
+                        new PlayerDetails(Players.ListByPlayerId[playerId]).Show();
+                    }
                 }
             }
+            catch { }
+        }
+
+        private void DoubleClickEnforcementList(object Sender, EventArgs e)
+        {
+            try
+            {
+                string ClickedRow = enforcementList.SelectedItems[0].SubItems[3].Text;
+                uint logId = 0;
+                if (uint.TryParse(ClickedRow, out logId))
+                {
+                    if (Logs.EnforcementAlerts.ContainsKey(logId))
+                    {
+                        new LogDetails(Logs.EnforcementAlerts[logId]).Show();
+                    }
+                }
+            }
+            catch { }
+        }
+
+        private void DoubleClickAdvancementList(object Sender, EventArgs e)
+        {
+            try
+            {
+                string ClickedRow = advancementList.SelectedItems[0].SubItems[3].Text;
+                uint logId = 0;
+                if (uint.TryParse(ClickedRow, out logId))
+                {
+                    if (Logs.AdvancementAlerts.ContainsKey(logId))
+                    {
+                        new LogDetails(Logs.AdvancementAlerts[logId]).Show();
+                    }
+                }
+            }
+            catch { }
+        }
+
+        private void DoubleClickDeathList(object Sender, EventArgs e)
+        {
+            try
+            {
+                string ClickedRow = deathList.SelectedItems[0].SubItems[3].Text;
+                uint logId = 0;
+                if (uint.TryParse(ClickedRow, out logId))
+                {
+                    if (Logs.DeathAlerts.ContainsKey(logId))
+                    {
+                        new LogDetails(Logs.DeathAlerts[logId]).Show();
+                    }
+                }
+            }
+            catch { }
         }
     }
 

@@ -349,46 +349,46 @@ namespace AdvancedLogParser
                         switch (eventName)
                         {
                             case "Death":
-                                Logs.DeathAlerts.Add(newLog);
+                                Logs.DeathAlerts.Add(newLog.Id, newLog);
                                 break;
                             case "Kill":
-                                Logs.DeathAlerts.Add(newLog);
+                                Logs.DeathAlerts.Add(newLog.Id, newLog);
                                 break;
                             case "Resurrection":
-                                Logs.DeathAlerts.Add(newLog);
+                                Logs.DeathAlerts.Add(newLog.Id, newLog);
                                 break;
                             case "Tech Resurrection":
-                                Logs.DeathAlerts.Add(newLog);
+                                Logs.DeathAlerts.Add(newLog.Id, newLog);
                                 break;
                             case "Death Floor":
-                                Logs.DeathAlerts.Add(newLog);
+                                Logs.DeathAlerts.Add(newLog.Id, newLog);
                                 break;
                             case "LOGOUT DURING COMBAT":
-                                Logs.EnforcementAlerts.Add(newLog);
+                                Logs.EnforcementAlerts.Add(newLog.Id, newLog);
                                 break;
                             case "SELF-LOOTING ATTEMPT":
-                                Logs.EnforcementAlerts.Add(newLog);
+                                Logs.EnforcementAlerts.Add(newLog.Id, newLog);
                                 break;
                             case "LOGOUT WHILE BLEEDING":
-                                Logs.EnforcementAlerts.Add(newLog);
+                                Logs.EnforcementAlerts.Add(newLog.Id, newLog);
                                 break;
                             case "Drop, Illegal":
-                                Logs.EnforcementAlerts.Add(newLog);
+                                Logs.EnforcementAlerts.Add(newLog.Id, newLog);
                                 break;
                             case "Acquire, Illegal":
-                                Logs.EnforcementAlerts.Add(newLog);
+                                Logs.EnforcementAlerts.Add(newLog.Id, newLog);
                                 break;
                             case "Level Up":
-                                Logs.AdvancementAlerts.Add(newLog);
+                                Logs.AdvancementAlerts.Add(newLog.Id, newLog);
                                 break;
                             case "XP Change":
-                                Logs.AdvancementAlerts.Add(newLog);
+                                Logs.AdvancementAlerts.Add(newLog.Id, newLog);
                                 break;
                             case "Over-CR combat kill":
-                                Logs.AdvancementAlerts.Add(newLog);
+                                Logs.AdvancementAlerts.Add(newLog.Id, newLog);
                                 break;
                             default:
-                                Logs.EnforcementAlerts.Add(newLog);
+                                Logs.EnforcementAlerts.Add(newLog.Id, newLog);
                                 break;
                         }
                     }
@@ -454,7 +454,7 @@ namespace AdvancedLogParser
                             EventDescription = eventDescription,
                             Time = time
                         };
-                        Logs.RecentLogins.Add(newLog);
+                        Logs.RecentLogins.Add(newLog.Id, newLog);
                     }
                 }
             }
@@ -469,7 +469,7 @@ namespace AdvancedLogParser
         {
             currentLoader.status.Text = "Identifying players...";
             Application.DoEvents();
-            foreach (Log thisLog in Logs.RecentLogins)
+            foreach (Log thisLog in Logs.RecentLogins.Values)
             {
                 try
                 {

@@ -7,10 +7,10 @@ namespace AdvancedLogParser
 {
     static class Logs
     {
-        public static List<Log> AdvancementAlerts;
-        public static List<Log> EnforcementAlerts;
-        public static List<Log> DeathAlerts;
-        public static List<Log> RecentLogins;
+        public static Dictionary<uint, Log> AdvancementAlerts;
+        public static Dictionary<uint, Log> EnforcementAlerts;
+        public static Dictionary<uint, Log> DeathAlerts;
+        public static Dictionary<uint, Log> RecentLogins;
     }
 
     public class Log
