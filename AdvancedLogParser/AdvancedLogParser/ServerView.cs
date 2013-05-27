@@ -16,6 +16,12 @@ namespace AdvancedLogParser
         ListView enforcementList = new ListView();
         ListView advancementList = new ListView();
         ListView deathList = new ListView();
+
+        Label characterListLabel = new Label();
+        Label dmListLabel = new Label();
+        Label enforcementListLabel = new Label();
+        Label advancementListLabel = new Label();
+        Label deathListLabel = new Label();
         
         DateTime lastSorted = DateTime.UtcNow;
         bool reverseSort = false;
@@ -62,6 +68,11 @@ namespace AdvancedLogParser
                 this.Name = String.Format("ALFA{0:000} ({1} Characters, {2} DMs, {3} Alerts)", server.ServerId, server.RecentCharacters.Count, server.RecentDMs.Count, serverEnforcementLogs.Count + serverAdvancementLogs.Count + serverDeathLogs.Count);
                 this.Text = this.Name;
             }
+
+            characterListLabel.Text = "Characters Played in the Last 30 Days";
+            characterListLabel.Size = characterListLabel.PreferredSize;
+            characterListLabel.Location = new Point(0, 0);
+
             characterList.View = View.Details;
             dmList.View = View.Details;
             enforcementList.View = View.Details;
@@ -74,12 +85,14 @@ namespace AdvancedLogParser
             advancementList.ColumnClick += ColumnSort;
             deathList.ColumnClick += ColumnSort;
 
-            characterList.Width = 400;
+            characterList.Width = 550;
             characterList.Height = 440;
-            characterList.Columns.Add("Name");
+            characterList.Columns.Add("Character");
+            characterList.Columns.Add("Player");
             characterList.Columns.Add("Class");
             characterList.Columns.Add("DMtime");
             characterList.Columns.Add("Alerts");
+            characterList.Location = new Point(0, characterListLabel.Location.Y + characterListLabel.Height);
             foreach (Character currentChar in server.RecentCharacters)
             {
                 if (currentChar.IsPlayable == false)
@@ -113,17 +126,41 @@ namespace AdvancedLogParser
                 {
                     alerts += "CUTOFF WEALTH!";
                 }
-                characterList.Items.Add(new ListViewItem(new string[] { currentChar.Name, charClass, String.Format("{0:N1}", currentChar.DMTime), alerts }));
+                string aliases = "";
+                try
+                {
+                    foreach (string alias in Players.ListByPlayerId[currentChar.PlayerId].CommunityIds)
+                    {
+                        if (aliases == "")
+                        {
+                            aliases = alias;
+                        }
+                        else
+                        {
+                            aliases += "/ " + alias;
+                        }
+                    }
+                }
+                catch
+                {
+                    aliases = "Unknown player";
+                }
+                characterList.Items.Add(new ListViewItem(new string[] { currentChar.Name, aliases, charClass, String.Format("{0:N1}", currentChar.DMTime), alerts }));
             }
             characterList.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
-            characterList.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+            characterList.Columns[1].Width = 150;
             characterList.Columns[2].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             characterList.Columns[3].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+            characterList.Columns[4].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
 
-            dmList.Width = 400;
+            dmListLabel.Text = "DMs Logging in During the Last 30 Days";
+            dmListLabel.Size = dmListLabel.PreferredSize;
+            dmListLabel.Location = new Point(0, characterList.Location.Y + characterList.Height + 10);
+
+            dmList.Width = characterList.Width;
             dmList.Height = 250;
-            dmList.Location = new Point(0, 450);
-            dmList.Columns.Add("Name");
+            dmList.Location = new Point(0, dmListLabel.Location.Y + dmListLabel.Height);
+            dmList.Columns.Add("DM Community Ids");
             dmList.Columns[0].Width = 400;
             foreach (Player dm in server.RecentDMs)
             {
@@ -143,10 +180,13 @@ namespace AdvancedLogParser
             }
             dmList.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
 
+            enforcementListLabel.Text = "Enforcement Alerts";
+            enforcementListLabel.Size = enforcementListLabel.PreferredSize;
+            enforcementListLabel.Location = new Point(characterList.Width + 10, 0);
 
             enforcementList.Width = 340;
             enforcementList.Height = 200;
-            enforcementList.Location = new Point(410, 0);
+            enforcementList.Location = new Point(characterList.Width + 10, enforcementListLabel.Location.Y + enforcementListLabel.Height);
             enforcementList.Columns.Add("Character");
             enforcementList.Columns.Add("Time");
             enforcementList.Columns.Add("Event");
@@ -160,9 +200,13 @@ namespace AdvancedLogParser
             enforcementList.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             enforcementList.Columns[2].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
 
+            advancementListLabel.Text = "Advancement Alerts";
+            advancementListLabel.Size = advancementListLabel.PreferredSize;
+            advancementListLabel.Location = new Point(characterList.Width + 10, enforcementList.Location.Y + enforcementList.Height + 10);
+
             advancementList.Width = 340;
             advancementList.Height = 230;
-            advancementList.Location = new Point(410, 210);
+            advancementList.Location = new Point(characterList.Width + 10, advancementListLabel.Location.Y + advancementListLabel.Height);
             advancementList.Columns.Add("Character");
             advancementList.Columns.Add("Time");
             advancementList.Columns.Add("Event");
@@ -176,9 +220,13 @@ namespace AdvancedLogParser
             advancementList.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             advancementList.Columns[2].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
 
+            deathListLabel.Text = "Death Alerts";
+            deathListLabel.Size = deathListLabel.PreferredSize;
+            deathListLabel.Location = new Point(characterList.Width + 10, advancementList.Location.Y + advancementList.Height + 10);
+
             deathList.Width = 340;
             deathList.Height = 230;
-            deathList.Location = new Point(410, 450);
+            deathList.Location = new Point(characterList.Width + 10, deathListLabel.Location.Y + deathListLabel.Height);
             deathList.Columns.Add("Character");
             deathList.Columns.Add("Time");
             deathList.Columns.Add("Event");
@@ -192,13 +240,18 @@ namespace AdvancedLogParser
             deathList.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             deathList.Columns[2].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
 
-            this.Width = 820;
-            this.Height = 730;
+            this.Width = deathList.Width + deathList.Location.X + 10;
+            this.Height = deathList.Height + deathList.Location.Y + 30;
 
+            this.Controls.Add(characterListLabel);
             this.Controls.Add(characterList);
+            this.Controls.Add(dmListLabel);
             this.Controls.Add(dmList);
+            this.Controls.Add(enforcementListLabel);
             this.Controls.Add(enforcementList);
+            this.Controls.Add(advancementListLabel);
             this.Controls.Add(advancementList);
+            this.Controls.Add(deathListLabel);
             this.Controls.Add(deathList);
         }
 
