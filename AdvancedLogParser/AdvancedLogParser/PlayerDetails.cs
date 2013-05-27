@@ -48,6 +48,8 @@ namespace AdvancedLogParser
 
             characterBox.Location = new Point(200, 0);
 
+            characterBox.FullRowSelect = true;
+
             this.Width = 730;
             this.Height = 520;
 
