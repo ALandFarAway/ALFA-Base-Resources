@@ -85,6 +85,8 @@ namespace AdvancedLogParser
             advancementList.FullRowSelect = true;
             deathList.FullRowSelect = true;
 
+            characterList.DoubleClick += DoubleClickCharacterList;
+
             characterList.ColumnClick += ColumnSort;
             dmList.ColumnClick += ColumnSort;
             enforcementList.ColumnClick += ColumnSort;
@@ -151,7 +153,7 @@ namespace AdvancedLogParser
                 {
                     aliases = "Unknown player";
                 }
-                characterList.Items.Add(new ListViewItem(new string[] { currentChar.Name, aliases, charClass, String.Format("{0:N1}", currentChar.DMTime), alerts }));
+                characterList.Items.Add(new ListViewItem(new string[] { currentChar.Name, aliases, charClass, String.Format("{0:N1}", currentChar.DMTime), alerts, currentChar.Id.ToString() }));
             }
             characterList.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             characterList.Columns[1].Width = 150;
@@ -307,6 +309,19 @@ namespace AdvancedLogParser
             if (list != null && list.Columns.Count > e.Column)
             {
                 list.ListViewItemSorter = new ListViewItemComparer(e.Column, reverseSort);
+            }
+        }
+
+        private void DoubleClickCharacterList(object Sender, EventArgs e)
+        {
+            string ClickedRow = characterList.SelectedItems[0].SubItems[5].Text;
+            uint characterId = 0;
+            if(uint.TryParse(ClickedRow, out characterId))
+            {
+                if (Characters.List.ContainsKey(characterId))
+                {
+                    new CharacterDetails(Characters.List[characterId]).Show();
+                }
             }
         }
     }
