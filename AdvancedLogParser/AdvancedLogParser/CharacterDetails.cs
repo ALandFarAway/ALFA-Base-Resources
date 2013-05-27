@@ -75,7 +75,7 @@ namespace AdvancedLogParser
             {
                 classes += "/" + PlayerDetails.ClassToAbbreviation(character.Class3) + character.Level3;
             }
-            classes += String.Format("({0} XP)", character.XP);
+            classes += String.Format(" ({0} XP)", character.XP);
             classValue.Text = classes;
             classValue.Size = classValue.PreferredSize;
             classValue.Location = new Point(rightColumn, classLabel.Location.Y);
