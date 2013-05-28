@@ -36,7 +36,7 @@
 
 const float ACR_DURATION_GLOBAL_SCALE = 1.0f;
 const float ACR_DURATION_10M_SCALE = 1.0f;
-const float ACR_DURATION_HOUR_SCALE = 7.0f / 60.0f;
+const float ACR_DURATION_HOUR_SCALE = 13.0f / 60.0f;
 
 const int ACR_DURATION_TYPE_STATIC = 0;
 const int ACR_DURATION_TYPE_PER_CL = 1;
