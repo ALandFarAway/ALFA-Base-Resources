@@ -29,6 +29,7 @@ int WEALTH_LEVEL_LOW       = 2;
 int WEALTH_LEVEL_TARGET    = 3;
 int WEALTH_LEVEL_HIGH      = 4;
 int WEALTH_LEVEL_CUTOFF    = 5;
+int WEALTH_LEVEL_VERY_HIGH = 6;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -78,9 +79,10 @@ int GetWealthLevel(object oRowPC)
     int nHighWealth = GetHighWealth(GetXP(oRowPC));
     int nCutOff     = GetCutoffWealth(GetXP(oRowPC));
     if(nWealth < nLowWealth)       return WEALTH_LEVEL_BELOW_LOW;
-    else if(nWealth < nMedWealth)  return WEALTH_LEVEL_LOW;
-    else if(nWealth < nHighWealth) return WEALTH_LEVEL_TARGET;
-    else if(nWealth < nCutOff)     return WEALTH_LEVEL_HIGH;
+    else if(nWealth < (nMedWealth * 9) / 10)  return WEALTH_LEVEL_LOW;
+	else if(nWealth < (nMedWealth * 11) / 10) return WEALTH_LEVEL_TARGET;
+    else if(nWealth < nHighWealth) return WEALTH_LEVEL_HIGH;
+    else if(nWealth < nCutOff)     return WEALTH_LEVEL_VERY_HIGH;
     else                           return WEALTH_LEVEL_CUTOFF;
 
 // This should never happen, because of the logic above, but just in case. //

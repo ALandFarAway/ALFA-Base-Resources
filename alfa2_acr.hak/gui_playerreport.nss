@@ -367,11 +367,12 @@ string GetWealthIcon(object oRowPC)
 {
     int nWealthLevel = GetWealthLevel(oRowPC);
     string sWealthIcon = "";
-    if(nWealthLevel == WEALTH_LEVEL_BELOW_LOW)   sWealthIcon = "wealth_vpoor.tga";
-    else if(nWealthLevel == WEALTH_LEVEL_LOW)    sWealthIcon = "wealth_poor.tga";
-    else if(nWealthLevel == WEALTH_LEVEL_TARGET) sWealthIcon = "wealth_avg.tga";
-    else if(nWealthLevel == WEALTH_LEVEL_HIGH)   sWealthIcon = "wealth_high.tga";
-    else                                         sWealthIcon = "wealth_over.tga";
+    if(nWealthLevel == WEALTH_LEVEL_BELOW_LOW)      sWealthIcon = "wealth_vpoor.tga";
+    else if(nWealthLevel == WEALTH_LEVEL_LOW)       sWealthIcon = "wealth_poor.tga";
+    else if(nWealthLevel == WEALTH_LEVEL_TARGET)    sWealthIcon = "wealth_targ.tga";
+    else if(nWealthLevel == WEALTH_LEVEL_HIGH)      sWealthIcon = "wealth_avg.tga";
+	else if(nWealthLevel == WEALTH_LEVEL_VERY_HIGH) sWealthIcon = "wealth_high.tga";
+    else                                            sWealthIcon = "wealth_over.tga";
 
     return sWealthIcon;
 }
