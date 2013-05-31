@@ -28,6 +28,8 @@ namespace AdvancedLogParser
         Rectangle alignmentPie = new Rectangle();
         Label dmTimePieLabel = new Label();
         Rectangle dmTimePie = new Rectangle();
+        Label legendLabel = new Label();
+        Label legendLabelTwo = new Label();
 
         Server savedServer;
         
@@ -263,7 +265,7 @@ namespace AdvancedLogParser
             deathList.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             deathList.Columns[2].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
 
-            alignmentPieLabel.Text = "Alignment Distribution (All)";
+            alignmentPieLabel.Text = "Wealth Distribution";
             alignmentPieLabel.Size = alignmentPieLabel.PreferredSize;
             alignmentPieLabel.Location = new Point(enforcementList.Location.X + enforcementList.Width + 10, 0);
             alignmentPieLabel.Click += PieLabel_Click;
@@ -271,7 +273,7 @@ namespace AdvancedLogParser
             alignmentPie.Size = new Size(350, 350);
             alignmentPie.Location = new Point(alignmentPieLabel.Location.X, alignmentPieLabel.Location.Y + alignmentPieLabel.Height);
 
-            dmTimePieLabel.Text = "DM Time Distribution (All)";
+            dmTimePieLabel.Text = "DM Coverage";
             dmTimePieLabel.Size = dmTimePieLabel.PreferredSize;
             dmTimePieLabel.Location = new Point(alignmentPie.Location.X, alignmentPie.Location.Y + alignmentPie.Height + 10);
             dmTimePieLabel.Click += PieLabel_Click;
@@ -279,7 +281,15 @@ namespace AdvancedLogParser
             dmTimePie.Size = new Size(350, 350);
             dmTimePie.Location = new Point(alignmentPieLabel.Location.X, dmTimePieLabel.Location.Y + dmTimePieLabel.Height);
 
-            this.Width = dmTimePie.Width + dmTimePie.Location.X + 10;
+            legendLabel.Text = "Very Poor\n\nPoor\n\nTarget\n\nRich\n\nVery Rich\n\nCutoff Wealth";
+            legendLabel.Size = legendLabel.PreferredSize;
+            legendLabel.Location = new Point(alignmentPie.Location.X + alignmentPie.Width + 50, alignmentPieLabel.Location.Y + alignmentPieLabel.Height);
+
+            legendLabelTwo.Text = "DMed\n\nUn-DMed";
+            legendLabelTwo.Size = legendLabelTwo.PreferredSize;
+            legendLabelTwo.Location = new Point(dmTimePie.Location.X + dmTimePie.Width + 50, dmTimePieLabel.Location.Y + dmTimePieLabel.Height);
+
+            this.Width = dmTimePie.Width + dmTimePie.Location.X + 210;
             this.Height = dmTimePie.Height + dmTimePie.Location.Y + 30;
 
             this.Controls.Add(characterListLabel);
@@ -294,6 +304,8 @@ namespace AdvancedLogParser
             this.Controls.Add(deathList);
             this.Controls.Add(alignmentPieLabel);
             this.Controls.Add(dmTimePieLabel);
+            this.Controls.Add(legendLabel);
+            this.Controls.Add(legendLabelTwo);
         }
 
         public static Server MakeMegaServer()
@@ -430,7 +442,7 @@ namespace AdvancedLogParser
             catch { }
         }
 
-        int pieType = 0;
+        int pieType = 3;
 
         private void ServerView_Paint(object Sender, PaintEventArgs e)
         {
@@ -455,48 +467,97 @@ namespace AdvancedLogParser
 
             float totalTime = 0.0f;
 
-            foreach (Character ch in savedServer.RecentCharacters)
+            int veryPoor = 0;
+            int poor = 0;
+            int target = 0;
+            int rich = 0;
+            int veryRich = 0;
+            int cutoffRich = 0;
+
+            int dmed = 0;
+            int unDMed = 0;
+
+            if (pieType <= 2)
             {
-                switch (ch.Alignment)
+                foreach (Character ch in savedServer.RecentCharacters)
                 {
-                    case Alignment.LawfulGood:
-                        lawfulGood++;
-                        lawfulGoodTime += ch.DMTime;
-                        break;
-                    case Alignment.NeutralGood:
-                        neutralGood++;
-                        neutralGoodTime += ch.DMTime;
-                        break;
-                    case Alignment.ChaoticGood:
-                        chaoticGood++;
-                        chaoticGoodTime += ch.DMTime;
-                        break;
-                    case Alignment.LawfulNeutral:
-                        lawfulNeutral++;
-                        lawfulNeutralTime += ch.DMTime;
-                        break;
-                    case Alignment.TrueNeutral:
-                        trueNeutral++;
-                        trueNeutralTime += ch.DMTime;
-                        break;
-                    case Alignment.ChaoticNeutral:
-                        chaoticNeutral++;
-                        chaoticNeutralTime += ch.DMTime;
-                        break;
-                    case Alignment.LawfulEvil:
-                        lawfulEvil++;
-                        lawfulEvilTime += ch.DMTime;
-                        break;
-                    case Alignment.NeutralEvil:
-                        neutralEvil++;
-                        neutralEvilTime += ch.DMTime;
-                        break;
-                    case Alignment.ChaoticEvil:
-                        chaoticEvil++;
-                        chaoticEvilTime += ch.DMTime;
-                        break;
+                    switch (ch.Alignment)
+                    {
+                        case Alignment.LawfulGood:
+                            lawfulGood++;
+                            lawfulGoodTime += ch.DMTime;
+                            break;
+                        case Alignment.NeutralGood:
+                            neutralGood++;
+                            neutralGoodTime += ch.DMTime;
+                            break;
+                        case Alignment.ChaoticGood:
+                            chaoticGood++;
+                            chaoticGoodTime += ch.DMTime;
+                            break;
+                        case Alignment.LawfulNeutral:
+                            lawfulNeutral++;
+                            lawfulNeutralTime += ch.DMTime;
+                            break;
+                        case Alignment.TrueNeutral:
+                            trueNeutral++;
+                            trueNeutralTime += ch.DMTime;
+                            break;
+                        case Alignment.ChaoticNeutral:
+                            chaoticNeutral++;
+                            chaoticNeutralTime += ch.DMTime;
+                            break;
+                        case Alignment.LawfulEvil:
+                            lawfulEvil++;
+                            lawfulEvilTime += ch.DMTime;
+                            break;
+                        case Alignment.NeutralEvil:
+                            neutralEvil++;
+                            neutralEvilTime += ch.DMTime;
+                            break;
+                        case Alignment.ChaoticEvil:
+                            chaoticEvil++;
+                            chaoticEvilTime += ch.DMTime;
+                            break;
+                    }
+                    totalTime += ch.DMTime;
                 }
-                totalTime += ch.DMTime;
+            }
+            else if (pieType == 3)
+            {
+                foreach (Character character in savedServer.RecentCharacters)
+                {
+                    WealthLevel lvl = InfoGather.GetWealthLevel(character);
+                    switch (lvl)
+                    {
+                        case WealthLevel.VeryPoor:
+                            veryPoor++;
+                            break;
+                        case WealthLevel.Poor:
+                            poor++;
+                            break;
+                        case WealthLevel.Target:
+                            target++;
+                            break;
+                        case WealthLevel.Rich:
+                            rich++;
+                            break;
+                        case WealthLevel.VeryRich:
+                            veryRich++;
+                            break;
+                        case WealthLevel.Cutoff:
+                            cutoffRich++;
+                            break;
+                    }
+                    if (character.DMTime <= 0.25)
+                    {
+                        unDMed++;
+                    }
+                    else
+                    {
+                        dmed++;
+                    }
+                }
             }
 
             Pen blackPen = new Pen(Color.Black, 2.0f);
@@ -515,6 +576,51 @@ namespace AdvancedLogParser
 
             if (pieType == 0)
             {
+                int locY = alignmentPieLabel.Location.Y + alignmentPieLabel.Height;
+                Rectangle rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(lightBlueBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(whiteBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(lightOrangeBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(blueBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(greyBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(orangeBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(darkBlueBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(blackBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(darkOrangeBrush, rect);
+
                 float oldSweep = 0.0f;
                 float currentSweep = (((float)neutralGood) * 360) / savedServer.RecentCharacters.Count;
                 g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
@@ -552,6 +658,50 @@ namespace AdvancedLogParser
                 g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
                 g.FillPie(lightBlueBrush, alignmentPie, oldSweep, currentSweep);
 
+                locY = dmTimePieLabel.Location.Y + dmTimePieLabel.Height;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(lightBlueBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(whiteBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(lightOrangeBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(blueBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(greyBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(orangeBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(darkBlueBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(blackBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(darkOrangeBrush, rect);
 
                 oldSweep = 0.0f;
                 currentSweep = (neutralGoodTime * 360) / totalTime;
@@ -592,6 +742,21 @@ namespace AdvancedLogParser
             }
             else if (pieType == 1)
             {
+                int locY = alignmentPieLabel.Location.Y + alignmentPieLabel.Height;
+                Rectangle rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(whiteBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(greyBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(blackBrush, rect);
+
                 float oldSweep = 0.0f;
                 float currentSweep = (((float)neutralGood + (float)chaoticGood + (float)lawfulGood) * 360) / savedServer.RecentCharacters.Count;
                 g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
@@ -605,6 +770,20 @@ namespace AdvancedLogParser
                 g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
                 g.FillPie(blackBrush, alignmentPie, oldSweep, currentSweep);
 
+                locY = dmTimePieLabel.Location.Y + dmTimePieLabel.Height;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(whiteBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(greyBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(blackBrush, rect);
 
                 oldSweep = 0.0f;
                 currentSweep = ((neutralGoodTime + chaoticGoodTime + lawfulGoodTime) * 360) / totalTime;
@@ -621,6 +800,21 @@ namespace AdvancedLogParser
             }
             else if (pieType == 2)
             {
+                int locY = alignmentPieLabel.Location.Y + alignmentPieLabel.Height;
+                Rectangle rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(blueBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(greyBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(orangeBrush, rect);
+
                 float oldSweep = 0.0f;
                 float currentSweep = (((float)lawfulEvil + (float)lawfulNeutral + (float)lawfulGood) * 360) / savedServer.RecentCharacters.Count;
                 g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
@@ -634,6 +828,20 @@ namespace AdvancedLogParser
                 g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
                 g.FillPie(orangeBrush, alignmentPie, oldSweep, currentSweep);
 
+                locY = dmTimePieLabel.Location.Y + dmTimePieLabel.Height;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(blueBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(greyBrush, rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(orangeBrush, rect);
 
                 oldSweep = 0.0f;
                 currentSweep = ((lawfulEvilTime + lawfulNeutralTime + lawfulGoodTime) * 360) / totalTime;
@@ -648,16 +856,99 @@ namespace AdvancedLogParser
                 g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
                 g.FillPie(orangeBrush, dmTimePie, oldSweep, currentSweep);
             }
+            else if (pieType == 3)
+            {
+                int locY = alignmentPieLabel.Location.Y + alignmentPieLabel.Height;
+                Rectangle rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(new SolidBrush(Color.Purple), rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(new SolidBrush(Color.Blue), rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(new SolidBrush(Color.Green), rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(new SolidBrush(Color.Yellow), rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(new SolidBrush(Color.Orange), rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(new SolidBrush(Color.Red), rect);
+
+                float oldSweep = 0.0f;
+                float currentSweep = (((float)veryPoor) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(new SolidBrush(Color.Purple), alignmentPie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)poor) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(new SolidBrush(Color.Blue), alignmentPie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)target) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(new SolidBrush(Color.Green), alignmentPie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)rich) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(new SolidBrush(Color.Yellow), alignmentPie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)veryRich) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(new SolidBrush(Color.Orange), alignmentPie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)cutoffRich) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(new SolidBrush(Color.Red), alignmentPie, oldSweep, currentSweep);
+
+
+                locY = dmTimePieLabel.Location.Y + dmTimePieLabel.Height;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(new SolidBrush(Color.Green), rect);
+
+                locY += alignmentPieLabel.Height * 2;
+                rect = new Rectangle(alignmentPie.Location.X + alignmentPie.Width + 30, locY, alignmentPieLabel.Height, alignmentPieLabel.Height);
+                g.DrawRectangle(blackPen, rect);
+                g.FillRectangle(new SolidBrush(Color.Red), rect);
+
+                oldSweep = 0.0f;
+                currentSweep = (((float)dmed) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
+                g.FillPie(new SolidBrush(Color.Green), dmTimePie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)unDMed) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
+                g.FillPie(new SolidBrush(Color.Red), dmTimePie, oldSweep, currentSweep);
+            }
         }
 
         private void PieLabel_Click(object Sender, EventArgs e)
         {
             pieType++;
-            if (pieType > 2) pieType = 0;
+            if (pieType > 3) pieType = 0;
             if (pieType == 0)
             {
                 alignmentPieLabel.Text = "Alignment Distribution (All)";
+                alignmentPieLabel.Size = alignmentPieLabel.PreferredSize;
                 dmTimePieLabel.Text = "DM Time Distribution (All)";
+                dmTimePieLabel.Size = dmTimePieLabel.PreferredSize;
+                legendLabel.Text = "Lawful Good\n\nNeutral Good\n\nChaotic Good\n\nLawful Neutral\n\nTrue Neutral\n\nChaotic Neutral\n\nLawful Evil\n\nNeutral Evil\n\nChaotic Evil";
+                legendLabel.Size = legendLabel.PreferredSize;
+                legendLabelTwo.Text = "Lawful Good\n\nNeutral Good\n\nChaotic Good\n\nLawful Neutral\n\nTrue Neutral\n\nChaotic Neutral\n\nLawful Evil\n\nNeutral Evil\n\nChaotic Evil";
+                legendLabelTwo.Size = legendLabelTwo.PreferredSize;
             }
             if (pieType == 1)
             {
@@ -665,6 +956,10 @@ namespace AdvancedLogParser
                 alignmentPieLabel.Size = alignmentPieLabel.PreferredSize;
                 dmTimePieLabel.Text = "DM Time Distribution (Good v. Evil)";
                 dmTimePieLabel.Size = dmTimePieLabel.PreferredSize;
+                legendLabel.Text = "Good\n\nNeutral\n\nEvil";
+                legendLabel.Size = legendLabel.PreferredSize;
+                legendLabelTwo.Text = "Good\n\nNeutral\n\nEvil";
+                legendLabelTwo.Size = legendLabelTwo.PreferredSize;
             }
             if (pieType == 2)
             {
@@ -672,6 +967,21 @@ namespace AdvancedLogParser
                 alignmentPieLabel.Size = alignmentPieLabel.PreferredSize;
                 dmTimePieLabel.Text = "DM Time Distribution (Law v. Chaos)";
                 dmTimePieLabel.Size = dmTimePieLabel.PreferredSize;
+                legendLabel.Text = "Lawful\n\nNeutral\n\nChaotic";
+                legendLabel.Size = legendLabel.PreferredSize;
+                legendLabelTwo.Text = "Lawful\n\nNeutral\n\nChaotic";
+                legendLabelTwo.Size = legendLabelTwo.PreferredSize;
+            }
+            if (pieType == 3)
+            {
+                alignmentPieLabel.Text = "Wealth Distribution";
+                alignmentPieLabel.Size = alignmentPieLabel.PreferredSize;
+                dmTimePieLabel.Text = "DM Coverage";
+                dmTimePieLabel.Size = dmTimePieLabel.PreferredSize;
+                legendLabel.Text = "Very Poor\n\nPoor\n\nTarget\n\nRich\n\nVery Rich\n\nCutoff Wealth";
+                legendLabel.Size = legendLabel.PreferredSize;
+                legendLabelTwo.Text = "DMed\n\nUn-DMed";
+                legendLabelTwo.Size = legendLabelTwo.PreferredSize;
             }
             this.OnPaint(new PaintEventArgs(this.CreateGraphics(), this.ClientRectangle));
         }

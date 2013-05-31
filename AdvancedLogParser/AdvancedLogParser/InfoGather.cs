@@ -571,8 +571,9 @@ namespace AdvancedLogParser
                             Player playerDMed = Players.ListByPlayerId[charDMed.PlayerId];
                             playerDMed.DMTime += addingTime;
                         }
-                        catch
+                        catch(Exception e)
                         {
+                            MessageBox.Show(e.Message);
                             continue;
                         }
                     }
