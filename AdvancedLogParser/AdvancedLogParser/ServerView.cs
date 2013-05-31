@@ -5,6 +5,7 @@ using System.Linq;
 using System.Resources;
 using System.Text;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace AdvancedLogParser
@@ -22,6 +23,13 @@ namespace AdvancedLogParser
         Label enforcementListLabel = new Label();
         Label advancementListLabel = new Label();
         Label deathListLabel = new Label();
+
+        Label alignmentPieLabel = new Label();
+        Rectangle alignmentPie = new Rectangle();
+        Label dmTimePieLabel = new Label();
+        Rectangle dmTimePie = new Rectangle();
+
+        Server savedServer;
         
         DateTime lastSorted = DateTime.UtcNow;
         bool reverseSort = false;
@@ -30,6 +38,8 @@ namespace AdvancedLogParser
 
         public ServerView(Server server)
         {
+            this.Paint += new PaintEventHandler(ServerView_Paint);
+
             Dictionary<uint, Log> serverEnforcementLogs = new Dictionary<uint, Log>();
             Dictionary<uint, Log> serverAdvancementLogs = new Dictionary<uint, Log>();
             Dictionary<uint, Log> serverDeathLogs = new Dictionary<uint, Log>();
@@ -68,6 +78,7 @@ namespace AdvancedLogParser
                 this.Name = String.Format("ALFA{0:000} ({1} Characters, {2} DMs, {3} Alerts)", server.ServerId, server.RecentCharacters.Count, server.RecentDMs.Count, serverEnforcementLogs.Count + serverAdvancementLogs.Count + serverDeathLogs.Count);
                 this.Text = this.Name;
             }
+            savedServer = server;
 
             characterListLabel.Text = "Characters Played in the Last 30 Days";
             characterListLabel.Size = characterListLabel.PreferredSize;
@@ -252,8 +263,24 @@ namespace AdvancedLogParser
             deathList.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             deathList.Columns[2].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
 
-            this.Width = deathList.Width + deathList.Location.X + 10;
-            this.Height = deathList.Height + deathList.Location.Y + 30;
+            alignmentPieLabel.Text = "Alignment Distribution (All)";
+            alignmentPieLabel.Size = alignmentPieLabel.PreferredSize;
+            alignmentPieLabel.Location = new Point(enforcementList.Location.X + enforcementList.Width + 10, 0);
+            alignmentPieLabel.Click += PieLabel_Click;
+            
+            alignmentPie.Size = new Size(350, 350);
+            alignmentPie.Location = new Point(alignmentPieLabel.Location.X, alignmentPieLabel.Location.Y + alignmentPieLabel.Height);
+
+            dmTimePieLabel.Text = "DM Time Distribution (All)";
+            dmTimePieLabel.Size = dmTimePieLabel.PreferredSize;
+            dmTimePieLabel.Location = new Point(alignmentPie.Location.X, alignmentPie.Location.Y + alignmentPie.Height + 10);
+            dmTimePieLabel.Click += PieLabel_Click;
+
+            dmTimePie.Size = new Size(350, 350);
+            dmTimePie.Location = new Point(alignmentPieLabel.Location.X, dmTimePieLabel.Location.Y + dmTimePieLabel.Height);
+
+            this.Width = dmTimePie.Width + dmTimePie.Location.X + 10;
+            this.Height = dmTimePie.Height + dmTimePie.Location.Y + 30;
 
             this.Controls.Add(characterListLabel);
             this.Controls.Add(characterList);
@@ -265,6 +292,8 @@ namespace AdvancedLogParser
             this.Controls.Add(advancementList);
             this.Controls.Add(deathListLabel);
             this.Controls.Add(deathList);
+            this.Controls.Add(alignmentPieLabel);
+            this.Controls.Add(dmTimePieLabel);
         }
 
         public static Server MakeMegaServer()
@@ -399,6 +428,252 @@ namespace AdvancedLogParser
                 }
             }
             catch { }
+        }
+
+        int pieType = 0;
+
+        private void ServerView_Paint(object Sender, PaintEventArgs e)
+        {
+            int lawfulGood = 0;
+            float lawfulGoodTime = 0.0f;
+            int neutralGood = 0;
+            float neutralGoodTime = 0.0f;
+            int chaoticGood = 0;
+            float chaoticGoodTime = 0.0f;
+            int lawfulNeutral = 0;
+            float lawfulNeutralTime = 0.0f;
+            int trueNeutral = 0;
+            float trueNeutralTime = 0.0f;
+            int chaoticNeutral = 0;
+            float chaoticNeutralTime = 0.0f;
+            int lawfulEvil = 0;
+            float lawfulEvilTime = 0.0f;
+            int neutralEvil = 0;
+            float neutralEvilTime = 0.0f;
+            int chaoticEvil = 0;
+            float chaoticEvilTime = 0.0f;
+
+            float totalTime = 0.0f;
+
+            foreach (Character ch in savedServer.RecentCharacters)
+            {
+                switch (ch.Alignment)
+                {
+                    case Alignment.LawfulGood:
+                        lawfulGood++;
+                        lawfulGoodTime += ch.DMTime;
+                        break;
+                    case Alignment.NeutralGood:
+                        neutralGood++;
+                        neutralGoodTime += ch.DMTime;
+                        break;
+                    case Alignment.ChaoticGood:
+                        chaoticGood++;
+                        chaoticGoodTime += ch.DMTime;
+                        break;
+                    case Alignment.LawfulNeutral:
+                        lawfulNeutral++;
+                        lawfulNeutralTime += ch.DMTime;
+                        break;
+                    case Alignment.TrueNeutral:
+                        trueNeutral++;
+                        trueNeutralTime += ch.DMTime;
+                        break;
+                    case Alignment.ChaoticNeutral:
+                        chaoticNeutral++;
+                        chaoticNeutralTime += ch.DMTime;
+                        break;
+                    case Alignment.LawfulEvil:
+                        lawfulEvil++;
+                        lawfulEvilTime += ch.DMTime;
+                        break;
+                    case Alignment.NeutralEvil:
+                        neutralEvil++;
+                        neutralEvilTime += ch.DMTime;
+                        break;
+                    case Alignment.ChaoticEvil:
+                        chaoticEvil++;
+                        chaoticEvilTime += ch.DMTime;
+                        break;
+                }
+                totalTime += ch.DMTime;
+            }
+
+            Pen blackPen = new Pen(Color.Black, 2.0f);
+            Brush blackBrush = new SolidBrush(Color.Black);
+            Brush greyBrush = new SolidBrush(Color.Gray);
+            Brush whiteBrush = new SolidBrush(Color.White);
+            Brush lightBlueBrush = new SolidBrush(Color.LightBlue);
+            Brush blueBrush = new SolidBrush(Color.Blue);
+            Brush darkBlueBrush = new SolidBrush(Color.DarkBlue);
+            Brush lightOrangeBrush = new SolidBrush(Color.Orange);
+            Brush orangeBrush = new SolidBrush(Color.DarkOrange);
+            Brush darkOrangeBrush = new SolidBrush(Color.OrangeRed);
+
+            Graphics g = e.Graphics;
+            g.Clear(this.BackColor);
+
+            if (pieType == 0)
+            {
+                float oldSweep = 0.0f;
+                float currentSweep = (((float)neutralGood) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(whiteBrush, alignmentPie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)chaoticGood) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(lightOrangeBrush, alignmentPie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)chaoticNeutral) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(orangeBrush, alignmentPie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)trueNeutral) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(greyBrush, alignmentPie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)lawfulNeutral) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(blueBrush, alignmentPie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)chaoticEvil) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(darkOrangeBrush, alignmentPie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)neutralEvil) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(blackBrush, alignmentPie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)lawfulEvil) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(darkBlueBrush, alignmentPie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)lawfulGood) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(lightBlueBrush, alignmentPie, oldSweep, currentSweep);
+
+
+                oldSweep = 0.0f;
+                currentSweep = (neutralGoodTime * 360) / totalTime;
+                g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
+                g.FillPie(whiteBrush, dmTimePie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (chaoticGoodTime * 360) / totalTime;
+                g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
+                g.FillPie(lightOrangeBrush, dmTimePie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (chaoticNeutralTime * 360) / totalTime;
+                g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
+                g.FillPie(orangeBrush, dmTimePie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (trueNeutralTime * 360) / totalTime;
+                g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
+                g.FillPie(greyBrush, dmTimePie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (lawfulNeutralTime * 360) / totalTime;
+                g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
+                g.FillPie(blueBrush, dmTimePie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (chaoticEvilTime * 360) / totalTime;
+                g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
+                g.FillPie(darkOrangeBrush, dmTimePie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (neutralEvilTime * 360) / totalTime;
+                g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
+                g.FillPie(blackBrush, dmTimePie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (lawfulEvilTime * 360) / totalTime;
+                g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
+                g.FillPie(darkBlueBrush, dmTimePie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (lawfulGoodTime * 360) / totalTime;
+                g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
+                g.FillPie(lightBlueBrush, dmTimePie, oldSweep, currentSweep);
+            }
+            else if (pieType == 1)
+            {
+                float oldSweep = 0.0f;
+                float currentSweep = (((float)neutralGood + (float)chaoticGood + (float)lawfulGood) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(whiteBrush, alignmentPie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)trueNeutral + (float)chaoticNeutral + (float)lawfulNeutral) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(greyBrush, alignmentPie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)neutralEvil + (float)chaoticEvil + (float)lawfulEvil) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(blackBrush, alignmentPie, oldSweep, currentSweep);
+
+
+                oldSweep = 0.0f;
+                currentSweep = ((neutralGoodTime + chaoticGoodTime + lawfulGoodTime) * 360) / totalTime;
+                g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
+                g.FillPie(whiteBrush, dmTimePie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = ((trueNeutralTime + chaoticNeutralTime + lawfulNeutralTime) * 360) / totalTime;
+                g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
+                g.FillPie(greyBrush, dmTimePie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = ((neutralEvilTime + chaoticEvilTime + lawfulEvilTime) * 360) / totalTime;
+                g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
+                g.FillPie(blackBrush, dmTimePie, oldSweep, currentSweep);
+            }
+            else if (pieType == 2)
+            {
+                float oldSweep = 0.0f;
+                float currentSweep = (((float)lawfulEvil + (float)lawfulNeutral + (float)lawfulGood) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(blueBrush, alignmentPie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)trueNeutral + (float)neutralGood + (float)neutralEvil) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(greyBrush, alignmentPie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = (((float)chaoticGood + (float)chaoticNeutral + (float)chaoticEvil) * 360) / savedServer.RecentCharacters.Count;
+                g.DrawPie(blackPen, alignmentPie, oldSweep, currentSweep);
+                g.FillPie(orangeBrush, alignmentPie, oldSweep, currentSweep);
+
+
+                oldSweep = 0.0f;
+                currentSweep = ((lawfulEvilTime + lawfulNeutralTime + lawfulGoodTime) * 360) / totalTime;
+                g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
+                g.FillPie(blueBrush, dmTimePie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = ((trueNeutralTime + neutralEvilTime + neutralGoodTime) * 360) / totalTime;
+                g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
+                g.FillPie(greyBrush, dmTimePie, oldSweep, currentSweep);
+                oldSweep += currentSweep;
+                currentSweep = ((chaoticGoodTime + chaoticEvilTime + chaoticNeutralTime) * 360) / totalTime;
+                g.DrawPie(blackPen, dmTimePie, oldSweep, currentSweep);
+                g.FillPie(orangeBrush, dmTimePie, oldSweep, currentSweep);
+            }
+        }
+
+        private void PieLabel_Click(object Sender, EventArgs e)
+        {
+            pieType++;
+            if (pieType > 2) pieType = 0;
+            if (pieType == 0)
+            {
+                alignmentPieLabel.Text = "Alignment Distribution (All)";
+                dmTimePieLabel.Text = "DM Time Distribution (All)";
+            }
+            if (pieType == 1)
+            {
+                alignmentPieLabel.Text = "Alignment Distribution (Good v. Evil)";
+                alignmentPieLabel.Size = alignmentPieLabel.PreferredSize;
+                dmTimePieLabel.Text = "DM Time Distribution (Good v. Evil)";
+                dmTimePieLabel.Size = dmTimePieLabel.PreferredSize;
+            }
+            if (pieType == 2)
+            {
+                alignmentPieLabel.Text = "Alignment Distribution (Law v. Chaos)";
+                alignmentPieLabel.Size = alignmentPieLabel.PreferredSize;
+                dmTimePieLabel.Text = "DM Time Distribution (Law v. Chaos)";
+                dmTimePieLabel.Size = dmTimePieLabel.PreferredSize;
+            }
+            this.OnPaint(new PaintEventArgs(this.CreateGraphics(), this.ClientRectangle));
         }
     }
 

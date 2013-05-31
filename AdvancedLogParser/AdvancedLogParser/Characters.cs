@@ -47,6 +47,21 @@ namespace AdvancedLogParser
         public bool IsPlayable;
         public sbyte RetiredStatus;
 
+        public Alignment Alignment;
+
         public float DMTime;
+    }
+
+    public enum Alignment
+    {
+        LawfulGood,
+        NeutralGood,
+        ChaoticGood,
+        LawfulNeutral,
+        TrueNeutral,
+        ChaoticNeutral,
+        LawfulEvil,
+        NeutralEvil,
+        ChaoticEvil
     }
 }

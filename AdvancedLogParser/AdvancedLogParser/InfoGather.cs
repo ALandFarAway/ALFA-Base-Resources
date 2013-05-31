@@ -277,6 +277,25 @@ namespace AdvancedLogParser
                             XP = xp
                         };
 
+                        if (morals >= 70)
+                        {
+                            if (ethics >= 70) newChar.Alignment = Alignment.LawfulGood;
+                            else if (ethics >= 31) newChar.Alignment = Alignment.NeutralGood;
+                            else newChar.Alignment = Alignment.ChaoticGood;
+                        }
+                        else if (morals >= 31)
+                        {
+                            if (ethics >= 70) newChar.Alignment = Alignment.LawfulNeutral;
+                            else if (ethics >= 31) newChar.Alignment = Alignment.TrueNeutral;
+                            else newChar.Alignment = Alignment.ChaoticNeutral;
+                        }
+                        else
+                        {
+                            if (ethics >= 70) newChar.Alignment = Alignment.LawfulEvil;
+                            else if (ethics >= 31) newChar.Alignment = Alignment.NeutralEvil;
+                            else newChar.Alignment = Alignment.ChaoticEvil;
+                        }
+
                         Characters.List.Add(id, newChar);
                         try
                         {

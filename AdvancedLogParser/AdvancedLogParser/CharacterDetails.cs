@@ -40,23 +40,35 @@ namespace AdvancedLogParser
             this.Name = character.Name;
             this.Text = character.Name;
 
-            if (character.Morals >= 70)
+            switch (character.Alignment)
             {
-                if(character.Ethics >= 70) alignment.Text = "Lawful Good";
-                else if(character.Ethics >= 31) alignment.Text = "Neutral Good";
-                else alignment.Text = "Chaotic Good";
-            }
-            else if (character.Morals >= 31)
-            {
-                if (character.Ethics >= 70) alignment.Text = "Lawful Neutral";
-                else if (character.Ethics >= 31) alignment.Text = "True Neutral";
-                else alignment.Text = "Chaotic Neutral";
-            }
-            else
-            {
-                if (character.Ethics >= 70) alignment.Text = "Lawful Evil";
-                else if (character.Ethics >= 31) alignment.Text = "Neutral Evil";
-                else alignment.Text = "Chaotic Evil";
+                case Alignment.LawfulGood:
+                    alignment.Text = "Lawful Good";
+                    break;
+                case Alignment.NeutralGood:
+                    alignment.Text = "Neutral Good";
+                    break;
+                case Alignment.ChaoticGood:
+                    alignment.Text = "Chaotic Good";
+                    break;
+                case Alignment.LawfulNeutral:
+                    alignment.Text = "Lawful Neutral";
+                    break;
+                case Alignment.TrueNeutral:
+                    alignment.Text = "True Neutral";
+                    break;
+                case Alignment.ChaoticNeutral:
+                    alignment.Text = "Chaotic Neutral";
+                    break;
+                case Alignment.LawfulEvil:
+                    alignment.Text = "Lawful Evil";
+                    break;
+                case Alignment.NeutralEvil:
+                    alignment.Text = "Neutral Evil";
+                    break;
+                case Alignment.ChaoticEvil:
+                    alignment.Text = "Chaotic Evil";
+                    break;
             }
             alignment.Text += " " + SubraceToString(character.SubRace);
             alignment.Size = alignment.PreferredSize;
