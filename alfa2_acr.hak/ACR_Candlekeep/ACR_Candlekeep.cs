@@ -40,6 +40,8 @@ namespace ACR_Candlekeep
         {
             int Value = (int)ScriptParameters[0]; // ScriptParameterTypes[0] is typeof(int)
 
+            SendMessageToAllDMs("Running ACR_Candlekeep");
+            SendMessageToAllDMs(Archivist.debug);
             switch ((Commands)Value)
             {
                 case Commands.INITIALIZE_ARCHIVES:
@@ -62,6 +64,7 @@ namespace ACR_Candlekeep
         enum Commands
         {
             INITIALIZE_ARCHIVES = 0,
+            PRINT_DEBUG = 1
         }
     }
 }

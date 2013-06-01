@@ -16,6 +16,7 @@ namespace ACR_Candlekeep
 {
     public class Archivist : BackgroundWorker
     {
+        public static volatile string debug = "Debug output:";
         public static ALFA.ResourceManager manager;
         static public OEIShared.IO.TalkTable.TalkTable customTlk;
         static public OEIShared.IO.TalkTable.TalkTable dialog;
@@ -25,18 +26,22 @@ namespace ACR_Candlekeep
             // TODO: Allow this to be configured.
             try
             {
+                Archivist.debug += "\nAttempting to make a new ResourceManager";
                 manager = new ALFA.ResourceManager(null);
                 LoadModuleProperties();
 
+                Archivist.debug += "\nAttempting to open the default talk table";
                 dialog = new OEIShared.IO.TalkTable.TalkTable();
                 dialog.Open(OEIShared.Utils.BWLanguages.BWLanguage.English);
-                
+
+                Archivist.debug += "\nAttempting to open the custom talk table";
                 if (!String.IsNullOrEmpty(customTlkFileName))
                 {
                     customTlk = new OEIShared.IO.TalkTable.TalkTable();
                     customTlk.OpenCustom(OEIShared.Utils.BWLanguages.BWLanguage.English, customTlkFileName);
                 }
 
+                Archivist.debug += "\nInitializing ALFA.Shared collections";
                 ALFA.Shared.Modules.InfoStore.ModuleItems = new Dictionary<string, ALFA.Shared.ItemResource>();
                 ALFA.Shared.Modules.InfoStore.ModuleCreatures = new Dictionary<string, ALFA.Shared.CreatureResource>();
                 ALFA.Shared.Modules.InfoStore.ModulePlaceables = new Dictionary<string, ALFA.Shared.PlaceableResource>();
@@ -49,6 +54,7 @@ namespace ACR_Candlekeep
                 ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers = new Dictionary<string, ALFA.Shared.ActiveTrap>();
                 ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect = new Dictionary<string, ALFA.Shared.ActiveTrap>();
 
+                Archivist.debug += "\nInitializing standard factions";
                 List<int> factionIndex = new List<int>();
                 factionIndex.Add(0); // Player
                 factionIndex.Add(1); // Hostile
@@ -58,6 +64,7 @@ namespace ACR_Candlekeep
 
                 // The damage-doing traps from the original campaign, converted to
                 // our purposes.
+                Archivist.debug += "\nAdding standard traps";
                 AddStandardTraps();
 
                 #region Caching Information about All Items
@@ -567,7 +574,10 @@ namespace ACR_Candlekeep
                 //{ }
                 #endregion
             }
-            catch { }
+            catch (Exception ex)
+            {
+                debug += ex.Message;
+            }
 
             ACR_Candlekeep.ArchivesInstance.SetResourcesLoaded();
         }
