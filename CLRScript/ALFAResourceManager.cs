@@ -228,7 +228,11 @@ namespace ALFA
 
                 foreach (string PathName in new string[] { HomeDirectory, InstallDirectory })
                 {
-                    Repositories.Add(new DirectoryResourceRepository(String.Format("{0}\\override", PathName)));
+                    string overrideFolder = String.Format("{0}\\override", PathName);
+                    if (Directory.Exists(overrideFolder))
+                    {
+                        Repositories.Add(new DirectoryResourceRepository(overrideFolder));
+                    }
                 }
 
                 DataPath = String.Format("{0}\\Data", InstallDirectory);
