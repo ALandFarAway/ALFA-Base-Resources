@@ -41,6 +41,11 @@ void main( object TargetObject, float posX, float posY, float posZ, string ResRe
 			object oItem = CreateItemOnObject(ResRef, TargetObject, 49);
 		}
 		ACR_LogDMSpawn(OBJECT_SELF, "DM has spawned item "+GetName(oItem)+" ("+GetResRef(oItem)+") worth "+IntToString(GetGoldPieceValue(oItem))+" gold into the inventory of "+GetName(TargetObject));
+		if(GetIsObjectValid(GetPlayerCurrentTarget(OBJECT_SELF)))
+		{
+			// Don't cycle another targeting UI if we have something selected
+			return;
+		}
 	}
 	else
 	{
