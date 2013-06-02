@@ -542,7 +542,7 @@ namespace AdvancedLogParser
             DateTime checkFrom = DateTime.UtcNow.Subtract(TimeSpan.FromDays(30));
             try
             {
-                using (MySqlDataReader reader = MySqlHelper.ExecuteReader(ConnectionString, String.Format("SELECT * FROM alandsyu_live.logs WHERE Date > '{0}/{1}/{2}' AND (Event = \"XP Gain, DM RP\" OR \"XP Gain, DM Quest\")", checkFrom.Year, checkFrom.Month, checkFrom.Day)))
+                using (MySqlDataReader reader = MySqlHelper.ExecuteReader(ConnectionString, String.Format("SELECT * FROM alandsyu_live.logs WHERE Date > '{0}/{1}/{2}' AND (Event = \"XP Gain, DM RP\" OR Event = \"XP Gain, DM Quest\")", checkFrom.Year, checkFrom.Month, checkFrom.Day)))
                 {
                     currentLoader.status.Text = "Parsing DM Time...";
                     Application.DoEvents();
