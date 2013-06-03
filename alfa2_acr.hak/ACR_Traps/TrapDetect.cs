@@ -37,7 +37,9 @@ namespace ACR_Traps
             NWEffect vfx = s.SupernaturalEffect(s.EffectNWN2SpecialEffectFile(trap.TrapTriggerVFX, OBJECT_INVALID, s.Vector(0.0f, 0.0f, 0.0f)));
             s.ApplyEffectToObject(DURATION_TYPE_PERMANENT, vfx, s.GetObjectByTag(trap.Tag, 0), 0.0f);
 
-            s.CreateObject(OBJECT_TYPE_PLACEABLE, "acr_trap_disarm", s.GetLocation(detector), TRUE, trap.Tag + "_");
+            uint detectWidget = s.CreateObject(OBJECT_TYPE_PLACEABLE, "acr_trap_disarm", s.GetLocation(detector), TRUE, trap.Tag + "_");
+            s.SetDescription(detectWidget, trap.Description);
+            s.SetFirstName(detectWidget, String.Format("Disarm the {0} trap", trap.SpellTrap ? "Spell" : "Mechanical"));
             
             // If they clicked to walk, let's stop them from walking into the hazard they just found.
             if (s.GetCurrentAction(detector) == ACTION_MOVETOPOINT)

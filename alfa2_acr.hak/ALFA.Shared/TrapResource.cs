@@ -29,6 +29,7 @@ namespace ALFA.Shared
         public int DisarmDC;
         public int TriggerArea;
         public string TrapTriggerVFX;
+        public string Description;
 
         // For generic traps
         public int DamageType;
