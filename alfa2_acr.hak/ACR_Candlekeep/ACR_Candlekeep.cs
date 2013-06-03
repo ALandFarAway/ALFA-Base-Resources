@@ -40,8 +40,7 @@ namespace ACR_Candlekeep
         {
             int Value = (int)ScriptParameters[0]; // ScriptParameterTypes[0] is typeof(int)
 
-            SendMessageToAllDMs("Running ACR_Candlekeep");
-            SendMessageToAllDMs(Archivist.debug);
+
             switch ((Commands)Value)
             {
                 case Commands.INITIALIZE_ARCHIVES:
@@ -53,6 +52,10 @@ namespace ACR_Candlekeep
                         ALFA.Shared.Modules.InfoStore = ArchivesInstance;
                         worker.DoWork += worker.InitializeArchives;
                         worker.RunWorkerAsync();
+                        break;
+                case Commands.PRINT_DEBUG:
+                        SendMessageToAllDMs("Running ACR_Candlekeep");
+                        SendMessageToAllDMs(Archivist.debug);
                         break;
             }
 
