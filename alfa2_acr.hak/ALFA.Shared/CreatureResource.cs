@@ -12,6 +12,7 @@ namespace ALFA.Shared
         public volatile string LastName;
         public volatile string DisplayName;
         public string Classification { get; set; }
+        public volatile string ResourceName;
         public volatile string TemplateResRef;
         public volatile string Tag;
         public volatile bool IsImmortal;
@@ -57,7 +58,7 @@ namespace ALFA.Shared
         {
             get
             {
-                return String.Format("5={0}", this.TemplateResRef);
+                return String.Format("5={0}", this.ResourceName);
             }
         }
 

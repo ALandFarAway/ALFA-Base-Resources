@@ -72,10 +72,7 @@ namespace ACR_Candlekeep
                 {
                     try
                     {
-                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
-
-                        string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
-                        if (ALFA.Shared.Modules.InfoStore.ModuleItems.Keys.Contains(currentResRef))
+                        if (ALFA.Shared.Modules.InfoStore.ModuleItems.Keys.Contains(resource.FullName.Split('.')[0].ToLower()))
                         {
                             // If we have competing resources, we expect that GetResourcesByType will give us the
                             // resource of greatest priority first. Therefore, redundant entries of a given resref
@@ -83,7 +80,9 @@ namespace ACR_Candlekeep
                             continue;
                         }
 
+                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
                         ALFA.Shared.ItemResource addingItem = new ALFA.Shared.ItemResource();
+                        addingItem.ResourceName = resource.FullName.Split('.')[0].ToLower();
                         try
                         {
                             addingItem.LocalizedName = currentGFF.TopLevelStruct["LocalizedName"].Value.ToString().Split('"')[1];
@@ -106,7 +105,7 @@ namespace ACR_Candlekeep
 
                         addingItem.Classification = ParseClassification(currentGFF.TopLevelStruct["Classification"].Value.ToString());
 
-                        addingItem.TemplateResRef = currentResRef;
+                        addingItem.TemplateResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
                         addingItem.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
 
                         int Cost, CostModify, BaseItem;
@@ -126,7 +125,7 @@ namespace ACR_Candlekeep
 
                         addingItem.ConfigureDisplayName();
 
-                        ALFA.Shared.Modules.InfoStore.ModuleItems.Add(currentResRef, addingItem);
+                        ALFA.Shared.Modules.InfoStore.ModuleItems.Add(addingItem.ResourceName, addingItem);
                     }
                     catch { }
                 }
@@ -137,16 +136,15 @@ namespace ACR_Candlekeep
                 {
                     try
                     {
-                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
-
-                        string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
-                        if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(currentResRef))
+                        if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(resource.FullName.Split('.')[0].ToLower()))
                         {
                             continue;
                         }
 
+                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
                         ALFA.Shared.CreatureResource addingCreature = new ALFA.Shared.CreatureResource();
 
+                        addingCreature.ResourceName = resource.FullName.Split('.')[0].ToLower();
                         try
                         {
                             addingCreature.FirstName = currentGFF.TopLevelStruct["FirstName"].Value.ToString().Split('"')[1];
@@ -220,7 +218,7 @@ namespace ACR_Candlekeep
 
                         addingCreature.ConfigureDisplayName();
 
-                        ALFA.Shared.Modules.InfoStore.ModuleCreatures.Add(addingCreature.TemplateResRef, addingCreature);
+                        ALFA.Shared.Modules.InfoStore.ModuleCreatures.Add(addingCreature.ResourceName, addingCreature);
                     }
                     catch { }
                 }
@@ -231,16 +229,14 @@ namespace ACR_Candlekeep
                 {
                     try
                     {
-                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
-
-                        string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
-                        if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(currentResRef))
+                        if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(resource.FullName.Split('.')[0].ToLower()))
                         {
                             continue;
                         }
 
+                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
                         ALFA.Shared.PlaceableResource addingPlaceable = new ALFA.Shared.PlaceableResource();
-
+                        addingPlaceable.ResourceName = resource.FullName.Split('.')[0].ToLower();
                         try
                         {
                             addingPlaceable.Name = currentGFF.TopLevelStruct["LocName"].Value.ToString().Split('"')[1];
@@ -256,7 +252,6 @@ namespace ACR_Candlekeep
 
                         addingPlaceable.Classification = ParseClassification(currentGFF.TopLevelStruct["Classification"].Value.ToString());
 
-
                         addingPlaceable.TemplateResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
                         addingPlaceable.Tag = currentGFF.TopLevelStruct["Tag"].Value.ToString();
                         addingPlaceable.Useable = currentGFF.TopLevelStruct["Useable"].Value.ToString() != "0";
@@ -270,7 +265,7 @@ namespace ACR_Candlekeep
 
                         addingPlaceable.ConfigureDisplayName();
 
-                        ALFA.Shared.Modules.InfoStore.ModulePlaceables.Add(addingPlaceable.TemplateResRef, addingPlaceable);
+                        ALFA.Shared.Modules.InfoStore.ModulePlaceables.Add(addingPlaceable.ResourceName, addingPlaceable);
                     }
                     catch { }
                 }
@@ -305,14 +300,12 @@ namespace ACR_Candlekeep
                 {
                     try
                     {
-                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
-
-                        string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
-                        if (ALFA.Shared.Modules.InfoStore.ModuleWaypoints.Keys.Contains(currentResRef))
+                        if (ALFA.Shared.Modules.InfoStore.ModuleWaypoints.Keys.Contains(resource.FullName.Split('.')[0].ToLower()))
                         {
                             continue;
                         }
 
+                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
                         GFFStructCollection variables = currentGFF.TopLevelStruct["VarTable"].ValueList.StructList;
                         if (variables.Count > 0)
                         {
@@ -323,7 +316,7 @@ namespace ACR_Candlekeep
                                 if (var["Name"].Value.ToString() == "ACR_TRAP_TRIGGER_AREA")
                                 {
                                     // This is a trap. We should process as one.
-                                    ParseTrapWaypoint(currentGFF, currentResRef);
+                                    ParseTrapWaypoint(currentGFF, currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString());
                                     nonWaypoint = true;
                                     break;
                                 }
@@ -335,8 +328,8 @@ namespace ACR_Candlekeep
                         }
 
                         ALFA.Shared.WaypointResource addingWaypoint = new ALFA.Shared.WaypointResource();
-
-                        addingWaypoint.TemplateResRef = currentResRef;
+                        addingWaypoint.TemplateResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
+                        addingWaypoint.ResourceName = resource.FullName.Split('.')[0].ToLower();
 
                         try
                         {
@@ -356,7 +349,7 @@ namespace ACR_Candlekeep
 
                         addingWaypoint.ConfigureDisplayName();
 
-                        ALFA.Shared.Modules.InfoStore.ModuleWaypoints.Add(addingWaypoint.TemplateResRef, addingWaypoint);
+                        ALFA.Shared.Modules.InfoStore.ModuleWaypoints.Add(addingWaypoint.ResourceName, addingWaypoint);
                     }
                     catch { }
                 }
@@ -367,18 +360,16 @@ namespace ACR_Candlekeep
                 {
                     try
                     {
-                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
-
-                        string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
-                        if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(currentResRef))
+                        if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(resource.FullName.Split('.')[0].ToLower()))
                         {
                             continue;
                         }
 
+                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
                         ALFA.Shared.VisualEffectResource addingVisual = new ALFA.Shared.VisualEffectResource();
 
-                        addingVisual.TemplateResRef = currentResRef;
-
+                        addingVisual.TemplateResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
+                        addingVisual.ResourceName = resource.FullName.Split('.')[0].ToLower();
                         try
                         {
                             addingVisual.Name = currentGFF.TopLevelStruct["LocName"].Value.ToString().Split('"')[1];
@@ -397,7 +388,7 @@ namespace ACR_Candlekeep
 
                         addingVisual.ConfigureDisplayName();
 
-                        ALFA.Shared.Modules.InfoStore.ModuleVisualEffects.Add(addingVisual.TemplateResRef, addingVisual);
+                        ALFA.Shared.Modules.InfoStore.ModuleVisualEffects.Add(addingVisual.ResourceName, addingVisual);
                     }
                     catch { }
                 }
@@ -408,17 +399,15 @@ namespace ACR_Candlekeep
                 {
                     try
                     {
-                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
-
-                        string currentResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
-                        if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(currentResRef))
+                        if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.Keys.Contains(resource.FullName.Split('.')[0].ToLower()))
                         {
                             continue;
                         }
 
+                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
                         ALFA.Shared.LightResource addingLight = new ALFA.Shared.LightResource();
-
-                        addingLight.TemplateResRef = currentResRef;
+                        addingLight.ResourceName = resource.FullName.Split('.')[0].ToLower();
+                        addingLight.TemplateResRef = currentGFF.TopLevelStruct["TemplateResRef"].Value.ToString();
 
                         try
                         {
@@ -442,7 +431,7 @@ namespace ACR_Candlekeep
 
                         addingLight.ConfigureDisplayName();
 
-                        ALFA.Shared.Modules.InfoStore.ModuleLights.Add(addingLight.TemplateResRef, addingLight);
+                        ALFA.Shared.Modules.InfoStore.ModuleLights.Add(addingLight.ResourceName, addingLight);
                     }
                     catch { }
                 }

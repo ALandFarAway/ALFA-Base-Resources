@@ -10,6 +10,7 @@ namespace ALFA.Shared
         public string Name;
         public string DisplayName;
         public string Classification { get; set; }
+        public volatile string ResourceName;
         public string TemplateResRef;
         public string Tag;
 
@@ -49,7 +50,7 @@ namespace ALFA.Shared
         {
             get
             {
-                return String.Format("5={0}", this.TemplateResRef);
+                return String.Format("5={0}", this.ResourceName);
             }
         }
 
