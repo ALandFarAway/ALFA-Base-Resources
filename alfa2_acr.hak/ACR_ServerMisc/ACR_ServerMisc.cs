@@ -503,7 +503,7 @@ namespace ACR_ServerMisc
 
             try
             {
-                Script = "Param([Parameter()] $s, [Parameter()] [System.UInt32] $OBJECT_SELF, [Parameter()] [System.UInt32] $OBJECT_INVALID, [Parameter()] $sql, [Parameter()] $CreatureAI)" + Script;
+                Script = "Param([Parameter()] $s, [Parameter()] [System.UInt32] $OBJECT_SELF, [Parameter()] [System.UInt32] $OBJECT_INVALID, [Parameter()] [System.UInt32] $OBJECT_TARGET, [Parameter()] $sql, [Parameter()] $CreatureAI)" + Script;
 
                 using (PowerShell Shell = PowerShell.Create())
                 {
