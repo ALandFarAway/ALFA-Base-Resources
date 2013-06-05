@@ -1345,7 +1345,7 @@ namespace ACR_ServerCommunicator
             Database.ACR_SQLQuery(
                 "SELECT " +
                     "`servers`.`ID` AS server_id, " +
-                    "`servers`.`IPAddress` as ip_address " +
+                    "`servers`.`IPAddress` as ip_address, " +
                     "`servers`.`IsPublic` as public_server " +
                 "FROM `servers` " +
                 "INNER JOIN `pwdata` ON `pwdata`.`Name` = `servers`.`Name` " +
