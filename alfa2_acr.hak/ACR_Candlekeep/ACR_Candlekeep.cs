@@ -40,7 +40,6 @@ namespace ACR_Candlekeep
         {
             int Value = (int)ScriptParameters[0]; // ScriptParameterTypes[0] is typeof(int)
 
-
             switch ((Commands)Value)
             {
                 case Commands.INITIALIZE_ARCHIVES:

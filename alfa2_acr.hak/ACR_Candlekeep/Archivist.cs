@@ -127,7 +127,10 @@ namespace ACR_Candlekeep
 
                         ALFA.Shared.Modules.InfoStore.ModuleItems.Add(addingItem.ResourceName, addingItem);
                     }
-                    catch { }
+                    catch 
+                    {
+                        Archivist.debug += String.Format("\n {0}", resource.FullName);
+                    }
                 }
                 #endregion
 
@@ -220,7 +223,10 @@ namespace ACR_Candlekeep
 
                         ALFA.Shared.Modules.InfoStore.ModuleCreatures.Add(addingCreature.ResourceName, addingCreature);
                     }
-                    catch { }
+                    catch 
+                    {
+                        Archivist.debug += String.Format("\n {0}", resource.FullName);
+                    }
                 }
                 #endregion
 
@@ -247,7 +253,7 @@ namespace ACR_Candlekeep
                         }
                         if (addingPlaceable.Name == "")
                         {
-                            addingPlaceable.Name = GetTlkEntry(currentGFF.TopLevelStruct["LocalizedName"].ValueCExoLocString.StringRef);
+                            addingPlaceable.Name = GetTlkEntry(currentGFF.TopLevelStruct["LocName"].ValueCExoLocString.StringRef);
                         }
 
                         addingPlaceable.Classification = ParseClassification(currentGFF.TopLevelStruct["Classification"].Value.ToString());
@@ -267,7 +273,10 @@ namespace ACR_Candlekeep
 
                         ALFA.Shared.Modules.InfoStore.ModulePlaceables.Add(addingPlaceable.ResourceName, addingPlaceable);
                     }
-                    catch { }
+                    catch 
+                    {
+                        Archivist.debug += String.Format("\n {0}", resource.FullName);
+                    }
                 }
                 #endregion
 
@@ -351,7 +360,10 @@ namespace ACR_Candlekeep
 
                         ALFA.Shared.Modules.InfoStore.ModuleWaypoints.Add(addingWaypoint.ResourceName, addingWaypoint);
                     }
-                    catch { }
+                    catch 
+                    {
+                        Archivist.debug += String.Format("\n {0}", resource.FullName);
+                    }
                 }
                 #endregion
 
@@ -390,7 +402,10 @@ namespace ACR_Candlekeep
 
                         ALFA.Shared.Modules.InfoStore.ModuleVisualEffects.Add(addingVisual.ResourceName, addingVisual);
                     }
-                    catch { }
+                    catch 
+                    {
+                        Archivist.debug += String.Format("\n {0}", resource.FullName);
+                    }
                 }
                 #endregion
 
@@ -433,7 +448,10 @@ namespace ACR_Candlekeep
 
                         ALFA.Shared.Modules.InfoStore.ModuleLights.Add(addingLight.ResourceName, addingLight);
                     }
-                    catch { }
+                    catch 
+                    {
+                        Archivist.debug += String.Format("\n {0}", resource.FullName);
+                    }
                 }
                 #endregion
 
