@@ -258,7 +258,13 @@ namespace ACR_ChooserCreator
 
                         // and we figure out where we're going relative to where we are.
                         string searchTerm = commandParam.Split(':')[1];
-                        if (searchTerm == "..") targetCat = currentCat.ParentCategory;
+                        if (searchTerm == "..")
+                        {
+                            if (currentCat.ParentCategory != null)
+                            {
+                                targetCat = currentCat.ParentCategory;
+                            }
+                        }
                         else
                         {
                             if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_CREATURE_TAB) targetCat = BackgroundLoader.GetCategoryByName(currentUser.CurrentCreatureCategory, searchTerm);
