@@ -84,6 +84,10 @@ namespace ACR_ChooserCreator
                     }
                     else
                     {
+                        if (currentUser.CurrentCreatureCategory == null)
+                        {
+                            currentUser.CurrentCreatureCategory = Navigators.CreatureNavigator.bottomCategory;
+                        }
                         Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentCreatureCategory);
                     }
                     break;
@@ -104,6 +108,10 @@ namespace ACR_ChooserCreator
                     }
                     else
                     {
+                        if (currentUser.CurrentItemCategory == null)
+                        {
+                            currentUser.CurrentItemCategory = Navigators.ItemNavigator.bottomCategory;
+                        }
                         Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentItemCategory);
                     }
                     break;
@@ -124,6 +132,10 @@ namespace ACR_ChooserCreator
                     }
                     else
                     {
+                        if (currentUser.CurrentPlaceableCategory == null)
+                        {
+                            currentUser.CurrentPlaceableCategory = Navigators.PlaceableNavigator.bottomCategory;
+                        }
                         Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentPlaceableCategory);
                     }
                     break;
@@ -144,6 +156,10 @@ namespace ACR_ChooserCreator
                     }
                     else
                     {
+                        if (currentUser.CurrentTrapCategory == null)
+                        {
+                            currentUser.CurrentTrapCategory = Navigators.TrapNavigator.bottomCategory;
+                        }
                         Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentTrapCategory);
                     }
                     break;
@@ -164,6 +180,10 @@ namespace ACR_ChooserCreator
                     }
                     else
                     {
+                        if (currentUser.CurrentVisualEffectCategory == null)
+                        {
+                            currentUser.CurrentVisualEffectCategory = Navigators.VisualEffectNavigator.bottomCategory;
+                        }
                         Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentVisualEffectCategory);
                     }
                     break;
@@ -184,6 +204,10 @@ namespace ACR_ChooserCreator
                     }
                     else
                     {
+                        if (currentUser.CurrentWaypointCategory == null)
+                        {
+                            currentUser.CurrentWaypointCategory = Navigators.WaypointNavigator.bottomCategory;
+                        }
                         Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentWaypointCategory);
                     }
                     break;
@@ -204,6 +228,10 @@ namespace ACR_ChooserCreator
                     }
                     else
                     {
+                        if (currentUser.CurrentLightCategory == null)
+                        {
+                            currentUser.CurrentLightCategory = Navigators.LightNavigator.bottomCategory;
+                        }
                         Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentLightCategory);
                     }
                     break;
