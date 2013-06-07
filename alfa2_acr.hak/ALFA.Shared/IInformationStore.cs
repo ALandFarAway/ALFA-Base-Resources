@@ -20,6 +20,8 @@ namespace ALFA.Shared
         Dictionary<string, TrapResource> ModuleTraps { get; set; }
         Dictionary<int, Faction> ModuleFactions { get; set; }
 
+        Dictionary<uint, ActiveArea> ActiveAreas { get; set; }
+
         Dictionary<string, ActiveTrap> SpawnedTrapTriggers { get; set; }
         Dictionary<string, ActiveTrap> SpawnedTrapDetect { get; set; }
     }

@@ -51,10 +51,23 @@ namespace ACR_Candlekeep
                         ALFA.Shared.Modules.InfoStore = ArchivesInstance;
                         worker.DoWork += worker.InitializeArchives;
                         worker.RunWorkerAsync();
+
+                        Monks.LoadAreas(this);
+
                         break;
                 case Commands.PRINT_DEBUG:
                         SendMessageToAllDMs("Running ACR_Candlekeep");
                         SendMessageToAllDMs(Archivist.debug);
+                        break;
+                case Commands.LIST_AREAS:
+                        foreach (ALFA.Shared.ActiveArea area in ALFA.Shared.Modules.InfoStore.ActiveAreas.Values)
+                        {
+                            SendMessageToAllDMs(area.Name);
+                            foreach (ALFA.Shared.ActiveArea areaTarget in area.ExitTransitions.Values)
+                            {
+                                SendMessageToAllDMs(String.Format(" - {0}", areaTarget.Name));
+                            }
+                        }
                         break;
             }
 
@@ -66,7 +79,8 @@ namespace ACR_Candlekeep
         enum Commands
         {
             INITIALIZE_ARCHIVES = 0,
-            PRINT_DEBUG = 1
+            PRINT_DEBUG = 1,
+            LIST_AREAS = 2,
         }
     }
 }

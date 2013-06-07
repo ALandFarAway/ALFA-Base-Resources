@@ -59,6 +59,7 @@
     <Compile Include="Archivist.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Monks.cs" />
     <Compile Include="StandardEntrypoints.cs" />
   </ItemGroup>
   <ItemGroup>

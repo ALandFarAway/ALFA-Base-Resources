@@ -79,6 +79,8 @@ namespace ACR_Candlekeep
         public Dictionary<string, ALFA.Shared.TrapResource> ModuleTraps { get; set; }
         public Dictionary<int, ALFA.Shared.Faction> ModuleFactions { get; set; }
 
+        public Dictionary<uint, ALFA.Shared.ActiveArea> ActiveAreas { get; set; }
+
         public Dictionary<string, ALFA.Shared.ActiveTrap> SpawnedTrapTriggers { get; set; }
         public Dictionary<string, ALFA.Shared.ActiveTrap> SpawnedTrapDetect { get; set; }
 
