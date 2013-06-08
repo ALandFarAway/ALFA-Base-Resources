@@ -170,7 +170,7 @@ const int ACR_CANDLEKEEP_INITIALIZE_ARCHIVES = 0;
 const int ACR_CHOOSERCREATOR_INITIALIZE = 0;
 
 //! Define to 1 to enable language handling debugging.
-#define DEBUG_LANG 1
+#define DEBUG_LANG 0
 
 
 ////////////////////////////////////////////////////////////////////////////////
