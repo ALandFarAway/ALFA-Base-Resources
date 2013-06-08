@@ -397,6 +397,195 @@ namespace ACR_ChooserCreator
                     // TODO: Kick off background process and waiter process to
                     // search for the user's request.
                     break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_INITIALIZE_CHOOSER:
+                    float fDelay = 0.0f;
+                    if (currentUser.LastSeenArea != GetArea(currentUser.Id))
+                    {
+                        ClearListBox(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS");
+                        if (ALFA.Shared.Modules.InfoStore.ActiveAreas.Keys.Contains(GetArea(currentUser.Id)))
+                        {
+                            ALFA.Shared.ActiveArea currentArea = ALFA.Shared.Modules.InfoStore.ActiveAreas[GetArea(currentUser.Id)];
+                            AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", currentArea.Id.ToString(), "LISTBOX_ITEM_TEXT=  <Color=DarkOrange>" + currentArea.Name + "</color>", "", "", "");
+                            List<ALFA.Shared.ActiveArea> adjAreas = new List<ALFA.Shared.ActiveArea>();
+                            foreach (ALFA.Shared.ActiveArea adjacentArea in currentArea.ExitTransitions.Values)
+                            {
+                                if (!adjAreas.Contains(adjacentArea))
+                                {
+                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", adjacentArea.Id.ToString(), "LISTBOX_ITEM_TEXT=  <Color=DarkGoldenRod>" + adjacentArea.Name + "</color>", "", "", "");
+                                    adjAreas.Add(adjacentArea);
+                                }
+                            }
+                        }
+                        foreach (ALFA.Shared.ActiveArea area in ALFA.Shared.Modules.InfoStore.ActiveAreas.Values)
+                        {
+                            AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", area.Id.ToString(), "LISTBOX_ITEM_TEXT=  " + area.Name, "", "", "");
+                        }
+                        currentUser.LastSeenArea = GetArea(currentUser.Id);
+                        fDelay += 0.1f;
+                    }
+                    List<uint> ChooserAoEs = new List<uint>();
+                    List<uint> ChooserCreatures = new List<uint>();
+                    List<uint> ChooserDoors = new List<uint>();
+                    List<uint> ChooserItems = new List<uint>();
+                    List<uint> ChooserLights = new List<uint>();
+                    List<uint> ChooserPlaceables = new List<uint>();
+                    List<uint> ChooserPlacedEffects = new List<uint>();
+                    List<uint> ChooserStores = new List<uint>();
+                    List<uint> ChooserTriggers = new List<uint>();
+                    List<uint> ChooserWaypoints = new List<uint>();
+                    DelayCommand(fDelay, delegate
+                    {
+                        foreach (uint thing in GetObjectsInArea(GetArea(currentUser.Id)))
+                        {
+                            int objectType = GetObjectType(thing);
+                            switch (objectType)
+                            {
+                                case OBJECT_TYPE_AREA_OF_EFFECT:
+                                    ChooserAoEs.Add(thing);
+                                    break;
+                                case OBJECT_TYPE_CREATURE:
+                                    ChooserCreatures.Add(thing);
+                                    break;
+                                case OBJECT_TYPE_DOOR:
+                                    ChooserDoors.Add(thing);
+                                    break;
+                                case OBJECT_TYPE_ITEM:
+                                    ChooserItems.Add(thing);
+                                    break;
+                                case OBJECT_TYPE_LIGHT:
+                                    ChooserLights.Add(thing);
+                                    break;
+                                case OBJECT_TYPE_PLACEABLE:
+                                    ChooserPlaceables.Add(thing);
+                                    break;
+                                case OBJECT_TYPE_PLACED_EFFECT:
+                                    ChooserPlacedEffects.Add(thing);
+                                    break;
+                                case OBJECT_TYPE_STORE:
+                                    ChooserStores.Add(thing);
+                                    break;
+                                case OBJECT_TYPE_TRIGGER:
+                                    ChooserTriggers.Add(thing);
+                                    break;
+                                case OBJECT_TYPE_WAYPOINT:
+                                    ChooserWaypoints.Add(thing);
+                                    break;
+                            }
+                        }
+                        ClearListBox(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS");
+                        if (ChooserAoEs.Count > 0)
+                        {
+                            fDelay += 0.1f;
+                            DelayCommand(fDelay, delegate
+                            {
+                                foreach (uint thing in ChooserAoEs)
+                                {
+                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetTag(thing), "LISTBOX_ITEM_ICON=trap.tga", "", "");
+                                }
+                            });
+                        }
+                        if (ChooserCreatures.Count > 0)
+                        {
+                            fDelay += 0.1f;
+                            DelayCommand(fDelay, delegate
+                            {
+                                foreach (uint thing in ChooserCreatures)
+                                {
+                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing), "LISTBOX_ITEM_ICON=creature.tga", "", "");
+                                }
+                            });
+                        }
+                        if (ChooserDoors.Count > 0)
+                        {
+                            fDelay += 0.1f;
+                            DelayCommand(fDelay, delegate
+                            {
+                                foreach (uint thing in ChooserDoors)
+                                {
+                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing), "LISTBOX_ITEM_ICON=door.tga", "", "");
+                                }
+                            });
+                        }
+                        if (ChooserItems.Count > 0)
+                        {
+                            fDelay += 0.1f;
+                            DelayCommand(fDelay, delegate
+                            {
+                                foreach (uint thing in ChooserItems)
+                                {
+                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing), "LISTBOX_ITEM_ICON=item.tga", "", "");
+                                }
+                            });
+                        }
+                        if (ChooserLights.Count > 0)
+                        {
+                            fDelay += 0.1f;
+                            DelayCommand(fDelay, delegate
+                            {
+                                foreach (uint thing in ChooserLights)
+                                {
+                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing) + ";LISTBOX_ITEM_TEXT2= Light", "LISTBOX_ITEM_ICON=light.tga", "", "");
+                                }
+                            });
+                        }
+                        if (ChooserPlaceables.Count > 0)
+                        {
+                            fDelay += 0.1f;
+                            DelayCommand(fDelay, delegate
+                            {
+                                foreach (uint thing in ChooserPlaceables)
+                                {
+                                    
+                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing) + ";LISTBOX_ITEM_TEXT2= Placeable", "LISTBOX_ITEM_ICON=placeable.tga", "", "");
+                                }
+                            });
+                        }
+                        if (ChooserPlacedEffects.Count > 0)
+                        {
+                            fDelay += 0.1f;
+                            DelayCommand(fDelay, delegate
+                            {
+                                foreach (uint thing in ChooserPlacedEffects)
+                                {
+                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing) + ";LISTBOX_ITEM_TEXT2= Placed Effect", "LISTBOX_ITEM_ICON=vfx.tga", "", "");
+                                }
+                            });
+                        }
+                        if (ChooserStores.Count > 0)
+                        {
+                            fDelay += 0.1f;
+                            DelayCommand(fDelay, delegate
+                            {
+                                foreach (uint thing in ChooserStores)
+                                {
+                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing) + ";LISTBOX_ITEM_TEXT2= Store", "LISTBOX_ITEM_ICON=store.tga", "", "");
+                                }
+                            });
+                        }
+                        if (ChooserTriggers.Count > 0)
+                        {
+                            fDelay += 0.1f;
+                            DelayCommand(fDelay, delegate
+                            {
+                                foreach (uint thing in ChooserTriggers)
+                                {
+                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing) + ";LISTBOX_ITEM_TEXT2= Trigger", "LISTBOX_ITEM_ICON=trigger.tga", "", "");
+                                }
+                            });
+                        }
+                        if (ChooserWaypoints.Count > 0)
+                        {
+                            fDelay += 0.1f;
+                            DelayCommand(fDelay, delegate
+                            {
+                                foreach (uint thing in ChooserWaypoints)
+                                {
+                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing) + ";LISTBOX_ITEM_TEXT2=  Waypoint", "LISTBOX_ITEM_ICON=waypoint.tga", "", "");
+                                }
+                            });
+                        }
+                    });
+                    break;
             }
             return 0;
 
@@ -423,7 +612,14 @@ namespace ACR_ChooserCreator
             ACR_CHOOSERCREATOR_SEARCH_TRAPS = 34,
             ACR_CHOOSERCREATOR_SEARCH_VFX = 35,
             ACR_CHOOSERCREATOR_SEARCH_WAYPOINT = 36,
-            ACR_CHOOSERCREATOR_SEARCH_LIGHTS = 37
+            ACR_CHOOSERCREATOR_SEARCH_LIGHTS = 37,
+
+            ACR_CHOOSERCREATOR_INITIALIZE_CHOOSER = 100,
+            ACR_CHOOSERCREATOR_FOCUS_CHOOSER = 101,
+            ACR_CHOOSERCREATOR_FOCUS_LIMBO = 102,
+
+            ACR_CHOOSERCREATOR_SEARCH_CHOOSER = 111,
+            ACR_CHOOSERCREATOR_LIST_AREA = 112,
         }
 
     }

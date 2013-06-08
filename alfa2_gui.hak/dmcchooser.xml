@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Neverwinter Nights 2                     -->
+<!-- Copyright Obsidian Entertainment, Inc.   -->
+<!--                                          -->
+
+<UIScene name="SCREEN_DMC_CHOOSER" OnCreate=UIScene_OnCreate_InitDMCChooserTree() x=400 y=100 width=399 height=563 scriptloadable="true"
+	draggable=true priority="SCENE_INGAME" scalescene="true" hidden="true" fadeout="0.2" fadein="0.2" backoutkey=true
+	OnAdd0=UIScene_OnAdd_InitDMCChooser() 
+	OnAdd1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",100,0) />
+
+    <UIListBox name="LISTBOX_DMC_CHOOSER" x="18" y="120" width="369" height="412" xPadding="0" yPadding="5" showpartialchild="true" hidden=TRUE
+		    unequalcontrols="true" scrollsegmentsize="30">
+        <UITextTree name="TT_DMC_CHOOSER" x=0 y=0 width=300 height=300 yPadding=2 indent=10 update=true OnUpdate=UITextTree_OnUpdate_UpdateChooserTree()>
+            <UIButton x=18 y=0 width=300 height=15 style="STYLE_EMPTY_BUTTON" prototype=true >
+            </UIButton>
+        </UITextTree>
+    </UIListBox>    
+    <!-- Close Button -->
+    <UIButton name="CloseButton" x=359 y=7 style="STYLE_CLOSE_BUTTON" OnLeftClick=UIButton_Input_ScreenClose() />
+
+    <UIText name="DISP_AREAS" x=10 y=112 height=20  width=270 editable=false text="Areas:"/>
+    <!-- List Box: Areas -->
+    <UIListBox name="LISTBOX_ACR_CHOOSER_AREAS" x="10" y="120" width="375" height="140" xPadding="0" yPadding="5" showpartialchild="true"
+		    unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded=false >
+            <UIPane name="ACR_CHOOSER_AREA" width=300 height=20 tupple=true prototype=true draggable=false
+             OnLeftDoubleClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
+             OnLeftDoubleClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",21,local:6)
+             OnLeftClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
+             OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",20,local:6)> 
+
+                <UIButton name="LISTBOX_ITEM_ICON" x=0 y=0 height=20 width=20 style="STYLE_LIST_BUTTON" prototype=true draggable=false>
+                    <UIText align=right valign=bottom fontfamily="Default" style="1"/> 
+                </UIButton> 
+
+                <UIButton name="LISTBOX_ITEM_TEXT" x=20 y=0 height=20 width=240 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+                    <UIText align=left valign=middle fontfamily="Default" style="1"/> 
+                </UIButton>
+
+                <UIButton name="LISTBOX_ITEM_TEXT2" x=260 y=0 height=20 width=70 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+                    <UIText align=left valign=middle fontfamily="Default" style="1"/> 
+                </UIButton>
+
+                <UIButton name="LISTBOX_ITEM_TEXT3" x=330 y=0 height=20 width=45 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+                    <UIText align=left valign=middle fontfamily="Default" style="1"/> 
+                </UIButton>
+            </UIPane> 
+        <UIScrollBar name="SB" style="STYLE_SB_THIN" />
+    </UIListBox>
+
+    <UIText name="DISP_NAME" x=10 y=258 height=20  width=270 editable=false text="Objects:"/>
+    <!-- List Box: Objects -->
+    <UIListBox name="LISTBOX_ACR_CHOOSER_OBJECTS" x="10" y="275" width="375" height="260" xPadding="0" yPadding="5" showpartialchild="true"
+		    unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded=false >
+            <UIPane name="ACR_CHOOSER_OBJECT" width=300 height=20 tupple=true prototype=true draggable=false
+             OnLeftDoubleClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
+             OnLeftDoubleClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",21,local:6)
+             OnLeftClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
+             OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",20,local:6)> 
+
+                <UIButton name="LISTBOX_ITEM_ICON" x=0 y=0 height=20 width=20 style="STYLE_LIST_BUTTON" prototype=true draggable=false>
+                    <UIText align=right valign=bottom fontfamily="Default" style="1"/> 
+                </UIButton> 
+
+                <UIButton name="LISTBOX_ITEM_TEXT" x=20 y=0 height=20 width=240 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+                    <UIText align=left valign=middle fontfamily="Default" style="1"/> 
+                </UIButton>
+
+                <UIButton name="LISTBOX_ITEM_TEXT2" x=260 y=0 height=20 width=70 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+                    <UIText align=left valign=middle fontfamily="Default" style="1"/> 
+                </UIButton>
+
+                <UIButton name="LISTBOX_ITEM_TEXT3" x=330 y=0 height=20 width=45 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+                    <UIText align=left valign=middle fontfamily="Default" style="1"/> 
+                </UIButton>
+            </UIPane> 
+        <UIScrollBar name="SB" style="STYLE_SB_THIN" />
+    </UIListBox>
+
+    <UIFrame x="0" y="33" width="399" height="513" topleft="frame1_TL.tga" topright="frame1_TR.tga" bottomleft="frame1_BL.tga"
+        bottomright="frame1_br.tga" top="frame1_T.tga" bottom="frame1_b.tga" left="frame1_l.tga" right="frame1_r.tga"
+        fillstyle="stretch" border="32" />
+    <UIIcon img="acr_black.tga" x=8 y=41 width=385 height=499 />
+	

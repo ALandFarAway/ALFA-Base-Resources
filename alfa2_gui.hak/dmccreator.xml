@@ -127,7 +127,7 @@
                 </UIButton>
             </UIPane> 
         <UIScrollBar name="SB" style="STYLE_SB_THIN" />
-    </UIListBox>    
+    </UIListBox>
 
     <UIFrame x="0" y="25" width="317" height="521" topleft="frame1_TL.tga" topright="frame1_TR.tga" 
         bottomleft="frame1_BL.tga" bottomright="frame1_br.tga" top="frame1_T.tga" bottom="frame1_b.tga"
