@@ -42,7 +42,12 @@ namespace ALFA.Shared
         {
             get
             {
-                return String.Format("LISTBOX_ITEM_TEXT={0};LISTBOX_ITEM_TEXT2= {1};LISTBOX_ITEM_TEXT3= {2:N1}", DisplayName, ALFA.Shared.Modules.InfoStore.ModuleFactions[this.FactionID].Name, this.ChallengeRating);
+                string faction = "Unknown";
+                if (ALFA.Shared.Modules.InfoStore.ModuleFactions.Keys.Contains(this.FactionID))
+                {
+                    faction = ALFA.Shared.Modules.InfoStore.ModuleFactions[this.FactionID].Name;
+                }
+                return String.Format("LISTBOX_ITEM_TEXT={0};LISTBOX_ITEM_TEXT2= {1};LISTBOX_ITEM_TEXT3= {2:N1}", DisplayName, faction, this.ChallengeRating);
             }
         }
 
