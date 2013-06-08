@@ -38,7 +38,10 @@ namespace ACR_Traps
             s.ApplyEffectToObject(DURATION_TYPE_PERMANENT, vfx, s.GetObjectByTag(trap.Tag, 0), 0.0f);
 
             uint detectWidget = s.CreateObject(OBJECT_TYPE_PLACEABLE, "acr_trap_disarm", s.GetLocation(detector), TRUE, trap.Tag + "_");
-            s.SetDescription(detectWidget, trap.Description);
+            if (!String.IsNullOrEmpty(trap.Description))
+            {
+                s.SetDescription(detectWidget, trap.Description);
+            }
             s.SetFirstName(detectWidget, String.Format("Disarm the {0} trap", trap.SpellTrap ? "Spell" : "Mechanical"));
             
             // If they clicked to walk, let's stop them from walking into the hazard they just found.
