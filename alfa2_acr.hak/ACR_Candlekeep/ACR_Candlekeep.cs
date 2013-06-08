@@ -54,6 +54,8 @@ namespace ACR_Candlekeep
 
                         Monks.LoadAreas(this);
 
+                        ShowLoadingProgressDebugString();
+
                         break;
                 case Commands.PRINT_DEBUG:
                         SendMessageToAllDMs("Running ACR_Candlekeep");
@@ -72,6 +74,31 @@ namespace ACR_Candlekeep
             }
 
             return 0;
+        }
+
+        /// <summary>
+        /// Periodically poll the loading status string and output it to the
+        /// debug console while loading is still in progress.
+        /// </summary>
+        private void ShowLoadingProgressDebugString()
+        {
+            //
+            // Obtain the current debug string if present (and reset it to the
+            // empty string if it was set).  If a debug string snippet was
+            // obtained, display it to the debug console.
+            //
+
+#pragma warning disable 420
+            string DebugString = Interlocked.Exchange(ref Archivist.debug, "");
+#pragma warning restore 420
+
+            if (!String.IsNullOrEmpty(DebugString))
+                WriteTimestampedLogEntry("ACR_Candlekeep: " + DebugString);
+
+            if (ArchivesInstance.WaitForResourcesLoaded(false) == false)
+                DelayCommand(1.0f, delegate() { ShowLoadingProgressDebugString(); });
+            else
+                WriteTimestampedLogEntry("ACR_Candlekeep: Resource loading complete.");
         }
 
         internal static Archives ArchivesInstance;

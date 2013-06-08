@@ -16,7 +16,7 @@ namespace ACR_Candlekeep
 {
     public class Archivist : BackgroundWorker
     {
-        public static volatile string debug = "Debug output:";
+        public static volatile string debug = "";
         public static ALFA.ResourceManager manager;
         static public OEIShared.IO.TalkTable.TalkTable customTlk;
         static public OEIShared.IO.TalkTable.TalkTable dialog;
@@ -583,7 +583,7 @@ namespace ACR_Candlekeep
             }
             catch (Exception ex)
             {
-                debug += ex.Message;
+                debug += ex;
             }
 
             ACR_Candlekeep.ArchivesInstance.SetResourcesLoaded();
