@@ -63,5 +63,6 @@ namespace ACR_ChooserCreator
         public NavigatorCategory CurrentTrapCategory;
         public int SortingColumn;
         public uint LastSeenArea;
+        public uint FocusedArea;
     }
 }

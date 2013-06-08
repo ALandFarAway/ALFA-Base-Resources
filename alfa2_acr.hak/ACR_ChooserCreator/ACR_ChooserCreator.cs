@@ -68,172 +68,13 @@ namespace ACR_ChooserCreator
             switch (command)
             {
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_CREATURE_TAB:
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureActive", FALSE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "PlaceableActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "TrapActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "VfxActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
-                    currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_CREATURE_TAB;
-                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, "Fac");
-                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, "CR");
-                    if (currentUser.CurrentCreatureCategory == Navigators.CreatureNavigator.bottomCategory)
-                    {
-                        Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.CreatureNavigator);
-                    }
-                    else
-                    {
-                        if (currentUser.CurrentCreatureCategory == null)
-                        {
-                            currentUser.CurrentCreatureCategory = Navigators.CreatureNavigator.bottomCategory;
-                        }
-                        Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentCreatureCategory);
-                    }
-                    break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB:
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemActive", FALSE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "PlaceableActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "TrapActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "VfxActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
-                    currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB;
-                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, "Value");
-                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, "Lvl");
-                    if (currentUser.CurrentItemCategory == Navigators.ItemNavigator.bottomCategory)
-                    {
-                        Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.ItemNavigator);
-                    }
-                    else
-                    {
-                        if (currentUser.CurrentItemCategory == null)
-                        {
-                            currentUser.CurrentItemCategory = Navigators.ItemNavigator.bottomCategory;
-                        }
-                        Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentItemCategory);
-                    }
-                    break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_PLACEABLE_TAB:
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "PlaceableActive", FALSE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "TrapActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "VfxActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
-                    currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_PLACEABLE_TAB;
-                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, "Lck/Trp");
-                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, "Inv?");
-                    if (currentUser.CurrentPlaceableCategory == Navigators.PlaceableNavigator.bottomCategory)
-                    {
-                        Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.PlaceableNavigator);
-                    }
-                    else
-                    {
-                        if (currentUser.CurrentPlaceableCategory == null)
-                        {
-                            currentUser.CurrentPlaceableCategory = Navigators.PlaceableNavigator.bottomCategory;
-                        }
-                        Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentPlaceableCategory);
-                    }
-                    break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_TRAP_TAB:
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "PlaceableActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "TrapActive", FALSE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "VfxActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
-                    currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_TRAP_TAB;
-                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, "DC");
-                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, "CR");
-                    if (currentUser.CurrentTrapCategory == Navigators.TrapNavigator.bottomCategory)
-                    {
-                        Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.TrapNavigator);
-                    }
-                    else
-                    {
-                        if (currentUser.CurrentTrapCategory == null)
-                        {
-                            currentUser.CurrentTrapCategory = Navigators.TrapNavigator.bottomCategory;
-                        }
-                        Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentTrapCategory);
-                    }
-                    break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB:
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "PlaceableActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "TrapActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "VfxActive", FALSE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
-                    currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB;
-                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, " ");
-                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, " ");
-                    if (currentUser.CurrentVisualEffectCategory == Navigators.VisualEffectNavigator.bottomCategory)
-                    {
-                        Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.VisualEffectNavigator);
-                    }
-                    else
-                    {
-                        if (currentUser.CurrentVisualEffectCategory == null)
-                        {
-                            currentUser.CurrentVisualEffectCategory = Navigators.VisualEffectNavigator.bottomCategory;
-                        }
-                        Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentVisualEffectCategory);
-                    }
-                    break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB:
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "PlaceableActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "TrapActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "VfxActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", FALSE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
-                    currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB;
-                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, " ");
-                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, " ");
-                    if (currentUser.CurrentWaypointCategory == Navigators.WaypointNavigator.bottomCategory)
-                    {
-                        Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.WaypointNavigator);
-                    }
-                    else
-                    {
-                        if (currentUser.CurrentWaypointCategory == null)
-                        {
-                            currentUser.CurrentWaypointCategory = Navigators.WaypointNavigator.bottomCategory;
-                        }
-                        Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentWaypointCategory);
-                    }
-                    break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB:
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "PlaceableActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "TrapActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "VfxActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
-                    SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", FALSE);
-                    currentUser.openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB;
-                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, "Brt/Rd");
-                    SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, "Shd");
-                    if (currentUser.CurrentWaypointCategory == Navigators.LightNavigator.bottomCategory)
-                    {
-                        Waiter.WaitForNavigator((CLRScriptBase)this, Navigators.LightNavigator);
-                    }
-                    else
-                    {
-                        if (currentUser.CurrentLightCategory == null)
-                        {
-                            currentUser.CurrentLightCategory = Navigators.LightNavigator.bottomCategory;
-                        }
-                        Waiter.DrawNavigatorCategory((CLRScriptBase)this, currentUser.CurrentLightCategory);
-                    }
+                    CreatorTabs.FocusTabs(this, currentUser, command);
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_INCOMING_CLICK:
                     // TODO: make note of the selected row and provide
@@ -398,194 +239,31 @@ namespace ACR_ChooserCreator
                     // search for the user's request.
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_INITIALIZE_CHOOSER:
-                    float fDelay = 0.0f;
                     if (currentUser.LastSeenArea != GetArea(currentUser.Id))
                     {
-                        ClearListBox(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS");
-                        if (ALFA.Shared.Modules.InfoStore.ActiveAreas.Keys.Contains(GetArea(currentUser.Id)))
-                        {
-                            ALFA.Shared.ActiveArea currentArea = ALFA.Shared.Modules.InfoStore.ActiveAreas[GetArea(currentUser.Id)];
-                            AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", currentArea.Id.ToString(), "LISTBOX_ITEM_TEXT=  <Color=DarkOrange>" + currentArea.Name + "</color>", "", "", "");
-                            List<ALFA.Shared.ActiveArea> adjAreas = new List<ALFA.Shared.ActiveArea>();
-                            foreach (ALFA.Shared.ActiveArea adjacentArea in currentArea.ExitTransitions.Values)
-                            {
-                                if (!adjAreas.Contains(adjacentArea))
-                                {
-                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", adjacentArea.Id.ToString(), "LISTBOX_ITEM_TEXT=  <Color=DarkGoldenRod>" + adjacentArea.Name + "</color>", "", "", "");
-                                    adjAreas.Add(adjacentArea);
-                                }
-                            }
-                        }
-                        foreach (ALFA.Shared.ActiveArea area in ALFA.Shared.Modules.InfoStore.ActiveAreas.Values)
-                        {
-                            AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", area.Id.ToString(), "LISTBOX_ITEM_TEXT=  " + area.Name, "", "", "");
-                        }
-                        currentUser.LastSeenArea = GetArea(currentUser.Id);
-                        fDelay += 0.1f;
+                        ChooserLists.DrawAreas(this, currentUser);
                     }
-                    List<uint> ChooserAoEs = new List<uint>();
-                    List<uint> ChooserCreatures = new List<uint>();
-                    List<uint> ChooserDoors = new List<uint>();
-                    List<uint> ChooserItems = new List<uint>();
-                    List<uint> ChooserLights = new List<uint>();
-                    List<uint> ChooserPlaceables = new List<uint>();
-                    List<uint> ChooserPlacedEffects = new List<uint>();
-                    List<uint> ChooserStores = new List<uint>();
-                    List<uint> ChooserTriggers = new List<uint>();
-                    List<uint> ChooserWaypoints = new List<uint>();
-                    DelayCommand(fDelay, delegate
-                    {
-                        foreach (uint thing in GetObjectsInArea(GetArea(currentUser.Id)))
-                        {
-                            int objectType = GetObjectType(thing);
-                            switch (objectType)
-                            {
-                                case OBJECT_TYPE_AREA_OF_EFFECT:
-                                    ChooserAoEs.Add(thing);
-                                    break;
-                                case OBJECT_TYPE_CREATURE:
-                                    ChooserCreatures.Add(thing);
-                                    break;
-                                case OBJECT_TYPE_DOOR:
-                                    ChooserDoors.Add(thing);
-                                    break;
-                                case OBJECT_TYPE_ITEM:
-                                    ChooserItems.Add(thing);
-                                    break;
-                                case OBJECT_TYPE_LIGHT:
-                                    ChooserLights.Add(thing);
-                                    break;
-                                case OBJECT_TYPE_PLACEABLE:
-                                    ChooserPlaceables.Add(thing);
-                                    break;
-                                case OBJECT_TYPE_PLACED_EFFECT:
-                                    ChooserPlacedEffects.Add(thing);
-                                    break;
-                                case OBJECT_TYPE_STORE:
-                                    ChooserStores.Add(thing);
-                                    break;
-                                case OBJECT_TYPE_TRIGGER:
-                                    ChooserTriggers.Add(thing);
-                                    break;
-                                case OBJECT_TYPE_WAYPOINT:
-                                    ChooserWaypoints.Add(thing);
-                                    break;
-                            }
-                        }
-                        ClearListBox(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS");
-                        if (ChooserAoEs.Count > 0)
-                        {
-                            fDelay += 0.1f;
-                            DelayCommand(fDelay, delegate
-                            {
-                                foreach (uint thing in ChooserAoEs)
-                                {
-                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetTag(thing), "LISTBOX_ITEM_ICON=trap.tga", "", "");
-                                }
-                            });
-                        }
-                        if (ChooserCreatures.Count > 0)
-                        {
-                            fDelay += 0.1f;
-                            DelayCommand(fDelay, delegate
-                            {
-                                foreach (uint thing in ChooserCreatures)
-                                {
-                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing), "LISTBOX_ITEM_ICON=creature.tga", "", "");
-                                }
-                            });
-                        }
-                        if (ChooserDoors.Count > 0)
-                        {
-                            fDelay += 0.1f;
-                            DelayCommand(fDelay, delegate
-                            {
-                                foreach (uint thing in ChooserDoors)
-                                {
-                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing), "LISTBOX_ITEM_ICON=door.tga", "", "");
-                                }
-                            });
-                        }
-                        if (ChooserItems.Count > 0)
-                        {
-                            fDelay += 0.1f;
-                            DelayCommand(fDelay, delegate
-                            {
-                                foreach (uint thing in ChooserItems)
-                                {
-                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing), "LISTBOX_ITEM_ICON=item.tga", "", "");
-                                }
-                            });
-                        }
-                        if (ChooserLights.Count > 0)
-                        {
-                            fDelay += 0.1f;
-                            DelayCommand(fDelay, delegate
-                            {
-                                foreach (uint thing in ChooserLights)
-                                {
-                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing) + ";LISTBOX_ITEM_TEXT2= Light", "LISTBOX_ITEM_ICON=light.tga", "", "");
-                                }
-                            });
-                        }
-                        if (ChooserPlaceables.Count > 0)
-                        {
-                            fDelay += 0.1f;
-                            DelayCommand(fDelay, delegate
-                            {
-                                foreach (uint thing in ChooserPlaceables)
-                                {
-                                    
-                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing) + ";LISTBOX_ITEM_TEXT2= Placeable", "LISTBOX_ITEM_ICON=placeable.tga", "", "");
-                                }
-                            });
-                        }
-                        if (ChooserPlacedEffects.Count > 0)
-                        {
-                            fDelay += 0.1f;
-                            DelayCommand(fDelay, delegate
-                            {
-                                foreach (uint thing in ChooserPlacedEffects)
-                                {
-                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing) + ";LISTBOX_ITEM_TEXT2= Placed Effect", "LISTBOX_ITEM_ICON=vfx.tga", "", "");
-                                }
-                            });
-                        }
-                        if (ChooserStores.Count > 0)
-                        {
-                            fDelay += 0.1f;
-                            DelayCommand(fDelay, delegate
-                            {
-                                foreach (uint thing in ChooserStores)
-                                {
-                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing) + ";LISTBOX_ITEM_TEXT2= Store", "LISTBOX_ITEM_ICON=store.tga", "", "");
-                                }
-                            });
-                        }
-                        if (ChooserTriggers.Count > 0)
-                        {
-                            fDelay += 0.1f;
-                            DelayCommand(fDelay, delegate
-                            {
-                                foreach (uint thing in ChooserTriggers)
-                                {
-                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing) + ";LISTBOX_ITEM_TEXT2= Trigger", "LISTBOX_ITEM_ICON=trigger.tga", "", "");
-                                }
-                            });
-                        }
-                        if (ChooserWaypoints.Count > 0)
-                        {
-                            fDelay += 0.1f;
-                            DelayCommand(fDelay, delegate
-                            {
-                                foreach (uint thing in ChooserWaypoints)
-                                {
-                                    AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + GetName(thing) + ";LISTBOX_ITEM_TEXT2=  Waypoint", "LISTBOX_ITEM_ICON=waypoint.tga", "", "");
-                                }
-                            });
-                        }
-                    });
+                    currentUser.FocusedArea = GetArea(currentUser.Id);
+                    ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                     break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_CHOOSER:
+                    ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                    break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIMBO:
+                    // TODO: list all creatures in limbo.
+                    break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_SEARCH_CHOOSER:
+                    // TODO: Run a search of areas for the provided string.
+                    break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_LIST_AREA:
+                    uint targetArea = 0;
+                    if (uint.TryParse(commandParam, out targetArea))
+                    {
+                        currentUser.FocusedArea = targetArea;
+                        ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                    }
+                    break;
+
             }
             return 0;
 
