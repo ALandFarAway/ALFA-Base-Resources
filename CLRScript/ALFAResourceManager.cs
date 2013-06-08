@@ -213,7 +213,7 @@ namespace ALFA
 
             if (File.Exists(ModPath))
             {
-                Repositories.Add(new ERFResourceRepository(ModPath));
+                Repositories.Add(new ALFAERFResourceRepository(ModPath));
             }
             else
             {
@@ -298,7 +298,7 @@ namespace ALFA
                     if (!File.Exists(HakFileName))
                         continue;
 
-                    Repositories.Add(new ERFResourceRepository(HakFileName));
+                    Repositories.Add(new ALFAERFResourceRepository(HakFileName));
                     Added = true;
                     break;
                 }
@@ -421,5 +421,130 @@ namespace ALFA
         {
             throw new NotImplementedException();
         }
+    }
+
+    /// <summary>
+    /// This class reimplements OEIShared.IO.ERFResourceRepository, however
+    /// in a fashion that is compatible with the content patcher (files are
+    /// not kept locked without share delete).  It only supports read only
+    /// access to the ERF.
+    /// </summary>
+    public class ALFAERFResourceRepository : OEIShared.IO.ResourceRepository, IDisposable
+    {
+
+        /// <summary>
+        /// Construct a new ERF repository.
+        /// </summary>
+        /// <param name="FileName">Supplies the ERF file name.</param>
+        public ALFAERFResourceRepository(string FileName)
+        {
+            FileStream Stream;
+
+            typeof(OEIShared.IO.IResourceRepository).GetField("m_sName").SetValue((OEIShared.IO.ResourceRepository)this, FileName);
+
+            ErfFile = new OEIShared.IO.ERF.ERFFile();
+            ErfFile.Filename = FileName;
+
+            Stream = new FileStream(FileName, FileMode.Open, FileAccess.Read, FileShare.Read | FileShare.Delete);
+            ErfFile.Open(Stream, true);
+            PopulateRepository();
+        }
+
+        /// <summary>
+        /// Populate contents of the repository from the ERF.
+        /// </summary>
+        public override void PopulateRepository()
+        {
+            OEIShared.IO.ERFResourceEntry ResEntry;
+            var ResourceCollection = base.Resources;
+
+            //
+            // Clear all entries in the resource collection, walk each resource in the ERF file,
+            // and instantiate and add a corresponding ERFResourceEntry for each ERF resource.
+            //
+
+            ResourceCollection.Clear();
+
+            foreach (object xResource in ErfFile.Resources)
+            {
+                OEIShared.IO.ERF.ERFResource Resource = (OEIShared.IO.ERF.ERFResource)xResource;
+
+                ResEntry = new OEIShared.IO.ERFResourceEntry(Resource.ResRef, Resource.ResourceType, this);
+                ResourceCollection.Add(ResEntry);
+            }
+        }
+
+        /// <summary>
+        /// Create a copy of a resource.
+        /// </summary>
+        /// <param name="Entry">Supplies the resource to copy.</param>
+        /// <param name="NewName">Supplies the new resource name.</param>
+        /// <returns>The new resource entry.</returns>
+        public override OEIShared.IO.IResourceEntry CopyResource(OEIShared.IO.IResourceEntry Entry, OEIShared.Utils.OEIResRef NewName)
+        {
+            throw new NotSupportedException("CopyResource not implemented");
+        }
+
+        /// <summary>
+        /// Create a copy of a resource.
+        /// </summary>
+        /// <param name="Entry">Supplies the resource to copy.</param>
+        /// <returns>The new resource entry.</returns>
+        public override OEIShared.IO.IResourceEntry CopyResource(OEIShared.IO.IResourceEntry Entry)
+        {
+            return CopyResource(Entry, Entry.ResRef);
+        }
+
+        /// <summary>
+        /// Create a new resource.
+        /// </summary>
+        /// <param name="ResRef">Supplies the resource resref.</param>
+        /// <param name="ResType">Supplies the resource type.</param>
+        /// <returns>The new resource entry.</returns>
+        public override IResourceEntry CreateResource(OEIShared.Utils.OEIResRef ResRef, ushort ResType)
+        {
+            throw new NotSupportedException("CreateResource not implemented");
+        }
+
+        /// <summary>
+        /// Disposer.
+        /// </summary>
+        public override void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposer.
+        /// </summary>
+        /// <param name="Disposing">Supplies true if the object is
+        /// disposing.</param>
+        public override void Dispose(bool Disposing)
+        {
+            //
+            // If disposing, invoke disposer for the ErfFile.
+            //
+
+            if (Disposing)
+            {
+                if (ErfFile != null)
+                {
+                    ErfFile.Dispose();
+                    ErfFile = null;
+                }
+            }
+
+            //
+            // Invoke base class dispose.
+            //
+
+            base.Dispose(Disposing);
+        }
+
+        /// <summary>
+        /// The ERF file encapsulated by the repository.
+        /// </summary>
+        private OEIShared.IO.ERF.ERFFile ErfFile;
     }
 }
