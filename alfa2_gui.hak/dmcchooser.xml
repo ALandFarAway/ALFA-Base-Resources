@@ -23,10 +23,8 @@
     <UIListBox name="LISTBOX_ACR_CHOOSER_AREAS" x="10" y="120" width="375" height="140" xPadding="0" yPadding="5" showpartialchild="true"
 		    unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded=false >
             <UIPane name="ACR_CHOOSER_AREA" width=300 height=20 tupple=true prototype=true draggable=false
-             OnLeftDoubleClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
-             OnLeftDoubleClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",21,local:6)
              OnLeftClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
-             OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",20,local:6)> 
+             OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",112,local:6)> 
 
                 <UIButton name="LISTBOX_ITEM_ICON" x=0 y=0 height=20 width=20 style="STYLE_LIST_BUTTON" prototype=true draggable=false>
                     <UIText align=right valign=bottom fontfamily="Default" style="1"/> 
