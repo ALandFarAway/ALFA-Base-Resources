@@ -11,6 +11,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.Serialization;
 using System.IO;
 using CLRScriptFramework;
 using NWScript;
@@ -424,6 +425,69 @@ namespace ALFA
     }
 
     /// <summary>
+    /// This class supports ERF resource file access when using the
+    /// ALFAERFResourceRepository.
+    /// </summary>
+    [Serializable]
+    public class ALFAERFResourceEntry : OEIShared.IO.ERFResourceEntry
+    {
+        public ALFAERFResourceEntry(SerializationInfo cInfo, StreamingContext cContext) : base(cInfo, cContext)
+        {
+        }
+
+        public ALFAERFResourceEntry(OEIResRef cResRef, ushort usResourceType, IResourceRepository cRepository) : base(cResRef, usResourceType, cRepository)
+        {
+        }
+
+        /// <summary>
+        /// Get a resource stream for the resource.
+        /// </summary>
+        /// <param name="Write">Supplies true if write access is requested,
+        /// else false if only read only access is requested.</param>
+        /// <returns>The I/O stream object.</returns>
+        public override Stream GetStream(bool Write)
+        {
+            if (Write == true)
+                throw new OEIShared.IO.OEIIOException(OEIShared.IO.OEIIOExceptionCause.BadParameter);
+
+            ALFAERFResourceRepository Container = Repository as ALFAERFResourceRepository;
+
+            if (Container == null)
+                throw new OEIShared.IO.OEIIOException(OEIShared.IO.OEIIOExceptionCause.BadRepositoryState);
+
+            GetRef();
+
+            return new MemoryStream(Container.ErfFile[EncapsulatedFileName].Data);
+        }
+
+        /// <summary>
+        /// Release reference to the repository.
+        /// </summary>
+        public override void Release()
+        {
+            ALFAERFResourceRepository Container = Repository as ALFAERFResourceRepository;
+
+            ReleaseRef();
+
+            if (Container == null)
+                throw new OEIShared.IO.OEIIOException(OEIShared.IO.OEIIOExceptionCause.BadRepositoryState);
+
+            Container.ErfFile[EncapsulatedFileName].FlushData();
+        }
+
+        /// <summary>
+        /// Get the internal ERF file name of the resource entry.
+        /// </summary>
+        private string EncapsulatedFileName
+        {
+            get
+            {
+                return OEIShared.Utils.CommonUtils.ConvertResRefAndTypeToFilename(ResRef, ResourceType);
+            }
+        }
+    }
+
+    /// <summary>
     /// This class reimplements OEIShared.IO.ERFResourceRepository, however
     /// in a fashion that is compatible with the content patcher (files are
     /// not kept locked without share delete).  It only supports read only
@@ -439,8 +503,12 @@ namespace ALFA
         public ALFAERFResourceRepository(string FileName)
         {
             FileStream Stream;
+            Type BaseType;
+            FieldInfo NameField;
 
-            typeof(OEIShared.IO.IResourceRepository).GetField("m_sName").SetValue((OEIShared.IO.ResourceRepository)this, FileName);
+            BaseType = typeof(OEIShared.IO.ResourceRepository);
+            NameField = BaseType.GetField("m_sName", BindingFlags.NonPublic | BindingFlags.Instance);
+            NameField.SetValue((OEIShared.IO.ResourceRepository)this, FileName);
 
             ErfFile = new OEIShared.IO.ERF.ERFFile();
             ErfFile.Filename = FileName;
@@ -469,7 +537,7 @@ namespace ALFA
             {
                 OEIShared.IO.ERF.ERFResource Resource = (OEIShared.IO.ERF.ERFResource)xResource;
 
-                ResEntry = new OEIShared.IO.ERFResourceEntry(Resource.ResRef, Resource.ResourceType, this);
+                ResEntry = new ALFAERFResourceEntry(Resource.ResRef, Resource.ResourceType, this);
                 ResourceCollection.Add(ResEntry);
             }
         }
@@ -545,6 +613,6 @@ namespace ALFA
         /// <summary>
         /// The ERF file encapsulated by the repository.
         /// </summary>
-        private OEIShared.IO.ERF.ERFFile ErfFile;
+        public OEIShared.IO.ERF.ERFFile ErfFile;
     }
 }
