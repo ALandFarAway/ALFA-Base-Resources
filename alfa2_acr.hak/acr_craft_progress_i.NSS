@@ -249,7 +249,7 @@ object MakeCraftingProjectFromItem(object oItem, int gpInvested = 0) {
 	}
 	
 	status.xpTotal = FloatToInt(IntToFloat(status.gpTotal) * ACR_CRAFTING_XP_PER_GP);
-	if(FloatToInt(IntToFloat(status.xpTotal) / ACR_CRAFTING_XP_PER_GP) < status.gpTotal)
+	if(FloatToInt(IntToFloat(status.xpTotal) / ACR_CRAFTING_XP_PER_GP) * 2 < GetGoldPieceValue(oItem))
 	{
 		status.xpTotal++;
 	}
