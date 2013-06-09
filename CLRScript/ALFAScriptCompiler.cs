@@ -167,19 +167,24 @@ namespace ALFA
         /// returned.</returns>
         private static string CreateCompilerCommandLine(string Filespec, string Options)
         {
-            string InstallDir = ALFA.SystemInfo.GetGameInstallationDirectory();
+            string InstallDir = Path.GetDirectoryName(ALFA.SystemInfo.GetGameInstallationDirectory());
+            string HomeDir = Path.GetDirectoryName(ALFA.SystemInfo.GetHomeDirectory());
             string ModuleDir = ALFA.SystemInfo.GetModuleDirectory();
 
             if (ModuleDir == null)
                 throw new ApplicationException("Unable to determine module directory; verify that NWNX4 was configured to start nwn2server with a -module option.");
 
+            ModuleDir = ModuleDir + Path.DirectorySeparatorChar;
+
             if (Options == null)
                 Options = "";
 
-            return String.Format("-c -n \"{0}\" -r \"{1}\" {2} {3}",
+            return String.Format("-c -n \"{0}\" -h \"{1}\" -m \"{2}\" {3} \"{4}{5}\"",
                 InstallDir,
-                ModuleDir,
+                HomeDir,
+                ALFA.SystemInfo.GetModuleResourceName(),
                 Options,
+                ModuleDir,
                 Filespec);
         }
 
