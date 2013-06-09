@@ -241,8 +241,18 @@ object MakeCraftingProjectFromItem(object oItem, int gpInvested = 0) {
 	status.stackSize = GetItemStackSize(oItem);
 	status.tag = GetTag(oItem);
 	SetPlotFlag(status.item, FALSE);
+	
 	status.gpTotal = GetGoldPieceValue(oItem) / 2;
-	status.xpTotal = FloatToInt(IntToFloat(status.gpTotal) * ACR_CRAFTING_XP_PER_GP);;
+	if(status.gpTotal * 2 < GetGoldPieceValue(oItem))
+	{
+		status.gpTotal++;
+	}
+	
+	status.xpTotal = FloatToInt(IntToFloat(status.gpTotal) * ACR_CRAFTING_XP_PER_GP);
+	if(FloatToInt(IntToFloat(status.xpTotal) / ACR_CRAFTING_XP_PER_GP) < status.gpTotal)
+	{
+		status.xpTotal++;
+	}
 	SetPlotFlag(status.item, TRUE);
 	status.casterLevel = _GetMinimumCasterLevel(oItem, status.gpTotal);
 	
