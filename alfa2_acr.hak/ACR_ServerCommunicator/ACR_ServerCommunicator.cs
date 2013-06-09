@@ -386,13 +386,18 @@ namespace ACR_ServerCommunicator
             uint Module = GetModule();
             string ContentPatchPath = GetLocalString(Module, "ACR_MOD_CONTENT_PATCH_PATH");
 
+            WriteTimestampedLogEntry("ACR_ServerCommunicator.PatchContentFiles: Checking for content patch updates (hotfixes)...");
+
             //
             // If the content patch path wasn't configured, then the feature is
             // not enabled.
             //
 
             if (String.IsNullOrEmpty(ContentPatchPath))
+            {
+                WriteTimestampedLogEntry("ACR_ServerCommunicator.PatchContentFiles: ContentPatchPath variable is not defined in the config table in the database, skipping content patch evaluation.");
                 return;
+            }
 
             DeleteLocalString(Module, "ACR_MOD_CONTENT_PATCH_PATH");
 
@@ -415,6 +420,10 @@ namespace ACR_ServerCommunicator
                         ServerId,
                         GameWorldManager.ACR_SERVER_IPC_EVENT_SHUTDOWN_SERVER,
                         "A server restart is required in order to apply a content hotfix.  The server will restart shortly.");
+                }
+                else
+                {
+                    WriteTimestampedLogEntry("ACR_ServerCommunicator.PatchContentFiles: No content patches were applicable, continuing with server startup.");
                 }
             }
             catch (Exception e)
