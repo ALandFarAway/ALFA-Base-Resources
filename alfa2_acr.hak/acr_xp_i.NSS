@@ -80,7 +80,7 @@ const string _RPXP_HB = "ACR_XP_RPXP_HB";
 const string _RPXP_PERCENT = "ACR_RPXP_PERCENT";
 // int to define how many RPXP checks per game-hour
 //  more will be more stringent on enforcement, but higher performance cost.
-const int _RPXP_CHECKS_PER_HOUR = 1;
+const int _RPXP_CHECKS_PER_HOUR = 2;
 
 // The fraction of XP gained from nonlethal challenges.
 const float _ACR_XP_NONLETHAL_RATIO = 0.1;
