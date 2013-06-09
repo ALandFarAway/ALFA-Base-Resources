@@ -236,10 +236,23 @@ namespace ACR_ServerCommunicator
                                     "ModuleContentPatcher.ProcessContentPatches: Content patch file {0} was copied, but checksum did not match {1}!  This may indicate a configuration error in the database, or file corruption in transit.",
                                     PatchFile.FileName,
                                     PatchFile.Checksum));
+                                Script.SendInfrastructureDiagnosticIrcMessage(String.Format(
+                                    "Server '{0}' had checksum mismatch for content patch file {1} after hotfix file deployment, rolling back file.",
+                                    Script.GetName(Script.GetModule()),
+                                    PatchFile.FileName));
 
                                 if (PatchFile.Location == "hak")
                                 {
                                     string OldFileName = LocalPath + ".old";
+
+                                    try
+                                    {
+                                        if (File.Exists(LocalPath))
+                                            File.Delete(LocalPath);
+                                    }
+                                    catch
+                                    {
+                                    }
 
                                     File.Move(OldFileName, LocalPath);
                                 }
@@ -267,6 +280,11 @@ namespace ACR_ServerCommunicator
                                 "ModuleContentPatcher.ProcessContentPatches: Exception {0} updating content patch file {1}.",
                                 e,
                                 PatchFile.FileName));
+
+                            Script.SendInfrastructureDiagnosticIrcMessage(String.Format(
+                                "Server '{0}' encountered exception deploying content patch file {1}, rolling back file.",
+                                Script.GetName(Script.GetModule()),
+                                PatchFile.FileName));
                         }
                     }
                 }
@@ -281,6 +299,13 @@ namespace ACR_ServerCommunicator
                 }
 
                 Database.ACR_IncrementStatistic("CONTENT_PATCH_REBOOT");
+
+                Script.SendInfrastructureDiagnosticIrcMessage(String.Format(
+                    "Server '{0}' restarting after content patch deployment (old HAK ACR version {1} build date {2}, old module ACR version {3}).",
+                    Script.GetName(Script.GetModule()),
+                    Database.ACR_GetHAKVersion(),
+                    Database.ACR_GetHAKBuildDate(),
+                    Database.ACR_GetVersion()));
             }
 
             return ContentChanged;
@@ -318,7 +343,8 @@ namespace ACR_ServerCommunicator
 
             Result = ALFA.ScriptCompiler.CompileScript("*.nss", CompilerOptions, delegate(string Line)
             {
-                Script.WriteTimestampedLogEntry(Line);
+                if (!String.IsNullOrWhiteSpace(Line))
+                    Script.WriteTimestampedLogEntry(Line);
                 return false;
             });
 
@@ -326,11 +352,22 @@ namespace ACR_ServerCommunicator
             {
                 Script.WriteTimestampedLogEntry("ModuleContentPatcher.CompileModuleScripts: Module successfully recompiled.");
                 Database.ACR_IncrementStatistic("CONTENT_PATCH_RECOMPILE");
+
+                Script.SendInfrastructureDiagnosticIrcMessage(String.Format(
+                    "Server '{0}' successfully recompiled module with {1} warning(s) for content patch deployment.",
+                    Script.GetName(Script.GetModule()),
+                    Result.Warnings.Count));
             }
             else
             {
                 Script.WriteTimestampedLogEntry(String.Format(
                     "ModuleContentPatcher.CompileModuleScripts: {0} error(s) compiling module!", Result.Errors.Count));
+
+                Script.SendInfrastructureDiagnosticIrcMessage(String.Format(
+                    "Server '{0}' had {1} error(s), {2} warning(s) recompiling module for content patch deployment.",
+                    Script.GetName(Script.GetModule()),
+                    Result.Errors.Count,
+                    Result.Warnings.Count));
 
                 foreach (string Message in Result.Errors)
                 {

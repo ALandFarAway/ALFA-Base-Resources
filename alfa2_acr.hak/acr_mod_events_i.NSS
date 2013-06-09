@@ -1790,6 +1790,7 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts()
     ACR_IncrementStatistic("DUMMY_STATISTIC");
     ACR_GetHAKVersion();
     ACR_RunScriptOnServer(0, "", "");
+    ACR_LogEvent(OBJECT_INVALID, "", "", OBJECT_INVALID);
 }
 
 void _LoadAssemblies()

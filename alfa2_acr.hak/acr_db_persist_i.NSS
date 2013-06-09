@@ -93,7 +93,13 @@ const string ACR_MODULERESOURCEFILES_DB = "ModuleResourceFiles";
 //  be tallied.
 const string ACR_MODULERESOURCEFILES_MOD = "ACR_MODULERESOURCEFILES";
 
+//! Module variable indicating the cached notify service character id from the
+//  database config table.
 const string ACR_NOTIFY_SERVICE_CHARACTER_ID_MOD = "ACR_NOTIFY_SERVICE_CID";
+
+//! Module variable indicating the cached erorr notify IRC recipient from the
+//  database config table.
+const string ACR_ERROR_NOTIFY_IRC_RECIPIENT_MOD = "ACR_ERROR_NOTIFY_IRC_RECIPIENT";
 
 //! Database configuration setting indicating the location to search for
 //  content patches at.
@@ -107,6 +113,10 @@ const string ACR_COMPILER_OPTIONS = "CompilerOptions";
 
 //! Database configuration setting indicating the notify service character ID.
 const string ACR_NOTIFY_SERVICE_CHARACTER_ID = "NotifyServiceCid";
+
+//! Database configuration setting indicating the IRC recipient that error
+//  diagnostics should be sent to.
+const string ACR_ERROR_NOTIFY_IRC_RECIPIENT = "ErrorNotifyIrcRecipient";
 
 //! Values for ACR_SRVADMIN local on PC object.
 const int ACR_SRVADMIN_INDETERMINITE = 0;  // Need to query database
@@ -630,6 +640,11 @@ void ACR_LoadDatabaseConfiguration()
 		{
 			WriteTimestampedLogEntry("acr_db_persist_i: NotifyServiceCid: " + VarValue);
 			SetLocalInt(Module, ACR_NOTIFY_SERVICE_CHARACTER_ID_MOD, StringToInt(VarValue));
+		}
+		else if (VarName == ACR_ERROR_NOTIFY_IRC_RECIPIENT)
+		{
+			WriteTimestampedLogEntry("acr_db_persist_i: ErrorNotifyIrcRecipient: " + VarValue);
+			SetLocalInt(Module, ACR_ERROR_NOTIFY_IRC_RECIPIENT_MOD, StringToInt(VarValue));
 		}
 	}
 }

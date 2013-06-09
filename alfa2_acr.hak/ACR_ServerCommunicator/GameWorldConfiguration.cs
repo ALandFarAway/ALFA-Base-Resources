@@ -25,6 +25,7 @@ namespace ACR_ServerCommunicator
             GetHostnameUrl = "";
             DefaultIrcGatewayId = 0;
             DefaultIrcRecipient = "";
+            ErrorNotifyIrcRecipient = "";
             DisableSaveInQuarantine = false;
         }
 
@@ -56,6 +57,8 @@ namespace ACR_ServerCommunicator
                     DefaultIrcGatewayId = Convert.ToInt32(VarValue);
                 else if (VarName == "DefaultIrcRecipient")
                     DefaultIrcRecipient = VarValue;
+                else if (VarName == "ErrorNotifyIrcRecipient")
+                    ErrorNotifyIrcRecipient = VarValue;
                 else if (VarName == "DisableSaveInQuarantine")
                     DisableSaveInQuarantine = Convert.ToInt32(VarValue) != 0;
             }
@@ -101,6 +104,11 @@ namespace ACR_ServerCommunicator
         /// The default IRC recipient to use for server-to-IRC messages.
         /// </summary>
         public string DefaultIrcRecipient { get; set; }
+
+        /// <summary>
+        /// The default IRC recipient to send error diagnostic messages to.
+        /// </summary>
+        public string ErrorNotifyIrcRecipient { get; set; }
 
         /// <summary>
         /// Whether character saves are disabled in quarantine.

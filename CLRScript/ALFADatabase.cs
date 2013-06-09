@@ -647,6 +647,23 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Log an event to the database log.
+        /// </summary>
+        /// <param name="Character">Supplies an optional character that is
+        /// associated with the log event, else OBJECT_INVALID if none.</param>
+        /// <param name="EventName">Supplies the log event name.</param>
+        /// <param name="EventDescription">Supplies the log event description.
+        /// </param>
+        /// <param name="DM">Supplies an optional DM character that is
+        /// associated with the log event, else OBJECT_INVALID if none.</param>
+        public void ACR_LogEvent(uint Character, string EventName, string EventDescription, uint DM)
+        {
+            DemandInitialize();
+
+            ACR_LogEvent_Method.Invoke(DBLibraryScript, new object[] { Character, EventName, EventDescription, DM });
+        }
+
+        /// <summary>
         /// This routine performs a synchronous SQL query.  If there were
         /// pending asynchronous queries in the queue, the pending queries are
         /// drained first.
@@ -880,6 +897,7 @@ namespace ALFA
             ACR_GetHAKBuildDate_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetHAKBuildDate");
             ACR_IncrementStatistic_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_IncrementStatistic");
             ACR_RunScriptOnServer_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_RunScriptOnServer");
+            ACR_LogEvent_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_LogEvent");
 
             DBLibraryScript = ScriptObject;
 
@@ -938,5 +956,6 @@ namespace ALFA
         private static MethodInfo ACR_GetHAKBuildDate_Method;
         private static MethodInfo ACR_IncrementStatistic_Method;
         private static MethodInfo ACR_RunScriptOnServer_Method;
+        private static MethodInfo ACR_LogEvent_Method;
     }
 }

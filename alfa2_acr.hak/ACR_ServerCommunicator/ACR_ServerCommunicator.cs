@@ -1006,6 +1006,26 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// Send an infrastructure diagnostic notification message to the
+        /// default IRC gateway and default error notify IRC recipient.
+        /// </summary>
+        /// <param name="Message">Supplies the message to send.</param>
+        public void SendInfrastructureDiagnosticIrcMessage(string Message)
+        {
+            string Recipient = WorldManager.Configuration.ErrorNotifyIrcRecipient;
+
+            if (String.IsNullOrEmpty(Recipient))
+            {
+                return;
+            }
+
+            SendIrcMessage(WorldManager.Configuration.DefaultIrcGatewayId,
+                Recipient,
+                OBJECT_INVALID,
+                Message);
+        }
+
+        /// <summary>
         /// Send an IRC message via an IRC gateway.
         /// </summary>
         /// <param name="GatewayId">Supplies the destination IRC gateway
