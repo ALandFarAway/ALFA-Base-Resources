@@ -226,7 +226,10 @@ void ACR_AwardStaticQuestXP(object oPC, string sPlotID, int nQuestXP, float fCR 
     if(fCR < 0.5) fCR = 0.5;
     float fDiff = ACR_GetECL(oPC) - fCR;
     if(fDiff < 0.0f) fDiff = 0.0f;
-    nQuestXP = FloatToInt(IntToFloat(nQuestXP) * pow(0.9, fDiff));
+    float fQuestXP = IntToFloat(nQuestXP) * pow(0.9, fDiff);
+	nQuestXP = FloatToInt(fQuestXP);
+	fQuestXP -= IntToFloat(nQuestXP);
+	if(fQuestXP >= 0.5f) nQuestXP++;
     ACR_GiveXPToPC(oPC, nQuestXP);
     ACR_LogEvent(oPC, ACR_LOG_STATICXP, "Awarded " + IntToString(nQuestXP) + " for completing quest + " + sPlotID);
 }
