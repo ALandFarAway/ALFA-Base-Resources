@@ -21,6 +21,7 @@ namespace AdvancedLogParser
             InfoGather.DatabasePassword = ConfigurationSettings.AppSettings["DatabasePassword"];
             InfoGather.DatabaseSchema = ConfigurationSettings.AppSettings["DatabaseSchema"];
             InfoGather.DatabaseServer = ConfigurationSettings.AppSettings["DatabaseServer"];
+            InfoGather.DatabasePort = ConfigurationSettings.AppSettings["DatabasePort"];
             InfoGather.DatabaseUser = ConfigurationSettings.AppSettings["DatabaseUser"];
             InfoGather.BuildConnectionString();
             Players.ListByPlayerId = new Dictionary<uint, Player>();
@@ -52,6 +53,10 @@ namespace AdvancedLogParser
                 }
                 else
                 {
+                    foreach (Server srv in Servers.List.Values)
+                    {
+                        new ServerView(srv).Show();
+                    }
                     new ServerView(null).Show();
                     Application.Run(new PrimaryDisplay());
                 }

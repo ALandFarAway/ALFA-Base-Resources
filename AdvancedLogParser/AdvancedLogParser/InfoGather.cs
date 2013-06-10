@@ -16,6 +16,7 @@ namespace AdvancedLogParser
     {
         static string ConnectionString;
         public static string DatabaseServer;
+        public static string DatabasePort;
         public static string DatabaseUser;
         public static string DatabasePassword;
         public static string DatabaseSchema;
@@ -528,8 +529,9 @@ namespace AdvancedLogParser
 
         public static void BuildConnectionString()
         {
-            ConnectionString = String.Format("Server={0};Uid={1};Password={2};Database={3};Max Pool Size=2;Pooling=true;Allow Batch=true",
+            ConnectionString = String.Format("Server={0};Port={1};Uid={2};Password={3};Database={4};Max Pool Size=2;Pooling=true;Allow Batch=true",
                         DatabaseServer,
+                        DatabasePort,
                         DatabaseUser,
                         DatabasePassword,
                         DatabaseSchema);
