@@ -21,6 +21,19 @@ namespace ACR_ChooserCreator
 {
     public class ChooserLists: CLRScriptBase
     {
+        public static void InitializeButtons(CLRScriptBase script, User currentUser)
+        {
+            script.SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_AOE", currentUser.ChooserShowAOE ? "trap.tga" : "notrap.tga");
+            script.SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_CREATURE", currentUser.ChooserShowCreature ? "creature.tga" : "nocreature.tga");
+            script.SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_DOOR", currentUser.ChooserShowDoor ? "door.tga" : "nodoor.tga");
+            script.SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_ITEM", currentUser.ChooserShowItem ? "item.tga" : "noitem.tga");
+            script.SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_LIGHT", currentUser.ChooserShowLight ? "light.tga" : "nolight.tga");
+            script.SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_PLACEABLE", currentUser.ChooserShowPlaceable ? "placeable.tga" : "noplaceable.tga");
+            script.SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_STORE", currentUser.ChooserShowStore ? "store.tga" : "nostore.tga");
+            script.SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_TRIGGER", currentUser.ChooserShowTrigger ? "trigger.tga" : "notrigger.tga");
+            script.SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_VFX", currentUser.ChooserShowPlacedEffect ? "vfx.tga" : "novfx.tga");
+            script.SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_WAYPOINT", currentUser.ChooserShowWaypoint ? "waypoint.tga" : "nowaypoint.tga");
+        }
         public static void DrawAreas(CLRScriptBase script, User currentUser)
         {
             script.ClearListBox(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS");
@@ -98,7 +111,7 @@ namespace ACR_ChooserCreator
                     }
                 }
                 script.ClearListBox(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS");
-                if (ChooserAoEs.Count > 0)
+                if (ChooserAoEs.Count > 0 && currentUser.ChooserShowAOE)
                 {
                     fDelay += 0.1f;
                     script.DelayCommand(fDelay, delegate
@@ -109,7 +122,7 @@ namespace ACR_ChooserCreator
                         }
                     });
                 }
-                if (ChooserCreatures.Count > 0)
+                if (ChooserCreatures.Count > 0 && currentUser.ChooserShowCreature)
                 {
                     fDelay += 0.1f;
                     script.DelayCommand(fDelay, delegate
@@ -120,7 +133,7 @@ namespace ACR_ChooserCreator
                         }
                     });
                 }
-                if (ChooserDoors.Count > 0)
+                if (ChooserDoors.Count > 0 && currentUser.ChooserShowDoor)
                 {
                     fDelay += 0.1f;
                     script.DelayCommand(fDelay, delegate
@@ -131,7 +144,7 @@ namespace ACR_ChooserCreator
                         }
                     });
                 }
-                if (ChooserItems.Count > 0)
+                if (ChooserItems.Count > 0 && currentUser.ChooserShowItem)
                 {
                     fDelay += 0.1f;
                     script.DelayCommand(fDelay, delegate
@@ -142,7 +155,7 @@ namespace ACR_ChooserCreator
                         }
                     });
                 }
-                if (ChooserLights.Count > 0)
+                if (ChooserLights.Count > 0 && currentUser.ChooserShowLight)
                 {
                     fDelay += 0.1f;
                     script.DelayCommand(fDelay, delegate
@@ -153,7 +166,7 @@ namespace ACR_ChooserCreator
                         }
                     });
                 }
-                if (ChooserPlaceables.Count > 0)
+                if (ChooserPlaceables.Count > 0 && currentUser.ChooserShowPlaceable)
                 {
                     fDelay += 0.1f;
                     script.DelayCommand(fDelay, delegate
@@ -165,7 +178,7 @@ namespace ACR_ChooserCreator
                         }
                     });
                 }
-                if (ChooserPlacedEffects.Count > 0)
+                if (ChooserPlacedEffects.Count > 0 && currentUser.ChooserShowPlacedEffect)
                 {
                     fDelay += 0.1f;
                     script.DelayCommand(fDelay, delegate
@@ -176,7 +189,7 @@ namespace ACR_ChooserCreator
                         }
                     });
                 }
-                if (ChooserStores.Count > 0)
+                if (ChooserStores.Count > 0 && currentUser.ChooserShowStore)
                 {
                     fDelay += 0.1f;
                     script.DelayCommand(fDelay, delegate
@@ -187,7 +200,7 @@ namespace ACR_ChooserCreator
                         }
                     });
                 }
-                if (ChooserTriggers.Count > 0)
+                if (ChooserTriggers.Count > 0 && currentUser.ChooserShowTrigger)
                 {
                     fDelay += 0.1f;
                     script.DelayCommand(fDelay, delegate
@@ -198,7 +211,7 @@ namespace ACR_ChooserCreator
                         }
                     });
                 }
-                if (ChooserWaypoints.Count > 0)
+                if (ChooserWaypoints.Count > 0 && currentUser.ChooserShowWaypoint)
                 {
                     fDelay += 0.1f;
                     script.DelayCommand(fDelay, delegate

@@ -45,7 +45,27 @@
         <UIScrollBar name="SB" style="STYLE_SB_THIN" />
     </UIListBox>
 
-    <UIText name="DISP_NAME" x=10 y=258 height=20  width=270 editable=false text="Objects:"/>
+    <UIText name="DISP_NAME" x=10 y=258 height=20  width=60 editable=false text="Objects:"/>
+    <UIIcon name="SHOW_AOE" x=170 y=260 height=20 width=20 img="notrap.tga"
+     OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",121,"")/>
+    <UIIcon name="SHOW_CREATURE" x=190 y=260 height=20 width=20 img="nocreature.tga"
+     OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",122,"")/>
+    <UIIcon name="SHOW_DOOR" x=210 y=260 height=20 width=20 img="nodoor.tga"
+     OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",123,"")/>
+    <UIIcon name="SHOW_ITEM" x=230 y=260 height=20 width=20 img="noitem.tga"
+     OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",124,"")/>
+    <UIIcon name="SHOW_LIGHT" x=250 y=260 height=20 width=20 img="nolight.tga"
+     OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",125,"")/>
+    <UIIcon name="SHOW_PLACEABLE" x=270 y=260 height=20 width=20 img="noplaceable.tga"
+     OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",126,"")/>
+    <UIIcon name="SHOW_STORE" x=290 y=260 height=20 width=20 img="nostore.tga"
+     OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",128,"")/>
+    <UIIcon name="SHOW_TRIGGER" x=310 y=260 height=20 width=20 img="notrigger.tga"
+     OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",129,"")/>
+    <UIIcon name="SHOW_VFX" x=330 y=260 height=20 width=20 img="novfx.tga"
+     OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",127,"")/>
+    <UIIcon name="SHOW_WAYPOINT" x=350 y=260 height=20 width=20 img="nowaypoint.tga"
+     OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",130,"")/>
     <!-- List Box: Objects -->
     <UIListBox name="LISTBOX_ACR_CHOOSER_OBJECTS" x="10" y="275" width="375" height="260" xPadding="0" yPadding="5" showpartialchild="true"
 		    unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded=false >

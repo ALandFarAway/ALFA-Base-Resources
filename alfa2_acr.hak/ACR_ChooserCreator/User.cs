@@ -64,5 +64,16 @@ namespace ACR_ChooserCreator
         public int SortingColumn;
         public uint LastSeenArea;
         public uint FocusedArea;
+
+        public bool ChooserShowAOE = false;
+        public bool ChooserShowCreature = true;
+        public bool ChooserShowDoor = false;
+        public bool ChooserShowItem = true;
+        public bool ChooserShowLight = false;
+        public bool ChooserShowPlaceable = false;
+        public bool ChooserShowPlacedEffect = false;
+        public bool ChooserShowStore = false;
+        public bool ChooserShowTrigger = true;
+        public bool ChooserShowWaypoint = false;
     }
 }

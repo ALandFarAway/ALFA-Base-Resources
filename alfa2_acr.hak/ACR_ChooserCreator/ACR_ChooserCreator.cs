@@ -239,6 +239,7 @@ namespace ACR_ChooserCreator
                     // search for the user's request.
                     break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_INITIALIZE_CHOOSER:
+                    ChooserLists.InitializeButtons(this, currentUser);
                     if (currentUser.LastSeenArea != GetArea(currentUser.Id))
                     {
                         ChooserLists.DrawAreas(this, currentUser);
@@ -263,7 +264,56 @@ namespace ACR_ChooserCreator
                         ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                     }
                     break;
-
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_AOE_VISIBLE:
+                    currentUser.ChooserShowAOE = !currentUser.ChooserShowAOE;
+                    SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_AOE", currentUser.ChooserShowAOE ? "trap.tga" : "notrap.tga");
+                    ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                    break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_CREATURE_VISIBLE:
+                    currentUser.ChooserShowCreature = !currentUser.ChooserShowCreature;
+                    SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_CREATURE", currentUser.ChooserShowCreature ? "creature.tga" : "nocreature.tga");
+                    ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                    break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_DOOR_VISIBLE:
+                    currentUser.ChooserShowDoor = !currentUser.ChooserShowDoor;
+                    SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_DOOR", currentUser.ChooserShowDoor ? "door.tga" : "nodoor.tga");
+                    ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                    break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_ITEM_VISIBLE:
+                    currentUser.ChooserShowItem = !currentUser.ChooserShowItem;
+                    SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_ITEM", currentUser.ChooserShowItem ? "item.tga" : "noitem.tga");
+                    ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                    break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_LIGHT_VISIBLE:
+                    currentUser.ChooserShowLight = !currentUser.ChooserShowLight;
+                    SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_LIGHT", currentUser.ChooserShowLight ? "light.tga" : "nolight.tga");
+                    ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                    break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_PLACEABLE_VISIBLE:
+                    currentUser.ChooserShowPlaceable = !currentUser.ChooserShowPlaceable;
+                    SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_PLACEABLE", currentUser.ChooserShowPlaceable ? "placeable.tga" : "noplaceable.tga");
+                    ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                    break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_PLACEDEFFECT_VISIBLE:
+                    currentUser.ChooserShowPlacedEffect = !currentUser.ChooserShowPlacedEffect;
+                    SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_VFX", currentUser.ChooserShowPlacedEffect ? "vfx.tga" : "novfx.tga");
+                    ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                    break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_STORE_VISIBLE:
+                    currentUser.ChooserShowStore = !currentUser.ChooserShowStore;
+                    SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_STORE", currentUser.ChooserShowStore ? "store.tga" : "nostore.tga");
+                    ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                    break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_TRIGGER_VISIBLE:
+                    currentUser.ChooserShowTrigger = !currentUser.ChooserShowTrigger;
+                    SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_TRIGGER", currentUser.ChooserShowTrigger ? "trigger.tga" : "notrigger.tga");
+                    ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                    break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_WAYPOINT_VISIBLE:
+                    currentUser.ChooserShowWaypoint = !currentUser.ChooserShowWaypoint;
+                    SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_WAYPOINT", currentUser.ChooserShowWaypoint ? "waypoint.tga" : "nowaypoint.tga");
+                    ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                    break;
             }
             return 0;
 
@@ -298,6 +348,17 @@ namespace ACR_ChooserCreator
 
             ACR_CHOOSERCREATOR_SEARCH_CHOOSER = 111,
             ACR_CHOOSERCREATOR_LIST_AREA = 112,
+
+            ACR_CHOOSERCREATOR_CHOOSER_AOE_VISIBLE = 121,
+            ACR_CHOOSERCREATOR_CHOOSER_CREATURE_VISIBLE = 122,
+            ACR_CHOOSERCREATOR_CHOOSER_DOOR_VISIBLE = 123, 
+            ACR_CHOOSERCREATOR_CHOOSER_ITEM_VISIBLE = 124,
+            ACR_CHOOSERCREATOR_CHOOSER_LIGHT_VISIBLE = 125,
+            ACR_CHOOSERCREATOR_CHOOSER_PLACEABLE_VISIBLE = 126,
+            ACR_CHOOSERCREATOR_CHOOSER_PLACEDEFFECT_VISIBLE = 127,
+            ACR_CHOOSERCREATOR_CHOOSER_STORE_VISIBLE = 128,
+            ACR_CHOOSERCREATOR_CHOOSER_TRIGGER_VISIBLE = 129,
+            ACR_CHOOSERCREATOR_CHOOSER_WAYPOINT_VISIBLE = 130,
         }
 
     }
