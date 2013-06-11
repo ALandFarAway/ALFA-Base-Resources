@@ -28,7 +28,7 @@ namespace ACR_Candlekeep
             {
                 ALFA.Shared.ActiveArea activeArea = new ALFA.Shared.ActiveArea();
                 activeArea.Id = area;
-                activeArea.Name = s.GetName(area);
+                activeArea.Name = s.GetName(area).Trim();
                 activeArea.Tag = s.GetTag(area);
                 ALFA.Shared.Modules.InfoStore.ActiveAreas.Add(area, activeArea);
             }
