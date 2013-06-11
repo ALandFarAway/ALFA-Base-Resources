@@ -21,6 +21,8 @@ namespace ACR_ChooserCreator
 {
     public class ChooserLists: CLRScriptBase
     {
+        public static List<ALFA.Shared.ActiveArea> AreaList;
+
         public static void InitializeButtons(CLRScriptBase script, User currentUser)
         {
             script.SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_AOE", currentUser.ChooserShowAOE ? "trap.tga" : "notrap.tga");
@@ -51,7 +53,7 @@ namespace ACR_ChooserCreator
                     }
                 }
             }
-            foreach (ALFA.Shared.ActiveArea area in ALFA.Shared.Modules.InfoStore.ActiveAreas.Values)
+            foreach (ALFA.Shared.ActiveArea area in AreaList)
             {
                 script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", area.Id.ToString(), "LISTBOX_ITEM_TEXT=  " + area.Name, "", "5=" + area.Id.ToString(), "");
             }

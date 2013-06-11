@@ -44,6 +44,8 @@ namespace ACR_ChooserCreator
             {
                 if (OBJECT_SELF == GetModule())
                 {
+                    ChooserLists.AreaList = ALFA.Shared.Modules.InfoStore.ActiveAreas.Values.ToList<ALFA.Shared.ActiveArea>();
+                    ChooserLists.AreaList.Sort();
                     BackgroundLoader loader = new BackgroundLoader();
                     loader.DoWork += BackgroundLoader.LoadNavigators;
                     loader.RunWorkerAsync();
