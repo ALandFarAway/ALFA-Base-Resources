@@ -316,6 +316,16 @@ namespace ACR_ChooserCreator
                     SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_WAYPOINT", currentUser.ChooserShowWaypoint ? "waypoint.tga" : "nowaypoint.tga");
                     ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                     break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_JUMP_TO_AREA:
+                    ChooserJump.JumpToArea(this, currentUser);
+                    break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_JUMP_TO_OBJECT:
+                    uint targetObject = 0;
+                    if (uint.TryParse(commandParam, out targetObject))
+                    {
+                        JumpToLocation(GetLocation(targetObject));
+                    }
+                    break;
             }
             return 0;
 
@@ -361,6 +371,9 @@ namespace ACR_ChooserCreator
             ACR_CHOOSERCREATOR_CHOOSER_STORE_VISIBLE = 128,
             ACR_CHOOSERCREATOR_CHOOSER_TRIGGER_VISIBLE = 129,
             ACR_CHOOSERCREATOR_CHOOSER_WAYPOINT_VISIBLE = 130,
+
+            ACR_CHOOSERCREATOR_CHOOSER_JUMP_TO_AREA = 131,
+            ACR_CHOOSERCREATOR_CHOOSER_JUMP_TO_OBJECT = 132,
         }
 
     }

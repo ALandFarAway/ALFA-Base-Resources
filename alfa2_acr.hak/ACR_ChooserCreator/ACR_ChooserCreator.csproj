@@ -57,6 +57,7 @@
     <Compile Include="BackgroundLoader.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ChooserJump.cs" />
     <Compile Include="ChooserLists.cs" />
     <Compile Include="CreatorTabs.cs" />
     <Compile Include="IDrawableList.cs" />
