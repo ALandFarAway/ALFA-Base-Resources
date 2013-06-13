@@ -120,7 +120,7 @@ namespace ACR_ChooserCreator
                     {
                         foreach (uint thing in ChooserAoEs)
                         {
-                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetTag(thing), "LISTBOX_ITEM_ICON=trap.tga", "", "");
+                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetTag(thing), "LISTBOX_ITEM_ICON=trap.tga", "5="+thing.ToString(), "");
                         }
                     });
                 }
@@ -131,7 +131,7 @@ namespace ACR_ChooserCreator
                     {
                         foreach (uint thing in ChooserCreatures)
                         {
-                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing), "LISTBOX_ITEM_ICON=creature.tga", "", "");
+                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing), "LISTBOX_ITEM_ICON=creature.tga", "5=" + thing.ToString(), "");
                         }
                     });
                 }
@@ -142,7 +142,7 @@ namespace ACR_ChooserCreator
                     {
                         foreach (uint thing in ChooserDoors)
                         {
-                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing), "LISTBOX_ITEM_ICON=door.tga", "", "");
+                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing), "LISTBOX_ITEM_ICON=door.tga", "5=" + thing.ToString(), "");
                         }
                     });
                 }
@@ -153,7 +153,7 @@ namespace ACR_ChooserCreator
                     {
                         foreach (uint thing in ChooserItems)
                         {
-                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing), "LISTBOX_ITEM_ICON=item.tga", "", "");
+                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing), "LISTBOX_ITEM_ICON=item.tga", "5=" + thing.ToString(), "");
                         }
                     });
                 }
@@ -164,7 +164,7 @@ namespace ACR_ChooserCreator
                     {
                         foreach (uint thing in ChooserLights)
                         {
-                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing) + ";LISTBOX_ITEM_TEXT2= Light", "LISTBOX_ITEM_ICON=light.tga", "", "");
+                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing) + ";LISTBOX_ITEM_TEXT2= Light", "LISTBOX_ITEM_ICON=light.tga", "5=" + thing.ToString(), "");
                         }
                     });
                 }
@@ -176,7 +176,7 @@ namespace ACR_ChooserCreator
                         foreach (uint thing in ChooserPlaceables)
                         {
 
-                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing) + ";LISTBOX_ITEM_TEXT2= Placeable", "LISTBOX_ITEM_ICON=placeable.tga", "", "");
+                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing) + ";LISTBOX_ITEM_TEXT2= Placeable", "LISTBOX_ITEM_ICON=placeable.tga", "5=" + thing.ToString(), "");
                         }
                     });
                 }
@@ -187,7 +187,7 @@ namespace ACR_ChooserCreator
                     {
                         foreach (uint thing in ChooserPlacedEffects)
                         {
-                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing) + ";LISTBOX_ITEM_TEXT2= Placed Effect", "LISTBOX_ITEM_ICON=vfx.tga", "", "");
+                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing) + ";LISTBOX_ITEM_TEXT2= Placed Effect", "LISTBOX_ITEM_ICON=vfx.tga", "5=" + thing.ToString(), "");
                         }
                     });
                 }
@@ -198,7 +198,7 @@ namespace ACR_ChooserCreator
                     {
                         foreach (uint thing in ChooserStores)
                         {
-                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing) + ";LISTBOX_ITEM_TEXT2= Store", "LISTBOX_ITEM_ICON=store.tga", "", "");
+                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing) + ";LISTBOX_ITEM_TEXT2= Store", "LISTBOX_ITEM_ICON=store.tga", "5=" + thing.ToString(), "");
                         }
                     });
                 }
@@ -209,7 +209,7 @@ namespace ACR_ChooserCreator
                     {
                         foreach (uint thing in ChooserTriggers)
                         {
-                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing) + ";LISTBOX_ITEM_TEXT2= Trigger", "LISTBOX_ITEM_ICON=trigger.tga", "", "");
+                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing) + ";LISTBOX_ITEM_TEXT2= Trigger", "LISTBOX_ITEM_ICON=trigger.tga", "5=" + thing.ToString(), "");
                         }
                     });
                 }
@@ -220,7 +220,7 @@ namespace ACR_ChooserCreator
                     {
                         foreach (uint thing in ChooserWaypoints)
                         {
-                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing) + ";LISTBOX_ITEM_TEXT2=  Waypoint", "LISTBOX_ITEM_ICON=waypoint.tga", "", "");
+                            script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing) + ";LISTBOX_ITEM_TEXT2=  Waypoint", "LISTBOX_ITEM_ICON=waypoint.tga", "5=" + thing.ToString(), "");
                         }
                     });
                 }
