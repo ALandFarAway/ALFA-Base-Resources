@@ -730,7 +730,7 @@ namespace AdvancedLogParser
             return (((nAboveNumber - nBelowNumber) * nPercent) / 100) + nBelowNumber;
         }
 
-        static uint GetMedWealth(uint nXP)
+        public static uint GetMedWealth(uint nXP)
         {
             uint nPercent, nBelowNumber, nAboveNumber;
             if (nXP < 1000)

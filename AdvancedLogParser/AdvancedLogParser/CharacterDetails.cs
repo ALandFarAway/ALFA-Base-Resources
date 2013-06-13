@@ -97,27 +97,28 @@ namespace AdvancedLogParser
             wealthLabel.Location = new Point(leftColumn, classLabel.Location.Y + classLabel.Height);
 
             WealthLevel lvl = InfoGather.GetWealthLevel(character);
+            uint target = InfoGather.GetMedWealth(character.XP);
             switch (lvl)
             {
                 case WealthLevel.VeryPoor:
-                    wealthValue.Text = String.Format("Very Poor ({0})", character.Wealth);
+                    wealthValue.Text = String.Format("Very Poor ({0} / {1})", character.Wealth, target);
                     wealthValue.ForeColor = Color.Red;
                     wealthValue.BackColor = Color.Yellow;
                     break;
                 case WealthLevel.Poor:
-                    wealthValue.Text = String.Format("Poor ({0})", character.Wealth);
+                    wealthValue.Text = String.Format("Poor ({0} / {1})", character.Wealth, target);
                     break;
                 case WealthLevel.Target:
-                    wealthValue.Text = String.Format("Near Target ({0})", character.Wealth);
+                    wealthValue.Text = String.Format("Near Target ({0} / {1})", character.Wealth, target);
                     break;
                 case WealthLevel.Rich:
-                    wealthValue.Text = String.Format("Rich ({0})", character.Wealth);
+                    wealthValue.Text = String.Format("Rich ({0} / {1})", character.Wealth, target);
                     break;
                 case WealthLevel.VeryRich:
-                    wealthValue.Text = String.Format("Very Rich ({0})", character.Wealth);
+                    wealthValue.Text = String.Format("Very Rich ({0} / {1})", character.Wealth, target);
                     break;
                 case WealthLevel.Cutoff:
-                    wealthValue.Text = String.Format("Cutoff ({0})", character.Wealth);
+                    wealthValue.Text = String.Format("Cutoff ({0} / {1})", character.Wealth, target);
                     wealthValue.ForeColor = Color.Red;
                     wealthValue.BackColor = Color.Yellow;
                     break;
