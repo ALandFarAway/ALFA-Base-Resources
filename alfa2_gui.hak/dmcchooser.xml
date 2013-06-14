@@ -18,6 +18,105 @@
     <!-- Close Button -->
     <UIButton name="CloseButton" x=359 y=7 style="STYLE_CLOSE_BUTTON" OnLeftClick=UIButton_Input_ScreenClose() />
 
+    <UIPane name="npc_creature" x=40 y=40 height=40 width=320>
+        <UIButton name="jumpme" x=0 y=0 width=40 height=40 
+         MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",132,local:6) >
+            <UIFrame state=base     fill="acr_chs_jumpme.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_empty.tga" />
+        </UIButton>
+        <UIButton name="jumpit" x=40 y=0 width=40 height=40 
+         MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",133,local:6) >
+            <UIFrame state=base     fill="acr_chs_jumpit.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_empty.tga" />
+        </UIButton>
+        <UIButton name="heal" x=80 y=0 width=40 height=40 
+         MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",134,local:6) >
+            <UIFrame state=base     fill="acr_chs_heal.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_empty.tga" />
+        </UIButton>
+        <UIButton name="immortal" x=120 y=0 width=40 height=40 
+         MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",135,local:6) >
+            <UIFrame state=base     fill="acr_chs_immortal.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_empty.tga" />
+        </UIButton>
+        <UIButton name="hostile" x=160 y=0 width=40 height=40 
+         MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",136,local:6) >
+            <UIFrame state=base     fill="acr_chs_hostile.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_empty.tga" />
+        </UIButton>
+        <UIButton name="nonhostile" x=200 y=0 width=40 height=40 
+         MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",137,local:6) >
+            <UIFrame state=base     fill="acr_chs_nonhostile.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_empty.tga" />
+        </UIButton>
+        <UIButton name="kill" x=240 y=0 width=40 height=40 
+         MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",138,local:6) >
+            <UIFrame state=base     fill="acr_chs_kill.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_empty.tga" />
+        </UIButton>
+        <UIButton name="limbo" x=280 y=0 width=40 height=40 
+         MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",139,local:6) >
+            <UIFrame state=base     fill="acr_chs_limbo.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_empty.tga" />
+        </UIButton>
+    </UIPane>
+
     <UIText name="DISP_AREAS" x=10 y=112 height=20  width=270 editable=false text="Areas:"/>
     <!-- List Box: Areas -->
     <UIListBox name="LISTBOX_ACR_CHOOSER_AREAS" x="10" y="120" width="375" height="140" xPadding="0" yPadding="5" showpartialchild="true"
