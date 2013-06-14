@@ -17,7 +17,7 @@
 	OnLeftClick='UIButton_Input_ScreenClose()'>
 </UIButton>
 
-<UIPane name="SLANG_Collapsed" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" capturemouseclicks="false" capturemouseevents="false" hidden="true" >
+<UIPane name="SLANG_Collapsed" x="0" y="0" width="PARENT_WIDTH" height="50" capturemouseclicks="false" capturemouseevents="false" hidden="true" >
 	<!-- Expand Button -->
 	<UIButton x="244" y="10" style="STYLE_PLUS_BUTTON"
 		OnLeftClick0='UIButton_Input_HideObject("SLANG_Collapsed")' OnLeftClick1='UIButton_Input_ShowObject("SLANG_Expanded")' />
