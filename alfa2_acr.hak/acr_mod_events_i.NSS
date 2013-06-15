@@ -1791,6 +1791,10 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts()
     ACR_GetHAKVersion();
     ACR_RunScriptOnServer(0, "", "");
     ACR_LogEvent(OBJECT_INVALID, "", "", OBJECT_INVALID);
+	ACR_PPSValidatePC(OBJECT_INVALID);
+    ACR_PCUpdateStatus(OBJECT_INVALID, FALSE);
+    ACR_RestOnClientEnter(OBJECT_INVALID);
+    ACR_XPOnClientLoaded(OBJECT_INVALID);
 }
 
 void _LoadAssemblies()

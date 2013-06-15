@@ -546,6 +546,51 @@ namespace ALFA
         }
 
         /// <summary>
+        /// This routine validates a character from quarantine.
+        /// </summary>
+        /// <param name="PCToValidate"></param>
+        public void ACR_PPSValidatePC(uint PCToValidate)
+        {
+            DemandInitialize();
+
+            ACR_PPSValidatePC_Method.Invoke(DBLibraryScript, new object[] { PCToValidate });
+        }
+
+        /// <summary>
+        /// This method updates regularly-saved persistent information.
+        /// </summary>
+        /// <param name="PCToUpdate">the PC to be updated</param>
+        /// <param name="UpdateLocation">whether or not to also update location</param>
+        public void ACR_PCUpdateStatus(uint PCToUpdate, bool UpdateLocation)
+        {
+            DemandInitialize();
+
+            ACR_PCUpdateStatus_Method.Invoke(DBLibraryScript, new object[] { PCToUpdate, UpdateLocation ? CLRScriptBase.TRUE : CLRScriptBase.FALSE });
+        }
+
+        /// <summary>
+        /// This method calculates offline resting for a PC after logging in.
+        /// </summary>
+        /// <param name="PCToRest">the PC to be rested</param>
+        public void ACR_RestOnClientEnter(uint PCToRest)
+        {
+            DemandInitialize();
+
+            ACR_RestOnClientEnter_Method.Invoke(DBLibraryScript, new object[] { PCToRest });
+        }
+
+        /// <summary>
+        /// This method calculates RPXP for the last playing session.
+        /// </summary>
+        /// <param name="PCToXP">the PC to XP</param>
+        public void ACR_XPOnClientLoaded(uint PCToXP)
+        {
+            DemandInitialize();
+
+            ACR_XPOnClientLoaded_Method.Invoke(DBLibraryScript, new object[] { PCToXP });
+        }
+
+        /// <summary>
         /// This routine performs a character save.
         /// </summary>
         /// <param name="PCToSave">Supplies the object id of the player to
@@ -890,6 +935,10 @@ namespace ALFA
             ACR_DeletePersistentVariable_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_DeletePersistentVariable");
             ACR_SQLQuery_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_SQLQuery");
             ACR_FlushQueryQueue_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_FlushQueryQueue");
+            ACR_PPSValidatePC_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_PPSValidatePC");
+            ACR_PCUpdateStatus_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_PCUpdateStatus");
+            ACR_RestOnClientEnter_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_RestOnClientEnter");
+            ACR_XPOnClientLoaded_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_XPOnClientLoaded");
             ACR_PCSave_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_PCSave");
             ACR_GetVersion_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetVersion");
             ACR_GetBuildDate_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetBuildDate");
@@ -949,6 +998,10 @@ namespace ALFA
         private static MethodInfo ACR_DeletePersistentVariable_Method;
         private static MethodInfo ACR_SQLQuery_Method;
         private static MethodInfo ACR_FlushQueryQueue_Method;
+        private static MethodInfo ACR_PPSValidatePC_Method;
+        private static MethodInfo ACR_PCUpdateStatus_Method;
+        private static MethodInfo ACR_RestOnClientEnter_Method;
+        private static MethodInfo ACR_XPOnClientLoaded_Method;
         private static MethodInfo ACR_PCSave_Method;
         private static MethodInfo ACR_GetVersion_Method;
         private static MethodInfo ACR_GetBuildDate_Method;

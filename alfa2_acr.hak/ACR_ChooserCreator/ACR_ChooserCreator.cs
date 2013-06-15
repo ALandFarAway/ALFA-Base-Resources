@@ -21,6 +21,27 @@ namespace ACR_ChooserCreator
 {
     public partial class ACR_ChooserCreator : CLRScriptBase, IGeneratedScriptProgram
     {
+        // Methods and constants for integration with other ACR systems.
+        const string ACR_REST_TIMER = "ACR_REST_TIMER";
+        const string ACR_REST_PRAYER_TIMER = "ACR_REST_PRAYER_TIMER";
+        const string ACR_REST_STUDY_TIMER = "ACR_REST_STUDY_TIMER";
+        const string ACR_PPS_QUARANTINED = "ACR_PPS_QUARANTINED";
+        const string ACR_LOG_VALIDATED = "Validated";
+        const string _ACR_PTL_RECORD = "ACR_PTL_RECORD";
+        const string _ACR_PTL_PASSPORT = "ACR_PTL_PASSPORT";
+
+        const int PLAYER_REPORT_SHOW_INVENTORY = 1;
+
+        ALFA.Database Database;
+
+        public ALFA.Database GetDatabase()
+        {
+            if (Database == null)
+                Database = new ALFA.Database(this);
+
+            return Database;
+        }
+
         public ACR_ChooserCreator([In] NWScriptJITIntrinsics Intrinsics, [In] INWScriptProgram Host)
         {
             InitScript(Intrinsics, Host);
@@ -78,11 +99,11 @@ namespace ACR_ChooserCreator
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB:
                     CreatorTabs.FocusTabs(this, currentUser, command);
                     break;
-                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_INCOMING_CLICK:
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CREATOR_INCOMING_CLICK:
                     // TODO: make note of the selected row and provide
                     // additional information, if appropriate.
                     break;
-                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_INCOMING_DOUBLECLICK:
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CREATOR_INCOMING_DOUBLECLICK:
                     if (commandParam.Contains(":"))
                     {
                         // first, default this stuff in. On error, we flip out and just use
@@ -216,6 +237,28 @@ namespace ACR_ChooserCreator
                     // TODO: make note of the selected row and provide a suitable
                     // interface to direct the action.
                     break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_INCOMING_CLICK:
+                    {
+                        uint targetObject = 0;
+                        if (uint.TryParse(commandParam, out targetObject))
+                        {
+                            int objType = GetObjectType(targetObject);
+                            if (objType == OBJECT_TYPE_CREATURE)
+                            {
+                                if (GetIsPC(targetObject) == FALSE)
+                                {
+                                    SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "npc_creature", FALSE);
+                                    SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "pc_creature", TRUE);
+                                }
+                                else
+                                {
+                                    SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "npc_creature", TRUE);
+                                    SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "pc_creature", FALSE);
+                                }
+                            }
+                        }
+                        break;
+                    }
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_SEARCH_CREATURES:
                     // TODO: Kick off background process and waiter process to
                     // search for the user's request.
@@ -439,6 +482,120 @@ namespace ACR_ChooserCreator
                         }
                         break;
                     }
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_RESTORE:
+                    {
+                        uint targetObject = 0;
+                        if (uint.TryParse(commandParam, out targetObject))
+                        {
+                            foreach (NWEffect eff in GetEffects(targetObject))
+                            {
+                                int effType = GetEffectType(eff);
+                                if (effType == EFFECT_TYPE_ABILITY_DECREASE ||
+                                    effType == EFFECT_TYPE_AC_DECREASE ||
+                                    effType == EFFECT_TYPE_ASSAYRESISTANCE ||
+                                    effType == EFFECT_TYPE_ATTACK_DECREASE ||
+                                    effType == EFFECT_TYPE_BLINDNESS ||
+                                    effType == EFFECT_TYPE_CHARMED ||
+                                    effType == EFFECT_TYPE_CONFUSED ||
+                                    effType == EFFECT_TYPE_CURSE ||
+                                    effType == EFFECT_TYPE_CUTSCENE_PARALYZE ||
+                                    effType == EFFECT_TYPE_CUTSCENEIMMOBILIZE ||
+                                    effType == EFFECT_TYPE_DAMAGE_DECREASE ||
+                                    effType == EFFECT_TYPE_DAMAGE_IMMUNITY_DECREASE ||
+                                    effType == EFFECT_TYPE_DAZED ||
+                                    effType == EFFECT_TYPE_DEAF ||
+                                    effType == EFFECT_TYPE_DISEASE ||
+                                    effType == EFFECT_TYPE_DOMINATED ||
+                                    effType == EFFECT_TYPE_ENTANGLE ||
+                                    effType == EFFECT_TYPE_FRIGHTENED ||
+                                    effType == EFFECT_TYPE_INSANE ||
+                                    effType == EFFECT_TYPE_MESMERIZE ||
+                                    effType == EFFECT_TYPE_MOVEMENT_SPEED_DECREASE ||
+                                    effType == EFFECT_TYPE_NEGATIVELEVEL ||
+                                    effType == EFFECT_TYPE_PARALYZE ||
+                                    effType == EFFECT_TYPE_PETRIFY ||
+                                    effType == EFFECT_TYPE_POISON ||
+                                    effType == EFFECT_TYPE_SAVING_THROW_DECREASE ||
+                                    effType == EFFECT_TYPE_SKILL_DECREASE ||
+                                    effType == EFFECT_TYPE_SLOW ||
+                                    effType == EFFECT_TYPE_SPELL_RESISTANCE_DECREASE ||
+                                    effType == EFFECT_TYPE_STUNNED ||
+                                    effType == EFFECT_TYPE_TURN_RESISTANCE_DECREASE ||
+                                    effType == EFFECT_TYPE_TURNED ||
+                                    effType == EFFECT_TYPE_WOUNDING)
+                                {
+                                    RemoveEffect(targetObject, eff);
+                                }
+                            }
+                        }
+                        break;
+                    }
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_REST:
+                    {
+                        uint targetObject = 0;
+                        if (uint.TryParse(commandParam, out targetObject))
+                        {
+                            SendMessageToPC(OBJECT_SELF, "Resetting rest for " + GetName(targetObject) + ".");
+                            GetDatabase().ACR_DeletePersistentVariable(targetObject, ACR_REST_TIMER);
+                        }
+                        break;
+                    }
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_SPELLPREP:
+                    {
+                        uint targetObject = 0;
+                        if (uint.TryParse(commandParam, out targetObject))
+                        {
+                            SendMessageToPC(OBJECT_SELF, "Resetting spell timers for " + GetName(targetObject) + ".");
+                            GetDatabase().ACR_DeletePersistentVariable(targetObject, ACR_REST_STUDY_TIMER);
+                            GetDatabase().ACR_DeletePersistentVariable(targetObject, ACR_REST_PRAYER_TIMER);
+                        }
+                        break;
+                    }
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_VALIDATE:
+                    {
+                        uint targetObject = 0;
+                        if (uint.TryParse(commandParam, out targetObject))
+                        {
+                            if (GetIsPC(targetObject) == FALSE)
+                            {
+                                SendMessageToPC(OBJECT_SELF, "That is not a PC, and thus cannot be validated from quarantine.");
+                                return 0;
+                            }
+                            if (GetDatabase().ACR_GetIsPCQuarantined(targetObject))
+                            {
+                                // False alarm. Notify the DM, end.
+                                SendMessageToPC(OBJECT_SELF, GetName(targetObject) + " is not flagged as Quarantined.");
+                                return 0;
+                            }
+                            // store the current server and location as valid
+                            GetDatabase().ACR_PCUpdateStatus(targetObject, true);
+                            // clear the local quarantine flag on the PC
+                            DeleteLocalInt(targetObject, ACR_PPS_QUARANTINED);
+                            // re-run the rest initialization
+                            GetDatabase().ACR_RestOnClientEnter(targetObject);
+                            // Validate the targeted PC.
+                            GetDatabase().ACR_PPSValidatePC(targetObject);
+                            // start the XP system as well
+                            GetDatabase().ACR_XPOnClientLoaded(targetObject);
+                            GetDatabase().ACR_LogEvent(targetObject, ACR_LOG_VALIDATED, "Validated for play on server " + GetName(GetModule()) + " by DM: " + GetName(OBJECT_SELF), OBJECT_SELF);
+                            GetDatabase().ACR_SetPersistentString(targetObject, _ACR_PTL_RECORD, "Validated for serverID " + IntToString(GetDatabase().ACR_GetServerID()) + " by DM: " + GetName(OBJECT_SELF));
+                            GetDatabase().ACR_DeletePersistentVariable(targetObject, _ACR_PTL_PASSPORT);
+                            SendMessageToPC(targetObject, "Validated and normalized by DM: " + GetName(OBJECT_SELF) + ".");
+                            SendMessageToAllDMs("PC: " + GetName(targetObject) + " was validated from quarantine by DM: " + GetName(OBJECT_SELF));
+                        }
+                        break;
+                    }
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_VIEW_INVENTORY:
+                    {
+                        uint targetObject = 0;
+                        if (uint.TryParse(commandParam, out targetObject))
+                        {
+                            AddScriptParameterInt(PLAYER_REPORT_SHOW_INVENTORY);
+                            AddScriptParameterObject(targetObject);
+                            ExecuteScriptEnhanced("gui_playerreport", OBJECT_SELF, TRUE);
+                        }
+                        break;
+                    }
             }
             return 0;
 
@@ -456,8 +613,9 @@ namespace ACR_ChooserCreator
             ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB = 6,
             ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB = 7,
 
-            ACR_CHOOSERCREATOR_INCOMING_CLICK = 20,
-            ACR_CHOOSERCREATOR_INCOMING_DOUBLECLICK = 21,
+            ACR_CHOOSERCREATOR_CREATOR_INCOMING_CLICK = 20,
+            ACR_CHOOSERCREATOR_CREATOR_INCOMING_DOUBLECLICK = 21,
+            ACR_CHOOSERCREATOR_CHOOSER_INCOMING_CLICK = 22,
 
             ACR_CHOOSERCREATOR_SEARCH_CREATURES = 31,
             ACR_CHOOSERCREATOR_SEARCH_ITEMS = 32,
@@ -493,7 +651,12 @@ namespace ACR_ChooserCreator
             ACR_CHOOSERCREATOR_CHOOSER_HOSTILE = 136,
             ACR_CHOOSERCREATOR_CHOOSER_NONHOSTILE = 137,
             ACR_CHOOSERCREATOR_CHOOSER_KILL = 138,
-            ACR_CHOOSERCREATOR_CHOOSER_LIMBO = 139
+            ACR_CHOOSERCREATOR_CHOOSER_LIMBO = 139,
+            ACR_CHOOSERCREATOR_CHOOSER_RESTORE = 140,
+            ACR_CHOOSERCREATOR_CHOOSER_REST = 141,
+            ACR_CHOOSERCREATOR_CHOOSER_SPELLPREP = 142,
+            ACR_CHOOSERCREATOR_CHOOSER_VALIDATE = 143,
+            ACR_CHOOSERCREATOR_CHOOSER_VIEW_INVENTORY = 144,
         }
 
     }
