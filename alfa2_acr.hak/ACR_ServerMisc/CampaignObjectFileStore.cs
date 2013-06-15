@@ -113,7 +113,7 @@ namespace ACR_ServerMisc
                 {
                     DirectoryName = DatabaseStoreDirectory + DirectoryName;
 
-                    string FileName = String.Format("{0}{1}.GFF", DirectoryName, e.VarName);
+                    string FileName = String.Format("{0}{1}{2}.GFF", DirectoryName, Path.DirectorySeparatorChar, e.VarName);
 
                     if (!File.Exists(FileName))
                         return;
@@ -153,7 +153,7 @@ namespace ACR_ServerMisc
                     DirectoryName = DatabaseStoreDirectory + DirectoryName;
                     Directory.CreateDirectory(DirectoryName);
 
-                    string FileName = String.Format("{0}{1}.GFF", DirectoryName, e.VarName);
+                    string FileName = String.Format("{0}{1}{2}.GFF", DirectoryName, Path.DirectorySeparatorChar, e.VarName);
 
                     File.WriteAllBytes(FileName, e.GFF);
                 }
