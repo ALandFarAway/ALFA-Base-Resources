@@ -22,6 +22,8 @@ namespace ACR_ChooserCreator
     public partial class ACR_ChooserCreator : CLRScriptBase, IGeneratedScriptProgram
     {
         // Methods and constants for integration with other ACR systems.
+        
+        // from core ACR stuff.
         const string ACR_REST_TIMER = "ACR_REST_TIMER";
         const string ACR_REST_PRAYER_TIMER = "ACR_REST_PRAYER_TIMER";
         const string ACR_REST_STUDY_TIMER = "ACR_REST_STUDY_TIMER";
@@ -30,7 +32,11 @@ namespace ACR_ChooserCreator
         const string _ACR_PTL_RECORD = "ACR_PTL_RECORD";
         const string _ACR_PTL_PASSPORT = "ACR_PTL_PASSPORT";
 
+        // from reports
         const int PLAYER_REPORT_SHOW_INVENTORY = 1;
+
+        // from traps
+        const int TRAP_EVENT_DESPAWN_TRAP = 8;
 
         ALFA.Database Database;
 
@@ -249,12 +255,31 @@ namespace ACR_ChooserCreator
                                 {
                                     SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "npc_creature", FALSE);
                                     SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "pc_creature", TRUE);
+                                    SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "placedoor", TRUE);
+                                    SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "other", TRUE);
                                 }
                                 else
                                 {
                                     SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "npc_creature", TRUE);
                                     SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "pc_creature", FALSE);
+                                    SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "placedoor", TRUE);
+                                    SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "other", TRUE);
                                 }
+                            }
+                            else if (objType == OBJECT_TYPE_DOOR ||
+                                     objType == OBJECT_TYPE_PLACEABLE)
+                            {
+                                SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "npc_creature", TRUE);
+                                SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "pc_creature", TRUE);
+                                SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "placedoor", FALSE);
+                                SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "other", TRUE);
+                            }
+                            else
+                            {
+                                SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "npc_creature", TRUE);
+                                SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "pc_creature", TRUE);
+                                SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "placedoor", TRUE);
+                                SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "other", FALSE);
                             }
                         }
                         break;
@@ -449,6 +474,7 @@ namespace ACR_ChooserCreator
                         if (uint.TryParse(commandParam, out targetObject))
                         {
                             ChangeToStandardFaction(targetObject, STANDARD_FACTION_HOSTILE);
+                            ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
                     }
@@ -458,6 +484,7 @@ namespace ACR_ChooserCreator
                         if (uint.TryParse(commandParam, out targetObject))
                         {
                             ChangeToStandardFaction(targetObject, STANDARD_FACTION_COMMONER);
+                            ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
                     }
@@ -527,6 +554,7 @@ namespace ACR_ChooserCreator
                                     RemoveEffect(targetObject, eff);
                                 }
                             }
+                            ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
                     }
@@ -537,6 +565,7 @@ namespace ACR_ChooserCreator
                         {
                             SendMessageToPC(OBJECT_SELF, "Resetting rest for " + GetName(targetObject) + ".");
                             GetDatabase().ACR_DeletePersistentVariable(targetObject, ACR_REST_TIMER);
+                            ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
                     }
@@ -548,6 +577,7 @@ namespace ACR_ChooserCreator
                             SendMessageToPC(OBJECT_SELF, "Resetting spell timers for " + GetName(targetObject) + ".");
                             GetDatabase().ACR_DeletePersistentVariable(targetObject, ACR_REST_STUDY_TIMER);
                             GetDatabase().ACR_DeletePersistentVariable(targetObject, ACR_REST_PRAYER_TIMER);
+                            ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
                     }
@@ -582,6 +612,7 @@ namespace ACR_ChooserCreator
                             GetDatabase().ACR_DeletePersistentVariable(targetObject, _ACR_PTL_PASSPORT);
                             SendMessageToPC(targetObject, "Validated and normalized by DM: " + GetName(OBJECT_SELF) + ".");
                             SendMessageToAllDMs("PC: " + GetName(targetObject) + " was validated from quarantine by DM: " + GetName(OBJECT_SELF));
+                            ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
                     }
@@ -593,6 +624,99 @@ namespace ACR_ChooserCreator
                             AddScriptParameterInt(PLAYER_REPORT_SHOW_INVENTORY);
                             AddScriptParameterObject(targetObject);
                             ExecuteScriptEnhanced("gui_playerreport", OBJECT_SELF, TRUE);
+                            ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                        }
+                        break;
+                    }
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_LOCK:
+                    {
+                        uint targetObject = 0;
+                        if (uint.TryParse(commandParam, out targetObject))
+                        {
+                            SetLocked(targetObject, TRUE);
+                            ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                        }
+                        break;
+                    }
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_UNLOCK:
+                    {
+                        uint targetObject = 0;
+                        if (uint.TryParse(commandParam, out targetObject))
+                        {
+                            SetLocked(targetObject, FALSE);
+                            ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                        }
+                        break;
+                    }
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_PLOT:
+                    {
+                        uint targetObject = 0;
+                        if (uint.TryParse(commandParam, out targetObject))
+                        {
+                            SetPlotFlag(targetObject, TRUE);
+                            ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                        }
+                        break;
+                    }
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_UNPLOT:
+                    {
+                        uint targetObject = 0;
+                        if (uint.TryParse(commandParam, out targetObject))
+                        {
+                            SetPlotFlag(targetObject, FALSE);
+                            ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                        }
+                        break;
+                    }
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_DESTROY:
+                    {
+                        uint targetObject = 0;
+                        if (uint.TryParse(commandParam, out targetObject))
+                        {
+                            int objType = GetObjectType(targetObject);
+                            if (objType == OBJECT_TYPE_AREA_OF_EFFECT &&
+                                GetTag(targetObject).ToLower().Contains("trap"))
+                            {
+                                ClearScriptParams();
+                                AddScriptParameterInt(TRAP_EVENT_DESPAWN_TRAP);
+                                AddScriptParameterFloat(0.0f);
+                                AddScriptParameterFloat(0.0f);
+                                AddScriptParameterFloat(0.0f);
+                                AddScriptParameterObject(OBJECT_INVALID);
+                                AddScriptParameterInt(-1);
+                                AddScriptParameterInt(-1);
+                                AddScriptParameterFloat(-1);
+                                AddScriptParameterInt(-1);
+                                AddScriptParameterInt(-1);
+                                AddScriptParameterInt(-1);
+                                AddScriptParameterInt(-1);
+                                AddScriptParameterInt(-1);
+                                AddScriptParameterInt(-1);
+                                AddScriptParameterObject(OBJECT_INVALID);
+                                AddScriptParameterInt(-1);
+                                AddScriptParameterInt(-1);
+                                AddScriptParameterInt(-1);
+                                AddScriptParameterInt(-1);
+                                AddScriptParameterInt(-1);
+	                            AddScriptParameterString("");
+		                        ExecuteScriptEnhanced("acr_traps", targetObject, TRUE);
+                                ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                            }
+                            else
+                            {
+                                DestroyObject(targetObject, 0.0f, FALSE);
+                                ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                            }
+                        }
+                        break;
+                    }
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_UNTRAP:
+                    {
+                        uint targetObject = 0;
+                        if (uint.TryParse(commandParam, out targetObject))
+                        {
+                            SetTrapActive(targetObject, FALSE);
+                            ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
                     }
@@ -657,6 +781,12 @@ namespace ACR_ChooserCreator
             ACR_CHOOSERCREATOR_CHOOSER_SPELLPREP = 142,
             ACR_CHOOSERCREATOR_CHOOSER_VALIDATE = 143,
             ACR_CHOOSERCREATOR_CHOOSER_VIEW_INVENTORY = 144,
+            ACR_CHOOSERCREATOR_CHOOSER_LOCK = 145,
+            ACR_CHOOSERCREATOR_CHOOSER_UNLOCK = 146,
+            ACR_CHOOSERCREATOR_CHOOSER_PLOT = 147,
+            ACR_CHOOSERCREATOR_CHOOSER_UNPLOT = 148,
+            ACR_CHOOSERCREATOR_CHOOSER_DESTROY = 149,
+            ACR_CHOOSERCREATOR_CHOOSER_UNTRAP = 150,
         }
 
     }
