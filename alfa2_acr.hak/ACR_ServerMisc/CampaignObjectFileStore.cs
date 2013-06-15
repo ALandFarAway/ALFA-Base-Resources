@@ -78,7 +78,7 @@ namespace ACR_ServerMisc
                     if (!Directory.Exists(DirectoryName))
                         return true;
 
-                    Directory.Delete(DirectoryName);
+                    Directory.Delete(DirectoryName, true);
                     return true;
                 }
                 catch
