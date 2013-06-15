@@ -50,8 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\CLRScript\ALFADatabase.cs" />
-    <Compile Include="..\..\CLRScript\ALFAScriptLoader.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_ChooserCreator.cs" />
     <Compile Include="BackgroundLoader.cs">

@@ -240,6 +240,22 @@ namespace ACR_ServerMisc
                     }
                     break;
 
+                case REQUEST_TYPE.GET_HAS_DATABASE_STORE:
+                    {
+                        string Campaign = P3;
+
+                        ReturnCode = CampaignObjectFileStore.GetHasDatabaseStore(Campaign) ? TRUE : FALSE;
+                    }
+                    break;
+
+                case REQUEST_TYPE.DELETE_DATABASE_STORE:
+                    {
+                        string Campaign = P3;
+
+                        ReturnCode = CampaignObjectFileStore.DeleteDatabaseStore(Campaign) ? TRUE : FALSE;
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid server misc command " + RequestType.ToString());
 
@@ -682,7 +698,9 @@ namespace ACR_ServerMisc
             NEXT_ITERATE_DICTIONARY,
             DELETE_DICTIONARY_KEY,
             CLEAR_DICTIONARY,
-            GET_SALTED_MD5
+            GET_SALTED_MD5,
+            GET_HAS_DATABASE_STORE,
+            DELETE_DATABASE_STORE
         }
 
         /// <summary>

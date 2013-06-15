@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\CLRScript\CLRv4.0.30319\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="NWNScriptJITIntrinsics">
       <HintPath>..\..\CLRScript\CLRv4.0.30319\NWNScriptJITIntrinsics.dll</HintPath>
     </Reference>
@@ -51,7 +54,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\CLRScript\ALFADatabase.cs" />
+    <Compile Include="..\..\CLRScript\ALFAMySQLDatabase.cs" />
+    <Compile Include="..\..\CLRScript\ALFANetworkMessage.cs" />
+    <Compile Include="..\..\CLRScript\ALFAResourceManager.cs" />
+    <Compile Include="..\..\CLRScript\ALFAScriptCompiler.cs" />
+    <Compile Include="..\..\CLRScript\ALFAScriptLoader.cs" />
     <Compile Include="..\..\CLRScript\ALFASystemInfo.cs" />
+    <Compile Include="..\..\CLRScript\ALFAWebServices.cs" />
     <Compile Include="..\..\CLRScript\NWScriptActions.cs" />
     <Compile Include="..\..\CLRScript\NWScriptConstants.cs" />
     <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />

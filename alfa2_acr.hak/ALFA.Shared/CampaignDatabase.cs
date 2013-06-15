@@ -114,7 +114,7 @@ namespace ALFA.Shared
                 // event handlers.
                 //
 
-                if (CampaignNameStr.StartsWith("VirtualDatabase"))
+                if (CampaignNameStr.StartsWith("VDB_"))
                 {
                     Cls = (byte)'O';
 
@@ -124,7 +124,7 @@ namespace ALFA.Shared
                         string VarNameStr = ServerInterop.ReadCExoString(VarName);
                         string PlayerNameStr = ServerInterop.ReadCExoString(PlayerName);
 
-                        EventArgs = new RetrieveCampaignDatabaseEventArgs(CampaignNameStr.Substring(15), VarNameStr, PlayerNameStr);
+                        EventArgs = new RetrieveCampaignDatabaseEventArgs(CampaignNameStr.Substring(4), VarNameStr, PlayerNameStr);
                         CampaignDatabase.RetrieveCampaignDatabaseEvent(null, EventArgs);
 
                         //
@@ -200,7 +200,7 @@ namespace ALFA.Shared
                 // event handlers.
                 //
 
-                if (CampaignNameStr.StartsWith("VirtualDatabase"))
+                if (CampaignNameStr.StartsWith("VDB_"))
                 {
                     try
                     {
@@ -211,7 +211,7 @@ namespace ALFA.Shared
 
                         Marshal.Copy(Data, GFF, 0, (int)Size);
 
-                        EventArgs = new StoreCampaignDatabaseEventArgs(CampaignNameStr.Substring(15), VarNameStr, PlayerNameStr, GFF);
+                        EventArgs = new StoreCampaignDatabaseEventArgs(CampaignNameStr.Substring(4), VarNameStr, PlayerNameStr, GFF);
                         CampaignDatabase.StoreCampaignDatabaseEvent(null, EventArgs);
 
                         return EventArgs.Handled ? 1 : 0;
@@ -344,7 +344,7 @@ namespace ALFA.Shared
             private byte[] GFFInt;
 
             /// <summary>
-            /// The suffix of the campaign name (after VirtualDatabase).
+            /// The suffix of the campaign name (after VDB_).
             /// </summary>
             public string CampaignName { get { return CampaignNameInt; } }
 
@@ -373,7 +373,7 @@ namespace ALFA.Shared
         }
 
         /// <summary>
-        /// Event registration for StoreCampaignObject("VirtualDatabase", ...).
+        /// Event registration for StoreCampaignObject("VDB_", ...).
         /// </summary>
         public static event EventHandler<StoreCampaignDatabaseEventArgs> StoreCampaignDatabaseEvent;
 
@@ -403,7 +403,7 @@ namespace ALFA.Shared
             private string PlayerNameInt;
 
             /// <summary>
-            /// The suffix of the campaign name (after VirtualDatabase).
+            /// The suffix of the campaign name (after VDB_).
             /// </summary>
             public string CampaignName { get { return CampaignNameInt; } }
 
@@ -429,7 +429,7 @@ namespace ALFA.Shared
 
         /// <summary>
         /// Event registration for
-        /// RetrieveCampaignObject("VirtualDatabase", ...);
+        /// RetrieveCampaignObject("VDB_", ...);
         /// </summary>
         public static event EventHandler<RetrieveCampaignDatabaseEventArgs> RetrieveCampaignDatabaseEvent;
     }

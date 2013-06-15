@@ -46,6 +46,7 @@
 #include "acr_pps_i"
 #include "acr_db_persist_i"
 #include "acr_list_i"
+#include "acr_server_misc_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -349,10 +350,21 @@ int _LoadStorageObjectContents(object oStorage, object oTarget = OBJECT_INVALID)
 
     object oItem; int nLoaded = 0, nValued = 0;
 
-    // loop through the objects, add up the item and value counts
-	while (GetIsObjectValid(oItem = ACR_GetPersistentObject(oStorage, IntToString(nLoaded), sDatabaseName)))
+	 if (ACR_GetHasDatabaseStore(sDatabaseName))
+	 {
+		 // loop through the objects, add up the item and value counts
+		while (GetIsObjectValid(oItem = ACR_GetPersistentObject(oStorage, IntToString(nLoaded), sDatabaseName)))
+		{
+			nLoaded++; nValued += GetGoldPieceValue(oItem);
+		}
+	}
+	else	
 	{
-		nLoaded++; nValued += GetGoldPieceValue(oItem);
+		 // loop through the objects, add up the item and value counts
+		while (GetIsObjectValid(oItem = ACR_GetLegacyPersistentObject(oStorage, IntToString(nLoaded), sDatabaseName)))
+		{
+			nLoaded++; nValued += GetGoldPieceValue(oItem);
+		}
 	}
 
     // update the item and value counters
@@ -369,6 +381,7 @@ int _WriteStorageObjectContents(object oStorage)
 
     // purge the database to avoid duping items
     DestroyCampaignDatabase(sDatabaseName);
+	 ACR_DeleteDatabaseStore(sDatabaseName);
 
     int nStored = 0, nValued = 0, i;
     

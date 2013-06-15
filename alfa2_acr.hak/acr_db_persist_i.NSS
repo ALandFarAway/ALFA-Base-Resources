@@ -160,6 +160,9 @@ const string _ACR_DB_SQL_SERVER_BOOT_TIME_MOD_VAR = "ACR_SQL_DB_SERVER_BOOT_TIME
 //! Prefix string for ACR persist cache locals
 const string _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX = "_ACRPERSISTCACHE_";
 
+//! Prefix string used for the campaign object store file provider.
+const string _ACR_DB_VDB_FILE = "VDB_File_";
+
 //! Length of persist cache string
 const int _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX_LEN = 17;
 
@@ -354,6 +357,12 @@ vector ACR_GetPersistentVector(object oObject, string sVarName);
 //!  - sVarName: The unique variable name
 //!  - Returns: 0 on error 
 object ACR_GetPersistentObject(object oObject, string sVarName, string sDatabaseName);
+
+//! This function retrieves a legacy persistent object
+//!  - oObject: The object for which the data is being retrieved
+//!  - sVarName: The unique variable name
+//!  - Returns: 0 on error 
+object ACR_GetLegacyPersistentObject(object oObject, string sVarName, string sDatabaseName);
 
 //! This function deletes a persistent record
 //!  - oObject: The object for which the data is being deleted
@@ -828,22 +837,33 @@ void ACR_SetPersistentObject(object oObject, string sVarName, object oItem, stri
 	// if this is a corpse placeable, drop the CharID suffix to allow it to read the player variable.
     if ((GetResRef(oObject) == ACR_DTH_CORPSE_RESREF) || (GetResRef(oObject) == ACR_DTH_BODY_RESREF)) { sTag = GetStringLeft(sTag, 8); }
 
-    // generate the SQL - insert the record or update the values if it already exists
-    string sSQL = "INSERT INTO pwobject (Name, Tag, `Key`, Value, Expiration) VALUES ('"
-	 + ACR_SQLEncodeSpecialChars(GetName(oObject)) + "','" + sTag + "','" + ACR_SQLEncodeSpecialChars(sVarName) + "',%s,"
-     + IntToString(iExpiration) + ") ON DUPLICATE KEY UPDATE Value=%s, Expiration=" + IntToString(iExpiration);
 	 // flush queue for the object so that any pending writes are visible
 	 // TODO:  This can and should go away when we start caching these values
 	 //        on the object itself.  There is no reason to hit the database
 	 //        each time for them.
 	 _FlushQueryQueue(oObject);
 
-    SetLocalString(GetModule(), "NWNX!SQL!SETSCORCOSQL", sSQL);
-    //StoreCampaignObject("NWNX", "-", oItem);
-    StoreCampaignObject(sDatabaseName, sVarName, oItem);
+    StoreCampaignObject(_ACR_DB_VDB_FILE + sDatabaseName, sVarName, oItem);
 }
 
 object ACR_GetPersistentObject(object oObject, string sVarName, string sDatabaseName)
+{
+    // PC's don't have tags so use CD key instead
+    string sTag = (GetIsPC(oObject)) ? ACR_GetPCPublicCDKey(oObject) : GetTag(oObject);
+	
+	// if this is a corpse placeable, drop the CharID suffix to allow it to read the player variable.
+    if ((GetResRef(oObject) == ACR_DTH_CORPSE_RESREF) || (GetResRef(oObject) == ACR_DTH_BODY_RESREF)) { sTag = GetStringLeft(sTag, 8); }
+
+	 // flush queue for the object so that any pending writes are visible
+	 // TODO:  This can and should go away when we start caching these values
+	 //        on the object itself.  There is no reason to hit the database
+	 //        each time for them.
+	 _FlushQueryQueue(oObject);
+
+    return RetrieveCampaignObject(_ACR_DB_VDB_FILE + sDatabaseName, sVarName, GetLocation(oObject), oObject);
+}
+
+object ACR_GetLegacyPersistentObject(object oObject, string sVarName, string sDatabaseName)
 {
     // PC's don't have tags so use CD key instead
     string sTag = (GetIsPC(oObject)) ? ACR_GetPCPublicCDKey(oObject) : GetTag(oObject);

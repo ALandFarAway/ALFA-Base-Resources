@@ -104,6 +104,13 @@ const int ACR_SERVER_MISC_CLEAR_DICTIONARY                   = 17;
 // per server start.
 const int ACR_SERVER_MISC_GET_SALTED_MD5                     = 18;
 
+// This command checks whether a new-style database store exists for a given
+// campaign name.
+const int ACR_SERVER_MISC_GET_HAS_DATABASE_STORE             = 19;
+
+// This command deletes a new-style database store.
+const int ACR_SERVER_MISC_DELETE_DATABASE_STORE              = 20;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -247,6 +254,13 @@ string ACR_GetStackTrace();
 //!  - Returns: The salted MD5 checksum as a hex string.
 string ACR_GetSaltedMD5(string s);
 
+//! Check whether a flat GFF database store exists for a given campaign name.
+//!  - Returns: TRUE if there is a flat filesystem GFF store for the campaign.
+int ACR_GetHasDatabaseStore(string Campaign);
+
+//! Delete a flat GFF database store exists for a given campaign name.
+//!  - Returns: TRUE if the operation succeeded.
+int ACR_DeleteDatabaseStore(string Campaign);
 
 //! Make a raw call to the support script.
 //!  - Command: Supplies the command to request (e.g. ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT).
@@ -542,6 +556,31 @@ string ACR_GetSaltedMD5(string s)
 
 	return ACR__GetServerMiscReturnString();
 }
+
+int ACR_GetHasDatabaseStore(string Campaign)
+{
+	return ACR_CallServerMiscScript(
+		ACR_SERVER_MISC_GET_HAS_DATABASE_STORE,
+		0,
+		0,
+		Campaign,
+		"",
+		"",
+		OBJECT_INVALID);
+}
+
+int ACR_DeleteDatabaseStore(string Campaign)
+{
+	return ACR_CallServerMiscScript(
+		ACR_SERVER_MISC_DELETE_DATABASE_STORE,
+		0,
+		0,
+		Campaign,
+		"",
+		"",
+		OBJECT_INVALID);
+}
+
 
 int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, string P4, object P5, object ObjectSelf = OBJECT_SELF)
 {

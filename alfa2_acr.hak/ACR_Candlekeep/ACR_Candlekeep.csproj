@@ -50,9 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\CLRScript\ALFADatabase.cs" />
-    <Compile Include="..\..\CLRScript\ALFAScriptLoader.cs" />
-    <Compile Include="..\..\CLRScript\ALFAResourceManager.cs" />
     <Compile Include="Archives.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_Candlekeep.cs" />

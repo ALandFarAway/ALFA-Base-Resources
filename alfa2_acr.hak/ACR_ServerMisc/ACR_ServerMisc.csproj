@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MySql.Data">
-      <HintPath>..\..\CLRScript\CLRv4.0.30319\MySql.Data.dll</HintPath>
-    </Reference>
     <Reference Include="NWNScriptJITIntrinsics, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\CLRScript\CLRv4.0.30319\NWNScriptJITIntrinsics.dll</HintPath>
     </Reference>
@@ -55,16 +52,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ACR_ServerMisc.cs" />
+    <Compile Include="CampaignObjectFileStore.cs" />
     <Compile Include="ScriptDatabaseConnection.cs" />
-    <Compile Include="..\..\CLRScript\ALFADatabase.cs" />
-    <Compile Include="..\..\CLRScript\ALFAMySQLDatabase.cs" />
-    <Compile Include="..\..\CLRScript\ALFAScriptLoader.cs" />
-    <Compile Include="..\..\CLRScript\ALFASystemInfo.cs" />
-    <Compile Include="..\..\CLRScript\NWScriptActions.cs" />
-    <Compile Include="..\..\CLRScript\NWScriptConstants.cs" />
-    <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="StandardEntrypoints.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ALFA.Shared\ALFA.Shared.csproj">
+      <Project>{1402AB0C-7040-452C-83D0-DAB7BDF08938}</Project>
+      <Name>ALFA.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
