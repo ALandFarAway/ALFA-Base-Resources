@@ -226,5 +226,21 @@ namespace ACR_ChooserCreator
                 }
             });
         }
+
+        public static void DrawLimbo(CLRScriptBase script, User currentUser)
+        {
+            script.ClearListBox(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_LIMBO_OBJECTS");
+            int max = script.GetLimboCreatureCount();
+            int count = 0;
+            while (count < max)
+            {
+                uint thing = script.GetCreatureInLimbo(count);
+                if (script.GetIsObjectValid(thing) == TRUE)
+                {
+                    script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_LIMBO_OBJECTS", thing.ToString(), "LISTBOX_ITEM_TEXT=  " + script.GetName(thing), "LISTBOX_ITEM_ICON=creature.tga", "5=" + thing.ToString(), "");
+                }
+                count++;
+            }
+        }
     }
 }

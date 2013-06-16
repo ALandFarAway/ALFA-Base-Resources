@@ -30,6 +30,16 @@ void main( object TargetObject, float posX, float posY, float posZ, string objec
 	
 	object oTarget = IntToObject(StringToInt(objectId));
 	
-	AssignCommand(oTarget, JumpToLocation(lTarget));
+	if(ObjectType == 999)
+	{
+		RecallCreatureFromLimboToLocation(oTarget, lTarget);
+	    AddScriptParameterInt(102);
+		AddScriptParameterString("");
+		ExecuteScriptEnhanced("ACR_ChooserCreator", OBJECT_SELF, TRUE);
+	}
+	else
+	{
+		AssignCommand(oTarget, JumpToLocation(lTarget));
+	}
 }
 

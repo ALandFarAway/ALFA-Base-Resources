@@ -322,11 +322,19 @@ namespace ACR_ChooserCreator
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_CHOOSER:
                     {
                         ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                        SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "ChooserActive", FALSE);
+                        SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "Chooser", FALSE);
+                        SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "LimboActive", TRUE);
+                        SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "Limbo", TRUE);
                         break;
                     }
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIMBO:
                     {
-                        // TODO: list all creatures in limbo.
+                        SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "ChooserActive", TRUE);
+                        SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "Chooser", TRUE);
+                        SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "LimboActive", FALSE);
+                        SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "Limbo", FALSE);
+                        ChooserLists.DrawLimbo(this, currentUser);
                         break;
                     }
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_SEARCH_CHOOSER:
@@ -433,7 +441,7 @@ namespace ACR_ChooserCreator
                         SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_TARGET_SCRIPT_NAME, "gui_chooserjump");
                         SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_TARGET_SCRIPT_NAME_PARAM, commandParam);
                         SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_VALID_TARGET_LIST, "ground");
-                        SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_CREATE_OBJECT_TYPE, "");
+                        SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_CREATE_OBJECT_TYPE, "0");
                         DisplayGuiScreen(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_UINAME_SINGLE, 0, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_TARGETUI_SINGLE, 0);
                         break;
                     }
@@ -706,6 +714,12 @@ namespace ACR_ChooserCreator
                             {
                                 DestroyObject(targetObject, 0.0f, FALSE);
                                 ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                                if (GetObjectType(targetObject) == OBJECT_TYPE_CREATURE)
+                                {
+                                    // DestroyObject runs at the end of script execution, so we have to delay
+                                    // to appropriately redraw the lists.
+                                    DelayCommand(0.1f, delegate { ChooserLists.DrawLimbo(this, currentUser); });
+                                }
                             }
                         }
                         break;
@@ -720,6 +734,16 @@ namespace ACR_ChooserCreator
                         }
                         break;
                     }
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_UNLIMBO:
+                    {
+                        SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_TARGET_SCRIPT_NAME, "gui_chooserjump");
+                        SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_TARGET_SCRIPT_NAME_PARAM, commandParam);
+                        SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_VALID_TARGET_LIST, "ground");
+                        SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_CREATE_OBJECT_TYPE, "999");
+                        DisplayGuiScreen(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_UINAME_SINGLE, 0, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_TARGETUI_SINGLE, 0);
+                        break;
+                    }
+
             }
             return 0;
 
@@ -787,6 +811,7 @@ namespace ACR_ChooserCreator
             ACR_CHOOSERCREATOR_CHOOSER_UNPLOT = 148,
             ACR_CHOOSERCREATOR_CHOOSER_DESTROY = 149,
             ACR_CHOOSERCREATOR_CHOOSER_UNTRAP = 150,
+            ACR_CHOOSERCREATOR_CHOOSER_UNLIMBO = 151,
         }
 
     }

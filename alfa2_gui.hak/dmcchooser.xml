@@ -3,10 +3,35 @@
 <!-- Copyright Obsidian Entertainment, Inc.   -->
 <!--                                          -->
 
-<UIScene name="SCREEN_DMC_CHOOSER" OnCreate=UIScene_OnCreate_InitDMCChooserTree() x=400 y=100 width=399 height=563 scriptloadable="true"
+<UIScene name="SCREEN_DMC_CHOOSER" OnCreate=UIScene_OnCreate_InitDMCChooserTree() x=400 y=100 width=399 height=550 scriptloadable="true"
 	draggable=true priority="SCENE_INGAME" scalescene="true" hidden="true" fadeout="0.2" fadein="0.2" backoutkey=true
 	OnAdd0=UIScene_OnAdd_InitDMCChooser() 
 	OnAdd1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",100,0) />
+
+    <UIIcon name="ChooserActive" img="activetabbottom.tga" x="11" y="30" width="24" height="4" />
+    <UIButton name="ChooserTab" x=11 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",101,0)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Creatures","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+        		<UIFrame state=base     fill="choosetab.tga"  fillstyle="center"/>
+			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=focused  fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=hilited  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=hifocus  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=disabled fill="b_empty.tga"   fillstyle="center" />
+    </UIButton>
+    <UIIcon name="LimboActive" img="activetabbottom.tga" x="41" y="30" width="24" height="4" hidden=TRUE />
+    <UIButton name="LimboTab" x=41 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",102,0)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Items","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+        		<UIFrame state=base     fill="limbotab.tga"      fillstyle="center"/>
+			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=focused  fill="b_empty.tga"   fillstyle="center" />
+			<UIFrame state=hilited  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=hifocus  fill="b_overlay.tga" fillstyle="center" />
+			<UIFrame state=disabled fill="b_empty.tga"   fillstyle="center" />
+    </UIButton>
 
     <UIListBox name="LISTBOX_DMC_CHOOSER" x="18" y="120" width="369" height="412" xPadding="0" yPadding="5" showpartialchild="true" hidden=TRUE
 		    unequalcontrols="true" scrollsegmentsize="30">
@@ -16,9 +41,9 @@
         </UITextTree>
     </UIListBox>    
     <!-- Close Button -->
-    <UIButton name="CloseButton" x=359 y=7 style="STYLE_CLOSE_BUTTON" OnLeftClick=UIButton_Input_ScreenClose() />
-
-    <UIPane name="npc_creature" x=40 y=40 height=40 width=320 hidden=TRUE>
+    <UIButton name="CloseButton" x=359 y=0 style="STYLE_CLOSE_BUTTON" OnLeftClick=UIButton_Input_ScreenClose() />
+    <UIPane name="Chooser" x=0 y=40>
+    <UIPane name="npc_creature" x=40 y=0 height=40 width=320 hidden=TRUE>
         <UIButton name="jumpme" x=0 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
@@ -117,7 +142,7 @@
         </UIButton>
     </UIPane>
 
-    <UIPane name="pc_creature" x=40 y=40 height=40 width=320 hidden=TRUE>
+    <UIPane name="pc_creature" x=40 y=0 height=40 width=320 hidden=TRUE>
         <UIButton name="jumpme" x=0 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
@@ -216,7 +241,7 @@
         </UIButton>
     </UIPane>
 
-    <UIPane name="placedoor" x=40 y=40 height=40 width=320 hidden=TRUE>
+    <UIPane name="placedoor" x=40 y=0 height=40 width=320 hidden=TRUE>
         <UIButton name="jumpme" x=0 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
@@ -315,7 +340,7 @@
         </UIButton>
     </UIPane>
 
-    <UIPane name="other" x=40 y=40 height=40 width=320>
+    <UIPane name="other" x=40 y=0 height=40 width=320>
         <UIButton name="jumpme" x=0 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
@@ -342,9 +367,9 @@
         </UIButton>
     </UIPane>
 
-    <UIText name="DISP_AREAS" x=10 y=112 height=20  width=270 editable=false text="Areas:"/>
+    <UIText name="DISP_AREAS" x=10 y=72 height=20  width=270 editable=false text="Areas:"/>
     <!-- List Box: Areas -->
-    <UIListBox name="LISTBOX_ACR_CHOOSER_AREAS" x="10" y="120" width="375" height="140" xPadding="0" yPadding="5" showpartialchild="true"
+    <UIListBox name="LISTBOX_ACR_CHOOSER_AREAS" x="10" y="80" width="375" height="140" xPadding="0" yPadding="5" showpartialchild="true"
 		    unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded=false >
             <UIPane name="ACR_CHOOSER_AREA" width=300 height=20 tupple=true prototype=true draggable=false
              OnLeftDoubleClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
@@ -371,29 +396,29 @@
         <UIScrollBar name="SB" style="STYLE_SB_THIN" />
     </UIListBox>
 
-    <UIText name="DISP_NAME" x=10 y=258 height=20  width=60 editable=false text="Objects:"/>
-    <UIIcon name="SHOW_AOE" x=170 y=260 height=20 width=20 img="notrap.tga"
+    <UIText name="DISP_NAME" x=10 y=218 height=20  width=60 editable=false text="Objects:"/>
+    <UIIcon name="SHOW_AOE" x=170 y=220 height=20 width=20 img="notrap.tga"
      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",121,"")/>
-    <UIIcon name="SHOW_CREATURE" x=190 y=260 height=20 width=20 img="nocreature.tga"
+    <UIIcon name="SHOW_CREATURE" x=190 y=220 height=20 width=20 img="nocreature.tga"
      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",122,"")/>
-    <UIIcon name="SHOW_DOOR" x=210 y=260 height=20 width=20 img="nodoor.tga"
+    <UIIcon name="SHOW_DOOR" x=210 y=220 height=20 width=20 img="nodoor.tga"
      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",123,"")/>
-    <UIIcon name="SHOW_ITEM" x=230 y=260 height=20 width=20 img="noitem.tga"
+    <UIIcon name="SHOW_ITEM" x=230 y=220 height=20 width=20 img="noitem.tga"
      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",124,"")/>
-    <UIIcon name="SHOW_LIGHT" x=250 y=260 height=20 width=20 img="nolight.tga"
+    <UIIcon name="SHOW_LIGHT" x=250 y=220 height=20 width=20 img="nolight.tga"
      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",125,"")/>
-    <UIIcon name="SHOW_PLACEABLE" x=270 y=260 height=20 width=20 img="noplaceable.tga"
+    <UIIcon name="SHOW_PLACEABLE" x=270 y=220 height=20 width=20 img="noplaceable.tga"
      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",126,"")/>
-    <UIIcon name="SHOW_STORE" x=290 y=260 height=20 width=20 img="nostore.tga"
+    <UIIcon name="SHOW_STORE" x=290 y=220 height=20 width=20 img="nostore.tga"
      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",128,"")/>
-    <UIIcon name="SHOW_TRIGGER" x=310 y=260 height=20 width=20 img="notrigger.tga"
+    <UIIcon name="SHOW_TRIGGER" x=310 y=220 height=20 width=20 img="notrigger.tga"
      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",129,"")/>
-    <UIIcon name="SHOW_VFX" x=330 y=260 height=20 width=20 img="novfx.tga"
+    <UIIcon name="SHOW_VFX" x=330 y=220 height=20 width=20 img="novfx.tga"
      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",127,"")/>
-    <UIIcon name="SHOW_WAYPOINT" x=350 y=260 height=20 width=20 img="nowaypoint.tga"
+    <UIIcon name="SHOW_WAYPOINT" x=350 y=220 height=20 width=20 img="nowaypoint.tga"
      OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",130,"")/>
     <!-- List Box: Objects -->
-    <UIListBox name="LISTBOX_ACR_CHOOSER_OBJECTS" x="10" y="275" width="375" height="260" xPadding="0" yPadding="5" showpartialchild="true"
+    <UIListBox name="LISTBOX_ACR_CHOOSER_OBJECTS" x="10" y="235" width="375" height="260" xPadding="0" yPadding="5" showpartialchild="true"
 		    unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded=false >
             <UIPane name="ACR_CHOOSER_OBJECT" width=300 height=20 tupple=true prototype=true draggable=false
              OnLeftDoubleClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
@@ -419,9 +444,64 @@
             </UIPane> 
         <UIScrollBar name="SB" style="STYLE_SB_THIN" />
     </UIListBox>
+    </UIPane>
 
-    <UIFrame x="0" y="33" width="399" height="513" topleft="frame1_TL.tga" topright="frame1_TR.tga" bottomleft="frame1_BL.tga"
+    <UIPane name="Limbo" x=0 y=40 hidden=TRUE>
+
+    <UIPane name="LimboButtons" x=40 y=0 height=40 width=320>
+        <UIButton name="jumpit" x=0 y=0 width=40 height=40 
+         MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+         OnLeftClick0=UIObject_Misc_ExtractData("selected:LISTBOX_ACR_LIMBO_OBJECTS","string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",151,local:6) >
+            <UIFrame state=base     fill="acr_chs_jumpit.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_empty.tga" />
+        </UIButton>
+        <UIButton name="destroy" x=280 y=0 width=40 height=40 
+         MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+         OnLeftClick0=UIObject_Misc_ExtractData("selected:LISTBOX_ACR_LIMBO_OBJECTS","string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",149,local:6) >
+            <UIFrame state=base     fill="acr_chs_destroy.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_empty.tga" />
+        </UIButton>
+    </UIPane>
+
+    <UIListBox name="LISTBOX_ACR_LIMBO_OBJECTS" x="10" y="80" width="375" height="380" xPadding="0" yPadding="5" showpartialchild="true"
+		    unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded=false >
+            <UIPane name="ACR_CHOOSER_LIMBO" width=300 height=20 tupple=true prototype=true draggable=false
+             OnLeftClick=UIObject_Misc_ExtractData("self:","string",5,local:6)> 
+
+                <UIButton name="LISTBOX_ITEM_ICON" x=0 y=0 height=20 width=20 style="STYLE_LIST_BUTTON" prototype=true draggable=false>
+                    <UIText align=right valign=bottom fontfamily="Default" style="1"/> 
+                </UIButton> 
+
+                <UIButton name="LISTBOX_ITEM_TEXT" x=20 y=0 height=20 width=240 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+                    <UIText align=left valign=middle fontfamily="Default" style="1"/> 
+                </UIButton>
+
+                <UIButton name="LISTBOX_ITEM_TEXT2" x=260 y=0 height=20 width=70 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+                    <UIText align=left valign=middle fontfamily="Default" style="1"/> 
+                </UIButton>
+
+                <UIButton name="LISTBOX_ITEM_TEXT3" x=330 y=0 height=20 width=45 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+                    <UIText align=left valign=middle fontfamily="Default" style="1"/> 
+                </UIButton>
+            </UIPane> 
+        <UIScrollBar name="SB" style="STYLE_SB_THIN" />
+    </UIListBox>
+    </UIPane>
+
+    <UIFrame x="0" y="25" width="399" height="521" topleft="frame1_TL.tga" topright="frame1_TR.tga" bottomleft="frame1_BL.tga"
         bottomright="frame1_br.tga" top="frame1_T.tga" bottom="frame1_b.tga" left="frame1_l.tga" right="frame1_r.tga"
         fillstyle="stretch" border="32" />
-    <UIIcon img="acr_black.tga" x=8 y=41 width=385 height=499 />
+    <UIIcon img="acr_black.tga" x=8 y=33 width=385 height=507 />
 	
