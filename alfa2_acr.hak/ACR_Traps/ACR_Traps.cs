@@ -162,6 +162,10 @@ namespace ACR_Traps
                         {
                             TrapDisable.RemoveTrap(this, ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers[trapTag]);
                         }
+                        if (ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect.Keys.Contains(trapTag))
+                        {
+                            TrapDisable.RemoveTrap(this, ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect[trapTag]);
+                        }
                         break;
                     }
             }
