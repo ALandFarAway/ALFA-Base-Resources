@@ -81,8 +81,9 @@ namespace ACR_ChooserCreator
                 else
                 {
                     if (Users.GetUser(OBJECT_SELF).openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_INITIALIZE_LISTS)
+                    {
                         Users.GetUser(OBJECT_SELF).openCommand = ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_CREATURE_TAB;
-
+                    }
                     if (debug)
                     {
                         SendMessageToPC(OBJECT_SELF, BackgroundLoader.loaderError);
@@ -133,6 +134,16 @@ namespace ACR_ChooserCreator
                             if (currentCat.ParentCategory != null)
                             {
                                 targetCat = currentCat.ParentCategory;
+                            }
+                            else
+                            {
+                                if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_CREATURE_TAB) targetCat = Navigators.CreatureNavigator.bottomCategory;
+                                else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB) targetCat = Navigators.ItemNavigator.bottomCategory;
+                                else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_PLACEABLE_TAB) targetCat = Navigators.PlaceableNavigator.bottomCategory;
+                                else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB) targetCat = Navigators.WaypointNavigator.bottomCategory;
+                                else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB) targetCat = Navigators.VisualEffectNavigator.bottomCategory;
+                                else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB) targetCat = Navigators.LightNavigator.bottomCategory;
+                                else if (currentUser.openCommand == ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_TRAP_TAB) targetCat = Navigators.TrapNavigator.bottomCategory;
                             }
                         }
                         else
@@ -284,30 +295,72 @@ namespace ACR_ChooserCreator
                         }
                         break;
                     }
-                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_SEARCH_CREATURES:
-                    // TODO: Kick off background process and waiter process to
-                    // search for the user's request.
-                    break;
-                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_SEARCH_ITEMS:
-                    // TODO: Kick off background process and waiter process to
-                    // search for the user's request.
-                    break;
-                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_SEARCH_PLACEABLES:
-                    // TODO: Kick off background process and waiter process to
-                    // search for the user's request.
-                    break;
-                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_SEARCH_TRAPS:
-                    // TODO: Kick off background process and waiter process to
-                    // search for the user's request.
-                    break;
-                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_SEARCH_WAYPOINT:
-                    // TODO: Kick off background process and waiter process to
-                    // search for the user's request.
-                    break;
-                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_SEARCH_VFX:
-                    // TODO: Kick off background process and waiter process to
-                    // search for the user's request.
-                    break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_SEARCH_CREATOR:
+                    {
+                        if (commandParam == currentUser.LastSearchString &&
+                            currentUser.openCommand == currentUser.LastSearchCommand)
+                        {
+                            if (currentUser.CreatorSearchResponse != null)
+                            {
+                                // They already have this one. We should just
+                                // draw it.
+                                Waiter.DrawNavigatorCategory(this, currentUser.CreatorSearchResponse);
+                                return 0;
+                            }
+                        }
+                        if (currentUser.CurrentSearch != null)
+                        {
+                            // In this case, a search is already running. We'll want to
+                            // cancel it and clear it out.
+                            CreatorSearch oldSearch = currentUser.CurrentSearch;
+                            oldSearch.CancelAsync();
+                            DelayCommand(0.5f, delegate { oldSearch.Dispose(); });
+                            currentUser.CurrentSearch = null;
+                        }
+                        if (String.IsNullOrWhiteSpace(commandParam))
+                        {
+                            // If the search string is empty, we'll assume that they just
+                            // want their old tab back.
+                            CreatorTabs.FocusTabs(this, currentUser, currentUser.openCommand);
+                            return 0;
+                        }
+                        
+                        // From here, it looks like we have to do a real search.
+                        currentUser.CurrentSearch = new CreatorSearch();
+                        currentUser.CurrentSearch.WorkerSupportsCancellation = true;
+                        currentUser.CurrentSearch.currentUser = currentUser;
+                        currentUser.LastSearchString = commandParam.ToLower();
+                        currentUser.LastSearchCommand = currentUser.openCommand;
+                        currentUser.CreatorSearchResponse = null;
+                        switch (currentUser.openCommand)
+                        {
+                            case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_CREATURE_TAB:
+                                currentUser.CurrentSearch.baseCat = currentUser.CurrentCreatureCategory;
+                                break;
+                            case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB:
+                                currentUser.CurrentSearch.baseCat = currentUser.CurrentItemCategory;
+                                break;
+                            case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB:
+                                currentUser.CurrentSearch.baseCat = currentUser.CurrentLightCategory;
+                                break;
+                            case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_PLACEABLE_TAB:
+                                currentUser.CurrentSearch.baseCat = currentUser.CurrentPlaceableCategory;
+                                break;
+                            case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_TRAP_TAB:
+                                currentUser.CurrentSearch.baseCat = currentUser.CurrentTrapCategory;
+                                break;
+                            case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB:
+                                currentUser.CurrentSearch.baseCat = currentUser.CurrentVisualEffectCategory;
+                                break;
+                            case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB:
+                                currentUser.CurrentSearch.baseCat = currentUser.CurrentWaypointCategory;
+                                break;
+                        }
+                        currentUser.CurrentSearch.DoWork += new System.ComponentModel.DoWorkEventHandler(currentUser.CurrentSearch.SearchCreator);
+                        currentUser.CurrentSearch.RunWorkerAsync();
+                        CreatorSearch.WaitForSearch(this, currentUser, currentUser.openCommand, currentUser.CurrentSearch);
+                        break;
+                    }
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_INITIALIZE_CHOOSER:
                     {
                         ChooserLists.InitializeButtons(this, currentUser);
@@ -339,7 +392,6 @@ namespace ACR_ChooserCreator
                     }
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_SEARCH_CHOOSER:
                     {
-                        // TODO: Run a search of areas for the provided string.
                         if (String.IsNullOrWhiteSpace(commandParam))
                         {
                             ChooserLists.DrawAreas(this, currentUser);
@@ -773,13 +825,7 @@ namespace ACR_ChooserCreator
             ACR_CHOOSERCREATOR_CREATOR_INCOMING_DOUBLECLICK = 21,
             ACR_CHOOSERCREATOR_CHOOSER_INCOMING_CLICK = 22,
 
-            ACR_CHOOSERCREATOR_SEARCH_CREATURES = 31,
-            ACR_CHOOSERCREATOR_SEARCH_ITEMS = 32,
-            ACR_CHOOSERCREATOR_SEARCH_PLACEABLES = 33,
-            ACR_CHOOSERCREATOR_SEARCH_TRAPS = 34,
-            ACR_CHOOSERCREATOR_SEARCH_VFX = 35,
-            ACR_CHOOSERCREATOR_SEARCH_WAYPOINT = 36,
-            ACR_CHOOSERCREATOR_SEARCH_LIGHTS = 37,
+            ACR_CHOOSERCREATOR_SEARCH_CREATOR = 31,
 
             ACR_CHOOSERCREATOR_INITIALIZE_CHOOSER = 100,
             ACR_CHOOSERCREATOR_FOCUS_CHOOSER = 101,

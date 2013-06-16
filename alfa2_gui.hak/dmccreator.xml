@@ -95,6 +95,19 @@
     <!-- Search Graphic -->
     <!-- <UIButton name="SearchGraphic" img="searching1.tga" x="7" y="136" width="300" height="400" /> -->
 
+
+    <!-- Search Box -->
+    <UIPane name="searchbox" x="38" y="90" height="26" width="245">
+        <UIIcon name="left_edge"   x="0" y="0" img="fx_white.tga" width="1" height="26" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+        <UIIcon name="top_edge"    x="0" y="0" img="fx_white.tga" width="240" height="1" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+        <UIIcon name="right_edge"  x="240" y="0" img="fx_white.tga" width="1" height="26" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+        <UIIcon name="bottom_edge" x="0" y="25" img="fx_white.tga" width="240" height="1" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+
+        <UIText name="SEARCH_BOX" x=10 y=6 height=20 width=220 editable=true maxlines=1 allowspace=true valign=center returnrestricted="true" update=true UpdateRate=1.0
+         OnUpdate=UIObject_Misc_SetLocalVarString(local:7)
+         OnReturn=UIObject_Misc_ExecuteServerScript("gui_choosercreator",31,local:7)/>
+    </UIPane>
+
     <!-- Column Headers -->
     <UIButton name="IconColumn" text=""      x=10  y=116 width=20  height=20 style="STYLE_CHARGEN_TAB" groupid=3 groupmemberid=2 />
     <UIButton name="Column1"    text="Name"  x=30  y=116 width=150 height=20 style="STYLE_CHARGEN_TAB" groupid=3 groupmemberid=1 />

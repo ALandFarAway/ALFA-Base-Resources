@@ -61,6 +61,12 @@ namespace ACR_ChooserCreator
         public NavigatorCategory CurrentVisualEffectCategory;
         public NavigatorCategory CurrentWaypointCategory;
         public NavigatorCategory CurrentTrapCategory;
+
+        public NavigatorCategory CreatorSearchResponse;
+        public CreatorSearch CurrentSearch;
+        public string LastSearchString;
+        public ACR_ChooserCreator.ACR_CreatorCommand LastSearchCommand;
+
         public int SortingColumn;
         public uint LastSeenArea;
         public uint FocusedArea;

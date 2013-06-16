@@ -57,6 +57,9 @@
     </Compile>
     <Compile Include="ChooserJump.cs" />
     <Compile Include="ChooserLists.cs" />
+    <Compile Include="CreatorSearch.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CreatorTabs.cs" />
     <Compile Include="IDrawableList.cs" />
     <Compile Include="Navigator.cs" />
