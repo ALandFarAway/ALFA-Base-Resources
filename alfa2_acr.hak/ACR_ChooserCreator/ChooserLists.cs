@@ -36,6 +36,19 @@ namespace ACR_ChooserCreator
             script.SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_VFX", currentUser.ChooserShowPlacedEffect ? "vfx.tga" : "novfx.tga");
             script.SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_WAYPOINT", currentUser.ChooserShowWaypoint ? "waypoint.tga" : "nowaypoint.tga");
         }
+
+        public static void SearchAreas(CLRScriptBase script, User currentUser, string searchString)
+        {
+            script.ClearListBox(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS");
+            foreach (ALFA.Shared.ActiveArea area in AreaList)
+            {
+                if (area.Name.ToLower().Contains(searchString.ToLower()))
+                {
+                    script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", area.Id.ToString(), "LISTBOX_ITEM_TEXT=  " + area.Name, "", "5=" + area.Id.ToString(), "");
+                }
+            }
+        }
+
         public static void DrawAreas(CLRScriptBase script, User currentUser)
         {
             script.ClearListBox(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS");

@@ -340,6 +340,14 @@ namespace ACR_ChooserCreator
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_SEARCH_CHOOSER:
                     {
                         // TODO: Run a search of areas for the provided string.
+                        if (String.IsNullOrWhiteSpace(commandParam))
+                        {
+                            ChooserLists.DrawAreas(this, currentUser);
+                        }
+                        else
+                        {
+                            ChooserLists.SearchAreas(this, currentUser, commandParam);
+                        }
                         break;
                     }
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_LIST_AREA:
