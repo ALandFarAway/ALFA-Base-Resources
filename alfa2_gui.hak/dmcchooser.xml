@@ -11,7 +11,7 @@
     <UIIcon name="ChooserActive" img="activetabbottom.tga" x="11" y="30" width="24" height="4" />
     <UIButton name="ChooserTab" x=11 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
 	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",101,0)
-         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Creatures","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Active Objects","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
         		<UIFrame state=base     fill="choosetab.tga"  fillstyle="center"/>
 			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
 			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
@@ -23,7 +23,7 @@
     <UIIcon name="LimboActive" img="activetabbottom.tga" x="41" y="30" width="24" height="4" hidden=TRUE />
     <UIButton name="LimboTab" x=41 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
 	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_choosercreator",102,0)
-         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Items","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Limbo","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
         		<UIFrame state=base     fill="limbotab.tga"      fillstyle="center"/>
 			<UIFrame state=up       fill="b_empty.tga"   fillstyle="center" />
 			<UIFrame state=down     fill="b_overlay.tga" fillstyle="center" />
@@ -47,7 +47,8 @@
         <UIButton name="jumpme" x=0 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",132,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",132,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Jump to Creature","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_jumpme.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -59,7 +60,8 @@
         <UIButton name="jumpit" x=40 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",133,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",133,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Jump Creature to Reticle","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_jumpit.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -71,7 +73,8 @@
         <UIButton name="heal" x=80 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",134,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",134,local:6) 
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Heal and Remove Status Abnormalities","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_heal.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -83,7 +86,8 @@
         <UIButton name="immortal" x=120 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",135,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",135,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Toggle Immortality","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_immortal.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -95,7 +99,8 @@
         <UIButton name="hostile" x=160 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",136,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",136,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Make Creature Hostile","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_hostile.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -107,7 +112,8 @@
         <UIButton name="nonhostile" x=200 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",137,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",137,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Make Creature Non-Hostile","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_nonhostile.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -119,7 +125,8 @@
         <UIButton name="kill" x=240 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",138,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",138,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Kill Creature","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_kill.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -131,7 +138,8 @@
         <UIButton name="limbo" x=280 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",139,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",139,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Send Creature to Limbo","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_limbo.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -146,7 +154,8 @@
         <UIButton name="jumpme" x=0 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",132,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",132,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Jump to PC","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_jumpme.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -158,7 +167,8 @@
         <UIButton name="jumpit" x=40 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",133,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",133,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Jump PC to Reticle","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_jumpit.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -170,7 +180,8 @@
         <UIButton name="heal" x=80 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",134,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",134,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Heal PC","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_heal.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -182,7 +193,8 @@
         <UIButton name="restore" x=120 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",140,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",140,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Clear Neg. Status","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_restore.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -194,7 +206,8 @@
         <UIButton name="allowrest" x=160 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",141,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",141,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Allow Rest","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_rest.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -206,7 +219,8 @@
         <UIButton name="allowspells" x=200 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",142,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",142,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Allow Spell Prep","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_spells.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -218,7 +232,8 @@
         <UIButton name="inventory" x=240 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",144,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",144,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("View Inventory","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_inventory.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -230,7 +245,8 @@
         <UIButton name="quarantine" x=280 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",143,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",143,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Validate PC from Quarantine","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_quarantine.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -245,7 +261,8 @@
         <UIButton name="jumpme" x=0 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",132,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",132,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Jump to Object","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_jumpme.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -257,7 +274,8 @@
         <UIButton name="heal" x=40 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",134,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",134,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Repair Object","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_heal.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -269,7 +287,8 @@
         <UIButton name="lock" x=80 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",145,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",145,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Lock Object","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_lock.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -281,7 +300,8 @@
         <UIButton name="unlock" x=120 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",146,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",146,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Unlock Object","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_unlock.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -293,7 +313,8 @@
         <UIButton name="plot" x=160 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",147,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",147,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Set Object as Plot","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_plot.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -305,7 +326,8 @@
         <UIButton name="unplot" x=200 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",148,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",148,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Set Object as Non-Plot","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_noplot.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -317,7 +339,8 @@
         <UIButton name="untrap" x=240 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",150,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",150,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Remove Trap from Object","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_untrap.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -329,7 +352,63 @@
         <UIButton name="destroy" x=280 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",149,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",149,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Destroy Object","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+            <UIFrame state=base     fill="acr_chs_destroy.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_empty.tga" />
+        </UIButton>
+    </UIPane>
+
+    <UIPane name="spawn" x=40 y=0 height=40 width=320 hidden=TRUE>
+        <UIButton name="jumpme" x=0 y=0 width=40 height=40 
+         MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",132,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Jump to Spawn Point","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+            <UIFrame state=base     fill="acr_chs_jumpme.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_empty.tga" />
+        </UIButton>
+        <UIButton name="activspawn" x=40 y=0 width=40 height=40 
+         MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",152,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Activate Spawn Point","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+            <UIFrame state=base     fill="acr_chs_activespawn.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_empty.tga" />
+        </UIButton>
+        <UIButton name="deactivspawn" x=80 y=0 width=40 height=40 
+         MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",153,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Deactivate Spawn Point","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+            <UIFrame state=base     fill="acr_chs_deactivespawn.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_empty.tga" />
+        </UIButton>
+        <UIButton name="destroy" x=280 y=0 width=40 height=40 
+         MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",149,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Destroy Spawn Point","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_destroy.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -344,7 +423,8 @@
         <UIButton name="jumpme" x=0 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",132,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",132,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Jump to Object","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_jumpme.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -356,7 +436,8 @@
         <UIButton name="destroy" x=280 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",149,local:6) >
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",149,local:6)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Destroy Object","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_chs_destroy.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -366,6 +447,7 @@
             <UIFrame state=disabled fill="b_empty.tga" />
         </UIButton>
     </UIPane>
+
 
     <UIPane name="searchbox" x="80" y="42" height="26" width="245">
         <UIIcon name="left_edge"   x="0" y="0" img="fx_white.tga" width="1" height="26" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />

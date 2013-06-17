@@ -267,6 +267,7 @@ namespace ACR_ChooserCreator
                                     SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "npc_creature", FALSE);
                                     SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "pc_creature", TRUE);
                                     SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "placedoor", TRUE);
+                                    SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "spawn", TRUE);
                                     SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "other", TRUE);
                                 }
                                 else
@@ -274,6 +275,7 @@ namespace ACR_ChooserCreator
                                     SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "npc_creature", TRUE);
                                     SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "pc_creature", FALSE);
                                     SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "placedoor", TRUE);
+                                    SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "spawn", TRUE);
                                     SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "other", TRUE);
                                 }
                             }
@@ -283,6 +285,18 @@ namespace ACR_ChooserCreator
                                 SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "npc_creature", TRUE);
                                 SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "pc_creature", TRUE);
                                 SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "placedoor", FALSE);
+                                SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "spawn", TRUE);
+                                SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "other", TRUE);
+                            }
+                            else if (objType == OBJECT_TYPE_WAYPOINT &&
+                                (!String.IsNullOrWhiteSpace(GetLocalString(targetObject, "ACR_SPAWN_GROUP_1")) ||
+                                !String.IsNullOrWhiteSpace(GetLocalString(targetObject, "ACR_SPAWN_RESNAME_1")) ||
+                                !String.IsNullOrWhiteSpace(GetLocalString(targetObject, "ACR_SPAWN_RANDOM_RESNAME_1"))))
+                            {
+                                SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "npc_creature", TRUE);
+                                SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "pc_creature", TRUE);
+                                SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "placedoor", TRUE);
+                                SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "spawn", FALSE);
                                 SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "other", TRUE);
                             }
                             else
@@ -290,6 +304,7 @@ namespace ACR_ChooserCreator
                                 SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "npc_creature", TRUE);
                                 SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "pc_creature", TRUE);
                                 SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "placedoor", TRUE);
+                                SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "spawn", TRUE);
                                 SetGUIObjectHidden(OBJECT_SELF, "SCREEN_DMC_CHOOSER", "other", FALSE);
                             }
                         }
@@ -498,11 +513,16 @@ namespace ACR_ChooserCreator
                     }
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_JUMP_OBJECT_TO_ME:
                     {
-                        SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_TARGET_SCRIPT_NAME, "gui_chooserjump");
-                        SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_TARGET_SCRIPT_NAME_PARAM, commandParam);
-                        SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_VALID_TARGET_LIST, "ground");
-                        SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_CREATE_OBJECT_TYPE, "0");
-                        DisplayGuiScreen(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_UINAME_SINGLE, 0, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_TARGETUI_SINGLE, 0);
+                        uint targetObject = 0;
+                        if (uint.TryParse(commandParam, out targetObject))
+                        {
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_TARGET_SCRIPT_NAME, "gui_chooserjump");
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_TARGET_SCRIPT_NAME_PARAM, commandParam);
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_VALID_TARGET_LIST, "ground");
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_CREATE_OBJECT_TYPE, "0");
+                            DisplayGuiScreen(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_UINAME_SINGLE, 0, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_TARGETUI_SINGLE, 0);
+                            SendMessageToPC(currentUser.Id, String.Format("Jumping {0} to your target...", GetTag(targetObject)));
+                        }
                         break;
                     }
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_HEAL:
@@ -515,6 +535,7 @@ namespace ACR_ChooserCreator
                             {
                                 RemoveEffect(targetObject, eff);
                             }
+                            SendMessageToPC(currentUser.Id, String.Format("Healing {0}...", GetTag(targetObject)));
                             ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
@@ -527,10 +548,12 @@ namespace ACR_ChooserCreator
                             if (GetImmortal(targetObject) == TRUE)
                             {
                                 SetImmortal(targetObject, FALSE);
+                                SendMessageToPC(currentUser.Id, String.Format("Making {0} immortal...", GetTag(targetObject)));
                             }
                             else
                             {
                                 SetImmortal(targetObject, TRUE);
+                                SendMessageToPC(currentUser.Id, String.Format("Making {0} mortal...", GetTag(targetObject)));
                             }
                             ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }                       
@@ -542,6 +565,7 @@ namespace ACR_ChooserCreator
                         if (uint.TryParse(commandParam, out targetObject))
                         {
                             ChangeToStandardFaction(targetObject, STANDARD_FACTION_HOSTILE);
+                            SendMessageToPC(currentUser.Id, String.Format("Making {0} hostile...", GetTag(targetObject)));
                             ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
@@ -552,6 +576,7 @@ namespace ACR_ChooserCreator
                         if (uint.TryParse(commandParam, out targetObject))
                         {
                             ChangeToStandardFaction(targetObject, STANDARD_FACTION_COMMONER);
+                            SendMessageToPC(currentUser.Id, String.Format("Making {0} non-hostile...", GetTag(targetObject)));
                             ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
@@ -563,6 +588,7 @@ namespace ACR_ChooserCreator
                         {
                             SetImmortal(targetObject, FALSE);
                             ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectDeath(FALSE, FALSE, TRUE, TRUE), targetObject, 0.0f);
+                            SendMessageToPC(currentUser.Id, String.Format("Killing {0}...", GetTag(targetObject)));
                             ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
@@ -573,6 +599,7 @@ namespace ACR_ChooserCreator
                         if (uint.TryParse(commandParam, out targetObject))
                         {
                             SendCreatureToLimbo(targetObject);
+                            SendMessageToPC(currentUser.Id, String.Format("Sending {0} to limbo...", GetTag(targetObject)));
                             ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
@@ -622,6 +649,7 @@ namespace ACR_ChooserCreator
                                     RemoveEffect(targetObject, eff);
                                 }
                             }
+                            SendMessageToPC(currentUser.Id, String.Format("Removing abnormalities from {0}...", GetName(targetObject)));
                             ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
@@ -633,6 +661,7 @@ namespace ACR_ChooserCreator
                         {
                             SendMessageToPC(OBJECT_SELF, "Resetting rest for " + GetName(targetObject) + ".");
                             GetDatabase().ACR_DeletePersistentVariable(targetObject, ACR_REST_TIMER);
+                            SendMessageToPC(currentUser.Id, String.Format("Allowing {0} to rest...", GetName(targetObject)));
                             ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
@@ -645,6 +674,7 @@ namespace ACR_ChooserCreator
                             SendMessageToPC(OBJECT_SELF, "Resetting spell timers for " + GetName(targetObject) + ".");
                             GetDatabase().ACR_DeletePersistentVariable(targetObject, ACR_REST_STUDY_TIMER);
                             GetDatabase().ACR_DeletePersistentVariable(targetObject, ACR_REST_PRAYER_TIMER);
+                            SendMessageToPC(currentUser.Id, String.Format("Allowing {0} to prepare spells...", GetName(targetObject)));
                             ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
@@ -692,6 +722,7 @@ namespace ACR_ChooserCreator
                             AddScriptParameterInt(PLAYER_REPORT_SHOW_INVENTORY);
                             AddScriptParameterObject(targetObject);
                             ExecuteScriptEnhanced("gui_playerreport", OBJECT_SELF, TRUE);
+                            SendMessageToPC(currentUser.Id, String.Format("Opening {0}'s inventory...", GetTag(targetObject)));
                             ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
@@ -702,6 +733,7 @@ namespace ACR_ChooserCreator
                         if (uint.TryParse(commandParam, out targetObject))
                         {
                             SetLocked(targetObject, TRUE);
+                            SendMessageToPC(currentUser.Id, String.Format("Locking {0}...", GetTag(targetObject)));
                             ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
@@ -712,6 +744,7 @@ namespace ACR_ChooserCreator
                         if (uint.TryParse(commandParam, out targetObject))
                         {
                             SetLocked(targetObject, FALSE);
+                            SendMessageToPC(currentUser.Id, String.Format("Unlocking {0}...", GetTag(targetObject)));
                             ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
@@ -722,6 +755,7 @@ namespace ACR_ChooserCreator
                         if (uint.TryParse(commandParam, out targetObject))
                         {
                             SetPlotFlag(targetObject, TRUE);
+                            SendMessageToPC(currentUser.Id, String.Format("Setting {0} as plot...", GetTag(targetObject)));
                             ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
@@ -732,6 +766,7 @@ namespace ACR_ChooserCreator
                         if (uint.TryParse(commandParam, out targetObject))
                         {
                             SetPlotFlag(targetObject, FALSE);
+                            SendMessageToPC(currentUser.Id, String.Format("Setting {0} as non-plot...", GetTag(targetObject)));
                             ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
@@ -769,6 +804,7 @@ namespace ACR_ChooserCreator
 	                            AddScriptParameterString("");
 		                        ExecuteScriptEnhanced("acr_traps", targetObject, TRUE);
                                 ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
+                                SendMessageToPC(currentUser.Id, String.Format("Disabling {0} as a trap...", GetTag(targetObject)));
                             }
                             else
                             {
@@ -780,6 +816,7 @@ namespace ACR_ChooserCreator
                                     // to appropriately redraw the lists.
                                     DelayCommand(0.1f, delegate { ChooserLists.DrawLimbo(this, currentUser); });
                                 }
+                                SendMessageToPC(currentUser.Id, String.Format("Destroying {0}...", GetTag(targetObject)));
                             }
                         }
                         break;
@@ -790,20 +827,45 @@ namespace ACR_ChooserCreator
                         if (uint.TryParse(commandParam, out targetObject))
                         {
                             SetTrapActive(targetObject, FALSE);
+                            SendMessageToPC(currentUser.Id, String.Format("Removing trap from {0}...", GetTag(targetObject)));
                             ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         }
                         break;
                     }
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_UNLIMBO:
                     {
-                        SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_TARGET_SCRIPT_NAME, "gui_chooserjump");
-                        SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_TARGET_SCRIPT_NAME_PARAM, commandParam);
-                        SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_VALID_TARGET_LIST, "ground");
-                        SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_CREATE_OBJECT_TYPE, "999");
-                        DisplayGuiScreen(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_UINAME_SINGLE, 0, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_TARGETUI_SINGLE, 0);
+                        uint targetObject = 0;
+                        if (uint.TryParse(commandParam, out targetObject))
+                        {
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_TARGET_SCRIPT_NAME, "gui_chooserjump");
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_TARGET_SCRIPT_NAME_PARAM, commandParam);
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_VALID_TARGET_LIST, "ground");
+                            SetGlobalGUIVariable(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_CREATOR_CREATE_OBJECT_TYPE, "999");
+                            DisplayGuiScreen(OBJECT_SELF, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_UINAME_SINGLE, 0, ALFA.Shared.GuiGlobals.ACR_GUI_GLOBAL_TARGETUI_SINGLE, 0);
+                            SendMessageToPC(currentUser.Id, String.Format("Recalling {0} from limbo...", GetTag(targetObject)));
+                        }
                         break;
                     }
-
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_ACTIVATE_SPAWN:
+                    {
+                        uint targetObject = 0;
+                        if (uint.TryParse(commandParam, out targetObject))
+                        {
+                            SetLocalInt(targetObject, "ACR_SPAWN_IS_DISABLED", 0);
+                            SendMessageToPC(currentUser.Id, String.Format("Enabling spawns from {0}...", GetTag(targetObject)));
+                        }
+                        break;
+                    }
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CHOOSER_DEACTIVATE_SPAWN:
+                    {
+                        uint targetObject = 0;
+                        if (uint.TryParse(commandParam, out targetObject))
+                        {
+                            SetLocalInt(targetObject, "ACR_SPAWN_IS_DISABLED", 1);
+                            SendMessageToPC(currentUser.Id, String.Format("Disabling spawns from {0}...", GetTag(targetObject)));
+                        }
+                        break;
+                    }
             }
             return 0;
 
@@ -866,6 +928,8 @@ namespace ACR_ChooserCreator
             ACR_CHOOSERCREATOR_CHOOSER_DESTROY = 149,
             ACR_CHOOSERCREATOR_CHOOSER_UNTRAP = 150,
             ACR_CHOOSERCREATOR_CHOOSER_UNLIMBO = 151,
+            ACR_CHOOSERCREATOR_CHOOSER_ACTIVATE_SPAWN = 152,
+            ACR_CHOOSERCREATOR_CHOOSER_DEACTIVATE_SPAWN = 153,
         }
 
     }
