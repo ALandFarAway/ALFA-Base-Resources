@@ -719,6 +719,7 @@ namespace ACR_ChooserCreator
                         uint targetObject = 0;
                         if (uint.TryParse(commandParam, out targetObject))
                         {
+                            ClearScriptParams();
                             AddScriptParameterInt(PLAYER_REPORT_SHOW_INVENTORY);
                             AddScriptParameterObject(targetObject);
                             ExecuteScriptEnhanced("gui_playerreport", OBJECT_SELF, TRUE);
