@@ -38,6 +38,61 @@ void main()
 			}
 		}
 	}
+	else if(GetLocalString(OBJECT_SELF, "ACR_TOUCH_ATTACK") == "GHOST")
+	{
+		if(GetObjectType(oTarget) == OBJECT_TYPE_CREATURE)
+		{
+			int nTouch = TouchAttackMelee(oTarget);
+			int nDamage = d6();
+			if(nTouch == 2) nDamage += d6();
+			int nDrain = d6();
+			if(nTouch)
+			{
+				if(nDrain >  GetAbilityScore(oTarget, ABILITY_CONSTITUTION) &&
+				   !GetIsImmune(oTarget, IMMUNITY_TYPE_ABILITY_DECREASE))
+				{
+					ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectParalyze(), oTarget);
+				}
+				else
+				{
+					effect eEffect = GetFirstEffect(oTarget);
+					while(GetIsEffectValid(eEffect))
+					{
+						if(GetEffectSpellId(eEffect) == GetSpellId() &&
+						   GetEffectCreator(eEffect) == OBJECT_SELF)
+						{
+							nDrain += GetEffectInteger(eEffect, 1);
+							RemoveEffect(oTarget, eEffect);
+						}
+						eEffect = GetNextEffect(oTarget);
+					}
+				}
+				int nAbility = ABILITY_STRENGTH;
+				
+				// TODO: Make this less metagamey (perhaps integrate with ACR_CreatureBehavior?)
+				if(GetLevelByClass(CLASS_TYPE_SORCERER, oTarget) ||
+				   GetLevelByClass(CLASS_TYPE_FAVORED_SOUL, oTarget) ||
+				   GetLevelByClass(CLASS_TYPE_BARD, oTarget))
+				{
+					nAbility = ABILITY_CHARISMA;
+				}
+				if(GetLevelByClass(CLASS_TYPE_CLERIC, oTarget) ||
+				   GetLevelByClass(CLASS_TYPE_DRUID, oTarget) ||
+				   GetLevelByClass(CLASS_TYPE_SPIRIT_SHAMAN, oTarget))
+				{
+					nAbility = ABILITY_WISDOM;
+				}
+				if(GetLevelByClass(CLASS_TYPE_WIZARD, oTarget))
+				{
+					nAbility = ABILITY_INTELLIGENCE;
+				}
+
+				ApplyEffectToObject(DURATION_TYPE_PERMANENT, SupernaturalEffect(EffectAbilityDecrease(nAbility, nDrain)), oTarget);
+				ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectDamage(nDamage), oTarget);
+				ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectVisualEffect( VFX_IMP_PULSE_NEGATIVE ), oTarget );
+			}
+		}
+	}
 	else
 	{
 		if(GetObjectType(oTarget) == OBJECT_TYPE_CREATURE)
