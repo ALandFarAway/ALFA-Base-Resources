@@ -29,13 +29,17 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 const string ACR_PCH_RESREF = "acr_pchide";
-const int ACR_PCH_SLOT = INVENTORY_SLOT_CWEAPON_L;
+const int ACR_PCH_SLOT = INVENTORY_SLOT_CARMOUR;
 
 const string ACR_PCH_PREFIX = "pchide_flag_";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+//! Forcibly equips the PC Hide, and will continue to try to equip the hide until
+//! successful.
+void _EquipHide( object oPC, object oHide);
 
 //! Ensures that the player has a PC Hide object.
 //! Warning: Will delete any other object in the ACR_PCH_SLOT slot.
@@ -64,6 +68,16 @@ int ACR_RemoveFlagFromHide(object oHide, int nFlag);
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+void _EquipHide( object oPC, object oHide) {
+	if ( !GetIsObjectValid( GetItemInSlot( ACR_PCH_SLOT, oPC ) ) ) {
+		if ( !GetHasFeat( FEAT_WEAPON_PROFICIENCY_CREATURE, oPC, TRUE ) ) {
+			FeatAdd( oPC, FEAT_WEAPON_PROFICIENCY_CREATURE, FALSE, FALSE, FALSE );
+		}
+		AssignCommand( oPC, ClearAllActions( TRUE ) );
+		AssignCommand( oPC, ActionEquipItem( oHide, ACR_PCH_SLOT ) );
+		DelayCommand( 0.5f, _EquipHide( oPC, oHide ) );
+	}
+}
 object ACR_InitializePCHide( object oPC ) {
 	// Get the object in the PCH slot.
 	object oHide = GetItemPossessedBy( oPC, ACR_PCH_RESREF );
@@ -83,7 +97,7 @@ object ACR_InitializePCHide( object oPC ) {
 	
 	// Equip if we don't have another item in the slot.
 	if ( !GetIsObjectValid( GetItemInSlot( ACR_PCH_SLOT, oPC ) ) ) {
-		AssignCommand( oPC, ActionEquipItem( oHide, ACR_PCH_SLOT ) );
+		DelayCommand(0.5f, _EquipHide( oPC, oHide ) );
 	}
 	
 	return oHide;
