@@ -635,6 +635,10 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s1_frenzy.ncs                      \
 			$(OUTPUTDIR)\nw_s0_findtrap.ncs                    \
 			$(OUTPUTDIR)\gui_chooserjump.ncs                   \
+			$(OUTPUTDIR)\nw_s0_spmantle.ncs                    \
+			$(OUTPUTDIR)\nw_s0_lstspmant.ncs                   \
+			$(OUTPUTDIR)\nw_s0_lsspmant.ncs                    \
+			$(OUTPUTDIR)\nw_s0_grspmant.ncs                    \
             $(OUTPUTDIR)\nw_s0_lowltvisn.ncs                   
 
 #
