@@ -1333,6 +1333,13 @@ void _GiveNLDFist( object oUser ) {
     if ( !GetIsObjectValid( oUser ) )
         return;
     object oFist = GetItemInSlot( INVENTORY_SLOT_CWEAPON_R, oUser );
+	if(GetIsPC(oUser) && ACR_GetIsPlayerDead(oUser))
+	{
+		// Let's not flood corpses with NLD fists; proper thing to do is
+		// just turn NLD mode off.
+		ACR_ToggleNLDMode(oUser);
+		return;
+	}
     if ( !GetIsObjectValid( oFist ) ) {
         oFist = CreateItemOnObject( ACR_NLD_FIST, oUser, 1, ACR_NLD_FIST, FALSE );
         FeatAdd( oUser, FEAT_WEAPON_PROFICIENCY_CREATURE, FALSE );
