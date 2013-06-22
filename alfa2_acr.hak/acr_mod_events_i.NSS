@@ -1602,6 +1602,57 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         {
             return FALSE;
         }
+		else if(c == "#ifs" || c == "#ifl" || c == "#not")
+		{
+			if(!GetIsDM(oSpeaker) && !GetIsDMPossessed(oSpeaker))
+			{
+				SendMessageToPC(oSpeaker, "This functionality is only available to DMs.");
+				return FALSE;
+			}
+			sText = GetStringRight(sText, len-4);
+			int nDC = -1;
+			int nSkill;
+			string sTickle;
+			if(c == "#ifs")
+			{
+				nSkill = SKILL_SPOT;
+				sTickle = "You spot something!";
+				nDC = StringToInt(GetStringLeft(sText, 2));
+				sText = GetStringRight(sText, len-7);
+			}
+			else if(c == "#ifl")
+			{
+				nSkill = SKILL_LISTEN;
+				sTickle = "You hear something!";
+				nDC = StringToInt(GetStringLeft(sText, 2));
+				sText = GetStringRight(sText, len-7);
+			}
+			else
+			{
+				nSkill = -1;
+				sTickle = "You notice something!";
+			}
+			object oTarget = GetFirstPC(TRUE);
+			while(GetIsObjectValid(oTarget))
+			{
+				if(GetArea(oSpeaker) == GetArea(oTarget))
+				{
+					if(nSkill > -1)
+					{
+						if(ACR_SkillCheck(nSkill, oTarget, nDC, FALSE, FALSE, 0))
+						{
+							NotifyPlayer(oTarget, NOTIFY_TYPE_INFO, sTickle, sText, NOTIFY_WINDOW_MESSAGE_BOX, "", "", "OK", "");
+						}
+					}
+					else
+					{
+						NotifyPlayer(oTarget, NOTIFY_TYPE_INFO, sTickle, sText, NOTIFY_WINDOW_MESSAGE_BOX, "", "", "OK", "");
+					}
+				}
+				oTarget = GetNextPC(TRUE);
+			}
+			return FALSE;
+		}
 
         sCommand = GetStringRight(GetStringLowerCase(sText), len-1);
         
