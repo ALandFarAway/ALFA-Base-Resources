@@ -34,16 +34,35 @@ namespace ACR_Items
         }
 
         public static Type[] ScriptParameterTypes =
-        { typeof(int) };
+        { typeof(uint), typeof(int), typeof(int), typeof(int) };
 
         public Int32 ScriptMain([In] object[] ScriptParameters, [In] Int32 DefaultReturnCode)
         {
-            int Value = (int)ScriptParameters[0]; // ScriptParameterTypes[0] is typeof(int)
-
-            PrintInteger(Value);
-
+            uint Target = (uint)ScriptParameters[0];
+            int Command = (int)ScriptParameters[1];
+            int Param1 = (int)ScriptParameters[2];
+            int Param2 = (int)ScriptParameters[3];
+            
+            switch((ItemCommand)Command)
+            {
+                case ItemCommand.AdjustPrice:
+                    {
+                        Pricing.AdjustPrice(this, Target, Param1);
+                        break;
+                    }
+                case ItemCommand.CalculatePrice:
+                    {
+                        Pricing.CalculatePrice(this, Target);
+                        break;
+                    }
+            }
             return 0;
         }
 
+        public enum ItemCommand
+        {
+            AdjustPrice = 0,
+            CalculatePrice = 1,
+        }
     }
 }

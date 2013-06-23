@@ -52,6 +52,8 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_Items.cs" />
+    <Compile Include="PricedItemProperty.cs" />
+    <Compile Include="Pricing.cs" />
     <Compile Include="StandardEntrypoints.cs" />
   </ItemGroup>
   <ItemGroup>
