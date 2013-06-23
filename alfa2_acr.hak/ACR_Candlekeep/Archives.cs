@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using OEIShared.IO;
+using OEIShared.IO.GFF;
 
 namespace ACR_Candlekeep
 {
@@ -83,6 +85,9 @@ namespace ACR_Candlekeep
 
         public Dictionary<string, ALFA.Shared.ActiveTrap> SpawnedTrapTriggers { get; set; }
         public Dictionary<string, ALFA.Shared.ActiveTrap> SpawnedTrapDetect { get; set; }
+
+        public Dictionary<string, GFFFile> ModifiedGff {get; set;}
+
 
         /// <summary>
         /// Mark resources as fully loaded after initialization completes.

@@ -26,7 +26,9 @@ namespace ACR_ServerMisc
                 //
 
                 CampaignDatabase.StoreCampaignDatabaseEvent += new EventHandler<CampaignDatabase.StoreCampaignDatabaseEventArgs>(CampaignDatabase_StoreCampaignDatabaseEvent);
+                CampaignDatabase.StoreCampaignDatabaseEvent += new EventHandler<CampaignDatabase.StoreCampaignDatabaseEventArgs>(ItemModification.CampaignDatabase_StoreItemModifyEvent);
                 CampaignDatabase.RetrieveCampaignDatabaseEvent += new EventHandler<CampaignDatabase.RetrieveCampaignDatabaseEventArgs>(CampaignDatabase_RetrieveCampaignDatabaseEvent);
+                CampaignDatabase.RetrieveCampaignDatabaseEvent += new EventHandler<CampaignDatabase.RetrieveCampaignDatabaseEventArgs>(ItemModification.CampaignDatabase_RetrieveItemModifyEvent);
 
                 //
                 // Ensure that the database store exists.
@@ -42,7 +44,9 @@ namespace ACR_ServerMisc
                 //
 
                 CampaignDatabase.StoreCampaignDatabaseEvent -= new EventHandler<CampaignDatabase.StoreCampaignDatabaseEventArgs>(CampaignDatabase_StoreCampaignDatabaseEvent);
-                CampaignDatabase.RetrieveCampaignDatabaseEvent -= new EventHandler<CampaignDatabase.RetrieveCampaignDatabaseEventArgs>(CampaignDatabase_RetrieveCampaignDatabaseEvent);
+                CampaignDatabase.StoreCampaignDatabaseEvent -= new EventHandler<CampaignDatabase.StoreCampaignDatabaseEventArgs>(ItemModification.CampaignDatabase_StoreItemModifyEvent);
+                CampaignDatabase.RetrieveCampaignDatabaseEvent -= new EventHandler<CampaignDatabase.RetrieveCampaignDatabaseEventArgs>(CampaignDatabase_RetrieveCampaignDatabaseEvent);                
+                CampaignDatabase.RetrieveCampaignDatabaseEvent -= new EventHandler<CampaignDatabase.RetrieveCampaignDatabaseEventArgs>(ItemModification.CampaignDatabase_RetrieveItemModifyEvent);
             }
 
             /// <summary>

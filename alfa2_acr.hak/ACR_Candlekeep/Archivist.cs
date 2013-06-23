@@ -54,6 +54,8 @@ namespace ACR_Candlekeep
                 ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers = new Dictionary<string, ALFA.Shared.ActiveTrap>();
                 ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect = new Dictionary<string, ALFA.Shared.ActiveTrap>();
 
+                ALFA.Shared.Modules.InfoStore.ModifiedGff = new Dictionary<string, GFFFile>();
+
                 Archivist.debug += "\nInitializing standard factions";
                 List<int> factionIndex = new List<int>();
                 factionIndex.Add(0); // Player

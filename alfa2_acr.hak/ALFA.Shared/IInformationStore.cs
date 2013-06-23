@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OEIShared.IO;
+using OEIShared.IO.ERF;
+using OEIShared.IO.GFF;
+using OEIShared.Utils;
 
 namespace ALFA.Shared
 {
@@ -24,5 +28,7 @@ namespace ALFA.Shared
 
         Dictionary<string, ActiveTrap> SpawnedTrapTriggers { get; set; }
         Dictionary<string, ActiveTrap> SpawnedTrapDetect { get; set; }
+
+        Dictionary<string, GFFFile> ModifiedGff { get; set; }
     }
 }
