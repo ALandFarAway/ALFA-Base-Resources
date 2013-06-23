@@ -185,6 +185,15 @@ namespace CLRScriptFramework
         public const int GMATERIAL_SERREN = 27;
         public const int GMATERIAL_SONDARR = 28;
         public const int GMATERIAL_SUZAILLIAN_CHAINWEAVE = 29;
+        public const int GMATERIAL_CREATURE_BLACK_DRAGON = 30;
+        public const int GMATERIAL_CREATURE_BLUE_DRAGON = 31;
+        public const int GMATERIAL_CREATURE_GREEN_DRAGON = 32;
+        public const int GMATERIAL_CREATURE_WHITE_DRAGON = 33;
+        public const int GMATERIAL_CREATURE_BRASS_DRAGON = 34;
+        public const int GMATERIAL_CREATURE_BRONZE_DRAGON = 35;
+        public const int GMATERIAL_CREATURE_COPPER_DRAGON = 36;
+        public const int GMATERIAL_CREATURE_GOLD_DRAGON = 37;
+        public const int GMATERIAL_CREATURE_SILVER_DRAGON = 38;
 
         // Damage Types
         public const int DAMAGE_TYPE_ALL = 0;    // AFW-OEI 06/07/2007: Deprecated.  May function correctly for EffectDamage(); results are undefined for EffectDamageImmunity() and EffectDamageResistance().
