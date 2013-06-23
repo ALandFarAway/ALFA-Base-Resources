@@ -655,7 +655,7 @@ CLRSCRIPT_OBJECTS=$(OUTPUTDIR)\TestClrScript.ncs               \
                   $(OUTPUTDIR)\ACR_ServerMisc.ncs              \
                   $(OUTPUTDIR)\ACR_CreatureBehavior.ncs        \
                   $(OUTPUTDIR)\ACR_EmptyScript.ncs             \
-				  $(OUTPUTDIR)\ACR_Items.ncs                   \
+                  $(OUTPUTDIR)\ACR_Items.ncs                   \
                   $(OUTPUTDIR)\ACR_ReadRawString.ncs           \
                   $(OUTPUTDIR)\ACR_Candlekeep.ncs              \
                   $(OUTPUTDIR)\ACR_CollectionLib.ncs           \
