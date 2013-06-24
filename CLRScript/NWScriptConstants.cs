@@ -6195,6 +6195,8 @@ namespace CLRScriptFramework
         public const int IP_CONST_DAMAGEBONUS_6d12 = 59;
         public const int IP_CONST_DAMAGEBONUS_3d6 = 60;
         public const int IP_CONST_DAMAGEBONUS_6d6 = 61;
+		public const int IP_CONST_DAMAGEBONUS_1d2 = 61;
+		public const int IP_CONST_DAMAGEBONUS_1d3 = 62;
         public const int IP_CONST_DAMAGETYPE_BLUDGEONING = 0;
         public const int IP_CONST_DAMAGETYPE_PIERCING = 1;
         public const int IP_CONST_DAMAGETYPE_SLASHING = 2;
@@ -6589,6 +6591,9 @@ namespace CLRScriptFramework
         public const int IP_CONST_DAMAGERESIST_40 = 8;
         public const int IP_CONST_DAMAGERESIST_45 = 9;
         public const int IP_CONST_DAMAGERESIST_50 = 10;
+        public const int IP_CONST_DAMAGERESIST_2 = 21;
+        public const int IP_CONST_DAMAGERESIST_4 = 22;
+        public const int IP_CONST_DAMAGERESIST_6 = 23;
         public const int IP_CONST_SAVEVS_ACID = 1;
         public const int IP_CONST_SAVEVS_COLD = 3;
         public const int IP_CONST_SAVEVS_DEATH = 4;
