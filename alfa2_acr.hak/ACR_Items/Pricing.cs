@@ -2019,6 +2019,7 @@ namespace ACR_Items
         private static bool GetIsMasterwork(CLRScriptBase script, List<PricedItemProperty> itProp)
         {
             PricedItemProperty removedProp = null;
+            bool complexEnchantment = false;
             foreach (PricedItemProperty prop in itProp)
             {
                 if (script.GetItemPropertyType(prop.Property) == ITEM_PROPERTY_ENHANCEMENT_BONUS)
@@ -2030,10 +2031,15 @@ namespace ACR_Items
                     script.GetItemPropertyCostTableValue(prop.Property) == 1)
                 {
                     removedProp = prop;
-                    break;
+                }
+                if (script.GetItemPropertyType(prop.Property) == ITEM_PROPERTY_ATTACK_BONUS_VS_ALIGNMENT_GROUP ||
+                   script.GetItemPropertyType(prop.Property) == ITEM_PROPERTY_ATTACK_BONUS_VS_RACIAL_GROUP ||
+                   script.GetItemPropertyType(prop.Property) == ITEM_PROPERTY_ATTACK_BONUS_VS_SPECIFIC_ALIGNMENT)
+                {
+                    complexEnchantment = true;
                 }
             }
-            if (removedProp != null)
+            if (removedProp != null && !complexEnchantment)
             {
                 itProp.Remove(removedProp);
                 return true;
@@ -2086,6 +2092,15 @@ namespace ACR_Items
             return false;
         }
 
+        private static bool GetIsArmor(int itemType)
+        {
+            if (Armor.Contains(itemType))
+            {
+                return true;
+            }
+            return false;
+        }
+
         #region Value and Category Indicies
         #region Base Item Classifications
         static List<int> OOC = new List<int>
@@ -2096,6 +2111,14 @@ namespace ACR_Items
             BASE_ITEM_CSLASHWEAPON,
             BASE_ITEM_CSLSHPRCWEAP,
             BASE_ITEM_INVALID,
+        };
+
+        static List<int> Armor = new List<int>
+        {
+            BASE_ITEM_ARMOR,
+            BASE_ITEM_SMALLSHIELD,
+            BASE_ITEM_LARGESHIELD,
+            BASE_ITEM_TOWERSHIELD,
         };
         static List<int> Ammunition = new List<int>
         {
