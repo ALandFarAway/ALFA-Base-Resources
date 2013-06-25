@@ -18,7 +18,7 @@ namespace ALFA.Shared
         /// </summary>
         /// <param name="Size">Supplies the allocation size.</param>
         /// <returns>The new allocation.</returns>
-        public static IntPtr AllocateServerHeap(UInt32 Size)
+        internal static IntPtr AllocateServerHeap(UInt32 Size)
         {
             IntPtr HeapMgr = NWN2_HeapMgr_Instance();
             IntPtr Heap = NWN2_HeapMgr_GetDefaultHeap(HeapMgr);
@@ -37,7 +37,7 @@ namespace ALFA.Shared
         /// internally or by AllocateServerHeap()).
         /// </summary>
         /// <param name="P">Supplies the memory block to free.</param>
-        public static void FreeServerHeap(IntPtr P)
+        internal static void FreeServerHeap(IntPtr P)
         {
             IntPtr HeapMgr = NWN2_HeapMgr_Instance();
             IntPtr Heap = NWN2_HeapMgr_GetDefaultHeap(HeapMgr);
