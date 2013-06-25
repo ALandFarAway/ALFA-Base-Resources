@@ -1869,6 +1869,7 @@ namespace ACR_Items
             #endregion
 
             #region Sum Calculated Values
+            value += enchantmentPenalty;
             float seconaryPenalty = 1.0f;
             if (effectivePlus >= 0.05f)
             {
