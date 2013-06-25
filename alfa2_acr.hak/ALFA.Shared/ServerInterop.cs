@@ -10,7 +10,7 @@ namespace ALFA.Shared
     /// This class supports low level interoperability with NWN2Server.exe.
     /// It is not portable.
     /// </summary>
-    public class ServerInterop
+    internal static class ServerInterop
     {
         /// <summary>
         /// Allocate unmanaged memory on the server heap.  The caller is

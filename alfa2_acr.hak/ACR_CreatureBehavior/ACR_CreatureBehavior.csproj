@@ -50,14 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\CLRScript\ALFADatabase.cs" />
-    <Compile Include="..\..\CLRScript\ALFAEngineStructures.cs" />
-    <Compile Include="..\..\CLRScript\ALFAMath.cs" />
-    <Compile Include="..\..\CLRScript\ALFAScriptLoader.cs" />
-    <Compile Include="..\..\CLRScript\ALFASystemInfo.cs" />
-    <Compile Include="..\..\CLRScript\NWScriptActions.cs" />
-    <Compile Include="..\..\CLRScript\NWScriptConstants.cs" />
-    <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />
     <Compile Include="AIParty.cs" />
     <Compile Include="AIPartyManager.cs" />
     <Compile Include="AreaObject.cs" />
@@ -73,6 +65,12 @@
     <Compile Include="StandardEntrypoints.cs" />
     <Compile Include="TransitionSource.cs" />
     <Compile Include="TriggerObject.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ALFA.Shared\ALFA.Shared.csproj">
+      <Project>{1402AB0C-7040-452C-83D0-DAB7BDF08938}</Project>
+      <Name>ALFA.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

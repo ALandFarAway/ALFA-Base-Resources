@@ -55,6 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\CLRScript\ALFADatabase.cs" />
+    <Compile Include="..\..\CLRScript\ALFAEngineStructures.cs" />
+    <Compile Include="..\..\CLRScript\ALFAHysteresis.cs" />
+    <Compile Include="..\..\CLRScript\ALFAMath.cs" />
     <Compile Include="..\..\CLRScript\ALFAMySQLDatabase.cs" />
     <Compile Include="..\..\CLRScript\ALFANetworkMessage.cs" />
     <Compile Include="..\..\CLRScript\ALFAResourceManager.cs" />
