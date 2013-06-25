@@ -6252,9 +6252,9 @@ namespace CLRScriptFramework
         public const int IP_CONST_FEAT_ARMOR_PROF_HEAVY = 24;
         public const int IP_CONST_FEAT_ARMOR_PROF_LIGHT = 25;
         public const int IP_CONST_FEAT_ARMOR_PROF_MEDIUM = 26;
-		public const int IP_CONST_FEAT_MOBILITY = 27;
-		public const int IP_CONST_FEAT_DISARM = 28;
-		
+        public const int IP_CONST_FEAT_MOBILITY = 27;
+        public const int IP_CONST_FEAT_DISARM = 28;
+
         public const int IP_CONST_FEAT_DEFLECT_ARROWS = 40;
 
         public const int IP_CONST_FEAT_EXTRA_SMITING = 134;
@@ -6263,8 +6263,8 @@ namespace CLRScriptFramework
         public const int IP_CONST_FEAT_EXTENDED_RAGE = 199;
         public const int IP_CONST_FEAT_EXTRA_RAGE = 200;
         public const int IP_CONST_FEAT_EXTRA_WILD_SHAPE = 201;
-		
-		public const int IP_CONST_FEAT_DARKVISION = 500;
+
+        public const int IP_CONST_FEAT_DARKVISION = 500;
 
         public const int IP_CONST_IMMUNITYMISC_BACKSTAB = 0;
         public const int IP_CONST_IMMUNITYMISC_LEVEL_ABIL_DRAIN = 1;
