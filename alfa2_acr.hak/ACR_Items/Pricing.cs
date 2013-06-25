@@ -59,7 +59,6 @@ namespace ACR_Items
             {
                 return;
             }
-
             
         }
 
@@ -714,7 +713,1211 @@ namespace ACR_Items
             #endregion
 
             #region Calculate Magical Bonuses
-            // TODO: Calculate magical bonuses
+            float effectivePlus = 0.0f;
+            int ACvsEveryone = 0;
+            int attackVsEveryone = 0;
+            int enhancementVsEveryone = 0;
+            #region Properties that are Indiscriminate
+            foreach (PricedItemProperty prop in itProps)
+            {
+                int propType = script.GetItemPropertyType(prop.Property);
+                switch (propType)
+                {
+                    #region Ability Score Bonus
+                    case ITEM_PROPERTY_ABILITY_BONUS:
+                        {
+                            prop.Price = (script.GetItemPropertyCostTableValue(prop.Property) * script.GetItemPropertyCostTableValue(prop.Property) * 1000);
+                            break;
+                        }
+                    #endregion
+                    #region Bonus Armor Class
+                    case ITEM_PROPERTY_AC_BONUS:
+                        {
+                            if (script.GetItemPropertyCostTableValue(prop.Property) > ACvsEveryone)
+                            {
+                                ACvsEveryone = ACvsEveryone = script.GetItemPropertyCostTableValue(prop.Property);
+                            }
+                            prop.Price = (ACvsEveryone * ACvsEveryone * 2000);
+                            break;
+                        }
+                    #endregion
+                    #region Magical Attack Bonus
+                    case ITEM_PROPERTY_ATTACK_BONUS:
+                        {
+                            attackVsEveryone = script.GetItemPropertyCostTableValue(prop.Property);
+                            effectivePlus += attackVsEveryone;
+                            break;
+                        }
+                    #endregion
+                    #region Base Item Weight Reduction
+                    case ITEM_PROPERTY_BASE_ITEM_WEIGHT_REDUCTION:
+                        {
+                            // Question: do we call this item illegal?
+                            break;
+                        }
+                    #endregion
+                    #region Bonus Feat (disarm only)
+                    case ITEM_PROPERTY_BONUS_FEAT:
+                        {
+                            if (script.GetItemPropertySubType(prop.Property) == IP_CONST_FEAT_DISARM)
+                            {
+                                effectivePlus += 0.5f;
+                            }
+                            else
+                            {
+                                return -1;
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Bonus Spell Slot
+                    case ITEM_PROPERTY_BONUS_SPELL_SLOT_OF_LEVEL_N:
+                        {
+                            prop.Price = ((script.GetItemPropertyCostTableValue(prop.Property) * script.GetItemPropertyCostTableValue(prop.Property)) + 1) * 1000;
+                            break;
+                        }
+                    #endregion
+                    #region Cast Spell
+                    case ITEM_PROPERTY_CAST_SPELL:
+                        {
+                            int spell = script.GetItemPropertySubType(prop.Property);
+                            float spellLevel = 0.0f;
+                            float casterLevel = 0.0f;
+                            float.TryParse(script.Get2DAString("iprp_spells", "InnateLvl", spell), out spellLevel);
+                            float.TryParse(script.Get2DAString("iprp_spells", "CasterLvl", spell), out casterLevel);
+                            if (spellLevel < 0.5f)
+                            {
+                                spellLevel = 0.5f;
+                            }
+                            if (casterLevel < 1.0f)
+                            {
+                                spellLevel = 1.0f;
+                            }
+                            float multiplier = spellLevel * casterLevel;
+                            switch (script.GetItemPropertyCostTableValue(prop.Property))
+                            {
+                                case IP_CONST_CASTSPELL_NUMUSES_0_CHARGES_PER_USE:
+                                    {
+                                        return -1;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_1_CHARGE_PER_USE:
+                                    {
+                                        prop.ChargedPrice = (int)(multiplier * 50);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_1_USE_PER_DAY:
+                                    {
+                                        prop.Price = (int)(multiplier * 360);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_2_CHARGES_PER_USE:
+                                    {
+                                        prop.ChargedPrice = (int)(multiplier * 25);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_2_USES_PER_DAY:
+                                    {
+                                        prop.Price = (int)(multiplier * 720);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_3_CHARGES_PER_USE:
+                                    {
+                                        prop.ChargedPrice = (int)(multiplier * 17);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_3_USES_PER_DAY:
+                                    {
+                                        prop.Price = (int)(multiplier * 1080);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_4_CHARGES_PER_USE:
+                                    {
+                                        prop.ChargedPrice = (int)(multiplier * 13);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_4_USES_PER_DAY:
+                                    {
+                                        prop.Price = (int)(multiplier * 1440);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_5_CHARGES_PER_USE:
+                                    {
+                                        prop.ChargedPrice = (int)(multiplier * 10);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_5_USES_PER_DAY:
+                                    {
+                                        prop.Price = (int)(multiplier * 1800);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_SINGLE_USE:
+                                    {
+                                        if (script.GetItemCharges(target) > 0)
+                                        {
+                                            prop.ChargedPrice = (int)((multiplier * 50) / script.GetItemCharges(target));
+                                        }
+                                        else
+                                        {
+                                            prop.Price = (int)(multiplier * 50);
+                                        }
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_UNLIMITED_USE:
+                                    {
+                                        return -1;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Damage Bonus
+                    case ITEM_PROPERTY_DAMAGE_BONUS:
+                        {
+                            switch (script.GetItemPropertySubType(prop.Property))
+                            {
+                                case IP_CONST_DAMAGETYPE_ACID:
+                                case IP_CONST_DAMAGETYPE_BLUDGEONING:
+                                case IP_CONST_DAMAGETYPE_COLD:
+                                case IP_CONST_DAMAGETYPE_ELECTRICAL:
+                                case IP_CONST_DAMAGETYPE_FIRE:
+                                case IP_CONST_DAMAGETYPE_PHYSICAL:
+                                case IP_CONST_DAMAGETYPE_PIERCING:
+                                case IP_CONST_DAMAGETYPE_SLASHING:
+                                case IP_CONST_DAMAGETYPE_SONIC:
+                                case IP_CONST_DAMAGETYPE_SUBDUAL:
+                                    {
+                                        switch (script.GetItemPropertyCostTableValue(prop.Property))
+                                        {
+                                            case IP_CONST_DAMAGEBONUS_1d4:
+                                                {
+                                                    effectivePlus += 1.0f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_1d6:
+                                                {
+                                                    effectivePlus += 1.5f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_1d8:
+                                                {
+                                                    effectivePlus += 2.2f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_1:
+                                                {
+                                                    effectivePlus += 0.4f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_2:
+                                                {
+                                                    effectivePlus += 0.8f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_3:
+                                                {
+                                                    effectivePlus += 1.2f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_4:
+                                                {
+                                                    effectivePlus += 1.6f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_5:
+                                                {
+                                                    effectivePlus += 2.0f;
+                                                    break;
+                                                }
+                                            default:
+                                                {
+                                                    return -1;
+                                                }
+                                        }
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGETYPE_NEGATIVE:
+                                    {
+                                        switch (script.GetItemPropertyCostTableValue(prop.Property))
+                                        {
+                                            case IP_CONST_DAMAGEBONUS_1d4:
+                                                {
+                                                    effectivePlus += 1.1f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_1d6:
+                                                {
+                                                    effectivePlus += 1.7f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_1d8:
+                                                {
+                                                    effectivePlus += 2.4f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_1:
+                                                {
+                                                    effectivePlus += 0.5f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_2:
+                                                {
+                                                    effectivePlus += 0.9f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_3:
+                                                {
+                                                    effectivePlus += 1.3f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_4:
+                                                {
+                                                    effectivePlus += 1.8f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_5:
+                                                {
+                                                    effectivePlus += 2.2f;
+                                                    break;
+                                                }
+                                            default:
+                                                {
+                                                    return -1;
+                                                }
+                                        }                                        
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGETYPE_DIVINE:
+                                case IP_CONST_DAMAGETYPE_MAGICAL:
+                                case IP_CONST_DAMAGETYPE_POSITIVE:
+                                    {
+                                        switch (script.GetItemPropertyCostTableValue(prop.Property))
+                                        {
+                                            case IP_CONST_DAMAGEBONUS_1d4:
+                                                {
+                                                    effectivePlus += 1.3f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_1d6:
+                                                {
+                                                    effectivePlus += 2.0f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_1d8:
+                                                {
+                                                    effectivePlus += 2.7f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_1:
+                                                {
+                                                    effectivePlus += 0.7f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_2:
+                                                {
+                                                    effectivePlus += 1.1f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_3:
+                                                {
+                                                    effectivePlus += 1.5f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_4:
+                                                {
+                                                    effectivePlus += 2.1f;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGEBONUS_5:
+                                                {
+                                                    effectivePlus += 2.5f;
+                                                    break;
+                                                }
+                                            default:
+                                                {
+                                                    return -1;
+                                                }
+                                        } 
+                                        break;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Damage Resistance
+                    case ITEM_PROPERTY_DAMAGE_RESISTANCE:
+                        {
+                            switch (script.GetItemPropertySubType(prop.Property))
+                            {
+                                case IP_CONST_DAMAGETYPE_ACID:
+                                case IP_CONST_DAMAGETYPE_COLD:
+                                case IP_CONST_DAMAGETYPE_ELECTRICAL:
+                                case IP_CONST_DAMAGETYPE_FIRE:
+                                case IP_CONST_DAMAGETYPE_SONIC:
+                                    {
+                                        switch (script.GetItemPropertyCostTableValue(prop.Property))
+                                        {
+                                            case IP_CONST_DAMAGERESIST_5:
+                                                {
+                                                    prop.Price = 4000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_10:
+                                                {
+                                                    prop.Price = 12000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_15:
+                                                {
+                                                    prop.Price = 20000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_20:
+                                                {
+                                                    prop.Price = 28000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_25:
+                                                {
+                                                    prop.Price = 36000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_30:
+                                                {
+                                                    prop.Price = 44000;
+                                                    break;
+                                                }
+                                        }
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGETYPE_NEGATIVE:
+                                    {
+                                        switch (script.GetItemPropertyCostTableValue(prop.Property))
+                                        {
+                                            case IP_CONST_DAMAGERESIST_5:
+                                                {
+                                                    prop.Price = 6000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_10:
+                                                {
+                                                    prop.Price = 18000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_15:
+                                                {
+                                                    prop.Price = 30000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_20:
+                                                {
+                                                    prop.Price = 42000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_25:
+                                                {
+                                                    prop.Price = 54000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_30:
+                                                {
+                                                    prop.Price = 66000;
+                                                    break;
+                                                }
+                                        }
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        return -1;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Freedom of Movement
+                    case ITEM_PROPERTY_FREEDOM_OF_MOVEMENT:
+                        {
+                            prop.Price = 40000;
+                            break;
+                        }
+                    #endregion
+                    #region Enhancement Bonus
+                    case ITEM_PROPERTY_ENHANCEMENT_BONUS:
+                        {
+                            enhancementVsEveryone = script.GetItemPropertyCostTableValue(prop.Property);
+                            effectivePlus += enhancementVsEveryone;
+                            break;
+                        }
+                    #endregion
+                    #region Immunities
+                    case ITEM_PROPERTY_IMMUNITY_MISCELLANEOUS:
+                        {
+                            switch (script.GetItemPropertySubType(prop.Property))
+                            {
+                                case IP_CONST_IMMUNITYMISC_DEATH_MAGIC:
+                                    {
+                                        prop.Price = 80000;
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_DISEASE:
+                                    {
+                                        prop.Price = 7500;
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_FEAR:
+                                    {
+                                        prop.Price = 10000;
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_KNOCKDOWN:
+                                    {
+                                        prop.Price = 22500;
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_LEVEL_ABIL_DRAIN:
+                                    {
+                                        prop.Price = 40000;
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_PARALYSIS:
+                                    {
+                                        prop.Price = 15000;
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_POISON:
+                                    {
+                                        prop.Price = 25000;
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        return -1;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Immunity to Specific Spell
+                    case ITEM_PROPERTY_IMMUNITY_SPECIFIC_SPELL:
+                        {
+                            float spellLevel = 0.0f;
+                            float.TryParse(script.Get2DAString("spells", "Innate", script.GetItemPropertyCostTableValue(prop.Property)), out spellLevel);
+                            if (spellLevel < 0.5f)
+                            {
+                                spellLevel = 0.5f;
+                            }
+                            prop.Price = (int)(((spellLevel * spellLevel) + 1) * 1000);
+                            break;
+                        }
+                    #endregion
+                    #region Keen
+                    case ITEM_PROPERTY_KEEN:
+                        {
+                            effectivePlus += 2.0f;
+                            break;
+                        }
+                    #endregion
+                    #region Light
+                    case ITEM_PROPERTY_LIGHT:
+                        {
+                            prop.Price = script.GetItemPropertyCostTableValue(prop.Property) * 100;
+                            break;
+                        }
+                    #endregion
+                    #region Massive Criticals
+                    case ITEM_PROPERTY_MASSIVE_CRITICALS:
+                        {
+                            switch (script.GetItemPropertyCostTableValue(prop.Property))
+                            {
+                                case IP_CONST_DAMAGEBONUS_1d4:
+                                    {
+                                        effectivePlus += 0.3f;
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_1d6:
+                                    {
+                                        effectivePlus += 0.4f;
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_1d8:
+                                    {
+                                        effectivePlus += 0.6f;
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_1d10:
+                                    {
+                                        effectivePlus += 0.8f;
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_1d12:
+                                    {
+                                        effectivePlus += 1.0f;
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_2d4:
+                                    {
+                                        effectivePlus += 0.7f;
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_2d6:
+                                    {
+                                        effectivePlus += 1.1f;
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_1:
+                                    {
+                                        effectivePlus += 0.1f;
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_2:
+                                    {
+                                        effectivePlus += 0.2f;
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_3:
+                                    {
+                                        effectivePlus += 0.3f;
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_4:
+                                    {
+                                        effectivePlus += 0.4f;
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_5:
+                                    {
+                                        effectivePlus += 0.6f;
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_6:
+                                    {
+                                        effectivePlus += 0.8f;
+                                        break;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Regeneration: Vampiric
+                    case ITEM_PROPERTY_REGENERATION_VAMPIRIC:
+                        {
+                            int val = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (val > 2)
+                            {
+                                return -1;
+                            }
+                            effectivePlus = val * 0.5f;
+                            break;
+                        }
+                    #endregion
+                    #region Bonus to Saving Throw Subtypes
+                    case ITEM_PROPERTY_SAVING_THROW_BONUS:
+                        {
+                            int val = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (val > 5)
+                            {
+                                return -1;
+                            }
+                            if (script.GetItemPropertySubType(prop.Property) == IP_CONST_SAVEVS_UNIVERSAL)
+                            {
+                                prop.Price = (val * val) * 1000;
+                            }
+                            else
+                            {
+                                prop.Price = (val * val) * 250;
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Bonus to Saving Throw Types
+                    case ITEM_PROPERTY_SAVING_THROW_BONUS_SPECIFIC:
+                        {
+                            int val = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (val > 5)
+                            {
+                                return -1;
+                            }
+                            prop.Price = (val * val) * 250;                            
+                            break;
+                        }
+                    #endregion
+                    #region Skill Bonus
+                    case ITEM_PROPERTY_SKILL_BONUS:
+                        {
+                            int val = script.GetItemPropertyCostTableValue(prop.Property);
+                            prop.Price = (val * val) * 100;
+                            break;
+                        }
+                    #endregion
+                    #region Spell Resistance
+                    case ITEM_PROPERTY_SPELL_RESISTANCE:
+                        {
+                            switch (script.GetItemPropertyCostTableValue(prop.Property))
+                            {
+                                case IP_CONST_SPELLRESISTANCEBONUS_10:
+                                    {
+                                        prop.Price = 6000;
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_12:
+                                    {
+                                        prop.Price = 10000;
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_14:
+                                    {
+                                        prop.Price = 20000;
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_16:
+                                    {
+                                        prop.Price = 40000;
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_18:
+                                    {
+                                        prop.Price = 60000;
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_20:
+                                    {
+                                        prop.Price = 80000;
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_22:
+                                    {
+                                        prop.Price = 100000;
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_24:
+                                    {
+                                        prop.Price = 120000;
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_26:
+                                    {
+                                        prop.Price = 140000;
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        return -1;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Unlimited Ammunition
+                    case ITEM_PROPERTY_UNLIMITED_AMMUNITION:
+                        {
+                            effectivePlus += 0.5f;
+                            switch (script.GetItemPropertyCostTableValue(prop.Property))
+                            {
+                                // Basic unlimited ammo just has the 0.5 above.
+                                case IP_CONST_UNLIMITEDAMMO_BASIC:
+                                    {
+                                        break;
+                                    }
+                                // These are bonus elemental damage. Price as such.
+                                case IP_CONST_UNLIMITEDAMMO_1D6COLD:
+                                case IP_CONST_UNLIMITEDAMMO_1D6FIRE:
+                                case IP_CONST_UNLIMITEDAMMO_1D6LIGHT:
+                                    {
+                                        effectivePlus += 1.5f;
+                                        break;
+                                    }
+                                // These are actually only bonus physical damage. Price as such.
+                                case IP_CONST_UNLIMITEDAMMO_PLUS1:
+                                    {
+                                        effectivePlus += +0.4f;
+                                        break;
+                                    }
+                                case IP_CONST_UNLIMITEDAMMO_PLUS2:
+                                    {
+                                        effectivePlus += 0.8f;
+                                        break;
+                                    }
+                                case IP_CONST_UNLIMITEDAMMO_PLUS3:
+                                    {
+                                        effectivePlus += 1.2f;
+                                        break;
+                                    }
+                                case IP_CONST_UNLIMITEDAMMO_PLUS4:
+                                    {
+                                        effectivePlus += 1.6f;
+                                        break;
+                                    }
+                                case IP_CONST_UNLIMITEDAMMO_PLUS5:
+                                    {
+                                        effectivePlus += 2.0f;
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        // These are the quirky OC special ammo.
+                                        return -1;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Banned Properties
+                    case ITEM_PROPERTY_BONUS_HITPOINTS:
+                    case ITEM_PROPERTY_DAMAGE_REDUCTION:
+                    case ITEM_PROPERTY_DARKVISION:
+                    case ITEM_PROPERTY_ENHANCED_CONTAINER_REDUCED_WEIGHT:
+                    case ITEM_PROPERTY_EXTRA_MELEE_DAMAGE_TYPE:
+                    case ITEM_PROPERTY_EXTRA_RANGED_DAMAGE_TYPE:
+                    case ITEM_PROPERTY_HASTE:
+                    case ITEM_PROPERTY_HEALERS_KIT:
+                    case ITEM_PROPERTY_HOLY_AVENGER:
+                    case ITEM_PROPERTY_IMMUNITY_DAMAGE_TYPE:
+                    case ITEM_PROPERTY_IMMUNITY_SPELL_SCHOOL:
+                    case ITEM_PROPERTY_IMMUNITY_SPELLS_BY_LEVEL:
+                    case ITEM_PROPERTY_IMPROVED_EVASION:
+                    case ITEM_PROPERTY_MIND_BLANK:
+                    case ITEM_PROPERTY_MONSTER_DAMAGE:
+                    case ITEM_PROPERTY_ON_HIT_PROPERTIES:
+                    case ITEM_PROPERTY_ON_MONSTER_HIT:
+                    case ITEM_PROPERTY_ONHITCASTSPELL:
+                    case ITEM_PROPERTY_POISON:
+                    case ITEM_PROPERTY_REGENERATION:
+                    case ITEM_PROPERTY_SPECIAL_WALK:
+                    case ITEM_PROPERTY_THIEVES_TOOLS:
+                    case ITEM_PROPERTY_TRAP:
+                    case ITEM_PROPERTY_TRUE_SEEING:
+                    case ITEM_PROPERTY_TURN_RESISTANCE:
+                        {
+                            // these props are banned. return -1.
+                            return -1;
+                        }
+                    #endregion
+                    #region Penalties and Non-Price-Affecting Properties
+                    case ITEM_PROPERTY_DAMAGE_REDUCTION_DEPRECATED:
+                    case ITEM_PROPERTY_DAMAGE_VULNERABILITY:
+                    case ITEM_PROPERTY_DECREASED_ABILITY_SCORE:
+                    case ITEM_PROPERTY_DECREASED_AC:
+                    case ITEM_PROPERTY_DECREASED_ATTACK_MODIFIER:
+                    case ITEM_PROPERTY_DECREASED_DAMAGE:
+                    case ITEM_PROPERTY_DECREASED_ENHANCEMENT_MODIFIER:
+                    case ITEM_PROPERTY_DECREASED_SAVING_THROWS:
+                    case ITEM_PROPERTY_DECREASED_SAVING_THROWS_SPECIFIC:
+                    case ITEM_PROPERTY_DECREASED_SKILL_MODIFIER:
+                    case ITEM_PROPERTY_NO_DAMAGE:
+                    case ITEM_PROPERTY_USE_LIMITATION_ALIGNMENT_GROUP:
+                    case ITEM_PROPERTY_USE_LIMITATION_CLASS:
+                    case ITEM_PROPERTY_USE_LIMITATION_RACIAL_TYPE:
+                    case ITEM_PROPERTY_USE_LIMITATION_SPECIFIC_ALIGNMENT:
+                    case ITEM_PROPERTY_VISUALEFFECT:
+                    case ITEM_PROPERTY_WEIGHT_INCREASE:
+                        {
+                            // these props don't affect the price. break.
+                            break;
+                        }
+                    #endregion
+                }
+            }
+            #endregion
+
+            #region Properties that are vs. Specifics
+            foreach (PricedItemProperty prop in itProps)
+            {
+                if (prop.Price > 0) { continue; }
+                int propType = script.GetItemPropertyType(prop.Property);
+                switch (propType)
+                {
+                    #region AC Bonus vs. Alignement Group
+                    case ITEM_PROPERTY_AC_BONUS_VS_ALIGNMENT_GROUP:
+                        {
+                            int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (ACvsGroup > ACvsEveryone)
+                            {
+                                float multiplier = 0.20f;
+                                if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_NEUTRAL)
+                                {
+                                    multiplier = 0.66f;
+                                }
+                                if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_EVIL)
+                                {
+                                    multiplier = 0.50f;
+                                }
+                                float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
+                                prop.Price = (int)((effectiveBonus * effectiveBonus * 2000) - (ACvsEveryone * ACvsEveryone * 2000));
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region AC Bonus vs. Damage Type
+                    case ITEM_PROPERTY_AC_BONUS_VS_DAMAGE_TYPE:
+                        {
+                            int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (ACvsGroup > ACvsEveryone)
+                            {
+                                float multiplier = 0.33f;
+                                float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
+                                prop.Price = (int)((effectiveBonus * effectiveBonus * 2000) - (ACvsEveryone * ACvsEveryone * 2000));
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region AC Bonus vs. Racial Type
+                    case ITEM_PROPERTY_AC_BONUS_VS_RACIAL_GROUP:
+                        {
+                            int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (ACvsGroup > ACvsEveryone)
+                            {
+                                float multiplier = 0.33f;
+                                float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
+                                prop.Price = (int)((effectiveBonus * effectiveBonus * 2000) - (ACvsEveryone * ACvsEveryone * 2000));
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region AC Bonus vs. Specific Alignment
+                    case ITEM_PROPERTY_AC_BONUS_VS_SPECIFIC_ALIGNMENT:
+                        {
+                            int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (ACvsGroup > ACvsEveryone)
+                            {
+                                float multiplier = 0.17f;
+                                float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
+                                prop.Price = (int)((effectiveBonus * effectiveBonus * 2000) - (ACvsEveryone * ACvsEveryone * 2000));
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Attack Bonus vs. Alignment Group
+                    case ITEM_PROPERTY_ATTACK_BONUS_VS_ALIGNMENT_GROUP:
+                        {
+                            int attackVsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (attackVsGroup > attackVsEveryone)
+                            {
+                                float multiplier = 0.20f;
+                                if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_NEUTRAL)
+                                {
+                                    multiplier = 0.66f;
+                                }
+                                if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_EVIL)
+                                {
+                                    multiplier = 0.50f;
+                                }
+                                effectivePlus += ((attackVsGroup - attackVsEveryone) * multiplier);
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Attack Bonus vs. Racial Group
+                    case ITEM_PROPERTY_ATTACK_BONUS_VS_RACIAL_GROUP:
+                        {
+                            int attackVsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (attackVsGroup > attackVsEveryone)
+                            {
+                                float multiplier = 0.33f;
+                                effectivePlus += ((attackVsGroup - attackVsEveryone) * multiplier);
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Attack Bonus vs. Specific Alignment
+                    case ITEM_PROPERTY_ATTACK_BONUS_VS_SPECIFIC_ALIGNMENT:
+                        {
+                            int attackVsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (attackVsGroup > attackVsEveryone)
+                            {
+                                float multiplier = 0.17f;
+                                effectivePlus += ((attackVsGroup - attackVsEveryone) * multiplier);
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Damage Bonus vs. Alignment Group
+                    case ITEM_PROPERTY_DAMAGE_BONUS_VS_ALIGNMENT_GROUP:
+                        {
+                            float multiplier = 0.20f;
+                            if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_NEUTRAL)
+                            {
+                                multiplier = 0.66f;
+                            }
+                            if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_EVIL)
+                            {
+                                multiplier = 0.50f;
+                            }
+                            switch (script.GetItemPropertyCostTableValue(prop.Property))
+                            {
+                                case IP_CONST_DAMAGEBONUS_1d4:
+                                    {
+                                        effectivePlus += (1.3f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_1d6:
+                                    {
+                                        effectivePlus += (2.0f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_1d8:
+                                    {
+                                        effectivePlus += (2.7f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_2d4:
+                                    {
+                                        effectivePlus += (3.0f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_1:
+                                    {
+                                        effectivePlus += (0.7f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_2:
+                                    {
+                                        effectivePlus += (1.1f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_3:
+                                    {
+                                        effectivePlus += (1.5f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_4:
+                                    {
+                                        effectivePlus += (2.1f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_5:
+                                    {
+                                        effectivePlus += (2.5f * multiplier);
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        return -1;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Damage Bonus vs. Racial Group
+                    case ITEM_PROPERTY_DAMAGE_BONUS_VS_RACIAL_GROUP:
+                        {
+                            float multiplier = 0.33f;
+                            switch (script.GetItemPropertyCostTableValue(prop.Property))
+                            {
+                                case IP_CONST_DAMAGEBONUS_1d4:
+                                    {
+                                        effectivePlus += (1.3f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_1d6:
+                                    {
+                                        effectivePlus += (2.0f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_1d8:
+                                    {
+                                        effectivePlus += (2.7f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_2d4:
+                                    {
+                                        effectivePlus += (3.0f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_1:
+                                    {
+                                        effectivePlus += (0.7f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_2:
+                                    {
+                                        effectivePlus += (1.1f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_3:
+                                    {
+                                        effectivePlus += (1.5f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_4:
+                                    {
+                                        effectivePlus += (2.1f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_5:
+                                    {
+                                        effectivePlus += (2.5f * multiplier);
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        return -1;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Damage Bonus vs. Specific Alignment
+                    case ITEM_PROPERTY_DAMAGE_BONUS_VS_SPECIFIC_ALIGNMENT:
+                        {
+                            float multiplier = 0.17f;
+                            switch (script.GetItemPropertyCostTableValue(prop.Property))
+                            {
+                                case IP_CONST_DAMAGEBONUS_1d4:
+                                    {
+                                        effectivePlus += (1.3f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_1d6:
+                                    {
+                                        effectivePlus += (2.0f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_1d8:
+                                    {
+                                        effectivePlus += (2.7f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_2d4:
+                                    {
+                                        effectivePlus += (3.0f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_1:
+                                    {
+                                        effectivePlus += (0.7f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_2:
+                                    {
+                                        effectivePlus += (1.1f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_3:
+                                    {
+                                        effectivePlus += (1.5f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_4:
+                                    {
+                                        effectivePlus += (2.1f * multiplier);
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGEBONUS_5:
+                                    {
+                                        effectivePlus += (2.5f * multiplier);
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        return -1;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Enhancement Bonus vs. Alignment Group
+                    case ITEM_PROPERTY_ENHANCEMENT_BONUS_VS_ALIGNMENT_GROUP:
+                        {
+                            int enhancementVsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (enhancementVsGroup > enhancementVsEveryone)
+                            {
+                                float multiplier = 0.20f;
+                                if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_NEUTRAL)
+                                {
+                                    multiplier = 0.66f;
+                                }
+                                if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_EVIL)
+                                {
+                                    multiplier = 0.50f;
+                                }
+                                effectivePlus += ((enhancementVsGroup - enhancementVsEveryone) * multiplier);
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Enhancement Bonus vs. Racial Group
+                    case ITEM_PROPERTY_ENHANCEMENT_BONUS_VS_RACIAL_GROUP:
+                        {
+                            int enhancementVsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (enhancementVsGroup > enhancementVsEveryone)
+                            {
+                                float multiplier = 0.33f;
+                                effectivePlus += ((enhancementVsGroup - enhancementVsEveryone) * multiplier);
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Enhancement Bonus vs. Specific Alignment
+                    case ITEM_PROPERTY_ENHANCEMENT_BONUS_VS_SPECIFIC_ALIGNEMENT:
+                        {
+                            int enhancementVsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (enhancementVsGroup > enhancementVsEveryone)
+                            {
+                                float multiplier = 0.17f;
+                                effectivePlus += ((enhancementVsGroup - enhancementVsEveryone) * multiplier);
+                            }
+                            break;
+                        }
+                    #endregion
+                }
+            }
+            #endregion
+            #endregion
+
+            #region Sum Calculated Values
+            float seconaryPenalty = 1.0f;
+            if (effectivePlus >= 0.05f)
+            {
+                seconaryPenalty = 1.5f;
+                value += (int)((effectivePlus * effectivePlus) * 2000);
+            }
+            PricedItemProperty costliestCharge = null;
+            PricedItemProperty secondCostliestCharge = null;
+            foreach (PricedItemProperty prop in itProps)
+            {
+                value += (int)(prop.Price * seconaryPenalty);
+                if (prop.ChargedPrice > 0)
+                {
+                    if (costliestCharge == null)
+                    {
+                        costliestCharge = prop;
+                    }
+                    else if (prop.ChargedPrice > costliestCharge.ChargedPrice)
+                    {
+                        secondCostliestCharge = costliestCharge;
+                        costliestCharge = prop;
+                    }
+                    else if (prop.ChargedPrice > secondCostliestCharge.ChargedPrice)
+                    {
+                        secondCostliestCharge = prop;
+                    }
+                }
+            }
+            if (costliestCharge != null)
+            {
+                if (secondCostliestCharge == null)
+                {
+                    value += costliestCharge.ChargedPrice * script.GetItemCharges(target);
+                }
+                else
+                {
+                    foreach (PricedItemProperty prop in itProps)
+                    {
+                        if (costliestCharge == prop)
+                        {
+                            value += costliestCharge.ChargedPrice * script.GetItemCharges(target);
+                        }
+                        else if (secondCostliestCharge == prop)
+                        {
+                            value += (costliestCharge.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
+                        }
+                        else
+                        {
+                            value += (costliestCharge.ChargedPrice * script.GetItemCharges(target)) / 2;
+                        }
+                    }
+                }
+            }
             #endregion
             return value;
         }
