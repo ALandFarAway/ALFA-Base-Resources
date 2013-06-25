@@ -59,6 +59,10 @@ namespace ACR_Items
             {
                 return;
             }
+            if (GetIsWeapon(itemType))
+            {
+                script.SendMessageToAllDMs(GetWeaponPrice(script, target).ToString());
+            }
             
         }
 
@@ -1869,7 +1873,14 @@ namespace ACR_Items
             if (effectivePlus >= 0.05f)
             {
                 seconaryPenalty = 1.5f;
-                value += (int)((effectivePlus * effectivePlus) * 2000);
+                if (effectivePlus >= 1.0f)
+                {
+                    value += (int)((effectivePlus * effectivePlus) * 2000);
+                }
+                else
+                {
+                    value += (int)(effectivePlus * 2000);
+                }
             }
             PricedItemProperty costliestCharge = null;
             PricedItemProperty secondCostliestCharge = null;
