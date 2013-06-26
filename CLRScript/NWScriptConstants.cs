@@ -973,6 +973,64 @@ namespace CLRScriptFramework
 
 
         public const int BASE_ITEM_INVALID = 256;
+        
+        public const int ARMOR_RULES_TYPE_CLOTH = 0;
+        public const int ARMOR_RULES_TYPE_PADDED = 1;
+        public const int ARMOR_RULES_TYPE_LEATHER = 2;
+        public const int ARMOR_RULES_TYPE_STUDDED_LEATHER = 3;
+        public const int ARMOR_RULES_TYPE_CHAIN_SHIRT = 4;
+        public const int ARMOR_RULES_TYPE_SCALE = 5;
+        public const int ARMOR_RULES_TYPE_BANDED = 6;
+        public const int ARMOR_RULES_TYPE_HALF_PLATE = 7;
+        public const int ARMOR_RULES_TYPE_FULL_PLATE = 8;
+        public const int ARMOR_RULES_TYPE_SHIELD_LIGHT = 9;
+        public const int ARMOR_RULES_TYPE_SHIELD_HEAVY = 10;
+        public const int ARMOR_RULES_TYPE_SHIELD_TOWER = 11;
+        public const int ARMOR_RULES_TYPE_HIDE = 12;
+        public const int ARMOR_RULES_TYPE_CHAINMAIL = 13;
+        public const int ARMOR_RULES_TYPE_BREASTPLATE = 14;
+        public const int ARMOR_RULES_TYPE_SPLINT = 15;
+        public const int ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL = 16;
+        public const int ARMOR_RULES_TYPE_SCALE_MITHRAL = 17;
+        public const int ARMOR_RULES_TYPE_BANDED_MITHRAL = 18;
+        public const int ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL = 19;
+        public const int ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL = 20;
+        public const int ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL = 21;
+        public const int ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL = 22;
+        public const int ARMOR_RULES_TYPE_SPLINT_MITHREAL = 23;
+        public const int ARMOR_RULES_TYPE_PADDED_MASTERWORK = 24;
+        public const int ARMOR_RULES_TYPE_LEATHER_MASTERWORK = 25;
+        public const int ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK = 26;
+        public const int ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK = 27;
+        public const int ARMOR_RULES_TYPE_HIDE_MASTERWORK = 28;
+        public const int ARMOR_RULES_TYPE_SCALE_MASTERWORK = 29;
+        public const int ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK = 30;
+        public const int ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK = 31;
+        public const int ARMOR_RULES_TYPE_SPLINT_MASTERWORK = 32;
+        public const int ARMOR_RULES_TYPE_BANDED_MASTERWORK = 33;
+        public const int ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK = 34;
+        public const int ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK = 35;
+        public const int ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK = 36;
+        public const int ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK = 37;
+        public const int ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK = 38;
+        public const int ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL = 39;
+        public const int ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL = 40;
+        public const int ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL = 41;
+        public const int ARMOR_RULES_TYPE_SHIELD_LIGHT_ZALANTAR = 42;
+        public const int ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD = 42;
+        public const int ARMOR_RULES_TYPE_SHIELD_HEAVY_ZALANTAR = 43;
+        public const int ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD = 43;
+        public const int ARMOR_RULES_TYPE_SHIELD_TOWER_ZALANTAR = 44;
+        public const int ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD = 44;
+        
+        public const int ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL = 76;
+        public const int ARMOR_RULES_TYPE_SCALE_HEAVYMETAL = 77;
+        public const int ARMOR_RULES_TYPE_BANDED_HEAVYMETAL = 78;
+        public const int ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL = 79;
+        public const int ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL = 80;
+        public const int ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL = 81;
+        public const int ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL = 82;
+        public const int ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL = 83;
 
         public const int VFX_NONE = -1;
         public const int VFX_DUR_BLUR = 0;
