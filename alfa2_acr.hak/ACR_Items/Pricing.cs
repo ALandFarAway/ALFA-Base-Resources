@@ -23,9 +23,12 @@ namespace ACR_Items
     {
         const string ItemChangeDBName = "VDB_ItMod";
         const string PriceChangeVarName = "PriceChange";
+        const string PropAdjustVarName = "PropChange";
 
         const int MasterworkWeaponValue = 300;
         const int MasterworkArmorValue = 150;
+
+        public static uint product = OBJECT_INVALID;
         
         public static void AdjustPrice(CLRScriptBase script, uint target, int adjustBy)
         {
@@ -35,11 +38,9 @@ namespace ACR_Items
             script.StoreCampaignObject(ItemChangeDBName, PriceChangeVarName, target, script.OBJECT_SELF);
             if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(PriceChangeVarName))
             {
-                script.SendMessageToAllDMs("index found");
                 int currentModifyCost = 0;
                 if (int.TryParse(ALFA.Shared.Modules.InfoStore.ModifiedGff[PriceChangeVarName].TopLevelStruct["ModifyCost"].Value.ToString(), out currentModifyCost))
                 {
-                    script.SendMessageToAllDMs("value adjustment");
                     currentModifyCost += adjustBy;
                     ALFA.Shared.Modules.InfoStore.ModifiedGff[PriceChangeVarName].TopLevelStruct["ModifyCost"].Value = currentModifyCost;
                 }
@@ -1962,7 +1963,8 @@ namespace ACR_Items
         private static int GetArmorPrice(CLRScriptBase script, uint target)
         {
             #region Initialize commonly-used variables
-            int value = ArmorRulesTypeValues[script.GetArmorRulesType(target)];
+            int rulesType = script.GetArmorRulesType(target);
+            int value = ArmorRulesTypeValues[rulesType];
             int itemType = script.GetBaseItemType(target);
             int enchantmentPenalty = 0;
             bool masterworkCounted = false;
@@ -1986,6 +1988,1324 @@ namespace ACR_Items
             }
             #endregion
 
+            #region Check for Rules Type Mismatches
+            if (rulesType == ARMOR_RULES_TYPE_SHIELD_HEAVY ||
+                rulesType == ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD ||
+                rulesType == ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK ||
+                rulesType == ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL)
+            {
+                if (itemType != BASE_ITEM_LARGESHIELD)
+                {
+                    return -1;
+                }
+            }
+            else if (rulesType == ARMOR_RULES_TYPE_SHIELD_LIGHT ||
+                rulesType == ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD ||
+                rulesType == ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK ||
+                rulesType == ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL)
+            {
+                if (itemType != BASE_ITEM_SMALLSHIELD)
+                {
+                    return -1;
+                }
+            }
+            else if (rulesType == ARMOR_RULES_TYPE_SHIELD_TOWER ||
+                rulesType == ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD ||
+                rulesType == ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK ||
+                rulesType == ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL)
+            {
+                if (itemType != BASE_ITEM_TOWERSHIELD)
+                {
+                    return -1;
+                }
+            }
+            else
+            {
+                if (itemType != BASE_ITEM_ARMOR)
+                {
+                    return -1;
+                }
+            }
+            #endregion
+
+            #region Correct Armor Rules Types and Properties for Materials
+            switch (specialMat)
+            {
+                #region Adamantine
+                case GMATERIAL_METAL_ADAMANTINE:
+                    {
+                        int damageReduction = 1;
+                        switch (rulesType)
+                        {
+                            case ARMOR_RULES_TYPE_BANDED:
+                            case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
+                                    value = 15000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    damageReduction = 3;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
+                                {
+                                    value = 15000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    damageReduction = 3;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
+                                    value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    damageReduction = 2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
+                                {
+                                    value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    damageReduction = 2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
+                                    damageReduction = 1;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
+                                    damageReduction = 1;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
+                                    value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
+                                    damageReduction = 2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
+                                {
+                                    value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
+                                    damageReduction = 2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
+                                    value = 15000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    damageReduction = 3;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
+                                {
+                                    value = 15000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    damageReduction = 3;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
+                                    value = 15000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    damageReduction = 3;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
+                                {
+                                    value = 15000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    damageReduction = 3;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE:
+                            case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
+                                    value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    damageReduction = 2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
+                                {
+                                    value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    damageReduction = 2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    damageReduction = 1;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    damageReduction = 1;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    damageReduction = 1;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    damageReduction = 1;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    damageReduction = 1;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    damageReduction = 1;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT:
+                            case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
+                                    value = 15000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    damageReduction = 1;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
+                                {
+                                    value = 15000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    damageReduction = 1;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CLOTH:
+                            case ARMOR_RULES_TYPE_HIDE:
+                            case ARMOR_RULES_TYPE_HIDE_MASTERWORK:
+                            case ARMOR_RULES_TYPE_LEATHER:
+                            case ARMOR_RULES_TYPE_LEATHER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_PADDED:
+                            case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
+                            case ARMOR_RULES_TYPE_STUDDED_LEATHER:
+                            case ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK:
+                                {
+                                    return -1;
+                                }
+                        }
+                        script.StoreCampaignObject(ItemChangeDBName, PriceChangeVarName, target, script.OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(PriceChangeVarName))
+                        {
+                            if ((int)(ALFA.Shared.Modules.InfoStore.ModifiedGff[PriceChangeVarName].TopLevelStruct["DmgReduction"].Value) != damageReduction)
+                            {
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[PriceChangeVarName].TopLevelStruct["DmgReduction"].Value = damageReduction;
+                                script.DestroyObject(target, 0.0f, FALSE);
+                                target = script.RetrieveCampaignObject(ItemChangeDBName, PriceChangeVarName, script.GetLocation(script.OBJECT_SELF), script.OBJECT_SELF, script.OBJECT_SELF);
+                                product = target;
+                            }
+                        }
+                        masterworkCounted = true;
+                        break;
+                    }
+                #endregion
+                #region Arandur
+                case GMATERIAL_ARANDUR:
+                    {
+                        int resistQuantity = IP_CONST_DAMAGERESIST_2;
+                        switch (rulesType)
+                        {
+                            case ARMOR_RULES_TYPE_BANDED:
+                            case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
+                                {
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
+                                {
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE:
+                            case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
+                                {
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT:
+                            case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_STUDDED_LEATHER:
+                            case ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_HIDE:
+                            case ARMOR_RULES_TYPE_HIDE_MASTERWORK:
+                            case ARMOR_RULES_TYPE_LEATHER:
+                            case ARMOR_RULES_TYPE_LEATHER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_PADDED:
+                            case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
+                            case ARMOR_RULES_TYPE_CLOTH:
+                                {
+                                    // Arandur is a metal.
+                                    return -1;
+                                }
+                        }
+                        if (!GetHasElementalArmorBonus(script, itProps, IP_CONST_DAMAGETYPE_SONIC, resistQuantity))
+                        {
+                            script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageResistance(IP_CONST_DAMAGETYPE_SONIC, resistQuantity), target, 0.0f);
+                        }
+                        masterworkCounted = true;
+                        break;
+                    }
+                #endregion
+                #region Bluewood
+                case GMATERIAL_BLUEWOOD:
+                    {
+                        break;
+                    }
+                #endregion
+                #region Cold Iron
+                case GMATERIAL_METAL_COLD_IRON:
+                    {
+                        break;
+                    }
+                #endregion
+                #region Copper
+                case GMATERIAL_COPPER:
+                    {
+                        break;
+                    }
+                #endregion
+                #region Darksteel
+                case GMATERIAL_METAL_DARKSTEEL:
+                    {
+                        int resistQuantity = IP_CONST_DAMAGERESIST_2;
+                        switch (rulesType)
+                        {
+                            case ARMOR_RULES_TYPE_BANDED:
+                            case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
+                                {
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
+                                {
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE:
+                            case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
+                                {
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT:
+                            case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_STUDDED_LEATHER:
+                            case ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_HIDE:
+                            case ARMOR_RULES_TYPE_HIDE_MASTERWORK:
+                            case ARMOR_RULES_TYPE_LEATHER:
+                            case ARMOR_RULES_TYPE_LEATHER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_PADDED:
+                            case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
+                            case ARMOR_RULES_TYPE_CLOTH:
+                                {
+                                    // Darksteel is a metal.
+                                    return -1;
+                                }
+                        }
+                        if (!GetHasElementalArmorBonus(script, itProps, IP_CONST_DAMAGETYPE_ACID, resistQuantity))
+                        {
+                            script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageResistance(IP_CONST_DAMAGETYPE_ACID, resistQuantity), target, 0.0f);
+                        }
+                        masterworkCounted = true;
+                        break;
+                    }
+                #endregion
+                #region Dlarun
+                case GMATERIAL_DLARUN:
+                    {
+                        int resistQuantity = IP_CONST_DAMAGERESIST_2;
+                        switch (rulesType)
+                        {
+                            case ARMOR_RULES_TYPE_BANDED:
+                            case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
+                                {
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
+                                {
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE:
+                            case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
+                                {
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT:
+                            case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_STUDDED_LEATHER:
+                            case ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_HIDE:
+                            case ARMOR_RULES_TYPE_HIDE_MASTERWORK:
+                            case ARMOR_RULES_TYPE_LEATHER:
+                            case ARMOR_RULES_TYPE_LEATHER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_PADDED:
+                            case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
+                            case ARMOR_RULES_TYPE_CLOTH:
+                                {
+                                    // Dlarun is a metal.
+                                    return -1;
+                                }
+                        }
+                        if (!GetHasElementalArmorBonus(script, itProps, IP_CONST_DAMAGETYPE_FIRE, resistQuantity))
+                        {
+                            script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageResistance(IP_CONST_DAMAGETYPE_FIRE, resistQuantity), target, 0.0f);
+                        }
+                        masterworkCounted = true;
+                        break;
+                    }
+                #endregion
+                #region Black, Green, or Copper Dragon
+                case GMATERIAL_CREATURE_BLACK_DRAGON:
+                case GMATERIAL_CREATURE_GREEN_DRAGON:
+                case GMATERIAL_CREATURE_COPPER_DRAGON:
+                    {
+                        break;
+                    }
+                #endregion
+                #region Blue or Brass Dragon
+                case GMATERIAL_CREATURE_BLUE_DRAGON:
+                case GMATERIAL_CREATURE_BRONZE_DRAGON:
+                    {
+                        break;
+                    }
+                #endregion
+                #region Red, Brass, or Gold Dragon
+                case GMATERIAL_CREATURE_RED_DRAGON:
+                case GMATERIAL_CREATURE_BRASS_DRAGON:
+                case GMATERIAL_CREATURE_GOLD_DRAGON:
+                    {
+                        break;
+                    }                
+                #endregion
+                #region White or Silver Dragon
+                case GMATERIAL_CREATURE_WHITE_DRAGON:
+                case GMATERIAL_CREATURE_SILVER_DRAGON:
+                    {
+                        break;
+                    }
+                #endregion
+                #region Duskwood
+                case GMATERIAL_WOOD_DUSKWOOD:
+                    {
+                        break;
+                    }
+                #endregion
+                #region Fever Iron
+                case GMATERIAL_FEVER_IRON:
+                    {
+                        int resistQuantity = IP_CONST_DAMAGERESIST_2;
+                        switch (rulesType)
+                        {
+                            case ARMOR_RULES_TYPE_BANDED:
+                            case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
+                                {
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
+                                {
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE:
+                            case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
+                                {
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT:
+                            case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_STUDDED_LEATHER:
+                            case ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_HIDE:
+                            case ARMOR_RULES_TYPE_HIDE_MASTERWORK:
+                            case ARMOR_RULES_TYPE_LEATHER:
+                            case ARMOR_RULES_TYPE_LEATHER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_PADDED:
+                            case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
+                            case ARMOR_RULES_TYPE_CLOTH:
+                                {
+                                    // Fever iron is a metal.
+                                    return -1;
+                                }
+                        }
+                        if (!GetHasElementalArmorBonus(script, itProps, IP_CONST_DAMAGETYPE_COLD, resistQuantity))
+                        {
+                            script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageResistance(IP_CONST_DAMAGETYPE_COLD, resistQuantity), target, 0.0f);
+                        }
+                        masterworkCounted = true;
+                        break;
+                    }
+                #endregion
+                #region Gold
+                case GMATERIAL_GOLD:
+                    {
+                        break;
+                    }
+                #endregion
+                #region Hizagkuur
+                case GMATERIAL_HIZAGKUUR:
+                    {
+                        int resistQuantity = IP_CONST_DAMAGERESIST_2;
+                        switch (rulesType)
+                        {
+                            case ARMOR_RULES_TYPE_BANDED:
+                            case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
+                                {
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
+                                {
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE:
+                            case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
+                                {
+                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_4;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK:
+                                {
+                                    value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_2;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT:
+                            case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
+                                {
+                                    value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    resistQuantity = IP_CONST_DAMAGERESIST_6;
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_STUDDED_LEATHER:
+                            case ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_HIDE:
+                            case ARMOR_RULES_TYPE_HIDE_MASTERWORK:
+                            case ARMOR_RULES_TYPE_LEATHER:
+                            case ARMOR_RULES_TYPE_LEATHER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_PADDED:
+                            case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
+                            case ARMOR_RULES_TYPE_CLOTH:
+                                {
+                                    // Fever iron is a metal.
+                                    return -1;
+                                }
+                        }
+                        if (!GetHasElementalArmorBonus(script, itProps, IP_CONST_DAMAGETYPE_ELECTRICAL, resistQuantity))
+                        {
+                            script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageResistance(IP_CONST_DAMAGETYPE_ELECTRICAL, resistQuantity), target, 0.0f);
+                        }
+                        masterworkCounted = true;
+                        break;
+                    }
+                #endregion
+                #region Living Metal
+                case GMATERIAL_LIVING_METAL:
+                    {
+                        break;
+                    }
+                #endregion
+                #region Mithril
+                case GMATERIAL_METAL_MITHRAL:
+                    {
+                        break;
+                    }
+                #endregion
+                #region Platinum
+                case GMATERIAL_PLATINUM:
+                    {
+                        break;
+                    }
+                #endregion
+                #region Silver
+                case GMATERIAL_METAL_ALCHEMICAL_SILVER:
+                    {
+                        break;
+                    }
+                #endregion
+                #region Sondarr
+                case GMATERIAL_SONDARR:
+                    {
+                        break;
+                    }
+                #endregion
+                #region Suzailian Chainweave
+                case GMATERIAL_SUZAILLIAN_CHAINWEAVE:
+                    {
+                        break;
+                    }
+                #endregion
+                #region Zalantar
+                case GMATERIAL_WOOD_DARKWOOD:
+                    {
+                        break;
+                    }
+                #endregion
+                #region Banned Materials
+                case GMATERIAL_FIENDBONE:
+                case GMATERIAL_FRYSTALLINE:
+                    {
+                        return -1;
+                    }
+                #endregion
+            }
+            #endregion
             return value;
         }
 
@@ -2017,6 +3337,27 @@ namespace ACR_Items
                 if (script.GetItemPropertyType(prop.Property) == ITEM_PROPERTY_DAMAGE_BONUS_VS_ALIGNMENT_GROUP &&
                     script.GetItemPropertySubType(prop.Property) == alignmentTarget &&
                     script.GetItemPropertyCostTableValue(prop.Property) == damageBonus)
+                {
+                    removedProp = prop;
+                    break;
+                }
+            }
+            if (removedProp != null)
+            {
+                itProp.Remove(removedProp);
+                return true;
+            }
+            return false;
+        }
+
+        private static bool GetHasElementalArmorBonus(CLRScriptBase script, List<PricedItemProperty> itProp, int elementalConstant, int resistanceBonus)
+        {
+            PricedItemProperty removedProp = null;
+            foreach (PricedItemProperty prop in itProp)
+            {
+                if (script.GetItemPropertyType(prop.Property) == ITEM_PROPERTY_DAMAGE_RESISTANCE &&
+                    script.GetItemPropertySubType(prop.Property) == elementalConstant &&
+                    script.GetItemPropertyCostTableValue(prop.Property) == resistanceBonus)
                 {
                     removedProp = prop;
                     break;

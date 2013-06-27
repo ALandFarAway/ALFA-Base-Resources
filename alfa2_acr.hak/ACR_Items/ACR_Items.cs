@@ -52,7 +52,16 @@ namespace ACR_Items
                     }
                 case ItemCommand.CalculatePrice:
                     {
+                        Pricing.product = OBJECT_INVALID;
                         Pricing.CalculatePrice(this, Target);
+                        if (Pricing.product != OBJECT_INVALID &&
+                            GetObjectType(OBJECT_SELF) != OBJECT_TYPE_PLACEABLE)
+                        {
+                            // We have to copy this again to make sure that
+                            // this ends up in an inventory.
+                            CopyItem(Pricing.product, OBJECT_SELF, FALSE);
+                            DestroyObject(Pricing.product, 0.0f, FALSE);
+                        }
                         break;
                     }
             }
