@@ -63,7 +63,10 @@ namespace ACR_Items
             {
                 script.SendMessageToAllDMs(GetWeaponPrice(script, target).ToString());
             }
-            
+            if (GetIsArmor(itemType))
+            {
+                script.SendMessageToAllDMs(GetArmorPrice(script, target).ToString());
+            }
         }
 
         private static int GetWeaponPrice(CLRScriptBase script, uint target)
@@ -1539,7 +1542,7 @@ namespace ACR_Items
                                 float multiplier = 0.20f;
                                 if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_NEUTRAL)
                                 {
-                                    multiplier = 0.66f;
+                                    multiplier = 2.0f / 3.0f;
                                 }
                                 if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_EVIL)
                                 {
@@ -1557,7 +1560,7 @@ namespace ACR_Items
                             int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
                             if (ACvsGroup > ACvsEveryone)
                             {
-                                float multiplier = 0.33f;
+                                float multiplier = 1.0f / 3.0f;
                                 float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
                                 prop.Price = (int)((effectiveBonus * effectiveBonus * 2000) - (ACvsEveryone * ACvsEveryone * 2000));
                             }
@@ -1570,7 +1573,7 @@ namespace ACR_Items
                             int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
                             if (ACvsGroup > ACvsEveryone)
                             {
-                                float multiplier = 0.33f;
+                                float multiplier = 1.0f / 3.0f;
                                 float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
                                 prop.Price = (int)((effectiveBonus * effectiveBonus * 2000) - (ACvsEveryone * ACvsEveryone * 2000));
                             }
@@ -1583,7 +1586,7 @@ namespace ACR_Items
                             int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
                             if (ACvsGroup > ACvsEveryone)
                             {
-                                float multiplier = 0.17f;
+                                float multiplier = 1.0f / 6.0f;
                                 float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
                                 prop.Price = (int)((effectiveBonus * effectiveBonus * 2000) - (ACvsEveryone * ACvsEveryone * 2000));
                             }
@@ -1599,7 +1602,7 @@ namespace ACR_Items
                                 float multiplier = 0.20f;
                                 if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_NEUTRAL)
                                 {
-                                    multiplier = 0.66f;
+                                    multiplier = 2.0f / 3.0f;
                                 }
                                 if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_EVIL)
                                 {
@@ -1616,7 +1619,7 @@ namespace ACR_Items
                             int attackVsGroup = script.GetItemPropertyCostTableValue(prop.Property);
                             if (attackVsGroup > attackVsEveryone)
                             {
-                                float multiplier = 0.33f;
+                                float multiplier = 1.0f / 3.0f;
                                 effectivePlus += ((attackVsGroup - attackVsEveryone) * multiplier);
                             }
                             break;
@@ -1628,7 +1631,7 @@ namespace ACR_Items
                             int attackVsGroup = script.GetItemPropertyCostTableValue(prop.Property);
                             if (attackVsGroup > attackVsEveryone)
                             {
-                                float multiplier = 0.17f;
+                                float multiplier = 1.0f/6.0f;
                                 effectivePlus += ((attackVsGroup - attackVsEveryone) * multiplier);
                             }
                             break;
@@ -1640,7 +1643,7 @@ namespace ACR_Items
                             float multiplier = 0.20f;
                             if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_NEUTRAL)
                             {
-                                multiplier = 0.66f;
+                                multiplier = 2.0f / 3.0f;
                             }
                             if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_EVIL)
                             {
@@ -1704,7 +1707,7 @@ namespace ACR_Items
                     #region Damage Bonus vs. Racial Group
                     case ITEM_PROPERTY_DAMAGE_BONUS_VS_RACIAL_GROUP:
                         {
-                            float multiplier = 0.33f;
+                            float multiplier = 1.0f / 3.0f;
                             switch (script.GetItemPropertyCostTableValue(prop.Property))
                             {
                                 case IP_CONST_DAMAGEBONUS_1d4:
@@ -1763,7 +1766,7 @@ namespace ACR_Items
                     #region Damage Bonus vs. Specific Alignment
                     case ITEM_PROPERTY_DAMAGE_BONUS_VS_SPECIFIC_ALIGNMENT:
                         {
-                            float multiplier = 0.17f;
+                            float multiplier = 1.0f / 6.0f;
                             switch (script.GetItemPropertyCostTableValue(prop.Property))
                             {
                                 case IP_CONST_DAMAGEBONUS_1d4:
@@ -1828,7 +1831,7 @@ namespace ACR_Items
                                 float multiplier = 0.20f;
                                 if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_NEUTRAL)
                                 {
-                                    multiplier = 0.66f;
+                                    multiplier = 2.0f / 3.0f;
                                 }
                                 if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_EVIL)
                                 {
@@ -1845,7 +1848,7 @@ namespace ACR_Items
                             int enhancementVsGroup = script.GetItemPropertyCostTableValue(prop.Property);
                             if (enhancementVsGroup > enhancementVsEveryone)
                             {
-                                float multiplier = 0.33f;
+                                float multiplier = 1.0f / 3.0f;
                                 effectivePlus += ((enhancementVsGroup - enhancementVsEveryone) * multiplier);
                             }
                             break;
@@ -1857,7 +1860,7 @@ namespace ACR_Items
                             int enhancementVsGroup = script.GetItemPropertyCostTableValue(prop.Property);
                             if (enhancementVsGroup > enhancementVsEveryone)
                             {
-                                float multiplier = 0.17f;
+                                float multiplier = 1.0f / 6.0f;
                                 effectivePlus += ((enhancementVsGroup - enhancementVsEveryone) * multiplier);
                             }
                             break;
@@ -1870,12 +1873,16 @@ namespace ACR_Items
 
             #region Sum Calculated Values
             value += enchantmentPenalty;
-            float seconaryPenalty = 1.0f;
+            bool allSecondary = false;
             if (effectivePlus >= 0.05f)
             {
-                seconaryPenalty = 1.5f;
+                allSecondary = true;
                 if (effectivePlus >= 1.0f)
                 {
+                    if (enhancementVsEveryone < 0.99)
+                    {
+                        return -1;
+                    }
                     value += (int)((effectivePlus * effectivePlus) * 2000);
                 }
                 else
@@ -1883,11 +1890,18 @@ namespace ACR_Items
                     value += (int)(effectivePlus * 2000);
                 }
             }
+            int costliestProp = 0;
+            int propsPrice = 0;
             PricedItemProperty costliestCharge = null;
             PricedItemProperty secondCostliestCharge = null;
             foreach (PricedItemProperty prop in itProps)
             {
-                value += (int)(prop.Price * seconaryPenalty);
+                value += prop.Price;
+                propsPrice += prop.Price;
+                if (costliestProp < prop.Price)
+                {
+                    costliestProp = prop.Price;
+                }
                 if (prop.ChargedPrice > 0)
                 {
                     if (costliestCharge == null)
@@ -1905,6 +1919,17 @@ namespace ACR_Items
                     }
                 }
             }
+            if (allSecondary)
+            {
+                value += (propsPrice / 2);
+            }
+            else
+            {
+                // If the costliest prop is the only prop, 0/2 = 0.
+                // otherwise, all secondary props cost 50% more.
+                value += ((propsPrice - costliestProp) / 2);
+            }
+
             if (costliestCharge != null)
             {
                 if (secondCostliestCharge == null)
@@ -1931,6 +1956,36 @@ namespace ACR_Items
                 }
             }
             #endregion
+            return value;
+        }
+
+        private static int GetArmorPrice(CLRScriptBase script, uint target)
+        {
+            #region Initialize commonly-used variables
+            int value = ArmorRulesTypeValues[script.GetArmorRulesType(target)];
+            int itemType = script.GetBaseItemType(target);
+            int enchantmentPenalty = 0;
+            bool masterworkCounted = false;
+            int specialMat = script.GetItemBaseMaterialType(target);
+            #endregion
+
+            #region Load item properties into the price calculation collection
+            List<PricedItemProperty> itProps = new List<PricedItemProperty>();
+            foreach (NWItemProperty prop in script.GetItemPropertiesOnItem(target))
+            {
+                itProps.Add(new PricedItemProperty() { Property = prop, Price = 0 });
+            }
+            #endregion
+
+            #region Check for Mundane Items
+            if (itProps.Count == 0 &&
+                (specialMat == GMATERIAL_METAL_IRON || specialMat == GMATERIAL_NONSPECIFIC))
+            {
+                // No item properties. This is just worth the base item.
+                return value;
+            }
+            #endregion
+
             return value;
         }
 
@@ -2309,6 +2364,55 @@ namespace ACR_Items
             {BASE_ITEM_WARHAMMER, 24},
             {BASE_ITEM_WARMACE, 100},
             {BASE_ITEM_WHIP, 10}
+        };
+
+        static Dictionary<int, int> ArmorRulesTypeValues = new Dictionary<int, int>
+        {
+            {ARMOR_RULES_TYPE_BANDED, 250},
+            {ARMOR_RULES_TYPE_BANDED_MASTERWORK, 400},
+            {ARMOR_RULES_TYPE_BANDED_MITHRAL, 9250},
+            {ARMOR_RULES_TYPE_BREASTPLATE, 200},
+            {ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK, 350},
+            {ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL, 4200},
+            {ARMOR_RULES_TYPE_CHAIN_SHIRT, 100},
+            {ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK, 250},
+            {ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL, 1100},
+            {ARMOR_RULES_TYPE_CHAINMAIL, 150},
+            {ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK, 300},
+            {ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL, 4150},
+            {ARMOR_RULES_TYPE_CLOTH, 0},
+            {ARMOR_RULES_TYPE_FULL_PLATE, 1500},
+            {ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK, 1650},
+            {ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL, 10500},
+            {ARMOR_RULES_TYPE_HALF_PLATE, 600},
+            {ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK, 750},
+            {ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL, 9600},
+            {ARMOR_RULES_TYPE_HIDE, 15},
+            {ARMOR_RULES_TYPE_HIDE_MASTERWORK, 165},
+            {ARMOR_RULES_TYPE_LEATHER, 10},
+            {ARMOR_RULES_TYPE_LEATHER_MASTERWORK, 160},
+            {ARMOR_RULES_TYPE_PADDED, 5},
+            {ARMOR_RULES_TYPE_PADDED_MASTERWORK, 155},
+            {ARMOR_RULES_TYPE_SCALE, 50},
+            {ARMOR_RULES_TYPE_SCALE_MASTERWORK, 200},
+            {ARMOR_RULES_TYPE_SCALE_MITHRAL, 4050},
+            {ARMOR_RULES_TYPE_SHIELD_HEAVY, 50},
+            {ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD, 230},
+            {ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK, 200},
+            {ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL, 1050},
+            {ARMOR_RULES_TYPE_SHIELD_LIGHT, 10},
+            {ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD, 300},
+            {ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK, 160},
+            {ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL, 1010},
+            {ARMOR_RULES_TYPE_SHIELD_TOWER, 100},
+            {ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD, 700},
+            {ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK, 250},
+            {ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL, 1100},
+            {ARMOR_RULES_TYPE_SPLINT, 250},
+            {ARMOR_RULES_TYPE_SPLINT_MASTERWORK, 400},
+            {ARMOR_RULES_TYPE_SPLINT_MITHREAL, 9250},
+            {ARMOR_RULES_TYPE_STUDDED_LEATHER, 15},
+            {ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK, 165},
         };
         #endregion
         #endregion
