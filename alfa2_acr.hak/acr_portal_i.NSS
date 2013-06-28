@@ -155,7 +155,12 @@ int ACR_PortalCheckServer(int nServerID, object oPC) {
 	{
 		return TRUE;
 	}
-	return ACR_GetIsServerPublic(nServerID);
+	if (ACR_GetIsServerPublic(nServerID) == FALSE)
+	{
+		SendMessageToPC(oTraveller, "Your account is not yet approved for use on non-public servers.  Visit http://www.alandfaraway.org and click 'Joining ALFA' under the New Players menu to apply for full membership.");
+		return FALSE;
+	}
+	return TRUE;
 #else
 	string sDestID = IntToString(nServerID);
 	// join the Servers and pwdata tables to get the timestamp corresponding to nServerID.	
