@@ -85,3 +85,16 @@
 81 Chainmail_ACP          5       2           -6      30             440    150   179883       16785426 179887          Medium 
 82 Breastplate_ACP        5       3           -5      25             330    200   179884       16784228 179888          Medium 
 83 Splint_ACP             6       0           -8      40             495    200   179885       16784230 179889          Heavy  
+84 ClothPadded_Dragon     1       8           0       5              100    5     1728         16784247 5432            Light  
+85 Leather_Dragon         2       6           0       10             150    10    1729         16784248 5435            Light  
+86 LeatherStudded_Dragon  3       5           0       15             200    25    1730         16784249 5436            Light  
+87 Scale_Dragon           4       3           -2      25             300    50    179905       16784250 5438            Light 
+88 Banded_Dragon          6       1           -4      35             350    250   1733         16784251 5439            Medium  
+89 Half-Plate_Dragon      7       0           -5      40             500    600   1734         16784252 5440            Medium 
+90 Full-Plate_Dragon      8       1           -4      35             500    1500  1736         16784253 5441            Medium 
+91 Light_Shield_Dragon    1       100         0       5              50     9     2287         16784254 5443            None   
+92 Heavy_Shield_Dragon    2       100         0       15             100    20    2286         16784255 5458            None   
+93 Tower_Shield_Dragon    4       2           -8      50             450    30    1717         16784256 5459            None   
+94 Hide_Dragon            3       4           -1      20             250    15    179882       16784257 179886          Light 
+95 Breastplate_Dragon     5       3           -2      25             300    200   179884       16784258 179888          Light 
+96 Splint_Dragon          6       0           -5      40             450    200   179885       16784259 179889          Medium  
