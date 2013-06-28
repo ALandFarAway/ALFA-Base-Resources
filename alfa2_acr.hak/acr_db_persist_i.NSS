@@ -1026,6 +1026,7 @@ int ACR_GetIsMember(object oPC)
 	}
 	if(ACR_SQLGetData(0) == "1")
 	{
+		SetLocalInt(oPC, ACR_MEMBERSHIP, TRUE);
 		return TRUE;
 	}
 	return FALSE;
