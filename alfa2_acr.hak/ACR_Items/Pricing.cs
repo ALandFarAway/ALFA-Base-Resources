@@ -1992,6 +1992,7 @@ namespace ACR_Items
             if (rulesType == ARMOR_RULES_TYPE_SHIELD_HEAVY ||
                 rulesType == ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD ||
                 rulesType == ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK ||
+                rulesType == ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON ||
                 rulesType == ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL)
             {
                 if (itemType != BASE_ITEM_LARGESHIELD)
@@ -2002,6 +2003,7 @@ namespace ACR_Items
             else if (rulesType == ARMOR_RULES_TYPE_SHIELD_LIGHT ||
                 rulesType == ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD ||
                 rulesType == ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK ||
+                rulesType == ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON ||
                 rulesType == ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL)
             {
                 if (itemType != BASE_ITEM_SMALLSHIELD)
@@ -2012,6 +2014,7 @@ namespace ACR_Items
             else if (rulesType == ARMOR_RULES_TYPE_SHIELD_TOWER ||
                 rulesType == ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD ||
                 rulesType == ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK ||
+                rulesType == ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON ||
                 rulesType == ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL)
             {
                 if (itemType != BASE_ITEM_TOWERSHIELD)
@@ -2040,6 +2043,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
                                     value = 15000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
@@ -2055,6 +2059,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
                                     value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -2100,6 +2105,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
                                     value = 15000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
@@ -2115,6 +2121,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
                                     value = 15000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
@@ -2130,6 +2137,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
                                     value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
@@ -2145,6 +2153,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
@@ -2160,6 +2169,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
@@ -2175,6 +2185,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_TOWER:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
@@ -2190,6 +2201,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
                                     value = 15000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
@@ -2211,6 +2223,10 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_STUDDED_LEATHER:
                             case ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
                                 {
                                     return -1;
                                 }
@@ -2239,6 +2255,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
@@ -2254,6 +2271,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -2299,6 +2317,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
@@ -2314,6 +2333,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
@@ -2329,6 +2349,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
@@ -2344,6 +2365,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
@@ -2359,6 +2381,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
@@ -2374,6 +2397,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_TOWER:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
@@ -2389,6 +2413,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
@@ -2410,6 +2435,10 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_PADDED:
                             case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_CLOTH:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
                                 {
                                     // Arandur is a metal.
                                     return -1;
@@ -2438,6 +2467,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
                                     value = 9000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
@@ -2453,6 +2483,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
                                     value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -2498,6 +2529,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
                                     value = 9000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
@@ -2513,6 +2545,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
                                     value = 9000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
@@ -2528,6 +2561,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
                                     value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
@@ -2543,6 +2577,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
                                     value = 1000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
@@ -2558,6 +2593,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
                                     value = 1000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
@@ -2573,6 +2609,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_TOWER:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
                                     value = 1000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
@@ -2588,6 +2625,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
                                     value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
@@ -2609,6 +2647,10 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_PADDED:
                             case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_CLOTH:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
                                 {
                                     return -1;
                                 }
@@ -2629,6 +2671,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
@@ -2642,6 +2685,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -2681,6 +2725,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
@@ -2694,6 +2739,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
@@ -2707,6 +2753,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
@@ -2720,6 +2767,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
@@ -2733,6 +2781,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
@@ -2746,6 +2795,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_TOWER:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
@@ -2759,6 +2809,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
@@ -2778,6 +2829,10 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_PADDED:
                             case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_CLOTH:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
                                 {
                                     return -1;
                                 }
@@ -2807,6 +2862,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
@@ -2822,6 +2878,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -2867,6 +2924,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
@@ -2882,6 +2940,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
@@ -2897,6 +2956,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
@@ -2912,6 +2972,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
@@ -2927,6 +2988,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
@@ -2942,6 +3004,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_TOWER:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
@@ -2957,6 +3020,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
@@ -2978,6 +3042,10 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_PADDED:
                             case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_CLOTH:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
                                 {
                                     // Darksteel is a metal.
                                     return -1;
@@ -3000,6 +3068,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
@@ -3015,6 +3084,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -3060,6 +3130,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
@@ -3075,6 +3146,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
@@ -3090,6 +3162,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
@@ -3105,6 +3178,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
@@ -3120,6 +3194,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
@@ -3135,6 +3210,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_TOWER:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
@@ -3150,6 +3226,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
@@ -3171,6 +3248,10 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_PADDED:
                             case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_CLOTH:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
                                 {
                                     // Dlarun is a metal.
                                     return -1;
@@ -3229,6 +3310,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
@@ -3244,6 +3326,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -3289,6 +3372,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
@@ -3304,6 +3388,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
@@ -3319,6 +3404,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
@@ -3334,6 +3420,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
@@ -3349,6 +3436,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
@@ -3364,6 +3452,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_TOWER:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
@@ -3379,6 +3468,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
@@ -3400,6 +3490,10 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_PADDED:
                             case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_CLOTH:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
                                 {
                                     // Fever iron is a metal.
                                     return -1;
@@ -3422,6 +3516,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_HEAVYMETAL);
                                     value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
@@ -3437,6 +3532,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -3482,6 +3578,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL);
                                     value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
@@ -3497,6 +3594,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL);
                                     value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
@@ -3512,6 +3610,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_HEAVYMETAL);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
@@ -3527,6 +3626,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL);
                                     value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
@@ -3560,6 +3660,10 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_PADDED:
                             case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_CLOTH:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
                                 {
                                     // Darksteel is a metal.
                                     return -1;
@@ -3586,6 +3690,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
@@ -3601,6 +3706,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -3646,6 +3752,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
@@ -3661,6 +3768,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
@@ -3676,6 +3784,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
@@ -3691,6 +3800,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
@@ -3706,6 +3816,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
@@ -3721,6 +3832,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_TOWER:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
@@ -3736,6 +3848,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
@@ -3757,6 +3870,10 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_PADDED:
                             case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_CLOTH:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
                                 {
                                     // Fever iron is a metal.
                                     return -1;
@@ -3798,6 +3915,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MITHRAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED_MITHRAL];
@@ -3806,6 +3924,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL];
@@ -3830,6 +3949,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL];
@@ -3838,6 +3958,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL];
@@ -3846,6 +3967,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MITHRAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE_MITHRAL];
@@ -3854,6 +3976,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL];
@@ -3862,6 +3985,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL];
@@ -3870,6 +3994,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_TOWER:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL];
@@ -3878,6 +4003,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MITHREAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT_MITHREAL];
@@ -3892,6 +4018,10 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_PADDED:
                             case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_CLOTH:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
                                 {
                                     return -1;
                                 }
@@ -3908,6 +4038,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_HEAVYMETAL);
                                     value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
@@ -3923,6 +4054,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -3968,6 +4100,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL);
                                     value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
@@ -3983,6 +4116,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL);
                                     value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
@@ -3998,6 +4132,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_HEAVYMETAL);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
@@ -4013,6 +4148,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL);
                                     value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
@@ -4046,6 +4182,10 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_PADDED:
                             case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_CLOTH:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
                                 {
                                     // Darksteel is a metal.
                                     return -1;
@@ -4072,6 +4212,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_HEAVYMETAL);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
@@ -4087,6 +4228,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -4132,6 +4274,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
@@ -4147,6 +4290,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
@@ -4162,6 +4306,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_HEAVYMETAL);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
@@ -4177,6 +4322,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
@@ -4210,6 +4356,10 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_PADDED:
                             case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_CLOTH:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
                                 {
                                     // Darksteel is a metal.
                                     return -1;
