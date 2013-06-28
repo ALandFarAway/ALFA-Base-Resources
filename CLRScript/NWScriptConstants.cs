@@ -1031,6 +1031,19 @@ namespace CLRScriptFramework
         public const int ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL = 81;
         public const int ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL = 82;
         public const int ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL = 83;
+        public const int ARMOR_RULES_TYPE_PADDED_DRAGON = 84;
+        public const int ARMOR_RULES_TYPE_LEATHER_DRAGON = 85;
+        public const int ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON = 86;
+        public const int ARMOR_RULES_TYPE_SCALE_DRAGON = 87;
+        public const int ARMOR_RULES_TYPE_BANDED_DRAGON = 88;
+        public const int ARMOR_RULES_TYPE_HALF_PLATE_DRAGON = 89;
+        public const int ARMOR_RULES_TYPE_FULL_PLATE_DRAGON = 90;
+        public const int ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON = 91;
+        public const int ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON = 92;
+        public const int ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON = 93;
+        public const int ARMOR_RULES_TYPE_HIDE_DRAGON = 94;
+        public const int ARMOR_RULES_TYPE_BREASTPLATE_DRAGON = 95;
+        public const int ARMOR_RULES_TYPE_SPLINT_DRAGON = 96;
 
         public const int VFX_NONE = -1;
         public const int VFX_DUR_BLUR = 0;
