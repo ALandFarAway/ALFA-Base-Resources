@@ -157,7 +157,7 @@ int ACR_PortalCheckServer(int nServerID, object oPC) {
 	}
 	if (ACR_GetIsServerPublic(nServerID) == FALSE)
 	{
-		SendMessageToPC(oTraveller, "Your account is not yet approved for use on non-public servers.  Visit http://www.alandfaraway.org and click 'Joining ALFA' under the New Players menu to apply for full membership.");
+		SendMessageToPC(oPC, "Your account is not yet approved for use on non-public servers.  Visit http://www.alandfaraway.org and click 'Joining ALFA' under the New Players menu to apply for full membership.");
 		return FALSE;
 	}
 	return TRUE;
