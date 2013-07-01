@@ -3355,7 +3355,7 @@ namespace CLRScriptFramework
         public const int SKILL_CRAFT_ALCHEMY = 64;
         public const int SKILL_CRAFT_ARMORER = 65;
         public const int SKILL_CRAFT_BOWMAKING = 66;
-        public const int sKILL_CRAFT_WEAPONSMITHING = 67;
+        public const int SKILL_CRAFT_WEAPONSMITHING = 67;
 
         public const int SKILL_ALL_SKILLS = 255;
 
