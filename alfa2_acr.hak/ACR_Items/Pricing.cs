@@ -5204,18 +5204,281 @@ namespace ACR_Items
                 #region Sondarr
                 case GMATERIAL_SONDARR:
                     {
+                        switch (rulesType)
+                        {
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
+                            case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BANDED:
+                                {
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
+                                {
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE:
+                                {
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
+                                {
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT:
+                                {
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
+                                {
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL:
+                                {
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
+                                {
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE:
+                                {
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
+                                {
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE:
+                                {
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
+                                {
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
+                            case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE:
+                                {
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
+                                {
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
+                            case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT:
+                                {
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
+                                {
+                                    value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_STUDDED_LEATHER:
+                            case ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                            case ARMOR_RULES_TYPE_HIDE:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_MASTERWORK:
+                            case ARMOR_RULES_TYPE_LEATHER:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
+                            case ARMOR_RULES_TYPE_PADDED:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
+                            case ARMOR_RULES_TYPE_CLOTH:
+                                {
+                                    return -1;
+                                }
+                        }
                         break;
                     }
                 #endregion
                 #region Suzailian Chainweave
                 case GMATERIAL_SUZAILLIAN_CHAINWEAVE:
                     {
+                        switch (rulesType)
+                        {
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
+                                    value = 28000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
+                                {
+                                    value = 28000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
+                                    value = 35000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
+                                {
+                                    value = 35000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
+                                    break;
+                                }
+                            default:
+                                {
+                                    return -1;
+                                }
+                        }
+                        if (!GetHasElementalArmorBonus(script, itProps, IP_CONST_DAMAGETYPE_BLUDGEONING, IP_CONST_DAMAGERESIST_2))
+                        {
+                            script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageResistance(IP_CONST_DAMAGETYPE_BLUDGEONING, IP_CONST_DAMAGERESIST_2), target, 0.0f);
+                        }
+                        if (!GetHasElementalArmorBonus(script, itProps, IP_CONST_DAMAGETYPE_SLASHING, IP_CONST_DAMAGERESIST_2))
+                        {
+                            script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageResistance(IP_CONST_DAMAGETYPE_SLASHING, IP_CONST_DAMAGERESIST_2), target, 0.0f);
+                        }
                         break;
                     }
                 #endregion
                 #region Zalantar
                 case GMATERIAL_WOOD_DARKWOOD:
                     {
+                        switch (rulesType)
+                        {
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD);
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
+                                {
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD);
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
+                                {
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD);
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
+                                {
+                                    break;
+                                }
+                            default:
+                                {
+                                    return -1;
+                                }
+                        }
                         break;
                     }
                 #endregion
