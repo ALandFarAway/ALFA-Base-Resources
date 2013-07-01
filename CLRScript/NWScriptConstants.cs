@@ -1044,6 +1044,15 @@ namespace CLRScriptFramework
         public const int ARMOR_RULES_TYPE_HIDE_DRAGON = 94;
         public const int ARMOR_RULES_TYPE_BREASTPLATE_DRAGON = 95;
         public const int ARMOR_RULES_TYPE_SPLINT_DRAGON = 96;
+        public const int ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING = 97;
+        public const int ARMOR_RULES_TYPE_SCALE_LIVING = 98;
+        public const int ARMOR_RULES_TYPE_BANDED_LIVING = 99;
+        public const int ARMOR_RULES_TYPE_HALF_PLATE_LIVING = 100;
+        public const int ARMOR_RULES_TYPE_FULL_PLATE_LIVING = 101;
+        public const int ARMOR_RULES_TYPE_CHAINMAIL_LIVING = 102;
+        public const int ARMOR_RULES_TYPE_BREASTPLATE_LIVING = 103;
+        public const int ARMOR_RULES_TYPE_SPLINT_LIVING = 104;
+        public const int ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD = 105;
 
         public const int VFX_NONE = -1;
         public const int VFX_DUR_BLUR = 0;
