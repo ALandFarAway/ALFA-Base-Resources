@@ -2043,6 +2043,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
                             case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
@@ -2059,6 +2060,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
@@ -2075,6 +2077,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
@@ -2090,6 +2093,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAINMAIL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
                                     value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
@@ -2105,6 +2109,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
@@ -2121,6 +2126,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
@@ -2137,6 +2143,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
                             case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
@@ -2201,6 +2208,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
                             case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
@@ -2255,6 +2263,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
                             case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
@@ -2271,6 +2280,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
@@ -2287,6 +2297,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
@@ -2302,6 +2313,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAINMAIL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
@@ -2317,6 +2329,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
@@ -2333,6 +2346,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
@@ -2349,6 +2363,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
                             case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
@@ -2413,6 +2428,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
                             case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
@@ -2467,6 +2483,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
                             case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
@@ -2483,6 +2500,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
@@ -2499,6 +2517,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
                                     value = 1000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
@@ -2514,6 +2533,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAINMAIL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
                                     value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
@@ -2529,6 +2549,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
@@ -2545,6 +2566,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
@@ -2561,6 +2583,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
                             case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
@@ -2625,6 +2648,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
                             case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
@@ -2671,6 +2695,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
                             case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
@@ -2685,6 +2710,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
@@ -2699,6 +2725,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
@@ -2712,6 +2739,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAINMAIL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
@@ -2725,6 +2753,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
@@ -2739,6 +2768,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
@@ -2753,6 +2783,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
                             case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
@@ -2809,6 +2840,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
                             case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
@@ -2862,6 +2894,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
                             case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
@@ -2878,6 +2911,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
@@ -2894,6 +2928,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
@@ -2909,6 +2944,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAINMAIL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
@@ -2924,6 +2960,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
@@ -2940,6 +2977,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
@@ -2956,6 +2994,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
                             case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
@@ -3020,6 +3059,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
                             case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
@@ -3068,6 +3108,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
                             case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
@@ -3084,6 +3125,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
@@ -3100,6 +3142,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
@@ -3115,6 +3158,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAINMAIL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
@@ -3130,6 +3174,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
@@ -3146,6 +3191,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
@@ -3162,6 +3208,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
                             case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
@@ -3226,6 +3273,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
                             case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
@@ -3277,6 +3325,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_DRAGON);
                                     value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
@@ -3291,6 +3340,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_DRAGON);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -3305,6 +3355,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_DRAGON);
                                     value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
@@ -3319,6 +3370,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_DRAGON);
                                     value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
@@ -3381,6 +3433,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_DRAGON);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
@@ -3395,6 +3448,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_DRAGON);
                                     value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
@@ -3454,10 +3508,12 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                             case ARMOR_RULES_TYPE_CHAINMAIL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                             case ARMOR_RULES_TYPE_CLOTH:
                                 {
                                     return -1;
@@ -3491,6 +3547,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_DRAGON);
                                     value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
@@ -3505,6 +3562,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_DRAGON);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -3519,6 +3577,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_DRAGON);
                                     value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
@@ -3533,6 +3592,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_DRAGON);
                                     value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
@@ -3595,6 +3655,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_DRAGON);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
@@ -3609,6 +3670,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_DRAGON);
                                     value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
@@ -3668,10 +3730,12 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                             case ARMOR_RULES_TYPE_CHAINMAIL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                             case ARMOR_RULES_TYPE_CLOTH:
                                 {
                                     return -1;
@@ -3706,6 +3770,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_DRAGON);
                                     value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
@@ -3720,6 +3785,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_DRAGON);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -3734,6 +3800,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_DRAGON);
                                     value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
@@ -3748,6 +3815,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_DRAGON);
                                     value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
@@ -3810,6 +3878,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_DRAGON);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
@@ -3824,6 +3893,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_DRAGON);
                                     value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
@@ -3883,10 +3953,12 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                             case ARMOR_RULES_TYPE_CHAINMAIL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                             case ARMOR_RULES_TYPE_CLOTH:
                                 {
                                     return -1;
@@ -3920,6 +3992,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_DRAGON);
                                     value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
@@ -3934,6 +4007,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_DRAGON);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -3948,6 +4022,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_DRAGON);
                                     value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
@@ -3962,6 +4037,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_DRAGON);
                                     value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
@@ -4024,6 +4100,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_DRAGON);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
@@ -4038,6 +4115,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_DRAGON);
                                     value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
@@ -4097,10 +4175,12 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                             case ARMOR_RULES_TYPE_CHAINMAIL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                             case ARMOR_RULES_TYPE_CLOTH:
                                 {
                                     return -1;
@@ -4138,6 +4218,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
                             case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
@@ -4154,6 +4235,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
@@ -4170,6 +4252,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
@@ -4185,6 +4268,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAINMAIL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
@@ -4200,6 +4284,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
@@ -4216,6 +4301,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
@@ -4232,6 +4318,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
                             case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
@@ -4296,6 +4383,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
                             case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
@@ -4344,6 +4432,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
                             case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_HEAVYMETAL);
@@ -4360,6 +4449,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL);
@@ -4376,6 +4466,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
@@ -4391,6 +4482,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAINMAIL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
@@ -4406,6 +4498,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL);
@@ -4422,6 +4515,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL);
@@ -4438,6 +4532,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
                             case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_HEAVYMETAL);
@@ -4454,6 +4549,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
                             case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL);
@@ -4518,6 +4614,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
                             case ARMOR_RULES_TYPE_BANDED_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
@@ -4534,6 +4631,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
@@ -4550,6 +4648,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
@@ -4565,6 +4664,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAINMAIL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
@@ -4580,6 +4680,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
@@ -4596,6 +4697,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                             case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
@@ -4612,6 +4714,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
                             case ARMOR_RULES_TYPE_SCALE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
@@ -4676,6 +4779,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
                             case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
@@ -4744,6 +4848,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_BANDED_DRAGON:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MITHRAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED_MITHRAL];
@@ -4753,6 +4858,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL];
@@ -4761,6 +4867,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL];
@@ -4769,6 +4876,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAINMAIL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL];
@@ -4778,6 +4886,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL];
@@ -4787,6 +4896,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL];
@@ -4796,6 +4906,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
                             case ARMOR_RULES_TYPE_SCALE_DRAGON:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MITHRAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE_MITHRAL];
@@ -4832,6 +4943,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
                             case ARMOR_RULES_TYPE_SPLINT_DRAGON:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MITHREAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT_MITHREAL];
@@ -4867,6 +4979,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
                             case ARMOR_RULES_TYPE_BANDED_DRAGON:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_HEAVYMETAL);
                                     value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
@@ -4883,6 +4996,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -4898,6 +5012,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
@@ -4913,6 +5028,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAINMAIL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
@@ -4929,6 +5045,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL);
                                     value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
@@ -4945,6 +5062,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL);
                                     value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
@@ -4961,6 +5079,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
                             case ARMOR_RULES_TYPE_SCALE_DRAGON:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_HEAVYMETAL);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
@@ -4977,6 +5096,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
                             case ARMOR_RULES_TYPE_SPLINT_DRAGON:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL);
                                     value = 10000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
@@ -5041,6 +5161,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
                             case ARMOR_RULES_TYPE_BANDED_DRAGON:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_HEAVYMETAL);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
@@ -5057,6 +5178,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -5072,6 +5194,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL);
                                     value = 1500 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
@@ -5087,6 +5210,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAINMAIL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
@@ -5103,6 +5227,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
@@ -5119,6 +5244,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
@@ -5135,6 +5261,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
                             case ARMOR_RULES_TYPE_SCALE_DRAGON:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_HEAVYMETAL);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
@@ -5151,6 +5278,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
                             case ARMOR_RULES_TYPE_SPLINT_DRAGON:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL);
                                     value = 5000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
@@ -5209,6 +5337,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED_DRAGON:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
                                     value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED_MASTERWORK];
@@ -5227,6 +5356,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
                                     value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK];
@@ -5244,6 +5374,7 @@ namespace ACR_Items
                                 }
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
                                     value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK];
@@ -5261,6 +5392,7 @@ namespace ACR_Items
                                 }
                             case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
                                     value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK];
@@ -5279,6 +5411,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
                             case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
                                     value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK];
@@ -5297,6 +5430,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
                             case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
                                     value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK];
@@ -5315,6 +5449,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE_DRAGON:
                             case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
                                     value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE_MASTERWORK];
@@ -5333,6 +5468,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT_DRAGON:
                             case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
                                     value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT_MASTERWORK];
@@ -5391,6 +5527,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
                                     value = 28000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
@@ -5404,6 +5541,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_CHAINMAIL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
                                     value = 35000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
