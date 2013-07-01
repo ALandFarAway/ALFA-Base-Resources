@@ -7053,6 +7053,42 @@ namespace ACR_Items
                             break;
                         }
                     #endregion
+                    #region Bags of Holding
+                    case ITEM_PROPERTY_ENHANCED_CONTAINER_REDUCED_WEIGHT:
+                        {
+                            int reducedBy = script.GetItemPropertyCostTableValue(prop.Property);
+                            switch (reducedBy)
+                            {
+                                case IP_CONST_CONTAINERWEIGHTRED_20_PERCENT:
+                                    {
+                                        prop.Price = 1000;
+                                        break;
+                                    }
+                                case IP_CONST_CONTAINERWEIGHTRED_40_PERCENT:
+                                    {
+                                        prop.Price = 2500;
+                                        break;
+                                    }
+                                case IP_CONST_CONTAINERWEIGHTRED_60_PERCENT:
+                                    {
+                                        prop.Price = 4500;
+                                        break;
+                                    }
+                                case IP_CONST_CONTAINERWEIGHTRED_80_PERCENT:
+                                    {
+                                        prop.Price = 7000;
+                                        break;
+                                    }
+                                case IP_CONST_CONTAINERWEIGHTRED_100_PERCENT:
+                                    {
+                                        prop.Price = 10000;
+                                        break;
+                                    }
+                            }
+                            // magic containers never take a special penalty for being no slot.
+                            break;
+                        }
+                    #endregion
                     #region Non-Price-Adjusting Properties
                     case ITEM_PROPERTY_WEIGHT_INCREASE:
                     case ITEM_PROPERTY_VISUALEFFECT:
@@ -7107,7 +7143,6 @@ namespace ACR_Items
                     case ITEM_PROPERTY_ENHANCEMENT_BONUS_VS_SPECIFIC_ALIGNEMENT:
                     case ITEM_PROPERTY_EXTRA_MELEE_DAMAGE_TYPE:
                     case ITEM_PROPERTY_EXTRA_RANGED_DAMAGE_TYPE:
-                    case ITEM_PROPERTY_ENHANCED_CONTAINER_REDUCED_WEIGHT:
                     case ITEM_PROPERTY_DAMAGE_REDUCTION:
                     case ITEM_PROPERTY_DAMAGE_BONUS:
                     case ITEM_PROPERTY_DAMAGE_BONUS_VS_ALIGNMENT_GROUP:
