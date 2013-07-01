@@ -7209,6 +7209,10 @@ namespace ACR_Items
             foreach (PricedItemProperty prop in itProps)
             {
                 value += prop.Price;
+                if (prop.AffinityPenaltyPrice < 0)
+                {
+                    return -1;
+                }
                 value += prop.AffinityPenaltyPrice;
                 propsPrice += prop.Price;
                 if (costliestProp < prop.Price)
@@ -7267,7 +7271,1562 @@ namespace ACR_Items
 
         private static void GetAffinityAdjustedValue(int itemType, PricedItemProperty prop, int type, int subtype, int costTableValue)
         {
+            switch (itemType)
+            {
+                #region Rings
+                case BASE_ITEM_RING:
+                    {
+                        // Rings are everything affinate,
+                        // so they never take an affinity penalty.
+                        break;
+                    }
+                #endregion
+                #region Amulets
+                case BASE_ITEM_AMULET:
+                    {
+                        switch (type)
+                        {
+                            #region Ability Bonus
+                            case ITEM_PROPERTY_ABILITY_BONUS:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_ABILITY_CON:
+                                        case IP_CONST_ABILITY_WIS:
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Bonus Feats
+                            case ITEM_PROPERTY_BONUS_FEAT:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_FEAT_EXTRA_TURNING:
+                                        case IP_CONST_FEAT_COMBAT_CASTING:
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = -1;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Bonus Spell Slots
+                            case ITEM_PROPERTY_BONUS_SPELL_SLOT_OF_LEVEL_N:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Casting
+                            case ITEM_PROPERTY_CAST_SPELL:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_CASTSPELL_ACTIVATE_ITEM: // no special price
+                                        case IP_CONST_CASTSPELL_UNIQUE_POWER:
+                                        case IP_CONST_CASTSPELL_UNIQUE_POWER_SELF_ONLY:
 
+                                        case IP_CONST_CASTSPELL_AID_3: // morale
+                                        case IP_CONST_CASTSPELL_AMPLIFY_5: // discernment
+                                        case IP_CONST_CASTSPELL_AURA_VERSUS_ALIGNMENT_15: // protection
+                                        case IP_CONST_CASTSPELL_BANE_5: // morale
+                                        case IP_CONST_CASTSPELL_BARKSKIN_12: // protection
+                                        case IP_CONST_CASTSPELL_BARKSKIN_3:
+                                        case IP_CONST_CASTSPELL_BARKSKIN_6:
+                                        case IP_CONST_CASTSPELL_BLESS_2: // morale
+                                        case IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_10: // discernment
+                                        case IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_15:
+                                        case IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_5:
+                                        case IP_CONST_CASTSPELL_CLARITY_3: // protection
+                                        case IP_CONST_CASTSPELL_DARKVISION_3: // discernment
+                                        case IP_CONST_CASTSPELL_DARKVISION_6:
+                                        case IP_CONST_CASTSPELL_DOOM_2: // morale
+                                        case IP_CONST_CASTSPELL_DOOM_5:
+                                        case IP_CONST_CASTSPELL_ELEMENTAL_SHIELD_12: // protection
+                                        case IP_CONST_CASTSPELL_ELEMENTAL_SHIELD_7:
+                                        case IP_CONST_CASTSPELL_ENDURANCE_10: // protection-- which I guess is the justification of amulets of health?
+                                        case IP_CONST_CASTSPELL_ENDURANCE_15:
+                                        case IP_CONST_CASTSPELL_ENDURANCE_3:
+                                        case IP_CONST_CASTSPELL_ENDURE_ELEMENTS_2: // protection
+                                        case IP_CONST_CASTSPELL_ENERGY_BUFFER_11: // protection
+                                        case IP_CONST_CASTSPELL_ENERGY_BUFFER_15:
+                                        case IP_CONST_CASTSPELL_ENERGY_BUFFER_20:
+                                        case IP_CONST_CASTSPELL_ENTROPIC_SHIELD_5: // protection
+                                        case IP_CONST_CASTSPELL_FEAR_5: // morale
+                                        case IP_CONST_CASTSPELL_FIND_TRAPS_3: // discernment
+                                        case IP_CONST_CASTSPELL_GLOBE_OF_INVULNERABILITY_11: // protection
+                                        case IP_CONST_CASTSPELL_GREATER_ENDURANCE_11: // protection
+                                        case IP_CONST_CASTSPELL_GREATER_OWLS_WISDOM_11: // discernment
+                                        case IP_CONST_CASTSPELL_GREATER_SPELL_MANTLE_17: // protection
+                                        case IP_CONST_CASTSPELL_GREATER_STONESKIN_11: // protection
+                                        case IP_CONST_CASTSPELL_LESSER_SPELL_MANTLE_9: // protection
+                                        case IP_CONST_CASTSPELL_MAGE_ARMOR_2: // protection
+                                        case IP_CONST_CASTSPELL_MAGIC_CIRCLE_AGAINST_ALIGNMENT_5: // protection
+                                        case IP_CONST_CASTSPELL_MIND_BLANK_15: // protection
+                                        case IP_CONST_CASTSPELL_OWLS_INSIGHT_15: // discernment
+                                        case IP_CONST_CASTSPELL_OWLS_WISDOM_10:
+                                        case IP_CONST_CASTSPELL_OWLS_WISDOM_15:
+                                        case IP_CONST_CASTSPELL_OWLS_WISDOM_3:
+                                        case IP_CONST_CASTSPELL_PREMONITION_15: // discernment
+                                        case IP_CONST_CASTSPELL_PROTECTION_FROM_ALIGNMENT_2: // protection
+                                        case IP_CONST_CASTSPELL_PROTECTION_FROM_ALIGNMENT_5:
+                                        case IP_CONST_CASTSPELL_PROTECTION_FROM_ELEMENTS_10:
+                                        case IP_CONST_CASTSPELL_PROTECTION_FROM_ELEMENTS_3:
+                                        case IP_CONST_CASTSPELL_PROTECTION_FROM_EVIL_1:
+                                        case IP_CONST_CASTSPELL_PROTECTION_FROM_SPELLS_13:
+                                        case IP_CONST_CASTSPELL_PROTECTION_FROM_SPELLS_20:
+                                        case IP_CONST_CASTSPELL_REMOVE_FEAR_2: // morale
+                                        case IP_CONST_CASTSPELL_RESIST_ELEMENTS_10: // protection
+                                        case IP_CONST_CASTSPELL_RESIST_ELEMENTS_3:
+                                        case IP_CONST_CASTSPELL_RESISTANCE_2: // protection
+                                        case IP_CONST_CASTSPELL_RESISTANCE_5:
+                                        case IP_CONST_CASTSPELL_SCARE_2: // morale
+                                        case IP_CONST_CASTSPELL_SEE_INVISIBILITY_3: // discernment
+                                        case IP_CONST_CASTSPELL_SHADOW_SHIELD_13: // protection
+                                        case IP_CONST_CASTSPELL_SHIELD_5: // protection
+                                        case IP_CONST_CASTSPELL_SHIELD_OF_FAITH_5: // protection
+                                        case IP_CONST_CASTSPELL_SPELL_MANTLE_13: // protection
+                                        case IP_CONST_CASTSPELL_SPELL_RESISTANCE_15: // protection
+                                        case IP_CONST_CASTSPELL_SPELL_RESISTANCE_9:
+                                        case IP_CONST_CASTSPELL_STONESKIN_7: // protection
+                                        case IP_CONST_CASTSPELL_TRUE_SEEING_9: // discernment
+                                        case IP_CONST_CASTSPELL_TRUE_STRIKE_5: // discernment
+                                            {
+                                                break;
+                                            }
+                                        case IP_CONST_CASTSPELL_SS_DEFENSIVE_EDGE:
+                                        case IP_CONST_CASTSPELL_SS_DESPAIR_OF_THE_DIVIDED:
+                                        case IP_CONST_CASTSPELL_SS_GREATER_RESTORATION:
+                                        case IP_CONST_CASTSPELL_SS_GREATER_SHOUT:
+                                        case IP_CONST_CASTSPELL_SS_PENETRATING_EDGE:
+                                        case IP_CONST_CASTSPELL_SS_POLAR_RAY:
+                                        case IP_CONST_CASTSPELL_SS_PREMONITION:
+                                        case IP_CONST_CASTSPELL_SS_SPELL_MANTLE:
+                                        case IP_CONST_CASTSPELL_SS_SPELLLIKE_ABILITIES:
+                                        case IP_CONST_CASTSPELL_SS_SWORD_FORMS:
+                                        case IP_CONST_CASTSPELL_SS_UNITY_OF_WILL:
+                                        case IP_CONST_CASTSPELL_SS_VORPAL_EDGE:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_BEER:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_SPIRITS:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_WINE:
+                                        case IP_CONST_CASTSPELL_SPECIAL_HERB_BELLADONNA:
+                                        case IP_CONST_CASTSPELL_SPECIAL_HERB_GARLIC:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_ACID_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_COLD_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_FEAR_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_FIRE_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_GAS_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_LIGHTNING_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_PARALYZE_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_SLEEP_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_SLOW_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_WEAKEN_10:
+                                        case IP_CONST_CASTSPELL_ANTIMAGIC_EDGE:
+                                            {
+                                                prop.AffinityPenaltyPrice = -1;
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Damage Resistance
+                            case ITEM_PROPERTY_DAMAGE_RESISTANCE:
+                                {
+                                    // Protection; no penalty.
+                                    break;
+                                }
+                            #endregion
+                            #region Darkvision
+                            case ITEM_PROPERTY_DARKVISION:
+                                {
+                                    // Discernment; no penalty.
+                                    break;
+                                }
+                            #endregion
+                            #region Freedom of Movement
+                            case ITEM_PROPERTY_FREEDOM_OF_MOVEMENT:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Immunities
+                            case ITEM_PROPERTY_IMMUNITY_MISCELLANEOUS:
+                                {
+                                    // Protection; no penalty.
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Immunities
+                            case ITEM_PROPERTY_IMMUNITY_SPECIFIC_SPELL:
+                                {
+                                    // Protection; no penalty.
+                                    break;
+                                }
+                            #endregion
+                            #region Light
+                            case ITEM_PROPERTY_LIGHT:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Saving throws
+                            case ITEM_PROPERTY_SAVING_THROW_BONUS:
+                            case ITEM_PROPERTY_SAVING_THROW_BONUS_SPECIFIC:
+                                {
+                                    // Protection; no penalty.
+                                    break;
+                                }
+                            #endregion
+                            #region Skills
+                            case ITEM_PROPERTY_SKILL_BONUS:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case SKILL_APPRAISE: // discernment
+                                        case SKILL_FORGERY: // discernment
+                                        case SKILL_INTIMIDATE: // morale
+                                        case SKILL_LISTEN: // discernment
+                                        case SKILL_SEARCH: // discernment
+                                        case SKILL_SENSE_MOTIVE: // discernment
+                                        case SKILL_SPOT: // discernment
+                                        case SKILL_SPELLCRAFT: // discernment
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Resistance
+                            case ITEM_PROPERTY_SPELL_RESISTANCE:
+                                {
+                                    // Protection; no penalty.
+                                    break;
+                                }
+                            #endregion
+                        }
+                        break;
+                    }
+                #endregion
+                #region Belts
+                case BASE_ITEM_BELT:
+                    {
+                        // Belts' only affinity is "physical improvment" -- it is the rationale
+                        // for everything argued as affinate.
+                        switch (type)
+                        {
+                            #region Ability Bonus
+                            case ITEM_PROPERTY_ABILITY_BONUS:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_ABILITY_CON:
+                                        case IP_CONST_ABILITY_STR:
+                                        case IP_CONST_ABILITY_DEX:
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Bonus Feats
+                            case ITEM_PROPERTY_BONUS_FEAT:
+                                {
+                                    prop.AffinityPenaltyPrice = -1;
+                                    break;
+                                }
+                            #endregion
+                            #region Bonus Spell Slots
+                            case ITEM_PROPERTY_BONUS_SPELL_SLOT_OF_LEVEL_N:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Casting
+                            case ITEM_PROPERTY_CAST_SPELL:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_CASTSPELL_ACTIVATE_ITEM: // no special price
+                                        case IP_CONST_CASTSPELL_UNIQUE_POWER:
+                                        case IP_CONST_CASTSPELL_UNIQUE_POWER_SELF_ONLY:
+
+                                        case IP_CONST_CASTSPELL_AID_3:
+                                        case IP_CONST_CASTSPELL_BARKSKIN_12:
+                                        case IP_CONST_CASTSPELL_BARKSKIN_3:
+                                        case IP_CONST_CASTSPELL_BARKSKIN_6:
+                                        case IP_CONST_CASTSPELL_BULLS_STRENGTH_10:
+                                        case IP_CONST_CASTSPELL_BULLS_STRENGTH_15:
+                                        case IP_CONST_CASTSPELL_BULLS_STRENGTH_3:
+                                        case IP_CONST_CASTSPELL_CATS_GRACE_10:
+                                        case IP_CONST_CASTSPELL_CATS_GRACE_15:
+                                        case IP_CONST_CASTSPELL_CATS_GRACE_3:
+                                        case IP_CONST_CASTSPELL_ENDURANCE_10:
+                                        case IP_CONST_CASTSPELL_ENDURANCE_15:
+                                        case IP_CONST_CASTSPELL_ENDURANCE_3:
+                                        case IP_CONST_CASTSPELL_ENDURE_ELEMENTS_2:
+                                        case IP_CONST_CASTSPELL_GREATER_BULLS_STRENGTH_11:
+                                        case IP_CONST_CASTSPELL_GREATER_CATS_GRACE_11:
+                                        case IP_CONST_CASTSPELL_GREATER_ENDURANCE_11:
+                                        case IP_CONST_CASTSPELL_GREATER_MAGIC_FANG_9:
+                                        case IP_CONST_CASTSPELL_GREATER_STONESKIN_11:
+                                        case IP_CONST_CASTSPELL_IRON_BODY_15:
+                                        case IP_CONST_CASTSPELL_IRON_BODY_20:
+                                        case IP_CONST_CASTSPELL_MAGIC_FANG_5:
+                                        case IP_CONST_CASTSPELL_NEUTRALIZE_POISON_5:
+                                        case IP_CONST_CASTSPELL_REMOVE_BLINDNESS_DEAFNESS_5:
+                                        case IP_CONST_CASTSPELL_REMOVE_DISEASE_5:
+                                        case IP_CONST_CASTSPELL_STONESKIN_7:
+                                        case IP_CONST_CASTSPELL_VIRTUE_1:
+                                            {
+                                                break;
+                                            }
+                                        case IP_CONST_CASTSPELL_SS_DEFENSIVE_EDGE:
+                                        case IP_CONST_CASTSPELL_SS_DESPAIR_OF_THE_DIVIDED:
+                                        case IP_CONST_CASTSPELL_SS_GREATER_RESTORATION:
+                                        case IP_CONST_CASTSPELL_SS_GREATER_SHOUT:
+                                        case IP_CONST_CASTSPELL_SS_PENETRATING_EDGE:
+                                        case IP_CONST_CASTSPELL_SS_POLAR_RAY:
+                                        case IP_CONST_CASTSPELL_SS_PREMONITION:
+                                        case IP_CONST_CASTSPELL_SS_SPELL_MANTLE:
+                                        case IP_CONST_CASTSPELL_SS_SPELLLIKE_ABILITIES:
+                                        case IP_CONST_CASTSPELL_SS_SWORD_FORMS:
+                                        case IP_CONST_CASTSPELL_SS_UNITY_OF_WILL:
+                                        case IP_CONST_CASTSPELL_SS_VORPAL_EDGE:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_BEER:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_SPIRITS:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_WINE:
+                                        case IP_CONST_CASTSPELL_SPECIAL_HERB_BELLADONNA:
+                                        case IP_CONST_CASTSPELL_SPECIAL_HERB_GARLIC:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_ACID_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_COLD_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_FEAR_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_FIRE_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_GAS_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_LIGHTNING_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_PARALYZE_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_SLEEP_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_SLOW_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_WEAKEN_10:
+                                        case IP_CONST_CASTSPELL_ANTIMAGIC_EDGE:
+                                            {
+                                                prop.AffinityPenaltyPrice = -1;
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Damage Resistance
+                            case ITEM_PROPERTY_DAMAGE_RESISTANCE:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Darkvision
+                            case ITEM_PROPERTY_DARKVISION:
+                                {
+                                    prop.AffinityPenaltyPrice = -1;
+                                    break;
+                                }
+                            #endregion
+                            #region Freedom of Movement
+                            case ITEM_PROPERTY_FREEDOM_OF_MOVEMENT:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Immunities
+                            case ITEM_PROPERTY_IMMUNITY_MISCELLANEOUS:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_IMMUNITYMISC_DEATH_MAGIC:
+                                        case IP_CONST_IMMUNITYMISC_DISEASE:
+                                        case IP_CONST_IMMUNITYMISC_KNOCKDOWN:
+                                        case IP_CONST_IMMUNITYMISC_LEVEL_ABIL_DRAIN:
+                                        case IP_CONST_IMMUNITYMISC_PARALYSIS:
+                                        case IP_CONST_IMMUNITYMISC_POISON:
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Immunities
+                            case ITEM_PROPERTY_IMMUNITY_SPECIFIC_SPELL:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_IMMUNITYSPELL_BLINDNESS_AND_DEAFNESS:
+                                        case IP_CONST_IMMUNITYSPELL_CIRCLE_OF_DEATH:
+                                        case IP_CONST_IMMUNITYSPELL_ENERVATION:
+                                        case IP_CONST_IMMUNITYSPELL_FINGER_OF_DEATH:
+                                        case IP_CONST_IMMUNITYSPELL_HARM:
+                                        case IP_CONST_IMMUNITYSPELL_IMPLOSION:
+                                        case IP_CONST_IMMUNITYSPELL_MASS_BLINDNESS_AND_DEAFNESS:
+                                        case IP_CONST_IMMUNITYSPELL_PHANTASMAL_KILLER:
+                                        case IP_CONST_IMMUNITYSPELL_POISON:
+                                        case IP_CONST_IMMUNITYSPELL_POWER_WORD_KILL:
+                                        case IP_CONST_IMMUNITYSPELL_POWER_WORD_STUN:
+                                        case IP_CONST_IMMUNITYSPELL_RAY_OF_ENFEEBLEMENT:
+                                        case IP_CONST_IMMUNITYSPELL_WAIL_OF_THE_BANSHEE:
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Light
+                            case ITEM_PROPERTY_LIGHT:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Saving throws
+                            case ITEM_PROPERTY_SAVING_THROW_BONUS:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            case ITEM_PROPERTY_SAVING_THROW_BONUS_SPECIFIC:
+                                {
+                                    if (subtype != IP_CONST_SAVEBASETYPE_FORTITUDE)
+                                    {
+                                        prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Skills
+                            case ITEM_PROPERTY_SKILL_BONUS:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case SKILL_BALANCE:
+                                        case SKILL_CLIMB:
+                                        case SKILL_ESCAPE_ARTIST:
+                                        case SKILL_JUMP:
+                                        case SKILL_RIDE:
+                                        case SKILL_SURVIVAL:
+                                        case SKILL_SWIM:
+                                        case SKILL_TUMBLE:
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Resistance
+                            case ITEM_PROPERTY_SPELL_RESISTANCE:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                        }
+                        break;
+                    }
+                #endregion
+                #region Boots
+                case BASE_ITEM_BOOTS:
+                    {
+                        // Boots' only affinity is "movement" -- this is the argued trait
+                        // that makes everything here affinate.
+                        switch (type)
+                        {
+                            #region Ability Bonus
+                            case ITEM_PROPERTY_ABILITY_BONUS:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_ABILITY_DEX:
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Bonus Feats
+                            case ITEM_PROPERTY_BONUS_FEAT:
+                                {
+                                    prop.AffinityPenaltyPrice = -1;
+                                    break;
+                                }
+                            #endregion
+                            #region Bonus Spell Slots
+                            case ITEM_PROPERTY_BONUS_SPELL_SLOT_OF_LEVEL_N:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Casting
+                            case ITEM_PROPERTY_CAST_SPELL:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_CASTSPELL_ACTIVATE_ITEM: // no special price
+                                        case IP_CONST_CASTSPELL_UNIQUE_POWER:
+                                        case IP_CONST_CASTSPELL_UNIQUE_POWER_SELF_ONLY:
+
+                                        case IP_CONST_CASTSPELL_CATS_GRACE_10:
+                                        case IP_CONST_CASTSPELL_CATS_GRACE_15:
+                                        case IP_CONST_CASTSPELL_CATS_GRACE_3:
+                                        case IP_CONST_CASTSPELL_EXPEDITIOUS_RETREAT_5:
+                                        case IP_CONST_CASTSPELL_FREEDOM_OF_MOVEMENT_7:
+                                        case IP_CONST_CASTSPELL_GREATER_CATS_GRACE_11:
+                                        case IP_CONST_CASTSPELL_HASTE_10:
+                                        case IP_CONST_CASTSPELL_HASTE_5:
+                                            {
+                                                break;
+                                            }
+                                        case IP_CONST_CASTSPELL_SS_DEFENSIVE_EDGE:
+                                        case IP_CONST_CASTSPELL_SS_DESPAIR_OF_THE_DIVIDED:
+                                        case IP_CONST_CASTSPELL_SS_GREATER_RESTORATION:
+                                        case IP_CONST_CASTSPELL_SS_GREATER_SHOUT:
+                                        case IP_CONST_CASTSPELL_SS_PENETRATING_EDGE:
+                                        case IP_CONST_CASTSPELL_SS_POLAR_RAY:
+                                        case IP_CONST_CASTSPELL_SS_PREMONITION:
+                                        case IP_CONST_CASTSPELL_SS_SPELL_MANTLE:
+                                        case IP_CONST_CASTSPELL_SS_SPELLLIKE_ABILITIES:
+                                        case IP_CONST_CASTSPELL_SS_SWORD_FORMS:
+                                        case IP_CONST_CASTSPELL_SS_UNITY_OF_WILL:
+                                        case IP_CONST_CASTSPELL_SS_VORPAL_EDGE:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_BEER:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_SPIRITS:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_WINE:
+                                        case IP_CONST_CASTSPELL_SPECIAL_HERB_BELLADONNA:
+                                        case IP_CONST_CASTSPELL_SPECIAL_HERB_GARLIC:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_ACID_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_COLD_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_FEAR_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_FIRE_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_GAS_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_LIGHTNING_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_PARALYZE_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_SLEEP_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_SLOW_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_WEAKEN_10:
+                                        case IP_CONST_CASTSPELL_ANTIMAGIC_EDGE:
+                                            {
+                                                prop.AffinityPenaltyPrice = -1;
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Damage Resistance
+                            case ITEM_PROPERTY_DAMAGE_RESISTANCE:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Darkvision
+                            case ITEM_PROPERTY_DARKVISION:
+                                {
+                                    prop.AffinityPenaltyPrice = -1;
+                                    break;
+                                }
+                            #endregion
+                            #region Freedom of Movement
+                            case ITEM_PROPERTY_FREEDOM_OF_MOVEMENT:
+                                {
+                                    // Movement is affinate.
+                                    break;
+                                }
+                            #endregion
+                            #region Immunities
+                            case ITEM_PROPERTY_IMMUNITY_MISCELLANEOUS:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_IMMUNITYMISC_KNOCKDOWN:
+                                        case IP_CONST_IMMUNITYMISC_PARALYSIS:
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Immunities
+                            case ITEM_PROPERTY_IMMUNITY_SPECIFIC_SPELL:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_IMMUNITYSPELL_ENTANGLE:
+                                        case IP_CONST_IMMUNITYSPELL_EVARDS_BLACK_TENTACLES:
+                                        case IP_CONST_IMMUNITYSPELL_GREASE:
+                                        case IP_CONST_IMMUNITYSPELL_HOLD_ANIMAL:
+                                        case IP_CONST_IMMUNITYSPELL_HOLD_MONSTER:
+                                        case IP_CONST_IMMUNITYSPELL_HOLD_PERSON:
+                                        case IP_CONST_IMMUNITYSPELL_SLOW:
+                                        case IP_CONST_IMMUNITYSPELL_WEB:
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Light
+                            case ITEM_PROPERTY_LIGHT:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Saving throws
+                            case ITEM_PROPERTY_SAVING_THROW_BONUS:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            case ITEM_PROPERTY_SAVING_THROW_BONUS_SPECIFIC:
+                                {
+                                    if (subtype != IP_CONST_SAVEBASETYPE_REFLEX)
+                                    {
+                                        prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Skills
+                            case ITEM_PROPERTY_SKILL_BONUS:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case SKILL_BALANCE:
+                                        case SKILL_CLIMB:
+                                        case SKILL_ESCAPE_ARTIST:
+                                        case SKILL_JUMP:
+                                        case SKILL_MOVE_SILENTLY:
+                                        case SKILL_PERFORM_DANCE:
+                                        case SKILL_RIDE:
+                                        case SKILL_SWIM:
+                                        case SKILL_TUMBLE:
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Resistance
+                            case ITEM_PROPERTY_SPELL_RESISTANCE:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                        }
+                        break;
+                    }
+                #endregion
+                #region Cloaks
+                case BASE_ITEM_CLOAK:
+                    {
+                        switch (subtype)
+                        {
+                            #region Ability Bonus
+                            case ITEM_PROPERTY_ABILITY_BONUS:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_ABILITY_CHA: // transformation
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Bonus Feats
+                            case ITEM_PROPERTY_BONUS_FEAT:
+                                {
+                                    prop.AffinityPenaltyPrice = -1;
+                                    break;
+                                }
+                            #endregion
+                            #region Bonus Spell Slots
+                            case ITEM_PROPERTY_BONUS_SPELL_SLOT_OF_LEVEL_N:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Casting
+                            case ITEM_PROPERTY_CAST_SPELL:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_CASTSPELL_ACTIVATE_ITEM: // no special price
+                                        case IP_CONST_CASTSPELL_UNIQUE_POWER:
+                                        case IP_CONST_CASTSPELL_UNIQUE_POWER_SELF_ONLY:
+
+                                        case IP_CONST_CASTSPELL_AID_3: // protection
+                                        case IP_CONST_CASTSPELL_BARKSKIN_12: //protection
+                                        case IP_CONST_CASTSPELL_BARKSKIN_3:
+                                        case IP_CONST_CASTSPELL_BARKSKIN_6:
+                                        case IP_CONST_CASTSPELL_CAMOFLAGE_5: // transformation
+                                        case IP_CONST_CASTSPELL_DISPLACEMENT_9: // transformation
+                                        case IP_CONST_CASTSPELL_DEATH_WARD_7: // protection
+                                        case IP_CONST_CASTSPELL_DIVINE_SHIELD_5: // protection
+                                        case IP_CONST_CASTSPELL_ELEMENTAL_SHIELD_12: // protection
+                                        case IP_CONST_CASTSPELL_ELEMENTAL_SHIELD_7:
+                                        case IP_CONST_CASTSPELL_ENDURE_ELEMENTS_2: // protection
+                                        case IP_CONST_CASTSPELL_ENERGY_BUFFER_11: // protection
+                                        case IP_CONST_CASTSPELL_ENERGY_BUFFER_15:
+                                        case IP_CONST_CASTSPELL_ENERGY_BUFFER_20:
+                                        case IP_CONST_CASTSPELL_ENTROPIC_SHIELD_5: // protection
+                                        case IP_CONST_CASTSPELL_GHOSTLY_VISAGE_15: // transformation
+                                        case IP_CONST_CASTSPELL_GHOSTLY_VISAGE_3:
+                                        case IP_CONST_CASTSPELL_GHOSTLY_VISAGE_9:
+                                        case IP_CONST_CASTSPELL_GLOBE_OF_INVULNERABILITY_11: // protection
+                                        case IP_CONST_CASTSPELL_IMPROVED_INVISIBILITY_7: // transformation
+                                        case IP_CONST_CASTSPELL_IMPROVED_MAGE_ARMOR_10: // protection
+                                        case IP_CONST_CASTSPELL_INVISIBILITY_3: //transformation
+                                        case IP_CONST_CASTSPELL_INVISIBILITY_SPHERE_5: // transformation
+                                        case IP_CONST_CASTSPELL_IRON_BODY_15: // transformation
+                                        case IP_CONST_CASTSPELL_IRON_BODY_20:
+                                        case IP_CONST_CASTSPELL_LESSER_GLOBE_OF_INVULNERABILITY_15: // protection
+                                        case IP_CONST_CASTSPELL_LESSER_GLOBE_OF_INVULNERABILITY_7:
+                                        case IP_CONST_CASTSPELL_LESSER_SPELL_MANTLE_9: // protection
+                                        case IP_CONST_CASTSPELL_MAGIC_CIRCLE_AGAINST_ALIGNMENT_5: // protection
+                                        case IP_CONST_CASTSPELL_MASS_CAMOFLAGE_13: // transformation
+                                        case IP_CONST_CASTSPELL_MIND_BLANK_15: // protection
+                                        case IP_CONST_CASTSPELL_POLYMORPH_SELF_7: // transformation
+                                        case IP_CONST_CASTSPELL_PROTECTION_FROM_ALIGNMENT_2: // protection
+                                        case IP_CONST_CASTSPELL_PROTECTION_FROM_ALIGNMENT_5: 
+                                        case IP_CONST_CASTSPELL_PROTECTION_FROM_ELEMENTS_10: // protection
+                                        case IP_CONST_CASTSPELL_PROTECTION_FROM_ELEMENTS_3:
+                                        case IP_CONST_CASTSPELL_PROTECTION_FROM_EVIL_1: // protection
+                                        case IP_CONST_CASTSPELL_PROTECTION_FROM_SPELLS_13: // protection
+                                        case IP_CONST_CASTSPELL_PROTECTION_FROM_SPELLS_20:
+                                        case IP_CONST_CASTSPELL_RESIST_ELEMENTS_10: // protection
+                                        case IP_CONST_CASTSPELL_RESIST_ELEMENTS_3:
+                                        case IP_CONST_CASTSPELL_RESISTANCE_2: // protection
+                                        case IP_CONST_CASTSPELL_RESISTANCE_5:
+                                        case IP_CONST_CASTSPELL_SANCTUARY_2: // protection
+                                        case IP_CONST_CASTSPELL_SHADOW_SHIELD_13: // protection
+                                        case IP_CONST_CASTSPELL_SHAPECHANGE_17: // transformation
+                                        case IP_CONST_CASTSPELL_SHIELD_5: // protection
+                                        case IP_CONST_CASTSPELL_SHIELD_OF_FAITH_5: // protection
+                                        case IP_CONST_CASTSPELL_SPELL_MANTLE_13: // protection
+                                        case IP_CONST_CASTSPELL_SPELL_RESISTANCE_15: // protection
+                                        case IP_CONST_CASTSPELL_SPELL_RESISTANCE_9: // protection
+                                        case IP_CONST_CASTSPELL_STONE_TO_FLESH_5: // transformation
+                                        case IP_CONST_CASTSPELL_STONESKIN_7: // protection & transformation
+                                        case IP_CONST_CASTSPELL_TENSERS_TRANSFORMATION_11: // transformation
+                                            {
+                                                break;
+                                            }
+                                        case IP_CONST_CASTSPELL_SS_DEFENSIVE_EDGE:
+                                        case IP_CONST_CASTSPELL_SS_DESPAIR_OF_THE_DIVIDED:
+                                        case IP_CONST_CASTSPELL_SS_GREATER_RESTORATION:
+                                        case IP_CONST_CASTSPELL_SS_GREATER_SHOUT:
+                                        case IP_CONST_CASTSPELL_SS_PENETRATING_EDGE:
+                                        case IP_CONST_CASTSPELL_SS_POLAR_RAY:
+                                        case IP_CONST_CASTSPELL_SS_PREMONITION:
+                                        case IP_CONST_CASTSPELL_SS_SPELL_MANTLE:
+                                        case IP_CONST_CASTSPELL_SS_SPELLLIKE_ABILITIES:
+                                        case IP_CONST_CASTSPELL_SS_SWORD_FORMS:
+                                        case IP_CONST_CASTSPELL_SS_UNITY_OF_WILL:
+                                        case IP_CONST_CASTSPELL_SS_VORPAL_EDGE:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_BEER:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_SPIRITS:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_WINE:
+                                        case IP_CONST_CASTSPELL_SPECIAL_HERB_BELLADONNA:
+                                        case IP_CONST_CASTSPELL_SPECIAL_HERB_GARLIC:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_ACID_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_COLD_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_FEAR_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_FIRE_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_GAS_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_LIGHTNING_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_PARALYZE_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_SLEEP_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_SLOW_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_WEAKEN_10:
+                                        case IP_CONST_CASTSPELL_ANTIMAGIC_EDGE:
+                                            {
+                                                prop.AffinityPenaltyPrice = -1;
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Damage Resistance
+                            case ITEM_PROPERTY_DAMAGE_RESISTANCE:
+                                {
+                                    // Protection; no penalty.
+                                    break;
+                                }
+                            #endregion
+                            #region Darkvision
+                            case ITEM_PROPERTY_DARKVISION:
+                                {
+                                    prop.AffinityPenaltyPrice = -1;
+                                    break;
+                                }
+                            #endregion
+                            #region Freedom of Movement
+                            case ITEM_PROPERTY_FREEDOM_OF_MOVEMENT:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Immunities
+                            case ITEM_PROPERTY_IMMUNITY_MISCELLANEOUS:
+                                {
+                                    // Protection; no penalty.
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Immunities
+                            case ITEM_PROPERTY_IMMUNITY_SPECIFIC_SPELL:
+                                {
+                                    // Protection; no penalty.
+                                    break;
+                                }
+                            #endregion
+                            #region Light
+                            case ITEM_PROPERTY_LIGHT:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Saving throws
+                            case ITEM_PROPERTY_SAVING_THROW_BONUS:
+                            case ITEM_PROPERTY_SAVING_THROW_BONUS_SPECIFIC:
+                                {
+                                    // Protection; no penalty.
+                                    break;
+                                }
+                            #endregion
+                            #region Skills
+                            case ITEM_PROPERTY_SKILL_BONUS:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case SKILL_HIDE:
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Resistance
+                            case ITEM_PROPERTY_SPELL_RESISTANCE:
+                                {
+                                    // Protection; no penalty.
+                                    break;
+                                }
+                            #endregion
+                        }
+                        break;
+                    }
+                #endregion
+                #region Gloves, Gauntlets, and Bracers
+                case BASE_ITEM_GLOVES:
+                case BASE_ITEM_BRACER:
+                    {
+                        switch (subtype)
+                        {
+                            #region Ability Bonus
+                            case ITEM_PROPERTY_ABILITY_BONUS:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_ABILITY_STR: // destructive power
+                                        case IP_CONST_ABILITY_DEX: // quickness
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Bonus Feats
+                            case ITEM_PROPERTY_BONUS_FEAT:
+                                {
+                                    prop.AffinityPenaltyPrice = -1;
+                                    break;
+                                }
+                            #endregion
+                            #region Bonus Spell Slots
+                            case ITEM_PROPERTY_BONUS_SPELL_SLOT_OF_LEVEL_N:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Casting
+                            case ITEM_PROPERTY_CAST_SPELL:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_CASTSPELL_ACTIVATE_ITEM: // no special price
+                                        case IP_CONST_CASTSPELL_UNIQUE_POWER:
+                                        case IP_CONST_CASTSPELL_UNIQUE_POWER_SELF_ONLY:
+
+                                        case IP_CONST_CASTSPELL_AID_3: // allies
+                                        case IP_CONST_CASTSPELL_ANIMATE_DEAD_10: // allies
+                                        case IP_CONST_CASTSPELL_ANIMATE_DEAD_15:
+                                        case IP_CONST_CASTSPELL_ANIMATE_DEAD_5:
+                                        case IP_CONST_CASTSPELL_CHARM_MONSTER_10: // allies
+                                        case IP_CONST_CASTSPELL_CHARM_MONSTER_5:
+                                        case IP_CONST_CASTSPELL_CHARM_PERSON_10:
+                                        case IP_CONST_CASTSPELL_CHARM_PERSON_2:
+                                        case IP_CONST_CASTSPELL_CHARM_PERSON_OR_ANIMAL_10:
+                                        case IP_CONST_CASTSPELL_CHARM_PERSON_OR_ANIMAL_3:
+                                        case IP_CONST_CASTSPELL_CREATE_GREATER_UNDEAD_15: // allies
+                                        case IP_CONST_CASTSPELL_CREATE_GREATER_UNDEAD_16:
+                                        case IP_CONST_CASTSPELL_CREATE_GREATER_UNDEAD_18:
+                                        case IP_CONST_CASTSPELL_CREATE_UNDEAD_11:
+                                        case IP_CONST_CASTSPELL_CREATE_UNDEAD_14:
+                                        case IP_CONST_CASTSPELL_CREATE_UNDEAD_16:
+                                        case IP_CONST_CASTSPELL_CURE_CRITICAL_WOUNDS_12: // allies
+                                        case IP_CONST_CASTSPELL_CURE_CRITICAL_WOUNDS_15:
+                                        case IP_CONST_CASTSPELL_CURE_CRITICAL_WOUNDS_7:
+                                        case IP_CONST_CASTSPELL_CURE_LIGHT_WOUNDS_2:
+                                        case IP_CONST_CASTSPELL_CURE_LIGHT_WOUNDS_5:
+                                        case IP_CONST_CASTSPELL_CURE_MINOR_WOUNDS_1:
+                                        case IP_CONST_CASTSPELL_CURE_MODERATE_WOUNDS_10:
+                                        case IP_CONST_CASTSPELL_CURE_MODERATE_WOUNDS_3:
+                                        case IP_CONST_CASTSPELL_CURE_MODERATE_WOUNDS_6:
+                                        case IP_CONST_CASTSPELL_CURE_SERIOUS_WOUNDS_10:
+                                        case IP_CONST_CASTSPELL_CURE_SERIOUS_WOUNDS_5:
+                                        case IP_CONST_CASTSPELL_DESTRUCTION_13: // destructive power
+                                        case IP_CONST_CASTSPELL_EXPEDITIOUS_RETREAT_5: // quickness
+                                        case IP_CONST_CASTSPELL_HASTE_10: // quickness
+                                        case IP_CONST_CASTSPELL_HASTE_5:
+                                        case IP_CONST_CASTSPELL_MASS_HEAL_15: // allies
+                                        case IP_CONST_CASTSPELL_MASS_CHARM_15:
+                                        case IP_CONST_CASTSPELL_MASS_HASTE_11: // quickness
+                                        case IP_CONST_CASTSPELL_NEUTRALIZE_POISON_5: // allies
+                                        case IP_CONST_CASTSPELL_REMOVE_BLINDNESS_DEAFNESS_5:
+                                        case IP_CONST_CASTSPELL_REMOVE_CURSE_5:
+                                        case IP_CONST_CASTSPELL_REMOVE_DISEASE_5:
+                                        case IP_CONST_CASTSPELL_REMOVE_FEAR_2:
+                                        case IP_CONST_CASTSPELL_REMOVE_PARALYSIS_3:
+                                        case IP_CONST_CASTSPELL_RESTORATION_7:
+                                        case IP_CONST_CASTSPELL_SUMMON_CREATURE_I_2: // allies
+                                        case IP_CONST_CASTSPELL_SUMMON_CREATURE_I_5:
+                                        case IP_CONST_CASTSPELL_SUMMON_CREATURE_II_3:
+                                        case IP_CONST_CASTSPELL_SUMMON_CREATURE_III_5:
+                                        case IP_CONST_CASTSPELL_SUMMON_CREATURE_IV_7:
+                                        case IP_CONST_CASTSPELL_SUMMON_CREATURE_IX_17:
+                                        case IP_CONST_CASTSPELL_SUMMON_CREATURE_V_9:
+                                        case IP_CONST_CASTSPELL_SUMMON_CREATURE_VI_11:
+                                        case IP_CONST_CASTSPELL_SUMMON_CREATURE_VII_13:
+                                        case IP_CONST_CASTSPELL_SUMMON_CREATURE_VIII_15:
+                                            {
+                                                break;
+                                            }
+                                        case IP_CONST_CASTSPELL_SS_DEFENSIVE_EDGE:
+                                        case IP_CONST_CASTSPELL_SS_DESPAIR_OF_THE_DIVIDED:
+                                        case IP_CONST_CASTSPELL_SS_GREATER_RESTORATION:
+                                        case IP_CONST_CASTSPELL_SS_GREATER_SHOUT:
+                                        case IP_CONST_CASTSPELL_SS_PENETRATING_EDGE:
+                                        case IP_CONST_CASTSPELL_SS_POLAR_RAY:
+                                        case IP_CONST_CASTSPELL_SS_PREMONITION:
+                                        case IP_CONST_CASTSPELL_SS_SPELL_MANTLE:
+                                        case IP_CONST_CASTSPELL_SS_SPELLLIKE_ABILITIES:
+                                        case IP_CONST_CASTSPELL_SS_SWORD_FORMS:
+                                        case IP_CONST_CASTSPELL_SS_UNITY_OF_WILL:
+                                        case IP_CONST_CASTSPELL_SS_VORPAL_EDGE:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_BEER:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_SPIRITS:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_WINE:
+                                        case IP_CONST_CASTSPELL_SPECIAL_HERB_BELLADONNA:
+                                        case IP_CONST_CASTSPELL_SPECIAL_HERB_GARLIC:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_ACID_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_COLD_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_FEAR_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_FIRE_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_GAS_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_LIGHTNING_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_PARALYZE_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_SLEEP_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_SLOW_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_WEAKEN_10:
+                                        case IP_CONST_CASTSPELL_ANTIMAGIC_EDGE:
+                                            {
+                                                prop.AffinityPenaltyPrice = -1;
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Damage Resistance
+                            case ITEM_PROPERTY_DAMAGE_RESISTANCE:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Darkvision
+                            case ITEM_PROPERTY_DARKVISION:
+                                {
+                                    prop.AffinityPenaltyPrice = -1;
+                                    break;
+                                }
+                            #endregion
+                            #region Freedom of Movement
+                            case ITEM_PROPERTY_FREEDOM_OF_MOVEMENT:
+                                {
+                                    // Quickness
+                                    break;
+                                }
+                            #endregion
+                            #region Immunities
+                            case ITEM_PROPERTY_IMMUNITY_MISCELLANEOUS:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Immunities
+                            case ITEM_PROPERTY_IMMUNITY_SPECIFIC_SPELL:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_IMMUNITYSPELL_SLOW:
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Light
+                            case ITEM_PROPERTY_LIGHT:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Saving throws
+                            case ITEM_PROPERTY_SAVING_THROW_BONUS:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            case ITEM_PROPERTY_SAVING_THROW_BONUS_SPECIFIC:
+                                {
+                                    if (subtype != IP_CONST_SAVEBASETYPE_REFLEX)
+                                    {
+                                        prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Skills
+                            case ITEM_PROPERTY_SKILL_BONUS:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case SKILL_HANDLE_ANIMAL: // allies
+                                        case SKILL_HEAL: // allies
+                                        case SKILL_PARRY: // combat
+                                        case SKILL_RIDE: // allies
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Resistance
+                            case ITEM_PROPERTY_SPELL_RESISTANCE:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                        }
+                        break;
+                    }
+                #endregion
+                #region Helmets
+                case BASE_ITEM_HELMET:
+                    {
+                        switch (subtype)
+                        {
+                            #region Ability Bonus
+                            case ITEM_PROPERTY_ABILITY_BONUS:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_ABILITY_INT: // mental improvement
+                                        case IP_CONST_ABILITY_WIS:
+                                        case IP_CONST_ABILITY_CHA:
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Bonus Feats
+                            case ITEM_PROPERTY_BONUS_FEAT:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_FEAT_COMBAT_CASTING:
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = -1;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Bonus Spell Slots
+                            case ITEM_PROPERTY_BONUS_SPELL_SLOT_OF_LEVEL_N:
+                                {
+                                    // mental improvement. Claimed affinate.
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Casting
+                            case ITEM_PROPERTY_CAST_SPELL:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_CASTSPELL_ACTIVATE_ITEM: // no special price
+                                        case IP_CONST_CASTSPELL_UNIQUE_POWER:
+                                        case IP_CONST_CASTSPELL_UNIQUE_POWER_SELF_ONLY:
+
+                                        case IP_CONST_CASTSPELL_CHARM_MONSTER_10: // interaction
+                                        case IP_CONST_CASTSPELL_CHARM_MONSTER_5:
+                                        case IP_CONST_CASTSPELL_CHARM_PERSON_10:
+                                        case IP_CONST_CASTSPELL_CHARM_PERSON_2:
+                                        case IP_CONST_CASTSPELL_CHARM_PERSON_OR_ANIMAL_10:
+                                        case IP_CONST_CASTSPELL_CHARM_PERSON_OR_ANIMAL_3:
+                                        case IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_10: // vision
+                                        case IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_15:
+                                        case IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_5:
+                                        case IP_CONST_CASTSPELL_CLARITY_3:
+                                        case IP_CONST_CASTSPELL_CONFUSION_10:
+                                        case IP_CONST_CASTSPELL_CONFUSION_5:
+                                        case IP_CONST_CASTSPELL_DELAYED_BLAST_FIREBALL_13:
+                                        case IP_CONST_CASTSPELL_DELAYED_BLAST_FIREBALL_15:
+                                        case IP_CONST_CASTSPELL_DELAYED_BLAST_FIREBALL_20:
+                                        case IP_CONST_CASTSPELL_DOMINATE_ANIMAL_5:
+                                        case IP_CONST_CASTSPELL_DOMINATE_MONSTER_17:
+                                        case IP_CONST_CASTSPELL_DOMINATE_PERSON_7:
+                                        case IP_CONST_CASTSPELL_EAGLE_SPLEDOR_10:
+                                        case IP_CONST_CASTSPELL_EAGLE_SPLEDOR_15:
+                                        case IP_CONST_CASTSPELL_EAGLE_SPLEDOR_3:
+                                        case IP_CONST_CASTSPELL_FEAR_5:
+                                        case IP_CONST_CASTSPELL_FEEBLEMIND_9:
+                                        case IP_CONST_CASTSPELL_FIND_TRAPS_3:
+                                        case IP_CONST_CASTSPELL_FIREBALL_10:
+                                        case IP_CONST_CASTSPELL_FIREBALL_5:
+                                        case IP_CONST_CASTSPELL_FIREBRAND_15:
+                                        case IP_CONST_CASTSPELL_FLAME_ARROW_12:
+                                        case IP_CONST_CASTSPELL_FLAME_ARROW_18:
+                                        case IP_CONST_CASTSPELL_FLAME_ARROW_5:
+                                        case IP_CONST_CASTSPELL_FOXS_CUNNING_10:
+                                        case IP_CONST_CASTSPELL_FOXS_CUNNING_15:
+                                        case IP_CONST_CASTSPELL_FOXS_CUNNING_3:
+                                        case IP_CONST_CASTSPELL_IDENTIFY_3:
+                                        case IP_CONST_CASTSPELL_ISAACS_GREATER_MISSILE_STORM_15:
+                                        case IP_CONST_CASTSPELL_ISAACS_LESSER_MISSILE_STORM_13:
+                                        case IP_CONST_CASTSPELL_LEGEND_LORE_5:
+                                        case IP_CONST_CASTSPELL_LESSER_MIND_BLANK_9:
+                                        case IP_CONST_CASTSPELL_LIGHTNING_BOLT_10:
+                                        case IP_CONST_CASTSPELL_LIGHTNING_BOLT_5:
+                                        case IP_CONST_CASTSPELL_MAGIC_MISSILE_3:
+                                        case IP_CONST_CASTSPELL_MAGIC_MISSILE_5:
+                                        case IP_CONST_CASTSPELL_MAGIC_MISSILE_9:
+                                        case IP_CONST_CASTSPELL_MELFS_ACID_ARROW_3:
+                                        case IP_CONST_CASTSPELL_MELFS_ACID_ARROW_6:
+                                        case IP_CONST_CASTSPELL_MELFS_ACID_ARROW_9:
+                                        case IP_CONST_CASTSPELL_MIND_BLANK_15:
+                                        case IP_CONST_CASTSPELL_MIND_FOG_9:
+                                        case IP_CONST_CASTSPELL_OWLS_INSIGHT_15:
+                                        case IP_CONST_CASTSPELL_OWLS_WISDOM_10:
+                                        case IP_CONST_CASTSPELL_OWLS_WISDOM_15:
+                                        case IP_CONST_CASTSPELL_OWLS_WISDOM_3:
+                                        case IP_CONST_CASTSPELL_PHANTASMAL_KILLER_7:
+                                        case IP_CONST_CASTSPELL_RAY_OF_ENFEEBLEMENT_2:
+                                        case IP_CONST_CASTSPELL_RAY_OF_FROST_1:
+                                        case IP_CONST_CASTSPELL_REMOVE_BLINDNESS_DEAFNESS_5:
+                                        case IP_CONST_CASTSPELL_SCARE_2:
+                                        case IP_CONST_CASTSPELL_SCINTILLATING_SPHERE_5:
+                                        case IP_CONST_CASTSPELL_SEARING_LIGHT_5:
+                                        case IP_CONST_CASTSPELL_SEE_INVISIBILITY_3:
+                                        case IP_CONST_CASTSPELL_TRUE_SEEING_9:
+                                        case IP_CONST_CASTSPELL_TRUE_STRIKE_5:
+                                            {
+                                                break;
+                                            }
+                                        case IP_CONST_CASTSPELL_SS_DEFENSIVE_EDGE:
+                                        case IP_CONST_CASTSPELL_SS_DESPAIR_OF_THE_DIVIDED:
+                                        case IP_CONST_CASTSPELL_SS_GREATER_RESTORATION:
+                                        case IP_CONST_CASTSPELL_SS_GREATER_SHOUT:
+                                        case IP_CONST_CASTSPELL_SS_PENETRATING_EDGE:
+                                        case IP_CONST_CASTSPELL_SS_POLAR_RAY:
+                                        case IP_CONST_CASTSPELL_SS_PREMONITION:
+                                        case IP_CONST_CASTSPELL_SS_SPELL_MANTLE:
+                                        case IP_CONST_CASTSPELL_SS_SPELLLIKE_ABILITIES:
+                                        case IP_CONST_CASTSPELL_SS_SWORD_FORMS:
+                                        case IP_CONST_CASTSPELL_SS_UNITY_OF_WILL:
+                                        case IP_CONST_CASTSPELL_SS_VORPAL_EDGE:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_BEER:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_SPIRITS:
+                                        case IP_CONST_CASTSPELL_SPECIAL_ALCOHOL_WINE:
+                                        case IP_CONST_CASTSPELL_SPECIAL_HERB_BELLADONNA:
+                                        case IP_CONST_CASTSPELL_SPECIAL_HERB_GARLIC:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_ACID_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_COLD_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_FEAR_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_FIRE_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_GAS_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_LIGHTNING_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_PARALYZE_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_SLEEP_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_SLOW_10:
+                                        case IP_CONST_CASTSPELL_DRAGON_BREATH_WEAKEN_10:
+                                        case IP_CONST_CASTSPELL_ANTIMAGIC_EDGE:
+                                            {
+                                                prop.AffinityPenaltyPrice = -1;
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Damage Resistance
+                            case ITEM_PROPERTY_DAMAGE_RESISTANCE:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Darkvision
+                            case ITEM_PROPERTY_DARKVISION:
+                                {
+                                    // Vision
+                                    break;
+                                }
+                            #endregion
+                            #region Freedom of Movement
+                            case ITEM_PROPERTY_FREEDOM_OF_MOVEMENT:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Immunities
+                            case ITEM_PROPERTY_IMMUNITY_MISCELLANEOUS:
+                                {
+                                    switch(subtype)
+                                    {
+                                        case IP_CONST_IMMUNITYMISC_FEAR:
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Immunities
+                            case ITEM_PROPERTY_IMMUNITY_SPECIFIC_SPELL:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case IP_CONST_IMMUNITYSPELL_BLINDNESS_AND_DEAFNESS:
+                                        case IP_CONST_IMMUNITYSPELL_CAUSE_FEAR:
+                                        case IP_CONST_IMMUNITYSPELL_CHARM_MONSTER:
+                                        case IP_CONST_IMMUNITYSPELL_CHARM_PERSON:
+                                        case IP_CONST_IMMUNITYSPELL_CHARM_PERSON_OR_ANIMAL:
+                                        case IP_CONST_IMMUNITYSPELL_CONFUSION:
+                                        case IP_CONST_IMMUNITYSPELL_DAZE:
+                                        case IP_CONST_IMMUNITYSPELL_DOMINATE_ANIMAL:
+                                        case IP_CONST_IMMUNITYSPELL_DOMINATE_MONSTER:
+                                        case IP_CONST_IMMUNITYSPELL_DOMINATE_PERSON:
+                                        case IP_CONST_IMMUNITYSPELL_FEAR:
+                                        case IP_CONST_IMMUNITYSPELL_FEEBLEMIND:
+                                        case IP_CONST_IMMUNITYSPELL_HOLD_ANIMAL:
+                                        case IP_CONST_IMMUNITYSPELL_HOLD_MONSTER:
+                                        case IP_CONST_IMMUNITYSPELL_HOLD_PERSON:
+                                        case IP_CONST_IMMUNITYSPELL_MASS_BLINDNESS_AND_DEAFNESS:
+                                        case IP_CONST_IMMUNITYSPELL_MASS_CHARM:
+                                        case IP_CONST_IMMUNITYSPELL_MIND_FOG:
+                                        case IP_CONST_IMMUNITYSPELL_PHANTASMAL_KILLER:
+                                        case IP_CONST_IMMUNITYSPELL_POWER_WORD_STUN:
+                                        case IP_CONST_IMMUNITYSPELL_PRISMATIC_SPRAY:
+                                        case IP_CONST_IMMUNITYSPELL_SLEEP:
+                                        case IP_CONST_IMMUNITYSPELL_WEIRD:
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Light
+                            case ITEM_PROPERTY_LIGHT:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                            #region Saving throws
+                            case ITEM_PROPERTY_SAVING_THROW_BONUS:
+                                {
+                                    if (subtype != IP_CONST_SAVEVS_FEAR &&
+                                        subtype != IP_CONST_SAVEVS_MINDAFFECTING)
+                                    {
+                                        prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    }
+                                    break;
+                                }
+                            case ITEM_PROPERTY_SAVING_THROW_BONUS_SPECIFIC:
+                                {
+                                    if (subtype != IP_CONST_SAVEBASETYPE_WILL)
+                                    {
+                                        prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Skills
+                            case ITEM_PROPERTY_SKILL_BONUS:
+                                {
+                                    switch (subtype)
+                                    {
+                                        case SKILL_APPRAISE: // vision
+                                        case SKILL_BLUFF: // interaction
+                                        case SKILL_CONCENTRATION: // mental improvement
+                                        case SKILL_DECIPHER_SCRIPT: // mental
+                                        case SKILL_DIPLOMACY: // interaction
+                                        case SKILL_DISGUISE: // interaction
+                                        case SKILL_FORGERY: // vision
+                                        case SKILL_GATHER_INFO: // interaction
+                                        case SKILL_HANDLE_ANIMAL: // interaction
+                                        case SKILL_INTIMIDATE: // interaction
+                                        case SKILL_KNOW_ARCANA: // mental
+                                        case SKILL_KNOW_DUNGEON:
+                                        case SKILL_KNOW_ENGINEERING:
+                                        case SKILL_KNOW_GEOPGRAPHY:
+                                        case SKILL_KNOW_HISTORY:
+                                        case SKILL_KNOW_LOCAL:
+                                        case SKILL_KNOW_NATURE:
+                                        case SKILL_KNOW_NOBILITY:
+                                        case SKILL_KNOW_PLANES:
+                                        case SKILL_KNOW_RELIGION:
+                                        case SKILL_PERFORM: // interaction
+                                        case SKILL_PERFORM_ACT:
+                                        case SKILL_PERFORM_COMEDY:
+                                        case SKILL_PERFORM_KEYBOARDS:
+                                        case SKILL_PERFORM_ORATORY:
+                                        case SKILL_PERFORM_PERCUSSION:
+                                        case SKILL_PERFORM_SING:
+                                        case SKILL_PERFORM_STRING:
+                                        case SKILL_PERFORM_WIND:
+                                        case SKILL_SEARCH: // vision
+                                        case SKILL_SENSE_MOTIVE: // interaction
+                                        case SKILL_SPELLCRAFT: // mental
+                                        case SKILL_SPOT: // vision
+                                        case SKILL_USE_MAGIC_DEVICE: // mental
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            {
+                                                prop.AffinityPenaltyPrice = prop.Price / 2;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
+                            #endregion
+                            #region Spell Resistance
+                            case ITEM_PROPERTY_SPELL_RESISTANCE:
+                                {
+                                    prop.AffinityPenaltyPrice = prop.Price / 2;
+                                    break;
+                                }
+                            #endregion
+                        }
+                        break;
+                    }
+                #endregion
+                #region Misc
+                default:
+                    {
+                        switch (type)
+                        {
+                            case ITEM_PROPERTY_ENHANCED_CONTAINER_REDUCED_WEIGHT:
+                                prop.AffinityPenaltyPrice = 0;
+                                break;
+                            default:
+                                // No-slot items always have a 100% affinity penalty.
+                                prop.AffinityPenaltyPrice = prop.Price;
+                                break;
+                        }
+                        break;
+                    }
+                #endregion
+            }
         }
 
         private static bool GetIsHalfWeight(CLRScriptBase script, List<PricedItemProperty> itProp)
