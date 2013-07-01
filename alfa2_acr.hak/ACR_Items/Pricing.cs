@@ -3327,6 +3327,26 @@ namespace ACR_Items
                         bool shield = false;
                         switch(rulesType)
                         {
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
+                                {
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
+                                {
+                                    shield = true;
+                                    break;
+                                }
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
@@ -3334,12 +3354,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_DRAGON);
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
-                                {
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_BREASTPLATE:
@@ -3350,12 +3365,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_DRAGON);
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
-                                {
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_FULL_PLATE:
@@ -3365,12 +3375,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_DRAGON);
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
-                                {
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_HALF_PLATE:
@@ -3380,60 +3385,35 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_DRAGON);
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
-                                {
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_HIDE:
                             case ARMOR_RULES_TYPE_HIDE_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HIDE_DRAGON);
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HIDE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
-                                {
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HIDE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_HIDE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_LEATHER:
                             case ARMOR_RULES_TYPE_LEATHER_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_LEATHER_DRAGON);
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
-                                {
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_STUDDED_LEATHER:
                             case ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON);
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_STUDDED_LEATHER];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
-                                {
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_STUDDED_LEATHER];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_PADDED:
                             case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_PADDED_DRAGON);
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_PADDED];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
-                                {
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_PADDED];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_PADDED_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_SCALE:
@@ -3443,12 +3423,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_DRAGON);
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
-                                {
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_SPLINT:
@@ -3458,12 +3433,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_DRAGON);
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
-                                {
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY:
@@ -3471,13 +3441,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON);
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
-                                    shield = true;
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
-                                {
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON];
                                     shield = true;
                                     break;
                                 }
@@ -3486,13 +3450,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON);
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
-                                    shield = true;
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
-                                {
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON];
                                     shield = true;
                                     break;
                                 }
@@ -3501,13 +3459,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON);
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
-                                    shield = true;
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
-                                {
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON];
                                     shield = true;
                                     break;
                                 }
@@ -3550,6 +3502,26 @@ namespace ACR_Items
                         bool shield = false;
                         switch (rulesType)
                         {
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
+                                {
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
+                                {
+                                    shield = true;
+                                    break;
+                                }
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
@@ -3557,12 +3529,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_DRAGON);
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
-                                {
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_BREASTPLATE:
@@ -3573,12 +3540,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_DRAGON);
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
-                                {
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_FULL_PLATE:
@@ -3588,12 +3550,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_DRAGON);
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
-                                {
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_HALF_PLATE:
@@ -3603,60 +3560,35 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_DRAGON);
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
-                                {
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_HIDE:
                             case ARMOR_RULES_TYPE_HIDE_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HIDE_DRAGON);
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HIDE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
-                                {
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HIDE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_HIDE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_LEATHER:
                             case ARMOR_RULES_TYPE_LEATHER_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_LEATHER_DRAGON);
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
-                                {
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_STUDDED_LEATHER:
                             case ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON);
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_STUDDED_LEATHER];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
-                                {
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_STUDDED_LEATHER];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_PADDED:
                             case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_PADDED_DRAGON);
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_PADDED];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
-                                {
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_PADDED];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_PADDED_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_SCALE:
@@ -3666,12 +3598,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_DRAGON);
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
-                                {
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_SPLINT:
@@ -3681,12 +3608,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_DRAGON);
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
-                                {
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY:
@@ -3694,13 +3616,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON);
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
-                                    shield = true;
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
-                                {
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON];
                                     shield = true;
                                     break;
                                 }
@@ -3709,13 +3625,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON);
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
-                                    shield = true;
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
-                                {
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON];
                                     shield = true;
                                     break;
                                 }
@@ -3724,13 +3634,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON);
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
-                                    shield = true;
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
-                                {
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON];
                                     shield = true;
                                     break;
                                 }
@@ -3774,6 +3678,26 @@ namespace ACR_Items
                         bool shield = false;
                         switch (rulesType)
                         {
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
+                                {
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
+                                {
+                                    shield = true;
+                                    break;
+                                }
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
@@ -3781,12 +3705,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_DRAGON);
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
-                                {
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_BREASTPLATE:
@@ -3797,12 +3716,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_DRAGON);
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
-                                {
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_FULL_PLATE:
@@ -3812,12 +3726,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_DRAGON);
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
-                                {
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_HALF_PLATE:
@@ -3827,60 +3736,35 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_DRAGON);
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
-                                {
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_HIDE:
                             case ARMOR_RULES_TYPE_HIDE_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HIDE_DRAGON);
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HIDE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
-                                {
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HIDE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_HIDE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_LEATHER:
                             case ARMOR_RULES_TYPE_LEATHER_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_LEATHER_DRAGON);
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
-                                {
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_STUDDED_LEATHER:
                             case ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON);
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_STUDDED_LEATHER];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
-                                {
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_STUDDED_LEATHER];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_PADDED:
                             case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_PADDED_DRAGON);
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_PADDED];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
-                                {
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_PADDED];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_PADDED_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_SCALE:
@@ -3890,12 +3774,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_DRAGON);
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
-                                {
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_SPLINT:
@@ -3905,12 +3784,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_DRAGON);
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
-                                {
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY:
@@ -3918,13 +3792,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON);
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
-                                    shield = true;
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
-                                {
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON];
                                     shield = true;
                                     break;
                                 }
@@ -3933,13 +3801,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON);
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
-                                    shield = true;
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
-                                {
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON];
                                     shield = true;
                                     break;
                                 }
@@ -3948,13 +3810,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON);
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
-                                    shield = true;
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
-                                {
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON];
                                     shield = true;
                                     break;
                                 }
@@ -3997,6 +3853,26 @@ namespace ACR_Items
                         bool shield = false;
                         switch (rulesType)
                         {
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
+                                {
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
+                                {
+                                    shield = true;
+                                    break;
+                                }
                             case ARMOR_RULES_TYPE_BANDED:
                             case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
@@ -4004,12 +3880,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BANDED_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_DRAGON);
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
-                                {
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_BREASTPLATE:
@@ -4020,12 +3891,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_DRAGON);
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
-                                {
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_FULL_PLATE:
@@ -4035,12 +3901,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_DRAGON);
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
-                                {
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_HALF_PLATE:
@@ -4050,60 +3911,35 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_DRAGON);
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
-                                {
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_HIDE:
                             case ARMOR_RULES_TYPE_HIDE_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HIDE_DRAGON);
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HIDE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
-                                {
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HIDE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_HIDE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_LEATHER:
                             case ARMOR_RULES_TYPE_LEATHER_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_LEATHER_DRAGON);
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
-                                {
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_STUDDED_LEATHER:
                             case ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON);
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_STUDDED_LEATHER];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
-                                {
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_STUDDED_LEATHER];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_PADDED:
                             case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_PADDED_DRAGON);
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_PADDED];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
-                                {
-                                    value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_PADDED];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_PADDED_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_SCALE:
@@ -4113,12 +3949,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SCALE_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_DRAGON);
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
-                                {
-                                    value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_SPLINT:
@@ -4128,12 +3959,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SPLINT_LIVING:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_DRAGON);
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
-                                {
-                                    value = 11000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT_DRAGON];
                                     break;
                                 }
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY:
@@ -4141,13 +3967,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON);
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
-                                    shield = true;
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
-                                {
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON];
                                     shield = true;
                                     break;
                                 }
@@ -4156,13 +3976,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON);
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
-                                    shield = true;
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
-                                {
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON];
                                     shield = true;
                                     break;
                                 }
@@ -4171,13 +3985,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON);
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
-                                    shield = true;
-                                    break;
-                                }
-                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
-                                {
-                                    value = 4000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON];
                                     shield = true;
                                     break;
                                 }
