@@ -23,6 +23,7 @@ namespace ACR_Items
     {
         public NWItemProperty Property;
         public int Price;
+        public int AffinityPenaltyPrice;
         public int ChargedPrice;
     }
 }
