@@ -84,7 +84,10 @@ namespace ACR_Items
             List<PricedItemProperty> itProps = new List<PricedItemProperty>();
             foreach(NWItemProperty prop in script.GetItemPropertiesOnItem(target))
             {
-                itProps.Add(new PricedItemProperty() { Property = prop, Price = 0 });
+                if (script.GetItemPropertyDurationType(prop) == DURATION_TYPE_PERMANENT)
+                {
+                    itProps.Add(new PricedItemProperty() { Property = prop, Price = 0 });
+                }
             }
             #endregion
 
@@ -743,7 +746,7 @@ namespace ACR_Items
                         {
                             if (script.GetItemPropertyCostTableValue(prop.Property) > ACvsEveryone)
                             {
-                                ACvsEveryone = ACvsEveryone = script.GetItemPropertyCostTableValue(prop.Property);
+                                ACvsEveryone = script.GetItemPropertyCostTableValue(prop.Property);
                             }
                             prop.Price = (ACvsEveryone * ACvsEveryone * 2000);
                             break;
@@ -781,7 +784,15 @@ namespace ACR_Items
                     #region Bonus Spell Slot
                     case ITEM_PROPERTY_BONUS_SPELL_SLOT_OF_LEVEL_N:
                         {
-                            prop.Price = ((script.GetItemPropertyCostTableValue(prop.Property) * script.GetItemPropertyCostTableValue(prop.Property)) + 1) * 1000;
+                            int level = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (level == 0)
+                            {
+                                prop.Price = 500;
+                            }
+                            else
+                            {
+                                prop.Price = level * level * 1000;
+                            }
                             break;
                         }
                     #endregion
@@ -1329,6 +1340,10 @@ namespace ACR_Items
                             if (script.GetItemPropertySubType(prop.Property) == IP_CONST_SAVEVS_UNIVERSAL)
                             {
                                 prop.Price = (val * val) * 1000;
+                            }
+                            else if (script.GetItemPropertyCostTableValue(prop.Property) == IP_CONST_SAVEVS_MINDAFFECTING)
+                            {
+                                prop.Price = (val * val) * 500;
                             }
                             else
                             {
@@ -1975,7 +1990,10 @@ namespace ACR_Items
             List<PricedItemProperty> itProps = new List<PricedItemProperty>();
             foreach (NWItemProperty prop in script.GetItemPropertiesOnItem(target))
             {
-                itProps.Add(new PricedItemProperty() { Property = prop, Price = 0 });
+                if (script.GetItemPropertyDurationType(prop) == DURATION_TYPE_PERMANENT)
+                {
+                    itProps.Add(new PricedItemProperty() { Property = prop, Price = 0 });
+                }
             }
             #endregion
 
@@ -2473,6 +2491,191 @@ namespace ACR_Items
                 #region Bluewood
                 case GMATERIAL_BLUEWOOD:
                     {
+                        switch (rulesType)
+                        {
+                            case ARMOR_RULES_TYPE_BANDED:
+                            case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
+                                    value = 1200 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
+                                {
+                                    value = 1200 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
+                                    value = 600 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
+                                {
+                                    value = 600 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
+                                    value = 300 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
+                                {
+                                    value = 300 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
+                                    value = 600 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
+                                {
+                                    value = 600 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
+                                    value = 1200 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
+                                {
+                                    value = 1200 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
+                                    value = 1200 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
+                                {
+                                    value = 1200 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE:
+                            case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
+                                    value = 600 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
+                                {
+                                    value = 600 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
+                                    value = 300 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK:
+                                {
+                                    value = 300 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
+                                    value = 300 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK:
+                                {
+                                    value = 300 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
+                                    value = 300 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK:
+                                {
+                                    value = 300 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT:
+                            case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
+                                    value = 1200 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
+                                {
+                                    value = 1200 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_STUDDED_LEATHER:
+                            case ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_HIDE:
+                            case ARMOR_RULES_TYPE_HIDE_MASTERWORK:
+                            case ARMOR_RULES_TYPE_LEATHER:
+                            case ARMOR_RULES_TYPE_LEATHER_MASTERWORK:
+                            case ARMOR_RULES_TYPE_PADDED:
+                            case ARMOR_RULES_TYPE_PADDED_MASTERWORK:
+                            case ARMOR_RULES_TYPE_CLOTH:
+                            case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                            case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                            case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
+                                {
+                                    // Bluewood emulates metal.
+                                    return -1;
+                                }
+                        }
+                        if (!GetIsHalfWeight(script, itProps))
+                        {
+                            script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyWeightReduction(IP_CONST_REDUCEDWEIGHT_50_PERCENT), target, 0.0f);
+                        }
                         break;
                     }
                 #endregion
@@ -4024,6 +4227,70 @@ namespace ACR_Items
                 #region Duskwood
                 case GMATERIAL_WOOD_DUSKWOOD:
                     {
+                        switch (rulesType)
+                        {
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
+                                {
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD);
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
+                                    value = 300 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK:
+                                {
+                                    value = 300 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
+                                    value = 300 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK:
+                                {
+                                    value = 300 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
+                                    value = 300 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK:
+                                {
+                                    value = 300 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK];
+                                    break;
+                                }
+                            default:
+                                {
+                                    return -1;
+                                }
+                        }
                         break;
                     }
                 #endregion
@@ -4643,6 +4910,103 @@ namespace ACR_Items
                 #region Living Metal
                 case GMATERIAL_LIVING_METAL:
                     {
+                        switch (rulesType)
+                        {
+                            case ARMOR_RULES_TYPE_BANDED_LIVING:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
+                            case ARMOR_RULES_TYPE_SCALE_LIVING:
+                            case ARMOR_RULES_TYPE_SPLINT_LIVING:
+                                {
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BANDED:
+                            case ARMOR_RULES_TYPE_BANDED_DRAGON:
+                            case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BANDED_MASTERWORK:
+                            case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_LIVING);
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED_LIVING];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_BREASTPLATE:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_LIVING);
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE_LIVING];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK:
+                            case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING);
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_CHAINMAIL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK:
+                            case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_LIVING);
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL_LIVING];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_FULL_PLATE:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK:
+                            case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_LIVING);
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE_LIVING];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_HALF_PLATE:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK:
+                            case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_LIVING);
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE_LIVING];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SCALE:
+                            case ARMOR_RULES_TYPE_SCALE_DRAGON:
+                            case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SCALE_MASTERWORK:
+                            case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_LIVING);
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE_LIVING];
+                                    break;
+                                }
+                            case ARMOR_RULES_TYPE_SPLINT:
+                            case ARMOR_RULES_TYPE_SPLINT_DRAGON:
+                            case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
+                            case ARMOR_RULES_TYPE_SPLINT_MASTERWORK:
+                            case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                                {
+                                    script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_LIVING);
+                                    value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT_LIVING];
+                                    break;
+                                }
+                            default:
+                                {
+                                    return -1;
+                                }
+                        }
                         break;
                     }
                 #endregion
@@ -5454,6 +5818,744 @@ namespace ACR_Items
                 #endregion
             }
             #endregion
+
+            #region Check for early return, if the item is only masterwork or special material
+            if (itProps.Count == 0)
+            {
+                return value;
+            }
+            #endregion
+
+            #region Calculate Magical Bonuses
+            float effectivePlus = 0.0f;
+            int ACvsEveryone = 0;
+            int spellFoci = 0;
+            #region Properties that are Indiscriminate
+            foreach (PricedItemProperty prop in itProps)
+            {
+                int propType = script.GetItemPropertyType(prop.Property);
+                switch (propType)
+                {
+                    #region Ability Bonus
+                    case ITEM_PROPERTY_ABILITY_BONUS:
+                        {
+                            prop.Price = (script.GetItemPropertyCostTableValue(prop.Property) * script.GetItemPropertyCostTableValue(prop.Property) * 1000);
+                            break;
+                        }
+                    #endregion
+                    #region AC Bonus
+                    case ITEM_PROPERTY_AC_BONUS:
+                        {
+                            if (script.GetItemPropertyCostTableValue(prop.Property) > ACvsEveryone)
+                            {
+                                ACvsEveryone = script.GetItemPropertyCostTableValue(prop.Property);
+                                effectivePlus += script.GetItemPropertyCostTableValue(prop.Property);
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Arcane Spell Failure Reduction
+                    case ITEM_PROPERTY_ARCANE_SPELL_FAILURE:
+                        {
+                            switch (script.GetItemPropertyCostTableValue(prop.Property))
+                            {
+                                case IP_CONST_ARCANE_SPELL_FAILURE_MINUS_5_PERCENT:
+                                    {
+                                        effectivePlus += 0.5f;
+                                        break;
+                                    }
+                                case IP_CONST_ARCANE_SPELL_FAILURE_MINUS_10_PERCENT:
+                                    {
+                                        effectivePlus += 1.0f;
+                                        break;
+                                    }
+                                case IP_CONST_ARCANE_SPELL_FAILURE_MINUS_15_PERCENT:
+                                    {
+                                        effectivePlus += 1.5f;
+                                        break;
+                                    }
+                                case IP_CONST_ARCANE_SPELL_FAILURE_MINUS_20_PERCENT:
+                                    {
+                                        effectivePlus += 2.0f;
+                                        break;
+                                    }
+                                case IP_CONST_ARCANE_SPELL_FAILURE_MINUS_25_PERCENT:
+                                    {
+                                        effectivePlus += 2.5f;
+                                        break;
+                                    }
+                                case IP_CONST_ARCANE_SPELL_FAILURE_MINUS_30_PERCENT:
+                                    {
+                                        effectivePlus += 3.0f;
+                                        break;
+                                    }
+                                case IP_CONST_ARCANE_SPELL_FAILURE_MINUS_35_PERCENT:
+                                    {
+                                        effectivePlus += 3.5f;
+                                        break;
+                                    }
+                                case IP_CONST_ARCANE_SPELL_FAILURE_MINUS_40_PERCENT:
+                                    {
+                                        effectivePlus += 4.0f;
+                                        break;
+                                    }
+                                case IP_CONST_ARCANE_SPELL_FAILURE_MINUS_45_PERCENT:
+                                    {
+                                        effectivePlus += 4.5f;
+                                        break;
+                                    }
+                                case IP_CONST_ARCANE_SPELL_FAILURE_MINUS_50_PERCENT:
+                                    {
+                                        effectivePlus += 5.0f;
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        // the others are all penalties; No influence on price.
+                                        break;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Bonus Feat
+                    case ITEM_PROPERTY_BONUS_FEAT:
+                        {
+                            switch (script.GetItemPropertySubType(prop.Property))
+                            {
+                                case IP_CONST_FEAT_COMBAT_CASTING:
+                                    {
+                                        effectivePlus += 1.0f;
+                                        break;
+                                    }
+                                case IP_CONST_FEAT_DEFLECT_ARROWS:
+                                    {
+                                        effectivePlus += 2.0f;
+                                        break;
+                                    }
+                                case IP_CONST_FEAT_DODGE:
+                                    {
+                                        effectivePlus += 1.0f;
+                                        break;
+                                    }
+                                case IP_CONST_FEAT_EXTRA_TURNING:
+                                    {
+                                        effectivePlus += 1.0f;
+                                        break;
+                                    }
+                                case IP_CONST_FEAT_SPELLFOCUSABJ:
+                                case IP_CONST_FEAT_SPELLFOCUSCON:
+                                case IP_CONST_FEAT_SPELLFOCUSDIV:
+                                case IP_CONST_FEAT_SPELLFOCUSENC:
+                                case IP_CONST_FEAT_SPELLFOCUSEVO:
+                                case IP_CONST_FEAT_SPELLFOCUSILL:
+                                case IP_CONST_FEAT_SPELLFOCUSNEC:
+                                    {
+                                        switch (spellFoci)
+                                        {
+                                            case 0:
+                                                effectivePlus += 1.0f;
+                                                break;
+                                            case 1:
+                                                effectivePlus += 0.5f;
+                                                break;
+                                            case 2:
+                                                effectivePlus += 0.5f;
+                                                break;
+                                            default:
+                                                return -1;
+                                        }
+                                        break;
+                                    }
+                                case IP_CONST_FEAT_SPELLPENETRATION:
+                                    {
+                                        effectivePlus += 1.5f;
+                                        break;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Bonus Spell Slot
+                    case ITEM_PROPERTY_BONUS_SPELL_SLOT_OF_LEVEL_N:
+                        {
+                            int level = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (level == 0)
+                            {
+                                prop.Price = 500;
+                            }
+                            else
+                            {
+                                prop.Price = level * level * 1000;
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Cast Spell
+                    case ITEM_PROPERTY_CAST_SPELL:
+                        {
+                            int spell = script.GetItemPropertySubType(prop.Property);
+                            float spellLevel = 0.0f;
+                            float casterLevel = 0.0f;
+                            float.TryParse(script.Get2DAString("iprp_spells", "InnateLvl", spell), out spellLevel);
+                            float.TryParse(script.Get2DAString("iprp_spells", "CasterLvl", spell), out casterLevel);
+                            if (spellLevel < 0.5f)
+                            {
+                                spellLevel = 0.5f;
+                            }
+                            if (casterLevel < 1.0f)
+                            {
+                                spellLevel = 1.0f;
+                            }
+                            float multiplier = spellLevel * casterLevel;
+                            switch (script.GetItemPropertyCostTableValue(prop.Property))
+                            {
+                                case IP_CONST_CASTSPELL_NUMUSES_0_CHARGES_PER_USE:
+                                    {
+                                        return -1;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_1_CHARGE_PER_USE:
+                                    {
+                                        prop.ChargedPrice = (int)(multiplier * 50);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_1_USE_PER_DAY:
+                                    {
+                                        prop.Price = (int)(multiplier * 360);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_2_CHARGES_PER_USE:
+                                    {
+                                        prop.ChargedPrice = (int)(multiplier * 25);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_2_USES_PER_DAY:
+                                    {
+                                        prop.Price = (int)(multiplier * 720);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_3_CHARGES_PER_USE:
+                                    {
+                                        prop.ChargedPrice = (int)(multiplier * 17);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_3_USES_PER_DAY:
+                                    {
+                                        prop.Price = (int)(multiplier * 1080);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_4_CHARGES_PER_USE:
+                                    {
+                                        prop.ChargedPrice = (int)(multiplier * 13);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_4_USES_PER_DAY:
+                                    {
+                                        prop.Price = (int)(multiplier * 1440);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_5_CHARGES_PER_USE:
+                                    {
+                                        prop.ChargedPrice = (int)(multiplier * 10);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_5_USES_PER_DAY:
+                                    {
+                                        prop.Price = (int)(multiplier * 1800);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_SINGLE_USE:
+                                    {
+                                        if (script.GetItemCharges(target) > 0)
+                                        {
+                                            prop.ChargedPrice = (int)((multiplier * 50) / script.GetItemCharges(target));
+                                        }
+                                        else
+                                        {
+                                            prop.Price = (int)(multiplier * 50);
+                                        }
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_UNLIMITED_USE:
+                                    {
+                                        return -1;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Damage Resistance
+                    case ITEM_PROPERTY_DAMAGE_RESISTANCE:
+                        {
+                            switch (script.GetItemPropertySubType(prop.Property))
+                            {
+                                case IP_CONST_DAMAGETYPE_ACID:
+                                case IP_CONST_DAMAGETYPE_COLD:
+                                case IP_CONST_DAMAGETYPE_ELECTRICAL:
+                                case IP_CONST_DAMAGETYPE_FIRE:
+                                case IP_CONST_DAMAGETYPE_SONIC:
+                                    {
+                                        switch (script.GetItemPropertyCostTableValue(prop.Property))
+                                        {
+                                            case IP_CONST_DAMAGERESIST_5:
+                                                {
+                                                    prop.Price = 4000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_10:
+                                                {
+                                                    prop.Price = 12000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_15:
+                                                {
+                                                    prop.Price = 20000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_20:
+                                                {
+                                                    prop.Price = 28000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_25:
+                                                {
+                                                    prop.Price = 36000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_30:
+                                                {
+                                                    prop.Price = 44000;
+                                                    break;
+                                                }
+                                        }
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGETYPE_NEGATIVE:
+                                    {
+                                        switch (script.GetItemPropertyCostTableValue(prop.Property))
+                                        {
+                                            case IP_CONST_DAMAGERESIST_5:
+                                                {
+                                                    prop.Price = 6000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_10:
+                                                {
+                                                    prop.Price = 18000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_15:
+                                                {
+                                                    prop.Price = 30000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_20:
+                                                {
+                                                    prop.Price = 42000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_25:
+                                                {
+                                                    prop.Price = 54000;
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_30:
+                                                {
+                                                    prop.Price = 66000;
+                                                    break;
+                                                }
+                                        }
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        return -1;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Freeom of Movement
+                    case ITEM_PROPERTY_FREEDOM_OF_MOVEMENT:
+                        {
+                            prop.Price = 40000;
+                            break;
+                        }
+                    #endregion
+                    #region Immunities
+                    case ITEM_PROPERTY_IMMUNITY_MISCELLANEOUS:
+                        {
+                            switch (script.GetItemPropertySubType(prop.Property))
+                            {
+                                case IP_CONST_IMMUNITYMISC_DEATH_MAGIC:
+                                    {
+                                        prop.Price = 80000;
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_DISEASE:
+                                    {
+                                        prop.Price = 7500;
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_FEAR:
+                                    {
+                                        prop.Price = 10000;
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_KNOCKDOWN:
+                                    {
+                                        prop.Price = 22500;
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_LEVEL_ABIL_DRAIN:
+                                    {
+                                        prop.Price = 40000;
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_PARALYSIS:
+                                    {
+                                        prop.Price = 15000;
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_POISON:
+                                    {
+                                        prop.Price = 25000;
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        return -1;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Spell Immunities
+                    case ITEM_PROPERTY_IMMUNITY_SPECIFIC_SPELL:
+                        {
+                            float spellLevel = 0.0f;
+                            float.TryParse(script.Get2DAString("spells", "Innate", script.GetItemPropertyCostTableValue(prop.Property)), out spellLevel);
+                            if (spellLevel < 0.5f)
+                            {
+                                spellLevel = 0.5f;
+                            }
+                            prop.Price = (int)(((spellLevel * spellLevel) + 1) * 1000);
+                            break;
+                        }
+                    #endregion
+                    #region Light
+                    case ITEM_PROPERTY_LIGHT:
+                        {
+                            prop.Price = script.GetItemPropertyCostTableValue(prop.Property) * 100;
+                            break;
+                        }
+                    #endregion
+                    #region Saving Throws
+                    case ITEM_PROPERTY_SAVING_THROW_BONUS:
+                        {
+                            int val = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (val > 5)
+                            {
+                                return -1;
+                            }
+                            if (script.GetItemPropertySubType(prop.Property) == IP_CONST_SAVEVS_UNIVERSAL)
+                            {
+                                prop.Price = (val * val) * 1000;
+                            }
+                            else if (script.GetItemPropertyCostTableValue(prop.Property) == IP_CONST_SAVEVS_MINDAFFECTING)
+                            {
+                                prop.Price = (val * val) * 500;
+                            }
+                            else
+                            {
+                                prop.Price = (val * val) * 250;
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Specific Saving Throws
+                    case ITEM_PROPERTY_SAVING_THROW_BONUS_SPECIFIC:
+                        {
+                            int val = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (val > 5)
+                            {
+                                return -1;
+                            }
+                            prop.Price = (val * val) * 250;
+                            break;
+                        }
+                    #endregion
+                    #region Skill Bonuses
+                    case ITEM_PROPERTY_SKILL_BONUS:
+                        {
+                            int val = script.GetItemPropertyCostTableValue(prop.Property);
+                            prop.Price = (val * val) * 100;
+                            break;
+                        }
+                    #endregion
+                    #region Spell Resistance
+                    case ITEM_PROPERTY_SPELL_RESISTANCE:
+                        {
+                            switch (script.GetItemPropertyCostTableValue(prop.Property))
+                            {
+                                case IP_CONST_SPELLRESISTANCEBONUS_12:
+                                    {
+                                        effectivePlus += 2.0f;
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_14:
+                                    {
+                                        effectivePlus += 3.0f;
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_16:
+                                    {
+                                        effectivePlus += 4.0f;
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_18:
+                                    {
+                                        effectivePlus += 5.0f;
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        return -1;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Non-Price-Adjusting Properties
+                    case ITEM_PROPERTY_WEIGHT_INCREASE:
+                    case ITEM_PROPERTY_VISUALEFFECT:
+                    case ITEM_PROPERTY_USE_LIMITATION_SPECIFIC_ALIGNMENT:
+                    case ITEM_PROPERTY_USE_LIMITATION_RACIAL_TYPE:
+                    case ITEM_PROPERTY_USE_LIMITATION_CLASS:
+                    case ITEM_PROPERTY_USE_LIMITATION_ALIGNMENT_GROUP:
+                    case ITEM_PROPERTY_DECREASED_ABILITY_SCORE:
+                    case ITEM_PROPERTY_DECREASED_AC:
+                    case ITEM_PROPERTY_DECREASED_ATTACK_MODIFIER:
+                    case ITEM_PROPERTY_DECREASED_DAMAGE:
+                    case ITEM_PROPERTY_DECREASED_ENHANCEMENT_MODIFIER:
+                    case ITEM_PROPERTY_DECREASED_SAVING_THROWS:
+                    case ITEM_PROPERTY_DECREASED_SAVING_THROWS_SPECIFIC:
+                    case ITEM_PROPERTY_DECREASED_SKILL_MODIFIER:
+                    case ITEM_PROPERTY_DAMAGE_VULNERABILITY:
+                    case ITEM_PROPERTY_DAMAGE_REDUCTION_DEPRECATED:
+                        {
+                            // penalties don't change prices.
+                            break;
+                        }
+                    #endregion
+                    #region Illegal or Untoolable Properties
+                    case ITEM_PROPERTY_UNLIMITED_AMMUNITION:
+                    case ITEM_PROPERTY_TURN_RESISTANCE:
+                    case ITEM_PROPERTY_TRUE_SEEING:
+                    case ITEM_PROPERTY_TRAP:
+                    case ITEM_PROPERTY_THIEVES_TOOLS:
+                    case ITEM_PROPERTY_SPECIAL_WALK:
+                    case ITEM_PROPERTY_REGENERATION_VAMPIRIC:
+                    case ITEM_PROPERTY_REGENERATION:
+                    case ITEM_PROPERTY_POISON:
+                    case ITEM_PROPERTY_ONHITCASTSPELL:
+                    case ITEM_PROPERTY_ON_MONSTER_HIT:
+                    case ITEM_PROPERTY_ON_HIT_PROPERTIES:
+                    case ITEM_PROPERTY_NO_DAMAGE:
+                    case ITEM_PROPERTY_MONSTER_DAMAGE:
+                    case ITEM_PROPERTY_MIND_BLANK:
+                    case ITEM_PROPERTY_MIGHTY:
+                    case ITEM_PROPERTY_MASSIVE_CRITICALS:
+                    case ITEM_PROPERTY_IMMUNITY_SPELL_SCHOOL:
+                    case ITEM_PROPERTY_IMMUNITY_SPELLS_BY_LEVEL:
+                    case ITEM_PROPERTY_IMPROVED_EVASION:
+                    case ITEM_PROPERTY_KEEN:
+                    case ITEM_PROPERTY_IMMUNITY_DAMAGE_TYPE:
+                    case ITEM_PROPERTY_HOLY_AVENGER:
+                    case ITEM_PROPERTY_HEALERS_KIT:
+                    case ITEM_PROPERTY_HASTE:
+                    case ITEM_PROPERTY_ENHANCEMENT_BONUS:
+                    case ITEM_PROPERTY_ENHANCEMENT_BONUS_VS_ALIGNMENT_GROUP:
+                    case ITEM_PROPERTY_ENHANCEMENT_BONUS_VS_RACIAL_GROUP:
+                    case ITEM_PROPERTY_ENHANCEMENT_BONUS_VS_SPECIFIC_ALIGNEMENT:
+                    case ITEM_PROPERTY_EXTRA_MELEE_DAMAGE_TYPE:
+                    case ITEM_PROPERTY_EXTRA_RANGED_DAMAGE_TYPE:
+                    case ITEM_PROPERTY_ENHANCED_CONTAINER_REDUCED_WEIGHT:
+                    case ITEM_PROPERTY_DARKVISION:
+                    case ITEM_PROPERTY_DAMAGE_REDUCTION:
+                    case ITEM_PROPERTY_DAMAGE_BONUS:
+                    case ITEM_PROPERTY_DAMAGE_BONUS_VS_ALIGNMENT_GROUP:
+                    case ITEM_PROPERTY_DAMAGE_BONUS_VS_RACIAL_GROUP:
+                    case ITEM_PROPERTY_DAMAGE_BONUS_VS_SPECIFIC_ALIGNMENT:
+                    case ITEM_PROPERTY_BONUS_HITPOINTS:
+                    case ITEM_PROPERTY_BASE_ITEM_WEIGHT_REDUCTION:
+                    case ITEM_PROPERTY_ATTACK_BONUS:
+                    case ITEM_PROPERTY_ATTACK_BONUS_VS_ALIGNMENT_GROUP:
+                    case ITEM_PROPERTY_ATTACK_BONUS_VS_RACIAL_GROUP:
+                    case ITEM_PROPERTY_ATTACK_BONUS_VS_SPECIFIC_ALIGNMENT:
+                        {
+                            return -1;
+                        }
+                    #endregion
+                }
+            }
+            #endregion
+            #region Properties that are vs. Specifics
+            foreach (PricedItemProperty prop in itProps)
+            {
+                int propType = script.GetItemPropertyType(prop.Property);
+                switch (propType)
+                {
+                    #region AC Bonus vs. Alignement Group
+                    case ITEM_PROPERTY_AC_BONUS_VS_ALIGNMENT_GROUP:
+                        {
+                            int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (ACvsGroup > ACvsEveryone)
+                            {
+                                float multiplier = 0.20f;
+                                if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_NEUTRAL)
+                                {
+                                    multiplier = 2.0f / 3.0f;
+                                }
+                                if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_EVIL)
+                                {
+                                    multiplier = 0.50f;
+                                }
+                                float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
+                                effectivePlus += effectiveBonus;
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region AC Bonus vs. Damage Type
+                    case ITEM_PROPERTY_AC_BONUS_VS_DAMAGE_TYPE:
+                        {
+                            int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (ACvsGroup > ACvsEveryone)
+                            {
+                                float multiplier = 1.0f / 3.0f;
+                                float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
+                                effectivePlus += effectiveBonus;
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region AC Bonus vs. Racial Type
+                    case ITEM_PROPERTY_AC_BONUS_VS_RACIAL_GROUP:
+                        {
+                            int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (ACvsGroup > ACvsEveryone)
+                            {
+                                float multiplier = 1.0f / 3.0f;
+                                float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
+                                effectivePlus += effectiveBonus;
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region AC Bonus vs. Specific Alignment
+                    case ITEM_PROPERTY_AC_BONUS_VS_SPECIFIC_ALIGNMENT:
+                        {
+                            int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (ACvsGroup > ACvsEveryone)
+                            {
+                                float multiplier = 1.0f / 6.0f;
+                                float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
+                                effectivePlus += effectiveBonus;
+                            }
+                            break;
+                        }
+                    #endregion
+                }
+            }
+            #endregion
+            #endregion
+
+            #region Sum Calculated Values
+            value += enchantmentPenalty;
+            bool allSecondary = false;
+            if (effectivePlus >= 0.05f)
+            {
+                allSecondary = true;
+                if (effectivePlus >= 1.0f)
+                {
+                    if (ACvsEveryone < 0.99)
+                    {
+                        return -1;
+                    }
+                    value += (int)((effectivePlus * effectivePlus) * 1000);
+                }
+                else
+                {
+                    value += (int)(effectivePlus * 1000);
+                }
+            }
+            int costliestProp = 0;
+            int propsPrice = 0;
+            PricedItemProperty costliestCharge = null;
+            PricedItemProperty secondCostliestCharge = null;
+            foreach (PricedItemProperty prop in itProps)
+            {
+                value += prop.Price;
+                propsPrice += prop.Price;
+                if (costliestProp < prop.Price)
+                {
+                    costliestProp = prop.Price;
+                }
+                if (prop.ChargedPrice > 0)
+                {
+                    if (costliestCharge == null)
+                    {
+                        costliestCharge = prop;
+                    }
+                    else if (prop.ChargedPrice > costliestCharge.ChargedPrice)
+                    {
+                        secondCostliestCharge = costliestCharge;
+                        costliestCharge = prop;
+                    }
+                    else if (prop.ChargedPrice > secondCostliestCharge.ChargedPrice)
+                    {
+                        secondCostliestCharge = prop;
+                    }
+                }
+            }
+            if (allSecondary)
+            {
+                value += (propsPrice / 2);
+            }
+            else
+            {
+                // If the costliest prop is the only prop, 0/2 = 0.
+                // otherwise, all secondary props cost 50% more.
+                value += ((propsPrice - costliestProp) / 2);
+            }
+
+            if (costliestCharge != null)
+            {
+                if (secondCostliestCharge == null)
+                {
+                    value += costliestCharge.ChargedPrice * script.GetItemCharges(target);
+                }
+                else
+                {
+                    foreach (PricedItemProperty prop in itProps)
+                    {
+                        if (costliestCharge == prop)
+                        {
+                            value += costliestCharge.ChargedPrice * script.GetItemCharges(target);
+                        }
+                        else if (secondCostliestCharge == prop)
+                        {
+                            value += (costliestCharge.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
+                        }
+                        else
+                        {
+                            value += (costliestCharge.ChargedPrice * script.GetItemCharges(target)) / 2;
+                        }
+                    }
+                }
+            }
+            #endregion
             return value;
         }
 
@@ -5503,7 +6605,7 @@ namespace ACR_Items
             PricedItemProperty removedProp = null;
             foreach (PricedItemProperty prop in itProp)
             {
-                if (script.GetItemPropertyType(prop.Property) == ITEM_PROPERTY_SAVING_THROW_BONUS_SPECIFIC &&
+                if (script.GetItemPropertyType(prop.Property) == ITEM_PROPERTY_SAVING_THROW_BONUS &&
                     script.GetItemPropertySubType(prop.Property) == saveType &&
                     script.GetItemPropertyCostTableValue(prop.Property) == saveBonus)
                 {
@@ -5524,7 +6626,7 @@ namespace ACR_Items
             PricedItemProperty removedProp = null;
             foreach (PricedItemProperty prop in itProp)
             {
-                if (script.GetItemPropertyType(prop.Property) == ITEM_PROPERTY_SAVING_THROW_BONUS_SPECIFIC &&
+                if (script.GetItemPropertyType(prop.Property) == ITEM_PROPERTY_SAVING_THROW_BONUS &&
                     script.GetItemPropertySubType(prop.Property) == IP_CONST_SAVEVS_UNIVERSAL &&
                     script.GetItemPropertyCostTableValue(prop.Property) == saveBonus)
                 {
