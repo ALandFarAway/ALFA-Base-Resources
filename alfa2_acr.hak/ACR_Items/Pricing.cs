@@ -64,9 +64,13 @@ namespace ACR_Items
             {
                 script.SendMessageToAllDMs(GetWeaponPrice(script, target).ToString());
             }
-            if (GetIsArmor(itemType))
+            else if (GetIsArmor(itemType))
             {
                 script.SendMessageToAllDMs(GetArmorPrice(script, target).ToString());
+            }
+            else
+            {
+                script.SendMessageToAllDMs(GetWonderousPrice(script, target).ToString());
             }
         }
 
@@ -1982,7 +1986,6 @@ namespace ACR_Items
             int value = ArmorRulesTypeValues[rulesType];
             int itemType = script.GetBaseItemType(target);
             int enchantmentPenalty = 0;
-            bool masterworkCounted = false;
             int specialMat = script.GetItemBaseMaterialType(target);
             #endregion
 
@@ -2269,7 +2272,6 @@ namespace ACR_Items
                                 product = target;
                             }
                         }
-                        masterworkCounted = true;
                         break;
                     }
                 #endregion
@@ -2484,7 +2486,6 @@ namespace ACR_Items
                         {
                             script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageResistance(IP_CONST_DAMAGETYPE_SONIC, resistQuantity), target, 0.0f);
                         }
-                        masterworkCounted = true;
                         break;
                     }
                 #endregion
@@ -3088,7 +3089,6 @@ namespace ACR_Items
                         {
                             script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyReducedSavingThrowVsX(IP_CONST_SAVEVS_ELECTRICAL, 2), target, 0.0f);
                         }
-                        masterworkCounted = true;
                         break;
                     }
                 #endregion
@@ -3303,7 +3303,6 @@ namespace ACR_Items
                         {
                             script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageResistance(IP_CONST_DAMAGETYPE_ACID, resistQuantity), target, 0.0f);
                         }
-                        masterworkCounted = true;
                         break;
                     }
                 #endregion
@@ -3518,7 +3517,6 @@ namespace ACR_Items
                         {
                             script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageResistance(IP_CONST_DAMAGETYPE_FIRE, resistQuantity), target, 0.0f);
                         }
-                        masterworkCounted = true;
                         break;
                     }
                 #endregion
@@ -4505,7 +4503,6 @@ namespace ACR_Items
                         {
                             script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageResistance(IP_CONST_DAMAGETYPE_COLD, resistQuantity), target, 0.0f);
                         }
-                        masterworkCounted = true;
                         break;
                     }
                 #endregion
@@ -4688,7 +4685,6 @@ namespace ACR_Items
                         {
                             script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageResistance(IP_CONST_DAMAGETYPE_FIRE, resistQuantity), target, 0.0f);
                         }
-                        masterworkCounted = true;
                         break;
                     }
                 #endregion
@@ -4903,7 +4899,6 @@ namespace ACR_Items
                         {
                             script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageResistance(IP_CONST_DAMAGETYPE_ELECTRICAL, resistQuantity), target, 0.0f);
                         }
-                        masterworkCounted = true;
                         break;
                     }
                 #endregion
@@ -5334,7 +5329,6 @@ namespace ACR_Items
                         {
                             script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageResistance(IP_CONST_DAMAGETYPE_SONIC, resistQuantity), target, 0.0f);
                         }
-                        masterworkCounted = true;
                         break;
                     }
                 #endregion
@@ -5513,7 +5507,6 @@ namespace ACR_Items
                         {
                             script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageResistance(IP_CONST_DAMAGETYPE_ELECTRICAL, resistQuantity), target, 0.0f);
                         }
-                        masterworkCounted = true;
                         break;
                     }
                 #endregion
@@ -6557,6 +6550,724 @@ namespace ACR_Items
             }
             #endregion
             return value;
+        }
+
+        private static int GetWonderousPrice(CLRScriptBase script, uint target)
+        {
+            #region Initialize Commonly-Used Variables
+            int type = script.GetBaseItemType(target);
+            int value = BaseItemValues[type];
+            #endregion
+
+            #region Load item properties into the price calculation collection
+            List<PricedItemProperty> itProps = new List<PricedItemProperty>();
+            foreach (NWItemProperty prop in script.GetItemPropertiesOnItem(target))
+            {
+                if (script.GetItemPropertyDurationType(prop) == DURATION_TYPE_PERMANENT)
+                {
+                    itProps.Add(new PricedItemProperty() { Property = prop, Price = 0, AffinityPenaltyPrice = 0 });
+                }
+            }
+            #endregion
+
+            #region Check for early return, if the item is only masterwork or special material
+            if (itProps.Count == 0)
+            {
+                return value;
+            }
+            #endregion
+
+            #region Calculate Magical Bonuses
+            int ACvsEveryone = 0;
+            #region Properties that are Indiscriminate
+            foreach (PricedItemProperty prop in itProps)
+            {
+                int propType = script.GetItemPropertyType(prop.Property);
+                switch (propType)
+                {
+                    #region Ability Bonus
+                    case ITEM_PROPERTY_ABILITY_BONUS:
+                        {
+                            prop.Price = (script.GetItemPropertyCostTableValue(prop.Property) * script.GetItemPropertyCostTableValue(prop.Property) * 1000);
+                            GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                            break;
+                        }
+                    #endregion
+                    #region AC Bonus
+                    case ITEM_PROPERTY_AC_BONUS:
+                        {
+                            if (script.GetItemPropertyCostTableValue(prop.Property) > ACvsEveryone)
+                            {
+                                ACvsEveryone = script.GetItemPropertyCostTableValue(prop.Property);
+                            }
+                            prop.Price = (ACvsEveryone * ACvsEveryone * 2000);
+                            GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                            break;
+                        }
+                    #endregion
+                    #region Bonus Feat
+                    case ITEM_PROPERTY_BONUS_FEAT:
+                        {
+                            switch (script.GetItemPropertySubType(prop.Property))
+                            {
+                                case IP_CONST_FEAT_COMBAT_CASTING:
+                                    {
+                                        prop.Price = 5000;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_FEAT_EXTRA_TURNING:
+                                    {
+                                        prop.Price = 7500;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Bonus Spell Slot
+                    case ITEM_PROPERTY_BONUS_SPELL_SLOT_OF_LEVEL_N:
+                        {
+                            int level = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (level == 0)
+                            {
+                                prop.Price = 500;
+                                GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                            }
+                            else
+                            {
+                                prop.Price = level * level * 1000;
+                                GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Cast Spell
+                    case ITEM_PROPERTY_CAST_SPELL:
+                        {
+                            int spell = script.GetItemPropertySubType(prop.Property);
+                            float spellLevel = 0.0f;
+                            float casterLevel = 0.0f;
+                            float.TryParse(script.Get2DAString("iprp_spells", "InnateLvl", spell), out spellLevel);
+                            float.TryParse(script.Get2DAString("iprp_spells", "CasterLvl", spell), out casterLevel);
+                            if (spellLevel < 0.5f)
+                            {
+                                spellLevel = 0.5f;
+                            }
+                            if (casterLevel < 1.0f)
+                            {
+                                spellLevel = 1.0f;
+                            }
+                            float multiplier = spellLevel * casterLevel;
+                            switch (script.GetItemPropertyCostTableValue(prop.Property))
+                            {
+                                case IP_CONST_CASTSPELL_NUMUSES_0_CHARGES_PER_USE:
+                                    {
+                                        return -1;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_1_CHARGE_PER_USE:
+                                    {
+                                        prop.ChargedPrice = (int)(multiplier * 50);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_1_USE_PER_DAY:
+                                    {
+                                        prop.Price = (int)(multiplier * 360);
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_2_CHARGES_PER_USE:
+                                    {
+                                        prop.ChargedPrice = (int)(multiplier * 25);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_2_USES_PER_DAY:
+                                    {
+                                        prop.Price = (int)(multiplier * 720);
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_3_CHARGES_PER_USE:
+                                    {
+                                        prop.ChargedPrice = (int)(multiplier * 17);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_3_USES_PER_DAY:
+                                    {
+                                        prop.Price = (int)(multiplier * 1080);
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_4_CHARGES_PER_USE:
+                                    {
+                                        prop.ChargedPrice = (int)(multiplier * 13);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_4_USES_PER_DAY:
+                                    {
+                                        prop.Price = (int)(multiplier * 1440);
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_5_CHARGES_PER_USE:
+                                    {
+                                        prop.ChargedPrice = (int)(multiplier * 10);
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_5_USES_PER_DAY:
+                                    {
+                                        prop.Price = (int)(multiplier * 1800);
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_SINGLE_USE:
+                                    {
+                                        if (script.GetItemCharges(target) > 0)
+                                        {
+                                            prop.ChargedPrice = (int)((multiplier * 50) / script.GetItemCharges(target));
+                                        }
+                                        else
+                                        {
+                                            prop.Price = (int)(multiplier * 50);
+                                            GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        }
+                                        break;
+                                    }
+                                case IP_CONST_CASTSPELL_NUMUSES_UNLIMITED_USE:
+                                    {
+                                        return -1;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Damage Resistance
+                    case ITEM_PROPERTY_DAMAGE_RESISTANCE:
+                        {
+                            switch (script.GetItemPropertySubType(prop.Property))
+                            {
+                                case IP_CONST_DAMAGETYPE_ACID:
+                                case IP_CONST_DAMAGETYPE_COLD:
+                                case IP_CONST_DAMAGETYPE_ELECTRICAL:
+                                case IP_CONST_DAMAGETYPE_FIRE:
+                                case IP_CONST_DAMAGETYPE_SONIC:
+                                    {
+                                        switch (script.GetItemPropertyCostTableValue(prop.Property))
+                                        {
+                                            case IP_CONST_DAMAGERESIST_5:
+                                                {
+                                                    prop.Price = 4000;
+                                                    GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_10:
+                                                {
+                                                    prop.Price = 12000;
+                                                    GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_15:
+                                                {
+                                                    prop.Price = 20000;
+                                                    GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_20:
+                                                {
+                                                    prop.Price = 28000;
+                                                    GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_25:
+                                                {
+                                                    prop.Price = 36000;
+                                                    GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_30:
+                                                {
+                                                    prop.Price = 44000;
+                                                    GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                                    break;
+                                                }
+                                        }
+                                        break;
+                                    }
+                                case IP_CONST_DAMAGETYPE_NEGATIVE:
+                                    {
+                                        switch (script.GetItemPropertyCostTableValue(prop.Property))
+                                        {
+                                            case IP_CONST_DAMAGERESIST_5:
+                                                {
+                                                    prop.Price = 6000;
+                                                    GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_10:
+                                                {
+                                                    prop.Price = 18000;
+                                                    GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_15:
+                                                {
+                                                    prop.Price = 30000;
+                                                    GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_20:
+                                                {
+                                                    prop.Price = 42000;
+                                                    GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_25:
+                                                {
+                                                    prop.Price = 54000;
+                                                    GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                                    break;
+                                                }
+                                            case IP_CONST_DAMAGERESIST_30:
+                                                {
+                                                    prop.Price = 66000;
+                                                    GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                                    break;
+                                                }
+                                        }
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        return -1;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Darkvision
+                    case ITEM_PROPERTY_DARKVISION:
+                        {
+                            prop.Price = 2500;
+                            GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                            break;
+                        }
+                    #endregion
+                    #region Freeom of Movement
+                    case ITEM_PROPERTY_FREEDOM_OF_MOVEMENT:
+                        {
+                            prop.Price = 40000;
+                            GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                            break;
+                        }
+                    #endregion
+                    #region Immunities
+                    case ITEM_PROPERTY_IMMUNITY_MISCELLANEOUS:
+                        {
+                            switch (script.GetItemPropertySubType(prop.Property))
+                            {
+                                case IP_CONST_IMMUNITYMISC_DEATH_MAGIC:
+                                    {
+                                        prop.Price = 80000;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_DISEASE:
+                                    {
+                                        prop.Price = 7500;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_FEAR:
+                                    {
+                                        prop.Price = 10000;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_KNOCKDOWN:
+                                    {
+                                        prop.Price = 22500;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_LEVEL_ABIL_DRAIN:
+                                    {
+                                        prop.Price = 40000;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_PARALYSIS:
+                                    {
+                                        prop.Price = 15000;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_IMMUNITYMISC_POISON:
+                                    {
+                                        prop.Price = 25000;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        return -1;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Spell Immunities
+                    case ITEM_PROPERTY_IMMUNITY_SPECIFIC_SPELL:
+                        {
+                            float spellLevel = 0.0f;
+                            float.TryParse(script.Get2DAString("spells", "Innate", script.GetItemPropertyCostTableValue(prop.Property)), out spellLevel);
+                            if (spellLevel < 0.5f)
+                            {
+                                spellLevel = 0.5f;
+                            }
+                            prop.Price = (int)(((spellLevel * spellLevel) + 1) * 1000);
+                            GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                            break;
+                        }
+                    #endregion
+                    #region Light
+                    case ITEM_PROPERTY_LIGHT:
+                        {
+                            prop.Price = script.GetItemPropertyCostTableValue(prop.Property) * 100;
+                            GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                            break;
+                        }
+                    #endregion
+                    #region Saving Throws
+                    case ITEM_PROPERTY_SAVING_THROW_BONUS:
+                        {
+                            int val = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (val > 5)
+                            {
+                                return -1;
+                            }
+                            if (script.GetItemPropertySubType(prop.Property) == IP_CONST_SAVEVS_UNIVERSAL)
+                            {
+                                prop.Price = (val * val) * 1000;
+                                GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                            }
+                            else if (script.GetItemPropertyCostTableValue(prop.Property) == IP_CONST_SAVEVS_MINDAFFECTING)
+                            {
+                                prop.Price = (val * val) * 500;
+                                GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                            }
+                            else
+                            {
+                                prop.Price = (val * val) * 250;
+                                GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Specific Saving Throws
+                    case ITEM_PROPERTY_SAVING_THROW_BONUS_SPECIFIC:
+                        {
+                            int val = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (val > 5)
+                            {
+                                return -1;
+                            }
+                            prop.Price = (val * val) * 250;
+                            GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                            break;
+                        }
+                    #endregion
+                    #region Skill Bonuses
+                    case ITEM_PROPERTY_SKILL_BONUS:
+                        {
+                            int val = script.GetItemPropertyCostTableValue(prop.Property);
+                            prop.Price = (val * val) * 100;
+                            GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                            break;
+                        }
+                    #endregion
+                    #region Spell Resistance
+                    case ITEM_PROPERTY_SPELL_RESISTANCE:
+                        {
+                            switch (script.GetItemPropertyCostTableValue(prop.Property))
+                            {
+                                case IP_CONST_SPELLRESISTANCEBONUS_10:
+                                    {
+                                        prop.Price = 6000;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_12:
+                                    {
+                                        prop.Price = 10000;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_14:
+                                    {
+                                        prop.Price = 20000;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_16:
+                                    {
+                                        prop.Price = 40000;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_18:
+                                    {
+                                        prop.Price = 60000;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_20:
+                                    {
+                                        prop.Price = 80000;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_22:
+                                    {
+                                        prop.Price = 100000;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_24:
+                                    {
+                                        prop.Price = 120000;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                case IP_CONST_SPELLRESISTANCEBONUS_26:
+                                    {
+                                        prop.Price = 140000;
+                                        GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        return -1;
+                                    }
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region Non-Price-Adjusting Properties
+                    case ITEM_PROPERTY_WEIGHT_INCREASE:
+                    case ITEM_PROPERTY_VISUALEFFECT:
+                    case ITEM_PROPERTY_USE_LIMITATION_SPECIFIC_ALIGNMENT:
+                    case ITEM_PROPERTY_USE_LIMITATION_RACIAL_TYPE:
+                    case ITEM_PROPERTY_USE_LIMITATION_CLASS:
+                    case ITEM_PROPERTY_USE_LIMITATION_ALIGNMENT_GROUP:
+                    case ITEM_PROPERTY_DECREASED_ABILITY_SCORE:
+                    case ITEM_PROPERTY_DECREASED_AC:
+                    case ITEM_PROPERTY_DECREASED_ATTACK_MODIFIER:
+                    case ITEM_PROPERTY_DECREASED_DAMAGE:
+                    case ITEM_PROPERTY_DECREASED_ENHANCEMENT_MODIFIER:
+                    case ITEM_PROPERTY_DECREASED_SAVING_THROWS:
+                    case ITEM_PROPERTY_DECREASED_SAVING_THROWS_SPECIFIC:
+                    case ITEM_PROPERTY_DECREASED_SKILL_MODIFIER:
+                    case ITEM_PROPERTY_DAMAGE_VULNERABILITY:
+                    case ITEM_PROPERTY_DAMAGE_REDUCTION_DEPRECATED:
+                        {
+                            // penalties don't change prices.
+                            break;
+                        }
+                    #endregion
+                    #region Illegal or Untoolable Properties
+                    case ITEM_PROPERTY_UNLIMITED_AMMUNITION:
+                    case ITEM_PROPERTY_TURN_RESISTANCE:
+                    case ITEM_PROPERTY_TRUE_SEEING:
+                    case ITEM_PROPERTY_TRAP:
+                    case ITEM_PROPERTY_THIEVES_TOOLS:
+                    case ITEM_PROPERTY_SPECIAL_WALK:
+                    case ITEM_PROPERTY_REGENERATION_VAMPIRIC:
+                    case ITEM_PROPERTY_REGENERATION:
+                    case ITEM_PROPERTY_POISON:
+                    case ITEM_PROPERTY_ONHITCASTSPELL:
+                    case ITEM_PROPERTY_ON_MONSTER_HIT:
+                    case ITEM_PROPERTY_ON_HIT_PROPERTIES:
+                    case ITEM_PROPERTY_NO_DAMAGE:
+                    case ITEM_PROPERTY_MONSTER_DAMAGE:
+                    case ITEM_PROPERTY_MIND_BLANK:
+                    case ITEM_PROPERTY_MIGHTY:
+                    case ITEM_PROPERTY_MASSIVE_CRITICALS:
+                    case ITEM_PROPERTY_IMMUNITY_SPELL_SCHOOL:
+                    case ITEM_PROPERTY_IMMUNITY_SPELLS_BY_LEVEL:
+                    case ITEM_PROPERTY_IMPROVED_EVASION:
+                    case ITEM_PROPERTY_KEEN:
+                    case ITEM_PROPERTY_IMMUNITY_DAMAGE_TYPE:
+                    case ITEM_PROPERTY_HOLY_AVENGER:
+                    case ITEM_PROPERTY_HEALERS_KIT:
+                    case ITEM_PROPERTY_HASTE:
+                    case ITEM_PROPERTY_ENHANCEMENT_BONUS:
+                    case ITEM_PROPERTY_ENHANCEMENT_BONUS_VS_ALIGNMENT_GROUP:
+                    case ITEM_PROPERTY_ENHANCEMENT_BONUS_VS_RACIAL_GROUP:
+                    case ITEM_PROPERTY_ENHANCEMENT_BONUS_VS_SPECIFIC_ALIGNEMENT:
+                    case ITEM_PROPERTY_EXTRA_MELEE_DAMAGE_TYPE:
+                    case ITEM_PROPERTY_EXTRA_RANGED_DAMAGE_TYPE:
+                    case ITEM_PROPERTY_ENHANCED_CONTAINER_REDUCED_WEIGHT:
+                    case ITEM_PROPERTY_DAMAGE_REDUCTION:
+                    case ITEM_PROPERTY_DAMAGE_BONUS:
+                    case ITEM_PROPERTY_DAMAGE_BONUS_VS_ALIGNMENT_GROUP:
+                    case ITEM_PROPERTY_DAMAGE_BONUS_VS_RACIAL_GROUP:
+                    case ITEM_PROPERTY_DAMAGE_BONUS_VS_SPECIFIC_ALIGNMENT:
+                    case ITEM_PROPERTY_BONUS_HITPOINTS:
+                    case ITEM_PROPERTY_BASE_ITEM_WEIGHT_REDUCTION:
+                    case ITEM_PROPERTY_ATTACK_BONUS:
+                    case ITEM_PROPERTY_ATTACK_BONUS_VS_ALIGNMENT_GROUP:
+                    case ITEM_PROPERTY_ATTACK_BONUS_VS_RACIAL_GROUP:
+                    case ITEM_PROPERTY_ATTACK_BONUS_VS_SPECIFIC_ALIGNMENT:
+                        {
+                            return -1;
+                        }
+                    #endregion
+                }
+            }
+            #endregion
+            #region Properties that are vs. Specifics
+            foreach (PricedItemProperty prop in itProps)
+            {
+                int propType = script.GetItemPropertyType(prop.Property);
+                switch (propType)
+                {
+                    #region AC Bonus vs. Alignement Group
+                    case ITEM_PROPERTY_AC_BONUS_VS_ALIGNMENT_GROUP:
+                        {
+                            int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (ACvsGroup > ACvsEveryone)
+                            {
+                                float multiplier = 0.20f;
+                                if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_NEUTRAL)
+                                {
+                                    multiplier = 2.0f / 3.0f;
+                                }
+                                if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_EVIL)
+                                {
+                                    multiplier = 0.50f;
+                                }
+                                float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
+                                prop.Price = (int)((effectiveBonus * effectiveBonus * 2000) - (ACvsEveryone * ACvsEveryone * 2000));
+                                GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region AC Bonus vs. Damage Type
+                    case ITEM_PROPERTY_AC_BONUS_VS_DAMAGE_TYPE:
+                        {
+                            int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (ACvsGroup > ACvsEveryone)
+                            {
+                                float multiplier = 1.0f / 3.0f;
+                                float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
+                                prop.Price = (int)((effectiveBonus * effectiveBonus * 2000) - (ACvsEveryone * ACvsEveryone * 2000));
+                                GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region AC Bonus vs. Racial Type
+                    case ITEM_PROPERTY_AC_BONUS_VS_RACIAL_GROUP:
+                        {
+                            int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (ACvsGroup > ACvsEveryone)
+                            {
+                                float multiplier = 1.0f / 3.0f;
+                                float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
+                                prop.Price = (int)((effectiveBonus * effectiveBonus * 2000) - (ACvsEveryone * ACvsEveryone * 2000));
+                                GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                            }
+                            break;
+                        }
+                    #endregion
+                    #region AC Bonus vs. Specific Alignment
+                    case ITEM_PROPERTY_AC_BONUS_VS_SPECIFIC_ALIGNMENT:
+                        {
+                            int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
+                            if (ACvsGroup > ACvsEveryone)
+                            {
+                                float multiplier = 1.0f / 6.0f;
+                                float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
+                                prop.Price = (int)((effectiveBonus * effectiveBonus * 2000) - (ACvsEveryone * ACvsEveryone * 2000));
+                                GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
+                            }
+                            break;
+                        }
+                    #endregion
+                }
+            }
+            #endregion
+            #endregion
+
+            #region Sum Calculated Values
+            int costliestProp = 0;
+            int propsPrice = 0;
+            PricedItemProperty costliestCharge = null;
+            PricedItemProperty secondCostliestCharge = null;
+            foreach (PricedItemProperty prop in itProps)
+            {
+                value += prop.Price;
+                value += prop.AffinityPenaltyPrice;
+                propsPrice += prop.Price;
+                if (costliestProp < prop.Price)
+                {
+                    costliestProp = prop.Price;
+                }
+                if (prop.ChargedPrice > 0)
+                {
+                    if (costliestCharge == null)
+                    {
+                        costliestCharge = prop;
+                    }
+                    else if (prop.ChargedPrice > costliestCharge.ChargedPrice)
+                    {
+                        secondCostliestCharge = costliestCharge;
+                        costliestCharge = prop;
+                    }
+                    else if (prop.ChargedPrice > secondCostliestCharge.ChargedPrice)
+                    {
+                        secondCostliestCharge = prop;
+                    }
+                }
+            }
+            // If the costliest prop is the only prop, 0/2 = 0.
+            // otherwise, all secondary props cost 50% more.
+            value += ((propsPrice - costliestProp) / 2);
+
+            if (costliestCharge != null)
+            {
+                if (secondCostliestCharge == null)
+                {
+                    value += costliestCharge.ChargedPrice * script.GetItemCharges(target);
+                }
+                else
+                {
+                    foreach (PricedItemProperty prop in itProps)
+                    {
+                        if (costliestCharge == prop)
+                        {
+                            value += costliestCharge.ChargedPrice * script.GetItemCharges(target);
+                        }
+                        else if (secondCostliestCharge == prop)
+                        {
+                            value += (costliestCharge.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
+                        }
+                        else
+                        {
+                            value += (costliestCharge.ChargedPrice * script.GetItemCharges(target)) / 2;
+                        }
+                    }
+                }
+            }
+            #endregion
+            return value;
+        }
+
+        private static void GetAffinityAdjustedValue(int itemType, PricedItemProperty prop, int type, int subtype, int costTableValue)
+        {
+
         }
 
         private static bool GetIsHalfWeight(CLRScriptBase script, List<PricedItemProperty> itProp)
