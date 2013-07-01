@@ -2061,6 +2061,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
@@ -2281,6 +2282,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
@@ -2501,6 +2503,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
@@ -2711,6 +2714,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
@@ -2912,6 +2916,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
@@ -3126,6 +3131,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
@@ -3341,6 +3347,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_DRAGON);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -3563,6 +3570,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_DRAGON);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -3786,6 +3794,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_DRAGON);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -4008,6 +4017,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_DRAGON);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -4237,6 +4247,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -4451,6 +4462,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -4633,6 +4645,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -4859,6 +4872,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                             case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL);
                                     value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL];
@@ -4997,6 +5011,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                             case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL);
                                     value = 6000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -5179,6 +5194,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
                             case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL);
                                     value = 3000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE];
@@ -5357,6 +5373,7 @@ namespace ACR_Items
                             case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
                             case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                            case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
                                 {
                                     script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
                                     value += 2000 + ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK];
@@ -6098,48 +6115,78 @@ namespace ACR_Items
             {ARMOR_RULES_TYPE_BANDED, 250},
             {ARMOR_RULES_TYPE_BANDED_MASTERWORK, 400},
             {ARMOR_RULES_TYPE_BANDED_MITHRAL, 9250},
+            {ARMOR_RULES_TYPE_BANDED_HEAVYMETAL, 400},
+            {ARMOR_RULES_TYPE_BANDED_LIVING, 5400},
+            {ARMOR_RULES_TYPE_BANDED_DRAGON, 11250},
             {ARMOR_RULES_TYPE_BREASTPLATE, 200},
             {ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK, 350},
             {ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL, 4200},
+            {ARMOR_RULES_TYPE_BREASTPLATE_DRAGON, 6200},
+            {ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD, 3200},
+            {ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL, 350},
+            {ARMOR_RULES_TYPE_BREASTPLATE_LIVING, 3700},
             {ARMOR_RULES_TYPE_CHAIN_SHIRT, 100},
             {ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK, 250},
             {ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL, 1100},
+            {ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL, 250},
+            {ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING, 2100},
             {ARMOR_RULES_TYPE_CHAINMAIL, 150},
             {ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK, 300},
             {ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL, 4150},
+            {ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL, 300},
+            {ARMOR_RULES_TYPE_CHAINMAIL_LIVING, 3650},
             {ARMOR_RULES_TYPE_CLOTH, 0},
             {ARMOR_RULES_TYPE_FULL_PLATE, 1500},
             {ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK, 1650},
             {ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL, 10500},
+            {ARMOR_RULES_TYPE_FULL_PLATE_DRAGON, 12500},
+            {ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL, 1650},
+            {ARMOR_RULES_TYPE_FULL_PLATE_LIVING, 6500},
             {ARMOR_RULES_TYPE_HALF_PLATE, 600},
             {ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK, 750},
             {ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL, 9600},
+            {ARMOR_RULES_TYPE_HALF_PLATE_DRAGON, 11600},
+            {ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL, 750},
+            {ARMOR_RULES_TYPE_HALF_PLATE_LIVING, 6600},
             {ARMOR_RULES_TYPE_HIDE, 15},
             {ARMOR_RULES_TYPE_HIDE_MASTERWORK, 165},
+            {ARMOR_RULES_TYPE_HIDE_DRAGON, 6015},
             {ARMOR_RULES_TYPE_LEATHER, 10},
             {ARMOR_RULES_TYPE_LEATHER_MASTERWORK, 160},
+            {ARMOR_RULES_TYPE_LEATHER_DRAGON, 3010},
             {ARMOR_RULES_TYPE_PADDED, 5},
             {ARMOR_RULES_TYPE_PADDED_MASTERWORK, 155},
+            {ARMOR_RULES_TYPE_PADDED_DRAGON, 3005},
             {ARMOR_RULES_TYPE_SCALE, 50},
             {ARMOR_RULES_TYPE_SCALE_MASTERWORK, 200},
             {ARMOR_RULES_TYPE_SCALE_MITHRAL, 4050},
+            {ARMOR_RULES_TYPE_SCALE_DRAGON, 6050},
+            {ARMOR_RULES_TYPE_SCALE_HEAVYMETAL, 200},
+            {ARMOR_RULES_TYPE_SCALE_LIVING, 3550},
             {ARMOR_RULES_TYPE_SHIELD_HEAVY, 50},
             {ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD, 230},
             {ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK, 200},
             {ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL, 1050},
+            {ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON, 4050},
             {ARMOR_RULES_TYPE_SHIELD_LIGHT, 10},
             {ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD, 300},
             {ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK, 160},
             {ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL, 1010},
+            {ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON, 4010},
             {ARMOR_RULES_TYPE_SHIELD_TOWER, 100},
             {ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD, 700},
             {ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK, 250},
             {ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL, 1100},
+            {ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON, 4100},
             {ARMOR_RULES_TYPE_SPLINT, 250},
             {ARMOR_RULES_TYPE_SPLINT_MASTERWORK, 400},
             {ARMOR_RULES_TYPE_SPLINT_MITHREAL, 9250},
+            {ARMOR_RULES_TYPE_SPLINT_DRAGON, 11250},
+            {ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL, 400},
+            {ARMOR_RULES_TYPE_SPLINT_LIVING, 5250},
             {ARMOR_RULES_TYPE_STUDDED_LEATHER, 15},
             {ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK, 165},
+            {ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON, 3015},
         };
         #endregion
         #endregion
