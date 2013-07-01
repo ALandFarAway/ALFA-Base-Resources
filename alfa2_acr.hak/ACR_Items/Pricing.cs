@@ -1109,6 +1109,10 @@ namespace ACR_Items
                                                     prop.Price = 44000;
                                                     break;
                                                 }
+                                            default:
+                                                {
+                                                    return -1;
+                                                }
                                         }
                                         break;
                                     }
@@ -6120,6 +6124,10 @@ namespace ACR_Items
                                                     prop.Price = 44000;
                                                     break;
                                                 }
+                                            default:
+                                                {
+                                                    return -1;
+                                                }
                                         }
                                         break;
                                     }
@@ -6790,6 +6798,10 @@ namespace ACR_Items
                                                     prop.Price = 44000;
                                                     GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
                                                     break;
+                                                }
+                                            default:
+                                                {
+                                                    return -1;
                                                 }
                                         }
                                         break;
