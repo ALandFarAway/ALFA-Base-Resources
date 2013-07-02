@@ -1565,7 +1565,7 @@ namespace ACR_Items
                             int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
                             if (ACvsGroup > ACvsEveryone)
                             {
-                                float multiplier = 0.20f;
+                                float multiplier = 0.40f;
                                 if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_NEUTRAL)
                                 {
                                     multiplier = 2.0f / 3.0f;
@@ -1625,7 +1625,7 @@ namespace ACR_Items
                             int attackVsGroup = script.GetItemPropertyCostTableValue(prop.Property);
                             if (attackVsGroup > attackVsEveryone)
                             {
-                                float multiplier = 0.20f;
+                                float multiplier = 0.40f;
                                 if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_NEUTRAL)
                                 {
                                     multiplier = 2.0f / 3.0f;
@@ -1666,7 +1666,7 @@ namespace ACR_Items
                     #region Damage Bonus vs. Alignment Group
                     case ITEM_PROPERTY_DAMAGE_BONUS_VS_ALIGNMENT_GROUP:
                         {
-                            float multiplier = 0.20f;
+                            float multiplier = 0.40f;
                             if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_NEUTRAL)
                             {
                                 multiplier = 2.0f / 3.0f;
@@ -1854,7 +1854,7 @@ namespace ACR_Items
                             int enhancementVsGroup = script.GetItemPropertyCostTableValue(prop.Property);
                             if (enhancementVsGroup > enhancementVsEveryone)
                             {
-                                float multiplier = 0.20f;
+                                float multiplier = 0.40f;
                                 if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_NEUTRAL)
                                 {
                                     multiplier = 2.0f / 3.0f;
@@ -6445,7 +6445,7 @@ namespace ACR_Items
                             int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
                             if (ACvsGroup > ACvsEveryone)
                             {
-                                float multiplier = 0.20f;
+                                float multiplier = 0.40f;
                                 if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_NEUTRAL)
                                 {
                                     multiplier = 2.0f / 3.0f;
@@ -7217,7 +7217,7 @@ namespace ACR_Items
                             int ACvsGroup = script.GetItemPropertyCostTableValue(prop.Property);
                             if (ACvsGroup > ACvsEveryone)
                             {
-                                float multiplier = 0.20f;
+                                float multiplier = 0.40f;
                                 if (script.GetItemPropertySubType(prop.Property) == IP_CONST_ALIGNMENTGROUP_NEUTRAL)
                                 {
                                     multiplier = 2.0f / 3.0f;
