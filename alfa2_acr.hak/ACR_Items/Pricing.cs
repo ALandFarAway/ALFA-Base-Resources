@@ -6454,7 +6454,7 @@ namespace ACR_Items
                                 {
                                     multiplier = 0.50f;
                                 }
-                                float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
+                                float effectiveBonus = (ACvsGroup - ACvsEveryone) * multiplier;
                                 effectivePlus += effectiveBonus;
                             }
                             break;
@@ -6467,7 +6467,7 @@ namespace ACR_Items
                             if (ACvsGroup > ACvsEveryone)
                             {
                                 float multiplier = 1.0f / 3.0f;
-                                float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
+                                float effectiveBonus = (ACvsGroup - ACvsEveryone) * multiplier;
                                 effectivePlus += effectiveBonus;
                             }
                             break;
@@ -6480,7 +6480,7 @@ namespace ACR_Items
                             if (ACvsGroup > ACvsEveryone)
                             {
                                 float multiplier = 1.0f / 3.0f;
-                                float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
+                                float effectiveBonus = (ACvsGroup - ACvsEveryone) * multiplier;
                                 effectivePlus += effectiveBonus;
                             }
                             break;
@@ -6493,7 +6493,7 @@ namespace ACR_Items
                             if (ACvsGroup > ACvsEveryone)
                             {
                                 float multiplier = 1.0f / 6.0f;
-                                float effectiveBonus = ((ACvsGroup - ACvsEveryone) * multiplier) + ACvsEveryone;
+                                float effectiveBonus = (ACvsGroup - ACvsEveryone) * multiplier;
                                 effectivePlus += effectiveBonus;
                             }
                             break;
@@ -6502,6 +6502,271 @@ namespace ACR_Items
                 }
             }
             #endregion
+            #endregion
+
+            #region Correct for Magical Armor That Should be Masterwork, and Special Mat Rules on Mundane Mats
+            if (specialMat == GMATERIAL_NONSPECIFIC ||
+                specialMat == GMATERIAL_METAL_IRON ||
+                specialMat == GMATERIAL_SONDARR)
+            {
+                switch (rulesType)
+                {
+                    case ARMOR_RULES_TYPE_BANDED:
+                        {
+                            if (ACvsEveryone > 0)
+                            {
+                                script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
+                                value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED_MASTERWORK];
+                            }
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_BANDED_DRAGON:
+                    case ARMOR_RULES_TYPE_BANDED_HEAVYMETAL:
+                    case ARMOR_RULES_TYPE_BANDED_LIVING:
+                    case ARMOR_RULES_TYPE_BANDED_MITHRAL:
+                        {
+                            script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
+                            value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BANDED_MASTERWORK];
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_BREASTPLATE:
+                        {
+                            if (ACvsEveryone > 0)
+                            {
+                                script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
+                                value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK];
+                            }
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_BREASTPLATE_DRAGON:
+                    case ARMOR_RULES_TYPE_BREASTPLATE_DUSKWOOD:
+                    case ARMOR_RULES_TYPE_BREASTPLATE_HEAVYMETAL:
+                    case ARMOR_RULES_TYPE_BREASTPLATE_LIVING:
+                    case ARMOR_RULES_TYPE_BREASTPLATE_MITHRAL:
+                        {
+                            script.SetArmorRulesType(target, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
+                            value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK];
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_CHAIN_SHIRT:
+                        {
+                            if (ACvsEveryone > 0)
+                            {
+                                script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
+                                value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK];
+                            }
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_CHAIN_SHIRT_HEAVYMETAL:
+                    case ARMOR_RULES_TYPE_CHAIN_SHIRT_LIVING:
+                    case ARMOR_RULES_TYPE_CHAIN_SHIRT_MITHRAL:
+                        {
+                            script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
+                            value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK];
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_CHAINMAIL:
+                        {
+                            if (ACvsEveryone > 0)
+                            {
+                                script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
+                                value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK];
+                            }
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_CHAINMAIL_HEAVYMETAL:
+                    case ARMOR_RULES_TYPE_CHAINMAIL_LIVING:
+                    case ARMOR_RULES_TYPE_CHAINMAIL_MITHRAL:
+                        {
+                            script.SetArmorRulesType(target, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
+                            value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK];
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_FULL_PLATE:
+                        {
+                            if (ACvsEveryone > 0)
+                            {
+                                script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
+                                value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK];
+                            }
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_FULL_PLATE_DRAGON:
+                    case ARMOR_RULES_TYPE_FULL_PLATE_HEAVYMETAL:
+                    case ARMOR_RULES_TYPE_FULL_PLATE_LIVING:
+                    case ARMOR_RULES_TYPE_FULL_PLATE_MITHRAL:
+                        {
+                            script.SetArmorRulesType(target, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
+                            value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK];
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_HALF_PLATE:
+                        {
+                            if (ACvsEveryone > 0)
+                            {
+                                script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
+                                value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK];
+                            }
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_HALF_PLATE_DRAGON:
+                    case ARMOR_RULES_TYPE_HALF_PLATE_HEAVYMETAL:
+                    case ARMOR_RULES_TYPE_HALF_PLATE_LIVING:
+                    case ARMOR_RULES_TYPE_HALF_PLATE_MITHRAL:
+                        {
+                            script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
+                            value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK];
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_HIDE:
+                        {
+                            if (ACvsEveryone > 0)
+                            {
+                                script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HIDE_MASTERWORK);
+                                value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_HIDE_MASTERWORK];
+                            }
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_HIDE_DRAGON:
+                        {
+                            script.SetArmorRulesType(target, ARMOR_RULES_TYPE_HIDE_MASTERWORK);
+                            value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_HIDE_MASTERWORK];
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_LEATHER:
+                        {
+                            if (ACvsEveryone > 0)
+                            {
+                                script.SetArmorRulesType(target, ARMOR_RULES_TYPE_LEATHER_MASTERWORK);
+                                value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER_MASTERWORK];
+                            }
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_LEATHER_DRAGON:
+                        {
+                            script.SetArmorRulesType(target, ARMOR_RULES_TYPE_LEATHER_MASTERWORK);
+                            value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_LEATHER_MASTERWORK];
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_PADDED:
+                        {
+                            if (ACvsEveryone > 0)
+                            {
+                                script.SetArmorRulesType(target, ARMOR_RULES_TYPE_PADDED_MASTERWORK);
+                                value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_PADDED_MASTERWORK];
+                            }
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_PADDED_DRAGON:
+                        {
+                            script.SetArmorRulesType(target, ARMOR_RULES_TYPE_PADDED_MASTERWORK);
+                            value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_PADDED_MASTERWORK];
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_SCALE:
+                        {
+                            if (ACvsEveryone > 0)
+                            {
+                                script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
+                                value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE_MASTERWORK];
+                            }
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_SCALE_DRAGON:
+                    case ARMOR_RULES_TYPE_SCALE_HEAVYMETAL:
+                    case ARMOR_RULES_TYPE_SCALE_LIVING:
+                    case ARMOR_RULES_TYPE_SCALE_MITHRAL:
+                        {
+                            script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
+                            value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SCALE_MASTERWORK];
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_SHIELD_HEAVY:
+                        {
+                            if (ACvsEveryone > 0)
+                            {
+                                script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
+                                value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK];
+                            }
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_SHIELD_HEAVY_DARKWOOD:
+                    case ARMOR_RULES_TYPE_SHIELD_HEAVY_DRAGON:
+                    case ARMOR_RULES_TYPE_SHIELD_HEAVY_MITHRAL:
+                        {
+                            script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
+                            value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK];
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_SHIELD_LIGHT:
+                        {
+                            if (ACvsEveryone > 0)
+                            {
+                                script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
+                                value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK];
+                            }
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_SHIELD_LIGHT_DARKWOOD:
+                    case ARMOR_RULES_TYPE_SHIELD_LIGHT_DRAGON:
+                    case ARMOR_RULES_TYPE_SHIELD_LIGHT_MITHRAL:
+                        {
+                            script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
+                            value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK];
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_SHIELD_TOWER:
+                        {
+                            if (ACvsEveryone > 0)
+                            {
+                                script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
+                                value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK];
+                            }
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_SHIELD_TOWER_DARKWOOD:
+                    case ARMOR_RULES_TYPE_SHIELD_TOWER_DRAGON:
+                    case ARMOR_RULES_TYPE_SHIELD_TOWER_MITHRAL:
+                        {
+                            script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
+                            value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK];
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_SPLINT:
+                        {
+                            if (ACvsEveryone > 0)
+                            {
+                                script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
+                                value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT_MASTERWORK];
+                            }
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_SPLINT_DRAGON:
+                    case ARMOR_RULES_TYPE_SPLINT_HEAVYMETAL:
+                    case ARMOR_RULES_TYPE_SPLINT_LIVING:
+                    case ARMOR_RULES_TYPE_SPLINT_MITHREAL:
+                        {
+                            script.SetArmorRulesType(target, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
+                            value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_SPLINT_MASTERWORK];
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_STUDDED_LEATHER:
+                        {
+                            if (ACvsEveryone > 0)
+                            {
+                                script.SetArmorRulesType(target, ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK);
+                                value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK];
+                            }
+                            break;
+                        }
+                    case ARMOR_RULES_TYPE_LEATHER_STUDDED_DRAGON:
+                        {
+                            script.SetArmorRulesType(target, ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK);
+                            value = ArmorRulesTypeValues[ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK];
+                            break;
+                        }
+                }
+            }
             #endregion
 
             #region Sum Calculated Values
@@ -6523,6 +6788,7 @@ namespace ACR_Items
                     value += (int)(effectivePlus * 1000);
                 }
             }
+
             int costliestProp = 0;
             int propsPrice = 0;
             PricedItemProperty costliestCharge = null;
