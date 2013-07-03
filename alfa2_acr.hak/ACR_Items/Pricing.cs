@@ -2271,17 +2271,41 @@ namespace ACR_Items
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(PriceChangeVarName))
                         {
                             int dmgRedctMembers = ALFA.Shared.Modules.InfoStore.ModifiedGff[PriceChangeVarName].TopLevelStruct["DmgReduction"].ValueList.StructList.Count;
+                            GFFShortField DmgRedctFlags = new GFFShortField();
+                            GFFShortField DmgRedctAmt = new GFFShortField();
+                            GFFShortField DmgRedctType = new GFFShortField();
+                            GFFShortField DmgRedctSubType = new GFFShortField();
+                            DmgRedctFlags.ValueInt = 0;
+                            DmgRedctFlags.StringLabel = "DmgRedctFlags";
+                            DmgRedctAmt.ValueInt = damageReduction;
+                            DmgRedctAmt.StringLabel = "DmgRedctAmt";
+                            DmgRedctType.ValueInt = 0;
+                            DmgRedctType.StringLabel = "DmgRedctType";
+                            DmgRedctSubType.ValueInt = 0;
+                            DmgRedctSubType.StringLabel = "DmgRedctSubType";
+
                             GFFStruct dmgRedct = new GFFStruct();
-                            dmgRedct.Fields.Add("DmgRedctFlags", 0);
-                            dmgRedct.Fields.Add("DmgRedctAmt", damageReduction);
+                            dmgRedct.StructType = 2;
+
+                            dmgRedct.Fields.Add("DmgRedctFlags", DmgRedctFlags);
+                            dmgRedct.Fields.Add("DmgRedctAmt", DmgRedctAmt);
+                            GFFListField dmgRedctTypeList = new GFFListField();
                             GFFList dmgRedctType = new GFFList();
-                            dmgRedctType.StructList.Add(new GFFStruct());
-                            dmgRedctType[0].Fields.Add("DmgRedctType", 0);
-                            dmgRedctType[0].Fields.Add("DmgRedctSubType", 0);
-                            dmgRedct.Fields.Add("DmgRedctSubList", dmgRedctType);
+                            GFFStruct dmgRedctTypeStruct = new GFFStruct();
+                            dmgRedctTypeStruct.StructType = 2;
+                            dmgRedctType.StructList.Add(dmgRedctTypeStruct);
+                            dmgRedctType[0].Fields.Add("DmgRedctType", DmgRedctType);
+                            dmgRedctType[0].Fields.Add("DmgRedctSubType", DmgRedctSubType);
+                            dmgRedctTypeList.ValueList = dmgRedctType;
+                            dmgRedctTypeList.StringLabel = "DmgRedctSubList";
+                            dmgRedct.Fields.Add("DmgRedctSubList", dmgRedctTypeList);
+
                             if (dmgRedctMembers == 0)
                             {
                                 ALFA.Shared.Modules.InfoStore.ModifiedGff[PriceChangeVarName].TopLevelStruct["DmgReduction"].ValueList.StructList.Add(dmgRedct);
+                                script.DestroyObject(target, 0.0f, FALSE);
+                                target = script.RetrieveCampaignObject(ItemChangeDBName, PriceChangeVarName, script.GetLocation(script.OBJECT_SELF), script.OBJECT_SELF, script.OBJECT_SELF);
+                                product = target;
                             }
                             else
                             {
@@ -2292,7 +2316,13 @@ namespace ACR_Items
                                         ALFA.Shared.Modules.InfoStore.ModifiedGff[PriceChangeVarName].TopLevelStruct["DmgReduction"].ValueList.StructList.Remove(count);
                                     }
                                 }
-                                ALFA.Shared.Modules.InfoStore.ModifiedGff[PriceChangeVarName].TopLevelStruct["DmgReduction"].ValueList.StructList[0] = dmgRedct;
+                                if (ALFA.Shared.Modules.InfoStore.ModifiedGff[PriceChangeVarName].TopLevelStruct["DmgReduction"].ValueList[0]["DmgRedctAmt"].ValueInt != damageReduction)
+                                {
+                                    ALFA.Shared.Modules.InfoStore.ModifiedGff[PriceChangeVarName].TopLevelStruct["DmgReduction"].ValueList[0] = dmgRedct;
+                                    script.DestroyObject(target, 0.0f, FALSE);
+                                    target = script.RetrieveCampaignObject(ItemChangeDBName, PriceChangeVarName, script.GetLocation(script.OBJECT_SELF), script.OBJECT_SELF, script.OBJECT_SELF);
+                                    product = target;
+                                }
                             }
                         }
                         List<PricedItemProperty> removingProps = new List<PricedItemProperty>();
