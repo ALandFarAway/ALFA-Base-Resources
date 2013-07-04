@@ -2094,6 +2094,13 @@ namespace ACR_Items
             }
             #endregion
             #endregion
+
+            #region Correct for Ammunition
+            if (GetIsAmmunition(itemType))
+            {
+                value /= 100;
+            }
+            #endregion
             return value;
         }
 
