@@ -827,7 +827,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_1_CHARGE_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 50);
+                                        prop.ChargedPrice = (int)(multiplier * 36);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_1_USE_PER_DAY:
@@ -837,7 +837,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_2_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 25);
+                                        prop.ChargedPrice = (int)(multiplier * 18);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_2_USES_PER_DAY:
@@ -847,7 +847,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_3_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 17);
+                                        prop.ChargedPrice = (int)(multiplier * 12);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_3_USES_PER_DAY:
@@ -857,7 +857,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_4_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 13);
+                                        prop.ChargedPrice = (int)(multiplier * 9);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_4_USES_PER_DAY:
@@ -867,7 +867,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_5_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 10);
+                                        prop.ChargedPrice = (int)(multiplier * 7);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_5_USES_PER_DAY:
@@ -6075,7 +6075,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_1_CHARGE_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 50);
+                                        prop.ChargedPrice = (int)(multiplier * 36);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_1_USE_PER_DAY:
@@ -6085,7 +6085,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_2_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 25);
+                                        prop.ChargedPrice = (int)(multiplier * 18);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_2_USES_PER_DAY:
@@ -6095,7 +6095,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_3_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 17);
+                                        prop.ChargedPrice = (int)(multiplier * 12);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_3_USES_PER_DAY:
@@ -6105,7 +6105,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_4_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 13);
+                                        prop.ChargedPrice = (int)(multiplier * 9);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_4_USES_PER_DAY:
@@ -6115,7 +6115,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_5_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 10);
+                                        prop.ChargedPrice = (int)(multiplier * 7);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_5_USES_PER_DAY:
@@ -6798,7 +6798,7 @@ namespace ACR_Items
                 }
             }
             #endregion
-
+            
             #region Sum Calculated Values
             value += enchantmentPenalty;
             bool allSecondary = false;
@@ -7004,7 +7004,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_1_CHARGE_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 50);
+                                        prop.ChargedPrice = (int)(multiplier * 36);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_1_USE_PER_DAY:
@@ -7015,7 +7015,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_2_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 25);
+                                        prop.ChargedPrice = (int)(multiplier * 18);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_2_USES_PER_DAY:
@@ -7026,7 +7026,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_3_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 17);
+                                        prop.ChargedPrice = (int)(multiplier * 12);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_3_USES_PER_DAY:
@@ -7037,7 +7037,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_4_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 13);
+                                        prop.ChargedPrice = (int)(multiplier * 9);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_4_USES_PER_DAY:
@@ -7048,7 +7048,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_5_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 10);
+                                        prop.ChargedPrice = (int)(multiplier * 7);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_5_USES_PER_DAY:
