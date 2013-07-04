@@ -1995,23 +1995,22 @@ namespace ACR_Items
                     {
                         if (costliestCharge == prop)
                         {
-                            chargesCost += costliestCharge.ChargedPrice * script.GetItemCharges(target);
-                            value += costliestCharge.ChargedPrice * script.GetItemCharges(target);
+                            chargesCost += prop.ChargedPrice * script.GetItemCharges(target);
+                            value += prop.ChargedPrice * script.GetItemCharges(target);
                         }
                         else if (secondCostliestCharge == prop)
                         {
-                            chargesCost += (costliestCharge.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
-                            value += (costliestCharge.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
+                            chargesCost += (prop.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
+                            value += (prop.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
                         }
                         else
                         {
-                            chargesCost += (costliestCharge.ChargedPrice * script.GetItemCharges(target)) / 2;
-                            value += (costliestCharge.ChargedPrice * script.GetItemCharges(target)) / 2;
+                            chargesCost += (prop.ChargedPrice * script.GetItemCharges(target)) / 2;
+                            value += (prop.ChargedPrice * script.GetItemCharges(target)) / 2;
                         }
                     }
                 }
             }
-            script.SendMessageToAllDMs(value.ToString());
             if (IsClassRestricted)
             {
                 value -= (chargesCost - ((chargesCost * 750) / 1800));
@@ -6934,18 +6933,18 @@ namespace ACR_Items
                     {
                         if (costliestCharge == prop)
                         {
-                            chargesCost += costliestCharge.ChargedPrice * script.GetItemCharges(target);
-                            value += costliestCharge.ChargedPrice * script.GetItemCharges(target);
+                            chargesCost += prop.ChargedPrice * script.GetItemCharges(target);
+                            value += prop.ChargedPrice * script.GetItemCharges(target);
                         }
                         else if (secondCostliestCharge == prop)
                         {
-                            chargesCost += (costliestCharge.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
-                            value += (costliestCharge.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
+                            chargesCost += (prop.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
+                            value += (prop.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
                         }
                         else
                         {
-                            chargesCost += (costliestCharge.ChargedPrice * script.GetItemCharges(target)) / 2;
-                            value += (costliestCharge.ChargedPrice * script.GetItemCharges(target)) / 2;
+                            chargesCost += (prop.ChargedPrice * script.GetItemCharges(target)) / 2;
+                            value += (prop.ChargedPrice * script.GetItemCharges(target)) / 2;
                         }
                     }
                 }
@@ -7724,18 +7723,18 @@ namespace ACR_Items
                     {
                         if (costliestCharge == prop)
                         {
-                            chargesCost += costliestCharge.ChargedPrice * script.GetItemCharges(target);
-                            value += costliestCharge.ChargedPrice * script.GetItemCharges(target);
+                            chargesCost += prop.ChargedPrice * script.GetItemCharges(target);
+                            value += prop.ChargedPrice * script.GetItemCharges(target);
                         }
                         else if (secondCostliestCharge == prop)
                         {
-                            chargesCost += (costliestCharge.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
-                            value += (costliestCharge.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
+                            chargesCost += (prop.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
+                            value += (prop.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
                         }
                         else
                         {
-                            chargesCost += (costliestCharge.ChargedPrice * script.GetItemCharges(target)) / 2;
-                            value += (costliestCharge.ChargedPrice * script.GetItemCharges(target)) / 2;
+                            chargesCost += (prop.ChargedPrice * script.GetItemCharges(target)) / 2;
+                            value += (prop.ChargedPrice * script.GetItemCharges(target)) / 2;
                         }
                     }
                 }
