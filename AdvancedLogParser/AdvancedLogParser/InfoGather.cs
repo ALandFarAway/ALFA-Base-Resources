@@ -503,6 +503,7 @@ namespace AdvancedLogParser
                     if (thisLog.EventDescription.Contains("Dungeon Master:"))
                     {
                         Player dm = Players.ListByPlayerId[Characters.List[thisLog.CharacterId].PlayerId];
+                        Characters.List[thisLog.CharacterId].IsDMAvatar = true;
                         if (!currentServer.RecentDMs.Contains(dm))
                         {
                             currentServer.RecentDMs.Add(dm);
@@ -524,6 +525,16 @@ namespace AdvancedLogParser
                     }
                 }
                 catch { }
+            }
+            foreach (Server server in Servers.List.Values)
+            {
+                foreach (Character ch in server.RecentCharacters)
+                {
+                    if (ch.IsDMAvatar)
+                    {
+                        server.RecentCharacters.Remove(ch);
+                    }
+                }
             }
         }
 

@@ -49,6 +49,8 @@ namespace AdvancedLogParser
 
         public Alignment Alignment;
 
+        public bool IsDMAvatar;
+
         public float DMTime;
     }
 
