@@ -29,29 +29,37 @@ namespace ACR_Items
 
         const int MasterworkWeaponValue = 300;
         const int MasterworkArmorValue = 150;
-
-        public static uint product = OBJECT_INVALID;
         
         public static void AdjustPrice(CLRScriptBase script, uint target, int adjustBy)
         {
             if (script.GetObjectType(target) != OBJECT_TYPE_ITEM)
                 return;
+            if (script.GetItemStackSize(target) > 1)
+                return;
 
-            script.StoreCampaignObject(ItemChangeDBName, PriceChangeVarName, target, script.OBJECT_SELF);
+            string itemKey = PriceChangeVarName + target.ToString();
+            script.StoreCampaignObject(ItemChangeDBName, itemKey, target, script.OBJECT_SELF);
             if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(PriceChangeVarName))
             {
                 int currentModifyCost = 0;
-                if (int.TryParse(ALFA.Shared.Modules.InfoStore.ModifiedGff[PriceChangeVarName].TopLevelStruct["ModifyCost"].Value.ToString(), out currentModifyCost))
-                {
-                    currentModifyCost += adjustBy;
-                    ALFA.Shared.Modules.InfoStore.ModifiedGff[PriceChangeVarName].TopLevelStruct["ModifyCost"].Value = currentModifyCost;
-                }
+                currentModifyCost = ALFA.Shared.Modules.InfoStore.ModifiedGff[itemKey].TopLevelStruct["ModifyCost"].ValueInt + adjustBy;
+                ALFA.Shared.Modules.InfoStore.ModifiedGff[itemKey].TopLevelStruct["ModifyCost"].ValueInt = currentModifyCost;
+                
+                script.DestroyObject(target, 0.0f, FALSE);
+                script.DelayCommand(0.5f, delegate() 
+                { 
+                    uint newObject = script.RetrieveCampaignObject(ItemChangeDBName, itemKey, script.GetLocation(script.OBJECT_SELF), script.OBJECT_SELF, script.OBJECT_SELF);
+                    if (script.GetObjectType(script.OBJECT_SELF) != OBJECT_TYPE_PLACEABLE)
+                    {
+                        script.CopyItem(newObject, script.OBJECT_SELF, TRUE);
+                    }
+                });
             }
-            script.RetrieveCampaignObject(ItemChangeDBName, PriceChangeVarName, script.GetLocation(script.OBJECT_SELF), script.OBJECT_SELF, script.OBJECT_SELF);
         }
 
         public static void CalculatePrice(CLRScriptBase script, uint target)
         {
+            #region Reject to Price Objects Which Can't or Shouldn't be Priced
             if (script.GetObjectType(target) != OBJECT_TYPE_ITEM)
             {
                 return;
@@ -62,18 +70,80 @@ namespace ACR_Items
             {
                 return;
             }
+
+            if (script.GetItemStackSize(target) > 1)
+            {
+                return;
+            }
+            #endregion
+
+            #region Find out What the Item Should be Worth
+            int targetValue = 0;
             if (GetIsWeapon(itemType))
             {
-                script.SendMessageToAllDMs(GetWeaponPrice(script, target).ToString());
+                targetValue = GetWeaponPrice(script, target);
             }
             else if (GetIsArmor(itemType))
             {
-                script.SendMessageToAllDMs(GetArmorPrice(script, target).ToString());
+                targetValue = GetArmorPrice(script, target);
             }
             else
             {
-                script.SendMessageToAllDMs(GetWonderousPrice(script, target).ToString());
+                targetValue = GetWonderousPrice(script, target);
             }
+            #endregion
+
+            #region Early Return for Illegal and Custom-Scripted Items
+            if (targetValue == -1)
+            {
+                // We can't price this item, because it's illegal.
+                script.SetFirstName(target, "(Illegal) " + script.GetName(target));
+                return;
+            }
+            else if (targetValue == -2)
+            {
+                return;
+            }
+            #endregion
+
+            #region Determine if the Item Requires Adjustment, and Adjust if Necessary
+            bool isPlot = false;
+            bool isUnidentified = false;
+            if (script.GetPlotFlag(target) == TRUE)
+            {
+                script.SetPlotFlag(target, FALSE);
+                isPlot = true;
+            }
+            if (script.GetIdentified(target) == FALSE)
+            {
+                script.SetIdentified(target, TRUE);
+                isUnidentified = true;
+            }
+            int currentValue = script.GetGoldPieceValue(target);
+            if (currentValue != targetValue)
+            {
+                script.StoreCampaignObject(ItemChangeDBName, PriceChangeVarName, target, script.OBJECT_SELF);
+                if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(PriceChangeVarName))
+                {
+                    if (ALFA.Shared.Modules.InfoStore.ModifiedGff[PriceChangeVarName].TopLevelStruct["ModifyCost"].ValueInt == 0 ||
+                        targetValue > currentValue)
+                    {
+                        // We only want to adjust the price if either a) no effort to control the item's price has been made or
+                        // b) the item is actually less valuable than the current price reads. Artificial inflations of price are
+                        // legal in ALFA.
+                        AdjustPrice(script, target, targetValue - currentValue);
+                    }
+                }
+            }
+            if (isPlot)
+            {
+                script.SetPlotFlag(target, TRUE);
+            }
+            if (isUnidentified)
+            {
+                script.SetIdentified(target, FALSE);
+            }
+            #endregion
         }
 
         private static int GetWeaponPrice(CLRScriptBase script, uint target)
@@ -810,6 +880,13 @@ namespace ACR_Items
                     case ITEM_PROPERTY_CAST_SPELL:
                         {
                             int spell = script.GetItemPropertySubType(prop.Property);
+                            if (spell == IP_CONST_CASTSPELL_ACTIVATE_ITEM ||
+                               spell == IP_CONST_CASTSPELL_UNIQUE_POWER ||
+                               spell == IP_CONST_CASTSPELL_UNIQUE_POWER_SELF_ONLY)
+                            {
+                                // We can't price these, as their powers are custom scripted.
+                                return -2;
+                            }
                             float spellLevel = 0.0f;
                             float casterLevel = 0.0f;
                             float.TryParse(script.Get2DAString("iprp_spells", "InnateLvl", spell), out spellLevel);
@@ -2340,7 +2417,13 @@ namespace ACR_Items
                                 ALFA.Shared.Modules.InfoStore.ModifiedGff[PriceChangeVarName].TopLevelStruct["DmgReduction"].ValueList.StructList.Add(dmgRedct);
                                 script.DestroyObject(target, 0.0f, FALSE);
                                 target = script.RetrieveCampaignObject(ItemChangeDBName, PriceChangeVarName, script.GetLocation(script.OBJECT_SELF), script.OBJECT_SELF, script.OBJECT_SELF);
-                                product = target;
+                                if (script.GetObjectType(script.OBJECT_SELF) != OBJECT_TYPE_PLACEABLE)
+                                {
+                                    script.DelayCommand(0.5f, delegate()
+                                    {
+                                        script.CopyItem(target, script.OBJECT_SELF, TRUE);
+                                    });
+                                }
                             }
                             else
                             {
@@ -2356,7 +2439,13 @@ namespace ACR_Items
                                     ALFA.Shared.Modules.InfoStore.ModifiedGff[PriceChangeVarName].TopLevelStruct["DmgReduction"].ValueList[0] = dmgRedct;
                                     script.DestroyObject(target, 0.0f, FALSE);
                                     target = script.RetrieveCampaignObject(ItemChangeDBName, PriceChangeVarName, script.GetLocation(script.OBJECT_SELF), script.OBJECT_SELF, script.OBJECT_SELF);
-                                    product = target;
+                                    if (script.GetObjectType(script.OBJECT_SELF) != OBJECT_TYPE_PLACEABLE)
+                                    {
+                                        script.DelayCommand(0.5f, delegate()
+                                        {
+                                            script.CopyItem(target, script.OBJECT_SELF, TRUE);
+                                        });
+                                    }
                                 }
                             }
                         }
@@ -6093,6 +6182,13 @@ namespace ACR_Items
                     case ITEM_PROPERTY_CAST_SPELL:
                         {
                             int spell = script.GetItemPropertySubType(prop.Property);
+                            if (spell == IP_CONST_CASTSPELL_ACTIVATE_ITEM ||
+                               spell == IP_CONST_CASTSPELL_UNIQUE_POWER ||
+                               spell == IP_CONST_CASTSPELL_UNIQUE_POWER_SELF_ONLY)
+                            {
+                                // We can't price these, as their powers are custom scripted.
+                                return -2;
+                            }
                             float spellLevel = 0.0f;
                             float casterLevel = 0.0f;
                             float.TryParse(script.Get2DAString("iprp_spells", "InnateLvl", spell), out spellLevel);
@@ -7057,6 +7153,13 @@ namespace ACR_Items
                     case ITEM_PROPERTY_CAST_SPELL:
                         {
                             int spell = script.GetItemPropertySubType(prop.Property);
+                            if (spell == IP_CONST_CASTSPELL_ACTIVATE_ITEM ||
+                               spell == IP_CONST_CASTSPELL_UNIQUE_POWER ||
+                               spell == IP_CONST_CASTSPELL_UNIQUE_POWER_SELF_ONLY)
+                            {
+                                // We can't price these, as their powers are custom scripted.
+                                return -2;
+                            }
                             float spellLevel = 0.0f;
                             float casterLevel = 0.0f;
                             float.TryParse(script.Get2DAString("iprp_spells", "InnateLvl", spell), out spellLevel);
