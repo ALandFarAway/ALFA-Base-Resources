@@ -875,7 +875,7 @@ namespace CLRScriptFramework
         public const int BASE_ITEM_LIGHTMACE = 9;
         public const int BASE_ITEM_HALBERD = 10;
         public const int BASE_ITEM_SHORTBOW = 11;
-        public const int BASE_ITEM_TWOBLADEDSWORD = 12;
+        //public const int BASE_ITEM_TWOBLADEDSWORD = 12; -- no double weapons in NWN2
         public const int BASE_ITEM_GREATSWORD = 13;
         public const int BASE_ITEM_SMALLSHIELD = 14;
         public const int BASE_ITEM_TORCH = 15;
@@ -893,10 +893,10 @@ namespace CLRScriptFramework
         public const int BASE_ITEM_CLUB = 28;
         public const int BASE_ITEM_MISCMEDIUM = 29;
         public const int BASE_ITEM_DART = 31;
-        public const int BASE_ITEM_DIREMACE = 32;
-        public const int BASE_ITEM_DOUBLEAXE = 33;
+        //public const int BASE_ITEM_DIREMACE = 32;
+        //public const int BASE_ITEM_DOUBLEAXE = 33;
         public const int BASE_ITEM_MISCLARGE = 34;
-        public const int BASE_ITEM_HEAVYFLAIL = 35;
+        //public const int BASE_ITEM_HEAVYFLAIL = 35; -- no heavy flail, either
         public const int BASE_ITEM_GLOVES = 36;
         public const int BASE_ITEM_LIGHTHAMMER = 37;
         public const int BASE_ITEM_HANDAXE = 38;
@@ -904,23 +904,22 @@ namespace CLRScriptFramework
         public const int BASE_ITEM_KAMA = 40;
         public const int BASE_ITEM_KATANA = 41;
         public const int BASE_ITEM_KUKRI = 42;
-        public const int BASE_ITEM_MISCTALL = 43;
+        //public const int BASE_ITEM_MISCTALL = 43; -- silly thing to have. Inventories don't work like that any more
         public const int BASE_ITEM_MAGICROD = 44;
         public const int BASE_ITEM_MAGICSTAFF = 45;
         public const int BASE_ITEM_MAGICWAND = 46;
         public const int BASE_ITEM_MORNINGSTAR = 47;
-
 
         public const int BASE_ITEM_POTIONS = 49;
         public const int BASE_ITEM_QUARTERSTAFF = 50;
         public const int BASE_ITEM_RAPIER = 51;
         public const int BASE_ITEM_RING = 52;
         public const int BASE_ITEM_SCIMITAR = 53;
-        public const int BASE_ITEM_SCROLL = 54;
+        //public const int BASE_ITEM_SCROLL = 54;
         public const int BASE_ITEM_SCYTHE = 55;
         public const int BASE_ITEM_LARGESHIELD = 56;
         public const int BASE_ITEM_TOWERSHIELD = 57;
-        public const int BASE_ITEM_SHORTSPEAR = 58;
+        //public const int BASE_ITEM_SHORTSPEAR = 58;
         public const int BASE_ITEM_SHURIKEN = 59;
         public const int BASE_ITEM_SICKLE = 60;
         public const int BASE_ITEM_SLING = 61;
@@ -929,7 +928,7 @@ namespace CLRScriptFramework
         public const int BASE_ITEM_TRAPKIT = 64;
         public const int BASE_ITEM_KEY = 65;
         public const int BASE_ITEM_LARGEBOX = 66;
-        public const int BASE_ITEM_MISCWIDE = 68;
+        //public const int BASE_ITEM_MISCWIDE = 68;
         public const int BASE_ITEM_CSLASHWEAPON = 69;
         public const int BASE_ITEM_CPIERCWEAPON = 70;
         public const int BASE_ITEM_CBLUDGWEAPON = 71;
@@ -943,6 +942,11 @@ namespace CLRScriptFramework
         public const int BASE_ITEM_MISCTHIN = 79;
         public const int BASE_ITEM_CLOAK = 80;
         public const int BASE_ITEM_GRENADE = 81;
+        public const int BASE_ITEM_BALOR_SWORD = 82;
+        public const int BASE_ITEM_BALOR_FALCHION = 83;
+        
+        public const int BASE_ITEM_PACK = 95;
+        public const int BASE_ITEM_ALFAPOTION = 96;
 
         public const int BASE_ITEM_BLANK_POTION = 101;
         public const int BASE_ITEM_BLANK_SCROLL = 102;
@@ -956,20 +960,39 @@ namespace CLRScriptFramework
         public const int BASE_ITEM_CRAFTMATERIALMED = 109;
         public const int BASE_ITEM_CRAFTMATERIALSML = 110;
         public const int BASE_ITEM_WHIP = 111;
-        public const int BASE_ITEM_MACE = 113;
+        public const int BASE_ITEM_CRAFTBASE = 112;
+        //public const int BASE_ITEM_MACE = 113; -- only light maces in NWN2
         public const int BASE_ITEM_FALCHION = 114;
         public const int BASE_ITEM_FLAIL = 116;
         public const int BASE_ITEM_SPEAR = 119;
         public const int BASE_ITEM_GREATCLUB = 120;
         public const int BASE_ITEM_TRAINING_CLUB = 124;
         public const int BASE_ITEM_WARMACE = 126;
-
+        public const int BASE_ITEM_STEIN = 127;
         public const int BASE_ITEM_DRUM = 128;
         public const int BASE_ITEM_FLUTE = 129;
+        public const int BASE_ITEM_INKWELL = 130;
+        public const int BASE_ITEM_BAG = 131;
         public const int BASE_ITEM_MANDOLIN = 132;
+        public const int BASE_ITEM_PAN = 133;
+        public const int BASE_ITEM_POT = 134;
+        public const int BASE_ITEM_RAKE = 135;
+        public const int BASE_ITEM_SHOVEL = 136;
+        public const int BASE_ITEM_SMITHYHAMMER = 137;
+        public const int BASE_ITEM_SPOON = 138;
+        public const int BASE_ITEM_BOTTLE = 139;
         public const int BASE_ITEM_CGIANT_SWORD = 140;
         public const int BASE_ITEM_CGIANT_AXE = 141;
         public const int BASE_ITEM_ALLUSE_SWORD = 142;
+        public const int BASE_ITEM_MISCSTACK = 143;
+        public const int BASE_ITEM_BOUNTYITEM = 144;
+        public const int BASE_ITEM_RECIPE = 145;
+        public const int BASE_ITEM_INCANTATION = 146;
+        
+        public const int BASE_ITEM_TRADEGOODS = 199;
+        public const int BASE_ITEM_EQUIP_OFFHAND = 200;
+        public const int BASE_ITEM_SHORTSTAFF = 201;
+        public const int BASE_ITEM_SHORTSPEAR = 202;
 
 
         public const int BASE_ITEM_INVALID = 256;

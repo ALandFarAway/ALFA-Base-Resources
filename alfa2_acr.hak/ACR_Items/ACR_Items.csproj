@@ -54,6 +54,8 @@
     <Compile Include="ACR_Items.cs" />
     <Compile Include="PricedItemProperty.cs" />
     <Compile Include="Pricing.cs" />
+    <Compile Include="PricingAssessments.cs" />
+    <Compile Include="PricingBases.cs" />
     <Compile Include="StandardEntrypoints.cs" />
   </ItemGroup>
   <ItemGroup>
