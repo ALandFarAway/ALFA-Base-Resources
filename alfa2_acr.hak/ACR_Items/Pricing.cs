@@ -820,7 +820,7 @@ namespace ACR_Items
                             }
                             if (casterLevel < 1.0f)
                             {
-                                spellLevel = 1.0f;
+                                casterLevel = 1.0f;
                             }
                             float multiplier = spellLevel * casterLevel;
                             switch (script.GetItemPropertyCostTableValue(prop.Property))
@@ -1958,6 +1958,10 @@ namespace ACR_Items
                         secondCostliestCharge = costliestCharge;
                         costliestCharge = prop;
                     }
+                    else if(secondCostliestCharge == null)
+                    {
+                        secondCostliestCharge = prop;
+                    }
                     else if (prop.ChargedPrice > secondCostliestCharge.ChargedPrice)
                     {
                         secondCostliestCharge = prop;
@@ -2007,9 +2011,10 @@ namespace ACR_Items
                     }
                 }
             }
+            script.SendMessageToAllDMs(value.ToString());
             if (IsClassRestricted)
             {
-                value -= ((chargesCost * 1800) - ((chargesCost * 750) / 1800));
+                value -= (chargesCost - ((chargesCost * 750) / 1800));
             }
             #endregion
             #endregion
@@ -6099,7 +6104,7 @@ namespace ACR_Items
                             }
                             if (casterLevel < 1.0f)
                             {
-                                spellLevel = 1.0f;
+                                casterLevel = 1.0f;
                             }
                             float multiplier = spellLevel * casterLevel;
                             switch (script.GetItemPropertyCostTableValue(prop.Property))
@@ -6892,6 +6897,10 @@ namespace ACR_Items
                         secondCostliestCharge = costliestCharge;
                         costliestCharge = prop;
                     }
+                    else if (secondCostliestCharge == null)
+                    {
+                        secondCostliestCharge = prop;
+                    }
                     else if (prop.ChargedPrice > secondCostliestCharge.ChargedPrice)
                     {
                         secondCostliestCharge = prop;
@@ -6943,7 +6952,7 @@ namespace ACR_Items
             }
             if (IsClassRestricted)
             {
-                value -= ((chargesCost * 1800) - ((chargesCost * 750) / 1800));
+                value -= (chargesCost - ((chargesCost * 750) / 1800));
             }
             #endregion
             #endregion
@@ -7059,7 +7068,7 @@ namespace ACR_Items
                             }
                             if (casterLevel < 1.0f)
                             {
-                                spellLevel = 1.0f;
+                                casterLevel = 1.0f;
                             }
                             float multiplier = spellLevel * casterLevel;
                             switch (script.GetItemPropertyCostTableValue(prop.Property))
@@ -7685,6 +7694,10 @@ namespace ACR_Items
                         secondCostliestCharge = costliestCharge;
                         costliestCharge = prop;
                     }
+                    else if (secondCostliestCharge == null)
+                    {
+                        secondCostliestCharge = prop;
+                    }
                     else if (prop.ChargedPrice > secondCostliestCharge.ChargedPrice)
                     {
                         secondCostliestCharge = prop;
@@ -7729,7 +7742,7 @@ namespace ACR_Items
             }
             if (IsClassRestricted)
             {
-                value -= ((chargesCost * 1800) - ((chargesCost * 750) / 1800));
+                value -= (chargesCost - ((chargesCost * 750) / 1800));
             }
             #endregion
             #endregion
