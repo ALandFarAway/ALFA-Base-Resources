@@ -729,6 +729,10 @@ namespace ACR_Items
             }
             #endregion
 
+            #region Check for Use Restriction
+            bool IsClassRestricted = GetIsUseRestrictedByClass(script, itProps);
+            #endregion
+
             #region Calculate Magical Bonuses
             float effectivePlus = 0.0f;
             int ACvsEveryone = 0;
@@ -879,11 +883,25 @@ namespace ACR_Items
                                     {
                                         if (script.GetItemCharges(target) > 0)
                                         {
-                                            prop.ChargedPrice = (int)((multiplier * 50) / script.GetItemCharges(target));
+                                            if (IsClassRestricted)
+                                            {
+                                                prop.ChargedPrice = (int)((multiplier * 25) / script.GetItemCharges(target));
+                                            }
+                                            else
+                                            {
+                                                prop.ChargedPrice = (int)((multiplier * 50) / script.GetItemCharges(target));
+                                            }
                                         }
                                         else
                                         {
-                                            prop.Price = (int)(multiplier * 50);
+                                            if (IsClassRestricted)
+                                            {
+                                                prop.Price = (int)(multiplier * 25);
+                                            }
+                                            else
+                                            {
+                                                prop.Price = (int)(multiplier * 50);
+                                            }
                                         }
                                         break;
                                     }
@@ -1898,6 +1916,7 @@ namespace ACR_Items
             #endregion
 
             #region Sum Calculated Values
+            #region Permanent Properties
             value += enchantmentPenalty;
             bool allSecondary = false;
             if (effectivePlus >= 0.05f)
@@ -1955,11 +1974,15 @@ namespace ACR_Items
                 // otherwise, all secondary props cost 50% more.
                 value += ((propsPrice - costliestProp) / 2);
             }
+            #endregion
 
+            #region Charge-Consuming Properties
+            int chargesCost = 0;
             if (costliestCharge != null)
             {
                 if (secondCostliestCharge == null)
                 {
+                    chargesCost += costliestCharge.ChargedPrice * script.GetItemCharges(target);
                     value += costliestCharge.ChargedPrice * script.GetItemCharges(target);
                 }
                 else
@@ -1968,19 +1991,27 @@ namespace ACR_Items
                     {
                         if (costliestCharge == prop)
                         {
+                            chargesCost += costliestCharge.ChargedPrice * script.GetItemCharges(target);
                             value += costliestCharge.ChargedPrice * script.GetItemCharges(target);
                         }
                         else if (secondCostliestCharge == prop)
                         {
+                            chargesCost += (costliestCharge.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
                             value += (costliestCharge.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
                         }
                         else
                         {
+                            chargesCost += (costliestCharge.ChargedPrice * script.GetItemCharges(target)) / 2;
                             value += (costliestCharge.ChargedPrice * script.GetItemCharges(target)) / 2;
                         }
                     }
                 }
             }
+            if (IsClassRestricted)
+            {
+                value -= ((chargesCost * 1800) - ((chargesCost * 750) / 1800));
+            }
+            #endregion
             #endregion
             return value;
         }
@@ -5885,6 +5916,10 @@ namespace ACR_Items
             }
             #endregion
 
+            #region Check for Use Restriction
+            bool IsClassRestricted = GetIsUseRestrictedByClass(script, itProps);
+            #endregion
+
             #region Calculate Magical Bonuses
             float effectivePlus = 0.0f;
             int ACvsEveryone = 0;
@@ -6127,11 +6162,25 @@ namespace ACR_Items
                                     {
                                         if (script.GetItemCharges(target) > 0)
                                         {
-                                            prop.ChargedPrice = (int)((multiplier * 50) / script.GetItemCharges(target));
+                                            if (IsClassRestricted)
+                                            {
+                                                prop.ChargedPrice = (int)((multiplier * 25) / script.GetItemCharges(target));
+                                            }
+                                            else
+                                            {
+                                                prop.ChargedPrice = (int)((multiplier * 50) / script.GetItemCharges(target));
+                                            }
                                         }
                                         else
                                         {
-                                            prop.Price = (int)(multiplier * 50);
+                                            if (IsClassRestricted)
+                                            {
+                                                prop.Price = (int)(multiplier * 25);
+                                            }
+                                            else
+                                            {
+                                                prop.Price = (int)(multiplier * 50);
+                                            }
                                         }
                                         break;
                                     }
@@ -6798,8 +6847,9 @@ namespace ACR_Items
                 }
             }
             #endregion
-            
+
             #region Sum Calculated Values
+            #region Permanent Properties
             value += enchantmentPenalty;
             bool allSecondary = false;
             if (effectivePlus >= 0.05f)
@@ -6858,11 +6908,15 @@ namespace ACR_Items
                 // otherwise, all secondary props cost 50% more.
                 value += ((propsPrice - costliestProp) / 2);
             }
+            #endregion
 
+            #region Charge-Consuming Properties
+            int chargesCost = 0;
             if (costliestCharge != null)
             {
                 if (secondCostliestCharge == null)
                 {
+                    chargesCost += costliestCharge.ChargedPrice * script.GetItemCharges(target);
                     value += costliestCharge.ChargedPrice * script.GetItemCharges(target);
                 }
                 else
@@ -6871,19 +6925,27 @@ namespace ACR_Items
                     {
                         if (costliestCharge == prop)
                         {
+                            chargesCost += costliestCharge.ChargedPrice * script.GetItemCharges(target);
                             value += costliestCharge.ChargedPrice * script.GetItemCharges(target);
                         }
                         else if (secondCostliestCharge == prop)
                         {
+                            chargesCost += (costliestCharge.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
                             value += (costliestCharge.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
                         }
                         else
                         {
+                            chargesCost += (costliestCharge.ChargedPrice * script.GetItemCharges(target)) / 2;
                             value += (costliestCharge.ChargedPrice * script.GetItemCharges(target)) / 2;
                         }
                     }
                 }
             }
+            if (IsClassRestricted)
+            {
+                value -= ((chargesCost * 1800) - ((chargesCost * 750) / 1800));
+            }
+            #endregion
             #endregion
             return value;
         }
@@ -6911,6 +6973,10 @@ namespace ACR_Items
             {
                 return value;
             }
+            #endregion
+
+            #region Check for Use Restriction
+            bool IsClassRestricted = GetIsUseRestrictedByClass(script, itProps);
             #endregion
 
             #region Calculate Magical Bonuses
@@ -7061,11 +7127,25 @@ namespace ACR_Items
                                     {
                                         if (script.GetItemCharges(target) > 0)
                                         {
-                                            prop.ChargedPrice = (int)((multiplier * 50) / script.GetItemCharges(target));
+                                            if (IsClassRestricted)
+                                            {
+                                                prop.ChargedPrice = (int)((multiplier * 25) / script.GetItemCharges(target));
+                                            }
+                                            else
+                                            {
+                                                prop.ChargedPrice = (int)((multiplier * 50) / script.GetItemCharges(target));
+                                            }
                                         }
                                         else
                                         {
-                                            prop.Price = (int)(multiplier * 50);
+                                            if (IsClassRestricted)
+                                            {
+                                                prop.Price = (int)(multiplier * 25);
+                                            }
+                                            else
+                                            {
+                                                prop.Price = (int)(multiplier * 50);
+                                            }
                                         }
                                         break;
                                     }
@@ -7576,6 +7656,7 @@ namespace ACR_Items
             #endregion
 
             #region Sum Calculated Values
+            #region Permanent Properties
             int costliestProp = 0;
             int propsPrice = 0;
             PricedItemProperty costliestCharge = null;
@@ -7613,11 +7694,15 @@ namespace ACR_Items
             // If the costliest prop is the only prop, 0/2 = 0.
             // otherwise, all secondary props cost 50% more.
             value += ((propsPrice - costliestProp) / 2);
+            #endregion
 
+            #region Charge-Consuming Properties
+            int chargesCost = 0;
             if (costliestCharge != null)
             {
                 if (secondCostliestCharge == null)
                 {
+                    chargesCost += costliestCharge.ChargedPrice * script.GetItemCharges(target);
                     value += costliestCharge.ChargedPrice * script.GetItemCharges(target);
                 }
                 else
@@ -7626,19 +7711,27 @@ namespace ACR_Items
                     {
                         if (costliestCharge == prop)
                         {
+                            chargesCost += costliestCharge.ChargedPrice * script.GetItemCharges(target);
                             value += costliestCharge.ChargedPrice * script.GetItemCharges(target);
                         }
                         else if (secondCostliestCharge == prop)
                         {
+                            chargesCost += (costliestCharge.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
                             value += (costliestCharge.ChargedPrice * script.GetItemCharges(target) * 3) / 4;
                         }
                         else
                         {
+                            chargesCost += (costliestCharge.ChargedPrice * script.GetItemCharges(target)) / 2;
                             value += (costliestCharge.ChargedPrice * script.GetItemCharges(target)) / 2;
                         }
                     }
                 }
             }
+            if (IsClassRestricted)
+            {
+                value -= ((chargesCost * 1800) - ((chargesCost * 750) / 1800));
+            }
+            #endregion
             #endregion
             return value;
         }

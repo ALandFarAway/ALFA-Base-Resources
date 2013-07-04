@@ -23,6 +23,27 @@ namespace ACR_Items
 {
     public partial class Pricing : CLRScriptBase
     {
+        private static bool GetIsUseRestrictedByClass(CLRScriptBase script, List<PricedItemProperty> itProp)
+        {
+            List<PricedItemProperty> removedProps = new List<PricedItemProperty>();
+            foreach (PricedItemProperty prop in itProp)
+            {
+                if (script.GetItemPropertyType(prop.Property) == ITEM_PROPERTY_USE_LIMITATION_CLASS)
+                {
+                    removedProps.Add(prop);
+                }
+            }
+            foreach (PricedItemProperty removedProp in removedProps)
+            {
+                itProp.Remove(removedProp);
+            }
+            if (removedProps.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
         private static bool GetIsHalfWeight(CLRScriptBase script, List<PricedItemProperty> itProp)
         {
             PricedItemProperty removedProp = null;
