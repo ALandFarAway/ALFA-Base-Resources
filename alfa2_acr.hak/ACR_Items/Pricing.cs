@@ -7066,7 +7066,6 @@ namespace ACR_Items
                                         else
                                         {
                                             prop.Price = (int)(multiplier * 50);
-                                            GetAffinityAdjustedValue(type, prop, propType, script.GetItemPropertySubType(prop.Property), script.GetItemPropertyCostTableValue(prop.Property));
                                         }
                                         break;
                                     }
