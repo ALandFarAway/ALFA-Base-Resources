@@ -495,7 +495,6 @@ namespace ACR_Candlekeep
                             spell.SubSpells.Add(parseholder);
                         if (int.TryParse(twoda["SubRadSpell5"][row], out parseholder))
                             spell.SubSpells.Add(parseholder);
-                        else spell.MasterSpell = -1;
 
                         spell.CounterSpells = new List<int>();
                         if (int.TryParse(twoda["Counter1"][row], out parseholder))

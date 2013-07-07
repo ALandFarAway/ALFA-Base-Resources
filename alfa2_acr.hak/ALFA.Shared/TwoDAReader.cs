@@ -79,11 +79,7 @@ namespace ALFA.Shared
                 string RawValue = Column.LiteralValue(RowIndex);
                 Type ValueType = ColumnInfo.ValueType;
 
-                if (ColumnInfo.Column.Index)
-                {
-                    FieldValue = RowIndex;
-                }
-                else if (ColumnInfo.Column.TalkString)
+                if (ColumnInfo.Column.TalkString)
                 {
                     uint TalkIndex;
 
@@ -112,7 +108,7 @@ namespace ALFA.Shared
                     {
                         uint ParsedValue;
 
-                        if (uint.TryParse(RawValue, out ParsedValue))
+                        if (uint.TryParse(RawValue, System.Globalization.NumberStyles.AllowHexSpecifier, System.Globalization.CultureInfo.InvariantCulture, out ParsedValue))
                             FieldValue = ParsedValue;
                     }
                     else if (SerializeAs == typeof(bool))
@@ -124,6 +120,16 @@ namespace ALFA.Shared
                             FieldValue = ParsedValue;
                         else if (int.TryParse(RawValue, out IntValue))
                             FieldValue = (IntValue != 0);
+                    }
+                    else if (SerializeAs.IsSubclassOf(typeof(Enum)))
+                    {
+                        try
+                        {
+                            FieldValue = Enum.Parse(SerializeAs, RawValue);
+                        }
+                        catch
+                        {
+                        }
                     }
                     else
                     {
@@ -137,6 +143,27 @@ namespace ALFA.Shared
 
                 if (FieldValue == null)
                     continue;
+
+                //
+                // If necessary, coerce the serialized as type to the field
+                // type.
+                //
+
+                if (FieldValue.GetType() != ValueType)
+                    FieldValue = Convert.ChangeType(FieldValue, ValueType);
+
+                ColumnInfo.SetValue(Value, FieldValue);
+            }
+
+            //
+            // Assign any index columns.
+            //
+
+            var IndexColumns = ColumnFields.Where(x => x.Column.Index);
+            foreach (var ColumnInfo in IndexColumns)
+            {
+                object FieldValue = RowIndex;
+                Type ValueType = ColumnInfo.ValueType;
 
                 //
                 // If necessary, coerce the serialized as type to the field

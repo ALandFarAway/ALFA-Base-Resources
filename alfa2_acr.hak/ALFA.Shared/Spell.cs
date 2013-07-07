@@ -20,9 +20,9 @@ namespace ALFA.Shared
         [TwoDAColumn(ColumnName = "VS")]
         public string Components { get; set; }
         [TwoDAColumn(Default = (int)-1)]
-        public int MetaMagic { get; set; }
+        public uint MetaMagic { get; set; }
         [TwoDAColumn(Default = (int)-1)]
-        public int TargetType { get; set; }
+        public uint TargetType { get; set; }
         [TwoDAColumn]
         public string ImpactScript { get; set; }
         [TwoDAColumn(ColumnName = "Bard", Default = (int)-1)]
@@ -46,7 +46,7 @@ namespace ALFA.Shared
         [TwoDAColumn(SerializeAs = typeof(int))]
         public bool ItemImmunity { get; set; }
         public List<int> SubSpells { get; set; }
-        [TwoDAColumn(ColumnName = "Master")]
+        [TwoDAColumn(ColumnName = "Master", Default = (int)-1)]
         public int MasterSpell { get; set; }
         public List<int> CounterSpells { get; set; }
         [TwoDAColumn(ColumnName = "REMOVED", Default = false, SerializeAs = typeof(int))]
