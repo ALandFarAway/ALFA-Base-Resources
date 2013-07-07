@@ -19,6 +19,7 @@ using NWScript.ManagedInterfaceLayer.NWScriptManagedInterface;
 using OEIShared.IO;
 using OEIShared.IO.ERF;
 using OEIShared.IO.GFF;
+using OEIShared.IO.TwoDA;
 using OEIShared.Utils;
 
 using NWEffect = NWScript.NWScriptEngineStructure0;
@@ -83,6 +84,23 @@ namespace ALFA
                 return null;
 
             return new GFFFile(ResEntry.GetStream(false));
+        }
+
+        /// <summary>
+        /// Open a 2DA resource by name
+        /// </summary>
+        /// <param name="ResRef">Supplies the resref to open</param>
+        /// <param name="ResType">Supplies the restype code of the resource</param>
+        /// <returns>The 2DA reader for the entry is returned on success, else
+        /// null if the resource didn't exist</returns>
+        public TwoDAFile OpenTwoDAResource(string ResRef, ushort ResType)
+        {
+            IResourceEntry ResEntry = GetResource(ResRef, ResType);
+
+            if (ResEntry == null)
+                return null;
+
+            return new TwoDAFile(ResEntry.GetStream(false));            
         }
 
         /// <summary>
