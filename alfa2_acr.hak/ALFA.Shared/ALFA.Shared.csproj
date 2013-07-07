@@ -72,6 +72,7 @@
     <Compile Include="ActiveTransition.cs" />
     <Compile Include="ActiveTrap.cs" />
     <Compile Include="Spell.cs" />
+    <Compile Include="SpellCastItemProperties.cs" />
     <Compile Include="TrapResource.cs" />
     <Compile Include="LightResource.cs" />
     <Compile Include="VisualEffectResource.cs" />
