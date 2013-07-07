@@ -78,6 +78,7 @@ namespace ALFA.Shared
                 object FieldValue = ColumnInfo.Column.Default;
                 string RawValue = Column.LiteralValue(RowIndex);
                 Type ValueType = ColumnInfo.ValueType;
+                bool IsEnum = ValueType.IsSubclassOf(typeof(Enum));
 
                 if (ColumnInfo.Column.TalkString)
                 {
@@ -103,6 +104,9 @@ namespace ALFA.Shared
 
                         if (int.TryParse(RawValue, out ParsedValue))
                             FieldValue = ParsedValue;
+
+                        if (IsEnum)
+                            FieldValue = Enum.ToObject(ValueType, ParsedValue);
                     }
                     else if (SerializeAs == typeof(uint))
                     {
@@ -110,6 +114,9 @@ namespace ALFA.Shared
 
                         if (uint.TryParse(RawValue, System.Globalization.NumberStyles.AllowHexSpecifier, System.Globalization.CultureInfo.InvariantCulture, out ParsedValue))
                             FieldValue = ParsedValue;
+
+                        if (IsEnum)
+                            FieldValue = Enum.ToObject(ValueType, ParsedValue);
                     }
                     else if (SerializeAs == typeof(bool))
                     {
