@@ -47,7 +47,7 @@ namespace ACR_Candlekeep
                         if (ArchivesInstance != null)
                             break;
 
-                        ArchivesInstance = new Archives();
+                        ArchivesInstance = new Archives(worker);
                         ALFA.Shared.Modules.InfoStore = ArchivesInstance;
                         worker.DoWork += worker.InitializeArchives;
                         worker.RunWorkerAsync();

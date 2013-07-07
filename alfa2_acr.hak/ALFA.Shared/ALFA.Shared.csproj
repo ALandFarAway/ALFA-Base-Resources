@@ -75,6 +75,8 @@
     <Compile Include="SpellCastItemProperties.cs" />
     <Compile Include="TrapResource.cs" />
     <Compile Include="LightResource.cs" />
+    <Compile Include="TwoDAColumnAttribute.cs" />
+    <Compile Include="TwoDAReader.cs" />
     <Compile Include="VisualEffectResource.cs" />
     <Compile Include="CampaignDatabase.cs" />
     <Compile Include="CodePatch.cs" />

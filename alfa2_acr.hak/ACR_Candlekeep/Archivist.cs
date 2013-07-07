@@ -20,6 +20,7 @@ namespace ACR_Candlekeep
         public static ALFA.ResourceManager manager;
         static public OEIShared.IO.TalkTable.TalkTable customTlk;
         static public OEIShared.IO.TalkTable.TalkTable dialog;
+        public static volatile bool tlkLoaded = false;
 
         public void InitializeArchives(object Sender, EventArgs e)
         {
@@ -41,6 +42,8 @@ namespace ACR_Candlekeep
                     customTlk.OpenCustom(OEIShared.Utils.BWLanguages.BWLanguage.English, customTlkFileName);
                 }
 
+                tlkLoaded = true;
+
                 Archivist.debug += "\nInitializing ALFA.Shared collections";
                 ALFA.Shared.Modules.InfoStore.ModuleItems = new Dictionary<string, ALFA.Shared.ItemResource>();
                 ALFA.Shared.Modules.InfoStore.ModuleCreatures = new Dictionary<string, ALFA.Shared.CreatureResource>();
@@ -55,10 +58,6 @@ namespace ACR_Candlekeep
                 ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect = new Dictionary<string, ALFA.Shared.ActiveTrap>();
 
                 ALFA.Shared.Modules.InfoStore.ModifiedGff = new Dictionary<string, GFFFile>();
-
-                ALFA.Shared.Modules.InfoStore.CoreSpells = new Dictionary<int, ALFA.Shared.Spell>();
-
-                ALFA.Shared.Modules.InfoStore.IPCastSpells = new Dictionary<int, ALFA.Shared.SpellCastItemProperties>();
 
                 Archivist.debug += "\nInitializing standard factions";
                 List<int> factionIndex = new List<int>();
@@ -465,14 +464,15 @@ namespace ACR_Candlekeep
                 try
                 {
                     OEIShared.IO.TwoDA.TwoDAFile twoda = manager.OpenTwoDAResource(manager.GetResource("spells", ALFA.ResourceManager.Res2DA).ResRef.Value, ALFA.ResourceManager.Res2DA);
+                    ALFA.Shared.Modules.InfoStore.CoreSpells = new List<ALFA.Shared.Spell>(twoda.RowCount);
+                    var ColumnFields = ALFA.Shared.TwoDAReader.GetColumnFieldInfo(typeof(ALFA.Shared.Spell));
                     for (int row = 0; row < twoda.RowCount; row++)
                     {
-                        ALFA.Shared.Spell spell = new ALFA.Shared.Spell();
+                        ALFA.Shared.Spell spell = ALFA.Shared.TwoDAReader.Read2DARow<ALFA.Shared.Spell>(twoda, row, ColumnFields);
                         int parseholder = 0;
-                        uint parseuint = 0;
-                        if (uint.TryParse(twoda["Name"].LiteralValue(row), out parseuint))
-                            spell.Name = GetTlkEntry(parseuint);
-                        else spell.Name = twoda["Label"][row];
+
+                        if (spell.Name == null)
+                            spell.Name = twoda["Label"][row];
 
                         if (spell.Name == "" ||
                             spell.Name == "padding" ||
@@ -480,51 +480,9 @@ namespace ACR_Candlekeep
                             spell.Name == "PADDING_PERSONAL_VFX")
                         {
                             // This line is padding.
+                            ALFA.Shared.Modules.InfoStore.CoreSpells.Add(null);
                             continue;
                         }
-
-                        spell.Icon = twoda["IconResRef"][row];
-                        spell.School = twoda["School"][row];
-                        spell.Range = twoda["Range"][row];
-                        spell.Components = twoda["VS"][row];
-                        spell.ImpactScript = twoda["ImpactScript"][row];
-
-                        if (int.TryParse(twoda["MetaMagic"][row], System.Globalization.NumberStyles.AllowHexSpecifier, System.Globalization.CultureInfo.InvariantCulture, out parseholder))
-                            spell.MetaMagic = parseholder;
-                        else spell.MetaMagic = -1;
-                        if (int.TryParse(twoda["TargetType"][row], System.Globalization.NumberStyles.AllowHexSpecifier, System.Globalization.CultureInfo.InvariantCulture, out parseholder))
-                            spell.TargetType = parseholder;
-                        else spell.TargetType = -1;
-
-                        spell.ImmunityType = twoda["ImmunityType"][row];
-                        if (int.TryParse(twoda["ItemImmunity"][row], out parseholder))
-                            spell.ItemImmunity = (parseholder != 0);
-                        else spell.ItemImmunity = false;
-
-                        if (int.TryParse(twoda["Bard"][row], out parseholder))
-                            spell.BardLevel = parseholder;
-                        else spell.BardLevel = -1;
-                        if (int.TryParse(twoda["Cleric"][row], out parseholder))
-                            spell.ClericLevel = parseholder;
-                        else spell.ClericLevel = -1;
-                        if (int.TryParse(twoda["Druid"][row], out parseholder))
-                            spell.DruidLevel = parseholder;
-                        else spell.DruidLevel = -1;
-                        if (int.TryParse(twoda["Paladin"][row], out parseholder))
-                            spell.PaladinLevel = parseholder;
-                        else spell.PaladinLevel = -1;
-                        if (int.TryParse(twoda["Ranger"][row], out parseholder))
-                            spell.RangerLevel = parseholder;
-                        else spell.RangerLevel = -1;
-                        if (int.TryParse(twoda["Wiz_Sorc"][row], out parseholder))
-                            spell.WizardLevel = parseholder;
-                        else spell.WizardLevel = -1;
-                        if (int.TryParse(twoda["Warlock"][row], out parseholder))
-                            spell.WarlockLevel = parseholder;
-                        else spell.WarlockLevel = -1;
-                        if (int.TryParse(twoda["Innate"][row], out parseholder))
-                            spell.InnateLevel = parseholder;
-                        else spell.InnateLevel = -1;
 
                         spell.SubSpells = new List<int>();
                         if (int.TryParse(twoda["SubRadSpell1"][row], out parseholder))
@@ -537,8 +495,6 @@ namespace ACR_Candlekeep
                             spell.SubSpells.Add(parseholder);
                         if (int.TryParse(twoda["SubRadSpell5"][row], out parseholder))
                             spell.SubSpells.Add(parseholder);
-                        if (int.TryParse(twoda["Master"][row], out parseholder))
-                            spell.MasterSpell = parseholder;
                         else spell.MasterSpell = -1;
 
                         spell.CounterSpells = new List<int>();
@@ -547,11 +503,7 @@ namespace ACR_Candlekeep
                         if (int.TryParse(twoda["Counter2"][row], out parseholder))
                             spell.CounterSpells.Add(parseholder);
 
-                        if (int.TryParse(twoda["REMOVED"][row], out parseholder))
-                            spell.Removed = (parseholder != 0);
-                        else spell.Removed = false;
-
-                        ALFA.Shared.Modules.InfoStore.CoreSpells.Add(row, spell);
+                        ALFA.Shared.Modules.InfoStore.CoreSpells.Add(spell);
                     }
                 }
                 catch (Exception ex)
@@ -561,14 +513,15 @@ namespace ACR_Candlekeep
                 try
                 {
                     OEIShared.IO.TwoDA.TwoDAFile twoda = manager.OpenTwoDAResource(manager.GetResource("iprp_spells", ALFA.ResourceManager.Res2DA).ResRef.Value, ALFA.ResourceManager.Res2DA);
+                    ALFA.Shared.Modules.InfoStore.IPCastSpells = new List<ALFA.Shared.SpellCastItemProperties>(twoda.RowCount);
+                    var ColumnFields = ALFA.Shared.TwoDAReader.GetColumnFieldInfo(typeof(ALFA.Shared.SpellCastItemProperties));
                     for (int row = 0; row < twoda.RowCount; row++)
                     {
-                        ALFA.Shared.SpellCastItemProperties ip = new ALFA.Shared.SpellCastItemProperties();
+                        ALFA.Shared.SpellCastItemProperties ip = ALFA.Shared.TwoDAReader.Read2DARow<ALFA.Shared.SpellCastItemProperties>(twoda, row, ColumnFields);
                         int parseholder = 0;
-                        uint parseuint = 0;
-                        if (uint.TryParse(twoda["Name"].LiteralValue(row), out parseuint))
-                            ip.Name = GetTlkEntry(parseuint);
-                        else ip.Name = twoda["Label"][row];
+
+                        if (ip.Name == null)
+                            ip.Name = twoda["Label"][row];
 
                         if (ip.Name == "" ||
                             ip.Name == "padding" ||
@@ -576,29 +529,14 @@ namespace ACR_Candlekeep
                             ip.Name == "PADDING_PERSONAL_VFX")
                         {
                             // This line is padding.
+                            ALFA.Shared.Modules.InfoStore.IPCastSpells.Add(null);
                             continue;
                         }
 
-                        if (int.TryParse(twoda["CasterLvl"][row], out parseholder))
-                            ip.CasterLevel = parseholder;
-                        else ip.CasterLevel = 1;
-                        if (int.TryParse(twoda["InnateLvl"][row], out parseholder))
-                            ip.InnateLevel = parseholder;
-                        else ip.InnateLevel = 0;
-
-                        if (int.TryParse(twoda["PotionUse"][row], out parseholder))
-                            ip.Potion = (parseholder != 0);
-                        else ip.Potion = false;
-                        if (int.TryParse(twoda["WandUse"][row], out parseholder))
-                            ip.Wand = (parseholder != 0);
-                        else ip.Potion = false;
-                        if (int.TryParse(twoda["GeneralUse"][row], out parseholder))
-                            ip.Scroll = (parseholder != 0);
-                        else ip.Potion = false;
-
                         if (int.TryParse(twoda["SpellIndex"][row], out parseholder))
                         {
-                            if (ALFA.Shared.Modules.InfoStore.CoreSpells.ContainsKey(parseholder))
+                            if (parseholder < ALFA.Shared.Modules.InfoStore.CoreSpells.Count &&
+                                ALFA.Shared.Modules.InfoStore.CoreSpells[parseholder] != null)
                             {
                                 ip.Spell = ALFA.Shared.Modules.InfoStore.CoreSpells[parseholder];
                             }
@@ -614,7 +552,7 @@ namespace ACR_Candlekeep
                             continue;
                         }
 
-                        ALFA.Shared.Modules.InfoStore.IPCastSpells.Add(row, ip);
+                        ALFA.Shared.Modules.InfoStore.IPCastSpells.Add(ip);
                     }
                 }
                 catch (Exception ex)
@@ -1782,6 +1720,9 @@ namespace ACR_Candlekeep
 
         static public string GetTlkEntry(uint num)
         {
+            if (tlkLoaded == false)
+                ACR_Candlekeep.ArchivesInstance.WaitForResourcesLoaded(true);
+
             if (((num & OEIShared.IO.TalkTable.TalkTable.nCustomMask) != 0) && (customTlk != null))
                 return customTlk[num].String;
             else return dialog[num].String;

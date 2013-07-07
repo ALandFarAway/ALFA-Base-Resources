@@ -11,6 +11,17 @@ namespace ACR_Candlekeep
 {
     public class Archives : ALFA.Shared.IInformationStore, ALFA.Shared.IBackgroundLoadedResource, IDisposable
     {
+
+        /// <summary>
+        /// Instantiate a new Archives object.
+        /// </summary>
+        /// <param name="ArchiveWorker">Supplies the Archivist worker instance
+        /// that is used to satisfy resource requests.</param>
+        public Archives(Archivist ArchiveWorker)
+        {
+            this.ArchiveWorker = ArchiveWorker;
+        }
+
         private volatile bool _resourcesLoaded = false;
         /// <summary>
         /// Wait for resources to become available.
@@ -71,6 +82,11 @@ namespace ACR_Candlekeep
         ~Archives()
         {
             Dispose(false);
+        }
+
+        public string GetTalkString(uint Index)
+        {
+            return Archivist.GetTlkEntry(Index);
         }
 
         //
@@ -242,25 +258,7 @@ namespace ACR_Candlekeep
         }
 
 
-        public Dictionary<uint, ALFA.Shared.ActiveArea> ActiveAreas
-        {
-            get
-            {
-                if (_resourcesLoaded == false)
-                {
-                    if (Assembly.GetCallingAssembly() != Assembly.GetExecutingAssembly())
-                    {
-                        WaitForResourcesLoaded(true);
-                    }
-                }
-
-                return this._ActiveAreas;
-            }
-            set
-            {
-                this._ActiveAreas = value;
-            }
-        }
+        public Dictionary<uint, ALFA.Shared.ActiveArea> ActiveAreas { get; set; }
 
 
         public Dictionary<string, ALFA.Shared.ActiveTrap> SpawnedTrapTriggers
@@ -307,7 +305,7 @@ namespace ACR_Candlekeep
         public Dictionary<string, GFFFile> ModifiedGff { get; set; }
 
 
-        public Dictionary<int, ALFA.Shared.Spell> CoreSpells
+        public List<ALFA.Shared.Spell> CoreSpells
         {
             get
             {
@@ -324,6 +322,26 @@ namespace ACR_Candlekeep
             set
             {
                 this._CoreSpells = value;
+            }
+        }
+
+        public List<ALFA.Shared.SpellCastItemProperties> IPCastSpells
+        {
+            get
+            {
+                if (_resourcesLoaded == false)
+                {
+                    if (Assembly.GetCallingAssembly() != Assembly.GetExecutingAssembly())
+                    {
+                        WaitForResourcesLoaded(true);
+                    }
+                }
+
+                return this._IPCastSpells;
+            }
+            set
+            {
+                this._IPCastSpells = value;
             }
         }
 
@@ -348,8 +366,6 @@ namespace ACR_Candlekeep
             }
         }
 
-        public Dictionary<int, ALFA.Shared.SpellCastItemProperties> IPCastSpells { get; set; }
-
 
         /// <summary>
         /// Mark resources as fully loaded after initialization completes.
@@ -369,6 +385,11 @@ namespace ACR_Candlekeep
         /// </summary>
         private bool Disposed = false;
 
+        /// <summary>
+        /// The archive worker object.
+        /// </summary>
+        private Archivist ArchiveWorker;
+
         //
         // Published data elements backing properties for
         // ALFA.Shared.Modules.InfoStore.
@@ -383,12 +404,11 @@ namespace ACR_Candlekeep
         private Dictionary<string, ALFA.Shared.TrapResource> _ModuleTraps;
         private Dictionary<int, ALFA.Shared.Faction> _ModuleFactions;
 
-        private Dictionary<uint, ALFA.Shared.ActiveArea> _ActiveAreas;
-
         private Dictionary<string, ALFA.Shared.ActiveTrap> _SpawnedTrapTriggers;
         private Dictionary<string, ALFA.Shared.ActiveTrap> _SpawnedTrapDetect;
 
-        private Dictionary<int, ALFA.Shared.Spell> _CoreSpells;
+        private List<ALFA.Shared.Spell> _CoreSpells;
+        private List<ALFA.Shared.SpellCastItemProperties> _IPCastSpells;
 
         private ALFA.ResourceManager _Resources;
     }
