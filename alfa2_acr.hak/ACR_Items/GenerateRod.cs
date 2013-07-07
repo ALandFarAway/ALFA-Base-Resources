@@ -295,7 +295,7 @@ namespace ACR_Items
         {
             foreach (KeyValuePair<int, int> key in from)
             {
-                to.Add(key.Key, key.Value * 36 / 15);
+                to.Add(key.Key, 36 * ALFA.Shared.Modules.InfoStore.IPCastSpells[key.Key].CasterLevel * ALFA.Shared.Modules.InfoStore.IPCastSpells[key.Key].InnateLevel);
             }
         }
         #endregion

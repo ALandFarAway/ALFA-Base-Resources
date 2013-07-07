@@ -25,6 +25,34 @@ namespace ACR_Items
     {
         public static int NewStaff(CLRScriptBase script, int maxValue)
         {
+            #region Check if collections need to be loaded. Load them if so
+            if (FireSpells.Count == 0)
+            {
+                convertToStaffPrice(FireSpells);
+                convertToStaffPrice(ColdSpells);
+                convertToStaffPrice(AcidSpells);
+                convertToStaffPrice(ElectricSpells);
+                convertToStaffPrice(SoundSpells);
+                convertToStaffPrice(PhysicalAttackSpells);
+                convertToStaffPrice(ForceSpells);
+                convertToStaffPrice(MoraleSpells);
+                convertToStaffPrice(AntimoraleSpells);
+                convertToStaffPrice(MindControlSpells);
+                convertToStaffPrice(PerceptionSpells);
+                convertToStaffPrice(PhysicalSpells);
+                convertToStaffPrice(MentalSpells);
+                convertToStaffPrice(Transmutations);
+                convertToStaffPrice(AntiMagicSpells);
+                convertToStaffPrice(IllusionSpells);
+                convertToStaffPrice(DeathSpells);
+                convertToStaffPrice(EvilSpells);
+                convertToStaffPrice(GoodSpells);
+                convertToStaffPrice(ProtectionSpells);
+                convertToStaffPrice(HealingSpells);
+                convertToStaffPrice(SummonSpells);
+            }
+            #endregion
+
             Dictionary<int, int> currentAvailableSpells = new Dictionary<int,int>();
             List<string> possibleNames = new List<string>();
             #region Get Starting Collections
@@ -229,9 +257,49 @@ namespace ACR_Items
             #region Build the Actual Staff
             uint staff = script.CreateItemOnObject(GenerateWeapon.WeaponResrefs[BASE_ITEM_QUARTERSTAFF], script.OBJECT_SELF, 1, "", FALSE);
             script.SetItemCharges(staff, 50);
+            List<int> classRestrictions = new List<int>();
             foreach (KeyValuePair<int, int> Spell in SelectedSpells)
             {
                 script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyCastSpell(Spell.Key, Spell.Value), staff, 0.0f);
+                if (ALFA.Shared.Modules.InfoStore.IPCastSpells[Spell.Key].Spell.BardLevel >= 0 &&
+                    !classRestrictions.Contains(IP_CONST_CLASS_BARD))
+                {
+                    script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyLimitUseByClass(IP_CONST_CLASS_BARD), staff, 0.0f);
+                    classRestrictions.Add(IP_CONST_CLASS_BARD);
+                }
+                if (ALFA.Shared.Modules.InfoStore.IPCastSpells[Spell.Key].Spell.ClericLevel >= 0 &&
+                    !classRestrictions.Contains(IP_CONST_CLASS_CLERIC))
+                {
+                    script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyLimitUseByClass(IP_CONST_CLASS_CLERIC), staff, 0.0f);
+                    script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyLimitUseByClass(IP_CONST_CLASS_FAVORED_SOUL), staff, 0.0f);
+                    classRestrictions.Add(IP_CONST_CLASS_CLERIC);
+                }
+                if (ALFA.Shared.Modules.InfoStore.IPCastSpells[Spell.Key].Spell.DruidLevel >= 0 &&
+                    !classRestrictions.Contains(IP_CONST_CLASS_DRUID))
+                {
+                    script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyLimitUseByClass(IP_CONST_CLASS_DRUID), staff, 0.0f);
+                    script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyLimitUseByClass(IP_CONST_CLASS_SPIRIT_SHAMAN), staff, 0.0f);
+                    classRestrictions.Add(IP_CONST_CLASS_DRUID);
+                }
+                if (ALFA.Shared.Modules.InfoStore.IPCastSpells[Spell.Key].Spell.WizardLevel >= 0 &&
+                    !classRestrictions.Contains(IP_CONST_CLASS_WIZARD))
+                {
+                    script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyLimitUseByClass(IP_CONST_CLASS_WIZARD), staff, 0.0f);
+                    script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyLimitUseByClass(IP_CONST_CLASS_SORCERER), staff, 0.0f);
+                    classRestrictions.Add(IP_CONST_CLASS_WIZARD);
+                }
+                if (ALFA.Shared.Modules.InfoStore.IPCastSpells[Spell.Key].Spell.PaladinLevel >= 0 &&
+                    !classRestrictions.Contains(IP_CONST_CLASS_PALADIN))
+                {
+                    script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyLimitUseByClass(IP_CONST_CLASS_PALADIN), staff, 0.0f);
+                    classRestrictions.Add(IP_CONST_CLASS_PALADIN);
+                }
+                if (ALFA.Shared.Modules.InfoStore.IPCastSpells[Spell.Key].Spell.RangerLevel >= 0 &&
+                    !classRestrictions.Contains(IP_CONST_CLASS_RANGER))
+                {
+                    script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyLimitUseByClass(IP_CONST_CLASS_RANGER), staff, 0.0f);
+                    classRestrictions.Add(IP_CONST_CLASS_RANGER);
+                }
             }
             script.SetFirstName(staff, String.Format(possibleNames[Generation.rand.Next(possibleNames.Count)], "Staff"));
             Pricing.CalculatePrice(script, staff);
@@ -247,28 +315,28 @@ namespace ACR_Items
 
         public static Dictionary<int, int> FireSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_BURNING_HANDS_2, 30},
-            {IP_CONST_CASTSPELL_BURNING_HANDS_5, 75},
-            {IP_CONST_CASTSPELL_DELAYED_BLAST_FIREBALL_13, 1365},
-            {IP_CONST_CASTSPELL_DELAYED_BLAST_FIREBALL_15, 1575},
-            {IP_CONST_CASTSPELL_DELAYED_BLAST_FIREBALL_20, 2100},
-            {IP_CONST_CASTSPELL_ELEMENTAL_SHIELD_12, 720},
-            {IP_CONST_CASTSPELL_ELEMENTAL_SHIELD_7, 420},
-            {IP_CONST_CASTSPELL_FIRE_STORM_13, 1365},
-            {IP_CONST_CASTSPELL_FIRE_STORM_18, 1890},
-            {IP_CONST_CASTSPELL_FIREBALL_10, 450},
-            {IP_CONST_CASTSPELL_FIREBALL_5, 225},
-            {IP_CONST_CASTSPELL_FIREBRAND_15, 1125},
-            {IP_CONST_CASTSPELL_FLAME_ARROW_12, 540},
-            {IP_CONST_CASTSPELL_FLAME_ARROW_18, 810},
-            {IP_CONST_CASTSPELL_FLAME_ARROW_5, 225},
-            {IP_CONST_CASTSPELL_FLAME_STRIKE_12, 720},
-            {IP_CONST_CASTSPELL_FLAME_STRIKE_18, 1080},
-            {IP_CONST_CASTSPELL_FLAME_STRIKE_7, 420},
-            {IP_CONST_CASTSPELL_FLARE_1, 8},
-            {IP_CONST_CASTSPELL_INCENDIARY_CLOUD_15, 1800},
-            {IP_CONST_CASTSPELL_INFERNO_15, 1125},
-            {IP_CONST_CASTSPELL_WALL_OF_FIRE_9, 540},
+            {IP_CONST_CASTSPELL_BURNING_HANDS_2, 0},
+            {IP_CONST_CASTSPELL_BURNING_HANDS_5, 0},
+            {IP_CONST_CASTSPELL_DELAYED_BLAST_FIREBALL_13, 0},
+            {IP_CONST_CASTSPELL_DELAYED_BLAST_FIREBALL_15, 0},
+            {IP_CONST_CASTSPELL_DELAYED_BLAST_FIREBALL_20, 0},
+            {IP_CONST_CASTSPELL_ELEMENTAL_SHIELD_12, 0},
+            {IP_CONST_CASTSPELL_ELEMENTAL_SHIELD_7, 0},
+            {IP_CONST_CASTSPELL_FIRE_STORM_13, 0},
+            {IP_CONST_CASTSPELL_FIRE_STORM_18, 0},
+            {IP_CONST_CASTSPELL_FIREBALL_10, 0},
+            {IP_CONST_CASTSPELL_FIREBALL_5, 0},
+            {IP_CONST_CASTSPELL_FIREBRAND_15, 0},
+            {IP_CONST_CASTSPELL_FLAME_ARROW_12, 0},
+            {IP_CONST_CASTSPELL_FLAME_ARROW_18, 0},
+            {IP_CONST_CASTSPELL_FLAME_ARROW_5, 0},
+            {IP_CONST_CASTSPELL_FLAME_STRIKE_12, 0},
+            {IP_CONST_CASTSPELL_FLAME_STRIKE_18, 0},
+            {IP_CONST_CASTSPELL_FLAME_STRIKE_7, 0},
+            {IP_CONST_CASTSPELL_FLARE_1, 0},
+            {IP_CONST_CASTSPELL_INCENDIARY_CLOUD_15, 0},
+            {IP_CONST_CASTSPELL_INFERNO_15, 0},
+            {IP_CONST_CASTSPELL_WALL_OF_FIRE_9, 0},
         };
         #endregion
 
@@ -280,12 +348,12 @@ namespace ACR_Items
 
         public static Dictionary<int, int> ColdSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_CONE_OF_COLD_15, 1125},
-            {IP_CONST_CASTSPELL_CONE_OF_COLD_9, 675},
-            {IP_CONST_CASTSPELL_ELEMENTAL_SHIELD_12, 720},
-            {IP_CONST_CASTSPELL_ELEMENTAL_SHIELD_7, 420},
-            {IP_CONST_CASTSPELL_ICE_STORM_9, 540},
-            {IP_CONST_CASTSPELL_RAY_OF_FROST_1, 8},
+            {IP_CONST_CASTSPELL_CONE_OF_COLD_15, 0},
+            {IP_CONST_CASTSPELL_CONE_OF_COLD_9, 0},
+            {IP_CONST_CASTSPELL_ELEMENTAL_SHIELD_12, 0},
+            {IP_CONST_CASTSPELL_ELEMENTAL_SHIELD_7, 0},
+            {IP_CONST_CASTSPELL_ICE_STORM_9, 0},
+            {IP_CONST_CASTSPELL_RAY_OF_FROST_1, 0},
         };
         #endregion
 
@@ -297,11 +365,11 @@ namespace ACR_Items
 
         public static Dictionary<int, int> AcidSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_ACID_FOG_11, 990},
-            {IP_CONST_CASTSPELL_ACID_SPLASH_1, 8},
-            {IP_CONST_CASTSPELL_MELFS_ACID_ARROW_3, 90},
-            {IP_CONST_CASTSPELL_MELFS_ACID_ARROW_6, 180},
-            {IP_CONST_CASTSPELL_MELFS_ACID_ARROW_9, 270},
+            {IP_CONST_CASTSPELL_ACID_FOG_11, 0},
+            {IP_CONST_CASTSPELL_ACID_SPLASH_1, 0},
+            {IP_CONST_CASTSPELL_MELFS_ACID_ARROW_3, 0},
+            {IP_CONST_CASTSPELL_MELFS_ACID_ARROW_6, 0},
+            {IP_CONST_CASTSPELL_MELFS_ACID_ARROW_9, 0},
         };
         #endregion
 
@@ -313,15 +381,15 @@ namespace ACR_Items
 
         public static Dictionary<int, int> ElectricSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_CALL_LIGHTNING_10, 450},
-            {IP_CONST_CASTSPELL_CALL_LIGHTNING_5, 225},
-            {IP_CONST_CASTSPELL_CHAIN_LIGHTNING_11, 990},
-            {IP_CONST_CASTSPELL_CHAIN_LIGHTNING_15, 1350},
-            {IP_CONST_CASTSPELL_CHAIN_LIGHTNING_20, 1800},
-            {IP_CONST_CASTSPELL_ELECTRIC_JOLT_1, 8},
-            {IP_CONST_CASTSPELL_LIGHTNING_BOLT_10, 450},
-            {IP_CONST_CASTSPELL_LIGHTNING_BOLT_5, 225},
-            {IP_CONST_CASTSPELL_SCINTILLATING_SPHERE_5, 225},
+            {IP_CONST_CASTSPELL_CALL_LIGHTNING_10, 0},
+            {IP_CONST_CASTSPELL_CALL_LIGHTNING_5, 0},
+            {IP_CONST_CASTSPELL_CHAIN_LIGHTNING_11, 0},
+            {IP_CONST_CASTSPELL_CHAIN_LIGHTNING_15, 0},
+            {IP_CONST_CASTSPELL_CHAIN_LIGHTNING_20, 0},
+            {IP_CONST_CASTSPELL_ELECTRIC_JOLT_1, 0},
+            {IP_CONST_CASTSPELL_LIGHTNING_BOLT_10, 0},
+            {IP_CONST_CASTSPELL_LIGHTNING_BOLT_5, 0},
+            {IP_CONST_CASTSPELL_SCINTILLATING_SPHERE_5, 0},
         };
         #endregion
 
@@ -333,8 +401,8 @@ namespace ACR_Items
 
         public static Dictionary<int, int> SoundSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_BALAGARNSIRONHORN_7, 210},
-            {IP_CONST_CASTSPELL_SOUND_BURST_3, 90},
+            {IP_CONST_CASTSPELL_BALAGARNSIRONHORN_7, 0},
+            {IP_CONST_CASTSPELL_SOUND_BURST_3, 0},
         };
         #endregion
 
@@ -345,19 +413,19 @@ namespace ACR_Items
         };
         public static Dictionary<int, int> PhysicalAttackSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_BLADE_BARRIER_11, 990},
-            {IP_CONST_CASTSPELL_BLADE_BARRIER_15, 1350},
-            {IP_CONST_CASTSPELL_BOMBARDMENT_20, 2400},
-            {IP_CONST_CASTSPELL_EARTHQUAKE_20, 2700},
-            {IP_CONST_CASTSPELL_ENTANGLE_2, 30},
-            {IP_CONST_CASTSPELL_ENTANGLE_5, 75},
-            {IP_CONST_CASTSPELL_EVARDS_BLACK_TENTACLES_15, 900},
-            {IP_CONST_CASTSPELL_EVARDS_BLACK_TENTACLES_7, 420},
-            {IP_CONST_CASTSPELL_GREASE_2, 30},
-            {IP_CONST_CASTSPELL_GUST_OF_WIND_10, 300},
-            {IP_CONST_CASTSPELL_IMPLOSION_17, 2295},
-            {IP_CONST_CASTSPELL_METEOR_SWARM_17, 2295},
-            {IP_CONST_CASTSPELL_WEB_3, 90},
+            {IP_CONST_CASTSPELL_BLADE_BARRIER_11, 0},
+            {IP_CONST_CASTSPELL_BLADE_BARRIER_15, 0},
+            {IP_CONST_CASTSPELL_BOMBARDMENT_20, 0},
+            {IP_CONST_CASTSPELL_EARTHQUAKE_20, 0},
+            {IP_CONST_CASTSPELL_ENTANGLE_2, 0},
+            {IP_CONST_CASTSPELL_ENTANGLE_5, 0},
+            {IP_CONST_CASTSPELL_EVARDS_BLACK_TENTACLES_15, 0},
+            {IP_CONST_CASTSPELL_EVARDS_BLACK_TENTACLES_7, 0},
+            {IP_CONST_CASTSPELL_GREASE_2, 0},
+            {IP_CONST_CASTSPELL_GUST_OF_WIND_10, 0},
+            {IP_CONST_CASTSPELL_IMPLOSION_17, 0},
+            {IP_CONST_CASTSPELL_METEOR_SWARM_17, 0},
+            {IP_CONST_CASTSPELL_WEB_3, 0},
         };
         #endregion
 
@@ -369,20 +437,20 @@ namespace ACR_Items
 
         public static Dictionary<int, int> ForceSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_BIGBYS_CLENCHED_FIST_20, 2400},
-            {IP_CONST_CASTSPELL_BIGBYS_CRUSHING_HAND_20, 2700},
-            {IP_CONST_CASTSPELL_BIGBYS_FORCEFUL_HAND_15, 1350},
-            {IP_CONST_CASTSPELL_BIGBYS_GRASPING_HAND_17, 2380},
-            {IP_CONST_CASTSPELL_BIGBYS_INTERPOSING_HAND_15, 1125},
-            {IP_CONST_CASTSPELL_IMPROVED_MAGE_ARMOR_10, 450},
-            {IP_CONST_CASTSPELL_ISAACS_GREATER_MISSILE_STORM_15, 1170},
-            {IP_CONST_CASTSPELL_ISAACS_LESSER_MISSILE_STORM_13, 780},
-            {IP_CONST_CASTSPELL_KNOCK_3, 90},
-            {IP_CONST_CASTSPELL_MAGE_ARMOR_2, 30},
-            {IP_CONST_CASTSPELL_MAGIC_MISSILE_3, 45},
-            {IP_CONST_CASTSPELL_MAGIC_MISSILE_5, 75},
-            {IP_CONST_CASTSPELL_MAGIC_MISSILE_9, 135},
-            {IP_CONST_CASTSPELL_SHIELD_5, 75},
+            {IP_CONST_CASTSPELL_BIGBYS_CLENCHED_FIST_20, 0},
+            {IP_CONST_CASTSPELL_BIGBYS_CRUSHING_HAND_20, 0},
+            {IP_CONST_CASTSPELL_BIGBYS_FORCEFUL_HAND_15, 0},
+            {IP_CONST_CASTSPELL_BIGBYS_GRASPING_HAND_17, 0},
+            {IP_CONST_CASTSPELL_BIGBYS_INTERPOSING_HAND_15, 0},
+            {IP_CONST_CASTSPELL_IMPROVED_MAGE_ARMOR_10, 0},
+            {IP_CONST_CASTSPELL_ISAACS_GREATER_MISSILE_STORM_15, 0},
+            {IP_CONST_CASTSPELL_ISAACS_LESSER_MISSILE_STORM_13, 0},
+            {IP_CONST_CASTSPELL_KNOCK_3, 0},
+            {IP_CONST_CASTSPELL_MAGE_ARMOR_2, 0},
+            {IP_CONST_CASTSPELL_MAGIC_MISSILE_3, 0},
+            {IP_CONST_CASTSPELL_MAGIC_MISSILE_5, 0},
+            {IP_CONST_CASTSPELL_MAGIC_MISSILE_9, 0},
+            {IP_CONST_CASTSPELL_SHIELD_5, 0},
         };
         #endregion
 
@@ -396,11 +464,11 @@ namespace ACR_Items
 
         public static Dictionary<int, int> MoraleSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_AID_3, 90},
-            {IP_CONST_CASTSPELL_AURAOFGLORY_7, 210},
-            {IP_CONST_CASTSPELL_BLESS_2, 30},
-            {IP_CONST_CASTSPELL_PRAYER_5, 225},
-            {IP_CONST_CASTSPELL_VIRTUE_1, 8},
+            {IP_CONST_CASTSPELL_AID_3, 0},
+            {IP_CONST_CASTSPELL_AURAOFGLORY_7, 0},
+            {IP_CONST_CASTSPELL_BLESS_2, 0},
+            {IP_CONST_CASTSPELL_PRAYER_5, 0},
+            {IP_CONST_CASTSPELL_VIRTUE_1, 0},
         };
         #endregion
 
@@ -412,13 +480,13 @@ namespace ACR_Items
 
         public static Dictionary<int, int> AntimoraleSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_BANE_5, 75},
-            {IP_CONST_CASTSPELL_BESTOW_CURSE_5, 225},
-            {IP_CONST_CASTSPELL_BLINDNESS_DEAFNESS_3, 180},
-            {IP_CONST_CASTSPELL_DOOM_2, 30},
-            {IP_CONST_CASTSPELL_DOOM_5, 75},
-            {IP_CONST_CASTSPELL_FEAR_5, 225},
-            {IP_CONST_CASTSPELL_SCARE_2, 30},
+            {IP_CONST_CASTSPELL_BANE_5, 0},
+            {IP_CONST_CASTSPELL_BESTOW_CURSE_5, 0},
+            {IP_CONST_CASTSPELL_BLINDNESS_DEAFNESS_3, 0},
+            {IP_CONST_CASTSPELL_DOOM_2, 0},
+            {IP_CONST_CASTSPELL_DOOM_5, 0},
+            {IP_CONST_CASTSPELL_FEAR_5, 0},
+            {IP_CONST_CASTSPELL_SCARE_2, 0},
         };
         #endregion
 
@@ -431,28 +499,28 @@ namespace ACR_Items
 
         public static Dictionary<int, int> MindControlSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_CHARM_MONSTER_10, 450},
-            {IP_CONST_CASTSPELL_CHARM_MONSTER_5, 225},
-            {IP_CONST_CASTSPELL_CHARM_PERSON_10, 150},
-            {IP_CONST_CASTSPELL_CHARM_PERSON_2, 30},
-            {IP_CONST_CASTSPELL_CHARM_PERSON_OR_ANIMAL_10, 150},
-            {IP_CONST_CASTSPELL_CHARM_PERSON_OR_ANIMAL_3, 30},
-            {IP_CONST_CASTSPELL_CONFUSION_10, 450},
-            {IP_CONST_CASTSPELL_CONFUSION_5, 225},
-            {IP_CONST_CASTSPELL_DAZE_1, 8},
-            {IP_CONST_CASTSPELL_DOMINATE_ANIMAL_5, 225},
-            {IP_CONST_CASTSPELL_DOMINATE_MONSTER_17, 2295},
-            {IP_CONST_CASTSPELL_DOMINATE_PERSON_7, 675},
-            {IP_CONST_CASTSPELL_FEEBLEMIND_9, 675},
-            {IP_CONST_CASTSPELL_HOLD_ANIMAL_3, 90},
-            {IP_CONST_CASTSPELL_HOLD_MONSTER_7, 420},
-            {IP_CONST_CASTSPELL_HOLD_PERSON_3, 90},
-            {IP_CONST_CASTSPELL_MASS_CHARM_15, 1800},
-            {IP_CONST_CASTSPELL_MIND_FOG_9, 675},
-            {IP_CONST_CASTSPELL_POWER_WORD_STUN_13, 1800},
-            {IP_CONST_CASTSPELL_SLEEP_2, 30},
-            {IP_CONST_CASTSPELL_SLEEP_5, 75},
-            {IP_CONST_CASTSPELL_TASHAS_HIDEOUS_LAUGHTER_7, 210},
+            {IP_CONST_CASTSPELL_CHARM_MONSTER_10, 0},
+            {IP_CONST_CASTSPELL_CHARM_MONSTER_5, 0},
+            {IP_CONST_CASTSPELL_CHARM_PERSON_10, 0},
+            {IP_CONST_CASTSPELL_CHARM_PERSON_2, 0},
+            {IP_CONST_CASTSPELL_CHARM_PERSON_OR_ANIMAL_10, 0},
+            {IP_CONST_CASTSPELL_CHARM_PERSON_OR_ANIMAL_3, 0},
+            {IP_CONST_CASTSPELL_CONFUSION_10, 0},
+            {IP_CONST_CASTSPELL_CONFUSION_5, 0},
+            {IP_CONST_CASTSPELL_DAZE_1, 0},
+            {IP_CONST_CASTSPELL_DOMINATE_ANIMAL_5, 0},
+            {IP_CONST_CASTSPELL_DOMINATE_MONSTER_17, 0},
+            {IP_CONST_CASTSPELL_DOMINATE_PERSON_7, 0},
+            {IP_CONST_CASTSPELL_FEEBLEMIND_9, 0},
+            {IP_CONST_CASTSPELL_HOLD_ANIMAL_3, 0},
+            {IP_CONST_CASTSPELL_HOLD_MONSTER_7, 0},
+            {IP_CONST_CASTSPELL_HOLD_PERSON_3, 0},
+            {IP_CONST_CASTSPELL_MASS_CHARM_15, 0},
+            {IP_CONST_CASTSPELL_MIND_FOG_9, 0},
+            {IP_CONST_CASTSPELL_POWER_WORD_STUN_13, 0},
+            {IP_CONST_CASTSPELL_SLEEP_2, 0},
+            {IP_CONST_CASTSPELL_SLEEP_5, 0},
+            {IP_CONST_CASTSPELL_TASHAS_HIDEOUS_LAUGHTER_7, 0},
         };
         #endregion
 
@@ -465,18 +533,18 @@ namespace ACR_Items
 
         public static Dictionary<int, int> PerceptionSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_AMPLIFY_5, 75},
-            {IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_10, 450},
-            {IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_15, 675},
-            {IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_5, 225},
-            {IP_CONST_CASTSPELL_DARKVISION_3, 90},
-            {IP_CONST_CASTSPELL_DARKVISION_6, 180},
-            {IP_CONST_CASTSPELL_FIND_TRAPS_3, 90},
-            {IP_CONST_CASTSPELL_INVISIBILITY_PURGE_5, 225},
-            {IP_CONST_CASTSPELL_LEGEND_LORE_5, 420},
-            {IP_CONST_CASTSPELL_SEE_INVISIBILITY_3, 90},
-            {IP_CONST_CASTSPELL_TRUE_SEEING_9, 675},
-            {IP_CONST_CASTSPELL_TRUE_STRIKE_5, 75},
+            {IP_CONST_CASTSPELL_AMPLIFY_5, 0},
+            {IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_10, 0},
+            {IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_15, 0},
+            {IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_5, 0},
+            {IP_CONST_CASTSPELL_DARKVISION_3, 0},
+            {IP_CONST_CASTSPELL_DARKVISION_6, 0},
+            {IP_CONST_CASTSPELL_FIND_TRAPS_3, 0},
+            {IP_CONST_CASTSPELL_INVISIBILITY_PURGE_5, 0},
+            {IP_CONST_CASTSPELL_LEGEND_LORE_5, 0},
+            {IP_CONST_CASTSPELL_SEE_INVISIBILITY_3, 0},
+            {IP_CONST_CASTSPELL_TRUE_SEEING_9, 0},
+            {IP_CONST_CASTSPELL_TRUE_STRIKE_5, 0},
         };
         #endregion
 
@@ -488,30 +556,30 @@ namespace ACR_Items
 
         public static Dictionary<int, int> PhysicalSpells = new Dictionary<int,int>
         {
-            {IP_CONST_CASTSPELL_AURA_OF_VITALITY_13, 1365},
-            {IP_CONST_CASTSPELL_BARKSKIN_12, 360},
-            {IP_CONST_CASTSPELL_BARKSKIN_3, 90},
-            {IP_CONST_CASTSPELL_BARKSKIN_6, 180},
-            {IP_CONST_CASTSPELL_BULLS_STRENGTH_10, 300},
-            {IP_CONST_CASTSPELL_BULLS_STRENGTH_15, 450},
-            {IP_CONST_CASTSPELL_BULLS_STRENGTH_3, 90},
-            {IP_CONST_CASTSPELL_CAMOFLAGE_5, 75},
-            {IP_CONST_CASTSPELL_CATS_GRACE_10, 300},
-            {IP_CONST_CASTSPELL_CATS_GRACE_15, 450},
-            {IP_CONST_CASTSPELL_CATS_GRACE_3, 90},
-            {IP_CONST_CASTSPELL_ENDURANCE_10, 300},
-            {IP_CONST_CASTSPELL_ENDURANCE_15, 450},
-            {IP_CONST_CASTSPELL_ENDURANCE_3, 90},
-            {IP_CONST_CASTSPELL_EXPEDITIOUS_RETREAT_5, 75},
-            {IP_CONST_CASTSPELL_GREATER_MAGIC_FANG_9, 405},
-            {IP_CONST_CASTSPELL_GREATER_STONESKIN_11, 990},
-            {IP_CONST_CASTSPELL_HASTE_10, 450},
-            {IP_CONST_CASTSPELL_HASTE_5, 225},
-            {IP_CONST_CASTSPELL_IRON_BODY_15, 2295},
-            {IP_CONST_CASTSPELL_IRON_BODY_20, 2700},
-            {IP_CONST_CASTSPELL_MAGIC_FANG_5, 75},
-            {IP_CONST_CASTSPELL_MASS_CAMOFLAGE_13, 780},
-            {IP_CONST_CASTSPELL_STONESKIN_7, 420},
+            {IP_CONST_CASTSPELL_AURA_OF_VITALITY_13, 0},
+            {IP_CONST_CASTSPELL_BARKSKIN_12, 0},
+            {IP_CONST_CASTSPELL_BARKSKIN_3, 0},
+            {IP_CONST_CASTSPELL_BARKSKIN_6, 0},
+            {IP_CONST_CASTSPELL_BULLS_STRENGTH_10, 0},
+            {IP_CONST_CASTSPELL_BULLS_STRENGTH_15, 0},
+            {IP_CONST_CASTSPELL_BULLS_STRENGTH_3, 0},
+            {IP_CONST_CASTSPELL_CAMOFLAGE_5, 0},
+            {IP_CONST_CASTSPELL_CATS_GRACE_10, 0},
+            {IP_CONST_CASTSPELL_CATS_GRACE_15, 0},
+            {IP_CONST_CASTSPELL_CATS_GRACE_3, 0},
+            {IP_CONST_CASTSPELL_ENDURANCE_10, 0},
+            {IP_CONST_CASTSPELL_ENDURANCE_15, 0},
+            {IP_CONST_CASTSPELL_ENDURANCE_3, 0},
+            {IP_CONST_CASTSPELL_EXPEDITIOUS_RETREAT_5, 0},
+            {IP_CONST_CASTSPELL_GREATER_MAGIC_FANG_9, 0},
+            {IP_CONST_CASTSPELL_GREATER_STONESKIN_11, 0},
+            {IP_CONST_CASTSPELL_HASTE_10, 0},
+            {IP_CONST_CASTSPELL_HASTE_5, 0},
+            {IP_CONST_CASTSPELL_IRON_BODY_15, 0},
+            {IP_CONST_CASTSPELL_IRON_BODY_20, 0},
+            {IP_CONST_CASTSPELL_MAGIC_FANG_5, 0},
+            {IP_CONST_CASTSPELL_MASS_CAMOFLAGE_13, 0},
+            {IP_CONST_CASTSPELL_STONESKIN_7, 0},
         };
         #endregion
 
@@ -523,18 +591,18 @@ namespace ACR_Items
 
         public static Dictionary<int, int> MentalSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_CLARITY_3, 90},    
-            {IP_CONST_CASTSPELL_EAGLE_SPLEDOR_10, 300},
-            {IP_CONST_CASTSPELL_EAGLE_SPLEDOR_15, 450},
-            {IP_CONST_CASTSPELL_EAGLE_SPLEDOR_3, 90},
-            {IP_CONST_CASTSPELL_FOXS_CUNNING_10, 300},
-            {IP_CONST_CASTSPELL_FOXS_CUNNING_15, 450},
-            {IP_CONST_CASTSPELL_FOXS_CUNNING_3, 90},
-            {IP_CONST_CASTSPELL_LESSER_MIND_BLANK_9, 675},
-            {IP_CONST_CASTSPELL_MIND_BLANK_15, 1800},
-            {IP_CONST_CASTSPELL_OWLS_WISDOM_10, 300},
-            {IP_CONST_CASTSPELL_OWLS_WISDOM_15, 450},
-            {IP_CONST_CASTSPELL_OWLS_WISDOM_3, 90},
+            {IP_CONST_CASTSPELL_CLARITY_3, 0},    
+            {IP_CONST_CASTSPELL_EAGLE_SPLEDOR_10, 0},
+            {IP_CONST_CASTSPELL_EAGLE_SPLEDOR_15, 0},
+            {IP_CONST_CASTSPELL_EAGLE_SPLEDOR_3, 0},
+            {IP_CONST_CASTSPELL_FOXS_CUNNING_10, 0},
+            {IP_CONST_CASTSPELL_FOXS_CUNNING_15, 0},
+            {IP_CONST_CASTSPELL_FOXS_CUNNING_3, 0},
+            {IP_CONST_CASTSPELL_LESSER_MIND_BLANK_9, 0},
+            {IP_CONST_CASTSPELL_MIND_BLANK_15, 0},
+            {IP_CONST_CASTSPELL_OWLS_WISDOM_10, 0},
+            {IP_CONST_CASTSPELL_OWLS_WISDOM_15, 0},
+            {IP_CONST_CASTSPELL_OWLS_WISDOM_3, 0},
         };
         #endregion
 
@@ -546,11 +614,11 @@ namespace ACR_Items
 
         public static Dictionary<int, int> Transmutations = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_FLESH_TO_STONE_5, 990},
-            {IP_CONST_CASTSPELL_POLYMORPH_SELF_7, 420},
-            {IP_CONST_CASTSPELL_SHAPECHANGE_17, 2295},
-            {IP_CONST_CASTSPELL_STONE_TO_FLESH_5, 990},
-            {IP_CONST_CASTSPELL_TENSERS_TRANSFORMATION_11, 990},
+            {IP_CONST_CASTSPELL_FLESH_TO_STONE_5, 0},
+            {IP_CONST_CASTSPELL_POLYMORPH_SELF_7, 0},
+            {IP_CONST_CASTSPELL_SHAPECHANGE_17, 0},
+            {IP_CONST_CASTSPELL_STONE_TO_FLESH_5, 0},
+            {IP_CONST_CASTSPELL_TENSERS_TRANSFORMATION_11, 0},
         };
         #endregion
 
@@ -563,30 +631,30 @@ namespace ACR_Items
 
         public static Dictionary<int, int> AntiMagicSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_ASSAY_RESISTANCE_7, 420},
-            {IP_CONST_CASTSPELL_BANISHMENT_15, 1350},
-            {IP_CONST_CASTSPELL_DISMISSAL_12, 720},
-            {IP_CONST_CASTSPELL_DISMISSAL_18, 1080},
-            {IP_CONST_CASTSPELL_DISMISSAL_7, 420},
-            {IP_CONST_CASTSPELL_DISPEL_MAGIC_10, 450},
-            {IP_CONST_CASTSPELL_DISPEL_MAGIC_5, 225},
-            {IP_CONST_CASTSPELL_GREATER_DISPELLING_15, 1350},
-            {IP_CONST_CASTSPELL_GREATER_DISPELLING_7, 990},
-            {IP_CONST_CASTSPELL_GREATER_SPELL_BREACH_11, 990},
-            {IP_CONST_CASTSPELL_GREATER_SPELL_MANTLE_17, 2295},
-            {IP_CONST_CASTSPELL_LESSER_DISPEL_3, 90},
-            {IP_CONST_CASTSPELL_LESSER_DISPEL_5, 150},
-            {IP_CONST_CASTSPELL_GLOBE_OF_INVULNERABILITY_11, 990},
-            {IP_CONST_CASTSPELL_LESSER_GLOBE_OF_INVULNERABILITY_15, 900},
-            {IP_CONST_CASTSPELL_LESSER_GLOBE_OF_INVULNERABILITY_7, 420},
-            {IP_CONST_CASTSPELL_LESSER_SPELL_BREACH_7, 420},
-            {IP_CONST_CASTSPELL_LESSER_SPELL_MANTLE_9, 675},
-            {IP_CONST_CASTSPELL_MORDENKAINENS_DISJUNCTION_17, 2295},
-            {IP_CONST_CASTSPELL_PROTECTION_FROM_SPELLS_13, 1560},
-            {IP_CONST_CASTSPELL_PROTECTION_FROM_SPELLS_20, 2400},
-            {IP_CONST_CASTSPELL_SPELL_MANTLE_13, 1365},
-            {IP_CONST_CASTSPELL_SPELL_RESISTANCE_15, 1125},
-            {IP_CONST_CASTSPELL_SPELL_RESISTANCE_9, 675},
+            {IP_CONST_CASTSPELL_ASSAY_RESISTANCE_7, 0},
+            {IP_CONST_CASTSPELL_BANISHMENT_15, 0},
+            {IP_CONST_CASTSPELL_DISMISSAL_12, 0},
+            {IP_CONST_CASTSPELL_DISMISSAL_18, 0},
+            {IP_CONST_CASTSPELL_DISMISSAL_7, 0},
+            {IP_CONST_CASTSPELL_DISPEL_MAGIC_10, 0},
+            {IP_CONST_CASTSPELL_DISPEL_MAGIC_5, 0},
+            {IP_CONST_CASTSPELL_GREATER_DISPELLING_15, 0},
+            {IP_CONST_CASTSPELL_GREATER_DISPELLING_7, 0},
+            {IP_CONST_CASTSPELL_GREATER_SPELL_BREACH_11, 0},
+            {IP_CONST_CASTSPELL_GREATER_SPELL_MANTLE_17, 0},
+            {IP_CONST_CASTSPELL_LESSER_DISPEL_3, 0},
+            {IP_CONST_CASTSPELL_LESSER_DISPEL_5, 0},
+            {IP_CONST_CASTSPELL_GLOBE_OF_INVULNERABILITY_11, 0},
+            {IP_CONST_CASTSPELL_LESSER_GLOBE_OF_INVULNERABILITY_15, 0},
+            {IP_CONST_CASTSPELL_LESSER_GLOBE_OF_INVULNERABILITY_7, 0},
+            {IP_CONST_CASTSPELL_LESSER_SPELL_BREACH_7, 0},
+            {IP_CONST_CASTSPELL_LESSER_SPELL_MANTLE_9, 0},
+            {IP_CONST_CASTSPELL_MORDENKAINENS_DISJUNCTION_17, 0},
+            {IP_CONST_CASTSPELL_PROTECTION_FROM_SPELLS_13, 0},
+            {IP_CONST_CASTSPELL_PROTECTION_FROM_SPELLS_20, 0},
+            {IP_CONST_CASTSPELL_SPELL_MANTLE_13, 0},
+            {IP_CONST_CASTSPELL_SPELL_RESISTANCE_15, 0},
+            {IP_CONST_CASTSPELL_SPELL_RESISTANCE_9, 0},
         };
         #endregion
 
@@ -598,22 +666,22 @@ namespace ACR_Items
 
         public static Dictionary<int, int> IllusionSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_COLOR_SPRAY_2, 30},
-            {IP_CONST_CASTSPELL_DISPLACEMENT_9, 405},
-            {IP_CONST_CASTSPELL_ENTROPIC_SHIELD_5, 75},
-            {IP_CONST_CASTSPELL_ETHEREAL_VISAGE_15, 1350},
-            {IP_CONST_CASTSPELL_ETHEREAL_VISAGE_9, 990},
-            {IP_CONST_CASTSPELL_ETHEREALNESS_18, 2430},
-            {IP_CONST_CASTSPELL_GHOSTLY_VISAGE_15, 450},
-            {IP_CONST_CASTSPELL_GHOSTLY_VISAGE_3, 90},
-            {IP_CONST_CASTSPELL_GHOSTLY_VISAGE_9, 270},
-            {IP_CONST_CASTSPELL_GREATER_SHADOW_CONJURATION_9, 1365},
-            {IP_CONST_CASTSPELL_IMPROVED_INVISIBILITY_7, 420},
-            {IP_CONST_CASTSPELL_INVISIBILITY_3, 90},
-            {IP_CONST_CASTSPELL_INVISIBILITY_SPHERE_5, 225},
-            {IP_CONST_CASTSPELL_PRISMATIC_SPRAY_13, 1560},
-            {IP_CONST_CASTSPELL_SHADOW_CONJURATION_7, 420},
-            {IP_CONST_CASTSPELL_WEIRD_17, 2295},
+            {IP_CONST_CASTSPELL_COLOR_SPRAY_2, 0},
+            {IP_CONST_CASTSPELL_DISPLACEMENT_9, 0},
+            {IP_CONST_CASTSPELL_ENTROPIC_SHIELD_5, 0},
+            {IP_CONST_CASTSPELL_ETHEREAL_VISAGE_15, 0},
+            {IP_CONST_CASTSPELL_ETHEREAL_VISAGE_9, 0},
+            {IP_CONST_CASTSPELL_ETHEREALNESS_18, 0},
+            {IP_CONST_CASTSPELL_GHOSTLY_VISAGE_15, 0},
+            {IP_CONST_CASTSPELL_GHOSTLY_VISAGE_3, 0},
+            {IP_CONST_CASTSPELL_GHOSTLY_VISAGE_9, 0},
+            {IP_CONST_CASTSPELL_GREATER_SHADOW_CONJURATION_9, 0},
+            {IP_CONST_CASTSPELL_IMPROVED_INVISIBILITY_7, 0},
+            {IP_CONST_CASTSPELL_INVISIBILITY_3, 0},
+            {IP_CONST_CASTSPELL_INVISIBILITY_SPHERE_5, 0},
+            {IP_CONST_CASTSPELL_PRISMATIC_SPRAY_13, 0},
+            {IP_CONST_CASTSPELL_SHADOW_CONJURATION_7, 0},
+            {IP_CONST_CASTSPELL_WEIRD_17, 0},
         };
         #endregion
 
@@ -625,32 +693,32 @@ namespace ACR_Items
 
         public static Dictionary<int, int> DeathSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_CIRCLE_OF_DEATH_11, 990},
-            {IP_CONST_CASTSPELL_CIRCLE_OF_DEATH_15, 1350},
-            {IP_CONST_CASTSPELL_CIRCLE_OF_DEATH_20, 1800},
-            {IP_CONST_CASTSPELL_CLOUDKILL_9, 675},
-            {IP_CONST_CASTSPELL_CONTAGION_5, 225},
-            {IP_CONST_CASTSPELL_DESTRUCTION_13, 1365},
-            {IP_CONST_CASTSPELL_FINGER_OF_DEATH_13, 1365},
-            {IP_CONST_CASTSPELL_ENERGY_DRAIN_17, 2295},
-            {IP_CONST_CASTSPELL_ENERVATION_7, 420},
-            {IP_CONST_CASTSPELL_GHOUL_TOUCH_3, 90},
-            {IP_CONST_CASTSPELL_HARM_11, 990},
-            {IP_CONST_CASTSPELL_HORRID_WILTING_15, 1800},
-            {IP_CONST_CASTSPELL_HORRID_WILTING_20, 2400},
-            {IP_CONST_CASTSPELL_INFLICT_CRITICAL_WOUNDS_12, 720},
-            {IP_CONST_CASTSPELL_INFLICT_LIGHT_WOUNDS_5, 75},
-            {IP_CONST_CASTSPELL_INFLICT_MINOR_WOUNDS_1, 15},
-            {IP_CONST_CASTSPELL_INFLICT_MODERATE_WOUNDS_7, 210},
-            {IP_CONST_CASTSPELL_INFLICT_SERIOUS_WOUNDS_9, 405},
-            {IP_CONST_CASTSPELL_PHANTASMAL_KILLER_7, 420},
-            {IP_CONST_CASTSPELL_POISON_5, 225},
-            {IP_CONST_CASTSPELL_POWER_WORD_KILL_17, 2295},
-            {IP_CONST_CASTSPELL_RAY_OF_ENFEEBLEMENT_2, 30},
-            {IP_CONST_CASTSPELL_SLAY_LIVING_9, 675},
-            {IP_CONST_CASTSPELL_STINKING_CLOUD_5, 225},
-            {IP_CONST_CASTSPELL_VAMPIRIC_TOUCH_5, 225},
-            {IP_CONST_CASTSPELL_WAIL_OF_THE_BANSHEE_17, 2295},
+            {IP_CONST_CASTSPELL_CIRCLE_OF_DEATH_11, 0},
+            {IP_CONST_CASTSPELL_CIRCLE_OF_DEATH_15, 0},
+            {IP_CONST_CASTSPELL_CIRCLE_OF_DEATH_20, 0},
+            {IP_CONST_CASTSPELL_CLOUDKILL_9, 0},
+            {IP_CONST_CASTSPELL_CONTAGION_5, 0},
+            {IP_CONST_CASTSPELL_DESTRUCTION_13, 0},
+            {IP_CONST_CASTSPELL_FINGER_OF_DEATH_13, 0},
+            {IP_CONST_CASTSPELL_ENERGY_DRAIN_17, 0},
+            {IP_CONST_CASTSPELL_ENERVATION_7, 0},
+            {IP_CONST_CASTSPELL_GHOUL_TOUCH_3, 0},
+            {IP_CONST_CASTSPELL_HARM_11, 0},
+            {IP_CONST_CASTSPELL_HORRID_WILTING_15, 0},
+            {IP_CONST_CASTSPELL_HORRID_WILTING_20, 0},
+            {IP_CONST_CASTSPELL_INFLICT_CRITICAL_WOUNDS_12, 0},
+            {IP_CONST_CASTSPELL_INFLICT_LIGHT_WOUNDS_5, 0},
+            {IP_CONST_CASTSPELL_INFLICT_MINOR_WOUNDS_1, 0},
+            {IP_CONST_CASTSPELL_INFLICT_MODERATE_WOUNDS_7, 0},
+            {IP_CONST_CASTSPELL_INFLICT_SERIOUS_WOUNDS_9, 0},
+            {IP_CONST_CASTSPELL_PHANTASMAL_KILLER_7, 0},
+            {IP_CONST_CASTSPELL_POISON_5, 0},
+            {IP_CONST_CASTSPELL_POWER_WORD_KILL_17, 0},
+            {IP_CONST_CASTSPELL_RAY_OF_ENFEEBLEMENT_2, 0},
+            {IP_CONST_CASTSPELL_SLAY_LIVING_9, 0},
+            {IP_CONST_CASTSPELL_STINKING_CLOUD_5, 0},
+            {IP_CONST_CASTSPELL_VAMPIRIC_TOUCH_5, 0},
+            {IP_CONST_CASTSPELL_WAIL_OF_THE_BANSHEE_17, 0},
         };
         #endregion
 
@@ -664,21 +732,21 @@ namespace ACR_Items
 
         public static Dictionary<int, int> EvilSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_ANIMATE_DEAD_10, 450},
-            {IP_CONST_CASTSPELL_ANIMATE_DEAD_15, 675},
-            {IP_CONST_CASTSPELL_ANIMATE_DEAD_5, 225},
-            {IP_CONST_CASTSPELL_AURA_VERSUS_ALIGNMENT_15, 1800},
-            {IP_CONST_CASTSPELL_CONTROL_UNDEAD_13, 1365},
-            {IP_CONST_CASTSPELL_CONTROL_UNDEAD_20, 2100},
-            {IP_CONST_CASTSPELL_CREATE_GREATER_UNDEAD_15, 1800},
-            {IP_CONST_CASTSPELL_CREATE_GREATER_UNDEAD_16, 1920},
-            {IP_CONST_CASTSPELL_CREATE_GREATER_UNDEAD_18, 2160},
-            {IP_CONST_CASTSPELL_CREATE_UNDEAD_11, 990},
-            {IP_CONST_CASTSPELL_CREATE_UNDEAD_14, 1260},
-            {IP_CONST_CASTSPELL_CREATE_UNDEAD_16, 1920},
-            {IP_CONST_CASTSPELL_DARKNESS_3, 90},
-            {IP_CONST_CASTSPELL_GHOUL_TOUCH_3, 90},
-            {IP_CONST_CASTSPELL_VAMPIRIC_TOUCH_5, 225},
+            {IP_CONST_CASTSPELL_ANIMATE_DEAD_10, 0},
+            {IP_CONST_CASTSPELL_ANIMATE_DEAD_15, 0},
+            {IP_CONST_CASTSPELL_ANIMATE_DEAD_5, 0},
+            {IP_CONST_CASTSPELL_AURA_VERSUS_ALIGNMENT_15, 0},
+            {IP_CONST_CASTSPELL_CONTROL_UNDEAD_13, 0},
+            {IP_CONST_CASTSPELL_CONTROL_UNDEAD_20, 0},
+            {IP_CONST_CASTSPELL_CREATE_GREATER_UNDEAD_15, 0},
+            {IP_CONST_CASTSPELL_CREATE_GREATER_UNDEAD_16, 0},
+            {IP_CONST_CASTSPELL_CREATE_GREATER_UNDEAD_18, 0},
+            {IP_CONST_CASTSPELL_CREATE_UNDEAD_11, 0},
+            {IP_CONST_CASTSPELL_CREATE_UNDEAD_14, 0},
+            {IP_CONST_CASTSPELL_CREATE_UNDEAD_16, 0},
+            {IP_CONST_CASTSPELL_DARKNESS_3, 0},
+            {IP_CONST_CASTSPELL_GHOUL_TOUCH_3, 0},
+            {IP_CONST_CASTSPELL_VAMPIRIC_TOUCH_5, 0},
         };
         #endregion
 
@@ -692,17 +760,17 @@ namespace ACR_Items
 
         public static Dictionary<int, int> GoodSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_AURA_VERSUS_ALIGNMENT_15, 1800},
-            {IP_CONST_CASTSPELL_DIVINE_FAVOR_5, 75},
-            {IP_CONST_CASTSPELL_HAMMER_OF_THE_GODS_12, 720},
-            {IP_CONST_CASTSPELL_HAMMER_OF_THE_GODS_7, 420},
-            {IP_CONST_CASTSPELL_LIGHT_1, 8},
-            {IP_CONST_CASTSPELL_LIGHT_5, 38},
-            {IP_CONST_CASTSPELL_PROTECTION_FROM_EVIL_1, 15},
-            {IP_CONST_CASTSPELL_SUNBEAM_13, 1365},
-            {IP_CONST_CASTSPELL_SUNBURST_20, 2400},
-            {IP_CONST_CASTSPELL_UNDEATHS_ETERNAL_FOE_20, 2700},
-            {IP_CONST_CASTSPELL_WORD_OF_FAITH_13, 1365},
+            {IP_CONST_CASTSPELL_AURA_VERSUS_ALIGNMENT_15, 0},
+            {IP_CONST_CASTSPELL_DIVINE_FAVOR_5, 0},
+            {IP_CONST_CASTSPELL_HAMMER_OF_THE_GODS_12, 0},
+            {IP_CONST_CASTSPELL_HAMMER_OF_THE_GODS_7, 0},
+            {IP_CONST_CASTSPELL_LIGHT_1, 0},
+            {IP_CONST_CASTSPELL_LIGHT_5, 0},
+            {IP_CONST_CASTSPELL_PROTECTION_FROM_EVIL_1, 0},
+            {IP_CONST_CASTSPELL_SUNBEAM_13, 0},
+            {IP_CONST_CASTSPELL_SUNBURST_20, 0},
+            {IP_CONST_CASTSPELL_UNDEATHS_ETERNAL_FOE_20, 0},
+            {IP_CONST_CASTSPELL_WORD_OF_FAITH_13, 0},
         };
         #endregion
 
@@ -717,26 +785,26 @@ namespace ACR_Items
 
         public static Dictionary<int, int> ProtectionSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_DEATH_WARD_7, 420},    
-            {IP_CONST_CASTSPELL_ENDURE_ELEMENTS_2, 30},
-            {IP_CONST_CASTSPELL_FREEDOM_OF_MOVEMENT_7, 420},
-            {IP_CONST_CASTSPELL_GLOBE_OF_INVULNERABILITY_11, 990},
-            {IP_CONST_CASTSPELL_LESSER_GLOBE_OF_INVULNERABILITY_15, 900},
-            {IP_CONST_CASTSPELL_LESSER_GLOBE_OF_INVULNERABILITY_7, 420},
-            {IP_CONST_CASTSPELL_MAGIC_CIRCLE_AGAINST_ALIGNMENT_5, 225},
-            {IP_CONST_CASTSPELL_PROTECTION_FROM_ALIGNMENT_2, 30},
-            {IP_CONST_CASTSPELL_PROTECTION_FROM_ALIGNMENT_5, 75},
-            {IP_CONST_CASTSPELL_PROTECTION_FROM_ELEMENTS_10, 450},
-            {IP_CONST_CASTSPELL_PROTECTION_FROM_ELEMENTS_3, 225},
-            {IP_CONST_CASTSPELL_PROTECTION_FROM_EVIL_1, 15},
-            {IP_CONST_CASTSPELL_PROTECTION_FROM_SPELLS_13, 1365},
-            {IP_CONST_CASTSPELL_PROTECTION_FROM_SPELLS_20, 2100},
-            {IP_CONST_CASTSPELL_RESIST_ELEMENTS_10, 300},
-            {IP_CONST_CASTSPELL_RESIST_ELEMENTS_3, 90},
-            {IP_CONST_CASTSPELL_RESISTANCE_2, 15},
-            {IP_CONST_CASTSPELL_RESISTANCE_5, 38},
-            {IP_CONST_CASTSPELL_SANCTUARY_2, 30},
-            {IP_CONST_CASTSPELL_SHIELD_OF_FAITH_5, 75},
+            {IP_CONST_CASTSPELL_DEATH_WARD_7, 0},    
+            {IP_CONST_CASTSPELL_ENDURE_ELEMENTS_2, 0},
+            {IP_CONST_CASTSPELL_FREEDOM_OF_MOVEMENT_7, 0},
+            {IP_CONST_CASTSPELL_GLOBE_OF_INVULNERABILITY_11, 0},
+            {IP_CONST_CASTSPELL_LESSER_GLOBE_OF_INVULNERABILITY_15, 0},
+            {IP_CONST_CASTSPELL_LESSER_GLOBE_OF_INVULNERABILITY_7, 0},
+            {IP_CONST_CASTSPELL_MAGIC_CIRCLE_AGAINST_ALIGNMENT_5, 0},
+            {IP_CONST_CASTSPELL_PROTECTION_FROM_ALIGNMENT_2, 0},
+            {IP_CONST_CASTSPELL_PROTECTION_FROM_ALIGNMENT_5, 0},
+            {IP_CONST_CASTSPELL_PROTECTION_FROM_ELEMENTS_10, 0},
+            {IP_CONST_CASTSPELL_PROTECTION_FROM_ELEMENTS_3, 0},
+            {IP_CONST_CASTSPELL_PROTECTION_FROM_EVIL_1, 0},
+            {IP_CONST_CASTSPELL_PROTECTION_FROM_SPELLS_13, 0},
+            {IP_CONST_CASTSPELL_PROTECTION_FROM_SPELLS_20, 0},
+            {IP_CONST_CASTSPELL_RESIST_ELEMENTS_10, 0},
+            {IP_CONST_CASTSPELL_RESIST_ELEMENTS_3, 0},
+            {IP_CONST_CASTSPELL_RESISTANCE_2, 0},
+            {IP_CONST_CASTSPELL_RESISTANCE_5, 0},
+            {IP_CONST_CASTSPELL_SANCTUARY_2, 0},
+            {IP_CONST_CASTSPELL_SHIELD_OF_FAITH_5, 0},
         };
         #endregion
 
@@ -748,31 +816,31 @@ namespace ACR_Items
 
         public static Dictionary<int, int> HealingSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_CURE_CRITICAL_WOUNDS_12, 720},
-            {IP_CONST_CASTSPELL_CURE_CRITICAL_WOUNDS_15, 900},
-            {IP_CONST_CASTSPELL_CURE_CRITICAL_WOUNDS_7, 420},
-            {IP_CONST_CASTSPELL_CURE_LIGHT_WOUNDS_2, 30},
-            {IP_CONST_CASTSPELL_CURE_LIGHT_WOUNDS_5, 75},
-            {IP_CONST_CASTSPELL_CURE_MINOR_WOUNDS_1, 8},
-            {IP_CONST_CASTSPELL_CURE_MODERATE_WOUNDS_10, 300},
-            {IP_CONST_CASTSPELL_CURE_MODERATE_WOUNDS_3, 90},
-            {IP_CONST_CASTSPELL_CURE_MODERATE_WOUNDS_6, 180},
-            {IP_CONST_CASTSPELL_CURE_SERIOUS_WOUNDS_10, 450},
-            {IP_CONST_CASTSPELL_CURE_SERIOUS_WOUNDS_5, 225},
-            {IP_CONST_CASTSPELL_GREATER_RESTORATION_13, 1365},
-            {IP_CONST_CASTSPELL_HEAL_11, 990},
-            {IP_CONST_CASTSPELL_HEALING_CIRCLE_16, 1200},
-            {IP_CONST_CASTSPELL_HEALING_CIRCLE_9, 675},
-            {IP_CONST_CASTSPELL_LESSER_RESTORATION_3, 90},
-            {IP_CONST_CASTSPELL_MASS_HEAL_15, 1800},
-            {IP_CONST_CASTSPELL_NEUTRALIZE_POISON_5, 225},
-            {IP_CONST_CASTSPELL_REGENERATE_13, 1365},
-            {IP_CONST_CASTSPELL_REMOVE_BLINDNESS_DEAFNESS_5, 225},
-            {IP_CONST_CASTSPELL_REMOVE_CURSE_5, 225},
-            {IP_CONST_CASTSPELL_REMOVE_DISEASE_5, 225},
-            {IP_CONST_CASTSPELL_REMOVE_FEAR_2, 30},
-            {IP_CONST_CASTSPELL_REMOVE_PARALYSIS_3, 90},
-            {IP_CONST_CASTSPELL_RESTORATION_7, 420},
+            {IP_CONST_CASTSPELL_CURE_CRITICAL_WOUNDS_12, 0},
+            {IP_CONST_CASTSPELL_CURE_CRITICAL_WOUNDS_15, 0},
+            {IP_CONST_CASTSPELL_CURE_CRITICAL_WOUNDS_7, 0},
+            {IP_CONST_CASTSPELL_CURE_LIGHT_WOUNDS_2, 0},
+            {IP_CONST_CASTSPELL_CURE_LIGHT_WOUNDS_5, 0},
+            {IP_CONST_CASTSPELL_CURE_MINOR_WOUNDS_1, 0},
+            {IP_CONST_CASTSPELL_CURE_MODERATE_WOUNDS_10, 0},
+            {IP_CONST_CASTSPELL_CURE_MODERATE_WOUNDS_3, 0},
+            {IP_CONST_CASTSPELL_CURE_MODERATE_WOUNDS_6, 0},
+            {IP_CONST_CASTSPELL_CURE_SERIOUS_WOUNDS_10, 0},
+            {IP_CONST_CASTSPELL_CURE_SERIOUS_WOUNDS_5, 0},
+            {IP_CONST_CASTSPELL_GREATER_RESTORATION_13, 0},
+            {IP_CONST_CASTSPELL_HEAL_11, 0},
+            {IP_CONST_CASTSPELL_HEALING_CIRCLE_16, 0},
+            {IP_CONST_CASTSPELL_HEALING_CIRCLE_9, 0},
+            {IP_CONST_CASTSPELL_LESSER_RESTORATION_3, 0},
+            {IP_CONST_CASTSPELL_MASS_HEAL_15, 0},
+            {IP_CONST_CASTSPELL_NEUTRALIZE_POISON_5, 0},
+            {IP_CONST_CASTSPELL_REGENERATE_13, 0},
+            {IP_CONST_CASTSPELL_REMOVE_BLINDNESS_DEAFNESS_5, 0},
+            {IP_CONST_CASTSPELL_REMOVE_CURSE_5, 0},
+            {IP_CONST_CASTSPELL_REMOVE_DISEASE_5, 0},
+            {IP_CONST_CASTSPELL_REMOVE_FEAR_2, 0},
+            {IP_CONST_CASTSPELL_REMOVE_PARALYSIS_3, 0},
+            {IP_CONST_CASTSPELL_RESTORATION_7, 0},
         };
         #endregion
 
@@ -784,20 +852,20 @@ namespace ACR_Items
 
         public static Dictionary<int, int> SummonSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_GREATER_PLANAR_BINDING_15, 1800},
-            {IP_CONST_CASTSPELL_LESSER_PLANAR_BINDING_9, 675},
-            {IP_CONST_CASTSPELL_PLANAR_ALLY_15, 1800},
-            {IP_CONST_CASTSPELL_PLANAR_BINDING_11, 990},
-            {IP_CONST_CASTSPELL_SUMMON_CREATURE_I_2, 30},
-            {IP_CONST_CASTSPELL_SUMMON_CREATURE_I_5, 75},
-            {IP_CONST_CASTSPELL_SUMMON_CREATURE_II_3, 90},
-            {IP_CONST_CASTSPELL_SUMMON_CREATURE_III_5, 225},
-            {IP_CONST_CASTSPELL_SUMMON_CREATURE_IV_7, 420},
-            {IP_CONST_CASTSPELL_SUMMON_CREATURE_IX_17, 2295},
-            {IP_CONST_CASTSPELL_SUMMON_CREATURE_V_9, 675},
-            {IP_CONST_CASTSPELL_SUMMON_CREATURE_VI_11, 990},
-            {IP_CONST_CASTSPELL_SUMMON_CREATURE_VII_13, 1365},
-            {IP_CONST_CASTSPELL_SUMMON_CREATURE_VIII_15, 1800},
+            {IP_CONST_CASTSPELL_GREATER_PLANAR_BINDING_15, 0},
+            {IP_CONST_CASTSPELL_LESSER_PLANAR_BINDING_9, 0},
+            {IP_CONST_CASTSPELL_PLANAR_ALLY_15, 0},
+            {IP_CONST_CASTSPELL_PLANAR_BINDING_11, 0},
+            {IP_CONST_CASTSPELL_SUMMON_CREATURE_I_2, 0},
+            {IP_CONST_CASTSPELL_SUMMON_CREATURE_I_5, 0},
+            {IP_CONST_CASTSPELL_SUMMON_CREATURE_II_3, 0},
+            {IP_CONST_CASTSPELL_SUMMON_CREATURE_III_5, 0},
+            {IP_CONST_CASTSPELL_SUMMON_CREATURE_IV_7, 0},
+            {IP_CONST_CASTSPELL_SUMMON_CREATURE_IX_17, 0},
+            {IP_CONST_CASTSPELL_SUMMON_CREATURE_V_9, 0},
+            {IP_CONST_CASTSPELL_SUMMON_CREATURE_VI_11, 0},
+            {IP_CONST_CASTSPELL_SUMMON_CREATURE_VII_13, 0},
+            {IP_CONST_CASTSPELL_SUMMON_CREATURE_VIII_15, 0},
         };
         #endregion
 
@@ -816,6 +884,16 @@ namespace ACR_Items
             {
                 to.Add(item);
             }
+        }
+
+        private static void convertToStaffPrice(Dictionary<int, int> dict)
+        {
+            Dictionary<int, int> newDict = new Dictionary<int, int>();
+            foreach (int ip in dict.Keys)
+            {
+                newDict.Add(ip, 15 * ALFA.Shared.Modules.InfoStore.IPCastSpells[ip].CasterLevel * ALFA.Shared.Modules.InfoStore.IPCastSpells[ip].InnateLevel);
+            }
+            dict = newDict;
         }
         #endregion
     }
