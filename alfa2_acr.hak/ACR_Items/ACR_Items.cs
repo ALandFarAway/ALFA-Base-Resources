@@ -55,6 +55,11 @@ namespace ACR_Items
                         Pricing.CalculatePrice(this, Target);
                         break;
                     }
+                case ItemCommand.GenerateLoot:
+                    {
+                        Generation.GenerateLoot(this, Param1, Param2);
+                        break;
+                    }
             }
             return 0;
         }
@@ -63,6 +68,7 @@ namespace ACR_Items
         {
             AdjustPrice = 0,
             CalculatePrice = 1,
+            GenerateLoot = 2,
         }
     }
 }

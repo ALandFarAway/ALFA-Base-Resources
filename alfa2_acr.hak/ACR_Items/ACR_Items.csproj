@@ -52,6 +52,15 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_Items.cs" />
+    <Compile Include="GenerateAmulet.cs" />
+    <Compile Include="GenerateArmor.cs" />
+    <Compile Include="GeneratePotion.cs" />
+    <Compile Include="GenerateRod.cs" />
+    <Compile Include="GenerateScroll.cs" />
+    <Compile Include="GenerateStaff.cs" />
+    <Compile Include="GenerateWand.cs" />
+    <Compile Include="GenerateWeapon.cs" />
+    <Compile Include="Generation.cs" />
     <Compile Include="PricedItemProperty.cs" />
     <Compile Include="Pricing.cs" />
     <Compile Include="PricingAssessments.cs" />

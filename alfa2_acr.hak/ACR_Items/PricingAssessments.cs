@@ -286,7 +286,7 @@ namespace ACR_Items
             return false;
         }
 
-        private static bool GetIsArmor(int itemType)
+        public static bool GetIsArmor(int itemType)
         {
             if (Armor.Contains(itemType))
             {

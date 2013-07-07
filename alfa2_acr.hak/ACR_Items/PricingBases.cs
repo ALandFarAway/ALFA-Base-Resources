@@ -24,7 +24,7 @@ namespace ACR_Items
     public partial class Pricing : CLRScriptBase
     {
         #region Base Item Classifications
-        static List<int> OOC = new List<int>
+        public static List<int> OOC = new List<int>
         {
             BASE_ITEM_CBLUDGWEAPON,
             BASE_ITEM_CPIERCWEAPON,
@@ -34,14 +34,15 @@ namespace ACR_Items
             BASE_ITEM_INVALID,
         };
 
-        static List<int> Armor = new List<int>
+        public static List<int> Armor = new List<int>
         {
             BASE_ITEM_ARMOR,
             BASE_ITEM_SMALLSHIELD,
             BASE_ITEM_LARGESHIELD,
             BASE_ITEM_TOWERSHIELD,
         };
-        static List<int> Ammunition = new List<int>
+
+        public static List<int> Ammunition = new List<int>
         {
             BASE_ITEM_ARROW,
             BASE_ITEM_BOLT,
@@ -51,7 +52,7 @@ namespace ACR_Items
             BASE_ITEM_THROWINGAXE,
         };
 
-        static List<int> LightWeapons = new List<int>
+        public static List<int> LightWeapons = new List<int>
         {
             BASE_ITEM_SHORTSWORD,
             BASE_ITEM_LIGHTMACE,
@@ -65,7 +66,7 @@ namespace ACR_Items
             BASE_ITEM_RAPIER,
         };
 
-        static List<int> HeavyWeapons = new List<int>
+        public static List<int> HeavyWeapons = new List<int>
         {
             BASE_ITEM_HALBERD,
             BASE_ITEM_GREATSWORD,
@@ -78,7 +79,7 @@ namespace ACR_Items
             BASE_ITEM_WARMACE,
         };
 
-        static List<int> Weapons = new List<int>
+        public static List<int> Weapons = new List<int>
         {
                 BASE_ITEM_ALLUSE_SWORD,
                 BASE_ITEM_BASTARDSWORD,
@@ -122,7 +123,7 @@ namespace ACR_Items
         };
         #endregion
         #region Base Item Values
-        static Dictionary<int, int> BaseItemValues = new Dictionary<int, int>
+        public static Dictionary<int, int> BaseItemValues = new Dictionary<int, int>
         {
             {BASE_ITEM_ALFAPOTION, 0},
             {BASE_ITEM_ALLUSE_SWORD, 30},
@@ -242,7 +243,7 @@ namespace ACR_Items
             {BASE_ITEM_WHIP, 10},
         };
 
-        static Dictionary<int, int> ArmorRulesTypeValues = new Dictionary<int, int>
+        public static Dictionary<int, int> ArmorRulesTypeValues = new Dictionary<int, int>
         {
             {ARMOR_RULES_TYPE_BANDED, 250},
             {ARMOR_RULES_TYPE_BANDED_MASTERWORK, 400},
