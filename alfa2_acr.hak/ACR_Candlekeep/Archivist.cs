@@ -752,6 +752,7 @@ namespace ACR_Candlekeep
                 debug += ex;
             }
 
+            ACR_Candlekeep.ArchivesInstance.Resources = manager;
             ACR_Candlekeep.ArchivesInstance.SetResourcesLoaded();
         }
 

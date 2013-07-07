@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 using System.Threading;
 using OEIShared.IO;
 using OEIShared.IO.GFF;
@@ -72,23 +73,280 @@ namespace ACR_Candlekeep
             Dispose(false);
         }
 
-        public Dictionary<string, ALFA.Shared.ItemResource> ModuleItems { get; set; }
-        public Dictionary<string, ALFA.Shared.CreatureResource> ModuleCreatures { get; set; }
-        public Dictionary<string, ALFA.Shared.LightResource> ModuleLights { get; set; }
-        public Dictionary<string, ALFA.Shared.PlaceableResource> ModulePlaceables { get; set; }
-        public Dictionary<string, ALFA.Shared.WaypointResource> ModuleWaypoints { get; set; }
-        public Dictionary<string, ALFA.Shared.VisualEffectResource> ModuleVisualEffects { get; set; }
-        public Dictionary<string, ALFA.Shared.TrapResource> ModuleTraps { get; set; }
-        public Dictionary<int, ALFA.Shared.Faction> ModuleFactions { get; set; }
+        //
+        // Getters for ALFA.Shared.IInformationStore.
+        //
+        // Get requests from within the current assembly are allowed before the
+        // resources are marked loaded, to facilitate the internal
+        // functionality of the Archivist background worker.
+        //
 
-        public Dictionary<uint, ALFA.Shared.ActiveArea> ActiveAreas { get; set; }
+        public Dictionary<string, ALFA.Shared.ItemResource> ModuleItems
+        {
+            get
+            {
+                if (_resourcesLoaded == false)
+                {
+                    if (Assembly.GetCallingAssembly() != Assembly.GetExecutingAssembly())
+                    {
+                        WaitForResourcesLoaded(true);
+                    }
+                }
 
-        public Dictionary<string, ALFA.Shared.ActiveTrap> SpawnedTrapTriggers { get; set; }
-        public Dictionary<string, ALFA.Shared.ActiveTrap> SpawnedTrapDetect { get; set; }
+                return this._ModuleItems;
+            }
+            set
+            {
+                this._ModuleItems = value;
+            }
+        }
 
-        public Dictionary<string, GFFFile> ModifiedGff {get; set;}
+        public Dictionary<string, ALFA.Shared.CreatureResource> ModuleCreatures
+        {
+            get
+            {
+                if (_resourcesLoaded == false)
+                {
+                    if (Assembly.GetCallingAssembly() != Assembly.GetExecutingAssembly())
+                    {
+                        WaitForResourcesLoaded(true);
+                    }
+                }
 
-        public Dictionary<int, ALFA.Shared.Spell> CoreSpells { get; set; }
+                return this._ModuleCreatures;
+            }
+            set
+            {
+                this._ModuleCreatures = value;
+            }
+        }
+
+        public Dictionary<string, ALFA.Shared.LightResource> ModuleLights
+        {
+            get
+            {
+                if (_resourcesLoaded == false)
+                {
+                    if (Assembly.GetCallingAssembly() != Assembly.GetExecutingAssembly())
+                    {
+                        WaitForResourcesLoaded(true);
+                    }
+                }
+
+                return this._ModuleLights;
+            }
+            set
+            {
+                this._ModuleLights = value;
+            }
+        }
+
+        public Dictionary<string, ALFA.Shared.PlaceableResource> ModulePlaceables
+        {
+            get
+            {
+                if (_resourcesLoaded == false)
+                {
+                    if (Assembly.GetCallingAssembly() != Assembly.GetExecutingAssembly())
+                    {
+                        WaitForResourcesLoaded(true);
+                    }
+                }
+
+                return this._ModulePlaceables;
+            }
+            set
+            {
+                this._ModulePlaceables = value;
+            }
+        }
+
+        public Dictionary<string, ALFA.Shared.WaypointResource> ModuleWaypoints
+        {
+            get
+            {
+                if (_resourcesLoaded == false)
+                {
+                    if (Assembly.GetCallingAssembly() != Assembly.GetExecutingAssembly())
+                    {
+                        WaitForResourcesLoaded(true);
+                    }
+                }
+
+                return this._ModuleWaypoints;
+            }
+            set
+            {
+                this._ModuleWaypoints = value;
+            }
+        }
+
+        public Dictionary<string, ALFA.Shared.VisualEffectResource> ModuleVisualEffects
+        {
+            get
+            {
+                if (_resourcesLoaded == false)
+                {
+                    if (Assembly.GetCallingAssembly() != Assembly.GetExecutingAssembly())
+                    {
+                        WaitForResourcesLoaded(true);
+                    }
+                }
+
+                return this._ModuleVisualEffects;
+            }
+            set
+            {
+                this._ModuleVisualEffects = value;
+            }
+        }
+
+        public Dictionary<string, ALFA.Shared.TrapResource> ModuleTraps
+        {
+            get
+            {
+                if (_resourcesLoaded == false)
+                {
+                    if (Assembly.GetCallingAssembly() != Assembly.GetExecutingAssembly())
+                    {
+                        WaitForResourcesLoaded(true);
+                    }
+                }
+
+                return this._ModuleTraps;
+            }
+            set
+            {
+                this._ModuleTraps = value;
+            }
+        }
+
+        public Dictionary<int, ALFA.Shared.Faction> ModuleFactions
+        {
+            get
+            {
+                if (_resourcesLoaded == false)
+                {
+                    if (Assembly.GetCallingAssembly() != Assembly.GetExecutingAssembly())
+                    {
+                        WaitForResourcesLoaded(true);
+                    }
+                }
+
+                return this._ModuleFactions;
+            }
+            set
+            {
+                this._ModuleFactions = value;
+            }
+        }
+
+
+        public Dictionary<uint, ALFA.Shared.ActiveArea> ActiveAreas
+        {
+            get
+            {
+                if (_resourcesLoaded == false)
+                {
+                    if (Assembly.GetCallingAssembly() != Assembly.GetExecutingAssembly())
+                    {
+                        WaitForResourcesLoaded(true);
+                    }
+                }
+
+                return this._ActiveAreas;
+            }
+            set
+            {
+                this._ActiveAreas = value;
+            }
+        }
+
+
+        public Dictionary<string, ALFA.Shared.ActiveTrap> SpawnedTrapTriggers
+        {
+            get
+            {
+                if (_resourcesLoaded == false)
+                {
+                    if (Assembly.GetCallingAssembly() != Assembly.GetExecutingAssembly())
+                    {
+                        WaitForResourcesLoaded(true);
+                    }
+                }
+
+                return this._SpawnedTrapTriggers;
+            }
+            set
+            {
+                this._SpawnedTrapTriggers = value;
+            }
+        }
+
+        public Dictionary<string, ALFA.Shared.ActiveTrap> SpawnedTrapDetect
+        {
+            get
+            {
+                if (_resourcesLoaded == false)
+                {
+                    if (Assembly.GetCallingAssembly() != Assembly.GetExecutingAssembly())
+                    {
+                        WaitForResourcesLoaded(true);
+                    }
+                }
+
+                return this._SpawnedTrapDetect;
+            }
+            set
+            {
+                this._SpawnedTrapDetect = value;
+            }
+        }
+
+
+        public Dictionary<string, GFFFile> ModifiedGff { get; set; }
+
+
+        public Dictionary<int, ALFA.Shared.Spell> CoreSpells
+        {
+            get
+            {
+                if (_resourcesLoaded == false)
+                {
+                    if (Assembly.GetCallingAssembly() != Assembly.GetExecutingAssembly())
+                    {
+                        WaitForResourcesLoaded(true);
+                    }
+                }
+
+                return this._CoreSpells;
+            }
+            set
+            {
+                this._CoreSpells = value;
+            }
+        }
+
+
+        public ALFA.ResourceManager Resources
+        {
+            get
+            {
+                if (_resourcesLoaded == false)
+                {
+                    if (Assembly.GetCallingAssembly() != Assembly.GetExecutingAssembly())
+                    {
+                        WaitForResourcesLoaded(true);
+                    }
+                }
+
+                return this._Resources;
+            }
+            set
+            {
+                this._Resources = value;
+            }
+        }
 
         public Dictionary<int, ALFA.Shared.SpellCastItemProperties> IPCastSpells { get; set; }
 
@@ -110,5 +368,28 @@ namespace ACR_Candlekeep
         /// True if the disposer has run.
         /// </summary>
         private bool Disposed = false;
+
+        //
+        // Published data elements backing properties for
+        // ALFA.Shared.Modules.InfoStore.
+        //
+
+        private Dictionary<string, ALFA.Shared.ItemResource> _ModuleItems;
+        private Dictionary<string, ALFA.Shared.CreatureResource> _ModuleCreatures;
+        private Dictionary<string, ALFA.Shared.LightResource> _ModuleLights;
+        private Dictionary<string, ALFA.Shared.PlaceableResource> _ModulePlaceables;
+        private Dictionary<string, ALFA.Shared.WaypointResource> _ModuleWaypoints;
+        private Dictionary<string, ALFA.Shared.VisualEffectResource> _ModuleVisualEffects;
+        private Dictionary<string, ALFA.Shared.TrapResource> _ModuleTraps;
+        private Dictionary<int, ALFA.Shared.Faction> _ModuleFactions;
+
+        private Dictionary<uint, ALFA.Shared.ActiveArea> _ActiveAreas;
+
+        private Dictionary<string, ALFA.Shared.ActiveTrap> _SpawnedTrapTriggers;
+        private Dictionary<string, ALFA.Shared.ActiveTrap> _SpawnedTrapDetect;
+
+        private Dictionary<int, ALFA.Shared.Spell> _CoreSpells;
+
+        private ALFA.ResourceManager _Resources;
     }
 }
