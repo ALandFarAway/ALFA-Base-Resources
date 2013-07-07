@@ -56,6 +56,8 @@ namespace ACR_Candlekeep
 
                 ALFA.Shared.Modules.InfoStore.ModifiedGff = new Dictionary<string, GFFFile>();
 
+                ALFA.Shared.Modules.InfoStore.CoreSpells = new Dictionary<int, ALFA.Shared.Spell>();
+
                 Archivist.debug += "\nInitializing standard factions";
                 List<int> factionIndex = new List<int>();
                 factionIndex.Add(0); // Player
@@ -457,9 +459,114 @@ namespace ACR_Candlekeep
                 }
                 #endregion
 
+                #region Gathering Information from 2da Files
+                bool spellsLoaded = false;
+                foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.Res2DA))
+                {
+                    try
+                    {
+                        if (resource.FullName.ToLower() == "spells.2da" && !spellsLoaded)
+                        {
+                            OEIShared.IO.TwoDA.TwoDAFile twoda = manager.OpenTwoDAResource(resource.ResRef.Value, ALFA.ResourceManager.Res2DA);
+                            spellsLoaded = true;
+                            for (int row = 0; row < twoda.RowCount; row++)
+                            {
+                                ALFA.Shared.Spell spell = new ALFA.Shared.Spell();
+                                int parseholder = 0;
+                                uint parseuint = 0;
+                                if(uint.TryParse(twoda["Name"].LiteralValue(row), out parseuint))
+                                    spell.Name = GetTlkEntry(parseuint);
+                                else spell.Name = twoda["Label"][row];
+
+                                if (spell.Name == "" ||
+                                    spell.Name == "padding" ||
+                                    spell.Name == "PADDING_PERSONAL_VFX")
+                                {
+                                    // This line is padding.
+                                    continue;
+                                }
+
+                                spell.Icon = twoda["IconResRef"][row];
+                                spell.School = twoda["School"][row];
+                                spell.Range = twoda["Range"][row];
+                                spell.Components = twoda["VS"][row];
+                                spell.ImpactScript = twoda["ImpactScript"][row];
+
+                                if (int.TryParse(twoda["MetaMagic"][row], System.Globalization.NumberStyles.AllowHexSpecifier, System.Globalization.CultureInfo.InvariantCulture, out parseholder))
+                                    spell.MetaMagic = parseholder;
+                                else spell.MetaMagic = -1;
+                                if (int.TryParse(twoda["TargetType"][row], System.Globalization.NumberStyles.AllowHexSpecifier, System.Globalization.CultureInfo.InvariantCulture, out parseholder))
+                                    spell.TargetType = parseholder;
+                                else spell.TargetType = -1;
+
+                                spell.ImmunityType = twoda["ImmunityType"][row];
+                                if (int.TryParse(twoda["ItemImmunity"][row], out parseholder))
+                                    spell.ItemImmunity = (parseholder != 0);
+                                else spell.ItemImmunity = false;
+
+                                if(int.TryParse(twoda["Bard"][row], out parseholder))
+                                    spell.BardLevel = parseholder;
+                                else spell.BardLevel = -1;
+                                if (int.TryParse(twoda["Cleric"][row], out parseholder))
+                                    spell.ClericLevel = parseholder;
+                                else spell.ClericLevel = -1;
+                                if (int.TryParse(twoda["Druid"][row], out parseholder))
+                                    spell.DruidLevel = parseholder;
+                                else spell.DruidLevel = -1;
+                                if (int.TryParse(twoda["Paladin"][row], out parseholder))
+                                    spell.PaladinLevel = parseholder;
+                                else spell.PaladinLevel = -1;
+                                if (int.TryParse(twoda["Ranger"][row], out parseholder))
+                                    spell.RangerLevel = parseholder;
+                                else spell.RangerLevel = -1;
+                                if (int.TryParse(twoda["Wiz_Sorc"][row], out parseholder))
+                                    spell.WizardLevel = parseholder;
+                                else spell.WizardLevel = -1;
+                                if (int.TryParse(twoda["Warlock"][row], out parseholder))
+                                    spell.WarlockLevel = parseholder;
+                                else spell.WarlockLevel = -1;
+                                if (int.TryParse(twoda["Innate"][row], out parseholder))
+                                    spell.InnateLevel = parseholder;
+                                else spell.InnateLevel = -1;
+
+                                spell.SubSpells = new List<int>();
+                                if (int.TryParse(twoda["SubRadSpell1"][row], out parseholder))
+                                    spell.SubSpells.Add(parseholder);
+                                if (int.TryParse(twoda["SubRadSpell2"][row], out parseholder))
+                                    spell.SubSpells.Add(parseholder);
+                                if (int.TryParse(twoda["SubRadSpell3"][row], out parseholder))
+                                    spell.SubSpells.Add(parseholder);
+                                if (int.TryParse(twoda["SubRadSpell4"][row], out parseholder))
+                                    spell.SubSpells.Add(parseholder);
+                                if (int.TryParse(twoda["SubRadSpell5"][row], out parseholder))
+                                    spell.SubSpells.Add(parseholder);
+                                if (int.TryParse(twoda["Master"][row], out parseholder))
+                                    spell.MasterSpell = parseholder;
+                                else spell.MasterSpell = -1;
+
+                                spell.CounterSpells = new List<int>();
+                                if (int.TryParse(twoda["Counter1"][row], out parseholder))
+                                    spell.CounterSpells.Add(parseholder);
+                                if (int.TryParse(twoda["Counter2"][row], out parseholder))
+                                    spell.CounterSpells.Add(parseholder);
+
+                                if (int.TryParse(twoda["REMOVED"][row], out parseholder))
+                                    spell.Removed = (parseholder != 0);
+                                else spell.Removed = false;
+
+                                ALFA.Shared.Modules.InfoStore.CoreSpells.Add(row, spell);
+                            }
+                        }
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        Archivist.debug += "\n" + ex.Message;
+                    }
+                }
+                #endregion
+
                 #region Commented-Out Resource Types
-                //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.Res2DA))
-                //{ }
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResARE))
                 //{ }
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResBBX))

@@ -88,6 +88,8 @@ namespace ACR_Candlekeep
 
         public Dictionary<string, GFFFile> ModifiedGff {get; set;}
 
+        public Dictionary<int, ALFA.Shared.Spell> CoreSpells { get; set; }
+
 
         /// <summary>
         /// Mark resources as fully loaded after initialization completes.

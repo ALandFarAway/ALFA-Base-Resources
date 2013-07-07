@@ -30,5 +30,7 @@ namespace ALFA.Shared
         Dictionary<string, ActiveTrap> SpawnedTrapDetect { get; set; }
 
         Dictionary<string, GFFFile> ModifiedGff { get; set; }
+
+        Dictionary<int, Spell> CoreSpells { get; set; }
     }
 }
