@@ -90,6 +90,8 @@ namespace ACR_Candlekeep
 
         public Dictionary<int, ALFA.Shared.Spell> CoreSpells { get; set; }
 
+        public Dictionary<int, ALFA.Shared.SpellCastItemProperties> IPCastSpells { get; set; }
+
 
         /// <summary>
         /// Mark resources as fully loaded after initialization completes.

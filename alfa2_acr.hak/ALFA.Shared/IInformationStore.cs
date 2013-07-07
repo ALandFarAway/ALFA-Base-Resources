@@ -32,5 +32,7 @@ namespace ALFA.Shared
         Dictionary<string, GFFFile> ModifiedGff { get; set; }
 
         Dictionary<int, Spell> CoreSpells { get; set; }
+
+        Dictionary<int, SpellCastItemProperties> IPCastSpells { get; set; }
     }
 }
