@@ -29,15 +29,22 @@ namespace ACR_Items
 
         const int MasterworkWeaponValue = 300;
         const int MasterworkArmorValue = 150;
+
+        private const bool debug = false;
+
+        private static Dictionary<string, int> stackSizes = new Dictionary<string, int>();
         
         public static void AdjustPrice(CLRScriptBase script, uint target, int adjustBy)
         {
             if (script.GetObjectType(target) != OBJECT_TYPE_ITEM)
                 return;
-            if (script.GetItemStackSize(target) > 1)
-                return;
 
             string itemKey = PriceChangeVarName + target.ToString();
+            if (script.GetItemStackSize(target) > 1)
+            {
+                stackSizes.Add(itemKey, script.GetItemStackSize(target));
+                script.SetItemStackSize(target, 1, FALSE);
+            }
             script.StoreCampaignObject(ItemChangeDBName, itemKey, target, script.OBJECT_SELF);
             if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(PriceChangeVarName))
             {
@@ -46,9 +53,14 @@ namespace ACR_Items
                 ALFA.Shared.Modules.InfoStore.ModifiedGff[itemKey].TopLevelStruct["ModifyCost"].ValueInt = currentModifyCost;
                 
                 script.DestroyObject(target, 0.0f, FALSE);
-                script.DelayCommand(0.5f, delegate() 
+                script.DelayCommand(0.1f, delegate() 
                 { 
                     uint newObject = script.RetrieveCampaignObject(ItemChangeDBName, itemKey, script.GetLocation(script.OBJECT_SELF), script.OBJECT_SELF, script.OBJECT_SELF);
+                    if (stackSizes.Keys.Contains(itemKey))
+                    {
+                        script.SetItemStackSize(newObject, stackSizes[itemKey], FALSE);
+                        stackSizes.Remove(itemKey);
+                    }
                     if (script.GetObjectType(script.OBJECT_SELF) != OBJECT_TYPE_PLACEABLE)
                     {
                         script.CopyItem(newObject, script.OBJECT_SELF, TRUE);
@@ -79,7 +91,7 @@ namespace ACR_Items
 
             #region Find out What the Item Should be Worth
             int targetValue = 0;
-            if (GetIsWeapon(itemType))
+            if (GetIsWeapon(itemType) || GetIsAmmunition(itemType))
             {
                 targetValue = GetWeaponPrice(script, target);
             }
@@ -856,6 +868,7 @@ namespace ACR_Items
                             }
                             else
                             {
+                                if(debug) script.SendMessageToAllDMs("Illegal weapon because it provides an unsupported feat");
                                 return -1;
                             }
                             break;
@@ -904,6 +917,7 @@ namespace ACR_Items
                             {
                                 case IP_CONST_CASTSPELL_NUMUSES_0_CHARGES_PER_USE:
                                     {
+                                        if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides infinite spellcasting");
                                         return -1;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_1_CHARGE_PER_USE:
@@ -984,6 +998,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_UNLIMITED_USE:
                                     {
+                                        if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides infinite spellcasting");
                                         return -1;
                                     }
                             }
@@ -1050,6 +1065,7 @@ namespace ACR_Items
                                                 }
                                             default:
                                                 {
+                                                    if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides an unsupported damage bonus");
                                                     return -1;
                                                 }
                                         }
@@ -1101,6 +1117,7 @@ namespace ACR_Items
                                                 }
                                             default:
                                                 {
+                                                    if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides an unsupported damage bonus");
                                                     return -1;
                                                 }
                                         }                                        
@@ -1154,6 +1171,7 @@ namespace ACR_Items
                                                 }
                                             default:
                                                 {
+                                                    if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides an unsupported damage bonus");
                                                     return -1;
                                                 }
                                         } 
@@ -1208,6 +1226,7 @@ namespace ACR_Items
                                                 }
                                             default:
                                                 {
+                                                    if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides an unsupported damage resistance");
                                                     return -1;
                                                 }
                                         }
@@ -1247,11 +1266,17 @@ namespace ACR_Items
                                                     prop.Price = 66000;
                                                     break;
                                                 }
+                                            default:
+                                                {
+                                                    if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides an unsupported damage resistance");
+                                                    return -1;
+                                                }
                                         }
                                         break;
                                     }
                                 default:
                                     {
+                                        if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides an illegal type of damage resistance");
                                         return -1;
                                     }
                             }
@@ -1315,6 +1340,7 @@ namespace ACR_Items
                                     }
                                 default:
                                     {
+                                        if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides a disallowed immunity");
                                         return -1;
                                     }
                             }
@@ -1428,6 +1454,7 @@ namespace ACR_Items
                             int val = script.GetItemPropertyCostTableValue(prop.Property);
                             if (val > 2)
                             {
+                                if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides more than 2 points of vampiric regeneration");
                                 return -1;
                             }
                             effectivePlus = val * 0.5f;
@@ -1440,6 +1467,7 @@ namespace ACR_Items
                             int val = script.GetItemPropertyCostTableValue(prop.Property);
                             if (val > 5)
                             {
+                                if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides a bonus to saving throws greater than five");
                                 return -1;
                             }
                             if (script.GetItemPropertySubType(prop.Property) == IP_CONST_SAVEVS_UNIVERSAL)
@@ -1463,6 +1491,7 @@ namespace ACR_Items
                             int val = script.GetItemPropertyCostTableValue(prop.Property);
                             if (val > 5)
                             {
+                                if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides a saving throw bonus greater than five.");
                                 return -1;
                             }
                             prop.Price = (val * val) * 250;                            
@@ -1529,6 +1558,7 @@ namespace ACR_Items
                                     }
                                 default:
                                     {
+                                        if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides a spell resistance bonus greater than 26.");
                                         return -1;
                                     }
                             }
@@ -1582,7 +1612,7 @@ namespace ACR_Items
                                     }
                                 default:
                                     {
-                                        // These are the quirky OC special ammo.
+                                        if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides a variety of unlimited ammunition which is illegal.");
                                         return -1;
                                     }
                             }
@@ -1616,7 +1646,7 @@ namespace ACR_Items
                     case ITEM_PROPERTY_TRUE_SEEING:
                     case ITEM_PROPERTY_TURN_RESISTANCE:
                         {
-                            // these props are banned. return -1.
+                            if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides an illegal property base type.");
                             return -1;
                         }
                     #endregion
@@ -1819,6 +1849,7 @@ namespace ACR_Items
                                     }
                                 default:
                                     {
+                                        if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides an unsupported damage type vs. alignment groups.");
                                         return -1;
                                     }
                             }
@@ -1878,6 +1909,7 @@ namespace ACR_Items
                                     }
                                 default:
                                     {
+                                        if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides an unsupported damage type vs. racial groups.");
                                         return -1;
                                     }
                             }
@@ -1937,6 +1969,7 @@ namespace ACR_Items
                                     }
                                 default:
                                     {
+                                        if (debug) script.SendMessageToAllDMs("Illegal weapon because it provides an unsupported damage type vs. specific alignments.");
                                         return -1;
                                     }
                             }
@@ -2003,6 +2036,7 @@ namespace ACR_Items
                 {
                     if (enhancementVsEveryone < 0.99)
                     {
+                        script.SendMessageToAllDMs("Illegal weapon because total enhancement is 1 or greater, but no baseline enhancement bonus is established.");
                         return -1;
                     }
                     value += (int)((effectivePlus * effectivePlus) * 2000);
@@ -7940,7 +7974,6 @@ namespace ACR_Items
                                         case IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_10: // discernment
                                         case IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_15:
                                         case IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_5:
-                                        case IP_CONST_CASTSPELL_CLARITY_3: // protection
                                         case IP_CONST_CASTSPELL_DARKVISION_3: // discernment
                                         case IP_CONST_CASTSPELL_DARKVISION_6:
                                         case IP_CONST_CASTSPELL_DOOM_2: // morale
@@ -8604,7 +8637,7 @@ namespace ACR_Items
                 #region Cloaks
                 case BASE_ITEM_CLOAK:
                     {
-                        switch (subtype)
+                        switch (type)
                         {
                             #region Ability Bonus
                             case ITEM_PROPERTY_ABILITY_BONUS:
@@ -8828,7 +8861,7 @@ namespace ACR_Items
                 case BASE_ITEM_GLOVES:
                 case BASE_ITEM_BRACER:
                     {
-                        switch (subtype)
+                        switch (type)
                         {
                             #region Ability Bonus
                             case ITEM_PROPERTY_ABILITY_BONUS:
@@ -9070,7 +9103,7 @@ namespace ACR_Items
                 #region Helmets
                 case BASE_ITEM_HELMET:
                     {
-                        switch (subtype)
+                        switch (type)
                         {
                             #region Ability Bonus
                             case ITEM_PROPERTY_ABILITY_BONUS:
@@ -9135,7 +9168,6 @@ namespace ACR_Items
                                         case IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_10: // vision
                                         case IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_15:
                                         case IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_5:
-                                        case IP_CONST_CASTSPELL_CLARITY_3:
                                         case IP_CONST_CASTSPELL_CONFUSION_10:
                                         case IP_CONST_CASTSPELL_CONFUSION_5:
                                         case IP_CONST_CASTSPELL_DELAYED_BLAST_FIREBALL_13:

@@ -277,7 +277,7 @@ namespace ACR_Items
             return false;
         }
 
-        private static bool GetIsAmmunition(int itemType)
+        public static bool GetIsAmmunition(int itemType)
         {
             if (Ammunition.Contains(itemType))
             {
