@@ -161,6 +161,11 @@ namespace ACR_Items
             }
             #endregion
 
+            if (Pricing.GetIsAmmunition(itemType))
+            {
+                script.SetItemStackSize(weapon, 50, FALSE);
+                weaponValue /= 2;
+            }
             Pricing.CalculatePrice(script, weapon);
 
             return weaponValue;

@@ -627,7 +627,6 @@ namespace ACR_Items
             IP_CONST_SAVEVS_COLD,
             IP_CONST_SAVEVS_DEATH,
             IP_CONST_SAVEVS_DISEASE,
-            IP_CONST_SAVEVS_DIVINE,
             IP_CONST_SAVEVS_ELECTRICAL,
             IP_CONST_SAVEVS_FEAR,
             IP_CONST_SAVEVS_FIRE,

@@ -54,7 +54,13 @@
     <Compile Include="ACR_Items.cs" />
     <Compile Include="GenerateAmulet.cs" />
     <Compile Include="GenerateArmor.cs" />
+    <Compile Include="GenerateBelt.cs" />
+    <Compile Include="GenerateBoots.cs" />
+    <Compile Include="GenerateCloak.cs" />
+    <Compile Include="GenerateGloves.cs" />
+    <Compile Include="GenerateHelmet.cs" />
     <Compile Include="GeneratePotion.cs" />
+    <Compile Include="GenerateRing.cs" />
     <Compile Include="GenerateRod.cs" />
     <Compile Include="GenerateScroll.cs" />
     <Compile Include="GenerateStaff.cs" />

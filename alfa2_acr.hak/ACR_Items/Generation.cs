@@ -43,7 +43,7 @@ namespace ACR_Items
                 {
                     maxItemValue = lootValue;
                 }
-                switch (script.d3(1))
+                switch (script.d10(1))
                 {
                     case 1:
                         {
@@ -72,11 +72,13 @@ namespace ACR_Items
                             else if (roll > 52)
                             {
                                 decrease = GenerateStaff.NewStaff(script, maxItemValue); // 53-55
+                                script.SendMessageToAllDMs("Spawning staff worth " + decrease);
                                 lootValue -= decrease;
                             }
                             else if (roll > 50)
                             {
                                 decrease = GenerateRod.NewRod(script, maxItemValue); // 51-52
+                                script.SendMessageToAllDMs("Spawning rod worth " + decrease);
                                 lootValue -= decrease;
                             }
                             else if (roll > 42)
@@ -92,43 +94,36 @@ namespace ACR_Items
                             else if (roll > 30)
                             {
                                 decrease = GenerateAmulet.NewAmulet(script, maxItemValue); // 31-35
-                                script.SendMessageToAllDMs(String.Format("Spawning amulet worth {0}", decrease));
                                 lootValue -= decrease;
                             }
                             else if (roll > 25)
                             {
-                                decrease = GenerateBelt(script, maxItemValue); // 26-30
-                                script.SendMessageToAllDMs(String.Format("Spawning belt worth {0}", decrease));
+                                decrease = GenerateBelt.NewBelt(script, maxItemValue); // 26-30
                                 lootValue -= decrease;
                             }
                             else if (roll > 20)
                             {
-                                decrease = GenerateBoots(script, maxItemValue); // 21-25
-                                script.SendMessageToAllDMs(String.Format("Spawning boots worth {0}", decrease));
+                                decrease = GenerateBoots.NewBoots(script, maxItemValue); // 21-25
                                 lootValue -= decrease; 
                             }
                             else if (roll > 15)
                             {
-                                decrease = GenerateCloak(script, maxItemValue); // 16-20
-                                script.SendMessageToAllDMs(String.Format("Spawning cloak worth {0}", decrease));
+                                decrease = GenerateCloak.NewCloak(script, maxItemValue); // 16-20
                                 lootValue -= decrease;
                             }
                             else if (roll > 10)
                             {
-                                decrease = GenerateHelmet(script, maxItemValue); // 11-15
-                                script.SendMessageToAllDMs(String.Format("Spawning helmet worth {0}", decrease));
+                                decrease = GenerateHelmet.NewHelmet(script, maxItemValue); // 11-15
                                 lootValue -= decrease;
                             }
                             else if (roll > 5)
                             {
-                                decrease = GenerateRing(script, maxItemValue); // 6-10
-                                script.SendMessageToAllDMs(String.Format("Spawning ring worth {0}", decrease));
+                                decrease = GenerateRing.NewRing(script, maxItemValue); // 6-10
                                 lootValue -= decrease;
                             }
                             else
                             {
-                                decrease = GenerateTrinket(script, maxItemValue); // 1-5
-                                script.SendMessageToAllDMs(String.Format("Spawning trinket worth {0}", decrease));
+                                decrease = GenerateGloves.NewGloves(script, maxItemValue); // 1-5
                                 lootValue -= decrease;
                             }
                             break;
@@ -139,43 +134,32 @@ namespace ACR_Items
                     script.CreateItemOnObject("nw_it_gold001", script.OBJECT_SELF, lootValue, "", FALSE);
                     return;
                 }
+                if (script.d100(1) > 95)
+                {
+                    script.CreateItemOnObject("nw_it_gold001", script.OBJECT_SELF, maxItemValue / 10, "", FALSE);
+                    lootValue -= maxItemValue / 10;
+                }
             }
         }
 
         public static int GenerateArt(CLRScriptBase script, int itemValue)
         {
-            return 0;
-        }
-
-        public static int GenerateBelt(CLRScriptBase script, int itemValue)
-        {
-            return 0;
-        }
-
-        public static int GenerateBoots(CLRScriptBase script, int itemValue)
-        {
-            return 0;
-        }
-
-        public static int GenerateCloak(CLRScriptBase script, int itemValue)
-        {
-            return 0;
-        }
-        
-        public static int GenerateHelmet(CLRScriptBase script, int itemValue)
-        {
-            return 0;
-        }
-
-
-        public static int GenerateRing(CLRScriptBase script, int itemValue)
-        {
-            return 0;
-        }
-
-        public static int GenerateTrinket(CLRScriptBase script, int itemValue)
-        {
-            return 0;
+            int maxGem = itemValue / 5;
+            List<string> gems = new List<string>();
+            foreach (KeyValuePair<string, int> gem in DroppableGems)
+            {
+                if (gem.Value <= maxGem)
+                {
+                    gems.Add(gem.Key);
+                }
+            }
+            if (gems.Count == 0)
+            {
+                return 0;
+            }
+            string selectedGem = gems[rand.Next(gems.Count)];
+            script.CreateItemOnObject(selectedGem, script.OBJECT_SELF, rand.Next(4) + 1, "", FALSE);
+            return DroppableGems[selectedGem];
         }
 
         public static Theme GetEnchantmentTheme()
@@ -216,6 +200,28 @@ namespace ACR_Items
             Sound,
         }
 
+        #region Gem Collections
+        public static Dictionary<string, int> DroppableGems = new Dictionary<string, int>
+        {
+            {"nw_it_gem007", 10},
+            {"nw_it_gem015", 20},
+            {"nw_it_gem002", 50},
+            {"nw_it_gem003", 100},
+            {"nw_it_gem014", 125},
+            {"nw_it_gem004", 150},
+            {"nw_it_gem001", 200},
+            {"nw_it_gem011", 300},
+            {"nw_it_gem013", 500},
+            {"nw_it_gem010", 600},
+            {"nw_it_gem006", 675},
+            {"nw_it_gem009", 750},
+            {"nw_it_gem012", 850},
+            {"nw_it_gem008", 900},
+            {"nw_it_gem005", 1000},
+        };
+        #endregion
+
+        #region Spell Focus Collections
         public static List<int> SpellSchoolFocus = new List<int>
         {
             IP_CONST_FEAT_SPELLFOCUSABJ,
@@ -252,5 +258,6 @@ namespace ACR_Items
             {IP_CONST_FEAT_SPELLFOCUSILL, IP_CONST_FEAT_SPELLFOCUSENC},
             {IP_CONST_FEAT_SPELLFOCUSNEC, IP_CONST_FEAT_SPELLFOCUSEVO},
         };
+        #endregion
     }
 }

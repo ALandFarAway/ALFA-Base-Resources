@@ -25,31 +25,32 @@ namespace ACR_Items
     {
         public static int NewStaff(CLRScriptBase script, int maxValue)
         {
+            script.SendMessageToAllDMs("Generating staff of value " + maxValue);
             #region Check if collections need to be loaded. Load them if so
-            if (FireSpells.Count == 0)
+            if (FireSpells[IP_CONST_CASTSPELL_BURNING_HANDS_2] == 0)
             {
-                convertToStaffPrice(FireSpells);
-                convertToStaffPrice(ColdSpells);
-                convertToStaffPrice(AcidSpells);
-                convertToStaffPrice(ElectricSpells);
-                convertToStaffPrice(SoundSpells);
-                convertToStaffPrice(PhysicalAttackSpells);
-                convertToStaffPrice(ForceSpells);
-                convertToStaffPrice(MoraleSpells);
-                convertToStaffPrice(AntimoraleSpells);
-                convertToStaffPrice(MindControlSpells);
-                convertToStaffPrice(PerceptionSpells);
-                convertToStaffPrice(PhysicalSpells);
-                convertToStaffPrice(MentalSpells);
-                convertToStaffPrice(Transmutations);
-                convertToStaffPrice(AntiMagicSpells);
-                convertToStaffPrice(IllusionSpells);
-                convertToStaffPrice(DeathSpells);
-                convertToStaffPrice(EvilSpells);
-                convertToStaffPrice(GoodSpells);
-                convertToStaffPrice(ProtectionSpells);
-                convertToStaffPrice(HealingSpells);
-                convertToStaffPrice(SummonSpells);
+                FireSpells = convertToStaffPrice(FireSpells);
+                ColdSpells = convertToStaffPrice(ColdSpells);
+                AcidSpells = convertToStaffPrice(AcidSpells);
+                ElectricSpells = convertToStaffPrice(ElectricSpells);
+                SoundSpells = convertToStaffPrice(SoundSpells);
+                PhysicalAttackSpells = convertToStaffPrice(PhysicalAttackSpells);
+                ForceSpells = convertToStaffPrice(ForceSpells);
+                MoraleSpells = convertToStaffPrice(MoraleSpells);
+                AntimoraleSpells = convertToStaffPrice(AntimoraleSpells);
+                MindControlSpells = convertToStaffPrice(MindControlSpells);
+                PerceptionSpells = convertToStaffPrice(PerceptionSpells);
+                PhysicalSpells = convertToStaffPrice(PhysicalSpells);
+                MentalSpells = convertToStaffPrice(MentalSpells);
+                Transmutations = convertToStaffPrice(Transmutations);
+                AntiMagicSpells = convertToStaffPrice(AntiMagicSpells);
+                IllusionSpells = convertToStaffPrice(IllusionSpells);
+                DeathSpells = convertToStaffPrice(DeathSpells);
+                EvilSpells = convertToStaffPrice(EvilSpells);
+                GoodSpells = convertToStaffPrice(GoodSpells);
+                ProtectionSpells = convertToStaffPrice(ProtectionSpells);
+                HealingSpells = convertToStaffPrice(HealingSpells);
+                SummonSpells = convertToStaffPrice(SummonSpells);
             }
             #endregion
 
@@ -160,17 +161,21 @@ namespace ACR_Items
             int maxSpellValue = maxValue;
             while (true)
             {
+                script.SendMessageToAllDMs("Seeking a spell worth no more than spell value " + maxSpellValue + " or item value " + maxValue);
                 List<int> spellsToRemove = new List<int>();
                 foreach (int spell in currentAvailableSpells.Keys)
                 {
+                    script.SendMessageToAllDMs(String.Format("Property {0} is present at {1} per charge.", ALFA.Shared.Modules.InfoStore.IPCastSpells[spell], currentAvailableSpells[spell]));
                     if (((currentAvailableSpells[spell] * 50) / currentCharges) > maxValue ||
                         currentAvailableSpells[spell] > maxSpellValue)
                     {
+                        script.SendMessageToAllDMs(String.Format("Flagging {0} for removal.", ALFA.Shared.Modules.InfoStore.IPCastSpells[spell]));
                         spellsToRemove.Add(spell);
                     }
                 }
                 foreach (int spell in spellsToRemove)
                 {
+                    script.SendMessageToAllDMs(String.Format("Removing {0}.", ALFA.Shared.Modules.InfoStore.IPCastSpells[spell]));
                     currentAvailableSpells.Remove(spell);
                 }
                 if (currentAvailableSpells.Count == 0)
@@ -389,7 +394,6 @@ namespace ACR_Items
             {IP_CONST_CASTSPELL_ELECTRIC_JOLT_1, 0},
             {IP_CONST_CASTSPELL_LIGHTNING_BOLT_10, 0},
             {IP_CONST_CASTSPELL_LIGHTNING_BOLT_5, 0},
-            {IP_CONST_CASTSPELL_SCINTILLATING_SPHERE_5, 0},
         };
         #endregion
 
@@ -591,7 +595,6 @@ namespace ACR_Items
 
         public static Dictionary<int, int> MentalSpells = new Dictionary<int, int>
         {
-            {IP_CONST_CASTSPELL_CLARITY_3, 0},    
             {IP_CONST_CASTSPELL_EAGLE_SPLEDOR_10, 0},
             {IP_CONST_CASTSPELL_EAGLE_SPLEDOR_15, 0},
             {IP_CONST_CASTSPELL_EAGLE_SPLEDOR_3, 0},
@@ -886,14 +889,19 @@ namespace ACR_Items
             }
         }
 
-        private static void convertToStaffPrice(Dictionary<int, int> dict)
+        private static Dictionary<int, int> convertToStaffPrice(Dictionary<int, int> dict)
         {
             Dictionary<int, int> newDict = new Dictionary<int, int>();
             foreach (int ip in dict.Keys)
             {
-                newDict.Add(ip, 15 * ALFA.Shared.Modules.InfoStore.IPCastSpells[ip].CasterLevel * ALFA.Shared.Modules.InfoStore.IPCastSpells[ip].InnateLevel);
+                int value = 15 * ALFA.Shared.Modules.InfoStore.IPCastSpells[ip].CasterLevel * ALFA.Shared.Modules.InfoStore.IPCastSpells[ip].InnateLevel;
+                if(value == 0) // innate level is 0
+                {
+                    value = 15 * ALFA.Shared.Modules.InfoStore.IPCastSpells[ip].CasterLevel / 2;
+                }
+                newDict.Add(ip, value);
             }
-            dict = newDict;
+            return newDict;
         }
         #endregion
     }
