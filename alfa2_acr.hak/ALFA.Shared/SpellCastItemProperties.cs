@@ -21,5 +21,7 @@ namespace ALFA.Shared
         public bool Wand;
         [TwoDAColumn(ColumnName = "GeneralUse", Default = false, SerializeAs = typeof(int))]
         public bool Scroll;
+
+        public override string ToString() { return String.Format("Spell Cast: {0}, Spell Level {1}, Caster Level {2}", Spell.Name, InnateLevel, CasterLevel); }
     }
 }
