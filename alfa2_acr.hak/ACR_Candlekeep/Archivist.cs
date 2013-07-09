@@ -507,7 +507,7 @@ namespace ACR_Candlekeep
                 }
                 catch (Exception ex)
                 {
-                    Archivist.debug += "\n spells.2da error: " + ex.Message;
+                    Archivist.debug += "\n spells.2da error: " + ex.Message + "\n" + ex.StackTrace;
                 }
                 try
                 {
@@ -542,12 +542,14 @@ namespace ACR_Candlekeep
                             else
                             {
                                 Archivist.debug += "\niprp_spells.2da : could not find a spell with index " + parseholder.ToString();
+                                ALFA.Shared.Modules.InfoStore.IPCastSpells.Add(null);
                                 continue;
                             }
                         }
                         else
                         {
                             Archivist.debug += "\niprp_spells.2da : could not parse the spell index of " + row.ToString();
+                            ALFA.Shared.Modules.InfoStore.IPCastSpells.Add(null);
                             continue;
                         }
 
