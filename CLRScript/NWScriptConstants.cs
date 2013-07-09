@@ -6974,7 +6974,6 @@ namespace CLRScriptFramework
         public const int IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_10 = 44;
         public const int IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_15 = 45;
         public const int IP_CONST_CASTSPELL_CLAIRAUDIENCE_CLAIRVOYANCE_5 = 43;
-        public const int IP_CONST_CASTSPELL_CLARITY_3 = 46;
         public const int IP_CONST_CASTSPELL_CLOUDKILL_9 = 48;
         public const int IP_CONST_CASTSPELL_COLOR_SPRAY_2 = 49;
         public const int IP_CONST_CASTSPELL_CONE_OF_COLD_15 = 51;
