@@ -71,6 +71,12 @@ namespace ACR_Candlekeep
                             }
                         }
                         break;
+                case Commands.LIST_SPELLS:
+                    foreach(ALFA.Shared.SpellCastItemProperties ip in ALFA.Shared.Modules.InfoStore.IPCastSpells)
+                    {
+                        SendMessageToAllDMs(ip.ToString());
+                    }
+                    break;
             }
 
             return 0;
@@ -108,6 +114,7 @@ namespace ACR_Candlekeep
             INITIALIZE_ARCHIVES = 0,
             PRINT_DEBUG = 1,
             LIST_AREAS = 2,
+            LIST_SPELLS = 3,
         }
     }
 }
