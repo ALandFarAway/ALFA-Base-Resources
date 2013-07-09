@@ -19,9 +19,9 @@ namespace ALFA.Shared
         public string Range { get; set; }
         [TwoDAColumn(ColumnName = "VS")]
         public string Components { get; set; }
-        [TwoDAColumn(Default = (int)-1)]
+        [TwoDAColumn(Default = uint.MaxValue)]
         public uint MetaMagic { get; set; }
-        [TwoDAColumn(Default = (int)-1)]
+        [TwoDAColumn(Default = uint.MaxValue)]
         public uint TargetType { get; set; }
         [TwoDAColumn]
         public string ImpactScript { get; set; }
