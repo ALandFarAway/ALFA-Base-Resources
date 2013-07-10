@@ -82,11 +82,6 @@ namespace ACR_Items
             {
                 return;
             }
-
-            if (script.GetItemStackSize(target) > 1)
-            {
-                return;
-            }
             #endregion
 
             #region Find out What the Item Should be Worth
@@ -132,6 +127,10 @@ namespace ACR_Items
                 isUnidentified = true;
             }
             int currentValue = script.GetGoldPieceValue(target);
+            if (script.GetItemStackSize(target) > 1)
+            {
+                currentValue /= script.GetItemStackSize(target);
+            }
             if (currentValue != targetValue)
             {
                 script.StoreCampaignObject(ItemChangeDBName, PriceChangeVarName, target, script.OBJECT_SELF);
@@ -2034,7 +2033,7 @@ namespace ACR_Items
                 allSecondary = true;
                 if (effectivePlus >= 1.0f)
                 {
-                    if (enhancementVsEveryone < 0.99)
+                    if (enhancementVsEveryone < 0.99 && !GetIsAmmunition(itemType))
                     {
                         script.SendMessageToAllDMs("Illegal weapon because total enhancement is 1 or greater, but no baseline enhancement bonus is established.");
                         return -1;
