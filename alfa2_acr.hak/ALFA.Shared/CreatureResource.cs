@@ -27,7 +27,7 @@ namespace ALFA.Shared
         public void ConfigureDisplayName()
         {
             DisplayName = String.Format("  {0} {1}", this.FirstName, this.LastName);
-            DisplayName = DisplayString.ShortenStringToWidth(DisplayName, 150);
+            DisplayName = DisplayString.ShortenStringToWidth(DisplayName, 214);
         }
 
         public string RowName

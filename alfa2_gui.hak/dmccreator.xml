@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<UIScene name="SCREEN_DMC_CREATOR" x=676 y=190 width=317 height=546 draggable=true priority="SCENE_INGAME" scalescene="true" hidden="true" fadeout="0.2" fadein="0.2" backoutkey=true scriptloadable="true" 
+<UIScene name="SCREEN_DMC_CREATOR" x=676 y=190 width=381 height=546 draggable=true priority="SCENE_INGAME" scalescene="true" hidden="true" fadeout="0.2" fadein="0.2" backoutkey=true scriptloadable="true" 
     OnAdd=UIObject_Misc_ExecuteServerScript("gui_choosercreator",0,0)/>
 
     <!-- Spawn Type Tabstrip -->
@@ -90,14 +90,14 @@
     </UIButton>
 
     <!-- Close Button -->
-    <UIButton name="CloseButton" x=287 y=0 style="STYLE_CLOSE_BUTTON" OnLeftClick=UIButton_Input_ScreenClose() />
+    <UIButton name="CloseButton" x=351 y=0 style="STYLE_CLOSE_BUTTON" OnLeftClick=UIButton_Input_ScreenClose() />
 
     <!-- Search Graphic -->
     <!-- <UIButton name="SearchGraphic" img="searching1.tga" x="7" y="136" width="300" height="400" /> -->
 
 
     <!-- Search Box -->
-    <UIPane name="searchbox" x="38" y="90" height="26" width="245">
+    <UIPane name="searchbox" x="70" y="90" height="26" width="245">
         <UIIcon name="left_edge"   x="0" y="0" img="fx_white.tga" width="1" height="26" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
         <UIIcon name="top_edge"    x="0" y="0" img="fx_white.tga" width="240" height="1" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
         <UIIcon name="right_edge"  x="240" y="0" img="fx_white.tga" width="1" height="26" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
@@ -110,14 +110,14 @@
 
     <!-- Column Headers -->
     <UIButton name="IconColumn" text=""      x=10  y=116 width=20  height=20 style="STYLE_CHARGEN_TAB" groupid=3 groupmemberid=2 />
-    <UIButton name="Column1"    text="Name"  x=30  y=116 width=150 height=20 style="STYLE_CHARGEN_TAB" groupid=3 groupmemberid=1 />
-    <UIButton name="Column2"    text="Col1"  x=180 y=116 width=70  height=20 style="STYLE_CHARGEN_TAB" groupid=3 groupmemberid=3 />
-    <UIButton name="Column3"    text="Col2"  x=250 y=116 width=40  height=20 style="STYLE_CHARGEN_TAB" groupid=3 groupmemberid=4 />
+    <UIButton name="Column1"    text="Name"  x=30  y=116 width=214 height=20 style="STYLE_CHARGEN_TAB" groupid=3 groupmemberid=1 />
+    <UIButton name="Column2"    text="Col1"  x=244 y=116 width=70  height=20 style="STYLE_CHARGEN_TAB" groupid=3 groupmemberid=3 />
+    <UIButton name="Column3"    text="Col2"  x=314 y=116 width=40  height=20 style="STYLE_CHARGEN_TAB" groupid=3 groupmemberid=4 />
 
     <!-- List Box -->
-    <UIListBox name="LISTBOX_ACR_CREATOR" x="10" y="136" width="297" height="400" xPadding="0" yPadding="5" showpartialchild="true"
+    <UIListBox name="LISTBOX_ACR_CREATOR" x="10" y="136" width="361" height="400" xPadding="0" yPadding="5" showpartialchild="true"
 		    unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded=false >
-            <UIPane name="ACR_CREATOR_ITEM" width=300 height=20 tupple=true prototype=true draggable=false
+            <UIPane name="ACR_CREATOR_ITEM" width=361 height=20 tupple=true prototype=true draggable=false
              OnLeftDoubleClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
              OnLeftDoubleClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",21,local:6)
              OnLeftClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
@@ -127,22 +127,22 @@
                     <UIText align=right valign=bottom fontfamily="Default" style="1"/> 
                 </UIButton> 
 
-                <UIButton name="LISTBOX_ITEM_TEXT" x=20 y=0 height=20 width=150 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+                <UIButton name="LISTBOX_ITEM_TEXT" x=20 y=0 height=20 width=214 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
                     <UIText align=left valign=middle fontfamily="Default" style="1"/> 
                 </UIButton>
 
-                <UIButton name="LISTBOX_ITEM_TEXT2" x=170 y=0 height=20 width=70 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+                <UIButton name="LISTBOX_ITEM_TEXT2" x=244 y=0 height=20 width=70 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
                     <UIText align=left valign=middle fontfamily="Default" style="1"/> 
                 </UIButton>
 
-                <UIButton name="LISTBOX_ITEM_TEXT3" x=240 y=0 height=20 width=40 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
+                <UIButton name="LISTBOX_ITEM_TEXT3" x=314 y=0 height=20 width=40 style="STYLE_LOOT_TEXT" prototype=true draggable=false> 
                     <UIText align=left valign=middle fontfamily="Default" style="1"/> 
                 </UIButton>
             </UIPane> 
         <UIScrollBar name="SB" style="STYLE_SB_THIN" />
     </UIListBox>
 
-    <UIFrame x="0" y="25" width="317" height="521" topleft="frame1_TL.tga" topright="frame1_TR.tga" 
+    <UIFrame x="0" y="25" width="381" height="521" topleft="frame1_TL.tga" topright="frame1_TR.tga" 
         bottomleft="frame1_BL.tga" bottomright="frame1_br.tga" top="frame1_T.tga" bottom="frame1_b.tga"
         left="frame1_l.tga" right="frame1_r.tga" fillstyle="stretch" border="32" />
-    <UIIcon img="acr_black.tga" x="8" y="33" width="303" height="507" />
+    <UIIcon img="acr_black.tga" x="8" y="33" width="367" height="507" />
