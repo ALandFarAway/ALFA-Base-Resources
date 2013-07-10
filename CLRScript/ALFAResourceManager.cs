@@ -383,7 +383,7 @@ namespace ALFA
                         if (!CampaignGUID.Equals(ID))
                             continue;
 
-                        Repositories.Add(Repository);
+                        Repositories.Add(new DirectoryResourceRepository(CampaignDir));
                         return;
                     }
                 }
