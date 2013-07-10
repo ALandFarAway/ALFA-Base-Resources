@@ -243,7 +243,10 @@ namespace ALFA
 
             if (!ModuleOnly)
             {
-                AddModuleHaks(OpenModuleIfo(), HomeDirectory, InstallDirectory);
+                GFFFile ModuleIfo = OpenModuleIfo();
+
+                AddModuleHaks(ModuleIfo, HomeDirectory, InstallDirectory);
+                AddModuleCampaign(ModuleIfo, HomeDirectory, InstallDirectory);
 
                 foreach (string PathName in new string[] { HomeDirectory, InstallDirectory })
                 {
@@ -324,6 +327,66 @@ namespace ALFA
 
                 if (!Added)
                     throw new ApplicationException("Couldn't locate hak " + Hak);
+            }
+        }
+
+        /// <summary>
+        /// This routine scans module.ifo for a campaign GUID.  If found, a
+        /// campaign.cam file with the same GUID is searched for and its
+        /// containing directory is added to the directory resource list.
+        /// </summary>
+        /// <param name="ModuleIfo">Supplies the module.ifo GFF reader.</param>
+        /// <param name="HomeDirectory">Supplies the NWN2 home directory.</param>
+        /// <param name="InstallDirectory">Supplies the NWN2 install directory.</param>
+        private void AddModuleCampaign(GFFFile ModuleIfo, string HomeDirectory, string InstallDirectory)
+        {
+            byte[] GUIDData = ModuleIfo.TopLevelStruct.GetVoidDataSafe("Campaign_ID", null);
+
+            if (GUIDData == null || GUIDData.Length != 16)
+                return;
+
+            Guid CampaignGUID = new Guid(GUIDData);
+            string[] SearchDirs = new string[] { HomeDirectory, InstallDirectory };
+
+            //
+            // Attempt to locate a campaign.cam file with the same GUID as the
+            // module.
+            //
+
+            foreach (string PathName in SearchDirs)
+            {
+                string CampaignFolder = String.Format("{0}\\Campaigns", PathName);
+
+                if (!Directory.Exists(CampaignFolder))
+                    continue;
+
+                foreach (string CampaignDir in Directory.EnumerateDirectories(CampaignFolder))
+                {
+                    using (DirectoryResourceRepository Repository = new DirectoryResourceRepository(CampaignDir))
+                    {
+                        Repository.PopulateRepository();
+
+                        IResourceEntry ResEntry = Repository.FindResource(new OEIResRef("campaign"), ResCAM);
+
+                        if (ResEntry == null)
+                            continue;
+
+                        GFFFile CampaignCAM = new GFFFile(ResEntry.GetStream(false));
+
+                        GUIDData = CampaignCAM.TopLevelStruct.GetVoidDataSafe("GUID", null);
+
+                        if (GUIDData == null || GUIDData.Length != 16)
+                            continue;
+
+                        Guid ID = new Guid(GUIDData);
+
+                        if (!CampaignGUID.Equals(ID))
+                            continue;
+
+                        Repositories.Add(Repository);
+                        return;
+                    }
+                }
             }
         }
 
