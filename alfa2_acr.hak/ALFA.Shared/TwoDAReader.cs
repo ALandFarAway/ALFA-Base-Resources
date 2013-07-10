@@ -112,8 +112,13 @@ namespace ALFA.Shared
                     {
                         uint ParsedValue;
 
-                        if (uint.TryParse(RawValue, System.Globalization.NumberStyles.AllowHexSpecifier, System.Globalization.CultureInfo.InvariantCulture, out ParsedValue))
+                        if (uint.TryParse(RawValue,
+                            System.Globalization.NumberStyles.AllowHexSpecifier,
+                            System.Globalization.CultureInfo.InvariantCulture,
+                            out ParsedValue))
+                        {
                             FieldValue = ParsedValue;
+                        }
 
                         if (IsEnum)
                             FieldValue = Enum.ToObject(ValueType, ParsedValue);
