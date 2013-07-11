@@ -72,6 +72,23 @@ int ACR_IP_ACP_OFFSET = 7 + IP_MISC_OFFSET;
 const string ACR_VFX_NAME = "ACR_VFX_NAME";
 const string ACR_VFX_POS = "ACR_VFX_POS";
 
+const int ACR_ITEMS_CSHARP_ADJUSTPRICE = 0;
+const int ACR_ITEMS_CSHARP_CALCULATE_PRICE = 1;
+const int ACR_ITEMS_CSHARP_GENERATE_LOOT = 2;
+const int ACR_ITEMS_CSHARP_GENERATE_AMULET = 3;
+const int ACR_ITEMS_CSHARP_GENERATE_ARMOR = 4;
+const int ACR_ITEMS_CSHARP_GENERATE_BELT = 5;
+const int ACR_ITEMS_CSHARP_GENERATE_BOOTS = 6;
+const int ACR_ITEMS_CSHARP_GENERATE_CLOAK = 7;
+const int ACR_ITEMS_CSHARP_GENERATE_GLOVES = 8;
+const int ACR_ITEMS_CSHARP_GENERATE_HELMET = 9;
+const int ACR_ITEMS_CSHARP_GENERATE_RING = 10;
+const int ACR_ITEMS_CSHARP_GENERATE_ROD = 11;
+const int ACR_ITEMS_CSHARP_GENERATE_STAFF = 12;
+const int ACR_ITEMS_CSHARP_GENERATE_WAND = 13;
+const int ACR_ITEMS_CSHARP_GENERATE_SCROLLS = 14;
+const int ACR_ITEMS_CSHARP_GENERATE_POTIONS = 15;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -104,6 +121,14 @@ void ACR_ItemOnActivate(object oItem, object oPC, object oTarget, location lAime
 
 //! Checks all items in the inventory for an active item property.
 int ACR_HasActiveItemProperty( object oPC, int nItemProperty, int bFullCheck = FALSE );
+
+//! Creates random ACR-priced loot in a container.
+//! oContainer -- the object which is to be filled with the generated loot.
+//! nTotalValue -- the total value of items to be generated
+//! nMaxSingleItem -- the maximum value of any item to be generated
+//! nGenerationType -- what item type, if any, should be given priority in the 
+//!   generation, using ACR_ITEMS_CSHARP_GENERATE_* constants.
+void ACR_GenerateLoot( object oContainer, int nTotalValue, int nMaxSingleItem, int nGenerationType = const int ACR_ITEMS_CSHARP_GENERATE_LOOT );
 
 
 // Private
@@ -488,4 +513,13 @@ int ACR_HasActiveItemProperty( object oPC, int nItemProperty, int bFullCheck = F
 	}
 	
 	return FALSE;
+}
+
+void ACR_GenerateLoot( object oContainer, int nTotalValue, int nMaxSingleItem, int nGenerationType = const int ACR_ITEMS_CSHARP_GENERATE_LOOT )
+{
+	AddScriptParameterObject(OBJECT_INVALID);
+	AddScriptParameterInt(nGenerationType);
+	AddScriptParameterInt(nTotalValue);
+	AddScriptParameterInt(nMaxSingleItem);
+	ExecuteScriptEnhanced("ACR_Items", oContainer, TRUE);
 }
