@@ -238,6 +238,24 @@ namespace ACR_Items
                 itProp.Remove(removedProp);
                 return true;
             }
+            else if (removedProp != null)
+            {
+                // enchantment is complex; we still need to treat the
+                // attack bonus as magic.
+                return true;
+            }
+            return false;
+        }
+
+        private static bool GetIsMasterworkAmmunition(CLRScriptBase script, List<PricedItemProperty> itProp)
+        {
+            foreach (PricedItemProperty prop in itProp)
+            {
+                if (script.GetItemPropertyType(prop.Property) == ITEM_PROPERTY_DAMAGE_BONUS)
+                {
+                    return true;
+                }
+            }
             return false;
         }
 
