@@ -128,8 +128,12 @@ int ACR_HasActiveItemProperty( object oPC, int nItemProperty, int bFullCheck = F
 //! nMaxSingleItem -- the maximum value of any item to be generated
 //! nGenerationType -- what item type, if any, should be given priority in the 
 //!   generation, using ACR_ITEMS_CSHARP_GENERATE_* constants.
-void ACR_GenerateLoot( object oContainer, int nTotalValue, int nMaxSingleItem, int nGenerationType = const int ACR_ITEMS_CSHARP_GENERATE_LOOT );
+void ACR_GenerateLoot( object oContainer, int nTotalValue, int nMaxSingleItem, int nGenerationType = ACR_ITEMS_CSHARP_GENERATE_LOOT );
 
+//! Determines what the maximum value of appropriate item drops
+//! are for a given level
+//! nLevel -- the level to be checked
+int GetMaxItemValue(int nLevel);
 
 // Private
 //
@@ -515,11 +519,36 @@ int ACR_HasActiveItemProperty( object oPC, int nItemProperty, int bFullCheck = F
 	return FALSE;
 }
 
-void ACR_GenerateLoot( object oContainer, int nTotalValue, int nMaxSingleItem, int nGenerationType = const int ACR_ITEMS_CSHARP_GENERATE_LOOT )
+void ACR_GenerateLoot( object oContainer, int nTotalValue, int nMaxSingleItem, int nGenerationType = ACR_ITEMS_CSHARP_GENERATE_LOOT )
 {
 	AddScriptParameterObject(OBJECT_INVALID);
 	AddScriptParameterInt(nGenerationType);
 	AddScriptParameterInt(nTotalValue);
 	AddScriptParameterInt(nMaxSingleItem);
 	ExecuteScriptEnhanced("ACR_Items", oContainer, TRUE);
+}
+
+int GetMaxItemValue(int nLevel)
+{
+	if(nLevel == 1)  return 300;
+	if(nLevel == 2)  return 300;
+	if(nLevel == 3)  return 875;
+	if(nLevel == 4)  return 1750;
+	if(nLevel == 5)  return 2925;
+	if(nLevel == 6)  return 4225;
+	if(nLevel == 7)  return 6175;
+	if(nLevel == 8)  return 8775;
+	if(nLevel == 9)  return 11700;
+	if(nLevel == 10) return 15925;
+	if(nLevel == 11) return 21450;
+	if(nLevel == 12) return 28600;
+	if(nLevel == 13) return 35750;
+	if(nLevel == 14) return 48750;
+	if(nLevel == 15) return 65000;
+	if(nLevel == 16) return 84500;
+	if(nLevel == 17) return 110500;
+	if(nLevel == 18) return 143000;
+	if(nLevel == 19) return 188500;
+	if(nLevel == 20) return 250000;
+	return -1;
 }
