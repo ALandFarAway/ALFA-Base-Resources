@@ -639,6 +639,7 @@ NSS_OBJECTS=                                                   \
 			$(OUTPUTDIR)\nw_s0_lstspmant.ncs                   \
 			$(OUTPUTDIR)\nw_s0_lsspmant.ncs                    \
 			$(OUTPUTDIR)\nw_s0_grspmant.ncs                    \
+            $(OUTPUTDIR)\gui_lootgen.ncs                       \
             $(OUTPUTDIR)\nw_s0_lowltvisn.ncs                   
 
 #

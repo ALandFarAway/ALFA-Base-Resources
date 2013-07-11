@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="NWN2UI">
+
+<!-- ALFA Anchor Manager -->
+
+<!-- Main scene. MUST be given. -->
+<UIScene name="SCREEN_ACR_LOOTGEN" x="ALIGN_CENTER" y="ALIGN_CENTER" modal="false" width="400" height="490"
+	fadeout="0.0" fadein="0.0" draggable="true" dragregion_x="8" dragregion_y="8" dragregion_width="352" dragregion_height="30"
+	priority="SCENE_SCRIPT" scriptloadable="true" />
+
+<UIPane name="pnWrapper" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" capturemouseclicks="false" capturemouseevents="false" >
+	
+	<UIButton name="CloseButton" x=360 y=10 style="STYLE_CLOSE_BUTTON" OnLeftClick=UIButton_Input_ScreenClose() />	
+
+	<UIText x=20 y=90  text="Lowest-Level PC" />
+	<UIPane name="PC_LEVEL_BOX" x=150 y=87 height="20" width="50">
+		<UIIcon name="left_edge"   x="0" y="0" img="fx_white.tga" width="1" height="20" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+		<UIIcon name="top_edge"    x="0" y="0" img="fx_white.tga" width="50" height="1" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+		<UIIcon name="right_edge"  x="49" y="0" img="fx_white.tga" width="1" height="20" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+		<UIIcon name="bottom_edge" x="0" y="19" img="fx_white.tga" width="50" height="1" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+		<UIIcon img="acr_black.tga" x=8 y=33 width=385 height=507 />
+		<UIText name="PC_LEVEL" x=3 y=3 height=18 width=48 editable=true maxlines=1 allowspace=true valign=center returnrestricted="true" update=true UpdateRate=1.0
+	         OnUpdate=UIObject_Misc_SetLocalVarString(local:1) />
+		<UIIcon img="acr_black.tga" x=1 y=1 width=48 height=18 />
+	</UIPane>
+        <UIText x=20 y=110 text="Experience Awarded" />
+	<UIPane name="XP_AWARD_BOX" x=150 y=107 height="20" width="50">
+		<UIIcon name="left_edge"   x="0" y="0" img="fx_white.tga" width="1" height="20" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+		<UIIcon name="top_edge"    x="0" y="0" img="fx_white.tga" width="50" height="1" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+		<UIIcon name="right_edge"  x="49" y="0" img="fx_white.tga" width="1" height="20" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+		<UIIcon name="bottom_edge" x="0" y="19" img="fx_white.tga" width="50" height="1" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+		<UIIcon img="acr_black.tga" x=8 y=33 width=385 height=507 />
+		<UIText name="XP_AWARD" x=3 y=3 height=18 width=48 editable=true maxlines=1 allowspace=true valign=center returnrestricted="true" update=true UpdateRate=1.0
+	         OnUpdate=UIObject_Misc_SetLocalVarString(local:2) />
+		<UIIcon img="acr_black.tga" x=1 y=1 width=48 height=18 />
+	</UIPane>
+        <UIText x=20 y=130 text="Number of PCs" />
+	<UIPane name="PC_POP_BOX" x=150 y=127 height="20" width="50">
+		<UIIcon name="left_edge"   x="0" y="0" img="fx_white.tga" width="1" height="20" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+		<UIIcon name="top_edge"    x="0" y="0" img="fx_white.tga" width="50" height="1" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+		<UIIcon name="right_edge"  x="49" y="0" img="fx_white.tga" width="1" height="20" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+		<UIIcon name="bottom_edge" x="0" y="19" img="fx_white.tga" width="50" height="1" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+		<UIIcon img="acr_black.tga" x=8 y=33 width=385 height=507 />
+		<UIText name="PC_POP" x=3 y=3 height=18 width=48 editable=true maxlines=1 allowspace=true valign=center returnrestricted="true" update=true UpdateRate=1.0
+	         OnUpdate=UIObject_Misc_SetLocalVarString(local:3) />
+		<UIIcon img="acr_black.tga" x=1 y=1 width=48 height=18 />
+	</UIPane>
+
+	<UIButton name="VERY_POOR" x=20   y=150 width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=5
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:0,1)
+	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Richest is Very Poor","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
+	<UIText x=40 y=153  text="Richest PC is Very Poor" />
+	<UIButton name="POOR" x=20  y=170 width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=4
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:0,2)
+	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Richest is Poor","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
+	<UIText x=40 y=173  text="Richest PC is Poor" />
+	<UIButton name="TARGET" x=20  y=190 width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=1
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:0,3)
+	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Richest is Near Target","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
+	<UIText x=40 y=193  text="Richest PC is Near Target" />
+	<UIButton name="RICH" x=20  y=210 width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=3
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:0,4)
+	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Richest is Rich","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
+	<UIText x=40 y=213  text="Richest PC is Rich" />
+	<UIButton name="VERY_RICH" x=20 y=230  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=2
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:0,5)
+	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Richest is Very Rich","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
+	<UIText x=40 y=233  text="Richest PC is Very Rich" />
+	<UIButton name="CUTOFF" x=20 y=250  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=6
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:0,6)
+	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Richest is Cut Off","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
+	<UIText x=40 y=253  text="Richest PC is Cut Off" />
+
+	<UIButton name="TRINKETS" x=20 y=290  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=2 groupmemberid=2
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:4,1)
+	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Spawn many cheap items","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
+	<UIText x=40 y=293  text="Spawn many cheap items" />
+	<UIButton name="SPLITTABLE" x=20 y=310  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=2 groupmemberid=1
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:4,2)
+	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Ensure loot may be split","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
+	<UIText x=40 y=313  text="Ensure loot may be split" />
+	<UIButton name="QUALITY" x=20 y=330  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=2 groupmemberid=3
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:4,3)
+	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Spawn highest quality","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
+	<UIText x=40 y=333  text="Spawn highest quality" />
+
+	<UIButton name="BALANCED" x=210 y=90  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=1
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,1) />
+	<UIText x=230 y=93  text="Spawn a Balanced Bag" />
+	<UIButton name="AMULET" x=210 y=110  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=2
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,2) />
+	<UIText x=230 y=113  text="Spawn an Amulet First" />
+	<UIButton name="ARMOR" x=210 y=130  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=3
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,3) />
+	<UIText x=230 y=133  text="Spawn Armor First" />
+	<UIButton name="BELT" x=210 y=150  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=4
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,4) />
+	<UIText x=230 y=153  text="Spawn a Belt First" />
+	<UIButton name="BOOTS" x=210 y=170  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=5
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,5) />
+	<UIText x=230 y=173  text="Spawn Boots First" />
+	<UIButton name="CLOAK" x=210 y=190  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=6
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,6) />
+	<UIText x=230 y=193  text="Spawn a Cloak First" />
+	<UIButton name="GLOVES" x=210 y=210  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=7
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,7) />
+	<UIText x=230 y=213  text="Spawn Gloves First" />
+	<UIButton name="HELMET" x=210 y=230  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=8
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,8) />
+	<UIText x=230 y=233  text="Spawn a Helmet First" />
+	<UIButton name="RING" x=210 y=250  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=9
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,9) />
+	<UIText x=230 y=253  text="Spawn a Ring First" />
+	<UIButton name="ROD" x=210 y=270  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=10
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,10) />
+	<UIText x=230 y=273  text="Spawn a Rod First" />
+	<UIButton name="STAFF" x=210 y=290  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=11
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,11) />
+	<UIText x=230 y=293  text="Spawn a Staff First" />
+	<UIButton name="WANDS" x=210 y=310  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=12
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,12) />
+	<UIText x=230 y=313  text="Spawn a Wand First" />
+	<UIButton name="SCROLLS" x=210 y=330  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=13
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,13) />
+	<UIText x=230 y=333  text="Spawn only Scrolls" />
+	<UIButton name="POTIONS" x=210 y=350  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=14
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,14) />
+	<UIText x=230 y=353  text="Spawn only Potions" />
+
+	<UIButton name="GENERATE" style="STYLE_MENU_BUTTON_SML" x=100 y=420  text="GENERATE" align=center height=40 width=200 
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_lootgen",local:0,local:1,local:2,local:3,local:4,local:5)
+	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Generate loot with the above parameters","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
+
+	<!-- Title Text -->
+	<UIText x="18" y="14" text="Loot Generator" fontfamily="Title_Font" style="2" />
+	
+	<!-- Background Graphic -->
+	<UIIcon name="imgBackground" img="re_background.tga" x="0" y="0" width="PARENT_WIDTH" height="PARENT_HEIGHT" />
+</UIPane>
