@@ -84,46 +84,46 @@
 	<UIText x=40 y=333  text="Spawn highest quality" />
 
 	<UIButton name="BALANCED" x=210 y=90  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=1
-	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,1) />
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,2) />
 	<UIText x=230 y=93  text="Spawn a Balanced Bag" />
 	<UIButton name="AMULET" x=210 y=110  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=2
-	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,2) />
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,3) />
 	<UIText x=230 y=113  text="Spawn an Amulet First" />
 	<UIButton name="ARMOR" x=210 y=130  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=3
-	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,3) />
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,4) />
 	<UIText x=230 y=133  text="Spawn Armor First" />
 	<UIButton name="BELT" x=210 y=150  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=4
-	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,4) />
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,5) />
 	<UIText x=230 y=153  text="Spawn a Belt First" />
 	<UIButton name="BOOTS" x=210 y=170  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=5
-	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,5) />
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,6) />
 	<UIText x=230 y=173  text="Spawn Boots First" />
 	<UIButton name="CLOAK" x=210 y=190  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=6
-	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,6) />
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,7) />
 	<UIText x=230 y=193  text="Spawn a Cloak First" />
 	<UIButton name="GLOVES" x=210 y=210  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=7
-	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,7) />
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,8) />
 	<UIText x=230 y=213  text="Spawn Gloves First" />
 	<UIButton name="HELMET" x=210 y=230  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=8
-	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,8) />
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,9) />
 	<UIText x=230 y=233  text="Spawn a Helmet First" />
 	<UIButton name="RING" x=210 y=250  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=9
-	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,9) />
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,10) />
 	<UIText x=230 y=253  text="Spawn a Ring First" />
 	<UIButton name="ROD" x=210 y=270  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=10
-	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,10) />
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,11) />
 	<UIText x=230 y=273  text="Spawn a Rod First" />
 	<UIButton name="STAFF" x=210 y=290  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=11
-	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,11) />
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,12) />
 	<UIText x=230 y=293  text="Spawn a Staff First" />
 	<UIButton name="WANDS" x=210 y=310  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=12
-	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,12) />
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,13) />
 	<UIText x=230 y=313  text="Spawn a Wand First" />
 	<UIButton name="SCROLLS" x=210 y=330  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=13
-	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,13) />
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,14) />
 	<UIText x=230 y=333  text="Spawn only Scrolls" />
 	<UIButton name="POTIONS" x=210 y=350  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=14
-	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,14) />
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,15) />
 	<UIText x=230 y=353  text="Spawn only Potions" />
 
 	<UIButton name="GENERATE" style="STYLE_MENU_BUTTON_SML" x=100 y=420  text="GENERATE" align=center height=40 width=200 
