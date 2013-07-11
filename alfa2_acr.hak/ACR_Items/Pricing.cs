@@ -781,7 +781,14 @@ namespace ACR_Items
             #region Check for masterwork and mighty bonuses
             if (!masterworkCounted)
             {
-                if (GetIsMasterwork(script, itProps))
+                if (GetIsAmmunition(itemType))
+                {
+                    if (GetIsMasterworkAmmunition(script, itProps))
+                    {
+                        value += 300;
+                    }
+                }
+                else if (GetIsMasterwork(script, itProps))
                 {
                     value += 300;
                 }
