@@ -37,38 +37,94 @@ namespace ACR_Items
             {
                 if (Generation.rand.Next(10) > 0)
                 {
-                    script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyEnhancementBonus(1), weapon, 0.0f);
+                    if (Pricing.GetIsAmmunition(itemType))
+                    {
+                        if (itemType == BASE_ITEM_BULLET)
+                        {
+                            script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageBonus(IP_CONST_DAMAGETYPE_BLUDGEONING, 1), weapon, 0.0f);
+                        }
+                        else
+                        {
+                            script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageBonus(IP_CONST_DAMAGETYPE_PIERCING, 1), weapon, 0.0f);
+                        }
+                    }
+                    else
+                    {
+                        script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyEnhancementBonus(1), weapon, 0.0f);
+                    }
                     switch (Generation.rand.Next(7))
                     {
                         case 0:
                             script.SetFirstName(weapon, "Flametouched " + script.GetName(weapon) + " +1");
                             script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageBonus(IP_CONST_DAMAGETYPE_FIRE, 1), weapon, 0.0f);
-                            weaponValue += 4220;
+                            if (Pricing.GetIsAmmunition(itemType))
+                            {
+                                weaponValue += 1600;
+                            }
+                            else
+                            {
+                                weaponValue += 4220;
+                            }
                             break;
                         case 1:
                             script.SetFirstName(weapon, "Frosttouched " + script.GetName(weapon) + " +1");
                             script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageBonus(IP_CONST_DAMAGETYPE_COLD, 1), weapon, 0.0f);
-                            weaponValue += 4220;
+                            if (Pricing.GetIsAmmunition(itemType))
+                            {
+                                weaponValue += 1600;
+                            }
+                            else
+                            {
+                                weaponValue += 4220;
+                            }
                             break;
                         case 3:
                             script.SetFirstName(weapon, "Acidtouched " + script.GetName(weapon) + " +1");
                             script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageBonus(IP_CONST_DAMAGETYPE_ACID, 1), weapon, 0.0f);
-                            weaponValue += 4220;
+                            if (Pricing.GetIsAmmunition(itemType))
+                            {
+                                weaponValue += 1600;
+                            }
+                            else
+                            {
+                                weaponValue += 4220;
+                            }
                             break;
                         case 4:
                             script.SetFirstName(weapon, "Sparktouched " + script.GetName(weapon) + " +1");
                             script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageBonus(IP_CONST_DAMAGETYPE_ELECTRICAL, 1), weapon, 0.0f);
-                            weaponValue += 4220;
+                            if (Pricing.GetIsAmmunition(itemType))
+                            {
+                                weaponValue += 1600;
+                            }
+                            else
+                            {
+                                weaponValue += 4220;
+                            }
                             break;
                         case 5:
                             script.SetFirstName(weapon, "Humming " + script.GetName(weapon) + " +1");
                             script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageBonus(IP_CONST_DAMAGETYPE_SONIC, 1), weapon, 0.0f);
-                            weaponValue += 4220;
+                            if (Pricing.GetIsAmmunition(itemType))
+                            {
+                                weaponValue += 1600;
+                            }
+                            else
+                            {
+                                weaponValue += 4220;
+                            }
                             break;
                         case 6:
                             script.SetFirstName(weapon, "Blessed " + script.GetName(weapon) + " +1");
                             script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyDamageBonusVsAlign(IP_CONST_ALIGNMENTGROUP_EVIL, IP_CONST_DAMAGETYPE_MAGICAL, 1), weapon, 0.0f);
-                            weaponValue += 3945;
+                            if (Pricing.GetIsAmmunition(itemType))
+                            {
+                                weaponValue += 1500;
+                            }
+                            else
+                            {
+                                weaponValue += 3945;
+                            }
                             break;
                     }
                 }
