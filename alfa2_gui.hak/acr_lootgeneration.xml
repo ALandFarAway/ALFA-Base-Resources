@@ -119,12 +119,15 @@
 	<UIButton name="WANDS" x=210 y=310  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=12
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,13) />
 	<UIText x=230 y=313  text="Spawn a Wand First" />
-	<UIButton name="SCROLLS" x=210 y=330  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=13
+	<UIButton name="WEAPONS" x=210 y=330  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=13
+	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,16) />
+	<UIText x=230 y=333  text="Spawn a Weapon First" />
+	<UIButton name="SCROLLS" x=210 y=350  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=13
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,14) />
-	<UIText x=230 y=333  text="Spawn only Scrolls" />
-	<UIButton name="POTIONS" x=210 y=350  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=14
+	<UIText x=230 y=353  text="Spawn only Scrolls" />
+	<UIButton name="POTIONS" x=210 y=370  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=14
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,15) />
-	<UIText x=230 y=353  text="Spawn only Potions" />
+	<UIText x=230 y=373  text="Spawn only Potions" />
 
 	<UIButton name="GENERATE" style="STYLE_MENU_BUTTON_SML" x=100 y=420  text="GENERATE" align=center height=40 width=200 
 	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_lootgen",local:0,local:1,local:2,local:3,local:4,local:5)
