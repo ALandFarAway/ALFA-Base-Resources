@@ -137,6 +137,13 @@ namespace ACR_Items
                         Generation.GenerateLoot(this, Param1, Param2);
                         break;
                     }
+                case ItemCommand.GenerateWeaponFirst:
+                    {
+                        if (Param2 < Param1) Param2 = Param1;
+                        Param1 -= GenerateWeapon.NewWeapon(this, Param2);
+                        Generation.GenerateLoot(this, Param1, Param2);
+                        break;
+                    }
                 case ItemCommand.GenerateScrolls:
                     {
                         while (Param1 >= 25)
@@ -177,6 +184,7 @@ namespace ACR_Items
             GenerateWandFirst = 13,
             GenerateScrolls = 14,
             GeneratePotions = 15,
+            GenerateWeaponFirst = 16,
         }
     }
 }
