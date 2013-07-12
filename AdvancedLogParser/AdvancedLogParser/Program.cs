@@ -35,6 +35,8 @@ namespace AdvancedLogParser
             if (InfoGather.GetPlayers())
             {
                 InfoGather.GetCharacters();
+                InfoGather.CountBankValue();
+                InfoGather.CountpChestValue();
                 InfoGather.GetAlerts();
                 InfoGather.GetLogins();
                 InfoGather.IdentifyLogins();

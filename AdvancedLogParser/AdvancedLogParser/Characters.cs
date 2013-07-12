@@ -52,6 +52,8 @@ namespace AdvancedLogParser
         public bool IsDMAvatar;
 
         public float DMTime;
+
+        public Dictionary<string, uint> PersStorage = new Dictionary<string, uint>();
     }
 
     public enum Alignment

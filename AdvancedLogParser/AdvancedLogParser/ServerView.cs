@@ -218,7 +218,7 @@ namespace AdvancedLogParser
             foreach (Log log in serverEnforcementLogs.Values)
             {
                 string character = "Unknown Character";
-                if (log.CharacterId > 0) character = Characters.List[log.CharacterId].Name;
+                if (log.CharacterId > 0 && Characters.List.Keys.Contains(log.CharacterId)) character = Characters.List[log.CharacterId].Name;
                 enforcementList.Items.Add(new ListViewItem(new string[] { character, String.Format("{0}/{1}/{2}", log.Time.Year, log.Time.Month, log.Time.Day), log.Event, log.Id.ToString() }));
             }
             enforcementList.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -238,7 +238,7 @@ namespace AdvancedLogParser
             foreach (Log log in serverAdvancementLogs.Values)
             {
                 string character = "Unknown Character";
-                if(log.CharacterId > 0) character = Characters.List[log.CharacterId].Name;
+                if(log.CharacterId > 0 && Characters.List.Keys.Contains(log.CharacterId)) character = Characters.List[log.CharacterId].Name;
                 advancementList.Items.Add(new ListViewItem(new string[] { character, String.Format("{0}/{1}/{2}", log.Time.Year, log.Time.Month, log.Time.Day), log.Event, log.Id.ToString() }));
             }
             advancementList.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);

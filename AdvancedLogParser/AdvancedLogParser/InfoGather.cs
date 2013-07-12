@@ -239,6 +239,10 @@ namespace AdvancedLogParser
                         {
                             continue;
                         }
+                        if (name.ToLower().Contains("test"))
+                        {
+                            continue;
+                        }
                         Character newChar = new AdvancedLogParser.Character()
                         {
                             Charisma = charisma,
@@ -534,6 +538,79 @@ namespace AdvancedLogParser
                     {
                         server.RecentCharacters.Remove(ch);
                     }
+                }
+            }
+        }
+
+        public static void CountBankValue()
+        {
+            currentLoader.status.Text = "Counting bank accounts...";
+            Application.DoEvents();
+            try
+            {
+                using (MySqlDataReader reader = MySqlHelper.ExecuteReader(ConnectionString, "SELECT * FROM alandsyu_live.pwdata WHERE pwdata.Key='bg_bank_val'"))
+                {
+                    while (reader.Read())
+                    {
+                        try
+                        {
+                            string name = (string)reader.GetValue(0);
+                            string tag = (string)reader.GetValue(1);
+                            string value = (string)reader.GetValue(3);
+                            uint realValue = 0;
+                            uint.TryParse(value, out realValue);
+                            foreach (Character ch in Characters.List.Values)
+                            {
+                                if (name == ch.Name && tag == Players.ListByPlayerId[ch.PlayerId].CDKey)
+                                {
+                                    ch.Wealth += realValue;
+                                }
+                            }
+                        }
+                        catch {}
+                    }
+                }
+            }
+            catch {}
+        }
+
+        public static void CountpChestValue()
+        {
+            currentLoader.status.Text = "Counting pChests...";
+            Application.DoEvents();
+            try
+            {
+                using (MySqlDataReader reader = MySqlHelper.ExecuteReader(ConnectionString, "SELECT * FROM alandsyu_live.logs WHERE Event='Persistant Storage, Opened'"))
+                {
+                    while (reader.Read())
+                    {
+                        uint characterId = (uint)reader.GetValue(2);
+                        string desc = (string)reader.GetValue(4);
+                        string chest = desc.Substring(18, desc.IndexOf(" contains") - 18);
+                        int valueStart = desc.IndexOf(" worth ");
+                        int valueEnd = desc.IndexOf(" total gp ");
+                        valueStart += 7;
+                        string value = desc.Substring(valueStart, valueEnd - valueStart);
+                        uint chestValue = 0;
+                        uint.TryParse(value, out chestValue);
+                        Character ch = Characters.List[characterId];
+                        if (ch.PersStorage.Keys.Contains(chest))
+                        {
+                            ch.PersStorage[chest] = chestValue;
+                        }
+                        else
+                        {
+                            ch.PersStorage.Add(chest, chestValue);
+                        }
+                    }
+                }
+            }
+            catch { }
+            foreach (Character ch in Characters.List.Values)
+            {
+                foreach (uint val in ch.PersStorage.Values)
+                {
+                    ch.Wealth += val;
                 }
             }
         }
