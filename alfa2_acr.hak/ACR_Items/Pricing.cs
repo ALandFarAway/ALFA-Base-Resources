@@ -64,6 +64,7 @@ namespace ACR_Items
                     if (script.GetObjectType(script.OBJECT_SELF) != OBJECT_TYPE_PLACEABLE)
                     {
                         script.CopyItem(newObject, script.OBJECT_SELF, TRUE);
+                        script.DestroyObject(newObject, 0.0f, FALSE);
                     }
                 });
             }
