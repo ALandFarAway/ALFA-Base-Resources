@@ -766,6 +766,658 @@ namespace ACR_Items
                         }
                     }
                 #endregion
+                #region Set Accessory Models
+                case ItemCommand.SetLeftAnkleModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtAnkle"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftArmModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtArm"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftBracerModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1; 
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtBracer"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftElbowModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtElbow"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftFootModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtFoot"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftHipModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtHip"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftKneeModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtKnee"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftLegModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtLeg"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftShinModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtShin"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftShoulderModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtShoulder"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightAnkleModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtAnkle"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightArmModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtArm"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightBracerModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtBracer"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightElbowModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtElbow"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightFootModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtFoot"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightHipModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtHip"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightKneeModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtKnee"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightLegModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtLeg"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightShinModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtShin"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightShoulderModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtShoulder"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetFrontHipModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACFtHip"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetBackHipModel:
+                    {
+                        if (Param1 < 0 || Param1 > 255) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACBkHip"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                #endregion
+                #region Set Accessory Colors
+                case ItemCommand.SetLeftAnkleColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACLtAnkle", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftArmColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACLtArm", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftBracerColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACLtBracer", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftElbowColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACLtElbow", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftFootColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACLtFoot", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftHipColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACLtHip", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftKneeColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACLtKnee", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftLegColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACLtLeg", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftShinColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACLtShin", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetLeftShoulderColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACLtShoulder", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightAnkleColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACRtAnkle", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightArmColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACRtArm", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightBracerColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACRtBracer", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightElbowColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACRtAnkle", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightFootColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACRtFoot", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightHipColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACRtHip", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightKneeColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACRtKnee", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightLegColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACRtLeg", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightShinColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACRtShin", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetRightShoulderColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACRtShoulder", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetFrontHipColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACFtHip", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetBackHipColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetAccessoryColor("ACBkHip", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                #endregion
+            }
+            if (Command >= 200)
+            {
+                DestroyObject(Target, 0.0f, FALSE);
+                uint newObj = RetrieveCampaignObject(ItemChangeDBName, ModelChangeVarName, GetLocation(OBJECT_SELF), OBJECT_SELF, OBJECT_SELF);
+                if (GetObjectType(Target) != OBJECT_TYPE_PLACEABLE)
+                {
+                    CopyItem(newObj, OBJECT_SELF, TRUE);
+                    DestroyObject(newObj, 0.0f, FALSE);
+                }
             }
             return 0;
         }
@@ -835,6 +1487,52 @@ namespace ACR_Items
             GetRightShoulderColor = 160,
             GetFrontHipColor = 161,
             GetBackHipColor = 162,
+
+            SetLeftAnkleModel = 201,
+            SetLeftArmModel = 202,
+            SetLeftBracerModel = 203,
+            SetLeftElbowModel = 204,
+            SetLeftFootModel = 205,
+            SetLeftHipModel = 206,
+            SetLeftKneeModel = 207,
+            SetLeftLegModel = 208,
+            SetLeftShinModel = 209,
+            SetLeftShoulderModel = 210,
+            SetRightAnkleModel = 211,
+            SetRightArmModel = 212,
+            SetRightBracerModel = 213,
+            SetRightElbowModel = 214,
+            SetRightFootModel = 215,
+            SetRightHipModel = 216,
+            SetRightKneeModel = 217,
+            SetRightLegModel = 218,
+            SetRightShinModel = 219,
+            SetRightShoulderModel = 220,
+            SetFrontHipModel = 221,
+            SetBackHipModel = 222,
+
+            SetLeftAnkleColor = 241,
+            SetLeftArmColor = 242,
+            SetLeftBracerColor = 243,
+            SetLeftElbowColor = 244,
+            SetLeftFootColor = 245,
+            SetLeftHipColor = 246,
+            SetLeftKneeColor = 247,
+            SetLeftLegColor = 248,
+            SetLeftShinColor = 249,
+            SetLeftShoulderColor = 250,
+            SetRightAnkleColor = 251,
+            SetRightArmColor = 252,
+            SetRightBracerColor = 253,
+            SetRightElbowColor = 254,
+            SetRightFootColor = 255,
+            SetRightHipColor = 256,
+            SetRightKneeColor = 257,
+            SetRightLegColor = 258,
+            SetRightShinColor = 259,
+            SetRightShoulderColor = 260,
+            SetFrontHipColor = 261,
+            SetBackHipColor = 262,
         }
 
         public enum ColorType
