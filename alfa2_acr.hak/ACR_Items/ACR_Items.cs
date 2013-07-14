@@ -769,11 +769,15 @@ namespace ACR_Items
                 #region Set Accessory Models
                 case ItemCommand.SetLeftAnkleModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtAnkle"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(LeftAnkleVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtAnkle"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(LeftAnkleVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtAnkle"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtAnkle"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -784,11 +788,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetLeftArmModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtArm"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(LeftArmVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtArm"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(LeftArmVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtArm"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtArm"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -799,11 +807,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetLeftBracerModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1; 
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtBracer"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(LeftBracerVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtBracer"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(LeftBracerVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtBracer"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtBracer"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -814,11 +826,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetLeftElbowModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtElbow"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(LeftElbowVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtElbow"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(LeftElbowVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtElbow"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtElbow"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -829,11 +845,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetLeftFootModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtFoot"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(LeftFootVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtFoot"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(LeftFootVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtFoot"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtFoot"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -844,11 +864,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetLeftHipModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtHip"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(LeftHipVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtHip"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(LeftHipVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtHip"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtHip"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -859,11 +883,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetLeftKneeModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtKnee"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(LeftKneeVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtKnee"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(LeftKneeVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtKnee"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtKnee"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -874,11 +902,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetLeftLegModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtLeg"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(LeftLegVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtLeg"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(LeftLegVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtLeg"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtLeg"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -889,11 +921,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetLeftShinModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtShin"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(LeftShinVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtShin"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(LeftShinVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtShin"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtShin"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -904,11 +940,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetLeftShoulderModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtShoulder"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(LeftShoulderVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtShoulder"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(LeftShoulderVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtShoulder"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACLtShoulder"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -919,11 +959,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetRightAnkleModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtAnkle"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(RightAnkleVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtAnkle"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(RightAnkleVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtAnkle"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtAnkle"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -934,11 +978,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetRightArmModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtArm"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(RightArmVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtArm"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(RightArmVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtArm"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtArm"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -949,11 +997,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetRightBracerModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtBracer"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(RightBracerVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtBracer"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(RightBracerVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtBracer"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtBracer"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -964,11 +1016,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetRightElbowModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtElbow"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(RightElbowVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtElbow"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(RightElbowVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtElbow"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtElbow"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -979,11 +1035,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetRightFootModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtFoot"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(RightFootVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtFoot"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(RightFootVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtFoot"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtFoot"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -994,11 +1054,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetRightHipModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtHip"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(RightHipVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtHip"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(RightHipVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtHip"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtHip"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -1009,11 +1073,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetRightKneeModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtKnee"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(RightKneeVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtKnee"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(RightKneeVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtKnee"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtKnee"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -1024,11 +1092,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetRightLegModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtLeg"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(RightLegVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtLeg"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(RightLegVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtLeg"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtLeg"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -1039,11 +1111,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetRightShinModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtShin"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(RightShinVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtShin"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(RightShinVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtShin"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtShin"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -1054,11 +1130,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetRightShoulderModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtShoulder"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(RightShoulderVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtShoulder"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(RightShoulderVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtShoulder"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACRtShoulder"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -1069,11 +1149,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetFrontHipModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACFtHip"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(FrontHipVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACFtHip"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(FrontHipVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACFtHip"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACFtHip"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -1084,11 +1168,15 @@ namespace ACR_Items
                     }
                 case ItemCommand.SetBackHipModel:
                     {
-                        if (Param1 < 0 || Param1 > 255) return -1;
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
-                            try { ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACBkHip"].ValueStruct["Accessory"].ValueByte = (byte)Param1; }
+                            try 
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(BackHipVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACBkHip"].ValueStruct["Accessory"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(BackHipVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACBkHip"].ValueStruct["Accessory"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ACBkHip"].ValueStruct["Accessory"].ValueByte = (byte)Param1; 
+                            }
                             catch { return -1; }
                             break;
                         }
@@ -1412,7 +1500,9 @@ namespace ACR_Items
             if (Command >= 200)
             {
                 DestroyObject(Target, 0.0f, FALSE);
+
                 uint newObj = RetrieveCampaignObject(ItemChangeDBName, ModelChangeVarName, GetLocation(OBJECT_SELF), OBJECT_SELF, OBJECT_SELF);
+                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName] = null;
                 if (GetObjectType(Target) != OBJECT_TYPE_PLACEABLE)
                 {
                     CopyItem(newObj, OBJECT_SELF, TRUE);
@@ -1543,6 +1633,183 @@ namespace ACR_Items
             Blue = 3,
         }
 
+        public static Dictionary<int, List<int>> ArmorVariations = new Dictionary<int, List<int>>
+        {
+            {0, new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 29, 30, 31, 32, 50, 51, 52, 64, 65, 70, 72, 74, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 101, 102, 103, 104, 105, 106, 107, 108, 110, 111, 112, 113, 114, 115, 118, 120, 126, 184, 185, }},
+            {1, new List<int> { 0, 90, 93, 94, 95, } },
+            {2, new List<int> { 0, 1, 2, 4, 5, 9, } },
+            {4, new List<int> { 0, 1, 2, 3, 4, 5, 30, 31, 32, 180, 181, } },
+            {5, new List<int> { 0, 1, } },
+            {8, new List<int> { 0, 1, 2, 9, 10, 11, 12, 162, 165, 170, } },
+            {9, new List<int> { 0, 1, 2, 3, 70, } },
+            {10, new List<int> { 0, } },
+        };
+
+        public static Dictionary<int, List<int>> HelmetVariations = new Dictionary<int, List<int>>
+        {
+            {0, new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 39, 50, 51, 52, 53, 59, 60, 61, 62, 63, 64, 65, 67, 68, 69, 70, 97, 98, 102, 127, 184, } },
+            {2, new List<int> { 0, 1, 2, 3, 4, } },
+            {4, new List<int> { 0, 3, } },
+            {5, new List<int> { 0, 1, } },
+            {6, new List<int> { 0, 1, 2, 3, 4, 9, } },
+            {7, new List<int> { 0, 1, 2, 4, 5, 6, 7, 9, 10, 50, 51, 52, 53, } },
+            {8, new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 19, } },
+            {9, new List<int> { 0, 1, 2, 3, } },
+        };
+
+        public static Dictionary<int, List<int>> BootVariations = new Dictionary<int, List<int>>
+        {
+            {0, new List<int> { 0, 1, 2, 3, 4, 49, 50, 92, 98, } },
+            {2, new List<int> { 0, 1, 2, 3, 4, 5, 6, } },
+            {3, new List<int> { 0, } },
+            {4, new List<int> { 0, 1, 2, } },
+            {5, new List<int> { 0, 1, } },
+            {6, new List<int> { 0, } },
+            {7, new List<int> { 0, } },
+            {8, new List<int> { 0, 1, 49, 162, 165, } },
+            {9, new List<int> { 1, } },
+        };
+
+        public static Dictionary<int, List<int>> GloveVariations = new Dictionary<int, List<int>>
+        {
+            {0, new List<int> { 0, 1, 49, 50, 51, 52, 98, } },
+            {2, new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, } },
+            {3, new List<int> { 0, 1, } },
+            {4, new List<int> { 0, 1, } },
+            {5, new List<int> { 0, 1, } },
+            {7, new List<int> { 0, 1, } },
+            {8, new List<int> { 0, 1, 2, 3, 9, } },
+            {10, new List<int> { 0, } },
+        };
+
+        public static Dictionary<int, List<int>> BeltVariations = new Dictionary<int, List<int>>
+        {
+            
+            {0, new List<int> { 1, 2, 3, 180, 181, 184, 185, } },
+            {1, new List<int> { 79, 85, 87, 88, 91, 93, 94, 95, } },
+            {2, new List<int> { 0, 1, 2, 3, } },
+            {8, new List<int> { 180, } },
+        };
+
+        public static Dictionary<int, List<int>> CloakVariations = new Dictionary<int, List<int>>
+        {
+            {0, new List<int> { 0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 102, } },
+        };
+
+        public static List<int> LeftShoulderVariations = new List<int>
+        {
+            0, 1, 2, 3, 4, 5, 6, 7, 9, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 210, 
+        };
+
+        public static List<int> RightShoulderVariations = new List<int>
+        {
+            0, 1, 2, 3, 4, 5, 6, 7, 9, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 210, 
+        };
+
+        public static List<int> LeftBracerVariations = new List<int>
+        {
+            0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 99,
+        };
+
+        public static List<int> RightBracerVariations = new List<int>
+        {
+            0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
+        };
+
+        public static List<int> LeftElbowVariations = new List<int>
+        {
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 210,
+        };
+
+        public static List<int> RightElbowVariations = new List<int>
+        {
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 210,
+        };
+
+        public static List<int> LeftArmVariations = new List<int>
+        {
+            0, 1, 2, 4, 5, 8, 10, 12, 14, 16, 18, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 99, 210,
+        };
+
+        public static List<int> RightArmVariations = new List<int>
+        {
+            0, 1, 2, 4, 5, 8, 10, 12, 14, 16, 18, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 210,
+        };
+
+        public static List<int> LeftHipVariations = new List<int>
+        {
+            0, 1, 2, 3, 150, 151, 210, 
+        };
+
+        public static List<int> RightHipVariations = new List<int>
+        {
+            0, 1, 2, 3, 99, 150, 151, 210, 
+        };
+
+        public static List<int> FrontHipVariations = new List<int>
+        {
+            0,
+        };
+
+        public static List<int> BackHipVariations = new List<int>
+        {
+            0,
+        };
+
+        public static List<int> LeftLegVariations = new List<int>
+        {
+            0, 1, 2, 4, 6, 7, 9, 10, 12, 13, 14, 17, 22, 23, 24, 26, 27, 28, 29, 98, 210,
+        };
+
+        public static List<int> RightLegVariations = new List<int>
+        {
+            0, 1, 2, 4, 6, 7, 9, 10, 12, 13, 14, 17, 22, 23, 24, 26, 27, 28, 29, 97, 98, 99, 210,
+        };
+
+        public static List<int> LeftShinVariations = new List<int>
+        {
+            0, 1, 3, 4, 5, 6, 9, 11, 14, 15, 17, 19, 20, 21, 22, 23, 24, 25,
+        };
+
+        public static List<int> RightShinVariations = new List<int>
+        {
+            0, 1, 3, 4, 5, 6, 9, 11, 14, 15, 17, 19, 20, 21, 22, 23, 24, 25,
+        };
+
+        public static List<int> LeftKneeVariations = new List<int>
+        {
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 210,
+        };
+
+        public static List<int> RightKneeVariations = new List<int>
+        {
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 210,
+        };
+
+        public static List<int> LeftFootVariations = new List<int>
+        {
+            0,
+        };
+
+        public static List<int> RightFootVariations = new List<int>
+        {
+            0,
+        };
+
+        public static List<int> LeftAnkleVariations = new List<int>
+        {
+            0,
+        };
+
+        public static List<int> RightAnkleVariations = new List<int>
+        {
+            0,
+        };
+
+        public static List<ArmorSet> ClothArmorAppearances = new List<ArmorSet>
+        {
+            new ArmorSet() { ArmorVariation = 1, ArmorVisualType = 0, BackHip = 0, BeltVariation = -1, BeltVisualType = -1, BootsVariation = 0, BootsVisualType = 4, CloakVariation = -1, CloakVisualType = -1, FrontHip = 0, GlovesVariation = -1, GlovesVisualType = -1, HelmetVariation = -1, HelmetVisualType = -1, LeftAnkle = 0, LeftArm = 0, LeftBracer = 0, LeftElbow = 0, LeftFoot = 0, LeftHip = 0, LeftKnee = 0, LeftLeg = 0, LeftShin = 0, LeftShoulder = 0, RightAnkle = 0, RightArm = 0, RightBracer = 0, RightElbow = 0, RightFoot = 0, RightHip = 0, RightKnee = 0, RightLeg = 0, RightShin = 0, RightShoulder = 0 },
+        };
         public const string ItemChangeDBName = "VDB_ItMod";
         public const string ModelChangeVarName = "ModelChange";
     }

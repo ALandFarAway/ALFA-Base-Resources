@@ -68,6 +68,7 @@
     <Compile Include="GenerateWeapon.cs" />
     <Compile Include="Generation.cs" />
     <Compile Include="ItemColors.cs" />
+    <Compile Include="ItemModels.cs" />
     <Compile Include="PricedItemProperty.cs" />
     <Compile Include="Pricing.cs" />
     <Compile Include="PricingAssessments.cs" />
