@@ -28,20 +28,29 @@ namespace ACR_Items
             try
             {
                 GFFStruct colorStruct = ALFA.Shared.Modules.InfoStore.ModifiedGff[ACR_Items.ModelChangeVarName].TopLevelStruct[partName].ValueStruct["Tintable"].ValueStruct["Tint"].ValueStruct;
-                switch (color)
-                {
-                    case ACR_Items.ColorType.All:
-                        int retVal = colorStruct[colorNumber.ToString()].ValueStruct["r"].ValueByte * 256 * 256;
-                        retVal += colorStruct[colorNumber.ToString()].ValueStruct["g"].ValueByte * 256;
-                        retVal += colorStruct[colorNumber.ToString()].ValueStruct["b"].ValueByte;
-                        return retVal;
-                    case ACR_Items.ColorType.Blue:
-                        return colorStruct[colorNumber.ToString()].ValueStruct["b"].ValueByte;
-                    case ACR_Items.ColorType.Green:
-                        return colorStruct[colorNumber.ToString()].ValueStruct["g"].ValueByte;
-                    case ACR_Items.ColorType.Red:
-                        return colorStruct[colorNumber.ToString()].ValueStruct["r"].ValueByte;
-                }
+                return GetColorFromTintStruct(colorStruct, colorNumber, color);
+            }
+            catch { }
+            return -1;
+        }
+
+        public static int GetArmorColor(int colorNumber, ACR_Items.ColorType color)
+        {
+            try
+            {
+                GFFStruct colorStruct = ALFA.Shared.Modules.InfoStore.ModifiedGff[ACR_Items.ModelChangeVarName].TopLevelStruct["Tintable"].ValueStruct["Tint"].ValueStruct;
+                return GetColorFromTintStruct(colorStruct, colorNumber, color);
+            }
+            catch { }
+            return -1;
+        }
+
+        public static int GetArmorPieceColor(string partName, int colorNumber, ACR_Items.ColorType color)
+        {
+            try
+            {
+                GFFStruct colorStruct = ALFA.Shared.Modules.InfoStore.ModifiedGff[ACR_Items.ModelChangeVarName].TopLevelStruct[partName].ValueStruct["ArmorTint"].ValueStruct;
+                return GetColorFromTintStruct(colorStruct, colorNumber, color);
             }
             catch { }
             return -1;
@@ -52,13 +61,59 @@ namespace ACR_Items
             try
             {
                 GFFStruct colorStruct = ALFA.Shared.Modules.InfoStore.ModifiedGff[ACR_Items.ModelChangeVarName].TopLevelStruct[partName].ValueStruct["Tintable"].ValueStruct["Tint"].ValueStruct;
-                colorStruct[colorNumber.ToString()].ValueStruct["r"].ValueByte = (byte)(color & (255 * 256 * 256));
-                colorStruct[colorNumber.ToString()].ValueStruct["g"].ValueByte = (byte)(color & (255 * 256));
-                colorStruct[colorNumber.ToString()].ValueStruct["b"].ValueByte = (byte)(color & 255);
-                return color;
+                return SetColorInTintStruct(colorStruct, colorNumber, color);
             }
             catch { }
             return -1;
+        }
+
+        public static int SetArmorColor(int colorNumber, int color)
+        {
+            try
+            {
+                GFFStruct colorStruct = ALFA.Shared.Modules.InfoStore.ModifiedGff[ACR_Items.ModelChangeVarName].TopLevelStruct["Tintable"].ValueStruct["Tint"].ValueStruct;
+                return SetColorInTintStruct(colorStruct, colorNumber, color);
+            }
+            catch { }
+            return -1;
+        }
+
+        public static int SetArmorPieceColor(string partName, int colorNumber, int color)
+        {
+            try
+            {
+                GFFStruct colorStruct = ALFA.Shared.Modules.InfoStore.ModifiedGff[ACR_Items.ModelChangeVarName].TopLevelStruct[partName].ValueStruct["ArmorTint"].ValueStruct;
+                return SetColorInTintStruct(colorStruct, colorNumber, color);
+            }
+            catch { }
+            return -1;
+        }
+
+        private static int GetColorFromTintStruct(GFFStruct colorStruct, int colorNumber, ACR_Items.ColorType color)
+        {
+            switch (color)
+            {
+                case ACR_Items.ColorType.All:
+                    int retVal = colorStruct[colorNumber.ToString()].ValueStruct["r"].ValueByte * 256 * 256;
+                    retVal += colorStruct[colorNumber.ToString()].ValueStruct["g"].ValueByte * 256;
+                    retVal += colorStruct[colorNumber.ToString()].ValueStruct["b"].ValueByte;
+                    return retVal;
+                case ACR_Items.ColorType.Blue:
+                    return colorStruct[colorNumber.ToString()].ValueStruct["b"].ValueByte;
+                case ACR_Items.ColorType.Green:
+                    return colorStruct[colorNumber.ToString()].ValueStruct["g"].ValueByte;
+                case ACR_Items.ColorType.Red:
+                    return colorStruct[colorNumber.ToString()].ValueStruct["r"].ValueByte;
+            }
+            return -1;
+        }
+
+        private static int SetColorInTintStruct(GFFStruct colorStruct, int colorNumber, int color)
+        {
+            colorStruct[colorNumber.ToString()].ValueStruct["r"].ValueByte = (byte)(color & (255 * 256 * 256));
+            colorStruct[colorNumber.ToString()].ValueStruct["g"].ValueByte = (byte)(color & (255 * 256));
+            colorStruct[colorNumber.ToString()].ValueStruct["b"].ValueByte = (byte)(color & 255);
+            return color;
         }
     }
 }

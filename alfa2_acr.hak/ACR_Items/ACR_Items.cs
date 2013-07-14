@@ -456,6 +456,164 @@ namespace ACR_Items
                         }
                     }
                 #endregion
+                #region Get Visual-Type-Driven Models
+                case ItemCommand.GetArmorVariation:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { return ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Variation"].ValueByte; }
+                            catch { return -1; }
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.GetArmorVisualType:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { return ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ArmorVisualType"].ValueByte; }
+                            catch { return -1; }
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.GetBeltVariation:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { return ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Belt"].ValueStruct["Variation"].ValueByte; }
+                            catch { return -1; }
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.GetBeltVisualType:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { return ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Belt"].ValueStruct["ArmorVisualType"].ValueByte; }
+                            catch { return -1; }
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.GetBootsVariation:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { return ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Boots"].ValueStruct["Variation"].ValueByte; }
+                            catch { return -1; }
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.GetBootsVisualType:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { return ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Boots"].ValueStruct["ArmorVisualType"].ValueByte; }
+                            catch { return -1; }
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.GetCloakVariation:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { return ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Cloak"].ValueStruct["Variation"].ValueByte; }
+                            catch { return -1; }
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.GetCloakVisualType:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { return ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Cloak"].ValueStruct["ArmorVisualType"].ValueByte; }
+                            catch { return -1; }
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.GetGlovesVariation:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { return ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Gloves"].ValueStruct["Variation"].ValueByte; }
+                            catch { return -1; }
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.GetGlovesVisualType:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { return ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Gloves"].ValueStruct["ArmorVisualType"].ValueByte; }
+                            catch { return -1; }
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.GetHelmetVariation:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { return ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Helm"].ValueStruct["Variation"].ValueByte; }
+                            catch { return -1; }
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.GetHelmetVisualType:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try { return ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Helm"].ValueStruct["Variation"].ValueByte; }
+                            catch { return -1; }
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                #endregion
                 #region Get Accessory Colors
                 case ItemCommand.GetLeftAnkleColor:
                     {
@@ -759,6 +917,80 @@ namespace ACR_Items
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
                             return ItemColors.GetAccessoryColor("ACBkHip", Param1, (ColorType)Param2);
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                #endregion
+                #region Get Visual-Type-Driven Colors
+                case ItemCommand.GetArmorColor:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            return ItemColors.GetArmorColor(Param1, (ColorType)Param2);
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.GetBeltColor:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            return ItemColors.GetArmorPieceColor("Belt", Param1, (ColorType)Param2);
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.GetBootsColor:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            return ItemColors.GetArmorPieceColor("Boots", Param1, (ColorType)Param2);
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.GetCloakColor:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            return ItemColors.GetArmorPieceColor("Cloak", Param1, (ColorType)Param2);
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.GetGlovesColor:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            return ItemColors.GetArmorPieceColor("Gloves", Param1, (ColorType)Param2);
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.GetHelmetColor:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            return ItemColors.GetArmorPieceColor("Helm", Param1, (ColorType)Param2);
                         }
                         else
                         {
@@ -1186,6 +1418,406 @@ namespace ACR_Items
                         }
                     }
                 #endregion
+                #region Set Visual-Type-Driven Models
+                case ItemCommand.SetArmorVariation:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(ArmorVariations[ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ArmorVisualType"].ValueByte], ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Variation"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(ArmorVariations[ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ArmorVisualType"].ValueByte], ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Variation"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Variation"].ValueByte = (byte)Param1;
+                            }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetArmorVisualType:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try
+                            {
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousKey(ArmorVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ArmorVisualType"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextKey(ArmorVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ArmorVisualType"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["ArmorVisualType"].ValueByte = (byte)Param1;
+                            }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetBeltVariation:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try
+                            {
+                                if (Param1 == -2)
+                                {
+                                    GFFField toRemove = null;
+                                    foreach(GFFField field in ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Values)
+                                    {
+                                        if(field.StringLabel == "Belt")
+                                        {
+                                            toRemove = field;
+                                        }
+                                    }
+                                    if(toRemove != null) ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Remove(toRemove);
+                                    break;
+                                }
+                                if (Param1 > -2 && !ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Contains("Belt"))
+                                {
+                                    ItemModels.AddArmorPiece(ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName], "Belt", BeltVariations);
+                                }
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(BeltVariations[ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Belt"].ValueStruct["ArmorVisualType"].ValueByte], ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Belt"].ValueStruct["Variation"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(BeltVariations[ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Belt"].ValueStruct["ArmorVisualType"].ValueByte], ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Belt"].ValueStruct["Variation"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Belt"].ValueStruct["Variation"].ValueByte = (byte)Param1;
+                            }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetBeltVisualType:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try
+                            {
+                                if (Param1 == -2)
+                                {
+                                    GFFField toRemove = null;
+                                    foreach (GFFField field in ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Values)
+                                    {
+                                        if (field.StringLabel == "Belt")
+                                        {
+                                            toRemove = field;
+                                        }
+                                    }
+                                    if (toRemove != null) ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Remove(toRemove);
+                                    break;
+                                }
+                                if (Param1 > -2 && !ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Contains("Belt"))
+                                {
+                                    ItemModels.AddArmorPiece(ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName], "Belt", BeltVariations);
+                                }
+                                if (Param1 < 0) Param1 = ItemModels.GetNextKey(BeltVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Belt"].ValueStruct["ArmorVisualType"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetPreviousKey(BeltVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Belt"].ValueStruct["ArmorVisualType"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Belt"].ValueStruct["ArmorVisualType"].ValueByte = (byte)Param1;
+                            }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetBootsVariation:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try
+                            {
+                                if (Param1 == -2)
+                                {
+                                    GFFField toRemove = null;
+                                    foreach (GFFField field in ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Values)
+                                    {
+                                        if (field.StringLabel == "Boots")
+                                        {
+                                            toRemove = field;
+                                        }
+                                    }
+                                    if (toRemove != null) ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Remove(toRemove);
+                                    break;
+                                }
+                                if (Param1 > -2 && !ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Contains("Boots"))
+                                {
+                                    ItemModels.AddArmorPiece(ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName], "Boots", BootVariations);
+                                }
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(BootVariations[ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Boots"].ValueStruct["ArmorVisualType"].ValueByte], ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Boots"].ValueStruct["Variation"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(BootVariations[ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Boots"].ValueStruct["ArmorVisualType"].ValueByte], ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Boots"].ValueStruct["Variation"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Boots"].ValueStruct["Variation"].ValueByte = (byte)Param1;
+                            }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetBootsVisualType:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try
+                            {
+                                if (Param1 == -2)
+                                {
+                                    GFFField toRemove = null;
+                                    foreach (GFFField field in ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Values)
+                                    {
+                                        if (field.StringLabel == "Boots")
+                                        {
+                                            toRemove = field;
+                                        }
+                                    }
+                                    if (toRemove != null) ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Remove(toRemove);
+                                    break;
+                                }
+                                if (Param1 > -2 && !ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Contains("Boots"))
+                                {
+                                    ItemModels.AddArmorPiece(ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName], "Boots", BootVariations);
+                                }
+                                if (Param1 < 0) Param1 = ItemModels.GetNextKey(BootVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Boots"].ValueStruct["ArmorVisualType"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetPreviousKey(BootVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Boots"].ValueStruct["ArmorVisualType"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Boots"].ValueStruct["ArmorVisualType"].ValueByte = (byte)Param1;
+                            }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetCloakVariation:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try
+                            {
+                                if (Param1 == -2)
+                                {
+                                    GFFField toRemove = null;
+                                    foreach (GFFField field in ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Values)
+                                    {
+                                        if (field.StringLabel == "Cloak")
+                                        {
+                                            toRemove = field;
+                                        }
+                                    }
+                                    if (toRemove != null) ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Remove(toRemove);
+                                    break;
+                                }
+                                if (Param1 > -2 && !ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Contains("Cloak"))
+                                {
+                                    ItemModels.AddArmorPiece(ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName], "Cloak", CloakVariations);
+                                }
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(CloakVariations[ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Cloak"].ValueStruct["ArmorVisualType"].ValueByte], ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Cloak"].ValueStruct["Variation"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(CloakVariations[ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Cloak"].ValueStruct["ArmorVisualType"].ValueByte], ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Cloak"].ValueStruct["Variation"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Cloak"].ValueStruct["Variation"].ValueByte = (byte)Param1;
+                            }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetCloakVisualType:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try
+                            {
+                                if (Param1 == -2)
+                                {
+                                    GFFField toRemove = null;
+                                    foreach (GFFField field in ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Values)
+                                    {
+                                        if (field.StringLabel == "Cloak")
+                                        {
+                                            toRemove = field;
+                                        }
+                                    }
+                                    if (toRemove != null) ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Remove(toRemove);
+                                    break;
+                                }
+                                if (Param1 > -2 && !ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Contains("Cloak"))
+                                {
+                                    ItemModels.AddArmorPiece(ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName], "Cloak", CloakVariations);
+                                }
+                                if (Param1 < 0) Param1 = ItemModels.GetNextKey(CloakVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Cloak"].ValueStruct["ArmorVisualType"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetPreviousKey(CloakVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Cloak"].ValueStruct["ArmorVisualType"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Cloak"].ValueStruct["ArmorVisualType"].ValueByte = (byte)Param1;
+                            }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetGlovesVariation:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try
+                            {
+                                if (Param1 == -2)
+                                {
+                                    GFFField toRemove = null;
+                                    foreach (GFFField field in ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Values)
+                                    {
+                                        if (field.StringLabel == "Gloves")
+                                        {
+                                            toRemove = field;
+                                        }
+                                    }
+                                    if (toRemove != null) ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Remove(toRemove);
+                                    break;
+                                }
+                                if (Param1 > -2 && !ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Contains("Gloves"))
+                                {
+                                    ItemModels.AddArmorPiece(ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName], "Gloves", GloveVariations);
+                                }
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(GloveVariations[ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Gloves"].ValueStruct["ArmorVisualType"].ValueByte], ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Gloves"].ValueStruct["Variation"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(GloveVariations[ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Gloves"].ValueStruct["ArmorVisualType"].ValueByte], ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Gloves"].ValueStruct["Variation"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Gloves"].ValueStruct["Variation"].ValueByte = (byte)Param1;
+                            }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetGlovesVisualType:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try
+                            {
+                                if (Param1 == -2)
+                                {
+                                    GFFField toRemove = null;
+                                    foreach (GFFField field in ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Values)
+                                    {
+                                        if (field.StringLabel == "Gloves")
+                                        {
+                                            toRemove = field;
+                                        }
+                                    }
+                                    if (toRemove != null) ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Remove(toRemove);
+                                    break;
+                                }
+                                if (Param1 > -2 && !ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Contains("Gloves"))
+                                {
+                                    ItemModels.AddArmorPiece(ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName], "Gloves", GloveVariations);
+                                }
+                                if (Param1 < 0) Param1 = ItemModels.GetNextKey(GloveVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Gloves"].ValueStruct["ArmorVisualType"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetPreviousKey(GloveVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Gloves"].ValueStruct["ArmorVisualType"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Gloves"].ValueStruct["ArmorVisualType"].ValueByte = (byte)Param1;
+                            }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetHelmetVariation:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try
+                            {
+                                if (Param1 == -2)
+                                {
+                                    GFFField toRemove = null;
+                                    foreach (GFFField field in ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Values)
+                                    {
+                                        if (field.StringLabel == "Helm")
+                                        {
+                                            toRemove = field;
+                                        }
+                                    }
+                                    if (toRemove != null) ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Remove(toRemove);
+                                    break;
+                                }
+                                if (Param1 > -2 && !ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Contains("Helm"))
+                                {
+                                    ItemModels.AddArmorPiece(ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName], "Helm", HelmetVariations);
+                                }
+                                if (Param1 < 0) Param1 = ItemModels.GetPreviousModel(HelmetVariations[ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Helm"].ValueStruct["ArmorVisualType"].ValueByte], ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Helm"].ValueStruct["Variation"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetNextModel(HelmetVariations[ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Helm"].ValueStruct["ArmorVisualType"].ValueByte], ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Helm"].ValueStruct["Variation"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Helm"].ValueStruct["Variation"].ValueByte = (byte)Param1;
+                            }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetHelmetVisualType:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            try
+                            {
+                                if (Param1 == -2)
+                                {
+                                    GFFField toRemove = null;
+                                    foreach (GFFField field in ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Values)
+                                    {
+                                        if (field.StringLabel == "Helm")
+                                        {
+                                            toRemove = field;
+                                        }
+                                    }
+                                    if (toRemove != null) ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Fields.Remove(toRemove);
+                                    break;
+                                }
+                                if (Param1 > -2 && !ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct.Contains("Helm"))
+                                {
+                                    ItemModels.AddArmorPiece(ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName], "Helm", HelmetVariations);
+                                }
+                                if (Param1 < 0) Param1 = ItemModels.GetNextKey(HelmetVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Helm"].ValueStruct["ArmorVisualType"].ValueByte);
+                                if (Param1 > 255) Param1 = ItemModels.GetPreviousKey(HelmetVariations, ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Helm"].ValueStruct["ArmorVisualType"].ValueByte);
+                                ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName].TopLevelStruct["Helm"].ValueStruct["ArmorVisualType"].ValueByte = (byte)Param1;
+                            }
+                            catch { return -1; }
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                #endregion
                 #region Set Accessory Colors
                 case ItemCommand.SetLeftAnkleColor:
                     {
@@ -1496,6 +2128,92 @@ namespace ACR_Items
                         }
                     }
                 #endregion
+                #region Set Visual-Type-Drivem Colors
+                case ItemCommand.SetArmorColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetArmorColor(Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetBeltColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetArmorPieceColor("Belt", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetBootsColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetArmorPieceColor("Boots", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetCloakColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetArmorPieceColor("Cloak", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetGlovesColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetArmorPieceColor("Gloves", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                case ItemCommand.SetHelmetColor:
+                    {
+                        if (Param1 > 3 || Param1 < 1) return -1;
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
+                        {
+                            ItemColors.SetArmorPieceColor("Helm", Param1, Param2);
+                            break;
+                        }
+                        else
+                        {
+                            return -1;
+                        }
+                    }
+                #endregion
             }
             if (Command >= 200)
             {
@@ -1554,6 +2272,18 @@ namespace ACR_Items
             GetRightShoulderModel = 120,
             GetFrontHipModel = 121,
             GetBackHipModel = 122,
+            GetArmorVisualType = 123,
+            GetArmorVariation = 124,
+            GetBeltVisualType = 125,
+            GetBeltVariation = 126,
+            GetBootsVisualType = 127,
+            GetBootsVariation = 128,
+            GetCloakVisualType = 129,
+            GetCloakVariation = 130,
+            GetGlovesVisualType = 131,
+            GetGlovesVariation = 132,
+            GetHelmetVisualType = 133,
+            GetHelmetVariation = 134,
 
             GetLeftAnkleColor = 141,
             GetLeftArmColor = 142,
@@ -1577,6 +2307,12 @@ namespace ACR_Items
             GetRightShoulderColor = 160,
             GetFrontHipColor = 161,
             GetBackHipColor = 162,
+            GetArmorColor = 163,
+            GetBeltColor = 164,
+            GetBootsColor = 165,
+            GetCloakColor = 166,
+            GetGlovesColor = 167,
+            GetHelmetColor = 168,
 
             SetLeftAnkleModel = 201,
             SetLeftArmModel = 202,
@@ -1600,6 +2336,18 @@ namespace ACR_Items
             SetRightShoulderModel = 220,
             SetFrontHipModel = 221,
             SetBackHipModel = 222,
+            SetArmorVisualType = 223,
+            SetArmorVariation = 224,
+            SetBeltVisualType = 225,
+            SetBeltVariation = 226,
+            SetBootsVisualType = 227,
+            SetBootsVariation = 228,
+            SetCloakVisualType = 229,
+            SetCloakVariation = 230,
+            SetGlovesVisualType = 231,
+            SetGlovesVariation = 232,
+            SetHelmetVisualType = 233,
+            SetHelmetVariation = 234,
 
             SetLeftAnkleColor = 241,
             SetLeftArmColor = 242,
@@ -1623,6 +2371,12 @@ namespace ACR_Items
             SetRightShoulderColor = 260,
             SetFrontHipColor = 261,
             SetBackHipColor = 262,
+            SetArmorColor = 263,
+            SetBeltColor = 264,
+            SetBootsColor = 265,
+            SetCloakColor = 266,
+            SetGlovesColor = 267,
+            SetHelmetColor = 268,
         }
 
         public enum ColorType
@@ -1684,7 +2438,6 @@ namespace ACR_Items
 
         public static Dictionary<int, List<int>> BeltVariations = new Dictionary<int, List<int>>
         {
-            
             {0, new List<int> { 1, 2, 3, 180, 181, 184, 185, } },
             {1, new List<int> { 79, 85, 87, 88, 91, 93, 94, 95, } },
             {2, new List<int> { 0, 1, 2, 3, } },

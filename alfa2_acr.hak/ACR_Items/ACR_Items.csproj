@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArmorSet.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_Items.cs" />
     <Compile Include="GenerateAmulet.cs" />
