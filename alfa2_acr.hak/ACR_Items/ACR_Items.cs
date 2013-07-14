@@ -2128,10 +2128,11 @@ namespace ACR_Items
                         }
                     }
                 #endregion
-                #region Set Visual-Type-Drivem Colors
+                #region Set Visual-Type-Driven Colors
                 case ItemCommand.SetArmorColor:
                     {
                         if (Param1 > 3 || Param1 < 1) return -1;
+                        
                         StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
                         if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(ModelChangeVarName))
                         {
@@ -2214,6 +2215,30 @@ namespace ACR_Items
                         }
                     }
                 #endregion
+                case ItemCommand.SetArmorSetModels:
+                    {
+                        List<ArmorSet> aSet = null;
+                        try
+                        {
+                            aSet = ArmorSetLibrary[(ArmorSetTypes)Param1];
+                        }
+                        catch
+                        {
+                            SendMessageToAllDMs("ArmorSetLibrary doesn't contain key "+Param1.ToString());
+                        }
+                        ArmorSet cSet = null;
+                        try
+                        {
+                            cSet = aSet[Param2];
+                        }
+                        catch
+                        {
+                            SendMessageToAllDMs("Armor Set list doesn't contain key " + Param2.ToString());
+                        }
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        ItemModels.TakeArmorStyle(ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName], cSet);
+                        break;
+                    }
             }
             if (Command >= 200)
             {
@@ -2377,6 +2402,9 @@ namespace ACR_Items
             SetCloakColor = 266,
             SetGlovesColor = 267,
             SetHelmetColor = 268,
+
+            SetArmorSetModels = 290,
+            SetArmorColors = 291,
         }
 
         public enum ColorType
@@ -2563,6 +2591,89 @@ namespace ACR_Items
         {
             new ArmorSet() { ArmorVariation = 1, ArmorVisualType = 0, BackHip = 0, BeltVariation = -1, BeltVisualType = -1, BootsVariation = 0, BootsVisualType = 4, CloakVariation = -1, CloakVisualType = -1, FrontHip = 0, GlovesVariation = -1, GlovesVisualType = -1, HelmetVariation = -1, HelmetVisualType = -1, LeftAnkle = 0, LeftArm = 0, LeftBracer = 0, LeftElbow = 0, LeftFoot = 0, LeftHip = 0, LeftKnee = 0, LeftLeg = 0, LeftShin = 0, LeftShoulder = 0, RightAnkle = 0, RightArm = 0, RightBracer = 0, RightElbow = 0, RightFoot = 0, RightHip = 0, RightKnee = 0, RightLeg = 0, RightShin = 0, RightShoulder = 0 },
         };
+
+        public static List<ArmorSet> PaddedArmorAppearance = new List<ArmorSet>
+        {
+        };
+
+        public static List<ArmorSet> LeatherArmorAppearance = new List<ArmorSet>
+        {
+        };
+
+        public static List<ArmorSet> StuddedLeatherAppearance = new List<ArmorSet>
+        {
+        };
+
+        public static List<ArmorSet> ChainShirtAppearance = new List<ArmorSet>
+        {
+        };
+
+        public static List<ArmorSet> BreastplateAppearance = new List<ArmorSet>
+        {
+        };
+
+        public static List<ArmorSet> BandedArmorAppearance = new List<ArmorSet>
+        {
+        };
+
+        public static List<ArmorSet> HalfPlateAppearance = new List<ArmorSet>
+        {
+        };
+
+        public static List<ArmorSet> FullPlateAppearance = new List<ArmorSet>
+        {
+        };
+
+        public static List<ArmorSet> HideArmorAppearance = new List<ArmorSet>
+        {
+        };
+
+        public static List<ArmorSet> ScaleArmorAppearance = new List<ArmorSet>
+        {
+        };
+
+        public static List<ArmorSet> ChainmailAppearance = new List<ArmorSet>
+        {
+        };
+
+        public static List<ArmorSet> SplintArmorAppearance = new List<ArmorSet>
+        {
+        };
+
+        public enum ArmorSetTypes
+        {
+            Cloth = 0,
+            Padded = 1,
+            Leather = 2,
+            StuddedLeather = 3,
+            ChainShirt = 4,
+            Breastplate = 5,
+            Banded = 6,
+            HalfPlate = 7,
+            FullPlate = 8,
+            Hide = 9,
+            Scale = 10,
+            Chainmail = 11,
+            Splint = 12,
+        }
+
+        public Dictionary<ArmorSetTypes, List<ArmorSet>> ArmorSetLibrary = new Dictionary<ArmorSetTypes, List<ArmorSet>>
+        {
+            { ArmorSetTypes.Banded, BandedArmorAppearance },
+            { ArmorSetTypes.Breastplate, BreastplateAppearance },
+            { ArmorSetTypes.Chainmail, ChainmailAppearance },
+            { ArmorSetTypes.ChainShirt, ChainShirtAppearance },
+            { ArmorSetTypes.Cloth, ClothArmorAppearances },
+            { ArmorSetTypes.FullPlate, FullPlateAppearance },
+            { ArmorSetTypes.HalfPlate, HalfPlateAppearance },
+            { ArmorSetTypes.Hide, HideArmorAppearance },
+            { ArmorSetTypes.Leather, LeatherArmorAppearance },
+            { ArmorSetTypes.Padded, PaddedArmorAppearance },
+            { ArmorSetTypes.Scale, ScaleArmorAppearance },
+            { ArmorSetTypes.Splint, SplintArmorAppearance },
+            { ArmorSetTypes.StuddedLeather, StuddedLeatherAppearance },
+        };
+
         public const string ItemChangeDBName = "VDB_ItMod";
         public const string ModelChangeVarName = "ModelChange";
     }

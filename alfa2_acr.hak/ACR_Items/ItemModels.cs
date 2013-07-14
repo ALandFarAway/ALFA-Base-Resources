@@ -84,7 +84,105 @@ namespace ACR_Items
             return -1;
         }
 
-        public static void AddArmorPiece(OEIShared.IO.GFF.GFFFile armor, string type, Dictionary<int, List<int>> availableTypes)
+        public static void TakeArmorStyle(GFFFile armor, ArmorSet set)
+        {
+            armor.TopLevelStruct["ArmorVisualType"].ValueByte = (byte)set.ArmorVisualType;
+            armor.TopLevelStruct["Variation"].ValueByte = (byte)set.ArmorVariation;
+
+            List<GFFField> removals = new List<GFFField>();
+            foreach (GFFField armorPiece in armor.TopLevelStruct.Fields.Values)
+            {
+                if (armorPiece.StringLabel == "Belt")
+                {
+                    if (set.BeltVariation < 0 || set.BeltVisualType < 0)
+                    {
+                        removals.Add(armorPiece);
+                    }
+                    else
+                    {
+                        armorPiece.ValueStruct["Variation"].ValueByte = (byte)set.BeltVariation;
+                        armorPiece.ValueStruct["ArmorVisualType"].ValueByte = (byte)set.BeltVisualType;
+                    }
+                }
+                else if (armorPiece.StringLabel == "Boots")
+                {
+                    if (set.BootsVariation < 0 || set.BootsVisualType < 0)
+                    {
+                        removals.Add(armorPiece);
+                    }
+                    else
+                    {
+                        armorPiece.ValueStruct["Variation"].ValueByte = (byte)set.BootsVariation;
+                        armorPiece.ValueStruct["ArmorVisualType"].ValueByte = (byte)set.BootsVisualType;
+                    }
+                }
+                else if (armorPiece.StringLabel == "Cloak")
+                {
+                    if (set.BootsVariation < 0 || set.BootsVisualType < 0)
+                    {
+                        removals.Add(armorPiece);
+                    }
+                    else
+                    {
+                        armorPiece.ValueStruct["Variation"].ValueByte = (byte)set.CloakVariation;
+                        armorPiece.ValueStruct["ArmorVisualType"].ValueByte = (byte)set.CloakVisualType;
+                    }
+                }
+                else if (armorPiece.StringLabel == "Gloves")
+                {
+                    if (set.GlovesVariation < 0 || set.GlovesVisualType < 0)
+                    {
+                        removals.Add(armorPiece);
+                    }
+                    else
+                    {
+                        armorPiece.ValueStruct["Variation"].ValueByte = (byte)set.GlovesVariation;
+                        armorPiece.ValueStruct["ArmorVisualType"].ValueByte = (byte)set.GlovesVisualType;
+                    }
+                }
+                else if (armorPiece.StringLabel == "Helm")
+                {
+                    if (set.GlovesVariation < 0 || set.GlovesVisualType < 0)
+                    {
+                        removals.Add(armorPiece);
+                    }
+                    else
+                    {
+                        armorPiece.ValueStruct["Variation"].ValueByte = (byte)set.HelmetVariation;
+                        armorPiece.ValueStruct["ArmorVisualType"].ValueByte = (byte)set.HelmetVisualType;
+                    }
+                }
+            }
+            foreach (GFFField toRemove in removals)
+            {
+                armor.TopLevelStruct.Fields.Remove(toRemove);
+            }
+
+            armor.TopLevelStruct["ACLtAnkle"].ValueStruct["Accessory"].ValueByte = (byte)set.LeftAnkle; 
+            armor.TopLevelStruct["ACLtArm"].ValueStruct["Accessory"].ValueByte = (byte)set.LeftArm; 
+            armor.TopLevelStruct["ACLtBracer"].ValueStruct["Accessory"].ValueByte = (byte)set.LeftBracer; 
+            armor.TopLevelStruct["ACLtElbow"].ValueStruct["Accessory"].ValueByte = (byte)set.LeftElbow; 
+            armor.TopLevelStruct["ACLtFoot"].ValueStruct["Accessory"].ValueByte = (byte)set.LeftFoot; 
+            armor.TopLevelStruct["ACLtHip"].ValueStruct["Accessory"].ValueByte = (byte)set.LeftHip; 
+            armor.TopLevelStruct["ACLtKnee"].ValueStruct["Accessory"].ValueByte = (byte)set.LeftKnee; 
+            armor.TopLevelStruct["ACLtLeg"].ValueStruct["Accessory"].ValueByte = (byte)set.LeftLeg; 
+            armor.TopLevelStruct["ACLtShin"].ValueStruct["Accessory"].ValueByte = (byte)set.LeftShin;
+            armor.TopLevelStruct["ACLtShoulder"].ValueStruct["Accessory"].ValueByte = (byte)set.LeftShoulder; 
+            armor.TopLevelStruct["ACRtAnkle"].ValueStruct["Accessory"].ValueByte = (byte)set.RightAnkle; 
+            armor.TopLevelStruct["ACRtArm"].ValueStruct["Accessory"].ValueByte = (byte)set.RightArm; 
+            armor.TopLevelStruct["ACRtBracer"].ValueStruct["Accessory"].ValueByte = (byte)set.RightBracer; 
+            armor.TopLevelStruct["ACRtElbow"].ValueStruct["Accessory"].ValueByte = (byte)set.RightElbow; 
+            armor.TopLevelStruct["ACRtFoot"].ValueStruct["Accessory"].ValueByte = (byte)set.RightFoot; 
+            armor.TopLevelStruct["ACRtHip"].ValueStruct["Accessory"].ValueByte = (byte)set.RightHip; 
+            armor.TopLevelStruct["ACRtKnee"].ValueStruct["Accessory"].ValueByte = (byte)set.RightKnee; 
+            armor.TopLevelStruct["ACRtLeg"].ValueStruct["Accessory"].ValueByte = (byte)set.RightLeg; 
+            armor.TopLevelStruct["ACRtShin"].ValueStruct["Accessory"].ValueByte = (byte)set.RightShin; 
+            armor.TopLevelStruct["ACRtShoulder"].ValueStruct["Accessory"].ValueByte = (byte)set.RightShoulder; 
+            armor.TopLevelStruct["ACFtHip"].ValueStruct["Accessory"].ValueByte = (byte)set.FrontHip; 
+            armor.TopLevelStruct["ACBkHip"].ValueStruct["Accessory"].ValueByte = (byte)set.BackHip; 
+        }
+
+        public static void AddArmorPiece(GFFFile armor, string type, Dictionary<int, List<int>> availableTypes)
         {
             GFFStructField pieceTop = new GFFStructField();
             pieceTop.StringLabel = type;
