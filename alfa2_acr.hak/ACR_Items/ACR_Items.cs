@@ -2215,6 +2215,7 @@ namespace ACR_Items
                         }
                     }
                 #endregion
+                #region Whole Armor Set Changes
                 case ItemCommand.SetArmorSetModels:
                     {
                         List<ArmorSet> aSet = null;
@@ -2239,6 +2240,13 @@ namespace ACR_Items
                         ItemModels.TakeArmorStyle(ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName], cSet);
                         break;
                     }
+                case ItemCommand.SetAllArmorColors:
+                    {
+                        StoreCampaignObject(ItemChangeDBName, ModelChangeVarName, Target, OBJECT_SELF);
+                        ItemColors.SetColorThemes(ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName], Param1, Param2);
+                        break;
+                    }
+                #endregion
             }
             if (Command >= 200)
             {
@@ -2404,7 +2412,7 @@ namespace ACR_Items
             SetHelmetColor = 268,
 
             SetArmorSetModels = 290,
-            SetArmorColors = 291,
+            SetAllArmorColors = 291,
         }
 
         public enum ColorType
@@ -2415,6 +2423,7 @@ namespace ACR_Items
             Blue = 3,
         }
 
+        #region Available Models
         public static Dictionary<int, List<int>> ArmorVariations = new Dictionary<int, List<int>>
         {
             {0, new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 29, 30, 31, 32, 50, 51, 52, 64, 65, 70, 72, 74, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 101, 102, 103, 104, 105, 106, 107, 108, 110, 111, 112, 113, 114, 115, 118, 120, 126, 184, 185, }},
@@ -2586,7 +2595,9 @@ namespace ACR_Items
         {
             0,
         };
+        #endregion
 
+        #region Outfits
         public static List<ArmorSet> ClothArmorAppearances = new List<ArmorSet>
         {
             new ArmorSet() { ArmorVariation = 1, ArmorVisualType = 0, BackHip = 0, BeltVariation = -1, BeltVisualType = -1, BootsVariation = 0, BootsVisualType = 4, CloakVariation = -1, CloakVisualType = -1, FrontHip = 0, GlovesVariation = -1, GlovesVisualType = -1, HelmetVariation = -1, HelmetVisualType = -1, LeftAnkle = 0, LeftArm = 0, LeftBracer = 0, LeftElbow = 0, LeftFoot = 0, LeftHip = 0, LeftKnee = 0, LeftLeg = 0, LeftShin = 0, LeftShoulder = 0, RightAnkle = 0, RightArm = 0, RightBracer = 0, RightElbow = 0, RightFoot = 0, RightHip = 0, RightKnee = 0, RightLeg = 0, RightShin = 0, RightShoulder = 0 },
@@ -2594,14 +2605,17 @@ namespace ACR_Items
 
         public static List<ArmorSet> PaddedArmorAppearance = new List<ArmorSet>
         {
+            new ArmorSet() { ArmorVariation = 0, ArmorVisualType = 1, BackHip = 0, BeltVariation = -1, BeltVisualType = -1, BootsVariation = 3, BootsVisualType = 2, CloakVariation = -1, CloakVisualType = -1, FrontHip = 0, GlovesVariation = 6, GlovesVisualType = 2, HelmetVariation = -1, HelmetVisualType = -1, LeftAnkle = 0, LeftArm = 0, LeftBracer = 0, LeftElbow = 0, LeftFoot = 0, LeftHip = 0, LeftKnee = 0, LeftLeg = 0, LeftShin = 0, LeftShoulder = 0, RightAnkle = 0, RightArm = 0, RightBracer = 0, RightElbow = 0, RightFoot = 0, RightHip = 0, RightKnee = 0, RightLeg = 0, RightShin = 0, RightShoulder = 0 },
         };
 
         public static List<ArmorSet> LeatherArmorAppearance = new List<ArmorSet>
         {
+            new ArmorSet() { ArmorVariation = 9, ArmorVisualType = 2, BackHip = 0, BeltVariation = -1, BeltVisualType = -1, BootsVariation = 50, BootsVisualType = 0, CloakVariation = -1, CloakVisualType = -1, FrontHip = 0, GlovesVariation = 50, GlovesVisualType = 0, HelmetVariation = -1, HelmetVisualType = -1, LeftAnkle = 0, LeftArm = 0, LeftBracer = 0, LeftElbow = 0, LeftFoot = 0, LeftHip = 0, LeftKnee = 7, LeftLeg = 0, LeftShin = 0, LeftShoulder = 4, RightAnkle = 0, RightArm = 0, RightBracer = 0, RightElbow = 0, RightFoot = 0, RightHip = 0, RightKnee = 7, RightLeg = 0, RightShin = 0, RightShoulder = 4 },
         };
 
         public static List<ArmorSet> StuddedLeatherAppearance = new List<ArmorSet>
         {
+            new ArmorSet() { ArmorVariation = 1, ArmorVisualType = 2, BackHip = 0, BeltVariation = -1, BeltVisualType = -1, BootsVariation = 0, BootsVisualType = 3, CloakVariation = -1, CloakVisualType = -1, FrontHip = 0, GlovesVariation = 1, GlovesVisualType = 3, HelmetVariation = -1, HelmetVisualType = -1, LeftAnkle = 0, LeftArm = 0, LeftBracer = 5, LeftElbow = 3, LeftFoot = 0, LeftHip = 0, LeftKnee = 0, LeftLeg = 0, LeftShin = 0, LeftShoulder = 3, RightAnkle = 0, RightArm = 0, RightBracer = 5, RightElbow = 3, RightFoot = 0, RightHip = 0, RightKnee = 0, RightLeg = 0, RightShin = 0, RightShoulder = 3 },
         };
 
         public static List<ArmorSet> ChainShirtAppearance = new List<ArmorSet>
@@ -2639,6 +2653,7 @@ namespace ACR_Items
         public static List<ArmorSet> SplintArmorAppearance = new List<ArmorSet>
         {
         };
+        #endregion
 
         public enum ArmorSetTypes
         {
