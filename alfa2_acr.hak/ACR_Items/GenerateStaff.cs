@@ -25,7 +25,6 @@ namespace ACR_Items
     {
         public static int NewStaff(CLRScriptBase script, int maxValue)
         {
-            script.SendMessageToAllDMs("Generating staff of value " + maxValue);
             #region Check if collections need to be loaded. Load them if so
             if (FireSpells[IP_CONST_CASTSPELL_BURNING_HANDS_2] == 0)
             {
@@ -161,21 +160,17 @@ namespace ACR_Items
             int maxSpellValue = maxValue;
             while (true)
             {
-                script.SendMessageToAllDMs("Seeking a spell worth no more than spell value " + maxSpellValue + " or item value " + maxValue);
                 List<int> spellsToRemove = new List<int>();
                 foreach (int spell in currentAvailableSpells.Keys)
                 {
-                    script.SendMessageToAllDMs(String.Format("Property {0} is present at {1} per charge.", ALFA.Shared.Modules.InfoStore.IPCastSpells[spell], currentAvailableSpells[spell]));
                     if (((currentAvailableSpells[spell] * 50) / currentCharges) > maxValue ||
                         currentAvailableSpells[spell] > maxSpellValue)
                     {
-                        script.SendMessageToAllDMs(String.Format("Flagging {0} for removal.", ALFA.Shared.Modules.InfoStore.IPCastSpells[spell]));
                         spellsToRemove.Add(spell);
                     }
                 }
                 foreach (int spell in spellsToRemove)
                 {
-                    script.SendMessageToAllDMs(String.Format("Removing {0}.", ALFA.Shared.Modules.InfoStore.IPCastSpells[spell]));
                     currentAvailableSpells.Remove(spell);
                 }
                 if (currentAvailableSpells.Count == 0)
