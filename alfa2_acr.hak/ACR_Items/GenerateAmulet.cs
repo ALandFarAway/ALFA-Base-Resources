@@ -652,7 +652,6 @@ namespace ACR_Items
         public static List<int> AvailableSkills = new List<int>
         {
             SKILL_APPRAISE,
-            SKILL_FORGERY,
             SKILL_INTIMIDATE,
             SKILL_LISTEN,
             SKILL_SEARCH,
