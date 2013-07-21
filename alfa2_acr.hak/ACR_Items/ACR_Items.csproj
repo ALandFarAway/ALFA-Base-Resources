@@ -53,6 +53,7 @@
     <Compile Include="ArmorSet.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_Items.cs" />
+    <Compile Include="ColorPair.cs" />
     <Compile Include="GenerateAmulet.cs" />
     <Compile Include="GenerateArmor.cs" />
     <Compile Include="GenerateBelt.cs" />

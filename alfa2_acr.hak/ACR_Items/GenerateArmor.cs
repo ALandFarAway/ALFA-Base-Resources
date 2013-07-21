@@ -45,103 +45,147 @@ namespace ACR_Items
             uint armor = script.CreateItemOnObject(ArmorResRefs[selectedArmorType], script.OBJECT_SELF, 1, "", FALSE);
             #endregion
 
-            #region See if We Want This to be Masterwork
-            if (maxValue >= 150)
+            #region Armor Appearance
+            Generation.Theme armorTheme = Generation.GetEnchantmentTheme();
+            if (script.GetBaseItemType(armor) == BASE_ITEM_ARMOR)
             {
-                // 15% of the time, we say whatever and produce an undervalue item. The haul will
-                // have to come from other parts.
-                if (Generation.rand.Next(20) <= 2)
+                script.StoreCampaignObject(ACR_Items.ItemChangeDBName, ACR_Items.ModelChangeVarName, armor, script.OBJECT_SELF);
+                ArmorSet set = null;
+                switch (selectedArmorType)
                 {
-                    return armorValue;
+                    case ARMOR_RULES_TYPE_BANDED:
+                        set = ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.Banded][Generation.rand.Next(ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.Banded].Count)];
+                        break;
+                    case ARMOR_RULES_TYPE_BREASTPLATE:
+                        set = ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.Breastplate][Generation.rand.Next(ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.Breastplate].Count)];
+                        break;
+                    case ARMOR_RULES_TYPE_CHAIN_SHIRT:
+                        set = ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.ChainShirt][Generation.rand.Next(ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.ChainShirt].Count)];
+                        break;
+                    case ARMOR_RULES_TYPE_CHAINMAIL:
+                        set = ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.Chainmail][Generation.rand.Next(ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.Chainmail].Count)];
+                        break;
+                    case ARMOR_RULES_TYPE_CLOTH:
+                        set = ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.Cloth][Generation.rand.Next(ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.Cloth].Count)];
+                        break;
+                    case ARMOR_RULES_TYPE_FULL_PLATE:
+                        set = ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.FullPlate][Generation.rand.Next(ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.FullPlate].Count)];
+                        break;
+                    case ARMOR_RULES_TYPE_HALF_PLATE:
+                        set = ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.HalfPlate][Generation.rand.Next(ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.HalfPlate].Count)];
+                        break;
+                    case ARMOR_RULES_TYPE_HIDE:
+                        set = ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.Hide][Generation.rand.Next(ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.Hide].Count)];
+                        break;
+                    case ARMOR_RULES_TYPE_LEATHER:
+                        set = ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.Leather][Generation.rand.Next(ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.Leather].Count)];
+                        break;
+                    case ARMOR_RULES_TYPE_PADDED:
+                        set = ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.Padded][Generation.rand.Next(ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.Padded].Count)];
+                        break;
+                    case ARMOR_RULES_TYPE_SCALE:
+                        set = ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.Scale][Generation.rand.Next(ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.Scale].Count)];
+                        break;
+                    case ARMOR_RULES_TYPE_STUDDED_LEATHER:
+                        set = ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.StuddedLeather][Generation.rand.Next(ACR_Items.ArmorSetLibrary[ACR_Items.ArmorSetTypes.StuddedLeather].Count)];
+                        break;
                 }
-                else
+                if (set != null)
                 {
-                    switch (selectedArmorType)
-                    {
-                        case ARMOR_RULES_TYPE_BANDED:
-                            script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
-                            armorValue += 150;
-                            maxValue -= 150;
-                            break;
-                        case ARMOR_RULES_TYPE_BREASTPLATE:
-                            script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
-                            armorValue += 150;
-                            maxValue -= 150;
-                            break;
-                        case ARMOR_RULES_TYPE_CHAIN_SHIRT:
-                            script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
-                            armorValue += 150;
-                            maxValue -= 150;
-                            break;
-                        case ARMOR_RULES_TYPE_CHAINMAIL:
-                            script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
-                            armorValue += 150;
-                            maxValue -= 150;
-                            break;
-                        case ARMOR_RULES_TYPE_FULL_PLATE:
-                            script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
-                            armorValue += 150;
-                            maxValue -= 150;
-                            break;
-                        case ARMOR_RULES_TYPE_HALF_PLATE:
-                            script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
-                            armorValue += 150;
-                            maxValue -= 150;
-                            break;
-                        case ARMOR_RULES_TYPE_HIDE:
-                            script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_HIDE_MASTERWORK);
-                            armorValue += 150;
-                            maxValue -= 150;
-                            break;
-                        case ARMOR_RULES_TYPE_LEATHER:
-                            script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_LEATHER_MASTERWORK);
-                            armorValue += 150;
-                            maxValue -= 150;
-                            break;
-                        case ARMOR_RULES_TYPE_PADDED:
-                            script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_PADDED_MASTERWORK);
-                            armorValue += 150;
-                            maxValue -= 150;
-                            break;
-                        case ARMOR_RULES_TYPE_SCALE:
-                            script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
-                            armorValue += 150;
-                            maxValue -= 150;
-                            break;
-                        case ARMOR_RULES_TYPE_SHIELD_HEAVY:
-                            script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
-                            armorValue += 150;
-                            maxValue -= 150;
-                            break;
-                        case ARMOR_RULES_TYPE_SHIELD_LIGHT:
-                            script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
-                            armorValue += 150;
-                            maxValue -= 150;
-                            break;
-                        case ARMOR_RULES_TYPE_SHIELD_TOWER:
-                            script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
-                            armorValue += 150;
-                            maxValue -= 150;
-                            break;
-                        case ARMOR_RULES_TYPE_SPLINT:
-                            script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
-                            armorValue += 150;
-                            maxValue -= 150;
-                            break;
-                        case ARMOR_RULES_TYPE_STUDDED_LEATHER:
-                            script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK);
-                            armorValue += 150;
-                            maxValue -= 150;
-                            break;
-                    }
+                    ItemModels.TakeArmorStyle(ALFA.Shared.Modules.InfoStore.ModifiedGff[ACR_Items.ModelChangeVarName], set);
                 }
+                ColorPair color = GeneratedColors.ColorPairs[armorTheme][Generation.rand.Next(GeneratedColors.ColorPairs[armorTheme].Count)];
+                ItemColors.SetColorThemes(ALFA.Shared.Modules.InfoStore.ModifiedGff[ACR_Items.ModelChangeVarName], color.Primary, color.Accent);
+                script.DestroyObject(armor, 0.0f, TRUE);
+                armor = script.RetrieveCampaignObject(ACR_Items.ItemChangeDBName, ACR_Items.ModelChangeVarName, script.GetLocation(script.OBJECT_SELF), script.OBJECT_SELF, script.OBJECT_SELF);
             }
             #endregion
 
-            #region Check for Early Return if it's Only Masterwork
-            if (Generation.rand.Next(20) <= 2)
+            #region See if We Want This to be Masterwork
+            if (maxValue >= 150)
             {
-                script.SetFirstName(armor, String.Format("Masterwork {0}", script.GetName(armor)));
+                switch (selectedArmorType)
+                {
+                    case ARMOR_RULES_TYPE_BANDED:
+                        script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_BANDED_MASTERWORK);
+                        armorValue += 150;
+                        maxValue -= 150;
+                        break;
+                    case ARMOR_RULES_TYPE_BREASTPLATE:
+                        script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_BREASTPLATE_MASTERWORK);
+                        armorValue += 150;
+                        maxValue -= 150;
+                        break;
+                    case ARMOR_RULES_TYPE_CHAIN_SHIRT:
+                        script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_CHAIN_SHIRT_MASTERWORK);
+                        armorValue += 150;
+                        maxValue -= 150;
+                        break;
+                    case ARMOR_RULES_TYPE_CHAINMAIL:
+                        script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_CHAINMAIL_MASTERWORK);
+                        armorValue += 150;
+                        maxValue -= 150;
+                        break;
+                    case ARMOR_RULES_TYPE_FULL_PLATE:
+                        script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_FULL_PLATE_MASTERWORK);
+                        armorValue += 150;
+                        maxValue -= 150;
+                        break;
+                    case ARMOR_RULES_TYPE_HALF_PLATE:
+                        script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_HALF_PLATE_MASTERWORK);
+                        armorValue += 150;
+                        maxValue -= 150;
+                        break;
+                    case ARMOR_RULES_TYPE_HIDE:
+                        script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_HIDE_MASTERWORK);
+                        armorValue += 150;
+                        maxValue -= 150;
+                        break;
+                    case ARMOR_RULES_TYPE_LEATHER:
+                        script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_LEATHER_MASTERWORK);
+                        armorValue += 150;
+                        maxValue -= 150;
+                        break;
+                    case ARMOR_RULES_TYPE_PADDED:
+                        script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_PADDED_MASTERWORK);
+                        armorValue += 150;
+                        maxValue -= 150;
+                        break;
+                    case ARMOR_RULES_TYPE_SCALE:
+                        script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_SCALE_MASTERWORK);
+                        armorValue += 150;
+                        maxValue -= 150;
+                        break;
+                    case ARMOR_RULES_TYPE_SHIELD_HEAVY:
+                        script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_SHIELD_HEAVY_MASTERWORK);
+                        armorValue += 150;
+                        maxValue -= 150;
+                        break;
+                    case ARMOR_RULES_TYPE_SHIELD_LIGHT:
+                        script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_SHIELD_LIGHT_MASTERWORK);
+                        armorValue += 150;
+                        maxValue -= 150;
+                        break;
+                    case ARMOR_RULES_TYPE_SHIELD_TOWER:
+                        script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_SHIELD_TOWER_MASTERWORK);
+                        armorValue += 150;
+                        maxValue -= 150;
+                        break;
+                    case ARMOR_RULES_TYPE_SPLINT:
+                        script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_SPLINT_MASTERWORK);
+                        armorValue += 150;
+                        maxValue -= 150;
+                        break;
+                    case ARMOR_RULES_TYPE_STUDDED_LEATHER:
+                        script.SetArmorRulesType(armor, ARMOR_RULES_TYPE_STUDDED_LEATHER_MASTERWORK);
+                        armorValue += 150;
+                        maxValue -= 150;
+                        break;
+                }
+            }
+            else
+            {
+                // We can't even afford masterwork. Carry on.
                 return armorValue;
             }
             #endregion
@@ -276,7 +320,6 @@ namespace ACR_Items
             #endregion
 
             #region Armor Personality
-            Generation.Theme armorTheme = Generation.GetEnchantmentTheme();
             SetPersonalityProperties(script, armor, armorTheme, enhancementBonus, ref effectivePlusRemaining, ref currentEffectivePlus);
             armorValue += (int)(currentEffectivePlus * currentEffectivePlus * 1000);
             Pricing.CalculatePrice(script, armor);
