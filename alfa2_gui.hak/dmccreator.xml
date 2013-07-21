@@ -3,6 +3,23 @@
 <UIScene name="SCREEN_DMC_CREATOR" x=676 y=190 width=381 height=546 draggable=true priority="SCENE_INGAME" scalescene="true" hidden="true" fadeout="0.2" fadein="0.2" backoutkey=true scriptloadable="true" 
     OnAdd=UIObject_Misc_ExecuteServerScript("gui_choosercreator",0,0)/>
 
+    <!-- Items Tab Buttons -->
+    <UIPane name="ItemButtons" x=30 y=40 height=40 width=320 hidden=TRUE>
+        <UIButton name="jumpme" x=0 y=0 width=40 height=40 
+         MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",41,0)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Generate Loot","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+            <UIFrame state=base     fill="acr_cre_lootspawn.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_empty.tga" />
+        </UIButton>
+    </UIPane>
+
     <!-- Spawn Type Tabstrip -->
     <UIIcon name="CreatureActive" img="activetabbottom.tga" x="11" y="30" width="24" height="4" />
     <UIButton name="CreatureTab" x=11 y=6 width=24 height=24 MouseDownSFX="gui_m_down" MouseUpSFX="gui_button" 
@@ -94,7 +111,6 @@
 
     <!-- Search Graphic -->
     <!-- <UIButton name="SearchGraphic" img="searching1.tga" x="7" y="136" width="300" height="400" /> -->
-
 
     <!-- Search Box -->
     <UIPane name="searchbox" x="70" y="90" height="26" width="245">

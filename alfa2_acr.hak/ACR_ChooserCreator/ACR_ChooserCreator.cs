@@ -106,6 +106,9 @@ namespace ACR_ChooserCreator
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB:
                     CreatorTabs.FocusTabs(this, currentUser, command);
                     break;
+                case ACR_CreatorCommand.ACR_CHOOSERCREATOR_SPAWN_LOOT:
+                    DisplayGuiScreen(OBJECT_SELF, "SCREEN_ACR_LOOTGEN", FALSE, "acr_lootgeneration.xml", FALSE);
+                    break;
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_CREATOR_INCOMING_CLICK:
                     // TODO: make note of the selected row and provide
                     // additional information, if appropriate.
@@ -889,6 +892,8 @@ namespace ACR_ChooserCreator
             ACR_CHOOSERCREATOR_CHOOSER_INCOMING_CLICK = 22,
 
             ACR_CHOOSERCREATOR_SEARCH_CREATOR = 31,
+
+            ACR_CHOOSERCREATOR_SPAWN_LOOT = 41,
 
             ACR_CHOOSERCREATOR_INITIALIZE_CHOOSER = 100,
             ACR_CHOOSERCREATOR_FOCUS_CHOOSER = 101,
