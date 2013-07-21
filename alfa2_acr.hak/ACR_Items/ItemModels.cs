@@ -89,73 +89,109 @@ namespace ACR_Items
             armor.TopLevelStruct["ArmorVisualType"].ValueByte = (byte)set.ArmorVisualType;
             armor.TopLevelStruct["Variation"].ValueByte = (byte)set.ArmorVariation;
 
+            bool beltSeen = false;
+            bool bootsSeen = false;
+            bool cloakSeen = false;
+            bool glovesSeen = false;
+            bool helmSeen = false;
+
             List<GFFField> removals = new List<GFFField>();
             foreach (GFFField armorPiece in armor.TopLevelStruct.Fields.Values)
             {
                 if (armorPiece.StringLabel == "Belt")
                 {
+                    beltSeen = true;
                     if (set.BeltVariation < 0 || set.BeltVisualType < 0)
                     {
                         removals.Add(armorPiece);
                     }
-                    else
-                    {
-                        armorPiece.ValueStruct["Variation"].ValueByte = (byte)set.BeltVariation;
-                        armorPiece.ValueStruct["ArmorVisualType"].ValueByte = (byte)set.BeltVisualType;
-                    }
                 }
                 else if (armorPiece.StringLabel == "Boots")
                 {
+                    bootsSeen = true;
                     if (set.BootsVariation < 0 || set.BootsVisualType < 0)
                     {
                         removals.Add(armorPiece);
-                    }
-                    else
-                    {
-                        armorPiece.ValueStruct["Variation"].ValueByte = (byte)set.BootsVariation;
-                        armorPiece.ValueStruct["ArmorVisualType"].ValueByte = (byte)set.BootsVisualType;
                     }
                 }
                 else if (armorPiece.StringLabel == "Cloak")
                 {
+                    cloakSeen = true;
                     if (set.BootsVariation < 0 || set.BootsVisualType < 0)
                     {
                         removals.Add(armorPiece);
                     }
-                    else
-                    {
-                        armorPiece.ValueStruct["Variation"].ValueByte = (byte)set.CloakVariation;
-                        armorPiece.ValueStruct["ArmorVisualType"].ValueByte = (byte)set.CloakVisualType;
-                    }
                 }
                 else if (armorPiece.StringLabel == "Gloves")
                 {
+                    glovesSeen = true;
                     if (set.GlovesVariation < 0 || set.GlovesVisualType < 0)
                     {
                         removals.Add(armorPiece);
-                    }
-                    else
-                    {
-                        armorPiece.ValueStruct["Variation"].ValueByte = (byte)set.GlovesVariation;
-                        armorPiece.ValueStruct["ArmorVisualType"].ValueByte = (byte)set.GlovesVisualType;
                     }
                 }
                 else if (armorPiece.StringLabel == "Helm")
                 {
+                    helmSeen = true;
                     if (set.GlovesVariation < 0 || set.GlovesVisualType < 0)
                     {
                         removals.Add(armorPiece);
-                    }
-                    else
-                    {
-                        armorPiece.ValueStruct["Variation"].ValueByte = (byte)set.HelmetVariation;
-                        armorPiece.ValueStruct["ArmorVisualType"].ValueByte = (byte)set.HelmetVisualType;
                     }
                 }
             }
             foreach (GFFField toRemove in removals)
             {
                 armor.TopLevelStruct.Fields.Remove(toRemove);
+            }
+
+            if (!beltSeen && set.BeltVariation >= 0 && set.BeltVisualType >= 0)
+            {
+                AddArmorPiece(armor, "Belt", ACR_Items.BeltVariations);
+            }
+            if (!bootsSeen && set.BootsVariation >= 0 && set.BootsVisualType >= 0)
+            {
+                AddArmorPiece(armor, "Boots", ACR_Items.BootVariations);
+            }
+            if (!cloakSeen && set.CloakVariation >= 0 && set.CloakVisualType >= 0)
+            {
+                AddArmorPiece(armor, "Cloak", ACR_Items.CloakVariations);
+            }
+            if (!glovesSeen && set.GlovesVariation >= 0 && set.GlovesVisualType >= 0)
+            {
+                AddArmorPiece(armor, "Gloves", ACR_Items.GloveVariations);
+            }
+            if (!helmSeen && set.HelmetVariation >= 0 && set.HelmetVisualType >= 0)
+            {
+                AddArmorPiece(armor, "Helm", ACR_Items.HelmetVariations);
+            }
+
+            foreach (GFFField armorPiece in armor.TopLevelStruct.Fields.Values)
+            {
+                if (armorPiece.StringLabel == "Belt")
+                {
+                    armorPiece.ValueStruct["Variation"].ValueByte = (byte)set.BeltVariation;
+                    armorPiece.ValueStruct["ArmorVisualType"].ValueByte = (byte)set.BeltVisualType;
+                }
+                else if (armorPiece.StringLabel == "Boots")
+                {
+                    armorPiece.ValueStruct["Variation"].ValueByte = (byte)set.BootsVariation;
+                    armorPiece.ValueStruct["ArmorVisualType"].ValueByte = (byte)set.BootsVisualType;
+                }
+                else if (armorPiece.StringLabel == "Cloak")
+                {
+                    armorPiece.ValueStruct["Variation"].ValueByte = (byte)set.CloakVariation;
+                    armorPiece.ValueStruct["ArmorVisualType"].ValueByte = (byte)set.CloakVisualType;
+                }
+                else if (armorPiece.StringLabel == "Gloves")
+                {
+                    armorPiece.ValueStruct["Variation"].ValueByte = (byte)set.GlovesVariation;
+                    armorPiece.ValueStruct["ArmorVisualType"].ValueByte = (byte)set.GlovesVisualType;
+                }
+                else if (armorPiece.StringLabel == "Helm")
+                {
+                    armorPiece.ValueStruct["Variation"].ValueByte = (byte)set.HelmetVariation;
+                    armorPiece.ValueStruct["ArmorVisualType"].ValueByte = (byte)set.HelmetVisualType;
+                }
             }
 
             armor.TopLevelStruct["ACLtAnkle"].ValueStruct["Accessory"].ValueByte = (byte)set.LeftAnkle; 
