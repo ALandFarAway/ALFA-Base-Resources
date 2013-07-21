@@ -44,44 +44,55 @@
 	         OnUpdate=UIObject_Misc_SetLocalVarString(local:3) />
 		<UIIcon img="acr_black.tga" x=1 y=1 width=48 height=18 />
 	</UIPane>
+	<UIText x=20 y=150 text="Minimum Gold Drop" />
+	<UIPane name="AUTO_GOLD_BOX" x=150 y=147 height="20" width="50">
+		<UIIcon name="left_edge"   x="0" y="0" img="fx_white.tga" width="1" height="20" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+		<UIIcon name="top_edge"    x="0" y="0" img="fx_white.tga" width="50" height="1" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+		<UIIcon name="right_edge"  x="49" y="0" img="fx_white.tga" width="1" height="20" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+		<UIIcon name="bottom_edge" x="0" y="19" img="fx_white.tga" width="50" height="1" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
+		<UIIcon img="acr_black.tga" x=8 y=33 width=385 height=507 />
+		<UIText name="AUTO_GOLD" x=3 y=3 height=18 width=48 filter="numeric" maxnumber="999999" editable=true maxlines=1 allowspace=true valign=center returnrestricted="true" update=true UpdateRate=1.0
+	         OnUpdate=UIObject_Misc_SetLocalVarString(local:6) />
+		<UIIcon img="acr_black.tga" x=1 y=1 width=48 height=18 />
+	</UIPane>
 
-	<UIButton name="VERY_POOR" x=20   y=150 width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=5
+	<UIButton name="VERY_POOR" x=20   y=170 width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=5
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:0,1)
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Richest is Very Poor","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
-	<UIText x=40 y=153  text="Richest PC is Very Poor" />
-	<UIButton name="POOR" x=20  y=170 width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=4
+	<UIText x=40 y=173  text="Richest PC is Very Poor" />
+	<UIButton name="POOR" x=20  y=190 width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=4
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:0,2)
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Richest is Poor","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
-	<UIText x=40 y=173  text="Richest PC is Poor" />
-	<UIButton name="TARGET" x=20  y=190 width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=1
+	<UIText x=40 y=193  text="Richest PC is Poor" />
+	<UIButton name="TARGET" x=20  y=210 width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=1
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:0,3)
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Richest is Near Target","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
-	<UIText x=40 y=193  text="Richest PC is Near Target" />
-	<UIButton name="RICH" x=20  y=210 width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=3
+	<UIText x=40 y=213  text="Richest PC is Near Target" />
+	<UIButton name="RICH" x=20  y=230 width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=3
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:0,4)
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Richest is Rich","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
-	<UIText x=40 y=213  text="Richest PC is Rich" />
-	<UIButton name="VERY_RICH" x=20 y=230  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=2
+	<UIText x=40 y=233  text="Richest PC is Rich" />
+	<UIButton name="VERY_RICH" x=20 y=250  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=2
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:0,5)
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Richest is Very Rich","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
-	<UIText x=40 y=233  text="Richest PC is Very Rich" />
-	<UIButton name="CUTOFF" x=20 y=250  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=6
+	<UIText x=40 y=253  text="Richest PC is Very Rich" />
+	<UIButton name="CUTOFF" x=20 y=270  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=1 groupmemberid=6
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:0,6)
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Richest is Cut Off","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
-	<UIText x=40 y=253  text="Richest PC is Cut Off" />
+	<UIText x=40 y=273  text="Richest PC is Cut Off" />
 
-	<UIButton name="TRINKETS" x=20 y=290  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=2 groupmemberid=2
+	<UIButton name="TRINKETS" x=20 y=310  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=2 groupmemberid=2
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:4,1)
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Spawn many cheap items","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
-	<UIText x=40 y=293  text="Spawn many cheap items" />
-	<UIButton name="SPLITTABLE" x=20 y=310  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=2 groupmemberid=1
+	<UIText x=40 y=313  text="Spawn many cheap items" />
+	<UIButton name="SPLITTABLE" x=20 y=330  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=2 groupmemberid=1
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:4,2)
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Ensure loot may be split","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
-	<UIText x=40 y=313  text="Ensure loot may be split" />
-	<UIButton name="QUALITY" x=20 y=330  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=2 groupmemberid=3
+	<UIText x=40 y=333  text="Ensure loot may be split" />
+	<UIButton name="QUALITY" x=20 y=350  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=2 groupmemberid=3
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:4,3)
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Spawn highest quality","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")' />
-	<UIText x=40 y=333  text="Spawn highest quality" />
+	<UIText x=40 y=353  text="Spawn highest quality" />
 
 	<UIButton name="BALANCED" x=210 y=90  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=1
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,2) />
@@ -130,7 +141,7 @@
 	<UIText x=230 y=373  text="Spawn only Potions" />
 
 	<UIButton name="GENERATE" style="STYLE_MENU_BUTTON_SML" x=100 y=420  text="GENERATE" align=center height=40 width=200 
-	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_lootgen",local:0,local:1,local:2,local:3,local:4,local:5)
+	 OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_lootgen",local:0,local:1,local:2,local:3,local:4,local:5,local:6)
 	 OnToolTip='UIObject_Tooltip_DisplayTooltipString("Generate loot with the above parameters","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'/>
 
 	<!-- Title Text -->

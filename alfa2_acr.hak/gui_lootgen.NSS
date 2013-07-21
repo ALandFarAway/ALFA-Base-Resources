@@ -54,7 +54,7 @@ int ACR_LOOTGEN_CURRENTLOOT_CUTOFF = 6;
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void main(int nCurrentLoot, int nLowestLevel, int nExperience, int nPCCount, int nDistribution, int nSpawnPriority) 
+void main(int nCurrentLoot, int nLowestLevel, int nExperience, int nPCCount, int nDistribution, int nSpawnPriority, int nGoldSpawn) 
 {
 	if(!GetIsDM(OBJECT_SELF) && !GetIsDMPossessed(OBJECT_SELF))
 	{
@@ -142,6 +142,13 @@ void main(int nCurrentLoot, int nLowestLevel, int nExperience, int nPCCount, int
 	{
 		nLoot = nLoot / 2;
 	}
+	
+	if(nGoldSpawn >= nLoot)
+	{
+		CreateItemOnObject("nw_it_gold001", oContainer, nLoot, "", FALSE);
+		SendMessageToPC(OBJECT_SELF, "All allowed loot is accounted for by "+IntToString(nLoot)+" gold, which is placed in "+GetName(oContainer)+"'s inventory");
+		return;
+	}
 
 	int nMaxItem = 0;
 	if(nDistribution == ACR_LOOTGEN_GENERATE_TRINKETS)
@@ -170,7 +177,15 @@ void main(int nCurrentLoot, int nLowestLevel, int nExperience, int nPCCount, int
 			nMaxItem = nMaxItemByLevel;
 		}
 	}
-	
+	if(nGoldSpawn > 0)
+	{
+		nLoot -= nGoldSpawn;
+		SendMessageToPC(OBJECT_SELF, "Creating "+IntToString(nGoldSpawn)+" gold before turning to random generation.");	
+		CreateItemOnObject("nw_it_gold001", oContainer, nGoldSpawn, "", FALSE);
+	}
 	SendMessageToPC(OBJECT_SELF, "Generating "+IntToString(nLoot)+" gold worth of loot in "+GetName(oContainer)+"'s inventory, with no single item worth more than "+IntToString(nMaxItem)+" gold.");
-	ACR_GenerateLoot(oContainer, nLoot, nMaxItem, nSpawnPriority);
+	if(nLoot > 0)
+	{
+		ACR_GenerateLoot(oContainer, nLoot, nMaxItem, nSpawnPriority);
+	}
 }
