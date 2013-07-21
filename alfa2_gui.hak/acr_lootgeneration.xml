@@ -18,7 +18,7 @@
 		<UIIcon name="right_edge"  x="49" y="0" img="fx_white.tga" width="1" height="20" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
 		<UIIcon name="bottom_edge" x="0" y="19" img="fx_white.tga" width="50" height="1" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
 		<UIIcon img="acr_black.tga" x=8 y=33 width=385 height=507 />
-		<UIText name="PC_LEVEL" x=3 y=3 height=18 width=48 editable=true maxlines=1 allowspace=true valign=center returnrestricted="true" update=true UpdateRate=1.0
+		<UIText name="PC_LEVEL" x=3 y=3 height=18 width=48 filter="numeric" maxnumber="20" editable=true maxlines=1 allowspace=true valign=center returnrestricted="true" update=true UpdateRate=1.0
 	         OnUpdate=UIObject_Misc_SetLocalVarString(local:1) />
 		<UIIcon img="acr_black.tga" x=1 y=1 width=48 height=18 />
 	</UIPane>
@@ -29,7 +29,7 @@
 		<UIIcon name="right_edge"  x="49" y="0" img="fx_white.tga" width="1" height="20" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
 		<UIIcon name="bottom_edge" x="0" y="19" img="fx_white.tga" width="50" height="1" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
 		<UIIcon img="acr_black.tga" x=8 y=33 width=385 height=507 />
-		<UIText name="XP_AWARD" x=3 y=3 height=18 width=48 editable=true maxlines=1 allowspace=true valign=center returnrestricted="true" update=true UpdateRate=1.0
+		<UIText name="XP_AWARD" x=3 y=3 height=18 width=48 filter="numeric" maxnumber="190000" editable=true maxlines=1 allowspace=true valign=center returnrestricted="true" update=true UpdateRate=1.0
 	         OnUpdate=UIObject_Misc_SetLocalVarString(local:2) />
 		<UIIcon img="acr_black.tga" x=1 y=1 width=48 height=18 />
 	</UIPane>
@@ -40,7 +40,7 @@
 		<UIIcon name="right_edge"  x="49" y="0" img="fx_white.tga" width="1" height="20" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
 		<UIIcon name="bottom_edge" x="0" y="19" img="fx_white.tga" width="50" height="1" color="A1A29A" scalewidthtoparent="false" scaleheighttoparent="false" />
 		<UIIcon img="acr_black.tga" x=8 y=33 width=385 height=507 />
-		<UIText name="PC_POP" x=3 y=3 height=18 width=48 editable=true maxlines=1 allowspace=true valign=center returnrestricted="true" update=true UpdateRate=1.0
+		<UIText name="PC_POP" x=3 y=3 height=18 width=48 filter="numeric" maxnumber="100" editable=true maxlines=1 allowspace=true valign=center returnrestricted="true" update=true UpdateRate=1.0
 	         OnUpdate=UIObject_Misc_SetLocalVarString(local:3) />
 		<UIIcon img="acr_black.tga" x=1 y=1 width=48 height=18 />
 	</UIPane>
