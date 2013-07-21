@@ -72,13 +72,11 @@ namespace ACR_Items
                             else if (roll > 52)
                             {
                                 decrease = GenerateStaff.NewStaff(script, maxItemValue); // 53-55
-                                script.SendMessageToAllDMs("Spawning staff worth " + decrease);
                                 lootValue -= decrease;
                             }
                             else if (roll > 50)
                             {
                                 decrease = GenerateRod.NewRod(script, maxItemValue); // 51-52
-                                script.SendMessageToAllDMs("Spawning rod worth " + decrease);
                                 lootValue -= decrease;
                             }
                             else if (roll > 42)
