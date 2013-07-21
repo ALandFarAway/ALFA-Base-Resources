@@ -317,7 +317,7 @@ namespace ACR_Items
             catch { }
         }
 
-        private static ModelColors GetModelColor(List<ModelColors> fromList, int visualType, int variation)
+        public static ModelColors GetModelColor(List<ModelColors> fromList, int visualType, int variation)
         {
             foreach (ModelColors col in fromList)
             {
@@ -350,8 +350,8 @@ namespace ACR_Items
 
         private static int SetColorInTintStruct(GFFStruct colorStruct, int colorNumber, int color)
         {
-            colorStruct[colorNumber.ToString()].ValueStruct["r"].ValueByte = (byte)(color & (255 * 256 * 256));
-            colorStruct[colorNumber.ToString()].ValueStruct["g"].ValueByte = (byte)(color & (255 * 256));
+            colorStruct[colorNumber.ToString()].ValueStruct["r"].ValueByte = (byte)((color & (255 * 256 * 256)) / (256 * 256));
+            colorStruct[colorNumber.ToString()].ValueStruct["g"].ValueByte = (byte)((color & (255 * 256)) / 256);
             colorStruct[colorNumber.ToString()].ValueStruct["b"].ValueByte = (byte)(color & 255);
             return color;
         }
