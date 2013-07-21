@@ -2620,38 +2620,47 @@ namespace ACR_Items
 
         public static List<ArmorSet> ChainShirtAppearance = new List<ArmorSet>
         {
+            new ArmorSet() { ArmorVariation = 30, ArmorVisualType = 4, BackHip = 0, BeltVariation = -1, BeltVisualType = -1, BootsVariation = 50, BootsVisualType = 0, CloakVariation = -1, CloakVisualType = -1, FrontHip = 0, GlovesVariation = 50, GlovesVisualType = 0, HelmetVariation = 2, HelmetVisualType = 2, LeftAnkle = 0, LeftArm = 0, LeftBracer = 0, LeftElbow = 0, LeftFoot = 0, LeftHip = 0, LeftKnee = 0, LeftLeg = 0, LeftShin = 0, LeftShoulder = 0, RightAnkle = 0, RightArm = 0, RightBracer = 0, RightElbow = 0, RightFoot = 0, RightHip = 0, RightKnee = 0, RightLeg = 0, RightShin = 0, RightShoulder = 0},
         };
 
         public static List<ArmorSet> BreastplateAppearance = new List<ArmorSet>
         {
+            new ArmorSet() { ArmorVariation = 11, ArmorVisualType = 8, BackHip = 0, BeltVariation = -1, BeltVisualType = -1, BootsVariation = 162, BootsVisualType = 8, CloakVariation = -1, CloakVisualType = -1, FrontHip = 0, GlovesVariation = 6, GlovesVisualType = 2, HelmetVariation = 50, HelmetVisualType = 7, LeftAnkle = 0, LeftArm = 0, LeftBracer = 0, LeftElbow = 0, LeftFoot = 0, LeftHip = 0, LeftKnee = 0, LeftLeg = 0, LeftShin = 0, LeftShoulder = 0, RightAnkle = 0, RightArm = 0, RightBracer = 0, RightElbow = 0, RightFoot = 0, RightHip = 0, RightKnee = 0, RightLeg = 0, RightShin = 0, RightShoulder = 0},
         };
 
         public static List<ArmorSet> BandedArmorAppearance = new List<ArmorSet>
         {
+            new ArmorSet() { ArmorVariation = 1, ArmorVisualType = 8, BackHip = 0, BeltVariation = -1, BeltVisualType = -1, BootsVariation = 0, BootsVisualType = 6, CloakVariation = -1, CloakVisualType = -1, FrontHip = 0, GlovesVariation = 0, GlovesVisualType = 4, HelmetVariation = 52, HelmetVisualType = 7, LeftAnkle = 0, LeftArm = 0, LeftBracer = 0, LeftElbow = 0, LeftFoot = 0, LeftHip = 0, LeftKnee = 0, LeftLeg = 0, LeftShin = 0, LeftShoulder = 0, RightAnkle = 0, RightArm = 0, RightBracer = 0, RightElbow = 0, RightFoot = 0, RightHip = 0, RightKnee = 0, RightLeg = 0, RightShin = 0, RightShoulder = 0},
         };
 
         public static List<ArmorSet> HalfPlateAppearance = new List<ArmorSet>
         {
+            new ArmorSet() { ArmorVariation = 9, ArmorVisualType = 8, BackHip = 0, BeltVariation = -1, BeltVisualType = -1, BootsVariation = 0, BootsVisualType = 6, CloakVariation = -1, CloakVisualType = -1, FrontHip = 0, GlovesVariation = 0, GlovesVisualType = 4, HelmetVariation = 52, HelmetVisualType = 7, LeftAnkle = 0, LeftArm = 0, LeftBracer = 0, LeftElbow = 0, LeftFoot = 0, LeftHip = 0, LeftKnee = 210, LeftLeg = 0, LeftShin = 0, LeftShoulder = 210, RightAnkle = 0, RightArm = 0, RightBracer = 0, RightElbow = 0, RightFoot = 0, RightHip = 0, RightKnee = 210, RightLeg = 0, RightShin = 0, RightShoulder = 210},
         };
 
         public static List<ArmorSet> FullPlateAppearance = new List<ArmorSet>
         {
+            new ArmorSet() { ArmorVariation = 10, ArmorVisualType = 8, BackHip = 0, BeltVariation = -1, BeltVisualType = -1, BootsVariation = 49, BootsVisualType = 8, CloakVariation = -1, CloakVisualType = -1, FrontHip = 0, GlovesVariation = 9, GlovesVisualType = 8, HelmetVariation = 11, HelmetVisualType = 8, LeftAnkle = 0, LeftArm = 210, LeftBracer = 0, LeftElbow = 210, LeftFoot = 0, LeftHip = 210, LeftKnee = 210, LeftLeg = 210, LeftShin = 0, LeftShoulder = 210, RightAnkle = 0, RightArm = 210, RightBracer = 0, RightElbow = 210, RightFoot = 0, RightHip = 210, RightKnee = 210, RightLeg = 210, RightShin = 0, RightShoulder = 210},
         };
 
         public static List<ArmorSet> HideArmorAppearance = new List<ArmorSet>
         {
+            new ArmorSet() { ArmorVariation = 1, ArmorVisualType = 9, BackHip = 0, BeltVariation = 3, BeltVisualType = 2, BootsVariation = 1, BootsVisualType = 9, CloakVariation = -1, CloakVisualType = -1, FrontHip = 0, GlovesVariation = 0, GlovesVisualType = 2, HelmetVariation = -1, HelmetVisualType = -1, LeftAnkle = 0, LeftArm = 0, LeftBracer = 0, LeftElbow = 0, LeftFoot = 0, LeftHip = 0, LeftKnee = 0, LeftLeg = 0, LeftShin = 0, LeftShoulder = 0, RightAnkle = 0, RightArm = 0, RightBracer = 0, RightElbow = 0, RightFoot = 0, RightHip = 0, RightKnee = 0, RightLeg = 0, RightShin = 0, RightShoulder = 0},
         };
 
         public static List<ArmorSet> ScaleArmorAppearance = new List<ArmorSet>
         {
+            new ArmorSet() { ArmorVariation = 0, ArmorVisualType = 5, BackHip = 0, BeltVariation = -1, BeltVisualType = -1, BootsVariation = 0, BootsVisualType = 5, CloakVariation = -1, CloakVisualType = -1, FrontHip = 0, GlovesVariation = 0, GlovesVisualType = 5, HelmetVariation = 0, HelmetVisualType = 5, LeftAnkle = 0, LeftArm = 2, LeftBracer = 3, LeftElbow = 0, LeftFoot = 0, LeftHip = 0, LeftKnee = 0, LeftLeg = 0, LeftShin = 0, LeftShoulder = 2, RightAnkle = 0, RightArm = 2, RightBracer = 3, RightElbow = 0, RightFoot = 0, RightHip = 0, RightKnee = 0, RightLeg = 0, RightShin = 0, RightShoulder = 2},
         };
 
         public static List<ArmorSet> ChainmailAppearance = new List<ArmorSet>
         {
+            new ArmorSet() { ArmorVariation = 1, ArmorVisualType = 4, BackHip = 0, BeltVariation = -1, BeltVisualType = -1, BootsVariation = 2, BootsVisualType = 4, CloakVariation = -1, CloakVisualType = -1, FrontHip = 0, GlovesVariation = 0, GlovesVisualType = 4, HelmetVariation = 0, HelmetVisualType = 4, LeftAnkle = 0, LeftArm = 0, LeftBracer = 0, LeftElbow = 0, LeftFoot = 0, LeftHip = 0, LeftKnee = 15, LeftLeg = 0, LeftShin = 0, LeftShoulder = 0, RightAnkle = 0, RightArm = 0, RightBracer = 0, RightElbow = 0, RightFoot = 0, RightHip = 0, RightKnee = 15, RightLeg = 0, RightShin = 0, RightShoulder = 0},
         };
 
         public static List<ArmorSet> SplintArmorAppearance = new List<ArmorSet>
         {
+            new ArmorSet() { ArmorVariation = 1, ArmorVisualType = 8, BackHip = 0, BeltVariation = -1, BeltVisualType = -1, BootsVariation = 0, BootsVisualType = 6, CloakVariation = -1, CloakVisualType = -1, FrontHip = 0, GlovesVariation = 0, GlovesVisualType = 4, HelmetVariation = 52, HelmetVisualType = 7, LeftAnkle = 0, LeftArm = 0, LeftBracer = 0, LeftElbow = 0, LeftFoot = 0, LeftHip = 0, LeftKnee = 0, LeftLeg = 0, LeftShin = 0, LeftShoulder = 0, RightAnkle = 0, RightArm = 0, RightBracer = 0, RightElbow = 0, RightFoot = 0, RightHip = 0, RightKnee = 0, RightLeg = 0, RightShin = 0, RightShoulder = 0},
         };
         #endregion
 
@@ -2672,7 +2681,7 @@ namespace ACR_Items
             Splint = 12,
         }
 
-        public Dictionary<ArmorSetTypes, List<ArmorSet>> ArmorSetLibrary = new Dictionary<ArmorSetTypes, List<ArmorSet>>
+        public static Dictionary<ArmorSetTypes, List<ArmorSet>> ArmorSetLibrary = new Dictionary<ArmorSetTypes, List<ArmorSet>>
         {
             { ArmorSetTypes.Banded, BandedArmorAppearance },
             { ArmorSetTypes.Breastplate, BreastplateAppearance },
