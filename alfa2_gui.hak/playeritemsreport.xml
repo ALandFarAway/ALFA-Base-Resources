@@ -66,8 +66,7 @@
 			<UIFrame state=hifocus  fill="b_overlay.tga" />
 			<UIFrame state=disabled fill="b_empty.tga" />
 	</UIButton>
-
-
+	
 	<!-- PLOT AND UNPLOT -->
 	<UIButton name="plot" x=168 y=37 width=40 height=40 
 		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
@@ -87,6 +86,19 @@
 		OnLeftClick0=UIObject_Misc_ExtractData(selected:inventoryreport,"string",5,local:6)
 		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",10,local:6) >
 			<UIFrame state=base     fill="noplot.tga" />
+			<UIFrame state=up       fill="b_empty.tga" />
+			<UIFrame state=down     fill="b_overlay.tga" />
+			<UIFrame state=focused  fill="b_empty.tga" />
+			<UIFrame state=hilited  fill="b_overlay.tga" />
+			<UIFrame state=hifocus  fill="b_overlay.tga" />
+			<UIFrame state=disabled fill="b_empty.tga" />
+	</UIButton>
+	
+	<UIButton name="reprice" x=213 y=37 width=40 height=40
+		MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+		OnLeftClick0=UIObject_Misc_ExtractData(selected:inventoryreport,"string",5,local:6)
+		OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_playerreport",12,local:6) >
+			<UIFrame state=base     fill="acr_reprice.tga" />
 			<UIFrame state=up       fill="b_empty.tga" />
 			<UIFrame state=down     fill="b_overlay.tga" />
 			<UIFrame state=focused  fill="b_empty.tga" />

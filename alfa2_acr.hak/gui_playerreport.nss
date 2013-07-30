@@ -25,6 +25,7 @@
 #include "acr_resting_i"
 #include "dmfi_inc_command"
 #include "acr_report_i"
+#include "acr_items_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -42,6 +43,7 @@ int PLAYER_REPORT_INVENTORY_BUTTONS = 8;
 int PLAYER_REPORT_CURSE_TOGGLE      = 9;
 int PLAYER_REPORT_PLOT_TOGGLE       = 10;
 int PLAYER_REPORT_STOLEN_TOGGLE     = 11;
+int PLAYER_REPORT_REPRICE           = 12;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -821,4 +823,11 @@ void main(int nAction, int nTargetObject)
         }
     }
 
+	else if(nAction == PLAYER_REPORT_REPRICE)
+	{
+		object oItem = IntToObject(nTargetObject);
+        if(!GetIsObjectValid(oItem)) return;
+		
+		ACR_CorrectPrice(oItem);
+	}
 }

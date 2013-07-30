@@ -130,6 +130,9 @@ int ACR_HasActiveItemProperty( object oPC, int nItemProperty, int bFullCheck = F
 //!   generation, using ACR_ITEMS_CSHARP_GENERATE_* constants.
 void ACR_GenerateLoot( object oContainer, int nTotalValue, int nMaxSingleItem, int nGenerationType = ACR_ITEMS_CSHARP_GENERATE_LOOT );
 
+//! Corrects the price of a given item, according to ALFA pricing standards
+void ACR_CorrectPrice( object oItem );
+
 //! Determines what the maximum value of appropriate item drops
 //! are for a given level
 //! nLevel -- the level to be checked
@@ -526,6 +529,15 @@ void ACR_GenerateLoot( object oContainer, int nTotalValue, int nMaxSingleItem, i
 	AddScriptParameterInt(nTotalValue);
 	AddScriptParameterInt(nMaxSingleItem);
 	ExecuteScriptEnhanced("ACR_Items", oContainer, TRUE);
+}
+
+void ACR_CorrectPrice( object oItem )
+{
+	AddScriptParameterObject(oItem);
+	AddScriptParameterInt(1);
+	AddScriptParameterInt(-1);
+	AddScriptParameterInt(-1);
+	ExecuteScriptEnhanced("ACR_Items", GetItemPossessor(oItem), TRUE);
 }
 
 int GetMaxItemValue(int nLevel)
