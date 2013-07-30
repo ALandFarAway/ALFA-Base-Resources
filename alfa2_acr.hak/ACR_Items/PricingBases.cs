@@ -64,6 +64,8 @@ namespace ACR_Items
             BASE_ITEM_WHIP,
             BASE_ITEM_LIGHTFLAIL,
             BASE_ITEM_RAPIER,
+            BASE_ITEM_BRACER,
+            BASE_ITEM_GLOVES,
         };
 
         public static List<int> HeavyWeapons = new List<int>
@@ -84,11 +86,13 @@ namespace ACR_Items
                 BASE_ITEM_ALLUSE_SWORD,
                 BASE_ITEM_BASTARDSWORD,
                 BASE_ITEM_BATTLEAXE,
+                BASE_ITEM_BRACER,
                 BASE_ITEM_CLUB,
                 BASE_ITEM_DAGGER,
                 BASE_ITEM_DWARVENWARAXE,
                 BASE_ITEM_FALCHION,
                 BASE_ITEM_FLAIL,
+                BASE_ITEM_GLOVES,
                 BASE_ITEM_GREATAXE,
                 BASE_ITEM_GREATCLUB,
                 BASE_ITEM_GREATSWORD,
