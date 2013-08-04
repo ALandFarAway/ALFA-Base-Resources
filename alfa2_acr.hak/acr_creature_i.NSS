@@ -307,11 +307,7 @@ void ACR_CreatureOnDeath()
     // generate loot drops for mob kills
     if (! GetIsPC(OBJECT_SELF)) 
 	{
-		int nDropValue = ACR_GetRandomDropValue(OBJECT_SELF);
-		if(nDropValue > 0)
-		{
-			ACR_GenerateLoot( OBJECT_SELF, nDropValue, nDropValue );
-		}
+		ACR_GenerateTreasure(OBJECT_SELF, ACR_GetRandomDropValue(OBJECT_SELF));
 	}
     
     // Code scavenged from nw_c2_default7, to handle AI
