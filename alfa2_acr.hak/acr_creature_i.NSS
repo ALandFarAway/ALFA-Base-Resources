@@ -305,7 +305,14 @@ void ACR_CreatureOnDeath()
     ACR_AwardCombatXP(oKiller, OBJECT_SELF);
 
     // generate loot drops for mob kills
-    if (! GetIsPC(OBJECT_SELF)) { ACR_GenerateTreasure(OBJECT_SELF, ACR_GetRandomDropValue(OBJECT_SELF)); }
+    if (! GetIsPC(OBJECT_SELF)) 
+	{
+		int nDropValue = ACR_GetRandomDropValue(OBJECT_SELF);
+		if(nDropValue > 0)
+		{
+			ACR_GenerateLoot( OBJECT_SELF, nDropValue, nDropValue );
+		}
+	}
     
     // Code scavenged from nw_c2_default7, to handle AI
     //  ----start borrowed code -----------------
