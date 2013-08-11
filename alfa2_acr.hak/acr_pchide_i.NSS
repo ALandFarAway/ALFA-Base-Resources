@@ -69,6 +69,7 @@ int ACR_RemoveFlagFromHide(object oHide, int nFlag);
 ////////////////////////////////////////////////////////////////////////////////
 
 void _EquipHide( object oPC, object oHide) {
+	if ( !GetIsObjectValid( oHide ) ) return;
 	if ( !GetIsObjectValid( GetItemInSlot( ACR_PCH_SLOT, oPC ) ) ) {
 		if ( !GetHasFeat( FEAT_WEAPON_PROFICIENCY_CREATURE, oPC, TRUE ) ) {
 			FeatAdd( oPC, FEAT_WEAPON_PROFICIENCY_CREATURE, FALSE, FALSE, FALSE );
