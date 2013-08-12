@@ -193,13 +193,32 @@ namespace AdvancedLogParser
                 this.Name = String.Format("All Players ({0})", mainList.Items.Count);
                 this.Text = this.Name;
             }
-
+            mainList.KeyDown += new KeyEventHandler(mainList_KeyDown);
 
             mainList.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             mainList.Columns[1].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             mainList.Columns[2].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             mainList.Columns[3].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
             mainList.Columns[4].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
+        }
+
+        void mainList_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.C)
+            {
+                StringBuilder copyBuffer = new StringBuilder();
+                copyBuffer.EnsureCapacity(1);
+                foreach (ListViewItem item in mainList.SelectedItems)
+                {
+                    string line = String.Format("{0,40} {1,10}, {2,10}", item.SubItems[1].Text.ToString(), item.SubItems[2].Text.ToString(), item.SubItems[4].Text.ToString());
+                    copyBuffer.EnsureCapacity(copyBuffer.Capacity + line.Length + 1);
+                    copyBuffer.AppendLine(line);
+                }
+                if (copyBuffer.Capacity > 1)
+                {
+                    Clipboard.SetText(copyBuffer.ToString());
+                }
+            }
         }
 
         public void ClickThisMonth(object Sender, EventArgs e)
