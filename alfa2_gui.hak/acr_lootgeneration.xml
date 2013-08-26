@@ -130,7 +130,7 @@
 	<UIButton name="WANDS" x=210 y=310  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=12
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,13) />
 	<UIText x=230 y=313  text="Spawn a Wand First" />
-	<UIButton name="WEAPONS" x=210 y=330  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=13
+	<UIButton name="WEAPONS" x=210 y=330  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=16
 	 OnSelected0=UIObject_Misc_SetLocalVarString(local:5,16) />
 	<UIText x=230 y=333  text="Spawn a Weapon First" />
 	<UIButton name="SCROLLS" x=210 y=350  width=20 height=20 style="ROUND_RADIO_BUTTON" groupid=3 groupmemberid=13
