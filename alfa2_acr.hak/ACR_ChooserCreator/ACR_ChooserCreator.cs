@@ -71,8 +71,7 @@ namespace ACR_ChooserCreator
             {
                 if (OBJECT_SELF == GetModule())
                 {
-                    ChooserLists.AreaList = ALFA.Shared.Modules.InfoStore.ActiveAreas.Values.ToList<ALFA.Shared.ActiveArea>();
-                    ChooserLists.AreaList.Sort();
+                    ChooserLists.SortLists(this);
                     BackgroundLoader loader = new BackgroundLoader();
                     loader.DoWork += BackgroundLoader.LoadNavigators;
                     loader.RunWorkerAsync();
@@ -382,10 +381,7 @@ namespace ACR_ChooserCreator
                 case ACR_CreatorCommand.ACR_CHOOSERCREATOR_INITIALIZE_CHOOSER:
                     {
                         ChooserLists.InitializeButtons(this, currentUser);
-                        if (currentUser.LastSeenArea != GetArea(currentUser.Id))
-                        {
-                            ChooserLists.DrawAreas(this, currentUser);
-                        }
+                        ChooserLists.DrawAreas(this, currentUser);
                         currentUser.FocusedArea = GetArea(currentUser.Id);
                         ChooserLists.DrawObjects(this, currentUser, currentUser.FocusedArea);
                         break;

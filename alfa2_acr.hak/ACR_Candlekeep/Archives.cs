@@ -366,6 +366,26 @@ namespace ACR_Candlekeep
             }
         }
 
+        public Dictionary<string, string> AreaNames
+        {
+            get
+            {
+                if (_resourcesLoaded == false)
+                {
+                    if (Assembly.GetCallingAssembly() != Assembly.GetExecutingAssembly())
+                    {
+                        WaitForResourcesLoaded(true);
+                    }
+                }
+
+                return this._AreaNames;
+            }
+            set
+            {
+                this._AreaNames = value;
+            }
+        }
+
 
         /// <summary>
         /// Mark resources as fully loaded after initialization completes.
@@ -409,6 +429,8 @@ namespace ACR_Candlekeep
 
         private List<ALFA.Shared.Spell> _CoreSpells;
         private List<ALFA.Shared.SpellCastItemProperties> _IPCastSpells;
+
+        private Dictionary<string, string> _AreaNames;
 
         private ALFA.ResourceManager _Resources;
     }

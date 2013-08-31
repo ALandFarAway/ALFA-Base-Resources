@@ -23,6 +23,22 @@ namespace ACR_ChooserCreator
     {
         public static List<ALFA.Shared.ActiveArea> AreaList;
 
+        public static void SortLists(CLRScriptBase script)
+        {
+            if(!ALFA.Shared.Modules.InfoStore.WaitForResourcesLoaded(false))
+            {
+                script.DelayCommand(6.0f, delegate { SortLists(script); });
+                return;
+            }
+            if (ALFA.Shared.Modules.InfoStore.ActiveAreas == null)
+            {
+                script.DelayCommand(2.0f, delegate { SortLists(script); });
+                return;
+            }
+            AreaList = ALFA.Shared.Modules.InfoStore.ActiveAreas.Values.ToList<ALFA.Shared.ActiveArea>();
+            AreaList.Sort();
+        }
+
         public static void InitializeButtons(CLRScriptBase script, User currentUser)
         {
             script.SetGUITexture(currentUser.Id, "SCREEN_DMC_CHOOSER", "SHOW_AOE", currentUser.ChooserShowAOE ? "trap.tga" : "notrap.tga");
@@ -42,9 +58,9 @@ namespace ACR_ChooserCreator
             script.ClearListBox(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS");
             foreach (ALFA.Shared.ActiveArea area in AreaList)
             {
-                if (area.Name.ToLower().Contains(searchString.ToLower()))
+                if (area.LocalizedName.ToLower().Contains(searchString.ToLower()))
                 {
-                    script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", area.Id.ToString(), "LISTBOX_ITEM_TEXT=  " + area.Name, "", "5=" + area.Id.ToString(), "");
+                    script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", area.Id.ToString(), "LISTBOX_ITEM_TEXT=  " + area.DisplayName, "", "5=" + area.Id.ToString(), "");
                 }
             }
         }
@@ -55,20 +71,20 @@ namespace ACR_ChooserCreator
             if (ALFA.Shared.Modules.InfoStore.ActiveAreas.Keys.Contains(script.GetArea(currentUser.Id)))
             {
                 ALFA.Shared.ActiveArea currentArea = ALFA.Shared.Modules.InfoStore.ActiveAreas[script.GetArea(currentUser.Id)];
-                script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", currentArea.Id.ToString(), "LISTBOX_ITEM_TEXT=  <Color=DarkOrange>" + currentArea.Name + "</color>", "", "5="+currentArea.Id.ToString(), "");
+                script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", currentArea.Id.ToString(), "LISTBOX_ITEM_TEXT=  <Color=DarkOrange>" + currentArea.DisplayName + "</color>", "", "5="+currentArea.Id.ToString(), "");
                 List<ALFA.Shared.ActiveArea> adjAreas = new List<ALFA.Shared.ActiveArea>();
                 foreach (ALFA.Shared.ActiveArea adjacentArea in currentArea.ExitTransitions.Values)
                 {
                     if (!adjAreas.Contains(adjacentArea))
                     {
-                        script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", adjacentArea.Id.ToString(), "LISTBOX_ITEM_TEXT=  <Color=DarkGoldenRod>" + adjacentArea.Name + "</color>", "", "5=" + adjacentArea.Id.ToString(), "");
+                        script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", adjacentArea.Id.ToString(), "LISTBOX_ITEM_TEXT=  <Color=DarkGoldenRod>" + adjacentArea.DisplayName + "</color>", "", "5=" + adjacentArea.Id.ToString(), "");
                         adjAreas.Add(adjacentArea);
                     }
                 }
             }
             foreach (ALFA.Shared.ActiveArea area in AreaList)
             {
-                script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", area.Id.ToString(), "LISTBOX_ITEM_TEXT=  " + area.Name, "", "5=" + area.Id.ToString(), "");
+                script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", area.Id.ToString(), "LISTBOX_ITEM_TEXT=  " + area.DisplayName, "", "5=" + area.Id.ToString(), "");
             }
             currentUser.LastSeenArea = script.GetArea(currentUser.Id);
         }

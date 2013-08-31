@@ -107,7 +107,7 @@ namespace ACR_Candlekeep
                 WriteTimestampedLogEntry("ACR_Candlekeep: Resource loading complete.");
         }
 
-        internal static Archives ArchivesInstance;
+        public static Archives ArchivesInstance;
 
         enum Commands
         {

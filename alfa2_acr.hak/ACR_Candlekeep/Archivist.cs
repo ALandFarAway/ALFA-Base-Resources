@@ -59,6 +59,8 @@ namespace ACR_Candlekeep
 
                 ALFA.Shared.Modules.InfoStore.ModifiedGff = new Dictionary<string, GFFFile>();
 
+                ALFA.Shared.Modules.InfoStore.AreaNames = new Dictionary<string,string>();
+
                 Archivist.debug += "\nInitializing standard factions";
                 List<int> factionIndex = new List<int>();
                 factionIndex.Add(0); // Player
@@ -562,6 +564,30 @@ namespace ACR_Candlekeep
                 }
                 #endregion
 
+                #region Gathering Information from Module.ifo
+                foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResIFO))
+                {
+                    try
+                    {
+                        GFFFile currentGFF = manager.OpenGffResource(resource.ResRef.Value, resource.ResourceType);
+                        int count = currentGFF.TopLevelStruct["Mod_Area_list"].ValueList.StructList.Count;
+                        for (int c = 0; c < count; c++)
+                        {
+                            try
+                            {
+                                string areaResRef = currentGFF.TopLevelStruct["Mod_Area_list"].ValueList[c]["Area_Name"].ValueCExoString.ToString();
+                                debug += areaResRef;
+                                GFFFile currentArea = manager.OpenGffResource(areaResRef, ALFA.ResourceManager.ResARE);
+                                ALFA.Shared.Modules.InfoStore.AreaNames.Add(areaResRef, currentArea.TopLevelStruct["Name"].ValueCExoLocString.ToString().Trim().Trim(',').Trim('\"'));
+                            }
+                            catch { }
+                        }
+                        if (currentGFF != null) break;
+                    }
+                    catch { }
+                }
+                #endregion
+
                 #region Commented-Out Resource Types
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResARE))
                 //{ }
@@ -596,8 +622,6 @@ namespace ACR_Candlekeep
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResGR2))
                 //{ }
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResGUI))
-                //{ }
-                //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResIFO))
                 //{ }
                 //foreach (ResourceEntry resource in manager.GetResourcesByType(ALFA.ResourceManager.ResINI))
                 //{ }

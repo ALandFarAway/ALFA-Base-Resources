@@ -8,9 +8,17 @@ namespace ALFA.Shared
     public class ActiveArea : IComparable
     {
         public uint Id;
+        public string LocalizedName;
+        public string DisplayName;
         public string Name;
         public string Tag;
         public Dictionary<ActiveTransition, ActiveArea> ExitTransitions = new Dictionary<ActiveTransition, ActiveArea>();
+
+        public void ConfigureDisplayName()
+        {
+            DisplayName = "  " + this.LocalizedName;
+            DisplayName = DisplayString.ShortenStringToWidth(DisplayName, 250);
+        }
 
         public int CompareTo(object other)
         {
@@ -23,7 +31,7 @@ namespace ALFA.Shared
         }
         public int CompareTo(ActiveArea other)
         {
-            return Name.CompareTo(other.Name);
+            return LocalizedName.CompareTo(other.LocalizedName);
         }
     }
 }

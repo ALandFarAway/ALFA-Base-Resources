@@ -23,7 +23,13 @@ namespace ACR_Candlekeep
     {
         public static void LoadAreas(CLRScriptBase s)
         {
+            if (!ACR_Candlekeep.ArchivesInstance.WaitForResourcesLoaded(false))
+            {
+                s.DelayCommand(6.0f, delegate { LoadAreas(s); });
+                return;
+            }
             ALFA.Shared.Modules.InfoStore.ActiveAreas = new Dictionary<uint, ALFA.Shared.ActiveArea>();
+            List<uint> areas = new List<uint>();
             foreach (uint area in s.GetAreas())
             {
                 ALFA.Shared.ActiveArea activeArea = new ALFA.Shared.ActiveArea();
@@ -31,6 +37,15 @@ namespace ACR_Candlekeep
                 activeArea.Name = s.GetName(area).Trim();
                 activeArea.Tag = s.GetTag(area);
                 ALFA.Shared.Modules.InfoStore.ActiveAreas.Add(area, activeArea);
+                areas.Add(area);
+            }
+            int count = 0;
+            foreach(KeyValuePair<string, string> keyValue in ALFA.Shared.Modules.InfoStore.AreaNames)
+            {
+                ALFA.Shared.Modules.InfoStore.ActiveAreas[areas[count]].LocalizedName = keyValue.Value;
+                ALFA.Shared.Modules.InfoStore.ActiveAreas[areas[count]].ConfigureDisplayName();
+                s.SetLocalString(areas[count], "ACR_AREA_RESREF", keyValue.Key);
+                count++;
             }
             foreach (ALFA.Shared.ActiveArea activeArea in ALFA.Shared.Modules.InfoStore.ActiveAreas.Values)
             {
