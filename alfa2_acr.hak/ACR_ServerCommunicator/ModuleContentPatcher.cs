@@ -130,15 +130,33 @@ namespace ACR_ServerCommunicator
                 foreach (ContentPatchFile PatchFile in PatchFiles)
                 {
                     bool Matched = false;
+                    bool Rename = false;
                     string LocalPath = PatchFile.GetLocalPath(LocalContentPatchPath, LocalContentPatchHakPath);
                     string RemotePath = String.Format("{0}\\{1}", RemoteContentPatchPath, PatchFile.FileName);
                     string LocalHashString = "<no such file>";
+                    string TransferTempFilePath = LocalPath + ".patchxfer";
 
                     if (File.Exists(LocalPath) && File.Exists(RemotePath))
                     {
                         LocalHashString = GetFileChecksum(LocalPath, MD5Csp);
 
                         Matched = (LocalHashString.ToString() == PatchFile.Checksum.ToLower());
+                    }
+
+                    if (File.Exists(TransferTempFilePath))
+                    {
+                        try
+                        {
+                            File.Delete(TransferTempFilePath);
+                        }
+                        catch (Exception e)
+                        {
+                            Script.WriteTimestampedLogEntry(String.Format(
+                                "ModuleContentPatcher.ProcessContentPatches: Warning: Exception {0} removing transfer temp file {1} for transfer file {2}.",
+                                e,
+                                TransferTempFilePath,
+                                PatchFile.FileName));
+                        }
                     }
 
                     if (Matched)
@@ -180,6 +198,15 @@ namespace ACR_ServerCommunicator
 
                         try
                         {
+                            try
+                            {
+                                File.Copy(RemotePath, TransferTempFilePath, true);
+                            }
+                            catch
+                            {
+                                throw;
+                            }
+
                             //
                             // If we are patching a hak, rename it away so that
                             // the file can be written to.
@@ -195,6 +222,7 @@ namespace ACR_ServerCommunicator
                                 File.Move(LocalPath, OldFileName);
 
                                 Database.ACR_IncrementStatistic("CONTENT_PATCH_HAK");
+                                Rename = true;
                             }
                             else if (PatchFile.Location == "override")
                             {
@@ -203,7 +231,10 @@ namespace ACR_ServerCommunicator
 
                             try
                             {
-                                File.Copy(RemotePath, LocalPath, true);
+                                if (Rename)
+                                    File.Move(TransferTempFilePath, LocalPath);
+                                else
+                                    File.Copy(TransferTempFilePath, LocalPath, true);
                             }
                             catch
                             {
@@ -284,6 +315,22 @@ namespace ACR_ServerCommunicator
                             Script.SendInfrastructureDiagnosticIrcMessage(String.Format(
                                 "Server '{0}' encountered exception deploying content patch file {1}, rolling back file.",
                                 Script.GetName(Script.GetModule()),
+                                PatchFile.FileName));
+                        }
+                    }
+
+                    if (File.Exists(TransferTempFilePath))
+                    {
+                        try
+                        {
+                            File.Delete(TransferTempFilePath);
+                        }
+                        catch (Exception e)
+                        {
+                            Script.WriteTimestampedLogEntry(String.Format(
+                                "ModuleContentPatcher.ProcessContentPatches: Warning: Exception {0} removing transfer temp file {1} for transfer file {2} after patching completed.",
+                                e,
+                                TransferTempFilePath,
                                 PatchFile.FileName));
                         }
                     }
