@@ -143,22 +143,6 @@ namespace ACR_ServerCommunicator
                         Matched = (LocalHashString.ToString() == PatchFile.Checksum.ToLower());
                     }
 
-                    if (File.Exists(TransferTempFilePath))
-                    {
-                        try
-                        {
-                            File.Delete(TransferTempFilePath);
-                        }
-                        catch (Exception e)
-                        {
-                            Script.WriteTimestampedLogEntry(String.Format(
-                                "ModuleContentPatcher.ProcessContentPatches: Warning: Exception {0} removing transfer temp file {1} for transfer file {2}.",
-                                e,
-                                TransferTempFilePath,
-                                PatchFile.FileName));
-                        }
-                    }
-
                     if (Matched)
                     {
                         Script.WriteTimestampedLogEntry(String.Format(
@@ -168,6 +152,22 @@ namespace ACR_ServerCommunicator
                     }
                     else
                     {
+                        if (File.Exists(TransferTempFilePath))
+                        {
+                            try
+                            {
+                                File.Delete(TransferTempFilePath);
+                            }
+                            catch (Exception e)
+                            {
+                                Script.WriteTimestampedLogEntry(String.Format(
+                                    "ModuleContentPatcher.ProcessContentPatches: Warning: Exception {0} removing transfer temp file {1} for transfer file {2}.",
+                                    e,
+                                    TransferTempFilePath,
+                                    PatchFile.FileName));
+                            }
+                        }
+
                         Script.WriteTimestampedLogEntry(String.Format(
                             "ModuleContentPatcher.ProcessContentPatches: Content patch file {0} needs to be updated (local checksum {1}, remote checksum {2}).  Copying file...",
                             PatchFile.FileName,
