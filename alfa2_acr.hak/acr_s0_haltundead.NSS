@@ -50,14 +50,21 @@ void main()
     //Cycle through the targets within the spell shape until an invalid object is captured.
     while (GetIsObjectValid(oTarget) && (nTargets > 0))
     {
-		if ((spellsIsTarget(oTarget, SPELL_TARGET_STANDARDHOSTILE, OBJECT_SELF) == TRUE)
+		if ((spellsIsTarget(oTarget, SPELL_TARGET_SELECTIVEHOSTILE, OBJECT_SELF) == TRUE)
 			&& (GetRacialType(oTarget)	== RACIAL_TYPE_UNDEAD))	{
 			nTargets -= 1;
 			SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, GetSpellId()));
-			// Only Intelligent undead get to make a save, defined here as INT less than 5
-			if(GetAbilityScore(oTarget, ABILITY_INTELLIGENCE) < 5 || !MyResistSpell(OBJECT_SELF, oTarget))	{
-				if(!MySavingThrow(SAVING_THROW_WILL, oTarget, nSaveDC, SAVING_THROW_TYPE_MIND_SPELLS))
+			if(!MyResistSpell(OBJECT_SELF, oTarget))
+			{
+				// Only Intelligent undead get to make a save, defined here as INT less than 5
+				if(GetAbilityScore(oTarget, ABILITY_INTELLIGENCE) < 5)
+				{
 					ApplyEffectToObject(nDurType, eLink, oTarget, fDuration);
+				}
+				else if(!MySavingThrow(SAVING_THROW_WILL, oTarget, nSaveDC, SAVING_THROW_TYPE_MIND_SPELLS))
+				{
+					ApplyEffectToObject(nDurType, eLink, oTarget, fDuration);
+				}
 			}
 		}
 		oTarget = GetNextObjectInShape(SHAPE_SPHERE, RADIUS_SIZE_LARGE, lTarget, TRUE, OBJECT_TYPE_CREATURE);
