@@ -457,6 +457,9 @@ const string _SPAWN_PRESPAWN_PREDICTION_GB = "ACR_SPA_PP";
 
 const string ACR_LOG_SPAWNS	= "ACR_LOG_SPAWNS";
 
+// Controls the coloring of NPC names on spawn-in.
+const string ACR_COLOR_NAME = "ACR_COLOR_NAME";
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -1850,6 +1853,12 @@ object _SpawnObject(string sResRef, int nObjectType, object oWP, location lLoc, 
 			AssignCommand(oSpawned, SetFacing(ACR_RandomFloat(0.0, 360.0)) );
 		} else {
 			// Spawn facing is not random, do nothing.
+		}
+		
+		// Colorize name if needed.
+		if ( GetLocalString( oSpawned, ACR_COLOR_NAME ) != "" ) {
+			SetFirstName( oSpawned, "<C='" + GetLocalString( oSpawned, ACR_COLOR_NAME ) + "'>" + GetName( oSpawned ) + "</C>" );
+			SetLastName( oSpawned, "" );
 		}
 
 		// Set the faction.
