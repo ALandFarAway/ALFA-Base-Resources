@@ -1313,7 +1313,7 @@ int ACR_GetSizeBonusToSkill( object oPC, int nSkillId ) {
 	if ( nSize > CREATURE_SIZE_HUGE || nSize < CREATURE_SIZE_INVALID ) return 0;
 	
 	// Get the base modifier.
-	int nBaseMod =  - 3;
+	int nBaseMod = nSize - CREATURE_SIZE_MEDIUM;
 	if ( nBaseMod == 0 ) return 0;
 	
 	// Expand it based on the skill.
