@@ -484,6 +484,10 @@ void ACR_PlayerOnDying(object oPC, object oLastAttacker)
 			// Add a shaky attempt to bypass input problems (DM tries to pause just as it happens, ends up unpausing).
 			DelayCommand( 1.0f, SetPause( TRUE ) );
 		}
+		
+		// Log the dying event.
+		ACR_IncrementStatistic( "PLAYER_DYING" );
+		ACR_LogEvent( oPC, ACR_LOG_DYING, "Character: " + ACR_SQLEncodeSpecialChars( GetName( oPC ) ) + " dying from: " + ACR_SQLEncodeSpecialChars( GetName( oAttacker ) ) );
     } 
     else if (!ACR_GetIsPlayerBleeding(oPC)) {
 	    // PC has been tended, should continue recovery

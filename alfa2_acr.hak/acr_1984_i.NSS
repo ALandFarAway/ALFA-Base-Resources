@@ -71,6 +71,7 @@ const string ACR_LOG_TRANSITION = "Transition";
 const string ACR_LOG_LEVELUP = "Level Up";
 const string ACR_LOG_COMBAT = "Combat";
 const string ACR_LOG_DEATH = "Death";
+const string ACR_LOG_DYING = "Dying";
 const string ACR_LOG_KILL = "Kill";
 const string ACR_LOG_REZ = "Resurrection";
 const string ACR_LOG_TECHREZ = "Tech Resurrection";
