@@ -152,6 +152,9 @@ int DestroyInventory(object oObject);
 //!  - Returns: Nothing
 void ACR_TransferInventory(object oSource, object oTarget, string sResRef = "");
 
+//! Determine if a DM is online. Optionally, in an area.
+int ACR_GetIsDMOnline( object oArea = OBJECT_INVALID );
+
 // Returns an area based on its tag and resref.
 // Returns OBJECT_INVALID if no matching area is found.
 object GetAreaFromTagAndResref(string sResRef, string sTag);
@@ -635,6 +638,20 @@ void ACR_TransferInventory(object oSource, object oTarget, string sResRef = "")
         if (GetResRef(oItem) != sResRef) { AssignCommand(oSource, ActionGiveItem(oItem, oTarget)); }
         oItem = GetNextItemInInventory(oSource);
     }
+}
+
+int ACR_GetIsDMOnline( object oArea = OBJECT_INVALID ) {
+	object oPC;
+	for ( oPC = GetFirstPC(); GetIsObjectValid( oPC ); oPC = GetNextPC() ) {
+		if ( GetIsDM( oPC ) || GetIsDMPossessed( oPC ) ) {
+			if ( oArea != OBJECT_INVALID ) {
+				if ( GetArea( oPC ) == oArea ) return TRUE;
+			} else {
+				return TRUE;
+			}
+		}
+	}
+	return FALSE;
 }
 
 object GetAreaFromTagAndResref(string sResRef, string sTag) {
