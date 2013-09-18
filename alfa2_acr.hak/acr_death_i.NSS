@@ -474,6 +474,16 @@ void ACR_PlayerOnDying(object oPC, object oLastAttacker)
         }
         SetLocalInt(oPC, ACR_DTH_JUST_FLOORED, 1);
         DelayCommand(0.5f, DeleteLocalInt(oPC, ACR_DTH_JUST_FLOORED));
+	
+		// Do we have a DM online?
+		if ( ACR_GetIsDMOnline() ) {
+			// If so, notify them and pause the game.
+			SendMessageToAllDMs( GetName( oPC ) + " is dying from " + GetName( oAttacker ) + " in " + GetName( GetArea( oPC ) ) + ". The game has been autopaused." );
+			SetPause( TRUE );
+			
+			// Add a shaky attempt to bypass input problems (DM tries to pause just as it happens, ends up unpausing).
+			DelayCommand( 1.0f, SetPause( TRUE ) );
+		}
     } 
     else if (!ACR_GetIsPlayerBleeding(oPC)) {
 	    // PC has been tended, should continue recovery
