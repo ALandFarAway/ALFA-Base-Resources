@@ -107,7 +107,7 @@ void ACR_CreateTradeScroll( object oPC, int nSpellId ) {
 		}
 		
 		// Do you know the spell?
-		if ( !GetSpellKnown( oPC, nSpellId ) ) {
+		if ( !GetSpellKnown( oPC, nSpellToCreate ) ) {
 			SendMessageToPC( oPC, "You cannot create tradescrolls of spells you do not know." );
 			return;
 		}
