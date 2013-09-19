@@ -51,7 +51,7 @@ void main()
     //Declare major variables including Area of Effect Object
     effect eAOE = EffectAreaOfEffect( AOE_MOB_SILENCE );
 	effect eHit = EffectVisualEffect( VFX_DUR_SPELL_SILENCE );
-    float fDuration = RoundsToSeconds(GetCasterLevel(OBJECT_SELF));
+    float fDuration = GetCasterLevel(OBJECT_SELF) * 60;
     object oTarget = GetSpellTargetObject();
 	location lTarget = GetSpellTargetLocation();
 	
