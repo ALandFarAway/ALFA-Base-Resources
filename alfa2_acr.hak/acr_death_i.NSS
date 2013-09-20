@@ -482,7 +482,7 @@ void ACR_PlayerOnDying(object oPC, object oLastAttacker)
 			SetPause( TRUE );
 			
 			// Add a shaky attempt to bypass input problems (DM tries to pause just as it happens, ends up unpausing).
-			DelayCommand( 1.0f, SetPause( TRUE ) );
+			DelayCommand( 0.1f, SetPause( TRUE ) );
 		}
 		
 		// Log the dying event.
