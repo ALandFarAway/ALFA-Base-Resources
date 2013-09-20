@@ -479,15 +479,13 @@ void ACR_PlayerOnDying(object oPC, object oLastAttacker)
 		if ( ACR_GetIsDMOnline() ) {
 			// If so, notify them and pause the game.
 			SendMessageToAllDMs( GetName( oPC ) + " is dying from " + GetName( oAttacker ) + " in " + GetName( GetArea( oPC ) ) + ". The game has been autopaused." );
+			SendMessageToAllDMs( "Screenshots are always useful, particularly of combat logs, in case the player requests a tech rez." );
 			SetPause( TRUE );
-			
-			// Add a shaky attempt to bypass input problems (DM tries to pause just as it happens, ends up unpausing).
-			DelayCommand( 0.1f, SetPause( TRUE ) );
 		}
 		
 		// Log the dying event.
 		ACR_IncrementStatistic( "PLAYER_DYING" );
-		ACR_LogEvent( oPC, ACR_LOG_DYING, "Character: " + ACR_SQLEncodeSpecialChars( GetName( oPC ) ) + " dying from: " + ACR_SQLEncodeSpecialChars( GetName( oAttacker ) ) );
+		ACR_LogEvent( oPC, ACR_LOG_DYING, "Character: " + ACR_SQLEncodeSpecialChars( GetName( oPC ) ) + " dying from: " + ACR_SQLEncodeSpecialChars( GetName( oAttacker ) ) + " ( " + ACR_SQLEncodeSpecialChars( GetTag( oAttacker ) ) + " ) in " + ACR_SQLEncodeSpecialChars( GetName( GetArea( oPC ) ) ) );
     } 
     else if (!ACR_GetIsPlayerBleeding(oPC)) {
 	    // PC has been tended, should continue recovery
