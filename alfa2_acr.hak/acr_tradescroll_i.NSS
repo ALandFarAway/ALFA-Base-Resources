@@ -119,6 +119,12 @@ void ACR_CreateTradeScroll( object oPC, int nSpellId ) {
 		}
 	}
 	
+	// Don't let tradescrolls be made of ID 0.
+	if ( nSpellToCreate == 0 ) {
+		SendMessageToPC( oPC, "An error has occurred. Please report this bug." );
+		return;
+	}
+	
 	// Create the tradescroll.
 	object oScroll = CreateItemOnObject( ACR_TRADESCROLL_RESREF, oPC, 1, "", FALSE );
 	if ( !GetIsObjectValid( oScroll ) ) {
@@ -139,7 +145,12 @@ void ACR_CreateTradeScroll( object oPC, int nSpellId ) {
 	itemproperty ipTradescrollProp = ItemPropertyCastSpell( ACR_TRADESCROLL_IPRP_SPELL, IP_CONST_CASTSPELL_NUMUSES_UNLIMITED_USE );
 	AddItemProperty( DURATION_TYPE_PERMANENT, ipTradescrollProp, oScroll );
 	SetLocalInt( oScroll, ACR_TRADESCROLL_VAR, nSpellToCreate );
-	SendMessageToPC( oPC, "Created a tradescroll of " + sSpellName + " for " + IntToString( nCost ) + "gp in supplies." );
+	
+	// Log event, send feedback to PC.
+	string sMessage = "Created a tradescroll of " + sSpellName + " for " + IntToString( nCost ) + "gp in supplies.";
+	SendMessageToPC( oPC, sMessage );
+	ACR_IncrementStatistic( "TSCROLL_CREATE" );
+	ACR_LogEvent( oPC, ACR_LOG_TSCROLL_CREATE, sMessage );
 }
 
 
@@ -169,6 +180,12 @@ void ACR_LearnTradescroll( object oPC, object oTradescroll ) {
 	// Learn the spell.
 	SetSpellKnown( oPC, nWizardPosition, nSpellId, TRUE, FALSE );
 	DestroyObject( oTradescroll );
+	
+	// Log event, send feedback to PC.
+	string sMessage = "You have scribed " + sSpellName + " to your spellbook."
+	SendMessageToPC( oPC, sMessage );
+	ACR_IncrementStatistic( "TSCROLL_LEARN" );
+	ACR_LogEvent( oPC, ACR_LOG_TSCROLL_LEARNED, ACR_SQLEncodeSpecialChars( sMessage ) + " Spell ID " + IntToString( nSpellId ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
