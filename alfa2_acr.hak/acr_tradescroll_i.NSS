@@ -182,7 +182,8 @@ void ACR_LearnTradescroll( object oPC, object oTradescroll ) {
 	DestroyObject( oTradescroll );
 	
 	// Log event, send feedback to PC.
-	string sMessage = "You have scribed " + sSpellName + " to your spellbook."
+	string sSpellName = GetStringByStrRef( StringToInt( Get2DAString( "spells", "Name", nSpellId ) ) );
+	string sMessage = "You have scribed " + sSpellName + " to your spellbook.";
 	SendMessageToPC( oPC, sMessage );
 	ACR_IncrementStatistic( "TSCROLL_LEARN" );
 	ACR_LogEvent( oPC, ACR_LOG_TSCROLL_LEARNED, ACR_SQLEncodeSpecialChars( sMessage ) + " Spell ID " + IntToString( nSpellId ) );

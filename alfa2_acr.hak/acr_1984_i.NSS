@@ -94,8 +94,8 @@ const string ACR_LOG_VALIDATED = "Validated";
 const string ACR_LOG_SERVER_ADMIN_COMMAND = "Server Admin Command";
 const string ACR_LOG_DEATH_FLOOR = "Death Floor";
 const string ACR_LOG_SPAWN = "DM Spawn";
-const string ACR_LOG_TSCROLL_CREATE = "Tradescroll, Created"
-const string ACR_LOG_TSCROLL_LEARNED = "Tradescroll, Learned"
+const string ACR_LOG_TSCROLL_CREATE = "Tradescroll, Created";
+const string ACR_LOG_TSCROLL_LEARNED = "Tradescroll, Learned";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
