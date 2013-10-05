@@ -134,6 +134,10 @@ namespace ALFAIRCBot
             {
                 OnCommandRoll(e.Data.Channel, e.Data.Message.Substring(6));
             }
+            else if (e.Data.Message.StartsWith("!stats"))
+            {
+                OnCommandStats(e.Data.Channel, e.Data.Message.Substring(6).Trim());
+            }
             else if (e.Data.Message.StartsWith("!weather "))
             {
                 OnCommandWeather(e.Data.Channel, e.Data.Message.Substring(9));
@@ -488,6 +492,72 @@ namespace ALFAIRCBot
             }
         }
 
+        private void OnCommandStats(string Source, string Cmd)
+        {
+            // Check for command.
+            if (Cmd == null || Cmd.Equals(""))
+            {
+                SendMessage(SendType.Message, Source, "No stat generation type specified. Defaulting to 4d6 drop lowest. Use \"!stats help\" to list other options.");
+                Cmd = "4d6";
+            }
+            else if (Cmd.Equals("help"))
+            {
+                SendMessage(SendType.Message, Source, "\"!stats 3d6\" : Roll 3d6, take as-is.");
+                SendMessage(SendType.Message, Source, "\"!stats 4d6\" : Roll 4d6, drop lowest dice.");
+                return;
+            }
+
+            if (Cmd.Equals("4d6"))
+            {
+                // Results stored.
+                int[] Results = new int[6];
+
+                for (int r = 0; r < 6; r++)
+                {
+                    // Roll
+                    int total = 0;
+                    int lowest = 1024;
+                    for (int i = 0; i < 4; i++)
+                    {
+                        int roll = (Rng.Next() % 6) + 1;
+                        total += roll;
+
+                        if (roll < lowest)
+                        {
+                            lowest = roll;
+                        }
+                    }
+                    total -= lowest;
+
+                    Results[r] = total;
+                }
+
+                // Print results.
+                SendMessage(SendType.Message, Source, String.Format("Results: {0}", string.Join(", ", Results)));
+            }
+            else if (Cmd.Equals("3d6"))
+            {
+                // Results stored.
+                int[] Results = new int[6];
+
+                for (int r = 0; r < 6; r++)
+                {
+                    // Roll
+                    int total = 0;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        int roll = (Rng.Next() % 6) + 1;
+                        total += roll;
+                    }
+
+                    Results[r] = total;
+                }
+
+                // Print results.
+                SendMessage(SendType.Message, Source, String.Format("Results: {0}", string.Join(", ", Results)));
+            }
+        }
+
         private void OnCommandWeather(string Source, string Query)
         {
             try
@@ -692,7 +762,7 @@ namespace ALFAIRCBot
         private void OnCommandHelp(string Source)
         {
             SendMessage(SendType.Message, Source,
-                "Commands: !players, !roll [1d6+1], !weather [zip|city], !bing [query], !wikipedia [query], !srd [query], !help, !page [\"player\"] [message], !seen [player]");
+                "Commands: !players, !roll [1d6+1], !stats, !weather [zip|city], !bing [query], !wikipedia [query], !srd [query], !help, !page [\"player\"] [message], !seen [player]");
         }
 
         private void OnCommandPage(string Source, string Nick, string Query)
