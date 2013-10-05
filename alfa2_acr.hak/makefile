@@ -640,7 +640,9 @@ NSS_OBJECTS=                                                   \
 			$(OUTPUTDIR)\nw_s0_lsspmant.ncs                    \
 			$(OUTPUTDIR)\nw_s0_grspmant.ncs                    \
             $(OUTPUTDIR)\gui_lootgen.ncs                       \
-            $(OUTPUTDIR)\nw_s0_lowltvisn.ncs                   
+            $(OUTPUTDIR)\nw_s0_lowltvisn.ncs                   \
+            $(OUTPUTDIR)\x0_s1_petrgaze.ncs                    \
+            $(OUTPUTDIR)\nw_s0_silence.ncs                     
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and
