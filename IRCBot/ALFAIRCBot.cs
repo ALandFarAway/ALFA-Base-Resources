@@ -13,7 +13,6 @@ using Meebey.SmartIrc4net;
 using MySql.Data.MySqlClient;
 using MySql.Data.Types;
 using MySql.Data.Common;
-using System.Runtime.Serialization;
 
 namespace ALFAIRCBot
 {
