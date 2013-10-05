@@ -13,6 +13,7 @@ using Meebey.SmartIrc4net;
 using MySql.Data.MySqlClient;
 using MySql.Data.Types;
 using MySql.Data.Common;
+using System.Runtime.Serialization;
 
 namespace ALFAIRCBot
 {
@@ -169,6 +170,16 @@ namespace ALFAIRCBot
             else if (e.Data.Message.StartsWith("!seen "))
             {
                 OnCommandSeen(e.Data.Channel, e.Data.Message.Substring(6));
+            }
+
+            // Easter egg commands.
+            else if (e.Data.Message.StartsWith("!stars"))
+            {
+                SendMessage(SendType.Message, e.Data.Channel, String.Format("{0} is the worse person in this channel.", e.Data.Nick));
+            }
+            else if (e.Data.Message.StartsWith("!playas"))
+            {
+                SendMessage(SendType.Message, e.Data.Channel, String.Format("Everyone here is a playa except for {0}.", e.Data.Nick));
             }
         }
 
@@ -492,6 +503,46 @@ namespace ALFAIRCBot
             }
         }
 
+        private int GetPointBuyValue(int[] Results)
+        {
+            int total = 0;
+            for (int i = 0; i < 6; i++)
+            {
+                if (Results[i] == 8)
+                {
+                    continue;
+                }
+                else if (Results[i] < 8)
+                {
+                    total -= (8 - Results[i]);
+                }
+                else if (Results[i] < 15)
+                {
+                    total += (Results[i] - 8);
+                }
+                else
+                {
+                    switch (Results[i])
+                    {
+                        case 15:
+                            total += 8;
+                            break;
+                        case 16:
+                            total += 10;
+                            break;
+                        case 17:
+                            total += 13;
+                            break;
+                        case 18:
+                            total += 16;
+                            break;
+                    }
+                }
+            }
+
+            return total;
+        }
+
         private void OnCommandStats(string Source, string Cmd)
         {
             // Check for command.
@@ -533,7 +584,7 @@ namespace ALFAIRCBot
                 }
 
                 // Print results.
-                SendMessage(SendType.Message, Source, String.Format("Results: {0}", string.Join(", ", Results)));
+                SendMessage(SendType.Message, Source, String.Format("Results: {0}; Point-Buy Value: {1}", string.Join(", ", Results), GetPointBuyValue(Results)));
             }
             else if (Cmd.Equals("3d6"))
             {
@@ -554,7 +605,7 @@ namespace ALFAIRCBot
                 }
 
                 // Print results.
-                SendMessage(SendType.Message, Source, String.Format("Results: {0}", string.Join(", ", Results)));
+                SendMessage(SendType.Message, Source, String.Format("Results: {0}; Point-Buy Value: {1}", string.Join(", ", Results), GetPointBuyValue(Results)));
             }
             else
             {
@@ -565,50 +616,7 @@ namespace ALFAIRCBot
 
         private void OnCommandWeather(string Source, string Query)
         {
-            try
-            {
-                XmlDocument Document = new XmlDocument();
-                string City;
-                string Condition;
-                string Temperature;
-                string Wind;
-                string Humidity;
-
-                IncrementStatistic("IRC_COMAMND_WEATHER");
-
-                Document.Load("http://www.google.com/ig/api?weather=" + Uri.EscapeDataString(Query));
-
-                XmlElement ForecastInfo = (XmlElement)Document.GetElementsByTagName("forecast_information")[0];
-                XmlElement CurrentConditions = (XmlElement)Document.GetElementsByTagName("current_conditions")[0];
-
-                City = (from XmlElement E in ForecastInfo.GetElementsByTagName("city")
-                        where E.HasAttribute("data")
-                        select E.GetAttribute("data")).FirstOrDefault();
-                Condition = (from XmlElement E in CurrentConditions.GetElementsByTagName("condition")
-                             where E.HasAttribute("data")
-                             select E.GetAttribute("data")).FirstOrDefault();
-                Temperature = (from XmlElement E in CurrentConditions.GetElementsByTagName("temp_c")
-                               where E.HasAttribute("data")
-                               select E.GetAttribute("data")).FirstOrDefault();
-                Wind = (from XmlElement E in CurrentConditions.GetElementsByTagName("wind_condition")
-                        where E.HasAttribute("data")
-                        select E.GetAttribute("data")).FirstOrDefault();
-                Humidity = (from XmlElement E in CurrentConditions.GetElementsByTagName("humidity")
-                            where E.HasAttribute("data")
-                            select E.GetAttribute("data")).FirstOrDefault();
-
-                SendMessage(SendType.Message, Source, String.Format(
-                    "{0}: {1}, {2}C, {3}, {4}.",
-                    City,
-                    Condition,
-                    Temperature,
-                    Wind,
-                    Humidity));
-            }
-            catch (Exception)
-            {
-                SendMessage(SendType.Message, Source, String.Format("Unable to retrieve weather for {0}.", Query));
-            }
+            SendMessage(SendType.Message, Source, "Weather service currently unavailable.");
         }
 
         private void OnCommandGoogle(string Source, string Query)
