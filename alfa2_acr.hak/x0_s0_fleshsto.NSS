@@ -36,6 +36,11 @@ void main()
     //Declare major variables
     object oTarget = GetSpellTargetObject();
     int nCasterLvl = GetCasterLevel(OBJECT_SELF);
+	
+	// Undead are immune to this spell.
+	if ( ACR_GetIsUndead( oTarget ) ) {
+		return;
+	}
 
     if (MyResistSpell(OBJECT_SELF,oTarget) <1)
     {
