@@ -171,16 +171,6 @@ namespace ALFAIRCBot
             {
                 OnCommandSeen(e.Data.Channel, e.Data.Message.Substring(6));
             }
-
-            // Easter egg commands.
-            else if (e.Data.Message.StartsWith("!stars"))
-            {
-                SendMessage(SendType.Message, e.Data.Channel, String.Format("{0} is the worse person in this channel.", e.Data.Nick));
-            }
-            else if (e.Data.Message.StartsWith("!playas"))
-            {
-                SendMessage(SendType.Message, e.Data.Channel, String.Format("Everyone here is a playa except for {0}.", e.Data.Nick));
-            }
         }
 
         private void Client_OnErrorMessage(object sender, IrcEventArgs e)
