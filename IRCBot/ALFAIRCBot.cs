@@ -556,6 +556,11 @@ namespace ALFAIRCBot
                 // Print results.
                 SendMessage(SendType.Message, Source, String.Format("Results: {0}", string.Join(", ", Results)));
             }
+            else
+            {
+                // No valid command given.
+                SendMessage(SendType.Message, Source, "Not a valid stat generation option. Use \"!stats help\" to list valid options.");
+            }
         }
 
         private void OnCommandWeather(string Source, string Query)
