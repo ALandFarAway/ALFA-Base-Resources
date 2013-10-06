@@ -11,6 +11,7 @@
 
 
 #include "x0_i0_spells"
+#include "acr_creature_i"
 
 void main()
 {
