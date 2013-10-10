@@ -16,13 +16,13 @@
 13   FEAT_EPIC_SPELL_VAMPIRIC_FEAST         1995      0    21             2      
 14   FEAT_EPIC_SPELL_HELLBALL               876       0    21             2
 15   FEAT_LIGHTNING_REFLEXES                24        3    1              0
-16   FEAT_GREAT_FORTITUDE		    14        3    3              0
-17   FEAT_DODGE				    10        3    5              0
-18   FEAT_LORE				    3612      3    2              0
-19   FEAT_BONUSLANGUAGE1	 	    3613      3    4              0
-20   FEAT_BONUSLANGUAGE2		    3616      3    8              0
-21   FEAT_GREATERLORE			    3614      3    6              0
-22   FEAT_TRUELORE			    3615      3    10             0
+16   FEAT_GREAT_FORTITUDE                   14        3    3              0
+17   FEAT_DODGE                             10        3    5              0
+18   FEAT_LORE                              3612      3    2              0
+19   FEAT_BONUSLANGUAGE1                    3613      3    4              0
+20   FEAT_BONUSLANGUAGE2                    3616      3    8              0
+21   FEAT_GREATERLORE                       3614      3    6              0
+22   FEAT_TRUELORE                          3615      3    10             0
 23   FEAT_EXTRA_SLOT_BARD_LEVEL1            1284      3    7              0
 24   FEAT_EXTRA_SLOT_BARD_LEVEL2            1285      3    9              0
 25   FEAT_EXTRA_SLOT_CLERIC_LEVEL1          1290      3    7              0
@@ -41,7 +41,3 @@
 38   FEAT_EXTRA_SLOT_SPIRIT_SHAMAN_LEVEL2   2007      3    9              0
 39   FEAT_EXTRA_SLOT_FAVORED_SOUL_LEVEL1    2070      3    7              0
 40   FEAT_EXTRA_SLOT_FAVORED_SOUL_LEVEL2    2071      3    9              0
-
-
-
-
