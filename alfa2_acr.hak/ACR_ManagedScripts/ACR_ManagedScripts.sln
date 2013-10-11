@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestClrScript", "..\TestClrScript\TestClrScript.csproj", "{66A9BB91-94AE-4BEC-97F8-5028E1DFD710}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptLoader", "..\ScriptLoader\ScriptLoader.csproj", "{FE7A3DBB-AAD7-447E-A993-10451C53B6A5}"
@@ -35,6 +35,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_Traps", "..\ACR_Traps\ACR_Traps.csproj", "{93EFD897-2CD8-44E0-9498-5C11DBA0D09D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_Items", "..\ACR_Items\ACR_Items.csproj", "{44A72AB8-A44D-47B2-A0C4-12605091F8BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_PCHide", "..\ACR_PCHide\ACR_PCHide.csproj", "{6BA3380A-BA92-4A13-9AA3-F850F2512AB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +107,10 @@ Global
 		{44A72AB8-A44D-47B2-A0C4-12605091F8BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44A72AB8-A44D-47B2-A0C4-12605091F8BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44A72AB8-A44D-47B2-A0C4-12605091F8BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BA3380A-BA92-4A13-9AA3-F850F2512AB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BA3380A-BA92-4A13-9AA3-F850F2512AB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BA3380A-BA92-4A13-9AA3-F850F2512AB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BA3380A-BA92-4A13-9AA3-F850F2512AB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
