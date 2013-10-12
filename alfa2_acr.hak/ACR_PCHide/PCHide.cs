@@ -119,15 +119,35 @@ namespace ACR_PCHide
             // Add skill bonuses to item.
             foreach (int skill in skillBonuses.Keys)
             {
-                if (skillBonuses[skill] == 0) continue;
-                script.AddItemProperty(CLRScriptBase.DURATION_TYPE_PERMANENT, script.ItemPropertySkillBonus(skill, skillBonuses[skill]), m_oHide, 0.0f);
+                if (skillBonuses[skill] == 0)
+                {
+                    continue;
+                }
+                else if (skillBonuses[skill] > 0)
+                {
+                    script.AddItemProperty(CLRScriptBase.DURATION_TYPE_PERMANENT, script.ItemPropertyDecreaseSkill(skill, skillBonuses[skill]), m_oHide, 0.0f);
+                }
+                else if (skillBonuses[skill] < 0)
+                {
+                    script.AddItemProperty(CLRScriptBase.DURATION_TYPE_PERMANENT, script.ItemPropertySkillBonus(skill, skillBonuses[skill]), m_oHide, 0.0f);
+                }
             }
 
             // Add save bonuses to item.
             foreach (int save in saveBonuses.Keys)
             {
-                if (saveBonuses[save] == 0) continue;
-                script.AddItemProperty(CLRScriptBase.DURATION_TYPE_PERMANENT, script.ItemPropertyBonusSavingThrow(save, saveBonuses[save]), m_oHide, 0.0f);
+                if (saveBonuses[save] == 0)
+                {
+                    continue;
+                }
+                else if (saveBonuses[save] > 0)
+                {
+                    script.AddItemProperty(CLRScriptBase.DURATION_TYPE_PERMANENT, script.ItemPropertyBonusSavingThrow(save, saveBonuses[save]), m_oHide, 0.0f);
+                }
+                else if (saveBonuses[save] < 0)
+                {
+                    script.AddItemProperty(CLRScriptBase.DURATION_TYPE_PERMANENT, script.ItemPropertyReducedSavingThrow(save, saveBonuses[save]), m_oHide, 0.0f);
+                }
             }
 
             // Make the person equip the new item.
