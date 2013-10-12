@@ -555,7 +555,7 @@ int ACR_PCOnClientEnter(object oPC)
                 return FALSE;
           }
 
-        ACR_SQLQuery("INSERT INTO characters (ServerID, PlayerID, Name, Level, Race, Subrace, Deity, Gender, HP, XP, GP, Ethics, Morals, Class1, Class2, Class3, Level1, Level2, Level3, STR, CON, DEX, `INT`, WIS, CHA, Damage, Deaths, IsOnline, IsDeleted, IsPlayable) VALUES (" +
+        ACR_SQLQuery("INSERT INTO characters (ServerID, PlayerID, Name, Level, Race, Subrace, Deity, Gender, HP, XP, GP, Ethics, Morals, Class1, Class2, Class3, Level1, Level2, Level3, STR, CON, DEX, `INT`, WIS, CHA, Damage, Deaths, IsOnline, IsDeleted, IsPlayable, AcrVersion) VALUES (" +
              IntToString(ACR_GetServerId()) + "," +
                sPID + ",'" + 
                ACR_SQLEncodeSpecialChars(sCharacterName) + "'," + 
@@ -577,7 +577,7 @@ int ACR_PCOnClientEnter(object oPC)
                IntToString(GetAbilityScore(oPC, ABILITY_DEXTERITY)) + "," +
                IntToString(GetAbilityScore(oPC, ABILITY_INTELLIGENCE)) + "," +
                IntToString(GetAbilityScore(oPC, ABILITY_WISDOM)) + "," +
-               IntToString(GetAbilityScore(oPC, ABILITY_CHARISMA)) + ",0,0,1,0,1)");
+               IntToString(GetAbilityScore(oPC, ABILITY_CHARISMA)) + ",0,0,1,0,1," + ACR_VERSION + ")");
         ACR_SQLQuery("SELECT ID, IsDeleted, IsPlayable FROM characters WHERE PlayerID=" + sPID + " and Name='" + ACR_SQLEncodeSpecialChars(sCharacterName) + "'");
 
         // if there's a problem with the database - log an error and boot the player
