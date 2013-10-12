@@ -220,6 +220,10 @@ int ACR_GetModuleStatus(int nStatus);
 //! - returns: Nothing
 void ACR_SetModuleStatus(int nStatus);
 
+//! Called when a new PC is created.
+//!  - oPC : Player to initialize.
+void ACR_HandlePCCreation( object oPC );
+
 // Private
 
 //! Start up latency and health monitoring for the server
@@ -907,6 +911,12 @@ void ACR_ModuleOnClientEnter()
         ACR_DeathOnClientEnter(oPC);
 		
         ACR_SkillsOnClientEnter(oPC);
+		
+		// If this is a first login, run the character creation function.
+		if ( GetLocalInt( oPC, ACR_NEW_CHARACTER ) ) {
+			ACR_HandlePCCreation( oPC );
+			DeleteLocalInt( oPC, ACR_NEW_CHARACTER );
+		}
     }
     
     // Do custom feat stuff.
@@ -1686,6 +1696,13 @@ void ACR_SetModuleStatus(int nStatus) {
     object oModule = GetModule();
     SetLocalInt(oModule, ACR_MOD_STATUS, GetLocalInt(oModule, ACR_MOD_STATUS) | nStatus);
 }
+
+
+void ACR_HandlePCCreation( object oPC ) {
+	// Fix hidden perform skill.
+	ACR_AdjustHiddenPerformSkill( oPC );
+}
+
 
 int _MouthPieceNotInRange(object oMouthPiece, object oSpeaker, float fDistance)
 {

@@ -105,6 +105,12 @@ void ACR_SkillsPrepareAdaption(object oPC);
 //!! Calculates the size bonus to a particular skill.
 int ACR_GetSizeBonusToSkill( object oPC, int nSkillId );
 
+//!! Adjusts hidden Perform skill to the highest perform rank.
+void ACR_AdjustHiddenPerformSkill( object oPC );
+
+//!! Returns the target's highest perform rank.
+int ACR_GetHighestPerformRank( object oPC );
+
 // Private functions
 
 //! Rolls a CHECK_TYPE of SKILL, SAVE, STAT, INITIAIVE or ROLL.
@@ -345,6 +351,33 @@ int ACR_SimpleRoll(object oPC, int nNum, int nType, int bShowRoll=FALSE, int bBr
 }
 
 
+void ACR_AdjustHiddenPerformSkill( object oPC ) {
+	// Valid PC?
+	if ( !GetIsObjectValid( oPC ) ) {
+		return;
+	}
+	
+	// Make the adjustment.
+	int nHighestPerformRank = ACR_GetHighestPerformRank( oPC );
+	SetBaseSkillRank( oPC, SKILL_PERFORM, nHighestPerformRank, TRUE );
+}
+
+
+int ACR_GetHighestPerformRank( object oPC ) {
+	int nHighest = 0;
+	if ( GetSkillRank( SKILL_PERFORM_ACT, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_ACT, oPC, TRUE );
+	if ( GetSkillRank( SKILL_PERFORM_COMEDY, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_COMEDY, oPC, TRUE );
+	if ( GetSkillRank( SKILL_PERFORM_DANCE, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_DANCE, oPC, TRUE );
+	if ( GetSkillRank( SKILL_PERFORM_KEYBOARD, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_KEYBOARD, oPC, TRUE );
+	if ( GetSkillRank( SKILL_PERFORM_ORATORY, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_ORATORY, oPC, TRUE );
+	if ( GetSkillRank( SKILL_PERFORM_PERCUSSION, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_PERCUSSION, oPC, TRUE );
+	if ( GetSkillRank( SKILL_PERFORM_STRING_INSTRUMENTS, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_STRING_INSTRUMENTS, oPC, TRUE );
+	if ( GetSkillRank( SKILL_PERFORM_SING, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_SING, oPC, TRUE );
+	if ( GetSkillRank( SKILL_PERFORM_WIND_INSTRUMENTS, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_WIND_INSTRUMENTS, oPC, TRUE );
+	return nHighest;
+}
+
+
 int _HandleRoll(object oPC, string sSkill, int nModifier, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nMaxDC=255)
 {
 	int nRoll, bResult = FALSE;
@@ -427,6 +460,7 @@ int ACR_GetIsSkillRemoved(int nSkill) {
 
 
 void ACR_SkillsOnPCLevelUp(object oLeveled) {
+	object oMod = GetModule();
 
     // first, check for a Knowledge: Arcana increase
 	//  - note: LETO is no longer used for this.
@@ -438,26 +472,10 @@ void ACR_SkillsOnPCLevelUp(object oLeveled) {
 		//SetLocalInt(oLeveled, "ACR_LETO_LORE", GetSkillRank(SKILL_KNOWLEDGE_ARCANA, oLeveled, TRUE));
 		SetBaseSkillRank(oLeveled, SKILL_LORE, GetSkillRank(SKILL_KNOWLEDGE_ARCANA, oLeveled, TRUE), TRUE);
 	}
-	// next, set a base Perform rank based on Perform subskills
-	int nPerformBase = GetSkillRank(SKILL_PERFORM, oLeveled, TRUE);
-	int nRank = 0;
-	int nSubskill = 45;
-	int bPerformChange = FALSE;
-	object oMod = GetModule();
-	while (nSubskill <= 49) {
-	    nRank = GetSkillRank(nSubskill, oLeveled, TRUE);
-		if (nRank > nPerformBase) {
-		    //SendMessageToPC(oLeveled, "Your Perform subskill increase will apply to hardcoded bard abilities after your next login.");
-			bPerformChange = TRUE;
-			//SetLocalInt(oLeveled, "ACR_LETO_PERFORM", nRank);
-			nPerformBase = nRank;
-		}
-		nSubskill = nSubskill + 1;
-	}
-	if (bPerformChange) {
-		// A Perform skill update is called for
-		SetBaseSkillRank(oLeveled, SKILL_PERFORM, nPerformBase, TRUE);
-	}
+	
+	// Update hidden perform skill.
+	ACR_AdjustHiddenPerformSkill( oLeveled );
+	
 	if (GetLevelByClass(CLASS_TYPE_PALADIN, oLeveled) > 0) {
 		if ((GetAlignmentGoodEvil(oLeveled) == ALIGNMENT_GOOD) && (GetAlignmentLawChaos(oLeveled) == ALIGNMENT_LAWFUL)) {
 			// paladin's alignment is OK, no worries
@@ -466,6 +484,7 @@ void ACR_SkillsOnPCLevelUp(object oLeveled) {
 			_StripDivineFeats(oLeveled);
 		}
 	}
+	
 	if (GetSkillRank(0, oLeveled, TRUE) == 1) {
 		//PC is in the skills rebuild process, check to see that they put their level/points in an appropriate place.
 		//Determine which level was just taken

@@ -107,6 +107,9 @@ const string ACR_PPS_DEBUG_ID = "acr_pps_i";
 //! Color for delivered offline messages.
 const string ACR_OFFMSG_COLOR = "lightblue";
 
+//! Local variable: Newly created PC tagger.
+const string ACR_NEW_CHARACTER = "ACR_NEW_CHAR";
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -591,6 +594,9 @@ int ACR_PCOnClientEnter(object oPC)
                 return FALSE;
             }
         }
+		
+		// Tag this as a new character.
+		SetLocalInt( oPC, ACR_NEW_CHARACTER, 1 );
     }
     
     string sCharID = ACR_SQLGetData(0);
@@ -1085,6 +1091,7 @@ void ACR_SetAFK( object oPC, int nState ) {
 int ACR_GetAFK( object oPC ) {
 	return GetLocalInt( oPC, "ACR_PPS_AFK" );
 }
+
 
 void ACR_PPSValidatePC(object oTarget) {
 
