@@ -43,13 +43,5 @@ void main(string sResRef)
     object oTarget = GetPlayerCurrentTarget(oDM);
 	
 	// Hook the ACR rest system.
-	DeleteLocalInt( oTarget, ACR_REST_NOT_TIRED );
-	SetLocalInt( oTarget, ACR_REST_HP, GetCurrentHitPoints( oTarget ) );
-	SetLocalInt( oTarget, ACR_REST_STRENGTH, GetAbilityScore( oTarget, ABILITY_STRENGTH ) );
-	SetLocalInt( oTarget, ACR_REST_DEXTERITY, GetAbilityScore( oTarget, ABILITY_DEXTERITY ) );
-	SetLocalInt( oTarget, ACR_REST_CONSTITUTION, GetAbilityScore( oTarget, ABILITY_CONSTITUTION ) );
-	SetLocalInt( oTarget, ACR_REST_INTELLIGENCE, GetAbilityScore( oTarget, ABILITY_INTELLIGENCE ) );
-	SetLocalInt( oTarget, ACR_REST_WISDOM, GetAbilityScore( oTarget, ABILITY_WISDOM ) );
-	SetLocalInt( oTarget, ACR_REST_CHARISMA, GetAbilityScore( oTarget, ABILITY_CHARISMA ) );
-	_playerRestFinish(oTarget);
+	ACR_QuickRest( oTarget );
 }

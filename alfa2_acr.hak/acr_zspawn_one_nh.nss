@@ -1,5 +1,6 @@
 #include "acr_1984_i"
 #include "acr_zspawn_i"
+#include "acr_resting_i"
 
 void main()
 {
@@ -485,7 +486,7 @@ void main()
 
 	EquipCreature(oSpawn, nGear, oData);
 	SetAlignment(oSpawn, nAlignment);
-	ForceRest(oSpawn);
+	ACR_ForceRest(oSpawn);
 	ChangeToStandardFaction( oSpawn, STANDARD_FACTION_COMMONER );
 	ACR_IncrementStatistic("ZSPAWN_SPAWN");
 }

@@ -64,6 +64,7 @@ Companions will gather at certain locations. This generally requires custom On C
 #include "nw_i0_generic"	// has SetAssociateState()
 #include "x0_i0_petrify"	// has RemoveEffectOfType()
 #include "ginc_debug"
+#include "acr_resting_i"
 
 //-------------------------------------------------
 // Constants
@@ -119,7 +120,7 @@ int GetNumRosterMembersInParty( object oPC );
 // - sWaypoint: Optional starting point for party
 void SaveRosterLoadModule( string sModuleName, string sWaypoint="" );
 
-// ForceRest() oPC's party
+// ACR_ForceRest() oPC's party
 void ForceRestParty( object oPC );
 
 int GetInfluence(object oCompanion);
@@ -758,13 +759,13 @@ void SaveRosterLoadModule( string sModuleName, string sWaypoint="" )
 }
 
 
-// ForceRest() oPC's party
+// ACR_ForceRest() oPC's party
 void ForceRestParty( object oPC )
 {
 	object oFM = GetFirstFactionMember( oPC, FALSE );
 	while ( GetIsObjectValid( oFM ) == TRUE )
 	{
-		ForceRest( oFM );
+		ACR_ForceRest( oFM );
 		oFM = GetNextFactionMember( oPC, FALSE );
 	}
 }

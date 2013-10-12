@@ -229,6 +229,16 @@ void ACR_RestTriggerEnter(object oArrived);
 //! Handles exit from a rest area trigger, hooked into the acf OnEnter event via acr_trigger_i.nss
 void ACR_RestTriggerExit(object oDeparted);
 
+//! ACR Override for ForceRest(). Note that this is a replacement for hooking the
+//! force-rest event. It is not to be used to command the PC to rest. For that, use
+//! ACR_QuickRest( object ).
+//!  - oPC: Player to force-rest.
+void ACR_ForceRest( object oPC );
+
+//! Instantly provide a rest for a PC.
+//!  - oPC: Player to instantly rest.
+void ACR_QuickRest( object oPC );
+
 //! *** PRIVATE FUNCTIONS ***
 
 //! This function determines if a player is allowed to rest (heal and restore spells)
@@ -626,6 +636,37 @@ void ACR_RestTriggerExit(object oDeparted)
     }
 }
 
+
+void ACR_ForceRest( object oPC ) {
+	// Force-rest the PC.
+	ForceRest( oPC );
+	
+	// Bards with the 'Artist' feat get 3 extra uses of bardic music.
+	// Since we can't go over max, we raised the max, and remove the extra uses here if they don't have the feat.
+	if ( !GetHasFeat( FEAT_ARTIST, oPC, TRUE ) ) {
+		DecrementRemainingFeatUses( oPC, FEAT_BARD_SONGS );
+		DecrementRemainingFeatUses( oPC, FEAT_BARD_SONGS );
+		DecrementRemainingFeatUses( oPC, FEAT_BARD_SONGS );
+	}
+}
+
+
+void ACR_QuickRest( object oPC ) {
+	// Establish variables expected by the resting system.
+	DeleteLocalInt( oPC, ACR_REST_NOT_TIRED );
+	SetLocalInt( oPC, ACR_REST_HP, GetCurrentHitPoints( oPC ) );
+	SetLocalInt( oPC, ACR_REST_STRENGTH, GetAbilityScore( oPC, ABILITY_STRENGTH ) );
+	SetLocalInt( oPC, ACR_REST_DEXTERITY, GetAbilityScore( oPC, ABILITY_DEXTERITY ) );
+	SetLocalInt( oPC, ACR_REST_CONSTITUTION, GetAbilityScore( oPC, ABILITY_CONSTITUTION ) );
+	SetLocalInt( oPC, ACR_REST_INTELLIGENCE, GetAbilityScore( oPC, ABILITY_INTELLIGENCE ) );
+	SetLocalInt( oPC, ACR_REST_WISDOM, GetAbilityScore( oPC, ABILITY_WISDOM ) );
+	SetLocalInt( oPC, ACR_REST_CHARISMA, GetAbilityScore( oPC, ABILITY_CHARISMA ) );
+	
+	// Skip right to the end part of the resting process.
+	_playerRestFinish(oPC);
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // *** BEGIN PRIVATE FUNCTIONS ***
 ////////////////////////////////////////////////////////////////////////////////
@@ -712,7 +753,7 @@ void _playerRestoreSpells(object oCaster, string sClasses, int nHitPoints)
     SetLocalInt(oCaster, ACR_REST_CHARISMA, GetAbilityScore(oCaster, ABILITY_CHARISMA));
 
     // force rest on the caster
-    ForceRest(oCaster);
+    ACR_ForceRest(oCaster);
 
     // remove the healing benefits
     _unhealFromRest(oCaster, nHitPoints);
@@ -785,6 +826,9 @@ void _playerRestFinish(object oPC)
     // Rest failed for lack of tiredness, do nothing
     if (GetLocalInt(oPC, ACR_REST_NOT_TIRED)) { DeleteLocalInt(oPC, ACR_REST_NOT_TIRED); return; }
 	
+	// The engine has effectively cast force-rest on us at this point. Call our own redundant hook.
+	ACR_ForceRest( oPC );
+	
     // bards/sorcerers restore spell uses automatically - DO THIS BEFORE RESTORING SPELL USES!
 	if (ACR_HasCasterClass(oPC, "INNATE"))
 	{
@@ -798,14 +842,6 @@ void _playerRestFinish(object oPC)
         // restore spell uses to prerest levels - pray/study restores full spells
         ACR_RestoreSpellUses(oPC);
     }
-	
-	// Bards with the 'Artist' feat get 3 extra uses of bardic music.
-	// Since we can't go over max, we raised the max, and remove the extra uses here if they don't have the feat.
-	if ( !GetHasFeat( FEAT_ARTIST, oPC, TRUE ) ) {
-		DecrementRemainingFeatUses( oPC, FEAT_BARD_SONGS );
-		DecrementRemainingFeatUses( oPC, FEAT_BARD_SONGS );
-		DecrementRemainingFeatUses( oPC, FEAT_BARD_SONGS );
-	}
 
     // update the last rest time stamps - this should come after the spell restoration check
     ACR_SetPersistentInt(oPC, ACR_REST_TIMER, ACR_GetTimeStampInHours());
@@ -968,7 +1004,7 @@ void _healFromRest(object oCreature, int nOriginalHitPoints)
 		nMaxAbility *= nDaysRest;
 		
 		// Since the rest itself isn't actually happening by the engine, need to do it manually here.
-		ForceRest(oCreature);
+		ACR_ForceRest(oCreature);
 		SendMessageToPC(oCreature, "Restoring spells and ability uses.");
 	}
 
