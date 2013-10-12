@@ -1441,8 +1441,9 @@ UIRadialNode Callbacks:
 </UIRadialNode>
 
 <UIRadialNode name="node-dm-force-rest" style="BASE_RADIAL_NODE" 	
-	OnInit=UIRadialNode_OnInit_DM_GenericCommand("DM_COMMAND_FORCEREST")
-	OnLeftClickCollapsed=UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_FORCEREST")>
+	OnInit='UIRadialNode_OnInit_DM_GenericCommand("DM_COMMAND_FORCEREST")'
+	OnLeftClickCollapsed0='UIObject_Misc_ExecuteServerScript("gui_dmc_forcerest")'
+	OnLeftClickCollapsed1='UIRadialNode_Mouse_Action_DM_GenericCommand("DM_COMMAND_FORCEREST")'>
 </UIRadialNode>
 
 <UIRadialNode name="node-dm-setxp" style="BASE_RADIAL_NODE" text="Set Experience"

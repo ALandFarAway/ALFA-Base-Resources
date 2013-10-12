@@ -1169,6 +1169,7 @@ void _garbageCollection(object oPC)
     DeleteLocalInt(oPC, "ACR_REST_INTELLIGENCE");
     DeleteLocalInt(oPC, "ACR_REST_WISDOM");
     DeleteLocalInt(oPC, "ACR_REST_CHARISMA");
+    DeleteLocalInt(oPC, ACR_REST_DISEASE_CHANCE);
 }
 
 void _ProcessOffCameraRest(object oPC, int nDuration)

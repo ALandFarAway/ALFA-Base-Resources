@@ -431,6 +431,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_dmc_crselect.ncs                  \
             $(OUTPUTDIR)\gui_dmc_crspawn.ncs                   \
             $(OUTPUTDIR)\gui_dmc_crunselect.ncs                \
+            $(OUTPUTDIR)\gui_dmc_forcerest.ncs                 \
             $(OUTPUTDIR)\gui_dmc_givexp.ncs                    \
             $(OUTPUTDIR)\gui_dmc_setxp.ncs                     \
             $(OUTPUTDIR)\gui_dmfi_battle.ncs                   \
