@@ -116,6 +116,23 @@ namespace ACR_PCHide
             if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_USE_ROPE, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_USE_ROPE] += 3;
             #endregion
 
+            // Artist is one bad-ass feat.
+            if (script.GetHasFeat(CLRScriptBase.FEAT_ARTIST, m_oCreature, 0) == CLRScriptBase.TRUE)
+            {
+                // Previously: +2 perform, +2 diplomacy
+                // Currently: +2 perform (all), 3 extra bardic music uses per day
+                skillBonuses[CLRScriptBase.SKILL_DIPLOMACY] -= 2;
+                skillBonuses[(int)SKILLS.SKILL_PERFORM_ACT] += 2;
+                skillBonuses[(int)SKILLS.SKILL_PERFORM_COMEDY] += 2;
+                skillBonuses[(int)SKILLS.SKILL_PERFORM_DANCE] += 2;
+                skillBonuses[(int)SKILLS.SKILL_PERFORM_KEYBOARD] += 2;
+                skillBonuses[(int)SKILLS.SKILL_PERFORM_ORATORY] += 2;
+                skillBonuses[(int)SKILLS.SKILL_PERFORM_PERCUSSION] += 2;
+                skillBonuses[(int)SKILLS.SKILL_PERFORM_SING] += 2;
+                skillBonuses[(int)SKILLS.SKILL_PERFORM_STRING_INSTRUMENTS] += 2;
+                skillBonuses[(int)SKILLS.SKILL_PERFORM_WIND_INSTRUMENTS] += 2;
+            }
+            
             // Add skill bonuses to item.
             foreach (int skill in skillBonuses.Keys)
             {

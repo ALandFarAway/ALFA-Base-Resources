@@ -798,6 +798,13 @@ void _playerRestFinish(object oPC)
         // restore spell uses to prerest levels - pray/study restores full spells
         ACR_RestoreSpellUses(oPC);
     }
+	
+	// Bards with the 'Artist' feat get 3 extra uses of bardic music.
+	if ( GetHasFeat( FEAT_ARTIST, oPC, TRUE ) ) {
+		IncrementRemainingFeatUses( oPC, FEAT_BARD_SONGS );
+		IncrementRemainingFeatUses( oPC, FEAT_BARD_SONGS );
+		IncrementRemainingFeatUses( oPC, FEAT_BARD_SONGS );
+	}
 
     // update the last rest time stamps - this should come after the spell restoration check
     ACR_SetPersistentInt(oPC, ACR_REST_TIMER, ACR_GetTimeStampInHours());
