@@ -800,10 +800,11 @@ void _playerRestFinish(object oPC)
     }
 	
 	// Bards with the 'Artist' feat get 3 extra uses of bardic music.
-	if ( GetHasFeat( FEAT_ARTIST, oPC, TRUE ) ) {
-		IncrementRemainingFeatUses( oPC, FEAT_BARD_SONGS );
-		IncrementRemainingFeatUses( oPC, FEAT_BARD_SONGS );
-		IncrementRemainingFeatUses( oPC, FEAT_BARD_SONGS );
+	// Since we can't go over max, we raised the max, and remove the extra uses here if they don't have the feat.
+	if ( !GetHasFeat( FEAT_ARTIST, oPC, TRUE ) ) {
+		DecrementRemainingFeatUses( oPC, FEAT_BARD_SONGS );
+		DecrementRemainingFeatUses( oPC, FEAT_BARD_SONGS );
+		DecrementRemainingFeatUses( oPC, FEAT_BARD_SONGS );
 	}
 
     // update the last rest time stamps - this should come after the spell restoration check
