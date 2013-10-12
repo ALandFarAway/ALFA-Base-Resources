@@ -136,6 +136,7 @@ void main()
     object oBeltOld = GetItemInSlot(INVENTORY_SLOT_BELT,OBJECT_SELF);
     object oHelmetOld = GetItemInSlot(INVENTORY_SLOT_HEAD,OBJECT_SELF);
     object oShield    = GetItemInSlot(INVENTORY_SLOT_LEFTHAND,OBJECT_SELF);
+    object oHideOld = GetItemInSlot(INVENTORY_SLOT_CARMOUR,OBJECT_SELF);
     if (GetIsObjectValid(oShield))
     {
         if (GetBaseItemType(oShield) !=BASE_ITEM_LARGESHIELD &&
@@ -176,7 +177,9 @@ void main()
         IPWildShapeCopyItemProperties(oBootsOld,oArmorNew);
         IPWildShapeCopyItemProperties(oBeltOld,oArmorNew);
     }
-
-	// Copy PC hide properties.
-	ACR_CopyPropertiesToHide( OBJECT_SELF );
+	
+	// Copy old PC Hide properties to new polymorphed form.
+	if ( GetResRef( oHideOld ) == ACR_PCH_RESREF ) {
+		IPWildShapeCopyItemProperties( oHideOld, oArmorNew );
+	}
 }

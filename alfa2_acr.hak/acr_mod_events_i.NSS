@@ -118,6 +118,7 @@
 #include "acr_wealth_i"
 #include "acr_gui_i"
 #include "acr_language_i"
+#include "acr_pchide_i"
 
 #include "acf_spawn_i"
 #include "acf_settings_i"
@@ -1034,6 +1035,9 @@ void ACR_ModuleOnPCLoaded()
             //  delay this long enough for the status restore to take effect for HP.
             DelayCommand(1.5, ACR_RestOnClientEnter(oPC));
         }
+		
+		// Refresh their PC Hide.
+		ACR_RecalculatePCHide( oPC );
     }
 
     ACR_SCliExtOnPCLoaded(oPC);

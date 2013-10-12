@@ -168,28 +168,7 @@ void _RecalcACP(object oPC)
 
 	penalty = - (ACR_GetArmorCheckPenalty(t0) + ACR_GetArmorCheckPenalty(t1));
 
-//	WriteTimestampedLogEntry("calculated penalty " + IntToString(penalty));
-
-	oHide = ACR_GetPCHide(oPC);
-
-	if (ACR_RemoveFlagFromHide(oHide, ACR_IP_ACP_OFFSET)) {
-//		WriteTimestampedLogEntry("removing previous");
-		IPRemoveMatchingItemProperties(oHide, ITEM_PROPERTY_DECREASED_SKILL_MODIFIER, DURATION_TYPE_PERMANENT, SKILL_SWIM);
-	}
-
-	if (penalty > 0) {
-		itemproperty ip;
-
-//		WriteTimestampedLogEntry("adding new");
-
-		ACR_AddFlagToHide(oHide, ACR_IP_ACP_OFFSET);
-
-//		WriteTimestampedLogEntry("has flag? " + IntToString(ACR_GetFlagFromHide(oHide, ACR_IP_ACP_OFFSET)));
-		
-		
-		ip = ItemPropertyDecreaseSkill(SKILL_SWIM, penalty);
-		AddItemProperty(DURATION_TYPE_PERMANENT, ip, oHide);
-	}
+	// TODO: Calculate swimming penalty, apply it to creature or PC Hide.
 }
 
 void _ApplyACPSwim(object oItem, object oPC)

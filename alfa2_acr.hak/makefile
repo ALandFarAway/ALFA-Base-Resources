@@ -736,6 +736,8 @@ makeclrscripts:
 	@$(MSBUILD) ACR_Traps\ACR_Traps.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_CollectionLib
 	@$(MSBUILD) ACR_CollectionLib\ACR_CollectionLib.csproj $(MSBUILD_FLAGS)
+	$(BUILD_MSG) (CSProj) Building - ACR_PCHide
+	@$(MSBUILD) ACR_PCHide\ACR_PCHide.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_AssemblyLoader
 	@$(MSBUILD) ACR_AssemblyLoader\ACR_AssemblyLoader.csproj $(MSBUILD_FLAGS)
 
@@ -775,6 +777,8 @@ clean:
 	@if exist ACR_Traps\obj rd /s /q ACR_Traps\obj
 	@if exist ACR_CollectionLib\bin rd /s /q ACR_CollectionLib\bin
 	@if exist ACR_CollectionLib\obj rd /s /q ACR_CollectionLib\obj
+	@if exist ACR_PCHide\bin rd /s /q ACR_PCHide\bin
+	@if exist ACR_PCHide\obj rd /s /q ACR_PCHide\obj
 	@if exist ACR_AssemblyLoader\bin rd /s /q ACR_AssemblyLoader\bin
 	@if exist ACR_AssemblyLoader\obj rd /s /q ACR_AssemblyLoader\obj
 

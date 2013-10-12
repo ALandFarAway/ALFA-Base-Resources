@@ -21,6 +21,9 @@ namespace ACR_PCHide
 {
     public partial class ACR_PCHide : CLRScriptBase, IGeneratedScriptProgram
     {
+
+        private static Dictionary<int, PCHide> m_HideMap = new Dictionary<int, PCHide>();
+
         public ACR_PCHide([In] NWScriptJITIntrinsics Intrinsics, [In] INWScriptProgram Host)
         {
             InitScript(Intrinsics, Host);
@@ -33,17 +36,47 @@ namespace ACR_PCHide
             LoadScriptGlobals(Other.SaveScriptGlobals());
         }
 
-        public static Type[] ScriptParameterTypes =
-        { typeof(int) };
+        public static Type[] ScriptParameterTypes = { typeof(uint), typeof(int) };
 
         public Int32 ScriptMain([In] object[] ScriptParameters, [In] Int32 DefaultReturnCode)
         {
-            int Value = (int)ScriptParameters[0]; // ScriptParameterTypes[0] is typeof(int)
+            // Decode parameters.
+            uint oPC = (uint)ScriptParameters[0];
+            int nAction = (int)ScriptParameters[1];
 
-            PrintInteger(Value);
+            // Get PID.
+            int nCID = GetLocalInt(oPC, "ACR_CID");
+
+            // Make sure the PC has a hide.
+            uint oHide = GetItemPossessedBy(oPC, "acr_pchide");
+            if (GetIsObjectValid(oHide) == CLRScriptBase.FALSE)
+            {
+                oHide = GetItemInSlot(CLRScriptBase.INVENTORY_SLOT_CARMOUR, oPC);
+                if (GetIsObjectValid(oHide) == CLRScriptBase.FALSE || GetResRef( oHide ) != "acr_pchide")
+                {
+                    oHide = CreateItemOnObject("acr_pchide", oPC, 1, "acr_pchide", CLRScriptBase.FALSE);
+                }
+            }
+
+            // If it doesn't exist, create it.
+            if (!m_HideMap.ContainsKey(nCID))
+            {
+                m_HideMap.Add(nCID, new PCHide(oPC, oHide));
+            }
+
+            // Remake the hide.
+            bool bRetState = m_HideMap[nCID].recalculate(this);
+            if (bRetState == false)
+            {
+                m_HideMap.Remove(nCID);
+            }
 
             return 0;
         }
 
+        private enum ACTIONS
+        {
+            ACT_REFRESH
+        }
     }
 }

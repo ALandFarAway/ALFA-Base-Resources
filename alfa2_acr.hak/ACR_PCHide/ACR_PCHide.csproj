@@ -58,6 +58,7 @@
     <Compile Include="..\..\CLRScript\NWScriptSupport.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_PCHide.cs" />
+    <Compile Include="PCHide.cs" />
     <Compile Include="StandardEntrypoints.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
