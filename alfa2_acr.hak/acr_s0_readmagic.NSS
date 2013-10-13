@@ -1,25 +1,39 @@
-// Read Magic
-// Created for ALFA by Riotnrrd 4/5/2009
-
 #include "NW_I0_SPELLS"
 #include "x2_inc_spellhook"
 #include "acr_spells_i"
 
-void main()
-{
-    if (!ACR_PrecastEvent())
-    {
-	    // If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell
-        return;
-    }
+// Returns TRUE if the given item is a scroll.
+int GetIsScroll( object oItem ) {
+	if ( !GetBaseItemType( oItem ) == BASE_ITEM_SCROLL ) return TRUE;
+	if ( !GetBaseItemType( oItem ) == BASE_ITEM_BLANK_SCROLL ) return TRUE;
+	if ( !GetBaseItemType( oItem ) == BASE_ITEM_ENCHANTED_SCROLL ) return TRUE;
+	return FALSE;
+}
+
+// Returns TRUE if the given item is a magical scroll.
+int GetIsMagicScroll( object oItem ) {
+	// Limit to certain base item types.
+	if ( !GetIsScroll( oItem ) ) return FALSE;
+
+	// Must be able to cast a spell to be considered magical.
+	if ( !GetItemHasItemProperty( oItem, ITEM_PROPERTY_CAST_SPELL ) ) return FALSE;
+
+	// If nothing is wrong so far, return success.
+	return TRUE;
+}
+
+void main() {
+	// If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell.
+	if ( !ACR_PrecastEvent() ) {
+		return;
+	}
+
+	// Casting information.
 	object oCaster = OBJECT_SELF;
-	int nMetaMagic = GetMetaMagicFeat();
-	float fDur = TurnsToSeconds(GetCasterLevel(oCaster));
-    if (nMetaMagic == METAMAGIC_EXTEND) {
-        fDur = fDur * 2;
-    } else if (nMetaMagic == METAMAGIC_PERSISTENT) {
-		fDur = HoursToSeconds(24);
-	}		
-	ActionSpeakString(GetName(oCaster) + " has cast Read Magic.", TALKVOLUME_SILENT_SHOUT);	
-	DelayCommand(fDur, ActionSpeakString(GetName(oCaster) + " Read Magic has ended.", TALKVOLUME_SILENT_SHOUT));
+	object oTarget = GetSpellTargetObject();
+
+	// Read Magic identifies magic scrolls.
+	if ( GetIsMagicScroll( oTarget ) ) {
+		SetIdentified( oTarget, TRUE );
+	}
 }
