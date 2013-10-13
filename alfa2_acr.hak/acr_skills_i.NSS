@@ -108,6 +108,9 @@ int ACR_GetSizeBonusToSkill( object oPC, int nSkillId );
 //!! Adjusts hidden Perform skill to the highest perform rank.
 void ACR_AdjustHiddenPerformSkill( object oPC );
 
+//!! Return the highest perform skill ID.
+int ACR_GetHighestPerfornSkill( object oPC, int nCheckBaseRankOnly = FALSE );
+
 //!! Returns the target's highest perform rank.
 int ACR_GetHighestPerformRank( object oPC );
 
@@ -363,18 +366,23 @@ void ACR_AdjustHiddenPerformSkill( object oPC ) {
 }
 
 
+int ACR_GetHighestPerfornSkill( object oPC, int nCheckBaseRankOnly = FALSE ) {
+	int nSkill = -1;
+	if ( GetSkillRank( SKILL_PERFORM_ACT, oPC, nCheckBaseRankOnly ) > nSkill ) nSkill = SKILL_PERFORM_ACT;
+	if ( GetSkillRank( SKILL_PERFORM_COMEDY, oPC, nCheckBaseRankOnly ) > nSkill ) nSkill = SKILL_PERFORM_COMEDY;
+	if ( GetSkillRank( SKILL_PERFORM_DANCE, oPC, nCheckBaseRankOnly ) > nSkill ) nSkill = SKILL_PERFORM_DANCE;
+	if ( GetSkillRank( SKILL_PERFORM_KEYBOARD, oPC, nCheckBaseRankOnly ) > nSkill ) nSkill = SKILL_PERFORM_KEYBOARD;
+	if ( GetSkillRank( SKILL_PERFORM_ORATORY, oPC, nCheckBaseRankOnly ) > nSkill ) nSkill = SKILL_PERFORM_ORATORY;
+	if ( GetSkillRank( SKILL_PERFORM_PERCUSSION, oPC, nCheckBaseRankOnly ) > nSkill ) nSkill = SKILL_PERFORM_PERCUSSION;
+	if ( GetSkillRank( SKILL_PERFORM_STRING_INSTRUMENTS, oPC, nCheckBaseRankOnly ) > nSkill ) nSkill = SKILL_PERFORM_STRING_INSTRUMENTS;
+	if ( GetSkillRank( SKILL_PERFORM_SING, oPC, nCheckBaseRankOnly ) > nSkill ) nSkill = SKILL_PERFORM_SING;
+	if ( GetSkillRank( SKILL_PERFORM_WIND_INSTRUMENTS, oPC, nCheckBaseRankOnly ) > nSkill ) nSkill = SKILL_PERFORM_WIND_INSTRUMENTS;
+	return nSkill;
+}
+
+
 int ACR_GetHighestPerformRank( object oPC ) {
-	int nHighest = 0;
-	if ( GetSkillRank( SKILL_PERFORM_ACT, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_ACT, oPC, TRUE );
-	if ( GetSkillRank( SKILL_PERFORM_COMEDY, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_COMEDY, oPC, TRUE );
-	if ( GetSkillRank( SKILL_PERFORM_DANCE, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_DANCE, oPC, TRUE );
-	if ( GetSkillRank( SKILL_PERFORM_KEYBOARD, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_KEYBOARD, oPC, TRUE );
-	if ( GetSkillRank( SKILL_PERFORM_ORATORY, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_ORATORY, oPC, TRUE );
-	if ( GetSkillRank( SKILL_PERFORM_PERCUSSION, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_PERCUSSION, oPC, TRUE );
-	if ( GetSkillRank( SKILL_PERFORM_STRING_INSTRUMENTS, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_STRING_INSTRUMENTS, oPC, TRUE );
-	if ( GetSkillRank( SKILL_PERFORM_SING, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_SING, oPC, TRUE );
-	if ( GetSkillRank( SKILL_PERFORM_WIND_INSTRUMENTS, oPC, TRUE ) > nHighest ) nHighest = GetSkillRank( SKILL_PERFORM_WIND_INSTRUMENTS, oPC, TRUE );
-	return nHighest;
+	return GetSkillRank( ACR_GetHighestPerfornSkill( oPC, TRUE ), oPC, TRUE );
 }
 
 
