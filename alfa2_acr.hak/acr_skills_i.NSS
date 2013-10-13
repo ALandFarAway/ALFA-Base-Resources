@@ -109,7 +109,7 @@ int ACR_GetSizeBonusToSkill( object oPC, int nSkillId );
 void ACR_AdjustHiddenPerformSkill( object oPC );
 
 //!! Return the highest perform skill ID.
-int ACR_GetHighestPerfornSkill( object oPC, int nCheckBaseRankOnly = FALSE );
+int ACR_GetHighestPerformSkill( object oPC, int nCheckBaseRankOnly = FALSE );
 
 //!! Returns the target's highest perform rank.
 int ACR_GetHighestPerformRank( object oPC );
@@ -366,7 +366,7 @@ void ACR_AdjustHiddenPerformSkill( object oPC ) {
 }
 
 
-int ACR_GetHighestPerfornSkill( object oPC, int nCheckBaseRankOnly = FALSE ) {
+int ACR_GetHighestPerformSkill( object oPC, int nCheckBaseRankOnly = FALSE ) {
 	int nSkill = -1;
 	if ( GetSkillRank( SKILL_PERFORM_ACT, oPC, nCheckBaseRankOnly ) > nSkill ) nSkill = SKILL_PERFORM_ACT;
 	if ( GetSkillRank( SKILL_PERFORM_COMEDY, oPC, nCheckBaseRankOnly ) > nSkill ) nSkill = SKILL_PERFORM_COMEDY;
@@ -382,7 +382,7 @@ int ACR_GetHighestPerfornSkill( object oPC, int nCheckBaseRankOnly = FALSE ) {
 
 
 int ACR_GetHighestPerformRank( object oPC ) {
-	return GetSkillRank( ACR_GetHighestPerfornSkill( oPC, TRUE ), oPC, TRUE );
+	return GetSkillRank( ACR_GetHighestPerformSkill( oPC, TRUE ), oPC, TRUE );
 }
 
 
