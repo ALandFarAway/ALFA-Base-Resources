@@ -34,6 +34,7 @@ void main() {
 
 	// Read Magic identifies magic scrolls.
 	if ( GetIsMagicScroll( oTarget ) ) {
+		SignalEvent( oTarget, EventSpellCastAt( oCaster, SPELL_READ_MAGIC, FALSE ) );
 		SetIdentified( oTarget, TRUE );
 	}
 }
