@@ -23,6 +23,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "acr_version_i"
+#include "acr_tools_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -59,6 +60,7 @@ int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion )
     if(sTargetVersion == "")
         sTargetVersion = ACR_VERSION;
 
+    float fCurrentVersion = StringToFloat(sCurrentVersion);
     float fTargetVersion = StringToFloat(sTargetVersion);
     int bChanged = FALSE;
 
@@ -136,6 +138,14 @@ int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion )
         DestroyObject(GetItemInSlot(INVENTORY_SLOT_CWEAPON_R, oPC));
 		
 		bChanged = TRUE;
+	}
+	if ( fCurrentVersion <= 1.91 && fTargetVersion > 1.92 ) { // 1.91 -> 1.92
+		// Replace Acid Fog with its new index, making SPELL_INVALID a thing.
+		int nPosWizard = GetClassPosition( oPC, CLASS_TYPE_WIZARD );
+		if ( nPosWizard != -1 && GetSpellKnown( oPC, SPELL_ACID_FOG ) ) {
+			SetSpellKnown( oPC, nPosWizard, SPELL_ACID_FOG, FALSE, FALSE );
+			SetSpellKnown( oPC, nPosWizard, SPELL_ACID_FOG_ACR, TRUE, FALSE );
+		}
 	}
     return bChanged;
 }
