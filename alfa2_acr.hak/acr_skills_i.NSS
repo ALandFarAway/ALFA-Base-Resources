@@ -469,17 +469,6 @@ int ACR_GetIsSkillRemoved(int nSkill) {
 
 void ACR_SkillsOnPCLevelUp(object oLeveled) {
 	object oMod = GetModule();
-
-    // first, check for a Knowledge: Arcana increase
-	//  - note: LETO is no longer used for this.
-	int nLoreDeficit = (GetSkillRank(SKILL_KNOWLEDGE_ARCANA, oLeveled, TRUE) - GetSkillRank(SKILL_LORE, oLeveled, TRUE));
-	if (nLoreDeficit > 0) {
-		// We can adjust this immediately with SetBaseSkillRank()
-	    //SendMessageToPC(oLeveled, "Your Knowledge:Arcana skill increase will apply to checks to identify items after your next login.");
-		//SetLocalInt(oLeveled, "ACR_LETO", TRUE);
-		//SetLocalInt(oLeveled, "ACR_LETO_LORE", GetSkillRank(SKILL_KNOWLEDGE_ARCANA, oLeveled, TRUE));
-		SetBaseSkillRank(oLeveled, SKILL_LORE, GetSkillRank(SKILL_KNOWLEDGE_ARCANA, oLeveled, TRUE), TRUE);
-	}
 	
 	// Update hidden perform skill.
 	ACR_AdjustHiddenPerformSkill( oLeveled );

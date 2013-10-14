@@ -146,6 +146,9 @@ int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion )
 			SetSpellKnown( oPC, nPosWizard, SPELL_ACID_FOG, FALSE, FALSE );
 			SetSpellKnown( oPC, nPosWizard, SPELL_ACID_FOG_ACR, TRUE, FALSE );
 		}
+		
+		// We no longer support lore.
+		SetBaseSkillRank( oPC, SKILL_LORE, 0, FALSE );
 	}
     return bChanged;
 }
