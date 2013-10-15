@@ -223,7 +223,7 @@ void ClearSCCVar( object oItem, string sType ) {
 	string sSubString = ACR_SCC_VAR_BASE + sType;
 	for ( i = 0; i < GetVariableCount( oItem ); i++ ) {
 		string sName = SafeGetVariableName( oItem, i );
-		if ( FindSubString( sName, sSubString ) != -1 ) {
+		if ( FindSubString( sName, sSubString ) == 0 ) {
 			DeleteLocalInt( oItem, sName );
 			i--;
 		}
