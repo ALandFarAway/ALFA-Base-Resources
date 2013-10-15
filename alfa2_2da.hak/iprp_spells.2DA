@@ -1,7 +1,7 @@
 2DA V2.0
 
      Label                                             Name     CasterLvl InnateLvl Cost   SpellIndex PotionUse WandUse GeneralUse Icon                       
-0    Acid_Fog                                          1097     11        6         23760  0          0         0       1          it_s_acidsplash            
+0    Acid_Fog                                          1097     11        6         23760  1216       0         0       1          it_s_acidsplash            
 1    Aid                                               1098     3         2         2160   1          1         1       1          it_s_aid                   
 2    Animate_Dead                                      1099     5         3         5400   2          0         1       1          it_s_animatedead           
 3    Animate_Dead                                      1100     10        3         10800  2          0         1       1          it_s_animatedead           
