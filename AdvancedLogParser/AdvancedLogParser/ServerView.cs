@@ -258,7 +258,8 @@ namespace AdvancedLogParser
             foreach (Log log in serverDeathLogs.Values)
             {
                 string character = "Unknown Character";
-                if (log.CharacterId > 0) character = Characters.List[log.CharacterId].Name;
+                try { if (log.CharacterId > 0) character = Characters.List[log.CharacterId].Name; }
+                catch { }
                 deathList.Items.Add(new ListViewItem(new string[] { character, String.Format("{0}/{1}/{2}", log.Time.Year, log.Time.Month, log.Time.Day), log.Event, log.Id.ToString() }));
             }
             deathList.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
