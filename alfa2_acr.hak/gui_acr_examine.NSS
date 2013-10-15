@@ -1,3 +1,4 @@
+#include "acr_spells_i"
 #include "acr_items_i"
 
 void main () {
