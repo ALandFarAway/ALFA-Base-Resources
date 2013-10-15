@@ -136,8 +136,8 @@ UIRadialNode Callbacks:
 
 
 <UIRadialNode name="node-examine" style="BASE_RADIAL_NODE" strref=549
-	OnLeftClickExpanded=UIRadialNode_Mouse_ActionExamineObject("SCREEN_EXAMINE","SCREEN_EXAMINE")
-	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionExamineObject("SCREEN_EXAMINE","SCREEN_EXAMINE")>
+	OnLeftClickExpanded='UIObject_Misc_ExecuteServerScript("gui_acr_examine")'
+	OnLeftClickCollapsed='UIObject_Misc_ExecuteServerScript("gui_acr_examine")'>
 	<UIFrame state=base	fill="ia_examine.tga" />
 </UIRadialNode>
 

@@ -36,6 +36,9 @@
 #include "acr_combat_actions_i"
 #include "acr_pchide_i"
 #include "acr_vfx_i"
+#include "acr_skills_i"
+#include "acr_time_i"
+#include "acr_spells_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -89,6 +92,14 @@ const int ACR_ITEMS_CSHARP_GENERATE_WAND = 13;
 const int ACR_ITEMS_CSHARP_GENERATE_SCROLLS = 14;
 const int ACR_ITEMS_CSHARP_GENERATE_POTIONS = 15;
 
+//! Variable prefixes for spellcraft checks.
+const string ACR_SCC_VAR_BASE = "ACR_SCC_";
+const string ACR_SCC_VAR_POTION = "POTN_";
+const string ACR_SCC_VAR_SCROLL = "SCRL_";
+
+//! DCs for spellcraft checks.
+const int ACR_SSC_DC_POTION = 25;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -138,6 +149,20 @@ void ACR_CorrectPrice( object oItem );
 //! nLevel -- the level to be checked
 int GetMaxItemValue(int nLevel);
 
+//! Returns TRUE if oItem is a potion.
+int ACR_GetIsPotion( object oItem );
+
+//! Returns TRUE if oItem is a scroll.
+int ACR_GetIsScroll( object oItem );
+
+//! Returns TRUE if oItem is a magical scroll.
+int ACR_GetIsMagicScroll( object oItem ); 
+
+//! Attempt to determine information about a target, using spellcraft.
+//!  - oPC : Player character attempting to find information.
+//!  - oTarget : The target to find information of.
+void ACR_AttemptSpellcraftExamine( object oPC, object oTarget );
+
 // Private
 //
 
@@ -149,6 +174,12 @@ void _ApplyACPSwim(object oItem, object oPC);
 
 //! Remove ACP effect for armor
 void _RemoveACPSwim(object oItem, object oPC);
+
+//! Concatenates the variable name for spellcraft checks.
+string GetSCCVar( string sType, int nCID );
+
+//! Clear out all garbage variables related to spellcraft checks.
+void ClearSCCVar( object oItem, string sType );
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -179,6 +210,24 @@ void _ApplyACPSwim(object oItem, object oPC)
 void _RemoveACPSwim(object oItem, object oPC)
 {
 	_RecalcACP(oPC);
+}
+
+
+string GetSCCVar( string sType, int nCID ) {
+	return ( ACR_SCC_VAR_BASE + sType + IntToString( nCID ) );
+}
+
+
+void ClearSCCVar( object oItem, string sType ) {
+	int i = 0;
+	string sSubString = ACR_SCC_VAR_BASE + sType;
+	for ( i = 0; i < GetVariableCount( oItem ); i++ ) {
+		string sName = SafeGetVariableName( oItem, i );
+		if ( FindSubString( sName, sSubString ) != -1 ) {
+			DeleteLocalInt( oItem, sName );
+			i--;
+		}
+	}
 }
 
 
@@ -542,4 +591,84 @@ int GetMaxItemValue(int nLevel)
 	if(nLevel == 19) return 188500;
 	if(nLevel == 20) return 250000;
 	return -1;
+}
+
+
+int ACR_GetIsPotion( object oItem ) {
+	if ( !GetBaseItemType( oItem ) == BASE_ITEM_POTIONS ) return TRUE;
+	if ( !GetBaseItemType( oItem ) == BASE_ITEM_BLANK_POTION ) return TRUE;
+	if ( !GetBaseItemType( oItem ) == BASE_ITEM_ENCHANTED_POTION ) return TRUE;
+	return FALSE;
+}
+
+
+int ACR_GetIsScroll( object oItem ) {
+	if ( !GetBaseItemType( oItem ) == BASE_ITEM_SCROLL ) return TRUE;
+	if ( !GetBaseItemType( oItem ) == BASE_ITEM_BLANK_SCROLL ) return TRUE;
+	if ( !GetBaseItemType( oItem ) == BASE_ITEM_ENCHANTED_SCROLL ) return TRUE;
+	return FALSE;
+}
+
+
+int ACR_GetIsMagicScroll( object oItem ) {
+	// Limit to certain base item types.
+	if ( !ACR_GetIsScroll( oItem ) ) return FALSE;
+
+	// Must be able to cast a spell to be considered magical.
+	if ( !GetItemHasItemProperty( oItem, ITEM_PROPERTY_CAST_SPELL ) ) return FALSE;
+
+	// If nothing is wrong so far, return success.
+	return TRUE;
+}
+
+
+void ACR_AttemptSpellcraftExamine( object oPC, object oTarget ) {
+	// First, we make sure that our PC is an actual PC.
+	int nCharID = ACR_GetCharacterID( oPC );
+	if ( nCharID == 0 ) {
+		return;
+	}
+	
+	// Spellcraft is a trained only skill.
+	if ( GetSkillRank( SKILL_SPELLCRAFT, oPC, TRUE ) == 0 ) {
+		return;
+	}
+	
+	// If we're dealing with undentified items, we have some uses.
+	if ( GetObjectType( oTarget ) == OBJECT_TYPE_ITEM && !GetIdentified( oTarget ) ) {
+		// A DC 25 spellcraft check identifies potions. No retry.
+		if ( ACR_GetIsPotion( oTarget ) ) {
+			string sPotionVar = GetSCCVar( ACR_SCC_VAR_POTION, nCharID );
+			if ( GetLocalInt( oPC, sPotionVar ) == 0 ) {
+				if ( ACR_SkillCheck( SKILL_SPELLCRAFT, oPC, ACR_SSC_DC_POTION, TRUE, TRUE ) ) {
+					SendMessageToPC( oPC, "You have successfully identified this potion." );
+					SetIdentified( oTarget, TRUE );
+					ClearSCCVar( oTarget, ACR_SCC_VAR_POTION );
+				} else {
+					SendMessageToPC( oPC, "You have failed to identify this potion." );
+					SetLocalInt( oPC, sPotionVar, 1 );
+				}
+				
+			}
+		}
+		
+		// A DC 20 + Spell Level spellcraft check identifies a magic scroll.
+		if ( ACR_GetIsMagicScroll( oTarget ) ) {
+			// A check is allowed once every 24 hours.
+			string sScrollVar = GetSCCVar( ACR_SCC_VAR_SCROLL, nCharID );
+			if ( GetLocalInt( oPC, sScrollVar ) == 0 || GetLocalInt( oPC, sScrollVar ) + 24 <= ACR_GetTimeStampInHours()  ) {
+				// DC = 20 + Spell Level
+				int nDC = 20;
+				if ( ACR_SkillCheck( SKILL_SPELLCRAFT, oPC, nDC, TRUE, TRUE ) ) {
+					// On success, report happiness and clear up related variables.
+					SendMessageToPC( oPC, "You have successfully identified this scroll." );
+					SetIdentified( oTarget, TRUE );
+					ClearSCCVar( oTarget, ACR_SCC_VAR_SCROLL );
+				} else {
+					SendMessageToPC( oPC, "You have failed to identify this scroll. You may not try for another day." );
+					SetLocalInt( oPC, sScrollVar, ACR_GetTimeStampInHours() );
+				}
+			}
+		}
+	}
 }
