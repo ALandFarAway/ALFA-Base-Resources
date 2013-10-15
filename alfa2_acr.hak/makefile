@@ -295,6 +295,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s0_magearm.ncs                     \
             $(OUTPUTDIR)\gui_atsign.ncs                        \
             $(OUTPUTDIR)\gui_acr_anchorman.ncs                 \
+            $(OUTPUTDIR)\gui_acr_examine.ncs                   \
             $(OUTPUTDIR)\gui_acr_lockedit.ncs                  \
             $(OUTPUTDIR)\gui_acr_pvfx.ncs                      \
             $(OUTPUTDIR)\gui_acr_slang.ncs                     \
