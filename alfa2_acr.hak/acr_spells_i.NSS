@@ -110,6 +110,9 @@ int ACR_PayMaterialComponentCost( object oCaster, string sItemName, int nGold, i
 
 int ACR_GetCorrectCasterLevel(object oCreature, int nClass = -1);
 
+//! Return the spell level.
+int ACR_GetSpellLevel( int nSpell, string sClass = "Innate" );
+
 //! Sets if the currently casting spell is a domain spell or not.
 void ACR_SetIsDomainSpell( int nDomain, int bValue );
 
@@ -344,6 +347,10 @@ int ACR_GetCorrectCasterLevel(object oCreature, int nClass = -1) {
 	}
 	
 	return nCL;
+}
+
+int ACR_GetSpellLevel( int nSpell, string sClass = "Innate" ) {
+	return 0; // Yeah we don't have this logic yet.
 }
 
 void ACR_SetIsDomainSpell( int nDomain, int nValue ) {
