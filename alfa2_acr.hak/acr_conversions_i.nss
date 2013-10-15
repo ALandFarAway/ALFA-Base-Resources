@@ -139,7 +139,7 @@ int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion )
 		
 		bChanged = TRUE;
 	}
-	if ( fCurrentVersion <= 1.91 && fTargetVersion > 1.92 ) { // 1.91 -> 1.92
+	if ( fCurrentVersion < 1.92 && fTargetVersion >= 1.92 ) { // X -> 1.92
 		// Replace Acid Fog with its new index, making SPELL_INVALID a thing.
 		int nPosWizard = GetClassPosition( oPC, CLASS_TYPE_WIZARD );
 		if ( nPosWizard != -1 && GetSpellKnown( oPC, SPELL_ACID_FOG ) ) {
