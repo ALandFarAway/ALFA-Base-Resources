@@ -459,6 +459,10 @@ const int FEAT_SCALYKIND_DOMAIN_POWER  = 3732;
 const int FEAT_SLIME_DOMAIN_POWER      = 3733;
 const int FEAT_SPIDER_DOMAIN_POWER     = 3734;
 
+// Other feats.
+const int FEAT_A_THOUSAND_FACES = 3739;
+const int FEAT_TIMELESS_BODY = 3738;
+
 // Item materials:
 int    GMATERIAL_INVALID = -1;
 int    GMATERIAL_WOOD = 100;
