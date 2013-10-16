@@ -8,6 +8,7 @@
 #include "X0_I0_SPELLS"
 #include "x2_inc_spellhook"
 #include "acr_spells_i"
+#include "acr_creature_i"
 
 void main()
 {
@@ -51,7 +52,7 @@ void main()
     while (GetIsObjectValid(oTarget) && (nTargets > 0))
     {
 		if ((spellsIsTarget(oTarget, SPELL_TARGET_SELECTIVEHOSTILE, OBJECT_SELF) == TRUE)
-			&& (GetRacialType(oTarget)	== RACIAL_TYPE_UNDEAD))	{
+			&& (ACR_GetIsUndead(oTarget)))	{
 			nTargets -= 1;
 			SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, GetSpellId()));
 			if(!MyResistSpell(OBJECT_SELF, oTarget))

@@ -22,6 +22,7 @@
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+#include "acr_i"
 #include "acr_version_i"
 #include "acr_tools_i"
 
@@ -154,6 +155,17 @@ int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion )
 		
 		// We no longer support lore.
 		SetBaseSkillRank( oPC, SKILL_LORE, 0, FALSE );
+		
+		// Druids have some new feats.
+		if ( GetLevelByClass( CLASS_TYPE_DRUID, oPC ) >= 1 ) {
+			FeatAdd( oPC, FEAT_WILD_EMPATHY, FALSE, TRUE, FALSE );
+		}
+		if ( GetLevelByClass( CLASS_TYPE_DRUID, oPC ) >= 13 ) {
+			FeatAdd( oPC, FEAT_A_THOUSAND_FACES, FALSE, TRUE, FALSE );
+		}
+		if ( GetLevelByClass( CLASS_TYPE_DRUID, oPC ) >= 15 ) {
+			FeatAdd( oPC, FEAT_TIMELESS_BODY, FALSE, TRUE, FALSE );
+		}
 	}
     return bChanged;
 }
