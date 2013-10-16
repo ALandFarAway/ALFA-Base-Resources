@@ -26,6 +26,8 @@ namespace ACR_Items
         const string ItemChangeDBName = "VDB_ItMod";
         const string PriceChangeVarName = "PriceChange";
         const string PropAdjustVarName = "PropChange";
+        const string localVarName = "AUTOMATIC_PRICE";
+        const int pricingVersion = 001;
 
         const int MasterworkWeaponValue = 300;
         const int MasterworkArmorValue = 150;
@@ -37,6 +39,9 @@ namespace ACR_Items
         public static void AdjustPrice(CLRScriptBase script, uint target, int adjustBy)
         {
             if (script.GetObjectType(target) != OBJECT_TYPE_ITEM)
+                return;
+
+            if (adjustBy == 0)
                 return;
 
             string itemKey = PriceChangeVarName + target.ToString();
@@ -117,6 +122,11 @@ namespace ACR_Items
             #region Determine if the Item Requires Adjustment, and Adjust if Necessary
             bool isPlot = false;
             bool isUnidentified = false;
+            if (script.GetLocalInt(target, localVarName) == pricingVersion)
+            {
+                // We've already used this logic to price this item. We have nothing to add.
+                return;
+            }
             if (script.GetPlotFlag(target) == TRUE)
             {
                 script.SetPlotFlag(target, FALSE);
@@ -138,11 +148,15 @@ namespace ACR_Items
                 if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(PriceChangeVarName))
                 {
                     if (ALFA.Shared.Modules.InfoStore.ModifiedGff[PriceChangeVarName].TopLevelStruct["ModifyCost"].ValueInt == 0 ||
-                        targetValue > currentValue)
+                        targetValue > currentValue ||
+                        script.GetLocalInt(target, localVarName) != 0)
                     {
                         // We only want to adjust the price if either a) no effort to control the item's price has been made or
                         // b) the item is actually less valuable than the current price reads. Artificial inflations of price are
                         // legal in ALFA.
+
+                        // Also, if this item was priced automatically, we want to be able to correct it.
+                        script.SetLocalInt(target, localVarName, pricingVersion);
                         AdjustPrice(script, target, targetValue - currentValue);
                     }
                 }
