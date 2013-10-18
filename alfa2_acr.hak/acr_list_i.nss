@@ -1,3 +1,6 @@
+#ifndef ACR_LIST_I
+#define ACR_LIST_I
+
 string ACR_GetTokenAtIndex( string sList, int nIndex, string sDelim = ";" ) {
 	int nStartPosition = -1;
 	int nDelimLength = GetStringLength( sDelim );
@@ -197,3 +200,5 @@ string ACR_ListToString(string id, object src=OBJECT_INVALID)
 	
 	return str;
 }
+
+#endif

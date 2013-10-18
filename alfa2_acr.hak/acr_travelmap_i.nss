@@ -9,6 +9,9 @@
 // 7/4/2011 -- Inception, Zelknolf
 //============================================================================================
 
+#ifndef ACR_TRAVELMAP_I
+#define ACR_TRAVELMAP_I
+
 // This function is used to make a creature transition from a normal area into
 // a travel map area.
 void TransitionTravelMapIn(object oCreature);
@@ -325,3 +328,4 @@ int TravelMap_IsTravelMapArea(object oArea)
 	return GetLocalInt(oArea, "ACR_IS_TRAVEL_AREA") != FALSE;
 }
 
+#endif

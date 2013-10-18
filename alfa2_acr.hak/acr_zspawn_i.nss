@@ -1,3 +1,6 @@
+#ifndef ACR_ZSPAWN_I
+#define ACR_ZSPAWN_I
+
 #include "acr_vanity_i"
 
 // This function returns the polymorph effect number
@@ -1073,3 +1076,4 @@ void SetAlignment(object oCreature, int nAlignment)
 }
 
 
+#endif

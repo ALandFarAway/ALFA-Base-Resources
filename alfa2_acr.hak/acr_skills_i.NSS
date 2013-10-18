@@ -20,6 +20,9 @@
 //
 /////////////////////////////////////////////////////////////////////////////////
 
+#ifndef ACR_SKILLS_I
+#define ACR_SKILLS_I
+
 #include "acr_i"
 #include "acr_pps_i"
 #include "acr_effects_i"
@@ -1579,3 +1582,5 @@ void _StripAdaptionEffects(object oPC)
 {
 	ACR_SetAdaptionEffect(oPC, 0);
 }
+
+#endif

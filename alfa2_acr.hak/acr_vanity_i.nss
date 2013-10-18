@@ -1,3 +1,6 @@
+#ifndef ACR_VANITY_I
+#define ACR_VANITY_I
+
 #include "nwnx_objectattributes_include"
 #include "acr_pps_i"
 
@@ -1032,3 +1035,4 @@ void ApplyTintToType(object o)
 	ResetModel(o);
 }
 
+#endif

@@ -1,3 +1,6 @@
+#ifndef ACR_COMBAT_EFFECTS_I
+#define ACR_COMBAT_EFFECTS_I
+
 #include "acr_tools_i"
 
 void CheckIsFlatFooted(object oTarget, int nCount = 0);
@@ -106,3 +109,5 @@ void CheckIsFlatFooted(object oTarget, int nCount = 0)
         }
     }
 }
+
+#endif

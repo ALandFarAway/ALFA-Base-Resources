@@ -22,6 +22,9 @@
 //	2011/05/29 Ronan: Removed ACR_GetServerRegion as it conflicts with acr_settings_i.nss.
 /////////////////////////////////////////////////////////////////////////////////
 
+#ifndef ACR_LANGUAGE_I
+#define ACR_LANGUAGE_I
+
 #include "acr_i"
 #include "acr_db_persist_i"
 #include "acr_settings_i"
@@ -2226,3 +2229,5 @@ string _RemoveLangTag(string sText)
 
 	return sLeft+sRight;
 }
+
+#endif

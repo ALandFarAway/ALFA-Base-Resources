@@ -14,6 +14,9 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+#ifndef ACR_1SC_SPAWN_I
+#define ACR_1SC_SPAWN_I
+
 // Local Variables on AOE object:
 //
 // PL_SPAWNABLE		(int)		Spawn a placeable
@@ -106,3 +109,5 @@ object ACR_SpawnLootDetector(float fRadius)
 
 	return o;
 }
+
+#endif

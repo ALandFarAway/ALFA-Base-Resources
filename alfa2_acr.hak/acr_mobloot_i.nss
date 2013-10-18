@@ -9,6 +9,9 @@
  * for the creature, as well as (settable) die roll.
  ******************************************************************/
 
+#ifndef ACR_MOBLOOT_I
+#define ACR_MOBLOOT_I
+
 /* Includes */
 #include "acr_1984_i"
 #include "acr_debug_i"
@@ -189,3 +192,5 @@ void _TransferAllItems(object oCreature, object oVictim)
 	}
 }
 
+
+#endif

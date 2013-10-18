@@ -108,6 +108,7 @@ void ACR_FI_Craft( object oPC, string sParam ) {
 			SendMessageToPC( oPC, "You must wait to craft." );
 		}
 	} else if ( sParam == "wand" || sParam == "potion" || sParam == "scroll" ) {
+		// TO DO: Edit OpenCraftingInterface to check for the feat before opening the store.
 		OpenCraftingInterface( ACR_CRAFT_STORE_PREFIX + sParam, oPC );
 	} else {
 		SendMessageToPC( oPC, "Incorrect use of interface. Usage:" );
@@ -151,6 +152,24 @@ void ACR_FI_Anchor( object oPC, string sTarget, string sIndex ) {
 		SendMessageToPC( oPC, "Incorrect use of interface. Usage:" );
 		SendMessageToPC( oPC, "Anchor target to next available index: #anchor $target" );
 		SendMessageToPC( oPC, "Anchor familiar to index 1: #anchor $companion 1" );
+	}
+}
+
+
+void ACR_FI_ChangeVFX( object oPC, string sTarget, string sEffect ) {
+	object oTarget = ACR_FI_ParameterToObject( oPC, sTarget );
+	
+	// If we have no target, just open the VFX.
+	if ( sTarget == "" ) {
+		DisplayGuiScreen( oPC, "SCENE_ACR_PVFX", FALSE, "acr_personal_vfx.xml" );
+	} else {
+		// If we do, try to toggle an effect on them.
+		if ( !GetIsObjectValid( oTarget ) ) {
+			SendMessageToPC( oPC, "Invalid target!" );
+			return;
+		}
+		
+		// TODO: Toggle effects here.
 	}
 }
 
@@ -202,7 +221,7 @@ void ACR_FI_RunCommand( object oPC, string sCommand, string sParam0 = "", string
 	string sP1 = GetStringLowerCase( sParam0 );
 	string sP2 = GetStringLowerCase( sParam1 );
 	string sP3 = GetStringLowerCase( sParam2 );
-
+	
 	// Debug message
 	SendMessageToPC( oPC, sCmd + "( " + sP1 + ", " + sP2 + ", " + sP3 + " )" );
 	
@@ -216,6 +235,7 @@ void ACR_FI_RunCommand( object oPC, string sCommand, string sParam0 = "", string
 	else if ( sCmd == "afk" ) ACR_FI_SetAFK( oPC );
 	else if ( sCmd == "time" ) ACR_FI_ShowCurrentTime( oPC );
 	else if ( sCmd == "anchor" ) ACR_FI_Anchor( oPC, sP1, sP2 );
+	else if ( sCmd == "vfx" ) ACR_FI_ChangeVFX( oPC, sP1, sP2 );
 }
 
 
