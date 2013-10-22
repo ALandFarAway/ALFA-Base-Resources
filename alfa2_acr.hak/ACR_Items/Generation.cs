@@ -37,7 +37,8 @@ namespace ACR_Items
                 maxItemValue = lootValue;
             }
 
-            while (lootValue > 0)
+            // For expensive caches, favor magic that is going to be most-commonly crafted.
+            while (lootValue > 1000)
             {
                 if (maxItemValue > lootValue)
                 {
@@ -122,6 +123,94 @@ namespace ACR_Items
                             else
                             {
                                 decrease = GenerateGloves.NewGloves(script, maxItemValue); // 1-5
+                                lootValue -= decrease;
+                            }
+                            break;
+                        }
+                }
+                if (lootValue < 10)
+                {
+                    script.CreateItemOnObject("nw_it_gold001", script.OBJECT_SELF, lootValue, "", FALSE);
+                    return;
+                }
+                if (script.d100(1) > 95)
+                {
+                    script.CreateItemOnObject("nw_it_gold001", script.OBJECT_SELF, maxItemValue / 10, "", FALSE);
+                    lootValue -= maxItemValue / 10;
+                }
+            }
+
+            // For cheap loot or to clean up big caches, use more weapons and armor.
+            while (lootValue > 0)
+            {
+                if (maxItemValue > lootValue)
+                {
+                    maxItemValue = lootValue;
+                }
+                switch (script.d10(1))
+                {
+                    case 1:
+                        {
+                            lootValue -= GenerateArt(script, maxItemValue);
+                            break;
+                        }
+                    default:
+                        {
+                            int roll = script.d100(1);
+                            int decrease = 0;
+                            if (roll > 91)
+                            {
+                                decrease = GenerateScroll.NewScroll(script, maxItemValue); // 83-100
+                                lootValue -= decrease;
+                            }
+                            else if (roll > 82)
+                            {
+                                decrease = GeneratePotion.NewPotion(script, maxItemValue); // 61-82
+                                lootValue -= decrease;
+                            }
+                            else if (roll > 60)
+                            {
+                                decrease = GenerateArmor.NewArmor(script, maxItemValue); // 61-82
+                                lootValue -= decrease;
+                            }
+                            else if (roll > 21)
+                            {
+                                decrease = GenerateWeapon.NewWeapon(script, maxItemValue); // 22-59
+                                lootValue -= decrease;
+                            }
+                            else if (roll > 18)
+                            {
+                                decrease = GenerateAmulet.NewAmulet(script, maxItemValue); // 19-21
+                                lootValue -= decrease;
+                            }
+                            else if (roll > 15)
+                            {
+                                decrease = GenerateBelt.NewBelt(script, maxItemValue); // 16-18
+                                lootValue -= decrease;
+                            }
+                            else if (roll > 12)
+                            {
+                                decrease = GenerateBoots.NewBoots(script, maxItemValue); // 13-15
+                                lootValue -= decrease;
+                            }
+                            else if (roll > 9)
+                            {
+                                decrease = GenerateCloak.NewCloak(script, maxItemValue); // 10-12
+                                lootValue -= decrease;
+                            }
+                            else if (roll > 6)
+                            {
+                                decrease = GenerateHelmet.NewHelmet(script, maxItemValue); // 7-9
+                                lootValue -= decrease;
+                            }
+                            else if (roll > 3)
+                            {
+                                decrease = GenerateRing.NewRing(script, maxItemValue); // 4-6
+                                lootValue -= decrease;
+                            }
+                            else
+                            {
+                                decrease = GenerateGloves.NewGloves(script, maxItemValue); // 1-3
                                 lootValue -= decrease;
                             }
                             break;
