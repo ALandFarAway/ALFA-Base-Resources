@@ -92,53 +92,6 @@
 #define ACR_MOD_EVENTS_I
 
 ////////////////////////////////////////////////////////////////////////////////
-// Includes ////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-#include "acr_settings_i"
-#include "acr_debug_i"
-#include "acr_time_i"
-#include "acr_xp_i"
-//#include "acr_storageobj_i"
-#include "acr_spawn_i"
-#include "acr_db_persist_i"
-//#include "acr_game_const_i"
-#include "acr_scry_i"
-#include "acr_tools_i"
-#include "acr_1984_i"
-#include "acr_quest_i"
-#include "acr_chat_i"
-#include "acr_xp_i"
-#include "acr_items_i"
-#include "acr_skills_i"
-#include "acr_nonlethal_i"
-#include "acr_language_i"
-#include "acr_feat_events_i"
-#include "acr_srvadmin_i"
-#include "acr_server_ipc_i"
-#include "acr_version_i"
-#include "acr_scliext_i"
-#include "acr_area_instance_i"
-#include "acr_wealth_i"
-#include "acr_gui_i"
-#include "acr_language_i"
-#include "acr_pchide_i"
-
-#include "acf_spawn_i"
-#include "acf_settings_i"
-
-#include "x2_inc_switches"
-#include "dmfi_inc_initial"
-#include "dmfi_inc_lang"
-
-#include "acr_roll_i"
-
-#include "nwnx_craft_system"
-
-#include "acr_craft_creation_i"
-#include "acr_notifications_i"
-#include "nwnx_objectattributes_include"
-
-////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -328,6 +281,53 @@ void _LoadAssemblies();
 // This is needed to establish the server and gameobject structures that 
 // ACR_CreatureBehavior uses.
 void ACR_InitializeCreatureBehavior();
+
+////////////////////////////////////////////////////////////////////////////////
+// Includes ////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+#include "acr_settings_i"
+#include "acr_debug_i"
+#include "acr_time_i"
+#include "acr_xp_i"
+//#include "acr_storageobj_i"
+#include "acr_spawn_i"
+#include "acr_db_persist_i"
+//#include "acr_game_const_i"
+#include "acr_scry_i"
+#include "acr_tools_i"
+#include "acr_1984_i"
+#include "acr_quest_i"
+#include "acr_chat_i"
+#include "acr_xp_i"
+#include "acr_items_i"
+#include "acr_skills_i"
+#include "acr_nonlethal_i"
+#include "acr_language_i"
+#include "acr_feat_events_i"
+#include "acr_srvadmin_i"
+#include "acr_server_ipc_i"
+#include "acr_version_i"
+#include "acr_scliext_i"
+#include "acr_area_instance_i"
+#include "acr_wealth_i"
+#include "acr_gui_i"
+#include "acr_language_i"
+#include "acr_pchide_i"
+
+#include "acf_spawn_i"
+#include "acf_settings_i"
+
+#include "x2_inc_switches"
+#include "dmfi_inc_initial"
+#include "dmfi_inc_lang"
+
+#include "acr_roll_i"
+
+#include "nwnx_craft_system"
+
+#include "acr_craft_creation_i"
+#include "acr_notifications_i"
+#include "nwnx_objectattributes_include"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
