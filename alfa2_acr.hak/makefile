@@ -193,6 +193,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s0_dazemonster.ncs                \
             $(OUTPUTDIR)\acr_s0_detectmagic.ncs                \
             $(OUTPUTDIR)\acr_s0_dimdoor.ncs                    \
+            $(OUTPUTDIR)\go_xp_lock.ncs                        \
             $(OUTPUTDIR)\acr_s0_dimensional_anchor.ncs         \
             $(OUTPUTDIR)\acr_s0_dismagic.ncs                   \
             $(OUTPUTDIR)\acr_s0_disruptundead.ncs              \
