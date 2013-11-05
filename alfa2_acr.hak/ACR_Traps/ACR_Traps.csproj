@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ALFA.Shared">
-      <HintPath>..\ALFA.Shared\bin\Release\ALFA.Shared.dll</HintPath>
-    </Reference>
     <Reference Include="NWNScriptJITIntrinsics, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CLRScript\CLRv4.0.30319\NWNScriptJITIntrinsics.dll</HintPath>
@@ -61,6 +58,12 @@
     <Compile Include="TriggerArea.cs" />
     <Compile Include="StandardEntrypoints.cs" />
     <Compile Include="TrapEvents.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ALFA.Shared\ALFA.Shared.csproj">
+      <Project>{1402ab0c-7040-452c-83d0-dab7bdf08938}</Project>
+      <Name>ALFA.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
