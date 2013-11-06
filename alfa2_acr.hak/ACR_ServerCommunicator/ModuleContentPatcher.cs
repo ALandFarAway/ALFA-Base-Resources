@@ -120,7 +120,7 @@ namespace ACR_ServerCommunicator
                     // by the patch system on a successful patch cycle anyway,
                     // e.g. the "override" subdirectory managed by the content
                     // patch system contains ONLY the files present in the
-                    // current patch version override set (all other file are
+                    // current patch version override set (all other files are
                     // deleted).
                     //
 
