@@ -1,11 +1,8 @@
-// ga_xp_lock
-/*
-   Give player XP for unlocking a door.
-*/
-// KDS 05/21/07
 #include "ginc_journal"
 
-void main()
-{
-	return;
+void main() {
+	object oPC = GetLastUnlocked();
+	string sError = "ERROR: Improperly configured quest reward. Report this to a builder.";
+	SendMessageToPC( oPC, "<C=red>" + sError + "</C>" );
+	WriteTimestampedLogEntry( sError );
 }
