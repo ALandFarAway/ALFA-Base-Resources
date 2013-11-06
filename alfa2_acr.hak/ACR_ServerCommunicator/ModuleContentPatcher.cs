@@ -42,6 +42,40 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// File update strategies.
+        /// </summary>
+        private enum FileUpdateMethod
+        {
+            //
+            // Rename away the existing file, then copy in the new file.
+            //
+
+            FileUpdateMethodRename,
+
+            //
+            // Directly overwrite the new file.
+            //
+
+            FileUpdateMethodDirectReplace
+        }
+
+        /// <summary>
+        /// A set of paths used to expand content path file locations.
+        /// </summary>
+        private class ContentPatchPaths
+        {
+            /// <summary>
+            /// The local override directory.
+            /// </summary>
+            public string OverridePath;
+
+            /// <summary>
+            /// The local hak directory.
+            /// </summary>
+            public string HakPath;
+        }
+
+        /// <summary>
         /// A content patch row from the content_patch_files table.
         /// </summary>
         private class ContentPatchFile
@@ -66,12 +100,39 @@ namespace ACR_ServerCommunicator
             /// </summary>
             public bool RecompileModule;
 
-            public string GetLocalPath(string OverridePath, string HakPath)
+            /// <summary>
+            /// The method used to update the file.
+            /// </summary>
+            public FileUpdateMethod UpdateMethod
+            {
+                get
+                {
+                    //
+                    // Override files are always directly overwritten.  These
+                    // are not expected to be locked by the server while
+                    // running.  Other files may be locked by the server, so
+                    // they have to be renamed away.
+                    //
+
+                    if (Location == "override")
+                        return FileUpdateMethod.FileUpdateMethodDirectReplace;
+                    else
+                        return FileUpdateMethod.FileUpdateMethodRename;
+                }
+            }
+
+            /// <summary>
+            /// Get the local path for a file.
+            /// </summary>
+            /// <param name="Paths">Supplies the content patch paths that are
+            /// used to expand path references.</param>
+            /// <returns>The local, fully qualified path to the file.</returns>
+            public string GetLocalPath(ContentPatchPaths Paths)
             {
                 if (Location == "override")
-                    return OverridePath + "\\" + FileName;
+                    return Paths.OverridePath + "\\" + FileName;
                 else if (Location == "hak")
-                    return HakPath + FileName;
+                    return Paths.HakPath + FileName;
                 else
                     return null;
             }
@@ -92,8 +153,11 @@ namespace ACR_ServerCommunicator
             bool ContentChanged = false;
             string Version = Database.ACR_GetHAKVersion();
             List<ContentPatchFile> PatchFiles = new List<ContentPatchFile>();
-            string LocalContentPatchPath = ALFA.SystemInfo.GetOverrideDirectory() + "ACR_ContentPatches";
-            string LocalContentPatchHakPath = ALFA.SystemInfo.GetHakDirectory();
+            ContentPatchPaths LocalPaths = new ContentPatchPaths()
+            {
+                HakPath = ALFA.SystemInfo.GetHakDirectory(),
+                OverridePath = ALFA.SystemInfo.GetOverrideDirectory() + "ACR_ContentPatches"
+            };
             string RemoteContentPatchPath = String.Format("{0}{1}\\{2}", ALFA.SystemInfo.GetCentralVaultPath(), ContentPatchPath, Version);
             bool RecompileModule = false;
             bool SentNotification = false;
@@ -123,8 +187,8 @@ namespace ACR_ServerCommunicator
                 PatchFiles.Add(PatchFile);
             }
 
-            if (!Directory.Exists(LocalContentPatchPath))
-                Directory.CreateDirectory(LocalContentPatchPath);
+            if (!Directory.Exists(LocalPaths.OverridePath))
+                Directory.CreateDirectory(LocalPaths.OverridePath);
 
             //
             // Remove entries in the ACR patch override directory that are not
@@ -132,7 +196,7 @@ namespace ACR_ServerCommunicator
             // version, and are not applicable.
             //
 
-            foreach (string DirFile in Directory.GetFiles(LocalContentPatchPath))
+            foreach (string DirFile in Directory.GetFiles(LocalPaths.OverridePath))
             {
                 ContentPatchFile FoundPatch = (from PF in PatchFiles
                                                where (PF.FileName.Equals(Path.GetFileName(DirFile), StringComparison.InvariantCultureIgnoreCase) && PF.Location == "override")
@@ -142,7 +206,7 @@ namespace ACR_ServerCommunicator
                     Database.ACR_IncrementStatistic("CONTENT_PATCH_REMOVE_FILE");
 
                     Script.WriteTimestampedLogEntry(String.Format(
-                        "ModuleContentPatcher.ProcessContentPatches: Removing extraneous file {0} from {1}", Path.GetFileName(DirFile), LocalContentPatchPath));
+                        "ModuleContentPatcher.ProcessContentPatches: Removing extraneous file {0} from {1}", Path.GetFileName(DirFile), LocalPaths.OverridePath));
 
                     File.Delete(DirFile);
                     ContentChanged = true;
@@ -162,7 +226,8 @@ namespace ACR_ServerCommunicator
                 {
                     bool Matched = false;
                     bool Rename = false;
-                    string LocalPath = PatchFile.GetLocalPath(LocalContentPatchPath, LocalContentPatchHakPath);
+                    FileUpdateMethod UpdateMethod;
+                    string LocalPath = PatchFile.GetLocalPath(LocalPaths);
                     string RemotePath = String.Format("{0}\\{1}", RemoteContentPatchPath, PatchFile.FileName);
                     string LocalHashString = "<no such file>";
                     string TransferTempFilePath = LocalPath + ".patchxfer";
@@ -238,27 +303,35 @@ namespace ACR_ServerCommunicator
                                 throw;
                             }
 
+                            UpdateMethod = PatchFile.UpdateMethod;
+
                             //
                             // If we are patching a hak, rename it away so that
                             // the file can be written to.
                             //
 
-                            if (PatchFile.Location == "hak" && File.Exists(LocalPath))
+                            switch (UpdateMethod)
                             {
-                                string OldFileName = LocalPath + ".old";
 
-                                if (File.Exists(OldFileName))
-                                    File.Delete(OldFileName);
+                                case FileUpdateMethod.FileUpdateMethodRename:
+                                    if (File.Exists(LocalPath))
+                                    {
+                                        string OldFileName = LocalPath + ".old";
 
-                                File.Move(LocalPath, OldFileName);
+                                        if (File.Exists(OldFileName))
+                                            File.Delete(OldFileName);
 
-                                Database.ACR_IncrementStatistic("CONTENT_PATCH_HAK");
-                                Rename = true;
+                                        File.Move(LocalPath, OldFileName);
+                                        Rename = true;
+                                    }
+                                    break;
+
+                                case FileUpdateMethod.FileUpdateMethodDirectReplace:
+                                    break;
+
                             }
-                            else if (PatchFile.Location == "override")
-                            {
-                                Database.ACR_IncrementStatistic("CONTENT_PATCH_OVERRIDE");
-                            }
+
+                            Database.ACR_IncrementStatistic("CONTENT_PATCH_" + PatchFile.Location.ToUpper());
 
                             try
                             {
@@ -269,7 +342,7 @@ namespace ACR_ServerCommunicator
                             }
                             catch
                             {
-                                if (PatchFile.Location == "hak")
+                                if (UpdateMethod == FileUpdateMethod.FileUpdateMethodRename)
                                 {
                                     string OldFileName = LocalPath + ".old";
 
@@ -303,7 +376,7 @@ namespace ACR_ServerCommunicator
                                     Script.GetName(Script.GetModule()),
                                     PatchFile.FileName));
 
-                                if (PatchFile.Location == "hak")
+                                if (UpdateMethod == FileUpdateMethod.FileUpdateMethodRename)
                                 {
                                     string OldFileName = LocalPath + ".old";
 
