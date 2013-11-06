@@ -113,6 +113,16 @@ namespace ACR_ServerCommunicator
                     // running.  Other files may be locked by the server, so
                     // they have to be renamed away.
                     //
+                    // Note that direct replaced files are expected to be
+                    // safely deleteable if a rollback occurs during patching,
+                    // i.e. the server must be able to start up with said files
+                    // missing.  Typically, these such files would be replaced
+                    // by the patch system on a successful patch cycle anyway,
+                    // e.g. the "override" subdirectory managed by the content
+                    // patch system contains ONLY the files present in the
+                    // current patch version override set (all other file are
+                    // deleted).
+                    //
 
                     if (Location == "override")
                         return FileUpdateMethod.FileUpdateMethodDirectReplace;
