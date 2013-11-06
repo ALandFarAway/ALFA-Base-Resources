@@ -4,11 +4,42 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Security.Cryptography;
+using System.Xml;
 
 namespace ACR_ServerCommunicator
 {
     static class ModuleContentPatcher
     {
+        /// <summary>
+        /// A download configuratoin row from the content_download_config table
+        /// </summary>
+        private class DownloadConfiguration
+        {
+            /// <summary>
+            /// The hash in the XML
+            /// </summary>
+            public string Hash;
+
+            /// <summary>
+            /// The download hash in the XML
+            /// </summary>
+            public string DownloadHash;
+
+            /// <summary>
+            /// The name attribute in the XML
+            /// </summary>
+            public string Name;
+
+            /// <summary>
+            /// The dlsize attribute in the XML
+            /// </summary>
+            public string DLSize;
+
+            /// <summary>
+            /// The size attribute in the XML
+            /// </summary>
+            public string Size;
+        }
 
         /// <summary>
         /// A content patch row from the content_patch_files table.
@@ -335,6 +366,85 @@ namespace ACR_ServerCommunicator
                         }
                     }
                 }
+            }
+
+            //
+            // Check the database for the expected download server configurations.
+            //
+
+            Database.ACR_SQLQuery("SELECT `Hash`, `DownloadHash`, `Name`, `DLSize`, 'Size' FROM `content_download_config`");
+
+            List<DownloadConfiguration> hakConfigs = new List<DownloadConfiguration>();
+
+            //
+            // Build a list of expected download configurations.
+            //
+
+            while (Database.ACR_SQLFetch())
+            {
+                DownloadConfiguration downloadConfig = new DownloadConfiguration();
+
+                downloadConfig.Hash = Database.ACR_SQLGetData(0);
+                downloadConfig.DownloadHash = Database.ACR_SQLGetData(1);
+                downloadConfig.Name = Database.ACR_SQLGetData(2);
+                downloadConfig.DLSize = Database.ACR_SQLGetData(3);
+                downloadConfig.Size = Database.ACR_SQLGetData(4);
+
+                if (String.IsNullOrEmpty(downloadConfig.Hash) ||
+                    String.IsNullOrEmpty(downloadConfig.DownloadHash) ||
+                    String.IsNullOrEmpty(downloadConfig.Name) ||
+                    String.IsNullOrEmpty(downloadConfig.DLSize) ||
+                    String.IsNullOrEmpty(downloadConfig.Size))
+                {
+                    continue;
+                }
+
+                hakConfigs.Add(downloadConfig);
+            }
+
+            //
+            // If we have any configuration to do, we loop through and compare the 
+            // configuration on the database with the configuration on the server,
+            // updating the downloadresources xml if it is new.
+            //
+
+            if (hakConfigs.Count > 0)
+            {
+                XmlDocument moduleDownloadResources = new XmlDocument();
+                moduleDownloadResources.Load(ALFA.SystemInfo.GetModuleDirectory() + "\\moduledownloadresources.xml");
+                XmlElement downloadResources = moduleDownloadResources.DocumentElement;
+
+                foreach (DownloadConfiguration config in hakConfigs)
+                {
+                    foreach (XmlNode node in downloadResources.ChildNodes)
+                    {
+                        if (node.Attributes["name"].Value == config.Name)
+                        {
+                            if (node.Attributes["hash"].Value != config.Hash)
+                            {
+                                node.Attributes["hash"].Value = config.Hash;
+                                ContentChanged = true;
+                            }
+                            if (node.Attributes["downloadHash"].Value != config.DownloadHash)
+                            {
+                                node.Attributes["downloadHash"].Value = config.DownloadHash;
+                                ContentChanged = true;
+                            }
+                            if (node.Attributes["dlsize"].Value != config.DLSize)
+                            {
+                                node.Attributes["dlsize"].Value = config.DLSize;
+                                ContentChanged = true;
+                            }
+                            if (node.Attributes["size"].Value != config.Size)
+                            {
+                                node.Attributes["size"].Value = config.Size;
+                                ContentChanged = true;
+                            }
+                        }
+                    }
+                }
+
+                moduleDownloadResources.Save(ALFA.SystemInfo.GetModuleDirectory() + "\\moduledownloadresources.xml");
             }
 
             if (ContentChanged)
