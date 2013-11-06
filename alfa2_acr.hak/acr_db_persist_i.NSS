@@ -1331,6 +1331,15 @@ void ACR_CreateSQLTables()
 		"PRIMARY KEY (`FileName`, `Location`, `HakVersion`), INDEX (`HakVersion`)" +
 	") ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 
+	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `content_download_config` (" +
+		"`Hash` varchar(256) NOT NULL," +
+		"`DownloadHash` varchar(256) NOT NULL," +
+		"`Name` varchar(256) NOT NULL," +
+		"`DLSize` varchar(256) NOT NULL," +
+		"`Size` varchar(256) NOT NULL," +
+		"PRIMARY KEY (`Name`), INDEX (`Name`)" +
+	") ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+
 	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `irc_gateway_messages` (" +
 		"`ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, " +
 		"`GatewayID` int(10) UNSIGNED NOT NULL," +
