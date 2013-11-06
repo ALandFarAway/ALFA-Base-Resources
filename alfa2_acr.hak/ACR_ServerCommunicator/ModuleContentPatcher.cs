@@ -11,7 +11,7 @@ namespace ACR_ServerCommunicator
     static class ModuleContentPatcher
     {
         /// <summary>
-        /// A download configuratoin row from the content_download_config table
+        /// A download configuration row from the content_download_config table
         /// </summary>
         private class DownloadConfiguration
         {
@@ -369,10 +369,65 @@ namespace ACR_ServerCommunicator
             }
 
             //
+            // Update autodownloader configuration, as necessary.
+            //
+
+            try
+            {
+                if (ProcessModuleDownloaderResourcesUpdates(Database, Script))
+                {
+                    Script.WriteTimestampedLogEntry("ModuleContentPatcher.ProcessContentPatches: Autodownloader configuration updated.");
+                    ContentChanged = true;
+                }
+            }
+            catch (Exception e)
+            {
+                Script.WriteTimestampedLogEntry(String.Format(
+                    "ModuleContentPatcher.ProcessContentPatches: Warning: Exception {0} updating autodownloader configuration.",
+                    e));
+
+                Script.SendInfrastructureDiagnosticIrcMessage(String.Format(
+                    "Server '{0}' encountered exception updating autodownloader configuration.",
+                    Script.GetName(Script.GetModule())));
+            }
+
+            if (ContentChanged)
+            {
+                if (RecompileModule)
+                {
+                    Script.WriteTimestampedLogEntry("ModuleContentPatcher.ProcessContentPatches: A module recompile is required; recompiling module...");
+                    CompileModuleScripts(Script, Database);
+                }
+
+                Database.ACR_IncrementStatistic("CONTENT_PATCH_REBOOT");
+
+                Script.SendInfrastructureDiagnosticIrcMessage(String.Format(
+                    "Server '{0}' restarting after content patch deployment (old HAK ACR version {1} build date {2}, old module ACR version {3}).",
+                    Script.GetName(Script.GetModule()),
+                    Database.ACR_GetHAKVersion(),
+                    Database.ACR_GetHAKBuildDate(),
+                    Database.ACR_GetVersion()));
+            }
+
+            return ContentChanged;
+        }
+
+        /// <summary>
+        /// Process any updates to moduledownloaderresources.xml.
+        /// </summary>
+        /// <param name="Database">Supplies the database object.</param>
+        /// <param name="Script">Supplies the script object.</param>
+        /// <returns>True if a patch was applied and a reboot is required for
+        /// it to take effect.</returns>
+        public static bool ProcessModuleDownloaderResourcesUpdates(ALFA.Database Database, ACR_ServerCommunicator Script)
+        {
+            bool ContentChanged = false;
+
+            //
             // Check the database for the expected download server configurations.
             //
 
-            Database.ACR_SQLQuery("SELECT `Hash`, `DownloadHash`, `Name`, `DLSize`, 'Size' FROM `content_download_config`");
+            Database.ACR_SQLQuery("SELECT `Hash`, `DownloadHash`, `Name`, `DLSize`, `Size` FROM `content_download_config`");
 
             List<DownloadConfiguration> hakConfigs = new List<DownloadConfiguration>();
 
@@ -411,7 +466,7 @@ namespace ACR_ServerCommunicator
             if (hakConfigs.Count > 0)
             {
                 XmlDocument moduleDownloadResources = new XmlDocument();
-                moduleDownloadResources.Load(ALFA.SystemInfo.GetModuleDirectory() + "\\moduledownloadresources.xml");
+                moduleDownloadResources.Load(ALFA.SystemInfo.GetModuleDirectory() + "\\moduledownloaderresources.xml");
                 XmlElement downloadResources = moduleDownloadResources.DocumentElement;
 
                 foreach (DownloadConfiguration config in hakConfigs)
@@ -440,29 +495,20 @@ namespace ACR_ServerCommunicator
                                 node.Attributes["size"].Value = config.Size;
                                 ContentChanged = true;
                             }
+
+                            if (ContentChanged)
+                            {
+                                Script.WriteTimestampedLogEntry(String.Format(
+                                    "ModuleContentPatcher.ProcessModuleDownloaderResourcesUpdates: Updated downloader resource {0} (hash {1}).",
+                                    config.Name,
+                                    config.Hash));
+                            }
                         }
                     }
                 }
 
-                moduleDownloadResources.Save(ALFA.SystemInfo.GetModuleDirectory() + "\\moduledownloadresources.xml");
-            }
-
-            if (ContentChanged)
-            {
-                if (RecompileModule)
-                {
-                    Script.WriteTimestampedLogEntry("ModuleContentPatcher.ProcessContentPatches: A module recompile is required; recompiling module...");
-                    CompileModuleScripts(Script, Database);
-                }
-
-                Database.ACR_IncrementStatistic("CONTENT_PATCH_REBOOT");
-
-                Script.SendInfrastructureDiagnosticIrcMessage(String.Format(
-                    "Server '{0}' restarting after content patch deployment (old HAK ACR version {1} build date {2}, old module ACR version {3}).",
-                    Script.GetName(Script.GetModule()),
-                    Database.ACR_GetHAKVersion(),
-                    Database.ACR_GetHAKBuildDate(),
-                    Database.ACR_GetVersion()));
+                if (ContentChanged)
+                    moduleDownloadResources.Save(ALFA.SystemInfo.GetModuleDirectory() + "\\moduledownloaderresources.xml");
             }
 
             return ContentChanged;
