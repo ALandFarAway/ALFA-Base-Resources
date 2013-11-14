@@ -173,6 +173,7 @@ namespace LatencyMonitor
 
             if (!String.IsNullOrEmpty(LatencyScript))
             {
+                ClearScriptParams();
                 AddScriptParameterInt(Latency);
                 ExecuteScriptEnhanced(LatencyScript, OBJECT_SELF, TRUE);
             }

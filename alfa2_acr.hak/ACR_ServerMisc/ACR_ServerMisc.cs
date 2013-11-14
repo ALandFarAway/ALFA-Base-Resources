@@ -332,6 +332,7 @@ namespace ACR_ServerMisc
             // is a new area to add to its representation.
             //
 
+            ClearScriptParams();
             AddScriptParameterInt(200); // AREA_ON_INSTANCE_CREATE
             ExecuteScriptEnhanced("ACR_CreatureBehavior", AreaObject, TRUE);
 

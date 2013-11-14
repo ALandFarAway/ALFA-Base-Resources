@@ -45,6 +45,7 @@ namespace ACR_ServerCommunicator
                 ScriptName,
                 ScriptArgument,
                 SourceServerId));
+            Script.ClearScriptParams();
             Script.AddScriptParameterInt(SourceServerId);
             Script.AddScriptParameterString(ScriptArgument);
             Script.ExecuteScriptEnhanced(ScriptName, Script.GetModule(), CLRScriptBase.TRUE);

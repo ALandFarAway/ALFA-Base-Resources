@@ -52,6 +52,7 @@ void main() {
 	if ( sScriptName == "" ) return;
 	
 	// Call our poison script.
+	ClearScriptParams();
 	AddScriptParameterObject( oPoisoner );
 	AddScriptParameterObject( oTarget );
 	AddScriptParameterObject( oItem );

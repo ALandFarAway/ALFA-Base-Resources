@@ -587,6 +587,7 @@ int ACR_DeleteDatabaseStore(string Campaign)
 
 int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, string P4, object P5, object ObjectSelf = OBJECT_SELF)
 {
+	ClearScriptParams();
 	AddScriptParameterInt(Command);
 	AddScriptParameterInt(P0);
 	AddScriptParameterInt(P1);

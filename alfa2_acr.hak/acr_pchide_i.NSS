@@ -70,6 +70,7 @@ int ACR_InitializePCHide( object oPC ) {
 
 
 int ACR_RecalculatePCHide( object oPC ) {
+	ClearScriptParams();
 	AddScriptParameterObject( oPC );
 	AddScriptParameterInt( ACR_PCHIDE_ACT_RECALCULATE );
 	return ExecuteScriptEnhanced( ACR_PCHIDE_SCRIPT, OBJECT_SELF, TRUE );

@@ -95,6 +95,9 @@ const int ACR_SERVER_IPC_HANDLE_GUI_RESYNC                   = 18;
 // This command queries whether a server is marked as public.
 const int ACR_SERVER_IPC_IS_SERVER_PUBLIC                    = 19;
 
+// This command handles a server ping response event.
+const int ACR_SERVER_IPC_HANDLE_SERVER_PING_RESPONSE         = 20;
+
 
 // IPC event codes:
 
@@ -229,6 +232,12 @@ void ACR_ServerIPC_OnGUIResynchronization(int SourceServerId, string ResyncCmd);
 //!  - Returns: TRUE if the server is known and marked as public, FALSE if the
 //              server is not public (or the server id was invalid).
 int ACR_GetIsServerPublic(int ServerID);
+
+//! Handle server ping response.
+//!  - SourceServerId: Supplies the server ID of the source server.
+//!  - Argument: Supplies the state argument.  This value is consumed by the
+//               ACR_ServerCommunicator.ServerLatencyMeasurer.
+void ACR_ServerIPC_OnServerPingResponse(int SourceServerId, string Argument);
 
 
 //! Send a feedback error message to a player.
@@ -842,6 +851,20 @@ int ACR_GetIsServerPublic(int ServerID)
 		"");
 }
 
+void ACR_ServerIPC_OnServerPingResponse(int SourceServerId, string Argument)
+{
+#if SERVER_IPC_ENABLED
+	ACR_CallIPCScript(
+		ACR_SERVER_IPC_HANDLE_SERVER_PING_RESPONSE,
+		SourceServerId,
+		0,
+		0,
+		0,
+		0,
+		Argument);
+#endif
+}
+
 void ACR_ServerIPC_OnClientLeave(object LeavingPC)
 {
 #if SERVER_IPC_ENABLED
@@ -876,6 +899,7 @@ int ACR_ServerIPC_OnChat(object Speaker, int Mode, string Text)
 
 int ACR_CallIPCScript(int Command, int P0, int P1, int P2, int P3, int P4, string P5, object ObjectSelf = OBJECT_SELF)
 {
+	ClearScriptParams();
 	AddScriptParameterInt(Command);
 	AddScriptParameterInt(P0);
 	AddScriptParameterInt(P1);

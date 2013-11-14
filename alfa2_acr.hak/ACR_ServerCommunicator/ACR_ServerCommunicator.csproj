@@ -78,6 +78,7 @@
     <Compile Include="PurgeCachedCharacterEvent.cs" />
     <Compile Include="RunScriptEvent.cs" />
     <Compile Include="ServerJoinEvent.cs" />
+    <Compile Include="ServerLatencyMeasurer.cs" />
     <Compile Include="ServerNetworkManager.cs" />
     <Compile Include="ServerPartEvent.cs" />
     <Compile Include="ShutdownServerEvent.cs" />

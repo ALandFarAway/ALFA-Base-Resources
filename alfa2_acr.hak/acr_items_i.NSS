@@ -555,6 +555,7 @@ int ACR_HasActiveItemProperty( object oPC, int nItemProperty, int bFullCheck = F
 
 void ACR_GenerateLoot( object oContainer, int nTotalValue, int nMaxSingleItem, int nGenerationType = ACR_ITEMS_CSHARP_GENERATE_LOOT )
 {
+	ClearScriptParams();
 	AddScriptParameterObject(OBJECT_INVALID);
 	AddScriptParameterInt(nGenerationType);
 	AddScriptParameterInt(nTotalValue);
@@ -564,6 +565,7 @@ void ACR_GenerateLoot( object oContainer, int nTotalValue, int nMaxSingleItem, i
 
 void ACR_CorrectPrice( object oItem )
 {
+	ClearScriptParams();
 	AddScriptParameterObject(oItem);
 	AddScriptParameterInt(1);
 	AddScriptParameterInt(-1);

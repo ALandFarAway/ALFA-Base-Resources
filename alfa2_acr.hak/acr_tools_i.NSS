@@ -1339,6 +1339,7 @@ object ACR_GetNearestCreatureToLocation(object oPC, int nFirstCriteriaType, int 
 
 	if(GetAreaFromLocation(lLocation) == OBJECT_INVALID) return OBJECT_INVALID;
 
+	ClearScriptParams();
 	AddScriptParameterInt(nFirstCriteriaType);
 	AddScriptParameterInt(nFirstCriteriaValue);
 	SetLocalLocation(oPC, "ACR_GETNEARESTHOSTILE_LOC", lLocation);

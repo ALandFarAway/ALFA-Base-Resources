@@ -716,6 +716,7 @@ void ACR_ModuleOnModuleLoad()
     // with the module and returns the module's view of the version number.  The
     // acr_version_check script is built with the hak and returns the hak's view
     // of the version number.)
+    ClearScriptParams();
     AddScriptParameterString(ACR_GetVersion());
     if (ExecuteScriptEnhanced("acr_version_check", OBJECT_SELF) != TRUE)
     {
@@ -1880,12 +1881,15 @@ void _LoadAssemblies()
 	// assembly is logged to the NWScript Accelerator plugin log file, and the
 	// CLRScript assembly in question does not function properly.
 
+	ClearScriptParams();
 	AddScriptParameterInt(ACR_ASSEMBLY_LOADER_INITIALIZE);
 	ExecuteScriptEnhanced("ACR_AssemblyLoader", GetModule(), TRUE);
 
+	ClearScriptParams();
 	AddScriptParameterInt(ACR_CANDLEKEEP_INITIALIZE_ARCHIVES);
 	ExecuteScriptEnhanced("ACR_Candlekeep", GetModule(), TRUE);
 
+	ClearScriptParams();
 	AddScriptParameterInt(ACR_CHOOSERCREATOR_INITIALIZE);
 	ExecuteScriptEnhanced("ACR_ChooserCreator", GetModule(), TRUE);
 }
@@ -1894,6 +1898,7 @@ void _LoadAssemblies()
 // ACR_CreatureBehavior uses.
 void ACR_InitializeCreatureBehavior()
 {
+    ClearScriptParams();
     AddScriptParameterInt(100); // Is CREATUREBEHAVIOR_MODULE_ON_STARTED; acr_creature_i was being mean, so has to be magic numbered.
     ExecuteScriptEnhanced("acr_creaturebehavior", GetModule(), TRUE);
 }

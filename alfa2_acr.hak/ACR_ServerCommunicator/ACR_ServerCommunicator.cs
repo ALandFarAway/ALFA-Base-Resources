@@ -251,6 +251,15 @@ namespace ACR_ServerCommunicator
                     }
                     break;
 
+                case REQUEST_TYPE.HANDLE_SERVER_PING_RESPONSE:
+                    {
+                        int SourceServerId = (int)ScriptParameters[1];
+                        string Argument = (string)ScriptParameters[6];
+
+                        ReturnCode = ServerLatencyMeasurer.HandleServerPingResponse(SourceServerId, Argument, this);
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid IPC script command " + RequestType.ToString());
 
@@ -461,6 +470,7 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void RunPatchInitScript()
         {
+            ClearScriptParams();
             ExecuteScriptEnhanced("acr_patch_initialize", OBJECT_SELF, TRUE);
         }
 
@@ -1163,6 +1173,7 @@ namespace ACR_ServerCommunicator
                 "version  - List server version information.\n" +
                 "notify [on|off]  - Enable or disable cross-server join/part notifications.\n" +
                 "notify [chatlog|combatlog]  - Send cross-server join/part notifications to chat log or combat log.\n" +
+                "pingsrv [server id]  - Measure IPC latency to other server (by server number).\n" +
                 "ping  - Show current latency statistics (alias: serverlatency).\n" +
                 "uptime  - Show server uptime statistics.\n" +
                 "seen [player name|character name]  - Check when a user last logged on.\n" +
@@ -1322,6 +1333,28 @@ namespace ACR_ServerCommunicator
                 ShowServerLatency(SenderObjectId);
                 return TRUE;
             }
+            else if (CookedText.StartsWith("pingsrv "))
+            {
+                try
+                {
+                    int ServerId = int.Parse(CookedText.Substring(8).TrimStart());
+
+                    if (!IsServerOnline(ServerId))
+                    {
+                        SendFeedbackError(SenderObjectId, "Requested server is offline or not present.");
+                        return TRUE;
+                    }
+
+                    ServerLatencyMeasurer.SendPingToServer(SenderObjectId, ServerId, this);
+                    return TRUE;
+                }
+                catch (Exception e)
+                {
+                    SendFeedbackError(SenderObjectId, String.Format("Internal error, exception: {0}", e));
+                }
+
+                return TRUE;
+            }
             else if (CookedText.Equals("uptime"))
             {
                 ShowServerUptime(SenderObjectId);
@@ -1340,7 +1373,6 @@ namespace ACR_ServerCommunicator
                 {
                     SendFeedbackError(SenderObjectId, "Default recipient not set in config table in the database.  Contact the tech department.");
                     return TRUE;
-
                 }
 
                 SendIrcMessage(WorldManager.Configuration.DefaultIrcGatewayId,
@@ -1476,6 +1508,25 @@ namespace ACR_ServerCommunicator
                     return false;
 
                 return Server.Online;
+            }
+        }
+
+        /// <summary>
+        /// Get the name of a server.
+        /// </summary>
+        /// <param name="ServerId">Supplies the id of the server to
+        /// query.</param>
+        /// <returns>The name of the server, else null on failure.</returns>
+        public string GetServerName(int ServerId)
+        {
+            lock (WorldManager)
+            {
+                GameServer Server = WorldManager.ReferenceServerById(ServerId, GetDatabase());
+
+                if (Server == null)
+                    return null;
+
+                return Server.Name;
             }
         }
 
@@ -2897,7 +2948,8 @@ namespace ACR_ServerCommunicator
             PAUSE_HEARTBEAT,
             HANDLE_QUARANTINE_PLAYER,
             HANDLE_GUI_RESYNC,
-            IS_SERVER_PUBLIC
+            IS_SERVER_PUBLIC,
+            HANDLE_SERVER_PING_RESPONSE
         }
 
         /// <summary>

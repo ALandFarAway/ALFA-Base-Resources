@@ -209,6 +209,7 @@ int _IsTrapEventNeeded()
 
 void _PassToCSharp( int nEvent, float fPosX=0.0f, float fPosY=0.0f, float fPosZ=0.0f, object oArea=OBJECT_INVALID, int nTriggerArea=-1, int nEffectArea=-1, float fEffectSize=-1.0f, int nDamageOrSpellType=-1, int nDamageDiceNumber=-1, int nDamageDiceType=-1, int nSaveDC=-1, int nAttackBonus=-1, int nNumberOfShots=1, object oTrapOrigin=OBJECT_INVALID, int nTargetAlignment=ALIGNMENT_ALL, int nTargetRace=RACIAL_TYPE_ALL, int nMinimumToTrigger=1, int nDetectDC=-1, int nDisarmDC=-1, string sResRef="")
 {
+    ClearScriptParams();
     AddScriptParameterInt(nEvent);
     AddScriptParameterFloat(fPosX);
     AddScriptParameterFloat(fPosY);

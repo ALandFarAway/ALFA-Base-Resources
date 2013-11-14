@@ -33,6 +33,7 @@ void main( object TargetObject, float posX, float posY, float posZ, string objec
 	if(ObjectType == 999)
 	{
 		RecallCreatureFromLimboToLocation(oTarget, lTarget);
+		ClearScriptParams();
 	    AddScriptParameterInt(102);
 		AddScriptParameterString("");
 		ExecuteScriptEnhanced("ACR_ChooserCreator", OBJECT_SELF, TRUE);

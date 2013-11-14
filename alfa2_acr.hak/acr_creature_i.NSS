@@ -540,6 +540,7 @@ void ACR_CreatureIdentify(object oPC, object oTarget)
 	sName = SubRaceName(GetSubRace(oTarget));
 
 #if 0
+	ClearScriptParams();
 	AddScriptParameterObject(oTarget);
 	AddScriptParameterString("FirstName");
 	ExecuteScriptEnhanced("ACR_ReadRawString", OBJECT_SELF);
@@ -599,6 +600,7 @@ int ACR_GetIsUndead( object oTarget ) {
 
 void ACR_ResolveCreatureBehavior( object oCreature, int nEvent )
 {
+    ClearScriptParams();
     AddScriptParameterInt(nEvent);
     ExecuteScriptEnhanced("acr_creaturebehavior", oCreature, TRUE);
 }

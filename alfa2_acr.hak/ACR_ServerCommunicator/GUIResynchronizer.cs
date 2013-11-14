@@ -11,7 +11,7 @@ namespace ACR_ServerCommunicator
     /// This object manages GUI element resynchronization for players that
 	 /// enter the server from a server to server portal.
     /// </summary>
-    static class GUIResynchronizer
+    internal static class GUIResynchronizer
     {
 
         /// <summary>

@@ -16,6 +16,7 @@
 
 void main( string ActionType, string ActionArgument ) 
 {
+    ClearScriptParams();
     AddScriptParameterInt(StringToInt(ActionType));
     AddScriptParameterString(ActionArgument);
     ExecuteScriptEnhanced("ACR_ChooserCreator", OBJECT_SELF, TRUE);

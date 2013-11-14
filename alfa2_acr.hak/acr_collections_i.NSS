@@ -207,6 +207,7 @@ void ACR_StringList_Sort( string sName );
 //! what you are doing.
 int ACR_CallCollectionLib( int nCollection, int nMethodCode, string sCollectionName, int nParamInt1 = 0, int nParamInt2 = 0, float fParamFlt1 = 0.0, float fParamFlt2 = 0.0, string sParamStr1 = "", string sParamStr2 = "", object oParamObj1 = OBJECT_INVALID, object oParamObj2 = OBJECT_INVALID ) {
 	// Add parameters
+	ClearScriptParams();
 	AddScriptParameterInt( nCollection );
 	AddScriptParameterInt( nMethodCode );
 	AddScriptParameterString( sCollectionName );

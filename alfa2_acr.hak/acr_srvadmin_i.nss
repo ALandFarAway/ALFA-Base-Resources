@@ -163,6 +163,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 	{
 		ACR_IncrementStatistic("SA_RUN_SCRIPT");
 		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);
+		ClearScriptParams();
 		ExecuteScriptEnhanced(GetStringRight(sCmd, Len-10), oPC);
 		ACR_SrvAdmin_SendFeedback(oPC, "RunScript(" + sCmd + ") completed.");
 		return TRUE;
@@ -221,6 +222,7 @@ int ACR_SrvAdmin_OnChat(object oPC, string sCmd)
 	{
 		string ScriptFileName = GetStringRight(sCmd, Len-GetStringLength(ACR_SRVADMIN_LOADSCRIPT_PREFIX));
 		ACR_IncrementStatistic("SA_LOAD_SCRIPT");
+		ClearScriptParams();
 		AddScriptParameterString(ScriptFileName);
 		ExecuteScriptEnhanced(ACR_SRVADMIN_SCRIPTLOADER_NAME, oPC);
 		ACR_SrvAdmin_LogCommand(oAdmin, sCmd);

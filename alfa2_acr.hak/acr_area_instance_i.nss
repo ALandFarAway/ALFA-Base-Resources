@@ -330,7 +330,10 @@ object ACR_CreateAreaInstance(object TemplateArea, float CleanupDelay)
 	Script = GetLocalString(TemplateArea, ACR_AREA_INSTANCE_ON_CREATE_SCRIPT);
 
 	if (Script != "")
+	{
+		ClearScriptParams();
 		ExecuteScriptEnhanced(Script, InstancedArea);
+	}
 
 	// Start cleanup task if cleanup is enabled.  This will remove the instance
 	// if no player ever enters it.
@@ -372,6 +375,8 @@ void ACR_ReleaseAreaInstance(object InstancedArea)
 
 	if (Script != "")
 	{
+		ClearScriptParams();
+
 		if (!ExecuteScriptEnhanced(Script, InstancedArea))
 		{
 			float Delay = ACR_GetAreaCleanupDelay(InstancedArea);
@@ -676,6 +681,7 @@ void ACR__CallOriginalOnLeaveHandler(object InstancedArea)
 	if (Script == "" || Script == ACR_AREA_INSTANCE_ONLEAVE_ACR_SCRIPT)
 		return;
 
+	ClearScriptParams();
 	ExecuteScriptEnhanced(Script, InstancedArea);
 }
 
