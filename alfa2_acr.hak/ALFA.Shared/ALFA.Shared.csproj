@@ -71,6 +71,7 @@
     <Compile Include="ActiveArea.cs" />
     <Compile Include="ActiveTransition.cs" />
     <Compile Include="ActiveTrap.cs" />
+    <Compile Include="NetLayerWindow.cs" />
     <Compile Include="Spell.cs" />
     <Compile Include="SpellCastItemProperties.cs" />
     <Compile Include="TrapResource.cs" />
