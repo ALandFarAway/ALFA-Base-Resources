@@ -2045,7 +2045,7 @@ string ACR_LanguageAbbreviationToFullName( string sLang )
 	else if (sLang == "ass")
 		 return LNG_ASSASSIN;
 	else if (sLang == "aby")
-		 return LNG_ASSASSIN;
+		 return LNG_ABYSSAL;
 	else if (sLang == "alz")
 		 return LNG_ALZHEDO;
 	else if (sLang == "aqu")
