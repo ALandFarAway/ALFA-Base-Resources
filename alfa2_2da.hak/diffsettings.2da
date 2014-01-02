@@ -1,0 +1,10 @@
+2DA V2.0                                                                        
+                                                                                
+           Name                 DMEasy   Easy   Normal   Hardcore   DMPlayers   
+0          NoCriticalOnPC       ****     ****   ****     ****       ****        
+1          NoAoOWithRanged      ****     ****   ****     ****       ****        
+2          NoAoOWithPotion      ****     ****   ****     ****       ****        
+3          MinPCDamagePercent   ****     ****   ****     ****       ****        
+4          MaxNPCDamagePercent  100      100    100      100        100         
+5          MinHP1               ****     ****   ****     ****       ****        
+6          MassiveDamage        1        1      1        1          1
