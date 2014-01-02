@@ -634,6 +634,31 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Adjust the difficulty level of the game.
+        /// </summary>
+        /// <param name="IncreaseDifficulty">Supplies true to increase
+        /// difficulty, else false to reduce it.  Nothing happens if the game
+        /// is already at the highest difficulty and an attempt to increase it,
+        /// or vice versa, is made.</param>
+        public static void AdjustGameDifficultyLevel(bool IncreaseDifficulty)
+        {
+            IntPtr ExoAppWindow = GetExoAppWindow();
+            IntPtr DifficultySlider = GetExoAppDifficultySliderWindow(ExoAppWindow);
+
+            //
+            // Fake a SB_LINE[UP|DOWN] and SB_ENDSCROLL pair of notifications
+            // to the parent window.  The actual scroll bar position is not
+            // used (and, indeed, the scroll bar has a legal range of 0 - 0),
+            // 
+
+            SendMessage(ExoAppWindow,
+                WM_VSCROLL,
+                (IntPtr)(IncreaseDifficulty == true ? SB_LINEUP : SB_LINEDOWN),
+                DifficultySlider);
+            SendMessage(ExoAppWindow, WM_VSCROLL, (IntPtr)SB_ENDSCROLL, DifficultySlider);
+        }
+
+        /// <summary>
         /// Disable error reporting for the current process.
         /// </summary>
         public static void DisableWer()
@@ -659,6 +684,49 @@ namespace ALFA
             catch
             {
             }
+        }
+
+
+
+        /// <summary>
+        /// Get the Exo main app window.
+        /// </summary>
+        /// <returns>The main app window hwnd.</returns>
+        private static IntPtr GetExoAppWindow()
+        {
+            uint ProcessId = (uint)System.Diagnostics.Process.GetCurrentProcess().Id;
+            IntPtr ExoAppWindow = IntPtr.Zero;
+            uint WindowProcessId;
+
+            do
+            {
+                ExoAppWindow = FindWindowEx(IntPtr.Zero, ExoAppWindow, ExoAppClassName, null);
+
+                if (ExoAppWindow == IntPtr.Zero)
+                {
+                    throw new ApplicationException("Couldn't find ExoAppWindow");
+                }
+
+                WindowProcessId = 0;
+                GetWindowThreadProcessId(ExoAppWindow, out WindowProcessId);
+            } while (WindowProcessId != ProcessId);
+
+            return ExoAppWindow;
+        }
+
+        /// <summary>
+        /// Get the difficulty slider window from an Exo App window.
+        /// </summary>
+        /// <param name="ExoAppWindow">Supplies the Exo App hwnd.</param>
+        /// <returns>The difficulty slider hwnd.</returns>
+        private static IntPtr GetExoAppDifficultySliderWindow(IntPtr ExoAppWindow)
+        {
+            IntPtr hwnd = GetDlgItem(ExoAppWindow, ExoCtrlIdDifficultyScrollBar);
+
+            if (hwnd == null)
+                throw new ApplicationException("Couldn't find DifficultySliderWindow");
+
+            return hwnd;
         }
 
 
@@ -724,6 +792,80 @@ namespace ALFA
 
         [DllImport("wer.dll", ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         private static extern UInt32 WerRemoveExcludedApplication(string pwszExeName, int bAllUsers);
+
+
+        //
+        // Exo App window constants.
+        //
+
+        internal const string ExoAppClassName = "Exo - BioWare Corp., (c) 1999 - Generic Blank Application";
+        internal const int ExoCtrlIdDifficultyScrollBar = 0x3F7;
+
+        //
+        // General WinUser structures, functions, & constants.
+        //
+
+        internal const uint WM_HSCROLL = 0x114;
+        internal const uint WM_VSCROLL = 0x115;
+
+        [DllImport("User32.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
+        internal extern static IntPtr FindWindowEx(IntPtr hwndParent, IntPtr hwndChildAfter, string lpszClass, string lpszWindow);
+        [DllImport("User32.dll", CallingConvention = CallingConvention.StdCall)]
+        internal extern static uint GetWindowThreadProcessId(IntPtr hwnd, out uint lpdwProcessId);
+        [DllImport("User32.dll", CallingConvention = CallingConvention.StdCall, SetLastError = true)]
+        internal extern static IntPtr GetDlgItem(IntPtr hDlg, int nIDDlgItem);
+        [DllImport("User32.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
+        internal extern static IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+        //
+        // Scroll Bar structures, functions, & constants.
+        //
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct SCROLLINFO
+        {
+            public uint cbSize;
+            public uint fMask;
+            public int nMin;
+            public int nMax;
+            public uint nPage;
+            public int nPos;
+            public int nTrackPos;
+        }
+
+        internal const uint SIF_RANGE = 0x0001;
+        internal const uint SIF_PAGE = 0x0002;
+        internal const uint SIF_POS = 0x0004;
+        internal const uint SIF_DISABLENOSCROLL = 0x0008;
+        internal const uint SIF_TRACKPOS = 0x0010;
+        internal const uint SIF_ALL = SIF_RANGE | SIF_PAGE | SIF_POS | SIF_DISABLENOSCROLL | SIF_TRACKPOS;
+
+        internal const int SB_HORZ = 0;
+        internal const int SB_VERT = 1;
+        internal const int SB_CTL = 2;
+        internal const int SB_BOTH = 3;
+
+        internal const int SB_LINEUP = 0;
+        internal const int SB_LINELEFT = 0;
+        internal const int SB_LINEDOWN = 1;
+        internal const int SB_LINERIGHT = 1;
+        internal const int SB_PAGEUP = 2;
+        internal const int SB_PAGELEFT = 2;
+        internal const int SB_PAGEDOWN = 3;
+        internal const int SB_PAGERIGHT = 3;
+        internal const int SB_THUMBPOSITION = 4;
+        internal const int SB_THUMBTRACK = 5;
+        internal const int SB_TOP = 6;
+        internal const int SB_LEFT = 6;
+        internal const int SB_BOTTOM = 7;
+        internal const int SB_RIGHT = 7;
+        internal const int SB_ENDSCROLL = 8;
+
+
+        [DllImport("User32.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
+        internal extern static bool GetScrollInfo(IntPtr hwnd, int fnBar, [In, Out] ref SCROLLINFO lpsi);
+        [DllImport("User32.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
+        internal extern static int SetScrollInfo(IntPtr hwnd, int fnBar, [In] ref SCROLLINFO lpsi, bool fRedraw);
     }   
 }
 

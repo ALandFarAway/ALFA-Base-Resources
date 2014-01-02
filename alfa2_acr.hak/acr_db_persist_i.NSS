@@ -92,9 +92,13 @@ const string ACR_MODULERESOURCEFILES_MOD = "ACR_MODULERESOURCEFILES";
 //  database config table.
 const string ACR_NOTIFY_SERVICE_CHARACTER_ID_MOD = "ACR_NOTIFY_SERVICE_CID";
 
-//! Module variable indicating the cached erorr notify IRC recipient from the
+//! Module variable indicating the cached error notify IRC recipient from the
 //  database config table.
 const string ACR_ERROR_NOTIFY_IRC_RECIPIENT_MOD = "ACR_ERROR_NOTIFY_IRC_RECIPIENT";
+
+//! Module variable indicating the desired game difficulty level from the
+//  database config table.
+const string ACR_GAME_DIFFICULTY_LEVEL_MOD = "ACR_GAME_DIFFICULTY_LEVEL";
 
 //! Database configuration setting indicating the location to search for
 //  content patches at.
@@ -112,6 +116,9 @@ const string ACR_NOTIFY_SERVICE_CHARACTER_ID = "NotifyServiceCid";
 //! Database configuration setting indicating the IRC recipient that error
 //  diagnostics should be sent to.
 const string ACR_ERROR_NOTIFY_IRC_RECIPIENT = "ErrorNotifyIrcRecipient";
+
+//! Database configuration setting indicating the game difficulty level.
+const string ACR_GAME_DIFFICULTY_LEVEL = "GameDifficultyLevel";
 
 //! Values for ACR_SRVADMIN local on PC object.
 const int ACR_SRVADMIN_INDETERMINITE = 0;  // Need to query database
@@ -657,6 +664,11 @@ void ACR_LoadDatabaseConfiguration()
 		{
 			WriteTimestampedLogEntry("acr_db_persist_i: ErrorNotifyIrcRecipient: " + VarValue);
 			SetLocalInt(Module, ACR_ERROR_NOTIFY_IRC_RECIPIENT_MOD, StringToInt(VarValue));
+		}
+		else if (VarName == ACR_GAME_DIFFICULTY_LEVEL)
+		{
+			WriteTimestampedLogEntry("acr_db_persist_i: GameDifficultyLevel: " + VarValue);
+			SetLocalInt(Module, ACR_GAME_DIFFICULTY_LEVEL_MOD, StringToInt(VarValue));
 		}
 	}
 }

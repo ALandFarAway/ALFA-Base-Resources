@@ -335,6 +335,7 @@ namespace ACR_ServerCommunicator
 
             CommandDispatchLoop();
             UpdateServerExternalAddress();
+            GameDifficultyCheck();
         }
 
         /// <summary>
@@ -2689,6 +2690,69 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method periodically runs as a DelayCommand continuation.  Its
+        /// purpose is to check for an appropriate game difficulty level.
+        /// </summary>
+        private void GameDifficultyCheck()
+        {
+            bool ChangeEffected = false;
+            int TargetGameDifficulty;
+            int CurrentDifficulty;
+
+            //
+            // If the current difficulty doesn't match the target difficulty,
+            // then attempt to increase or decrease the difficulty to match.
+            // If a change was made, re-check quickly so that adjustments can
+            // converge rapidly on the target value (as only a single up/down
+            // adjustment is being made at any given time).
+            //
+
+            try
+            {
+                TargetGameDifficulty = GetLocalInt(GetModule(), "ACR_GAME_DIFFICULTY_LEVEL");
+                CurrentDifficulty = GetGameDifficulty();
+
+                if ((TargetGameDifficulty != 0) && (CurrentDifficulty != TargetGameDifficulty))
+                {
+                    if (CurrentDifficulty < TargetGameDifficulty)
+                    {
+                        WriteTimestampedLogEntry(String.Format(
+                            "ACR_ServerCommunicator.GameDifficultyCheck(): Difficulty level {0} is lower than target {1}, attempting to increase.",
+                            CurrentDifficulty,
+                            TargetGameDifficulty));
+                        ALFA.SystemInfo.AdjustGameDifficultyLevel(true);
+
+                        GetDatabase().ACR_IncrementStatistic("GAME_DIFFICULTY_INCREMENT");
+                    }
+                    else
+                    {
+                        WriteTimestampedLogEntry(String.Format(
+                            "ACR_ServerCommunicator.GameDifficultyCheck(): Difficulty level {0} is above than target {1}, attempting to decrease.",
+                            CurrentDifficulty,
+                            TargetGameDifficulty));
+                        ALFA.SystemInfo.AdjustGameDifficultyLevel(false);
+
+                        GetDatabase().ACR_IncrementStatistic("GAME_DIFFICULTY_DECREMENT");
+                    }
+
+                    ChangeEffected = true;
+                }
+            }
+            catch (Exception e)
+            {
+                WriteTimestampedLogEntry(String.Format(
+                    "ACR_ServerCommunicator.GameDifficultyCheck(): Exception: {0}", e));
+            }
+
+            //
+            // Start a new check cycle going.
+            //
+
+            DelayCommand(ChangeEffected ? 6.0f : GAME_DIFFICULTY_CHECK_INTERVAL,
+                delegate() { GameDifficultyCheck(); });
+        }
+
+        /// <summary>
         /// This method requests an update for player latency for a given
         /// player object.
         /// </summary>
@@ -2962,6 +3026,11 @@ namespace ACR_ServerCommunicator
         /// address is automatically refreshed in the database.
         /// </summary>
         private const float UPDATE_SERVER_EXTERNAL_ADDRESS_INTERVAL = 60.0f * 60.0f;
+
+        /// <summary>
+        /// The interval at which game difficulty levels are rechecked.
+        /// </summary>
+        private const float GAME_DIFFICULTY_CHECK_INTERVAL = 300.0f;
 
         /// <summary>
         /// The maximum length of a server IPC event is set here.  This is the
