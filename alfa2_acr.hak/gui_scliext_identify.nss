@@ -38,5 +38,11 @@ void main( int nFlagsAndProtocolVersion, int nClientExtensionVersion )
 				nSupportedFeatures ),
 			8 )
 		);
+
+	//
+	// Set DM scry polling interval to 2 minutes (120000ms).
+	//
+
+	SendMessageToPC(oCallerPC, "SCliExt13120000");
 }
 
