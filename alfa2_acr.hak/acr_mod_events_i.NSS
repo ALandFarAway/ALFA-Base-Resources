@@ -85,6 +85,7 @@
 // 2012/04/15  Basilica - Added infrastructure for deleting unneeded static objects at module startup.
 // 2012/04/16  Basilica - Log module and HAK build date to server log at module startup.
 // 2012/04/28  Basilica - Prevent creation of new characters or players with trailing spaces.
+// 2014/01/16  Basilica - Added module event hook for override patchable scripts.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -128,7 +129,6 @@ const int ACR_CHOOSERCREATOR_INITIALIZE = 0;
 
 //! Define to 1 to enable language handling debugging.
 #define DEBUG_LANG 0
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -282,6 +282,15 @@ void _LoadAssemblies();
 // ACR_CreatureBehavior uses.
 void ACR_InitializeCreatureBehavior();
 
+//! Hook for override script files deployed by the content patcher to 
+//! Returns TRUE to continue processing, else FALSE to stop.  The return value
+//  is only used if Precall is TRUE.
+//! - Event: Supplies the name of the event (ACR_MODULE_ON_* from
+//           acr_mod_event_hook_i.nss).
+//! - Precall: Supplies TRUE if the call happens before normal processing, else
+//             FALSE if it happens after normal processing.
+int ACR_ModuleOverrideEvent(string Event, int Precall);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -328,6 +337,8 @@ void ACR_InitializeCreatureBehavior();
 #include "acr_craft_creation_i"
 #include "acr_notifications_i"
 #include "nwnx_objectattributes_include"
+
+#include "acr_mod_event_hook_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -865,6 +876,9 @@ void ACR_ModuleOnClientEnter()
 {
     object oPC = GetEnteringObject(), oCorpse = OBJECT_INVALID;
 
+	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_CLIENT_ENTER, TRUE))
+	 	return;
+
     // exit if the database is unavailable
     if (ACR_GetModuleStatus(ACR_MOD_NWNX_FAILED))
     {
@@ -933,6 +947,8 @@ void ACR_ModuleOnClientEnter()
     ACR_WealthOnClientEnter(oPC);
 
     ACR_IncrementStatistic("PLAYER_LOGINS");
+
+	 ACR_ModuleOverrideEvent(ACR_MODULE_ON_CLIENT_ENTER, FALSE);
 }
 
 void _createPlayerGUIs( object oPC )
@@ -964,6 +980,9 @@ void _updatePlayerGUIs( object oPC ) {
 void ACR_ModuleOnPCLoaded()
 {
     object oPC = GetEnteringObject();
+
+	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_PC_LOADED, TRUE))
+	 	return;
     
     CraftingOnPCLoaded(oPC);
     
@@ -1061,11 +1080,16 @@ void ACR_ModuleOnPCLoaded()
 	
 	// Check for player offline messages.
 	ACR_ReportOfflineMessages( oPC );
+
+	 ACR_ModuleOverrideEvent(ACR_MODULE_ON_PC_LOADED, FALSE);
 }
 
 void ACR_ModuleOnClientLeave()
 {
     object oPC = GetExitingObject();
+
+	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_CLIENT_LEAVE, TRUE))
+	 	return;
 
     // Code executed for DMs and PCs goes here.
 
@@ -1128,6 +1152,8 @@ void ACR_ModuleOnClientLeave()
 
     // Notify the CE subsystem so that it can purge its local state.
     ACR_SCliExtOnClientLeave(oPC);
+
+	 ACR_ModuleOverrideEvent(ACR_MODULE_ON_CLIENT_LEAVE, FALSE);
 }
 
 void ACR_ModuleOnAcquireItem()
@@ -1137,6 +1163,9 @@ void ACR_ModuleOnAcquireItem()
     object oAcquiredBy = GetModuleItemAcquiredBy();
     int nItemStackSize = GetModuleItemAcquiredStackSize(), bLogEvent = TRUE;
     string sTag;
+
+	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_ACQUIRE_ITEM, TRUE))
+	 	return;
 
     // SendMessageToAllDMs("Acquired Item: "+GetName(oItem)+" by "+GetName(oAcquiredBy)+" with valid: "+IntToString(GetIsObjectValid(oAcquiredBy))+ " in area "+GetName(GetArea(oAcquiredBy))+" with valid: "+IntToString(GetIsObjectValid(GetArea(oAcquiredBy))));
  
@@ -1186,6 +1215,8 @@ void ACR_ModuleOnAcquireItem()
         // grant quest XP for acquired quest items
         ACR_QuestItemOnAcquire(oAcquiredBy, oItem);
     }
+
+	 ACR_ModuleOverrideEvent(ACR_MODULE_ON_ACQUIRE_ITEM, FALSE);
 }
 
 void ACR_ModuleOnUnAcquireItem() {
@@ -1196,6 +1227,10 @@ void ACR_ModuleOnUnAcquireItem() {
     // only process player drops
     if (! GetIsPC(oLostBy)) { return; }
 	
+	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_UNACQUIRE_ITEM, TRUE))
+	 	return;
+
+
 	// flag items that are carried by DM avatars, so we can note that if they're ever acquired
 	// by a PC.
 	if (GetIsDM(oLostBy) || GetIsDMPossessed(oLostBy)) { SetLocalInt(oItem, "DM_MULED", ACR_GetCharacterID(oLostBy)); }
@@ -1243,6 +1278,8 @@ void ACR_ModuleOnUnAcquireItem() {
         // log item acquisitions
         ACR_LogOnUnacquired(oItem, oLostBy, GetStolenFlag(oItem));
     }
+
+	 ACR_ModuleOverrideEvent(ACR_MODULE_ON_UNACQUIRE_ITEM, FALSE);
 }
 
 void ACR_ModuleOnActivateItem() {
@@ -1251,16 +1288,24 @@ void ACR_ModuleOnActivateItem() {
     object oTarget = GetItemActivatedTarget();
     location locTarget = GetItemActivatedTargetLocation();
 
+	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_ACTIVATE_ITEM, TRUE))
+	 	return;
+
     // handle items.
     ACR_ItemOnActivate(oItem, oActivator, oTarget, locTarget);
 
     // log item activation
     ACR_LogEvent(oActivator, ACR_LOG_ACTIVATE, "Item: " + ACR_SQLEncodeSpecialChars(GetName(oItem)) + ", By: " + ACR_SQLEncodeSpecialChars(GetName(oActivator)));
+
+	 ACR_ModuleOverrideEvent(ACR_MODULE_ON_ACTIVATE_ITEM, FALSE);
 }
 
 void ACR_ModuleOnPlayerDeath() {
     object oDead = GetLastPlayerDied();
     object oKiller = GetLastHostileActor();
+
+	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_PLAYER_DEATH, TRUE))
+	 	return;
 
     // *** check for disguises here - player names need to be restored for proper data logging on death ***
     
@@ -1268,18 +1313,29 @@ void ACR_ModuleOnPlayerDeath() {
     ACR_PlayerOnDeath(oDead, oKiller);
     // logging handled in ACR_PlayerOnDeath() - so we don't log false-positives from instakill protection.
     ACR_NLD_OnDeath(oDead);
+
+	 ACR_ModuleOverrideEvent(ACR_MODULE_ON_PLAYER_DEATH, FALSE);
 }
 
 void ACR_ModuleOnPlayerDying() {
     object oDying = GetLastPlayerDying();
     object oAttacker = GetLastAttacker();
 
+	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_PLAYER_DYING, TRUE))
+	 	return;
+
     // process the player dying
     ACR_PlayerOnDying(oDying, oAttacker);
+
+	 ACR_ModuleOverrideEvent(ACR_MODULE_ON_PLAYER_DYING, FALSE);
 }
 
 void ACR_ModuleOnPlayerLevelUp() {
     object oPC = GetPCLevellingUp();
+
+	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_PLAYER_LEVEL_UP, TRUE))
+	 	return;
+
 	
 	if(ACR_GetIsMember(oPC) == FALSE)
 	{
@@ -1313,17 +1369,29 @@ void ACR_ModuleOnPlayerLevelUp() {
 	
     // log the level up attempt
     ACR_LogEvent(oPC, ACR_LOG_LEVELUP, "Character: " + ACR_SQLEncodeSpecialChars(GetName(oPC)) + ", Level: " + IntToString(GetHitDice(oPC)));
+
+	 ACR_ModuleOverrideEvent(ACR_MODULE_ON_PLAYER_LEVEL_UP, FALSE);
 }
 
 void ACR_ModuleOnPlayerRespawn() {
     object oPC = GetLastRespawnButtonPresser();
+
+	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_PLAYER_RESPAWN, TRUE))
+	 	return;
+
+	 ACR_ModuleOverrideEvent(ACR_MODULE_ON_PLAYER_RESPAWN, FALSE);
 }
 
 void ACR_ModuleOnPlayerRest() {
     object oPC = GetLastPCRested();
     int nRestState = GetLastRestEventType();
 
+	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_PLAYER_REST, TRUE))
+	 	return;
+
     ACR_OnPlayerRest(oPC, nRestState);
+
+	 ACR_ModuleOverrideEvent(ACR_MODULE_ON_PLAYER_REST, FALSE);
 }
 
 void ACR_ModuleOnHeartbeat() {
@@ -1331,11 +1399,19 @@ void ACR_ModuleOnHeartbeat() {
 
 void ACR_ModuleOnUserDefined() {
     int nEvent = GetUserDefinedEventNumber();
+
+	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_USER_DEFINED, TRUE))
+	 	return;
+
+	 ACR_ModuleOverrideEvent(ACR_MODULE_ON_USER_DEFINED, FALSE);
 }
 
 void ACR_ModuleOnPlayerEquip() {
     object oItem = GetPCItemLastEquipped();
     object oPC = GetPCItemLastEquippedBy();
+
+	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_PLAYER_EQUIP, TRUE))
+	 	return;
     
     // Crafting system hook.
     ACR_CraftOnEquipItem(oPC, oItem);
@@ -1348,11 +1424,16 @@ void ACR_ModuleOnPlayerEquip() {
 
     // Do feat-specific stuff.
     ACR_FeatOnEquipItem(oPC, oItem);
+
+	 ACR_ModuleOverrideEvent(ACR_MODULE_ON_PLAYER_EQUIP, FALSE);
 }
 
 void ACR_ModuleOnPlayerUnequip() {
     object oItem = GetPCItemLastUnequipped();
     object oPC = GetPCItemLastUnequippedBy();
+
+	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_PLAYER_UNEQUIP, TRUE))
+	 	return;
     
     // handle unequipped items
     ACR_ItemOnUnEquip(oItem, oPC);
@@ -1362,13 +1443,20 @@ void ACR_ModuleOnPlayerUnequip() {
     
     // Do feat-specific stuff.
     ACR_FeatOnUnequipItem(oPC, oItem);    
+
+	 ACR_ModuleOverrideEvent(ACR_MODULE_ON_PLAYER_UNEQUIP, FALSE);
 }
 
 void ACR_ModuleOnCutsceneAbort() {
     object oPC = GetLastPCToCancelCutscene();
 
+	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_CUTSCENE_ABORT, TRUE))
+	 	return;
+
     // End the scrying effect for the PC aborting the cutscene
     if (ACR_GetIsScrying(oPC)) { ACR_ScryEnd(oPC); }
+
+	 ACR_ModuleOverrideEvent(ACR_MODULE_ON_CUTSCENE_ABORT, FALSE);
 }
 
 string _ParseLang(object oSpeaker, string sText)
@@ -1901,6 +1989,20 @@ void ACR_InitializeCreatureBehavior()
     ClearScriptParams();
     AddScriptParameterInt(100); // Is CREATUREBEHAVIOR_MODULE_ON_STARTED; acr_creature_i was being mean, so has to be magic numbered.
     ExecuteScriptEnhanced("acr_creaturebehavior", GetModule(), TRUE);
+}
+
+int ACR_ModuleOverrideEvent(string Event, int Precall)
+{
+	object Module = GetModule();
+	string Script;
+
+	Script = GetLocalString(Module, Event + (Precall ? ACR_MODULE_HOOK_PRE : ACR_MODULE_HOOK_POST));
+
+	if (Script == "")
+		return TRUE;
+
+	ClearScriptParams();
+	return ExecuteScriptEnhanced(Script, Module, TRUE);
 }
 
 #endif
