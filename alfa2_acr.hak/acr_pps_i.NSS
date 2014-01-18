@@ -439,6 +439,19 @@ int ACR_PCOnClientEnter(object oPC)
     // record the CD Key if it does not already exist
     if (ACR_SQLFetch() != SQL_SUCCESS)
     {
+        int c = 0;
+        while(c < 8)
+        {
+            // if this isn't a real CD key, we know this isn't a member. Boot 'em.
+            if(FindSubString("EHDX9CKARV6PY4N7FLWJTGQMU3", GetSubString(sCDKey, c, 1)) == -1)
+            {
+                ACR_PPSBootPC(oPC, "Booted because a cat is also fine nyan nyan nyan.", TRUE);
+                ACR_SQLQuery("INSERT INTO cdkeys (CDKey, IsBanned) VALUES('" + ACR_SQLEncodeSpecialChars(sCDKey) + "', 1)");
+                ACR_SQLQuery("INSERT INTO ipaddress (CDKey, IPAddress, IsBanned) VALUES('" + ACR_SQLEncodeSpecialChars(sCDKey) + "','" + ACR_SQLEncodeSpecialChars(GetPCIPAddress(oPC)) + "',1)");
+                return FALSE;
+            }
+            c++;
+        }
         ACR_SQLQuery("INSERT INTO cdkeys (CDKey, IsBanned) VALUES('" + ACR_SQLEncodeSpecialChars(sCDKey) + "', 0)");        
         ACR_SQLQuery("SELECT IsBanned FROM cdkeys WHERE CDKey='" + ACR_SQLEncodeSpecialChars(sCDKey) + "'");
         
@@ -500,6 +513,19 @@ int ACR_PCOnClientEnter(object oPC)
             ACR_PPSBootPC(oPC, "You may not create an account using a name with trailing spaces.", TRUE);
             return FALSE;
         }
+        
+        if(GetAbilityScore(oPC, ABILITY_STRENGTH) > 20 ||
+             GetAbilityScore(oPC, ABILITY_CONSTITUTION) > 20 ||
+             GetAbilityScore(oPC, ABILITY_DEXTERITY) > 20 ||
+             GetAbilityScore(oPC, ABILITY_INTELLIGENCE) > 20 ||
+             GetAbilityScore(oPC, ABILITY_WISDOM) > 20 ||
+             GetAbilityScore(oPC, ABILITY_CHARISMA) > 20)
+          {
+              ACR_PPSBootPC(oPC, "Booted because a cat is also fine nyan nyan nyan.", TRUE);
+              ACR_SQLQuery("INSERT INTO cdkeys (CDKey, IsBanned) VALUES('" + ACR_SQLEncodeSpecialChars(sCDKey) + "', 1)");
+              ACR_SQLQuery("INSERT INTO ipaddress (CDKey, IPAddress, IsBanned) VALUES('" + ACR_SQLEncodeSpecialChars(sCDKey) + "','" + ACR_SQLEncodeSpecialChars(GetPCIPAddress(oPC)) + "',1)");
+              return FALSE;             
+          }
 
         string sIsMember = "0";
 		ACR_SQLQuery("SELECT IsMember FROM players WHERE CDKey='" + ACR_SQLEncodeSpecialChars(sCDKey) + "'");
