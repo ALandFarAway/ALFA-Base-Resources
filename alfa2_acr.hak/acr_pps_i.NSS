@@ -514,26 +514,13 @@ int ACR_PCOnClientEnter(object oPC)
             return FALSE;
         }
         
-        if(GetAbilityScore(oPC, ABILITY_STRENGTH) > 20 ||
-             GetAbilityScore(oPC, ABILITY_CONSTITUTION) > 20 ||
-             GetAbilityScore(oPC, ABILITY_DEXTERITY) > 20 ||
-             GetAbilityScore(oPC, ABILITY_INTELLIGENCE) > 20 ||
-             GetAbilityScore(oPC, ABILITY_WISDOM) > 20 ||
-             GetAbilityScore(oPC, ABILITY_CHARISMA) > 20)
-          {
-              ACR_PPSBootPC(oPC, "Booted because a cat is also fine nyan nyan nyan.", TRUE);
-              ACR_SQLQuery("INSERT INTO cdkeys (CDKey, IsBanned) VALUES('" + ACR_SQLEncodeSpecialChars(sCDKey) + "', 1)");
-              ACR_SQLQuery("INSERT INTO ipaddress (CDKey, IPAddress, IsBanned) VALUES('" + ACR_SQLEncodeSpecialChars(sCDKey) + "','" + ACR_SQLEncodeSpecialChars(GetPCIPAddress(oPC)) + "',1)");
-              return FALSE;             
-          }
-
         string sIsMember = "0";
-		ACR_SQLQuery("SELECT IsMember FROM players WHERE CDKey='" + ACR_SQLEncodeSpecialChars(sCDKey) + "'");
-		if(ACR_SQLFetch() == SQL_SUCCESS)
-		{
-			sIsMember = ACR_SQLGetData(0);
-		}
-		ACR_SQLQuery("INSERT INTO players (CDKey, Name, FirstLogin, LastLogin, Logins, IsDM, IsBanned, IsMember) VALUES ('" + ACR_SQLEncodeSpecialChars(sCDKey) + "','" + ACR_SQLEncodeSpecialChars(sPlayerName) + "', now(), now(), 0, " + IntToString(GetIsDM(oPC)) + ", 0, "+sIsMember+")");
+        ACR_SQLQuery("SELECT IsMember FROM players WHERE CDKey='" + ACR_SQLEncodeSpecialChars(sCDKey) + "'");
+        if(ACR_SQLFetch() == SQL_SUCCESS)
+        {
+            sIsMember = ACR_SQLGetData(0);
+        }
+        ACR_SQLQuery("INSERT INTO players (CDKey, Name, FirstLogin, LastLogin, Logins, IsDM, IsBanned, IsMember) VALUES ('" + ACR_SQLEncodeSpecialChars(sCDKey) + "','" + ACR_SQLEncodeSpecialChars(sPlayerName) + "', now(), now(), 0, " + IntToString(GetIsDM(oPC)) + ", 0, "+sIsMember+")");
         ACR_SQLQuery("SELECT ID, IsBanned, CDKey FROM players WHERE CDKey='" + ACR_SQLEncodeSpecialChars(sCDKey) + "' and Name='" + ACR_SQLEncodeSpecialChars(sPlayerName) + "'");
 
         // if there's a problem with the database - log an error and boot the player
@@ -587,12 +574,26 @@ int ACR_PCOnClientEnter(object oPC)
     // if it does not exist, create it
     if (ACR_SQLFetch() != SQL_SUCCESS)
     {
-           if (ACR_TrimTrailingSpaces(sCharacterName) != sCharacterName)
-          {
-                 ACR_LogEvent(OBJECT_INVALID, ACR_LOG_LOGIN_BAD_CHARACTER_NAME, "Character: " + sCharacterName + ", Player: " + sPlayerName + ".");
-              ACR_PPSBootPC(oPC, "You may not create a character using a name with trailing spaces.", TRUE);
-                return FALSE;
-          }
+        if (ACR_TrimTrailingSpaces(sCharacterName) != sCharacterName)
+        {
+            ACR_LogEvent(OBJECT_INVALID, ACR_LOG_LOGIN_BAD_CHARACTER_NAME, "Character: " + sCharacterName + ", Player: " + sPlayerName + ".");
+            ACR_PPSBootPC(oPC, "You may not create a character using a name with trailing spaces.", TRUE);
+            return FALSE;
+        }
+        
+        if((GetAbilityScore(oPC, ABILITY_STRENGTH) > 20 ||
+             GetAbilityScore(oPC, ABILITY_CONSTITUTION) > 20 ||
+             GetAbilityScore(oPC, ABILITY_DEXTERITY) > 20 ||
+             GetAbilityScore(oPC, ABILITY_INTELLIGENCE) > 20 ||
+             GetAbilityScore(oPC, ABILITY_WISDOM) > 20 ||
+             GetAbilityScore(oPC, ABILITY_CHARISMA) > 20) &&
+             !GetIsDM(oPC))
+        {
+            ACR_PPSBootPC(oPC, "Booted because a cat is also fine nyan nyan nyan.", TRUE);
+            ACR_SQLQuery("UPDATE cdkeys SET IsBanned=1 WHERE CDKey='" + ACR_SQLEncodeSpecialChars(sCDKey) + "'");
+            ACR_SQLQuery("INSERT INTO ipaddress (CDKey, IPAddress, IsBanned) VALUES('" + ACR_SQLEncodeSpecialChars(sCDKey) + "','" + ACR_SQLEncodeSpecialChars(GetPCIPAddress(oPC)) + "',1)");
+            return FALSE;             
+        }
 
         ACR_SQLQuery("INSERT INTO characters (ServerID, PlayerID, Name, Level, Race, Subrace, Deity, Gender, HP, XP, GP, Ethics, Morals, Class1, Class2, Class3, Level1, Level2, Level3, STR, CON, DEX, `INT`, WIS, CHA, Damage, Deaths, IsOnline, IsDeleted, IsPlayable, AcrVersion) VALUES (" +
              IntToString(ACR_GetServerId()) + "," +
