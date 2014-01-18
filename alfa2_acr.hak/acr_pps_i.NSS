@@ -695,6 +695,10 @@ void ACR_PCOnPCLoaded(object oPC)
 	 {
 		 _playerInitiateQuarantine(oPC, -1);
 
+		 SendMessageToPC(oPC, "**** Non-members are not permitted to log in.");
+		 SendMessageToPC(oPC, "**** A membership application is required in order to play.");
+		 SendMessageToPC(oPC, "**** Fill one out at http://www.alandfaraway.org in order to request membership.");
+
 		 if (ProtectionLevel >= MEMBER_PROTECTION_LEVEL_BOOT_5S_DELAY)
 		 {
 		 	  //
@@ -702,9 +706,6 @@ void ACR_PCOnPCLoaded(object oPC)
 			  // The character is marked as no-save immediately.
 			  //
 
-		 	  SendMessageToPC(oPC, "**** Non-members are not permitted to log in.");
-			  SendMessageToPC(oPC, "**** A membership application is required in order to play.\n");
-			  SendMessageToPC(oPC, "**** Fill one out at http://www.alandfaraway.org in order to request membership.\n");
 		     DelayCommand(5.0f, ACR_PPSBootPC(oPC, "Booted because non-members are not permitted to log in.", TRUE));
 		 }
 		 return;
