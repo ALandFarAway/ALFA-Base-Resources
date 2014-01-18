@@ -12,6 +12,33 @@ namespace ACR_ServerCommunicator
     /// </summary>
     class GameWorldConfiguration
     {
+        
+        /// <summary>
+        /// Define value member protection levels.
+        /// </summary>
+        public enum MemberProtectionLevel
+        {
+            /// <summary>
+            /// No protection applied.
+            /// </summary>
+            Open = 0,
+            /// <summary>
+            /// Quarantine non-members immediately.
+            /// </summary>
+            Quarantine = 1,
+            /// <summary>
+            /// Quarantine, can't send tells except to DMs.
+            /// </summary>
+            QuarantineDMOnlyTells = 2,
+            /// <summary>
+            /// Quarantine & boot after a short time to send a message.
+            /// </summary>
+            Boot5sDelay = 3,
+            /// <summary>
+            /// Immediately boot.
+            /// </summary>
+            BootImmediately = 4,
+        }
 
         /// <summary>
         /// Create a new GameWorldConfiguration object.
@@ -27,6 +54,7 @@ namespace ACR_ServerCommunicator
             DefaultIrcRecipient = "";
             ErrorNotifyIrcRecipient = "";
             DisableSaveInQuarantine = false;
+            ProtectionLevel = MemberProtectionLevel.Open;
         }
 
         /// <summary>
@@ -61,6 +89,8 @@ namespace ACR_ServerCommunicator
                     ErrorNotifyIrcRecipient = VarValue;
                 else if (VarName == "DisableSaveInQuarantine")
                     DisableSaveInQuarantine = Convert.ToInt32(VarValue) != 0;
+                else if (VarName == "ProtectionLevel")
+                    ProtectionLevel = (MemberProtectionLevel)Convert.ToInt32(VarValue);
             }
         }
 
@@ -114,6 +144,12 @@ namespace ACR_ServerCommunicator
         /// Whether character saves are disabled in quarantine.
         /// </summary>
         public bool DisableSaveInQuarantine { get; set; }
+
+        /// <summary>
+        /// Protection level applied to non-members that join the server, for
+        /// temporary anti-abuse measures.
+        /// </summary>
+        public MemberProtectionLevel ProtectionLevel { get; set; }
 
     }
 }

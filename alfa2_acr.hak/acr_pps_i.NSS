@@ -240,6 +240,12 @@ void _playerScheduleQuarantineAreaCheck(object oPC);
 //!  - Returns: nothing
 void _playerQuarantineAreaCheck(object oPC);
 
+//! This function initiates quarantine for a PC.
+//!  - oPC: The player object to quarantine.
+//!  - nServerID: The authoritative (i.e. "home") server ID for the character.
+//!  - Returns: nothing.
+void _playerInitiateQuarantine(object oPC, int nServerID);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -648,6 +654,7 @@ void ACR_PCOnPCLoaded(object oPC)
 {
     int bUpdateLocation = FALSE;
     string sCID = IntToString(ACR_GetCharacterID(oPC)), sLocation, sServerID;
+	 int ProtectionLevel;
     
     vector vPosLoc = GetPosition(oPC), vPosStart = GetPositionFromLocation(GetStartingLocation());
 
@@ -668,6 +675,40 @@ void ACR_PCOnPCLoaded(object oPC)
         ACR_PPSBootPC(oPC, "Booted because the character record could not be found for your character.", TRUE);
         return;
     }
+
+
+    //
+	 // Handle protection level for incoming players.  If the player is to be
+	 // quarantined on account of protection level and non-member status, then
+	 // effect this now, and further apply any additional restrictions.
+	 //
+	 ProtectionLevel = ACR_GetProtectionLevel();
+	 if (ProtectionLevel >= MEMBER_PROTECTION_LEVEL_BOOT_IMMEDIATELY)
+	 {
+        // log the event then boot the player
+        ACR_LogEvent(oPC, ACR_LOG_LOGIN, "Non-member booted immediately due to member protection level: " + GetName(oPC));
+        ACR_PPSBootPC(oPC, "Booted because non-members are not permitted to log in.  Fill out a membership application at http://www.alandfaraway.org in order to request membership.", TRUE);
+        return;
+	 }
+
+	 if (ProtectionLevel >= MEMBER_PROTECTION_LEVEL_QUARANTINE)
+	 {
+		 _playerInitiateQuarantine(oPC, -1);
+
+		 if (ProtectionLevel >= MEMBER_PROTECTION_LEVEL_BOOT_5S_DELAY)
+		 {
+		 	  //
+			  // Send a basic informative banner and schedule a boot in 5 seconds.
+			  // The character is marked as no-save immediately.
+			  //
+
+		 	  SendMessageToPC(oPC, "**** Non-members are not permitted to log in.");
+			  SendMessageToPC(oPC, "**** A membership application is required in order to play.\n");
+			  SendMessageToPC(oPC, "**** Fill one out at http://www.alandfaraway.org in order to request membership.\n");
+		     DelayCommand(5.0f, ACR_PPSBootPC(oPC, "Booted because non-members are not permitted to log in.", TRUE));
+		 }
+		 return;
+	 }
     sLocation = ACR_SQLGetData(10);
     sServerID = ACR_SQLGetData(0);
     // restore status if this is not a newly created character
@@ -727,35 +768,8 @@ void ACR_PCOnPCLoaded(object oPC)
             // done checking passport for Foreign PC, Quarantine if necessary
             if (bQuarantined) 
             {
-                ACR_PrintDebugMessage("Quarantining " + GetName(oPC) + " - Unauthorized Access", ACR_PPS_DEBUG_ID, DEBUG_LEVEL_INFO);
-                SendMessageToPC(oPC, "You are not permitted to login to this server directly. You are being quarantined.");
-                AssignCommand(oPC, ActionSpeakString("You are not permitted to login to this server directly. You are being quarantined."));
-                SendMessageToAllDMs(GetName(oPC)+" has been Quarantined; prior ServerID was "+IntToString(nServerID)+".");
-                SetLocalInt(oPC, ACR_PPS_QUARANTINED, TRUE);
-                // log the event
-                ACR_LogEvent(oPC, ACR_LOG_LOGIN_QUARANTINED, "Character: " + GetName(oPC));
-        
-                // deposit the player in quarantine
-                AssignCommand(oPC, JumpToObject(GetLocalObject(oModule, ACR_PPS_QUARANTINE_WP), FALSE)); 
-                DelayCommand(0.5, (_playerFreeze(oPC)));
-                _playerScheduleQuarantineAreaCheck(oPC);
-
-                float QuarantinePortalDelay;
-
-                // If the PC needed to be moved to the quarantine area, then start
-                // the conversation later on.  Otherwise kick things off sooner.
-                if (GetArea(oPC) != GetArea(GetLocalObject(oModule, ACR_PPS_QUARANTINE_WP)))
-                    QuarantinePortalDelay = 5.0f;
-                else
-                    QuarantinePortalDelay = 0.6f;
-
-                // Notify the IPC subsystem that the player is quarantined so that
-                // it can take appropriate action, such as disabling character save
-                // if enabled.
-                ACR_ServerIPC_OnQuarantinePlayer(oPC);
-
-                DelayCommand(QuarantinePortalDelay, AssignCommand(oPC, _playerStartQuarantinePortalDialog(nServerID)));
-                return;
+				    _playerInitiateQuarantine(oPC, nServerID);
+					 return;
             } 
             else 
             {
@@ -1227,4 +1241,37 @@ void _playerQuarantineAreaCheck(object oPC)
     _playerScheduleQuarantineAreaCheck(oPC);
 }
 
+void _playerInitiateQuarantine(object oPC, int nServerID)
+{
+    object oModule = GetModule();
+
+	 ACR_PrintDebugMessage("Quarantining " + GetName(oPC) + " - Unauthorized Access", ACR_PPS_DEBUG_ID, DEBUG_LEVEL_INFO);
+	 SendMessageToPC(oPC, "You are not permitted to login to this server directly. You are being quarantined.");
+	 AssignCommand(oPC, ActionSpeakString("You are not permitted to login to this server directly. You are being quarantined."));
+	 SendMessageToAllDMs(GetName(oPC)+" has been Quarantined; prior ServerID was "+IntToString(nServerID)+".");
+	 SetLocalInt(oPC, ACR_PPS_QUARANTINED, TRUE);
+	 // log the event
+	 ACR_LogEvent(oPC, ACR_LOG_LOGIN_QUARANTINED, "Character: " + GetName(oPC));
+
+	 // deposit the player in quarantine
+	 AssignCommand(oPC, JumpToObject(GetLocalObject(oModule, ACR_PPS_QUARANTINE_WP), FALSE)); 
+	 DelayCommand(0.5, (_playerFreeze(oPC)));
+	 _playerScheduleQuarantineAreaCheck(oPC);
+
+	 float QuarantinePortalDelay;
+
+	 // If the PC needed to be moved to the quarantine area, then start
+	 // the conversation later on.  Otherwise kick things off sooner.
+	 if (GetArea(oPC) != GetArea(GetLocalObject(oModule, ACR_PPS_QUARANTINE_WP)))
+		  QuarantinePortalDelay = 5.0f;
+	 else
+		  QuarantinePortalDelay = 0.6f;
+
+	 // Notify the IPC subsystem that the player is quarantined so that
+	 // it can take appropriate action, such as disabling character save
+	 // if enabled.
+	 ACR_ServerIPC_OnQuarantinePlayer(oPC);
+
+	 DelayCommand(QuarantinePortalDelay, AssignCommand(oPC, _playerStartQuarantinePortalDialog(nServerID)));
+}
 #endif

@@ -709,6 +709,20 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Returns whether a PC is a fully approved ALFA member (vs. a new
+        /// account that might be a throw-away, etc.).
+        /// </summary>
+        /// <param name="PCObject">Supplies the PC object.</param>
+        /// <returns>True is returned if the PC belongs to an approved member.
+        /// </returns>
+        public bool ACR_GetIsMember(UInt32 PCObject)
+        {
+            DemandInitialize();
+
+            return (int)ACR_GetIsMember_Method.Invoke(DBLibraryScript, new object[] { PCObject }) != 0;
+        }
+
+        /// <summary>
         /// This routine performs a synchronous SQL query.  If there were
         /// pending asynchronous queries in the queue, the pending queries are
         /// drained first.
@@ -947,6 +961,7 @@ namespace ALFA
             ACR_IncrementStatistic_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_IncrementStatistic");
             ACR_RunScriptOnServer_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_RunScriptOnServer");
             ACR_LogEvent_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_LogEvent");
+            ACR_GetIsMember_Method = ScriptLoader.GetScriptFunction(ScriptObject, "ACR_GetIsMember");
 
             DBLibraryScript = ScriptObject;
 
@@ -1010,5 +1025,6 @@ namespace ALFA
         private static MethodInfo ACR_IncrementStatistic_Method;
         private static MethodInfo ACR_RunScriptOnServer_Method;
         private static MethodInfo ACR_LogEvent_Method;
+        private static MethodInfo ACR_GetIsMember_Method;
     }
 }

@@ -43,6 +43,16 @@
 // Item tags:
 const string ACR_NWN_GOLD_TAG = "NW_IT_GOLD001";
 
+// Module local variables:
+const string ACR_MOD_PROTECTION_LEVEL = "ACR_MOD_PROTECTION_LEVEL";
+
+// Protection levels (must match GameWorldConfiguration.MemberProtectionLevel):
+const int MEMBER_PROTECTION_LEVEL_OPEN = 0;
+const int MEMBER_PROTECTION_LEVEL_QUARANTINE = 1;
+const int MEMBER_PROTECTION_LEVEL_QUARANTINE_DM_ONLY_TELLS = 2;
+const int MEMBER_PROTECTION_LEVEL_BOOT_5S_DELAY = 3;
+const int MEMBER_PROTECTION_LEVEL_BOOT_IMMEDIATELY = 4;
+
 // Base item types:
 const int BASE_ITEM_TRADE_GOODS = 199;
 const int BASE_ITEM_SHORT_MAGICSTAFF = 201;
@@ -670,6 +680,10 @@ int ACR_GetIsCorpseMutilated(object oCorpse);
 //!  - Returns: TRUE if decayed, FALSE if not decayed
 int ACR_GetIsCorpseDecayed(object oCorpse);
 
+//! This function gets the member protection level for the module.
+//!  - Returns: MEMBER_PROTECTION_LEVEL_*
+int ACR_GetProtectionLevel();
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -769,6 +783,11 @@ int ACR_GetIsCorpseMutilated(object oCorpse)
 int ACR_GetIsCorpseDecayed(object oCorpse)
 {
     return (ACR_GetPlayerStatusFlags(oCorpse) & ACR_PLAYER_FLAG_DECAYED);
+}
+
+int ACR_GetProtectionLevel()
+{
+	return GetLocalInt(GetModule(), ACR_MOD_PROTECTION_LEVEL);
 }
 
 #endif

@@ -1583,6 +1583,13 @@ namespace ACR_ServerCommunicator
                     return;
                 }
 
+                if ((WorldManager.Configuration.ProtectionLevel >= GameWorldConfiguration.MemberProtectionLevel.Quarantine) &&
+                    (Database.ACR_GetIsMember(PlayerObjectId) == false))
+                {
+                    SendFeedbackError(PlayerObjectId, "You don't have permission to use a server to server portal.");
+                    return;
+                }
+
                 //
                 // If we're a DM, there is no server vault character to
                 // transfer.  Save any database state and just start things

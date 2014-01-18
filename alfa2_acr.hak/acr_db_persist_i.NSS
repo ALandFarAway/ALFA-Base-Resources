@@ -1025,6 +1025,8 @@ int ACR_GetPlayerID(object oPC)
 
 int ACR_GetIsMember(object oPC)
 {
+	int PlayerID;
+
 	// We assume that a player who loses membership is a player
 	// who is banned, so we don't refresh if we've already checked and seen "yes"
 	// once before.
@@ -1032,8 +1034,20 @@ int ACR_GetIsMember(object oPC)
 	{
 		return TRUE;
 	}
+
+	//
+	// Allow player ID zero - as this isn't actually a PC, it shouldn't be
+	// beholden to restrictions.
+	//
+
+	PlayerID = ACR_GetPlayerID(oPC);
+
+	if (PlayerID == 0)
+	{
+		return TRUE;
+	}
 	
-	string sPlayerID = IntToString(ACR_GetPlayerID(oPC));
+	string sPlayerID = IntToString(PlayerID);
 	ACR_SQLQuery("SELECT players.IsMember FROM players WHERE ID = '"+sPlayerID+"'");
 	if(ACR_SQLFetch() != SQL_SUCCESS)
 	{

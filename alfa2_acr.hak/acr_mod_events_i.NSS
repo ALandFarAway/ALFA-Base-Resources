@@ -1507,12 +1507,15 @@ int _canXPForChatEvent(object oSpeaker, string sText)
 
 int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 {
+    int ProtectionLevel;
     int len;
     string sMessage, sCommand, c, sLangPick;
 
     // iterate the RPXP function to indicate an active PC
     if(_canXPForChatEvent(oSpeaker, sText))
         ACR_RPXPMarkActive(oSpeaker);
+
+    ProtectionLevel = ACR_GetProtectionLevel();
 
     switch (nMode) {
         case CHAT_MODE_SERVER:
@@ -1539,8 +1542,57 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
             // re-tell and reply commands.
             SetLocalInt(oSpeaker, ACR_MOD_LAST_TELL_TO, ACR_GetPlayerID(oTarget));
             SetLocalInt(oTarget, ACR_MOD_LAST_TELL_FROM, ACR_GetPlayerID(oSpeaker));
+
+				//
+				// Check that protection level allows for the speaker to send tells
+				// to other players.
+				//
+
+				if ((ProtectionLevel >= MEMBER_PROTECTION_LEVEL_QUARANTINE_DM_ONLY_TELLS) &&
+				    (!ACR_GetIsMember(oSpeaker)))
+				{
+
+					 if (ProtectionLevel > MEMBER_PROTECTION_LEVEL_QUARANTINE_DM_ONLY_TELLS)
+					 {
+					   SendMessageToPC(oSpeaker, "You don't have permission to send tells.");
+					 	return FALSE;
+					 }
+
+					 if (!GetIsDM(oTarget) || !GetIsDMPossessed(oTarget))
+					 {
+					 	SendMessageToPC(oSpeaker, "You don't have permission to send tells to a non-DM player.");
+						return FALSE;
+					 }
+				}
+
             return TRUE;
     }
+
+	 //
+	 // Check protection level for non-tells - which allows all of the
+	 // protection checks to be handled here, including the case for various
+	 // custom commands like #t, etc. - which shouldn't be allowed (as the
+	 // only functionality afforded such a quarantined member is to ask a DM for
+	 // help).
+	 //
+	 // Note that this implies that non-members can't use the IRC gateway or any
+	 // cross-server tells, but they would have to be quarantined anyway so
+	 // cross-server tells would already not allow a reply to be received.
+	 //
+	 // N.B.  Non-PC objects are treated as though they are members by
+	 //       ACR_GetIsMember().  This simplifies handling of various cases
+	 //       where NPCs, items, placeables, etc. may speak on behalf of a
+	 //       script.
+	 //
+
+	 if ((nMode != CHAT_MODE_TELL) &&
+	     (nMode != CHAT_MODE_SERVER) &&
+	     (ProtectionLevel >= MEMBER_PROTECTION_LEVEL_QUARANTINE_DM_ONLY_TELLS) &&
+		  (ACR_GetIsMember(oSpeaker) == FALSE))
+	 {
+	    SendMessageToPC(oSpeaker, "You don't have permission to send non-tell messages.");
+	    return FALSE;
+	 }
 
     len = GetStringLength(sText);
 
@@ -1959,6 +2011,7 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts()
     ACR_PCUpdateStatus(OBJECT_INVALID, FALSE);
     ACR_RestOnClientEnter(OBJECT_INVALID);
     ACR_XPOnClientLoaded(OBJECT_INVALID);
+	 ACR_GetIsMember(OBJECT_INVALID);
 }
 
 void _LoadAssemblies()
