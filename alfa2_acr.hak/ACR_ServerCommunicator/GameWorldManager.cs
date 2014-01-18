@@ -2170,7 +2170,7 @@ namespace ACR_ServerCommunicator
         /// <summary>
         /// The interval between a configuration synchronization attempt.
         /// </summary>
-        private const int CONFIGURATION_SYNC_INTERVAL = 1000 * 60 * 60;
+        private const int CONFIGURATION_SYNC_INTERVAL = 1000 * 60 * 5;
 
         /// <summary>
         /// The interval before the ACR_TIME_SERVERTIME persist store variable
