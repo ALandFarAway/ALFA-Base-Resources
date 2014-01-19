@@ -39,8 +39,14 @@
 
 void main(string sResRef)
 {
-	object oDM = OBJECT_SELF;
-    object oTarget = GetPlayerCurrentTarget(oDM);
+	object oPC = OBJECT_SELF;
+    object oTarget = GetPlayerCurrentTarget( oPC );
+	
+	// Only DMs can use this tool.
+	if ( !GetIsDM( oPC ) && !GetIsDMPossessed( oPC ) ) {
+		SendMessageToPC( oPC, "Only DMs may use this tool." );
+		return;
+	}
 	
 	// Hook the ACR rest system.
 	ACR_QuickRest( oTarget );
