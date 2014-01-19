@@ -16,6 +16,11 @@
 
 void main( string ActionType, string ActionArgument ) 
 {
+    if ( !GetIsDM( oPC ) && !GetIsDMPossessed( oPC ) ) {
+        SendMessageToPC( oPC, "Only DMs may use this tool." );
+        return;
+    }
+    
     ClearScriptParams();
     AddScriptParameterInt(StringToInt(ActionType));
     AddScriptParameterString(ActionArgument);
