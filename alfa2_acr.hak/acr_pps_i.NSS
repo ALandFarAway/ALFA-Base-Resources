@@ -722,6 +722,7 @@ void ACR_PCOnPCLoaded(object oPC)
 	 {
 		 _playerInitiateQuarantine(oPC, -1);
 
+       ACR_LogEvent(oPC, ACR_LOG_LOGIN, "Non-member quarantined due to member protection level: " + GetName(oPC));
 		 SendMessageToPC(oPC, "**** Non-members are not permitted to log in.");
 		 SendMessageToPC(oPC, "**** A membership application is required in order to play.");
 		 SendMessageToPC(oPC, "**** Fill one out at http://www.alandfaraway.org in order to request membership.");

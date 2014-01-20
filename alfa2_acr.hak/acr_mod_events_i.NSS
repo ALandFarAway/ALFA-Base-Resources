@@ -1558,7 +1558,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 					 	return FALSE;
 					 }
 
-					 if (!GetIsDM(oTarget) || !GetIsDMPossessed(oTarget))
+					 if (!GetIsDM(oTarget) && !GetIsDMPossessed(oTarget))
 					 {
 					 	SendMessageToPC(oSpeaker, "You don't have permission to send tells to a non-DM player.");
 						return FALSE;
