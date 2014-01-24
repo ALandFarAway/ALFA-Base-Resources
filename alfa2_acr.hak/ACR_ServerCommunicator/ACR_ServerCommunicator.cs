@@ -392,6 +392,7 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void PatchContentFiles()
         {
+            return;
             ALFA.Database Database = GetDatabase();
             uint Module = GetModule();
             string ContentPatchPath = GetLocalString(Module, "ACR_MOD_CONTENT_PATCH_PATH");
@@ -997,6 +998,135 @@ namespace ACR_ServerCommunicator
         }
 
         /// <summary>
+        /// This method looks up various data records for a player.
+        /// </summary>
+        /// <param name="PlayerObject">Supplies the requesting player's
+        /// object.</param>
+        /// <param name="Name">Supplies the name to query.</param>
+        private void ShowRecordData(uint PlayerObject, string Name)
+        {
+            //
+            // Run the database lookups in the query thread and respond in an
+            // asynchronous fashion.
+            //
+
+            GetDatabase().ACR_IncrementStatistic("SHOW_RECORD_DATA");
+
+            WorldManager.SignalQueryThreadAction(delegate(IALFADatabase Database)
+            {
+                int CharacterId = 0;
+                int PlayerId = 0;
+                string Message;
+                string PlayerName = null;
+
+                lock (WorldManager)
+                {
+                    GamePlayer Player;
+                    GameCharacter Character;
+
+                    Player = WorldManager.ReferencePlayerByName(Name, Database);
+
+                    if (Player == null)
+                    {
+                        Character = WorldManager.ReferenceCharacterByName(Name, Database);
+
+                        if (Character != null)
+                        {
+                            Player = Character.Player;
+                            CharacterId = Character.CharacterId;
+                        }
+                    }
+
+                    if (Player == null)
+                    {
+                        WorldManager.EnqueueMessageToPlayer(PlayerObject, String.Format(
+                            "{0} is not a recognized player or character name.", Name));
+                        return;
+                    }
+
+                    PlayerId = Player.PlayerId;
+                    PlayerName = Player.Name;
+                }
+
+                Database.ACR_SQLQuery(String.Format(
+                    "SELECT `players`.`FirstLogin`, " +
+                    "`players`.`LastLogin`, " +
+                    "`players`.`LastLogout`, " +
+                    "`players`.`Logins`, " +
+                    "`players`.`TimeOnline`, " +
+                    "`players`.`IsMember` " +
+                    "FROM `players` WHERE `ID` = {0}",
+                    PlayerId));
+
+                if (Database.ACR_SQLFetch() == false)
+                {
+                    Message = "Internal error querying database.";
+                }
+                else
+                {
+                    Message = String.Format(
+                        "-- Recorddata for player {0} --\n" +
+                        "ID: {1}\n" +
+                        "First Login: {2}\n" +
+                        "Last Login: {3}\n" +
+                        "Last Logout: {4}\n" +
+                        "Logins: {5}\n" +
+                        "TimeOnline: {6}\n" +
+                        "IsMember: {7}",
+                        PlayerName,
+                        PlayerId,
+                        Database.ACR_SQLGetData(0),
+                        Database.ACR_SQLGetData(1),
+                        Database.ACR_SQLGetData(2),
+                        Database.ACR_SQLGetData(3),
+                        Database.ACR_SQLGetData(4),
+                        Database.ACR_SQLGetData(5));
+                }
+
+                if (CharacterId != 0)
+                {
+                    Database.ACR_SQLQuery(String.Format(
+                        "SELECT " +
+                        "`characters`.`IsDeleted`, " +
+                        "`characters`.`CharacterFileName`, " +
+                        "`characters`.`RetiredStatus`, " +
+                        "`characters`.`AcrVersion` " +
+                        "FROM `characters` WHERE `ID` = {0}",
+                        CharacterId));
+
+                    if (Database.ACR_SQLFetch() == false)
+                    {
+                        Message += "\nInternal error querying database.";
+                    }
+                    else
+                    {
+                        Message += String.Format(
+                            "\n-- Recorddata for character {0} --\n" +
+                            "ID: {1}\n" +
+                            "IsDeleted: {2}\n" +
+                            "CharacterFileName: {3}\n" +
+                            "RetiredStatus: {4}\n" +
+                            "AcrVersion: {5}\n",
+                            Name,
+                            CharacterId,
+                            Database.ACR_SQLGetData(0),
+                            Database.ACR_SQLGetData(1),
+                            Database.ACR_SQLGetData(2),
+                            Database.ACR_SQLGetData(3));
+                    }
+                }
+
+                lock (WorldManager)
+                {
+                    WorldManager.EnqueueMessageToPlayer(PlayerObject, Message);
+                }
+            });
+
+            WorldManager.SignalIPCEventWakeup();
+        }
+
+
+        /// <summary>
         /// Send an infrastructure notification message to the default IRC
         /// gateway and recipient.
         /// </summary>
@@ -1178,6 +1308,7 @@ namespace ACR_ServerCommunicator
                 "ping  - Show current latency statistics (alias: serverlatency).\n" +
                 "uptime  - Show server uptime statistics.\n" +
                 "seen [player name|character name]  - Check when a user last logged on.\n" +
+                "recorddata [player name|character name]  - Display account statistics for a user.\n" +
                 "hideremoteplayers [on|off]  - Hide or show remote players when the chat select window is collapsed (default is to show).\n" +
                 "help  - Show help text.\n" +
                 "irc [message]  - Send IRC message to " + WorldManager.Configuration.DefaultIrcRecipient + ".\n" +
@@ -1364,6 +1495,11 @@ namespace ACR_ServerCommunicator
             else if (CookedText.StartsWith("seen "))
             {
                 ShowLastLoginTime(SenderObjectId, CookedText.Substring(5));
+                return TRUE;
+            }
+            else if (CookedText.StartsWith("recorddata "))
+            {
+                ShowRecordData(SenderObjectId, CookedText.Substring(11));
                 return TRUE;
             }
             else if (CookedText.StartsWith("irc "))
