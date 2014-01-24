@@ -25,6 +25,22 @@ void main(int SourceServerId, string ScriptArgument)
 {
 	string PlayerPassword = ScriptArgument;
 
+	//
+	// To manually invoke this script to the player password for server with
+	// server id <serverid> to new password <newpassword>, the following SQL
+	// query could be used:
+	//
+	// insert into server_ipc_events (id, destinationserverid, destinationplayerid, sourceserverid, sourceplayerid, eventtype, eventtext) values (0, <serverid>, 0, 0, 0, 6, 'acr_set_player_password:<newpassword>');
+	//
+
+	//
+	// Log the attempt to the server log and change the player password.
+	//
+	// N.B.  The change is only effective until the next change or a server
+	//       reboot, unless the configuration file on the server is updated
+	//       separately.
+	//
+
 	WriteTimestampedLogEntry("acr_set_player_password: Server " + IntToString(SourceServerId) + " requests player password change to: " + PlayerPassword);
 	NWNXSetString("SRVADMIN", "SETPLAYERPASSWORD", PlayerPassword, 0, "");
 }
