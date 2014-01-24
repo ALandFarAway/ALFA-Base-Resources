@@ -392,7 +392,6 @@ namespace ACR_ServerCommunicator
         /// </summary>
         private void PatchContentFiles()
         {
-            return;
             ALFA.Database Database = GetDatabase();
             uint Module = GetModule();
             string ContentPatchPath = GetLocalString(Module, "ACR_MOD_CONTENT_PATCH_PATH");
