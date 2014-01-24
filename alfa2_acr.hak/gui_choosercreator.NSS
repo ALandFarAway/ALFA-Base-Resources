@@ -16,6 +16,7 @@
 
 void main( string ActionType, string ActionArgument ) 
 {
+    object oPC = OBJECT_SELF;
     if ( !GetIsDM( oPC ) && !GetIsDMPossessed( oPC ) ) {
         SendMessageToPC( oPC, "Only DMs may use this tool." );
         return;
