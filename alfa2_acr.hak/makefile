@@ -648,7 +648,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\x0_s1_petrgaze.ncs                    \
             $(OUTPUTDIR)\nw_s0_silence.ncs                     \
             $(OUTPUTDIR)\acr_server_ping_request.ncs           \
-            $(OUTPUTDIR)\acr_server_ping_response.ncs          
+            $(OUTPUTDIR)\acr_server_ping_response.ncs          \
+            $(OUTPUTDIR)\acr_set_player_password.ncs           
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and
