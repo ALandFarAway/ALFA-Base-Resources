@@ -151,8 +151,10 @@ namespace ALFA.Shared
 
                                 return GFFBuffer;
                             }
-                            catch
+                            catch (Exception e)
                             {
+                                Logger.Log("CampaignDatabaseHook.GetBinaryDataHook: Exception: {0}", e);
+
                                 if (GFFBuffer != IntPtr.Zero)
                                 {
                                     ServerInterop.FreeServerHeap(GFFBuffer);
@@ -161,8 +163,10 @@ namespace ALFA.Shared
                             }
                         }
                     }
-                    catch
+                    catch (Exception e)
                     {
+                        Logger.Log("CampaignDatabaseHook.GetBinaryDataHook: Exception: {0}", e);
+
                         Size = 0;
                         return IntPtr.Zero;
                     }
@@ -216,8 +220,9 @@ namespace ALFA.Shared
 
                         return EventArgs.Handled ? 1 : 0;
                     }
-                    catch
+                    catch (Exception e)
                     {
+                        Logger.Log("CampaignDatabaseHook.AddBinaryDataHook: Exception: {0}", e);
                         return 0;
                     }
                 }
