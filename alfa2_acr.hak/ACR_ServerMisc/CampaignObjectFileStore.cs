@@ -82,8 +82,14 @@ namespace ACR_ServerMisc
                     if (!Directory.Exists(DirectoryName))
                         return true;
 
+                    ALFA.Shared.Logger.Log("CampaignObjectFileStore.DeleteDatabaseStore: Deleted campaign database store {0}", Campaign);
                     Directory.Delete(DirectoryName, true);
                     return true;
+                }
+                catch (Exception e)
+                {
+                    ALFA.Shared.Logger.Log("CampaignObjectFileStore.DeleteDatabaseStore({0}): Exception: {1}", Campaign, e);
+                    return false;
                 }
                 catch
                 {
@@ -120,9 +126,17 @@ namespace ACR_ServerMisc
                     string FileName = String.Format("{0}{1}{2}.GFF", DirectoryName, Path.DirectorySeparatorChar, e.VarName);
 
                     if (!File.Exists(FileName))
+                    {
+                        ALFA.Shared.Logger.Log("CampaignObjectFileStore.CampaignDatabase_RetrieveCampaignDatabaseEvent: No datatabase {0} exists.", FileName);
                         return;
+                    }
 
                     e.GFF = File.ReadAllBytes(FileName);
+                }
+                catch (Exception ex)
+                {
+                    ALFA.Shared.Logger.Log("CampaignObjectFileStore.CampaignDatabase_RetrieveCampaignDatabaseEvent({0}): Exception: {1}", DirectoryName, ex);
+                    return;
                 }
                 catch
                 {
@@ -160,6 +174,11 @@ namespace ACR_ServerMisc
                     string FileName = String.Format("{0}{1}{2}.GFF", DirectoryName, Path.DirectorySeparatorChar, e.VarName);
 
                     File.WriteAllBytes(FileName, e.GFF);
+                }
+                catch (Exception ex)
+                {
+                    ALFA.Shared.Logger.Log("CampaignObjectFileStore.CampaignDatabase_RetrieveCampaignDatabaseEvent({0}): Exception: {1}", DirectoryName, ex);
+                    return;
                 }
                 catch
                 {

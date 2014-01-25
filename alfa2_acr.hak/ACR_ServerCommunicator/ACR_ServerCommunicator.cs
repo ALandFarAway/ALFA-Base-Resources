@@ -2594,6 +2594,12 @@ namespace ACR_ServerCommunicator
                     WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.DispatchPeriodicEvents(): Encountered exception in external address update: {0}", e));
                 }
             }
+
+            //
+            // Flush any queued log messages to the server log file.
+            //
+
+            ALFA.Shared.Logger.FlushLogMessages(this);
         }
 
         /// <summary>

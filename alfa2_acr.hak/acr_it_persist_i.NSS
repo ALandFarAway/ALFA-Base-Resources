@@ -99,6 +99,12 @@ const string _ACR_PSI_CONTENTS_LOADED = "ACR_PSI_CONTENTS_LOADED";
 //! Debug System ID
 const string ACR_PSO_DEBUG_ID = "acr_it_persist_i";
 
+//
+// Define to 1 to instrment persist item storage.
+//
+
+#define INSTRUMENT_STORAGE 1
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -359,16 +365,28 @@ int _LoadStorageObjectContents(object oStorage, object oTarget = OBJECT_INVALID)
 		 // loop through the objects, add up the item and value counts
 		while (GetIsObjectValid(oItem = ACR_GetPersistentObject(oStorage, IntToString(nLoaded), sDatabaseName)))
 		{
+#if INSTRUMENT_STORAGE
+			WriteTimestampedLogEntry("_LoadStorageObjectContents(" + sDatabaseName + "): Loaded object " + GetName(oItem) + " (" + GetTag(oItem) + ").");
+#endif
+
 			nLoaded++; nValued += GetGoldPieceValue(oItem);
 		}
+
+		WriteTimestampedLogEntry("_LoadStorageObjectContents(" + sDatabaseName + "): Loaded " + IntToString(nLoaded) + " (value " + IntToString(nValued) + ") objects from database store.");
 	}
 	else	
 	{
 		 // loop through the objects, add up the item and value counts
 		while (GetIsObjectValid(oItem = ACR_GetLegacyPersistentObject(oStorage, IntToString(nLoaded), sDatabaseName)))
 		{
+#if INSTRUMENT_STORAGE
+			WriteTimestampedLogEntry("_LoadStorageObjectContents(" + sDatabaseName + "): Loaded object " + GetName(oItem) + " (" + GetTag(oItem) + ").");
+#endif
+
 			nLoaded++; nValued += GetGoldPieceValue(oItem);
 		}
+
+		WriteTimestampedLogEntry("_LoadStorageObjectContents(" + sDatabaseName + "): Loaded " + IntToString(nLoaded) + " (value " + IntToString(nValued) + ") objects from legacy CodeBase campaign database.");
 	}
 
     // update the item and value counters
@@ -427,6 +445,9 @@ int _WriteStorageObjectContents(object oStorage)
 
 	// store the persistent objects
 	ACR_SetPersistentObject(oStorage, IntToString(nStored), oItem, sDatabaseName);
+#if INSTRUMENT_STORAGE
+	WriteTimestampedLogEntry("_WriteStorageObjectContents(" + sDatabaseName + "): Saved object " + GetName(oItem) + " (" + GetTag(oItem) + ").");
+#endif
 
         // tally up the total item count and gold piece value
         nStored++; nValued += GetGoldPieceValue(oItem);
@@ -435,6 +456,7 @@ int _WriteStorageObjectContents(object oStorage)
 		
     }
 
+   WriteTimestampedLogEntry("_WriteStorageObjectContents(" + sDatabaseName + "): Saved " + IntToString(nStored) + " (value " + IntToString(nValued) + ") objects to database store.");
 	//SendMessageToAllDMs("Total value: "+IntToString(nValued)+" gp, from "+IntToString(nStored)+" objects.");
 	
     // update the item and value counters
