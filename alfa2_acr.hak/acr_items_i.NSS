@@ -81,6 +81,11 @@ const int ACR_ITEMS_CSHARP_GENERATE_WAND = 13;
 const int ACR_ITEMS_CSHARP_GENERATE_SCROLLS = 14;
 const int ACR_ITEMS_CSHARP_GENERATE_POTIONS = 15;
 
+
+const int ACR_ITEMS_CSHARP_IPRP_CASTER_LEVEL = 400;
+const int ACR_ITEMS_CSHARP_IPRP_SPELL_LEVEL = 401;
+const int ACR_ITEMS_CSHARP_SPELL_LEVEL = 402;
+
 //! Variable prefixes for spellcraft checks.
 const string ACR_SCC_VAR_BASE = "ACR_SCC_";
 const string ACR_SCC_VAR_POTION = "POTN_";
@@ -152,6 +157,17 @@ int ACR_GetIsMagicScroll( object oItem );
 //!  - oPC : Player character attempting to find information.
 //!  - oTarget : The target to find information of.
 void ACR_AttemptSpellcraftExamine( object oPC, object oTarget );
+
+//! Gets the caster level that a spell cast property of nPropertySubType
+//! would be cast at.
+int ACR_GetSpellCastPropertyCasterLevel( int nPropertySubType );
+
+//! Gets the spell level that a spell cast property of nPropertySubType
+//! would be cast at.
+int ACR_GetSpellCastPropertySpellLevel( int nPropertySubType );
+
+//! Gets the common/standard spell level for a spell of Id nSpellId.
+int ACR_GetSpellLevel( int nSpellId );
 
 // Private
 //
@@ -600,17 +616,17 @@ int GetMaxItemValue(int nLevel)
 
 
 int ACR_GetIsPotion( object oItem ) {
-	if ( !GetBaseItemType( oItem ) == BASE_ITEM_POTIONS ) return TRUE;
-	if ( !GetBaseItemType( oItem ) == BASE_ITEM_BLANK_POTION ) return TRUE;
-	if ( !GetBaseItemType( oItem ) == BASE_ITEM_ENCHANTED_POTION ) return TRUE;
+	if ( GetBaseItemType( oItem ) == BASE_ITEM_POTIONS ) return TRUE;
+	if ( GetBaseItemType( oItem ) == BASE_ITEM_BLANK_POTION ) return TRUE;
+	if ( GetBaseItemType( oItem ) == BASE_ITEM_ENCHANTED_POTION ) return TRUE;
 	return FALSE;
 }
 
 
 int ACR_GetIsScroll( object oItem ) {
-	if ( !GetBaseItemType( oItem ) == BASE_ITEM_SCROLL ) return TRUE;
-	if ( !GetBaseItemType( oItem ) == BASE_ITEM_BLANK_SCROLL ) return TRUE;
-	if ( !GetBaseItemType( oItem ) == BASE_ITEM_ENCHANTED_SCROLL ) return TRUE;
+	if ( GetBaseItemType( oItem ) == BASE_ITEM_SCROLL ) return TRUE;
+	if ( GetBaseItemType( oItem ) == BASE_ITEM_BLANK_SCROLL ) return TRUE;
+	if ( GetBaseItemType( oItem ) == BASE_ITEM_ENCHANTED_SCROLL ) return TRUE;
 	return FALSE;
 }
 
@@ -678,5 +694,31 @@ void ACR_AttemptSpellcraftExamine( object oPC, object oTarget ) {
 	}
 }
 
+int ACR_GetSpellCastPropertyCasterLevel( int nPropertySubType )
+{
+    ClearScriptParams();
+    AddScriptParameterObject(OBJECT_INVALID);
+    AddScriptParameterInt(ACR_ITEMS_CSHARP_IPRP_CASTER_LEVEL);
+    AddScriptParameterInt(nPropertySubType);
+    return ExecuteScriptEnhanced("ACR_Items", OBJECT_SELF, TRUE);
+}
+
+int ACR_GetSpellCastPropertySpellLevel( int nPropertySubType )
+{
+    ClearScriptParams();
+    AddScriptParameterObject(OBJECT_INVALID);
+    AddScriptParameterInt(ACR_ITEMS_CSHARP_IPRP_SPELL_LEVEL);
+    AddScriptParameterInt(nPropertySubType);
+    return ExecuteScriptEnhanced("ACR_Items", OBJECT_SELF, TRUE);
+}
+
+int ACR_GetSpellLevel( int nSpellId )
+{
+    ClearScriptParams();
+    AddScriptParameterObject(OBJECT_INVALID);
+    AddScriptParameterInt(ACR_ITEMS_CSHARP_SPELL_LEVEL);
+    AddScriptParameterInt(nSpellId);
+    return ExecuteScriptEnhanced("ACR_Items", OBJECT_SELF, TRUE);
+}
 
 #endif

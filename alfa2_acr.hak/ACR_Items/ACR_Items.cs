@@ -2247,6 +2247,29 @@ namespace ACR_Items
                         break;
                     }
                 #endregion
+                #region Providing Information to NWScript
+                case ItemCommand.GetSpellCastPropertyCasterLevel:
+                    {
+                        if (ALFA.Shared.Modules.InfoStore.IPCastSpells.Count > Param1 &&
+                            ALFA.Shared.Modules.InfoStore.IPCastSpells[Param1] != null)
+                            return ALFA.Shared.Modules.InfoStore.IPCastSpells[Param1].CasterLevel;
+                        else return -1;
+                    }
+                case ItemCommand.GetSpellCastPropertySpellLevel:
+                    {
+                        if (ALFA.Shared.Modules.InfoStore.IPCastSpells.Count > Param1 &&
+                            ALFA.Shared.Modules.InfoStore.IPCastSpells[Param1] != null)
+                            return ALFA.Shared.Modules.InfoStore.IPCastSpells[Param1].InnateLevel;
+                        else return -1;
+                    }
+                case ItemCommand.GetSpellLevel:
+                    {
+                        if (ALFA.Shared.Modules.InfoStore.CoreSpells.Count > Param1 &&
+                            ALFA.Shared.Modules.InfoStore.CoreSpells[Param1] != null)
+                            return ALFA.Shared.Modules.InfoStore.CoreSpells[Param1].InnateLevel;
+                        else return -1;
+                    }
+                #endregion
             }
             if (Command >= 200)
             {
@@ -2413,6 +2436,11 @@ namespace ACR_Items
 
             SetArmorSetModels = 290,
             SetAllArmorColors = 291,
+
+
+            GetSpellLevel = 400,
+            GetSpellCastPropertySpellLevel = 401,
+            GetSpellCastPropertyCasterLevel = 402,
         }
 
         public enum ColorType
