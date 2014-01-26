@@ -166,9 +166,6 @@ int ACR_GetSpellCastPropertyCasterLevel( int nPropertySubType );
 //! would be cast at.
 int ACR_GetSpellCastPropertySpellLevel( int nPropertySubType );
 
-//! Gets the common/standard spell level for a spell of Id nSpellId.
-int ACR_GetSpellLevel( int nSpellId );
-
 // Private
 //
 
@@ -709,15 +706,6 @@ int ACR_GetSpellCastPropertySpellLevel( int nPropertySubType )
     AddScriptParameterObject(OBJECT_INVALID);
     AddScriptParameterInt(ACR_ITEMS_CSHARP_IPRP_SPELL_LEVEL);
     AddScriptParameterInt(nPropertySubType);
-    return ExecuteScriptEnhanced("ACR_Items", OBJECT_SELF, TRUE);
-}
-
-int ACR_GetSpellLevel( int nSpellId )
-{
-    ClearScriptParams();
-    AddScriptParameterObject(OBJECT_INVALID);
-    AddScriptParameterInt(ACR_ITEMS_CSHARP_SPELL_LEVEL);
-    AddScriptParameterInt(nSpellId);
     return ExecuteScriptEnhanced("ACR_Items", OBJECT_SELF, TRUE);
 }
 
