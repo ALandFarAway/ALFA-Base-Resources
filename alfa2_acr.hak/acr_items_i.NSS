@@ -681,7 +681,7 @@ void ACR_AttemptSpellcraftExamine( object oPC, object oTarget ) {
 			string sScrollVar = GetSCCVar( ACR_SCC_VAR_SCROLL, nCharID );
 			if ( GetLocalInt( oPC, sScrollVar ) == 0 || GetLocalInt( oPC, sScrollVar ) + 24 <= ACR_GetTimeStampInHours()  ) {
 				// DC = 20 + Spell Level
-				int nDC = 20;
+				int nDC = 20 + ACR_GetSpellCastPropertySpellLevel( GetItemPropertySubType( ACR_GetFirstItemPropertyOfType( oTarget, ITEM_PROPERTY_CAST_SPELL ) ) );
 				if ( ACR_SkillCheck( SKILL_SPELLCRAFT, oPC, nDC, TRUE, TRUE ) ) {
 					// On success, report happiness and clear up related variables.
 					SendMessageToPC( oPC, "You have successfully identified this scroll." );
@@ -715,13 +715,15 @@ int ACR_GetSpellCastPropertySpellLevel( int nPropertySubType )
 }
 
 itemproperty ACR_GetFirstItemPropertyOfType( object oItem, int nType ) {
-	itemproperty iProp = GetFirstItemProperty( oItem );
-	while ( GetIsItemPropertyValid( iProp ) ) {
-		if ( GetItemPropertyType( iProp == nType ) ) {
-			return iProp;
+	itemproperty ipProp = GetFirstItemProperty( oItem );
+	while ( GetIsItemPropertyValid( ipProp ) ) {
+		if ( GetItemPropertyType( ipProp ) == nType ) {
+			return ipProp;
 		}
-		iProp = GetNextItemProperty( oItem );
+		ipProp = GetNextItemProperty( oItem );
 	}
+	itemproperty ipInvalid;
+	return ipInvalid;
 }
 
 #endif
