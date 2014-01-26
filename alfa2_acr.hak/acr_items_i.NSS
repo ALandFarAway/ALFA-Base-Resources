@@ -166,6 +166,11 @@ int ACR_GetSpellCastPropertyCasterLevel( int nPropertySubType );
 //! would be cast at.
 int ACR_GetSpellCastPropertySpellLevel( int nPropertySubType );
 
+//! Returns the first item property of the type specified.
+//!  - oItem : The item to fetch a property from.
+//!  - nEffect : The type of effect to return.
+itemproperty ACR_GetFirstItemPropertyOfType( object oItem, int nType );
+
 // Private
 //
 
@@ -707,6 +712,16 @@ int ACR_GetSpellCastPropertySpellLevel( int nPropertySubType )
     AddScriptParameterInt(ACR_ITEMS_CSHARP_IPRP_SPELL_LEVEL);
     AddScriptParameterInt(nPropertySubType);
     return ExecuteScriptEnhanced("ACR_Items", OBJECT_SELF, TRUE);
+}
+
+itemproperty ACR_GetFirstItemPropertyOfType( object oItem, int nType ) {
+	itemproperty iProp = GetFirstItemProperty( oItem );
+	while ( GetIsItemPropertyValid( iProp ) ) {
+		if ( GetItemPropertyType( iProp == nType ) ) {
+			return iProp;
+		}
+		iProp = GetNextItemProperty( oItem );
+	}
 }
 
 #endif
