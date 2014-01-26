@@ -110,6 +110,9 @@ const int ACR_SSC_DC_POTION = 25;
 // Public
 //
 
+//! An invalid item property.
+itemproperty ItemPropertyInvalid();
+
 //! Handles equipping of items.
 void ACR_ItemOnEquip(object oItem, object oPC);
 
@@ -206,6 +209,11 @@ void ClearSCCVar( object oItem, string sType );
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+itemproperty ItemPropertyInvalid() {
+	itemproperty ipInvalid;
+	return ipInvalid;
+}
 
 void _RecalcACP(object oPC)
 {
@@ -722,8 +730,7 @@ itemproperty ACR_GetFirstItemPropertyOfType( object oItem, int nType ) {
 		}
 		ipProp = GetNextItemProperty( oItem );
 	}
-	itemproperty ipInvalid;
-	return ipInvalid;
+	return ItemPropertyInvalid();
 }
 
 #endif
