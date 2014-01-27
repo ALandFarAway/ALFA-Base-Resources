@@ -110,6 +110,9 @@ const int ACR_SSC_DC_POTION = 25;
 // Public
 //
 
+//! An invalid item property.
+itemproperty ItemPropertyInvalid();
+
 //! Handles equipping of items.
 void ACR_ItemOnEquip(object oItem, object oPC);
 
@@ -166,8 +169,10 @@ int ACR_GetSpellCastPropertyCasterLevel( int nPropertySubType );
 //! would be cast at.
 int ACR_GetSpellCastPropertySpellLevel( int nPropertySubType );
 
-//! Gets the common/standard spell level for a spell of Id nSpellId.
-int ACR_GetSpellLevel( int nSpellId );
+//! Returns the first item property of the type specified.
+//!  - oItem : The item to fetch a property from.
+//!  - nEffect : The type of effect to return.
+itemproperty ACR_GetFirstItemPropertyOfType( object oItem, int nType );
 
 // Private
 //
@@ -204,6 +209,11 @@ void ClearSCCVar( object oItem, string sType );
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+itemproperty ItemPropertyInvalid() {
+	itemproperty ipInvalid;
+	return ipInvalid;
+}
 
 void _RecalcACP(object oPC)
 {
@@ -679,7 +689,7 @@ void ACR_AttemptSpellcraftExamine( object oPC, object oTarget ) {
 			string sScrollVar = GetSCCVar( ACR_SCC_VAR_SCROLL, nCharID );
 			if ( GetLocalInt( oPC, sScrollVar ) == 0 || GetLocalInt( oPC, sScrollVar ) + 24 <= ACR_GetTimeStampInHours()  ) {
 				// DC = 20 + Spell Level
-				int nDC = 20;
+				int nDC = 20 + ACR_GetSpellCastPropertySpellLevel( GetItemPropertySubType( ACR_GetFirstItemPropertyOfType( oTarget, ITEM_PROPERTY_CAST_SPELL ) ) );
 				if ( ACR_SkillCheck( SKILL_SPELLCRAFT, oPC, nDC, TRUE, TRUE ) ) {
 					// On success, report happiness and clear up related variables.
 					SendMessageToPC( oPC, "You have successfully identified this scroll." );
@@ -712,13 +722,15 @@ int ACR_GetSpellCastPropertySpellLevel( int nPropertySubType )
     return ExecuteScriptEnhanced("ACR_Items", OBJECT_SELF, TRUE);
 }
 
-int ACR_GetSpellLevel( int nSpellId )
-{
-    ClearScriptParams();
-    AddScriptParameterObject(OBJECT_INVALID);
-    AddScriptParameterInt(ACR_ITEMS_CSHARP_SPELL_LEVEL);
-    AddScriptParameterInt(nSpellId);
-    return ExecuteScriptEnhanced("ACR_Items", OBJECT_SELF, TRUE);
+itemproperty ACR_GetFirstItemPropertyOfType( object oItem, int nType ) {
+	itemproperty ipProp = GetFirstItemProperty( oItem );
+	while ( GetIsItemPropertyValid( ipProp ) ) {
+		if ( GetItemPropertyType( ipProp ) == nType ) {
+			return ipProp;
+		}
+		ipProp = GetNextItemProperty( oItem );
+	}
+	return ItemPropertyInvalid();
 }
 
 #endif
