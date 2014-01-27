@@ -135,7 +135,7 @@ namespace ACR_PCHide
                 skillBonuses[(int)SKILLS.SKILL_PERFORM_STRING_INSTRUMENTS] += 2;
                 skillBonuses[(int)SKILLS.SKILL_PERFORM_WIND_INSTRUMENTS] += 2;
             }
-            
+
             // Add skill bonuses to item.
             foreach (int skill in skillBonuses.Keys)
             {
@@ -145,11 +145,11 @@ namespace ACR_PCHide
                 }
                 else if (skillBonuses[skill] > 0)
                 {
-                    script.AddItemProperty(CLRScriptBase.DURATION_TYPE_PERMANENT, script.ItemPropertyDecreaseSkill(skill, skillBonuses[skill]), m_oHide, 0.0f);
+                    script.AddItemProperty(CLRScriptBase.DURATION_TYPE_PERMANENT, script.ItemPropertySkillBonus(skill, skillBonuses[skill]), m_oHide, 0.0f);
                 }
                 else if (skillBonuses[skill] < 0)
                 {
-                    script.AddItemProperty(CLRScriptBase.DURATION_TYPE_PERMANENT, script.ItemPropertySkillBonus(skill, skillBonuses[skill]), m_oHide, 0.0f);
+                    script.AddItemProperty(CLRScriptBase.DURATION_TYPE_PERMANENT, script.ItemPropertyDecreaseSkill(skill, Math.Abs(skillBonuses[skill])), m_oHide, 0.0f);
                 }
             }
 
