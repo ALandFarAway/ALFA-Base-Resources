@@ -81,46 +81,46 @@ namespace ACR_PCHide
 
             #region Skill Focus feats
             // Handle all new shiny skill focus feats.
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_BALANCE, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_BALANCE] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_CLIMB, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_CLIMB] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_CRFT_ALCH, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_CRAFT_ALCHEMY] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_CRFT_ARM, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_CRAFT_ARMORSMITHING] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_CRFT_BOW, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_CRAFT_BOWMAKING] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_CRFT_WPN, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_CRAFT_WEAPONSMITHING] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_DECIPHER, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_DECIPHER_SCRIPT] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_DISGUISE, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_DISGUISE] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_ESC_ART, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_ESCAPE_ARTIST] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_HAND_ANIM, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_HANDLE_ANIMAL] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_JUMP, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_JUMP] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_ARC, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_ARCANA] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_DUNG, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_DUNGEONEERING] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_ENG, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_ENGINEERING] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_GEO, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_GEOGRAPHY] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_HIST, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_HISTORY] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_LOC, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_LOCAL] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_NATR, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_NATURE] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_NOBL, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_NOBILITY] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_PLAN, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_THE_PLANES] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_RELG, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_RELIGION] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_ACT, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_ACT] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_COMD, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_COMEDY] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_DANC, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_DANCE] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_KEYB, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_KEYBOARD] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_ORAT, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_ORATORY] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_PERC, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_PERCUSSION] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_SING, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_SING] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_STRG, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_STRING_INSTRUMENTS] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_WIND, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_WIND_INSTRUMENTS] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PROF, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PROFESSION] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_RIDE, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_RIDE] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_SENS_MOTV, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_SPEAK_LANGUAGE] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_SPK_LANG, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_LOCAL] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_SWIM, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_SWIM] += 3;
-            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_USE_ROPE, m_oCreature, 0) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_USE_ROPE] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_BALANCE, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_BALANCE] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_CLIMB, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_CLIMB] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_CRFT_ALCH, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_CRAFT_ALCHEMY] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_CRFT_ARM, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_CRAFT_ARMORSMITHING] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_CRFT_BOW, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_CRAFT_BOWMAKING] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_CRFT_WPN, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_CRAFT_WEAPONSMITHING] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_DECIPHER, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_DECIPHER_SCRIPT] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_DISGUISE, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_DISGUISE] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_ESC_ART, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_ESCAPE_ARTIST] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_HAND_ANIM, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_HANDLE_ANIMAL] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_JUMP, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_JUMP] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_ARC, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_ARCANA] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_DUNG, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_DUNGEONEERING] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_ENG, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_ENGINEERING] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_GEO, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_GEOGRAPHY] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_HIST, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_HISTORY] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_LOC, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_LOCAL] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_NATR, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_NATURE] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_NOBL, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_NOBILITY] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_PLAN, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_THE_PLANES] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_KNOW_RELG, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_RELIGION] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_ACT, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_ACT] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_COMD, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_COMEDY] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_DANC, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_DANCE] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_KEYB, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_KEYBOARD] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_ORAT, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_ORATORY] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_PERC, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_PERCUSSION] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_SING, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_SING] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_STRG, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_STRING_INSTRUMENTS] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PERF_WIND, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PERFORM_WIND_INSTRUMENTS] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_PROF, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_PROFESSION] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_RIDE, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_RIDE] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_SENS_MOTV, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_SPEAK_LANGUAGE] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_SPK_LANG, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_KNOWLEDGE_LOCAL] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_SWIM, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_SWIM] += 3;
+            if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_USE_ROPE, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_USE_ROPE] += 3;
             #endregion
 
             // Artist is one bad-ass feat.
-            if (script.GetHasFeat(CLRScriptBase.FEAT_ARTIST, m_oCreature, 0) == CLRScriptBase.TRUE)
+            if (script.GetHasFeat(CLRScriptBase.FEAT_ARTIST, m_oCreature, 1) == CLRScriptBase.TRUE)
             {
                 // Previously: +2 perform, +2 diplomacy
                 // Currently: +2 perform (all), 3 extra bardic music uses per day
@@ -166,7 +166,7 @@ namespace ACR_PCHide
                 }
                 else if (saveBonuses[save] < 0)
                 {
-                    script.AddItemProperty(CLRScriptBase.DURATION_TYPE_PERMANENT, script.ItemPropertyReducedSavingThrow(save, saveBonuses[save]), m_oHide, 0.0f);
+                    script.AddItemProperty(CLRScriptBase.DURATION_TYPE_PERMANENT, script.ItemPropertyReducedSavingThrow(save, Math.Abs(saveBonuses[save])), m_oHide, 0.0f);
                 }
             }
 
