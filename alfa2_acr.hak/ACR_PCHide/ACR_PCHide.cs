@@ -58,14 +58,17 @@ namespace ACR_PCHide
                 }
             }
 
-            // If it doesn't exist, create it.
-            if (!m_HideMap.ContainsKey(nCID))
+            // Remake the hide.
+            bool bRetState;
+            if (m_HideMap.ContainsKey(nCID))
+            {
+                bRetState = m_HideMap[nCID].clear(this);
+            }
+            else
             {
                 m_HideMap.Add(nCID, new PCHide(oPC, oHide));
+                bRetState = m_HideMap[nCID].recalculate(this);
             }
-
-            // Remake the hide.
-            bool bRetState = m_HideMap[nCID].recalculate(this);
             if (bRetState == false)
             {
                 m_HideMap.Remove(nCID);

@@ -48,6 +48,24 @@ namespace ACR_PCHide
             return oHide;
         }
 
+        public bool clear(CLRScriptBase script)
+        {
+            if (script.GetIsObjectValid(m_oCreature) == CLRScriptBase.FALSE || script.GetIsObjectValid(m_oCreature) == CLRScriptBase.FALSE)
+            {
+                return false;
+            }
+            uint oOldHide = getHide(script);
+            foreach(ItemProperty prop in script.GetItemPropertiesOnItem(oOldHide))
+            {
+                if (script.GetItemPropertyDurationType(prop) == CLRScriptBase.DURATION_TYPE_PERMANENT)
+                {
+                    script.RemoveItemProperty(oOldHide, prop);
+                }
+            }
+            script.SendMessageToPC(m_oCreature, "PC Hide refreshed.");
+            return true;
+        }
+
         public bool recalculate(CLRScriptBase script)
         {
             // Ensure that both our hide and our creature are still valid.
@@ -172,7 +190,6 @@ namespace ACR_PCHide
 
             // Make the person equip the new item.
             script.AssignCommand(m_oCreature, delegate { script.ClearAllActions(CLRScriptBase.FALSE); });
-            script.AssignCommand(m_oCreature, delegate { script.ActionUnequipItem(oOldHide); });
             script.AssignCommand(m_oCreature, delegate { script.ActionEquipItem(m_oHide, CLRScriptBase.INVENTORY_SLOT_CARMOUR); });
             script.DestroyObject(oOldHide, 0.0f, CLRScriptBase.FALSE);
             script.SendMessageToPC(m_oCreature, "PC Hide refreshed.");
