@@ -180,7 +180,7 @@ void ACR_LearnTradescroll( object oPC, object oTradescroll ) {
 	}
 	
 	// Learn the spell.
-	SetSpellKnown( oPC, nWizardPosition, nSpellId, TRUE, FALSE );
+	SetSpellKnown( oPC, nWizardPosition - 1, nSpellId, TRUE, FALSE );
 	DestroyObject( oTradescroll );
 	
 	// Log event, send feedback to PC.
