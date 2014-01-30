@@ -278,7 +278,6 @@ int ACR_SkillCheck(int nSkillID, object oPC, int nDC=0, int bShowRoll=FALSE, int
 			case SKILL_USE_MAGIC_DEVICE:
 			case SKILL_TUMBLE:
 			case SKILL_DECIPHER_SCRIPT:			
-			case SKILL_HANDLE_ANIMAL:
 			case SKILL_PROFESSION:			
 				// Skill is not usable untrained.  Report if appropriate, and return FALSE
 				nMaxDC = 0;
@@ -835,6 +834,9 @@ void ACR_SkillsOnPCLoaded(object oEntered) {
 
     if (!GetIsPC(oEntered)) { return; }
 	if (GetIsDM(oEntered)) { return; }
+	
+	// Lore is no longer supported.
+	SetBaseSkillRank( oEntered, SKILL_LORE, 0, FALSE );
 
 	if (!ACR_SkillsCheckIsPCAdapted(oEntered)) {
 		SendMessageToPC(oEntered, "Queuing Adaption Convo"); 
