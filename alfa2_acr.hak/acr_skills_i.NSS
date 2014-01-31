@@ -841,7 +841,7 @@ void ACR_SkillsOnPCLoaded(object oEntered) {
 	if (!ACR_SkillsCheckIsPCAdapted(oEntered)) {
 		SendMessageToPC(oEntered, "Queuing Adaption Convo"); 
 		// Need the PC at 1st level to manage the conversion, but will do it via the convo.
-		AssignCommand(oEntered, ActionStartConversation(oEntered, "acr_convo_skill", TRUE, FALSE));
+		DelayCommand( 1.0, AssignCommand(oEntered, ActionStartConversation(oEntered, "acr_convo_skill", TRUE, FALSE)) );
 	}
 	
 }
