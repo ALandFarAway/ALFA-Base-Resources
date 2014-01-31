@@ -169,6 +169,10 @@ int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion )
 		if ( GetLevelByClass( CLASS_TYPE_DRUID, oPC ) >= 15 ) {
 			FeatAdd( oPC, FEAT_TIMELESS_BODY, FALSE, TRUE, FALSE );
 		}
+		
+        // Replace Power Attack with the ACR version.
+        _SwapFeat( oPC, FEAT_POWER_ATTACK, FEAT_ACR_POWER_ATTACK );
+        _SwapFeat( oPC, FEAT_IMPROVED_POWER_ATTACK, FEAT_ACR_IMPROVED_POWER_ATTACK );
 	}
     return bChanged;
 }
