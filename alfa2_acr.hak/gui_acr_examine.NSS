@@ -6,5 +6,5 @@ void main() {
     object oTarget = GetPlayerCurrentTarget( oPC );
 	
 	// Spellcraft can reveal quite a bit about an target.
-//	ACR_AttemptSpellcraftExamine( oPC, oTarget );
+	ACR_AttemptSpellcraftExamine( oPC, oTarget );
 }

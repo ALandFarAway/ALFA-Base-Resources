@@ -637,6 +637,7 @@ int ACR_GetIsScroll( object oItem ) {
 	if ( GetBaseItemType( oItem ) == BASE_ITEM_SCROLL ) return TRUE;
 	if ( GetBaseItemType( oItem ) == BASE_ITEM_BLANK_SCROLL ) return TRUE;
 	if ( GetBaseItemType( oItem ) == BASE_ITEM_ENCHANTED_SCROLL ) return TRUE;
+	if ( GetBaseItemType( oItem ) == BASE_ITEM_SPELLSCROLL ) return TRUE;
 	return FALSE;
 }
 
@@ -654,53 +655,65 @@ int ACR_GetIsMagicScroll( object oItem ) {
 
 
 void ACR_AttemptSpellcraftExamine( object oPC, object oTarget ) {
-	// First, we make sure that our PC is an actual PC.
+	// We don't need to identify identified items.
+	if ( GetIdentified( oTarget ) ) {
+		return;
+	}
+	
+	// We also can only identify items with this.
+	if ( GetObjectType( oTarget ) != OBJECT_TYPE_ITEM ) {
+		return;
+	}
+
+	// Make sure that our PC is an actual PC.
 	int nCharID = ACR_GetCharacterID( oPC );
 	if ( nCharID == 0 ) {
+		SendMessageToPC( oPC, "ERROR: Only actual PCs may use spellcraft to identify items." );
 		return;
 	}
 	
 	// Spellcraft is a trained only skill.
 	if ( GetSkillRank( SKILL_SPELLCRAFT, oPC, TRUE ) == 0 ) {
+		SendMessageToPC( oPC, "Your grasp of Spellcraft leaves you unsure of the nature of this item." );
 		return;
 	}
 	
-	// If we're dealing with undentified items, we have some uses.
-	if ( GetObjectType( oTarget ) == OBJECT_TYPE_ITEM && !GetIdentified( oTarget ) ) {
-		// A DC 25 spellcraft check identifies potions. No retry.
-		if ( ACR_GetIsPotion( oTarget ) ) {
-			string sPotionVar = GetSCCVar( ACR_SCC_VAR_POTION, nCharID );
-			if ( GetLocalInt( oPC, sPotionVar ) == 0 ) {
-				if ( ACR_SkillCheck( SKILL_SPELLCRAFT, oPC, ACR_SSC_DC_POTION, TRUE, TRUE ) ) {
-					SendMessageToPC( oPC, "You have successfully identified this potion." );
-					SetIdentified( oTarget, TRUE );
-					ClearSCCVar( oTarget, ACR_SCC_VAR_POTION );
-				} else {
-					SendMessageToPC( oPC, "You have failed to identify this potion." );
-					SetLocalInt( oPC, sPotionVar, 1 );
-				}
-				
+	// A DC 25 spellcraft check identifies potions. No retry.
+	if ( ACR_GetIsPotion( oTarget ) ) {
+		string sPotionVar = GetSCCVar( ACR_SCC_VAR_POTION, nCharID );
+		if ( GetLocalInt( oPC, sPotionVar ) == 0 ) {
+			if ( ACR_SkillCheck( SKILL_SPELLCRAFT, oPC, ACR_SSC_DC_POTION, TRUE, TRUE ) ) {
+				SendMessageToPC( oPC, "You have successfully identified this potion." );
+				SetIdentified( oTarget, TRUE );
+				ClearSCCVar( oTarget, ACR_SCC_VAR_POTION );
+			} else {
+				SendMessageToPC( oPC, "You have failed to identify this potion." );
+				SetLocalInt( oPC, sPotionVar, 1 );
 			}
 		}
-		
-		// A DC 20 + Spell Level spellcraft check identifies a magic scroll.
-		if ( ACR_GetIsMagicScroll( oTarget ) ) {
-			// A check is allowed once every 24 hours.
-			string sScrollVar = GetSCCVar( ACR_SCC_VAR_SCROLL, nCharID );
-			if ( GetLocalInt( oPC, sScrollVar ) == 0 || GetLocalInt( oPC, sScrollVar ) + 24 <= ACR_GetTimeStampInHours()  ) {
-				// DC = 20 + Spell Level
-				int nDC = 20 + ACR_GetSpellCastPropertySpellLevel( GetItemPropertySubType( ACR_GetFirstItemPropertyOfType( oTarget, ITEM_PROPERTY_CAST_SPELL ) ) );
-				if ( ACR_SkillCheck( SKILL_SPELLCRAFT, oPC, nDC, TRUE, TRUE ) ) {
-					// On success, report happiness and clear up related variables.
-					SendMessageToPC( oPC, "You have successfully identified this scroll." );
-					SetIdentified( oTarget, TRUE );
-					ClearSCCVar( oTarget, ACR_SCC_VAR_SCROLL );
-				} else {
-					SendMessageToPC( oPC, "You have failed to identify this scroll. You may not try for another day." );
-					SetLocalInt( oPC, sScrollVar, ACR_GetTimeStampInHours() );
-				}
+		return;
+	}
+	
+	// A DC 20 + Spell Level spellcraft check identifies a magic scroll.
+	if ( ACR_GetIsScroll( oTarget ) ) {
+		// A check is allowed once every 24 hours.
+		string sScrollVar = GetSCCVar( ACR_SCC_VAR_SCROLL, nCharID );
+		if ( GetLocalInt( oPC, sScrollVar ) == 0 || GetLocalInt( oPC, sScrollVar ) + 24 <= ACR_GetTimeStampInHours()  ) {
+			// DC = 20 + Spell Level
+			int nDC = 20 + ACR_GetSpellCastPropertySpellLevel( GetItemPropertySubType( ACR_GetFirstItemPropertyOfType( oTarget, ITEM_PROPERTY_CAST_SPELL ) ) );
+			if ( ACR_SkillCheck( SKILL_SPELLCRAFT, oPC, nDC, TRUE, TRUE ) ) {
+				// On success, report happiness and clear up related variables.
+				SendMessageToPC( oPC, "You have successfully identified this scroll." );
+				SetIdentified( oTarget, TRUE );
+				ClearSCCVar( oTarget, ACR_SCC_VAR_SCROLL );
+			} else {
+				SendMessageToPC( oPC, "You have failed to identify this scroll. You may not try for another day." );
+				SetLocalInt( oPC, sScrollVar, ACR_GetTimeStampInHours() );
 			}
+		} else {
+			SendMessageToPC( oPC, "You must wait another " + IntToString( ACR_GetTimeStampInHours() - GetLocalInt( oPC, sScrollVar ) ) + " hours to attempt a spellcraft check." );
 		}
+		return;
 	}
 }
 
