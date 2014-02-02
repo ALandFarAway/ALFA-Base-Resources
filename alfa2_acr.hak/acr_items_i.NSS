@@ -174,6 +174,11 @@ int ACR_GetSpellCastPropertySpellLevel( int nPropertySubType );
 //!  - nEffect : The type of effect to return.
 itemproperty ACR_GetFirstItemPropertyOfType( object oItem, int nType );
 
+//! Returns a DAMAGE_TYPE_* variable, from a weapon.
+//!  - oItem : The item to fetch a property from.
+//!  - nEffect : The type of effect to return.
+int ACR_GetWeaponDamageType( object oItem );
+
 // Private
 //
 
@@ -744,6 +749,14 @@ itemproperty ACR_GetFirstItemPropertyOfType( object oItem, int nType ) {
 		ipProp = GetNextItemProperty( oItem );
 	}
 	return ItemPropertyInvalid();
+}
+
+int ACR_GetWeaponDamageType( object oItem ) {
+	switch ( GetWeaponType( oItem ) ) {
+		case WEAPON_TYPE_BLUDGEONING: return DAMAGE_TYPE_BLUDGEONING; break;
+		case WEAPON_TYPE_PIERCING: return DAMAGE_TYPE_PIERCING; break;
+	}
+	return DAMAGE_TYPE_SLASHING;
 }
 
 #endif
