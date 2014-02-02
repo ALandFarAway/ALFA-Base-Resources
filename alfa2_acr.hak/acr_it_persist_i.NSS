@@ -360,39 +360,36 @@ int _LoadStorageObjectContents(object oStorage, object oTarget = OBJECT_INVALID)
 
     object oItem; int nLoaded = 0, nValued = 0;
 
-	 if (ACR_GetHasDatabaseStore(sDatabaseName))
-	 {
-		 // loop through the objects, add up the item and value counts
-		while (GetIsObjectValid(oItem = ACR_GetPersistentObject(oStorage, IntToString(nLoaded), sDatabaseName)))
-		{
+    if (ACR_GetHasDatabaseStore(sDatabaseName))
+    {
+        // loop through the objects, add up the item and value counts
+        while (GetIsObjectValid(oItem = ACR_GetPersistentObject(oStorage, IntToString(nLoaded), sDatabaseName)))
+        {
 #if INSTRUMENT_STORAGE
-			WriteTimestampedLogEntry("_LoadStorageObjectContents(" + sDatabaseName + "): Loaded object " + GetName(oItem) + " (" + GetTag(oItem) + ").");
+            WriteTimestampedLogEntry("_LoadStorageObjectContents(" + sDatabaseName + "): Loaded object " + GetName(oItem) + " (" + GetTag(oItem) + ").");
 #endif
+            nLoaded++; nValued += GetGoldPieceValue(oItem);
+        }
 
-			nLoaded++; nValued += GetGoldPieceValue(oItem);
-		}
-
-		WriteTimestampedLogEntry("_LoadStorageObjectContents(" + sDatabaseName + "): Loaded " + IntToString(nLoaded) + " (value " + IntToString(nValued) + ") objects from database store.");
-	}
-	else	
-	{
-		 // loop through the objects, add up the item and value counts
-		while (GetIsObjectValid(oItem = ACR_GetLegacyPersistentObject(oStorage, IntToString(nLoaded), sDatabaseName)))
-		{
+        WriteTimestampedLogEntry("_LoadStorageObjectContents(" + sDatabaseName + "): Loaded " + IntToString(nLoaded) + " (value " + IntToString(nValued) + ") objects from database store.");
+    }
+    else	
+    {
+        // loop through the objects, add up the item and value counts
+        while (GetIsObjectValid(oItem = ACR_GetLegacyPersistentObject(oStorage, IntToString(nLoaded), sDatabaseName)))
+        {
 #if INSTRUMENT_STORAGE
-			WriteTimestampedLogEntry("_LoadStorageObjectContents(" + sDatabaseName + "): Loaded object " + GetName(oItem) + " (" + GetTag(oItem) + ").");
+            WriteTimestampedLogEntry("_LoadStorageObjectContents(" + sDatabaseName + "): Loaded object " + GetName(oItem) + " (" + GetTag(oItem) + ").");
 #endif
-
-			nLoaded++; nValued += GetGoldPieceValue(oItem);
-		}
-
-		WriteTimestampedLogEntry("_LoadStorageObjectContents(" + sDatabaseName + "): Loaded " + IntToString(nLoaded) + " (value " + IntToString(nValued) + ") objects from legacy CodeBase campaign database.");
-	}
+            nLoaded++; nValued += GetGoldPieceValue(oItem);
+        }
+        WriteTimestampedLogEntry("_LoadStorageObjectContents(" + sDatabaseName + "): Loaded " + IntToString(nLoaded) + " (value " + IntToString(nValued) + ") objects from legacy CodeBase campaign database.");
+    }
 
     // update the item and value counters
     SetLocalInt(oStorage, _ACR_PSO_NUMBER_OF_ITEMS_LI, nLoaded);
     SetLocalInt(oStorage, _ACR_PSO_TOTAL_VALUE_LI, nValued);
-	SetLocalInt(oStorage, _ACR_PSI_CONTENTS_LOADED, 1);
+    SetLocalInt(oStorage, _ACR_PSI_CONTENTS_LOADED, 1);
 
     return nLoaded;
 }
@@ -403,7 +400,6 @@ int _WriteStorageObjectContents(object oStorage)
 
     // purge the database to avoid duping items
     DestroyCampaignDatabase(sDatabaseName);
-	 ACR_DeleteDatabaseStore(sDatabaseName);
 
     int nStored = 0, nValued = 0, i;
     
@@ -412,39 +408,38 @@ int _WriteStorageObjectContents(object oStorage)
     // loop through inventory
     for (oItem = GetFirstItemInInventory(oStorage); GetIsObjectValid(oItem); oItem = GetNextItemInInventory(oStorage))
     {
-
-	// Create a list of all objects presently held within a container (pack, box, scroll case, etc) to exclude later
-    	for (oContained = GetFirstItemInInventory(oItem); GetIsObjectValid(oContained); oContained = GetNextItemInInventory(oItem)) {
-		i = ACR_ListInsertAfterIndex("pchest", ACR_ListGetFirstIndex("pchest", oStorage), oStorage);
-		ACR_ListSetElementObject("pchest", i, oContained, oStorage);
-	}
+        // Create a list of all objects presently held within a container (pack, box, scroll case, etc) to exclude later
+        for (oContained = GetFirstItemInInventory(oItem); GetIsObjectValid(oContained); oContained = GetNextItemInInventory(oItem)) {
+            i = ACR_ListInsertAfterIndex("pchest", ACR_ListGetFirstIndex("pchest", oStorage), oStorage);
+            ACR_ListSetElementObject("pchest", i, oContained, oStorage);
+        }
     }
 
     // loop through inventory second time
     for (oItem = GetFirstItemInInventory(oStorage); GetIsObjectValid(oItem); oItem = GetNextItemInInventory(oStorage))
     {
-	// confirm this item shall not be duplicated
-	i = ACR_ListGetFirstIndex("pchest", oStorage); 
+        // confirm this item shall not be duplicated
+        i = ACR_ListGetFirstIndex("pchest", oStorage); 
 
-	do {
-		if (oItem == ACR_ListGetElementObject("pchest", i, oStorage)) {
-			i = -1;
-			break;
-		}
+        do {
+            if (oItem == ACR_ListGetElementObject("pchest", i, oStorage)) {
+                i = -1;
+                break;
+            }
+            i = ACR_ListGetNextIndex("pchest", i, oStorage);
+        }
+        while (i != ACR_ListGetFirstIndex("pchest", oStorage));
 
-		i = ACR_ListGetNextIndex("pchest", i, oStorage);
-	}
-	while (i != ACR_ListGetFirstIndex("pchest", oStorage));
+        // leave and continue with next item
+        if (i == -1) {
+            // destroy the list, element by element
+            ACR_ListRemoveAtElementObject("pchest", oItem, oStorage);
+            continue;
+        }
 
-	// leave and continue with next item
-	if (i == -1) {
-		// destroy the list, element by element
-		ACR_ListRemoveAtElementObject("pchest", oItem, oStorage);
-		continue;
-	}
-
-	// store the persistent objects
-	ACR_SetPersistentObject(oStorage, IntToString(nStored), oItem, sDatabaseName);
+        // store the persistent objects
+        ACR_SetPersistentObject(oStorage, IntToString(nStored), oItem, sDatabaseName);
+        
 #if INSTRUMENT_STORAGE
 	WriteTimestampedLogEntry("_WriteStorageObjectContents(" + sDatabaseName + "): Saved object " + GetName(oItem) + " (" + GetTag(oItem) + ").");
 #endif
@@ -452,20 +447,21 @@ int _WriteStorageObjectContents(object oStorage)
         // tally up the total item count and gold piece value
         nStored++; nValued += GetGoldPieceValue(oItem);
 
-	//SendMessageToAllDMs("Valuing "+GetName(oItem)+" from "+GetName(oStorage));
-		
+        //SendMessageToAllDMs("Valuing "+GetName(oItem)+" from "+GetName(oStorage));
     }
 
-   WriteTimestampedLogEntry("_WriteStorageObjectContents(" + sDatabaseName + "): Saved " + IntToString(nStored) + " (value " + IntToString(nValued) + ") objects to database store.");
-	//SendMessageToAllDMs("Total value: "+IntToString(nValued)+" gp, from "+IntToString(nStored)+" objects.");
+    WriteTimestampedLogEntry("_WriteStorageObjectContents(" + sDatabaseName + "): Saved " + IntToString(nStored) + " (value " + IntToString(nValued) + ") objects to database store.");
+    //SendMessageToAllDMs("Total value: "+IntToString(nValued)+" gp, from "+IntToString(nStored)+" objects.");
 	
     // update the item and value counters
     SetLocalInt(oStorage, _ACR_PSO_NUMBER_OF_ITEMS_LI, nStored);
     SetLocalInt(oStorage, _ACR_PSO_TOTAL_VALUE_LI, nValued);
-	SetLocalInt(oStorage, _ACR_PSI_CONTENTS_LOADED, 1);
+    SetLocalInt(oStorage, _ACR_PSI_CONTENTS_LOADED, 1);
 
-	// purge all remaining items - do this when/if database persistence is functioning
-	//int i=nStored; while (GetIsObjectValid(ACR_GetPersistentObject(oStorage, IntToString(i)))) { i++; }
+    // purge all remaining items - do this when/if database persistence is functioning
+    //int i=nStored; while (GetIsObjectValid(ACR_GetPersistentObject(oStorage, IntToString(i)))) { i++; }
+    
+    ACR_DeleteDatabaseStoreAtIndex(sDatabaseName, nStored);
 
     return nStored;
 }
