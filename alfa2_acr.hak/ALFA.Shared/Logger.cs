@@ -66,6 +66,6 @@ namespace ALFA.Shared
         /// <summary>
         /// A list of log messages available.
         /// </summary>
-        private static List<string> LogMessages;
+        private static List<string> LogMessages = new List<string>();
     }
 }
