@@ -110,6 +110,9 @@ const int ACR_SERVER_MISC_GET_HAS_DATABASE_STORE             = 19;
 // This command deletes a new-style database store.
 const int ACR_SERVER_MISC_DELETE_DATABASE_STORE              = 20;
 
+// This command deletes a new-style database store.
+const int ACR_SERVER_MISC_DELETE_DATABASE_STORE_AT_INDEX     = 21;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -580,7 +583,7 @@ int ACR_GetHasDatabaseStore(string Campaign)
 int ACR_DeleteDatabaseStore(string Campaign)
 {
 	return ACR_CallServerMiscScript(
-		ACR_SERVER_MISC_DELETE_DATABASE_STORE,
+		ACR_SERVER_MISC_DELETE_DATABASE_STORE_AT_INDEX,
 		0,
 		0,
 		Campaign,
