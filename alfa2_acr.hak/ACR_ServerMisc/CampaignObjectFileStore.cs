@@ -98,6 +98,45 @@ namespace ACR_ServerMisc
             }
 
             /// <summary>
+            /// Delete all GFF files in a campaign database at and above a given index.
+            /// </summary>
+            /// <param name="Campaign">Supplies the campaign name.</param>
+            /// <param name="Index">Supplies the lowest-numbered file to be deleted.</param>
+            /// <returns>True if the operation succeeded.</returns>
+            internal bool DeleteDatabaseStoreAtIndex(string Campaign, int Index)
+            {
+                if (!SystemInfo.IsSafeFileName(Campaign))
+                    return false;
+
+                try
+                {
+                    string DirectoryName = DatabaseStoreDirectory + Campaign;
+
+                    if (!Directory.Exists(DirectoryName))
+                        return true;
+
+                    ALFA.Shared.Logger.Log("CampaignObjectFileStore.DeleteDatabaseStore: Deleted campaign database store {0} above index {1}", Campaign, Index);
+                    string FileName = String.Format("{0}{1}{2}.GFF", DirectoryName, Path.DirectorySeparatorChar, Index);
+                    while (File.Exists(FileName))
+                    {
+                        File.Delete(FileName);
+                        Index++;
+                        FileName = String.Format("{0}{1}{2}.GFF", DirectoryName, Path.DirectorySeparatorChar, Index);
+                    }
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    ALFA.Shared.Logger.Log("CampaignObjectFileStore.DeleteDatabaseStore({0}): Exception: {1}", Campaign, e);
+                    return false;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            /// <summary>
             /// This function is called when RetrieveCampaignObject("VDB_", ..)
             /// is invoked.
             /// </summary>
@@ -233,6 +272,17 @@ namespace ACR_ServerMisc
         internal static bool DeleteDatabaseStore(string Campaign)
         {
             return Store.DeleteDatabaseStore(Campaign);
+        }
+
+        /// <summary>
+        /// Delete all GFF files in a campaign database at and above a given index.
+        /// </summary>
+        /// <param name="Campaign">Supplies the campaign name.</param>
+        /// <param name="Index">Supplies the lowest-numbered file to be deleted.</param>
+        /// <returns>True if the operation succeeded.</returns>
+        internal static bool DeleteDatabaseStoreAtIndex(string Campaign, int Index)
+        {
+            return Store.DeleteDatabaseStoreAtIndex(Campaign, Index);
         }
 
         /// <summary>

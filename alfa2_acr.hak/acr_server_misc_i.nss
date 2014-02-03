@@ -261,6 +261,11 @@ int ACR_GetHasDatabaseStore(string Campaign);
 //!  - Returns: TRUE if the operation succeeded.
 int ACR_DeleteDatabaseStore(string Campaign);
 
+//! Delete a series of flat GFF files for a given campaign name, 
+//! starting at Index.
+//!  - Returns: TRUE if the operation succeeded.
+int ACR_DeleteDatabaseStoreAtIndex(string Campaign, int Index);
+
 //! Make a raw call to the support script.
 //!  - Command: Supplies the command to request (e.g. ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT).
 //!  - P0: Supplies the first command-specific parameter.
@@ -584,6 +589,17 @@ int ACR_DeleteDatabaseStore(string Campaign)
 		OBJECT_INVALID);
 }
 
+int ACR_DeleteDatabaseStoreAtIndex(string Campaign, int Index)
+{
+	return ACR_CallServerMiscScript(
+		ACR_SERVER_MISC_DELETE_DATABASE_STORE,
+		Index,
+		0,
+		Campaign,
+		"",
+		"",
+		OBJECT_INVALID);
+}
 
 int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, string P4, object P5, object ObjectSelf = OBJECT_SELF)
 {

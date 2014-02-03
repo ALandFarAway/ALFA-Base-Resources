@@ -256,6 +256,15 @@ namespace ACR_ServerMisc
                     }
                     break;
 
+                case REQUEST_TYPE.DELETE_DATABASE_STORE_AT_INDEX:
+                    {
+                        string Campaign = P3;
+                        int Index = P0;
+
+                        ReturnCode = CampaignObjectFileStore.DeleteDatabaseStoreAtIndex(Campaign, Index) ? TRUE : FALSE;
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid server misc command " + RequestType.ToString());
 
@@ -701,7 +710,8 @@ namespace ACR_ServerMisc
             CLEAR_DICTIONARY,
             GET_SALTED_MD5,
             GET_HAS_DATABASE_STORE,
-            DELETE_DATABASE_STORE
+            DELETE_DATABASE_STORE,
+            DELETE_DATABASE_STORE_AT_INDEX
         }
 
         /// <summary>

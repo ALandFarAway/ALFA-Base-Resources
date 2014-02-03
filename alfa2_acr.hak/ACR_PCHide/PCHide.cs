@@ -94,9 +94,6 @@ namespace ACR_PCHide
                 saveBonuses.Add(i, 0);
             }
 
-            // Lore is not an official ALFA skill.
-            skillBonuses[CLRScriptBase.SKILL_LORE] -= 20;
-
             #region Skill Focus feats
             // Handle all new shiny skill focus feats.
             if (script.GetHasFeat((int)FEATS.FEAT_SKILL_FOCUS_BALANCE, m_oCreature, 1) == CLRScriptBase.TRUE) skillBonuses[(int)SKILLS.SKILL_BALANCE] += 3;

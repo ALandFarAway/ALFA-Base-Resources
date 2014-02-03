@@ -83,13 +83,13 @@
 79  ImpDis                                            16        1    -1             0      
 80  ImpKnock                                          17        1    -1             0      
 81  ImpParry                                          18        1    -1             0      
-82  ImpPower                                          19        1    -1             0      
+82  ImpPower                                          3671      1    -1             0      
 83  ImpTwo                                            20        1    -1             0      
 84  ImpStrike                                         21        1    -1             0      
 85  KnockDown                                         23        1    -1             0      
 86  Mobility                                          26        1    -1             0      
 87  PBShot                                            27        1    -1             0      
-88  PowerAtk                                          28        1    -1             0      
+88  PowerAtk                                          3670      1    -1             0      
 89  RapidShot                                         30        1    -1             0      
 90  Sap                                               31        1    -1             0      
 91  StunFist                                          39        1    -1             0      

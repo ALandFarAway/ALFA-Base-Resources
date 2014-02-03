@@ -953,9 +953,9 @@ void ACR_ModuleOnClientEnter()
 
 void _createPlayerGUIs( object oPC )
 {
-    ACR_OpenUniversalGUI( oPC );
+//  ACR_OpenUniversalGUI( oPC );
 
-    if(GetHasFeat(FEAT_ACR_COMBAT_EXPERTISE, oPC))
+    if(GetHasFeat(FEAT_ACR_COMBAT_EXPERTISE, oPC) || GetHasFeat(FEAT_ACR_POWER_ATTACK, oPC))
     {
         DisplayGuiScreen(oPC, "SCREEN_MODEBAR_2", FALSE, "modebar_2.xml");
     }
