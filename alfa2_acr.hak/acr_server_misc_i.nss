@@ -583,7 +583,7 @@ int ACR_GetHasDatabaseStore(string Campaign)
 int ACR_DeleteDatabaseStore(string Campaign)
 {
 	return ACR_CallServerMiscScript(
-		ACR_SERVER_MISC_DELETE_DATABASE_STORE_AT_INDEX,
+		ACR_SERVER_MISC_DELETE_DATABASE_STORE,
 		0,
 		0,
 		Campaign,
@@ -595,7 +595,7 @@ int ACR_DeleteDatabaseStore(string Campaign)
 int ACR_DeleteDatabaseStoreAtIndex(string Campaign, int Index)
 {
 	return ACR_CallServerMiscScript(
-		ACR_SERVER_MISC_DELETE_DATABASE_STORE,
+		ACR_SERVER_MISC_DELETE_DATABASE_STORE_AT_INDEX,
 		Index,
 		0,
 		Campaign,
