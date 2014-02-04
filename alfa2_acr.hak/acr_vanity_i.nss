@@ -426,9 +426,9 @@ string GetValidHairModels(int nSubrace, int nGender=0)
 	string res = "#1#";
 
 	switch (nSubrace) {
-
 		case RACIAL_SUBTYPE_SHIELD_DWARF:
 		case RACIAL_SUBTYPE_GOLD_DWARF: 
+		case RACIAL_SUBTYPE_GRAY_DWARF:
 			res = IntervalToList("[0-19,80-82,94][0-19,73,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_MOON_ELF:
@@ -438,43 +438,46 @@ string GetValidHairModels(int nSubrace, int nGender=0)
 			res = IntervalToList("[0-17,61-64,66-75,80-82,94][0-17,50-52,61-64,66-78,80-82,85-90,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_WILD_ELF:  
-			res = IntervalToList("[0-3,75,80,81,83]");
+			res = IntervalToList("[0-3,66-75,80-83,94][0-3,66-78,80-83,85-90,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_ROCK_GNOME:
-			res = IntervalToList("[0-17,94][0-17,50-52,73,80-82,94]", nGender);
-			break;
-		case RACIAL_SUBTYPE_GRAY_DWARF:
 		case RACIAL_SUBTYPE_SVIRFNEBLIN:
-			res = IntervalToList("[17]");
+			res = IntervalToList("[0-17,94][0-17,50-52,73,80-82,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HUMAN:
 		case RACIAL_SUBTYPE_HALFELF:
 		case RACIAL_SUBTYPE_HALFDROW:
-			res = IntervalToList("[0-17,37,38,61-63,66-75,80-82,94][0-17,23,24,50-52,61-64,66-78,80-82,85-90,94]", nGender);
+			res = IntervalToList("[0-17,37,38,61-63,66-75,80-82,94][0-19,23,24,50-52,61-64,66-78,80-82,85-90,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_LIGHTFOOT_HALF:
 		case RACIAL_SUBTYPE_GHOSTWISE_HALF:
 		case RACIAL_SUBTYPE_STRONGHEART_HALF:
-			res = IntervalToList("[0-19,66,74,75,94][0-17,19,51-56,23,24,50-52,66,73-78,80,94]", nGender);
+			res = IntervalToList("[0-19,66-69,71-75,80,94][0-17,19,51-56,66-78,80,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HALFORC:
 		case RACIAL_SUBTYPE_GRAYORC:
 			res = IntervalToList("[0-19,94]");
 			break;
 		case RACIAL_SUBTYPE_YUANTI:
-			res = IntervalToList("[0-17]");
+			res = IntervalToList("[0-17,37,38,61-63,66-75,80-82,94][0-19,23,24,50-52,61-64,66-78,80-82,85-90,94]", nGender);
+			break;
+		case RACIAL_SUBTYPE_AIR_GENASI:
+			res = IntervalToList("[0-3,94,95][0-3,73,91-94]", nGender);
+			break;
+		case RACIAL_SUBTYPE_EARTH_GENASI:
+			res = IntervalToList("[0-3,94][0-3,84,91-94]", nGender);
+			break;
+		case RACIAL_SUBTYPE_FIRE_GENASI:
+			res = IntervalToList("[0-3,89,94][0-3,91-94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_WATER_GENASI:
-		case RACIAL_SUBTYPE_FIRE_GENASI:
-		case RACIAL_SUBTYPE_EARTH_GENASI:
-		case RACIAL_SUBTYPE_AIR_GENASI:
-			res = IntervalToList("[0-3]");
+			res = IntervalToList("[0-3,94,98][0-3,90-94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_TIEFLING:
 			res = IntervalToList("[0-18,94][0-19,73,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_AASIMAR:
-			res = IntervalToList("[0-17,37,38,63,66,71-75,80-82,94][0-17,23,24,50-52,61-64,67-78,80-82,85-90,94]", nGender);
+			res = IntervalToList("[0-17,37,38,61-63,66-75,80-82,94][0-19,23,24,50-52,61-64,66-78,80-82,85-90,94]", nGender);
 			break;
 	}
 
