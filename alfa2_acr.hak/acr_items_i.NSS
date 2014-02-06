@@ -701,6 +701,14 @@ void ACR_AttemptSpellcraftExamine( object oPC, object oTarget ) {
 	
 	// A DC 20 + Spell Level spellcraft check identifies a magic scroll.
 	if ( ACR_GetIsScroll( oTarget ) ) {
+		// Read magic lets us auto-succeed at this.
+		if ( GetHasSpellEffect( SPELL_READ_MAGIC, oPC ) ) {
+			SendMessageToPC( oPC, "Your divination reveals the nature of this scroll." );
+			SetIdentified( oTarget, TRUE );
+			ClearSCCVar( oTarget, ACR_SCC_VAR_SCROLL );
+			return;
+		}
+		
 		// A check is allowed once every 24 hours.
 		string sScrollVar = GetSCCVar( ACR_SCC_VAR_SCROLL, nCharID );
 		if ( GetLocalInt( oTarget, sScrollVar ) == 0 || GetLocalInt( oTarget, sScrollVar ) + 24 <= ACR_GetTimeStampInHours()  ) {

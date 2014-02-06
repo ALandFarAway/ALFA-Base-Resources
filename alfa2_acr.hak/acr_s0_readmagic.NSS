@@ -1,7 +1,4 @@
-#include "NW_I0_SPELLS"
-#include "x2_inc_spellhook"
 #include "acr_spells_i"
-#include "acr_items_i"
 
 void main() {
 	// If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell.
@@ -11,11 +8,16 @@ void main() {
 
 	// Casting information.
 	object oCaster = OBJECT_SELF;
-	object oTarget = GetSpellTargetObject();
+	object oTarget = oCaster;
+	float fDuration = ACR_GetSpellDuration( oCaster, ACR_DURATION_TYPE_PER_CL, ACR_DURATION_10M );
 
-	// Read Magic identifies magic scrolls.
-	if ( ACR_GetIsMagicScroll( oTarget ) ) {
-		SignalEvent( oTarget, EventSpellCastAt( oCaster, SPELL_READ_MAGIC, FALSE ) );
-		SetIdentified( oTarget, TRUE );
-	}
+	// Apply the dummy effect.
+	effect eVfx = EffectVisualEffect( VFX_HIT_DROWN );
+	ApplyEffectToObject( DURATION_TYPE_TEMPORARY, eVfx, oTarget, fDuration );
+	
+	// Establish warning.
+	WarnWhenSpellExpires( oTarget, GetSpellId(), "<C=lightblue><i>Read Magic</i> has expired.</C>", fDuration );
+	
+	// Post-cast event.
+	ACR_PostcastEvent();
 }
