@@ -179,6 +179,10 @@ itemproperty ACR_GetFirstItemPropertyOfType( object oItem, int nType );
 //!  - nEffect : The type of effect to return.
 int ACR_GetWeaponDamageType( object oItem );
 
+//! Returns TRUE or FALSE to indicate whether or
+//! not a weapon gains benefit from weapon finesse.
+int ACR_GetIsWeaponFinessable( object oItem );
+
 // Private
 //
 
@@ -765,6 +769,24 @@ int ACR_GetWeaponDamageType( object oItem ) {
 		case WEAPON_TYPE_PIERCING: return DAMAGE_TYPE_PIERCING; break;
 	}
 	return DAMAGE_TYPE_SLASHING;
+}
+
+int ACR_GetIsWeaponFinessable(object oItem) {
+  switch(GetBaseItemType(oItem))
+  {
+    case BASE_ITEM_DAGGER:
+    case BASE_ITEM_HANDAXE:
+    case BASE_ITEM_KAMA:
+    case BASE_ITEM_KUKRI:
+    case BASE_ITEM_LIGHTHAMMER:
+    case BASE_ITEM_LIGHTMACE:
+    case BASE_ITEM_RAPIER:
+    case BASE_ITEM_SHORTSWORD:
+    case BASE_ITEM_SICKLE:
+    case BASE_ITEM_WHIP:
+        return TRUE;
+  }
+  return FALSE;
 }
 
 #endif

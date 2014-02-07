@@ -49,7 +49,7 @@ const string POST_SPELLCAST_NO_COMBAT_MODE = "POST_SPELLCAST_NO_COMBAT_MODE";
 // Function Prototypes /////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void CombatActionsOnItemEquip(object oCreature);
+void CombatActionsOnEquip(object oCreature, object oItem);
 
 //! Cancels all combat modes.
 void FightNormally(object oCreature);
@@ -68,6 +68,8 @@ void FightWithExpertise(object oCreature, int nAmount);
 
 //! Returns TRUE if oCreature is using any sort of defensive fighting action.
 int GetIsFightingDefensively(object oCreature);
+
+void _FightAggressively(object oCreature, int nAdjustBy);
 
 void _FightDefensively(object oCreature, int nACBonus, int nABPenalty);
 
@@ -88,6 +90,7 @@ void _HandlePowExpGUIEvent( object oPC, int nEvent, int nAmount );
 #include "acr_effects_i"
 #include "acr_time_i"
 #include "acr_tools_i"
+#include "acr_items_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -95,8 +98,17 @@ void _HandlePowExpGUIEvent( object oPC, int nEvent, int nAmount );
 
 void CombatActionsOnEquip(object oCreature, object oItem) {
     if(GetIsFightingDefensively(oCreature) && GetWeaponRanged(oItem)) {
-        _NotifyCombatAction("You cannot fight defensively with a ranged weapon equiped.", oCreature);
+        _NotifyCombatAction("You cannot use combat modes with ranged weapons.", oCreature);
         _ClearCombatModes(oCreature);
+    }
+    if(CountTrackingEffectsFor(oCreature, ACR_EFFECT_SOURCE_COMBAT_ACTION) && 
+       ACR_GetIsWeaponFinessable(oItem) &&
+       GetLocalInt(oCreature, POWER_ATTACK_MODE_ACTIVE) > 0) {
+        _NotifyCombatAction("You cannot use power attack with a light weapon.", oCreature);
+        _ClearCombatModes(oCreature);
+    }
+    else if(GetLocalInt(oCreature, POWER_ATTACK_MODE_ACTIVE) > 0) {
+        _FightAggressively(oCreature, GetLocalInt(oCreature, POWER_ATTACK_MODE_ACTIVE));
     }
 }
 
@@ -125,6 +137,18 @@ void FightWithExpertise(object oCreature, int nAmount) {
     _FightDefensively(oCreature, nAmount, nAmount);
 }
 
+void FightWithPowerAttack(object oCreature, int nAmount) {
+    if(nAmount <= 0) {
+        return;
+    }
+    
+    int nBAB = GetBaseAttackBonus(oCreature);
+    
+    if(nAmount > nBAB) nAmount = nBAB;
+    
+    _FightAggressively(oCreature, nAmount);
+}
+
 int GetIsFightingDefensively(object oCreature) {
     return CountTrackingEffectsFor(oCreature, ACR_EFFECT_SOURCE_COMBAT_ACTION);
 }
@@ -147,7 +171,7 @@ int _TrySwitchModes(object oCreature) {
 void _FightDefensively(object oCreature, int nACBonus, int nABPenalty) {
 
     if(GetWeaponRanged(GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oCreature))) {
-        _NotifyCombatAction("You cannot fight defensively with a ranged weapon equiped.", oCreature);
+        _NotifyCombatAction("You cannot fight defensively with a ranged weapon equipped.", oCreature);
         return;
     }
     
@@ -159,6 +183,41 @@ void _FightDefensively(object oCreature, int nACBonus, int nABPenalty) {
         ACR_EFFECT_SOURCE_COMBAT_ACTION,
         DURATION_TYPE_PERMANENT,
         EffectLinkEffects(ExtraordinaryEffect(EffectACIncrease(nACBonus)), ExtraordinaryEffect(EffectAttackDecrease(nABPenalty))),
+        oCreature
+    );
+}
+
+void _FightAggressively(object oCreature, int nAdjustBy) {
+    if(GetWeaponRanged(GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oCreature))) {
+        _NotifyCombatAction("You cannot fight aggressively with a ranged weapon equipped.", oCreature);
+        return;
+    }
+    
+    _ClearCombatModes(oCreature);
+    
+    _NotifyCombatAction("You are now fighting aggressively. You exchange " + IntToString(nAdjustBy) + " points of attack bonus for damage.", oCreature);
+    
+    object oPrimaryHand = GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oCreature);
+    int nDamageType = ACR_GetWeaponDamageType(oPrimaryHand);
+    effect nABPenalty = ExtraordinaryEffect(EffectAttackDecrease(nAdjustBy));
+    effect nDamBonus;
+    if(oPrimaryHand != OBJECT_INVALID)
+    {
+        // Remember that 'one-handed' weapons can be used in two hands if the off hand is empty.
+        if(GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oCreature) == OBJECT_INVALID) nAdjustBy *= 2;
+        nDamBonus = ExtraordinaryEffect(EffectDamageIncrease(nAdjustBy, nDamageType));
+    }
+    else
+    {
+        // This is unarmed fighting, which is 'slashing' according to NWN2, so we
+        // need to give it special handling.
+        nDamBonus = ExtraordinaryEffect(EffectDamageIncrease(nAdjustBy, DAMAGE_TYPE_BLUDGEONING));
+    }
+    
+    ApplyEffectFromSource(
+        ACR_EFFECT_SOURCE_COMBAT_ACTION,
+        DURATION_TYPE_PERMANENT,
+        EffectLinkEffects(nDamBonus, nABPenalty),
         oCreature
     );
 }
@@ -370,7 +429,7 @@ void _HandlePowExpGUIEvent( object oPC, int nEvent, int nAmount ) {
         }
         if(nNewMode == nOldMode)
         {
-            SendMessageToPC(oPC, "Command to disable Power Attack received.");
+            FightNormally(oPC);
             DeleteLocalInt(oPC, POWER_ATTACK_MODE_ACTIVE);
         }
         else
@@ -378,7 +437,7 @@ void _HandlePowExpGUIEvent( object oPC, int nEvent, int nAmount ) {
             string sMode = "OVERLAY_ICON_PA_"+IntToString(nNewMode);
             SetGUIObjectHidden( oPC, "SCREEN_MODEBAR_2", sMode, FALSE );
             SetLocalInt(oPC, POWER_ATTACK_MODE_ACTIVE, nNewMode);
-            SendMessageToPC(oPC, "Power Attack intensity set to "+IntToString(nAmount)+".");
+            FightWithPowerAttack(oPC, nNewMode);
         }
     }
 }
