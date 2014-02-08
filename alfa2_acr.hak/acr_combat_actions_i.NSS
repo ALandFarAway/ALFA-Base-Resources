@@ -192,6 +192,10 @@ void _FightAggressively(object oCreature, int nAdjustBy) {
         _NotifyCombatAction("You cannot fight aggressively with a ranged weapon equipped.", oCreature);
         return;
     }
+    if(ACR_GetIsWeaponFinessable(GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oCreature))) {
+        _NotifyCombatAction("You cannot fight aggressively with a light weapon.", oCreature);
+        return;
+    }
     
     _ClearCombatModes(oCreature);
     
@@ -205,12 +209,14 @@ void _FightAggressively(object oCreature, int nAdjustBy) {
     {
         // Remember that 'one-handed' weapons can be used in two hands if the off hand is empty.
         if(GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oCreature) == OBJECT_INVALID) nAdjustBy *= 2;
+        if(nAdjustBy > 5) nAdjustBy += 10;
         nDamBonus = ExtraordinaryEffect(EffectDamageIncrease(nAdjustBy, nDamageType));
     }
     else
     {
         // This is unarmed fighting, which is 'slashing' according to NWN2, so we
         // need to give it special handling.
+        if(nAdjustBy > 5) nAdjustBy += 10;
         nDamBonus = ExtraordinaryEffect(EffectDamageIncrease(nAdjustBy, DAMAGE_TYPE_BLUDGEONING));
     }
     
