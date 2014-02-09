@@ -143,7 +143,7 @@ int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion )
 		
 		bChanged = TRUE;
 	}
-	if ( fCurrentVersion < 1.92 && fTargetVersion >= 1.92 ) { // X -> 1.92
+	if ((sCurrentVersion == "" || fCurrentVersion < 1.915) && fTargetVersion >= 1.915) { // X -> 1.92
 		// Replace Acid Fog with its new index, making SPELL_INVALID a thing.
 		int nPosWizard = GetClassPosition( oPC, CLASS_TYPE_WIZARD );
 		if ( nPosWizard != -1 && GetSpellKnown( oPC, SPELL_ACID_FOG ) ) {
@@ -173,6 +173,7 @@ int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion )
         // Replace Power Attack with the ACR version.
         _SwapFeat( oPC, FEAT_POWER_ATTACK, FEAT_ACR_POWER_ATTACK );
         _SwapFeat( oPC, FEAT_IMPROVED_POWER_ATTACK, FEAT_ACR_IMPROVED_POWER_ATTACK );
+        bChanged = TRUE;
 	}
     return bChanged;
 }
