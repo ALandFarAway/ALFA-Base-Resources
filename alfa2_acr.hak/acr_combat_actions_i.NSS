@@ -78,7 +78,7 @@ void _NotifyCombatAction(string sMsg, object oCreature);
 int _TrySwitchModes(object oCreature);
 
 //! Cancels all combat action modes.
-void _ClearCombatModes(object oCreature, string sMode);
+void _ClearCombatModes(object oCreature, string sMode="");
 
 //! Handle or force Combat Expertise/Power Attack GUI events.
 void _HandlePowExpGUIEvent( object oPC, int nEvent, int nAmount );
