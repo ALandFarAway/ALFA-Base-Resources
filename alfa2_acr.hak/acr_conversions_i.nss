@@ -133,16 +133,6 @@ int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion )
         
         bChanged = TRUE;
     }
-	if((sCurrentVersion == "" || fTargetVersion < 1.905) && fTargetVersion > 1.905) // -> v1.91
-    {
-		// Purge old implementations of the PC Hide system.
-		DestroyObject(GetItemInSlot(INVENTORY_SLOT_CARMOUR, oPC));
-        DestroyObject(GetItemInSlot(INVENTORY_SLOT_CWEAPON_B, oPC));
-        DestroyObject(GetItemInSlot(INVENTORY_SLOT_CWEAPON_L, oPC));
-        DestroyObject(GetItemInSlot(INVENTORY_SLOT_CWEAPON_R, oPC));
-		
-		bChanged = TRUE;
-	}
 	if ((sCurrentVersion == "" || fCurrentVersion < 1.915) && fTargetVersion >= 1.915) { // X -> 1.92
 		// Replace Acid Fog with its new index, making SPELL_INVALID a thing.
 		int nPosWizard = GetClassPosition( oPC, CLASS_TYPE_WIZARD );
