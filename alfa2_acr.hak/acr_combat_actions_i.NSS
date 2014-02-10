@@ -78,7 +78,7 @@ void _NotifyCombatAction(string sMsg, object oCreature);
 int _TrySwitchModes(object oCreature);
 
 //! Cancels all combat action modes.
-void _ClearCombatModes(object oCreature);
+void _ClearCombatModes(object oCreature, string sMode);
 
 //! Handle or force Combat Expertise/Power Attack GUI events.
 void _HandlePowExpGUIEvent( object oPC, int nEvent, int nAmount );
@@ -114,7 +114,7 @@ void CombatActionsOnEquip(object oCreature, object oItem) {
 
 void FightNormally(object oCreature) {
     _TrySwitchModes(oCreature);
-    _ClearCombatModes(oCreature);
+    _ClearCombatModes(oCreature, "combat modes");
 }
 
 void FightDefensively(object oCreature) {
@@ -237,9 +237,12 @@ void _NotifyCombatAction(string sMsg, object oCreature) {
     );
 }
 
-void _ClearCombatModes(object oCreature) {
+void _ClearCombatModes(object oCreature, string sMode="") {
     RemoveAllEffectsFromSource(oCreature, ACR_EFFECT_SOURCE_COMBAT_ACTION);
-    _NotifyCombatAction("You are no longer fighting defensively.", oCreature);
+    if(sMode != "")
+    {
+        _NotifyCombatAction("You are no longer using " + sMode + ".", oCreature);
+    }
 }
 
 void _HandlePowExpGUIEvent( object oPC, int nEvent, int nAmount ) {
