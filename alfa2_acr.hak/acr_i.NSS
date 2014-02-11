@@ -531,7 +531,7 @@ const int IPRP_FEATS_TWO_WEAPON_FIGHTING = 17;
 const int IPRP_FEATS_WEAPON_FINESSE = 19;
 
 // Visual Effects
-int VFX_DUR_READ_MAGIC = 1100;
+int VFX_DUR_SPELL_READ_MAGIC = 1100;
 
 // Area of Effects:
 int AOE_CIRCLE_RADIUS_1            = 200;

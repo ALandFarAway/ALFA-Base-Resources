@@ -12,7 +12,7 @@ void main() {
 	float fDuration = ACR_GetSpellDuration( oCaster, ACR_DURATION_TYPE_PER_CL, ACR_DURATION_10M );
 
 	// Apply the dummy effect.
-	ApplyEffectToObject( DURATION_TYPE_TEMPORARY, EffectVisualEffect( VFX_DUR_READ_MAGIC ), oTarget, fDuration);
+	ApplyEffectToObject( DURATION_TYPE_TEMPORARY, EffectVisualEffect( VFX_DUR_SPELL_READ_MAGIC ), oTarget, fDuration);
 	
 	// Establish warning.
 	WarnWhenSpellExpires( oTarget, GetSpellId(), "<C=lightblue><i>Read Magic</i> has expired.</C>", fDuration );
