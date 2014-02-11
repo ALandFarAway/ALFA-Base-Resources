@@ -12,7 +12,7 @@ void main() {
 	if ( !ACR_PrecastEvent() ) return;
 	
 	// Dummy effect.
-	effect eVFX = EffectVisualEffect( VFX_DUR_SPELL_EAGLE_SPLENDOR );
+	effect eVFX = EffectVisualEffect( VFX_DUR_SPELL_FEATHER_FALL );
 	
 	// Find targets.
 	int nTargets = nCasterLevel;

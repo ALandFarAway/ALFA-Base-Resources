@@ -532,6 +532,7 @@ const int IPRP_FEATS_WEAPON_FINESSE = 19;
 
 // Visual Effects
 int VFX_DUR_SPELL_READ_MAGIC = 1100;
+int VFX_DUR_SPELL_FEATHER_FALL = 1101;
 
 // Area of Effects:
 int AOE_CIRCLE_RADIUS_1            = 200;
