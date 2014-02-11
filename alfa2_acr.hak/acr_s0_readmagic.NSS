@@ -14,9 +14,6 @@ void main() {
 	// Apply the dummy effect.
 	ApplyEffectToObject( DURATION_TYPE_TEMPORARY, EffectVisualEffect( VFX_DUR_SPELL_READ_MAGIC ), oTarget, fDuration);
 	
-	// Establish warning.
-	WarnWhenSpellExpires( oTarget, GetSpellId(), "<C=lightblue><i>Read Magic</i> has expired.</C>", fDuration );
-	
 	// Post-cast event.
 	ACR_PostcastEvent();
 }
