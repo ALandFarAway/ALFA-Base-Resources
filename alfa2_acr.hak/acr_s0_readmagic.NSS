@@ -14,6 +14,7 @@ void main() {
 	// Apply the dummy effect.
 	effect eVfx = EffectVisualEffect( VFX_HIT_DROWN );
 	ApplyEffectToObject( DURATION_TYPE_TEMPORARY, eVfx, oTarget, fDuration );
+	ApplyEffectToObject( DURATION_TYPE_TEMPORARY, EffectVisualEffect(99999), oTarget, fDuration);
 	
 	// Establish warning.
 	WarnWhenSpellExpires( oTarget, GetSpellId(), "<C=lightblue><i>Read Magic</i> has expired.</C>", fDuration );
