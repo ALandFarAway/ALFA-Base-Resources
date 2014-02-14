@@ -747,6 +747,8 @@ makeclrscripts:
 	@$(MSBUILD) ACR_PCHide\ACR_PCHide.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_AssemblyLoader
 	@$(MSBUILD) ACR_AssemblyLoader\ACR_AssemblyLoader.csproj $(MSBUILD_FLAGS)
+	$(BUILD_MSG) (CSProj) Building - ACR_Movement
+	@$(MSBUILD) ACR_Movement\ACR_Movement.csproj $(MSBUILD_FLAGS)
 
 clean:
 	@if exist $(OUTPUTDIR)\*.ncs del $(OUTPUTDIR)\*.ncs
@@ -788,6 +790,8 @@ clean:
 	@if exist ACR_PCHide\obj rd /s /q ACR_PCHide\obj
 	@if exist ACR_AssemblyLoader\bin rd /s /q ACR_AssemblyLoader\bin
 	@if exist ACR_AssemblyLoader\obj rd /s /q ACR_AssemblyLoader\obj
+	@if exist ACR_Movement\bin rd /s /q ACR_Movement\bin
+	@if exist ACR_Movement\obj rd /s /q ACR_Movement\obj
 
 $(HAKFILE): script $(HAK_SOURCES_MISC)
 	$(BUILD_MSG) (ERF) Creating - $(HAKFILE)
