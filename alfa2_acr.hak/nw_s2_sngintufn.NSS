@@ -16,12 +16,12 @@
 
 #include "x0_i0_spells"
 #include "nwn2_inc_spells"
-
+#include "acr_bard_i"
 
 void RunPersistentSong(object oCaster, int nSpellId)
 {
 
-	int		nPerform	= GetSkillRank(SKILL_PERFORM);
+	int		nPerform	= GetPerformRanks(OBJECT_SELF);
 	 
 	if (nPerform < 3 ) //Checks your perform skill so nubs can't use this song
 	{

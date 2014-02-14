@@ -132,6 +132,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\x0_i0_spells.nss                      \
             $(OUTPUTDIR)\gui_bhvr_inc.nss                      \
             $(OUTPUTDIR)\acr_traps_i.nss                       \
+            $(OUTPUTDIR)\acr_bard_i.nss                        \
             $(OUTPUTDIR)\acr_guiglobals_i.nss                   
 
 NSS_OBJECTS=                                                   \

@@ -18,6 +18,7 @@
 
 #include "x0_i0_spells"
 #include "nwn2_inc_spells"
+#include "acr_bard_i"
 
 void main()
 {
@@ -32,7 +33,7 @@ void main()
         return;
     }
 	
-	int		nPerform	= GetSkillRank(SKILL_PERFORM);
+	int		nPerform	= GetPerformRanks(OBJECT_SELF);
 	 
 	if (nPerform < 21 ) //Checks your perform skill so nubs can't use this song
 	{
