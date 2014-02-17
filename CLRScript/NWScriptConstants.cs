@@ -4923,6 +4923,7 @@ namespace CLRScriptFramework
 
         public const int FEAT_IMMUNITY_PHANTASMS = 1752; // AFW-OEI 04/20/2006
 
+        public const int FEAT_NW9_FRANTIC_REACTIONS = 1806;
 
         // Brock H. - OEI 05/24/06
         public const int FEAT_EPITHET_KALACH_CHA_2 = 1823;
