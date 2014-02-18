@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppearanceTypes.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_Movement.cs" />
     <Compile Include="StandardEntrypoints.cs" />
