@@ -3010,7 +3010,7 @@ namespace CLRScriptFramework
         public const int SPELL_SNAKES_SWIFTNESS_MASS = 1213;
 
 
-
+        public const int SPELL_WATER_BREATHING = 3113;
 
 
 
