@@ -55,6 +55,7 @@ namespace ACR_Movement
                 case MovementCommand.EnterWater:
                     AppearanceTypes.characterMovement[Target] = AppearanceTypes.MovementType.Swimming;
                     AppearanceTypes.RecalculateMovement(this, Target);
+                    Swimming.SwimTriggerEnter(this, Target, OBJECT_SELF);
                     break;
                 case MovementCommand.ExitWater:
                     AppearanceTypes.characterMovement[Target] = AppearanceTypes.MovementType.Walking;
