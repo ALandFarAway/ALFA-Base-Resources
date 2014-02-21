@@ -51,6 +51,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_Movement.cs" />
     <Compile Include="StandardEntrypoints.cs" />
+    <Compile Include="Swimming.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ALFA.Shared\ALFA.Shared.csproj">
