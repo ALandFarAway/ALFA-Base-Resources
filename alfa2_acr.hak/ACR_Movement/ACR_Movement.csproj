@@ -50,6 +50,7 @@
     <Compile Include="AppearanceTypes.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_Movement.cs" />
+    <Compile Include="Riding.cs" />
     <Compile Include="StandardEntrypoints.cs" />
     <Compile Include="Swimming.cs" />
   </ItemGroup>

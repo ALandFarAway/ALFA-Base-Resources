@@ -63,6 +63,7 @@ namespace ACR_Movement
                     break;
                 case MovementCommand.MountHorse:
                     AppearanceTypes.characterMovement[Target] = AppearanceTypes.MovementType.Riding;
+                    Riding.MountHorse(this, Target, OBJECT_SELF);
                     AppearanceTypes.RecalculateMovement(this, Target);
                     break;
                 case MovementCommand.CloakRemoved:
