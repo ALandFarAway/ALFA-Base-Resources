@@ -69,6 +69,7 @@ namespace ACR_Movement
                 case MovementCommand.CloakRemoved:
                     AppearanceTypes.characterMovement[Target] = AppearanceTypes.MovementType.Walking;
                     AppearanceTypes.RecalculateMovement(this, Target);
+                    Riding.Dismount(this, Target, GetPCItemLastUnequipped(), GetLocation(Target));
                     break;
                 case MovementCommand.ToOverlandMap:
                     AppearanceTypes.overlandMap[Target] = true;
@@ -77,6 +78,14 @@ namespace ACR_Movement
                 case MovementCommand.FromOverlandMap:
                     AppearanceTypes.overlandMap[Target] = false;
                     AppearanceTypes.RecalculateMovement(this, Target);
+                    break;
+                case MovementCommand.AreaTransition:
+                    if(Riding.isWarhorse.ContainsKey(Target))
+                    {
+                        AppearanceTypes.characterMovement[Target] = AppearanceTypes.MovementType.Walking;
+                        AppearanceTypes.RecalculateMovement(this, Target);
+                        Riding.Dismount(this, Target, GetItemInSlot(INVENTORY_SLOT_CLOAK, Target), GetLocation(OBJECT_SELF));
+                    }
                     break;
             }
 
@@ -91,6 +100,7 @@ namespace ACR_Movement
             CloakRemoved = 3,
             ToOverlandMap = 4,
             FromOverlandMap = 5,
+            AreaTransition = 6,
         }
 
     }

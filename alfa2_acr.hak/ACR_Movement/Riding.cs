@@ -27,15 +27,15 @@ namespace ACR_Movement
             string cloakResRef;
             switch(script.GetTag(Horse))
             {
-                case "acr_horse01":
+                case "abr_cr_an_horse01":
                     cloakResRef = "acr_ooc_horse01";
                     isWarhorse[Character] = true;
                     break;
-                case "acr_horse02":
+                case "acr_cr_an_horse02":
                     cloakResRef = "acr_ooc_horse02";
                     isWarhorse[Character] = true;
                     break;
-                case "acr_horse03":
+                case "acr_cr_an_horse03":
                     cloakResRef = "acr_ooc_horse03";
                     isWarhorse[Character] = true;
                     break;
@@ -72,6 +72,30 @@ namespace ACR_Movement
             if (!isWarhorse.ContainsKey(Character)) return;
 
             script.DelayCommand(6.0f, delegate { RidingHeartbeat(script, Character); });
+        }
+
+        public static void Dismount(CLRScriptBase script, uint Character, uint Cloak, NWLocation Location)
+        {
+            string resRef = "";
+            switch(script.GetTag(Cloak))
+            {
+                case "acr_ooc_horse01": 
+                    resRef = "abr_cr_an_horse01";
+                    break;
+                case "acr_ooc_horse02":
+                    resRef = "abr_cr_an_horse02";
+                    break;
+                case "acr_ooc_horse03":
+                    resRef = "abr_cr_an_horse03";
+                    break;
+                default:
+                    // Looks like we're not actually dismounting a horse.
+                    return;
+            }        
+
+            script.CreateObject(CLRScriptBase.OBJECT_TYPE_CREATURE, resRef, Location, CLRScriptBase.FALSE, "");
+            script.SetPlotFlag(Cloak, CLRScriptBase.FALSE);
+            script.DestroyObject(Cloak, 0.0f, CLRScriptBase.FALSE);
         }
     }
 }
