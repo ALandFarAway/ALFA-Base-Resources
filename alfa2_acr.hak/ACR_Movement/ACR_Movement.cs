@@ -49,7 +49,7 @@ namespace ACR_Movement
             {
                 AppearanceTypes.overlandMap.Add(Target, false);
             }
-
+            
             switch((MovementCommand)Command)
             {
                 case MovementCommand.EnterWater:
@@ -79,7 +79,7 @@ namespace ACR_Movement
                     AppearanceTypes.overlandMap[Target] = false;
                     AppearanceTypes.RecalculateMovement(this, Target);
                     break;
-                case MovementCommand.AreaTransition:
+                case MovementCommand.Dismount:
                     if(Riding.isWarhorse.ContainsKey(Target))
                     {
                         AppearanceTypes.characterMovement[Target] = AppearanceTypes.MovementType.Walking;
@@ -88,7 +88,7 @@ namespace ACR_Movement
                     }
                     break;
             }
-
+            
             return 0;
         }
 
@@ -100,7 +100,7 @@ namespace ACR_Movement
             CloakRemoved = 3,
             ToOverlandMap = 4,
             FromOverlandMap = 5,
-            AreaTransition = 6,
+            Dismount = 6,
         }
 
     }
