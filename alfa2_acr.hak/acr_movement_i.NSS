@@ -50,6 +50,9 @@ void CloakRemoved(object oCreature);
 // Used to make oCreature dismount whatever horse it is on.
 void Dismount(object oCreature);
 
+// Used on area transition to determine if oCreature needs to dismount.
+void MountAreaTransition(object oCreature);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -84,10 +87,19 @@ void MountHorse(object oHorse, object oCreature)
 
 void CloakRemoved(object oCreature)
 {
-  ClearScriptParams();
-  AddScriptParameterInt(ACR_MOVEMENT_MOUNT_HORSE);
-  AddScriptParameterObject(oCreature);
-  ExecuteScriptEnhanced("ACR_Movement", oCreature, TRUE);
+  object oCloak = GetPCItemLastUnequipped();
+  if(!GetIsObjectValid(oCloak)) return; // no cloak; must not be mounted.
+  else
+  {
+    string sTag = GetTag(oCloak);
+    if(GetStringLeft(sTag, 13) == "acr_ooc_horse")
+    {
+      ClearScriptParams();
+      AddScriptParameterInt(ACR_MOVEMENT_MOUNT_HORSE);
+      AddScriptParameterObject(oCreature);
+      ExecuteScriptEnhanced("ACR_Movement", oCreature, TRUE);
+    }
+  }
 }
 
 void Dismount(object oCreature)
@@ -96,4 +108,18 @@ void Dismount(object oCreature)
   AddScriptParameterInt(ACR_MOVEMENT_DISMOUNT);
   AddScriptParameterObject(oCreature);
   ExecuteScriptEnhanced("ACR_Movement", oCreature, TRUE);
+}
+
+void MountAreaTransition(object oCreature)
+{
+  object oCloak = GetItemInSlot(INVENTORY_SLOT_CLOAK, oCreature);
+  if(!GetIsObjectValid(oCloak)) return; // no cloak; must not be mounted.
+  else
+  {
+    string sTag = GetTag(oCloak);
+    if(GetStringLeft(sTag, 13) == "acr_ooc_horse")
+    {
+      Dismount(oCreature);
+    }
+  }
 }
