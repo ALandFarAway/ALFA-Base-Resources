@@ -650,6 +650,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s0_silence.ncs                     \
             $(OUTPUTDIR)\acr_server_ping_request.ncs           \
             $(OUTPUTDIR)\acr_server_ping_response.ncs          \
+            $(OUTPUTDIR)\acr_feat_ride.ncs                     \
             $(OUTPUTDIR)\acr_set_player_password.ncs           
 
 #
