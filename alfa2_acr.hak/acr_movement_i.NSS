@@ -25,6 +25,7 @@ const int ACR_MOVEMENT_EXIT_OLM = 5;
 const int ACR_MOVEMENT_DISMOUNT = 6;
 
 const string ACR_HORSE_OWNER = "ACR_HORSE_OWNER";
+const string ACR_IS_WARHORSE = "ACR_IS_WARHORSE";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -151,4 +152,14 @@ int GetIsHorseOwnedBy(object oHorse, object oCreature)
   }
   
   return FALSE;
+}
+
+void SetHorseIsOwnedBy(object oHorse, object oCreature)
+{
+  if(GetObjectType(oHorse) != OBJECT_TYPE_CREATURE) return;
+  if(GetObjectType(oCreature) != OBJECT_TYPE_CREATURE) return;
+  if(!GetIsPC(oCreature)) return;
+  
+  SetLocalInt(oHorse, ACR_HORSE_OWNER, ACR_GetCharacterID(oCreature));
+  
 }
