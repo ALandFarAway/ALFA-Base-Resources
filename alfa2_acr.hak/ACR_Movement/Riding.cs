@@ -19,6 +19,8 @@ namespace ACR_Movement
     class Riding
     {
         public const string ACR_IS_WARHORSE = "ACR_IS_WARHORSE";
+        public const string ACR_HORSE_OWNER = "ACR_HORSE_OWNER";
+        public const string ACR_CID = "ACR_CID";
 
         public static Dictionary<uint, bool> isWarhorse = new Dictionary<uint, bool>();
 
@@ -84,23 +86,40 @@ namespace ACR_Movement
         public static void Dismount(CLRScriptBase script, uint Character, uint Cloak, NWLocation Location)
         {
             string resRef = "";
-            switch(script.GetTag(Cloak))
+            if (script.GetLocalInt(Cloak, ACR_IS_WARHORSE) == 1)
             {
-                case "acr_ooc_horse01": 
-                    resRef = "abr_cr_an_horse01";
-                    break;
-                case "acr_ooc_horse02":
-                    resRef = "abr_cr_an_horse02";
-                    break;
-                case "acr_ooc_horse03":
-                    resRef = "abr_cr_an_horse03";
-                    break;
-                default:
-                    // Looks like we're not actually dismounting a horse.
-                    return;
-            }        
+                resRef = "abr_cr_an_horse_pal_";
+                int nPalLevel = script.GetLevelByClass(CLRScriptBase.CLASS_TYPE_PALADIN, Character);
+                if (nPalLevel >= 15) resRef += "15";
+                else if (nPalLevel >= 11) resRef += "11";
+                else if (nPalLevel >= 8) resRef += "8";
+                else if (nPalLevel >= 5) resRef += "5";
+            }
+            else
+            {
+                switch (script.GetTag(Cloak))
+                {
+                    case "acr_ooc_horse01":
+                        resRef = "abr_cr_an_horse01";
+                        break;
+                    case "acr_ooc_horse02":
+                        resRef = "abr_cr_an_horse02";
+                        break;
+                    case "acr_ooc_horse03":
+                        resRef = "abr_cr_an_horse03";
+                        break;
+                    default:
+                        // Looks like we're not actually dismounting a horse.
+                        return;
+                }
+            }
 
-            script.CreateObject(CLRScriptBase.OBJECT_TYPE_CREATURE, resRef, Location, CLRScriptBase.FALSE, "");
+            uint Horse = script.CreateObject(CLRScriptBase.OBJECT_TYPE_CREATURE, resRef, Location, CLRScriptBase.FALSE, "");
+            script.SetLocalInt(Horse, ACR_HORSE_OWNER, script.GetLocalInt(Character, ACR_CID));
+            if (script.GetLocalInt(Cloak, ACR_IS_WARHORSE) == 1)
+            {
+                script.SetLocalInt(Horse, ACR_IS_WARHORSE, 1);
+            }
             script.SetPlotFlag(Cloak, CLRScriptBase.FALSE);
             script.DestroyObject(Cloak, 0.0f, CLRScriptBase.FALSE);
         }

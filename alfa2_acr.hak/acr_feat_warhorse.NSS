@@ -15,6 +15,7 @@ void main()
   else
   {
     SendMessageToPC(OBJECT_SELF, "You don't seem to be a paladin. Why are you summoning a paladin's warhorse?");
+    return;
   }
   
   object oHorse = CreateObject(OBJECT_TYPE_CREATURE, sHorse, GetLocation(OBJECT_SELF), FALSE, "");
