@@ -18,6 +18,8 @@ namespace ACR_Movement
 {
     class Riding
     {
+        public const string ACR_IS_WARHORSE = "ACR_IS_WARHORSE";
+
         public static Dictionary<uint, bool> isWarhorse = new Dictionary<uint, bool>();
 
         public static void MountHorse(CLRScriptBase script, uint Character, uint Horse)
@@ -46,6 +48,11 @@ namespace ACR_Movement
             }
 
             uint horseCloak = script.CreateItemOnObject(cloakResRef, Character, 1, "", CLRScriptBase.FALSE);
+            if (script.GetLocalInt(Horse, ACR_IS_WARHORSE) == 1)
+            {
+                script.SetLocalInt(horseCloak, ACR_IS_WARHORSE, 1);
+            }
+
             uint equippedCloak = script.GetItemInSlot(CLRScriptBase.INVENTORY_SLOT_CLOAK, Character);
             
             if (script.GetIsObjectValid(equippedCloak) == CLRScriptBase.TRUE)

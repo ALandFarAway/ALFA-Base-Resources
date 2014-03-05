@@ -87,6 +87,9 @@ namespace ACR_Movement
                         Riding.Dismount(this, Target, GetItemInSlot(INVENTORY_SLOT_CLOAK, Target), GetLocation(OBJECT_SELF));
                     }
                     break;
+                case MovementCommand.ForceRecalculate:
+                    AppearanceTypes.RecalculateMovement(this, Target);
+                    break;
             }
             
             return 0;
@@ -101,6 +104,7 @@ namespace ACR_Movement
             ToOverlandMap = 4,
             FromOverlandMap = 5,
             Dismount = 6,
+            ForceRecalculate = 7
         }
 
     }
