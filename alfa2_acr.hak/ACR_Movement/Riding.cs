@@ -94,6 +94,7 @@ namespace ACR_Movement
                 else if (nPalLevel >= 11) resRef += "11";
                 else if (nPalLevel >= 8) resRef += "8";
                 else if (nPalLevel >= 5) resRef += "5";
+                else resRef = "abr_cr_an_horse03";
             }
             else
             {
