@@ -322,7 +322,7 @@ int ACR_ModuleOverrideEvent(string Event, int Precall);
 #include "acr_gui_i"
 #include "acr_language_i"
 #include "acr_pchide_i"
-
+#include "acr_movement_i"
 #include "acf_spawn_i"
 #include "acf_settings_i"
 
@@ -985,6 +985,7 @@ void ACR_ModuleOnPCLoaded()
 	 	return;
     
     CraftingOnPCLoaded(oPC);
+    HorseOnPCLoaded(oPC);
     
     // process DMs
     if (GetIsDM(oPC) || GetIsDMPossessed(oPC))

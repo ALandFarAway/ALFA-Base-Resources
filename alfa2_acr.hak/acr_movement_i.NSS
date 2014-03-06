@@ -27,6 +27,13 @@ const int ACR_MOVEMENT_DISMOUNT = 6;
 const string ACR_HORSE_OWNER = "ACR_HORSE_OWNER";
 const string ACR_IS_WARHORSE = "ACR_IS_WARHORSE";
 
+const string ACR_HORSE_PERS_LOC_AREA = "ACR_HORSE_PERS_LOC_AREA";
+const string ACR_HORSE_PERS_LOC_X = "ACR_HORSE_PERS_LOC_X";
+const string ACR_HORSE_PERS_LOC_Y = "ACR_HORSE_PERS_LOC_Y";
+const string ACR_HORSE_PERS_LOC_Z = "ACR_HORSE_PERS_LOC_Z";
+const string ACR_HORSE_OBJECT = "ACR_HORSE_OBJECT";
+const string ACR_HORSE_ID = "ACR_HORSE_ID";
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -61,6 +68,9 @@ void MountAreaTransition(object oCreature);
 // Used to verify that oHorse is indeed a horse who may be mounted
 // by oCreature.
 int GetIsHorseOwnedBy(object oHorse, object oCreature);
+
+// Used to load and place horses
+void HorseOnPCLoaded(object oPC);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
@@ -160,6 +170,44 @@ void SetHorseIsOwnedBy(object oHorse, object oCreature)
   if(GetObjectType(oCreature) != OBJECT_TYPE_CREATURE) return;
   if(!GetIsPC(oCreature)) return;
   
-  SetLocalInt(oHorse, ACR_HORSE_OWNER, ACR_GetCharacterID(oCreature));
-  
+  SetLocalInt(oHorse, ACR_HORSE_OWNER, ACR_GetCharacterID(oCreature)); 
+}
+
+void HorseOnPCLoaded(object oPC)
+{
+  object oCloak = GetItemInSlot(INVENTORY_SLOT_CLOAK, oPC);
+  int nHorseId;
+  if(GetIsObjectValid(oCloak))
+  {
+    nHorseId = GetLocalInt(oCloak, ACR_HORSE_ID); 
+  }
+  else
+  {
+    nHorseId = -1;
+  }
+
+  object oItem = GetFirstItemInInventory(oPC);
+  while(GetIsObjectValid(oItem))
+  {
+    if(GetStringLeft(GetTag(oItem), 9) == "acr_horse")
+    {
+      if(GetLocalInt(oItem, ACR_HORSE_ID) != nHorseId) // make sure we're not already riding this horse
+      {
+        object oHorse = GetLocalObject(oItem, ACR_HORSE_OBJECT);
+        if(!GetIsObjectValid(oHorse) || // make sure the horse isn't already spawned
+           GetLocalObject(oHorse, ACR_HORSE_OBJECT) != oPC) // just in case the server reset; this might be a different thing with the same object Id.
+        {
+          string sResRef = "acr_ooc_horse" + GetStringRight(GetTag(oItem), 2);
+          location loc = Location(GetObjectByTag(GetLocalString(oItem, ACR_HORSE_PERS_LOC_AREA), 0),
+                                  Vector(GetLocalFloat(oItem, ACR_HORSE_PERS_LOC_X),
+                                        GetLocalFloat(oItem, ACR_HORSE_PERS_LOC_Y),
+                                        GetLocalFloat(oItem, ACR_HORSE_PERS_LOC_Z)), 0.0f);
+          object oHorse = CreateObject(OBJECT_TYPE_CREATURE, sResRef, loc, TRUE, "");
+          SetLocalInt(oHorse, ACR_HORSE_ID, GetLocalInt(oItem, ACR_HORSE_ID));
+          SetHorseIsOwnedBy(oHorse, oPC);
+        }
+      }
+    }
+    oItem = GetNextItemInInventory(oPC);
+  }
 }
