@@ -23,6 +23,7 @@ const int ACR_MOVEMENT_CLOAK_REMOVED = 3;
 const int ACR_MOVEMENT_ENTER_OLM = 4;
 const int ACR_MOVEMENT_EXIT_OLM = 5;
 const int ACR_MOVEMENT_DISMOUNT = 6;
+const int ACR_MOVEMENT_RECALCULATE = 7;
 
 const string ACR_HORSE_OWNER = "ACR_HORSE_OWNER";
 const string ACR_IS_WARHORSE = "ACR_IS_WARHORSE";
@@ -64,6 +65,9 @@ void Dismount(object oCreature);
 
 // Used on area transition to determine if oCreature needs to dismount.
 void MountAreaTransition(object oCreature);
+
+// Used to check if movement rates need to change and correcting if so.
+void RecalculateMovement(object oCreature);
 
 // Used to verify that oHorse is indeed a horse who may be mounted
 // by oCreature.
@@ -162,6 +166,14 @@ int GetIsHorseOwnedBy(object oHorse, object oCreature)
   }
   
   return FALSE;
+}
+
+void RecalculateMovement(object oCreature)
+{
+  ClearScriptParams();
+  AddScriptParameterInt(ACR_MOVEMENT_RECALCULATE);
+  AddScriptParameterObject(oCreature);
+  ExecuteScriptEnhanced("ACR_Movement", oCreature, TRUE);
 }
 
 void SetHorseIsOwnedBy(object oHorse, object oCreature)
