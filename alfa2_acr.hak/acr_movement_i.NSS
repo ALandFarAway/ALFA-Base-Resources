@@ -214,6 +214,7 @@ void HorseOnPCLoaded(object oPC)
                                   Vector(GetLocalFloat(oItem, ACR_HORSE_PERS_LOC_X),
                                         GetLocalFloat(oItem, ACR_HORSE_PERS_LOC_Y),
                                         GetLocalFloat(oItem, ACR_HORSE_PERS_LOC_Z)), 0.0f);
+          if(!GetIsObjectValid(GetAreaFromLocation(loc))) loc = GetLocation(oPC);
           object oHorse = CreateObject(OBJECT_TYPE_CREATURE, sResRef, loc, TRUE, "");
           SetLocalInt(oHorse, ACR_HORSE_ID, GetLocalInt(oItem, ACR_HORSE_ID));
           SetHorseIsOwnedBy(oHorse, oPC);
