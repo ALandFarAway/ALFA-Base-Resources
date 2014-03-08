@@ -215,7 +215,7 @@ void HorseOnPCLoaded(object oPC)
         if(!GetIsObjectValid(oHorse) || // make sure the horse isn't already spawned
            GetLocalObject(oHorse, ACR_HORSE_OBJECT) != oPC) // just in case the server reset; this might be a different thing with the same object Id.
         {
-          string sResRef = "acr_ooc_horse" + GetStringRight(GetTag(oItem), 2);
+          string sResRef = "acr_horse" + GetStringRight(GetTag(oItem), 2);
           location loc = Location(GetObjectByTag(GetLocalString(oItem, ACR_HORSE_PERS_LOC_AREA), 0),
                                   Vector(GetLocalFloat(oItem, ACR_HORSE_PERS_LOC_X),
                                         GetLocalFloat(oItem, ACR_HORSE_PERS_LOC_Y),
@@ -262,9 +262,9 @@ void HorseOnAcquire()
   object oHorse = GetLocalObject(oItem, ACR_HORSE_OBJECT);
   if(!GetIsObjectValid(oHorse))
   {
-    string sResRef = "acr_ooc_horse" + GetStringRight(GetTag(oItem), 2);
+    string sResRef = "acr_horse" + GetStringRight(GetTag(oItem), 2);
     oHorse = CreateObject(OBJECT_TYPE_CREATURE, sResRef, GetLocation(oPC), TRUE, "");
-    SetLocalObject(oItem, ACR_HORSE_OBJECT, oPC);
+    SetLocalObject(oItem, ACR_HORSE_OBJECT, oHorse);
   }
   
   SetLocalInt(oItem, ACR_HORSE_ID, _GetNewHorseId(oPC));
