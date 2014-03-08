@@ -242,6 +242,7 @@ int _GetNewHorseId(object oPC)
     if(nNew > nID) nID = nNew;    
     oItem = GetNextItemInInventory(oPC);
   }
+  nID++;
   return nID;
 }
 
