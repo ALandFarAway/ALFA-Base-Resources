@@ -676,7 +676,8 @@ CLRSCRIPT_OBJECTS=$(OUTPUTDIR)\TestClrScript.ncs               \
                   $(OUTPUTDIR)\ACR_CollectionLib.ncs           \
                   $(OUTPUTDIR)\ACR_ChooserCreator.ncs          \
                   $(OUTPUTDIR)\ACR_Traps.ncs                   \
-                  $(OUTPUTDIR)\ACR_AssemblyLoader.ncs          
+                  $(OUTPUTDIR)\ACR_AssemblyLoader.ncs          \
+                  $(OUTPUTDIR)\ACR_Movement.ncs                
 
 HAKFILE=$(OUTPUTDIR)\alfa2_acr.hak
 
