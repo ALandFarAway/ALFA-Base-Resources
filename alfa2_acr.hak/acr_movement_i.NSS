@@ -76,6 +76,10 @@ int GetIsHorseOwnedBy(object oHorse, object oCreature);
 // Used to load and place horses
 void HorseOnPCLoaded(object oPC);
 
+// Used to look for horse objects when a PC acquires one, and spawn a
+// horse if necessary.
+void HorseOnAcquire();
+
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -183,6 +187,7 @@ void SetHorseIsOwnedBy(object oHorse, object oCreature)
   if(!GetIsPC(oCreature)) return;
   
   SetLocalInt(oHorse, ACR_HORSE_OWNER, ACR_GetCharacterID(oCreature)); 
+  SetLocalObject(oHorse, ACR_HORSE_OBJECT, oCreature);
 }
 
 void HorseOnPCLoaded(object oPC)
@@ -217,10 +222,51 @@ void HorseOnPCLoaded(object oPC)
           if(!GetIsObjectValid(GetAreaFromLocation(loc))) loc = GetLocation(oPC);
           object oHorse = CreateObject(OBJECT_TYPE_CREATURE, sResRef, loc, TRUE, "");
           SetLocalInt(oHorse, ACR_HORSE_ID, GetLocalInt(oItem, ACR_HORSE_ID));
+          SetLocalObject(oItem, ACR_HORSE_OBJECT, oPC);
           SetHorseIsOwnedBy(oHorse, oPC);
         }
       }
     }
     oItem = GetNextItemInInventory(oPC);
   }
+}
+
+int _GetNewHorseId(object oPC)
+{
+  int nID = 1;
+  object oItem = GetFirstItemInInventory(oPC);
+  while(GetIsObjectValid(oItem))
+  {
+    int nNew = GetLocalInt(oItem, ACR_HORSE_ID);
+    if(nNew > nID) nID = nNew;    
+    oItem = GetNextItemInInventory(oPC);
+  }
+  return nID;
+}
+
+void HorseOnAcquire()
+{
+  object oItem = GetModuleItemAcquired();
+  object oPC = GetModuleItemAcquiredBy();
+  
+  // If this isn't a PC, it's probably an NPC merchant. If it's a DM, we assume
+  // it's just them managing a PC's horses (remember that NPCs can ride any horse)
+  if(!GetIsPC(oPC)) return;
+  if(GetIsDM(oPC) || GetIsDMPossessed(oPC)) return;
+  
+  // If this isn't a horse item, we don't care.
+  if(GetStringLeft(GetTag(oItem), 13) != "acr_ooc_horse") return;
+  
+  // If the horse doesn't already exist, this needs to be initialized.
+  object oHorse = GetLocalObject(oItem, ACR_HORSE_OBJECT);
+  if(!GetIsObjectValid(oHorse))
+  {
+    string sResRef = "acr_ooc_horse" + GetStringRight(GetTag(oItem), 2);
+    oHorse = CreateObject(OBJECT_TYPE_CREATURE, sResRef, GetLocation(oPC), TRUE, "");
+    SetLocalObject(oItem, ACR_HORSE_OBJECT, oPC);
+  }
+  
+  SetLocalInt(oItem, ACR_HORSE_ID, _GetNewHorseId(oPC));
+  SetLocalInt(oHorse, ACR_HORSE_ID, GetLocalInt(oItem, ACR_HORSE_ID));
+  SetHorseIsOwnedBy(oHorse, oPC);
 }
