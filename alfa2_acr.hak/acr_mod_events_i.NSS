@@ -1167,6 +1167,8 @@ void ACR_ModuleOnAcquireItem()
 
 	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_ACQUIRE_ITEM, TRUE))
 	 	return;
+	 	
+	 	HorseOnAcquire();
 
     // SendMessageToAllDMs("Acquired Item: "+GetName(oItem)+" by "+GetName(oAcquiredBy)+" with valid: "+IntToString(GetIsObjectValid(oAcquiredBy))+ " in area "+GetName(GetArea(oAcquiredBy))+" with valid: "+IntToString(GetIsObjectValid(GetArea(oAcquiredBy))));
  
@@ -1435,6 +1437,9 @@ void ACR_ModuleOnPlayerUnequip() {
 
 	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_PLAYER_UNEQUIP, TRUE))
 	 	return;
+	 	
+	 	if(GetBaseItemType(oItem) == BASE_ITEM_CLOAK)
+      CloakRemoved();
     
     // handle unequipped items
     ACR_ItemOnUnEquip(oItem, oPC);

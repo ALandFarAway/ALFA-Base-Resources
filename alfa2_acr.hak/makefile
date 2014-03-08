@@ -133,6 +133,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\gui_bhvr_inc.nss                      \
             $(OUTPUTDIR)\acr_traps_i.nss                       \
             $(OUTPUTDIR)\acr_bard_i.nss                        \
+            $(OUTPUTDIR)\acr_movement_i.nss                    \
             $(OUTPUTDIR)\acr_guiglobals_i.nss                   
 
 NSS_OBJECTS=                                                   \

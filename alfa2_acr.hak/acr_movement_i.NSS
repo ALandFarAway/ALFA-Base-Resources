@@ -58,7 +58,7 @@ void MountHorse(object oHorse, object oCreature);
 
 // Called when a cloak is unequipped, to see if that was the horse
 // object, and to interpret as a command to dismount if so.
-void CloakRemoved(object oCreature);
+void CloakRemoved();
 
 // Used to make oCreature dismount whatever horse it is on.
 void Dismount(object oCreature);
@@ -112,10 +112,11 @@ void MountHorse(object oHorse, object oCreature)
   ExecuteScriptEnhanced("ACR_Movement", oHorse, TRUE);
 }
 
-void CloakRemoved(object oCreature)
+void CloakRemoved()
 {
+  object oCreature = GetPCItemLastUnequippedBy();
   object oCloak = GetPCItemLastUnequipped();
-  if(!GetIsObjectValid(oCloak)) return; // no cloak; must not be mounted.
+  if(!GetIsObjectValid(oCloak)) return;
   else
   {
     string sTag = GetTag(oCloak);
