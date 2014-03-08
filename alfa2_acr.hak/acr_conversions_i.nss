@@ -165,6 +165,13 @@ int TryUpdateCharacterToNewestVersion( object oPC, string sCurrentVersion )
         _SwapFeat( oPC, FEAT_IMPROVED_POWER_ATTACK, FEAT_ACR_IMPROVED_POWER_ATTACK );
         bChanged = TRUE;
 	}
+	
+	if((sCurrentVersion == "" || fCurrentVersion < 1.92005) && fTargetVersion >= 1.92005) { // X -> 1.9201
+    FeatAdd( oPC, FEAT_RIDE, FALSE, TRUE, TRUE);
+    if( GetLevelByClass( CLASS_TYPE_PALADIN, oPC) >= 5 ) {
+      FeatAdd( oPC, FEAT_PALADIN_WARHORSE, FALSE, TRUE, TRUE );
+    }
+	}
     return bChanged;
 }
 

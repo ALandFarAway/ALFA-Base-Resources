@@ -476,6 +476,9 @@ const int FEAT_SPIDER_DOMAIN_POWER     = 3734;
 const int FEAT_A_THOUSAND_FACES = 3739;
 const int FEAT_TIMELESS_BODY = 3738;
 
+const int FEAT_RIDE = 3740;
+const int FEAT_PALADIN_WARHORSE = 3741;
+
 // Item materials:
 int    GMATERIAL_INVALID = -1;
 int    GMATERIAL_WOOD = 100;
