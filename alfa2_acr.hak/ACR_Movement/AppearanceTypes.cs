@@ -269,8 +269,52 @@ namespace ACR_Movement
                     // Level 3+ knight protectors have frantic reactions, and thus +0.4m/s
                     moveRate++;
                 }
-            }
+                switch (moveRate)
+                {
+                    case 10:
+                        appType += Walk_10;
+                        break;
+                    case 11:
+                        appType += Walk_11;
+                        break;
+                    case 12:
+                        appType += Walk_12;
+                        break;
+                    case 13:
+                        appType += Walk_13;
+                        break;
+                    case 14:
+                        appType += Walk_14;
+                        break;
+                    case 15:
+                        appType += Walk_15;
+                        break;
+                    case 16:
+                        appType += Walk_16;
+                        break;
+                    case 17:
+                        appType += Walk_17;
+                        break;
+                    case 18:
+                        appType += Walk_18;
+                        break;
+                    case 19:
+                        appType += Walk_19;
+                        break;
+                    case 20:
+                        appType += Walk_20;
+                        break;
+                    case 21:
+                        appType += Walk_21;
+                        break;
+                    case 22:
+                        appType += Walk_22;
+                        break;
+                }
 
+                script.SetCreatureAppearanceType(Creature, appType);
+                return;
+            }
         }
     }
 }
