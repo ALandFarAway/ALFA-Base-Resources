@@ -203,6 +203,14 @@ void HorseOnPCLoaded(object oPC)
   {
     nHorseId = -1;
   }
+  
+  // 0 is wearing a cloak but not a horse. -1 is no cloak.
+  // In these cases, we'll run through the movement calculations
+  // just as a matter of cleanup.
+  if(nHorseId <= 0)
+  {
+    RecalculateMovement(object oPC);
+  }
 
   object oItem = GetFirstItemInInventory(oPC);
   while(GetIsObjectValid(oItem))
@@ -234,7 +242,7 @@ void HorseOnPCLoaded(object oPC)
 
 int _GetNewHorseId(object oPC)
 {
-  int nID = 1;
+  int nID = 1; // lowest ID is 1 so we can tell if a cloak is non-horse-related.
   object oItem = GetFirstItemInInventory(oPC);
   while(GetIsObjectValid(oItem))
   {
