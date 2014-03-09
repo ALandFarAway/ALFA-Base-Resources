@@ -160,7 +160,7 @@ int GetIsHorseOwnedBy(object oHorse, object oCreature)
   if((GetIsDM(oCreature) ||
      GetIsDMPossessed(oCreature) ||
      !GetIsPC(oCreature)) &&
-     GetStringLeft(GetTag(oHorse), 9) == "acr_horse")
+     GetStringLeft(GetTag(oHorse), 9) == "abr_cr_an_horse")
   {
     return TRUE;
   }
@@ -257,7 +257,7 @@ void HorseOnAcquire()
   if(GetIsDM(oPC) || GetIsDMPossessed(oPC)) return;
   
   // If this isn't a horse item, we don't care.
-  if(GetStringLeft(GetTag(oItem), 13) != "acr_ooc_horse") return;
+  if(GetStringLeft(GetTag(oItem), 9) != "acr_horse") return;
   
   // If the horse doesn't already exist, this needs to be initialized.
   object oHorse = GetLocalObject(oItem, ACR_HORSE_OBJECT);
