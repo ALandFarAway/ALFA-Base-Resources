@@ -48,7 +48,7 @@ namespace ACR_Movement
                     isWarhorse[Character] = true;
                     break;
             }
-
+            
             uint horseCloak = script.CreateItemOnObject(cloakResRef, Character, 1, "", CLRScriptBase.FALSE);
             if (script.GetLocalInt(Horse, ACR_IS_WARHORSE) == 1)
             {
@@ -70,7 +70,10 @@ namespace ACR_Movement
             }
             script.SetPlotFlag(horseCloak, CLRScriptBase.TRUE);
             script.SetPlotFlag(Horse, CLRScriptBase.FALSE);
-            script.DestroyObject(Horse, 0.0f, CLRScriptBase.FALSE);
+            
+            script.AssignCommand(Horse, delegate { script.SetIsDestroyable(CLRScriptBase.TRUE, CLRScriptBase.FALSE, CLRScriptBase.FALSE); });
+            script.AssignCommand(Horse, delegate { script.DestroyObject(Horse, 0.0f, CLRScriptBase.FALSE); });
+            script.AssignCommand(Character, delegate { script.ActionEquipItem(horseCloak, CLRScriptBase.INVENTORY_SLOT_CLOAK); });
 
             if (!isWarhorse[Character]) script.DelayCommand(6.0f, delegate { RidingHeartbeat(script, Character); });
         }
@@ -114,7 +117,7 @@ namespace ACR_Movement
                         return;
                 }
             }
-
+            
             uint Horse = script.CreateObject(CLRScriptBase.OBJECT_TYPE_CREATURE, resRef, Location, CLRScriptBase.FALSE, "");
             script.SetLocalInt(Horse, ACR_HORSE_OWNER, script.GetLocalInt(Character, ACR_CID));
             if (script.GetLocalInt(Cloak, ACR_IS_WARHORSE) == 1)
