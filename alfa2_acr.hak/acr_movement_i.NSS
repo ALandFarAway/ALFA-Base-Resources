@@ -88,6 +88,9 @@ void HorseOnPCLoaded(object oPC);
 // horse if necessary.
 void HorseOnAcquire();
 
+// Used to clean up horses in play.
+void HorseOnExit(object oPC);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -303,4 +306,18 @@ void HorseOnAcquire()
   SetLocalInt(oItem, ACR_HORSE_ID, _GetNewHorseId(oPC));
   SetLocalInt(oHorse, ACR_HORSE_ID, GetLocalInt(oItem, ACR_HORSE_ID));
   SetHorseIsOwnedBy(oHorse, oPC);
+}
+
+void HorseOnExit(object oPC)
+{
+  object oItem = GetFirstItemInInventory(oPC);
+  while(GetIsObjectValid(oItem))
+  {
+    object oHorse = GetLocalObject(oItem, ACR_HORSE_OBJECT);
+    if(GetIsObjectValid(oHorse) && !GetIsPC(oHorse))
+    {
+      DestroyObject(oHorse);
+    }
+    oItem = GetNextItemInInventory(oPC);
+  }
 }
