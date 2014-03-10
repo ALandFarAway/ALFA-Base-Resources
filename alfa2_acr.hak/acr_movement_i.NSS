@@ -63,6 +63,14 @@ void CloakRemoved();
 // Used to make oCreature dismount whatever horse it is on.
 void Dismount(object oCreature);
 
+// Set a creature's movement rate to be appropriate for an
+// overland map.
+void ToOverlandMap(object oCreature);
+
+// Restore that creature's movement rate to that of a regular
+// walking person.
+void FromOverlandMap(object oCreature);
+
 // Used on area transition to determine if oCreature needs to dismount.
 void MountAreaTransition(object oCreature);
 
@@ -138,6 +146,22 @@ void Dismount(object oCreature)
   ExecuteScriptEnhanced("ACR_Movement", oCreature, TRUE);
 }
 
+void ToOverlandMap(object oCreature)
+{
+  ClearScriptParams();
+  AddScriptParameterInt(ACR_MOVEMENT_ENTER_OLM);
+  AddScriptParameterObject(oCreature);
+  ExecuteScriptEnhanced("ACR_Movement", oCreature, TRUE);
+}
+
+void FromOverlandMap(object oCreature)
+{
+  ClearScriptParams();
+  AddScriptParameterInt(ACR_MOVEMENT_EXIT_OLM);
+  AddScriptParameterObject(oCreature);
+  ExecuteScriptEnhanced("ACR_Movement", oCreature, TRUE);
+}
+
 void MountAreaTransition(object oCreature)
 {
   object oCloak = GetItemInSlot(INVENTORY_SLOT_CLOAK, oCreature);
@@ -209,7 +233,7 @@ void HorseOnPCLoaded(object oPC)
   // just as a matter of cleanup.
   if(nHorseId <= 0)
   {
-    RecalculateMovement(object oPC);
+    RecalculateMovement(oPC);
   }
 
   object oItem = GetFirstItemInInventory(oPC);
