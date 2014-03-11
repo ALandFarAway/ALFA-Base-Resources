@@ -171,6 +171,9 @@ void MountAreaTransition(object oCreature)
   if(!GetIsObjectValid(oCloak)) return; // no cloak; must not be mounted.
   else
   {
+    object oTargetArea = GetTransitionTarget(OBJECT_SELF);
+    if(!GetIsObjectValid(oTargetArea)) return; // no target area; no sense in dismounting for a broken AT
+    if(!GetIsAreaInterior(oTargetarea)) return; // target area is another exterior; no need to dismount.
     string sTag = GetTag(oCloak);
     if(GetStringLeft(sTag, 13) == "acr_ooc_horse")
     {
