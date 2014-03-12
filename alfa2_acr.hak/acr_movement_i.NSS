@@ -71,6 +71,9 @@ void ToOverlandMap(object oCreature);
 // walking person.
 void FromOverlandMap(object oCreature);
 
+// Used on area transition to determine if oCreature needs to dismount, when traveling to oTargetArea.
+void MountAreaTransitionWithTarget(object oCreature, object oTargetArea);
+
 // Used on area transition to determine if oCreature needs to dismount.
 void MountAreaTransition(object oCreature);
 
@@ -165,13 +168,12 @@ void FromOverlandMap(object oCreature)
   ExecuteScriptEnhanced("ACR_Movement", oCreature, TRUE);
 }
 
-void MountAreaTransition(object oCreature)
+void MountAreaTransitionWithTarget(object oCreature, object oTargetArea)
 {
   object oCloak = GetItemInSlot(INVENTORY_SLOT_CLOAK, oCreature);
   if(!GetIsObjectValid(oCloak)) return; // no cloak; must not be mounted.
   else
   {
-    object oTargetArea = GetTransitionTarget(OBJECT_SELF);
     if(!GetIsObjectValid(oTargetArea)) return; // no target area; no sense in dismounting for a broken AT
     if(!GetIsAreaInterior(oTargetarea)) return; // target area is another exterior; no need to dismount.
     string sTag = GetTag(oCloak);
@@ -180,6 +182,12 @@ void MountAreaTransition(object oCreature)
       Dismount(oCreature);
     }
   }
+}
+
+void MountAreaTransition(object oCreature)
+{
+    object oTargetArea = GetTransitionTarget(OBJECT_SELF);
+    MountAreaTransitionWithTarget(oCreature, oTargetArea);
 }
 
 int GetIsHorseOwnedBy(object oHorse, object oCreature)
