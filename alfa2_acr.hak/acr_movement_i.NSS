@@ -102,28 +102,27 @@ void HorseOnExit(object oPC);
 // Function Definitions ////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-void EnterWater(object oTrigger, object oCreature)
+void _CallToMovement(int nCommand, object oTarget, object oRunOn)
 {
   ClearScriptParams();
-  AddScriptParameterInt(ACR_MOVEMENT_ENTER_WATER);
-  AddScriptParameterObject(oCreature);
-  ExecuteScriptEnhanced("ACR_Movement", oTrigger, TRUE);
+  AddScriptParameterInt(nCommand);
+  AddScriptParameterObject(oTarget);
+  ExecuteScriptEnhanced("ACR_Movement", oRunOn, TRUE);
+}
+
+void EnterWater(object oTrigger, object oCreature)
+{
+  _CallToMovement(ACR_MOVEMENT_ENTER_WATER, oCreature, oTrigger);
 }
 
 void ExitWater(object oTrigger, object oCreature)
 {
-  ClearScriptParams();
-  AddScriptParameterInt(ACR_MOVEMENT_ENTER_WATER);
-  AddScriptParameterObject(oCreature);
-  ExecuteScriptEnhanced("ACR_Movement", oTrigger, TRUE);
+  _CallToMovement(ACR_MOVEMENT_EXIT_WATER, oCreature, oTrigger);
 }
 
 void MountHorse(object oHorse, object oCreature)
 {
-  ClearScriptParams();
-  AddScriptParameterInt(ACR_MOVEMENT_MOUNT_HORSE);
-  AddScriptParameterObject(oCreature);
-  ExecuteScriptEnhanced("ACR_Movement", oHorse, TRUE);
+  _CallToMovement(ACR_MOVEMENT_MOUNT_HORSE, oCreature, oHorse);
 }
 
 void CloakRemoved()
@@ -136,36 +135,24 @@ void CloakRemoved()
     string sTag = GetTag(oCloak);
     if(GetStringLeft(sTag, 13) == "acr_ooc_horse")
     {
-      ClearScriptParams();
-      AddScriptParameterInt(ACR_MOVEMENT_MOUNT_HORSE);
-      AddScriptParameterObject(oCreature);
-      ExecuteScriptEnhanced("ACR_Movement", oCreature, TRUE);
+      Dismount(oCreature);
     }
   }
 }
 
 void Dismount(object oCreature)
 {
-  ClearScriptParams();
-  AddScriptParameterInt(ACR_MOVEMENT_DISMOUNT);
-  AddScriptParameterObject(oCreature);
-  ExecuteScriptEnhanced("ACR_Movement", oCreature, TRUE);
+  _CallToMovement(ACR_MOVEMENT_DISMOUNT, oCreature, oCreature);
 }
 
 void ToOverlandMap(object oCreature)
 {
-  ClearScriptParams();
-  AddScriptParameterInt(ACR_MOVEMENT_ENTER_OLM);
-  AddScriptParameterObject(oCreature);
-  ExecuteScriptEnhanced("ACR_Movement", oCreature, TRUE);
+  _CallToMovement(ACR_MOVEMENT_ENTER_OLM, oCreature, oCreature);
 }
 
 void FromOverlandMap(object oCreature)
 {
-  ClearScriptParams();
-  AddScriptParameterInt(ACR_MOVEMENT_EXIT_OLM);
-  AddScriptParameterObject(oCreature);
-  ExecuteScriptEnhanced("ACR_Movement", oCreature, TRUE);
+  _CallToMovement(ACR_MOVEMENT_EXIT_OLM, oCreature, oCreature);
 }
 
 void MountAreaTransitionWithTarget(object oCreature, object oTargetArea)
@@ -175,7 +162,7 @@ void MountAreaTransitionWithTarget(object oCreature, object oTargetArea)
   else
   {
     if(!GetIsObjectValid(oTargetArea)) return; // no target area; no sense in dismounting for a broken AT
-    if(!GetIsAreaInterior(oTargetarea)) return; // target area is another exterior; no need to dismount.
+    if(!GetIsAreaInterior(oTargetArea)) return; // target area is another exterior; no need to dismount.
     string sTag = GetTag(oCloak);
     if(GetStringLeft(sTag, 13) == "acr_ooc_horse")
     {
@@ -213,10 +200,7 @@ int GetIsHorseOwnedBy(object oHorse, object oCreature)
 
 void RecalculateMovement(object oCreature)
 {
-  ClearScriptParams();
-  AddScriptParameterInt(ACR_MOVEMENT_RECALCULATE);
-  AddScriptParameterObject(oCreature);
-  ExecuteScriptEnhanced("ACR_Movement", oCreature, TRUE);
+  _CallToMovement(ACR_MOVEMENT_RECALCULATE, oCreature, oCreature);
 }
 
 void SetHorseIsOwnedBy(object oHorse, object oCreature)
