@@ -21,6 +21,7 @@ namespace ACR_Movement
         public const string ACR_IS_WARHORSE = "ACR_IS_WARHORSE";
         public const string ACR_HORSE_OWNER = "ACR_HORSE_OWNER";
         public const string ACR_CID = "ACR_CID";
+        public const string ACR_HORSE_ID = "ACR_HORSE_ID";
 
         public static Dictionary<uint, bool> isWarhorse = new Dictionary<uint, bool>();
 
@@ -54,6 +55,7 @@ namespace ACR_Movement
             {
                 script.SetLocalInt(horseCloak, ACR_IS_WARHORSE, 1);
             }
+            script.SetLocalInt(horseCloak, ACR_HORSE_ID, script.GetLocalInt(Horse, ACR_HORSE_ID));
 
             uint equippedCloak = script.GetItemInSlot(CLRScriptBase.INVENTORY_SLOT_CLOAK, Character);
             
