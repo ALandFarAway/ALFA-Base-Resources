@@ -1,4 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 //
 //  System Name : ALFA Core Rules
 //     Filename : acr_movement_i
@@ -24,6 +25,7 @@ const int ACR_MOVEMENT_ENTER_OLM = 4;
 const int ACR_MOVEMENT_EXIT_OLM = 5;
 const int ACR_MOVEMENT_DISMOUNT = 6;
 const int ACR_MOVEMENT_RECALCULATE = 7;
+const int ACR_MOVEMENT_RESTORE_HORSE = 8;
 
 const string ACR_HORSE_OWNER = "ACR_HORSE_OWNER";
 const string ACR_IS_WARHORSE = "ACR_IS_WARHORSE";
@@ -203,6 +205,11 @@ void RecalculateMovement(object oCreature)
   _CallToMovement(ACR_MOVEMENT_RECALCULATE, oCreature, oCreature);
 }
 
+void RestoreHorse(object oCreature)
+{
+  _CallToMovement(ACR_MOVEMENT_RESTORE_HORSE, oCreature, oCreature);
+}
+
 void SetHorseIsOwnedBy(object oHorse, object oCreature)
 {
   if(GetObjectType(oHorse) != OBJECT_TYPE_CREATURE) return;
@@ -257,6 +264,10 @@ void HorseOnPCLoaded(object oPC)
           SetHorseIsOwnedBy(oHorse, oPC);
         }
       }
+      else
+      {
+        RestoreHorse(oPC);
+      }
     }
     oItem = GetNextItemInInventory(oPC);
   }
@@ -289,6 +300,13 @@ void HorseOnAcquire()
   // If this isn't a horse item, we don't care.
   if(GetStringLeft(GetTag(oItem), 9) != "acr_horse") return;
   
+  if(GetLocalInt(oItem, ACR_HORSE_OWNER) == ACR_GetCharacterID(oPC))
+  {
+    // This is the OnAcquire event that you get on first login, or the 
+    // character dropped and picked back up the horse ownership item.
+    return;
+  }
+  
   // If the horse doesn't already exist, this needs to be initialized.
   object oHorse = GetLocalObject(oItem, ACR_HORSE_OBJECT);
   if(!GetIsObjectValid(oHorse))
@@ -298,6 +316,7 @@ void HorseOnAcquire()
     SetLocalObject(oItem, ACR_HORSE_OBJECT, oHorse);
   }
   
+  SetLocalInt(oItem, ACR_HORSE_OWNER, ACR_GetCharacterID(oPC));
   SetLocalInt(oItem, ACR_HORSE_ID, _GetNewHorseId(oPC));
   SetLocalInt(oHorse, ACR_HORSE_ID, GetLocalInt(oItem, ACR_HORSE_ID));
   SetHorseIsOwnedBy(oHorse, oPC);

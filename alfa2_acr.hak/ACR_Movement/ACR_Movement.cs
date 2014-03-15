@@ -93,6 +93,11 @@ namespace ACR_Movement
                 case MovementCommand.ForceRecalculate:
                     AppearanceTypes.RecalculateMovement(this, Target);
                     break;
+                case MovementCommand.RestoreHorse:
+                    AppearanceTypes.characterMovement[Target] = AppearanceTypes.MovementType.Riding;
+                    AppearanceTypes.RecalculateMovement(this, Target);
+                    if (!Riding.isWarhorse.ContainsKey(Target)) Riding.isWarhorse.Add(Target, true);
+                    break;
             }
 
             return 0;
@@ -107,7 +112,8 @@ namespace ACR_Movement
             ToOverlandMap = 4,
             FromOverlandMap = 5,
             Dismount = 6,
-            ForceRecalculate = 7
+            ForceRecalculate = 7,
+            RestoreHorse = 8
         }
 
     }
