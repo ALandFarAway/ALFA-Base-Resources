@@ -1034,11 +1034,6 @@ void ACR_ModuleOnPCLoaded()
             ACR_SetPersistentInt(oPC, ACR_MOD_FIRSTAID_IT, TRUE);
             bSave = TRUE;
         }
-        if (GetMovementRate(oPC))
-        {
-            NotifyPlayer( oPC, NOTIFY_TYPE_ERROR, "Movement rate incorrect!", "The ACR has detected that your movement rate has been corrupted. You may continue play if you wish, but you will walk and run slower than you are allowed until the next time you log in.");
-            XPObjectAttributesSetMovement( oPC, 0);
-        }
 
         // DO THIS FIRST
         // restore the player's status and location
