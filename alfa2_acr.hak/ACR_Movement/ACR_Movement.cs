@@ -40,7 +40,7 @@ namespace ACR_Movement
         {
             int Command = (int)ScriptParameters[0]; // ScriptParameterTypes[0] is typeof(int)
             uint Target = (uint)ScriptParameters[1];
-
+            
             if(!AppearanceTypes.characterMovement.ContainsKey(Target))
             {
                 AppearanceTypes.characterMovement.Add(Target, AppearanceTypes.MovementType.Walking);
@@ -49,7 +49,7 @@ namespace ACR_Movement
             {
                 AppearanceTypes.overlandMap.Add(Target, false);
             }
-            
+
             switch((MovementCommand)Command)
             {
                 case MovementCommand.EnterWater:
@@ -67,9 +67,12 @@ namespace ACR_Movement
                     AppearanceTypes.RecalculateMovement(this, Target);
                     break;
                 case MovementCommand.CloakRemoved:
-                    AppearanceTypes.characterMovement[Target] = AppearanceTypes.MovementType.Walking;
-                    AppearanceTypes.RecalculateMovement(this, Target);
-                    Riding.Dismount(this, Target, GetPCItemLastUnequipped(), GetLocation(Target));
+                    if (Riding.isWarhorse.ContainsKey(Target))
+                    {
+                        AppearanceTypes.characterMovement[Target] = AppearanceTypes.MovementType.Walking;
+                        Riding.Dismount(this, Target, GetPCItemLastUnequipped(), GetLocation(Target));
+                        AppearanceTypes.RecalculateMovement(this, Target);
+                    }
                     break;
                 case MovementCommand.ToOverlandMap:
                     AppearanceTypes.overlandMap[Target] = true;
@@ -91,7 +94,7 @@ namespace ACR_Movement
                     AppearanceTypes.RecalculateMovement(this, Target);
                     break;
             }
-            
+
             return 0;
         }
 

@@ -126,6 +126,7 @@ namespace ACR_Movement
             }
             script.SetPlotFlag(Cloak, CLRScriptBase.FALSE);
             script.DestroyObject(Cloak, 0.0f, CLRScriptBase.FALSE);
+            isWarhorse.Remove(Character);
         }
     }
 }
