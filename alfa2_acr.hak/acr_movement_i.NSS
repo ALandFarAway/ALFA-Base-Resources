@@ -328,7 +328,9 @@ void HorseOnExit(object oPC)
   while(GetIsObjectValid(oItem))
   {
     object oHorse = GetLocalObject(oItem, ACR_HORSE_OBJECT);
-    if(GetIsObjectValid(oHorse) && !GetIsPC(oHorse))
+    if(GetIsObjectValid(oHorse) && 
+       !GetIsPC(oHorse) && 
+       GetLocalObject(oHorse, ACR_HORSE_OBJECT) == oPC)
     {
       DestroyObject(oHorse);
     }
