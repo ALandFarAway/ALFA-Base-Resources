@@ -1150,6 +1150,8 @@ void ACR_ModuleOnClientLeave()
     ACR_SCliExtOnClientLeave(oPC);
 
 	 ACR_ModuleOverrideEvent(ACR_MODULE_ON_CLIENT_LEAVE, FALSE);
+	 
+	 HorseOnExit(oPC);
 }
 
 void ACR_ModuleOnAcquireItem()
