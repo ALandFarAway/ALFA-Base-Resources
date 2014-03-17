@@ -323,7 +323,7 @@ void ACR_ItemOnEquip(object oItem, object oPC) {
     if ((nCurrentWeaponType == BASE_ITEM_BASTARDSWORD) || (nItemType == BASE_ITEM_BASTARDSWORD))  {
         // special handling for equipped bastard swords, equipped already or being equipped.
         // Next, move on to the one/two-hand logic.
-        if (!GetHasFeat(FEAT_WEAPON_PROFICIENCY_EXOTIC, oPC)) {
+        if (!GetHasFeat(FEAT_WEAPON_PROFICIENCY_EXOTIC_BASTARD_SWORD, oPC)) {
             // PC has a bastard sword equipped, but does not have exotic prof.
             object oFreeHand = GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oPC);
             if (oCurrentWeapon == oItem) {
@@ -331,6 +331,24 @@ void ACR_ItemOnEquip(object oItem, object oPC) {
                 if (oFreeHand != OBJECT_INVALID) { AssignCommand(oPC, ActionUnequipItem(oFreeHand)); }
             } else if (oFreeHand == oItem) {
                 if (nItemType == BASE_ITEM_BASTARDSWORD) {
+                    // trying to equip bastardsword in offhand, switch to RH
+                    AssignCommand(oPC, ActionUnequipItem(oItem));
+                    AssignCommand(oPC, ActionEquipItem(oItem, INVENTORY_SLOT_RIGHTHAND));
+                } else {
+                    // Equipped non-BS item in free hand, unequip bastardsword
+                    AssignCommand(oPC, ActionUnequipItem(oCurrentWeapon));
+                }
+            }
+        }
+    } else if((nCurrentWeaponType == BASE_ITEM_DWARVENWARAXE) || (nItemType == BASE_ITEM_DWARVENWARAXE))  {
+      // once more, but this time with dwarven waraxes
+              if (!GetHasFeat(FEAT_WEAPON_PROFICIENCY_EXOTIC_WARAXE, oPC)) {
+            object oFreeHand = GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oPC);
+            if (oCurrentWeapon == oItem) {
+                // make sure the off hand is cleared if bastardsword is equipped
+                if (oFreeHand != OBJECT_INVALID) { AssignCommand(oPC, ActionUnequipItem(oFreeHand)); }
+            } else if (oFreeHand == oItem) {
+                if (nItemType == BASE_ITEM_DWARVENWARAXE) {
                     // trying to equip bastardsword in offhand, switch to RH
                     AssignCommand(oPC, ActionUnequipItem(oItem));
                     AssignCommand(oPC, ActionEquipItem(oItem, INVENTORY_SLOT_RIGHTHAND));
