@@ -161,6 +161,7 @@ void MountAreaTransitionWithTarget(object oCreature, object oTargetArea)
 {
   object oCloak = GetItemInSlot(INVENTORY_SLOT_CLOAK, oCreature);
   if(!GetIsObjectValid(oCloak)) return; // no cloak; must not be mounted.
+  if(!GetIsPC(oCreature)) return;
   else
   {
     if(!GetIsObjectValid(oTargetArea)) return; // no target area; no sense in dismounting for a broken AT

@@ -81,7 +81,7 @@ void ACR_SetLoadingScreen(object oClicker);
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "acr_spawn_i"
-#include "acr_pps_i"
+#include "acr_movement_i"
 #include "acr_seamlessat_i"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -185,6 +185,7 @@ void ACR_OnAreaTransitionClick()
 #endif
 			
     if (GetIsPC(oClicker)) {
+        MountAreaTransition(oClicker);
         // NPCs don't need AT warnings/feedback
         // this function handles transitioning as well.
         if (bValid)
