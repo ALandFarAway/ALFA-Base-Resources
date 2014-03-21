@@ -639,12 +639,12 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_trapdisarm.ncs                    \
             $(OUTPUTDIR)\nw_s1_barbrage.ncs                    \
             $(OUTPUTDIR)\nw_s1_frenzy.ncs                      \
-				$(OUTPUTDIR)\nw_s0_findtrap.ncs                    \
-				$(OUTPUTDIR)\gui_chooserjump.ncs                   \
-				$(OUTPUTDIR)\nw_s0_spmantle.ncs                    \
-				$(OUTPUTDIR)\nw_s0_lstspmant.ncs                   \
-				$(OUTPUTDIR)\nw_s0_lsspmant.ncs                    \
-				$(OUTPUTDIR)\nw_s0_grspmant.ncs                    \
+            $(OUTPUTDIR)\nw_s0_findtrap.ncs                    \
+            $(OUTPUTDIR)\gui_chooserjump.ncs                   \
+            $(OUTPUTDIR)\nw_s0_spmantle.ncs                    \
+            $(OUTPUTDIR)\nw_s0_lstspmant.ncs                   \
+            $(OUTPUTDIR)\nw_s0_lsspmant.ncs                    \
+            $(OUTPUTDIR)\nw_s0_grspmant.ncs                    \
             $(OUTPUTDIR)\gui_lootgen.ncs                       \
             $(OUTPUTDIR)\nw_s0_lowltvisn.ncs                   \
             $(OUTPUTDIR)\x0_s1_petrgaze.ncs                    \
@@ -653,6 +653,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_server_ping_response.ncs          \
             $(OUTPUTDIR)\acr_feat_ride.ncs                     \
             $(OUTPUTDIR)\acr_feat_warhorse.ncs                 \
+            $(OUTPUTDIR)\acr_cre_onhorseconversation.ncs       \
             $(OUTPUTDIR)\acr_set_player_password.ncs           
 
 #
