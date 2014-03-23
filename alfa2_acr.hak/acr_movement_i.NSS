@@ -221,6 +221,24 @@ void SetHorseIsOwnedBy(object oHorse, object oCreature)
   SetLocalObject(oHorse, ACR_HORSE_OBJECT, oCreature);
 }
 
+void RemoveHorseOwnership(object oHorse)
+{
+  object oOwner = GetLocalObject(oHorse, ACR_HORSE_OBJECT);
+  if(!GetIsObjectValid(oOwner)) return; // no owner; probably spawned by a DM.
+  
+  object oItem = GetFirstItemInInventory(oOwner);
+  while(GetIsObjectValid(oItem))
+  {
+    if(oOwner == GetLocalObject(oItem, ACR_HORSE_OBJECT))
+    {
+      DestroyObject(oItem); 
+      return; // assume one ownership item per horse. If more than one exists, the PC 
+              // owns two horses and we should let the other start spawning things.
+    }
+    oItem = GetNextItemInInventory(oOwner);
+  }
+}
+
 void HorseOnPCLoaded(object oPC)
 {
   object oCloak = GetItemInSlot(INVENTORY_SLOT_CLOAK, oPC);
