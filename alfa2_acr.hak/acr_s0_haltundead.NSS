@@ -62,7 +62,7 @@ void main()
 				{
 					ApplyEffectToObject(nDurType, eLink, oTarget, fDuration);
 				}
-				else if(!MySavingThrow(SAVING_THROW_WILL, oTarget, nSaveDC, SAVING_THROW_TYPE_MIND_SPELLS))
+				else if(!MySavingThrow(SAVING_THROW_WILL, oTarget, nSaveDC))
 				{
 					ApplyEffectToObject(nDurType, eLink, oTarget, fDuration);
 				}
