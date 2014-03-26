@@ -916,7 +916,10 @@ int SetRace(object oCreature, int nRace)
 		SetBaseAbilityScore(oCreature, ABILITY_CHARISMA, 1);
 		
 		ApplyEffectToObject(DURATION_TYPE_PERMANENT, SupernaturalEffect(EffectDamageImmunityIncrease(DAMAGE_TYPE_COLD, 100)), oCreature);
-		ApplyEffectToObject(DURATION_TYPE_PERMANENT, SupernaturalEffect(EffectDamageReduction(5, DAMAGE_TYPE_BLUDGEONING, 0, DR_TYPE_DMGTYPE)), oCreature);
+		
+		// Known bug in EffectDamageReduction -- it treats DAMAGE_TYPE_ALL as DAMAGE_TYPE_BLUDGEONING and vice versa, but we
+		// can't change the constants because those damage constants are correct when dealing damage.
+		ApplyEffectToObject(DURATION_TYPE_PERMANENT, SupernaturalEffect(EffectDamageReduction(5, DAMAGE_TYPE_ALL, 0, DR_TYPE_DMGTYPE)), oCreature);
 		ApplyEffectToObject(DURATION_TYPE_PERMANENT, SupernaturalEffect(EffectACIncrease(2, AC_NATURAL_BONUS)), oCreature);
 		UndeadEffects(oCreature);
 		
