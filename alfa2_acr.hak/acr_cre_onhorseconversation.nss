@@ -4,25 +4,25 @@ const string ACR_HORSE_FOLLOWING = "ACR_HORSE_FOLLOWING";
 
 void FollowHeartbeat(object oPC)
 {
-    if (GetDistanceBetween(oPC, OBJECT_SELF) > 10.0)
+    if (GetArea(oPC)!=GetArea(OBJECT_SELF))
+    {
+        ClearAllActions(TRUE);
+        JumpToLocation(GetLocation(oPC));
+    }
+    else if (GetDistanceBetween(oPC, OBJECT_SELF) > 10.0)
     {
         ClearAllActions(TRUE);
         ActionForceFollowObject(oPC);
     }
-    else if (GetArea(oPC)!=GetArea(OBJECT_SELF))
-    {
-        ClearAllActions(TRUE);
-        JumpToObject(oPC);
-    }
-    DelayCommand(6.0f, FollowHeartbeat(oPC));
+    if(GetLocalInt(OBJECT_SELF, ACR_HORSE_FOLLOWING))
+      DelayCommand(6.0f, FollowHeartbeat(oPC));
 }
 
 
 void main()
 {
-  object oPC = GetPCSpeaker();
-  int nID = ACR_GetCharacterID(oPC);
-  if(GetLocalInt(OBJECT_SELF, ACR_HORSE_OWNER) == nID)
+  object oPC = GetLocalObject(OBJECT_SELF, ACR_HORSE_OBJECT);
+  if(GetArea(oPC) == GetArea(OBJECT_SELF))
   {
       if(GetLocalInt(OBJECT_SELF, ACR_HORSE_FOLLOWING) > 0)
       {
@@ -32,7 +32,7 @@ void main()
       else
       {
           SendMessageToPC(oPC, GetName(OBJECT_SELF) + " will now follow you.");
-          SetLocalInt(OBJECT_SELF, ACR_HORSE_FOLLOWING, nID);
+          SetLocalInt(OBJECT_SELF, ACR_HORSE_FOLLOWING, ACR_GetCharacterID(oPC));
           FollowHeartbeat(oPC);
       }
   }

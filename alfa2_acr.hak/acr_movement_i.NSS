@@ -229,7 +229,7 @@ void RemoveHorseOwnership(object oHorse)
   object oItem = GetFirstItemInInventory(oOwner);
   while(GetIsObjectValid(oItem))
   {
-    if(oOwner == GetLocalObject(oItem, ACR_HORSE_OBJECT))
+    if(OBJECT_SELF == GetLocalObject(oItem, ACR_HORSE_OBJECT))
     {
       DestroyObject(oItem); 
       return; // assume one ownership item per horse. If more than one exists, the PC 
