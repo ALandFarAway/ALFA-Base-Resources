@@ -1757,10 +1757,11 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
             if(GetIsDM(oDM) ||
                GetIsDMPossessed(oDM))
             {
-                NotifyPlayer(oDM, NOTIFY_TYPE_INFO, "Request from " + GetName(oSpeaker), sText);
+                NotifyPlayer(oDM, NOTIFY_TYPE_INFO, "Request from " + GetName(oSpeaker), GetName(oSpeaker) + ": " + sText);
             }
             oDM = GetNextPC(TRUE);
         }
+        return FALSE;
     }
 
     // roll command
