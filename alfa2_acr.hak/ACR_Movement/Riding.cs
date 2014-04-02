@@ -22,6 +22,7 @@ namespace ACR_Movement
         public const string ACR_HORSE_OWNER = "ACR_HORSE_OWNER";
         public const string ACR_CID = "ACR_CID";
         public const string ACR_HORSE_ID = "ACR_HORSE_ID";
+        public const string ACR_HORSE_OBJECT = "ACR_HORSE_OBJECT";
 
         public static Dictionary<uint, bool> isWarhorse = new Dictionary<uint, bool>();
 
@@ -126,9 +127,24 @@ namespace ACR_Movement
             {
                 script.SetLocalInt(Horse, ACR_IS_WARHORSE, 1);
             }
+            script.SetLocalObject(GetOwnershipItemById(script, Character, script.GetLocalInt(Cloak, ACR_HORSE_ID)), ACR_HORSE_OBJECT, Horse);
             script.SetPlotFlag(Cloak, CLRScriptBase.FALSE);
             script.DestroyObject(Cloak, 0.0f, CLRScriptBase.FALSE);
             isWarhorse.Remove(Character);
+        }
+
+        public static uint GetOwnershipItemById(CLRScriptBase script, uint Character, int HorseId)
+        {
+            uint item = script.GetFirstItemInInventory(Character);
+            while(script.GetIsObjectValid(item) == CLRScriptBase.TRUE)
+            {
+                if(script.GetLocalInt(item, ACR_HORSE_ID) == HorseId)
+                {
+                    return item;
+                }
+                item = script.GetNextItemInInventory(Character);
+            }
+            return CLRScriptBase.OBJECT_INVALID;
         }
     }
 }
