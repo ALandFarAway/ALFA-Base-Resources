@@ -6,6 +6,22 @@ void main()
 {
   string sHorse = "abr_cr_an_horse_pal_";
   
+    int nCount = 0;
+  object oHench = GetHenchman(OBJECT_SELF, nCount);
+  
+  Dismount(OBJECT_SELF);
+  
+  while(GetIsObjectValid(oHench))
+  {
+    if(GetStringLeft(GetTag(oHench), 20) == "abr_cr_an_horse_pal_")
+    {
+      SendMessageToPC(OBJECT_SELF, "You have already called your warhorse.");
+      return;
+    }
+    nCount++;
+    oHench = GetHenchman(OBJECT_SELF, nCount);
+  }
+  
   int nPalLevel = GetLevelByClass(CLASS_TYPE_PALADIN, OBJECT_SELF);
   
   if(nPalLevel >= 15) sHorse += "15";
@@ -20,6 +36,7 @@ void main()
   
   object oHorse = CreateObject(OBJECT_TYPE_CREATURE, sHorse, GetLocation(OBJECT_SELF), FALSE, "");
   AddHenchman(OBJECT_SELF, oHorse);
+  SetHorseIsOwnedBy(oHorse, OBJECT_SELF);
   SetLocalInt(oHorse, ACR_IS_WARHORSE, 1);
   
   float fDuration = HoursToSeconds(nPalLevel) * 2;
