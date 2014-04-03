@@ -125,9 +125,12 @@ namespace ACR_Movement
             script.SetLocalInt(Horse, ACR_HORSE_OWNER, script.GetLocalInt(Character, ACR_CID));
             if (script.GetLocalInt(Cloak, ACR_IS_WARHORSE) == 1)
             {
+                script.AddHenchman(Character, Horse);
                 script.SetLocalInt(Horse, ACR_IS_WARHORSE, 1);
             }
+
             script.SetLocalObject(GetOwnershipItemById(script, Character, script.GetLocalInt(Cloak, ACR_HORSE_ID)), ACR_HORSE_OBJECT, Horse);
+            script.SetLocalObject(Horse, ACR_HORSE_OBJECT, Character);
             script.SetPlotFlag(Cloak, CLRScriptBase.FALSE);
             script.DestroyObject(Cloak, 0.0f, CLRScriptBase.FALSE);
             isWarhorse.Remove(Character);
