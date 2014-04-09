@@ -174,23 +174,23 @@ namespace ACR_Movement
             else if(race == CLRScriptBase.RACIAL_TYPE_HUMAN)
             {
                 int subrace = script.GetSubRace(Character);
-                if(subrace == CLRScriptBase.RACIAL_SUBTYPE_AASIMAR)
+                if (subrace == CLRScriptBase.RACIAL_SUBTYPE_AASIMAR)
                 {
                     return AasimarBase;
                 }
-                else if(subrace == CLRScriptBase.RACIAL_SUBTYPE_AIR_GENASI)
+                else if (subrace == CLRScriptBase.RACIAL_SUBTYPE_AIR_GENASI)
                 {
                     return AirGenasiBase;
                 }
-                else if(subrace == CLRScriptBase.RACIAL_SUBTYPE_EARTH_GENASI)
+                else if (subrace == CLRScriptBase.RACIAL_SUBTYPE_EARTH_GENASI)
                 {
                     return EarthGenasiBase;
                 }
-                else if(subrace == CLRScriptBase.RACIAL_SUBTYPE_FIRE_GENASI)
+                else if (subrace == CLRScriptBase.RACIAL_SUBTYPE_FIRE_GENASI)
                 {
                     return FireGenasiBase;
                 }
-                else if(subrace == CLRScriptBase.RACIAL_SUBTYPE_TIEFLING)
+                else if (subrace == CLRScriptBase.RACIAL_SUBTYPE_TIEFLING)
                 {
                     return TieflingBase;
                 }
@@ -199,6 +199,34 @@ namespace ACR_Movement
                     return WaterGenasiBase;
                 }
                 return HumanBase;
+            }
+            else if(race == CLRScriptBase.RACIAL_TYPE_PLANETOUCHED)
+            {
+                int subrace = script.GetSubRace(Character);
+                if (subrace == CLRScriptBase.RACIAL_SUBTYPE_AASIMAR)
+                {
+                    return AasimarBase;
+                }
+                else if (subrace == CLRScriptBase.RACIAL_SUBTYPE_AIR_GENASI)
+                {
+                    return AirGenasiBase;
+                }
+                else if (subrace == CLRScriptBase.RACIAL_SUBTYPE_EARTH_GENASI)
+                {
+                    return EarthGenasiBase;
+                }
+                else if (subrace == CLRScriptBase.RACIAL_SUBTYPE_FIRE_GENASI)
+                {
+                    return FireGenasiBase;
+                }
+                else if (subrace == CLRScriptBase.RACIAL_SUBTYPE_TIEFLING)
+                {
+                    return TieflingBase;
+                }
+                else if (subrace == CLRScriptBase.RACIAL_SUBTYPE_WATER_GENASI)
+                {
+                    return WaterGenasiBase;
+                }
             }
             return -1;
         }

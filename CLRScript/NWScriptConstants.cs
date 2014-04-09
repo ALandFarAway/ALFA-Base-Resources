@@ -335,6 +335,7 @@ namespace CLRScriptFramework
         public const int RACIAL_TYPE_GIANT = 18;
         public const int RACIAL_TYPE_MAGICAL_BEAST = 19;
         public const int RACIAL_TYPE_OUTSIDER = 20;
+        public const int RACIAL_TYPE_PLANETOUCHED = 21;
         public const int RACIAL_TYPE_SHAPECHANGER = 23;
         public const int RACIAL_TYPE_UNDEAD = 24;
         public const int RACIAL_TYPE_VERMIN = 25;
