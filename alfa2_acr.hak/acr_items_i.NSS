@@ -342,7 +342,8 @@ void ACR_ItemOnEquip(object oItem, object oPC) {
         }
     } else if((nCurrentWeaponType == BASE_ITEM_DWARVENWARAXE) || (nItemType == BASE_ITEM_DWARVENWARAXE))  {
       // once more, but this time with dwarven waraxes
-              if (!GetHasFeat(FEAT_WEAPON_PROFICIENCY_EXOTIC_WARAXE, oPC)) {
+              if (!GetHasFeat(FEAT_WEAPON_PROFICIENCY_EXOTIC_WARAXE, oPC) &&
+                  !GetHasFeat(FEAT_WEAPON_PROFICIENCY_DWARF, oPC)) {
             object oFreeHand = GetItemInSlot(INVENTORY_SLOT_LEFTHAND, oPC);
             if (oCurrentWeapon == oItem) {
                 // make sure the off hand is cleared if bastardsword is equipped
