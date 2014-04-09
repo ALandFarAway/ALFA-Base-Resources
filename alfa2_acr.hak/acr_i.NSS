@@ -353,7 +353,7 @@ const int FEAT_SKILL_FOCUS_CRFT_WPN = 3667;
 //weapon proficiency feats
 const int FEAT_WEAPON_PROFICIENCY_EXOTIC_WARAXE = 3708;
 const int FEAT_WEAPON_PROFICIENCY_EXOTIC_BASTARD_SWORD = 3717;
-
+const int FEAT_WEAPON_PROFICIENCY_DWARF = 1770;
 
 // Crafting feats:
 const int FEAT_CRAFT = 3618;
