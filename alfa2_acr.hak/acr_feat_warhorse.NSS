@@ -6,22 +6,13 @@ void main()
 {
   string sHorse = "abr_cr_an_horse_pal_";
   
-    int nCount = 0;
-  object oHench = GetHenchman(OBJECT_SELF, nCount);
-  
-  Dismount(OBJECT_SELF);
-  
-  while(GetIsObjectValid(oHench))
+  object oWarHorse = GetLocalObject(OBJECT_SELF, ACR_PAL_WARHORSE);
+  if(GetIsObjectValid(oWarHorse))
   {
-    if(GetStringLeft(GetTag(oHench), 20) == "abr_cr_an_horse_pal_")
-    {
-      SendMessageToPC(OBJECT_SELF, "You have already called your warhorse.");
-      return;
-    }
-    nCount++;
-    oHench = GetHenchman(OBJECT_SELF, nCount);
+    SendMessageToPC(OBJECT_SELF, "You have already called your paladin warhorse.");
+    return;
   }
-  
+   
   int nPalLevel = GetLevelByClass(CLASS_TYPE_PALADIN, OBJECT_SELF);
   
   if(nPalLevel >= 15) sHorse += "15";
@@ -30,7 +21,7 @@ void main()
   else if(nPalLevel >= 5) sHorse += "5";
   else
   {
-    SendMessageToPC(OBJECT_SELF, "You don't seem to be a paladin. Why are you summoning a paladin's warhorse?");
+    SendMessageToPC(OBJECT_SELF, "You don't seem to be a paladin. Why are you calling a paladin's warhorse?");
     return;
   }
   
@@ -38,26 +29,23 @@ void main()
   AddHenchman(OBJECT_SELF, oHorse);
   SetHorseIsOwnedBy(oHorse, OBJECT_SELF);
   SetLocalInt(oHorse, ACR_IS_WARHORSE, 1);
+  SetLocalObject(OBJECT_SELF, ACR_PAL_WARHORSE, oHorse);
   
   float fDuration = HoursToSeconds(nPalLevel) * 2;
   DelayCommand(fDuration, HandleSpellElapsed());
 }
 
 void HandleSpellElapsed()
-{
-  int nCount = 0;
-  object oHench = GetHenchman(OBJECT_SELF, nCount);
-  
-  Dismount(OBJECT_SELF);
-  
-  while(GetIsObjectValid(oHench))
+{ 
+  object oCloak = GetItemInSlot(INVENTORY_SLOT_CLOAK, OBJECT_SELF);
+  if(GetLocalInt(oCloak, ACR_IS_WARHORSE))
   {
-    if(GetStringLeft(GetTag(oHench), 20) == "abr_cr_an_horse_pal_")
-    {
-      DestroyObject(oHench, 0.0f, FALSE);
-      return;
-    }
-    nCount++;
-    oHench = GetHenchman(OBJECT_SELF, nCount);
+    Dismount(OBJECT_SELF);
+  }
+  
+  object oWarHorse = GetLocalObject(OBJECT_SELF, ACR_PAL_WARHORSE);
+  if(GetIsObjectValid(oWarHorse))
+  {
+    DestroyObject(oWarHorse);
   }
 }

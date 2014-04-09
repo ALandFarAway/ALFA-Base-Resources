@@ -29,7 +29,7 @@ const int ACR_MOVEMENT_RESTORE_HORSE = 8;
 
 const string ACR_HORSE_OWNER = "ACR_HORSE_OWNER";
 const string ACR_IS_WARHORSE = "ACR_IS_WARHORSE";
-
+const string ACR_PAL_WARHORSE = "ACR_PAL_WARHORSE";
 const string ACR_HORSE_PERS_LOC_AREA = "ACR_HORSE_PERS_LOC_AREA";
 const string ACR_HORSE_PERS_LOC_X = "ACR_HORSE_PERS_LOC_X";
 const string ACR_HORSE_PERS_LOC_Y = "ACR_HORSE_PERS_LOC_Y";
@@ -352,6 +352,33 @@ void HorseOnExit(object oPC)
        GetLocalObject(oHorse, ACR_HORSE_OBJECT) == oPC)
     {
       DestroyObject(oHorse);
+    }
+    oItem = GetNextItemInInventory(oPC);
+  }
+  
+  object oWarHorse = GetLocalObject(oPC, ACR_PAL_WARHORSE);
+  if(GetIsObjectValid(oWarHorse))
+  {
+    DestroyObject(oWarHorse);
+  }
+}
+
+void SaveHorseLocation(object oPC)
+{
+  object oItem = GetFirstItemInInventory(oPC);
+  while(GetIsObjectValid(oItem))
+  {
+    if(GetStringLeft(GetTag(oItem), 9) == "acr_horse")
+    {
+      object oHorse = GetLocalObject(oItem, ACR_HORSE_OBJECT);
+      if(GetIsObjectValid(oHorse))
+      {
+        vector pos = GetPosition(oHorse);
+        SetLocalString(oItem, ACR_HORSE_PERS_LOC_AREA, GetTag(GetArea(oHorse)));
+        SetLocalFloat(oItem, ACR_HORSE_PERS_LOC_X, pos.x);
+        SetLocalFloat(oItem, ACR_HORSE_PERS_LOC_Y, pos.y);
+        SetLocalFloat(oItem, ACR_HORSE_PERS_LOC_Z, pos.z);
+      }
     }
     oItem = GetNextItemInInventory(oPC);
   }
