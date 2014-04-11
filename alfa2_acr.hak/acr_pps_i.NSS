@@ -833,7 +833,7 @@ void ACR_PCOnPCLoaded(object oPC)
             if (vPosLoc.x == vPosStart.x && vPosLoc.y == vPosStart.y)
             {
                    // restore last known location if it's different
-                   if (lLocation != GetLocation(oPC)) { AssignCommand(oPC, JumpToLocation(lLocation)); }
+                   if (lLocation != GetLocation(oPC)) { DelayCommand(3.0f, AssignCommand(oPC, JumpToLocation(lLocation))); }
             }
         }
 

@@ -239,6 +239,20 @@ void RemoveHorseOwnership(object oHorse)
   }
 }
 
+void _MakeHorse(object oItem, object oPC)
+{
+  string sResRef = "abr_cr_an_horse" + GetStringRight(GetTag(oItem), 2);
+  location loc = Location(GetObjectByTag(GetLocalString(oItem, ACR_HORSE_PERS_LOC_AREA), 0),
+                          Vector(GetLocalFloat(oItem, ACR_HORSE_PERS_LOC_X),
+                                GetLocalFloat(oItem, ACR_HORSE_PERS_LOC_Y),
+                                GetLocalFloat(oItem, ACR_HORSE_PERS_LOC_Z)), 0.0f);
+  if(!GetIsObjectValid(GetAreaFromLocation(loc))) loc = GetLocation(oPC);
+  object oHorse = CreateObject(OBJECT_TYPE_CREATURE, sResRef, loc, TRUE, "");
+  SetLocalInt(oHorse, ACR_HORSE_ID, GetLocalInt(oItem, ACR_HORSE_ID));
+  SetLocalObject(oItem, ACR_HORSE_OBJECT, oHorse);
+  SetHorseIsOwnedBy(oHorse, oPC);
+}
+
 void HorseOnPCLoaded(object oPC)
 {
   object oCloak = GetItemInSlot(INVENTORY_SLOT_CLOAK, oPC);
@@ -271,16 +285,7 @@ void HorseOnPCLoaded(object oPC)
         if(!GetIsObjectValid(oHorse) || // make sure the horse isn't already spawned
            GetLocalObject(oHorse, ACR_HORSE_OBJECT) != oPC) // just in case the server reset; this might be a different thing with the same object Id.
         {
-          string sResRef = "abr_cr_an_horse" + GetStringRight(GetTag(oItem), 2);
-          location loc = Location(GetObjectByTag(GetLocalString(oItem, ACR_HORSE_PERS_LOC_AREA), 0),
-                                  Vector(GetLocalFloat(oItem, ACR_HORSE_PERS_LOC_X),
-                                        GetLocalFloat(oItem, ACR_HORSE_PERS_LOC_Y),
-                                        GetLocalFloat(oItem, ACR_HORSE_PERS_LOC_Z)), 0.0f);
-          if(!GetIsObjectValid(GetAreaFromLocation(loc))) loc = GetLocation(oPC);
-          object oHorse = CreateObject(OBJECT_TYPE_CREATURE, sResRef, loc, TRUE, "");
-          SetLocalInt(oHorse, ACR_HORSE_ID, GetLocalInt(oItem, ACR_HORSE_ID));
-          SetLocalObject(oItem, ACR_HORSE_OBJECT, oHorse);
-          SetHorseIsOwnedBy(oHorse, oPC);
+          DelayCommand(6.0f, _MakeHorse(oItem, oPC));
         }
       }
       else
