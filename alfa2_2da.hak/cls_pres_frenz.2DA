@@ -4,6 +4,6 @@
 0 Base_Attack    BAB     6             ****      
 1 Cleave         FEAT    6             ****      
 2 GreatCleave    FEAT    391           ****      
-3 PowerAtk       FEAT    28            ****      
+3 PowerAtk       FEAT    3670          ****      
 4 ScriptVar      VAR     nw_AllowFrenz 1         
 5 PrC_Validation FEAT    3500          ****      
