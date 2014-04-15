@@ -250,7 +250,11 @@ void _MakeHorse(object oItem, object oPC)
                                 GetLocalFloat(oItem, ACR_HORSE_PERS_LOC_Y),
                                 GetLocalFloat(oItem, ACR_HORSE_PERS_LOC_Z)), 0.0f);
   if(!GetIsObjectValid(GetAreaFromLocation(loc))) loc = GetLocation(oPC);
-  if(!GetIsObjectValid(GetAreaFromLocation(loc))) DelayCommand(6.0f, _MakeHorse(oItem, oPC));
+  if(!GetIsObjectValid(GetAreaFromLocation(loc))) 
+  {
+    DelayCommand(6.0f, _MakeHorse(oItem, oPC));
+    return;
+  }
   object oHorse = CreateObject(OBJECT_TYPE_CREATURE, sResRef, loc, TRUE, "");
   SetLocalInt(oHorse, ACR_HORSE_ID, GetLocalInt(oItem, ACR_HORSE_ID));
   SetLocalObject(oItem, ACR_HORSE_OBJECT, oHorse);
