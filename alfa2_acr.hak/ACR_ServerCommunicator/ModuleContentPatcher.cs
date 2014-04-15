@@ -633,14 +633,6 @@ namespace ACR_ServerCommunicator
                 if (!String.IsNullOrWhiteSpace(Line))
                 {
                     Script.WriteTimestampedLogEntry(Line);
-
-                    try
-                    {
-                        CompilerOutput.Add(Line);
-                    }
-                    catch (Exception)
-                    {
-                    }
                 }
                 return false;
             });
@@ -666,10 +658,29 @@ namespace ACR_ServerCommunicator
                     Result.Errors.Count,
                     Result.Warnings.Count));
 
+                foreach (string Message in Result.Warnings)
+                {
+                    try
+                    {
+                        CompilerOutput.Add(Message);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+
                 foreach (string Message in Result.Errors)
                 {
                     Script.WriteTimestampedLogEntry(String.Format(
                         "ModuleContentPatcher.CompileModuleScripts: Error '{0}'.", Message));
+
+                    try
+                    {
+                        CompilerOutput.Add(Message);
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
 
                 Database.ACR_IncrementStatistic("CONTENT_PATCH_RECOMPILE_FAILED");
