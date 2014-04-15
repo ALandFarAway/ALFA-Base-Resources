@@ -4,6 +4,10 @@ const string ACR_HORSE_FOLLOWING = "ACR_HORSE_FOLLOWING";
 
 void FollowHeartbeat(object oPC)
 {
+    SetLocalString(Item, ACR_HORSE_PERS_LOC_AREA, GetTag(GetArea(OBJECT_SELF)));
+    SetLocalFloat(Item, ACR_HORSE_PERS_LOC_X, GetPosition(OBJECT_SELF).x);
+    SetLocalFloat(Item, ACR_HORSE_PERS_LOC_Y, GetPosition(OBJECT_SELF).y);
+    SetLocalFloat(Item, ACR_HORSE_PERS_LOC_Z, GetPosition(OBJECT_SELF).z);
     if (GetArea(oPC)!=GetArea(OBJECT_SELF))
     {
         ClearAllActions(TRUE);
@@ -28,6 +32,10 @@ void main()
       {
           SendMessageToPC(oPC, GetName(OBJECT_SELF) + " will no longer follow you.");
           DeleteLocalInt(OBJECT_SELF, ACR_HORSE_FOLLOWING);
+          SetLocalString(Item, ACR_HORSE_PERS_LOC_AREA, GetTag(GetArea(OBJECT_SELF)));
+          SetLocalFloat(Item, ACR_HORSE_PERS_LOC_X, GetPosition(OBJECT_SELF).x);
+          SetLocalFloat(Item, ACR_HORSE_PERS_LOC_Y, GetPosition(OBJECT_SELF).y);
+          SetLocalFloat(Item, ACR_HORSE_PERS_LOC_Z, GetPosition(OBJECT_SELF).z);
       }
       else
       {

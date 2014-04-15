@@ -25,6 +25,11 @@ namespace ACR_Movement
         public const string ACR_HORSE_OBJECT = "ACR_HORSE_OBJECT";
         public const string ACR_PAL_WARHORSE = "ACR_PAL_WARHORSE";
 
+        const string ACR_HORSE_PERS_LOC_AREA = "ACR_HORSE_PERS_LOC_AREA";
+        const string ACR_HORSE_PERS_LOC_X = "ACR_HORSE_PERS_LOC_X";
+        const string ACR_HORSE_PERS_LOC_Y = "ACR_HORSE_PERS_LOC_Y";
+        const string ACR_HORSE_PERS_LOC_Z = "ACR_HORSE_PERS_LOC_Z";
+
         public static Dictionary<uint, bool> isWarhorse = new Dictionary<uint, bool>();
 
         public static void MountHorse(CLRScriptBase script, uint Character, uint Horse)
@@ -133,8 +138,15 @@ namespace ACR_Movement
                 script.SetLocalObject(Character, ACR_PAL_WARHORSE, Horse);
             }
 
-            script.SetLocalObject(GetOwnershipItemById(script, Character, script.GetLocalInt(Cloak, ACR_HORSE_ID)), ACR_HORSE_OBJECT, Horse);
+            uint Item = GetOwnershipItemById(script, Character, script.GetLocalInt(Cloak, ACR_HORSE_ID));
+            script.SetLocalObject(Item , ACR_HORSE_OBJECT, Horse);
             script.SetLocalObject(Horse, ACR_HORSE_OBJECT, Character);
+
+            script.SetLocalString(Item, ACR_HORSE_PERS_LOC_AREA, script.GetTag(script.GetArea(Horse)));
+            script.SetLocalFloat(Item, ACR_HORSE_PERS_LOC_X, script.GetPosition(Horse).x);
+            script.SetLocalFloat(Item, ACR_HORSE_PERS_LOC_Y, script.GetPosition(Horse).y);
+            script.SetLocalFloat(Item, ACR_HORSE_PERS_LOC_Z, script.GetPosition(Horse).z);
+
             script.SetPlotFlag(Cloak, CLRScriptBase.FALSE);
             script.DestroyObject(Cloak, 0.0f, CLRScriptBase.FALSE);
             isWarhorse.Remove(Character);
