@@ -125,6 +125,7 @@ namespace ACR_Movement
             
             uint Horse = script.CreateObject(CLRScriptBase.OBJECT_TYPE_CREATURE, resRef, Location, CLRScriptBase.FALSE, "");
             script.SetLocalInt(Horse, ACR_HORSE_OWNER, script.GetLocalInt(Character, ACR_CID));
+            script.SetLocalInt(Horse, ACR_HORSE_ID, script.GetLocalInt(Cloak, ACR_HORSE_ID));
             if (script.GetLocalInt(Cloak, ACR_IS_WARHORSE) == 1)
             {
                 script.AddHenchman(Character, Horse);
