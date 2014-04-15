@@ -637,6 +637,17 @@ namespace ACR_ServerCommunicator
                 return false;
             });
 
+            foreach (string Message in Result.Warnings)
+            {
+                try
+                {
+                    CompilerOutput.Add(Message);
+                }
+                catch (Exception)
+                {
+                }
+            }
+
             if (Result.Compiled)
             {
                 Script.WriteTimestampedLogEntry("ModuleContentPatcher.CompileModuleScripts: Module successfully recompiled.");
@@ -657,17 +668,6 @@ namespace ACR_ServerCommunicator
                     Script.GetName(Script.GetModule()),
                     Result.Errors.Count,
                     Result.Warnings.Count));
-
-                foreach (string Message in Result.Warnings)
-                {
-                    try
-                    {
-                        CompilerOutput.Add(Message);
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
 
                 foreach (string Message in Result.Errors)
                 {
