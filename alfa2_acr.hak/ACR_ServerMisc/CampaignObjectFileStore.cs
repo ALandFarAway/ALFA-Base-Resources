@@ -166,7 +166,7 @@ namespace ACR_ServerMisc
 
                     if (!File.Exists(FileName))
                     {
-                        ALFA.Shared.Logger.Log("CampaignObjectFileStore.CampaignDatabase_RetrieveCampaignDatabaseEvent: No datatabase {0} exists.", FileName);
+                        ALFA.Shared.Logger.Log("CampaignObjectFileStore.CampaignDatabase_RetrieveCampaignDatabaseEvent: No database {0} exists.", FileName);
                         return;
                     }
 

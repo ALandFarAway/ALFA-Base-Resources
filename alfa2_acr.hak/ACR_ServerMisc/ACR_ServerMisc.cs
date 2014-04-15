@@ -265,6 +265,25 @@ namespace ACR_ServerMisc
                     }
                     break;
 
+                case REQUEST_TYPE.SHOW_COMPILER_LOG:
+                    {
+                        string FileName = String.Format("{0}{1}ALFAModuleRecompile.log", Path.GetTempPath(), Path.DirectorySeparatorChar);
+
+                        SendMessageToPC(OBJECT_SELF, "Last module recompilation log:");
+
+                        try
+                        {
+                            SendMessageToPC(OBJECT_SELF, File.ReadAllText(FileName));
+                        }
+                        catch (Exception)
+                        {
+                            SendMessageToPC(OBJECT_SELF, "<no log file exists>");
+                        }
+
+                        ReturnCode = TRUE;
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid server misc command " + RequestType.ToString());
 
@@ -711,7 +730,8 @@ namespace ACR_ServerMisc
             GET_SALTED_MD5,
             GET_HAS_DATABASE_STORE,
             DELETE_DATABASE_STORE,
-            DELETE_DATABASE_STORE_AT_INDEX
+            DELETE_DATABASE_STORE_AT_INDEX,
+            SHOW_COMPILER_LOG
         }
 
         /// <summary>

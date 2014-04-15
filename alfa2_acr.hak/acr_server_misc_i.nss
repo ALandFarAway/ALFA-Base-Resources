@@ -113,6 +113,9 @@ const int ACR_SERVER_MISC_DELETE_DATABASE_STORE              = 20;
 // This command deletes a new-style database store.
 const int ACR_SERVER_MISC_DELETE_DATABASE_STORE_AT_INDEX     = 21;
 
+// This command sends the compiler log to the requestor.
+const int ACR_SERVER_MISC_SHOW_COMPILER_LOG                  = 22;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -268,6 +271,10 @@ int ACR_DeleteDatabaseStore(string Campaign);
 //! starting at Index.
 //!  - Returns: TRUE if the operation succeeded.
 int ACR_DeleteDatabaseStoreAtIndex(string Campaign, int Index);
+
+//! Show the last module recompilation log to a user.
+//!  - Returns: TRUE if the operation succeeded.
+int ACR_ShowCompilerLog(object Player);
 
 //! Make a raw call to the support script.
 //!  - Command: Supplies the command to request (e.g. ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT).
@@ -602,6 +609,18 @@ int ACR_DeleteDatabaseStoreAtIndex(string Campaign, int Index)
 		"",
 		"",
 		OBJECT_INVALID);
+}
+
+int ACR_ShowCompilerLog(object Player)
+{
+	return ACR_CallServerMiscScript(
+		ACR_SERVER_MISC_SHOW_COMPILER_LOG,
+		0,
+		0,
+		"",
+		"",
+		"",
+		Player);
 }
 
 int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, string P4, object P5, object ObjectSelf = OBJECT_SELF)

@@ -623,6 +623,7 @@ namespace ACR_ServerCommunicator
         {
             ALFA.ScriptCompiler.CompilerResult Result;
             string CompilerOptions = Script.GetLocalString(Script.GetModule(), "ACR_MOD_COMPILER_OPTIONS");
+            List<string> CompilerOutput = new List<string>();
 
             Script.WriteTimestampedLogEntry(String.Format(
                 "ModuleContentPatcher.CompileModuleScripts: Compiling module scripts with compiler options '{0}'...", CompilerOptions));
@@ -630,7 +631,17 @@ namespace ACR_ServerCommunicator
             Result = ALFA.ScriptCompiler.CompileScript("*.nss", CompilerOptions, delegate(string Line)
             {
                 if (!String.IsNullOrWhiteSpace(Line))
+                {
                     Script.WriteTimestampedLogEntry(Line);
+
+                    try
+                    {
+                        CompilerOutput.Add(Line);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
                 return false;
             });
 
@@ -662,6 +673,21 @@ namespace ACR_ServerCommunicator
                 }
 
                 Database.ACR_IncrementStatistic("CONTENT_PATCH_RECOMPILE_FAILED");
+            }
+
+            //
+            // Save compiler output to a temporary file for later retrieval.
+            //
+
+            try
+            {
+                string FileName = String.Format("{0}{1}ALFAModuleRecompile.log", Path.GetTempPath(), Path.DirectorySeparatorChar);
+
+                File.WriteAllLines(FileName, CompilerOutput);
+            }
+            catch (Exception)
+            {
+
             }
 
         }
