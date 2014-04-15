@@ -96,6 +96,9 @@ void HorseOnAcquire();
 // Used to clean up horses in play.
 void HorseOnExit(object oPC);
 
+// Find the item that tracks the ownership of a horse with nHorseId
+object GetOwnershipItemById(object oPC, int nHorseId);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -388,4 +391,18 @@ void SaveHorseLocation(object oPC)
     }
     oItem = GetNextItemInInventory(oPC);
   }
+}
+
+object GetOwnershipItemById(object oPC, int nHorseId)
+{
+  object item = GetFirstItemInInventory(oPC);
+  while(GetIsObjectValid(item) == TRUE)
+  {
+    if(GetLocalInt(item, ACR_HORSE_ID) == nHorseId)
+    {
+      return item;
+    }
+    item = GetNextItemInInventory(oPC);
+  }
+  return OBJECT_INVALID;
 }
