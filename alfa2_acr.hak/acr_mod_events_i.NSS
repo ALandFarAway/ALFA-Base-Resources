@@ -1748,6 +1748,29 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         return FALSE;
     }
 	
+    // Allow DMs to use #setdesc to change an object's description.
+    else if( GetStringLeft( sText, 8 ) == "#setdesc" )
+    {
+		// DM-only command.
+		if ( GetIsDM( oSpeaker ) || GetIsDMPossessed( oSpeaker ) ) {
+			SendMessageToPC( oSpeaker, "This command may only be used by DMs." );
+			return FALSE;
+		}
+		
+		// Get the target to set a description.
+		object oTarget = GetPlayerCurrentTarget( oSpeaker );
+		if ( !GetIsObjectValid( oTarget ) ) {
+			SendMessageToPC( oSpeaker, "Invalid use. Select a target to set its description." );
+			return FALSE;
+		}
+		
+		// Get the desired description.
+        sText = GetStringRight( sText, GetStringLength( sText ) - 9 );
+		SetDescription( oTarget, sText );
+		
+        return FALSE;
+    }
+	
     // Is this someone adding to the DM requests queue?
     else if(GetStringLeft(sText, 3) == "#dm")
     {
