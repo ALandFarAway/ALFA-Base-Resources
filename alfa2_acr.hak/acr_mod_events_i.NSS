@@ -1765,7 +1765,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 		}
 		
 		// Get the desired description.
-        sText = GetStringRight( sText, GetStringLength( sText ) - 9 );
+        sText = GetStringRight( sText, len - 9 );
 		SetDescription( oTarget, sText );
 		
         return FALSE;
@@ -1774,7 +1774,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
     // Is this someone adding to the DM requests queue?
     else if(GetStringLeft(sText, 3) == "#dm")
     {
-        sText = GetStringRight(sText, GetStringLength(sText) - 4);
+        sText = GetStringRight(sText, len - 4);
         object oDM = GetFirstPC(TRUE);
         while(GetIsObjectValid(oDM))
         {
