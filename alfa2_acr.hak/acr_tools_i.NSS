@@ -300,6 +300,9 @@ int GetIsItemShield(object oItem);
 //! Returns 0 if oCreature is a DM, DM-possessed creature, or anything else.
 int GetIsPlayer(object oCreature);
 
+//! Returns 1 if oCreature is a DM or a DM-controlled object such as an NPC.
+int ACR_GetIsDMControlled(object oCreature);
+
 //! Returns a string for the name of a creature with { } bracketed text removed.
 string ACR_CleanCreatureNameTextForPlayers(string sRawInput);
 
@@ -1249,6 +1252,9 @@ int GetIsPlayer(object oCreature) {
     return GetIsPC(oCreature) && !GetIsDM(oCreature) && !GetIsDMPossessed(oCreature);
 }
 
+int ACR_GetIsDMControlled( object oCreature ) {
+	return ( GetIsDM( oPC ) || GetIsDMPossessed( oPC ) );
+}
 
 string ACR_CleanCreatureNameTextForPlayers(string sRawInput) {
 	// used to manually filter out the OOC info for DMs in creature names, like {CR 0.5}
