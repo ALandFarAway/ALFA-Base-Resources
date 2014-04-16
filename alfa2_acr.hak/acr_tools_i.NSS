@@ -1253,7 +1253,7 @@ int GetIsPlayer(object oCreature) {
 }
 
 int ACR_GetIsDMControlled( object oCreature ) {
-	return ( GetIsDM( oPC ) || GetIsDMPossessed( oPC ) );
+	return ( GetIsDM( oCreature ) || GetIsDMPossessed( oCreature ) );
 }
 
 string ACR_CleanCreatureNameTextForPlayers(string sRawInput) {
