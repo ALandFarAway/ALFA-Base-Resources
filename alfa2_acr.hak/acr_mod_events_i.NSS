@@ -1840,7 +1840,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 				{
 					if(nSkill > -1)
 					{
-						if(ACR_SkillCheck(nSkill, oTarget, nDC, FALSE, FALSE, 0))
+						if(ACR_SkillCheck(nSkill, oTarget, nDC, TRUE, FALSE, 0))
 						{
 							NotifyPlayer(oTarget, NOTIFY_TYPE_INFO, sTickle, sText, NOTIFY_WINDOW_MESSAGE_BOX, "", "", "OK", "");
 						}
