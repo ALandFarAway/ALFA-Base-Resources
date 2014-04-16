@@ -269,6 +269,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s0_rejuvcocoon.ncs                 \
             $(OUTPUTDIR)\nw_s2_layonhand.ncs                   \
             $(OUTPUTDIR)\nw_s2_snginregn.ncs                   \
+            $(OUTPUTDIR)\nw_s2_sngfascin.ncs                   \
             $(OUTPUTDIR)\nw_s2_wholeness.ncs                   \
             $(OUTPUTDIR)\nx2_s0_healing_sting.ncs              \
             $(OUTPUTDIR)\nx_s0_lsrvigor.ncs                    \
