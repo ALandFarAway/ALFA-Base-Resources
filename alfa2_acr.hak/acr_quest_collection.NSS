@@ -54,8 +54,9 @@ void main(string sItem, int nGold, int nXP, float fCR)
     {
         if(GetTag(oItem) == sItem)
         {
-            nGoldRewarded += nGold;
-            nXPRewarded += nXP;
+            int nStack = GetItemStackSize(oItem);
+            nGoldRewarded += nGold * nStack;
+            nXPRewarded += nXP * nStack;
             DestroyObject(oItem);
         }
         oItem = GetNextItemInInventory(oPC);
