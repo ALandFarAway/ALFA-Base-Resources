@@ -342,7 +342,7 @@ void ACR_AwardNonlethalChallengeXP(object oPC, float fCR) {
 }
 
 void ACR_GiveXPToPC(object oPC, int nXpAmount) {
-    if(!GetIsPC(oPC) || GetIsDMPossessed(oPC) || GetIsDM(oPC)) {
+    if(!GetIsPC(oPC) || ACR_GetIsDMControlled(oPC)) {
         GiveXPToCreature(oPC, nXpAmount);
         return;
     }
@@ -352,7 +352,7 @@ void ACR_GiveXPToPC(object oPC, int nXpAmount) {
 }
 
 void ACR_CorrectXPTotals(object oPC) {
-    if(!GetIsPC(oPC) || GetIsDMPossessed(oPC) || GetIsDM(oPC)) {
+    if(!GetIsPC(oPC) || ACR_GetIsDMControlled(oPC)) {
         return;
     }
     _CorrectXPTotals(oPC);

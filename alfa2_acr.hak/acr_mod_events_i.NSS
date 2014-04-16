@@ -494,7 +494,7 @@ void _DistributeTranslationParty(string sTranslatedMessage, string sScrambledMes
          oListener = GetNextPC(FALSE))
     {
         if ((ACR_IsLanguageKnown(oListener, sLanguage) && GetFactionEqual(oSpeaker, oListener))
-            || GetIsDM(oListener) || GetIsDMPossessed(oListener) || oListener == oSpeaker)
+            || ACR_GetIsDMControlled(oListener) || oListener == oSpeaker)
         {
 #if DEBUG_LANG
             WriteTimestampedLogEntry("_DistributeTranslationParty: Distributing message to party or DM recipient " + GetName(oListener));
@@ -605,7 +605,7 @@ void _DistributeTranslation(string sOriginalMessage, string sScrambledMessage, s
 
     // Finally, distribute the scrambled version of the message.
 
-    if (GetIsPC(oSpeaker) || GetIsDM(oSpeaker) || GetIsDMPossessed(oSpeaker))    
+    if (GetIsPC(oSpeaker) || ACR_GetIsDMControlled(oSpeaker))    
         SendChatMessage(oSpeaker, oSpeaker, nMode, sScrambledMessage, FALSE);
     else
         AssignCommand(oSpeaker, _SpeakString(sScrambledMessage, nTalkVolume));
@@ -913,7 +913,7 @@ void ACR_ModuleOnClientEnter()
     // Initialize DM Client Extension pack (optional)
     ExecuteScript("wand_init", oPC);
     
-    if (GetIsDM(oPC) || GetIsDMPossessed(oPC))
+    if (ACR_GetIsDMControlled(oPC))
     {
         // log the entry
         ACR_LogEvent(oPC, ACR_LOG_LOGIN, "Dungeon Master: " + ACR_SQLEncodeSpecialChars(GetName(oPC)) + " from IP: "+GetPCIPAddress(oPC));
@@ -960,7 +960,7 @@ void _createPlayerGUIs( object oPC )
         DisplayGuiScreen(oPC, "SCREEN_MODEBAR_2", FALSE, "modebar_2.xml");
     }
 
-    if (GetIsDM(oPC) || GetIsDMPossessed(oPC))
+    if (ACR_GetIsDMControlled(oPC))
     {
         DisplayGuiScreen(oPC, "zspawn_b", FALSE, "zspawn_b.xml");
     }
@@ -988,7 +988,7 @@ void ACR_ModuleOnPCLoaded()
     HorseOnPCLoaded(oPC);
     
     // process DMs
-    if (GetIsDM(oPC) || GetIsDMPossessed(oPC))
+    if (ACR_GetIsDMControlled(oPC))
     {
          ACR_PCOnPCLoadedAsDM(oPC);
         if (GetItemPossessedBy(oPC, "abr_spawn_debug") == OBJECT_INVALID) { CreateItemOnObject("acr_spawn_debug", oPC); }
@@ -1089,7 +1089,7 @@ void ACR_ModuleOnClientLeave()
 
     // Code executed for DMs and PCs goes here.
 
-    if(GetIsDM(oPC) || GetIsDMPossessed(oPC))
+    if(ACR_GetIsDMControlled(oPC))
     {
         // Code only executed for DMs goes here.
 
@@ -1173,7 +1173,7 @@ void ACR_ModuleOnAcquireItem()
     if (! GetIsPC(oAcquiredBy)) { return; }
 
     // ignore acquisition events triggered by DMs (for logging only)
-    if (GetIsDM(oAcquiredBy) || GetIsDMPossessed(oAcquiredBy)) { bLogEvent = FALSE; }
+    if (ACR_GetIsDMControlled(oAcquiredBy)) { bLogEvent = FALSE; }
 
     // ignore acquisition events triggered by logins (for logging only)
     else if (! GetIsObjectValid(GetArea(oAcquiredBy))) { bLogEvent = FALSE; }
@@ -1233,7 +1233,7 @@ void ACR_ModuleOnUnAcquireItem() {
 
 	// flag items that are carried by DM avatars, so we can note that if they're ever acquired
 	// by a PC.
-	if (GetIsDM(oLostBy) || GetIsDMPossessed(oLostBy)) { SetLocalInt(oItem, "DM_MULED", ACR_GetCharacterID(oLostBy)); }
+	if (ACR_GetIsDMControlled(oLostBy)) { SetLocalInt(oItem, "DM_MULED", ACR_GetCharacterID(oLostBy)); }
  
     // fire handler for special items.
     ACR_ItemOnUnAcquire(oItem, oLostBy);
@@ -1561,7 +1561,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 					 	return FALSE;
 					 }
 
-					 if (!GetIsDM(oTarget) && !GetIsDMPossessed(oTarget))
+					 if (!ACR_GetIsDMControlled(oTarget))
 					 {
 					 	SendMessageToPC(oSpeaker, "You don't have permission to send tells to a non-DM player.");
 						return FALSE;
@@ -1629,7 +1629,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
             SendMessageToPC(oSpeaker, "If you're that eager to write for all of the characters in this story, perhaps you should take up fanfiction?");
             return FALSE;
         }
-        if(GetIsDM(PlayerAvatar) || GetLocalInt(oTarget, "HENCHMAN_LEADER") == ACR_GetPlayerID(oSpeaker) || GetMaster(oTarget) == oSpeaker)
+        if(ACR_GetIsDMControlled(PlayerAvatar) || GetLocalInt(oTarget, "HENCHMAN_LEADER") == ACR_GetPlayerID(oSpeaker) || GetMaster(oTarget) == oSpeaker)
         {
                   // Check if another player owned this mouthpiece.  If so then try
                 // and remove the association on their and and warn the previous
@@ -1701,7 +1701,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
                 SendMessageToPC(oSpeaker, "If you're that eager to write for all of the characters in this story, perhaps you should take up fanfiction?");
                 return FALSE;
             }
-            if(GetIsDM(oSpeaker) || GetLocalInt(oTarget, "HENCHMAN_LEADER") == ACR_GetPlayerID(oSpeaker) || GetMaster(oTarget) == oSpeaker)
+            if(ACR_GetIsDMControlled(oSpeaker) || GetLocalInt(oTarget, "HENCHMAN_LEADER") == ACR_GetPlayerID(oSpeaker) || GetMaster(oTarget) == oSpeaker)
             {
                 SetLocalObject(PlayerAvatar, sAnchor, oTarget);
                 SetLocalObject(oTarget, "MouthPiece", PlayerAvatar);
@@ -1716,7 +1716,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         if(nMode == CHAT_MODE_WHISPER) nTalkVolume = TALKVOLUME_WHISPER;
 
         // We assume that DMs know what they're doing. Their targets can speak foreign languages.
-        if(GetIsDM(PlayerAvatar))
+        if(ACR_GetIsDMControlled(PlayerAvatar))
         {
                  if (FindSubString(sText, "@") != -1)
                 {
@@ -1752,7 +1752,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
     else if( GetStringLeft( sText, 8 ) == "#setdesc" )
     {
 		// DM-only command.
-		if ( GetIsDM( oSpeaker ) || GetIsDMPossessed( oSpeaker ) ) {
+		if ( ACR_GetIsDMControlled( oSpeaker ) ) {
 			SendMessageToPC( oSpeaker, "This command may only be used by DMs." );
 			return FALSE;
 		}
@@ -1778,8 +1778,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         object oDM = GetFirstPC(TRUE);
         while(GetIsObjectValid(oDM))
         {
-            if(GetIsDM(oDM) ||
-               GetIsDMPossessed(oDM))
+            if(ACR_GetIsDMControlled(oDM))
             {
                 NotifyPlayer(oDM, NOTIFY_TYPE_INFO, "Request from " + GetName(oSpeaker), GetName(oSpeaker) + ": " + sText);
             }
