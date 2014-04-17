@@ -677,6 +677,18 @@ int ACR_PCOnClientEnter(object oPC)
     return TRUE;
 }
 
+void _WaitForJumpToSavedLocation(object oPC, location lLocation)
+{
+  if(GetScriptHidden(oPC)) 
+  { 
+    DelayCommand(1.0f, _WaitForJumpToSavedLocation(oPC, lLocation)); 
+  } 
+  else
+  {
+    AssignCommand(oPC, JumpToLocation(lLocation));
+  }
+}
+
 void ACR_PCOnPCLoaded(object oPC)
 {
     int bUpdateLocation = FALSE;
@@ -833,7 +845,7 @@ void ACR_PCOnPCLoaded(object oPC)
             if (vPosLoc.x == vPosStart.x && vPosLoc.y == vPosStart.y)
             {
                    // restore last known location if it's different
-                   if (lLocation != GetLocation(oPC)) { DelayCommand(3.0f, AssignCommand(oPC, JumpToLocation(lLocation))); }
+                   if (lLocation != GetLocation(oPC)) { DelayCommand(3.0f, _WaitForJumpToSavedLocation(oPC, lLocation)); }
             }
         }
 
