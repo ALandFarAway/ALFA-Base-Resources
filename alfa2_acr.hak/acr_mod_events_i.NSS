@@ -1832,25 +1832,39 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 				nSkill = -1;
 				sTickle = "You notice something!";
 			}
+			string sSuccess = "";
+			string sFailure = "";
 			object oTarget = GetFirstPC(TRUE);
 			while(GetIsObjectValid(oTarget))
 			{
-				if(GetArea(oSpeaker) == GetArea(oTarget))
+				if(GetArea(oSpeaker) == GetArea(oTarget) &&
+				   oSpeaker != oTarget)
 				{
 					if(nSkill > -1)
 					{
-						if(ACR_SkillCheck(nSkill, oTarget, nDC, TRUE, FALSE, 0))
+						if(ACR_SkillCheck(nSkill, oTarget, nDC, FALSE, FALSE, 0))
 						{
 							NotifyPlayer(oTarget, NOTIFY_TYPE_INFO, sTickle, sText, NOTIFY_WINDOW_MESSAGE_BOX, "", "", "OK", "");
+							sSuccess += GetName(oTarget) + ",";
+						}
+						else
+						{
+              sFailure += GetName(oTarget) + ",";
 						}
 					}
 					else
 					{
 						NotifyPlayer(oTarget, NOTIFY_TYPE_INFO, sTickle, sText, NOTIFY_WINDOW_MESSAGE_BOX, "", "", "OK", "");
+						sSuccess += GetName(oTarget) + ",";
 					}
 				}
 				oTarget = GetNextPC(TRUE);
 			}
+			if(sSuccess == "") sSuccess = "No one";
+			if(sFailure == "") sFailure = "No one";
+			sText = sSuccess + " received:\n" + sText + "\n" + sFailure + " did not.";
+			sTickle = "Results of " + (nSkill > -1 ? " perception check, DC " + IntToString(nDC) : " notification");
+			NotifyPlayer(oSpeaker, NOTIFY_TYPE_INFO, sTickle, sText, NOTIFY_WINDOW_MESSAGE_BOX, "", "", "OK", "");
 			return FALSE;
 		}
 
