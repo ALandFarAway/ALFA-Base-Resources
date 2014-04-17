@@ -1752,7 +1752,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
     else if( GetStringLeft( sText, 8 ) == "#setdesc" )
     {
 		// DM-only command.
-		if ( ACR_GetIsDMControlled( oSpeaker ) ) {
+		if ( !ACR_GetIsDMControlled( oSpeaker ) ) {
 			SendMessageToPC( oSpeaker, "This command may only be used by DMs." );
 			return FALSE;
 		}
