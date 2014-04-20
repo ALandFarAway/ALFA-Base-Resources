@@ -1771,6 +1771,35 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         return FALSE;
     }
 	
+    // Allow DMs to use #sethp to set a target's hit points.
+    else if( GetStringLeft( sText, 6 ) == "#sethp" )
+    {
+		// DM-only command.
+		if ( !ACR_GetIsDMControlled( oSpeaker ) ) {
+			SendMessageToPC( oSpeaker, "This command may only be used by DMs." );
+			return FALSE;
+		}
+
+		// Get the target to set a description.
+		object oTarget = GetPlayerCurrentTarget( oSpeaker );
+		if ( !GetIsObjectValid( oTarget ) ) {
+			SendMessageToPC( oSpeaker, "Invalid use. Select a target to set its health." );
+			return FALSE;
+		}
+
+		// Get the amount of HP.
+		nHP = StringToInt( GetStringRight( sText, len - 7 ) );
+		if ( nHP < 0 ) {
+			SendMessageToPC( oSpeaker, "Health must be greater than or equal to zero." );
+			return FALSE;
+		}
+
+		// Attempt to set the HP.
+		SetHitPoints( oTarget, nHP );
+
+		return FALSE;
+    }
+	
     // Is this someone adding to the DM requests queue?
     else if(GetStringLeft(sText, 3) == "#dm")
     {
