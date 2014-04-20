@@ -679,13 +679,13 @@ location GetLocationInDifferentArea(location lOldLocation, object oNewArea) {
     return Location(oNewArea, GetPositionFromLocation(lOldLocation), GetFacingFromLocation(lOldLocation));
 }
 
-void SetHitPoints(object oCreature, int nHp, int nDamageType) {
+void SetHitPoints(object oCreature, int nHp, int nDamageType = DAMAGE_TYPE_MAGICAL, int nDamagePower = DAMAGE_POWER_PLUS_TWENTY) {
     int nCurrentHp = GetCurrentHitPoints(oCreature);
     int nMaxHp = GetMaxHitPoints(oCreature);
     if(nHp > nCurrentHp) {
         ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectHeal(nHp), oCreature);
     } else if(nHp < nCurrentHp) {
-        ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectDamage(nHp, nDamageType), oCreature);
+        ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectDamage(nHp, nDamageType, nDamagePower), oCreature);
     }
 }
 
