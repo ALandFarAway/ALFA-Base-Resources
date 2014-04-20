@@ -43,11 +43,11 @@ namespace ACR_Movement
                     cloakResRef = "acr_ooc_horse01";
                     isWarhorse[Character] = true;
                     break;
-                case "acr_cr_an_horse02":
+                case "abr_cr_an_horse02":
                     cloakResRef = "acr_ooc_horse02";
                     isWarhorse[Character] = true;
                     break;
-                case "acr_cr_an_horse03":
+                case "abr_cr_an_horse03":
                     cloakResRef = "acr_ooc_horse03";
                     isWarhorse[Character] = true;
                     break;
