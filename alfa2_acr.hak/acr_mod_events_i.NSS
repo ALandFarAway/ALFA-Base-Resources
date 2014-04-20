@@ -1788,7 +1788,11 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 		}
 
 		// Get the amount of HP.
-		nHP = StringToInt( GetStringRight( sText, len - 7 ) );
+		string sHP = GetStringRight( sText, len - 7 );
+		nHP = StringToInt( sHP );
+		if ( sHP != "0" && nHP == 0) {
+      SendMessageToPC( oSpeaker, "Health must be a number." );
+		}
 		if ( nHP < 0 ) {
 			SendMessageToPC( oSpeaker, "Health must be greater than or equal to zero." );
 			return FALSE;
