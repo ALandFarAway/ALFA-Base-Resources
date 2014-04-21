@@ -240,7 +240,7 @@ void ACR_PersistentStorageOnOpen(object oStorage)
 {
     if (!_GetAreContentsLoaded(oStorage)) { 
 	    _LoadStorageObjectContents(oStorage); 
-		ACR_LogEvent(GetLastOpenedBy(), ACR_LOG_PCHEST_O, "Storage object in "+GetName(GetArea(oStorage))+" contains "+IntToString(GetLocalInt(oStorage, _ACR_PSO_NUMBER_OF_ITEMS_LI))+" items worth "+IntToString(GetLocalInt(oStorage, _ACR_PSO_TOTAL_VALUE_LI))+" total gp");  
+		ACR_LogEvent(GetLastOpenedBy(), ACR_LOG_PCHEST_O, "Storage object "+GetName(oStorage)+" (" + GetResRef(oStorage) + ") in "+GetName(GetArea(oStorage))+" contains "+IntToString(GetLocalInt(oStorage, _ACR_PSO_NUMBER_OF_ITEMS_LI))+" items worth "+IntToString(GetLocalInt(oStorage, _ACR_PSO_TOTAL_VALUE_LI))+" total gp");  
 	}
 
 	ACR_IncrementStatistic("PERSISTENT_STORAGE_OPEN");
@@ -283,7 +283,7 @@ int ACR_PersistentStorageOnClose(object oStorage, object oPC)
     }
 
 	// log state and value of chest on closing.
-	ACR_LogEvent(GetLastClosedBy(), ACR_LOG_PCHEST_C, "Contains "+IntToString(GetLocalInt(oStorage, _ACR_PSO_NUMBER_OF_ITEMS_LI))+" items worth "+IntToString(GetLocalInt(oStorage, _ACR_PSO_TOTAL_VALUE_LI))+" total gp, accessed by "+IntToString(nDisturbers)+" PCs.");  
+	ACR_LogEvent(GetLastClosedBy(), ACR_LOG_PCHEST_C, GetName(oStorage)+" (" + GetResRef(oStorage) + ") contains "+IntToString(GetLocalInt(oStorage, _ACR_PSO_NUMBER_OF_ITEMS_LI))+" items worth "+IntToString(GetLocalInt(oStorage, _ACR_PSO_TOTAL_VALUE_LI))+" total gp, accessed by "+IntToString(nDisturbers)+" PCs.");  
 	
     SetLocalInt(oStorage, _ACR_PSO_LASTGP_LI, nGold);
     return 1;
