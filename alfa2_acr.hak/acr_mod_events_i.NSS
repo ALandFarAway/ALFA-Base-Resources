@@ -1792,6 +1792,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
 		nHP = StringToInt( sHP );
 		if ( sHP != "0" && nHP == 0) {
 			SendMessageToPC( oSpeaker, "Health must be a number." );
+			return FALSE;
 		}
 		if ( nHP < 0 ) {
 			SendMessageToPC( oSpeaker, "Health must be greater than or equal to zero." );
