@@ -1047,6 +1047,7 @@ int _LookupSynergy(int nSkillID, object oPC, int bShowRoll)
 		if (GetRacialType(oPC) == RACIAL_TYPE_GNOME) {
 			nModifiedRank += 2;
 		}
+		break;
 	case SKILL_BALANCE:
 		if (GetSkillRank(SKILL_TUMBLE, oPC, TRUE) >= 5) {
 			if (bShowRoll) { SendMessageToPC(oPC, "Synergy bonus applied from Tumble ranks"); }
