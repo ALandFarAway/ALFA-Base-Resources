@@ -994,7 +994,7 @@ void ACR_ModuleOnPCLoaded()
         if (GetItemPossessedBy(oPC, "abr_spawn_debug") == OBJECT_INVALID) { CreateItemOnObject("acr_spawn_debug", oPC); }
         if (GetItemPossessedBy(oPC, "acr_dcsetter") == OBJECT_INVALID) { CreateItemOnObject("abr_it_dmdcsetter", oPC); }
         ExecuteScript("dmfi_mod_pcload", GetModule());
-		SetCollision( oPC, FALSE );
+        SetCollision( oPC, FALSE );
     }
     // process players
     else
