@@ -162,7 +162,7 @@ location GetLocationInDifferentArea(location lOldLocation, object oNewArea);
 // necissary. Any damage delt is done using nDamageType.
 // This function cannot set a creature's hit points above its maximum, and it
 // does not account for damage resistances or immunities to nDamageType.
-void SetHitPoints(object oCreature, int nHp, int nDamageType);
+void SetHitPoints( object oCreature, int nHp, int nDamageType = DAMAGE_TYPE_MAGICAL, int nDamagePower = DAMAGE_POWER_PLUS_TWENTY );
 
 // If nInt is less than nMin, nMin is returned.
 // If nInt is greater than nMax, nMax is returned.
@@ -679,7 +679,7 @@ location GetLocationInDifferentArea(location lOldLocation, object oNewArea) {
     return Location(oNewArea, GetPositionFromLocation(lOldLocation), GetFacingFromLocation(lOldLocation));
 }
 
-void SetHitPoints(object oCreature, int nHp, int nDamageType = DAMAGE_TYPE_MAGICAL, int nDamagePower = DAMAGE_POWER_PLUS_TWENTY) {
+void SetHitPoints( object oCreature, int nHp, int nDamageType = DAMAGE_TYPE_MAGICAL, int nDamagePower = DAMAGE_POWER_PLUS_TWENTY ) {
     int nCurrentHp = GetCurrentHitPoints(oCreature);
     int nMaxHp = GetMaxHitPoints(oCreature);
     if(nHp > nCurrentHp) {
