@@ -77,6 +77,7 @@ void ACR_TriggerOnUserDefined();
 #include "acr_seamlessat_i"
 #include "acr_quest_i"
 #include "acr_area_i"
+#include "acr_skills_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -97,6 +98,9 @@ void ACR_TriggerOnEnter() {
 
     // Quest system hook
     ACR_QuestTriggerEnter(oEnterer);
+	
+	// Skill system hook
+	ACR_SkillsOnTriggerEnter(oEnterer);
     
     // apply any effects on the trigger
     ACR_VFXOnEnter(oEnterer, OBJECT_SELF);
@@ -110,6 +114,9 @@ void ACR_TriggerOnExit() {
     
 	// Resting system hook
 	ACR_RestTriggerExit(oExiter);
+	
+	// Skill system hook
+	ACR_SkillsOnTriggerExit(oEnterer);
     
     // apply any effects on the trigger
     ACR_VFXOnExit(oExiter, OBJECT_SELF);

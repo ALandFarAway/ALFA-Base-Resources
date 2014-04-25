@@ -42,6 +42,22 @@ const int CHECK_TYPE_TRACK = 6;
 const int CHECK_TYPE_PERCEPTION = 7;
 const int CHECK_TYPE_STEALTH = 8;
 
+// Skill check trigger variables.
+const string ACR_CHECK_TGR_CID_PREFIX = "ACR_CHECK_TGR_CID_PREFIX";
+const string ACR_CHECK_TGR_TYPE = "ACR_CHECK_TGR_TYPE";
+const string ACR_CHECK_TGR_CHECK = "ACR_CHECK_TGR_CHECK";
+const string ACR_CHECK_TGR_CHECK_DC = "ACR_CHECK_TGR_CHECK_DC";
+const string ACR_CHECK_TGR_CHECK_MOD = "ACR_CHECK_TGR_CHECK_MOD";
+const string ACR_CHECK_TGR_SUCC_SMSG = "ACR_CHECK_TGR_SUCC_SMSG";
+const string ACR_CHECK_TGR_SUCC_MSG = "ACR_CHECK_TGR_SUCC_MSG";
+const string ACR_CHECK_TGR_SUCC_SCRIPT = "ACR_CHECK_TGR_SUCC_SCRIPT";
+const string ACR_CHECK_TGR_FAIL_SMSG = "ACR_CHECK_TGR_FAIL_SMSG";
+const string ACR_CHECK_TGR_FAIL_MSG = "ACR_CHECK_TGR_FAIL_MSG";
+const string ACR_CHECK_TGR_FAIL_SCRIPT = "ACR_CHECK_TGR_FAIL_SCRIPT";
+const string ACR_CHECK_TGR_SHOWROLL = "ACR_CHECK_TGR_SHOWROLL";
+const string ACR_CHECK_TGR_BROADCAST = "ACR_CHECK_TGR_BROADCAST";
+
+
 // Public functions
 
 //! Official initiative check function for ALFA.
@@ -91,6 +107,12 @@ void ACR_SkillsOnPCLoaded(object oEntered);
 //!! Handles the actual LETO write on the bic for hidden skill total changes (lore, perform)
 //!!  to reflect skill points invested in Knowledge: Arcana or Perform skills at levelup.
 void ACR_SkillsOnClientExit(object oLeaving);
+
+//!! Handles skill checks on trigger entry.
+void ACR_SkillsOnTriggerEnter( object oEntering );
+
+//!! Handles skill checks on trigger exit.
+void ACR_SkillsOnTriggerExit( object oExiting );
 
 //!! Checks PCs OnClientEnter to see if they have been adapted / need adapting to the custom skills framework
 int ACR_SkillsCheckIsPCAdapted(object oPC);
@@ -173,6 +195,7 @@ void _SendRollMessage(object oPC, string sMsg, int bPrivate=FALSE);
 #include "acr_tools_i"
 #include "acr_xp_i"
 #include "acr_db_persist_i"
+#include "acr_notifications_i"
 
 //
 //  Function bodies
@@ -870,6 +893,104 @@ void ACR_SkillsOnClientExit(object oLeaving) {
 	//	SetLocalString(GetModule(), "NWNX!LETO!SPAWN", sLetoString);
 	//
 	//}
+}
+
+void ACR_SkillsOnTriggerEnter( object oEntering ) {
+	if ( !GetIsObjectValid( oEntering ) ) return;
+	
+	// Variables we care about.
+	object oTrigger = OBJECT_SELF;
+	int nCheck = GetLocalInt( oTrigger, ACR_CHECK_TGR_CHECK );
+	int nCheckDC = GetLocalInt( oTrigger, ACR_CHECK_TGR_CHECK_DC );
+	int nShowRoll = GetLocalInt( oTrigger, ACR_CHECK_TGR_SHOWROLL );
+	int nBroadcast = GetLocalInt( oTrigger, ACR_CHECK_TGR_BROADCAST );
+	int nModifier = GetLocalInt( oTrigger, ACR_CHECK_TGR_CHECK_MOD );
+	string sShortMessage = "";
+	string sMessage = "";
+	string sScript = "";
+	
+	// Perform the check.
+	switch ( GetLocalInt( oTrigger, ACR_CHECK_TGR_TYPE ) ) {
+		case CHECK_TYPE_STAT:
+			if ( ACR_StatCheck( nCheck, oEntering, nCheckDC, nShowRoll, nBroadcast, nModifier ) ) {
+				sShortMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_SUCC_SMSG );
+				sMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_SUCC_MSG );
+				sScript = GetLocalString( oTrigger, ACR_CHECK_TGR_SUCC_SCRIPT );
+			} else {
+				sShortMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_FAIL_SMSG );
+				sMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_FAIL_MSG );
+				sScript = GetLocalString( oTrigger, ACR_CHECK_TGR_FAIL_SCRIPT );
+			}
+			break;
+		case CHECK_TYPE_SAVE:
+			if ( ACR_SaveCheck( nCheck, oEntering, nCheckDC, nShowRoll, nBroadcast, nModifier ) ) {
+				sShortMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_SUCC_SMSG );
+				sMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_SUCC_MSG );
+				sScript = GetLocalString( oTrigger, ACR_CHECK_TGR_SUCC_SCRIPT );
+			} else {
+				sShortMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_FAIL_SMSG );
+				sMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_FAIL_MSG );
+				sScript = GetLocalString( oTrigger, ACR_CHECK_TGR_FAIL_SCRIPT );
+			}
+			break;
+		case CHECK_TYPE_INITIATIVE:
+			if ( ACR_InitCheck( oEntering, nCheckDC, nShowRoll, nBroadcast, nModifier ) ) {
+				sShortMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_SUCC_SMSG );
+				sMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_SUCC_MSG );
+				sScript = GetLocalString( oTrigger, ACR_CHECK_TGR_SUCC_SCRIPT );
+			} else {
+				sShortMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_FAIL_SMSG );
+				sMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_FAIL_MSG );
+				sScript = GetLocalString( oTrigger, ACR_CHECK_TGR_FAIL_SCRIPT );
+			}
+			break;
+		case CHECK_TYPE_ROLL:
+			// No current support.
+			break;
+		case CHECK_TYPE_TRACK:
+			if ( _Check( CHECK_TYPE_TRACK, oEntering, -1, nCheckDC, nShowRoll, nBroadcast, nModifier ) ) {
+				sShortMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_SUCC_SMSG );
+				sMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_SUCC_MSG );
+				sScript = GetLocalString( oTrigger, ACR_CHECK_TGR_SUCC_SCRIPT );
+			} else {
+				sShortMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_FAIL_SMSG );
+				sMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_FAIL_MSG );
+				sScript = GetLocalString( oTrigger, ACR_CHECK_TGR_FAIL_SCRIPT );
+			}
+			break;
+		case CHECK_TYPE_PERCEPTION:
+			// No current support.
+			break;
+		case CHECK_TYPE_STEALTH:
+			// No current support.
+			break;
+		case CHECK_TYPE_SKILL:
+		default:
+			if ( ACR_SkillCheck( nCheck, oEntering, nCheckDC, nShowRoll, nBroadcast, nModifier ) ) {
+				sShortMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_SUCC_SMSG );
+				sMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_SUCC_MSG );
+				sScript = GetLocalString( oTrigger, ACR_CHECK_TGR_SUCC_SCRIPT );
+			} else {
+				sShortMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_FAIL_SMSG );
+				sMessage = GetLocalString( oTrigger, ACR_CHECK_TGR_FAIL_MSG );
+				sScript = GetLocalString( oTrigger, ACR_CHECK_TGR_FAIL_SCRIPT );
+			}
+			break;
+	}
+	
+	// Send the notification if we have one.
+	if ( sShortMessage != "" && sMessage != "" ) {
+		NotifyPlayer( oEntering, NOTIFY_TYPE_INFO, sShortMessage, sMessage );
+	}
+	
+	// Run a script if one is set.
+//	ExecuteScript( sScript );
+}
+
+void ACR_SkillsOnTriggerExit( object oExiting ) {
+	if ( !GetIsObjectValid( oExiting ) ) return;
+	
+	
 }
 
 int _Check(int nCheckType, object oPC, int nStatID = -1, int nDC=0, int bShowRoll=FALSE, int bBroadcast=FALSE, int nModifier=0) {
