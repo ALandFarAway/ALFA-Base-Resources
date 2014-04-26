@@ -273,6 +273,11 @@ namespace ACR_Items
                         {
                             value += 2500;
                         }
+                        if (!GetIsMasterwork(script, itProps))
+                        {
+                            script.AddItemProperty(DURATION_TYPE_PERMANENT, script.ItemPropertyAttackBonus(1), target, 0.0f);
+                        }
+                        masterworkCounted = true;
                     }
                 }
                 #endregion
