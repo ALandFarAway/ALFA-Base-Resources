@@ -1938,12 +1938,12 @@ namespace ACR_CreatureBehavior
         public bool TryToAttackRanged()
         {
             CreatureObject killObject = null;
+            Vector3 myLoc = Script.GetPosition(this.ObjectId);
             foreach (CreatureObject enemy in Party.EnemySoftTargets)
             {
                 if (Script.LineOfSightObject(this.ObjectId, enemy.ObjectId) == CLRScriptBase.TRUE)
                     killObject = enemy;
                 Vector3 loc = Script.GetPosition(enemy.ObjectId);
-                Vector3 myLoc = Script.GetPosition(this.ObjectId);
                 float diff = ((loc.x - myLoc.x) * (loc.x - myLoc.x)) + ((loc.y - myLoc.y) * (loc.y - myLoc.y));
                 if(diff < 25.0f)
                 {
@@ -1957,6 +1957,7 @@ namespace ACR_CreatureBehavior
                 {
                     if (Script.LineOfSightObject(this.ObjectId, enemy.ObjectId) == CLRScriptBase.TRUE)
                         killObject = enemy;
+                    Vector3 loc = Script.GetPosition(enemy.ObjectId);
                     float diff = ((loc.x - myLoc.x) * (loc.x - myLoc.x)) + ((loc.y - myLoc.y) * (loc.y - myLoc.y));
                     if (diff < 25.0f)
                     {
