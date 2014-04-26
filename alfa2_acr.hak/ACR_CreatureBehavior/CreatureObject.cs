@@ -2043,18 +2043,28 @@ namespace ACR_CreatureBehavior
                 uint weapon = OBJECT_INVALID;
                 foreach (uint bagItem in Script.GetItemsInInventory(ObjectId))
                 {
-                    // We can make this more robust later. For now, assume that the most-expensive ranged weapon
-                    // is the one preferred. We don't want them to metagame the best weapon for their target without
-                    // at least -some- experimentation.                        
-                    if (((Script.GetWeaponRanged(bagItem) == CLRScriptBase.TRUE && !meleeWeapon) || (Script.GetWeaponRanged(bagItem) == CLRScriptBase.FALSE && Script.GetWeaponType(bagItem) != CLRScriptBase.WEAPON_TYPE_NONE && meleeWeapon)) &&
-                       Script.GetGoldPieceValue(bagItem) > weaponValue)
+                    if(meleeWeapon && Script.GetWeaponRanged(bagItem) == CLRScriptBase.FALSE)
                     {
-                        weaponValue = Script.GetGoldPieceValue(bagItem);
-                        weapon = bagItem;
+                        if(weaponValue < Script.GetGoldPieceValue(bagItem))
+                        {
+                            weapon = bagItem;
+                            weaponValue = Script.GetGoldPieceValue(bagItem);
+                        }
+                    }
+                    if (!meleeWeapon && Script.GetWeaponRanged(bagItem) == CLRScriptBase.TRUE)
+                    {
+                        if (weaponValue < Script.GetGoldPieceValue(bagItem))
+                        {
+                            weapon = bagItem;
+                            weaponValue = Script.GetGoldPieceValue(bagItem);
+                        }
                     }
                 }
                 if (Script.GetIsObjectValid(weapon) == CLRScriptBase.TRUE)
+                {
                     Script.ActionEquipItem(weapon, CLRScriptBase.INVENTORY_SLOT_RIGHTHAND);
+                    // TODO: find out if weapon is one handed or two, and equip a shield if one.
+                }
             }
         }
         #endregion
