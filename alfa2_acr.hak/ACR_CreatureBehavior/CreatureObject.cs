@@ -770,6 +770,22 @@ namespace ACR_CreatureBehavior
         {
             if (Script.GetIsObjectValid(ObjectId) != CLRScriptBase.TRUE) return;
 
+            #region Rally Any Party Mates
+            bool callForHelp = false;
+            foreach(CreatureObject ally in Party.PartyMembers)
+            {
+                if(Script.GetCurrentAction(ally.ObjectId) == CLRScriptBase.ACTION_INVALID)
+                {
+                    callForHelp = true;
+                    ally.SelectCombatRoundAction();
+                }
+            }
+            if(callForHelp)
+            {
+                Script.AssignCommand(this.ObjectId, delegate { Script.SpeakString("Hey! Get off your asses!", CLRScriptBase.TALKVOLUME_TALK); });
+            }
+            #region
+
             #region Gather Data on Status
             RefreshNegativeStatuses();
             #endregion
