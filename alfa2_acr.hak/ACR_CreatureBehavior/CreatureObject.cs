@@ -1942,6 +1942,14 @@ namespace ACR_CreatureBehavior
             {
                 if (Script.LineOfSightObject(this.ObjectId, enemy.ObjectId) == CLRScriptBase.TRUE)
                     killObject = enemy;
+                Vector3 loc = Script.GetPosition(enemy.ObjectId);
+                Vector3 myLoc = Script.GetPosition(this.ObjectId);
+                float diff = ((loc.x - myLoc.x) * (loc.x - myLoc.x)) + ((loc.y - myLoc.y) * (loc.y - myLoc.y));
+                if(diff < 25.0f)
+                {
+                    // We're too close to this enemy to rely on ranged combat.
+                    return false;
+                }
             }
             if (killObject == null)
             {
