@@ -784,7 +784,7 @@ namespace ACR_CreatureBehavior
             {
                 Script.AssignCommand(this.ObjectId, delegate { Script.SpeakString("Hey! Get off your asses!", CLRScriptBase.TALKVOLUME_TALK); });
             }
-            #region
+            #endregion
 
             #region Gather Data on Status
             RefreshNegativeStatuses();
