@@ -101,7 +101,7 @@ void main()
 
     location lSource = GetLocation(OBJECT_SELF);
     ApplyEffectAtLocation(DURATION_TYPE_INSTANT, eAreaVFX, lSource);	
-    object oTarget = GetFirstObjectInShape(SHAPE_SPHERE, RADIUS_SIZE_COLOSSAL, lSource);
+    object oTarget = GetFirstObjectInShape(SHAPE_SPHERE, RADIUS_SIZE_TREMENDOUS, lSource);
     while(GetIsObjectValid(oTarget))
     {
         if((nSpell == SPELL_HOLY_WORD     && GetAlignmentGoodEvil(oTarget) != ALIGNMENT_GOOD) ||
@@ -132,6 +132,6 @@ void main()
                     ApplyEffectToObject(DURATION_TYPE_INSTANT, eDeath, oTarget);
             }
         }
-        oTarget = GetNextObjectInShape(SHAPE_SPHERE, RADIUS_SIZE_COLOSSAL, lSource);
+        oTarget = GetNextObjectInShape(SHAPE_SPHERE, RADIUS_SIZE_TREMENDOUS, lSource);
     }
 }
