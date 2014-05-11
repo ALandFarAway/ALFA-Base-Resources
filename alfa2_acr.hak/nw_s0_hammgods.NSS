@@ -17,12 +17,12 @@ void main() {
 	// Spellcasting data.
 	object oCaster = OBJECT_SELF;
 	int nSpell = GetSpellId();
-	int nCasterLevel = ACR_GetCorrectCasterLevel( oCaster );
+	int nCasterLevel = ACR_GetCorrectCasterLevel( oCaster ) / 2;
 	int nSaveDC = GetSpellSaveDC();
 	
 	// Find the secondary effect.
 	effect eSecondary;
-	fSecondaryDuration = RoundsToSeconds( 1 );
+	float fSecondaryDuration = RoundsToSeconds( 1 );
 	switch ( nSpell ) {
 		case SPELL_HOLY_SMITE:
 			eSecondary = EffectBlindness();
@@ -53,8 +53,8 @@ void main() {
 		nDamageNormal = ( nCasterLevel < 5 ) ? 8 * nCasterLevel : 8 * 5;
 		nDamageOutsiders = ( nCasterLevel < 10 ) ? 6 * nCasterLevel : 6 * 10;
 	} else if ( nMetaMagic == METAMAGIC_EMPOWER ) {
-		nDamageNormal = nDamageNormal * 1.5;
-		nDamageOutsiders = nDamageOutsiders * 1.5;
+		nDamageNormal = FloatToInt( nDamageNormal * 1.5 );
+		nDamageOutsiders = FloatToInt( nDamageOutsiders * 1.5 );
 	}
 	
 	// Grab everyone in the target area.
@@ -74,6 +74,7 @@ void main() {
 			if ( !MyResistSpell( oCaster, oTarget ) ) {
 				// Determine what damage we're doing.
 				int nDamage = nDamageNormal;
+				int bSecondaryEffect = TRUE;
 				if ( GetRacialType( oTarget ) == RACIAL_TYPE_OUTSIDER ) nDamage = nDamageOutsiders;
 				
 				// If we're neutral, we take half damage.
@@ -82,13 +83,14 @@ void main() {
 					 ( nSpell == SPELL_ORDERS_WRATH && nLawChaos == ALIGNMENT_NEUTRAL ) ||
 					 ( nSpell == SPELL_CHAOS_HAMMER && nLawChaos == ALIGNMENT_NEUTRAL ) ) {
 					nDamage = nDamage / 2;
+					bSecondaryEffect = FALSE;
 				}
 				
 				// A saving throw means half damage and no secondary effect.
 				if ( MySavingThrow( SAVING_THROW_WILL, oTarget, nSaveDC, SAVING_THROW_TYPE_DIVINE, OBJECT_SELF, 0.5 ) ) {
 					nDamage = nDamage / 2;
 				} else {
-					ApplyEffectToObject( DURATION_TYPE_TEMPORARY, eSecondary, oTarget, fSecondaryDuration );
+					if ( bSecondaryEffect ) ApplyEffectToObject( DURATION_TYPE_TEMPORARY, eSecondary, oTarget, fSecondaryDuration );
 				}
 				
 				// Deal damage.
