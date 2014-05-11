@@ -133,9 +133,6 @@ int ACR_GetIsExhausted(object oPC);
 //!  - Returns: 1,2,3 (new level of exhaustion)
 int ACR_AddFatigueToCreature(object oPC);
 
-//! Emulates SRD's sickened status.
-effect EffectSickened();
-
 //! Wrapper for the standard NWN2 EffectFatigue effect, returns the effect
 effect ACR_EffectFatigue();
 
@@ -318,16 +315,6 @@ void ACR_SetAdaptionEffect(object oPC, int bStatus)
 	else
 		RemoveAllEffectsFromSource(oPC, ACR_EFFECT_SOURCE_OOC_ADAPTION);
 }
-
-
-effect EffectSickened()
-{
-	effect eSickened = EffectAttackDecrease( 2 );
-	eSickened = EffectLinkEffects( eSickened, EffectDamageDecrease( 2 ) );
-	eSickened = EffectLinkEffects( eSickened, EffectSavingThrowDecrease( SAVING_THROW_ALL, 2, SAVING_THROW_TYPE_ALL ) );
-	return eSickened;
-}
-
 
 effect ACR_EffectFatigue()
 {
