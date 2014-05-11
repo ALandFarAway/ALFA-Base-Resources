@@ -116,7 +116,7 @@ void ACR_TriggerOnExit() {
 	ACR_RestTriggerExit(oExiter);
 	
 	// Skill system hook
-	ACR_SkillsOnTriggerExit(oEnterer);
+	ACR_SkillsOnTriggerExit(oExiter);
     
     // apply any effects on the trigger
     ACR_VFXOnExit(oExiter, OBJECT_SELF);
