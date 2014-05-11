@@ -1,111 +1,105 @@
-//::///////////////////////////////////////////////
-//:: Hammer of the Gods
-//:: [NW_S0_HammGods.nss]
-//:: Copyright (c) 2000 Bioware Corp.
-//:://////////////////////////////////////////////
-//:: Does 1d8 damage to all enemies within the
-//:: spells 20m radius and dazes them if a
-//:: Will save is failed.
-//:://////////////////////////////////////////////
-//:: Created By: Preston Watamaniuk
-//:: Created On: Jan 12, 2001
-//:://////////////////////////////////////////////
-//:: VFX Pass By: Preston W, On: June 21, 2001
-//:: Update Pass By: Preston W, On: Aug 1, 2001
-//:: RPGplayer1 01/15/2009: Empower or Maximize will increase variable duration
-
-#include "X0_I0_SPELLS"
-#include "x2_inc_spellhook" 
-
-void main()
-{
-
-/* 
-  Spellcast Hook Code 
-  Added 2003-06-20 by Georg
-  If you want to make changes to all spells,
-  check x2_inc_spellhook.nss to find out more
-  
-*/
-
-    if (!X2PreSpellCastCode())
-    {
-	// If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell
-        return;
-    }
-
-// End of Spell Cast Hook
+#include "acr_effects_i"
+#include "x2_inc_spellhook"
+#include "acr_spells_i"
 
 
-    //Declare major variables
-    int nCasterLvl = GetCasterLevel(OBJECT_SELF);
-    if(GetHasFeat(FEAT_GOOD_DOMAIN_POWER)) nCasterLvl++;
-    else if(GetHasFeat(FEAT_EVIL_DOMAIN_POWER)) nCasterLvl++;
-    else if(GetHasFeat(FEAT_LAW_DOMAIN_POWER)) nCasterLvl++;
-    else if(GetHasFeat(FEAT_CHAOS_DOMAIN_POWER)) nCasterLvl++;
+// Spell IDs we care about.
+const int SPELL_CHAOS_HAMMER  = 3153;
+const int SPELL_ORDERS_WRATH  = 3154;
+const int SPELL_HOLY_SMITE    = 3155;
+const int SPELL_UNHOLY_BLIGHT = 3156;
 
-    int nMetaMagic = GetMetaMagicFeat();
-    effect eDam;
-    effect eDaze = EffectDazed();
 
-    effect eVis = EffectVisualEffect(VFX_HIT_SPELL_HOLY);
-    float fDelay;
-    int nDamageDice = nCasterLvl/2;
-    if(nDamageDice == 0)
-    {
-        nDamageDice = 1;
-    }
-    //Limit caster level
-    if (nDamageDice > 5)
-    {
-        nDamageDice = 5;
-    }
-    int nDamage;
-    int nDuration;
-    object oTarget = GetFirstObjectInShape(SHAPE_SPHERE, RADIUS_SIZE_HUGE, GetSpellTargetLocation());
-    while (GetIsObjectValid(oTarget))
-    {
-       //Make faction checks
-        if (spellsIsTarget(oTarget, SPELL_TARGET_SELECTIVEHOSTILE, OBJECT_SELF))
-    	{
-            //Fire cast spell at event for the specified target
-            SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, SPELL_HAMMER_OF_THE_GODS));
-            //Make SR Check
-            if (!MyResistSpell(OBJECT_SELF, oTarget))
-	        {
-                fDelay = GetRandomDelay(0.6, 1.3);
-                //Roll damage
-                nDamage = d8(nDamageDice);
-                nDuration = d6();
-                //Make metamagic checks
-                if (nMetaMagic == METAMAGIC_MAXIMIZE)
-                {
-                    nDamage = 8 * nDamageDice;
-                    nDuration = 6;
-                }
-	            else if (nMetaMagic == METAMAGIC_EMPOWER)
-                {
-                    nDamage = FloatToInt( IntToFloat(nDamage) * 1.5 );
-                    nDuration = nDuration + (nDuration/2);
-                }
-                //Make a will save for half damage and negation of daze effect
-                if (MySavingThrow(SAVING_THROW_WILL, oTarget, GetSpellSaveDC(), SAVING_THROW_TYPE_DIVINE, OBJECT_SELF, 0.5))
-                {
-                    nDamage = nDamage / 2;
-                }
-                else
-                {
-                    //Apply daze effect
-                    DelayCommand(0.5, ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eDaze, oTarget, RoundsToSeconds(nDuration)));
-                }
-                //Set damage effect
-                eDam = EffectDamage(nDamage, DAMAGE_TYPE_DIVINE );
-                //Apply the VFX impact and damage effect
-                DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam, oTarget));
-                DelayCommand(fDelay, ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, oTarget));
-             }
-        }
-        //Get next target in shape
-        oTarget = GetNextObjectInShape(SHAPE_SPHERE, RADIUS_SIZE_HUGE, GetSpellTargetLocation());
-    } 
+void main() {
+	// ACR pre-cast event hook.
+    if ( !ACR_PrecastEvent() ) return;
+	
+	// Spellcasting data.
+	object oCaster = OBJECT_SELF;
+	int nSpell = GetSpellId();
+	int nCasterLevel = ACR_GetCorrectCasterLevel( oCaster );
+	int nSaveDC = GetSpellSaveDC();
+	
+	// Find the secondary effect.
+	effect eSecondary;
+	fSecondaryDuration = RoundsToSeconds( 1 );
+	switch ( nSpell ) {
+		case SPELL_HOLY_SMITE:
+			eSecondary = EffectBlindness();
+			break;
+		case SPELL_UNHOLY_BLIGHT:
+			eSecondary = EffectSickened();
+			fSecondaryDuration = RoundsToSeconds( d4(1) );
+			break;
+		case SPELL_ORDERS_WRATH:
+			eSecondary = EffectDazed();
+			break;
+		case SPELL_CHAOS_HAMMER:
+			eSecondary = EffectSlow();
+			fSecondaryDuration = RoundsToSeconds( d6(1) );
+			break;
+		default:
+			eSecondary = EffectBlindness();
+			break;
+	}
+	
+	// Roll for damage on normal targets.
+	int nDamageNormal = ( nCasterLevel < 5 ) ? d8( nCasterLevel ) : d8( 5 );
+	int nDamageOutsiders = ( nCasterLevel < 10 ) ? d6( nCasterLevel ) : d6( 10 );
+	
+	// Account for metamagic.
+	int nMetaMagic = GetMetaMagicFeat();
+	if ( nMetaMagic == METAMAGIC_MAXIMIZE ) {
+		nDamageNormal = ( nCasterLevel < 5 ) ? 8 * nCasterLevel : 8 * 5;
+		nDamageOutsiders = ( nCasterLevel < 10 ) ? 6 * nCasterLevel : 6 * 10;
+	} else if ( nMetaMagic == METAMAGIC_EMPOWER ) {
+		nDamageNormal = nDamageNormal * 1.5;
+		nDamageOutsiders = nDamageOutsiders * 1.5;
+	}
+	
+	// Grab everyone in the target area.
+	object oTarget = GetFirstObjectInShape( SHAPE_SPHERE, RADIUS_SIZE_HUGE, GetSpellTargetLocation() );
+	while ( GetIsObjectValid( oTarget ) ) {
+		// Signal spellcasting event.
+		SignalEvent( oTarget, EventSpellCastAt( oCaster, nSpell ) );
+		
+		// We ignore certain alignments entirely.
+		int nGoodEvil = GetAlignmentGoodEvil( oTarget );
+		int nLawChaos = GetAlignmentLawChaos( oTarget );
+		if ( ( nSpell == SPELL_HOLY_SMITE && nGoodEvil != ALIGNMENT_GOOD ) ||
+		     ( nSpell == SPELL_UNHOLY_BLIGHT && nGoodEvil != ALIGNMENT_EVIL ) ||
+			 ( nSpell == SPELL_ORDERS_WRATH && nLawChaos != ALIGNMENT_LAWFUL ) ||
+			 ( nSpell == SPELL_CHAOS_HAMMER && nLawChaos != ALIGNMENT_CHAOTIC ) ) {
+			// Check for Spell Resistance.
+			if ( !MyResistSpell( oCaster, oTarget ) ) {
+				// Determine what damage we're doing.
+				int nDamage = nDamageNormal;
+				if ( GetRacialType( oTarget ) == RACIAL_TYPE_OUTSIDER ) nDamage = nDamageOutsiders;
+				
+				// If we're neutral, we take half damage.
+				if ( ( nSpell == SPELL_HOLY_SMITE && nGoodEvil == ALIGNMENT_NEUTRAL ) ||
+					 ( nSpell == SPELL_UNHOLY_BLIGHT && nGoodEvil == ALIGNMENT_NEUTRAL ) ||
+					 ( nSpell == SPELL_ORDERS_WRATH && nLawChaos == ALIGNMENT_NEUTRAL ) ||
+					 ( nSpell == SPELL_CHAOS_HAMMER && nLawChaos == ALIGNMENT_NEUTRAL ) ) {
+					nDamage = nDamage / 2;
+				}
+				
+				// A saving throw means half damage and no secondary effect.
+				if ( MySavingThrow( SAVING_THROW_WILL, oTarget, nSaveDC, SAVING_THROW_TYPE_DIVINE, OBJECT_SELF, 0.5 ) ) {
+					nDamage = nDamage / 2;
+				} else {
+					ApplyEffectToObject( DURATION_TYPE_TEMPORARY, eSecondary, oTarget, fSecondaryDuration );
+				}
+				
+				// Deal damage.
+				ApplyEffectToObject( DURATION_TYPE_INSTANT, EffectDamage( nDamage ), oTarget );
+			}
+		}
+		
+		// Fetch our next target.
+		oTarget = GetNextObjectInShape( SHAPE_SPHERE, RADIUS_SIZE_HUGE, GetSpellTargetLocation() );
+	}
+	
+	// ACR post-cast event hook.
+	ACR_PostcastEvent();
 }
