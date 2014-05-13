@@ -16,6 +16,7 @@ using NWEvent = NWScript.NWScriptEngineStructure1;
 using NWLocation = NWScript.NWScriptEngineStructure2;
 using NWTalent = NWScript.NWScriptEngineStructure3;
 using NWItemProperty = NWScript.NWScriptEngineStructure4;
+using ALFA.Shared;
 
 namespace ACR_ChooserCreator
 {
@@ -71,13 +72,19 @@ namespace ACR_ChooserCreator
             if (ALFA.Shared.Modules.InfoStore.ActiveAreas.Keys.Contains(script.GetArea(currentUser.Id)))
             {
                 ALFA.Shared.ActiveArea currentArea = ALFA.Shared.Modules.InfoStore.ActiveAreas[script.GetArea(currentUser.Id)];
-                script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", currentArea.Id.ToString(), "LISTBOX_ITEM_TEXT=  <Color=DarkOrange>" + currentArea.DisplayName + "</color>", "", "5="+currentArea.Id.ToString(), "");
+                string currentName = "<Color=DarkOrange>" + currentArea.DisplayName + "________";
+                DisplayString.ShortenStringToWidth(currentName, 250);
+                currentName = currentName.Trim('_') + "</color>";
+                script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", currentArea.Id.ToString(), "LISTBOX_ITEM_TEXT=  "+currentName, "", "5="+currentArea.Id.ToString(), "");
                 List<ALFA.Shared.ActiveArea> adjAreas = new List<ALFA.Shared.ActiveArea>();
                 foreach (ALFA.Shared.ActiveArea adjacentArea in currentArea.ExitTransitions.Values)
                 {
                     if (!adjAreas.Contains(adjacentArea))
                     {
-                        script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", adjacentArea.Id.ToString(), "LISTBOX_ITEM_TEXT=  <Color=DarkGoldenRod>" + adjacentArea.DisplayName + "</color>", "", "5=" + adjacentArea.Id.ToString(), "");
+                        string adjName = "<Color=DarkGoldenRod>" + adjacentArea.DisplayName + "________";
+                        DisplayString.ShortenStringToWidth(adjName, 250);
+                        adjName = adjName.Trim('_') + "</color>";
+                        script.AddListBoxRow(currentUser.Id, "SCREEN_DMC_CHOOSER", "LISTBOX_ACR_CHOOSER_AREAS", adjacentArea.Id.ToString(), "LISTBOX_ITEM_TEXT=  " + adjName, "", "5=" + adjacentArea.Id.ToString(), "");
                         adjAreas.Add(adjacentArea);
                     }
                 }
