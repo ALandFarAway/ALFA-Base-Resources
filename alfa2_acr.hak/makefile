@@ -605,6 +605,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\ga_give_quest_xp.ncs                  \
             $(OUTPUTDIR)\ga_give_xp.ncs                        \
             $(OUTPUTDIR)\ga_open_store.ncs                     \
+            $(OUTPUTDIR)\x1_openstore.ncs                      \
             $(OUTPUTDIR)\gui_msgboard.ncs                      \
             $(OUTPUTDIR)\gui_startboard.ncs                    \
             $(OUTPUTDIR)\gui_bhvr_update.ncs                   \
