@@ -44,7 +44,7 @@ void main() {
 	}
 	
 	// Roll for damage on normal targets.
-	int nDamageNormal = ( nCasterLevel < 5 ) ? d8( nCasterLevel ) : d8( 5 );
+	int nDamageNormal = ( nCasterLevel < 10 ) ? d8( nCasterLevel / 2 ) : d8( 5 );
 	int nDamageOutsiders = ( nCasterLevel < 10 ) ? d6( nCasterLevel ) : d6( 10 );
 	
 	// Account for metamagic.
@@ -75,7 +75,11 @@ void main() {
 				// Determine what damage we're doing.
 				int nDamage = nDamageNormal;
 				int bSecondaryEffect = TRUE;
-				if ( GetRacialType( oTarget ) == RACIAL_TYPE_OUTSIDER ) nDamage = nDamageOutsiders;
+				if ( GetRacialType( oTarget ) == RACIAL_TYPE_OUTSIDER ||
+				     GetRacialType( oTarget ) == RACIAL_TYPE_PLANETOUCHED ) 
+				{
+				     nDamage = nDamageOutsiders;
+				}
 				
 				// If we're neutral, we take half damage.
 				if ( ( nSpell == SPELL_HOLY_SMITE && nGoodEvil == ALIGNMENT_NEUTRAL ) ||
