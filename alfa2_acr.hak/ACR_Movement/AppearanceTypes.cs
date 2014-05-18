@@ -268,7 +268,7 @@ namespace ACR_Movement
             else
             {
                 int moveRate = 10;
-                if(script.GetHasFeat(CLRScriptBase.FEAT_BARBARIAN_ENDURANCE, Creature, CLRScriptBase.TRUE) == CLRScriptBase.TRUE)
+                if (script.GetLevelByClass(CLRScriptBase.CLASS_TYPE_BARBARIAN, Creature) >= 1)
                 {
                     // Barbarians get +0.4m/s when not wearing heavy armor and not carrying a heavy load.
                     if (script.GetEncumbranceState(Creature) != CLRScriptBase.ENCUMBRANCE_STATE_OVERLOADED &&
@@ -338,6 +338,17 @@ namespace ACR_Movement
                     case 22:
                         appType += Walk_22;
                         break;
+                }
+
+                if(script.GetHasFeat(CLRScriptBase.FEAT_MONK_ENDURANCE, Creature, CLRScriptBase.TRUE) == CLRScriptBase.TRUE)
+                {
+                    script.FeatRemove(Creature, CLRScriptBase.FEAT_MONK_ENDURANCE);
+                    script.FeatAdd(Creature, 3742, CLRScriptBase.FALSE, CLRScriptBase.FALSE, CLRScriptBase.FALSE);
+                }
+                if(script.GetHasFeat(CLRScriptBase.FEAT_BARBARIAN_ENDURANCE, Creature, CLRScriptBase.TRUE) == CLRScriptBase.TRUE)
+                {
+                    script.FeatRemove(Creature, CLRScriptBase.FEAT_BARBARIAN_ENDURANCE);
+                    script.FeatAdd(Creature, 3743, CLRScriptBase.FALSE, CLRScriptBase.FALSE, CLRScriptBase.FALSE);
                 }
 
                 script.SetCreatureAppearanceType(Creature, appType);
