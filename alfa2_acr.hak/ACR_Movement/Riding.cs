@@ -24,6 +24,7 @@ namespace ACR_Movement
         public const string ACR_HORSE_ID = "ACR_HORSE_ID";
         public const string ACR_HORSE_OBJECT = "ACR_HORSE_OBJECT";
         public const string ACR_PAL_WARHORSE = "ACR_PAL_WARHORSE";
+        public const string ACR_HORSE_HP = "ACR_HORSE_HP";
 
         const string ACR_HORSE_PERS_LOC_AREA = "ACR_HORSE_PERS_LOC_AREA";
         const string ACR_HORSE_PERS_LOC_X = "ACR_HORSE_PERS_LOC_X";
@@ -64,6 +65,7 @@ namespace ACR_Movement
                 script.SetLocalInt(horseCloak, ACR_IS_WARHORSE, 1);
             }
             script.SetLocalInt(horseCloak, ACR_HORSE_ID, script.GetLocalInt(Horse, ACR_HORSE_ID));
+            script.SetLocalInt(horseCloak, ACR_HORSE_HP, script.GetCurrentHitPoints(Horse));
 
             uint equippedCloak = script.GetItemInSlot(CLRScriptBase.INVENTORY_SLOT_CLOAK, Character);
             
@@ -131,6 +133,11 @@ namespace ACR_Movement
             uint Horse = script.CreateObject(CLRScriptBase.OBJECT_TYPE_CREATURE, resRef, Location, CLRScriptBase.FALSE, "");
             script.SetLocalInt(Horse, ACR_HORSE_OWNER, script.GetLocalInt(Character, ACR_CID));
             script.SetLocalInt(Horse, ACR_HORSE_ID, script.GetLocalInt(Cloak, ACR_HORSE_ID));
+            int damage = script.GetCurrentHitPoints(Horse) - script.GetLocalInt(Cloak, ACR_HORSE_HP);
+            if(damage > 0)
+            {
+                script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_INSTANT, script.EffectDamage(damage, CLRScriptBase.DAMAGE_TYPE_MAGICAL, CLRScriptBase.DAMAGE_POWER_PLUS_TWENTY, CLRScriptBase.TRUE), Horse, 0.0f);
+            }
             if (script.GetLocalInt(Cloak, ACR_IS_WARHORSE) == 1)
             {
                 script.AddHenchman(Character, Horse);
