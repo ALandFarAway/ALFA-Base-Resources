@@ -683,8 +683,10 @@ void SetHitPoints( object oCreature, int nHp, int nDamageType = DAMAGE_TYPE_MAGI
     int nCurrentHp = GetCurrentHitPoints(oCreature);
     int nMaxHp = GetMaxHitPoints(oCreature);
     if(nHp > nCurrentHp) {
-        ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectHeal(nHp), oCreature);
+        int nHeal = nHp - nCurrentHp;
+        ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectHeal(nHeal), oCreature);
     } else if(nHp < nCurrentHp) {
+        int nDamage = nCurrentHp - nHp;
         ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectDamage(nHp, nDamageType, nDamagePower), oCreature);
     }
 }
