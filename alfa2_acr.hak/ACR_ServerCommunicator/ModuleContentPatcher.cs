@@ -296,6 +296,11 @@ namespace ACR_ServerCommunicator
                             SentNotification = true;
                         }
 
+                        Script.SendInfrastructureDiagnosticIrcMessage(String.Format(
+                            "Server '{0}' is updating content file '{1}'.",
+                            Script.GetName(Script.GetModule()),
+                            PatchFile.FileName));
+
                         //
                         // The file needs to be updated.  Copy it over and
                         // re-validate the checksum.  If the checksum did not
@@ -627,6 +632,9 @@ namespace ACR_ServerCommunicator
 
             Script.WriteTimestampedLogEntry(String.Format(
                 "ModuleContentPatcher.CompileModuleScripts: Compiling module scripts with compiler options '{0}'...", CompilerOptions));
+            Script.SendInfrastructureDiagnosticIrcMessage(String.Format(
+                "Server '{0}' is recompiling module scripts.",
+                Script.GetName(Script.GetModule())));
 
             Result = ALFA.ScriptCompiler.CompileScript("*.nss", CompilerOptions, delegate(string Line)
             {
