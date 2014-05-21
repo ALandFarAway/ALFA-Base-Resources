@@ -120,7 +120,6 @@ UIRadialNode Callbacks:
 	<UISubNode node="node-bioedit" />
 	<UISubNode node="node-party-privatechat" />
 	<UISubNode node="menu-companion-command-broadcast"/>
-	
 	<UISubNode node="menu-party-actions" />					
 	<UISubNode node="menu-abilities-otherabilities" />
 	<UISubNode node="menu-abilities-racial"/>							
@@ -138,6 +137,12 @@ UIRadialNode Callbacks:
 <UIRadialNode name="node-examine" style="BASE_RADIAL_NODE" strref=549
 	OnLeftClickExpanded=UIRadialNode_Mouse_ActionExamineObject("SCREEN_ACR_EXAMINE","SCREEN_ACR_EXAMINE")
 	OnLeftClickCollapsed=UIRadialNode_Mouse_ActionExamineObject("SCREEN_ACR_EXAMINE","SCREEN_ACR_EXAMINE") >
+	<UIFrame state=base	fill="ia_examine.tga" />
+</UIRadialNode>
+
+<UIRadialNode name="node-inspect" style="BASE_RADIAL_NODE" text="Inspect"
+	OnLeftClickExpanded=UIObject_Misc_ExecuteServerScript("gui_kemo_bio","display","","")
+	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_kemo_bio","display","","")>
 	<UIFrame state=base	fill="ia_examine.tga" />
 </UIRadialNode>
 
@@ -365,7 +370,7 @@ UIRadialNode Callbacks:
 	<UISubNode node="menu-dm-envirobj" />
 	<UISubNode node="menu-dm-dmfi-object" />
 	<UISubNode node="node-use" />									
-	<UISubNode node="node-examine"/>								
+	<UISubNode node="node-examine"/>							
 	<UISubNode node="node-close-door"/>	
 	<UISubNode node="node-bash"/>									
 	<UISubNode node="node-picklock"/>								
@@ -517,8 +522,8 @@ UIRadialNode Callbacks:
 	<UISubNode node="menu-dm-dmfi-creature"/>
 	<UISubNode node="node-attack" />
 	<UISubNode node="node-examine" />		
+	<UISubNode node="node-inspect"/>
 	<UISubNode node="node-pickpocket" />	
-
 	<UISubNode node="node-identify" />
 	<UISubNode node="menu-abilities-target-otherabilities"/>							
 	<UISubNode node="menu-abilities-target-racial"/>							
@@ -606,7 +611,7 @@ UIRadialNode Callbacks:
 	<UISubNode node="node-talkto" />
 	<UISubNode node="menu-party-actions" />	
 	<UISubNode node="node-examine" />		
-		
+	<UISubNode node="node-inspect"/>
 	<UISubNode node="node-barter" />
 	<UISubNode node="node-pickpocket" />	
 	<UISubNode node="node-attack" />
@@ -742,12 +747,6 @@ UIRadialNode Callbacks:
 	<UISubNode node="menu-abilities-target-class-4"/>		
 	<UISubnode node="menu-companion-command-single" />
 	<UISubNode node="node-unsummon"/>
-</UIRadialNode>
-
-<UIRadialNode name="node-inspect" style="BASE_RADIAL_NODE" text="Inspect"
-	OnLeftClickExpanded=UIObject_Misc_ExecuteServerScript("gui_kemo_bio","display","","")
-	OnLeftClickCollapsed=UIObject_Misc_ExecuteServerScript("gui_kemo_bio","display","","")>
-	<UIFrame state=base	fill="ia_examine.tga" />
 </UIRadialNode>
 
 <UIRadialNode name="node-unsummon" style="BASE_RADIAL_NODE" strref="1569"
