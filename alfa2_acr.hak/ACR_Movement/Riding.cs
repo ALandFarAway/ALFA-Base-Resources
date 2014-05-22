@@ -79,6 +79,7 @@ namespace ACR_Movement
                     script.AddItemProperty(script.GetItemPropertyDurationType(prop), prop, horseCloak, 0.0f);
                 }
                 script.SetFirstName(horseCloak, script.GetName(equippedCloak) + "(( Horse Appearance ))");
+                script.AddItemProperty(CLRScriptBase.DURATION_TYPE_PERMANENT, script.ItemPropertyWeightReduction(CLRScriptBase.IP_CONST_REDUCEDWEIGHT_80_PERCENT), horseCloak, 0.0f);
             }
             script.SetPlotFlag(horseCloak, CLRScriptBase.TRUE);
             script.SetPlotFlag(Horse, CLRScriptBase.FALSE);
