@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_PCHide", "..\ACR_PCHide
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_Movement", "..\ACR_Movement\ACR_Movement.csproj", "{090876D5-B1CF-42F5-81A1-CA4153F15E59}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACR_Wealth", "..\ACR_Wealth\ACR_Wealth.csproj", "{310F5587-F964-4FD9-8EF1-0E15C63E5E70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -119,6 +121,10 @@ Global
 		{090876D5-B1CF-42F5-81A1-CA4153F15E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{090876D5-B1CF-42F5-81A1-CA4153F15E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{090876D5-B1CF-42F5-81A1-CA4153F15E59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{310F5587-F964-4FD9-8EF1-0E15C63E5E70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{310F5587-F964-4FD9-8EF1-0E15C63E5E70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{310F5587-F964-4FD9-8EF1-0E15C63E5E70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{310F5587-F964-4FD9-8EF1-0E15C63E5E70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

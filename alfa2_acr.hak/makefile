@@ -676,6 +676,7 @@ CLRSCRIPT_OBJECTS=$(OUTPUTDIR)\TestClrScript.ncs               \
                   $(OUTPUTDIR)\ACR_ServerMisc.ncs              \
                   $(OUTPUTDIR)\ACR_CreatureBehavior.ncs        \
                   $(OUTPUTDIR)\ACR_EmptyScript.ncs             \
+                  $(OUTPUTDIR)\ACR_Wealth.ncs                  \
                   $(OUTPUTDIR)\ACR_Items.ncs                   \
                   $(OUTPUTDIR)\ACR_PCHide.ncs                  \
                   $(OUTPUTDIR)\ACR_ReadRawString.ncs           \
@@ -743,6 +744,8 @@ makeclrscripts:
 	@$(MSBUILD) ACR_CreatureBehavior\ACR_CreatureBehavior.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_EmptyScript
 	@$(MSBUILD) ACR_EmptyScript\ACR_EmptyScript.csproj $(MSBUILD_FLAGS)
+	$(BUILD_MSG) (CSProj) Building - ACR_Wealth
+	@$(MSBUILD) ACR_Wealth\ACR_Wealth.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_Items
 	@$(MSBUILD) ACR_Items\ACR_Items.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_ReadRawString
@@ -788,6 +791,8 @@ clean:
 	@if exist ACR_CreatureBehavior\obj rd /s /q ACR_CreatureBehavior\obj
 	@if exist ACR_EmptyScript\bin rd /s /q ACR_EmptyScript\bin
 	@if exist ACR_EmptyScript\obj rd /s /q ACR_EmptyScript\obj
+	@if exist ACR_Wealth\bin rd /s /q ACR_Wealth\bin
+	@if exist ACR_Wealth\obj rd /s /q ACR_Wealth\obj
 	@if exist ACR_Items\bin rd /s /q ACR_Items\bin
 	@if exist ACR_Items\obj rd /s /q ACR_Items\obj	
 	@if exist ACR_Candlekeep\bin rd /s /q ACR_Candlekeep\bin
