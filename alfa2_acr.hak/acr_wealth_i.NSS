@@ -63,6 +63,7 @@ const int WEALTH_COMMAND_CALCULATE_APPROPRIATE_DROP = 1;
 const int WEALTH_COMMAND_DROP_WEALTH = 2;
 const int WEALTH_COMMAND_DROP_WEALTH_TO_LIMIT = 3;
 const int WEALTH_COMMAND_ITEM_DROPPED_BY = 4;
+const int WEALTH_COMMAND_PERSISTENT_STORAGE_CLOSED = 5;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -139,6 +140,22 @@ void ACR_DropWealthInContainer(object oPC, object oContainer);
 //!  - nMaxValue: the most that any given PC should get,
 //!         assuming an even split.
 void ACR_DropUpToWealthInContainer(object oPC, object oContainer, int nMaxValue);
+
+//! This function is used so that the ACR can track what
+//! becomes of items that a player has recently had a hold
+//! of, to make sure we count wealth that may be temporarily
+//! in a container on the ground or being held by a friend.
+//!  - oPC: the PC who has dropped the item.
+//!  - oItem: the item being dropped.
+void ACR_WealthItemDroppedBy(object oPC, object oItem);
+
+//! This function is used for persistent storage, and
+//! allows the contents of pChests to be used to determine
+//! the value of items owned by the PC.
+//!  - oPC: the PC who has accessed the chest
+//!  - oChest: the chest being accessed
+//!  - nChestValue: the sum gold piece value of items in the chest
+void ACR_WealthPChestClosed(object oPC, object oChest, int nChestValue);
 
 //! The NWScript wrapper for CLRScript ACR_Wealth
 int _CallWealthCLRScript(int Param1, int Param2, object Param3, object Param4);
@@ -383,6 +400,11 @@ void ACR_DropUpToWealthInContainer(object oPC, object oContainer, int nMaxValue)
 void ACR_WealthItemDroppedBy(object oPC, object oItem)
 {
   _CallWealthCLRScript(WEALTH_COMMAND_ITEM_DROPPED_BY, -1, oPC, oItem);
+}
+
+void ACR_WealthPChestClosed(object oPC, object oChest, int nChestValue)
+{
+  _CallWealthCLRScript(WEALTH_COMMAND_PERSISTENT_STORAGE_CLOSED, nChestValue, oPC, oChest);
 }
 
 int _CallWealthCLRScript(int Param1, int Param2, object Param3, object Param4)

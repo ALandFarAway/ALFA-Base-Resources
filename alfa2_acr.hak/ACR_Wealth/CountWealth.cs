@@ -72,6 +72,14 @@ namespace ACR_Wealth
                 }
             }
 
+            if(pChestAccess.ContainsKey(Character))
+            {
+                foreach(string chest in pChestAccess[Character])
+                {
+                    lootValue += pChestValues[chest];
+                }
+            }
+
             int chaMult = WealthToMultiplier(lootValue, level);
             if (chaMult < retVal) retVal = chaMult;
 
@@ -125,9 +133,38 @@ namespace ACR_Wealth
             }
         }
 
+        public static void TrackPersistentChestValues(CLRScriptBase script, uint Character, uint Chest, int CountedLoot)
+        {
+            string tag = script.GetTag(Chest);
+            if(!pChestValues.ContainsKey(tag))
+            {
+                pChestValues.Add(tag, CountedLoot);
+            }
+            else
+            {
+                pChestValues[tag] = CountedLoot;
+            }
+
+            // TODO: persistently save pChest tags
+            if(!pChestAccess.ContainsKey(Character))
+            {
+                pChestAccess.Add(Character, new List<string>());
+            }
+            if(!pChestAccess[Character].Contains(tag))
+            {
+                pChestAccess.Add(tag);
+            }
+        }
+
         
         // Storage for recently-moved items for players.
         static Dictionary<uint, List<uint>> recentlyDroppedItems = new Dictionary<uint, List<uint>>();
+
+        // Storage for the values of pChests
+        static Dictionary<string, int> pChestValues = new Dictionary<string, int>();
+
+        // Storage for players accessing pChests
+        static Dictionary<uint, List<string>> pChestAccess = new Dictionary<uint,List<string>>();
 
         #region Wealth Level Definitions
         static Dictionary<int, int> lowMarker = new Dictionary<int, int>()

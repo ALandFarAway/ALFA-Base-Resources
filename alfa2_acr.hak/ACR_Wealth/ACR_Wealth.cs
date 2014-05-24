@@ -51,6 +51,9 @@ namespace ACR_Wealth
                 case WealthCommands.ItemDroppedBy:
                     CountWealth.TrackDroppedItem(this, (uint)ScriptParameters[2], (uint)ScriptParameters[3]);
                     return 0;
+                case WealthCommands.PersistentStorageClosed:
+                    CountWealth.TrackPersistentChestValues(this, (uint)ScriptParameters[2], (uint)ScriptParameters[3], (int)ScriptParameters[1]);
+                    return 0;
             }
             SendMessageToAllDMs(ScriptParameters[0].ToString());
             SendMessageToAllDMs(ScriptParameters[1].ToString());
@@ -66,6 +69,7 @@ namespace ACR_Wealth
             DropWealthInContainer = 2,
             DropUpToWealthInContainer = 3,
             ItemDroppedBy = 4,
+            PersistentStorageClosed = 5,
         }
     }
 }
