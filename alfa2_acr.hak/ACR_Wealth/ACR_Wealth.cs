@@ -34,15 +34,24 @@ namespace ACR_Wealth
         }
 
         public static Type[] ScriptParameterTypes =
-        { typeof(int) };
+        { typeof(int), typeof(int), typeof(uint), typeof(uint) };
 
         public Int32 ScriptMain([In] object[] ScriptParameters, [In] Int32 DefaultReturnCode)
         {
-            int Value = (int)ScriptParameters[0]; // ScriptParameterTypes[0] is typeof(int)
-
-            PrintInteger(Value);
-
+            SendMessageToAllDMs(ScriptParameters[0].ToString());
+            SendMessageToAllDMs(ScriptParameters[1].ToString());
+            SendMessageToAllDMs(ScriptParameters[2].ToString());
+            SendMessageToAllDMs(ScriptParameters[3].ToString());
             return 0;
+            
+        }
+
+        public enum WealthCommands
+        {
+            CalculateWealth = 0,
+            CalculateAppropriateDrop = 1,
+            DropWealthInContainer = 2,
+            DropUpToWealthInContainer = 3,
         }
 
     }
