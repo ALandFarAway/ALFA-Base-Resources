@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_Wealth.cs" />
+    <Compile Include="CountWealth.cs" />
     <Compile Include="StandardEntrypoints.cs" />
   </ItemGroup>
   <ItemGroup>

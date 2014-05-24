@@ -38,6 +38,17 @@ namespace ACR_Wealth
 
         public Int32 ScriptMain([In] object[] ScriptParameters, [In] Int32 DefaultReturnCode)
         {
+            switch((WealthCommands)ScriptParameters[0])
+            {
+                case WealthCommands.CalculateWealth:
+                    return CountWealth.GetTotalValueOfKit(this, (uint)ScriptParameters[2]);
+                case WealthCommands.CalculateAppropriateDrop:
+                    return CountWealth.GetWealthMultiplierInt(this, (uint)ScriptParameters[2]);
+                case WealthCommands.DropWealthInContainer:
+                    break;
+                case WealthCommands.DropUpToWealthInContainer:
+                    break;
+            }
             SendMessageToAllDMs(ScriptParameters[0].ToString());
             SendMessageToAllDMs(ScriptParameters[1].ToString());
             SendMessageToAllDMs(ScriptParameters[2].ToString());
