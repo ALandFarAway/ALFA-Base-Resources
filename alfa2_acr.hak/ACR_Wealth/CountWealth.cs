@@ -152,7 +152,7 @@ namespace ACR_Wealth
             }
             if(!pChestAccess[Character].Contains(tag))
             {
-                pChestAccess.Add(tag);
+                pChestAccess[Character].Add(tag);
             }
         }
 
