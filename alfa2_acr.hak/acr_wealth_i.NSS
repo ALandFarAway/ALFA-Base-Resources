@@ -140,7 +140,7 @@ void ACR_DropWealthInContainer(object oPC, object oContainer);
 void ACR_DropUpToWealthInContainer(object oPC, object oContainer, int nMaxValue);
 
 //! The NWScript wrapper for CLRScript ACR_Wealth
-int _CallWealthCLRScript(int Param1, int Param2, object Param3, object Param4)
+int _CallWealthCLRScript(int Param1, int Param2, object Param3, object Param4);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
@@ -386,6 +386,6 @@ int _CallWealthCLRScript(int Param1, int Param2, object Param3, object Param4)
   AddScriptParameterInt(Param2);
   AddScriptParameterObject(Param3);
   AddScriptParameterObject(Param4);
-  ExecuteScriptEnhanced("ACR_Wealth", OBJECT_SELF, TRUE);
+  return ExecuteScriptEnhanced("ACR_Wealth", OBJECT_SELF, TRUE);
 }
 #endif
