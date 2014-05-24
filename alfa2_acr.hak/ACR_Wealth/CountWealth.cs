@@ -35,6 +35,51 @@ namespace ACR_Wealth
             int lootValue = GetTotalValueOfKit(script, Character);
             int level = GetEffectiveLevel(script, Character);
 
+            int retVal = VeryPoorMultiplier;
+            
+            if (recentlyDroppedItems.ContainsKey(Character))
+            {
+                List<uint> checkedPCs = new List<uint>();
+                List<uint> removedItems = new List<uint>();
+                checkedPCs.Add(Character); // We already checked the PC outside of this loop.
+                foreach (uint Item in recentlyDroppedItems[Character])
+                {
+                    if (script.GetIsObjectValid(Item) == CLRScriptBase.TRUE) 
+                    {
+                        if(!checkedPCs.Contains(script.GetItemPossessor(Item)))
+                        {
+                            uint itemOwner = script.GetItemPossessor(Item);
+                            checkedPCs.Add(itemOwner);
+                            if(script.GetIsPC(itemOwner) != CLRScriptBase.FALSE)
+                            {
+                                int tempMult = WealthToMultiplier(GetTotalValueOfKit(script, itemOwner), GetEffectiveLevel(script, itemOwner));
+                                if (tempMult < retVal) retVal = tempMult;
+                            }
+                            else if(script.GetObjectType(itemOwner) != CLRScriptBase.OBJECT_TYPE_STORE)
+                            {
+                                lootValue += script.GetGoldPieceValue(Item);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        removedItems.Add(Item);
+                    }
+                }
+                foreach(uint Item in removedItems)
+                {
+                    recentlyDroppedItems[Character].Remove(Item);
+                }
+            }
+
+            int chaMult = WealthToMultiplier(lootValue, level);
+            if (chaMult < retVal) retVal = chaMult;
+
+            return retVal;
+        }
+
+        public static int WealthToMultiplier(int level, int lootValue)
+        {
             if (lootValue < lowMarker[level]) return VeryPoorMultiplier;
             if (lootValue < (targetMarker[level] * 9 / 10)) return PoorMultiplier;
             if (lootValue < (targetMarker[level] * 11 / 10)) return NormalMultiplier;
@@ -67,6 +112,24 @@ namespace ACR_Wealth
             return 20;
         }
 
+        public static void TrackDroppedItem(CLRScriptBase script, uint Character, uint Item)
+        {
+            if (!recentlyDroppedItems.ContainsKey(Character))
+            {
+                recentlyDroppedItems.Add(Character, new List<uint>());
+            }
+
+            if(!recentlyDroppedItems[Character].Contains(Item))
+            {
+                recentlyDroppedItems[Character].Add(Item);
+            }
+        }
+
+        
+        // Storage for recently-moved items for players.
+        static Dictionary<uint, List<uint>> recentlyDroppedItems = new Dictionary<uint, List<uint>>();
+
+        #region Wealth Level Definitions
         static Dictionary<int, int> lowMarker = new Dictionary<int, int>()
         {
             { 1,  300 },
@@ -210,5 +273,6 @@ namespace ACR_Wealth
             { 19, 171000 },
             { 20, 190000 },
         };
+        #endregion
     }
 }

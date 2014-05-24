@@ -49,7 +49,8 @@ namespace ACR_Wealth
                 case WealthCommands.DropUpToWealthInContainer:
                     break;
                 case WealthCommands.ItemDroppedBy:
-                    break;
+                    CountWealth.TrackDroppedItem(this, (uint)ScriptParameters[2], (uint)ScriptParameters[3]);
+                    return 0;
             }
             SendMessageToAllDMs(ScriptParameters[0].ToString());
             SendMessageToAllDMs(ScriptParameters[1].ToString());
