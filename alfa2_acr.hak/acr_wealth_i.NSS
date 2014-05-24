@@ -62,6 +62,7 @@ const int WEALTH_COMMAND_CALCULATE_WEALTH = 0;
 const int WEALTH_COMMAND_CALCULATE_APPROPRIATE_DROP = 1;
 const int WEALTH_COMMAND_DROP_WEALTH = 2;
 const int WEALTH_COMMAND_DROP_WEALTH_TO_LIMIT = 3;
+const int WEALTH_COMMAND_ITEM_DROPPED_BY = 4;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -377,6 +378,11 @@ void ACR_DropWealthInContainer(object oPC, object oContainer)
 void ACR_DropUpToWealthInContainer(object oPC, object oContainer, int nMaxValue)
 {
   _CallWealthCLRScript(WEALTH_COMMAND_DROP_WEALTH_TO_LIMIT, nMaxValue, oPC, OBJECT_INVALID);
+}
+
+void ACR_WealthItemDroppedBy(object oPC, object oItem)
+{
+  _CallWealthCLRScript(WEALTH_COMMAND_ITEM_DROPPED_BY, -1, oPC, oItem);
 }
 
 int _CallWealthCLRScript(int Param1, int Param2, object Param3, object Param4)

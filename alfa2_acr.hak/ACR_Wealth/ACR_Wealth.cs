@@ -48,6 +48,8 @@ namespace ACR_Wealth
                     break;
                 case WealthCommands.DropUpToWealthInContainer:
                     break;
+                case WealthCommands.ItemDroppedBy:
+                    break;
             }
             SendMessageToAllDMs(ScriptParameters[0].ToString());
             SendMessageToAllDMs(ScriptParameters[1].ToString());
@@ -62,6 +64,7 @@ namespace ACR_Wealth
             CalculateAppropriateDrop = 1,
             DropWealthInContainer = 2,
             DropUpToWealthInContainer = 3,
+            ItemDroppedBy = 4,
         }
     }
 }
