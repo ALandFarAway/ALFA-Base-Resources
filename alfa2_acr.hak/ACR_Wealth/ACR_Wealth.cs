@@ -43,7 +43,6 @@ namespace ACR_Wealth
             SendMessageToAllDMs(ScriptParameters[2].ToString());
             SendMessageToAllDMs(ScriptParameters[3].ToString());
             return 0;
-            
         }
 
         public enum WealthCommands
@@ -53,6 +52,5 @@ namespace ACR_Wealth
             DropWealthInContainer = 2,
             DropUpToWealthInContainer = 3,
         }
-
     }
 }

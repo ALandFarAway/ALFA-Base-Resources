@@ -57,6 +57,12 @@ const string _ACR_LOOT_DISABLE = "ACR_LOOT_DISABLE";
 const string _ACR_LOOT_CR_MOD = "ACR_LOOT_CR_MOD";
 const string _ACR_LOOT_MULTIPLIER = "ACR_LOOT_MULTIPLIER";
 
+// command values for the CLRScripts of ACR wealth
+const int WEALTH_COMMAND_CALCULATE_WEALTH = 0;
+const int WEALTH_COMMAND_CALCULATE_APPROPRIATE_DROP = 1;
+const int WEALTH_COMMAND_DROP_WEALTH = 2;
+const int WEALTH_COMMAND_DROP_WEALTH_TO_LIMIT = 3;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -102,6 +108,39 @@ void _generateTreasure(object oCreature, int nLootValue, int nItems=0);
 //! This function does a wealth report on login.
 //!  - oPC: the PC to log the report for.
 void ACR_WealthReportLog(object oPC);
+
+//! This function determines what multiplier should be
+//! used to modify the loot provided to oPC, based on
+//! their wealth and recent interactions.
+//!  - oPC: the PC whose multiplier is to be calculated
+float ACR_CalculateMultiplier(object oPC);
+
+//! This function determines how much gold value of
+//! items to drop for PC's party, assuming that the
+//! most-valuable items possible should be dropped
+//! for the party.
+//!  - oPC: the PC whose drop is to be calculated
+int ACR_CalculateAppropriateDrop(object oPC);
+
+//! This function fills a container with valuables
+//! for a PC's party, assuming htat the most-valuable
+//! items possible should be dropped.
+//! - oPC: the PC whose party is to get the loot
+//! - oContainer: the object which is to acquire the loot
+void ACR_DropWealthInContainer(object oPC, object oContainer);
+
+//! This function fills a container with valuables
+//! for a PC's party, assuming that no PC in the party
+//! should be given more than a specific amount of 
+//! net value from the container.
+//!  - oPC: the PC whose party is to get the loot
+//!  - oContainer: the object which is to acquire the loot
+//!  - nMaxValue: the most that any given PC should get,
+//!         assuming an even split.
+void ACR_DropUpToWealthInContainer(object oPC, object oContainer, int nMaxValue);
+
+//! The NWScript wrapper for CLRScript ACR_Wealth
+int _CallWealthCLRScript(int Param1, int Param2, object Param3, object Param4)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
@@ -320,5 +359,33 @@ void ACR_WealthReportLog(object oPC)
 		ACR_IncrementStatistic("PLAYER_HIGH_WEALTH_LOGINS");
 }
 
+float ACR_CalculateMultiplier(object oPC)
+{
+  return IntToFloat(_CallWealthCLRScript(WEALTH_COMMAND_CALCULATE_WEALTH, -1, oPC, OBJECT_INVALID))/10;
+}
 
+int ACR_CalculateAppropriateDrop(object oPC)
+{
+  return _CallWealthCLRScript(WEALTH_COMMAND_CALCULATE_APPROPRIATE_DROP, -1, oPC, OBJECT_INVALID);
+}
+
+void ACR_DropWealthInContainer(object oPC, object oContainer)
+{
+  _CallWealthCLRScript(WEALTH_COMMAND_DROP_WEALTH, -1, oPC, OBJECT_INVALID);
+}
+
+void ACR_DropUpToWealthInContainer(object oPC, object oContainer, int nMaxValue)
+{
+  _CallWealthCLRScript(WEALTH_COMMAND_DROP_WEALTH_TO_LIMIT, nMaxValue, oPC, OBJECT_INVALID);
+}
+
+int _CallWealthCLRScript(int Param1, int Param2, object Param3, object Param4)
+{
+  ClearScriptParams();
+  AddScriptParameterInt(Param1);
+  AddScriptParameterInt(Param2);
+  AddScriptParameterObject(Param3);
+  AddScriptParameterObject(Param4);
+  ExecuteScriptEnhanced("ACR_Wealth", OBJECT_SELF, TRUE);
+}
 #endif
