@@ -88,11 +88,11 @@ namespace ACR_Wealth
 
         public static int WealthToMultiplier(int level, int lootValue)
         {
-            if (lootValue < lowMarker[level]) return VeryPoorMultiplier;
-            if (lootValue < (targetMarker[level] * 9 / 10)) return PoorMultiplier;
-            if (lootValue < (targetMarker[level] * 11 / 10)) return NormalMultiplier;
-            if (lootValue < highMarker[level]) return RichMultiplier;
-            if (lootValue < cutoffMarker[level]) return VeryRichMultiplier;
+            if (lootValue < lowMarker[level]) return VeryPoorMultiplier * multiplierByLevel[level];
+            if (lootValue < (targetMarker[level] * 9 / 10)) return PoorMultiplier * multiplierByLevel[level];
+            if (lootValue < (targetMarker[level] * 11 / 10)) return NormalMultiplier * multiplierByLevel[level];
+            if (lootValue < highMarker[level]) return RichMultiplier * multiplierByLevel[level];
+            if (lootValue < cutoffMarker[level]) return VeryRichMultiplier * multiplierByLevel[level];
             return CutoffMultiplier;
         }
 
@@ -116,6 +116,7 @@ namespace ACR_Wealth
                 {
                     return level;
                 }
+                level++;
             }
             return 20;
         }
@@ -167,6 +168,29 @@ namespace ACR_Wealth
         static Dictionary<uint, List<string>> pChestAccess = new Dictionary<uint,List<string>>();
 
         #region Wealth Level Definitions
+        static Dictionary<int, int> multiplierByLevel = new Dictionary<int, int>()
+        {
+            { 1, 12 },
+            { 2, 12 },
+            { 3, 12 },
+            { 4, 12 },
+            { 5, 12 },
+            { 6, 12 },
+            { 7, 12 },
+            { 8, 12 },
+            { 9, 25 },
+            { 11, 25 },
+            { 12, 25 },
+            { 13, 50 },
+            { 14, 50 },
+            { 15, 50 },
+            { 16, 50 },
+            { 17, 100 },
+            { 18, 100 },
+            { 19, 100 },
+            { 20, 100 },
+        };
+
         static Dictionary<int, int> lowMarker = new Dictionary<int, int>()
         {
             { 1,  300 },
