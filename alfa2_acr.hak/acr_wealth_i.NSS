@@ -58,7 +58,7 @@ const string _ACR_LOOT_CR_MOD = "ACR_LOOT_CR_MOD";
 const string _ACR_LOOT_MULTIPLIER = "ACR_LOOT_MULTIPLIER";
 
 // command values for the CLRScripts of ACR wealth
-const int WEALTH_COMMAND_CALCULATE_WEALTH = 0;
+const int WEALTH_COMMAND_CALCULATE_WEALTH_MULTIPLIER = 0;
 const int WEALTH_COMMAND_CALCULATE_APPROPRIATE_DROP = 1;
 const int WEALTH_COMMAND_DROP_WEALTH = 2;
 const int WEALTH_COMMAND_DROP_WEALTH_TO_LIMIT = 3;
@@ -379,7 +379,7 @@ void ACR_WealthReportLog(object oPC)
 
 float ACR_CalculateMultiplier(object oPC)
 {
-  return IntToFloat(_CallWealthCLRScript(WEALTH_COMMAND_CALCULATE_WEALTH, -1, oPC, OBJECT_INVALID))/10;
+  return IntToFloat(_CallWealthCLRScript(WEALTH_COMMAND_CALCULATE_WEALTH_MULTIPLIER, -1, oPC, OBJECT_INVALID))/10;
 }
 
 int ACR_CalculateAppropriateDrop(object oPC)

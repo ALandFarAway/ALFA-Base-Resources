@@ -40,10 +40,10 @@ namespace ACR_Wealth
         {
             switch((WealthCommands)ScriptParameters[0])
             {
-                case WealthCommands.CalculateWealth:
-                    return CountWealth.GetTotalValueOfKit(this, (uint)ScriptParameters[2]);
-                case WealthCommands.CalculateAppropriateDrop:
+                case WealthCommands.CalculateWealthMultiplier:
                     return CountWealth.GetWealthMultiplierInt(this, (uint)ScriptParameters[2]);
+                case WealthCommands.CalculateAppropriateDrop:
+                    break;
                 case WealthCommands.DropWealthInContainer:
                     break;
                 case WealthCommands.DropUpToWealthInContainer:
@@ -64,7 +64,7 @@ namespace ACR_Wealth
 
         public enum WealthCommands
         {
-            CalculateWealth = 0,
+            CalculateWealthMultiplier = 0,
             CalculateAppropriateDrop = 1,
             DropWealthInContainer = 2,
             DropUpToWealthInContainer = 3,
