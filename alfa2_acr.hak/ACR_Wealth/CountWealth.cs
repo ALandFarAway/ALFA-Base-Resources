@@ -35,7 +35,7 @@ namespace ACR_Wealth
             int lootValue = GetTotalValueOfKit(script, Character);
             int level = GetEffectiveLevel(script, Character);
 
-            int retVal = VeryPoorMultiplier;
+            int retVal = 4000; // very poor level 20. No multiplier should be more than this.
             
             if (recentlyDroppedItems.ContainsKey(Character))
             {
@@ -86,7 +86,7 @@ namespace ACR_Wealth
             return retVal;
         }
 
-        public static int WealthToMultiplier(int level, int lootValue)
+        public static int WealthToMultiplier(int lootValue, int level)
         {
             if (lootValue < lowMarker[level]) return VeryPoorMultiplier * multiplierByLevel[level];
             if (lootValue < (targetMarker[level] * 9 / 10)) return PoorMultiplier * multiplierByLevel[level];
