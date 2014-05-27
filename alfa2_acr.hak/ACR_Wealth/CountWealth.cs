@@ -27,7 +27,7 @@ namespace ACR_Wealth
 
         public static float GetWealthMultiplierFloat(CLRScriptBase script, uint Character)
         {
-            return ((float)GetWealthMultiplierInt(script, Character)) / 10.0f;
+            return ((float)GetWealthMultiplierInt(script, Character)) / 100.0f;
         }
 
         public static int GetWealthMultiplierInt(CLRScriptBase script, uint Character)

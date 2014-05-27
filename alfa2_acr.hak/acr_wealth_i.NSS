@@ -379,7 +379,7 @@ void ACR_WealthReportLog(object oPC)
 
 float ACR_CalculateMultiplier(object oPC)
 {
-  return IntToFloat(_CallWealthCLRScript(WEALTH_COMMAND_CALCULATE_WEALTH_MULTIPLIER, -1, oPC, OBJECT_INVALID))/10;
+  return IntToFloat(_CallWealthCLRScript(WEALTH_COMMAND_CALCULATE_WEALTH_MULTIPLIER, -1, oPC, OBJECT_INVALID))/100;
 }
 
 int ACR_CalculateAppropriateDrop(object oPC)
