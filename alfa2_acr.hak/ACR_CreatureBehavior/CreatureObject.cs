@@ -2055,21 +2055,39 @@ namespace ACR_CreatureBehavior
             if ((Script.GetWeaponRanged(item) == CLRScriptBase.FALSE && !meleeWeapon) ||
                 (Script.GetWeaponRanged(item) == CLRScriptBase.TRUE && meleeWeapon))
             {
+                uint weapon = Script.GetItemInSlot(CLRScriptBase.INVENTORY_SLOT_RIGHTHAND, this.ObjectId);
                 int weaponValue = 0;
-                uint weapon = OBJECT_INVALID;
+                if(Script.GetIsObjectValid(weapon) == CLRScriptBase.TRUE) weaponValue = Script.GetGoldPieceValue(weapon);
+
+                uint shield = Script.GetItemInSlot(CLRScriptBase.INVENTORY_SLOT_LEFTHAND, this.ObjectId);
+                int shieldValue = 0;
+                if(Script.GetIsObjectValid(shield) == CLRScriptBase.TRUE) shieldValue = Script.GetGoldPieceValue(shield);
+
                 foreach (uint bagItem in Script.GetItemsInInventory(ObjectId))
                 {
-                    if(meleeWeapon && Script.GetWeaponRanged(bagItem) == CLRScriptBase.FALSE)
+                    if(meleeWeapon && _GetIsMeleeWeapon(Script.GetBaseItemType(bagItem)))
                     {
-                        if(weaponValue < Script.GetGoldPieceValue(bagItem))
+                        if(_GetIsProficient(Script, bagItem) &&
+                            weaponValue < Script.GetGoldPieceValue(bagItem))
                         {
                             weapon = bagItem;
                             weaponValue = Script.GetGoldPieceValue(bagItem);
                         }
+                        if(Script.GetBaseItemType(bagItem) == CLRScriptBase.BASE_ITEM_SMALLSHIELD ||
+                            Script.GetBaseItemType(bagItem) == CLRScriptBase.BASE_ITEM_LARGESHIELD ||
+                            Script.GetBaseItemType(bagItem) == CLRScriptBase.BASE_ITEM_TOWERSHIELD)
+                        {
+                            if(shieldValue < Script.GetGoldPieceValue(bagItem))
+                            {
+                                shield = bagItem;
+                                shieldValue = Script.GetGoldPieceValue(bagItem);
+                            }
+                        }
                     }
                     if (!meleeWeapon && Script.GetWeaponRanged(bagItem) == CLRScriptBase.TRUE)
                     {
-                        if (weaponValue < Script.GetGoldPieceValue(bagItem))
+                        if (_GetIsProficient(Script, bagItem) &&
+                            weaponValue < Script.GetGoldPieceValue(bagItem))
                         {
                             weapon = bagItem;
                             weaponValue = Script.GetGoldPieceValue(bagItem);
@@ -2079,9 +2097,53 @@ namespace ACR_CreatureBehavior
                 if (Script.GetIsObjectValid(weapon) == CLRScriptBase.TRUE)
                 {
                     Script.ActionEquipItem(weapon, CLRScriptBase.INVENTORY_SLOT_RIGHTHAND);
-                    // TODO: find out if weapon is one handed or two, and equip a shield if one.
+                    
+                    if(_GetIsMeleeWeapon(Script.GetBaseItemType(weapon)))
+                    {
+                        int weaponSize = ALFA.Shared.Modules.InfoStore.BaseItems[Script.GetBaseItemType(weapon)].WeaponSize;
+                        int creatureSize = Script.GetCreatureSize(this.ObjectId);
+                        if(creatureSize > weaponSize)
+                        {
+                            if(Script.GetHasFeat(CLRScriptBase.FEAT_SHIELD_PROFICIENCY, this.ObjectId, CLRScriptBase.TRUE) == CLRScriptBase.TRUE)
+                            {
+                                Script.ActionEquipItem(shield, CLRScriptBase.INVENTORY_SLOT_LEFTHAND);
+                            }
+                        }
+                    }
                 }
             }
+        }
+
+        private bool _GetIsProficient(CLRScriptBase script, uint item)
+        {
+            int baseItem = script.GetBaseItemType(item);
+            if (baseItem == CLRScriptBase.BASE_ITEM_INVALID) return false; // this doesn't even look like a real item.
+            ALFA.Shared.BaseItem itemType = ALFA.Shared.Modules.InfoStore.BaseItems[baseItem];
+            if (itemType.ReqFeat0 != 0 && script.GetHasFeat(itemType.ReqFeat0, this.ObjectId, CLRScriptBase.TRUE) == CLRScriptBase.TRUE) return true;
+            if (itemType.ReqFeat1 != 0 && script.GetHasFeat(itemType.ReqFeat1, this.ObjectId, CLRScriptBase.TRUE) == CLRScriptBase.TRUE) return true;
+            if (itemType.ReqFeat2 != 0 && script.GetHasFeat(itemType.ReqFeat2, this.ObjectId, CLRScriptBase.TRUE) == CLRScriptBase.TRUE) return true;
+            if (itemType.ReqFeat3 != 0 && script.GetHasFeat(itemType.ReqFeat3, this.ObjectId, CLRScriptBase.TRUE) == CLRScriptBase.TRUE) return true;
+            if (itemType.ReqFeat4 != 0 && script.GetHasFeat(itemType.ReqFeat4, this.ObjectId, CLRScriptBase.TRUE) == CLRScriptBase.TRUE) return true;
+            if (itemType.ReqFeat5 != 0 && script.GetHasFeat(itemType.ReqFeat5, this.ObjectId, CLRScriptBase.TRUE) == CLRScriptBase.TRUE) return true;
+            return false;
+        }
+
+        private static bool _GetIsMeleeWeapon(int baseItemType)
+        {
+            // If this isn't even a real base item, it's not a melee weapon.
+            if (baseItemType == CLRScriptBase.BASE_ITEM_INVALID)
+                return false;
+
+            // All weapons have a weapon focus feat. If this is 0, then it's not even a weapon.
+            if (ALFA.Shared.Modules.InfoStore.BaseItems[baseItemType].FEATWpnFocus == 0)
+                return false;
+
+            // All melee weapons lack an ammunition type. If this is 0, it's a melee weapon.
+            if (ALFA.Shared.Modules.InfoStore.BaseItems[baseItemType].AmmunitionType == 0)
+                return true;
+
+            // If it's not a melee weapon, it must be a ranged weapon.
+            return false;
         }
         #endregion
 
