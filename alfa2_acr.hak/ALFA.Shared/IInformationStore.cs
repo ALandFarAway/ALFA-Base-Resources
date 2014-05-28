@@ -35,6 +35,7 @@ namespace ALFA.Shared
 
         List<Spell> CoreSpells { get; set; }
         List<SpellCastItemProperties> IPCastSpells { get; set; }
+        List<BaseItem> BaseItems { get; set; }
 
         ResourceManager Resources { get; set; }
 

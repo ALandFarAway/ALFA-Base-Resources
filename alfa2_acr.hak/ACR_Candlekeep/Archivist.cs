@@ -562,6 +562,37 @@ namespace ACR_Candlekeep
                 {
                     Archivist.debug += "\n iprp_spells.2da error: " + ex.Message;
                 }
+
+                try
+                {
+                    OEIShared.IO.TwoDA.TwoDAFile twoda = manager.OpenTwoDAResource(manager.GetResource("baseitems", ALFA.ResourceManager.Res2DA).ResRef.Value, ALFA.ResourceManager.Res2DA);
+                    ALFA.Shared.Modules.InfoStore.BaseItems = new List<ALFA.Shared.BaseItem>(twoda.RowCount);
+                    var ColumnFields = ALFA.Shared.TwoDAReader.GetColumnFieldInfo(typeof(ALFA.Shared.BaseItem));
+                    for (int row = 0; row < twoda.RowCount; row++)
+                    {
+                        ALFA.Shared.BaseItem item = ALFA.Shared.TwoDAReader.Read2DARow<ALFA.Shared.BaseItem>(twoda, row, ColumnFields);
+
+                        if (item.Name == null)
+                            item.Name = twoda["label"][row];
+
+                        if (item.Name == "" ||
+                            item.Name == "padding" ||
+                            item.Name == "PADDING" ||
+                            item.Name == "DELETED" ||
+                            item.Name == "PADDING_PERSONAL_VFX")
+                        {
+                            // This line is padding.
+                            ALFA.Shared.Modules.InfoStore.IPCastSpells.Add(null);
+                            continue;
+                        }
+
+                        ALFA.Shared.Modules.InfoStore.BaseItems.Add(item);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Archivist.debug += "\n iprp_spells.2da error: " + ex.Message;
+                }
                 #endregion
 
                 #region Gathering Information from Module.ifo

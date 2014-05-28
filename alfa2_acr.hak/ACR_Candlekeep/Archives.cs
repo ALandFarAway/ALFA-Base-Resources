@@ -345,6 +345,25 @@ namespace ACR_Candlekeep
             }
         }
 
+        public List<ALFA.Shared.BaseItem> BaseItems
+        {
+            get
+            {
+                if (_resourcesLoaded == false)
+                {
+                    if (Assembly.GetCallingAssembly() != Assembly.GetExecutingAssembly())
+                    {
+                        WaitForResourcesLoaded(true);
+                    }
+                }
+
+                return this._BaseItems;
+            }
+            set
+            {
+                this._BaseItems = value;
+            }
+        }
 
         public ALFA.ResourceManager Resources
         {
@@ -429,6 +448,7 @@ namespace ACR_Candlekeep
 
         private List<ALFA.Shared.Spell> _CoreSpells;
         private List<ALFA.Shared.SpellCastItemProperties> _IPCastSpells;
+        private List<ALFA.Shared.BaseItem> _BaseItems;
 
         private Dictionary<string, string> _AreaNames;
 

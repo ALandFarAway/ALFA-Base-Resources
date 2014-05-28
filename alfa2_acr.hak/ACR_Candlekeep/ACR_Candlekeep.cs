@@ -77,6 +77,12 @@ namespace ACR_Candlekeep
                         SendMessageToAllDMs(ip.ToString());
                     }
                     break;
+                case Commands.LIST_BASE_ITEMS:
+                    foreach(ALFA.Shared.BaseItem item in ALFA.Shared.Modules.InfoStore.BaseItems)
+                    {
+                        SendMessageToAllDMs(item.ToString());
+                    }
+                    break;
             }
 
             return 0;
@@ -115,6 +121,7 @@ namespace ACR_Candlekeep
             PRINT_DEBUG = 1,
             LIST_AREAS = 2,
             LIST_SPELLS = 3,
+            LIST_BASE_ITEMS = 4,
         }
     }
 }
