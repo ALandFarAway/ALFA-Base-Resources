@@ -103,6 +103,16 @@ namespace ACR_Wealth
             {
                 lootValue += script.GetGoldPieceValue(item);
             }
+            lootValue += script.GetGold(Character);
+
+            for (int slot = 0; slot < 14; slot++)
+            {
+                uint equip = script.GetItemInSlot(slot, Character);
+                if (script.GetIsObjectValid(equip) == CLRScriptBase.TRUE)
+                {
+                    lootValue += script.GetGoldPieceValue(equip);
+                }
+            }
             return lootValue;
         }
 
