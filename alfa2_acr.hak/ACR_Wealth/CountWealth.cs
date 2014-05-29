@@ -72,14 +72,6 @@ namespace ACR_Wealth
                 }
             }
 
-            if(pChestAccess.ContainsKey(Character))
-            {
-                foreach(string chest in pChestAccess[Character])
-                {
-                    lootValue += pChestValues[chest];
-                }
-            }
-
             int chaMult = WealthToMultiplier(lootValue, level);
             if (chaMult < retVal) retVal = chaMult;
 
@@ -111,6 +103,14 @@ namespace ACR_Wealth
                 if (script.GetIsObjectValid(equip) == CLRScriptBase.TRUE)
                 {
                     lootValue += script.GetGoldPieceValue(equip);
+                }
+            }
+
+            if (pChestAccess.ContainsKey(Character))
+            {
+                foreach (string chest in pChestAccess[Character])
+                {
+                    lootValue += pChestValues[chest];
                 }
             }
             return lootValue;
