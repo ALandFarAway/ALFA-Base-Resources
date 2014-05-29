@@ -49,7 +49,12 @@ namespace ACR_Wealth
                         if(!checkedPCs.Contains(script.GetItemPossessor(Item)))
                         {
                             uint itemOwner = script.GetItemPossessor(Item);
-                            checkedPCs.Add(itemOwner);
+                            if (script.GetIsObjectValid(itemOwner) != CLRScriptBase.FALSE)
+                            {
+                                // Remember that this might be OBJECT_INVALID, if it's just on the 
+                                // ground.
+                                checkedPCs.Add(itemOwner);
+                            }
                             if(script.GetIsPC(itemOwner) != CLRScriptBase.FALSE)
                             {
                                 int tempMult = WealthToMultiplier(GetTotalValueOfKit(script, itemOwner), GetEffectiveLevel(script, itemOwner));
