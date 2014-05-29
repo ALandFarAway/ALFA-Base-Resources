@@ -1227,7 +1227,7 @@ void ACR_ModuleOnUnAcquireItem() {
     
     // only process player drops
     if (! GetIsPC(oLostBy)) { return; }
-	
+    ACR_WealthItemDroppedBy(oLostBy, oItem);
 	 if (!ACR_ModuleOverrideEvent(ACR_MODULE_ON_UNACQUIRE_ITEM, TRUE))
 	 	return;
 
