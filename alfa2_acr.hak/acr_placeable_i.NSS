@@ -148,6 +148,7 @@ void _SavePchestEnd(object oChest, object oCloser);
 #include "acr_tools_i"
 #include "acr_vfx_i"
 #include "acr_death_i"
+#include "acr_wealth_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -422,7 +423,7 @@ void _SavePchestStart(object oChest, object oCloser)
 void _SavePchestEnd(object oChest, object oCloser)
 {
     SetUseableFlag(oChest, 1);
-
+    ACR_WealthPChestClosed(oCloser, oChest, GetLocalInt(oChest, _ACR_PSO_TOTAL_VALUE_LI));
     SendMessageToPC(oCloser, "Saving done.");
 }
 
