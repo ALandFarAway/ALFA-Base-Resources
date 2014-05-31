@@ -41,7 +41,7 @@ namespace ACR_Wealth
             switch((WealthCommands)ScriptParameters[0])
             {
                 case WealthCommands.CalculateWealthMultiplier:
-                    return CountWealth.GetWealthMultiplierInt(this, (uint)ScriptParameters[2]);
+                    return CountWealth.GetWealthMultiplierInt(this, (uint)ScriptParameters[2], false);
                 case WealthCommands.CalculateAppropriateDrop:
                     break;
                 case WealthCommands.DropWealthInContainer:
@@ -54,11 +54,14 @@ namespace ACR_Wealth
                 case WealthCommands.PersistentStorageClosed:
                     CountWealth.TrackPersistentChestValues(this, (uint)ScriptParameters[2], (uint)ScriptParameters[3], (int)ScriptParameters[1]);
                     return 0;
+                case WealthCommands.GetCombatDropMultiplier:
+                    return CountWealth.GetWealthMultiplierInt(this, (uint)ScriptParameters[2], true);
             }
             SendMessageToAllDMs(ScriptParameters[0].ToString());
             SendMessageToAllDMs(ScriptParameters[1].ToString());
             SendMessageToAllDMs(ScriptParameters[2].ToString());
             SendMessageToAllDMs(ScriptParameters[3].ToString());
+            
             return 0;
         }
 
@@ -70,6 +73,7 @@ namespace ACR_Wealth
             DropUpToWealthInContainer = 3,
             ItemDroppedBy = 4,
             PersistentStorageClosed = 5,
+            GetCombatDropMultiplier = 6,
         }
     }
 }

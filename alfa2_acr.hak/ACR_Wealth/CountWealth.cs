@@ -27,10 +27,10 @@ namespace ACR_Wealth
 
         public static float GetWealthMultiplierFloat(CLRScriptBase script, uint Character)
         {
-            return ((float)GetWealthMultiplierInt(script, Character)) / 100.0f;
+            return ((float)GetWealthMultiplierInt(script, Character, false)) / 100.0f;
         }
 
-        public static int GetWealthMultiplierInt(CLRScriptBase script, uint Character)
+        public static int GetWealthMultiplierInt(CLRScriptBase script, uint Character, bool CombatDrop)
         {
             int lootValue = GetTotalValueOfKit(script, Character);
             int level = GetEffectiveLevel(script, Character);
@@ -57,7 +57,7 @@ namespace ACR_Wealth
                             }
                             if(script.GetIsPC(itemOwner) != CLRScriptBase.FALSE)
                             {
-                                int tempMult = WealthToMultiplier(GetTotalValueOfKit(script, itemOwner), GetEffectiveLevel(script, itemOwner));
+                                int tempMult = WealthToMultiplier(GetTotalValueOfKit(script, itemOwner), GetEffectiveLevel(script, itemOwner), CombatDrop);
                                 if (tempMult < retVal) retVal = tempMult;
                             }
                             else if(script.GetObjectType(itemOwner) != CLRScriptBase.OBJECT_TYPE_STORE)
@@ -77,19 +77,20 @@ namespace ACR_Wealth
                 }
             }
 
-            int chaMult = WealthToMultiplier(lootValue, level);
+            int chaMult = WealthToMultiplier(lootValue, level, CombatDrop);
             if (chaMult < retVal) retVal = chaMult;
 
             return retVal;
         }
 
-        public static int WealthToMultiplier(int lootValue, int level)
+        public static int WealthToMultiplier(int lootValue, int level, bool combatDrop)
         {
-            if (lootValue < lowMarker[level]) return VeryPoorMultiplier * multiplierByLevel[level];
-            if (lootValue < (targetMarker[level] * 9 / 10)) return PoorMultiplier * multiplierByLevel[level];
-            if (lootValue < (targetMarker[level] * 11 / 10)) return NormalMultiplier * multiplierByLevel[level];
-            if (lootValue < highMarker[level]) return RichMultiplier * multiplierByLevel[level];
-            if (lootValue < cutoffMarker[level]) return VeryRichMultiplier * multiplierByLevel[level];
+            int baseMultiplier = combatDrop ? 1 : multiplierByLevel[level];
+            if (lootValue < lowMarker[level]) return VeryPoorMultiplier * baseMultiplier;
+            if (lootValue < (targetMarker[level] * 9 / 10)) return PoorMultiplier * baseMultiplier;
+            if (lootValue < (targetMarker[level] * 11 / 10)) return NormalMultiplier * baseMultiplier;
+            if (lootValue < highMarker[level]) return RichMultiplier * baseMultiplier;
+            if (lootValue < cutoffMarker[level]) return VeryRichMultiplier * baseMultiplier;
             return CutoffMultiplier;
         }
 
