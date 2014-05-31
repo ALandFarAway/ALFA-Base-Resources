@@ -64,6 +64,7 @@ const int WEALTH_COMMAND_DROP_WEALTH = 2;
 const int WEALTH_COMMAND_DROP_WEALTH_TO_LIMIT = 3;
 const int WEALTH_COMMAND_ITEM_DROPPED_BY = 4;
 const int WEALTH_COMMAND_PERSISTENT_STORAGE_CLOSED = 5;
+const int WEALTH_COMMAND_CALCULATE_COMBAT_WEALTH_MULTIPLIER = 6;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -116,6 +117,12 @@ void ACR_WealthReportLog(object oPC);
 //! their wealth and recent interactions.
 //!  - oPC: the PC whose multiplier is to be calculated
 float ACR_CalculateMultiplier(object oPC);
+
+//! This function determines what multiplier should be
+//! used to modify the loot combat provided to oPC, based
+//! on their wealth and recent interactions.
+//!  - oPC: the PC whose multiplier is to be calculated
+float ACR_CalculateCombatMultiplier(object oPC);
 
 //! This function determines how much gold value of
 //! items to drop for PC's party, assuming that the
@@ -181,7 +188,9 @@ void ACR_WealthOnClientEnter(object oPC)
 int ACR_GetRandomDropValue(object oMob)
 {
     int nType = GetRacialType(oMob), nCalc;
-    float fRand, fCR, fCreatMulti, fBaseDrop, fMu, fSigma;
+    float fRand, fCR, fCreatMulti, fBaseDrop, fWealthMult;
+    
+    if(GetLocalInt(oMob, "X2_L_IS_INCORPOREAL")) { return 0; }
 
     // skip the creatures that drop and carry nothing
     if (nType == RACIAL_TYPE_ANIMAL ||
@@ -203,34 +212,14 @@ int ACR_GetRandomDropValue(object oMob)
 
     fBaseDrop = ACR_WLT_SPAWNLOOT_ANCHOR * (fCR + GetLocalFloat(oMob, _ACR_LOOT_CR_MOD));
 
-    // to fit distribution w/ requirements, we find mu/sigma:
-    // stdev = 0.5
-    // mean = 1
-    //
-    // mu = log(mean^2/sqrt(stdev^2 + mean^2))
-    // mu = -0.11157177565710487788314754515491
-    //
-    // sigma = sqrt(log(stdev^2/mean^2 + 1.0))
-    // sigma = 0.47238072707743883543358270528734
-
-    fRand = ACR_RandomLogNormal(ACR_WLT_SPAWNLOOT_MU, ACR_WLT_SPAWNLOOT_SIGMA);
-
-    // record 1% and 99%
-    //
-    // cdf: 0.5 * (1-erf((mu-log(x0))/(sqrt(2) * sigma)))
+    // Random variation on drops go from 40% to 160% of the anchor.
+    fRand = IntToFloat(d4(4))/10.0f;
     
-    nCalc = FloatToInt(fCreatMulti * fBaseDrop * fRand);
-    
-
-    if (fRand > 2.68411)
-	    WriteTimestampedLogEntry(GetName(oMob) + " ["+GetTag(oMob)+"] killed by "+GetName(GetLastKiller())+" in "+GetName(GetArea(oMob))+" ["+GetTag(GetArea(oMob))+"] dropped 1% top loot ("+IntToString(nCalc)+")");
-    else if (fRand < 0.29805)
-	    WriteTimestampedLogEntry(GetName(oMob) + " ["+GetTag(oMob)+"] killed by "+GetName(GetLastKiller())+" in "+GetName(GetArea(oMob))+" ["+GetTag(GetArea(oMob))+"] dropped 1% bottom loot ("+IntToString(nCalc)+")");
-    
+    fWealthMult = ACR_CalculateCombatMultiplier(GetLastKiller());
+    nCalc = FloatToInt(fCreatMulti * fBaseDrop * fRand * fWealthMult);
 
     // should subtract droppable gear from this for the final version, though perhaps better done after the
     // randomization and multiplier.  
-
     return nCalc;
 }
 
@@ -380,6 +369,11 @@ void ACR_WealthReportLog(object oPC)
 float ACR_CalculateMultiplier(object oPC)
 {
   return IntToFloat(_CallWealthCLRScript(WEALTH_COMMAND_CALCULATE_WEALTH_MULTIPLIER, -1, oPC, OBJECT_INVALID))/100;
+}
+
+float ACR_CalculateCombatMultiplier(object oPC)
+{
+  return IntToFloat(_CallWealthCLRScript(WEALTH_COMMAND_CALCULATE_COMBAT_WEALTH_MULTIPLIER, -1, oPC, OBJECT_INVALID))/10;
 }
 
 int ACR_CalculateAppropriateDrop(object oPC)
