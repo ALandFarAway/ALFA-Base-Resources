@@ -32,6 +32,8 @@ namespace ACR_Wealth
 
         public static int GetWealthMultiplierInt(CLRScriptBase script, uint Character, bool CombatDrop)
         {
+            if (script.GetIsPC(Character) == CLRScriptBase.FALSE) return 0;
+
             int lootValue = GetTotalValueOfKit(script, Character);
             int level = GetEffectiveLevel(script, Character);
 
@@ -42,6 +44,17 @@ namespace ACR_Wealth
                 List<uint> checkedPCs = new List<uint>();
                 List<uint> removedItems = new List<uint>();
                 checkedPCs.Add(Character); // We already checked the PC outside of this loop.
+                uint partyMate = script.GetFirstFactionMember(Character, CLRScriptBase.TRUE);
+                while (script.GetIsObjectValid(partyMate) == CLRScriptBase.TRUE)
+                {
+                    if(!checkedPCs.Contains(partyMate))
+                    {
+                        checkedPCs.Add(partyMate);
+                        int tempMult = WealthToMultiplier(GetTotalValueOfKit(script, partyMate), GetEffectiveLevel(script, partyMate), CombatDrop);
+                        if (tempMult < retVal) retVal = tempMult;
+                    }
+                    partyMate = script.GetNextFactionMember(Character, CLRScriptBase.TRUE);
+                }
                 foreach (uint Item in recentlyDroppedItems[Character])
                 {
                     if (script.GetIsObjectValid(Item) == CLRScriptBase.TRUE) 
