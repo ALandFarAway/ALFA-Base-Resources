@@ -170,14 +170,14 @@ namespace ACR_CreatureBehavior
                         {
                             _SetMutualEnemies(CurrentPartyMember.ObjectId, CasterId);
                             if (!CurrentPartyMember.HasCombatRoundProcess)
-                                 CurrentPartyMember.SelectCombatRoundAction();
+                                 CurrentPartyMember.SelectCombatRoundAction(false);
                         }
                         this.Party.AddPartyEnemy(Caster);
                         this.Party.EnemySpellcasters.Add(Caster);
                         HasCombatRoundProcess = true;
                         if (!UsingEndCombatRound)
                         {
-                            SelectCombatRoundAction();
+                            SelectCombatRoundAction(false);
                         }
                     }
                 }
@@ -231,14 +231,14 @@ namespace ACR_CreatureBehavior
                 {
                     _SetMutualEnemies(CurrentPartyMember.ObjectId, DamagerObjectId);
                     if (!CurrentPartyMember.HasCombatRoundProcess)
-                        CurrentPartyMember.SelectCombatRoundAction();
+                        CurrentPartyMember.SelectCombatRoundAction(false);
                 }
                 this.Party.AddPartyEnemy(Damager);
                 this.Party.EnemySpellcasters.Add(Damager);
                 HasCombatRoundProcess = true;
                 if (!UsingEndCombatRound)
                 {
-                    SelectCombatRoundAction();
+                    SelectCombatRoundAction(false);
                 }
             }            
         }
@@ -423,7 +423,7 @@ namespace ACR_CreatureBehavior
                     if (!HasCombatRoundProcess)
                     {
                         HasCombatRoundProcess = true;
-                        Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(); });
+                        Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(false); });
                     }
                 }
                 else if (Script.GetFactionEqual(this.ObjectId, PerceivedObjectId) == CLRScriptBase.TRUE)
@@ -440,7 +440,7 @@ namespace ACR_CreatureBehavior
                     if (!HasCombatRoundProcess)
                     {
                         HasCombatRoundProcess = true;
-                        Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(); });
+                        Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(false); });
                     }
                 }
             }
@@ -473,7 +473,7 @@ namespace ACR_CreatureBehavior
                         HasCombatRoundProcess = true;
                         if (!UsingEndCombatRound)
                         {
-                            Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(); });
+                            Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(false); });
                         }
                     }
                 }
@@ -595,7 +595,7 @@ namespace ACR_CreatureBehavior
                     {
                         ally.HasCombatRoundProcess = true;
                         Script.DelayCommand(0.5f, delegate() { ally.CallToFriends(); });
-                        Script.DelayCommand(3.0f, delegate() { ally.SelectCombatRoundAction(); });
+                        Script.DelayCommand(3.0f, delegate() { ally.SelectCombatRoundAction(false); });
                     }
                 }
             }
@@ -642,7 +642,7 @@ namespace ACR_CreatureBehavior
             // If this event has fired, we assume that the creature is in combat.
             HasCombatRoundProcess = true;
             UsingEndCombatRound = true;
-            SelectCombatRoundAction();
+            SelectCombatRoundAction(false);
         }
 
         /// <summary>
@@ -678,7 +678,7 @@ namespace ACR_CreatureBehavior
             {
                 // In this state, we've decided that the creature would like to start a fight, but combat rounds
                 // haven't started yet. We'll start the fight, and update once the creature gets there.
-                SelectCombatRoundAction();
+                SelectCombatRoundAction(false);
                 return;
             }
             if (HasCombatRoundProcess == false &&
@@ -766,23 +766,25 @@ namespace ACR_CreatureBehavior
         /// <summary>
         /// This function is the primary means by which actions are selected for a given combat round.
         /// </summary>
-        public void SelectCombatRoundAction()
+        public void SelectCombatRoundAction(bool fromAllyCall)
         {
+            HasCombatRoundProcess = true;
             if (Script.GetIsObjectValid(ObjectId) != CLRScriptBase.TRUE) return;
 
             #region Rally Any Party Mates
-            bool callForHelp = false;
-            foreach(CreatureObject ally in Party.PartyMembers)
+            if (!fromAllyCall)
             {
-                if(Script.GetCurrentAction(ally.ObjectId) == CLRScriptBase.ACTION_INVALID)
+                foreach (CreatureObject ally in Party.PartyMembers)
                 {
-                    callForHelp = true;
-                    ally.SelectCombatRoundAction();
+                    if (Script.GetCurrentAction(ally.ObjectId) == CLRScriptBase.ACTION_INVALID)
+                    {
+                        if (!ally.HasCombatRoundProcess)
+                        {
+                            ally.HasCombatRoundProcess = true;
+                            ally.SelectCombatRoundAction(true);
+                        }
+                    }
                 }
-            }
-            if(callForHelp)
-            {
-                Script.AssignCommand(this.ObjectId, delegate { Script.SpeakString("Hey! Get off your asses!", CLRScriptBase.TALKVOLUME_TALK); });
             }
             #endregion
 
