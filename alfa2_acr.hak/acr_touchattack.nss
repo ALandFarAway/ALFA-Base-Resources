@@ -135,12 +135,12 @@ void main()
 			int nDamage = 0;
 			if(GetLocalString(OBJECT_SELF, "ACR_TOUCH_ATTACK") == "GREATER SHADOW")
 			{
-        int nDamage = d8();
+        nDamage = d8();
         if(nTouch == 2) nDamage += d8();
 			}
 			else
 			{
-        int nDamage = d6();
+        nDamage = d6();
         if(nTouch == 2) nDamage += d6();
 			}
 			if(nTouch)
