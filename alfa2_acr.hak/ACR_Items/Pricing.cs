@@ -833,6 +833,10 @@ namespace ACR_Items
             #region Check for early return, if the item is only masterwork or special material
             if (itProps.Count == 0)
             {
+                if (GetIsAmmunition(itemType))
+                {
+                    value /= 100;
+                }
                 return value;
             }
             #endregion
