@@ -1,7 +1,7 @@
 2DA V2.0
 
   LABEL             ReqType ReqParam1     ReqParam2 
-0 knowledge(arcana) SKILL   7             8         
+0 knowledge(arcana) SKILL   40            8         
 1 BardOr            CLASSOR 1             ****      
 2 SorcOr            CLASSOR 9             ****      
 3 ScriptVar         VAR     X1_AllowDrDis 0         
