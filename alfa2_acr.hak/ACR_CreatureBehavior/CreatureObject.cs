@@ -50,6 +50,7 @@ namespace ACR_CreatureBehavior
         /// </summary>
         public void OnSpawn()
         {
+            IsAIControlled = true;
             foreach(uint NearbyCreatureId in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, 25.0f, Script.GetLocation(this.ObjectId), true, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f,0.0f,0.0f)))
             {
                 if (Script.GetFactionEqual(this.ObjectId, NearbyCreatureId) == CLRScriptBase.TRUE)
@@ -497,6 +498,8 @@ namespace ACR_CreatureBehavior
         private void OnPerceptionLostSightObject(uint PerceivedObjectId,
             bool LastDetection)
         {
+            if (Party == null) return; // Creature hasn't initialized as spawned yet; thus, there's nothing
+                                       // tracked as already existing.
             CreatureObject SeenObject = Server.ObjectManager.GetCreatureObject(PerceivedObjectId, true);
 
 //===== If we've actually lost this creature, we need to populate missing lists. ====//
@@ -769,7 +772,7 @@ namespace ACR_CreatureBehavior
         public void SelectCombatRoundAction(bool fromAllyCall)
         {
             HasCombatRoundProcess = true;
-            if (Script.GetIsObjectValid(ObjectId) != CLRScriptBase.TRUE) return;
+            if (Script.GetIsObjectValid(ObjectId) == CLRScriptBase.FALSE) return;
 
             #region Rally Any Party Mates
             if (!fromAllyCall)
@@ -2177,6 +2180,32 @@ namespace ACR_CreatureBehavior
         /// </summary>
         public void RefreshNegativeStatuses()
         {
+            AbilityDamaged = false;
+            AbilityDrained = false;
+            Blinded = false;
+            Charmed = false;
+            Confused = false;
+            Cursed = false;
+            Darkness = false;
+            Dazed = false;
+            Deaf = false;
+            Diseased = false;
+            Dominated = false;
+            Entangled = false;
+            Frightened = false;
+            Insane = false;
+            MoveDown = false;
+            LevelDrain = false;
+            Paralyzed = false;
+            Petrified = false;
+            Poisoned = false;
+            Silenced = false;
+            Sleeping = false;
+            Slowed = false;
+            Stunned = false;
+            Turned = false;
+            Wounded = false;
+
             foreach (NWEffect Effect in Script.GetObjectEffects(this.ObjectId))
             {
                 int nEffectType = Script.GetEffectType(Effect);
