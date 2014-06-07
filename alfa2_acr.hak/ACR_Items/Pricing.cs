@@ -198,6 +198,10 @@ namespace ACR_Items
                 (specialMat == GMATERIAL_METAL_IRON || specialMat == GMATERIAL_NONSPECIFIC))
             {
                 // No item properties. This is just worth the base item.
+                if (GetIsAmmunition(itemType))
+                {
+                    value /= 100;
+                }
                 return value;
             }
             #endregion
