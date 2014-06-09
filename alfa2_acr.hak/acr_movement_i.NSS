@@ -99,6 +99,9 @@ void HorseOnExit(object oPC);
 // Find the item that tracks the ownership of a horse with nHorseId
 object GetOwnershipItemById(object oPC, int nHorseId);
 
+// Set collision without changing DMs.
+void ACR_SetCollision( object oObject, int bCollide );
+
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -409,4 +412,9 @@ object GetOwnershipItemById(object oPC, int nHorseId)
     item = GetNextItemInInventory(oPC);
   }
   return OBJECT_INVALID;
+}
+
+void ACR_SetCollision( object oObject, int bCollide ) {
+	if ( GetIsDM( oObject ) ) return;
+	SetCollision( oObject, bCollide );
 }

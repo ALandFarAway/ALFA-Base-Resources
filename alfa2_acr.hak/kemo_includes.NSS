@@ -1,3 +1,5 @@
+#include "kemo_includes"
+
 // Determines the loop animation trigger delay based on PC's race/subrace; KEMO Emotes/Partners only
 float RacialDelay(object oTarget);
 
@@ -73,7 +75,7 @@ void AnimationLoop(object oPC, location lCurrentSpot)
     object oPoint = GetLocalObject(oPC,"AnimationPoint");
     string sAnim = GetLocalString(oPC,"StoredAnimationIdle");
 
-    SetCollision(oPC,0); //turns collision off for the course of the animation.
+    ACR_SetCollision(oPC,0); //turns collision off for the course of the animation.
     ApplyEffectAtLocation(DURATION_TYPE_PERMANENT, EffectAreaOfEffect(81, "****","****","kemo_move"), GetLocation(oPC));
     if (oPoint != OBJECT_INVALID)
     {

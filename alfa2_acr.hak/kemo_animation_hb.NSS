@@ -1,4 +1,5 @@
 #include "kemo_includes"
+#include "acr_movement_i"
 
 const float FLT_EPSILON = 0.000001f;
 
@@ -50,7 +51,7 @@ void main()
 	if (vSpotPC != vSpotPoint)
 	{
 		QuickNormalizeHeight(oPC);
-		SetCollision(oPC,1); //turns collision back on.
+		ACR_SetCollision(oPC,1); //turns collision back on.
 		DeleteLocalObject(oPC,"AnimationPoint");
 		DestroyObject(OBJECT_SELF,1.0,FALSE);
 	}
