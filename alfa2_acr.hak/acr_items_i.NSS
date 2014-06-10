@@ -655,6 +655,7 @@ int GetMaxItemValue(int nLevel)
 
 int ACR_GetIsPotion( object oItem ) {
 	if ( GetBaseItemType( oItem ) == BASE_ITEM_POTIONS ) return TRUE;
+	if ( GetBaseItemType( oItem ) == BASE_ITEM_POTIONS_USABLE_ON_OTHERS ) return TRUE;
 	if ( GetBaseItemType( oItem ) == BASE_ITEM_BLANK_POTION ) return TRUE;
 	if ( GetBaseItemType( oItem ) == BASE_ITEM_ENCHANTED_POTION ) return TRUE;
 	return FALSE;
