@@ -1,4 +1,4 @@
-#include "kemo_includes"
+#include "acr_movement_i"
 
 // Determines the loop animation trigger delay based on PC's race/subrace; KEMO Emotes/Partners only
 float RacialDelay(object oTarget);
