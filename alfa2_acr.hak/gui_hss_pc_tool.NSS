@@ -2375,24 +2375,10 @@ void HSS_PCTools_CustomButton(object oPC, int nButton, float fX = 0.0, float fY 
 		   		   		   		   		   		   		   
 		   //custom button 4
 		   case 4:
-               SendMessageToPC(oPC, HSS_PCTOOLS_COLOUR1 + "Opening description updater.");  
-			   PlayerDescription2 = GetDescription(oPC);
-			   SendMessageToPC(oPC, HSS_PCTOOLS_COLOUR2 + PlayerDescription2);
-		       DisplayGuiScreen(oPC, "alfa_ModDec_01", 0, "alfa_ModDec_01.xml");
-			   SetGUIObjectText(oPC, "alfa_ModDec_01", "PlayerDesc", -1 , PlayerDescription2);
-		       //PlayerDescription2 = GetLocalString(oPC, "PlayerDescription1");
-		       //PlayerDescription3 = GetDescription(oPC);
-		       //DoOnce = GetLocalInt(oPC, "PlayerDescriptionDoOnce");
-			   //if(DoOnce != 1) {
-			   //    SendMessageToPC(oPC, HSS_PCTOOLS_COLOUR2 + PlayerDescription3);
-			   //    SetGUIObjectText(oPC, "alfa_ModDec_01", "PlayerDesc", -1 , PlayerDescription3);
-			   //} else {
-			   //    SendMessageToPC(oPC, HSS_PCTOOLS_COLOUR2 + PlayerDescription3);
-			   //    SetGUIObjectText(oPC, "alfa_ModDec_01", "PlayerDesc", -1 ,  PlayerDescription3);
-			   //}
-			   SetGUIObjectText(oPC, "alfa_ModDec_01", "PlayerDescTitle", -1 , "PC Description");
-		   break;
-		   
+				ClearScriptParams();
+				AddScriptParameterString( "display" );
+				ExecuteScriptEnhanced( "gui_kemo_bio", OBJECT_SELF );
+				break;
 		   //custom button 5
 		   case 5:
 			//  Activate Subdual
