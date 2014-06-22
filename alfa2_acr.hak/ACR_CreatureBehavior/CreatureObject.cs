@@ -2008,7 +2008,7 @@ namespace ACR_CreatureBehavior
             {
                 foreach (CreatureObject enemy in Party.EnemySoftTargets)
                 {
-                    if(Script.GetAttackTarget(enemy.ObjectId) != this.ObjectId && Script.GetDistanceBetweenObjects(enemy.ObjectId, this.ObjectId) < 5.0f)
+                    if(Script.GetAttackTarget(enemy.ObjectId) != this.ObjectId && Script.GetDistanceBetween(enemy.ObjectId, this.ObjectId) < 5.0f)
                     {
                         finalTarget = enemy;
                         break;
@@ -2018,7 +2018,7 @@ namespace ACR_CreatureBehavior
                 {
                     foreach(CreatureObject enemy in Party.Enemies)
                     {
-                        if (Script.GetAttackTarget(enemy.ObjectId) != this.ObjectId && Script.GetDistanceBetweenObjects(enemy.ObjectId, this.ObjectId) < 5.0f)
+                        if (Script.GetAttackTarget(enemy.ObjectId) != this.ObjectId && Script.GetDistanceBetween(enemy.ObjectId, this.ObjectId) < 5.0f)
                         {
                             finalTarget = enemy;
                             break;
