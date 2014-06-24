@@ -241,29 +241,32 @@ void ACR_AddPersistentJournalQuestEntry(string sPlotID, int nState, object oCrea
             }
 		oPC = GetNextPC();
         }
-    } else if (bAllPartyMembers) {
-		// branch for quests that automatically extend to all party members
+    } 
+    else if (bAllPartyMembers)
+    {
+        // branch for quests that automatically extend to all party members
         object oPartyMember = GetFirstFactionMember(oCreature);
-		int nMemberState = 0;
+        int nMemberState = 0;
         // create a quest entry for all the players in the party
         while (GetIsObjectValid(oPartyMember))
         {
             fDistance = GetDistanceBetween(oCreature, oPartyMember);
-			if (oCreature == oPartyMember) { fDistance = 0.1; }
+            if (oCreature == oPartyMember) { fDistance = 0.1; }
             // ignore players beyond a reasonable distance from the target creature
             if ((fDistance > 0.0) && (fDistance <= ACR_QST_RADIUS))
             {
-				nMemberState = ACR_RetrieveQuestState(sPlotID, oPartyMember);
+                nMemberState = ACR_RetrieveQuestState(sPlotID, oPartyMember);
                 // check that the player has the quest but has not completed it
-                if ((nMemberState > 0) && (nMemberState < nState))
+                if (((nMemberState > 0) && (nMemberState < nState)) ||
+                    ((nMemberState == 0) && (nState == 1)))
                 {
-				    // add the quest data to the journal
-    				AddJournalQuestEntry(sPlotID, nState, oPartyMember, FALSE, FALSE, bAllowOverrideHigher);
+                    // add the quest data to the journal
+                    AddJournalQuestEntry(sPlotID, nState, oPartyMember, FALSE, FALSE, bAllowOverrideHigher);
                     _insertQuestEntry(sPlotID, nState, oPartyMember, bAllowOverrideHigher);
                     if (nQuestXP > 0) { ACR_AwardStaticQuestXP(oPartyMember, sPlotID, nQuestXP, fCR); }
                 }
             }
-		oPartyMember = GetNextFactionMember(oCreature);
+        oPartyMember = GetNextFactionMember(oCreature);
         }
     } else {
         // create a quest entry for this player only
@@ -317,7 +320,8 @@ void ACR_AddPersistentJournalQuestEntryByCR(string sPlotID, int nState, object o
             {
 				nMemberState = ACR_RetrieveQuestState(sPlotID, oPartyMember);
                 // check that the player has the quest but has not completed it
-                if ((nMemberState > 0) && (nMemberState < nState))
+                if (((nMemberState > 0) && (nMemberState < nState)) ||
+                    ((nMemberState == 0) && (nState == 1)))
                 {
 				    // add the quest data to the journal
     				AddJournalQuestEntry(sPlotID, nState, oPartyMember, FALSE, FALSE, bAllowOverrideHigher);
@@ -572,23 +576,40 @@ void ACR_QuestCreatureOnDeath(object oKiller)
     {
         int bPartyQuest = GetLocalInt(OBJECT_SELF, ACR_QST_PARTY);
         int nUpper = GetLocalInt(OBJECT_SELF, ACR_QST_UPPER_STATE);
-		object oQuestPC = GetLocalObject(OBJECT_SELF, ACR_QST_PC);
+        object oQuestPC = GetLocalObject(OBJECT_SELF, ACR_QST_PC);
         int nState = 0;
-		// use the cached pointer to work out what the quest state advance should be, based on the PC who triggered it
-		if (GetIsObjectValid(oQuestPC)) {
-			nState = ACR_RetrieveQuestState(sQuest, oQuestPC);
+        // use the cached pointer to work out what the quest state advance should be, based on the PC who triggered it
+        if (GetIsObjectValid(oQuestPC)) {
+            nState = ACR_RetrieveQuestState(sQuest, oQuestPC);
 
-			// also, swap killer to owner of quest if not party
-			if (!bPartyQuest)
-				oKiller = oQuestPC;
-		}
-		else {
-			nState = GetLocalInt(OBJECT_SELF, ACR_QST_BACKUPSTATE);
-		}
+            // also, swap killer to owner of quest if not party
+            if (!bPartyQuest) { oKiller = oQuestPC; }
+        }
+        else {
+            int nLower = GetLocalInt(OBJECT_SELF, ACR_QST_LOWER_STATE);
+            if(nLower > 0) 
+            {
+                // This is a multiple-kill quest.
+                object oIncrement = GetFirstFactionMember(oKiller, TRUE);
+                while(GetIsObjectValid(oIncrement)) 
+                {
+                    nState = ACR_RetrieveQuestState(sQuest, oIncrement);
+                    if(nState >= nLower && nState < nUpper) 
+                    {
+                        int nXP = 0; nState++;
+                        if(nState >= nUpper) { nXP = GetJournalQuestExperience(sQuest); }
+                        ACR_AddPersistentJournalQuestEntry(sQuest, nState, oIncrement, FALSE, FALSE, FALSE, nXP);
+                    }
+                    oIncrement = GetNextFactionMember(oKiller, TRUE);
+                }
+                return;
+            }
+            nState = GetLocalInt(OBJECT_SELF, ACR_QST_BACKUPSTATE);
+        }
 		
         // determine if conditions for the bounty have been met
         // lower boundry prevents a PC who hasn't taken the quest from earning quest XP
-	// upper boundry prevents inadvertant overiteration
+        // upper boundry prevents inadvertant overiteration
         if (nState > 0 && nState < nUpper)
         {
             int nXP = 0; nState++;
@@ -598,7 +619,6 @@ void ACR_QuestCreatureOnDeath(object oKiller)
 
             // update the quest state
             ACR_AddPersistentJournalQuestEntry(sQuest, nState, oKiller, bPartyQuest, FALSE, FALSE, nXP);
-			
         }
     }
 }
