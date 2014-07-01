@@ -660,6 +660,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_feat_warhorse.ncs                 \
             $(OUTPUTDIR)\acr_cre_onhorseconversation.ncs       \
             $(OUTPUTDIR)\acr_cre_onhorsedeath.ncs              \
+            $(OUTPUTDIR)\acr_defense_onenter.ncs               \
             $(OUTPUTDIR)\acr_set_player_password.ncs           
 
 #
