@@ -44,6 +44,9 @@ const float ACR_DURATION_24H = ACR_DURATION_1H * 24.0f;
 
 const float ACR_MC_GOLD_SCALE = 0.0f;
 
+const string ACR_SPELL_RESIST_PREFIX = "ACR_SPELL_RESIST_";
+const string ACR_SPELL_VULNER_PREFIX = "ACR_SPELL_VULNER_";
+
 const string ACR_SPELL_DESCRIPT_VAR_PREFIX = "ACR_SPELL_DESC_";
 const int ACR_SPELL_DESCRIPT_ACID = 0;
 const int ACR_SPELL_DESCRIPT_AIR = 1;
@@ -101,6 +104,8 @@ float ACR_GetSpellDuration( object oCaster, int nDurationType, float nDurationBa
 int ACR_PayMaterialComponentCost( object oCaster, string sItemName, int nGold, int bPayGoldIfNoItem = TRUE );
 
 int ACR_GetCorrectCasterLevel(object oCreature, int nClass = -1);
+
+int ACR_SpellResistanceCheck( object oCaster, object oCreature, int nSpellId = -1 );
 
 //! Gets the common/standard spell level for a spell of Id nSpellId.
 int ACR_GetSpellLevel( int nSpellId );
@@ -350,6 +355,19 @@ int ACR_GetCorrectCasterLevel(object oCreature, int nClass = -1) {
 	}
 	
 	return nCL;
+}
+
+int ACR_SpellResistanceCheck( object oCaster, object oCreature, int nSpellId = -1 ) {
+	if ( nSpellId < 0 ) nSpellId = GetSpellId();
+	
+	// Check for a specific immunity.
+	if ( GetLocalInt( oCreature, ACR_SPELL_RESIST_PREFIX + IntToString( nSpellId ) ) ) return TRUE;
+	
+	// Check for a specific vulnerability.
+	if ( GetLocalInt( oCreature, ACR_SPELL_VULNER_PREFIX + IntToString( nSpellId ) ) ) return FALSE;
+	
+	// Otherwise we just wrap MyResistSpell.
+	return MyResistSpell( oCaster, oCreature );
 }
 
 int ACR_GetSpellLevel( int nSpellId ) {
