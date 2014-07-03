@@ -235,13 +235,21 @@ namespace ACR_CreatureBehavior
                         CurrentPartyMember.SelectCombatRoundAction(false);
                 }
                 this.Party.AddPartyEnemy(Damager);
-                this.Party.EnemySpellcasters.Add(Damager);
                 HasCombatRoundProcess = true;
                 if (!UsingEndCombatRound)
                 {
                     SelectCombatRoundAction(false);
                 }
-            }            
+            }
+            else
+            {
+                this.Party.AddPartyEnemy(Damager);
+                HasCombatRoundProcess = true;
+                if(!UsingEndCombatRound)
+                {
+                    SelectCombatRoundAction(false);
+                }
+            }
         }
 
         /// <summary>
