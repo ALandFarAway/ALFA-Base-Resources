@@ -51,7 +51,7 @@ namespace ACR_Items
                 script.SetItemStackSize(target, 1, FALSE);
             }
             script.StoreCampaignObject(ItemChangeDBName, itemKey, target, script.OBJECT_SELF);
-            if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(PriceChangeVarName))
+            if (ALFA.Shared.Modules.InfoStore.ModifiedGff.Keys.Contains(itemKey))
             {
                 int currentModifyCost = 0;
                 currentModifyCost = ALFA.Shared.Modules.InfoStore.ModifiedGff[itemKey].TopLevelStruct["ModifyCost"].ValueInt + adjustBy;
