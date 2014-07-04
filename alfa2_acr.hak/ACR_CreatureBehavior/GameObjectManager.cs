@@ -154,7 +154,14 @@ namespace ACR_CreatureBehavior
         /// <param name="Obj">Supplies the object to insert.</param>
         public void AddGameObject(GameObject Obj)
         {
-            GameObjectTable.Add(Obj.ObjectId, Obj);
+            if (GameObjectTable.ContainsKey(Obj.ObjectId))
+            {
+                GameObjectTable[Obj.ObjectId] = Obj;
+            }
+            else
+            {
+                GameObjectTable.Add(Obj.ObjectId, Obj);
+            }
         }
 
         /// <summary>
