@@ -62,7 +62,7 @@ namespace ACR_CreatureBehavior
             // exist for purposes of by-object-id lookups.
             //
 
-            if (!GameObj.Exists)
+            if (Script.GetIsObjectValid(ObjectId) != CLRScriptBase.FALSE)
                 return null;
 
             return GameObj;
