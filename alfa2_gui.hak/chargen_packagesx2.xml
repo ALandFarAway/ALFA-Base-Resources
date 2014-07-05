@@ -198,7 +198,7 @@
 	  <UIButton name="CHOICE_RECOMMEND" strref="113764" x=168 y=0 style="STYLE_MENU_BUTTON_SML" 
 	  OnLeftClick=UIButton_Input_CharGenRecommend("CHARGEN","CHARGEN_PACKAGES","PACKAGE_LIST") ></UIButton>
 	  <UIButton name="CHOICE_NEXT" strref="113752" x=336 y=0 style="STYLE_MENU_BUTTON_SML" 
-	  OnLeftClick=UIButton_Input_CharGenCommit("CHARGEN","CHARGEN_PACKAGES") 
+	  OnLeftClick=UIButton_Input_ChargenCustomizePackage("CHARGEN") 
 	  update="true" OnUpdate=UIButton_OnUpdate_CheckCharGenStage("CHARGEN","CHARGEN_PACKAGES") ></UIButton>
 	</UIPane>
 
