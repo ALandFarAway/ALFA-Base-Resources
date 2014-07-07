@@ -203,6 +203,10 @@ namespace ACR_CreatureBehavior
         {
             if (!IsAIControlled)
                 return;
+            if (Script.GetIsDM(DamagerObjectId) == CLRScriptBase.TRUE)
+                return;
+            if (Script.GetObjectType(DamagerObjectId) != CLRScriptBase.OBJECT_TYPE_CREATURE)
+                return;
 
             CreatureObject Damager = Server.ObjectManager.GetCreatureObject(DamagerObjectId, true);
             AIParty Party = this.Party;
