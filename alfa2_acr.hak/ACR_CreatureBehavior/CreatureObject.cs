@@ -211,43 +211,54 @@ namespace ACR_CreatureBehavior
             CreatureObject Damager = Server.ObjectManager.GetCreatureObject(DamagerObjectId, true);
             AIParty Party = this.Party;
 
-            int nReputation = Script.GetReputation(this.ObjectId, DamagerObjectId);
-
-            // The friendly fire functionality lives in the spell cast method
-            if (Script.GetLastSpellCaster() == DamagerObjectId)
-                return;
-
-
-            // This is the fault of a bug in the AI; best not to compound it.
-            if (Party.PartyMembers.Contains(Damager))
-                return;
-
-            // These two creatures are friends.
-            else if (nReputation > 89)
+            if (Damager != null)
             {
-                Script.SetLocalInt(this.ObjectId, "FRIENDLY_FIRED", Script.GetLocalInt(this.ObjectId, "FRIENDLY_FIRED") + 1);
-            }
+                int nReputation = Script.GetReputation(this.ObjectId, DamagerObjectId);
 
-            // Neutral creatures take direct attacks personally. Your friends try to trust you, but will snap if abused too much.
-            else if (nReputation > 10 || Script.GetLocalInt(this.ObjectId, "FRIENDLY_FIRED") > Script.d4(3))
-            {
-                // And all of them are going to get angry.
-                foreach (CreatureObject CurrentPartyMember in this.Party.PartyMembers)
+                // The friendly fire functionality lives in the spell cast method
+                if (Script.GetLastSpellCaster() == DamagerObjectId)
+                    return;
+
+
+                // This is the fault of a bug in the AI; best not to compound it.
+                if (Party.PartyMembers.Contains(Damager))
+                    return;
+
+                // These two creatures are friends.
+                else if (nReputation > 89)
                 {
-                    _SetMutualEnemies(CurrentPartyMember.ObjectId, DamagerObjectId);
-                    if (!CurrentPartyMember.HasCombatRoundProcess)
-                        CurrentPartyMember.SelectCombatRoundAction(false);
+                    Script.SetLocalInt(this.ObjectId, "FRIENDLY_FIRED", Script.GetLocalInt(this.ObjectId, "FRIENDLY_FIRED") + 1);
                 }
-                this.Party.AddPartyEnemy(Damager);
-                HasCombatRoundProcess = true;
-                if (!UsingEndCombatRound)
+
+                // Neutral creatures take direct attacks personally. Your friends try to trust you, but will snap if abused too much.
+                else if (nReputation > 10 || Script.GetLocalInt(this.ObjectId, "FRIENDLY_FIRED") > Script.d4(3))
                 {
-                    SelectCombatRoundAction(false);
+                    // And all of them are going to get angry.
+                    foreach (CreatureObject CurrentPartyMember in this.Party.PartyMembers)
+                    {
+                        _SetMutualEnemies(CurrentPartyMember.ObjectId, DamagerObjectId);
+                        if (!CurrentPartyMember.HasCombatRoundProcess)
+                            CurrentPartyMember.SelectCombatRoundAction(false);
+                    }
+                    this.Party.AddPartyEnemy(Damager);
+                    HasCombatRoundProcess = true;
+                    if (!UsingEndCombatRound)
+                    {
+                        SelectCombatRoundAction(false);
+                    }
+                }
+                else
+                {
+                    this.Party.AddPartyEnemy(Damager);
+                    HasCombatRoundProcess = true;
+                    if (!UsingEndCombatRound)
+                    {
+                        SelectCombatRoundAction(false);
+                    }
                 }
             }
             else
             {
-                this.Party.AddPartyEnemy(Damager);
                 HasCombatRoundProcess = true;
                 if(!UsingEndCombatRound)
                 {
