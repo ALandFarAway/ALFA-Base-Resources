@@ -30,6 +30,7 @@ void ACR_AdvanceDefenseQuest(int questID)
 		if(ACR_RetrieveQuestState(sQuest, oPC) == lowerState &&
 		   GetLocalInt(oPC, DEFENSE_QUEST_ID) == questID)
 		{
+			SendMessageToPC(oPC, GetLocalString(OBJECT_SELF, DEFENSE_QUEST_END_MESSAGE));
 			ACR_AddPersistentJournalQuestEntry(sQuest, upperState, oPC, FALSE, FALSE, TRUE, 0, 0.0f);
 		}
 		oPC = GetNextPC(TRUE);
@@ -136,6 +137,16 @@ void ACR_WaveSpawn(int questID, int waveToSpawn)
 		creatureToSpawn = GetLocalString(OBJECT_SELF, DEFENSE_QUEST_WAVE_SPAWN_CREATURE + IntToString(waveToSpawn) + "_" + IntToString(count));
 	}
 	
+	object oPC = GetFirstPC(TRUE);
+	while(GetIsObjectValid(oPC))
+	{
+    if(GetLocalInt(oPC, DEFENSE_QUEST_ID) == questID)
+		{
+      SendMessageToPC(oPC, GetLocalString(OBJECT_SELF, DEFENSE_QUEST_WAVE_MESSAGE));
+    }
+    oPC = GetNextPC(TRUE);
+	}
+	
 	float waveDelay = GetLocalFloat(OBJECT_SELF, DEFENSE_QUEST_WAVE_DELAY);
 	DelayCommand(waveDelay, ACR_WaveSpawn(questID, waveToSpawn + 1));
 }
@@ -151,7 +162,12 @@ void main()
 			ACR_FailDefenseQuest(currentQuestID);
 			DeleteLocalInt(OBJECT_SELF, DEFENSE_QUEST_ID);
 		}
-		SetLocalInt(GetEnteringObject(), DEFENSE_QUEST_ID, currentQuestID);
+		object oPC = GetEnteringObject();
+		if(GetLocalInt(oPC, DEFENSE_QUEST_ID) != currentQuestID)
+		{
+      SendMessageToPC(oPC, GetLocalString(OBJECT_SELF, DEFENSE_QUEST_START_MESSAGE));
+      SetLocalInt(oPC, DEFENSE_QUEST_ID, currentQuestID);
+    }
 	}
 	else
 	{
