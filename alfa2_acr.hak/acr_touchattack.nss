@@ -127,6 +127,22 @@ void main()
 			}
 		}
 	}
+	else if(GetLocalString(OBJECT_SELF, "ACR_TOUCH_ATTACK") == "WISP")
+	{
+		if(GetObjectType(oTarget) == OBJECT_TYPE_CREATURE)
+		{
+			int nTouch = TouchAttackMelee(oTarget);
+			int nDamage = d8(2);
+			if(nTouch == 2) nDamage += d8(2);
+			if(nTouch)
+			{
+			// void ApplyEffectToObject(int nDurationType, effect eEffect, object oTarget, float fDuration=0.0f);
+
+				ApplyEffectToObject( DURATION_TYPE_INSTANT, EffectDamage( DAMAGE_TYPE_ELECTRICAL, nDamage ), oTarget );
+				ApplyEffectToObject( DURATION_TYPE_INSTANT, EffectVisualEffect( VFX_BEAM_SHOCKING_GRASP ), oTarget );
+			}
+		}
+	}
 	else
 	{
 		if(GetObjectType(oTarget) == OBJECT_TYPE_CREATURE)
