@@ -25,6 +25,10 @@
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+const string ACR_QST_WPT                                     = "ACR_QUEST_WAYPOINT";
+const string ACR_QSTTRG_COUNT                                = "ACR_QUEST_TRIG_COUNT";
+const string ACR_QSTTRG_SHAPE                                = "ACR_QUEST_TRIG_SHAPE";
+
 // This variable names the script to run when an instance is setup.
 //
 // The script runs with OBJECT_SELF being the new area instance.  It has an
@@ -497,6 +501,42 @@ void ACR_AreaInstance_StartupCleanup(object Area)
 		{
 			ObjectsDeleted += 1;
 			DestroyObject(Obj);
+		}
+		if(GetTag(Obj) == ACR_QST_WPT)
+		{
+      int questNumber = GetLocalInt(GetModule(), ACR_QSTTRG_COUNT) + 1;
+      SetLocalInt(GetModule(), ACR_QSTTRG_COUNT, questNumber);
+      int effectShape = GetLocalInt(Obj, ACR_QSTTRG_SHAPE);
+      if(!effectShape) effectShape = 83;
+      ApplyEffectAtLocation(DURATION_TYPE_PERMANENT, SupernaturalEffect(EffectAreaOfEffect(effectShape, "acf_trg_onenter", "acf_trg_onheartbeat", "acf_trg_onexit", "QUEST_"+IntToString(questNumber))), GetLocation(Obj));
+      object oAoE = GetObjectByTag("QUEST_"+IntToString(questNumber));
+      int varCount = GetVariableCount(Obj);
+      int i = 0;
+      while(i < varCount)
+      {
+        string varName = GetVariableName(Obj, i);
+        switch(GetVariableType(Obj, i))
+        {
+          case VARIABLE_TYPE_DWORD:
+            SetLocalObject(oAoE, varName, GetLocalObject(Obj, varName));
+            break;
+          case VARIABLE_TYPE_FLOAT:
+            SetLocalFloat(oAoE, varName, GetLocalFloat(Obj, varName));
+            break;
+          case VARIABLE_TYPE_INT:
+            SetLocalInt(oAoE, varName, GetLocalInt(Obj, varName));
+            break;
+          case VARIABLE_TYPE_LOCATION:
+            SetLocalLocation(oAoE, varName, GetLocalLocation(Obj, varName));
+            break;
+          case VARIABLE_TYPE_STRING:
+            SetLocalString(oAoE, varName, GetLocalString(Obj, varName));
+            break;
+        }
+        i++;
+      }
+      ObjectsDeleted += 1;
+      DestroyObject(Obj);
 		}
 
 		Obj = GetNextObjectInArea(Area);
