@@ -1081,7 +1081,7 @@ void _AddSpawnPointFromWaypoint(object oWP) {
 			SetLocalInt(oWP, _WP_SPAWN_TYPE, OBJECT_TYPE_LIGHT);
 			break;
 		case 8:
-			SetLocalInt(oWP, _WP_SPAWN_TYPE, OBJECT_TYPE_PLACED_EFFECT);
+			SetLocalInt(oWP, _WP_SPAWN_TYPE, SPECIAL_OBJECT_TYPE_TRAP);
 			break;
     }
 
