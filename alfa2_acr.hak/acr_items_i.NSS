@@ -359,6 +359,8 @@ void ACR_ItemOnEquip(object oItem, object oPC) {
                 }
             }
         }
+    } else if (nItemType == BASE_ITEM_SHURIKEN) {
+        AddItemProperty(DURATION_TYPE_TEMPORARY, ItemPropertyMaxRangeStrengthMod(10), oItem, 24.0f * 60.0f * 60.0f);
     } else if (nItemType == BASE_ITEM_MANDOLIN) { 
         // activate the TKL performer package
         ExecuteScript("tkl_performer_lute", oPC);
@@ -396,6 +398,17 @@ void ACR_ItemOnUnEquip(object oItem, object oPC) {
     // SendMessageToPC(oPC, "Pointer to "+GetName(oItem)+" banked.");
     if ((nItemType == BASE_ITEM_MANDOLIN) || (nItemType == BASE_ITEM_DRUM) || (nItemType == BASE_ITEM_FLUTE)) { 
         ExecuteScript("tkl_performer_ue", oPC);
+    } else if(nItemType == BASE_ITEM_SHURIKEN) {
+        itemproperty ipProp = GetFirstItemProperty(oItem);
+        while(GetIsItemPropertyValid(ipProp)) {
+            if(GetItemPropertyType(ipProp) == ITEM_PROPERTY_MIGHTY) {
+                // As ALFA bans mighty as a property except on bows and crossbows,
+                // it's safe to assume that a mighty item property on a shuriken
+                // came from our on equip scripts.
+                RemoveItemProperty(oItem, ipProp);
+            }
+            ipProp = GetNextItemProperty(oItem);
+        }
     }
 
     if (nItemType == BASE_ITEM_ARMOR || nItemType == BASE_ITEM_SMALLSHIELD || nItemType == BASE_ITEM_LARGESHIELD || nItemType == BASE_ITEM_TOWERSHIELD)
