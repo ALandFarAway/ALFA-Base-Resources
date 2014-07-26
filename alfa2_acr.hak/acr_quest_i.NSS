@@ -59,6 +59,10 @@ const string ACR_QST_LOWER_STATE = "ACR_QST_LOWER_STATE";
 //! typically defines the target state for quest completion
 const string ACR_QST_UPPER_STATE = "ACR_QST_UPPER_STATE";
 
+//! local variable for setting the forced quest state for a quest, provided
+//! that the triggerer is between the lower and upper states.
+const string ACR_QST_FORCED_STATE = "ACR_QST_FORCED_STATE";
+
 //! local variable for setting whether a quest advancement state should be propogated to 
 //!  other party members. 
 const string ACR_QST_PARTY = "ACR_QST_PARTY";
@@ -497,7 +501,12 @@ void ACR_QuestTriggerEnter(object oPC)
             }
             else
             {
-                int nXP = 0; nState++;
+                int nXP = 0; 
+                nState++;
+                if(GetLocalInt(OBJECT_SELF, ACR_QST_FORCED_STATE))
+                {
+                    nState = GetLocalInt(OBJECT_SELF, ACR_QST_FORCED_STATE);
+                }
 
                 // award quest XP if the quest has reached its end state
                 if (nState >= nUpper && nUpper > 0) { nXP = GetJournalQuestExperience(sQuest); }
