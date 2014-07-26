@@ -464,7 +464,7 @@ void ACR_QuestTriggerEnter(object oPC)
     string sQuest, sResRef;
 
     // exit if the PC has already triggered this
-    if (GetLocalInt(oPC, GetTag(OBJECT_SELF))) { return; }
+    if (GetLocalInt(OBJECT_SELF, IntToString(GetLocalInt(oPC, "ACR_CID")))) { return; }
 
     // process PC triggers
     if (GetIsPC(oPC))
@@ -516,7 +516,7 @@ void ACR_QuestTriggerEnter(object oPC)
             }
         
             // prevent the trigger from being tripped again (once activated) - this may need to be persistent across resets
-            SetLocalInt(oPC, GetTag(OBJECT_SELF), 1);
+            SetLocalInt(OBJECT_SELF, IntToString(GetLocalInt(oPC, "ACR_CID")), 1);
 			if (bParty) {
 			    // if this is a party quest, block this trigger activation for everyone to avoid multispawn
 			    object oAlly = GetFirstFactionMember(oPC);
@@ -524,7 +524,7 @@ void ACR_QuestTriggerEnter(object oPC)
 					// iterate through the party, block activation for anyone else with the quest.
 					if (oAlly == oPC) { // then already done, skip the extra query
 				    } else if (ACR_RetrieveQuestState(sQuest, oAlly) > 0) {
-				        SetLocalInt(oAlly, GetTag(OBJECT_SELF), 1);
+				        SetLocalInt(OBJECT_SELF, IntToString(GetLocalInt(oAlly, "ACR_CID")), 1);
 					}
 					oAlly = GetNextFactionMember(oPC);
 				}
@@ -565,7 +565,7 @@ void ACR_QuestTriggerEnter(object oPC)
             ACR_AddPersistentJournalQuestEntry(sQuest, nState + 1, oPC, bParty2, FALSE, FALSE, nXP);
         
             // prevent the trigger from being tripped again (once activated) - this may need to be persistent across resets
-            SetLocalInt(oPC, GetTag(OBJECT_SELF), 1);
+            SetLocalInt(OBJECT_SELF, IntToString(GetLocalInt(oPC, "ACR_CID")), 1);
         }
     }
 }
