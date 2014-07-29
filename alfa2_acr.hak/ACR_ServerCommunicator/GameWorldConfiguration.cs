@@ -91,6 +91,10 @@ namespace ACR_ServerCommunicator
                     DisableSaveInQuarantine = Convert.ToInt32(VarValue) != 0;
                 else if (VarName == "ProtectionLevel")
                     ProtectionLevel = (MemberProtectionLevel)Convert.ToInt32(VarValue);
+                else if (VarName == "VaultConnectionString")
+                    VaultConnectionString = VarValue;
+                else if (VarName == "UpdaterConnectionString")
+                    UpdaterConnectionString = VarValue;
             }
         }
 
@@ -150,6 +154,17 @@ namespace ACR_ServerCommunicator
         /// temporary anti-abuse measures.
         /// </summary>
         public MemberProtectionLevel ProtectionLevel { get; set; }
+
+        /// <summary>
+        /// The Azure connection string for server vault storage.
+        /// </summary>
+        public string VaultConnectionString { get; set; }
+
+        /// <summary>
+        /// The Azure connection string for updater storage.
+        /// </summary>
+        public string UpdaterConnectionString { get; set; }
+
 
     }
 }

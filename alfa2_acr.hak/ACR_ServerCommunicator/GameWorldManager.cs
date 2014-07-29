@@ -1019,6 +1019,7 @@ namespace ACR_ServerCommunicator
             {
                 NextCycleSynchronizeConfiguration = false;
                 SynchronizeConfiguration();
+                ServerVaultConnector.RefreshConfiguration(Configuration.VaultConnectionString);
             }
 
             //

@@ -592,6 +592,22 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Delete a file while ignoring any exceptions that may occur.
+        /// </summary>
+        /// <param name="FileName">Supplies the name of the file to
+        /// delete.</param>
+        public static void SafeDeleteFile(string FileName)
+        {
+            try
+            {
+                File.Delete(FileName);
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>
         /// Request that the game server cleanly shut down.  Note that NWNX4
         /// will restart the game server afterwards in the default ALFA
         /// configuration, so this function is usually used to restart the game

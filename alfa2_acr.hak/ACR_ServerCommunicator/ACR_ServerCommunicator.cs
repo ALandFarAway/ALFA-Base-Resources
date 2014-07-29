@@ -323,6 +323,12 @@ namespace ACR_ServerCommunicator
 
             WorldManager.SynchronizeInitialConfiguration(Database);
 
+            if (!ServerVaultConnector.Initialize(this, WorldManager.Configuration.VaultConnectionString))
+                WriteTimestampedLogEntry("ACR_ServerCommunicator.InitializeServerCommunicator: ServerVaultConnector failed to initialize.");
+
+            if (!String.IsNullOrEmpty(WorldManager.Configuration.VaultConnectionString))
+                WriteTimestampedLogEntry("ACR_ServerCommunicator.InitializeServerCommunicator: Using Azure-based vault storage.");
+
             RecordModuleResources();
             PatchContentFiles();
             ConfigureWer();
@@ -420,7 +426,7 @@ namespace ACR_ServerCommunicator
 
             try
             {
-                if (ModuleContentPatcher.ProcessContentPatches(ContentPatchPath, Database, this))
+                if (ModuleContentPatcher.ProcessContentPatches(ContentPatchPath, Database, this, WorldManager.Configuration.UpdaterConnectionString))
                 {
                     int ServerId = Database.ACR_GetServerID();
 

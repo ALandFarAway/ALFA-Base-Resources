@@ -121,4 +121,25 @@
   <data name="ALFA_Shared" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\..\release\SharedAssemblies\ALFA.Shared.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="Microsoft_Data_Edm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\CLRScript\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Microsoft_Data_OData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\CLRScript\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Microsoft_Data_Services_Client" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\CLRScript\packages\Microsoft.Data.Services.Client.5.6.0\lib\net40\Microsoft.Data.Services.Client.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Microsoft_WindowsAzure_ConfigurationManager" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\CLRScript\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Microsoft_WindowsAzure_Storage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\CLRScript\packages\WindowsAzure.Storage.4.1.0\lib\net40\Microsoft.WindowsAzure.Storage.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Newtonsoft_Json" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\CLRScript\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="System_Spatial" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\CLRScript\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

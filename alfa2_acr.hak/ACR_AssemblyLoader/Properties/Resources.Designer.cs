@@ -69,5 +69,75 @@ namespace ACR_AssemblyLoader.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Microsoft_Data_Edm {
+            get {
+                object obj = ResourceManager.GetObject("Microsoft_Data_Edm", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Microsoft_Data_OData {
+            get {
+                object obj = ResourceManager.GetObject("Microsoft_Data_OData", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Microsoft_Data_Services_Client {
+            get {
+                object obj = ResourceManager.GetObject("Microsoft_Data_Services_Client", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Microsoft_WindowsAzure_ConfigurationManager {
+            get {
+                object obj = ResourceManager.GetObject("Microsoft_WindowsAzure_ConfigurationManager", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Microsoft_WindowsAzure_Storage {
+            get {
+                object obj = ResourceManager.GetObject("Microsoft_WindowsAzure_Storage", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Newtonsoft_Json {
+            get {
+                object obj = ResourceManager.GetObject("Newtonsoft_Json", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] System_Spatial {
+            get {
+                object obj = ResourceManager.GetObject("System_Spatial", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

@@ -24,10 +24,26 @@ namespace ACR_AssemblyLoader
 
         /// <summary>
         /// This method loads known assemblies and prepopulates them in the
-        /// known assembly cache.
+        /// known assembly cache.  Note that these assembles must be loaded in
+        /// the proper order, that is, base assemblies before dependant
+        /// assemblies.
         /// </summary>
         void PopulateKnownAssemblies()
         {
+            //
+            // Load additional support assemblies.  The order to add these can
+            // be discovered by going to Tools, NuGet Package Manager,
+            // Package Visualizer.  The graph must be added in bottom up order.
+            //
+
+            KnownAssemblies.Add(Assembly.Load(Properties.Resources.Microsoft_Data_Edm));
+            KnownAssemblies.Add(Assembly.Load(Properties.Resources.System_Spatial));
+            KnownAssemblies.Add(Assembly.Load(Properties.Resources.Microsoft_Data_OData));
+            KnownAssemblies.Add(Assembly.Load(Properties.Resources.Microsoft_Data_Services_Client));
+            KnownAssemblies.Add(Assembly.Load(Properties.Resources.Microsoft_WindowsAzure_ConfigurationManager));
+            KnownAssemblies.Add(Assembly.Load(Properties.Resources.Newtonsoft_Json));
+            KnownAssemblies.Add(Assembly.Load(Properties.Resources.Microsoft_WindowsAzure_Storage));
+
             //
             // Load ALFA.Shared.dll from the byte array attached to the
             // assembly resources, and add it to the known assembly cache.

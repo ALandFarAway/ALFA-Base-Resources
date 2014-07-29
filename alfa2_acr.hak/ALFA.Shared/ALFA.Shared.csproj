@@ -31,8 +31,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\CLRScript\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\CLRScript\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\CLRScript\packages\Microsoft.Data.Services.Client.5.6.0\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration">
+      <HintPath>..\..\CLRScript\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage">
+      <HintPath>..\..\CLRScript\packages\WindowsAzure.Storage.4.1.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data">
       <HintPath>..\..\CLRScript\CLRv4.0.30319\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\CLRScript\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NWNScriptJITIntrinsics">
       <HintPath>..\..\CLRScript\CLRv4.0.30319\NWNScriptJITIntrinsics.dll</HintPath>
@@ -46,6 +64,9 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\CLRScript\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -71,7 +92,17 @@
     <Compile Include="ActiveArea.cs" />
     <Compile Include="ActiveTransition.cs" />
     <Compile Include="ActiveTrap.cs" />
+    <Compile Include="AzureFileStore.cs" />
+    <Compile Include="AzureFileStoreContainer.cs" />
+    <Compile Include="AzureFileStoreDirectory.cs" />
+    <Compile Include="AzureFileStoreFile.cs" />
     <Compile Include="BaseItems.cs" />
+    <Compile Include="FileStore.cs" />
+    <Compile Include="FileStoreContainer.cs" />
+    <Compile Include="FileStoreDirectory.cs" />
+    <Compile Include="FileStoreExceptions.cs" />
+    <Compile Include="FileStoreFile.cs" />
+    <Compile Include="FileStoreProvider.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="NetLayerWindow.cs" />
     <Compile Include="Spell.cs" />
@@ -96,6 +127,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerInterop.cs" />
     <Compile Include="WaypointResource.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

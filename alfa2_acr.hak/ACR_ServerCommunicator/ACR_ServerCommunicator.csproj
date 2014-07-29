@@ -81,6 +81,7 @@
     <Compile Include="ServerLatencyMeasurer.cs" />
     <Compile Include="ServerNetworkManager.cs" />
     <Compile Include="ServerPartEvent.cs" />
+    <Compile Include="ServerVaultConnector.cs" />
     <Compile Include="ShutdownServerEvent.cs" />
     <Compile Include="SocketIo.cs" />
     <Compile Include="StandardEntrypoints.cs" />

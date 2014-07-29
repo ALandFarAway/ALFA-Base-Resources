@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Xml;
+using ALFA.Shared;
 
 namespace ACR_ServerCommunicator
 {
@@ -156,9 +158,11 @@ namespace ACR_ServerCommunicator
         /// patch base path, from the database config table.</param>
         /// <param name="Database">Supplies the database object.</param>
         /// <param name="Script">Supplies the script object.</param>
+        /// <param name="ConnectionString">Supplies the updater file store
+        /// connection string.</param>
         /// <returns>True if a patch was applied and a reboot is required for
         /// it to take effect.</returns>
-        public static bool ProcessContentPatches(string ContentPatchPath, ALFA.Database Database, ACR_ServerCommunicator Script)
+        public static bool ProcessContentPatches(string ContentPatchPath, ALFA.Database Database, ACR_ServerCommunicator Script, string ConnectionString)
         {
             bool ContentChanged = false;
             string Version = Database.ACR_GetHAKVersion();
@@ -169,6 +173,7 @@ namespace ACR_ServerCommunicator
                 OverridePath = ALFA.SystemInfo.GetOverrideDirectory() + "ACR_ContentPatches"
             };
             string RemoteContentPatchPath = String.Format("{0}{1}\\{2}", ALFA.SystemInfo.GetCentralVaultPath(), ContentPatchPath, Version);
+            string FileStoreContentPatchPath = String.Format("{0}/{1}", ContentPatchPath, Version).Replace('\\', '/');
             bool RecompileModule = false;
             bool SentNotification = false;
 
@@ -239,6 +244,7 @@ namespace ACR_ServerCommunicator
                     FileUpdateMethod UpdateMethod;
                     string LocalPath = PatchFile.GetLocalPath(LocalPaths);
                     string RemotePath = String.Format("{0}\\{1}", RemoteContentPatchPath, PatchFile.FileName);
+                    string FileStorePath = String.Format("{0}/{1}", FileStoreContentPatchPath, PatchFile.FileName).Replace('\\', '/');
                     string LocalHashString = "<no such file>";
                     string TransferTempFilePath = LocalPath + ".patchxfer";
 
@@ -311,7 +317,22 @@ namespace ACR_ServerCommunicator
                         {
                             try
                             {
-                                File.Copy(RemotePath, TransferTempFilePath, true);
+                                //
+                                // Try first to download via the file store
+                                // provider.  If that fails (e.g. the file
+                                // store is not supported), then fall back to
+                                // the traditional remote vault share transfer
+                                // mechanism.
+                                //
+
+                                try
+                                {
+                                    DownloadContentPatchFromFileStore(FileStorePath, TransferTempFilePath, ConnectionString);
+                                }
+                                catch
+                                {
+                                    File.Copy(RemotePath, TransferTempFilePath, true);
+                                }
                             }
                             catch
                             {
@@ -709,6 +730,60 @@ namespace ACR_ServerCommunicator
 
             }
 
+        }
+
+        /// <summary>
+        /// Download a content patch file from a file store.  Currently, Azure
+        /// file stores are assumed.  Both compressed and uncompressed versions
+        /// of the file are tried in respective order.
+        /// </summary>
+        /// <param name="FileStorePath">Supplies the remote file name that
+        /// designates the file to download.</param>
+        /// <param name="LocalFileName">Supplies the local file name to
+        /// download to.</param>
+        /// <param name="ConnectionString">Supplies the file store connection
+        /// string.</param>
+        private static void DownloadContentPatchFromFileStore(string FileStorePath, string LocalFileName, string ConnectionString)
+        {
+            if (String.IsNullOrEmpty(ConnectionString))
+                throw new NotSupportedException();
+
+            //
+            // Initialize the file store provider.
+
+            FileStore UpdaterStore = FileStoreProvider.CreateAzureFileStore(ConnectionString);
+            FileStoreContainer UpdaterContainer = UpdaterStore.GetContainerReference("alfa-nwn2-acr-updater");
+            FileStoreFile UpdaterFile = UpdaterContainer.GetFileReference(FileStorePath + ".gzip");
+
+            //
+            // First attempt to retrieve a gzip compressed version of the file
+            // to patch.  If that fails then fall back to a plaintext version.
+            //
+
+            try
+            {
+                using (MemoryStream MemStream = new MemoryStream())
+                {
+                    UpdaterFile.Read(MemStream);
+
+                    using (GZipStream CompressedStream = new GZipStream(MemStream, CompressionMode.Decompress))
+                    {
+                        using (FileStream OutStream = File.Create(LocalFileName))
+                        {
+                            CompressedStream.CopyTo(OutStream);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                UpdaterFile = UpdaterContainer.GetFileReference(FileStorePath);
+
+                using (FileStream OutStream = File.Create(LocalFileName))
+                {
+                    UpdaterFile.Read(OutStream);
+                }
+            }
         }
 
     }

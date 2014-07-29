@@ -40,6 +40,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using CLRScriptFramework;
 using ALFA;
+using ALFA.Shared;
 using NWScript;
 using NWScript.ManagedInterfaceLayer.NWScriptManagedInterface;
 using System.Net;
@@ -289,6 +290,8 @@ namespace LatencyMonitor
 
                 try
                 {
+                    string ConnectionString = FileStoreProvider.DefaultVaultConnectionString;
+
                     uint Tick = (uint)Environment.TickCount;
 
                     using (StreamWriter PingFile = File.CreateText(VaultPingFile))
@@ -297,6 +300,26 @@ namespace LatencyMonitor
                             "Server {0} is up at {1}.",
                             LocalServerId,
                             DateTime.UtcNow);
+                    }
+
+                    if (!String.IsNullOrEmpty(ConnectionString))
+                    {
+                        FileStore Store = FileStoreProvider.CreateAzureFileStore(ConnectionString);
+                        FileStoreContainer StoreContainer = Store.GetContainerReference("alfa-nwn2-server-vault");
+                        FileStoreFile StoreFile = StoreContainer.GetFileReference(String.Format("Server{0}.txt", LocalServerId));
+
+                        using (MemoryStream MemStream = new MemoryStream())
+                        {
+                            using (StreamWriter StrWriter = new StreamWriter(MemStream))
+                            {
+                                StrWriter.WriteLine(
+                                    "Server {0} is up at {1}.",
+                                    LocalServerId,
+                                    DateTime.UtcNow);
+                            }
+
+                            StoreFile.Write(MemStream);
+                        }
                     }
 
                     Tick = (uint)Environment.TickCount - Tick;
