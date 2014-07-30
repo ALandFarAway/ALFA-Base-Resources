@@ -181,6 +181,7 @@ void main()
 			SetLocalInt(OBJECT_SELF, DEFENSE_QUEST_COUNTER, newQuestID);
 			SetLocalInt(OBJECT_SELF, DEFENSE_QUEST_ID, newQuestID);
 			SetLocalInt(oPC, DEFENSE_QUEST_ID, newQuestID);
+			SendMessageToPC(oPC, GetLocalString(OBJECT_SELF, DEFENSE_QUEST_START_MESSAGE));
 		
 			float initialDelay = GetLocalFloat(OBJECT_SELF, DEFENSE_QUEST_INITIAL_DELAY);
 			float trickleDelay = GetLocalFloat(OBJECT_SELF, DEFENSE_QUEST_TRICKLE_DELAY);
