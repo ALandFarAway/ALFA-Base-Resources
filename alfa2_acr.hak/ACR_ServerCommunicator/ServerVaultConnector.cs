@@ -259,7 +259,7 @@ namespace ACR_ServerCommunicator
 
                                     try
                                     {
-                                        File.Copy(TempFileName, FsFileName);
+                                        File.Copy(TempFileName, FsFileName, true);
                                         File.SetLastWriteTimeUtc(FsFileName, StoreFile.LastModified.Value.DateTime);
                                     }
                                     catch
