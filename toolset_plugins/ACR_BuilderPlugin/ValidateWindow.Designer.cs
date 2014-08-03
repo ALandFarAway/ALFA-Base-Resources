@@ -37,13 +37,12 @@
             // 
             // lbCurrentTask
             // 
-            this.lbCurrentTask.AutoSize = true;
+            this.lbCurrentTask.AutoEllipsis = true;
             this.lbCurrentTask.Location = new System.Drawing.Point(12, 9);
             this.lbCurrentTask.Name = "lbCurrentTask";
-            this.lbCurrentTask.Size = new System.Drawing.Size(16, 13);
+            this.lbCurrentTask.Size = new System.Drawing.Size(375, 13);
             this.lbCurrentTask.TabIndex = 0;
             this.lbCurrentTask.Text = "...";
-            this.lbCurrentTask.UseWaitCursor = true;
             // 
             // pbOverall
             // 
@@ -51,7 +50,6 @@
             this.pbOverall.Name = "pbOverall";
             this.pbOverall.Size = new System.Drawing.Size(375, 23);
             this.pbOverall.TabIndex = 1;
-            this.pbOverall.UseWaitCursor = true;
             // 
             // pbCurrent
             // 
@@ -59,17 +57,15 @@
             this.pbCurrent.Name = "pbCurrent";
             this.pbCurrent.Size = new System.Drawing.Size(375, 23);
             this.pbCurrent.TabIndex = 2;
-            this.pbCurrent.UseWaitCursor = true;
             // 
             // lbCurrentDetail
             // 
-            this.lbCurrentDetail.AutoSize = true;
+            this.lbCurrentDetail.AutoEllipsis = true;
             this.lbCurrentDetail.Location = new System.Drawing.Point(12, 65);
             this.lbCurrentDetail.Name = "lbCurrentDetail";
-            this.lbCurrentDetail.Size = new System.Drawing.Size(16, 13);
+            this.lbCurrentDetail.Size = new System.Drawing.Size(375, 13);
             this.lbCurrentDetail.TabIndex = 3;
             this.lbCurrentDetail.Text = "...";
-            this.lbCurrentDetail.UseWaitCursor = true;
             // 
             // bwMain
             // 
@@ -97,7 +93,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Validating Module";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
