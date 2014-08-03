@@ -88,6 +88,27 @@ namespace ACR_BuilderPlugin
                     ValidateVariableType(waypoint, "ACR_SPAWN_IN_DETECT", NWN2ScriptVariableType.Int);
                     ValidateVariableType(waypoint, "ACR_SPAWN_BUFFED", NWN2ScriptVariableType.Int);
                     ValidateVariableType(waypoint, "ACR_COLOR_NAME", NWN2ScriptVariableType.String);
+
+                    // Check variable bounds.
+                    ValidateVariableBounds(waypoint, "ACR_SPAWN_TYPE", 0, 8);
+                    ValidateVariableBounds(waypoint, "ACR_SPAWN_RESNAMES_MIN", 0, 31);
+                    ValidateVariableBounds(waypoint, "ACR_SPAWN_RESNAMES_MAX", 0, 31);
+                    ValidateVariableBounds(waypoint, "ACR_SPAWN_CHANCE", 0.0f, 100.0f);
+                    if (!GetAreVariablesEqual(waypoint, "ACR_SPAWN_IN_HOUR", "ACR_SPAWN_OUT_HOUR"))
+                    {
+                        ValidateVariableBounds(waypoint, "ACR_SPAWN_IN_HOUR", 0, 23);
+                        ValidateVariableBounds(waypoint, "ACR_SPAWN_OUT_HOUR", 0, 23);
+                    }
+                    if (!GetAreVariablesEqual(waypoint, "ACR_SPAWN_IN_DAY", "ACR_SPAWN_OUT_DAY"))
+                    {
+                        ValidateVariableBounds(waypoint, "ACR_SPAWN_IN_DAY", 1, 31);
+                        ValidateVariableBounds(waypoint, "ACR_SPAWN_OUT_DAY", 1, 31);
+                    }
+                    if (!GetAreVariablesEqual(waypoint, "ACR_SPAWN_IN_MONTH", "ACR_SPAWN_OUT_MONTH"))
+                    {
+                        ValidateVariableBounds(waypoint, "ACR_SPAWN_IN_MONTH", 1, 12);
+                        ValidateVariableBounds(waypoint, "ACR_SPAWN_OUT_MONTH", 1, 12);
+                    }
                 }
 
                 // Report progress.
@@ -120,7 +141,7 @@ namespace ACR_BuilderPlugin
         }
 
         /// <summary>
-        /// Verifies that a given variable on a waypoint is of the correct type.
+        /// Verifies that a given variable on an object is of the correct type.
         /// </summary>
         /// <param name="enforce">If true, this function will try to fix the variable's type.</param>
         private void ValidateVariableType(NWN2WaypointBlueprint waypoint, string variable, NWN2ScriptVariableType type, bool enforce = true)
@@ -132,13 +153,60 @@ namespace ACR_BuilderPlugin
                 if (enforce)
                 {
                     waypoint.Variables.GetVariable(variable).VariableType = type;
-                    log.WriteLine("FIXED: Waypoint blueprint \"" + waypoint.ResourceName + "\" had variable \"" + variable + "\" not of type " + type.ToString());
+                    log.WriteLine(String.Format("FIXED: Waypoint blueprint \"{0}\" has variable \"{1}\" not of type {2}.", waypoint.ResourceName, variable, type.ToString()));
                 }
                 else
                 {
-                    log.WriteLine("ERROR: Waypoint blueprint \"" + waypoint.ResourceName + "\" has variable \"" + variable + "\" not of type " + type.ToString());
+                    log.WriteLine(String.Format("ERROR: Waypoint blueprint \"{0}\" has variable \"{1}\" not of type {2}.", waypoint.ResourceName, variable, type.ToString()));
                 }
             }
+        }
+
+        /// <summary>
+        /// Verifies that a given variable on an object is inclusively between two values.
+        /// </summary>
+        private void ValidateVariableBounds(NWN2WaypointBlueprint waypoint, string variable, int min, int max)
+        {
+            if (waypoint == null) return;
+            if (waypoint.Variables.GetVariable(variable) == null) return;
+            if (waypoint.Variables.GetVariable(variable).VariableType != NWN2ScriptVariableType.Int) return;
+            if (waypoint.Variables.GetVariable(variable).ValueInt < min || waypoint.Variables.GetVariable(variable).ValueInt > max)
+            {
+                log.WriteLine(String.Format("ERROR: Waypoint blueprint \"{0}\" has variable \"{1}\" of value {2} outside of bounds [{3},{4}].", waypoint.ResourceName, variable, waypoint.Variables.GetVariable(variable).ValueInt, min, max));
+            }
+        }
+        private void ValidateVariableBounds(NWN2WaypointBlueprint waypoint, string variable, float min, float max)
+        {
+            if (waypoint == null) return;
+            if (waypoint.Variables.GetVariable(variable) == null) return;
+            if (waypoint.Variables.GetVariable(variable).VariableType != NWN2ScriptVariableType.Float) return;
+            if (waypoint.Variables.GetVariable(variable).ValueFloat < min || waypoint.Variables.GetVariable(variable).ValueFloat > max)
+            {
+                log.WriteLine(String.Format("ERROR: Waypoint blueprint \"{0}\" has variable \"{1}\" of value {2} outside of bounds [{3},{4}].", waypoint.ResourceName, variable, waypoint.Variables.GetVariable(variable).ValueFloat, min, max));
+            }
+        }
+
+        /// <summary>
+        /// Determines if a given variable on an object matches another.
+        /// </summary>
+        private bool GetAreVariablesEqual(NWN2WaypointBlueprint waypoint, string variable1, string variable2)
+        {
+            if (waypoint == null) return true;
+            if (waypoint.Variables.GetVariable(variable1) == null && waypoint.Variables.GetVariable(variable2) == null) return true;
+            if (waypoint.Variables.GetVariable(variable1) == null || waypoint.Variables.GetVariable(variable2) == null) return false;
+            if (waypoint.Variables.GetVariable(variable1).VariableType != waypoint.Variables.GetVariable(variable2).VariableType) return false;
+            switch (waypoint.Variables.GetVariable(variable1).VariableType)
+            {
+                case NWN2ScriptVariableType.Float:
+                    return (waypoint.Variables.GetVariable(variable1).ValueFloat == waypoint.Variables.GetVariable(variable2).ValueFloat);
+                case NWN2ScriptVariableType.Int:
+                    return (waypoint.Variables.GetVariable(variable1).ValueInt == waypoint.Variables.GetVariable(variable2).ValueInt);
+                case NWN2ScriptVariableType.Location:
+                    return (waypoint.Variables.GetVariable(variable1).ValueLocation == waypoint.Variables.GetVariable(variable2).ValueLocation);
+                case NWN2ScriptVariableType.String:
+                    return (waypoint.Variables.GetVariable(variable1).ValueString == waypoint.Variables.GetVariable(variable2).ValueString);
+            }
+            return false;
         }
     }
 }
