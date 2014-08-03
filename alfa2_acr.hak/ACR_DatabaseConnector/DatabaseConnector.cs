@@ -201,7 +201,7 @@ namespace ACR_DatabaseConnector
                 {
                     Logger.Log("DatabaseConnector.DatabaseConnectionMonitorThread: Exception managing database secure tunnel: {0}", e);
 
-                    if (Timeout < 30000)
+                    if (Timeout < 32000)
                     {
                         Timeout *= 2;
                     }
