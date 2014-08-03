@@ -208,7 +208,12 @@ namespace ACR_ServerCommunicator
                         if (Segments.Length == 0)
                             continue;
 
-                        StoreFiles.Add(Segments[Segments.Length - 1].ToLowerInvariant(), StoreFile);
+                        string CharacterFileName = Segments[Segments.Length - 1].ToLowerInvariant();
+
+                        if (!CharacterFileName.EndsWith(".bic"))
+                            continue;
+
+                        StoreFiles.Add(CharacterFileName, StoreFile);
                     }
 
                     //
