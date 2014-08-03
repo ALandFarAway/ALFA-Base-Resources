@@ -30,6 +30,8 @@ namespace ACR_AssemblyLoader
         /// </summary>
         void PopulateKnownAssemblies()
         {
+            Assembly ALFA_Shared;
+
             //
             // Load additional support assemblies.  The order to add these can
             // be discovered by going to Tools, NuGet Package Manager,
@@ -49,7 +51,22 @@ namespace ACR_AssemblyLoader
             // assembly resources, and add it to the known assembly cache.
             //
 
-            KnownAssemblies.Add(Assembly.Load(Properties.Resources.ALFA_Shared));
+            KnownAssemblies.Add(ALFA_Shared = Assembly.Load(Properties.Resources.ALFA_Shared));
+
+            KnownResources.Add("SGTatham_Plink", Properties.Resources.SGTatham_Plink);
+
+            //
+            // Export KnownAssemblies and KnownResources to ALFA.Shared for
+            // other components to use.  Note that since ALFA.Shared is loaded
+            // by the AssemblyLoader, the AssemblyLoader itself cannot contain
+            // a static bound reference to ALFA.Shared; instead, the references
+            // must be dynamically satisfied via Reflection.
+            //
+
+            Type ModuleLinkage = ALFA_Shared.GetType("ALFA.Shared.ModuleLinkage", true);
+
+            ModuleLinkage.GetProperty("KnownAssemblies").SetValue(null, KnownAssemblies, null);
+            ModuleLinkage.GetProperty("KnownResources").SetValue(null, KnownResources, null);
         }
 
         /// <summary>
@@ -82,5 +99,10 @@ namespace ACR_AssemblyLoader
         /// resolution.
         /// </summary>
         List<Assembly> KnownAssemblies = new List<Assembly>();
+
+        /// <summary>
+        /// The list of known resource elements.
+        /// </summary>
+        Dictionary<string, byte[]> KnownResources = new Dictionary<string, byte[]>();
     }
 }

@@ -133,6 +133,16 @@ namespace ACR_AssemblyLoader.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] SGTatham_Plink {
+            get {
+                object obj = ResourceManager.GetObject("SGTatham_Plink", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] System_Spatial {
             get {
                 object obj = ResourceManager.GetObject("System_Spatial", resourceCulture);

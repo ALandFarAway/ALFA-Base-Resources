@@ -139,6 +139,9 @@
   <data name="Newtonsoft_Json" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\..\CLRScript\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="SGTatham_Plink" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\Tools\PLINK.EXE;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="System_Spatial" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\..\CLRScript\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

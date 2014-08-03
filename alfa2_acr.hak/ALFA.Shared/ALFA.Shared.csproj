@@ -104,6 +104,7 @@
     <Compile Include="FileStoreFile.cs" />
     <Compile Include="FileStoreProvider.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="ModuleLinkage.cs" />
     <Compile Include="NetLayerWindow.cs" />
     <Compile Include="Spell.cs" />
     <Compile Include="SpellCastItemProperties.cs" />

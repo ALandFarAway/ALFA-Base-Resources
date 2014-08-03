@@ -86,6 +86,7 @@
 // 2012/04/16  Basilica - Log module and HAK build date to server log at module startup.
 // 2012/04/28  Basilica - Prevent creation of new characters or players with trailing spaces.
 // 2014/01/16  Basilica - Added module event hook for override patchable scripts.
+// 2014/08/01  Basilica - Added initialization callout to ACR_DatabaseConnector.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -126,6 +127,8 @@ const int ACR_ASSEMBLY_LOADER_INITIALIZE = 0;
 const int ACR_CANDLEKEEP_INITIALIZE_ARCHIVES = 0;
 
 const int ACR_CHOOSERCREATOR_INITIALIZE = 0;
+
+const int ACR_DATABASE_CONNECTOR_INITIALIZE = 0;
 
 //! Define to 1 to enable language handling debugging.
 #define DEBUG_LANG 0
@@ -2098,7 +2101,7 @@ void ACR_ModuleInit_ForceLinkageForCLRScripts()
     ACR_GetHAKVersion();
     ACR_RunScriptOnServer(0, "", "");
     ACR_LogEvent(OBJECT_INVALID, "", "", OBJECT_INVALID);
-	ACR_PPSValidatePC(OBJECT_INVALID);
+    ACR_PPSValidatePC(OBJECT_INVALID);
     ACR_PCUpdateStatus(OBJECT_INVALID, FALSE);
     ACR_RestOnClientEnter(OBJECT_INVALID);
     ACR_XPOnClientLoaded(OBJECT_INVALID);
@@ -2124,6 +2127,15 @@ void _LoadAssemblies()
 	ClearScriptParams();
 	AddScriptParameterInt(ACR_CHOOSERCREATOR_INITIALIZE);
 	ExecuteScriptEnhanced("ACR_ChooserCreator", GetModule(), TRUE);
+
+	// All assemblies and NWScript code that reference the SQL database during
+	// startup must run after ACR_DatabaseConnector is initialized.  Note that
+	// the database connector will block for a time until the the database is
+	// brought online.
+
+	ClearScriptParams();
+	AddScriptParameterInt(ACR_DATABASE_CONNECTOR_INITIALIZE);
+	ExecuteScriptEnhanced("ACR_DatabaseConnector", GetModule(), TRUE);
 }
 
 // This is needed to establish the server and gameobject structures that 
