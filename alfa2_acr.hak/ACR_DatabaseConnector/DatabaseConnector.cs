@@ -147,6 +147,9 @@ namespace ACR_DatabaseConnector
         {
             for (;;)
             {
+                int Timeout = 1000;
+                uint StartTick;
+
                 try
                 {
                     Process TunnelProcess;
@@ -179,18 +182,37 @@ namespace ACR_DatabaseConnector
 
                     InitCompletedEvent.Set();
 
+                    StartTick = (uint)Environment.TickCount;
+
                     TunnelProcess.WaitForExit();
+
+                    //
+                    // Clear the reconnect timeout to the minimum value if the
+                    // process appeared to start successfully and stay online
+                    // for more than 30 seconds.
+                    //
+
+                    if ((uint)Environment.TickCount - StartTick > 30000)
+                    {
+                        Timeout = 1000;
+                    }
                 }
                 catch (Exception e)
                 {
                     Logger.Log("DatabaseConnector.DatabaseConnectionMonitorThread: Exception managing database secure tunnel: {0}", e);
+
+                    if (Timeout < 30000)
+                    {
+                        Timeout *= 2;
+                    }
                 }
 
                 //
-                // Wait one second before trying again.
+                // Wait for a truncated expontential backoff before trying
+                // again.
                 //
 
-                Thread.Sleep(1000);
+                Thread.Sleep(Timeout);
             }
         }
 
@@ -464,7 +486,7 @@ namespace ACR_DatabaseConnector
         /// P/Invoke type for SetInformationJobObject.
         /// </summary>
         [Flags]
-        public enum JOBOBJECTLIMIT : uint
+        private enum JOBOBJECTLIMIT : uint
         {
             //
             // Basic Limits
