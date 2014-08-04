@@ -88,7 +88,7 @@ namespace ACR_BuilderPlugin
                 // Check to see if the price needs to be recalculated.
                 GFFStruct gff = new GFFStruct();
                 item.SaveEverythingIntoGFFStruct( gff, false );
-                if (gff.GetDwordSafe("Cost", 0) != item.Cost) log.WriteLine("FIXED: Item \"{0}\" base cost was out of date. Recalculated.", reference);
+                if (gff.GetDwordSafe("Cost", 0) != item.Cost) log.WriteLine("FIXED: Item \"{0}\" base cost is out of date.", reference);
 
                 // Make sure prices are positive.
                 if (item.Cost + item.AdditionalCost < 0) log.WriteLine("ERROR: Item \"{0}\" has a negative item value.", reference);
