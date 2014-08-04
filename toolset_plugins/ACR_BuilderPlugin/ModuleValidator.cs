@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
+using OEIShared.IO.GFF;
 using NWN2Toolset.NWN2.Data;
 using NWN2Toolset.NWN2.Data.Blueprints;
 using NWN2Toolset.NWN2.Data.Factions;
@@ -84,12 +85,13 @@ namespace ACR_BuilderPlugin
         {
             try
             {
-                // Make sure the price isn't negative.
-                if (item.Cost + item.AdditionalCost < 0)
-                {
+                // Check to see if the price needs to be recalculated.
+                GFFStruct gff = new GFFStruct();
+                item.SaveEverythingIntoGFFStruct( gff, false );
+                if (gff.GetDwordSafe("Cost", 0) != item.Cost) log.WriteLine("FIXED: Item \"{0}\" base cost was out of date. Recalculated.", reference);
 
-                    log.WriteLine("ERROR: Item \"{0}\" has a negative item value.", reference);
-                }
+                // Make sure prices are positive.
+                if (item.Cost + item.AdditionalCost < 0) log.WriteLine("ERROR: Item \"{0}\" has a negative item value.", reference);
             }
             catch (Exception exception)
             {
