@@ -23,7 +23,7 @@ namespace ACR_BuilderPlugin
         public void Run()
         {
             // Open our log file.
-            log = new System.IO.StreamWriter("D:\\acr_validation.log");
+            log = new System.IO.StreamWriter("acr_validation.log");
             log.WriteLine("ACR Validation Tool - Log");
 
             #region Validate module information
@@ -59,8 +59,7 @@ namespace ACR_BuilderPlugin
             // Open the log file.
             log.WriteLine("\nValidation complete.");
             log.Close();
-            System.Diagnostics.Process.Start("D:\\acr_validation.log");
-            //bwMain.ReportProgress(100);
+            System.Diagnostics.Process.Start("acr_validation.log");
         }
 
         private void Validate(NWN2ItemBlueprint item)
