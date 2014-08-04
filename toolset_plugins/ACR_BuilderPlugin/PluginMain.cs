@@ -25,18 +25,14 @@ namespace ACR_BuilderPlugin
         private void ValidateModule(object sender, EventArgs e)
         {
             if (MessageBox.Show("This tool will check for common errors in using ACR tools. Validating a module may take several minutes. Continue?", "Validate Module", MessageBoxButtons.OKCancel) == DialogResult.Cancel) return;
-
-            // Create and run the validator.
-            ValidateWindow progress = new ValidateWindow();
             try
             {
-                progress.Run();
-                progress.ShowDialog();
+                ModuleValidator validator = new ModuleValidator();
+                validator.Run();
             }
             catch (Exception exception)
             {
-                MessageBox.Show(exception.Message);
-                progress.Close();
+                MessageBox.Show(exception.ToString());
             }
         }
 

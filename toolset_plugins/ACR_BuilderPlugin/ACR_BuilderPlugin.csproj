@@ -47,18 +47,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PluginMain.cs" />
-    <Compile Include="ValidateWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ValidateWindow.Designer.cs">
-      <DependentUpon>ValidateWindow.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ValidateWindow.resx">
-      <DependentUpon>ValidateWindow.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="ModuleValidator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -16,122 +16,51 @@ using NWN2Toolset.NWN2.Data.TypedCollections;
 
 namespace ACR_BuilderPlugin
 {
-    public partial class ValidateWindow : Form
+    class ModuleValidator
     {
         System.IO.StreamWriter log = null;
 
-        public ValidateWindow()
-        {
-            InitializeComponent();
-        }
-
         public void Run()
         {
-            bwMain.RunWorkerAsync();
-        }
-
-        //
-        // Main work thread.
-        //
-
-        /// <summary>
-        /// Main work thread for the validation of module content.
-        /// </summary>
-        private void bwMain_DoWork(object sender, DoWorkEventArgs e)
-        {
-            // Counters and commonly used variables.
-            int i = 0;
-            int count = 0;
-            int currentTask = 0;
-            int totalTasks = 4;
-
             // Open our log file.
-            log = new System.IO.StreamWriter("acr_validation.log");
+            log = new System.IO.StreamWriter("D:\\acr_validation.log");
             log.WriteLine("ACR Validation Tool - Log");
 
             #region Validate module information
             NWN2GameModule module = NWN2GlobalBlueprintManager.Instance.Module;
-            try
-            {
-                // Update UI.
-                log.WriteLine("\nValidating module");
-                pbOverall.Value = 100 * currentTask++ / totalTasks;
-                lbCurrentTask.Text = "Validating module...";
-                bwMain.ReportProgress(100, "...");
-
-
-            }
-            catch (Exception exception)
-            {
-                log.WriteLine("EXCEPTION: Error while validating module:\n{0}", exception.Message);
-            }
             #endregion
 
             #region Validate blueprints
-            // Validate item blueprints
             log.WriteLine("\nValidating blueprints: Items");
-            pbOverall.Value = 100 * currentTask++ / totalTasks;
-            lbCurrentTask.Text = "Validating item blueprints...";
-            i = 0;
-            count = module.Items.Count;
-            foreach (NWN2ItemBlueprint item in module.Items)
-            {
-                bwMain.ReportProgress(100 * ++i / count, "Validating \"" + item.ResourceName.ToString() + "\"");
-                Validate(item);
-            }
+            foreach (NWN2ItemBlueprint item in module.Items) Validate(item);
 
-            // Validate creature blueprints
             log.WriteLine("\nValidating blueprints: Creatures");
-            pbOverall.Value = 100 * currentTask++ / totalTasks;
-            lbCurrentTask.Text = "Validating creature blueprints...";
-            i = 0;
-            count = module.Creatures.Count;
-            foreach (NWN2CreatureBlueprint creature in module.Creatures)
-            {
-                bwMain.ReportProgress(100 * ++i / count, "Validating \"" + creature.ResourceName.ToString() + "\"");
-                Validate(creature);
-            }
+            foreach (NWN2CreatureBlueprint creature in module.Creatures) Validate(creature);
 
-            // Validate waypoint blueprints
             log.WriteLine("\nValidating blueprints: Waypoints");
-            pbOverall.Value = 100 * currentTask++ / totalTasks;
-            lbCurrentTask.Text = "Validating waypoint blueprints...";
-            i = 0;
-            count = module.Waypoints.Count;
-            foreach (NWN2WaypointBlueprint waypoint in module.Waypoints)
-            {
-                bwMain.ReportProgress(100 * ++i / count, "Validating \"" + waypoint.ResourceName.ToString() + "\"");
-                Validate(waypoint);
-            }
+            foreach (NWN2WaypointBlueprint waypoint in module.Waypoints) Validate(waypoint);
             #endregion
 
             #region Validate areas
             #endregion
 
             #region Validate area contents
+            foreach (NWN2GameArea area in module.Areas.Values)
+            {
+                area.Demand();
+                log.WriteLine("\nValidating area: " + area.Name);
+                foreach (NWN2CreatureInstance creature in area.Creatures) Validate(creature);
+                foreach (NWN2ItemInstance item in area.Items) Validate(item);
+                foreach (NWN2WaypointInstance waypoint in area.Waypoints) Validate(waypoint);
+                area.Release();
+            }
             #endregion
 
             // Open the log file.
             log.WriteLine("\nValidation complete.");
             log.Close();
-            System.Diagnostics.Process.Start("acr_validation.log");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void bwMain_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            pbCurrent.Value = e.ProgressPercentage;
-            if (e.UserState != null) lbCurrentDetail.Text = (string)e.UserState;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void bwMain_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            Close();
+            System.Diagnostics.Process.Start("D:\\acr_validation.log");
+            //bwMain.ReportProgress(100);
         }
 
         private void Validate(NWN2ItemBlueprint item)
@@ -146,7 +75,7 @@ namespace ACR_BuilderPlugin
         private void Validate(NWN2ItemInstance item)
         {
             // Custom validation of only instances here.
-
+            log.WriteLine("ERROR: Item \"{0}\" instanced. Use ACR_Spawn instead.", item.Tag);
 
             // Validation of all NWN2ItemTemplates (in areas, blueprints).
             Validate((NWN2ItemTemplate)item, item.Tag);
@@ -168,20 +97,20 @@ namespace ACR_BuilderPlugin
                 log.WriteLine("EXCEPTION: Error while handling \"{0}\":\n{1}", reference, exception.Message);
             }
         }
-        
+
         private void Validate(NWN2CreatureBlueprint creature)
         {
             // Custom validation of only blueprints here.
 
 
             // Validation of all NWN2CreatureTemplates (in areas, blueprints).
-            Validate((NWN2CreatureBlueprint)creature, creature.ResourceName.ToString());
+            Validate((NWN2CreatureTemplate)creature, creature.ResourceName.ToString());
         }
 
         private void Validate(NWN2CreatureInstance creature)
         {
             // Custom validation of only instances here.
-
+            log.WriteLine("ERROR: Creature \"{0}\" instanced. Use ACR_Spawn instead.", creature.Tag);
 
             // Validation of all NWN2CreatureTemplates (in areas, blueprints).
             Validate((NWN2CreatureTemplate)creature, creature.Tag);
