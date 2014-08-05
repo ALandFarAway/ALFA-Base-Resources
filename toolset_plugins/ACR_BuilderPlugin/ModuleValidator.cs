@@ -28,56 +28,62 @@ namespace ACR_BuilderPlugin
             log.WriteLine("ACR Validation Tool - Log");
             bool autoSavePreviousState = NWN2Toolset.NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled;
             NWN2Toolset.NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled = true;
-
-            #region Validate module information
-            NWN2GameModule module = NWN2Toolset.NWN2ToolsetMainForm.App.Module;
-            #endregion
-
-            #region Validate blueprints
-            log.WriteLine("\nValidating blueprints: Items");
-            foreach (NWN2ItemBlueprint item in module.Items) Validate(item);
-
-            log.WriteLine("\nValidating blueprints: Creatures");
-            foreach (NWN2CreatureBlueprint creature in module.Creatures) Validate(creature);
-
-            log.WriteLine("\nValidating blueprints: Waypoints");
-            foreach (NWN2WaypointBlueprint waypoint in module.Waypoints) Validate(waypoint);
-            #endregion
-
-            #region Validate areas
-            foreach (NWN2GameArea area in module.Areas.Values)
+            try
             {
-                log.WriteLine("\nValidating area: " + area.Name);
-                area.Demand();
 
-                // A bloom value of 0 can cause issues on some graphic cards.
-                foreach (OEIShared.NetDisplay.DayNightStage dayNightStage in area.DayNightStages)
+                #region Validate module information
+                NWN2GameModule module = NWN2Toolset.NWN2ToolsetMainForm.App.Module;
+                #endregion
+
+                #region Validate blueprints
+                log.WriteLine("\nValidating blueprints: Items");
+                foreach (NWN2ItemBlueprint item in module.Items) Validate(item);
+
+                log.WriteLine("\nValidating blueprints: Creatures");
+                foreach (NWN2CreatureBlueprint creature in module.Creatures) Validate(creature);
+
+                log.WriteLine("\nValidating blueprints: Waypoints");
+                foreach (NWN2WaypointBlueprint waypoint in module.Waypoints) Validate(waypoint);
+                #endregion
+
+                #region Validate areas
+                foreach (NWN2GameArea area in module.Areas.Values)
                 {
-                    if (dayNightStage.BloomGlowIntensity == 0.0f)
+                    log.WriteLine("\nValidating area: " + area.Name);
+                    area.Demand();
+
+                    // A bloom value of 0 can cause issues on some graphic cards.
+                    foreach (OEIShared.NetDisplay.DayNightStage dayNightStage in area.DayNightStages)
                     {
-                        log.WriteLine("FIXED: Area \"{0}\" a day/night cycle {1} has a bloom intensity of 0.0f. This causes issues on some graphics cards.", area.Name, dayNightStage.Stage.ToString());
-                        dayNightStage.BloomGlowIntensity = 0.001f;
+                        if (dayNightStage.BloomGlowIntensity == 0.0f)
+                        {
+                            log.WriteLine("FIXED: Area \"{0}\" a day/night cycle {1} has a bloom intensity of 0.0f. This causes issues on some graphics cards.", area.Name, dayNightStage.Stage.ToString());
+                            dayNightStage.BloomGlowIntensity = 0.001f;
+                        }
                     }
+
+                    // Area object instances.
+                    foreach (NWN2CreatureInstance creature in area.Creatures) Validate(creature);
+                    foreach (NWN2ItemInstance item in area.Items) Validate(item);
+                    foreach (NWN2WaypointInstance waypoint in area.Waypoints) Validate(waypoint);
+
+                    // Save data.
+                    area.LoadAllHookPoints();
+                    area.OEISerialize();
+                    area.Release();
                 }
+                #endregion
 
-                // Area object instances.
-                foreach (NWN2CreatureInstance creature in area.Creatures) Validate(creature);
-                foreach (NWN2ItemInstance item in area.Items) Validate(item);
-                foreach (NWN2WaypointInstance waypoint in area.Waypoints) Validate(waypoint);
-
-                // Save data.
-                area.LoadAllHookPoints();
-                area.OEISerialize();
-                area.Release();
+                // Open the log file.
+                log.WriteLine("\nValidation complete.");
+                log.Close();
+                System.Diagnostics.Process.Start("acr_validation.log");
+                module.Modified = true;
             }
-            #endregion
-
-            // Open the log file.
-            log.WriteLine("\nValidation complete.");
-            log.Close();
-            System.Diagnostics.Process.Start("acr_validation.log");
-            module.Modified = true;
-            NWN2Toolset.NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled = autoSavePreviousState;
+            finally
+            {
+                NWN2Toolset.NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled = autoSavePreviousState;
+            }
         }
 
         private void Validate(NWN2ItemBlueprint item)
