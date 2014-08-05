@@ -26,6 +26,7 @@ namespace ACR_BuilderPlugin
             // Open our log file.
             log = new System.IO.StreamWriter("acr_validation.log");
             log.WriteLine("ACR Validation Tool - Log");
+            bool autoSavePreviousState = NWN2Toolset.NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled;
             NWN2Toolset.NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled = true;
 
             #region Validate module information
@@ -76,7 +77,7 @@ namespace ACR_BuilderPlugin
             log.Close();
             System.Diagnostics.Process.Start("acr_validation.log");
             module.Modified = true;
-            NWN2Toolset.NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled = false;
+            NWN2Toolset.NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled = autoSavePreviousState;
         }
 
         private void Validate(NWN2ItemBlueprint item)
