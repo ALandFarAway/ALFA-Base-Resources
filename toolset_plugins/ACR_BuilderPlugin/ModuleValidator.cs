@@ -44,6 +44,9 @@ namespace ACR_BuilderPlugin
             log.WriteLine("\nValidating blueprints: Doors");
             foreach (NWN2DoorBlueprint door in module.Doors) Validate(door);
 
+            log.WriteLine("\nValidating blueprints: Placeables");
+            foreach (NWN2PlaceableBlueprint placeable in module.Placeables) Validate(placeable);
+
             log.WriteLine("\nValidating blueprints: Waypoints");
             foreach (NWN2WaypointBlueprint waypoint in module.Waypoints) Validate(waypoint);
             #endregion
@@ -68,6 +71,7 @@ namespace ACR_BuilderPlugin
                 foreach (NWN2CreatureInstance creature in area.Creatures) Validate(creature);
                 foreach (NWN2DoorInstance door in area.Doors) Validate(door);
                 foreach (NWN2ItemInstance item in area.Items) Validate(item);
+                foreach (NWN2PlaceableInstance placeable in area.Placeables) Validate(placeable);
                 foreach (NWN2WaypointInstance waypoint in area.Waypoints) Validate(waypoint);
 
                 // Save data.
@@ -226,6 +230,54 @@ namespace ACR_BuilderPlugin
                 EnforceNonDefaultScript(reference, door.OnUnlock, "acf_door_onunlock", new string[] { "" });
                 EnforceNonDefaultScript(reference, door.OnUsed, "acf_door_onused", new string[] { "" });
                 EnforceNonDefaultScript(reference, door.OnUserDefined, "acf_door_onuserdefined", new string[] { "" });
+            }
+            catch (Exception exception)
+            {
+                log.WriteLine("EXCEPTION: Error while handling \"{0}\":\n{1}", reference, exception.Message);
+            }
+        }
+        #endregion
+
+        #region Validate Placeables
+        private void Validate(NWN2PlaceableBlueprint placeable)
+        {
+            // Custom validation of only blueprints here.
+
+
+            // Validation of all NWN2DoorTemplates (in areas, blueprints).
+            Validate((NWN2PlaceableTemplate)placeable, placeable.ResourceName.ToString());
+        }
+
+        private void Validate(NWN2PlaceableInstance placeable)
+        {
+            // Custom validation of only instances here.
+
+
+            // Validation of all NWN2ItemTemplates (in areas, blueprints).
+            Validate((NWN2PlaceableTemplate)placeable, placeable.Tag);
+        }
+
+        private void Validate(NWN2PlaceableTemplate placeable, string reference)
+        {
+            try
+            {
+                // Check for default scripts.
+                EnforceNonDefaultScript(reference, placeable.OnClosed, "acf_plc_onclick", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnConversation, "acf_plc_onconversation", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnDamaged, "acf_plc_ondamaged", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnDeath, "acf_plc_ondeath", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnDisarm, "acf_plc_ondisarm", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnHeartbeat, "acf_plc_onheartbeat", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnInvDisturbed, "acf_plc_oninventorydisturbed", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnLeftClick, "acf_plc_onclick", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnLock, "acf_plc_onlock", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnMeleeAttacked, "acf_plc_onmeleeattacked", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnOpen, "acf_plc_onopen", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnSpellCastAt, "acf_plc_onspellcastat", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnTrapTriggered, "acf_plc_ontraptriggered", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnUnlock, "acf_plc_onunlock", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnUsed, "acf_plc_onused", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnUserDefined, "acf_plc_onuserdefined", new string[] { "" });
             }
             catch (Exception exception)
             {
