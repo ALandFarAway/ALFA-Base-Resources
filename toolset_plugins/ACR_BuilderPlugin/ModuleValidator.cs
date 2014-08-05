@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 
 using OEIShared.IO.GFF;
+using NWN2Toolset;
 using NWN2Toolset.NWN2.Data;
 using NWN2Toolset.NWN2.Data.Blueprints;
 using NWN2Toolset.NWN2.Data.Factions;
@@ -24,13 +25,13 @@ namespace ACR_BuilderPlugin
         public void Run()
         {
             // Open our log file.
-            log = new System.IO.StreamWriter("acr_validation.log");
+            log = new System.IO.StreamWriter(NWN2ToolsetPreferences.PluginsFolder + "\\acr_validation.log");
             log.WriteLine("ACR Validation Tool - Log");
-            bool autoSavePreviousState = NWN2Toolset.NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled;
-            NWN2Toolset.NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled = true;
+            bool autoSavePreviousState = NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled;
+            NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled = true;
 
             #region Validate module information
-            NWN2GameModule module = NWN2Toolset.NWN2ToolsetMainForm.App.Module;
+            NWN2GameModule module = NWN2ToolsetMainForm.App.Module;
             #endregion
 
             #region Validate blueprints
@@ -75,11 +76,12 @@ namespace ACR_BuilderPlugin
             // Open the log file.
             log.WriteLine("\nValidation complete.");
             log.Close();
-            System.Diagnostics.Process.Start("acr_validation.log");
+            System.Diagnostics.Process.Start(NWN2ToolsetPreferences.PluginsFolder + "\\acr_validation.log");
             module.Modified = true;
-            NWN2Toolset.NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled = autoSavePreviousState;
+            NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled = autoSavePreviousState;
         }
 
+        #region Validate Items
         private void Validate(NWN2ItemBlueprint item)
         {
             // Custom validation of only blueprints here.
@@ -115,7 +117,9 @@ namespace ACR_BuilderPlugin
                 log.WriteLine("EXCEPTION: Error while handling \"{0}\":\n{1}", reference, exception.Message);
             }
         }
+        #endregion
 
+        #region Validate Creatures
         private void Validate(NWN2CreatureBlueprint creature)
         {
             // Custom validation of only blueprints here.
@@ -155,13 +159,31 @@ namespace ACR_BuilderPlugin
                 {
                     log.WriteLine("WARNING: Creature \"{0}\" has a walk rate equal to players. This creature will have infinite attacks of opportunity against retreating PCs.", reference);
                 }
+
+                // Check default scripts.
+                EnforceNonDefaultScript(reference, creature.OnBlocked, "acf_cre_onblocked", new string[] { "", "nw_c2_defaulte" });
+                EnforceNonDefaultScript(reference, creature.OnConversation, "acf_cre_onconversation", new string[] { "", "nw_c2_default4" });
+                EnforceNonDefaultScript(reference, creature.OnDamaged, "acf_cre_ondamaged", new string[] { "", "nw_c2_default6" });
+                EnforceNonDefaultScript(reference, creature.OnDeath, "acf_cre_ondeath", new string[] { "", "nw_c2_default7" });
+                EnforceNonDefaultScript(reference, creature.OnEndCombatRound, "acf_cre_onendcombatround", new string[] { "", "nw_c2_default3" });
+                EnforceNonDefaultScript(reference, creature.OnHeartbeat, "acf_cre_onheartbeat", new string[] { "", "nw_c2_default1" });
+                EnforceNonDefaultScript(reference, creature.OnInventoryDisturbed, "acf_cre_onheartbeat", new string[] { "", "nw_c2_default8" });
+                EnforceNonDefaultScript(reference, creature.OnPerception, "acf_cre_onperception", new string[] { "", "nw_c2_default2" });
+                EnforceNonDefaultScript(reference, creature.OnPhysicalAttacked, "acf_cre_onphysicallyattacked", new string[] { "", "nw_c2_default5" });
+                EnforceNonDefaultScript(reference, creature.OnRested, "acf_cre_onrested", new string[] { "", "nw_c2_defaulta" });
+                EnforceNonDefaultScript(reference, creature.OnSpawnIn, "acf_cre_onspawnin", new string[] { "", "nw_c2_default9" });
+                EnforceNonDefaultScript(reference, creature.OnSpellCastAt, "acf_cre_onspellcastat", new string[] { "", "nw_c2_defaultb" });
+                EnforceNonDefaultScript(reference, creature.OnUserDefined, "acf_cre_onuserdefined", new string[] { "", "nw_c2_defaultd" });
             }
             catch (Exception exception)
             {
                 log.WriteLine("EXCEPTION: Error while handling \"{0}\":\n{1}", reference, exception.Message);
             }
         }
+        #endregion
 
+
+        #region Validate Waypoints
         private void Validate(NWN2WaypointBlueprint waypoint)
         {
             // Custom validation of only blueprints here.
@@ -245,6 +267,7 @@ namespace ACR_BuilderPlugin
                 log.WriteLine(String.Format("EXCEPTION: Error while handling \"{0}\":\n{1}", reference, exception.Message));
             }
         }
+        #endregion
 
         /// <summary>
         /// Verifies that a given variable on an object is of the correct type.
@@ -313,6 +336,15 @@ namespace ACR_BuilderPlugin
                     return (waypoint.Variables.GetVariable(variable1).ValueString == waypoint.Variables.GetVariable(variable2).ValueString);
             }
             return false;
+        }
+
+        private void EnforceNonDefaultScript(string reference, OEIShared.IO.IResourceEntry script, string newDefault, string[] blacklist)
+        {
+            if (Array.Exists(blacklist, element => element == script.ToString()))
+            {
+                log.WriteLine("FIXED: Object \"{0}\" has default script \"{1}\".", reference, script.ToString());
+                script.ResRef.Value = newDefault;
+            }
         }
     }
 }
