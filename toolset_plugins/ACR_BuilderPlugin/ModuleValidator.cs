@@ -80,6 +80,13 @@ namespace ACR_BuilderPlugin
                     foreach (NWN2TriggerInstance trigger in area.Triggers) Validate(trigger);
                     foreach (NWN2WaypointInstance waypoint in area.Waypoints) Validate(waypoint);
 
+                    // Enforce non-default scripts.
+                    EnforceNonDefaultScript(area.Name, area.OnClientEnterScript, "acf_area_client", new string[] { "" });
+                    EnforceNonDefaultScript(area.Name, area.OnEnterScript, "acf_area_onenter", new string[] { "" });
+                    EnforceNonDefaultScript(area.Name, area.OnExitScript, "acf_area_onexit", new string[] { "" });
+                    EnforceNonDefaultScript(area.Name, area.OnHeartbeat, "acf_area_onhbeat", new string[] { "" });
+                    EnforceNonDefaultScript(area.Name, area.OnUserDefined, "acf_area_userdef", new string[] { "" });
+
                     // Save data.
                     area.LoadAllHookPoints();
                     area.OEISerialize();
