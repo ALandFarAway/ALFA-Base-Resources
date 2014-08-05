@@ -41,6 +41,9 @@ namespace ACR_BuilderPlugin
             log.WriteLine("\nValidating blueprints: Creatures");
             foreach (NWN2CreatureBlueprint creature in module.Creatures) Validate(creature);
 
+            log.WriteLine("\nValidating blueprints: Doors");
+            foreach (NWN2DoorBlueprint door in module.Doors) Validate(door);
+
             log.WriteLine("\nValidating blueprints: Waypoints");
             foreach (NWN2WaypointBlueprint waypoint in module.Waypoints) Validate(waypoint);
             #endregion
@@ -63,6 +66,7 @@ namespace ACR_BuilderPlugin
 
                 // Area object instances.
                 foreach (NWN2CreatureInstance creature in area.Creatures) Validate(creature);
+                foreach (NWN2DoorInstance door in area.Doors) Validate(door);
                 foreach (NWN2ItemInstance item in area.Items) Validate(item);
                 foreach (NWN2WaypointInstance waypoint in area.Waypoints) Validate(waypoint);
 
@@ -182,6 +186,53 @@ namespace ACR_BuilderPlugin
         }
         #endregion
 
+        #region Validate Doors
+        private void Validate(NWN2DoorBlueprint door)
+        {
+            // Custom validation of only blueprints here.
+
+
+            // Validation of all NWN2DoorTemplates (in areas, blueprints).
+            Validate((NWN2DoorTemplate)door, door.ResourceName.ToString());
+        }
+
+        private void Validate(NWN2DoorInstance door)
+        {
+            // Custom validation of only instances here.
+
+
+            // Validation of all NWN2ItemTemplates (in areas, blueprints).
+            Validate((NWN2DoorTemplate)door, door.Tag);
+        }
+
+        private void Validate(NWN2DoorTemplate door, string reference)
+        {
+            try
+            {
+                // Check for default scripts.
+                EnforceNonDefaultScript(reference, door.OnClick, "acf_door_onclick", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnClosed, "acf_door_onclosed", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnConversation, "acf_door_onconversation", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnDamaged, "acf_door_ondamaged", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnDeath, "acf_door_ondeath", new string[] { "", "x2_door_death" });
+                EnforceNonDefaultScript(reference, door.OnDisarm, "acf_door_ondisarm", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnFailToOpen, "acf_door_onfailtoopen", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnHeartbeat, "acf_door_onheartbeat", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnLock, "acf_door_onlock", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnMeleeAttacked, "acf_door_onmeleeattacked", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnOpen, "acf_door_onopen", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnSpellCastAt, "acf_door_onspellcastat", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnTrapTriggered, "acf_door_ontraptriggered ", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnUnlock, "acf_door_onunlock", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnUsed, "acf_door_onused", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnUserDefined, "acf_door_onuserdefined", new string[] { "" });
+            }
+            catch (Exception exception)
+            {
+                log.WriteLine("EXCEPTION: Error while handling \"{0}\":\n{1}", reference, exception.Message);
+            }
+        }
+        #endregion
 
         #region Validate Waypoints
         private void Validate(NWN2WaypointBlueprint waypoint)
