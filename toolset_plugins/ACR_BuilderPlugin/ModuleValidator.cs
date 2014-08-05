@@ -49,6 +49,9 @@ namespace ACR_BuilderPlugin
                 log.WriteLine("\nValidating blueprints: Placeables");
                 foreach (NWN2PlaceableBlueprint placeable in module.Placeables) Validate(placeable);
 
+                log.WriteLine("\nValidating blueprints: Triggers");
+                foreach (NWN2TriggerBlueprint trigger in module.Triggers) Validate(trigger);
+
                 log.WriteLine("\nValidating blueprints: Waypoints");
                 foreach (NWN2WaypointBlueprint waypoint in module.Waypoints) Validate(waypoint);
                 #endregion
@@ -74,6 +77,7 @@ namespace ACR_BuilderPlugin
                     foreach (NWN2DoorInstance door in area.Doors) Validate(door);
                     foreach (NWN2ItemInstance item in area.Items) Validate(item);
                     foreach (NWN2PlaceableInstance placeable in area.Placeables) Validate(placeable);
+                    foreach (NWN2TriggerInstance trigger in area.Triggers) Validate(trigger);
                     foreach (NWN2WaypointInstance waypoint in area.Waypoints) Validate(waypoint);
 
                     // Save data.
@@ -259,7 +263,7 @@ namespace ACR_BuilderPlugin
             // Custom validation of only instances here.
 
 
-            // Validation of all NWN2ItemTemplates (in areas, blueprints).
+            // Validation of all NWN2PlaceableTemplates (in areas, blueprints).
             Validate((NWN2PlaceableTemplate)placeable, placeable.Tag);
         }
 
@@ -284,6 +288,45 @@ namespace ACR_BuilderPlugin
                 EnforceNonDefaultScript(reference, placeable.OnUnlock, "acf_plc_onunlock", new string[] { "" });
                 EnforceNonDefaultScript(reference, placeable.OnUsed, "acf_plc_onused", new string[] { "" });
                 EnforceNonDefaultScript(reference, placeable.OnUserDefined, "acf_plc_onuserdefined", new string[] { "" });
+            }
+            catch (Exception exception)
+            {
+                log.WriteLine("EXCEPTION: Error while handling \"{0}\":\n{1}", reference, exception.Message);
+            }
+        }
+        #endregion
+
+        #region Validate Triggers
+        private void Validate(NWN2TriggerBlueprint trigger)
+        {
+            // Custom validation of only blueprints here.
+
+
+            // Validation of all NWN2TriggerTemplates (in areas, blueprints).
+            Validate((NWN2TriggerTemplate)trigger, trigger.ResourceName.ToString());
+        }
+
+        private void Validate(NWN2TriggerInstance trigger)
+        {
+            // Custom validation of only instances here.
+
+
+            // Validation of all NWN2ItemTemplates (in areas, blueprints).
+            Validate((NWN2TriggerTemplate)trigger, trigger.Tag);
+        }
+
+        private void Validate(NWN2TriggerTemplate trigger, string reference)
+        {
+            try
+            {
+                // Check for default scripts.
+                EnforceNonDefaultScript(reference, trigger.OnClick, "acf_trg_onclick", new string[] { "" });
+                EnforceNonDefaultScript(reference, trigger.OnDisarm, "acf_trg_ondisarm", new string[] { "" });
+                EnforceNonDefaultScript(reference, trigger.OnEnter, "acf_trg_onenter", new string[] { "" });
+                EnforceNonDefaultScript(reference, trigger.OnExit, "acf_trg_onexit", new string[] { "" });
+                EnforceNonDefaultScript(reference, trigger.OnHeartbeat, "acf_trg_onheartbeat", new string[] { "" });
+                EnforceNonDefaultScript(reference, trigger.OnTrapTriggered, "acf_trg_ontraptriggered", new string[] { "" });
+                EnforceNonDefaultScript(reference, trigger.OnUserDefined, "acf_trg_onuserdefined", new string[] { "" });
             }
             catch (Exception exception)
             {
