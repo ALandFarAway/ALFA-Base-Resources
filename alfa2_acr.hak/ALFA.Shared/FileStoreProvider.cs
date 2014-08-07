@@ -31,4 +31,23 @@ namespace ALFA.Shared
         /// </summary>
         public static string DefaultVaultConnectionString { get; set; }
     }
+
+    /// <summary>
+    /// This class describes namespaces for the file store provider top level
+    /// collections.
+    /// </summary>
+    public static class FileStoreNamespace
+    {
+
+        /// <summary>
+        /// The namespace for the server vault.
+        /// </summary>
+        public const string ServerVault = "alfa-nwn2-server-vault";
+
+        /// <summary>
+        /// The namespace for the ACR updater.
+        /// </summary>
+        public const string ACRUpdater = "alfa-nwn2-acr-updater";
+
+    }
 }

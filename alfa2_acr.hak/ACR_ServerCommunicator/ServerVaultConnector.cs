@@ -584,7 +584,7 @@ namespace ACR_ServerCommunicator
             {
                 if (ContainerInternal == null)
                 {
-                    ContainerInternal = Store.GetContainerReference("alfa-nwn2-server-vault");
+                    ContainerInternal = Store.GetContainerReference(FileStoreNamespace.ServerVault);
                     ContainerInternal.CreateIfNotExists();
                 }
 

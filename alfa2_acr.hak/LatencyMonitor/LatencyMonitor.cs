@@ -305,7 +305,7 @@ namespace LatencyMonitor
                     if (!String.IsNullOrEmpty(ConnectionString))
                     {
                         FileStore Store = FileStoreProvider.CreateAzureFileStore(ConnectionString);
-                        FileStoreContainer StoreContainer = Store.GetContainerReference("alfa-nwn2-server-vault");
+                        FileStoreContainer StoreContainer = Store.GetContainerReference(FileStoreNamespace.ServerVault);
                         FileStoreFile StoreFile = StoreContainer.GetFileReference(String.Format("Server{0}.txt", LocalServerId));
 
                         using (MemoryStream MemStream = new MemoryStream())

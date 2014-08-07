@@ -752,7 +752,7 @@ namespace ACR_ServerCommunicator
             // Initialize the file store provider.
 
             FileStore UpdaterStore = FileStoreProvider.CreateAzureFileStore(ConnectionString);
-            FileStoreContainer UpdaterContainer = UpdaterStore.GetContainerReference("alfa-nwn2-acr-updater");
+            FileStoreContainer UpdaterContainer = UpdaterStore.GetContainerReference(FileStoreNamespace.ACRUpdater);
             FileStoreFile UpdaterFile = UpdaterContainer.GetFileReference(FileStorePath + ".gzip");
 
             //
