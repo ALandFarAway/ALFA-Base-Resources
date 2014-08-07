@@ -106,6 +106,10 @@ namespace ACR_DatabaseConnector
             // complete successfully before allowing the server to proceed with
             // initialization.
             //
+            // Note that this must be a query that succeeds even if the
+            // database schema has not yet been initialized.  The old-style get
+            // server address from database routine queries a built-in table.
+            //
 
             ALFA.Database Database = new ALFA.Database(Script);
 
