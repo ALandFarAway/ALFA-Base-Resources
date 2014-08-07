@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 
 using OEIShared.IO.GFF;
+using NWN2Toolset;
 using NWN2Toolset.NWN2.Data;
 using NWN2Toolset.NWN2.Data.Blueprints;
 using NWN2Toolset.NWN2.Data.Factions;
@@ -24,15 +25,15 @@ namespace ACR_BuilderPlugin
         public void Run()
         {
             // Open our log file.
-            log = new System.IO.StreamWriter("acr_validation.log");
+            log = new System.IO.StreamWriter(NWN2ToolsetPreferences.PluginsFolder + "\\acr_validation.log");
             log.WriteLine("ACR Validation Tool - Log");
-            bool autoSavePreviousState = NWN2Toolset.NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled;
-            NWN2Toolset.NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled = true;
+            bool autoSavePreviousState = NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled;
+            NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled = true;
+
             try
             {
-
                 #region Validate module information
-                NWN2GameModule module = NWN2Toolset.NWN2ToolsetMainForm.App.Module;
+                NWN2GameModule module = NWN2ToolsetMainForm.App.Module;
                 #endregion
 
                 #region Validate blueprints
@@ -41,6 +42,15 @@ namespace ACR_BuilderPlugin
 
                 log.WriteLine("\nValidating blueprints: Creatures");
                 foreach (NWN2CreatureBlueprint creature in module.Creatures) Validate(creature);
+
+                log.WriteLine("\nValidating blueprints: Doors");
+                foreach (NWN2DoorBlueprint door in module.Doors) Validate(door);
+
+                log.WriteLine("\nValidating blueprints: Placeables");
+                foreach (NWN2PlaceableBlueprint placeable in module.Placeables) Validate(placeable);
+
+                log.WriteLine("\nValidating blueprints: Triggers");
+                foreach (NWN2TriggerBlueprint trigger in module.Triggers) Validate(trigger);
 
                 log.WriteLine("\nValidating blueprints: Waypoints");
                 foreach (NWN2WaypointBlueprint waypoint in module.Waypoints) Validate(waypoint);
@@ -64,8 +74,18 @@ namespace ACR_BuilderPlugin
 
                     // Area object instances.
                     foreach (NWN2CreatureInstance creature in area.Creatures) Validate(creature);
+                    foreach (NWN2DoorInstance door in area.Doors) Validate(door);
                     foreach (NWN2ItemInstance item in area.Items) Validate(item);
+                    foreach (NWN2PlaceableInstance placeable in area.Placeables) Validate(placeable);
+                    foreach (NWN2TriggerInstance trigger in area.Triggers) Validate(trigger);
                     foreach (NWN2WaypointInstance waypoint in area.Waypoints) Validate(waypoint);
+
+                    // Enforce non-default scripts.
+                    EnforceNonDefaultScript(area.Name, area.OnClientEnterScript, "acf_area_client", new string[] { "" });
+                    EnforceNonDefaultScript(area.Name, area.OnEnterScript, "acf_area_onenter", new string[] { "" });
+                    EnforceNonDefaultScript(area.Name, area.OnExitScript, "acf_area_onexit", new string[] { "" });
+                    EnforceNonDefaultScript(area.Name, area.OnHeartbeat, "acf_area_onhbeat", new string[] { "" });
+                    EnforceNonDefaultScript(area.Name, area.OnUserDefined, "acf_area_userdef", new string[] { "" });
 
                     // Save data.
                     area.LoadAllHookPoints();
@@ -76,16 +96,17 @@ namespace ACR_BuilderPlugin
 
                 // Open the log file.
                 log.WriteLine("\nValidation complete.");
-                log.Close();
-                System.Diagnostics.Process.Start("acr_validation.log");
                 module.Modified = true;
             }
             finally
             {
-                NWN2Toolset.NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled = autoSavePreviousState;
+                NWN2ToolsetMainForm.App.AutosaveTemporarilyDisabled = autoSavePreviousState;
+                log.Close();
+                System.Diagnostics.Process.Start(NWN2ToolsetPreferences.PluginsFolder + "\\acr_validation.log");
             }
         }
 
+        #region Validate Items
         private void Validate(NWN2ItemBlueprint item)
         {
             // Custom validation of only blueprints here.
@@ -121,7 +142,9 @@ namespace ACR_BuilderPlugin
                 log.WriteLine("EXCEPTION: Error while handling \"{0}\":\n{1}", reference, exception.Message);
             }
         }
+        #endregion
 
+        #region Validate Creatures
         private void Validate(NWN2CreatureBlueprint creature)
         {
             // Custom validation of only blueprints here.
@@ -161,13 +184,165 @@ namespace ACR_BuilderPlugin
                 {
                     log.WriteLine("WARNING: Creature \"{0}\" has a walk rate equal to players. This creature will have infinite attacks of opportunity against retreating PCs.", reference);
                 }
+
+                // Check default scripts.
+                EnforceNonDefaultScript(reference, creature.OnBlocked, "acf_cre_onblocked", new string[] { "", "nw_c2_defaulte" });
+                EnforceNonDefaultScript(reference, creature.OnConversation, "acf_cre_onconversation", new string[] { "", "nw_c2_default4" });
+                EnforceNonDefaultScript(reference, creature.OnDamaged, "acf_cre_ondamaged", new string[] { "", "nw_c2_default6" });
+                EnforceNonDefaultScript(reference, creature.OnDeath, "acf_cre_ondeath", new string[] { "", "nw_c2_default7" });
+                EnforceNonDefaultScript(reference, creature.OnEndCombatRound, "acf_cre_onendcombatround", new string[] { "", "nw_c2_default3" });
+                EnforceNonDefaultScript(reference, creature.OnHeartbeat, "acf_cre_onheartbeat", new string[] { "", "nw_c2_default1" });
+                EnforceNonDefaultScript(reference, creature.OnInventoryDisturbed, "acf_cre_onheartbeat", new string[] { "", "nw_c2_default8" });
+                EnforceNonDefaultScript(reference, creature.OnPerception, "acf_cre_onperception", new string[] { "", "nw_c2_default2" });
+                EnforceNonDefaultScript(reference, creature.OnPhysicalAttacked, "acf_cre_onphysicallyattacked", new string[] { "", "nw_c2_default5" });
+                EnforceNonDefaultScript(reference, creature.OnRested, "acf_cre_onrested", new string[] { "", "nw_c2_defaulta" });
+                EnforceNonDefaultScript(reference, creature.OnSpawnIn, "acf_cre_onspawnin", new string[] { "", "nw_c2_default9" });
+                EnforceNonDefaultScript(reference, creature.OnSpellCastAt, "acf_cre_onspellcastat", new string[] { "", "nw_c2_defaultb" });
+                EnforceNonDefaultScript(reference, creature.OnUserDefined, "acf_cre_onuserdefined", new string[] { "", "nw_c2_defaultd" });
             }
             catch (Exception exception)
             {
                 log.WriteLine("EXCEPTION: Error while handling \"{0}\":\n{1}", reference, exception.Message);
             }
         }
+        #endregion
 
+        #region Validate Doors
+        private void Validate(NWN2DoorBlueprint door)
+        {
+            // Custom validation of only blueprints here.
+
+
+            // Validation of all NWN2DoorTemplates (in areas, blueprints).
+            Validate((NWN2DoorTemplate)door, door.ResourceName.ToString());
+        }
+
+        private void Validate(NWN2DoorInstance door)
+        {
+            // Custom validation of only instances here.
+
+
+            // Validation of all NWN2ItemTemplates (in areas, blueprints).
+            Validate((NWN2DoorTemplate)door, door.Tag);
+        }
+
+        private void Validate(NWN2DoorTemplate door, string reference)
+        {
+            try
+            {
+                // Check for default scripts.
+                EnforceNonDefaultScript(reference, door.OnClick, "acf_door_onclick", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnClosed, "acf_door_onclosed", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnConversation, "acf_door_onconversation", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnDamaged, "acf_door_ondamaged", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnDeath, "acf_door_ondeath", new string[] { "", "x2_door_death" });
+                EnforceNonDefaultScript(reference, door.OnDisarm, "acf_door_ondisarm", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnFailToOpen, "acf_door_onfailtoopen", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnHeartbeat, "acf_door_onheartbeat", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnLock, "acf_door_onlock", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnMeleeAttacked, "acf_door_onmeleeattacked", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnOpen, "acf_door_onopen", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnSpellCastAt, "acf_door_onspellcastat", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnTrapTriggered, "acf_door_ontraptriggered ", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnUnlock, "acf_door_onunlock", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnUsed, "acf_door_onused", new string[] { "" });
+                EnforceNonDefaultScript(reference, door.OnUserDefined, "acf_door_onuserdefined", new string[] { "" });
+            }
+            catch (Exception exception)
+            {
+                log.WriteLine("EXCEPTION: Error while handling \"{0}\":\n{1}", reference, exception.Message);
+            }
+        }
+        #endregion
+
+        #region Validate Placeables
+        private void Validate(NWN2PlaceableBlueprint placeable)
+        {
+            // Custom validation of only blueprints here.
+
+
+            // Validation of all NWN2DoorTemplates (in areas, blueprints).
+            Validate((NWN2PlaceableTemplate)placeable, placeable.ResourceName.ToString());
+        }
+
+        private void Validate(NWN2PlaceableInstance placeable)
+        {
+            // Custom validation of only instances here.
+
+
+            // Validation of all NWN2PlaceableTemplates (in areas, blueprints).
+            Validate((NWN2PlaceableTemplate)placeable, placeable.Tag);
+        }
+
+        private void Validate(NWN2PlaceableTemplate placeable, string reference)
+        {
+            try
+            {
+                // Check for default scripts.
+                EnforceNonDefaultScript(reference, placeable.OnClosed, "acf_plc_onclick", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnConversation, "acf_plc_onconversation", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnDamaged, "acf_plc_ondamaged", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnDeath, "acf_plc_ondeath", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnDisarm, "acf_plc_ondisarm", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnHeartbeat, "acf_plc_onheartbeat", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnInvDisturbed, "acf_plc_oninventorydisturbed", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnLeftClick, "acf_plc_onclick", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnLock, "acf_plc_onlock", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnMeleeAttacked, "acf_plc_onmeleeattacked", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnOpen, "acf_plc_onopen", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnSpellCastAt, "acf_plc_onspellcastat", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnTrapTriggered, "acf_plc_ontraptriggered", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnUnlock, "acf_plc_onunlock", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnUsed, "acf_plc_onused", new string[] { "" });
+                EnforceNonDefaultScript(reference, placeable.OnUserDefined, "acf_plc_onuserdefined", new string[] { "" });
+            }
+            catch (Exception exception)
+            {
+                log.WriteLine("EXCEPTION: Error while handling \"{0}\":\n{1}", reference, exception.Message);
+            }
+        }
+        #endregion
+
+        #region Validate Triggers
+        private void Validate(NWN2TriggerBlueprint trigger)
+        {
+            // Custom validation of only blueprints here.
+
+
+            // Validation of all NWN2TriggerTemplates (in areas, blueprints).
+            Validate((NWN2TriggerTemplate)trigger, trigger.ResourceName.ToString());
+        }
+
+        private void Validate(NWN2TriggerInstance trigger)
+        {
+            // Custom validation of only instances here.
+
+
+            // Validation of all NWN2ItemTemplates (in areas, blueprints).
+            Validate((NWN2TriggerTemplate)trigger, trigger.Tag);
+        }
+
+        private void Validate(NWN2TriggerTemplate trigger, string reference)
+        {
+            try
+            {
+                // Check for default scripts.
+                EnforceNonDefaultScript(reference, trigger.OnClick, "acf_trg_onclick", new string[] { "" });
+                EnforceNonDefaultScript(reference, trigger.OnDisarm, "acf_trg_ondisarm", new string[] { "" });
+                EnforceNonDefaultScript(reference, trigger.OnEnter, "acf_trg_onenter", new string[] { "" });
+                EnforceNonDefaultScript(reference, trigger.OnExit, "acf_trg_onexit", new string[] { "" });
+                EnforceNonDefaultScript(reference, trigger.OnHeartbeat, "acf_trg_onheartbeat", new string[] { "" });
+                EnforceNonDefaultScript(reference, trigger.OnTrapTriggered, "acf_trg_ontraptriggered", new string[] { "" });
+                EnforceNonDefaultScript(reference, trigger.OnUserDefined, "acf_trg_onuserdefined", new string[] { "" });
+            }
+            catch (Exception exception)
+            {
+                log.WriteLine("EXCEPTION: Error while handling \"{0}\":\n{1}", reference, exception.Message);
+            }
+        }
+        #endregion
+
+        #region Validate Waypoints
         private void Validate(NWN2WaypointBlueprint waypoint)
         {
             // Custom validation of only blueprints here.
@@ -251,6 +426,7 @@ namespace ACR_BuilderPlugin
                 log.WriteLine(String.Format("EXCEPTION: Error while handling \"{0}\":\n{1}", reference, exception.Message));
             }
         }
+        #endregion
 
         /// <summary>
         /// Verifies that a given variable on an object is of the correct type.
@@ -319,6 +495,15 @@ namespace ACR_BuilderPlugin
                     return (waypoint.Variables.GetVariable(variable1).ValueString == waypoint.Variables.GetVariable(variable2).ValueString);
             }
             return false;
+        }
+
+        private void EnforceNonDefaultScript(string reference, OEIShared.IO.IResourceEntry script, string newDefault, string[] blacklist)
+        {
+            if (Array.Exists(blacklist, element => element == script.ToString()))
+            {
+                log.WriteLine("FIXED: Object \"{0}\" has default script \"{1}\".", reference, script.ToString());
+                script.ResRef.Value = newDefault;
+            }
         }
     }
 }
