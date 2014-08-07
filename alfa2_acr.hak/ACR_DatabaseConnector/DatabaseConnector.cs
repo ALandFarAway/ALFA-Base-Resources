@@ -145,9 +145,10 @@ namespace ACR_DatabaseConnector
         /// </summary>
         private void DatabaseConnectionMonitorThread()
         {
+            int Timeout = 1000;
+
             for (;;)
             {
-                int Timeout = 1000;
                 uint StartTick;
 
                 try
@@ -196,6 +197,13 @@ namespace ACR_DatabaseConnector
                     {
                         Timeout = 1000;
                     }
+                    else
+                    {
+                        if (Timeout < 32000)
+                        {
+                            Timeout *= 2;
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
@@ -211,6 +219,8 @@ namespace ACR_DatabaseConnector
                 // Wait for a truncated expontential backoff before trying
                 // again.
                 //
+
+                Logger.Log("DatabaseConnector.DatabaseConnectionMonitorThread: Database secure tunnel closed, attempting reconnect in {0} milliseconds.", Timeout);
 
                 Thread.Sleep(Timeout);
             }
