@@ -769,9 +769,9 @@ namespace ACR_ServerCommunicator
 
                     MemStream.Position = 0;
 
-                    using (GZipStream CompressedStream = new GZipStream(MemStream, CompressionMode.Decompress))
+                    using (FileStream OutStream = File.Create(LocalFileName))
                     {
-                        using (FileStream OutStream = File.Create(LocalFileName))
+                        using (GZipStream CompressedStream = new GZipStream(MemStream, CompressionMode.Decompress))
                         {
                             CompressedStream.CopyTo(OutStream);
                         }
