@@ -248,7 +248,7 @@ namespace ACR_ServerCommunicator
                     string LocalHashString = "<no such file>";
                     string TransferTempFilePath = LocalPath + ".patchxfer";
 
-                    if (File.Exists(LocalPath) && (ContentPatchFileStoreFileExists(FileStorePath, ConnectionString) || File.Exists(RemotePath)))
+                    if (File.Exists(LocalPath))
                     {
                         LocalHashString = GetFileChecksum(LocalPath, MD5Csp);
 
