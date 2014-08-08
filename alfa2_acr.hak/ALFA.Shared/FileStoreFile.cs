@@ -61,6 +61,11 @@ namespace ALFA.Shared
         void SetMetadata();
 
         /// <summary>
+        /// Returns true if the file exists.
+        /// </summary>
+        bool Exists();
+
+        /// <summary>
         /// The last modified timestamp of the file.
         /// </summary>
         DateTimeOffset? LastModified { get; }

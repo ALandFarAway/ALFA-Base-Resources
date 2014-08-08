@@ -111,6 +111,14 @@ namespace ALFA.Shared
         }
 
         /// <summary>
+        /// Returns true if the file exists.
+        /// </summary>
+        public bool Exists()
+        {
+            return Blob.Exists();
+        }
+
+        /// <summary>
         /// The last modified timestamp of the file.
         /// </summary>
         public DateTimeOffset? LastModified

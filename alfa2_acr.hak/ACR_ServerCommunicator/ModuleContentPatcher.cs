@@ -248,7 +248,7 @@ namespace ACR_ServerCommunicator
                     string LocalHashString = "<no such file>";
                     string TransferTempFilePath = LocalPath + ".patchxfer";
 
-                    if (File.Exists(LocalPath) && File.Exists(RemotePath))
+                    if (File.Exists(LocalPath) && (ContentPatchFileStoreFileExists(FileStorePath, ConnectionString) || File.Exists(RemotePath)))
                     {
                         LocalHashString = GetFileChecksum(LocalPath, MD5Csp);
 
@@ -750,6 +750,7 @@ namespace ACR_ServerCommunicator
 
             //
             // Initialize the file store provider.
+            //
 
             FileStore UpdaterStore = FileStoreProvider.CreateAzureFileStore(ConnectionString);
             FileStoreContainer UpdaterContainer = UpdaterStore.GetContainerReference(FileStoreNamespace.ACRUpdater);
@@ -765,6 +766,8 @@ namespace ACR_ServerCommunicator
                 using (MemoryStream MemStream = new MemoryStream())
                 {
                     UpdaterFile.Read(MemStream);
+
+                    MemStream.Position = 0;
 
                     using (GZipStream CompressedStream = new GZipStream(MemStream, CompressionMode.Decompress))
                     {
@@ -786,5 +789,50 @@ namespace ACR_ServerCommunicator
             }
         }
 
+        /// <summary>
+        /// Check if a file store file exists.
+        /// </summary>
+        /// <param name="FileStorePath">Supplies the remote file name that
+        /// designates the file to check for existance.</param>
+        /// <param name="ConnectionString">Supplies the file store connection
+        /// string.</param>
+        /// <returns>True if the file store file exists.</returns>
+        private static bool ContentPatchFileStoreFileExists(string FileStorePath, string ConnectionString)
+        {
+            if (String.IsNullOrEmpty(ConnectionString))
+                return false;
+
+            //
+            // Initialize the file store provider.
+            //
+
+            FileStore UpdaterStore = FileStoreProvider.CreateAzureFileStore(ConnectionString);
+            FileStoreContainer UpdaterContainer = UpdaterStore.GetContainerReference(FileStoreNamespace.ACRUpdater);
+            FileStoreFile UpdaterFile = UpdaterContainer.GetFileReference(FileStorePath + ".gzip");
+
+            try
+            {
+                if (UpdaterFile.Exists())
+                    return true;
+            }
+            catch
+            {
+
+            }
+
+            UpdaterFile = UpdaterContainer.GetFileReference(FileStorePath);
+
+            try
+            {
+                if (UpdaterFile.Exists())
+                    return true;
+            }
+            catch
+            {
+
+            }
+
+            return false;
+        }
     }
 }
