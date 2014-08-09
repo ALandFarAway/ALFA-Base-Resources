@@ -17,6 +17,7 @@ const string DEFENSE_QUEST_WAVE_SPAWN_CREATURE = "DEF_QST_WAVE_SPAWN_";
 const string DEFENSE_QUEST_START_MESSAGE = "DEF_QST_START_MESSAGE";
 const string DEFENSE_QUEST_WAVE_MESSAGE = "DEF_QST_WAVE_MESSAGE";
 const string DEFENSE_QUEST_END_MESSAGE = "DEF_QST_END_MESSAGE";
+const string DEFENSE_QUEST_FAIL_MESSAGE = "DEF_QST_FAIL_MESSAGE";
 
 void ACR_AdvanceDefenseQuest(int questID)
 {
@@ -49,6 +50,7 @@ void ACR_FailDefenseQuest(int questID)
 		if(ACR_RetrieveQuestState(sQuest, oPC) == lowerState &&
 		   GetLocalInt(oPC, DEFENSE_QUEST_ID) == questID)
 		{
+			SendMessageToPC(oPC, GetLocalString(OBJECT_SELF, DEFENSE_QUEST_FAIL_MESSAGE));
 			ACR_AddPersistentJournalQuestEntry(sQuest, failState, oPC, FALSE, FALSE, TRUE, 0, 0.0f);
 		}
 		oPC = GetNextPC(TRUE);
