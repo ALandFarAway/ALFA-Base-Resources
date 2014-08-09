@@ -31,7 +31,10 @@ namespace ALFA.Shared
             internal CampaignDatabaseHook()
             {
                 if (!ALFA.SystemInfo.IsRunningInNWN2Server())
+                {
+                    Logger.Log("CampaignDatabaseHook.CampaignDatabaseHook:  Not running in NWN2SERVER.EXE, disabling campaign database integration.");
                     return;
+                }
 
                 //
                 // Create delegates.
