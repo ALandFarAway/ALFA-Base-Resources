@@ -38,5 +38,10 @@ namespace ALFA.Shared
         /// file.</param>
         /// <returns>A FileStoreFile object.</returns>
         FileStoreFile GetFileReference(string FileName);
+
+        /// <summary>
+        /// The storage URI of the directory.
+        /// </summary>
+        Uri Uri { get; }
     }
 }

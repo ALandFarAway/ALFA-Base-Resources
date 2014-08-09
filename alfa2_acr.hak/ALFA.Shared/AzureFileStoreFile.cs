@@ -160,6 +160,11 @@ namespace ALFA.Shared
         public Uri Uri { get { return Blob.Uri; } }
 
         /// <summary>
+        /// The name of the file.
+        /// </summary>
+        public string Name { get { return Blob.Name; } }
+
+        /// <summary>
         /// The internal Azure blob for this file.
         /// </summary>
         private CloudBlockBlob Blob;

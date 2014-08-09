@@ -91,6 +91,16 @@ namespace ALFA.Shared
         }
 
         /// <summary>
+        /// The storage URI of the container.
+        /// </summary>
+        public Uri Uri { get { return Container.Uri; } }
+
+        /// <summary>
+        /// The name of the container.
+        /// </summary>
+        public string Name { get { return Container.Name; } }
+
+        /// <summary>
         /// The internal Azure container.
         /// </summary>
         private CloudBlobContainer Container;

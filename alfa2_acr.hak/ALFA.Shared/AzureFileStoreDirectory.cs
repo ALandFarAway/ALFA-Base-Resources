@@ -79,6 +79,10 @@ namespace ALFA.Shared
             return new AzureFileStoreFile(Directory.GetBlockBlobReference(FileName));
         }
 
+        /// <summary>
+        /// The storage URI of the directory.
+        /// </summary>
+        public Uri Uri { get { return Directory.Uri; } }
 
         /// <summary>
         /// The internal Azure directory.

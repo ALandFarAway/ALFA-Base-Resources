@@ -46,5 +46,15 @@ namespace ALFA.Shared
         /// <returns>true if the container did not already exist and was
         /// created; otherwise false.</returns>
         bool CreateIfNotExists();
+
+        /// <summary>
+        /// The storage URI of the container.
+        /// </summary>
+        Uri Uri { get; }
+
+        /// <summary>
+        /// The name of the container.
+        /// </summary>
+        string Name { get; }
     }
 }

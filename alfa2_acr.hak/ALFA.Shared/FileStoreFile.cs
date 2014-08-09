@@ -88,5 +88,10 @@ namespace ALFA.Shared
         /// The storage URI of the file.
         /// </summary>
         Uri Uri { get; }
+
+        /// <summary>
+        /// The name of the file.
+        /// </summary>
+        string Name { get; }
     }
 }
