@@ -28,6 +28,18 @@ namespace ALFA.Shared
         FileStoreFile GetFileReference(string FileName);
 
         /// <summary>
+        /// List all files directly parented to this container.
+        /// </summary>
+        /// <returns>A list of file references.</returns>
+        IEnumerable<FileStoreFile> GetFiles();
+
+        /// <summary>
+        /// List all directories directly parented to this container.
+        /// </summary>
+        /// <returns>A list of directory references.</returns>
+        IEnumerable<FileStoreDirectory> GetDirectories();
+
+        /// <summary>
         /// Create the container if it doesn't exist.  The container is assumed
         /// to be private access only.
         /// </summary>

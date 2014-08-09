@@ -46,6 +46,40 @@ namespace ALFA.Shared
         }
 
         /// <summary>
+        /// List all files directly parented to this container.
+        /// </summary>
+        /// <returns>A list of file references.</returns>
+        public IEnumerable<FileStoreFile> GetFiles()
+        {
+            List<FileStoreFile> Entries = new List<FileStoreFile>();
+
+            foreach (var Entry in Container.ListBlobs())
+            {
+                if (Entry.GetType() == typeof(CloudBlockBlob))
+                    Entries.Add(new AzureFileStoreFile((CloudBlockBlob)Entry));
+            }
+
+            return Entries;
+        }
+
+        /// <summary>
+        /// List all directories directly parented to this container.
+        /// </summary>
+        /// <returns>A list of directory references.</returns>
+        public IEnumerable<FileStoreDirectory> GetDirectories()
+        {
+            List<FileStoreDirectory> Entries = new List<FileStoreDirectory>();
+
+            foreach (var Entry in Container.ListBlobs())
+            {
+                if (Entry.GetType() == typeof(CloudBlobDirectory))
+                    Entries.Add(new AzureFileStoreDirectory((CloudBlobDirectory)Entry));
+            }
+
+            return Entries;
+        }
+
+        /// <summary>
         /// Create the container if it doesn't exist.  The container is assumed
         /// to be private access only.
         /// </summary>
