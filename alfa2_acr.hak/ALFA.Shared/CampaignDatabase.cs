@@ -30,6 +30,9 @@ namespace ALFA.Shared
             /// </summary>
             internal CampaignDatabaseHook()
             {
+                if (!ALFA.SystemInfo.IsRunningInNWN2Server())
+                    return;
+
                 //
                 // Create delegates.
                 //

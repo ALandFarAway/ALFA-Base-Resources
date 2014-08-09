@@ -702,6 +702,26 @@ namespace ALFA
             }
         }
 
+        /// <summary>
+        /// Check whether the caller is running in the context of the game
+        /// server process.
+        /// </summary>
+        /// <returns>True if the caller is running in the server process.
+        /// </returns>
+        public static bool IsRunningInNWN2Server()
+        {
+            try
+            {
+                if (GetExoAppWindow() != IntPtr.Zero)
+                    return true;
+            }
+            catch (ApplicationException)
+            {
+            }
+
+            return false;
+        }
+
 
 
         /// <summary>
