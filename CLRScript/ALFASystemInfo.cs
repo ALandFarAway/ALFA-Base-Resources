@@ -562,16 +562,20 @@ namespace ALFA
         /// characters or references to special device names.
         /// </summary>
         /// <param name="FileName">Supplies the file name to check.</param>
+        /// <param name="AllowSeparators">Supplies true if separators are
+        /// allowed.</param>
         /// <returns>True if the file name is safe.</returns>
-        public static bool IsSafeFileName(string FileName)
+        public static bool IsSafeFileName(string FileName, bool AllowSeparators = false)
         {
             if (FileName.IndexOf("..") != -1)
                 return false;
-            else if (FileName.IndexOf(Path.DirectorySeparatorChar) != -1)
+            else if (!AllowSeparators && FileName.IndexOf(Path.DirectorySeparatorChar) != -1)
                 return false;
-            else if (FileName.IndexOf(Path.AltDirectorySeparatorChar) != -1)
+            else if (!AllowSeparators && FileName.IndexOf(Path.AltDirectorySeparatorChar) != -1)
                 return false;
-            else if (FileName.IndexOfAny(Path.GetInvalidFileNameChars()) != -1)
+            else if (!AllowSeparators && FileName.IndexOfAny(Path.GetInvalidFileNameChars()) != -1)
+                return false;
+            else if (AllowSeparators && FileName.IndexOfAny(Path.GetInvalidPathChars()) != -1)
                 return false;
             else if (FileName == "PRN")
                 return false;
