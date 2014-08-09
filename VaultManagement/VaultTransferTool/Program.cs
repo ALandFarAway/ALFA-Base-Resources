@@ -216,6 +216,8 @@ namespace VaultTransferTool
                     Console.WriteLine("Uploading from {0} to vault (CTRL+C in 5 seconds to cancel)...", UploadFrom);
                     Thread.Sleep(5000);
 
+                    Container.CreateIfNotExists();
+
                     //
                     // Canonicalize the upload from base path so that relative
                     // filenames can be ascertained for naming files that are
