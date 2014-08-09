@@ -725,6 +725,13 @@ namespace ACR_DatabaseConnector
            out PROCESS_INFORMATION lpProcessInformation);
 
         /// <summary>
+        /// P/Invoke wrapper for GetCurrentProcess.
+        /// </summary>
+        /// <returns>A pseudohandle for the current process.</returns>
+        [DllImport("kernel32.dll", CallingConvention = CallingConvention.Winapi, SetLastError = false)]
+        private static extern IntPtr GetCurrentProcess();
+
+        /// <summary>
         /// The underlying job object used to track PLINK.EXE instances.  It is
         /// used to ensure that when the NWN2SERVER.EXE process is terminated,
         /// that when the last handle (within the NWN2SERVER.EXE handle table)
