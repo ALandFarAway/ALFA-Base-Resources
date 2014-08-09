@@ -30,6 +30,15 @@ namespace ALFA.Shared
         void Write(Stream Stream);
 
         /// <summary>
+        /// Replace the contents of the file with the given Stream if the
+        /// stored file has not been modified since a given time.
+        /// </summary>
+        /// <param name="Stream">Supplies the Stream to write into the file.
+        /// The original contents of the file are replaced.</param>
+        /// <param name="Time">Supplies the modified time cutoff.</param>
+        void WriteIfNotModifiedSince(Stream Stream, DateTimeOffset Time);
+
+        /// <summary>
         /// Read the entire contents of the file into the given Stream.
         /// </summary>
         /// <param name="Stream">Supplies the Stream to read the entire

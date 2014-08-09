@@ -51,4 +51,15 @@ namespace ALFA.Shared
         /// </summary>
         private CloudBlobClient BlobClient;
     }
+
+    /// <summary>
+    /// This class defines status codes from Azure remote service operations.
+    /// </summary>
+    internal static class AzureFileStoreStatusCodes
+    {
+        /// <summary>
+        /// Returned if a precondition is not met.
+        /// </summary>
+        internal const string ConditionNotMet = "The condition specified using HTTP conditional header(s) is not met.";
+    }
 }

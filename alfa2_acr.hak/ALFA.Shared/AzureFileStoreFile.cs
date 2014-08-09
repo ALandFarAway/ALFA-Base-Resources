@@ -47,6 +47,28 @@ namespace ALFA.Shared
         }
 
         /// <summary>
+        /// Replace the contents of the file with the given Stream if the
+        /// stored file has not been modified since a given time.
+        /// </summary>
+        /// <param name="Stream">Supplies the Stream to write into the file.
+        /// The original contents of the file are replaced.</param>
+        /// <param name="Time">Supplies the modified time cutoff.</param>
+        public void WriteIfNotModifiedSince(Stream Stream, DateTimeOffset Time)
+        {
+            try
+            {
+                Blob.UploadFromStream(Stream, AccessCondition.GenerateIfNotModifiedSinceCondition(Time));
+            }
+            catch (StorageException Ex)
+            {
+                if (Ex.RequestInformation.HttpStatusMessage == AzureFileStoreStatusCodes.ConditionNotMet)
+                    throw new FileStoreConditionNotMetException(Ex);
+
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Read the entire contents of the file into the given Stream.
         /// </summary>
         /// <param name="Stream">Supplies the Stream to read the entire
@@ -71,15 +93,7 @@ namespace ALFA.Shared
             }
             catch (StorageException Ex)
             {
-                //
-                // StorageErrorCodeStrings.ConditionNotMet is "ConditionNotMet"
-                // and not the below string which is what we really need to
-                // check for.
-                //
-
-                string ConditionNotMet = "The condition specified using HTTP conditional header(s) is not met.";
-
-                if (Ex.RequestInformation.HttpStatusMessage == ConditionNotMet)
+                if (Ex.RequestInformation.HttpStatusMessage == AzureFileStoreStatusCodes.ConditionNotMet)
                     throw new FileStoreConditionNotMetException(Ex);
 
                 throw;
