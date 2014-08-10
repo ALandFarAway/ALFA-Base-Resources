@@ -55,6 +55,9 @@ namespace ACR_ServerCommunicator
             ErrorNotifyIrcRecipient = "";
             DisableSaveInQuarantine = false;
             ProtectionLevel = MemberProtectionLevel.Open;
+            VaultConnectionString = "";
+            UpdaterConnectionString = "";
+            VerboseVaultLogging = false;
         }
 
         /// <summary>
@@ -95,6 +98,8 @@ namespace ACR_ServerCommunicator
                     VaultConnectionString = VarValue;
                 else if (VarName == "UpdaterConnectionString")
                     UpdaterConnectionString = VarValue;
+                else if (VarName == "VerboseVaultLogging")
+                    VerboseVaultLogging = Convert.ToInt32(VarValue) != 0;
             }
         }
 
@@ -164,6 +169,11 @@ namespace ACR_ServerCommunicator
         /// The Azure connection string for updater storage.
         /// </summary>
         public string UpdaterConnectionString { get; set; }
+
+        /// <summary>
+        /// True if the ServerVaultConnector has verbose logging enabled.
+        /// </summary>
+        public bool VerboseVaultLogging { get; set; }
 
 
     }

@@ -323,7 +323,7 @@ namespace ACR_ServerCommunicator
 
             WorldManager.SynchronizeInitialConfiguration(Database);
 
-            if (!ServerVaultConnector.Initialize(this, WorldManager.Configuration.VaultConnectionString))
+            if (!ServerVaultConnector.Initialize(this, WorldManager.Configuration.VaultConnectionString, WorldManager.Configuration.VerboseVaultLogging))
                 WriteTimestampedLogEntry("ACR_ServerCommunicator.InitializeServerCommunicator: ServerVaultConnector failed to initialize.");
 
             if (!String.IsNullOrEmpty(WorldManager.Configuration.VaultConnectionString))

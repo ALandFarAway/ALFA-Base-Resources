@@ -22,9 +22,11 @@ namespace ACR_ServerCommunicator
         /// <param name="Script">Supplies the main script object.</param>
         /// <param name="ConnectionString">Supplies the connection string for
         /// the server vault.</param>
+        /// <param name="VerboseLogging">Supplies true if verbose logging is
+        /// enabled.</param>
         /// <returns>True if the server vault connector is
         /// initialized.</returns>
-        public static bool Initialize(ACR_ServerCommunicator Script, string ConnectionString)
+        public static bool Initialize(ACR_ServerCommunicator Script, string ConnectionString, bool VerboseLogging)
         {
             if (Initialized)
                 return true;
@@ -74,8 +76,12 @@ namespace ACR_ServerCommunicator
         /// </summary>
         /// <param name="ConnectionString">Supplies the connection string for
         /// the server vault.</param>
-        public static void RefreshConfiguration(string ConnectionString)
+        /// <param name="VerboseLogging">Supplies true if verbose logging is
+        /// enabled.</param>
+        public static void RefreshConfiguration(string ConnectionString, bool VerboseLogging)
         {
+            VerboseLoggingEnabled = VerboseLogging;
+
             if (ConnectionString == StoreConnectionString)
                 return;
 
@@ -278,11 +284,14 @@ namespace ACR_ServerCommunicator
                                         throw;
                                     }
 
-                                    Logger.Log("ServerVaultConnector.OnSynchronizeAccountFromVault: Downloaded vault file '{0}\\{1}' with modified date {2} -> {3}.",
-                                        AccountName,
-                                        CharacterFileName,
-                                        FsLastModified,
-                                        File.GetLastWriteTimeUtc(FsFileName));
+                                    if (VerboseLoggingEnabled)
+                                    {
+                                        Logger.Log("ServerVaultConnector.OnSynchronizeAccountFromVault: Downloaded vault file '{0}\\{1}' with modified date {2} -> {3}.",
+                                            AccountName,
+                                            CharacterFileName,
+                                            FsLastModified,
+                                            File.GetLastWriteTimeUtc(FsFileName));
+                                    }
                                 }
                                 catch (FileStoreConditionNotMetException)
                                 {
@@ -357,7 +366,12 @@ namespace ACR_ServerCommunicator
                                         DirectoryInfo Parent = Directory.GetParent(SyncPath);
 
                                         Directory.CreateDirectory(Parent.FullName + "\\" + OriginalName);
-                                        Logger.Log("ServerVaultConnector.OnSynchronizeAccountFromVault: Created vault directory for account '{0}'.", OriginalName);
+
+                                        if (VerboseLoggingEnabled)
+                                        {
+                                            Logger.Log("ServerVaultConnector.OnSynchronizeAccountFromVault: Created vault directory for account '{0}'.", OriginalName);
+                                        }
+
                                         DirCreated = true;
                                     }
                                 }
@@ -401,10 +415,13 @@ namespace ACR_ServerCommunicator
                                 throw;
                             }
 
-                            Logger.Log("ServerVaultConnector.OnSynchronizeAccountFromVault: Downloaded new vault file '{0}\\{1}' with modified date {2}.",
-                                AccountName,
-                                CharacterFileName,
-                                File.GetLastWriteTimeUtc(FsFileName));
+                            if (VerboseLoggingEnabled)
+                            {
+                                Logger.Log("ServerVaultConnector.OnSynchronizeAccountFromVault: Downloaded new vault file '{0}\\{1}' with modified date {2}.",
+                                    AccountName,
+                                    CharacterFileName,
+                                    File.GetLastWriteTimeUtc(FsFileName));
+                            }
                         }
                         finally
                         {
@@ -495,9 +512,12 @@ namespace ACR_ServerCommunicator
                     StoreFile.Metadata["OriginalFileName"] = OriginalFileName;
                     StoreFile.Write(new MemoryStream(CharacterData));
 
-                    Logger.Log("ServerVaultConnector.OnSynchronizeAccountFileToVault: Uploaded vault file '{0}\\{1}'.",
-                        AccountName,
-                        CharacterFile);
+                    if (VerboseLoggingEnabled)
+                    {
+                        Logger.Log("ServerVaultConnector.OnSynchronizeAccountFileToVault: Uploaded vault file '{0}\\{1}'.",
+                            AccountName,
+                            CharacterFile);
+                    }
 
                     return 1;
                 }
@@ -549,6 +569,11 @@ namespace ACR_ServerCommunicator
         /// The connection string for the server vault.
         /// </summary>
         private static string StoreConnectionString;
+
+        /// <summary>
+        /// True if verbose logging is enabled.
+        /// </summary>
+        private static bool VerboseLoggingEnabled;
 
         /// <summary>
         /// The underlying file store used for the server vault.
