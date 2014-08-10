@@ -343,9 +343,11 @@ namespace ACR_DatabaseConnector
         /// <param name="CommandLine">Supplies command line arguments that do
         /// not include the implicit exe file name argument.</param>
         /// <param name="Job">Supplies a job handle.</param>
+        /// <param name="BreakawayOk">Supplies true if job breakaway is to be
+        /// considered acceptable.</param>
         /// <returns>A System.Diagnostics.Process describing the created
         /// process object.</returns>
-        private static Process CreateProcessInJob(string ExeFileName, string CommandLine, SafeWaitHandle Job)
+        private static Process CreateProcessInJob(string ExeFileName, string CommandLine, SafeWaitHandle Job, bool BreakawayOk = false)
         {
             PROCESS_INFORMATION ProcessInfo;
             STARTUPINFO StartupInfo;
@@ -388,7 +390,7 @@ namespace ACR_DatabaseConnector
                     IntPtr.Zero,
                     IntPtr.Zero,
                     0,
-                    PROCESSCREATIONFLAGS.CreateSuspended,
+                    PROCESSCREATIONFLAGS.CreateSuspended | (BreakawayOk ? PROCESSCREATIONFLAGS.CreateBreakawayFromJob : 0),
                     IntPtr.Zero,
                     null,
                     ref StartupInfo,
@@ -409,7 +411,27 @@ namespace ACR_DatabaseConnector
                 //
 
                 if (AssignProcessToJobObject(Job.DangerousGetHandle(), ProcessInfo.hProcess) == 0)
-                    throw new ApplicationException("AssignProcessToJobObject failed: " + Marshal.GetLastWin32Error());
+                {
+                    int LastError = Marshal.GetLastWin32Error();
+                    bool ContinueAnyway = false;
+
+                    if (LastError == ERROR_ACCESS_DENIED)
+                    {
+                        if (BreakawayOk == false)
+                        {
+                            Logger.Log("DatabaseConnector.CreateProcessInJob: Failed to assign process to job due to ERROR_ACCESS_DENIED, trying with breakaway.");
+                            return CreateProcessInJob(ExeFileName, CommandLine, Job, true);
+                        }
+                        else
+                        {
+                            Logger.Log("DatabaseConnector.CreateProcessInJob: Failed to assign process to job due to ERROR_ACCESS_DENIED and breakaway failed, ignoring failure.");
+                            ContinueAnyway = true;
+                        }
+                    }
+
+                    if (!ContinueAnyway)
+                        throw new ApplicationException("AssignProcessToJobObject failed: " + Marshal.GetLastWin32Error());
+                }
 
                 //
                 // Attach a Process object to the process by ID.   Since a
@@ -675,6 +697,7 @@ namespace ACR_DatabaseConnector
         private enum PROCESSCREATIONFLAGS : uint
         {
             CreateSuspended = 0x00000004,
+            CreateBreakawayFromJob = 0x01000000,
             CreateNoWindow = 0x08000000,
         }
 
@@ -730,6 +753,11 @@ namespace ACR_DatabaseConnector
         /// <returns>A pseudohandle for the current process.</returns>
         [DllImport("kernel32.dll", CallingConvention = CallingConvention.Winapi, SetLastError = false)]
         private static extern IntPtr GetCurrentProcess();
+
+        /// <summary>
+        /// P/Invoke error code constant.
+        /// </summary>
+        private const int ERROR_ACCESS_DENIED = 5;
 
         /// <summary>
         /// The underlying job object used to track PLINK.EXE instances.  It is
