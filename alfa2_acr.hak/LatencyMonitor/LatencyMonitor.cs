@@ -310,14 +310,6 @@ namespace LatencyMonitor
 
                         using (MemoryStream MemStream = new MemoryStream())
                         {
-                            using (StreamWriter StrWriter = new StreamWriter(MemStream))
-                            {
-                                StrWriter.WriteLine(
-                                    "Server {0} is up at {1}.",
-                                    LocalServerId,
-                                    DateTime.UtcNow);
-                            }
-
                             StoreFile.Write(MemStream);
                         }
                     }
@@ -333,8 +325,10 @@ namespace LatencyMonitor
                         CurrentVaultLatency = (int)Tick;
                     }
                 }
-                catch
+                catch (Exception e)
                 {
+                    Logger.Log("LatencyMonitor.VaultPingThreadRoutine: Exception pinging server vault: {0}", e);
+
                     //
                     // Report a response time of -1 to indicate that no
                     // measurement could be taken.
