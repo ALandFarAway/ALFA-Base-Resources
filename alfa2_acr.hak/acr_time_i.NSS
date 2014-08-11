@@ -217,8 +217,12 @@ void ACR_InitializeTime() {
 		// no server timestamps could be found (new schema?)
 		// start from canon start date.
         SetCalendar(TIME_YEAR_START, 1, 1);
-		ACR_SetPersistentInt(oMod, ACR_MODULE_TIME, ACR_GetTimeStampInMinutes());
-		ACR_StoreTime();
+		if (ACR_GetIsModuleOffline() == FALSE) {
+			ACR_SetPersistentInt(oMod, ACR_MODULE_TIME, ACR_GetTimeStampInMinutes());
+			ACR_StoreTime();
+		} else {
+			WriteTimestampedLogEntry("Module is offline.");
+		}
 		WriteTimestampedLogEntry("Restarted canon calander at Jan 1, TIME_YEAR_START; as no record could be found.");
 	} else {
 	    // Work out date from timestamp (total faerun minutes since DR)
@@ -234,7 +238,12 @@ void ACR_InitializeTime() {
 		
 		SetCalendar(nYear, nMonth, nDay);
 		SetTime(nHour, nMinute, 0, 0);
-		ACR_StoreTime();
+
+		if (ACR_GetIsModuleOffline() == FALSE) {
+			ACR_StoreTime();
+		} else {
+			WriteTimestampedLogEntry("Module is offline.");
+		}
 		// log the information to the serverlog.
 		WriteTimestampedLogEntry("Synchronized to "+sExternalServer+" with ID="+IntToString(nExternalServerID)+", written to the SQL database with RL timestamp: "+sSQLtime);
 	}
@@ -353,7 +362,11 @@ void ACR_StoreTime()
 	    SetLocalInt(oMod, ACR_DB_FAILURES, 0);
 	}
 
-	ACR_SetPersistentInt(oMod, ACR_MODULE_TIME, ACR_GetTimeStampInMinutes());
+	if (ACR_GetIsModuleOffline() == FALSE) {
+		ACR_SetPersistentInt(oMod, ACR_MODULE_TIME, ACR_GetTimeStampInMinutes());
+	} else {
+		WriteTimestampedLogEntry("Module is offline.");
+	}
 
 	// Handling for rl -> fr date conversion
 	ACR_SQLQuery("SELECT CURDATE() + 0");

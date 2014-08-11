@@ -1463,7 +1463,6 @@ void ACR_AdjustTables() {
 	} else {
 		WriteTimestampedLogEntry("ACR_DB_PERSIST: RecompileModule column existance confirmed.");
 	}
-	return;
 	
 	// check to see if the Servers table has the IsPublic column
 	ACR_SQLQuery("SHOW COLUMNS from `servers` WHERE Field = 'IsPublic';");
@@ -1472,6 +1471,15 @@ void ACR_AdjustTables() {
 		WriteTimestampedLogEntry("ACR_DB_PERSIST: Servers table altered to record IsPublic status.");
 	} else {
 		WriteTimestampedLogEntry("ACR_DB_PERSIST: IsPublic column existance confirmed.");
+	}
+	
+	// check to see if the Servers table has the MachineName column
+	ACR_SQLQuery("SHOW COLUMNS from `servers` WHERE Field = 'MachineName';");
+	if (ACR_SQLFetch() != SQL_SUCCESS) {
+		ACR_SQLQuery("ALTER TABLE `servers` ADD `MachineName` varchar(256) NULL DEFAULT NULL COMMENT 'Machine name that host computer must have to start server (or else NULL for any machine), for recovery use.'");
+		WriteTimestampedLogEntry("ACR_DB_PERSIST: Servers table altered to record MachineName.");
+	} else {
+		WriteTimestampedLogEntry("ACR_DB_PERSIST: MachineName column existance confirmed.");
 	}
 }
 

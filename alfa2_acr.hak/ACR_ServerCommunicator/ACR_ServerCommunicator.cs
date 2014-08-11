@@ -323,6 +323,32 @@ namespace ACR_ServerCommunicator
 
             WorldManager.SynchronizeInitialConfiguration(Database);
 
+            //
+            // Check that the module is allowed to come online.  If it may be
+            // hosted on another machine due to a recovery event, do not allow
+            // the module to come online.
+            //
+
+            if (!ConfirmModuleOnline())
+            {
+                //
+                // This module has been administratively prevented from loading
+                // on all but a specific machine.  Await that condition to be
+                // cleared from the database.  Do not initialize the vault
+                // connector so that new logons are blocked, and set the
+                // offline variable so that periodic time update does not mark
+                // the server as online in the database.
+                //
+
+                WriteTimestampedLogEntry("ACR_ServerCommunicator.InitializeServerCommunicator: Module offlined because MachineName in servers table for this server is not NULL and does not match the machine name of this server.  This indicates that server startup was blocked for manual recovery.  Clear the MachineName field from the servers table in the database for this server to allow this server to start up normally.");
+                SetLocalInt(GetModule(), "ACR_MODULE_OFFLINE", TRUE);
+                PollModuleOnlineAllowed();
+                SendInfrastructureDiagnosticIrcMessage(String.Format(
+                    "Server '{0}' started on a machine that is administratively prohibited from loading the module, going into offline mode until MachineName is cleared in the servers table in the database for this server.",
+                    GetName(GetModule())));
+                return;
+            }
+
             if (!ServerVaultConnector.Initialize(this, WorldManager.Configuration.VaultConnectionString, WorldManager.Configuration.VerboseVaultLogging))
                 WriteTimestampedLogEntry("ACR_ServerCommunicator.InitializeServerCommunicator: ServerVaultConnector failed to initialize.");
 
@@ -391,6 +417,62 @@ namespace ACR_ServerCommunicator
                 WriteTimestampedLogEntry(String.Format(
                     "ACR_ServerCommunicator.RecordModuleResources: Exception {0}.", e));
             }
+        }
+
+        /// <summary>
+        /// Check if this module is permitted to come online.  Modules can be
+        /// restricted to only being hosted by a particular machine in recovery
+        /// scenarios to prevent an automatically started server instance on
+        /// another machine from coming online inadvertently.
+        /// </summary>
+        /// <returns>True if the module can come online.</returns>
+        private bool ConfirmModuleOnline()
+        {
+            int ServerId = Database.ACR_GetServerID();
+
+            Database.ACR_SQLQuery(String.Format("SELECT `MachineName` FROM `servers` WHERE `ID` = {0}", ServerId));
+
+            if (!Database.ACR_SQLFetch())
+                return true;
+
+            string RequiredMachineName = Database.ACR_SQLGetData(0);
+            string ThisMachineName = Environment.MachineName;
+
+            if (String.IsNullOrEmpty(RequiredMachineName))
+                return true;
+
+            if (RequiredMachineName.Equals(ThisMachineName, StringComparison.InvariantCultureIgnoreCase))
+            {
+                WriteTimestampedLogEntry("ACR_ServerCommunicator.ConfirmModuleOnline: Allowing server to startup normally due to MachineName match.");
+                return true;
+            }
+            else
+            {
+                WriteTimestampedLogEntry(String.Format("ACR_ServerCommunicator.ConfirmModuleOnline: Blocking server startup because this machine name '{0}' does not match required machine name '{1}' from the servers table in the database.",
+                    ThisMachineName,
+                    RequiredMachineName));
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Set up a polling cycle to check for whether the module is allowed to come online.
+        /// </summary>
+        private void PollModuleOnlineAllowed()
+        {
+            if (ConfirmModuleOnline())
+            {
+                WriteTimestampedLogEntry("ACR_ServerCommunicator.PollModuleOnlineAllowed: Restarting module because it is now acceptable to bring this server online.");
+                SendInfrastructureDiagnosticIrcMessage(String.Format(
+                    "Server '{0}' restarting to bring module online normally because administrative offline mode was cleared.",
+                    GetName(GetModule())));
+                ALFA.SystemInfo.ShutdownGameServer(this);
+            }
+
+            DelayCommand(60.0f, delegate()
+            {
+                PollModuleOnlineAllowed();
+            });
         }
 
         /// <summary>

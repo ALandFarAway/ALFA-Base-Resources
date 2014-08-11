@@ -100,6 +100,8 @@ const float ACR_AREA_TRANSITION_ZDIFF_MAX = 1.0f;
 const string LIST_2DA_STARTED = "2da_list_started";
 const string LIST_2DA_READY = "2da_list_ready";
 
+const string ACR_MODULE_OFFLINE = "ACR_MODULE_OFFLINE";
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -516,6 +518,10 @@ int ACR_CheckIsStarted2daList(string dict_name);
 
 //! Check if dic_name 2da list has completed caching
 int ACR_CheckIsReady2daList(string dict_name);
+
+//! Check if module is offline.
+//!  - Returns: TRUE if the module is offline.
+int ACR_GetIsModuleOffline();
 
 //! Internal function to space out computation
 void ACR__Cache2daListing(string file_2da, string col_name, string dict_name, int max_id, int start, int incr);
@@ -2223,5 +2229,12 @@ void ACR_Cache2daListing(string file_2da, string col_name, string dict_name, int
 	ACR__Cache2daListing(file_2da, col_name, dict_name, max_id, 0, step_size);
 }
 
+int ACR_GetIsModuleOffline()
+{
+	if (GetLocalInt(GetModule(), ACR_MODULE_OFFLINE) != 0)
+		return TRUE;
+	else
+		return FALSE;
+}
 
 #endif
