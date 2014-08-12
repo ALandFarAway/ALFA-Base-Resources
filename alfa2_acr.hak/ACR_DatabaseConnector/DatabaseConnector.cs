@@ -111,20 +111,28 @@ namespace ACR_DatabaseConnector
             // server address from database routine queries a built-in table.
             //
 
-            ALFA.Database Database = new ALFA.Database(Script);
-
-            while (Timeouts != 0)
+            using (ALFA.MySQLDatabase Database = new ALFA.MySQLDatabase())
             {
-                Logger.FlushLogMessages(Script);
-
-                if (String.IsNullOrEmpty(Database.ACR_GetServerAddressFromDatabase()))
+                while (Timeouts != 0)
                 {
+                    Logger.Log("DatabaseConnector.DatabaseConnector: Checking for database connectivity...");
+
+                    Logger.FlushLogMessages(Script);
+
+                    try
+                    {
+                        Database.ACR_SQLQuery("SELECT UNIX_TIMESTAMP();");
+                        if (Database.ACR_SQLFetch())
+                            break;
+                    }
+                    catch
+                    {
+
+                    }
+
                     Thread.Sleep(1000);
                     Timeouts -= 1;
-                    continue;
                 }
-
-                break;
             }
 
             if (Timeouts == 0)
