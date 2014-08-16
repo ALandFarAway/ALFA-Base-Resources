@@ -558,6 +558,44 @@ namespace ALFA
         }
 
         /// <summary>
+        /// Get the remote server vault path for an account, given an account
+        /// name.
+        /// 
+        /// Note that the server must be using the server vault plugin for this
+        /// function to work.
+        /// </summary>
+        /// <param name="AccountName"></param>
+        /// <returns>Returns the vault path for the account, with a path
+        /// separator on the end, else null if vault path could not be found.
+        /// </returns>
+        public static string GetCentralVaultPathForAccount(string AccountName)
+        {
+            string CentralVaultPath = GetCentralVaultPath();
+
+            if (String.IsNullOrEmpty(CentralVaultPath))
+                return null;
+
+            return String.Format("{0}{1}{2}", CentralVaultPath, AccountName, Path.DirectorySeparatorChar);
+        }
+
+        /// <summary>
+        /// Check whether the storage plugin for xp_ServerVault is in use,
+        /// implying that the central vault path is just a cache that can be
+        /// purged for purge cached character requests.
+        /// </summary>
+        /// <returns>True if the storage plugin is in use.</returns>
+        public static bool GetVaultStoragePluginInUse()
+        {
+            int StoragePluginInUse = Convert.ToInt32(GetNWNX4IniString(
+                "AuroraServerVault.ini",
+                "Settings",
+                "UseStoragePlugin",
+                "0"));
+
+            return (StoragePluginInUse != 0);
+        }
+
+        /// <summary>
         /// Check whether a file name has dangerous characters, such as path
         /// characters or references to special device names.
         /// </summary>

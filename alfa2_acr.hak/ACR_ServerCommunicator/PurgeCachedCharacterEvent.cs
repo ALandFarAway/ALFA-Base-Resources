@@ -38,7 +38,16 @@ namespace ACR_ServerCommunicator
         /// <param name="Database">Supplies the database connection.</param>
         public void DispatchEvent(ACR_ServerCommunicator Script, ALFA.Database Database)
         {
-            string VaultPath = SystemInfo.GetServerVaultPathForAccount(Player.Name);
+            string PlayerName = Player.Name;
+
+            if (!SystemInfo.IsSafeFileName(PlayerName))
+            {
+                Script.WriteTimestampedLogEntry(String.Format(
+                    "PurgeCachedCharacterEvent.DispatchEvent: Invalid player name '{0}'.", PlayerName));
+                return;
+            }
+
+            string VaultPath = SystemInfo.GetServerVaultPathForAccount(PlayerName);
 
             if (VaultPath == null)
             {
@@ -67,6 +76,28 @@ namespace ACR_ServerCommunicator
             {
                 Script.WriteTimestampedLogEntry(String.Format(
                     "PurgeCachedCharacterEvent.DispatchEvent: Exception '{0}' removing cached character '{1}' for player '{2}'.",
+                    e,
+                    CharacterFileName,
+                    Player.PlayerName));
+                return;
+            }
+
+            try
+            {
+                if (SystemInfo.GetVaultStoragePluginInUse())
+                {
+                    VaultPath = SystemInfo.GetCentralVaultPathForAccount(PlayerName);
+
+                    VaultPath += CharacterFileName;
+
+                    if (File.Exists(VaultPath))
+                        File.Delete(VaultPath);
+                }
+            }
+            catch (Exception e)
+            {
+                Script.WriteTimestampedLogEntry(String.Format(
+                    "PurgeCachedCharacterEvent.DispatchEvent: Exception '{0}' removing cached character from Azure vault temporary local storage '{1}' for player '{2}'.",
                     e,
                     CharacterFileName,
                     Player.PlayerName));
