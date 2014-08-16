@@ -46,6 +46,9 @@
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+//! Define to 1 to use the MySQL Connector/NET SQL provider
+#define ACR_DB_PERSIST_USE_CLR_SQL_PROVIDER 1
+
 //! Return status of SQL queries
 const int SQL_ERROR = 0;
 const int SQL_SUCCESS = 1;
@@ -222,6 +225,10 @@ void ACR_StartAsyncService();
 
 //! This function loads and applies database-side configuration.
 void ACR_LoadDatabaseConfiguration();
+
+//! This function initialize database services.  It must be called before any
+//  queries will function.
+void ACR_InitializeDatabase();
 
 //! This function executes an SQL statement asynchronously.
 //! The submitted query is not guarenteed to be executed immediately.
@@ -591,6 +598,7 @@ int _SQLQueryReturnsValues(string sSQL);
 #include "nwnx_include"
 #include "acr_queue_i"
 #include "acr_settings_i"
+#include "acr_server_misc_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -609,6 +617,16 @@ void ACR_StartAsyncService()
 	// Begin unspooling any uncommitted queries if we need to
 	if (GetQueueLength(Module, _ACR_DB_SQL_QUEUE) != 0)
 		_RunQueryQueue(FALSE);
+}
+
+void ACR_InitializeDatabase()
+{
+#if ACR_DB_PERSIST_USE_CLR_SQL_PROVIDER
+	// Create the standard database connection.  This always has the connection
+	// ID of SCRIPT_STANDARD_DATABASE_CONNECTION_ID and it always uses the SQL
+	// connection information for the SQL plugin.
+	ACR_CreateDatabaseConnection("", SCRIPT_DATABASE_CONNECTION_STANDARD_QUERY_LOG | SCRIPT_DATABASE_CONNECTION_STANDARD_CONNECTION);
+#endif
 }
 
 void ACR_LoadDatabaseConfiguration()
@@ -725,17 +743,29 @@ void ACR_SQLQuery(string sSQL)
 
 int ACR_SQLFetch(string mode = " ")
 {
+#if ACR_DB_PERSIST_USE_CLR_SQL_PROVIDER
+    return ACR_FetchDatabaseConnection(SCRIPT_STANDARD_DATABASE_CONNECTION_ID);
+#else
     return NWNXGetInt("SQL", "FETCH", mode, 0);
+#endif
 }
 
 string ACR_SQLGetData(int nCol = 0)
 {
+#if ACR_DB_PERSIST_USE_CLR_SQL_PROVIDER
+	return ACR_GetColumnDatabaseConnection(SCRIPT_STANDARD_DATABASE_CONNECTION_ID, nCol);
+#else
 	return NWNXGetString("SQL", "GETDATA", "", nCol);
+#endif
 }
 
 int ACR_SQLGetAffectedRows()
 {
+#if ACR_DB_PERSIST_USE_CLR_SQL_PROVIDER
+    return ACR_GetAffectedRowCountDatabaseConnection(SCRIPT_STANDARD_DATABASE_CONNECTION_ID);
+#else
     return NWNXGetInt("SQL", "GET AFFECTED ROWS", "", 0);
+#endif
 }
 
 void ACR_IncrementStatistic(string Statistic)
@@ -757,7 +787,11 @@ void ACR_IncrementStatistic(string Statistic)
 
 string ACR_SQLEncodeSpecialChars(string sString)
 {
+#if ACR_DB_PERSIST_USE_CLR_SQL_PROVIDER
+    return ACR_EscapeStringDatabaseConnection(SCRIPT_STANDARD_DATABASE_CONNECTION_ID, sString);
+#else
     return NWNXGetString("SQL", "GET ESCAPE STRING", sString, 0);
+#endif
 }
 
 void ACR_SetPersistentString(object oObject, string sVarName, string sValue, int iExpiration = 0)
@@ -1205,6 +1239,11 @@ void ACR_CreateSQLTables()
 		"PRIMARY KEY  (`ID`), UNIQUE KEY (`ItemProperty`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 
+	//
+	// This table is never used and the creation statement isn't valid either.
+	//
+
+	/*
 	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `login_stats` (" +         
 		"`ID` int(11) NOT NULL AUTO_INCREMENT," +
 		"`ServerID` tinyint(5) NOT NULL," +
@@ -1214,6 +1253,7 @@ void ACR_CreateSQLTables()
 		"`LogoutDate` timestamp default NULL," +
 		"PRIMARY KEY  (`ID`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
+	*/
 
 	ACR_SQLQuery("CREATE TABLE IF NOT EXISTS `logs` (" +         
 		"`ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT," +
@@ -2028,7 +2068,11 @@ int _CalculateTargetMaxQueriesServiced(int nTotalQueueLength)
 
 void _SQLQueryInternal(string sSQL)
 {
+#if ACR_DB_PERSIST_USE_CLR_SQL_PROVIDER
+	ACR_QueryDatabaseConnection(SCRIPT_STANDARD_DATABASE_CONNECTION_ID, sSQL);
+#else
 	NWNXSetString("SQL", "EXEC", sSQL, 0, "");
+#endif
 }
 
 int _SQLQueryReturnsValues(string sSQL)

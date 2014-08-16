@@ -5,9 +5,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
 using CLRScriptFramework;
 using ALFA;
+using ALFA.Shared;
 using NWScript;
 using NWScript.ManagedInterfaceLayer.NWScriptManagedInterface;
 
@@ -25,10 +27,23 @@ namespace ACR_ServerMisc
     public enum ScriptDatabaseConnectionFlags : int
     {
         None = 0x00000000,
+
         /// <summary>
         /// Enable debug logging (query logging).
         /// </summary>
         Debug = 0x00000001,
+
+        /// <summary>
+        /// This connection should be logged to the standard query log file.
+        /// </summary>
+        StandardQueryLog = 0x00000002,
+
+        /// <summary>
+        /// This connection should use the standard default connection
+        /// parameters.  The query string is determined from the NWNX4 SQL
+        /// plugin configuration, and the connection ID is always zero.
+        /// </summary>
+        StandardConnection = 0x00000004,
     }
 
     /// <summary>
@@ -45,7 +60,7 @@ namespace ACR_ServerMisc
         /// <param name="Flags">Supplies control flags.</param>
         private ScriptDatabaseConnection(string ConnectionString, ScriptDatabaseConnectionFlags Flags)
         {
-            Database = new ALFA.MySQLDatabase(ConnectionString);
+            Database = new ALFA.MySQLDatabase(ConnectionString, Flags.HasFlag(ScriptDatabaseConnectionFlags.StandardConnection));
             this.Flags = Flags;
         }
 
@@ -58,13 +73,44 @@ namespace ACR_ServerMisc
         /// <returns>The connection handle.</returns>
         public static int CreateScriptDatabaseConnection(string ConnectionString, ScriptDatabaseConnectionFlags Flags)
         {
-            int Handle = ++NextConnectionHandle;
-            ScriptDatabaseConnection Connection = new ScriptDatabaseConnection(ConnectionString, Flags);
+            int Handle;
+            ScriptDatabaseConnection Connection;
 
-            if (Handle == 0)
+            if (Flags.HasFlag(ScriptDatabaseConnectionFlags.StandardConnection))
+            {
+                Handle = 0;
+
+                if (StandardConnection == null)
+                {
+                    ConnectionString = GetStandardDatabaseConnectionString();
+                    Connection = new ScriptDatabaseConnection(ConnectionString, Flags);
+                    StandardConnection = Connection;
+                    ModuleLinkage.DefaultDatabase = StandardConnection.Database;
+                    ConnectionTable.Add(Handle, Connection);
+                }
+            }
+            else
+            {
+                Connection = new ScriptDatabaseConnection(ConnectionString, Flags);
                 Handle = ++NextConnectionHandle;
 
-            ConnectionTable.Add(Handle, Connection);
+                if (Handle == 0)
+                    Handle = ++NextConnectionHandle;
+
+                ConnectionTable.Add(Handle, Connection);
+            }
+
+            if (Flags.HasFlag(ScriptDatabaseConnectionFlags.StandardQueryLog) && StandardQueryLogger == null)
+            {
+                try
+                {
+                    StandardQueryLogger = new StreamWriter(ALFA.SystemInfo.GetNWNX4InstallationDirectory() + "StandardQueryLog.txt");
+                }
+                catch (Exception e)
+                {
+                    Logger.Log("ScriptDatabaseConnection.CreateScriptDatabaseConnection: Couldn't open standard query log (StandardQueryLog.txt in NWNX4 directory): Exception: {0}", e);
+                }
+            }
 
             return Handle;
         }
@@ -105,7 +151,23 @@ namespace ACR_ServerMisc
                     "ScriptDatabaseConnection({0}): Executing query '{1}'", ConnectionHandle, Query));
             }
 
-            Connection.Database.ACR_SQLQuery(Query);
+            if (Connection.Flags.HasFlag(ScriptDatabaseConnectionFlags.StandardQueryLog))
+                LogQuery(String.Format("* Executing: {0}", Query));
+
+            try
+            {
+                Connection.Database.ACR_SQLQuery(Query);
+            }
+            catch (Exception e)
+            {
+                Logger.Log("ScriptDatabaseConnection.QueryDatabaseConnection: Exception: {0}", e);
+
+                if (Connection.Flags.HasFlag(ScriptDatabaseConnectionFlags.StandardQueryLog))
+                    LogQuery("! ACR_SQLQuery failed.");
+
+                return false;
+            }
+
             return true;
         }
 
@@ -127,8 +189,18 @@ namespace ACR_ServerMisc
                 return false;
             }
 
-            Connection.Database.ACR_SQLFetch();
-            return true;
+            try
+            {
+                return Connection.Database.ACR_SQLFetch();
+            }
+            catch (Exception e)
+            {
+                if (Connection.Flags.HasFlag(ScriptDatabaseConnectionFlags.StandardQueryLog))
+                    LogQuery("! ACR_SQLFetch failed.");
+
+                Logger.Log("ScriptDatabaseConnection.FetchDatabaseConnection: Exception: {0}", e);
+                return false;
+            }
         }
 
         /// <summary>
@@ -150,12 +222,32 @@ namespace ACR_ServerMisc
                 return null;
             }
 
-            string Data = Connection.Database.ACR_SQLGetData(ColumnIndex);
+            string Data;
+            bool Succeeded = true;
+
+            try
+            {
+                Data = Connection.Database.ACR_SQLGetData(ColumnIndex);
+            }
+            catch (Exception e)
+            {
+                Logger.Log("ScriptDatabaseConnection.GetColumnDatabaseConnection: Exception: {0}", e);
+                Data = "";
+                Succeeded = false;
+            }
 
             if (Connection.Flags.HasFlag(ScriptDatabaseConnectionFlags.Debug))
             {
                 Script.WriteTimestampedLogEntry(String.Format(
                     "ScriptDatabaseConnection({0}): Column {1} data: {2}", ConnectionHandle, ColumnIndex, Data));
+            }
+
+            if (Connection.Flags.HasFlag(ScriptDatabaseConnectionFlags.StandardQueryLog))
+            {
+                if (Succeeded)
+                    LogQuery(String.Format("* Returning: {0} (column {1})", Data, ColumnIndex));
+                else
+                    LogQuery("! ACR_SQLGetData failed.");
             }
 
             return Data;
@@ -179,7 +271,15 @@ namespace ACR_ServerMisc
                 return 0;
             }
 
-            return Connection.Database.ACR_SQLGetAffectedRows();
+            try
+            {
+                return Connection.Database.ACR_SQLGetAffectedRows();
+            }
+            catch (Exception e)
+            {
+                Logger.Log("ScriptDatabaseConnection.GetAffectedRowCountDatabaseConnection: Exception: {0}", e);
+                return 0;
+            }
         }
 
         /// <summary>
@@ -205,6 +305,36 @@ namespace ACR_ServerMisc
             return Connection.Database.ACR_SQLEncodeSpecialChars(Str);
         }
 
+        /// <summary>
+        /// Log text to the standard query log.
+        /// </summary>
+        /// <param name="LogText">Supplies a line to write to the standard query log.</param>
+        private static void LogQuery(string LogText)
+        {
+            if (StandardQueryLogger == null)
+                return;
+
+            try
+            {
+                string Timestamp = DateTime.Now.ToString("ddd dd MMM HH:mm:ss:FFF");
+                StandardQueryLogger.WriteLine("[{0}]: {1}", Timestamp, LogText);
+                StandardQueryLogger.Flush();
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>
+        /// Generate the query string used for the standard database
+        /// connection.
+        /// </summary>
+        /// <returns>A database connection string.</returns>
+        private static string GetStandardDatabaseConnectionString()
+        {
+            return null;
+        }
+
 
         /// <summary>
         /// The global table mapping database connection handles (type int) to
@@ -216,6 +346,16 @@ namespace ACR_ServerMisc
         /// The next database connection handle.
         /// </summary>
         private static int NextConnectionHandle = 0;
+
+        /// <summary>
+        /// The standard query logger.
+        /// </summary>
+        static private StreamWriter StandardQueryLogger = null;
+
+        /// <summary>
+        /// The standard database connection.
+        /// </summary>
+        private static ScriptDatabaseConnection StandardConnection = null;
 
         /// <summary>
         /// The underlying database connection.

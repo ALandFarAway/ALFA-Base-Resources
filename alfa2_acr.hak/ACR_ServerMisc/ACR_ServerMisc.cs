@@ -284,6 +284,13 @@ namespace ACR_ServerMisc
                     }
                     break;
 
+                case REQUEST_TYPE.RESTART_SERVER:
+                    {
+                        ALFA.SystemInfo.ShutdownGameServer(this);
+                        ReturnCode = TRUE;
+                    }
+                    break;
+
                 default:
                     throw new ApplicationException("Invalid server misc command " + RequestType.ToString());
 
@@ -731,7 +738,8 @@ namespace ACR_ServerMisc
             GET_HAS_DATABASE_STORE,
             DELETE_DATABASE_STORE,
             DELETE_DATABASE_STORE_AT_INDEX,
-            SHOW_COMPILER_LOG
+            SHOW_COMPILER_LOG,
+            RESTART_SERVER
         }
 
         /// <summary>

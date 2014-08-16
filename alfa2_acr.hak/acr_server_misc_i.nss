@@ -41,7 +41,19 @@ const string ACR_SERVER_MISC_STRING_RETVAL_VAR               = "ACR_SERVER_MISC_
 
 // Enable debug and diagnostic logging (including query logging) for the
 // connection object.
-const int SCRIPT_DATABASE_CONNECTION_DEBUG = 0x00000001;
+const int SCRIPT_DATABASE_CONNECTION_DEBUG               = 0x00000001;
+
+// The connection should be logged to the standard query log file.
+const int SCRIPT_DATABASE_CONNECTION_STANDARD_QUERY_LOG  = 0x00000002;
+
+// The connection should use the standard default connection parameters.  The
+// query string is determined from the NWNX4 SQL plugin configuration, and the
+// connection ID is always SCRIPT_STANDARD_DATABASE_CONNECTION_ID.
+const int SCRIPT_DATABASE_CONNECTION_STANDARD_CONNECTION = 0x00000004;
+
+
+// The connection id of the standard database connection.
+const int SCRIPT_STANDARD_DATABASE_CONNECTION_ID             = 0;
 
 // Commands for the server misc C# script:
 
@@ -115,6 +127,9 @@ const int ACR_SERVER_MISC_DELETE_DATABASE_STORE_AT_INDEX     = 21;
 
 // This command sends the compiler log to the requestor.
 const int ACR_SERVER_MISC_SHOW_COMPILER_LOG                  = 22;
+
+// This command restarts the server.
+const int ACR_SERVER_MISC_RESTART_SERVER                     = 23;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -275,6 +290,10 @@ int ACR_DeleteDatabaseStoreAtIndex(string Campaign, int Index);
 //! Show the last module recompilation log to a user.
 //!  - Returns: TRUE if the operation succeeded.
 int ACR_ShowCompilerLog(object Player);
+
+//! Restart the server.
+//!  - Returns: TRUE if the restart operation was initiated.
+int ACR_RestartServer();
 
 //! Make a raw call to the support script.
 //!  - Command: Supplies the command to request (e.g. ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT).
@@ -621,6 +640,18 @@ int ACR_ShowCompilerLog(object Player)
 		"",
 		"",
 		Player);
+}
+
+int ACR_RestartServer()
+{
+	return ACR_CallServerMiscScript(
+		ACR_SERVER_MISC_RESTART_SERVER,
+		0,
+		0,
+		"",
+		"",
+		"",
+		OBJECT_INVALID);
 }
 
 int ACR_CallServerMiscScript(int Command, int P0, int P1, string P2, string P3, string P4, object P5, object ObjectSelf = OBJECT_SELF)

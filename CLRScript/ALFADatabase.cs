@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Reflection.Emit;
 using CLRScriptFramework;
+using ALFA.Shared;
 using NWScript;
 using NWScript.ManagedInterfaceLayer.NWScriptManagedInterface;
 
@@ -104,7 +105,25 @@ namespace ALFA
     }
 
     /// <summary>
-    /// This class encapsulates database access for ALFA CLR scripts.
+    /// This class encapsulates database access for ALFA CLR scripts.  Unlike
+    /// the ad-hoc ALFA.MySQLDatabase class, this class supports a single,
+    /// "canonical" standard default database connection with the following
+    /// properties:
+    /// 
+    /// - There is only one underlying connection so queries are completed in
+    ///   order.
+    /// 
+    /// - The combined query queue ("ACR_AsyncSQLQuery[Ex]") is synchronized
+    ///   with queries issued on an ALFA.Database object.
+    ///
+    /// - All instances of ALFA.Database are synchronized with one another.
+    ///
+    /// Generally, "state changing" queries that have to synchronize with the
+    /// updates performed via NWScript must go through this query.  Queries
+    /// that may be processed independently, e.g. the GameWorldManager in the
+    /// ACR_ServerCommunicator, may use a standalone connection instead for
+    /// better performance if they do not require synchronization with the
+    /// canonical database connection.
     /// </summary>
     public class Database : IALFADatabase
     {
@@ -469,6 +488,11 @@ namespace ALFA
         /// <returns>The escaped string is returned.</returns>
         public string ACR_SQLEncodeSpecialChars(string s)
         {
+            IALFADatabase DefaultDatabase = ModuleLinkage.DefaultDatabase;
+
+            if (DefaultDatabase != null)
+                return DefaultDatabase.ACR_SQLEncodeSpecialChars(s);
+
             return Script.NWNXGetString("SQL", "GET ESCAPE STRING", s, 0);
         }
 
@@ -480,6 +504,11 @@ namespace ALFA
         {
             //const int SQL_ERROR = 0;
             const int SQL_SUCCESS = 1;
+
+            IALFADatabase DefaultDatabase = ModuleLinkage.DefaultDatabase;
+
+            if (DefaultDatabase != null)
+                return DefaultDatabase.ACR_SQLFetch();
 
             if (Script.NWNXGetInt("SQL", "FETCH", " ", 0) != SQL_SUCCESS)
                 return false;
@@ -506,6 +535,11 @@ namespace ALFA
         /// <returns>The column data is returned.</returns>
         public string ACR_SQLGetData(int ColumnIndex)
         {
+            IALFADatabase DefaultDatabase = ModuleLinkage.DefaultDatabase;
+
+            if (DefaultDatabase != null)
+                return DefaultDatabase.ACR_SQLGetData(ColumnIndex);
+
             return Script.NWNXGetString("SQL", "GETDATA", "", ColumnIndex);
         }
 
@@ -515,6 +549,11 @@ namespace ALFA
         /// <returns>The row count is returned.</returns>
         public int ACR_SQLGetAffectedRows()
         {
+            IALFADatabase DefaultDatabase = ModuleLinkage.DefaultDatabase;
+
+            if (DefaultDatabase != null)
+                return DefaultDatabase.ACR_SQLGetAffectedRows();
+
             return Script.NWNXGetInt("SQL", "GET AFFECTED ROWS", "", 0);
         }
 

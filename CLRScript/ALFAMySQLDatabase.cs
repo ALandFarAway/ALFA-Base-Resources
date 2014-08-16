@@ -13,6 +13,7 @@ using System.Reflection.Emit;
 using CLRScriptFramework;
 using NWScript;
 using NWScript.ManagedInterfaceLayer.NWScriptManagedInterface;
+using ALFA.Shared;
 using MySql;
 using MySql.Data;
 using MySql.Data.MySqlClient;
@@ -46,9 +47,11 @@ namespace ALFA
         /// <param name="ConnectionString">Optionally supplies an overload
         /// connection string.  If null, the default string is built from the
         /// NWNX MySQL plugin's configuration file.</param>
-        public MySQLDatabase(string ConnectionString = null)
+        /// <param name="Dedicated">Supplies true if the database object is to
+        /// use a dedicated connection.</param>
+        public MySQLDatabase(string ConnectionString = null, bool Dedicated = false)
         {
-            LinkToMySQLAssembly(ConnectionString);
+            LinkToMySQLAssembly(ConnectionString, Dedicated);
         }
 
         /// <summary>
@@ -170,7 +173,9 @@ namespace ALFA
         /// <param name="ConnectionString">Optionally supplies an overload
         /// connection string.  If null, the default string is built from the
         /// NWNX MySQL plugin's configuration file.</param>
-        private void LinkToMySQLAssembly(string ConnectionString = null)
+        /// <param name="Dedicated">Supplies true if the database object is to
+        /// use a dedicated connection.</param>
+        private void LinkToMySQLAssembly(string ConnectionString = null, bool Dedicated = false)
         {
             AppDomain CurrentDomain = AppDomain.CurrentDomain;
 
@@ -187,7 +192,7 @@ namespace ALFA
                 CurrentDomain.AssemblyResolve -= new ResolveEventHandler(LinkToMySQLAssembly_AssemblyResolve);
             }
 
-            Implementation = new MySQLDatabaseInternal(ConnectionString);
+            Implementation = new MySQLDatabaseInternal(ConnectionString, Dedicated);
         }
 
         /// <summary>
@@ -250,8 +255,12 @@ namespace ALFA
         /// <param name="ConnectionString">Optionally supplies an overload
         /// connection string.  If null, the default string is built from the
         /// NWNX MySQL plugin's configuration file.</param>
-        internal MySQLDatabaseInternal(string ConnectionString = null)
+        /// <param name="Dedicated">Supplies true if the database object is to
+        /// use a dedicated connection.</param>
+        internal MySQLDatabaseInternal(string ConnectionString = null, bool Dedicated = false)
         {
+            this.Dedicated = Dedicated;
+
             if (ConnectionString == null)
                 SetupConnectionString();
             else
@@ -333,7 +342,31 @@ namespace ALFA
                 DataReader = null;
             }
 
-            DataReader = MySqlHelper.ExecuteReader(ConnectionString, SQL);
+            SQL = PrepareSQL(SQL);
+
+            if (Dedicated == false)
+            {
+                DataReader = MySqlHelper.ExecuteReader(ConnectionString, SQL);
+            }
+            else
+            {
+                bool Succeeded = false;
+
+                ConnectDatabase();
+
+                try
+                {
+                    DataReader = MySqlHelper.ExecuteReader(Connection, SQL);
+                    Succeeded = true;
+                }
+                finally
+                {
+                    if (Succeeded == false)
+                        FailedQueries += 1;
+                    else
+                        FailedQueries = 0;
+                }
+            }
         }
 
         /// <summary>
@@ -346,9 +379,43 @@ namespace ALFA
         /// <param name="SQL">Supplies the SQL query text to execute.</param>
         public void ACR_SQLExecute(string SQL)
         {
-            using (MySqlDataReader Reader = MySqlHelper.ExecuteReader(ConnectionString, SQL))
+            if (DataReader != null)
             {
+                DataReader.Dispose();
+                DataReader = null;
+            }
 
+            SQL = PrepareSQL(SQL);
+
+            if (Dedicated == false)
+            {
+                using (MySqlDataReader Reader = MySqlHelper.ExecuteReader(ConnectionString, SQL))
+                {
+
+                }
+            }
+            else
+            {
+                bool Succeeded = false;
+
+                ConnectDatabase();
+
+                try
+                {
+                    using (MySqlDataReader Reader = MySqlHelper.ExecuteReader(Connection, SQL))
+                    {
+
+                    }
+
+                    Succeeded = true;
+                }
+                finally
+                {
+                    if (!Succeeded)
+                        FailedQueries += 1;
+                    else
+                        FailedQueries = 0;
+                }
             }
         }
 
@@ -365,16 +432,47 @@ namespace ALFA
         /// <summary>
         /// This method sets up the database connection string based on the
         /// default connection information set for the MySQL plugin.
+        /// 
+        /// The pool size of 3 is based on :
+        /// 
+        /// - One connection for polling for input by the GameWorldManager
+        ///   synchronization thread.
+        /// 
+        /// - One connection for background ad-hoc queries kicked off by the
+        ///   server communicator on work items (account record lookup, etc.).
+        /// 
+        /// - One connection for miscellaneous use.
         /// </summary>
         private void SetupConnectionString()
         {
             SystemInfo.SQLConnectionSettings ConnectionSettings = SystemInfo.GetSQLConnectionSettings();
 
-            ConnectionString = String.Format("Server={0};Uid={1};Password={2};Database={3};Max Pool Size=3;Pooling=true;Allow Batch=true",
+            ConnectionString = String.Format("Server={0};Uid={1};Password={2};Allow Batch=true",
                 ConnectionSettings.Server,
                 ConnectionSettings.User,
                 ConnectionSettings.Password,
                 ConnectionSettings.Schema);
+
+            //
+            // If a dedicated connection is not in use, prepend the database
+            // with a USE statement to slightly increase performance.
+            //
+
+            if (Dedicated == false)
+            {
+                ConnectionString += ";Max Pool Size=3;Pooling=true";
+
+                this.DatabaseName = ConnectionSettings.Schema;
+                this.QueryPrepend = String.Format("USE {0}; ", DatabaseName);
+            }
+            else
+            {
+                //
+                // Explicitly set the database for a dedicated connection.
+                //
+
+                ConnectionString += String.Format(";Database={0}", ConnectionSettings.Schema);
+            }
         }
 
         /// <summary>
@@ -397,6 +495,82 @@ namespace ALFA
                 DataReader.Dispose();
                 DataReader = null;
             }
+
+            if (Connection != null)
+            {
+                Connection.Dispose();
+                Connection = null;
+            }
+        }
+
+        /// <summary>
+        /// Prepare a query string for execution.  Currently, this prepend a
+        /// USE DatabaseName; statement to improve latency (see discussion
+        /// below with DatabaseName).
+        /// </summary>
+        /// <param name="SQL">Supplies the query text.</param>
+        /// <returns>The actual query text to execute is returned.</returns>
+        private string PrepareSQL(string SQL)
+        {
+            if (String.IsNullOrEmpty(QueryPrepend))
+                return SQL;
+
+            return QueryPrepend + SQL;
+        }
+
+        /// <summary>
+        /// Connect a dedicated connection to the database.
+        /// </summary>
+        private void ConnectDatabase()
+        {
+            if (Connection != null)
+            {
+                try
+                {
+                    if (Connection.State != System.Data.ConnectionState.Open)
+                    {
+                        Logger.Log("MySQLDatabaseInternal.ConnectDatabase: Reconnecting to the database...");
+                        Connection.Open();
+                        FailedQueries = 0;
+                        return;
+                    }
+                    else if (FailedQueries >= FAILED_QUERY_LIMIT)
+                    {
+                        Logger.Log("MySQLDatabaseInternal.ConnectDatabase: Too many consecutive failed queries, abandoning existing connection.");
+                        Connection.Dispose();
+                        Connection = null;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Log("MySQLDatabaseInternal.ConnectDatabase: Trying new connection due to exception opening existing connection: {0}", e);
+                    Connection.Dispose();
+                    Connection = null;
+                }
+            }
+
+            Logger.Log("MySQLDatabaseInternal.ConnectDatabase: Connecting to the database...");
+
+            MySqlConnection NewConnection = new MySqlConnection(ConnectionString);
+            bool Succeeded = false;
+
+            try
+            {
+                NewConnection.Open();
+                Succeeded = true;
+                FailedQueries = 0;
+            }
+            finally
+            {
+                if (!Succeeded)
+                    NewConnection.Dispose();
+                else
+                    Connection = NewConnection;
+            }
         }
 
         /// <summary>
@@ -405,8 +579,51 @@ namespace ALFA
         private string ConnectionString;
 
         /// <summary>
+        /// The database name to use for the connection.
+        /// 
+        /// This could be set via the connection string.  Doing so, however,
+        /// imposes a substantial latency penalty because the MySQL library
+        /// sends a change database packet (a full round trip delay) for each
+        /// query even over a pooled connection even if the previous database
+        /// of the connection matched.
+        /// 
+        /// As a result, explicitly prepend a "USE DatabaseName;" to each query
+        /// and do not use an explicit database in the connection string.
+        /// </summary>
+        private string DatabaseName = null;
+
+        /// <summary>
+        /// The prepended string for each query.
+        /// </summary>
+        private string QueryPrepend = null;
+
+        /// <summary>
         /// The current data reader is stored here (if any).
         /// </summary>
         private MySqlDataReader DataReader = null;
+
+        /// <summary>
+        /// True if this instance uses a dedicated database connection.
+        /// </summary>
+        private bool Dedicated = false;
+
+        /// <summary>
+        /// The dedicated database connection object, if it exists.  Only used
+        /// if Dedicated is true.
+        /// </summary>
+        private MySqlConnection Connection = null;
+
+        /// <summary>
+        /// Count of queries failed on this connection, to guard against an
+        /// issue with the connection library where it does not recycle a
+        /// broken connection properly.
+        /// </summary>
+        private int FailedQueries = 0;
+
+        /// <summary>
+        /// The maximum number of queries that can fail before a reconnect
+        /// will be forced.
+        /// </summary>
+        private const int FAILED_QUERY_LIMIT = 3;
     }
 }

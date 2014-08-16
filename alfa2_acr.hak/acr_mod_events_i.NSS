@@ -2136,6 +2136,16 @@ void _LoadAssemblies()
 	ClearScriptParams();
 	AddScriptParameterInt(ACR_DATABASE_CONNECTOR_INITIALIZE);
 	ExecuteScriptEnhanced("ACR_DatabaseConnector", GetModule(), TRUE);
+
+	// Initialize the database connection for NWScript code immediately after
+	// the database is brought online.
+
+	ACR_InitializeDatabase();
+
+	if (ACR_GetServerAddressFromDatabase() == "")
+	{
+		WriteTimestampedLogEntry("acf_mod_events: _LoadAssemblies: Could not confirm functionality of NWScript SQL support.");
+	}
 }
 
 // This is needed to establish the server and gameobject structures that 
