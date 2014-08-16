@@ -388,29 +388,44 @@ namespace ACR_DatabaseConnector
             try
             {
                 string RealCommandLine = String.Format("\"{0}\" {1}", ExeFileName, CommandLine);
+                bool BreakawayTried = false;
 
                 //
                 // Create the process.
                 //
 
-                if (CreateProcessA(ExeFileName,
-                    CommandLine,
-                    IntPtr.Zero,
-                    IntPtr.Zero,
-                    0,
-                    PROCESSCREATIONFLAGS.CreateSuspended | (BreakawayOk ? PROCESSCREATIONFLAGS.CreateBreakawayFromJob : 0),
-                    IntPtr.Zero,
-                    null,
-                    ref StartupInfo,
-                    out ProcessInfo) == 0)
+                for (; ; )
                 {
-                    ProcessInfo.hProcess = IntPtr.Zero;
-                    ProcessInfo.hThread = IntPtr.Zero;
-
-                    throw new ApplicationException(String.Format("CreateProcessA(ExeFileName = '{0}', CommandLine = '{1}') failed: {2}",
-                        ExeFileName,
+                    if (CreateProcessA(ExeFileName,
                         CommandLine,
-                        Marshal.GetLastWin32Error()));
+                        IntPtr.Zero,
+                        IntPtr.Zero,
+                        0,
+                        PROCESSCREATIONFLAGS.CreateSuspended | (BreakawayOk && !BreakawayTried ? PROCESSCREATIONFLAGS.CreateBreakawayFromJob : 0),
+                        IntPtr.Zero,
+                        null,
+                        ref StartupInfo,
+                        out ProcessInfo) == 0)
+                    {
+                        int LastError = Marshal.GetLastWin32Error();
+
+                        ProcessInfo.hProcess = IntPtr.Zero;
+                        ProcessInfo.hThread = IntPtr.Zero;
+
+                        if ((LastError == ERROR_ACCESS_DENIED) && (BreakawayOk) && (!BreakawayTried))
+                        {
+                            Logger.Log("DatabaseConnector.CreateProcessInJob: Failed to create process with breakaway due to ERROR_ACCESS_DENIED, trying again without breakaway.");
+                            BreakawayTried = true;
+                            continue;
+                        }
+
+                        throw new ApplicationException(String.Format("CreateProcessA(ExeFileName = '{0}', CommandLine = '{1}') failed: {2}",
+                            ExeFileName,
+                            CommandLine,
+                            Marshal.GetLastWin32Error()));
+                    }
+
+                    break;
                 }
 
                 //
