@@ -327,10 +327,11 @@ namespace ACR_ServerCommunicator
 
                                 try
                                 {
-                                    DownloadContentPatchFromFileStore(FileStorePath, TransferTempFilePath, ConnectionString);
+                                    DownloadContentPatchFromFileStore(FileStorePath, TransferTempFilePath, ConnectionString, Script);
                                 }
-                                catch
+                                catch (Exception e)
                                 {
+                                    Script.WriteTimestampedLogEntry(String.Format("ModuleContentPatcher.ContentPatchFileStoreFileExists: Couldn't retrieve uncompressed file {0} from Azure, falling back to file share, due to exception: {1}", FileStorePath, e));
                                     File.Copy(RemotePath, TransferTempFilePath, true);
                                 }
                             }
@@ -743,7 +744,8 @@ namespace ACR_ServerCommunicator
         /// download to.</param>
         /// <param name="ConnectionString">Supplies the file store connection
         /// string.</param>
-        private static void DownloadContentPatchFromFileStore(string FileStorePath, string LocalFileName, string ConnectionString)
+        /// <param name="Script">Supplies the script object.</param>
+        private static void DownloadContentPatchFromFileStore(string FileStorePath, string LocalFileName, string ConnectionString, ACR_ServerCommunicator Script)
         {
             if (String.IsNullOrEmpty(ConnectionString))
                 throw new NotSupportedException();
@@ -778,8 +780,12 @@ namespace ACR_ServerCommunicator
                     }
                 }
             }
-            catch
+            catch (Exception e)
             {
+                Script.WriteTimestampedLogEntry(String.Format("ModuleContentPatcher.DownloadContentPatchFromFileStore: Couldn't retrieve compressed file {0} from Azure, trying uncompressed file, due to exception: {1}",
+                    FileStorePath,
+                    e));
+
                 UpdaterFile = UpdaterContainer.GetFileReference(FileStorePath);
 
                 using (FileStream OutStream = File.Create(LocalFileName))
@@ -817,7 +823,6 @@ namespace ACR_ServerCommunicator
             }
             catch
             {
-
             }
 
             UpdaterFile = UpdaterContainer.GetFileReference(FileStorePath);
@@ -829,7 +834,6 @@ namespace ACR_ServerCommunicator
             }
             catch
             {
-
             }
 
             return false;
