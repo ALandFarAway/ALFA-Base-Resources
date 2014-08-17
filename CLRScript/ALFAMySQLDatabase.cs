@@ -504,7 +504,7 @@ namespace ALFA
         }
 
         /// <summary>
-        /// Prepare a query string for execution.  Currently, this prepend a
+        /// Prepare a query string for execution.  Currently, this prepends a
         /// USE DatabaseName; statement to improve latency (see discussion
         /// below with DatabaseName).
         /// </summary>
