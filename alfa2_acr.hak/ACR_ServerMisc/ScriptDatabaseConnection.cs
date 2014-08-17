@@ -316,7 +316,7 @@ namespace ACR_ServerMisc
 
             try
             {
-                string Timestamp = DateTime.Now.ToString("ddd dd MMM HH:mm:ss:FFF");
+                string Timestamp = DateTime.Now.ToString("ddd dd MMM HH:mm:ss:fff");
                 StandardQueryLogger.WriteLine("[{0}]: {1}", Timestamp, LogText);
                 StandardQueryLogger.Flush();
             }
