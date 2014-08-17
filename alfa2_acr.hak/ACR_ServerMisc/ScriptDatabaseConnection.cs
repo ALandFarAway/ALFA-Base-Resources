@@ -277,6 +277,9 @@ namespace ACR_ServerMisc
             }
             catch (Exception e)
             {
+                if (Connection.Flags.HasFlag(ScriptDatabaseConnectionFlags.StandardQueryLog))
+                    LogQuery("! ACR_SQLGetAffectedRows failed.");
+
                 Logger.Log("ScriptDatabaseConnection.GetAffectedRowCountDatabaseConnection: Exception: {0}", e);
                 return 0;
             }

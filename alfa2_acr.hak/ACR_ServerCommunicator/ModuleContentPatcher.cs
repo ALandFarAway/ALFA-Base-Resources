@@ -331,7 +331,7 @@ namespace ACR_ServerCommunicator
                                 }
                                 catch (Exception e)
                                 {
-                                    Script.WriteTimestampedLogEntry(String.Format("ModuleContentPatcher.ContentPatchFileStoreFileExists: Couldn't retrieve uncompressed file {0} from Azure, falling back to file share, due to exception: {1}", FileStorePath, e));
+                                    Script.WriteTimestampedLogEntry(String.Format("ModuleContentPatcher.ProcessContentPatches: Couldn't retrieve uncompressed file {0} from Azure, falling back to file share, due to exception: {1}", FileStorePath, e));
                                     File.Copy(RemotePath, TransferTempFilePath, true);
                                 }
                             }
