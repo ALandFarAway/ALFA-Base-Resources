@@ -23,8 +23,8 @@ namespace ACR_Movement
         public static Dictionary<uint, int> CurrentDrownStatus = new Dictionary<uint, int>();
         public static Dictionary<uint, int> CurrentDrownDC = new Dictionary<uint, int>();
 
-        public const string ACR_SWIM_DC = "";
-        public const string ACR_NO_AIR = "";
+        public const string ACR_SWIM_DC = "ACR_SWIM_DC";
+        public const string ACR_NO_AIR = "ACR_NO_AIR";
 
         public static void SwimTriggerEnter(CLRScriptBase script, uint Creature, uint Trigger)
         {
@@ -51,7 +51,7 @@ namespace ACR_Movement
                         }
                         if (Roll + Bonus >= SwimDC)
                         {
-                            script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, script.ExtraordinaryEffect(script.EffectMovementSpeedDecrease(50)), Creature, 0.0f);
+                            script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_TEMPORARY, script.ExtraordinaryEffect(script.EffectMovementSpeedDecrease(50)), Creature, 6.0f);
                             script.SendMessageToPC(Creature, String.Format("*Swim: {0} + {1} = {2} v. DC {3} :: Success!*"));
                             if(NoAir == CLRScriptBase.FALSE)
                             {
@@ -65,7 +65,7 @@ namespace ACR_Movement
                         }
                         else if (Roll + Bonus >= SinkDC)
                         {
-                            script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, script.ExtraordinaryEffect(script.EffectMovementSpeedDecrease(75)), Creature, 0.0f);
+                            script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_TEMPORARY, script.ExtraordinaryEffect(script.EffectMovementSpeedDecrease(75)), Creature, 6.0f);
                             script.SendMessageToPC(Creature, String.Format("*Swim: {0} + {1} = {2} v. DC {3} :: Failure!*"));
                             script.SendMessageToPC(Creature, String.Format("You struggle to move through the water."));
                             if (NoAir == CLRScriptBase.FALSE)
@@ -80,7 +80,7 @@ namespace ACR_Movement
                         }
                         else
                         {
-                            script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_PERMANENT, script.ExtraordinaryEffect(script.EffectMovementSpeedDecrease(75)), Creature, 0.0f);
+                            script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_TEMPORARY, script.ExtraordinaryEffect(script.EffectMovementSpeedDecrease(75)), Creature, 6.0f);
                             script.SendMessageToPC(Creature, String.Format("*Swim: {0} + {1} = {2} v. DC {3} :: Failure!*"));
                             script.SendMessageToPC(Creature, String.Format("You're completely overwhelmed by the pull of the water!"));
                             ProcessNoAir(script, Creature);
