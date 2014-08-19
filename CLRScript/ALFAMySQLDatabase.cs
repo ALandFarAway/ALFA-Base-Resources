@@ -447,7 +447,7 @@ namespace ALFA
         {
             SystemInfo.SQLConnectionSettings ConnectionSettings = SystemInfo.GetSQLConnectionSettings();
 
-            ConnectionString = String.Format("Server={0};Uid={1};Password={2};Allow Batch=true",
+            ConnectionString = String.Format("Server={0};Uid={1};Password={2};Allow Batch=true;Treat Tiny As Boolean=false",
                 ConnectionSettings.Server,
                 ConnectionSettings.User,
                 ConnectionSettings.Password,
