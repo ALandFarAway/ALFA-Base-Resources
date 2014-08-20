@@ -25,6 +25,7 @@ namespace ACR_Movement
 
         public const string ACR_SWIM_DC = "ACR_SWIM_DC";
         public const string ACR_NO_AIR = "ACR_NO_AIR";
+        public const string ACR_CREATURE_AQUATIC = "ACR_CREATURE_AQUATIC";
 
         public static void SwimTriggerEnter(CLRScriptBase script, uint Creature, uint Trigger)
         {
@@ -37,13 +38,15 @@ namespace ACR_Movement
             {
                 if(contents == Creature)
                 {
-                    if (script.GetSubRace(Creature) != CLRScriptBase.RACIAL_SUBTYPE_WATER_GENASI)
+                    if (script.GetSubRace(Creature) != CLRScriptBase.RACIAL_SUBTYPE_WATER_GENASI &&
+                        script.GetLocalInt(Creature, ACR_CREATURE_AQUATIC) == 0)
                     {
                         int SwimDC = script.GetLocalInt(Trigger, ACR_SWIM_DC);
                         int SinkDC = SwimDC - 5;
                         int NoAir = script.GetLocalInt(Trigger, ACR_NO_AIR);
                         int Roll = script.d20(1);
                         int Bonus = script.GetSkillRank(CLRScriptBase.SKILL_SWIM, Creature, CLRScriptBase.FALSE);
+                        ProcessWaterEffects(script, Creature, Trigger);
                         if (10 + Bonus >= SwimDC)
                         {
                             // Can take 10 here.
@@ -81,6 +84,7 @@ namespace ACR_Movement
                         else
                         {
                             script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_TEMPORARY, script.ExtraordinaryEffect(script.EffectMovementSpeedDecrease(75)), Creature, 6.0f);
+                            script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_TEMPORARY, script.ExtraordinaryEffect(script.EffectACDecrease(2, CLRScriptBase.AC_DODGE_BONUS, CLRScriptBase.DAMAGE_TYPE_ALL)), Creature, 6.0f);
                             script.SendMessageToPC(Creature, String.Format("*Swim: {0} + {1} = {2} v. DC {3} :: Failure!*", Roll, Bonus, Roll + Bonus, SwimDC));
                             script.SendMessageToPC(Creature, String.Format("You're completely overwhelmed by the pull of the water!"));
                             ProcessNoAir(script, Creature);
@@ -105,7 +109,7 @@ namespace ACR_Movement
             {
                 return;
             }
-
+            script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_TEMPORARY, script.ExtraordinaryEffect(script.EffectSilence()), Creature, 6.0f);
             if (!CurrentDrownStatus.ContainsKey(Creature))
             {
                 CurrentDrownStatus.Add(Creature, 1);
@@ -198,6 +202,39 @@ namespace ACR_Movement
                 }
             }
             return true;
+        }
+
+        private static void ProcessWaterEffects(CLRScriptBase script, uint Creature, uint Trigger)
+        {
+            if(script.GetIsImmune(Creature, CLRScriptBase.IMMUNITY_TYPE_MOVEMENT_SPEED_DECREASE, Trigger) != CLRScriptBase.FALSE)
+            {
+                return;
+            }
+            uint weapon = script.GetItemInSlot(CLRScriptBase.INVENTORY_SLOT_RIGHTHAND, Creature);
+            int weaponType = script.GetBaseItemType(weapon);
+            if (ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType != 1 &&
+                ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType != 0) // unfortunately, this is magic numbered in the 2da as well
+            {
+                script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_TEMPORARY, script.ExtraordinaryEffect(script.EffectAttackDecrease(2, CLRScriptBase.ATTACK_BONUS_ONHAND)), Creature, 6.0f);
+                int damagePenalty = ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].DieToRoll / 4;
+                damagePenalty += script.GetAbilityModifier(CLRScriptBase.ABILITY_STRENGTH, Creature) / 2;
+                int damageType = CLRScriptBase.DAMAGE_TYPE_SLASHING;
+                switch(ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType)
+                {
+                    case 2: damageType = CLRScriptBase.DAMAGE_TYPE_BLUDGEONING; break;
+                    case 3: damageType = CLRScriptBase.DAMAGE_TYPE_SLASHING; break;
+                    case 4: damageType = CLRScriptBase.DAMAGE_TYPE_SLASHING; break;
+                    case 5: damageType = CLRScriptBase.DAMAGE_TYPE_BLUDGEONING; break;
+                }
+                script.EffectDamageDecrease(damagePenalty, damageType);
+            }
+            weapon = script.GetItemInSlot(CLRScriptBase.INVENTORY_SLOT_LEFTHAND, Creature);
+            weaponType = script.GetBaseItemType(weapon);
+            if (ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType != 1 &&
+                ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType != 0) // unfortunately, this is magic numbered in the 2da as well
+            {
+                script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_TEMPORARY, script.ExtraordinaryEffect(script.EffectAttackDecrease(2, CLRScriptBase.ATTACK_BONUS_ONHAND)), Creature, 6.0f);
+            }
         }
     }
 }
