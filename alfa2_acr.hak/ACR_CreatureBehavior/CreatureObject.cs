@@ -888,6 +888,18 @@ namespace ACR_CreatureBehavior
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_MINDLESS)
             {
                 CreatureObject AttackTarget = Party.GetNearest(this, Party.Enemies);
+                if (AttackTarget == null)
+                {
+                    uint newEnemy = Script.GetNearestCreature(CLRScriptBase.CREATURE_TYPE_REPUTATION, CLRScriptBase.REPUTATION_TYPE_ENEMY, this.ObjectId, 1, -1, -1, -1, -1);
+                    if(Script.GetIsObjectValid(newEnemy) != CLRScriptBase.FALSE &&
+                       Script.GetObjectSeen(newEnemy, this.ObjectId) != CLRScriptBase.FALSE &&
+                       Script.GetObjectHeard(newEnemy, this.ObjectId) != CLRScriptBase.FALSE)
+                    {
+                        AttackTarget = Server.ObjectManager.GetCreatureObject(newEnemy, true);
+                        Party.AddPartyEnemy(AttackTarget);
+                    }
+                }
+                if (AttackTarget == null) return;
                 _AttackWrapper(AttackTarget);
                 return;
             }
@@ -909,6 +921,18 @@ namespace ACR_CreatureBehavior
             {
                 // Animals are too dumb to do anything other than use their direct attacks on foes.
                 CreatureObject AttackTarget = Party.GetNearest(this, Party.Enemies);
+                if (AttackTarget == null)
+                {
+                    uint newEnemy = Script.GetNearestCreature(CLRScriptBase.CREATURE_TYPE_REPUTATION, CLRScriptBase.REPUTATION_TYPE_ENEMY, this.ObjectId, 1, -1, -1, -1, -1);
+                    if (Script.GetIsObjectValid(newEnemy) != CLRScriptBase.FALSE &&
+                       Script.GetObjectSeen(newEnemy, this.ObjectId) != CLRScriptBase.FALSE &&
+                       Script.GetObjectHeard(newEnemy, this.ObjectId) != CLRScriptBase.FALSE)
+                    {
+                        AttackTarget = Server.ObjectManager.GetCreatureObject(newEnemy, true);
+                        Party.AddPartyEnemy(AttackTarget);
+                    }
+                }
+                if (AttackTarget == null) return;
                 _AttackWrapper(AttackTarget);
                 return;
             }

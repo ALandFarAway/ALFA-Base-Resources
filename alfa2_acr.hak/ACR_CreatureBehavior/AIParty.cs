@@ -453,13 +453,15 @@ namespace ACR_CreatureBehavior
             {
                 throw new ApplicationException("Trying to add party enemy, but that creature does not exist.");
             }
-            Enemies.Add(PartyEnemy);
+            if(!Enemies.Contains(PartyEnemy))
+                Enemies.Add(PartyEnemy);
 
             if (CanPartySee(PartyEnemy))
             {
                 int EnemyArmorRank = PartyEnemy.Script.GetArmorRank(PartyEnemy.Script.GetItemInSlot(CLRScriptBase.INVENTORY_SLOT_CARMOUR, PartyEnemy.ObjectId));
-                if (EnemyArmorRank == CLRScriptBase.ARMOR_RANK_HEAVY ||
-                    EnemyArmorRank == CLRScriptBase.ARMOR_RANK_MEDIUM)
+                if ((EnemyArmorRank == CLRScriptBase.ARMOR_RANK_HEAVY ||
+                    EnemyArmorRank == CLRScriptBase.ARMOR_RANK_MEDIUM) &&
+                    !EnemyHardTargets.Contains(PartyEnemy))
                     EnemyHardTargets.Add(PartyEnemy);
                 if (EnemyArmorRank == CLRScriptBase.ARMOR_RANK_LIGHT ||
                     EnemyArmorRank == CLRScriptBase.ARMOR_RANK_NONE)
@@ -475,11 +477,20 @@ namespace ACR_CreatureBehavior
 
         public void RemovePartyEnemy(CreatureObject PartyEnemy)
         {
-            Enemies.Remove(PartyEnemy);
-            EnemyHardTargets.Remove(PartyEnemy);
-            EnemySoftTargets.Remove(PartyEnemy);
-            EnemySpellcasters.Remove(PartyEnemy);
-            EnemyHealers.Remove(PartyEnemy);
+            if(Enemies.Contains(PartyEnemy))
+                Enemies.Remove(PartyEnemy);
+
+            if(EnemyHardTargets.Contains(PartyEnemy))
+                EnemyHardTargets.Remove(PartyEnemy);
+
+            if(EnemySoftTargets.Contains(PartyEnemy))
+                EnemySoftTargets.Remove(PartyEnemy);
+
+            if(EnemySpellcasters.Contains(PartyEnemy))
+                EnemySpellcasters.Remove(PartyEnemy);
+
+            if(EnemyHealers.Contains(PartyEnemy))
+                EnemyHealers.Remove(PartyEnemy);
         }
 
         public CreatureObject GetNearest(CreatureObject Source, List<CreatureObject> Creatures)
