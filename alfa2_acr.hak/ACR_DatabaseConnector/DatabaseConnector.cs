@@ -422,7 +422,7 @@ namespace ACR_DatabaseConnector
                         throw new ApplicationException(String.Format("CreateProcessA(ExeFileName = '{0}', CommandLine = '{1}') failed: {2}",
                             ExeFileName,
                             CommandLine,
-                            Marshal.GetLastWin32Error()));
+                            LastError));
                     }
 
                     break;
@@ -453,7 +453,7 @@ namespace ACR_DatabaseConnector
                     }
 
                     if (!ContinueAnyway)
-                        throw new ApplicationException("AssignProcessToJobObject failed: " + Marshal.GetLastWin32Error());
+                        throw new ApplicationException("AssignProcessToJobObject failed: " + LastError);
                 }
 
                 //
