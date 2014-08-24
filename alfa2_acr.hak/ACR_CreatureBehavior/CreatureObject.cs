@@ -1939,7 +1939,7 @@ namespace ACR_CreatureBehavior
             {
                 foreach (uint Collateral in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_MEDIUM, Script.GetLocation(Target.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
                 {
-                    if (Script.GetReputation(ObjectId, Collateral) != CLRScriptBase.REPUTATION_TYPE_ENEMY)
+                    if (Script.GetIsReactionTypeHostile(Target.ObjectId, ObjectId) != CLRScriptBase.TRUE)
                         Target = null;
                 }
                 if(Target != null)
@@ -1950,7 +1950,7 @@ namespace ACR_CreatureBehavior
             {
                 foreach (uint Collateral in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_MEDIUM, Script.GetLocation(Target.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
                 {
-                    if (Script.GetReputation(ObjectId, Collateral) != CLRScriptBase.REPUTATION_TYPE_ENEMY)
+                    if (Script.GetIsReactionTypeHostile(Target.ObjectId, ObjectId) != CLRScriptBase.TRUE)
                         Target = null;
                 }
                 if (Target != null)
@@ -1961,7 +1961,7 @@ namespace ACR_CreatureBehavior
             {
                 foreach (uint Collateral in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_MEDIUM, Script.GetLocation(Target.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
                 {
-                    if (Script.GetReputation(ObjectId, Collateral) != CLRScriptBase.REPUTATION_TYPE_ENEMY)
+                    if (Script.GetIsReactionTypeHostile(Target.ObjectId, ObjectId) != CLRScriptBase.TRUE)
                         Target = null;
                 }
                 if (Target != null)
@@ -1972,7 +1972,7 @@ namespace ACR_CreatureBehavior
             {
                 foreach (uint Collateral in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_MEDIUM, Script.GetLocation(Target.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
                 {
-                    if (Script.GetReputation(ObjectId, Collateral) != CLRScriptBase.REPUTATION_TYPE_ENEMY)
+                    if (Script.GetIsReactionTypeHostile(Target.ObjectId, ObjectId) != CLRScriptBase.TRUE)
                         Target = null;
                 }
                 if (Target != null)
@@ -1984,7 +1984,7 @@ namespace ACR_CreatureBehavior
                 {
                     foreach (uint Collateral in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, CLRScriptBase.RADIUS_SIZE_MEDIUM, Script.GetLocation(Target.ObjectId), false, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f, 0.0f, 0.0f)))
                     {
-                        if (Script.GetReputation(ObjectId, Collateral) != CLRScriptBase.REPUTATION_TYPE_ENEMY)
+                        if (Script.GetIsReactionTypeHostile(Target.ObjectId, ObjectId) != CLRScriptBase.TRUE)
                             Target = null;
                     }
                     if (Target != null)
