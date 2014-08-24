@@ -669,6 +669,11 @@ namespace ACR_CreatureBehavior
         /// </summary>
         public List<CreatureObject> EnemiesLost = new List<CreatureObject>();
 
+        /// <summary>
+        /// The list of enemies who are near death, and should be ignored until it's time to clean up.
+        /// </summary>
+        public List<CreatureObject> CleanUpEnemies = new List<CreatureObject>();
+
 // ===== Block of lists for spellcasting NPCs ===============================================//
         /// <summary>
         /// The list of party members focused primarily on healing magic.

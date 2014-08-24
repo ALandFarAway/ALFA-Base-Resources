@@ -438,7 +438,7 @@ namespace ACR_CreatureBehavior
             if (InitialDetection)
             {
                 int nReputation = Script.GetReputation(this.ObjectId, PerceivedObjectId);
-                if (nReputation < 11)
+                if (nReputation < 11 && nReputation > -1)
                 {
                     if (Party.EnemiesLost.Contains(SeenObject))
                         Party.EnemiesLost.Remove(SeenObject);
@@ -459,13 +459,10 @@ namespace ACR_CreatureBehavior
             }
             else
             {
-                int nReputation = Script.GetReputation(this.ObjectId, PerceivedObjectId);
+                if (!HasCombatRoundProcess)
                 {
-                    if (!HasCombatRoundProcess)
-                    {
-                        HasCombatRoundProcess = true;
-                        Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(false); });
-                    }
+                    HasCombatRoundProcess = true;
+                    Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(false); });
                 }
             }
         }
@@ -488,7 +485,7 @@ namespace ACR_CreatureBehavior
             {
                 int nReputation = Script.GetReputation(this.ObjectId, PerceivedObjectId);
 
-                if (nReputation < 11)
+                if (nReputation < 11 && nReputation > -1)
                 {
                     if (Party.EnemiesLost.Contains(SeenObject))
                     {
@@ -507,7 +504,15 @@ namespace ACR_CreatureBehavior
                     if (SeenObject.Party == null && Script.GetIsPC(SeenObject.ObjectId) == CLRScriptBase.FALSE)
                         SeenObject.Party.AddPartyMember(SeenObject);
                 }
-            }      
+            }
+            else
+            {
+                if (!HasCombatRoundProcess)
+                {
+                    HasCombatRoundProcess = true;
+                    Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(false); });
+                }
+            }
         }
 
         /// <summary>
@@ -785,6 +790,14 @@ namespace ACR_CreatureBehavior
             // This creature is under the influence of mind-affecting stuff. It isn't cognizant enough to be angry.
             if (_IsMindMagiced(this.ObjectId))
                 return;
+
+            CreatureObject attackerObject = ObjectManager.GetCreatureObject(Attacker, true);
+
+            if(!HasCombatRoundProcess)
+            {
+                Party.AddPartyEnemy(attackerObject);
+                SelectCombatRoundAction(false);
+            }
         }
         #endregion
 
@@ -796,6 +809,39 @@ namespace ACR_CreatureBehavior
         {
             HasCombatRoundProcess = true;
             if (Script.GetIsObjectValid(ObjectId) == CLRScriptBase.FALSE) return;
+
+            #region Clean Up Before Attempting Action
+            List<CreatureObject> deadEnemies = new List<CreatureObject>();
+            foreach(CreatureObject enemy in Party.Enemies)
+            {
+                if(Script.GetCurrentHitPoints(enemy.ObjectId) < 1)
+                {
+                    if (Script.GetIsPC(enemy.ObjectId) != CLRScriptBase.FALSE)
+                    {
+                        if (!Party.CleanUpEnemies.Contains(enemy))
+                            Party.CleanUpEnemies.Add(enemy);
+                    }
+                    deadEnemies.Add(enemy);
+                }
+            }
+            foreach(CreatureObject enemy in deadEnemies)
+            {
+                Party.RemovePartyEnemy(enemy);
+            }
+            List<CreatureObject> revivedEnemies = new List<CreatureObject>();
+            foreach(CreatureObject enemy in Party.CleanUpEnemies)
+            {
+                if(Script.GetCurrentHitPoints(enemy.ObjectId) > 0)
+                {
+                    Party.AddPartyEnemy(enemy);
+                    revivedEnemies.Add(enemy);
+                }
+            }
+            foreach(CreatureObject enemy in revivedEnemies)
+            {
+                Party.CleanUpEnemies.Remove(enemy);
+            }
+            #endregion
 
             #region Rally Any Party Mates
             if (!fromAllyCall)
@@ -956,6 +1002,8 @@ namespace ACR_CreatureBehavior
                     return;
                 if (TryToHealAll())
                     return;
+                if (TryToCleanUp())
+                    return;
 
                 // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
                 if (Party.PartyMedics.Count > 0)
@@ -999,6 +1047,8 @@ namespace ACR_CreatureBehavior
                 if (TryToAttackRanged())
                     return;
                 if (TryToAttackMelee())
+                    return;
+                if (TryToCleanUp())
                     return;
 
                 // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
@@ -1044,6 +1094,8 @@ namespace ACR_CreatureBehavior
                     return;
                 if (TryToAttackMelee())
                     return;
+                if (TryToCleanUp())
+                    return;
 
                 // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
                 if (Party.PartyMedics.Count > 0)
@@ -1074,7 +1126,19 @@ namespace ACR_CreatureBehavior
             // Cowards avoid fights and look for help.
             if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_COWARD)
             {
-
+                CreatureObject medic = Party.GetNearest(this, Party.PartyMedics);
+                if(medic == null)
+                {
+                    medic = Party.GetNearest(this, Party.PartyMembers);
+                }
+                if(medic != null)
+                {
+                    Script.AssignCommand(ObjectId, delegate { Script.ActionMoveToObject(medic.ObjectId, CLRScriptBase.TRUE, 1.0f); });
+                }
+                else if(Party.Enemies.Count > 0)
+                {
+                    Script.AssignCommand(ObjectId, delegate { Script.ActionMoveAwayFromObject(Party.Enemies[0].ObjectId, CLRScriptBase.TRUE, 50.0f); });
+                }
                 return;
             }
             #endregion
@@ -1096,6 +1160,8 @@ namespace ACR_CreatureBehavior
                 if (TryToCallForHelp())
                     return;
                 if (TryToHealAll())
+                    return;
+                if (TryToCleanUp())
                     return;
 
                 // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
@@ -1140,6 +1206,8 @@ namespace ACR_CreatureBehavior
                 if (TryToAttackRanged())
                     return;
                 if (TryToAttackMelee())
+                    return;
+                if (TryToCleanUp())
                     return;
 
                 // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
@@ -1195,6 +1263,8 @@ namespace ACR_CreatureBehavior
                     return;
                 if (TryToAttackMelee())
                     return;
+                if (TryToCleanUp())
+                    return;
 
                 // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
                 if (Party.PartyMedics.Count > 0)
@@ -1244,6 +1314,8 @@ namespace ACR_CreatureBehavior
                     return;
                 if (TryToHealAll())
                     return;
+                if (TryToCleanUp())
+                    return;
 
                 // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
                 if (Party.PartyMedics.Count > 0)
@@ -1288,6 +1360,8 @@ namespace ACR_CreatureBehavior
                     return;
                 if (TryToHealAll())
                     return;
+                if (TryToCleanUp())
+                    return;
 
                 // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
                 if (Party.PartyMedics.Count > 0)
@@ -1331,6 +1405,8 @@ namespace ACR_CreatureBehavior
                 if (TryToCallForHelp())
                     return;
                 if (TryToHealAll())
+                    return;
+                if (TryToCleanUp())
                     return;
 
                 // We don't have anything productive to do. Figure out who we'd like to snuggle up against.
@@ -2109,6 +2185,17 @@ namespace ACR_CreatureBehavior
             _EquipWeapon();
             _AttackWrapper(finalTarget);
             return true;
+        }
+
+        private bool TryToCleanUp()
+        {
+            foreach(CreatureObject enemy in Party.CleanUpEnemies)
+            {
+                _EquipWeapon(true);
+                _AttackWrapper(enemy);
+                return true;
+            }
+            return false;
         }
 
         private void _EquipWeapon(bool meleeWeapon = true)
