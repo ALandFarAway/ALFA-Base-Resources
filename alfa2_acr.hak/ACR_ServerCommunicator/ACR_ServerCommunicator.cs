@@ -346,6 +346,7 @@ namespace ACR_ServerCommunicator
                 SendInfrastructureDiagnosticIrcMessage(String.Format(
                     "Server '{0}' started on a machine that is administratively prohibited from loading the module, going into offline mode until MachineName is cleared in the servers table in the database for this server.",
                     GetName(GetModule())));
+                WorldManager.PauseUpdates = true;
                 return;
             }
 
