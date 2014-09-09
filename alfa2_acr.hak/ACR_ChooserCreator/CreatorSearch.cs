@@ -37,9 +37,18 @@ namespace ACR_ChooserCreator
         {
             foreach (ALFA.Shared.IListBoxItem item in currentCat.ContainedItems)
             {
-                if (item.TextFields.ToLower().Contains(currentUser.LastSearchString))
+                string[] rowDataEntries = item.TextFields.ToLower().Split(';');
+                foreach(string rowData in rowDataEntries)
                 {
-                    responseObject.ContainedItems.Add(item);
+                    string[] rowBit = rowData.Split('=');
+                    if(rowBit.Length > 1)
+                    {
+                        if(rowBit[1].Contains(currentUser.LastSearchString.ToLower()) &&
+                            !responseObject.ContainedItems.Contains(item))
+                        {
+                            responseObject.ContainedItems.Add(item);
+                        }
+                    }
                 }
                 if (this.CancellationPending)
                 {
