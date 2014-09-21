@@ -80,5 +80,6 @@ namespace ACR_Quest
             PrintInfestations = 999,
         }
 
+        public const string AREA_MAX_INFESTATION = "ACR_QST_MAX_INFESTATION";
     }
 }
