@@ -34,14 +34,16 @@ namespace ACR_Quest
         }
 
         public static Type[] ScriptParameterTypes =
-        { typeof(int) };
+        { typeof(int), typeof(string), typeof(int), typeof(string) };
 
         public Int32 ScriptMain([In] object[] ScriptParameters, [In] Int32 DefaultReturnCode)
         {
-            int Value = (int)ScriptParameters[0]; // ScriptParameterTypes[0] is typeof(int)
+            int command = (int)ScriptParameters[0]; // ScriptParameterTypes[0] is typeof(int)
+            string name = (string)ScriptParameters[1];
+            int state = (int)ScriptParameters[2];
+            string template = (string)ScriptParameters[3];
 
-            PrintInteger(Value);
-
+            SendMessageToAllDMs(String.Format("Command: {0}, Name: {1}, State: {2}, Template: {3}.", command, name, state, template));
             return 0;
         }
 

@@ -201,6 +201,9 @@ void _spawnQuestObject(object oTrigger, int nType, string sTemplate, object oPC=
 //!  Handles despawning of orphaned quest creatures if too much time passes.
 void _despawnQuestCreature(object oCreature);
 
+//!  A generic NWscript wrapper for the CLRScript project.
+void _callQuestCLRScript(int command, string name, int state, string template);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -808,6 +811,16 @@ void _despawnQuestCreature(object oCreature)
 	    // PC is valid and still in area, wait and try again in a few min
 		DelayCommand(ACR_QST_DESPAWN_RETRY, _despawnQuestCreature(oCreature));
 	}
+}
+
+void _callQuestCLRScript(int command, string name, int state, string template)
+{
+    ClearScriptParams();
+    AddScriptParameterInt(command);
+    AddScriptParameterString(name);
+    AddScriptParameterInt(state);
+    AddScriptParameterString(template);
+    ExecuteScriptEnhanced("ACR_Quest", OBJECT_SELF, TRUE);
 }
 
 #endif

@@ -687,6 +687,7 @@ CLRSCRIPT_OBJECTS=$(OUTPUTDIR)\TestClrScript.ncs               \
                   $(OUTPUTDIR)\ACR_Traps.ncs                   \
                   $(OUTPUTDIR)\ACR_AssemblyLoader.ncs          \
                   $(OUTPUTDIR)\ACR_Movement.ncs                \
+                  $(OUTPUTDIR)\ACR_Quest.ncs                   \
                   $(OUTPUTDIR)\ACR_DatabaseConnector.ncs       
 
 HAKFILE=$(OUTPUTDIR)\alfa2_acr.hak
@@ -766,6 +767,8 @@ makeclrscripts:
 	@$(MSBUILD) ACR_AssemblyLoader\ACR_AssemblyLoader.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_Movement
 	@$(MSBUILD) ACR_Movement\ACR_Movement.csproj $(MSBUILD_FLAGS)
+	$(BUILD_MSG) (CSProj) Building - ACR_Quest
+	@$(MSBUILD) ACR_Quest\ACR_Quest.csproj $(MSBUILD_FLAGS)
 	$(BUILD_MSG) (CSProj) Building - ACR_DatabaseConnector
 	@$(MSBUILD) ACR_DatabaseConnector\ACR_DatabaseConnector.csproj $(MSBUILD_FLAGS)
 
@@ -813,6 +816,8 @@ clean:
 	@if exist ACR_AssemblyLoader\obj rd /s /q ACR_AssemblyLoader\obj
 	@if exist ACR_Movement\bin rd /s /q ACR_Movement\bin
 	@if exist ACR_Movement\obj rd /s /q ACR_Movement\obj
+	@if exist ACR_Quest\bin rd /s /q ACR_Quest\bin
+	@if exist ACR_Quest\obj rd /s /q ACR_Quest\obj
 	@if exist ACR_DatabaseConnector\bin rd /s /q ACR_DatabaseConnector\bin
 	@if exist ACR_DatabaseConnector\obj rd /s /q ACR_DatabaseConnector\obj
 
