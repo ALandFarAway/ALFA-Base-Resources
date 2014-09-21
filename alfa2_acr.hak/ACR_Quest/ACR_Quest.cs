@@ -43,8 +43,41 @@ namespace ACR_Quest
             int state = (int)ScriptParameters[2];
             string template = (string)ScriptParameters[3];
 
+            switch((Command)command)
+            {
+                case Command.InitializeInfestations:
+                    Infestation.InitializeInfestations();
+                    break;
+                case Command.CreateInfestation:
+                    new Infestation(name, template, state, this);
+                    break;
+                case Command.GrowInfestation:
+
+                    break;
+                case Command.AddSpawnToInfestation:
+
+                    break;
+                case Command.PrintInfestations:
+                    foreach(Infestation inf in QuestStore.LoadedInfestations)
+                    {
+                        SendMessageToAllDMs(inf.ToString());
+                    }
+                    break;
+            }
+
             SendMessageToAllDMs(String.Format("Command: {0}, Name: {1}, State: {2}, Template: {3}.", command, name, state, template));
             return 0;
+        }
+
+        enum Command 
+        {
+            InitializeInfestations = 0,
+            CreateInfestation = 1,
+            GrowInfestation = 2,
+            AddSpawnToInfestation = 3,
+
+
+            PrintInfestations = 999,
         }
 
     }

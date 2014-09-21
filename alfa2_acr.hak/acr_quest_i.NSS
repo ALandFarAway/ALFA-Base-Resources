@@ -107,6 +107,12 @@ const float ACR_QST_RADIUS = 120.0;
 //! or store to place a quest item inside when the quest trigger is activated.
 const string ACR_QST_CONTAINER_TAG = "ACR_QST_CONTAINER_TAG";
 
+
+const int ACR_QST_CLR_COMMAND_INITIALIZE = 0;
+const int ACR_QST_CLR_COMMAND_CREATE_INFESTATION = 1;
+const int ACR_QST_CLR_COMMAND_GROW_INFESTATION = 2;
+const int ACR_QST_CLR_COMMAND_ADD_TO_INFESTATION = 3;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -200,6 +206,14 @@ void _spawnQuestObject(object oTrigger, int nType, string sTemplate, object oPC=
 
 //!  Handles despawning of orphaned quest creatures if too much time passes.
 void _despawnQuestCreature(object oCreature);
+
+//! A function to be called during module load to restore the state of all infestations
+//! on the server.
+void InitializeInfestations();
+
+//! A function to be called to add a new infestation, assumed to be called on an object
+//! in the area to seed the infestation.
+void AddInfestation(string sName, int nMaxTier, string BossTemplate);
 
 //!  A generic NWscript wrapper for the CLRScript project.
 void _callQuestCLRScript(int command, string name, int state, string template);
@@ -811,6 +825,16 @@ void _despawnQuestCreature(object oCreature)
 	    // PC is valid and still in area, wait and try again in a few min
 		DelayCommand(ACR_QST_DESPAWN_RETRY, _despawnQuestCreature(oCreature));
 	}
+}
+
+void InitializeInfestations()
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_INITIALIZE, "", -1, "");
+}
+
+void AddInfestation(string sName, int nMaxTier, string BossTemplate)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_CREATE_INFESTATION, sName, nMaxTier, BossTemplate);
 }
 
 void _callQuestCLRScript(int command, string name, int state, string template)
