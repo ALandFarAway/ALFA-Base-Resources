@@ -1,4 +1,5 @@
 ﻿using ALFA;
+using ALFA.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,16 @@ namespace ACR_Quest
         public int MaxTier;
 
         [DataMember]
-        public List<InfestedArea> InfestedAreas = new List<InfestedArea>();
+        public Dictionary<string, int> InfestedAreaLevels = new Dictionary<string, int>();
+
+        [DataMember]
+        public int Fecundity;
+
+        [IgnoreDataMember]
+        private int CachedGrowth;
+
+        [IgnoreDataMember]
+        public List<ActiveArea> InfestedAreas = new List<ActiveArea>();
         
         public Infestation() { }
 
@@ -32,8 +42,10 @@ namespace ACR_Quest
             InfestationName = Name;
             BossTemplate = Template;
             MaxTier = State;
-            string startArea = script.GetTag(script.GetArea(script.OBJECT_SELF));
-            InfestedAreas.Add(new InfestedArea(startArea, 1));
+            uint startAreaObject = script.GetArea(script.OBJECT_SELF);
+            string startArea = script.GetTag(startAreaObject);
+            InfestedAreaLevels.Add(startArea, 1);
+            InfestedAreas.Add(Modules.InfoStore.ActiveAreas[startAreaObject]);
             QuestStore.LoadedInfestations.Add(this);
             Save();
         }
@@ -51,9 +63,145 @@ namespace ACR_Quest
             }
         }
 
+        public void GrowInfestation(CLRScriptBase script)
+        {
+            CachedGrowth += Fecundity;
+            CleanUpZeroes();
+            while (!SmoothEdges()) { }
+            while (CachedGrowth < 0)
+            {
+                RecoverFromTops();
+            }
+            while(CachedGrowth > 0)
+            {
+                GrowCurrent();
+                ExpandRemaining();
+            }
+        }
+
+        private bool SmoothEdges()
+        {
+            bool changeMade = false;
+            foreach(ActiveArea area in InfestedAreas)
+            {
+                int areaLevel = InfestedAreaLevels[area.Tag];
+                foreach(ActiveArea adj in area.ExitTransitions.Values)
+                {
+                    if(InfestedAreas.Contains(adj))
+                    {
+                        int diff = areaLevel - InfestedAreaLevels[adj.Tag];
+                        if(diff > 1)
+                        {
+                            InfestedAreaLevels[adj.Tag] += (diff - 1);
+                            CachedGrowth -= (diff - 1);
+                            changeMade = true;
+                        }
+                        else if(diff < -1)
+                        {
+                            InfestedAreaLevels[area.Tag] -= (diff + 1);
+                            CachedGrowth += (diff + 1);
+                            changeMade = true;
+                        }
+                    }
+                    else if (areaLevel > 1)
+                    {
+                        InfestedAreas.Add(adj);
+                        InfestedAreaLevels.Add(adj.Tag, areaLevel - 1);
+                        CachedGrowth -= (areaLevel - 1);
+                        changeMade = true;
+                    }
+                }
+            }
+            return changeMade;
+        }
+
+        private void RecoverFromTops()
+        {
+            int highestDensity = 1;
+            foreach(int dens in InfestedAreaLevels.Values)
+            {
+                if (dens > highestDensity)
+                    highestDensity = dens;
+            }
+            foreach(KeyValuePair<string, int> inf in InfestedAreaLevels)
+            {
+                if(inf.Value == highestDensity)
+                {
+                    InfestedAreaLevels[inf.Key] -= 1;
+                    CachedGrowth += 1;
+                }
+            }
+        }
+
+        private void GrowCurrent()
+        {
+            foreach(ActiveArea area in InfestedAreas)
+            {
+                bool growthBlocked = false;
+                int currentLevel = InfestedAreaLevels[area.Tag];
+                foreach(ActiveArea adj in area.ExitTransitions.Values)
+                {
+                    if (!InfestedAreas.Contains(adj))
+                    {
+                        growthBlocked = true;
+                        break;
+                    }
+                    if(InfestedAreaLevels[adj.Tag] < currentLevel)
+                    {
+                        growthBlocked = true;
+                        break;
+                    }
+                }
+                if(!growthBlocked)
+                {
+                    InfestedAreaLevels[area.Tag] += 1;
+                    CachedGrowth -= 1;
+                }
+                if(CachedGrowth <= 0)
+                {
+                    break;
+                }
+            }
+        }
+
+        private void ExpandRemaining()
+        {
+            foreach (ActiveArea area in InfestedAreas)
+            {
+                int currentLevel = InfestedAreaLevels[area.Tag];
+                foreach (ActiveArea adj in area.ExitTransitions.Values)
+                {
+                    if (!InfestedAreas.Contains(adj))
+                    {
+                        InfestedAreas.Add(adj);
+                        InfestedAreaLevels.Add(adj.Tag, 1);
+                        CachedGrowth -= 1;
+                    }
+                    if (CachedGrowth <= 0)
+                        break;
+                }
+                if (CachedGrowth <= 0)
+                    break;
+            }
+        }
+
+        private void CleanUpZeroes()
+        {
+            List<string> areasToRemove = new List<string>();
+            foreach(KeyValuePair<string, int> inf in InfestedAreaLevels)
+            {
+                if (inf.Value <= 0)
+                    areasToRemove.Add(inf.Key);
+            }
+            foreach(string rem in areasToRemove)
+            {
+                InfestedAreaLevels.Remove(rem);
+            }
+        }
+
         public override string ToString()
         {
-            return String.Format("{0} lead by {1} in {2}", InfestationName, BossTemplate, InfestedAreas[0].Area);
+            return String.Format("{0} lead by {1} in {2}", InfestationName, BossTemplate, InfestedAreas[0].Tag);
         }
 
         public static void InitializeInfestations()
@@ -65,28 +213,38 @@ namespace ACR_Quest
                     DataContractSerializer ser = new DataContractSerializer(typeof(Infestation));
                     Infestation ret = ser.ReadObject(stream) as Infestation;
                     QuestStore.LoadedInfestations.Add(ret);
+                    foreach (string inf in ret.InfestedAreaLevels.Keys)
+                    {
+                        ActiveArea ar = GetAreaByTag(inf);
+                        if (ar != null) // Areas might be removed during a reset.
+                            ret.InfestedAreas.Add(ar);
+                    }
                 }
             }
         }
-    }
 
-    [DataContract(Name = "InfestatedArea")]
-    public class InfestedArea
-    {
-        [DataMember]
-        public string Area;
-
-        [DataMember]
-        public int InfestationTier;
-
-        public InfestedArea(string area, int infestationTier)
+        public static ActiveArea GetAreaByTag(string Tag)
         {
-            Area = area;
-            infestationTier = InfestationTier;
+            foreach(ActiveArea ar in Modules.InfoStore.ActiveAreas.Values)
+            {
+                if (ar.Tag == Tag)
+                    return ar;
+            }
+            return null;
         }
     }
+
     public static class QuestStore
     {
+        public static Infestation GetInfestation(string Name)
+        {
+            foreach(Infestation inf in LoadedInfestations)
+            {
+                if (inf.InfestationName == Name)
+                    return inf;
+            }
+            return null;
+        }
         public static List<Infestation> LoadedInfestations = new List<Infestation>();
 
         public static string InfestationStoreDirectory = String.Format("{0}{1}QuestResources{1}", SystemInfo.GetHomeDirectory(), Path.DirectorySeparatorChar);

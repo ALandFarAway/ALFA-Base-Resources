@@ -52,7 +52,11 @@ namespace ACR_Quest
                     new Infestation(name, template, state, this);
                     break;
                 case Command.GrowInfestation:
-
+                    Infestation infest = QuestStore.GetInfestation(name);
+                    if(infest != null)
+                    {
+                        infest.GrowInfestation(this);
+                    }
                     break;
                 case Command.AddSpawnToInfestation:
 
