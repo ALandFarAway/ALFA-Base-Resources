@@ -196,6 +196,7 @@ namespace ACR_Quest
             foreach(string rem in areasToRemove)
             {
                 InfestedAreaLevels.Remove(rem);
+                InfestedAreas.Remove(GetAreaByTag(rem));
             }
         }
 
