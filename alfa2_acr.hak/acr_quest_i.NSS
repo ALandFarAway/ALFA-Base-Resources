@@ -112,6 +112,7 @@ const int ACR_QST_CLR_COMMAND_INITIALIZE = 0;
 const int ACR_QST_CLR_COMMAND_CREATE_INFESTATION = 1;
 const int ACR_QST_CLR_COMMAND_GROW_INFESTATION = 2;
 const int ACR_QST_CLR_COMMAND_ADD_TO_INFESTATION = 3;
+const int ACR_QST_CLR_COMMAND_FECUND_INFESTATION = 4;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -210,6 +211,9 @@ void _despawnQuestCreature(object oCreature);
 //! A function to be called during module load to restore the state of all infestations
 //! on the server.
 void InitializeInfestations();
+
+//! Set the rate at which an infestation grows.
+void SetInfestationFecundity(string sName, int nFecundity);
 
 //! A function to be called to add a new infestation, assumed to be called on an object
 //! in the area to seed the infestation.
@@ -830,6 +834,11 @@ void _despawnQuestCreature(object oCreature)
 void InitializeInfestations()
 {
     _callQuestCLRScript(ACR_QST_CLR_COMMAND_INITIALIZE, "", -1, "");
+}
+
+void SetInfestationFecundity(string sName, int nFecundity)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_FECUND_INFESTATION, sName, nFecundity, "");
 }
 
 void AddInfestation(string sName, int nMaxTier, string BossTemplate)

@@ -42,6 +42,7 @@ namespace ACR_Quest
             string name = (string)ScriptParameters[1];
             int state = (int)ScriptParameters[2];
             string template = (string)ScriptParameters[3];
+            Infestation infest = null;
 
             switch((Command)command)
             {
@@ -52,7 +53,7 @@ namespace ACR_Quest
                     new Infestation(name, template, state, this);
                     break;
                 case Command.GrowInfestation:
-                    Infestation infest = QuestStore.GetInfestation(name);
+                    infest = QuestStore.GetInfestation(name);
                     if(infest != null)
                     {
                         infest.GrowInfestation(this);
@@ -60,6 +61,13 @@ namespace ACR_Quest
                     break;
                 case Command.AddSpawnToInfestation:
 
+                    break;
+                case Command.SetInfestationFecundity:
+                    infest = QuestStore.GetInfestation(name);
+                    if (infest != null)
+                    {
+                        infest.Fecundity = state;
+                    }
                     break;
                 case Command.PrintInfestations:
                     foreach(Infestation inf in QuestStore.LoadedInfestations)
@@ -79,7 +87,7 @@ namespace ACR_Quest
             CreateInfestation = 1,
             GrowInfestation = 2,
             AddSpawnToInfestation = 3,
-
+            SetInfestationFecundity = 4,
 
             PrintInfestations = 999,
         }
