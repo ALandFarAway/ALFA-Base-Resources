@@ -67,7 +67,7 @@ namespace ACR_Quest
         {
             CachedGrowth += Fecundity;
             CleanUpZeroes();
-            while (!SmoothEdges()) { }
+            while (SmoothEdges()) { }
             while (CachedGrowth < 0)
             {
                 RecoverFromTops();
@@ -201,7 +201,12 @@ namespace ACR_Quest
 
         public override string ToString()
         {
-            return String.Format("{0} lead by {1} in {2}", InfestationName, BossTemplate, InfestedAreas[0].Tag);
+            string ret = String.Format("{0} lead by {1}", InfestationName, BossTemplate);
+            foreach(KeyValuePair<string, int> ar in InfestedAreaLevels)
+            {
+                ret += String.Format("-- {0}, {1}", ar.Key, ar.Value);
+            }
+            return ret;
         }
 
         public static void InitializeInfestations()
