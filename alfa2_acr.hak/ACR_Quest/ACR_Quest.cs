@@ -58,9 +58,26 @@ namespace ACR_Quest
                     {
                         infest.GrowInfestation(this);
                     }
+                    else { SendMessageToAllDMs(NoInfest); }
                     break;
                 case Command.AddSpawnToInfestation:
-
+                    infest = QuestStore.GetInfestation(name);
+                    if(infest != null)
+                    {
+                        infest.AddSpawn(state, template);
+                    }
+                    else { SendMessageToAllDMs(NoInfest); }
+                    break;
+                case Command.RemoveSpawnFromInfestation:
+                    infest = QuestStore.GetInfestation(name);
+                    if(infest != null)
+                    {
+                        if(!infest.RemoveSpawn(state, template))
+                        {
+                            SendMessageToAllDMs(NoSpawn);
+                        }
+                    }
+                    else { SendMessageToAllDMs(NoInfest); }
                     break;
                 case Command.SetInfestationFecundity:
                     infest = QuestStore.GetInfestation(name);
@@ -69,6 +86,7 @@ namespace ACR_Quest
                         infest.Fecundity = state;
                         infest.Save();
                     }
+                    else { SendMessageToAllDMs(NoInfest); }
                     break;
                 case Command.PrintInfestations:
                     foreach(Infestation inf in QuestStore.LoadedInfestations)
@@ -89,9 +107,13 @@ namespace ACR_Quest
             GrowInfestation = 2,
             AddSpawnToInfestation = 3,
             SetInfestationFecundity = 4,
+            RemoveSpawnFromInfestation = 5,
 
             PrintInfestations = 999,
         }
+
+        public const string NoSpawn = "Error: That spawn does not seem to be at that tier.";
+        public const string NoInfest = "Error: There does not seem to be an infestation by that name.";
 
         public const string AREA_MAX_INFESTATION = "ACR_QST_MAX_INFESTATION";
         public const string GLOBAL_QUEST_INFESTATION_KEY = "Infestation";

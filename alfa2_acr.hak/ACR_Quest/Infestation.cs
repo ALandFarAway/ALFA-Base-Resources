@@ -104,6 +104,33 @@ namespace ACR_Quest
         }
         #endregion
 
+        #region Spawn Management
+        public void AddSpawn(int Tier, string Spawn)
+        {
+            if(!Spawns.ContainsKey(Tier))
+            {
+                Spawns.Add(Tier, new List<string>());
+            }
+            Spawns[Tier].Add(Spawn);
+            Save();
+        }
+
+        public bool RemoveSpawn(int Tier, string Spawn)
+        {
+            if(!Spawns.ContainsKey(Tier))
+            {
+                return false;
+            }
+            if(!Spawns[Tier].Contains(Spawn))
+            {
+                return false;
+            }
+            Spawns[Tier].Remove(Spawn);
+            Save();
+            return true;
+        }
+        #endregion
+
         #region Methods to run at Infestation Growth
         public void GrowInfestation(CLRScriptBase script)
         {

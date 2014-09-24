@@ -113,6 +113,7 @@ const int ACR_QST_CLR_COMMAND_CREATE_INFESTATION = 1;
 const int ACR_QST_CLR_COMMAND_GROW_INFESTATION = 2;
 const int ACR_QST_CLR_COMMAND_ADD_TO_INFESTATION = 3;
 const int ACR_QST_CLR_COMMAND_FECUND_INFESTATION = 4;
+const int ACR_QST_CLR_COMMAND_REMOVE_FROM_INFESTATION = 5;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -218,6 +219,18 @@ void SetInfestationFecundity(string sName, int nFecundity);
 //! A function to be called to add a new infestation, assumed to be called on an object
 //! in the area to seed the infestation.
 void AddInfestation(string sName, int nMaxTier, string BossTemplate);
+
+//! A function to be called to add a spawn to an infestation.
+//  - sName: the unique handle of the infestation
+//  - nSpawnTier: the tier on which the spawn is to be added
+//  - nSpawnResRef: the template resref of the spawn
+void AddInfestationSpawn(string sName, int nSpawnTier, string sSpawnResRef);
+
+//! A functoin to be called to remove a spawn from an infestation.
+//  - sName: the unique handle of the infestation
+//  - nSpawnTier: the tier from which the spawn is to be removed
+//  - nSpawnResRef: the template resref of the spawn
+void RemoveInfestationSpawn(string sName, int nSpawnTier, string sSpawnResRef);
 
 //!  A generic NWscript wrapper for the CLRScript project.
 void _callQuestCLRScript(int command, string name, int state, string template);
@@ -844,6 +857,16 @@ void SetInfestationFecundity(string sName, int nFecundity)
 void AddInfestation(string sName, int nMaxTier, string BossTemplate)
 {
     _callQuestCLRScript(ACR_QST_CLR_COMMAND_CREATE_INFESTATION, sName, nMaxTier, BossTemplate);
+}
+
+void AddInfestationSpawn(string sName, int nSpawnTier, string sSpawnResRef)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_ADD_TO_INFESTATION, sName, nSpawnTier, sSpawnResRef);
+}
+
+void RemoveInfestationSpawn(string sName, int nSpawnTier, string sSpawnResRef)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_REMOVE_FROM_INFESTATION, sName, nSpawnTier, sSpawnResRef);
 }
 
 void _callQuestCLRScript(int command, string name, int state, string template)
