@@ -93,5 +93,6 @@ namespace ACR_Quest
         }
 
         public const string AREA_MAX_INFESTATION = "ACR_QST_MAX_INFESTATION";
+        public const string GLOBAL_QUEST_INFESTATION_KEY = "Infestation";
     }
 }

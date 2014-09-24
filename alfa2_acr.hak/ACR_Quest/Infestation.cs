@@ -68,15 +68,8 @@ namespace ACR_Quest
             CachedGrowth += Fecundity;
             CleanUpZeroes();
             while (SmoothEdges()) { }
-            while (CachedGrowth < 0)
-            {
-                RecoverFromTops();
-            }
-            while(CachedGrowth > 0)
-            {
-                GrowCurrent();
-                ExpandRemaining();
-            }
+            while (CachedGrowth < 0 && RecoverFromTops()) { }
+            while (CachedGrowth > 0 && (GrowCurrent() || ExpandRemaining())) { }
         }
 
         private bool SmoothEdges()
@@ -115,8 +108,9 @@ namespace ACR_Quest
             return changeMade;
         }
 
-        private void RecoverFromTops()
+        private bool RecoverFromTops()
         {
+            bool changeMade = false;
             int highestDensity = 1;
             foreach(int dens in InfestedAreaLevels.Values)
             {
@@ -129,43 +123,56 @@ namespace ACR_Quest
                 {
                     InfestedAreaLevels[inf.Key] -= 1;
                     CachedGrowth += 1;
+                    changeMade = true;
                 }
             }
+            return changeMade;
         }
 
-        private void GrowCurrent()
+        private bool GrowCurrent()
         {
+            bool changeMade = false;
             foreach(ActiveArea area in InfestedAreas)
             {
                 bool growthBlocked = false;
                 int currentLevel = InfestedAreaLevels[area.Tag];
-                foreach(ActiveArea adj in area.ExitTransitions.Values)
+                if (area.GlobalQuests[ACR_Quest.GLOBAL_QUEST_INFESTATION_KEY] <= InfestedAreaLevels[area.Tag])
                 {
-                    if (!InfestedAreas.Contains(adj))
+                    growthBlocked = true;
+                }
+                else
+                {
+                    foreach (ActiveArea adj in area.ExitTransitions.Values)
                     {
-                        growthBlocked = true;
-                        break;
-                    }
-                    if(InfestedAreaLevels[adj.Tag] < currentLevel)
-                    {
-                        growthBlocked = true;
-                        break;
+                        if (!InfestedAreas.Contains(adj))
+                        {
+                            growthBlocked = true;
+                            break;
+                        }
+                        if (InfestedAreaLevels[adj.Tag] < currentLevel)
+                        {
+                            growthBlocked = true;
+                            break;
+                        }
                     }
                 }
                 if(!growthBlocked)
                 {
                     InfestedAreaLevels[area.Tag] += 1;
                     CachedGrowth -= 1;
+                    changeMade = true;
                 }
                 if(CachedGrowth <= 0)
                 {
                     break;
                 }
             }
+            return changeMade;
         }
 
-        private void ExpandRemaining()
+        private bool ExpandRemaining()
         {
+            bool changeMade = false;
             foreach (ActiveArea area in InfestedAreas)
             {
                 int currentLevel = InfestedAreaLevels[area.Tag];
@@ -173,9 +180,13 @@ namespace ACR_Quest
                 {
                     if (!InfestedAreas.Contains(adj))
                     {
-                        InfestedAreas.Add(adj);
-                        InfestedAreaLevels.Add(adj.Tag, 1);
-                        CachedGrowth -= 1;
+                        if (adj.GlobalQuests[ACR_Quest.GLOBAL_QUEST_INFESTATION_KEY] >= 0)
+                        {
+                            InfestedAreas.Add(adj);
+                            InfestedAreaLevels.Add(adj.Tag, 1);
+                            CachedGrowth -= 1;
+                            changeMade = true;
+                        }
                     }
                     if (CachedGrowth <= 0)
                         break;
@@ -183,6 +194,7 @@ namespace ACR_Quest
                 if (CachedGrowth <= 0)
                     break;
             }
+            return changeMade;
         }
 
         private void CleanUpZeroes()
