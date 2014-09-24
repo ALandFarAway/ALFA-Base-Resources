@@ -13,6 +13,7 @@ namespace ALFA.Shared
         public string Name;
         public string Tag;
         public Dictionary<ActiveTransition, ActiveArea> ExitTransitions = new Dictionary<ActiveTransition, ActiveArea>();
+        public Dictionary<string, int> GlobalQuests = new Dictionary<string, int>();
 
         public void ConfigureDisplayName()
         {

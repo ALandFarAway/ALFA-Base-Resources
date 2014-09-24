@@ -36,6 +36,7 @@ namespace ACR_Candlekeep
                 activeArea.Id = area;
                 activeArea.Name = s.GetName(area).Trim();
                 activeArea.Tag = s.GetTag(area);
+                activeArea.GlobalQuests.Add("Infestation", s.GetLocalInt(area, "ACR_QST_MAX_INFESTATION"));
                 ALFA.Shared.Modules.InfoStore.ActiveAreas.Add(area, activeArea);
                 areas.Add(area);
             }
