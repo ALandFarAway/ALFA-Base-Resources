@@ -70,6 +70,7 @@ namespace ACR_Quest
             while (SmoothEdges()) { }
             while (CachedGrowth < 0 && RecoverFromTops()) { }
             while (CachedGrowth > 0 && (GrowCurrent() || ExpandRemaining())) { }
+            Save();
         }
 
         private bool SmoothEdges()

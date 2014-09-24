@@ -67,6 +67,7 @@ namespace ACR_Quest
                     if (infest != null)
                     {
                         infest.Fecundity = state;
+                        infest.Save();
                     }
                     break;
                 case Command.PrintInfestations:
