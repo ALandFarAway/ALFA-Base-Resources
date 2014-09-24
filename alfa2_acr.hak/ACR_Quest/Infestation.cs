@@ -205,7 +205,7 @@ namespace ACR_Quest
             string ret = String.Format("{0} lead by {1}", InfestationName, BossTemplate);
             foreach(KeyValuePair<string, int> ar in InfestedAreaLevels)
             {
-                ret += String.Format("-- {0}, {1}", ar.Key, ar.Value);
+                ret += String.Format("\n -- {0}, {1}", ar.Key, ar.Value);
             }
             return ret;
         }
@@ -219,6 +219,7 @@ namespace ACR_Quest
                     DataContractSerializer ser = new DataContractSerializer(typeof(Infestation));
                     Infestation ret = ser.ReadObject(stream) as Infestation;
                     QuestStore.LoadedInfestations.Add(ret);
+                    ret.InfestedAreas = new List<ActiveArea>();
                     foreach (string inf in ret.InfestedAreaLevels.Keys)
                     {
                         ActiveArea ar = GetAreaByTag(inf);
