@@ -14,6 +14,7 @@ namespace ACR_Quest
     [DataContract(Name = "Infestation")]
     public class Infestation
     {
+        #region Persistent Storage
         [DataMember]
         public string InfestationName;
 
@@ -27,14 +28,21 @@ namespace ACR_Quest
         public Dictionary<string, int> InfestedAreaLevels = new Dictionary<string, int>();
 
         [DataMember]
-        public int Fecundity;
+        public Dictionary<int, List<string>> Spawns = new Dictionary<int, List<string>>();
 
+        [DataMember]
+        public int Fecundity;
+        #endregion
+
+        #region Temporary Storage
         [IgnoreDataMember]
         private int CachedGrowth;
 
         [IgnoreDataMember]
         public List<ActiveArea> InfestedAreas = new List<ActiveArea>();
-        
+        #endregion
+
+        #region Constructors
         public Infestation() { }
 
         public Infestation(string Name, string Template, int State, CLRScriptBase script) 
@@ -49,7 +57,9 @@ namespace ACR_Quest
             QuestStore.LoadedInfestations.Add(this);
             Save();
         }
+        #endregion
 
+        #region (De)serialization
         public void Save()
         {
             if(!Directory.Exists(QuestStore.InfestationStoreDirectory))
@@ -63,6 +73,38 @@ namespace ACR_Quest
             }
         }
 
+        public static void InitializeInfestations()
+        {
+            foreach (string file in Directory.EnumerateFiles(QuestStore.InfestationStoreDirectory))
+            {
+                using (FileStream stream = new FileStream(file, FileMode.Open))
+                {
+                    DataContractSerializer ser = new DataContractSerializer(typeof(Infestation));
+                    Infestation ret = ser.ReadObject(stream) as Infestation;
+                    QuestStore.LoadedInfestations.Add(ret);
+                    ret.InfestedAreas = new List<ActiveArea>();
+                    foreach (string inf in ret.InfestedAreaLevels.Keys)
+                    {
+                        ActiveArea ar = GetAreaByTag(inf);
+                        if (ar != null) // Areas might be removed during a reset.
+                            ret.InfestedAreas.Add(ar);
+                    }
+                }
+            }
+        }
+
+        public override string ToString()
+        {
+            string ret = String.Format("{0} lead by {1}", InfestationName, BossTemplate);
+            foreach (KeyValuePair<string, int> ar in InfestedAreaLevels)
+            {
+                ret += String.Format("\n -- {0}, {1}", ar.Key, ar.Value);
+            }
+            return ret;
+        }
+        #endregion
+
+        #region Methods to run at Infestation Growth
         public void GrowInfestation(CLRScriptBase script)
         {
             CachedGrowth += Fecundity;
@@ -212,37 +254,9 @@ namespace ACR_Quest
                 InfestedAreas.Remove(GetAreaByTag(rem));
             }
         }
+        #endregion
 
-        public override string ToString()
-        {
-            string ret = String.Format("{0} lead by {1}", InfestationName, BossTemplate);
-            foreach(KeyValuePair<string, int> ar in InfestedAreaLevels)
-            {
-                ret += String.Format("\n -- {0}, {1}", ar.Key, ar.Value);
-            }
-            return ret;
-        }
-
-        public static void InitializeInfestations()
-        {
-            foreach (string file in Directory.EnumerateFiles(QuestStore.InfestationStoreDirectory))
-            {
-                using (FileStream stream = new FileStream(file, FileMode.Open))
-                {
-                    DataContractSerializer ser = new DataContractSerializer(typeof(Infestation));
-                    Infestation ret = ser.ReadObject(stream) as Infestation;
-                    QuestStore.LoadedInfestations.Add(ret);
-                    ret.InfestedAreas = new List<ActiveArea>();
-                    foreach (string inf in ret.InfestedAreaLevels.Keys)
-                    {
-                        ActiveArea ar = GetAreaByTag(inf);
-                        if (ar != null) // Areas might be removed during a reset.
-                            ret.InfestedAreas.Add(ar);
-                    }
-                }
-            }
-        }
-
+        #region Utility Methods
         public static ActiveArea GetAreaByTag(string Tag)
         {
             foreach(ActiveArea ar in Modules.InfoStore.ActiveAreas.Values)
@@ -252,6 +266,7 @@ namespace ACR_Quest
             }
             return null;
         }
+        #endregion
     }
 
     public static class QuestStore
