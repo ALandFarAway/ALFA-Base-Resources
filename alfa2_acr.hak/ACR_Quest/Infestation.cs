@@ -129,6 +129,15 @@ namespace ACR_Quest
             Save();
             return true;
         }
+
+        public void SpawnOneAtTier(int Tier, CLRScriptBase s)
+        {
+            if(Spawns.ContainsKey(Tier))
+            {
+                int spawnNumber = new Random().Next() * Spawns[Tier].Count;
+                Spawn.SpawnCreature(Spawns[Tier][spawnNumber], s);
+            }
+        }
         #endregion
 
         #region Methods to run at Infestation Growth

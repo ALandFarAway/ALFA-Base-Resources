@@ -88,6 +88,13 @@ namespace ACR_Quest
                     }
                     else { SendMessageToAllDMs(NoInfest); }
                     break;
+                case Command.SpawnCreatureFromInfestation:
+                    infest = QuestStore.GetInfestation(name);
+                    if(infest != null)
+                    {
+                        infest.SpawnOneAtTier(state, this);
+                    }
+                    break;
                 case Command.PrintInfestations:
                     foreach(Infestation inf in QuestStore.LoadedInfestations)
                     {
@@ -108,6 +115,7 @@ namespace ACR_Quest
             AddSpawnToInfestation = 3,
             SetInfestationFecundity = 4,
             RemoveSpawnFromInfestation = 5,
+            SpawnCreatureFromInfestation = 6,
 
             PrintInfestations = 999,
         }
