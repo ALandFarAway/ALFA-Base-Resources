@@ -48,8 +48,9 @@ namespace ACR_Quest
         public Infestation(string Name, string Template, int State, CLRScriptBase script) 
         {
             InfestationName = Name;
-            BossTemplate = Template;
-            MaxTier = State;
+            Spawns.Add(1, new List<string>());
+            Spawns[1].Add(Template);
+            MaxTier = 1;
             uint startAreaObject = script.GetArea(script.OBJECT_SELF);
             string startArea = script.GetTag(startAreaObject);
             InfestedAreaLevels.Add(startArea, 1);
@@ -112,6 +113,10 @@ namespace ACR_Quest
                 Spawns.Add(Tier, new List<string>());
             }
             Spawns[Tier].Add(Spawn);
+            if(Spawns.ContainsKey(MaxTier + 1))
+            {
+                MaxTier = MaxTier + 1;
+            }
             Save();
         }
 
@@ -130,13 +135,25 @@ namespace ACR_Quest
             return true;
         }
 
-        public void SpawnOneAtTier(int Tier, CLRScriptBase s)
+        public void SpawnOneAtTier(CLRScriptBase s)
         {
-            if(Spawns.ContainsKey(Tier))
+            string Area = s.GetTag(s.GetArea(s.OBJECT_SELF));
+            int Tier = InfestedAreaLevels[Area];
+            string rand = GetRandomSpawnAtTier(Tier);
+            if(rand != "")
+            {
+                Spawn.SpawnCreature(rand, s);
+            }
+        }
+
+        private string GetRandomSpawnAtTier(int Tier)
+        {
+            if (Spawns.ContainsKey(Tier))
             {
                 int spawnNumber = new Random().Next() * Spawns[Tier].Count;
-                Spawn.SpawnCreature(Spawns[Tier][spawnNumber], s);
+                return Spawns[Tier][spawnNumber];
             }
+            return "";
         }
         #endregion
 
@@ -145,13 +162,13 @@ namespace ACR_Quest
         {
             CachedGrowth += Fecundity;
             CleanUpZeroes();
-            while (SmoothEdges()) { }
-            while (CachedGrowth < 0 && RecoverFromTops()) { }
-            while (CachedGrowth > 0 && (GrowCurrent() || ExpandRemaining())) { }
+            while (SmoothEdges(script)) { }
+            while (CachedGrowth < 0 && RecoverFromTops(script)) { }
+            while (CachedGrowth > 0 && (GrowCurrent(script) || ExpandRemaining(script))) { }
             Save();
         }
 
-        private bool SmoothEdges()
+        private bool SmoothEdges(CLRScriptBase s)
         {
             bool changeMade = false;
             foreach(ActiveArea area in InfestedAreas)
@@ -164,21 +181,25 @@ namespace ACR_Quest
                         int diff = areaLevel - InfestedAreaLevels[adj.Tag];
                         if(diff > 1)
                         {
-                            InfestedAreaLevels[adj.Tag] += (diff - 1);
+                            ChangeAreaLevel(adj.Tag, adj, InfestedAreaLevels[adj.Tag] + diff - 1, s);
                             CachedGrowth -= (diff - 1);
                             changeMade = true;
                         }
                         else if(diff < -1)
                         {
-                            InfestedAreaLevels[area.Tag] -= (diff + 1);
+                            ChangeAreaLevel(adj.Tag, adj, InfestedAreaLevels[adj.Tag] - diff + 1, s);
                             CachedGrowth += (diff + 1);
                             changeMade = true;
                         }
                     }
-                    else if (areaLevel > 1)
+                    else if (areaLevel > 1 && adj.GlobalQuests[ACR_Quest.GLOBAL_QUEST_INFESTATION_KEY] >= 0)
                     {
-                        InfestedAreas.Add(adj);
-                        InfestedAreaLevels.Add(adj.Tag, areaLevel - 1);
+                        if(areaLevel - 1 > adj.GlobalQuests[ACR_Quest.GLOBAL_QUEST_INFESTATION_KEY] &&
+                            adj.GlobalQuests[ACR_Quest.GLOBAL_QUEST_INFESTATION_KEY] != 0)
+                        {
+                            areaLevel = adj.GlobalQuests[ACR_Quest.GLOBAL_QUEST_INFESTATION_KEY] + 1;
+                        }
+                        InfestArea(adj.Tag, adj, areaLevel - 1, s);
                         CachedGrowth -= (areaLevel - 1);
                         changeMade = true;
                     }
@@ -187,7 +208,7 @@ namespace ACR_Quest
             return changeMade;
         }
 
-        private bool RecoverFromTops()
+        private bool RecoverFromTops(CLRScriptBase s)
         {
             bool changeMade = false;
             int highestDensity = 1;
@@ -200,7 +221,7 @@ namespace ACR_Quest
             {
                 if(inf.Value == highestDensity)
                 {
-                    InfestedAreaLevels[inf.Key] -= 1;
+                    ChangeAreaLevel(inf.Key, null, inf.Value - 1, s);
                     CachedGrowth += 1;
                     changeMade = true;
                 }
@@ -208,14 +229,22 @@ namespace ACR_Quest
             return changeMade;
         }
 
-        private bool GrowCurrent()
+        private bool GrowCurrent(CLRScriptBase s)
         {
             bool changeMade = false;
             foreach(ActiveArea area in InfestedAreas)
             {
                 bool growthBlocked = false;
                 int currentLevel = InfestedAreaLevels[area.Tag];
-                if (area.GlobalQuests[ACR_Quest.GLOBAL_QUEST_INFESTATION_KEY] <= InfestedAreaLevels[area.Tag])
+                if (area.GlobalQuests[ACR_Quest.GLOBAL_QUEST_INFESTATION_KEY] != 0 &&
+                    area.GlobalQuests[ACR_Quest.GLOBAL_QUEST_INFESTATION_KEY] <= currentLevel)
+                {
+                    // We need no handling for -1, as it will always be less than an infested area tag; therefore,
+                    // if an area becomes uninfestable after being infested for whatever reason, it will always 
+                    // refuse to grow.
+                    growthBlocked = true;
+                }
+                else if(currentLevel <= MaxTier)
                 {
                     growthBlocked = true;
                 }
@@ -249,7 +278,7 @@ namespace ACR_Quest
             return changeMade;
         }
 
-        private bool ExpandRemaining()
+        private bool ExpandRemaining(CLRScriptBase s)
         {
             bool changeMade = false;
             foreach (ActiveArea area in InfestedAreas)
@@ -261,8 +290,7 @@ namespace ACR_Quest
                     {
                         if (adj.GlobalQuests[ACR_Quest.GLOBAL_QUEST_INFESTATION_KEY] >= 0)
                         {
-                            InfestedAreas.Add(adj);
-                            InfestedAreaLevels.Add(adj.Tag, 1);
+                            InfestArea(adj.Tag, adj, 1, s);
                             CachedGrowth -= 1;
                             changeMade = true;
                         }
@@ -288,6 +316,172 @@ namespace ACR_Quest
             {
                 InfestedAreaLevels.Remove(rem);
                 InfestedAreas.Remove(GetAreaByTag(rem));
+            }
+        }
+
+
+        const string WayPointArrayName = "ACR_SPA_WA_";
+        const string GroupVarName = "ACR_SPAWN_GROUP_";
+        const string SingleVarName = "ACR_SPAWN_RESNAME_";
+        const string RandomVarName = "ACR_SPAWN_RANDOM_RESNAME_";
+        const string SpawnTypeVarName = "ACR_SPAWN_TYPE";
+        const string InfestPrefix = "INF_";
+        const string InfestGroupScript = "infest";
+        const string InfestNameVar = "AREA_INFESTATION_NAME";
+        private void InfestArea(string areaTag, ActiveArea area, int initialLevel, CLRScriptBase s)
+        {
+            if(area == null)
+            {
+                area = GetAreaByTag(areaTag);
+            }
+            if(!InfestedAreas.Contains(area))
+            {
+                InfestedAreas.Add(area);
+            }
+            if(!InfestedAreaLevels.ContainsKey(areaTag))
+            {
+                InfestedAreaLevels.Add(areaTag, initialLevel);
+            }
+            else
+            {
+                InfestedAreaLevels[areaTag] = initialLevel;
+            }
+            s.SetLocalString(area.Id, InfestNameVar, this.InfestationName);
+            int count = 0;
+            uint wp = s.GetLocalObject(area.Id, WayPointArrayName + count.ToString());
+            while(s.GetIsObjectValid(wp) != CLRScriptBase.FALSE)
+            {
+                int groupNum = 1;
+                string oldGroup = s.GetLocalString(wp, GroupVarName + groupNum.ToString());
+                while(oldGroup != "")
+                {
+                    s.SetLocalString(wp, InfestPrefix + GroupVarName + groupNum.ToString(), oldGroup);
+                    s.SetLocalString(wp, GroupVarName + groupNum.ToString(), InfestGroupScript);
+                    groupNum++;
+                    oldGroup = s.GetLocalString(wp, GroupVarName + groupNum.ToString());
+                }
+                if (s.GetLocalInt(wp, "ACR_SPAWN_TYPE") != 0)
+                {
+                    count++;
+                    wp = s.GetLocalObject(area.Id, WayPointArrayName + count.ToString());
+                    continue;
+                }
+                int var = 1;
+                string oldVar = s.GetLocalString(wp, SingleVarName + var.ToString());
+                while(oldVar != "")
+                {
+                    s.SetLocalString(wp, InfestPrefix + SingleVarName + var.ToString(), oldVar);
+                    s.SetLocalString(wp, SingleVarName + var.ToString(), GetRandomSpawnAtTier(initialLevel));
+                    var++;
+                    oldVar = s.GetLocalString(wp, SingleVarName + var.ToString());
+                }
+                var = 1;
+                oldVar = s.GetLocalString(wp, RandomVarName + var.ToString());
+                while(oldVar != "")
+                {
+                    s.SetLocalString(wp, InfestPrefix + RandomVarName + var.ToString(), oldVar);
+                    s.SetLocalString(wp, RandomVarName + var.ToString(), GetRandomSpawnAtTier(initialLevel));
+                    var++;
+                    oldVar = s.GetLocalString(wp, RandomVarName + var.ToString());
+                }
+                count++;
+                wp = s.GetLocalObject(area.Id, WayPointArrayName + count.ToString());
+            }
+        }
+
+        private void ChangeAreaLevel(string areaTag, ActiveArea area, int infestLevel, CLRScriptBase s)
+        {
+            if (area == null)
+            {
+                area = GetAreaByTag(areaTag);
+            }
+            if(!InfestedAreas.Contains(area))
+            {
+                InfestArea(areaTag, area, infestLevel, s);
+                return;
+            }
+            s.DeleteLocalString(area.Id, InfestNameVar);
+            int count = 0;
+            uint wp = s.GetLocalObject(area.Id, WayPointArrayName + count.ToString());
+            while (s.GetIsObjectValid(wp) != CLRScriptBase.FALSE)
+            {
+                if (s.GetLocalInt(wp, "ACR_SPAWN_TYPE") != 0)
+                {
+                    count++;
+                    wp = s.GetLocalObject(area.Id, WayPointArrayName + count.ToString());
+                    continue;
+                }
+                int var = 1;
+                string oldVar = s.GetLocalString(wp, SingleVarName + var.ToString());
+                while (oldVar != "")
+                {
+                    s.SetLocalString(wp, SingleVarName + var.ToString(), GetRandomSpawnAtTier(infestLevel));
+                    var++;
+                    oldVar = s.GetLocalString(wp, SingleVarName + var.ToString());
+                }
+                var = 1;
+                oldVar = s.GetLocalString(wp, RandomVarName + var.ToString());
+                while (oldVar != "")
+                {
+                    s.SetLocalString(wp, RandomVarName + var.ToString(), GetRandomSpawnAtTier(infestLevel));
+                    var++;
+                    oldVar = s.GetLocalString(wp, RandomVarName + var.ToString());
+                }
+                count++;
+                wp = s.GetLocalObject(area.Id, WayPointArrayName + count.ToString());
+            }
+        }
+
+        private void ClearArea(string areaTag, ActiveArea area, CLRScriptBase s)
+        {
+            if (area == null)
+            {
+                area = GetAreaByTag(areaTag);
+            }
+            if (InfestedAreas.Contains(area))
+            {
+                InfestedAreas.Remove(area);
+            }
+            if (InfestedAreaLevels.ContainsKey(areaTag))
+            {
+                InfestedAreaLevels.Remove(areaTag);
+            }
+            int count = 0;
+            uint wp = s.GetLocalObject(area.Id, WayPointArrayName + count.ToString());
+            while (s.GetIsObjectValid(wp) != CLRScriptBase.FALSE)
+            {
+                int groupNum = 1;
+                string oldGroup = s.GetLocalString(wp, InfestPrefix + GroupVarName + groupNum.ToString());
+                while (oldGroup != "")
+                {
+                    s.SetLocalString(wp, GroupVarName + groupNum.ToString(), oldGroup);
+                    groupNum++;
+                    oldGroup = s.GetLocalString(wp, InfestPrefix + GroupVarName + groupNum.ToString());
+                }
+                if (s.GetLocalInt(wp, "ACR_SPAWN_TYPE") != 0)
+                {
+                    count++;
+                    wp = s.GetLocalObject(area.Id, WayPointArrayName + count.ToString());
+                    continue;
+                }
+                int var = 1;
+                string oldVar = s.GetLocalString(wp, InfestPrefix + SingleVarName + var.ToString());
+                while (oldVar != "")
+                {
+                    s.SetLocalString(wp, SingleVarName + var.ToString(), oldVar);
+                    var++;
+                    oldVar = s.GetLocalString(wp, InfestPrefix + SingleVarName + var.ToString());
+                }
+                var = 1;
+                oldVar = s.GetLocalString(wp, InfestPrefix + RandomVarName + var.ToString());
+                while (oldVar != "")
+                {
+                    s.SetLocalString(wp, RandomVarName + var.ToString(), oldVar);
+                    var++;
+                    oldVar = s.GetLocalString(wp, InfestPrefix + RandomVarName + var.ToString());
+                }
+                count++;
+                wp = s.GetLocalObject(area.Id, WayPointArrayName + count.ToString());
             }
         }
         #endregion

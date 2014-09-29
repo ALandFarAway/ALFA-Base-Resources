@@ -92,7 +92,7 @@ namespace ACR_Quest
                     infest = QuestStore.GetInfestation(name);
                     if(infest != null)
                     {
-                        infest.SpawnOneAtTier(state, this);
+                        infest.SpawnOneAtTier(this);
                     }
                     break;
                 case Command.PrintInfestations:

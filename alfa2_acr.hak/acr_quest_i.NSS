@@ -114,6 +114,7 @@ const int ACR_QST_CLR_COMMAND_GROW_INFESTATION = 2;
 const int ACR_QST_CLR_COMMAND_ADD_TO_INFESTATION = 3;
 const int ACR_QST_CLR_COMMAND_FECUND_INFESTATION = 4;
 const int ACR_QST_CLR_COMMAND_REMOVE_FROM_INFESTATION = 5;
+const int ACR_QST_CLR_COMMAND_SPAWN_ONE_AT_TIER = 6;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -867,6 +868,11 @@ void AddInfestationSpawn(string sName, int nSpawnTier, string sSpawnResRef)
 void RemoveInfestationSpawn(string sName, int nSpawnTier, string sSpawnResRef)
 {
     _callQuestCLRScript(ACR_QST_CLR_COMMAND_REMOVE_FROM_INFESTATION, sName, nSpawnTier, sSpawnResRef);
+}
+
+void SpawnInfestationCreature(string sName)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_SPAWN_ONE_AT_TIER, sName, -1, "");
 }
 
 void _callQuestCLRScript(int command, string name, int state, string template)

@@ -39,9 +39,9 @@ namespace ACR_Quest
 
         const string ACR_COLOR_NAME = "ACR_COLOR_NAME";
 
-        public static void SpawnCreature(string sResRef, CLRScriptBase s)
+        public static uint SpawnCreature(string sResRef, CLRScriptBase s)
         {
-            _SpawnObject(sResRef, CLRScriptBase.OBJECT_TYPE_CREATURE, s.OBJECT_SELF, s.GetLocation(s.OBJECT_SELF), s.GetLocalInt(s.OBJECT_SELF, _SPAWN_FLAGS), CLRScriptBase.FALSE, s);
+            return _SpawnObject(sResRef, CLRScriptBase.OBJECT_TYPE_CREATURE, s.OBJECT_SELF, s.GetLocation(s.OBJECT_SELF), s.GetLocalInt(s.OBJECT_SELF, _SPAWN_FLAGS), CLRScriptBase.FALSE, s);
         }
 
         public static uint _SpawnObject(string sResRef, int nObjectType, uint oWP, NWLocation lLoc, int nFlags, int nAlternate, CLRScriptBase s)
