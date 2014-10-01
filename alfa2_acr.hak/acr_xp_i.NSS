@@ -604,7 +604,7 @@ void _RPXP_PHeartbeat(object oPlayer) {
 
 float _AdjustXPForParty(float fBaseXP, int nSize) {
 	float fMult = 0.9 - (((nSize-5)*(nSize-5))/35);
-	if(nSize < 3 && fMult < 0.6) fMult = 0.6;
+	if(nSize < 3 && fMult < 0.6) fMult = 0.6f;
 	if(fMult < 0) return 0.0f;
 	return fBaseXP * fMult;
 }
