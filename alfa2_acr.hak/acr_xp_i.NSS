@@ -603,13 +603,10 @@ void _RPXP_PHeartbeat(object oPlayer) {
 }
 
 float _AdjustXPForParty(float fBaseXP, int nSize) {
-	if (nSize == 1) {
-		// soloing PC, apply 40% XP reduction
-		return (fBaseXP * 0.6);
-	} else {
-		// partied PCs get a larger scale
-		return (fBaseXP * (1 + (IntToFloat(nSize)*_ACR_XP_PARTYSCALE)));
-	}
+	float fMult = 0.9 - (((nSize-5)*(nSize-5))/35);
+	if(nSize < 3 && fMult < 0.6) fMult = 0.6;
+	if(fMult < 0) return 0.0f;
+	return fBaseXP * fMult;
 }
 
 #endif
