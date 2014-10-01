@@ -139,10 +139,39 @@ namespace ACR_Quest
         {
             string Area = s.GetTag(s.GetArea(s.OBJECT_SELF));
             int Tier = InfestedAreaLevels[Area];
-            string rand = GetRandomSpawnAtTier(Tier);
-            if(rand != "")
+            int spawnNum = 1;
+            int spawnTier = Tier;
+            if(Tier == 2)
             {
-                Spawn.SpawnCreature(rand, s);
+                if(s.d2(1) == 1)
+                {
+                    spawnNum = s.d3(1);
+                    spawnTier = 1;
+                }
+            }
+            else if(Tier > 2)
+            {
+                switch(s.d3(1))
+                {
+                    case 1:
+                        spawnNum = s.d3(1);
+                        spawnTier--;
+                        break;
+                    case 2:
+                        spawnNum = s.d4(1) + 1;
+                        spawnTier -= 2;
+                        break;
+                }
+            }
+            while (spawnNum > 0)
+            {
+                string rand = GetRandomSpawnAtTier(spawnTier);
+                if (rand != "")
+                {
+                    uint spawn = Spawn.SpawnCreature(rand, s);
+                    s.SetLocalString(spawn, InfestNameVar, this.InfestationName);
+                }
+                spawnNum -= 1;
             }
         }
 
@@ -389,7 +418,7 @@ namespace ACR_Quest
             }
         }
 
-        private void ChangeAreaLevel(string areaTag, ActiveArea area, int infestLevel, CLRScriptBase s)
+        public void ChangeAreaLevel(string areaTag, ActiveArea area, int infestLevel, CLRScriptBase s)
         {
             if (area == null)
             {
@@ -432,7 +461,7 @@ namespace ACR_Quest
             }
         }
 
-        private void ClearArea(string areaTag, ActiveArea area, CLRScriptBase s)
+        public void ClearArea(string areaTag, ActiveArea area, CLRScriptBase s)
         {
             if (area == null)
             {
