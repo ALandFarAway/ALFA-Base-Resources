@@ -107,6 +107,10 @@ const float ACR_QST_RADIUS = 120.0;
 //! or store to place a quest item inside when the quest trigger is activated.
 const string ACR_QST_CONTAINER_TAG = "ACR_QST_CONTAINER_TAG";
 
+//! local variable for retrieving the name of the infestation on an
+//! area or creature.
+const string ACR_QST_INFESTATION_NAME = "AREA_INFESTATION_NAME";
+
 
 const int ACR_QST_CLR_COMMAND_INITIALIZE = 0;
 const int ACR_QST_CLR_COMMAND_CREATE_INFESTATION = 1;
@@ -115,6 +119,7 @@ const int ACR_QST_CLR_COMMAND_ADD_TO_INFESTATION = 3;
 const int ACR_QST_CLR_COMMAND_FECUND_INFESTATION = 4;
 const int ACR_QST_CLR_COMMAND_REMOVE_FROM_INFESTATION = 5;
 const int ACR_QST_CLR_COMMAND_SPAWN_ONE_AT_TIER = 6;
+const int ACR_QST_CLR_COMMAND_DEGRADE_AREA = 7;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -873,6 +878,11 @@ void RemoveInfestationSpawn(string sName, int nSpawnTier, string sSpawnResRef)
 void SpawnInfestationCreature(string sName)
 {
     _callQuestCLRScript(ACR_QST_CLR_COMMAND_SPAWN_ONE_AT_TIER, sName, -1, "");
+}
+
+void DegradeInfestationArea()
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_DEGRADE_AREA, "", -1, "");
 }
 
 void _callQuestCLRScript(int command, string name, int state, string template)

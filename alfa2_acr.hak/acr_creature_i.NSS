@@ -333,6 +333,17 @@ void ACR_CreatureOnDeath()
         ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_ON_DEATH);
         return;
     }
+    
+    object oAlly = GetFirstObjectInArea();
+    while(GetIsObjectValid(oAlly))
+    {
+        if(!GetLocalInt(oAlly, ACR_QST_INFESTATION_NAME))
+        {
+            return;
+        }
+        oAlly = GetNextObjectInArea();
+    }
+    DegradeInfestationArea();
 }
 
 void ACR_CreatureOnBlocked()

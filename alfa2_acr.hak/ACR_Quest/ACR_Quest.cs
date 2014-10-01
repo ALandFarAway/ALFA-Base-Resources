@@ -95,6 +95,26 @@ namespace ACR_Quest
                         infest.SpawnOneAtTier(this);
                     }
                     break;
+                case Command.DegradeAreaInfestation:
+                    infest = QuestStore.GetInfestation(name);
+                    if (infest != null)
+                    {
+                        uint degradedInfestationArea = GetArea(OBJECT_SELF);
+                        string degradedInfestationTag = GetTag(degradedInfestationArea);
+
+                        if (infest.InfestedAreaLevels.ContainsKey(degradedInfestationTag))
+                        {
+                            if (infest.InfestedAreaLevels[degradedInfestationTag] <= 1)
+                            {
+                                infest.ClearArea(degradedInfestationTag, ALFA.Shared.Modules.InfoStore.ActiveAreas[degradedInfestationArea], this);
+                            }
+                            else
+                            {
+                                infest.ChangeAreaLevel(degradedInfestationTag, ALFA.Shared.Modules.InfoStore.ActiveAreas[degradedInfestationArea], infest.InfestedAreaLevels[degradedInfestationTag] - 1, this);
+                            }
+                        }
+                    }
+                    break;
                 case Command.PrintInfestations:
                     foreach(Infestation inf in QuestStore.LoadedInfestations)
                     {
@@ -116,6 +136,7 @@ namespace ACR_Quest
             SetInfestationFecundity = 4,
             RemoveSpawnFromInfestation = 5,
             SpawnCreatureFromInfestation = 6,
+            DegradeAreaInfestation = 7,
 
             PrintInfestations = 999,
         }
