@@ -122,7 +122,6 @@ namespace ACR_Quest
                     }
                     break;
             }
-
             SendMessageToAllDMs(String.Format("Command: {0}, Name: {1}, State: {2}, Template: {3}.", command, name, state, template));
             return 0;
         }

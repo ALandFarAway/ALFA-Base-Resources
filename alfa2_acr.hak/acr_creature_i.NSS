@@ -331,18 +331,47 @@ void ACR_CreatureOnDeath()
        GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
     {
         ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_ON_DEATH);
-        return;
     }
     
+    if(GetLocalString(OBJECT_SELF, ACR_QST_INFESTATION_NAME) == "")
+    {
+        return;
+    }
+    string sInfestName = GetLocalString(GetArea(OBJECT_SELF), ACR_QST_INFESTATION_NAME);
+    float fAreaCR = GetLocalFloat(GetArea(OBJECT_SELF), ACR_QST_INFESTATION_CR);
+    float fCreatCR = GetChallengeRating(OBJECT_SELF);
+    if(fCreatCR > fAreaCR) 
+    {
+        fAreaCR = fCreatCR;
+        SetLocalFloat(GetArea(OBJECT_SELF), ACR_QST_INFESTATION_CR, fAreaCR);
+    }
     object oAlly = GetFirstObjectInArea();
     while(GetIsObjectValid(oAlly))
     {
-        if(!GetLocalInt(oAlly, ACR_QST_INFESTATION_NAME))
+        if(GetLocalString(oAlly, ACR_QST_INFESTATION_NAME) != "")
         {
             return;
         }
         oAlly = GetNextObjectInArea();
     }
+    int nLootBase = 35;
+    if(fAreaCR > 15.0f) nLootBase = 300;
+    else if(fAreaCR > 10.0f) nLootBase = 150;
+    else if(fAreaCR > 5.0f) nLootBase = 60;
+    float fMult = ACR_CalculateMultiplier(oKiller);
+    int PCCount = 0;
+    oAlly = GetFirstPC(TRUE);
+    while(GetIsObjectValid(oAlly))
+    {
+        if(GetFactionEqual(oAlly, oKiller) || oAlly == oKiller)
+        {
+            PCCount++;
+            ACR_AwardStaticQuestXP(oAlly, "INFEST_"+sInfestName, 25, fAreaCR);
+        }
+        oAlly = GetNextPC(TRUE);
+    }
+    object oLootBag = CreateObject(OBJECT_TYPE_PLACEABLE, "acr_inf_lootbag", GetLocation(oKiller));
+    ACR_GenerateLoot(oLootBag, FloatToInt(nLootBase * PCCount * fMult), FloatToInt(nLootBase * fMult), ACR_ITEMS_CSHARP_GENERATE_LOOT);
     DegradeInfestationArea();
 }
 
