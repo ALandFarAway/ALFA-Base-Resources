@@ -151,27 +151,31 @@ string SQLEncodeSpecialChars(string sString);
 
 void SQLExecDirect(string sSQL)
 {
-    NWNXSetString("SQL", "EXEC", sSQL, 0, "");
+#if ACR_DB_PERSIST_USE_CLR_SQL_PROVIDER
+	ACR_QueryDatabaseConnection(SCRIPT_STANDARD_DATABASE_CONNECTION_ID, sSQL);
+#else
+	NWNXSetString("SQL", "EXEC", sSQL, 0, "");
+#endif
 }
 
 int SQLFetch(string mode = " ")
 {
-    return NWNXGetInt("SQL", "FETCH", mode, 0);
+	return ACR_SQLFetch(mode);
 }
 
 string SQLGetData(int iCol)
 {
-    return NWNXGetString("SQL", "GETDATA", "", iCol - 1);
+	return ACR_SQLGetData(iCol - 1);
 }
 
 string SQLGetDataText(int iCol)
 {
-    return NWNXGetString("SQL", "GETDATA", "", iCol - 1);
+	return SQLGetData(iCol);
 }
 
 int SQLGetAffectedRows()
 {
-    return NWNXGetInt("SQL", "GET AFFECTED ROWS", "", 0);
+	return ACR_SQLGetAffectedRows();
 }
 
 // These functions deal with various data types. Ultimately, all NWN specific
@@ -530,5 +534,5 @@ void DeletePersistentVariable(object oObject, string sVarName, string sTable = "
 
 string SQLEncodeSpecialChars(string sString)
 {
-    return NWNXGetString("SQL", "GET ESCAPE STRING", sString, 0);
+	return ACR_SQLEncodeSpecialChars(sString);
 }
