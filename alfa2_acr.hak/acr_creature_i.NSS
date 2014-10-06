@@ -348,16 +348,16 @@ void ACR_CreatureOnDeath()
     object oAlly = GetFirstObjectInArea();
     while(GetIsObjectValid(oAlly))
     {
-        if(GetLocalString(oAlly, ACR_QST_INFESTATION_NAME) != "")
+        if(GetLocalString(oAlly, ACR_QST_INFESTATION_NAME) != "" &&
+           oAlly != OBJECT_SELF &&
+           GetObjectType(oAlly) == OBJECT_TYPE_CREATURE &&
+           GetIsDead(oAlly) == FALSE)
         {
             return;
         }
         oAlly = GetNextObjectInArea();
     }
     int nLootBase = 35;
-    if(fAreaCR > 15.0f) nLootBase = 300;
-    else if(fAreaCR > 10.0f) nLootBase = 150;
-    else if(fAreaCR > 5.0f) nLootBase = 60;
     float fMult = ACR_CalculateMultiplier(oKiller);
     int PCCount = 0;
     oAlly = GetFirstPC(TRUE);
@@ -372,7 +372,7 @@ void ACR_CreatureOnDeath()
     }
     object oLootBag = CreateObject(OBJECT_TYPE_PLACEABLE, "acr_inf_lootbag", GetLocation(oKiller));
     ACR_GenerateLoot(oLootBag, FloatToInt(nLootBase * PCCount * fMult), FloatToInt(nLootBase * fMult), ACR_ITEMS_CSHARP_GENERATE_LOOT);
-    DegradeInfestationArea();
+    DegradeInfestationArea(sInfestName);
 }
 
 void ACR_CreatureOnBlocked()
