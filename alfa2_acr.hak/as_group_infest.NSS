@@ -42,5 +42,5 @@ void main();
 ////////////////////////////////////////////////////////////////////////////////
 
 void main() {
-		SpawnInfestationCreature(GetLocalString(OBJECT_SELF, "AREA_INFESTATION_NAME"));
+		SpawnInfestationCreature(GetLocalString(GetArea(OBJECT_SELF), "AREA_INFESTATION_NAME"));
 }
