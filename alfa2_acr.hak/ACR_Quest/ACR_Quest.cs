@@ -47,7 +47,7 @@ namespace ACR_Quest
             switch((Command)command)
             {
                 case Command.InitializeInfestations:
-                    Infestation.InitializeInfestations();
+                    Infestation.InitializeInfestations(this);
                     break;
                 case Command.CreateInfestation:
                     new Infestation(name, template, state, this);
@@ -111,6 +111,7 @@ namespace ACR_Quest
                             else
                             {
                                 infest.ChangeAreaLevel(degradedInfestationTag, ALFA.Shared.Modules.InfoStore.ActiveAreas[degradedInfestationArea], infest.InfestedAreaLevels[degradedInfestationTag] - 1, this);
+                                infest.Save();
                             }
                         }
                     }

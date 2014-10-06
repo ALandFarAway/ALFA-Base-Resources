@@ -53,8 +53,7 @@ namespace ACR_Quest
             MaxTier = 1;
             uint startAreaObject = script.GetArea(script.OBJECT_SELF);
             string startArea = script.GetTag(startAreaObject);
-            InfestedAreaLevels.Add(startArea, 1);
-            InfestedAreas.Add(Modules.InfoStore.ActiveAreas[startAreaObject]);
+            InfestArea(startArea, ALFA.Shared.Modules.InfoStore.ActiveAreas[startAreaObject], 1, script);
             QuestStore.LoadedInfestations.Add(this);
             Save();
         }
@@ -74,7 +73,17 @@ namespace ACR_Quest
             }
         }
 
-        public static void InitializeInfestations()
+        public void Delete()
+        {
+            if (!Directory.Exists(QuestStore.InfestationStoreDirectory))
+                return;
+            if(File.Exists(QuestStore.InfestationStoreDirectory + InfestationName + ".xml"))
+            {
+                File.Delete(QuestStore.InfestationStoreDirectory + InfestationName + ".xml");
+            }
+        }
+
+        public static void InitializeInfestations(CLRScriptBase s)
         {
             foreach (string file in Directory.EnumerateFiles(QuestStore.InfestationStoreDirectory))
             {
@@ -84,11 +93,19 @@ namespace ACR_Quest
                     Infestation ret = ser.ReadObject(stream) as Infestation;
                     QuestStore.LoadedInfestations.Add(ret);
                     ret.InfestedAreas = new List<ActiveArea>();
+                    Dictionary<string, ActiveArea> areasToAdjust = new Dictionary<string, ActiveArea>();
                     foreach (string inf in ret.InfestedAreaLevels.Keys)
                     {
                         ActiveArea ar = GetAreaByTag(inf);
                         if (ar != null) // Areas might be removed during a reset.
+                        {
                             ret.InfestedAreas.Add(ar);
+                            areasToAdjust.Add(inf, ar);
+                        }
+                    }
+                    foreach(KeyValuePair<string, ActiveArea> area in areasToAdjust)
+                    {
+                        ret.InfestArea(area.Key, area.Value, ret.InfestedAreaLevels[area.Key], s);
                     }
                 }
             }
@@ -100,6 +117,14 @@ namespace ACR_Quest
             foreach (KeyValuePair<string, int> ar in InfestedAreaLevels)
             {
                 ret += String.Format("\n -- {0}, {1}", ar.Key, ar.Value);
+            }
+            foreach(KeyValuePair<int, List<string>> sp in Spawns)
+            {
+                ret += String.Format("\nTier {0}:", sp.Key);
+                foreach(string creat in sp.Value)
+                {
+                    ret += String.Format("\n -- {0}", creat);
+                }
             }
             return ret;
         }
@@ -113,9 +138,9 @@ namespace ACR_Quest
                 Spawns.Add(Tier, new List<string>());
             }
             Spawns[Tier].Add(Spawn);
-            if(Spawns.ContainsKey(MaxTier + 1))
+            if(MaxTier < Tier)
             {
-                MaxTier = MaxTier + 1;
+                MaxTier = Tier;
             }
             Save();
         }
@@ -179,7 +204,7 @@ namespace ACR_Quest
         {
             if (Spawns.ContainsKey(Tier))
             {
-                int spawnNumber = new Random().Next() * Spawns[Tier].Count;
+                int spawnNumber = new Random().Next(0, Spawns[Tier].Count);
                 return Spawns[Tier][spawnNumber];
             }
             return "";
@@ -273,8 +298,9 @@ namespace ACR_Quest
                     // refuse to grow.
                     growthBlocked = true;
                 }
-                else if(currentLevel <= MaxTier)
+                else if(currentLevel >= MaxTier)
                 {
+                    InfestedAreaLevels[area.Tag] = MaxTier;
                     growthBlocked = true;
                 }
                 else
@@ -310,6 +336,7 @@ namespace ACR_Quest
         private bool ExpandRemaining(CLRScriptBase s)
         {
             bool changeMade = false;
+            List<ActiveArea> areaToInfest = new List<ActiveArea>();
             foreach (ActiveArea area in InfestedAreas)
             {
                 int currentLevel = InfestedAreaLevels[area.Tag];
@@ -319,7 +346,7 @@ namespace ACR_Quest
                     {
                         if (adj.GlobalQuests[ACR_Quest.GLOBAL_QUEST_INFESTATION_KEY] >= 0)
                         {
-                            InfestArea(adj.Tag, adj, 1, s);
+                            areaToInfest.Add(adj);
                             CachedGrowth -= 1;
                             changeMade = true;
                         }
@@ -329,6 +356,10 @@ namespace ACR_Quest
                 }
                 if (CachedGrowth <= 0)
                     break;
+            }
+            foreach (ActiveArea adj in areaToInfest)
+            {
+                InfestArea(adj.Tag, adj, 1, s);
             }
             return changeMade;
         }
@@ -429,6 +460,7 @@ namespace ACR_Quest
                 InfestArea(areaTag, area, infestLevel, s);
                 return;
             }
+            InfestedAreaLevels[areaTag] -= 1;
             s.DeleteLocalString(area.Id, InfestNameVar);
             int count = 0;
             uint wp = s.GetLocalObject(area.Id, WayPointArrayName + count.ToString());
@@ -474,6 +506,11 @@ namespace ACR_Quest
             if (InfestedAreaLevels.ContainsKey(areaTag))
             {
                 InfestedAreaLevels.Remove(areaTag);
+            }
+            if(InfestedAreas.Count < 1)
+            {
+                QuestStore.LoadedInfestations.Remove(this);
+                this.Delete();
             }
             int count = 0;
             uint wp = s.GetLocalObject(area.Id, WayPointArrayName + count.ToString());
