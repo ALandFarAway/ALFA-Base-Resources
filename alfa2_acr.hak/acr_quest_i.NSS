@@ -234,11 +234,16 @@ void AddInfestation(string sName, int nMaxTier, string BossTemplate);
 //  - nSpawnResRef: the template resref of the spawn
 void AddInfestationSpawn(string sName, int nSpawnTier, string sSpawnResRef);
 
-//! A functoin to be called to remove a spawn from an infestation.
+//! A function to be called to remove a spawn from an infestation.
 //  - sName: the unique handle of the infestation
 //  - nSpawnTier: the tier from which the spawn is to be removed
 //  - nSpawnResRef: the template resref of the spawn
 void RemoveInfestationSpawn(string sName, int nSpawnTier, string sSpawnResRef);
+
+//! A function to reduce the tier of the infestation in the area of the calling
+//! object.
+//  - sName: the unique handle of the infestation.
+void DegradeInfestationArea(string sName);
 
 //!  A generic NWscript wrapper for the CLRScript project.
 void _callQuestCLRScript(int command, string name, int state, string template);
@@ -882,9 +887,9 @@ void SpawnInfestationCreature(string sName)
     _callQuestCLRScript(ACR_QST_CLR_COMMAND_SPAWN_ONE_AT_TIER, sName, -1, "");
 }
 
-void DegradeInfestationArea()
+void DegradeInfestationArea(string sName)
 {
-    _callQuestCLRScript(ACR_QST_CLR_COMMAND_DEGRADE_AREA, "", -1, "");
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_DEGRADE_AREA, sName, -1, "");
 }
 
 void _callQuestCLRScript(int command, string name, int state, string template)
