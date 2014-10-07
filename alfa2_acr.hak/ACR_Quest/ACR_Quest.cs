@@ -47,7 +47,11 @@ namespace ACR_Quest
             switch((Command)command)
             {
                 case Command.InitializeInfestations:
-                    Infestation.InitializeInfestations(this);
+                    if (!QuestStore.InfestationGrowthCounterStarted)
+                    {
+                        Infestation.InitializeInfestations(this);
+                        DelayCommand(HoursToSeconds(24), delegate { QuestStore.GrowAllInfestations(this); });
+                    }
                     break;
                 case Command.CreateInfestation:
                     new Infestation(name, template, state, this);

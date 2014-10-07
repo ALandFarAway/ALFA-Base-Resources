@@ -576,6 +576,20 @@ namespace ACR_Quest
             }
             return null;
         }
+
+        public static void GrowAllInfestations(CLRScriptBase s)
+        {
+            InfestationGrowthCounterStarted = true;
+            float delay = 0.0f;
+            foreach(Infestation inf in LoadedInfestations)
+            {
+                s.DelayCommand(delay, delegate { inf.GrowInfestation(s); });
+                delay += 6.0f;
+            }
+            s.DelayCommand(s.HoursToSeconds(24), delegate { GrowAllInfestations(s); });
+        }
+
+        public static bool InfestationGrowthCounterStarted = false;
         public static List<Infestation> LoadedInfestations = new List<Infestation>();
 
         public static string InfestationStoreDirectory = String.Format("{0}{1}QuestResources{1}", SystemInfo.GetHomeDirectory(), Path.DirectorySeparatorChar);
