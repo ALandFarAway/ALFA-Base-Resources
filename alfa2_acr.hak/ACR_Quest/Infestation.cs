@@ -420,7 +420,7 @@ namespace ACR_Quest
                     groupNum++;
                     oldGroup = s.GetLocalString(wp, GroupVarName + groupNum.ToString());
                 }
-                if (s.GetLocalInt(wp, "ACR_SPAWN_TYPE") != 0)
+                if (s.GetLocalInt(wp, "ACR_SPAWN_TYPE") != CLRScriptBase.OBJECT_TYPE_CREATURE)
                 {
                     count++;
                     wp = s.GetLocalObject(area.Id, WayPointArrayName + count.ToString());
