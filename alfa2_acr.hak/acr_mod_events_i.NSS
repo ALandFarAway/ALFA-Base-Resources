@@ -781,6 +781,7 @@ void ACR_ModuleOnModuleLoad()
 
     // Initialize the spawn system.
     ACR_InitializeSpawns(_SPAWN_AREA_DESPAWN_DELAY, _SPAWN_REFRESH_DELAY, _SPAWN_PRESPAWN_SEAMLESS, _SPAWN_PRESPAWN_PREDICTION);
+    InitializeInfestations();
 
     // Initialize the time system.
     ACR_InitializeTime();
