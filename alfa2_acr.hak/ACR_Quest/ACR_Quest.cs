@@ -120,6 +120,20 @@ namespace ACR_Quest
                         }
                     }
                     break;
+                case Command.AddBossMonsterToInfestation:
+                    infest = QuestStore.GetInfestation(name);
+                    if (infest != null)
+                    {
+                        infest.AddBoss(template);
+                    }
+                    break;
+                case Command.RemoveBossMonsterFromInfestation:
+                    infest = QuestStore.GetInfestation(name);
+                    if (infest != null)
+                    {
+                        infest.RemoveBoss(template);
+                    }
+                    break;
                 case Command.PrintInfestations:
                     foreach(Infestation inf in QuestStore.LoadedInfestations)
                     {
@@ -141,6 +155,8 @@ namespace ACR_Quest
             RemoveSpawnFromInfestation = 5,
             SpawnCreatureFromInfestation = 6,
             DegradeAreaInfestation = 7,
+            AddBossMonsterToInfestation = 8,
+            RemoveBossMonsterFromInfestation = 9,
 
             PrintInfestations = 999,
         }

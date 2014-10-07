@@ -22,6 +22,9 @@ namespace ACR_Quest
         public string BossTemplate;
 
         [DataMember]
+        public List<string> MiniBoss = new List<string>();
+
+        [DataMember]
         public int MaxTier;
 
         [DataMember]
@@ -40,6 +43,12 @@ namespace ACR_Quest
 
         [IgnoreDataMember]
         public List<ActiveArea> InfestedAreas = new List<ActiveArea>();
+
+        [IgnoreDataMember]
+        public bool RecentBossSpawn = false;
+
+        [IgnoreDataMember]
+        public bool RecentMiniBossSpawn = false;
         #endregion
 
         #region Constructors
@@ -160,10 +169,82 @@ namespace ACR_Quest
             return true;
         }
 
+        public void AddBoss(string Spawn)
+        {
+            Fecundity += 1;
+            if(!ALFA.Shared.Modules.InfoStore.ModuleCreatures.ContainsKey(Spawn))
+            {
+                MiniBoss.Add(Spawn);
+                return;
+            }
+            float newBossCR = ALFA.Shared.Modules.InfoStore.ModuleCreatures[Spawn].ChallengeRating;
+            float oldBossCR = ALFA.Shared.Modules.InfoStore.ModuleCreatures[BossTemplate].ChallengeRating;
+            if(newBossCR > oldBossCR)
+            {
+                MiniBoss.Add(BossTemplate);
+                BossTemplate = Spawn;
+            }
+            else
+            {
+                MiniBoss.Add(Spawn);
+            }
+        }
+
+        public void RemoveBoss(string Spawn)
+        {
+            if(Spawn == BossTemplate)
+            {
+                if(MiniBoss.Count == 0)
+                {
+                    Fecundity = 0;
+                    BossTemplate = String.Empty;
+                }
+                else
+                {
+                    Fecundity -= 1;
+                    if (Fecundity < 0) Fecundity = 0;
+                    BossTemplate = MiniBoss[0];
+                }
+            }
+            else
+            {
+                if(MiniBoss.Contains(Spawn))
+                {
+                    Fecundity -= 1;
+                    if (Fecundity < 0) Fecundity = 0;
+                    MiniBoss.Remove(Spawn);
+                }
+            }
+        }
+
         public void SpawnOneAtTier(CLRScriptBase s)
         {
             string Area = s.GetTag(s.GetArea(s.OBJECT_SELF));
             int Tier = InfestedAreaLevels[Area];
+            if(Tier == MaxTier )
+            {
+                if(!RecentBossSpawn)
+                {
+                    RecentBossSpawn = true;
+                    s.DelayCommand(s.HoursToSeconds(12), delegate { RecentBossSpawn = false; });
+                    if(BossTemplate != String.Empty)
+                    {
+                        uint spawn = Spawn.SpawnCreature(BossTemplate, s);
+                        s.SetLocalString(spawn, InfestNameVar, this.InfestationName);
+                    }
+                }
+                else if(!RecentMiniBossSpawn)
+                {
+                    RecentMiniBossSpawn = true;
+                    s.DelayCommand(s.HoursToSeconds(4), delegate { RecentMiniBossSpawn = false; });
+                    if(MiniBoss.Count > 0)
+                    {
+                        int spawnNumber = new Random().Next(0, MiniBoss.Count);
+                        uint spawn = Spawn.SpawnCreature(MiniBoss[spawnNumber], s);
+                        s.SetLocalString(spawn, InfestNameVar, this.InfestationName);
+                    }
+                }
+            }
             int spawnNum = 1;
             int spawnTier = Tier;
             if(Tier == 2)
