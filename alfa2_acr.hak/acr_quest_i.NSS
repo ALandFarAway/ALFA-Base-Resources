@@ -122,6 +122,9 @@ const int ACR_QST_CLR_COMMAND_FECUND_INFESTATION = 4;
 const int ACR_QST_CLR_COMMAND_REMOVE_FROM_INFESTATION = 5;
 const int ACR_QST_CLR_COMMAND_SPAWN_ONE_AT_TIER = 6;
 const int ACR_QST_CLR_COMMAND_DEGRADE_AREA = 7;
+const int ACR_QST_CLR_COMMAND_ADD_BOSS = 8;
+const int ACR_QST_CLR_COMMAND_REMOVE_BOSS = 9;
+const int ACR_QsT_CLR_COMMAND_POPULATE_GUI = 10;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -244,6 +247,10 @@ void RemoveInfestationSpawn(string sName, int nSpawnTier, string sSpawnResRef);
 //! object.
 //  - sName: the unique handle of the infestation.
 void DegradeInfestationArea(string sName);
+
+//! A function that will cause an already-visible Infestation GUI to be filled
+//! with information about this area's infestation.
+void PopulateInfestationGui();
 
 //!  A generic NWscript wrapper for the CLRScript project.
 void _callQuestCLRScript(int command, string name, int state, string template);
@@ -890,6 +897,11 @@ void SpawnInfestationCreature(string sName)
 void DegradeInfestationArea(string sName)
 {
     _callQuestCLRScript(ACR_QST_CLR_COMMAND_DEGRADE_AREA, sName, -1, "");
+}
+
+void PopulateInfestationGui()
+{
+    _callQuestCLRScript(ACR_QsT_CLR_COMMAND_POPULATE_GUI, "", -1, "");
 }
 
 void _callQuestCLRScript(int command, string name, int state, string template)

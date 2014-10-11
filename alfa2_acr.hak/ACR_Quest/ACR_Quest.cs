@@ -134,6 +134,14 @@ namespace ACR_Quest
                         infest.RemoveBoss(template);
                     }
                     break;
+                case Command.PopulateInfestationGUIScreen:
+                    string infestName = GetLocalString(GetArea(OBJECT_SELF), Infestation.InfestNameVar);
+                    infest = QuestStore.GetInfestation(infestName);
+                    if(infest != null)
+                    {
+                        infest.PopulateGUI(OBJECT_SELF, this);
+                    }
+                    break;
                 case Command.PrintInfestations:
                     foreach(Infestation inf in QuestStore.LoadedInfestations)
                     {
@@ -157,6 +165,7 @@ namespace ACR_Quest
             DegradeAreaInfestation = 7,
             AddBossMonsterToInfestation = 8,
             RemoveBossMonsterFromInfestation = 9,
+            PopulateInfestationGUIScreen = 10,
 
             PrintInfestations = 999,
         }

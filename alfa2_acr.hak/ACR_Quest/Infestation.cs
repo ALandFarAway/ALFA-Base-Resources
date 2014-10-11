@@ -94,6 +94,30 @@ namespace ACR_Quest
 
         public static void InitializeInfestations(CLRScriptBase s)
         {
+            // If we haven't even started caching areas, no point in starting here.
+            if(ALFA.Shared.Modules.InfoStore.ActiveAreas == null)
+            {
+                s.DelayCommand(30.0f, delegate { InitializeInfestations(s); });
+                return;
+            }
+
+            // If we have areas, but haven't added any to ActiveAreas, we can't check on the areas.
+            if(ALFA.Shared.Modules.InfoStore.ActiveAreas.Count == 0)
+            {
+                s.DelayCommand(30.0f, delegate { InitializeInfestations(s); });
+                return;
+            }
+
+            // If the first area we loop over hasn't mapped its area transitions, we can't be sure
+            // that we have a complete list of areas.
+            if(ALFA.Shared.Modules.InfoStore.ActiveAreas.First().Value.ExitTransitions == null)
+            {
+                s.DelayCommand(30.0f, delegate { InitializeInfestations(s); });
+                return;
+            }
+
+            // Once we know we at least have a complete list of areas, we can deserialize our infestations
+            // and start infesting areas.
             foreach (string file in Directory.EnumerateFiles(QuestStore.InfestationStoreDirectory))
             {
                 using (FileStream stream = new FileStream(file, FileMode.Open))
@@ -461,14 +485,14 @@ namespace ACR_Quest
         }
 
 
-        const string WayPointArrayName = "ACR_SPA_WA_";
-        const string GroupVarName = "ACR_SPAWN_GROUP_";
-        const string SingleVarName = "ACR_SPAWN_RESNAME_";
-        const string RandomVarName = "ACR_SPAWN_RANDOM_RESNAME_";
-        const string SpawnTypeVarName = "ACR_SPAWN_TYPE";
-        const string InfestPrefix = "INF_";
-        const string InfestGroupScript = "infest";
-        const string InfestNameVar = "AREA_INFESTATION_NAME";
+        public const string WayPointArrayName = "ACR_SPA_WA_";
+        public const string GroupVarName = "ACR_SPAWN_GROUP_";
+        public const string SingleVarName = "ACR_SPAWN_RESNAME_";
+        public const string RandomVarName = "ACR_SPAWN_RANDOM_RESNAME_";
+        public const string SpawnTypeVarName = "ACR_SPAWN_TYPE";
+        public const string InfestPrefix = "INF_";
+        public const string InfestGroupScript = "infest";
+        public const string InfestNameVar = "AREA_INFESTATION_NAME";
         private void InfestArea(string areaTag, ActiveArea area, int initialLevel, CLRScriptBase s)
         {
             if(area == null)
@@ -629,6 +653,56 @@ namespace ACR_Quest
                 }
                 count++;
                 wp = s.GetLocalObject(area.Id, WayPointArrayName + count.ToString());
+            }
+        }
+        #endregion
+
+        #region GUI Methods
+        public void PopulateGUI(uint player, CLRScriptBase s)
+        {
+            s.SendMessageToAllDMs("Populating GUI...");
+            if(!String.IsNullOrEmpty(BossTemplate))
+            {
+                s.SendMessageToAllDMs("Adding boss...");
+                if(ALFA.Shared.Modules.InfoStore.ModuleCreatures.ContainsKey(BossTemplate))
+                {
+                    s.AddListBoxRow(player, "SCREEN_INFESTATION", "LISTBOX_ACR_INF_BOSSES", BossTemplate, "LISTBOX_ITEM_TEXT=  " + ALFA.Shared.Modules.InfoStore.ModuleCreatures[BossTemplate].DisplayName, "", "5=" + BossTemplate, "");
+                }
+                else
+                {
+                    s.AddListBoxRow(player, "SCREEN_INFESTATION", "LISTBOX_ACR_INF_BOSSES", BossTemplate, String.Format("LISTBOX_ITEM_TEXT=  Error: {0} is invalid", BossTemplate), "", "5=" + BossTemplate, "");
+                }
+            }
+            if (MiniBoss != null)
+            {
+                foreach (string mini in MiniBoss)
+                {
+                    s.SendMessageToAllDMs("Adding mini boss " + mini);
+                    if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.ContainsKey(mini))
+                    {
+                        s.AddListBoxRow(player, "SCREEN_INFESTATION", "LISTBOX_ACR_INF_BOSSES", mini, "LISTBOX_ITEM_TEXT=  " + ALFA.Shared.Modules.InfoStore.ModuleCreatures[mini].DisplayName, "", "5=" + mini, "");
+                    }
+                    else
+                    {
+                        s.AddListBoxRow(player, "SCREEN_INFESTATION", "LISTBOX_ACR_INF_BOSSES", mini, String.Format("LISTBOX_ITEM_TEXT=  Error: {0} is invalid", mini), "", "5=" + mini, "");
+                    }
+                }
+            }
+            foreach(KeyValuePair<int, List<string>> tier in Spawns)
+            {
+                s.SendMessageToAllDMs("Adding tier " + tier.Key.ToString());
+                foreach(string creat in tier.Value)
+                {
+                    s.SendMessageToAllDMs("Adding creture " + creat);
+                    if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.ContainsKey(creat))
+                    {
+                        s.AddListBoxRow(player, "SCREEN_INFESTATION", "LISTBOX_ACR_INF_TIERS", creat, "LISTBOX_ITEM_TEXT=  " + ALFA.Shared.Modules.InfoStore.ModuleCreatures[creat].DisplayName + ";LISTBOX_ITEM_TEXT2= " + tier.Key.ToString(), "", "5=" + creat, "");
+                    }
+                    else
+                    {
+                        s.AddListBoxRow(player, "SCREEN_INFESTATION", "LISTBOX_ACR_INF_TIERS", creat, String.Format("LISTBOX_ITEM_TEXT=  Error: {0} is invalid", creat), "", "5=" + creat, "");
+                    }
+                }
             }
         }
         #endregion

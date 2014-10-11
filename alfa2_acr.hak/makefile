@@ -662,6 +662,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_cre_onhorsedeath.ncs              \
             $(OUTPUTDIR)\acr_defense_onenter.ncs               \
             $(OUTPUTDIR)\as_group_infest.ncs                   \
+            $(OUTPUTDIR)\gui_infestation.ncs                   \
             $(OUTPUTDIR)\acr_set_player_password.ncs           
 
 #
