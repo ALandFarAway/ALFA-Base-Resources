@@ -188,6 +188,11 @@ namespace ACR_Quest
             {
                 return false;
             }
+            if(Spawns.ContainsKey(Tier + 1) &&
+               Spawns[Tier + 1].Count > 0)
+            {
+                return false;
+            }
             Spawns[Tier].Remove(Spawn);
             Save();
             return true;
@@ -195,10 +200,11 @@ namespace ACR_Quest
 
         public void AddBoss(string Spawn)
         {
-            Fecundity += 1;
-            if(!ALFA.Shared.Modules.InfoStore.ModuleCreatures.ContainsKey(Spawn))
+            if(String.IsNullOrEmpty(BossTemplate))
             {
-                MiniBoss.Add(Spawn);
+                BossTemplate = Spawn;
+                Fecundity = 1;
+                Save();
                 return;
             }
             float newBossCR = ALFA.Shared.Modules.InfoStore.ModuleCreatures[Spawn].ChallengeRating;
@@ -212,6 +218,8 @@ namespace ACR_Quest
             {
                 MiniBoss.Add(Spawn);
             }
+            Fecundity = MiniBoss.Count + 1;
+            Save();
         }
 
         public void RemoveBoss(string Spawn)
@@ -225,20 +233,21 @@ namespace ACR_Quest
                 }
                 else
                 {
-                    Fecundity -= 1;
                     if (Fecundity < 0) Fecundity = 0;
                     BossTemplate = MiniBoss[0];
+                    MiniBoss.Remove(MiniBoss[0]);
+                    Fecundity = MiniBoss.Count + 1;
                 }
             }
             else
             {
                 if(MiniBoss.Contains(Spawn))
                 {
-                    Fecundity -= 1;
-                    if (Fecundity < 0) Fecundity = 0;
                     MiniBoss.Remove(Spawn);
+                    Fecundity = MiniBoss.Count + 1;
                 }
             }
+            Save();
         }
 
         public void SpawnOneAtTier(CLRScriptBase s)
@@ -660,13 +669,13 @@ namespace ACR_Quest
         #region GUI Methods
         public void PopulateGUI(uint player, CLRScriptBase s)
         {
-            s.SendMessageToAllDMs("Populating GUI...");
+            s.ClearListBox(player, "SCREEN_INFESTATION", "LISTBOX_ACR_INF_BOSSES");
+            s.SetGUIObjectText(player, "SCREEN_INFESTATION", "DISP_INFEST", -1, String.Format("Infestation: {0} areas, {1} spread, {2} peak.", InfestedAreaLevels.Count(), Fecundity, MaxTier));
             if(!String.IsNullOrEmpty(BossTemplate))
             {
-                s.SendMessageToAllDMs("Adding boss...");
                 if(ALFA.Shared.Modules.InfoStore.ModuleCreatures.ContainsKey(BossTemplate))
                 {
-                    s.AddListBoxRow(player, "SCREEN_INFESTATION", "LISTBOX_ACR_INF_BOSSES", BossTemplate, "LISTBOX_ITEM_TEXT=  " + ALFA.Shared.Modules.InfoStore.ModuleCreatures[BossTemplate].DisplayName, "", "5=" + BossTemplate, "");
+                    s.AddListBoxRow(player, "SCREEN_INFESTATION", "LISTBOX_ACR_INF_BOSSES", BossTemplate, String.Format("LISTBOX_ITEM_TEXT=  {0};LISTBOX_ITEM_TEXT2= {1:0.0};LISTBOX_ITEM_TEXT3= {2}", ALFA.Shared.Modules.InfoStore.ModuleCreatures[BossTemplate].DisplayName, ALFA.Shared.Modules.InfoStore.ModuleCreatures[BossTemplate].ChallengeRating.ToString(), "Boss"), "", "5=" + BossTemplate, "");
                 }
                 else
                 {
@@ -677,10 +686,9 @@ namespace ACR_Quest
             {
                 foreach (string mini in MiniBoss)
                 {
-                    s.SendMessageToAllDMs("Adding mini boss " + mini);
                     if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.ContainsKey(mini))
                     {
-                        s.AddListBoxRow(player, "SCREEN_INFESTATION", "LISTBOX_ACR_INF_BOSSES", mini, "LISTBOX_ITEM_TEXT=  " + ALFA.Shared.Modules.InfoStore.ModuleCreatures[mini].DisplayName, "", "5=" + mini, "");
+                        s.AddListBoxRow(player, "SCREEN_INFESTATION", "LISTBOX_ACR_INF_BOSSES", mini, String.Format("LISTBOX_ITEM_TEXT=  {0};LISTBOX_ITEM_TEXT2= {1:0.0};LISTBOX_ITEM_TEXT3= {2}", ALFA.Shared.Modules.InfoStore.ModuleCreatures[mini].DisplayName, ALFA.Shared.Modules.InfoStore.ModuleCreatures[mini].ChallengeRating.ToString(), "Mini"), "", "5=" + mini, "");
                     }
                     else
                     {
@@ -688,15 +696,14 @@ namespace ACR_Quest
                     }
                 }
             }
+            s.ClearListBox(player, "SCREEN_INFESTATION", "LISTBOX_ACR_INF_TIERS");
             foreach(KeyValuePair<int, List<string>> tier in Spawns)
             {
-                s.SendMessageToAllDMs("Adding tier " + tier.Key.ToString());
                 foreach(string creat in tier.Value)
                 {
-                    s.SendMessageToAllDMs("Adding creture " + creat);
                     if (ALFA.Shared.Modules.InfoStore.ModuleCreatures.ContainsKey(creat))
                     {
-                        s.AddListBoxRow(player, "SCREEN_INFESTATION", "LISTBOX_ACR_INF_TIERS", creat, "LISTBOX_ITEM_TEXT=  " + ALFA.Shared.Modules.InfoStore.ModuleCreatures[creat].DisplayName + ";LISTBOX_ITEM_TEXT2= " + tier.Key.ToString(), "", "5=" + creat, "");
+                        s.AddListBoxRow(player, "SCREEN_INFESTATION", "LISTBOX_ACR_INF_TIERS", creat, String.Format("LISTBOX_ITEM_TEXT=  {0};LISTBOX_ITEM_TEXT2= {1:0.0};LISTBOX_ITEM_TEXT3= {2}", ALFA.Shared.Modules.InfoStore.ModuleCreatures[creat].DisplayName, ALFA.Shared.Modules.InfoStore.ModuleCreatures[creat].ChallengeRating.ToString(), tier.Key.ToString()), "", String.Format("5={0};6={1}", creat, tier.Key.ToString()), "");
                     }
                     else
                     {

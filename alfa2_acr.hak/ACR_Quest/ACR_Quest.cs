@@ -142,6 +142,66 @@ namespace ACR_Quest
                         infest.PopulateGUI(OBJECT_SELF, this);
                     }
                     break;
+                case Command.UpgradeInfestationCreatureTier:
+                    infest = QuestStore.GetInfestation(name);
+                    if (infest != null)
+                    {
+                        if(!infest.Spawns.ContainsKey(state))
+                        {
+                            SendMessageToAllDMs("No spawns found at that tier.");
+                        }
+                        else if(infest.Spawns[state].Count <= 1)
+                        {
+                            SendMessageToAllDMs("Cannot upgrade tier for " + template + " as there are too few creatures at that tier.");
+                        }
+                        else if(!infest.Spawns[state].Contains(template))
+                        {
+                            SendMessageToAllDMs(template + " does not exist at that tier.");
+                        }
+                        else
+                        {
+                            infest.Spawns[state].Remove(template);
+                            if(!infest.Spawns.ContainsKey(state + 1))
+                            {
+                                infest.Spawns.Add(state + 1, new List<string>());
+                            }
+                            infest.Spawns[state + 1].Add(template);
+                        }
+                    }
+                    break;
+                case Command.DowngradeInfestationCreatureTier:
+                    infest = QuestStore.GetInfestation(name);
+                    if (infest != null)
+                    {
+                        if(state <= 1)
+                        {
+                            SendMessageToAllDMs("Creature is already at the minimum tier.");
+                        }
+                        else if(!infest.Spawns.ContainsKey(state))
+                        {
+                            SendMessageToAllDMs("No spawns found at that tier.");
+                        }
+                        else if(infest.Spawns[state].Count <= 1 &&
+                                infest.Spawns.ContainsKey(state + 1) &&
+                                infest.Spawns[state + 1].Count > 0)
+                        {
+                            SendMessageToAllDMs("Cannot downgrade tier for " + template + " as there are creatures at the next tier.");
+                        }
+                        else if(!infest.Spawns[state].Contains(template))
+                        {
+                            SendMessageToAllDMs(template + " does not exist at that tier.");
+                        }
+                        else
+                        {
+                            infest.Spawns[state].Remove(template);
+                            if(!infest.Spawns.ContainsKey(state))
+                            {
+                                infest.Spawns.Add(state - 1, new List<string>());
+                            }
+                            infest.Spawns[state - 1].Add(template);
+                        }
+                    }
+                    break;
                 case Command.PrintInfestations:
                     foreach(Infestation inf in QuestStore.LoadedInfestations)
                     {
@@ -149,6 +209,7 @@ namespace ACR_Quest
                     }
                     break;
             }
+            
             SendMessageToAllDMs(String.Format("Command: {0}, Name: {1}, State: {2}, Template: {3}.", command, name, state, template));
             return 0;
         }
@@ -166,6 +227,8 @@ namespace ACR_Quest
             AddBossMonsterToInfestation = 8,
             RemoveBossMonsterFromInfestation = 9,
             PopulateInfestationGUIScreen = 10,
+            UpgradeInfestationCreatureTier = 11,
+            DowngradeInfestationCreatureTier = 12,
 
             PrintInfestations = 999,
         }

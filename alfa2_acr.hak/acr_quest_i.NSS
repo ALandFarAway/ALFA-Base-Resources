@@ -125,6 +125,8 @@ const int ACR_QST_CLR_COMMAND_DEGRADE_AREA = 7;
 const int ACR_QST_CLR_COMMAND_ADD_BOSS = 8;
 const int ACR_QST_CLR_COMMAND_REMOVE_BOSS = 9;
 const int ACR_QsT_CLR_COMMAND_POPULATE_GUI = 10;
+const int ACR_QST_CLR_COMMAND_CREAT_TIER_UP = 11;
+const int ACR_QST_CLR_COMMAND_CREAT_TIER_DOWN = 12;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -247,6 +249,16 @@ void RemoveInfestationSpawn(string sName, int nSpawnTier, string sSpawnResRef);
 //! object.
 //  - sName: the unique handle of the infestation.
 void DegradeInfestationArea(string sName);
+
+//! A function to add a boss to an existing infestation.
+//  - sName: the unique handle of the infestation
+//  - sBoss: the resref of the boss
+void AddInfestationBoss(string sName, string sBoss);
+
+//! A function to remove a boss from an existing infestation.
+//  - sName: the unique handle of the infestation
+//  - sBoss: the resref of the boss
+void RemoveInfestationBoss(string sName, string sBoss);
 
 //! A function that will cause an already-visible Infestation GUI to be filled
 //! with information about this area's infestation.
@@ -899,9 +911,29 @@ void DegradeInfestationArea(string sName)
     _callQuestCLRScript(ACR_QST_CLR_COMMAND_DEGRADE_AREA, sName, -1, "");
 }
 
+void AddInfestationBoss(string sName, string sBoss)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_ADD_BOSS, sName, -1, sBoss);
+}
+
+void RemoveInfestationBoss(string sName, string sBoss)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_REMOVE_BOSS, sName, -1, sBoss);
+}
+
 void PopulateInfestationGui()
 {
     _callQuestCLRScript(ACR_QsT_CLR_COMMAND_POPULATE_GUI, "", -1, "");
+}
+
+void IncreaseInfestationCreatureTier(string sName, string sCreature, int nTier)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_CREAT_TIER_UP, sName, nTier, sCreature);
+}
+
+void DecreaseInfestationCreatureTier(string sName, string sCreature, int nTier)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_CREAT_TIER_DOWN, sName, nTier, sCreature);
 }
 
 void _callQuestCLRScript(int command, string name, int state, string template)

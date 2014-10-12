@@ -34,6 +34,7 @@ namespace ACR_ChooserCreator
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemButtons", TRUE);
+                    script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureButtons", FALSE);
                     currentUser.openCommand = ACR_ChooserCreator.ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_CREATURE_TAB;
                     script.SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, "Fac");
                     script.SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, "CR");
@@ -59,6 +60,7 @@ namespace ACR_ChooserCreator
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemButtons", FALSE);
+                    script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureButtons", TRUE);
                     currentUser.openCommand = ACR_ChooserCreator.ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_ITEM_TAB;
                     script.SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, "Value");
                     script.SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, "Lvl");
@@ -84,6 +86,7 @@ namespace ACR_ChooserCreator
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemButtons", TRUE);
+                    script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureButtons", TRUE);
                     currentUser.openCommand = ACR_ChooserCreator.ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_PLACEABLE_TAB;
                     script.SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, "Lck/Trp");
                     script.SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, "Inv?");
@@ -109,6 +112,7 @@ namespace ACR_ChooserCreator
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemButtons", TRUE);
+                    script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureButtons", TRUE);
                     currentUser.openCommand = ACR_ChooserCreator.ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_TRAP_TAB;
                     script.SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, "DC");
                     script.SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, "CR");
@@ -134,6 +138,7 @@ namespace ACR_ChooserCreator
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemButtons", TRUE);
+                    script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureButtons", TRUE);
                     currentUser.openCommand = ACR_ChooserCreator.ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_VFX_TAB;
                     script.SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, " ");
                     script.SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, " ");
@@ -159,6 +164,7 @@ namespace ACR_ChooserCreator
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", FALSE);
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", TRUE);
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemButtons", TRUE);
+                    script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureButtons", TRUE);
                     currentUser.openCommand = ACR_ChooserCreator.ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_WAYPOINT_TAB;
                     script.SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, " ");
                     script.SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, " ");
@@ -184,6 +190,7 @@ namespace ACR_ChooserCreator
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "WaypointActive", TRUE);
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "LightActive", FALSE);
                     script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "ItemButtons", TRUE);
+                    script.SetGUIObjectHidden(currentUser.Id, "SCREEN_DMC_CREATOR", "CreatureButtons", TRUE);
                     currentUser.openCommand = ACR_ChooserCreator.ACR_CreatorCommand.ACR_CHOOSERCREATOR_FOCUS_LIGHTS_TAB;
                     script.SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column2", -1, "Brt/Rd");
                     script.SetGUIObjectText(currentUser.Id, "SCREEN_DMC_CREATOR", "Column3", -1, "Shd");
