@@ -13,7 +13,7 @@
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
          OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",132,local:6)
-         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Jump to Creature","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Add Creature","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_inf_addtier.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -26,7 +26,7 @@
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
          OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",133,local:6)
-         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Jump Creature to Reticle","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Remove Creature","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_inf_remtier.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -39,7 +39,7 @@
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
          OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",134,local:6) 
-         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Heal and Remove Status Abnormalities","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Add Boss","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_inf_addboss.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -52,7 +52,7 @@
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
          OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",135,local:6)
-         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Toggle Immortality","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Remove Boss","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_inf_remboss.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -65,7 +65,7 @@
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
          OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",136,local:6)
-         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Make Creature Hostile","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Increase Tier","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_inf_tierup.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
@@ -78,7 +78,7 @@
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
          OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
          OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",137,local:6)
-         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Make Creature Non-Hostile","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Decrease Tier","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_inf_tierdn.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
             <UIFrame state=down     fill="b_overlay.tga" />
