@@ -364,7 +364,10 @@ namespace ALFA
                     if (Succeeded == false)
                         FailedQueries += 1;
                     else
+                    {
                         FailedQueries = 0;
+                        LastQueryTick = (uint)Environment.TickCount;
+                    }
                 }
             }
         }
@@ -414,7 +417,10 @@ namespace ALFA
                     if (!Succeeded)
                         FailedQueries += 1;
                     else
+                    {
                         FailedQueries = 0;
+                        LastQueryTick = (uint)Environment.TickCount;
+                    }
                 }
             }
         }
@@ -540,6 +546,21 @@ namespace ALFA
                         Connection.Dispose();
                         Connection = null;
                     }
+                    else if ((FailedQueries > 0) || (((uint)Environment.TickCount - LastQueryTick) >= QUERY_PING_LIMIT))
+                    {
+                        if (FailedQueries > 0)
+                            Logger.Log("MySQLDatabaseInternal.ConnectDatabase: Confirming database aliveness with ping after a failed query...");
+
+                        if (Connection.Ping())
+                        {
+                            LastQueryTick = (uint)Environment.TickCount;
+                            return;
+                        }
+
+                        Logger.Log("MySQLDatabaseInternal.ConnectDatabase: Connection failed ping, forcing reconnect...");
+                        Connection.Dispose();
+                        Connection = null;
+                    }
                     else
                     {
                         return;
@@ -563,6 +584,7 @@ namespace ALFA
                 NewConnection.Open();
                 Succeeded = true;
                 FailedQueries = 0;
+                LastQueryTick = (uint)Environment.TickCount;
             }
             finally
             {
@@ -625,5 +647,18 @@ namespace ALFA
         /// will be forced.
         /// </summary>
         private const int FAILED_QUERY_LIMIT = 3;
+
+        /// <summary>
+        /// If the last query was more than QUERY_PING_LIMIT milliseconds ago,
+        /// for a dedicated connection, force a ping before the next query is
+        /// allowed through so as to better strain out dead connections that
+        /// may be closed due to idle inactivity.
+        /// </summary>
+        private const uint QUERY_PING_LIMIT = 5 * 60 * 1000;
+
+        /// <summary>
+        /// The last time that a query was made.
+        /// </summary>
+        private uint LastQueryTick = 0;
     }
 }
