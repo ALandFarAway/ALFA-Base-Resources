@@ -11,8 +11,8 @@
     <UIPane name="button_panel" x=40 y=0 height=40 width=320>
         <UIButton name="addtier" x=0 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
-         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",132,local:6)
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_INF_TIERS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_infestation",2,local:6)
          OnToolTip='UIObject_Tooltip_DisplayTooltipString("Add Creature","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_inf_addtier.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
@@ -24,8 +24,9 @@
         </UIButton>
         <UIButton name="removetier" x=40 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
-         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",133,local:6)
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_INF_TIERS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_INF_TIERS,"string",6,local:7)
+         OnLeftClick2=UIObject_Misc_ExecuteServerScript("gui_infestation",3,local:6,local:7)
          OnToolTip='UIObject_Tooltip_DisplayTooltipString("Remove Creature","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_inf_remtier.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
@@ -37,8 +38,8 @@
         </UIButton>
         <UIButton name="addboss" x=80 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
-         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",134,local:6) 
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_INF_BOSSES,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_infestation",4,local:6) 
          OnToolTip='UIObject_Tooltip_DisplayTooltipString("Add Boss","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_inf_addboss.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
@@ -50,8 +51,8 @@
         </UIButton>
         <UIButton name="removeboss" x=120 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
-         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",135,local:6)
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_INF_BOSSES,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_infestation",5,local:6)
          OnToolTip='UIObject_Tooltip_DisplayTooltipString("Remove Boss","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_inf_remboss.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
@@ -63,8 +64,9 @@
         </UIButton>
         <UIButton name="tierup" x=160 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
-         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",136,local:6)
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_INF_TIERS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_INF_TIERS,"string",6,local:7)
+         OnLeftClick2=UIObject_Misc_ExecuteServerScript("gui_infestation",6,local:6,local:7)
          OnToolTip='UIObject_Tooltip_DisplayTooltipString("Increase Tier","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_inf_tierup.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
@@ -76,8 +78,9 @@
         </UIButton>
         <UIButton name="tierdown" x=200 y=0 width=40 height=40 
          MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
-         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
-         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",137,local:6)
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_INF_TIERS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_INF_TIERS,"string",6,local:7)
+         OnLeftClick2=UIObject_Misc_ExecuteServerScript("gui_infestation",7,local:6,local:7)
          OnToolTip='UIObject_Tooltip_DisplayTooltipString("Decrease Tier","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
             <UIFrame state=base     fill="acr_inf_tierdn.tga" />
             <UIFrame state=up       fill="b_empty.tga" />
@@ -97,7 +100,7 @@
              OnLeftDoubleClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
              OnLeftDoubleClick1=UIObject_Misc_ExecuteServerScript("gui_infestation",100,local:6)
              OnLeftClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
-             OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_infestation",100,local:6)> 
+             OnLeftClick1=UIObject_Misc_ExtractData("self:","string",6,local:7)> 
 
                 <UIButton name="LISTBOX_ITEM_ICON" x=0 y=0 height=20 width=20 style="STYLE_LIST_BUTTON" prototype=true draggable=false>
                     <UIText align=right valign=bottom fontfamily="Default" style="1"/> 
@@ -126,7 +129,7 @@
              OnLeftDoubleClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
              OnLeftDoubleClick1=UIObject_Misc_ExecuteServerScript("gui_infestation",100,local:6)
              OnLeftClick0=UIObject_Misc_ExtractData("self:","string",5,local:6)
-             OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_infestation",100,local:6)> 
+             OnLeftClick1=UIObject_Misc_ExtractData("self:","string",6,local:7)> 
 
                 <UIButton name="LISTBOX_ITEM_ICON" x=0 y=0 height=20 width=20 style="STYLE_LIST_BUTTON" prototype=true draggable=false>
                     <UIText align=right valign=bottom fontfamily="Default" style="1"/> 
