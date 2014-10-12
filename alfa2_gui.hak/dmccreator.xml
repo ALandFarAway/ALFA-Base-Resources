@@ -19,6 +19,22 @@
             <UIFrame state=disabled fill="b_empty.tga" />
         </UIButton>
     </UIPane>
+    
+    <UIPane name="CreatureButtons" x=30 y=40 height=40 width=320 hidden=TRUE>
+        <UIButton name="jumpme" x=0 y=0 width=40 height=40 
+         MouseDownSFX="gui_m_down" MouseUpSFX="gui_button"
+         OnLeftClick0=UIObject_Misc_ExtractData(selected:LISTBOX_ACR_CHOOSER_OBJECTS,"string",5,local:6)
+         OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_choosercreator",42,0)
+         OnToolTip='UIObject_Tooltip_DisplayTooltipString("Area Infestation","OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2")'>
+            <UIFrame state=base     fill="acr_cre_infest.tga" />
+            <UIFrame state=up       fill="b_empty.tga" />
+            <UIFrame state=down     fill="b_overlay.tga" />
+            <UIFrame state=focused  fill="b_empty.tga" />
+            <UIFrame state=hilited  fill="b_overlay.tga" />
+            <UIFrame state=hifocus  fill="b_overlay.tga" />
+            <UIFrame state=disabled fill="b_empty.tga" />
+        </UIButton>
+    </UIPane>
 
     <!-- Spawn Type Tabstrip -->
     <UIIcon name="CreatureActive" img="activetabbottom.tga" x="11" y="30" width="24" height="4" />

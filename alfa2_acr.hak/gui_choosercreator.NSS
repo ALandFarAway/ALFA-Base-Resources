@@ -22,6 +22,12 @@ void main( string ActionType, string ActionArgument )
         return;
     }
     
+    if(ActionType == "42")
+    {
+        DisplayGuiScreen(OBJECT_SELF, "SCREEN_INFESTATION", FALSE, "infestation.xml", FALSE);
+        return;
+    }
+    
     ClearScriptParams();
     AddScriptParameterInt(StringToInt(ActionType));
     AddScriptParameterString(ActionArgument);
