@@ -385,12 +385,14 @@ namespace ACR_CreatureBehavior
             if (Heard)
             {
                 Node.Heard = true;
+                if (Party == null) OnSpawn();
                 OnPerceptionSeenObject(PerceivedObjectId, NewNode);
             }
 
             if (Seen)
             {
                 Node.Seen = true;
+                if (Party == null) OnSpawn();
                 OnPerceptionHeardObject(PerceivedObjectId, NewNode);
             }
 
