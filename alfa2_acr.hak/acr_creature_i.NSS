@@ -345,7 +345,19 @@ void ACR_CreatureOnDeath()
         fAreaCR = fCreatCR;
         SetLocalFloat(GetArea(OBJECT_SELF), ACR_QST_INFESTATION_CR, fAreaCR);
     }
-    object oAlly = GetFirstObjectInArea();
+    if(GetLocalInt(OBJECT_SELF, ACR_QST_INFESTATION_BOSS))
+    {
+        RemoveInfestationBoss(sInfestName, GetResRef(OBJECT_SELF));
+    }
+    object oAlly = GetLocalObject(GetArea(OBJECT_SELF), "INFEST_CACHED_LIVING");
+    if(GetLocalString(oAlly, ACR_QST_INFESTATION_NAME) != "" &&
+       oAlly != OBJECT_SELF &&
+       GetObjectType(oAlly) == OBJECT_TYPE_CREATURE &&
+       GetIsDead(oAlly) == FALSE)
+    {
+        return;
+    }
+    oAlly = GetFirstObjectInArea();
     while(GetIsObjectValid(oAlly))
     {
         if(GetLocalString(oAlly, ACR_QST_INFESTATION_NAME) != "" &&
@@ -353,6 +365,7 @@ void ACR_CreatureOnDeath()
            GetObjectType(oAlly) == OBJECT_TYPE_CREATURE &&
            GetIsDead(oAlly) == FALSE)
         {
+            SetLocalObject(GetArea(OBJECT_SELF), "INFEST_CACHED_LIVING", OBJECT_SELF);
             return;
         }
         oAlly = GetNextObjectInArea();
