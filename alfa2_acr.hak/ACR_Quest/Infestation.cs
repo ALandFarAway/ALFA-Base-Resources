@@ -28,6 +28,9 @@ namespace ACR_Quest
         public int MaxTier;
 
         [DataMember]
+        public int MaxArea;
+
+        [DataMember]
         public Dictionary<string, int> InfestedAreaLevels = new Dictionary<string, int>();
 
         [DataMember]
@@ -171,10 +174,7 @@ namespace ACR_Quest
                 Spawns.Add(Tier, new List<string>());
             }
             Spawns[Tier].Add(Spawn);
-            if(MaxTier < Tier)
-            {
-                MaxTier = Tier;
-            }
+            MaxTier = Spawns.Count();
             Save();
         }
 
@@ -189,11 +189,14 @@ namespace ACR_Quest
                 return false;
             }
             if(Spawns.ContainsKey(Tier + 1) &&
-               Spawns[Tier + 1].Count > 0)
+               Spawns[Tier + 1].Count > 0 &&
+               Spawns[Tier].Count <= 1)
             {
                 return false;
             }
             Spawns[Tier].Remove(Spawn);
+            if (Spawns[Tier].Count() == 0) Spawns.Remove(Tier);
+            MaxTier = Spawns.Count();
             Save();
             return true;
         }
@@ -254,27 +257,35 @@ namespace ACR_Quest
         {
             string Area = s.GetTag(s.GetArea(s.OBJECT_SELF));
             int Tier = InfestedAreaLevels[Area];
-            if(Tier == MaxTier )
+            if(Tier == MaxArea)
             {
                 if(!RecentBossSpawn)
                 {
-                    RecentBossSpawn = true;
-                    s.DelayCommand(s.HoursToSeconds(12), delegate { RecentBossSpawn = false; });
-                    if(BossTemplate != String.Empty)
+                    if (s.d20(1) == 1)
                     {
-                        uint spawn = Spawn.SpawnCreature(BossTemplate, s);
-                        s.SetLocalString(spawn, InfestNameVar, this.InfestationName);
+                        RecentBossSpawn = true;
+                        s.DelayCommand(s.HoursToSeconds(12), delegate { RecentBossSpawn = false; });
+                        if (BossTemplate != String.Empty)
+                        {
+                            uint spawn = Spawn.SpawnCreature(BossTemplate, s);
+                            s.SetLocalString(spawn, InfestNameVar, this.InfestationName);
+                            s.SetLocalInt(spawn, InfestBossVar, 1);
+                        }
                     }
                 }
                 else if(!RecentMiniBossSpawn)
                 {
-                    RecentMiniBossSpawn = true;
-                    s.DelayCommand(s.HoursToSeconds(4), delegate { RecentMiniBossSpawn = false; });
-                    if(MiniBoss.Count > 0)
+                    if (s.d10(1) == 1)
                     {
-                        int spawnNumber = new Random().Next(0, MiniBoss.Count);
-                        uint spawn = Spawn.SpawnCreature(MiniBoss[spawnNumber], s);
-                        s.SetLocalString(spawn, InfestNameVar, this.InfestationName);
+                        RecentMiniBossSpawn = true;
+                        s.DelayCommand(s.HoursToSeconds(4), delegate { RecentMiniBossSpawn = false; });
+                        if (MiniBoss.Count > 0)
+                        {
+                            int spawnNumber = new Random().Next(0, MiniBoss.Count);
+                            uint spawn = Spawn.SpawnCreature(MiniBoss[spawnNumber], s);
+                            s.SetLocalString(spawn, InfestNameVar, this.InfestationName);
+                            s.SetLocalInt(spawn, InfestBossVar, 1);
+                        }
                     }
                 }
             }
@@ -333,6 +344,11 @@ namespace ACR_Quest
             while (SmoothEdges(script)) { }
             while (CachedGrowth < 0 && RecoverFromTops(script)) { }
             while (CachedGrowth > 0 && (GrowCurrent(script) || ExpandRemaining(script))) { }
+            MaxArea = 0;
+            foreach(int val in InfestedAreaLevels.Values)
+            {
+                if (val > MaxArea) MaxArea = val;
+            }
             Save();
         }
 
@@ -385,14 +401,19 @@ namespace ACR_Quest
                 if (dens > highestDensity)
                     highestDensity = dens;
             }
+            Dictionary<string, int> toChange = new Dictionary<string, int>();
             foreach(KeyValuePair<string, int> inf in InfestedAreaLevels)
             {
                 if(inf.Value == highestDensity)
                 {
-                    ChangeAreaLevel(inf.Key, null, inf.Value - 1, s);
+                    toChange.Add(inf.Key, inf.Value - 1);
                     CachedGrowth += 1;
                     changeMade = true;
                 }
+            }
+            foreach(KeyValuePair<string, int> inf in toChange)
+            {
+                ChangeAreaLevel(inf.Key, null, inf.Value - 1, s);
             }
             return changeMade;
         }
@@ -502,6 +523,7 @@ namespace ACR_Quest
         public const string InfestPrefix = "INF_";
         public const string InfestGroupScript = "infest";
         public const string InfestNameVar = "AREA_INFESTATION_NAME";
+        public const string InfestBossVar = "INFESTATION_BOSS";
         private void InfestArea(string areaTag, ActiveArea area, int initialLevel, CLRScriptBase s)
         {
             if(area == null)
