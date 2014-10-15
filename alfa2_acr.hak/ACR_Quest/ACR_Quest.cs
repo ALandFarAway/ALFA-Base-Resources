@@ -160,12 +160,8 @@ namespace ACR_Quest
                         }
                         else
                         {
-                            infest.Spawns[state].Remove(template);
-                            if(!infest.Spawns.ContainsKey(state + 1))
-                            {
-                                infest.Spawns.Add(state + 1, new List<string>());
-                            }
-                            infest.Spawns[state + 1].Add(template);
+                            infest.AddSpawn(state + 1, template);
+                            infest.RemoveSpawn(state, template);
                         }
                     }
                     break;
@@ -193,12 +189,8 @@ namespace ACR_Quest
                         }
                         else
                         {
-                            infest.Spawns[state].Remove(template);
-                            if(!infest.Spawns.ContainsKey(state))
-                            {
-                                infest.Spawns.Add(state - 1, new List<string>());
-                            }
-                            infest.Spawns[state - 1].Add(template);
+                            infest.AddSpawn(state - 1, template);
+                            infest.RemoveSpawn(state, template);
                         }
                     }
                     break;
