@@ -435,7 +435,7 @@ namespace ACR_CreatureBehavior
             bool InitialDetection)
         {
             CreatureObject SeenObject = Server.ObjectManager.GetCreatureObject(PerceivedObjectId, true);
-
+            
 //===== If we just started seeing this person again, we need to process memberships. ====//
             if (InitialDetection)
             {
@@ -456,7 +456,10 @@ namespace ACR_CreatureBehavior
                 {
                     // Might as well try to recover if we've messed up party memberships.
                     if (SeenObject.Party == null && Script.GetIsPC(SeenObject.ObjectId) == CLRScriptBase.FALSE)
-                        SeenObject.Party.AddPartyMember(SeenObject);
+                    {
+                        if (Party == null) OnSpawn();
+                        Party.AddPartyMember(SeenObject);
+                    }
                 }
             }
             else
@@ -504,7 +507,10 @@ namespace ACR_CreatureBehavior
                 {
                     // Might as well try to recover if we've messed up party memberships.
                     if (SeenObject.Party == null && Script.GetIsPC(SeenObject.ObjectId) == CLRScriptBase.FALSE)
-                        SeenObject.Party.AddPartyMember(SeenObject);
+                    {
+                        if (Party == null) OnSpawn();
+                        Party.AddPartyMember(SeenObject);
+                    }
                 }
             }
             else
