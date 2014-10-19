@@ -1,4 +1,6 @@
-﻿using ALFA;
+﻿#define DEBUG
+
+using ALFA;
 using ALFA.Shared;
 using System;
 using System.Collections.Generic;
@@ -340,21 +342,33 @@ namespace ACR_Quest
         public void GrowInfestation(CLRScriptBase script)
         {
             CachedGrowth += Fecundity;
+#if DEBUG
+            script.SendMessageToAllDMs("No actions yet. CachedGrowth is " + CachedGrowth);
+#endif
             CleanUpZeroes();
-            while (SmoothEdges(script)) { }
-            while (CachedGrowth < 0 && RecoverFromTops(script)) { }
-            while (CachedGrowth > 0 && (GrowCurrent(script) || ExpandRemaining(script))) { }
+            SmoothEdges(script);
+        }
+
+        private void GrowthWrapper(CLRScriptBase s)
+        {
+            if(CachedGrowth > 0 && (GrowCurrent(s) || ExpandRemaining(s)))
+            {
+                s.DelayCommand(0.1f, delegate { GrowthWrapper(s); });
+                return;
+            }
             MaxArea = 0;
-            foreach(int val in InfestedAreaLevels.Values)
+            foreach (int val in InfestedAreaLevels.Values)
             {
                 if (val > MaxArea) MaxArea = val;
             }
+            CachedGrowth = 0;
             Save();
         }
 
-        private bool SmoothEdges(CLRScriptBase s)
+        private void SmoothEdges(CLRScriptBase s)
         {
             bool changeMade = false;
+            Dictionary<ActiveArea, int> areasToDo = new Dictionary<ActiveArea, int>();
             foreach(ActiveArea area in InfestedAreas)
             {
                 int areaLevel = InfestedAreaLevels[area.Tag];
@@ -363,16 +377,15 @@ namespace ACR_Quest
                     if(InfestedAreas.Contains(adj))
                     {
                         int diff = areaLevel - InfestedAreaLevels[adj.Tag];
-                        if(diff > 1)
+                        if(diff < -1)
                         {
-                            ChangeAreaLevel(adj.Tag, adj, InfestedAreaLevels[adj.Tag] + diff - 1, s);
-                            CachedGrowth -= (diff - 1);
-                            changeMade = true;
-                        }
-                        else if(diff < -1)
-                        {
-                            ChangeAreaLevel(adj.Tag, adj, InfestedAreaLevels[adj.Tag] - diff + 1, s);
-                            CachedGrowth += (diff + 1);
+                            int maxLevel = areaLevel + 1;
+                            int adjust = InfestedAreaLevels[adj.Tag] - maxLevel;
+#if DEBUG
+                            s.SendMessageToAllDMs(String.Format("SmoothEdges: subtracting {0} from {1} because of {2}.", adjust, adj.Tag, area.Tag));
+#endif
+                            if (!areasToDo.ContainsKey(adj)) areasToDo.Add(adj, maxLevel);
+                            CachedGrowth += adjust;
                             changeMade = true;
                         }
                     }
@@ -383,44 +396,66 @@ namespace ACR_Quest
                         {
                             areaLevel = adj.GlobalQuests[ACR_Quest.GLOBAL_QUEST_INFESTATION_KEY] + 1;
                         }
-                        InfestArea(adj.Tag, adj, areaLevel - 1, s);
+#if DEBUG
+                        s.SendMessageToAllDMs(String.Format("SmoothEdges: infesting new area {0} at {1}.", areaLevel - 1, adj));
+#endif
+                        if(!areasToDo.ContainsKey(adj)) areasToDo.Add(adj, areaLevel - 1);
                         CachedGrowth -= (areaLevel - 1);
                         changeMade = true;
                     }
                 }
             }
-            return changeMade;
+            foreach(KeyValuePair<ActiveArea, int> ar in areasToDo)
+            {
+                ChangeAreaLevel(ar.Key.Tag, ar.Key, ar.Value, s);
+            }
+#if DEBUG
+            s.SendMessageToAllDMs("SmoothEdges complete. CachedGrowth is " + CachedGrowth);
+#endif
+            if (changeMade) { s.DelayCommand(0.1f, delegate { SmoothEdges(s); }); }
+            else { s.DelayCommand(0.1f, delegate { RecoverFromTops(s); }); }
         }
 
-        private bool RecoverFromTops(CLRScriptBase s)
+        private void RecoverFromTops(CLRScriptBase s)
         {
             bool changeMade = false;
-            int highestDensity = 1;
-            foreach(int dens in InfestedAreaLevels.Values)
+            if (CachedGrowth < 0)
             {
-                if (dens > highestDensity)
-                    highestDensity = dens;
-            }
-            Dictionary<string, int> toChange = new Dictionary<string, int>();
-            foreach(KeyValuePair<string, int> inf in InfestedAreaLevels)
-            {
-                if(inf.Value == highestDensity)
+                int highestDensity = 1;
+                foreach (int dens in InfestedAreaLevels.Values)
                 {
-                    toChange.Add(inf.Key, inf.Value - 1);
-                    CachedGrowth += 1;
-                    changeMade = true;
+                    if (dens > highestDensity)
+                        highestDensity = dens;
+                }
+                Dictionary<string, int> toChange = new Dictionary<string, int>();
+                foreach (KeyValuePair<string, int> inf in InfestedAreaLevels)
+                {
+                    if (inf.Value == highestDensity)
+                    {
+#if DEBUG
+                        s.SendMessageToAllDMs(String.Format("RecoverFromTops: reducing {0} to {1}.", inf.Key, inf.Value - 1));
+#endif
+                        toChange.Add(inf.Key, inf.Value - 1);
+                        CachedGrowth += 1;
+                        changeMade = true;
+                    }
+                }
+                foreach (KeyValuePair<string, int> inf in toChange)
+                {
+                    ChangeAreaLevel(inf.Key, null, inf.Value - 1, s);
                 }
             }
-            foreach(KeyValuePair<string, int> inf in toChange)
-            {
-                ChangeAreaLevel(inf.Key, null, inf.Value - 1, s);
-            }
-            return changeMade;
+#if DEBUG
+            s.SendMessageToAllDMs("RecoverFromTops complete. CachedGrowth is " + CachedGrowth);
+#endif
+            if (changeMade && CachedGrowth < 0) { s.DelayCommand(0.1f, delegate { RecoverFromTops(s); }); }
+            else { s.DelayCommand(0.1f, delegate { GrowthWrapper(s); }); }
         }
 
         private bool GrowCurrent(CLRScriptBase s)
         {
             bool changeMade = false;
+            Dictionary<ActiveArea, int> areasToDo = new Dictionary<ActiveArea, int>();
             foreach(ActiveArea area in InfestedAreas)
             {
                 bool growthBlocked = false;
@@ -456,7 +491,10 @@ namespace ACR_Quest
                 }
                 if(!growthBlocked)
                 {
-                    InfestedAreaLevels[area.Tag] += 1;
+#if DEBUG
+                    s.SendMessageToAllDMs(String.Format("GrowCurrent: growing {0} to {1}.", area.Tag, InfestedAreaLevels[area.Tag] + 1));
+#endif
+                    if (!areasToDo.ContainsKey(area)) areasToDo.Add(area, InfestedAreaLevels[area.Tag] + 1);
                     CachedGrowth -= 1;
                     changeMade = true;
                 }
@@ -465,6 +503,13 @@ namespace ACR_Quest
                     break;
                 }
             }
+            foreach (KeyValuePair<ActiveArea, int> ar in areasToDo)
+            {
+                ChangeAreaLevel(ar.Key.Tag, ar.Key, ar.Value, s);
+            }
+#if DEBUG
+            s.SendMessageToAllDMs("GrowCurrent complete. CachedGrowth is " + CachedGrowth);
+#endif
             return changeMade;
         }
 
@@ -481,7 +526,10 @@ namespace ACR_Quest
                     {
                         if (adj.GlobalQuests[ACR_Quest.GLOBAL_QUEST_INFESTATION_KEY] >= 0)
                         {
-                            areaToInfest.Add(adj);
+#if DEBUG
+                            s.SendMessageToAllDMs(String.Format("ExpandRemaining: infesting {0}.", area.Tag));
+#endif
+                            if(!areaToInfest.Contains(adj)) areaToInfest.Add(adj);
                             CachedGrowth -= 1;
                             changeMade = true;
                         }
@@ -496,6 +544,9 @@ namespace ACR_Quest
             {
                 InfestArea(adj.Tag, adj, 1, s);
             }
+#if DEBUG
+            s.SendMessageToAllDMs("ExpandRemaining complete. CachedGrowth is " + CachedGrowth);
+#endif
             return changeMade;
         }
 
@@ -596,9 +647,8 @@ namespace ACR_Quest
                 InfestArea(areaTag, area, infestLevel, s);
                 return;
             }
-            InfestedAreaLevels[areaTag] -= 1;
-            s.DeleteLocalString(area.Id, InfestNameVar);
             int count = 0;
+            InfestedAreaLevels[areaTag] = infestLevel;
             uint wp = s.GetLocalObject(area.Id, WayPointArrayName + count.ToString());
             while (s.GetIsObjectValid(wp) != CLRScriptBase.FALSE)
             {
@@ -650,6 +700,7 @@ namespace ACR_Quest
             }
             int count = 0;
             uint wp = s.GetLocalObject(area.Id, WayPointArrayName + count.ToString());
+            s.DeleteLocalString(area.Id, InfestNameVar);
             while (s.GetIsObjectValid(wp) != CLRScriptBase.FALSE)
             {
                 int groupNum = 1;
