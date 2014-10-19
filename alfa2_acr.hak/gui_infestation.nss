@@ -47,7 +47,6 @@ void main(string Command, string Param1, int Param2)
         SendMessageToPC(OBJECT_SELF, "Only DMs may use this script.");
         return;
     }
-    SendMessageToAllDMs(Command + " : " + Param1 + ", " + IntToString(Param2));
     
     string sInfest = GetLocalString(GetArea(OBJECT_SELF), ACR_QST_INFESTATION_NAME);
     
