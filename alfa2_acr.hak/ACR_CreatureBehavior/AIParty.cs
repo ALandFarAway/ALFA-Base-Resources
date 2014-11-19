@@ -573,7 +573,8 @@ namespace ACR_CreatureBehavior
         {
             foreach (CreatureObject PartyMember in PartyMembers)
             {
-                if (PartyMember.Script.GetObjectSeen(PartyMember.ObjectId, Creature.ObjectId) == CLRScriptBase.TRUE)
+                if (PartyMember.Script != null &&
+                    PartyMember.Script.GetObjectSeen(PartyMember.ObjectId, Creature.ObjectId) == CLRScriptBase.TRUE)
                     return true;
             }
             return false;
@@ -583,7 +584,8 @@ namespace ACR_CreatureBehavior
         {
             foreach (CreatureObject PartyMember in PartyMembers)
             {
-                if (PartyMember.Script.GetObjectHeard(PartyMember.ObjectId, Creature.ObjectId) == CLRScriptBase.TRUE)
+                if (PartyMember.Script != null &&
+                    PartyMember.Script.GetObjectHeard(PartyMember.ObjectId, Creature.ObjectId) == CLRScriptBase.TRUE)
                     return true;
             }
             return false;
