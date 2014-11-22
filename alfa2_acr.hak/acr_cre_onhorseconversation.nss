@@ -38,12 +38,20 @@ void main()
           SetLocalFloat(Item, ACR_HORSE_PERS_LOC_X, GetPosition(OBJECT_SELF).x);
           SetLocalFloat(Item, ACR_HORSE_PERS_LOC_Y, GetPosition(OBJECT_SELF).y);
           SetLocalFloat(Item, ACR_HORSE_PERS_LOC_Z, GetPosition(OBJECT_SELF).z);
+          if(GetLocalObject(oPC, ACR_PAL_WARHORSE) == OBJECT_SELF)
+          {
+              RemoveHenchman(oPC, OBJECT_SELF);
+          }
       }
       else
       {
           SendMessageToPC(oPC, GetName(OBJECT_SELF) + " will now follow you.");
           SetLocalInt(OBJECT_SELF, ACR_HORSE_FOLLOWING, ACR_GetCharacterID(oPC));
           FollowHeartbeat(oPC);
+          if(GetLocalObject(oPC, ACR_PAL_WARHORSE) == OBJECT_SELF)
+          {
+              AddHenchman(oPC, OBJECT_SELF);
+          }
       }
   }
   ExecuteScript("acf_cre_onconversation", OBJECT_SELF);
