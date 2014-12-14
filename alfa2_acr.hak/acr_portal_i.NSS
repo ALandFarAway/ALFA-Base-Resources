@@ -181,28 +181,30 @@ int ACR_PortalCheckServer(int nServerID, object oPC) {
 #endif
 }
 
-int ACR_PortalCheckCooldown(object oTraveller) {
-
-	ACR_SQLQuery("SELECT Value, Last FROM pwdata WHERE Name='" + ACR_SQLEncodeSpecialChars(GetName(oTraveller)) + "' and Tag='" + ACR_GetPCPublicCDKey(oTraveller) + "' and `Key`='"+_ACR_PTL_RECORD+"'");
-	if (ACR_SQLFetch() != SQL_SUCCESS) {
-		// PC appears to have never successfully ported before.  Clear to portal.
-		SendMessageToPC(oTraveller, "Recent server timestamp was "+GetLocalString(GetModule(), _ACR_PTL_TIMESTAMP));
-		SendMessageToPC(oTraveller, "No prior portalling attempt on record.  Portal at will.");
-		return 0;
-	} else {
-		// check the former portalling record to see if it's recent.
-		string sPortalStamp = ACR_SQLGetData(1);
-		string sModuleStamp = GetLocalString(GetModule(), _ACR_PTL_TIMESTAMP);
-		SendMessageToPC(oTraveller, "Last successful portalling attempt was "+sPortalStamp);
-		SendMessageToPC(oTraveller, "Recent server timestamp was "+sModuleStamp);
-		int nHoursSincePortal = _GetHoursBetween(sPortalStamp, sModuleStamp);
-		SendMessageToPC(oTraveller, "Estimated RL Hours since last portalling: "+IntToString(nHoursSincePortal));
-		if (nHoursSincePortal > ACR_PTL_COOLDOWN) {
-			return 0;
-		} else {
-			return (24 - nHoursSincePortal);
-		}
-	}
+int ACR_PortalCheckCooldown(object oTraveller) 
+{
+    int nTime = ACR_GetPersistentInt(oTraveller, _ACR_PTL_TIMESTAMP);
+    if (nTime == 0) 
+    {
+        // PC appears to have never successfully ported before.  Clear to portal.
+        SendMessageToPC(oTraveller, "No prior portalling attempt on record.  Portal at will.");
+        return 0;
+    } 
+    else 
+    {
+        // check the former portalling record to see if it's recent.
+        int nCurrentTime = ACR_GetGameHoursSinceStart();
+        int nHoursSincePortal = nCurrentTime - nTime;
+        SendMessageToPC(oTraveller, "Estimated RL Hours since last portalling: "+IntToString(nHoursSincePortal));
+        if (nHoursSincePortal > ACR_PTL_COOLDOWN) 
+        {
+            return 0;
+        } 
+        else 
+        {
+            return (24 - nHoursSincePortal);
+        }
+    }
 }
 
 //! Function to check for a valid pass to portal to a server.

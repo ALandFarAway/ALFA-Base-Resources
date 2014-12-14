@@ -33,58 +33,60 @@
 //!  Private function to wrap a check and conditional booting
 void _ReCheckPCPortaller(object oPC);
 
-void main(string sFunction) {
-
-	object oPC = GetPCSpeaker();
-	// PC's don't have tags so use CD key instead
-	int nDestID = GetLocalInt(oPC, "ACR_PORTAL_DEST_SERVER");
-	int nPortalNum = GetLocalInt(oPC, "ACR_PORTAL_NUM");
-	int bAdjacency = GetLocalInt(oPC, "ACR_PORTAL_ADJACENT");
+void main(string sFunction) 
+{
+    object oPC = GetPCSpeaker();
+    // PC's don't have tags so use CD key instead
+    int nDestID = GetLocalInt(oPC, "ACR_PORTAL_DEST_SERVER");
+    int nPortalNum = GetLocalInt(oPC, "ACR_PORTAL_NUM");
+    int bAdjacency = GetLocalInt(oPC, "ACR_PORTAL_ADJACENT");
 	
-	 if (sFunction == "Ping") {
-		// writes a p-variable to get a current SQL timestamp
-		_PingSQL();
-		
-	} else if (sFunction == "GetTimestamp") {
-		// sets a local cache from the written timestamp
-		SetLocalString(GetModule(), _ACR_PTL_TIMESTAMP, _CheckSQLForTimeStamp());
-		
-	} else if (sFunction == "IssuePass")  {
-	
-		SendMessageToPC(oPC, "Generating a new pass.");
-
-		if (bAdjacency)
-			ACR_SetPersistentStringNoTimestamp(oPC, _ACR_PTL_PASSPORT, _BuildPortalPass(nDestID, nPortalNum));
-		else
-			ACR_SetPersistentString(oPC, _ACR_PTL_PASSPORT, _BuildPortalPass(nDestID, nPortalNum));
-
+    if (sFunction == "Ping") 
+    {
+        // writes a p-variable to get a current SQL timestamp
+        _PingSQL();
+    } 
+    else if (sFunction == "GetTimestamp") 
+    {
+        // sets a local cache from the written timestamp
+        SetLocalString(GetModule(), _ACR_PTL_TIMESTAMP, _CheckSQLForTimeStamp());
+    } 
+    else if (sFunction == "IssuePass")  
+    {
+        SendMessageToPC(oPC, "Generating a new pass.");
+        if (bAdjacency)
+        {
+            ACR_SetPersistentStringNoTimestamp(oPC, _ACR_PTL_PASSPORT, _BuildPortalPass(nDestID, nPortalNum));
+        }
+        else
+        {
+            ACR_SetPersistentString(oPC, _ACR_PTL_PASSPORT, _BuildPortalPass(nDestID, nPortalNum));
+            ACR_SetPersistentInt(oPC, _ACR_PTL_TIMESTAMP, ACR_GetGameHoursSinceStart());
+        }
 #if SEAMLESS_SERVER_PORTAL_ENABLED
-
 #if SERVER_IPC_ENABLED
-		ACR_StartServerToServerPortal(nDestID, nPortalNum, oPC);
+        ACR_StartServerToServerPortal(nDestID, nPortalNum, oPC);
 #else
-		// if the PC has not logged out in 60 seconds, and is still holding a portal pass, boot them.
-		DelayCommand(60.0, _ReCheckPCPortaller(oPC));
+        // if the PC has not logged out in 60 seconds, and is still holding a portal pass, boot them.
+        DelayCommand(60.0, _ReCheckPCPortaller(oPC));
 #endif
-
 #else
-		// if the PC has not logged out in 60 seconds, and is still holding a portal pass, boot them.
-		DelayCommand(60.0, _ReCheckPCPortaller(oPC));
+        // if the PC has not logged out in 60 seconds, and is still holding a portal pass, boot them.
+        DelayCommand(60.0, _ReCheckPCPortaller(oPC));
 #endif
-	} else if (sFunction == "QuarantineAutoPortal")
-	{
+    } 
+    else if (sFunction == "QuarantineAutoPortal")
+    {
 #if SEAMLESS_SERVER_PORTAL_ENABLED
-		nDestID = GetLocalInt(oPC, ACR_PPS_QUARANTINED_AUTOPORTAL_TARGET);
-		nPortalNum = -1;
-
-		SendMessageToPC(oPC, "Transferring you to your correct home server (" + IntToString(nDestID) + ").");
-		DeleteLocalInt(oPC, ACR_PPS_QUARANTINED_AUTOPORTAL_TARGET);
-		ACR_StartServerToServerPortal(nDestID, nPortalNum, oPC);
+        nDestID = GetLocalInt(oPC, ACR_PPS_QUARANTINED_AUTOPORTAL_TARGET);
+        nPortalNum = -1;
+        SendMessageToPC(oPC, "Transferring you to your correct home server (" + IntToString(nDestID) + ").");
+        DeleteLocalInt(oPC, ACR_PPS_QUARANTINED_AUTOPORTAL_TARGET);
+        ACR_StartServerToServerPortal(nDestID, nPortalNum, oPC);
 #else
-		SendMessageToPC(oPC, "This ACR build does not have seamless server portals enabled.  You will have to manually connect to the correct server.");
+        SendMessageToPC(oPC, "This ACR build does not have seamless server portals enabled.  You will have to manually connect to the correct server.");
 #endif
-	}
-
+    }
 }
 
 
