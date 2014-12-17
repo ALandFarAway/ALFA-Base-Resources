@@ -194,7 +194,7 @@ int ACR_PortalCheckCooldown(object oTraveller)
     {
         // check the former portalling record to see if it's recent.
         int nCurrentTime = ACR_GetGameHoursSinceStart();
-        int nHoursSincePortal = nCurrentTime - nTime;
+        int nHoursSincePortal = FloatToInt(HoursToSeconds(nCurrentTime - nTime) / (60.0f * 60.0f));
         SendMessageToPC(oTraveller, "Estimated RL Hours since last portalling: "+IntToString(nHoursSincePortal));
         if (nHoursSincePortal > ACR_PTL_COOLDOWN) 
         {
