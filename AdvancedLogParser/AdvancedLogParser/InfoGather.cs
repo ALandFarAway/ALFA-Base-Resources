@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using Meebey.SmartIrc4net;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 using MySql.Data.Types;
