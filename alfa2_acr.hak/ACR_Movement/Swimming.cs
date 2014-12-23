@@ -211,29 +211,41 @@ namespace ACR_Movement
                 return;
             }
             uint weapon = script.GetItemInSlot(CLRScriptBase.INVENTORY_SLOT_RIGHTHAND, Creature);
-            int weaponType = script.GetBaseItemType(weapon);
-            if (ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType != 1 &&
-                ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType != 0) // unfortunately, this is magic numbered in the 2da as well
+            if (script.GetIsObjectValid(weapon) == CLRScriptBase.TRUE)
             {
-                script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_TEMPORARY, script.ExtraordinaryEffect(script.EffectAttackDecrease(2, CLRScriptBase.ATTACK_BONUS_ONHAND)), Creature, 6.0f);
-                int damagePenalty = ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].DieToRoll / 4;
-                damagePenalty += script.GetAbilityModifier(CLRScriptBase.ABILITY_STRENGTH, Creature) / 2;
-                int damageType = CLRScriptBase.DAMAGE_TYPE_SLASHING;
-                switch(ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType)
+                int weaponType = script.GetBaseItemType(weapon);
+                if (ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType != 1 &&
+                    ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType != 0) // unfortunately, this is magic numbered in the 2da as well
                 {
-                    case 2: damageType = CLRScriptBase.DAMAGE_TYPE_BLUDGEONING; break;
-                    case 3: damageType = CLRScriptBase.DAMAGE_TYPE_SLASHING; break;
-                    case 4: damageType = CLRScriptBase.DAMAGE_TYPE_SLASHING; break;
-                    case 5: damageType = CLRScriptBase.DAMAGE_TYPE_BLUDGEONING; break;
+                    script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_TEMPORARY, script.ExtraordinaryEffect(script.EffectAttackDecrease(2, CLRScriptBase.ATTACK_BONUS_ONHAND)), Creature, 6.0f);
+                    int damagePenalty = ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].DieToRoll / 4;
+                    damagePenalty += script.GetAbilityModifier(CLRScriptBase.ABILITY_STRENGTH, Creature) / 2;
+                    int damageType = CLRScriptBase.DAMAGE_TYPE_SLASHING;
+                    switch (ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType)
+                    {
+                        case 2: damageType = CLRScriptBase.DAMAGE_TYPE_BLUDGEONING; break;
+                        case 3: damageType = CLRScriptBase.DAMAGE_TYPE_SLASHING; break;
+                        case 4: damageType = CLRScriptBase.DAMAGE_TYPE_SLASHING; break;
+                        case 5: damageType = CLRScriptBase.DAMAGE_TYPE_BLUDGEONING; break;
+                    }
+                    script.EffectDamageDecrease(damagePenalty, damageType);
                 }
-                script.EffectDamageDecrease(damagePenalty, damageType);
+                weapon = script.GetItemInSlot(CLRScriptBase.INVENTORY_SLOT_LEFTHAND, Creature);
+                weaponType = script.GetBaseItemType(weapon);
+                if (ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType != 1 &&
+                    ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType != 0) // unfortunately, this is magic numbered in the 2da as well
+                {
+                    script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_TEMPORARY, script.ExtraordinaryEffect(script.EffectAttackDecrease(2, CLRScriptBase.ATTACK_BONUS_OFFHAND)), Creature, 6.0f);
+                }
             }
-            weapon = script.GetItemInSlot(CLRScriptBase.INVENTORY_SLOT_LEFTHAND, Creature);
-            weaponType = script.GetBaseItemType(weapon);
-            if (ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType != 1 &&
-                ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType != 0) // unfortunately, this is magic numbered in the 2da as well
+            else
             {
                 script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_TEMPORARY, script.ExtraordinaryEffect(script.EffectAttackDecrease(2, CLRScriptBase.ATTACK_BONUS_ONHAND)), Creature, 6.0f);
+                int damagePenalty = 1 + script.GetAbilityModifier(CLRScriptBase.ABILITY_STRENGTH, Creature) / 2;
+                if(damagePenalty > 0)
+                {
+                    script.EffectDamageDecrease(damagePenalty, CLRScriptBase.DAMAGE_TYPE_BLUDGEONING);
+                }
             }
         }
     }
