@@ -35,7 +35,7 @@
 //! Determines the minimum number of real-life hours that must pass before a PC
 //!  may portal again between servers.  This assists in countering server-hopping
 //!  and helps maintain RP consistency for players on both servers.
-const int ACR_PTL_COOLDOWN = 24;
+const int ACR_PTL_COOLDOWN = 1;
 
 //! Temporary p-variable to store data on the current portalling attempt.
 const string _ACR_PTL_PASSPORT = "ACR_PTL_PASSPORT";
