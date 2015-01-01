@@ -1773,7 +1773,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         SetDescription( oTarget, sText );
         return FALSE;
     }
-    else if( GetSTringLeft( sText, 11) == "#setcharges" )
+    else if( GetStringLeft( sText, 11) == "#setcharges" )
     {
         // DM-only command.
         if ( !ACR_GetIsDMControlled( oSpeaker ) ) 
@@ -1789,7 +1789,7 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
             SendMessageToPC(oSpeaker, "Only items may be charged.");
             return FALSE;
         }
-        if(GetItemCharges(oWand) < 1) 
+        if(GetItemCharges(Wand) < 1) 
         {
             SendMessageToPC(oSpeaker, "Only charged items may have their charges manipulated.");
             return FALSE;
@@ -1800,8 +1800,8 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         int Charges = StringToInt(sText);
         
         // Clear out error cases; give us garbage and we'll give you 50 charges.
-        if(Charges == 0 || Charges > 50) Charges = 50;
-        SetItemCharges(oWand, Charges);
+        if(Charges < 1 || Charges > 50) Charges = 50;
+        SetItemCharges(Wand, Charges);
         return FALSE;
     }
     // Allow DMs to use #sethp to set a target's hit points.
