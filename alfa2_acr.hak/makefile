@@ -664,6 +664,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\as_group_infest.ncs                   \
             $(OUTPUTDIR)\gui_infestation.ncs                   \
             $(OUTPUTDIR)\gui_infestpick.ncs                    \
+            $(OUTPUTDIR)\nw_s0_identify.ncs                    \
             $(OUTPUTDIR)\acr_set_player_password.ncs           
 
 #
