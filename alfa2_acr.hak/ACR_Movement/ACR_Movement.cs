@@ -59,6 +59,7 @@ namespace ACR_Movement
                     break;
                 case MovementCommand.ExitWater:
                     AppearanceTypes.characterMovement[Target] = AppearanceTypes.MovementType.Walking;
+                    if (Swimming.CurrentDrownStatus.ContainsKey(Target)) Swimming.CurrentDrownStatus.Remove(Target);
                     AppearanceTypes.RecalculateMovement(this, Target);
                     break;
                 case MovementCommand.MountHorse:

@@ -100,6 +100,7 @@ namespace ACR_Movement
                 }
             }
             AppearanceTypes.characterMovement[Creature] = AppearanceTypes.MovementType.Walking;
+            if (Swimming.CurrentDrownStatus.ContainsKey(Creature)) Swimming.CurrentDrownStatus.Remove(Creature);
             AppearanceTypes.RecalculateMovement(script, Creature);
         }
 
@@ -119,7 +120,7 @@ namespace ACR_Movement
                 CurrentDrownStatus[Creature]++;
             }
 
-            if(CurrentDrownStatus[Creature] > script.GetAbilityScore(Creature, CLRScriptBase.ABILITY_CONSTITUTION, CLRScriptBase.FALSE))
+            if(CurrentDrownStatus[Creature] > script.GetAbilityScore(Creature, CLRScriptBase.ABILITY_CONSTITUTION, CLRScriptBase.FALSE) * 2)
             {
                 if(!CurrentDrownDC.ContainsKey(Creature))
                 {
