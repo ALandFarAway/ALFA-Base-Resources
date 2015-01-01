@@ -1752,30 +1752,58 @@ int ACR_ModuleOnChat(object oSpeaker, object oTarget, int nMode, string sText)
         }
         return FALSE;
     }
-	
     // Allow DMs to use #setdesc to change an object's description.
     else if( GetStringLeft( sText, 8 ) == "#setdesc" )
     {
-		// DM-only command.
-		if ( !ACR_GetIsDMControlled( oSpeaker ) ) {
-			SendMessageToPC( oSpeaker, "This command may only be used by DMs." );
-			return FALSE;
-		}
-		
-		// Get the target to set a description.
-		object oTarget = GetPlayerCurrentTarget( oSpeaker );
-		if ( !GetIsObjectValid( oTarget ) ) {
-			SendMessageToPC( oSpeaker, "Invalid use. Select a target to set its description." );
-			return FALSE;
-		}
-		
-		// Get the desired description.
+        // DM-only command.
+        if ( !ACR_GetIsDMControlled( oSpeaker ) ) 
+        {
+            SendMessageToPC( oSpeaker, "This command may only be used by DMs." );
+            return FALSE;
+        }
+        // Get the target to set a description.
+        object oTarget = GetPlayerCurrentTarget( oSpeaker );
+        if ( !GetIsObjectValid( oTarget ) ) 
+        {
+            SendMessageToPC( oSpeaker, "Invalid use. Select a target to set its description." );
+            return FALSE;
+        }
+        // Get the desired description.
         sText = GetStringRight( sText, len - 9 );
-		SetDescription( oTarget, sText );
-		
+        SetDescription( oTarget, sText );
         return FALSE;
     }
-	
+    else if( GetSTringLeft( sText, 11) == "#setcharges" )
+    {
+        // DM-only command.
+        if ( !ACR_GetIsDMControlled( oSpeaker ) ) 
+        {
+            SendMessageToPC( oSpeaker, "This command may only be used by DMs." );
+            return FALSE;
+        }
+        
+        // Make sure that the selected item is reasonably manipulated for its charges
+        object Wand = GetPlayerCurrentTarget(oSpeaker);
+        if(GetObjectType(Wand) != OBJECT_TYPE_ITEM) 
+        {
+            SendMessageToPC(oSpeaker, "Only items may be charged.");
+            return FALSE;
+        }
+        if(GetItemCharges(oWand) < 1) 
+        {
+            SendMessageToPC(oSpeaker, "Only charged items may have their charges manipulated.");
+            return FALSE;
+        }
+        
+        // Regard the rest of the input as the number of charges to use and set it.
+        sText = GetStringRight( sText, len - 12 );
+        int Charges = StringToInt(sText);
+        
+        // Clear out error cases; give us garbage and we'll give you 50 charges.
+        if(Charges == 0 || Charges > 50) Charges = 50;
+        SetItemCharges(oWand, Charges);
+        return FALSE;
+    }
     // Allow DMs to use #sethp to set a target's hit points.
     else if( GetStringLeft( sText, 6 ) == "#sethp" )
     {
