@@ -113,7 +113,7 @@ void main(int nLevel, string sGender, string sAlignment, string sBarbarian, stri
 	if(sBHair == "")
 		sTag = sTag + "Z";
 	else
-		sTag = sTag + IntToString(StringToInt(sBHair)-1);
+		sTag = sTag + IntToDataString(StringToInt(sBHair)-1);
 		
 	if(sHead == "" || sHead == "999")
 		sTag = sTag + "999";
