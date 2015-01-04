@@ -114,6 +114,8 @@ void main()
                     }
                 }
             }
+        } else {
+            SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, SPELL_COLOR_SPRAY, FALSE));
         }
         //Get next target in spell area
         oTarget = GetNextObjectInShape(SHAPE_SPELLCONE, 10.0, GetSpellTargetLocation(), TRUE);
