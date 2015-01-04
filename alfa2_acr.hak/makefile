@@ -253,6 +253,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_kemo_bio.ncs                      \
             $(OUTPUTDIR)\gui_kemo_nudge.ncs                    \
             $(OUTPUTDIR)\gui_kemo_repeat.ncs                   \
+            $(OUTPUTDIR)\nw_s0_colspray.ncs                    \
             $(OUTPUTDIR)\nw_s0_curcrwn.ncs                     \
             $(OUTPUTDIR)\nw_s0_curlgtw.ncs                     \
             $(OUTPUTDIR)\nw_s0_curmodw.ncs                     \
