@@ -45,5 +45,5 @@ void main()
         //Fire cast spell at event for the specified target
         SetIdentified( oTarget, TRUE );
     }
-    SignalEvent(oTarget, EventSpellCastAt(oTarget, SPELL_IDENTIFY, FALSE));
+    SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, SPELL_IDENTIFY, FALSE));
 }
