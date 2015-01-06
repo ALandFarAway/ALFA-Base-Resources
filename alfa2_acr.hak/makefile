@@ -258,6 +258,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s0_curlgtw.ncs                     \
             $(OUTPUTDIR)\nw_s0_curmodw.ncs                     \
             $(OUTPUTDIR)\nw_s0_curserw.ncs                     \
+            $(OUTPUTDIR)\nw_s0_grease.ncs                      \
             $(OUTPUTDIR)\nw_s0_grrestore.ncs                   \
             $(OUTPUTDIR)\nw_s0_heal.ncs                        \
             $(OUTPUTDIR)\nw_s0_macurcrit.ncs                   \
