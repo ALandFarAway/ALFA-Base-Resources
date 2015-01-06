@@ -224,8 +224,8 @@ namespace ACR_Quest
             PrintInfestations = 999,
         }
 
-        public const string NoSpawn = "Error: That spawn does not seem to be at that tier.";
-        public const string NoInfest = "Error: There does not seem to be an infestation by that name.";
+        public const string NoSpawn =  "Error: Cannot remove that spawn.";
+        public const string NoInfest = "Error: Cannot find that infestation.";
 
         public const string AREA_MAX_INFESTATION = "ACR_QST_MAX_INFESTATION";
         public const string GLOBAL_QUEST_INFESTATION_KEY = "Infestation";
