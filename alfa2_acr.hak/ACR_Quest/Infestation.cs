@@ -196,6 +196,11 @@ namespace ACR_Quest
             {
                 return false;
             }
+            if(MaxTier >= Tier &&
+               Spawns[Tier].Count <= 1)
+            {
+                return false;
+            }
             Spawns[Tier].Remove(Spawn);
             if (Spawns[Tier].Count() == 0) Spawns.Remove(Tier);
             MaxTier = Spawns.Count();
