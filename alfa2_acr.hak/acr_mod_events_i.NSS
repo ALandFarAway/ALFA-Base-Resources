@@ -771,7 +771,7 @@ void ACR_ModuleOnModuleLoad()
     ACR_LoadDatabaseConfiguration();
 
     // Initialize spell hook
-    if ( GetLocalString( oModule, "X2_S_UD_SPELLSCRIPT" ) != "acf_spellhook ) {
+    if ( GetLocalString( oModule, "X2_S_UD_SPELLSCRIPT" ) != "acf_spellhook" ) {
         SetLocalString( oModule, "X2_S_UD_SPELLSCRIPT", "acr_spellhook" );
     }
 
