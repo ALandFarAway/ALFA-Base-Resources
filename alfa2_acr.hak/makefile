@@ -59,6 +59,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_skills_i.nss                      \
             $(OUTPUTDIR)\acr_spawn_i.nss                       \
             $(OUTPUTDIR)\acr_spells_i.nss                      \
+            $(OUTPUTDIR)\acr_spellhook_i.nss                   \
             $(OUTPUTDIR)\acr_spelltrack_i.nss                  \
             $(OUTPUTDIR)\acr_time_i.nss                        \
             $(OUTPUTDIR)\acr_tools_i.nss                       \
