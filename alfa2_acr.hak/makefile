@@ -604,6 +604,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s2_turndead.ncs                    \
             $(OUTPUTDIR)\x0_s0_masscamo.ncs                    \
             $(OUTPUTDIR)\ga_faction_join.ncs                   \
+            $(OUTPUTDIR)\gc_check_language.ncs                 \
             $(OUTPUTDIR)\gc_check_race_id.ncs                  \
             $(OUTPUTDIR)\gc_check_subrace_id.ncs               \
             $(OUTPUTDIR)\ga_give_partial_quest_xp.ncs          \
