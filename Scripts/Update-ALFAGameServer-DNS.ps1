@@ -14,7 +14,7 @@ foreach ($ModuleName in $ScriptsModules)
 	Import-Module $ModuleFullName
 }
 
-$ZoneName = "dynamic.alandfaraway.org"
+$ZoneNames = @("dynamic.alandfaraway.org", "dynamic.alandfaraway.info")
 $RecordSuffix = "nwn2gs"
 
 $Query = @"
@@ -40,19 +40,23 @@ foreach ($Row in $Results)
 		$ServerIP = $ServerIP.Substring(0, $Index)
 	}
 
-	# Check if the DNS record for this server already exists.
-	$Record = Get-DnsServerResourceRecord -ZoneName $ZoneName -RRType "A" -Name "$ServerID.$RecordSuffix"
+	foreach ($ZoneName in $ZoneNames)
+	{
+		# Check if the DNS record for this server already exists.
+		$Record = Get-DnsServerResourceRecord -ZoneName $ZoneName -RRType "A" -Name "$ServerID.$RecordSuffix"
 
-	if ($Record -eq $Null -or $Record.State -eq "Failed")
-	{
-		# New server - create the first record.
-		$Record = Add-DnsServerResourceRecord -ZoneName $ZoneName -A -Name "$ServerID.$RecordSuffix" -IPv4Address "$ServerIP"
-	}
-	else
-	{
-		# Existing server - update the existing record content.
-		$NewRecord = $Record.Clone()
-		$NewRecord.RecordData.IPv4Address = $ServerIP
-		Set-DnsServerResourceRecord -ZoneName $ZoneName -OldInputObject $Record -NewInputObject $NewRecord
+		if ($Record -eq $Null -or $Record.State -eq "Failed")
+		{
+			# New server - create the first record.
+			$Record = Add-DnsServerResourceRecord -ZoneName $ZoneName -A -Name "$ServerID.$RecordSuffix" -IPv4Address "$ServerIP"
+		}
+		else
+		{
+			# Existing server - update the existing record content.
+			$NewRecord = $Record.Clone()
+			$NewRecord.RecordData.IPv4Address = $ServerIP
+			Set-DnsServerResourceRecord -ZoneName $ZoneName -OldInputObject $Record -NewInputObject $NewRecord
+		}
 	}
 }
+
