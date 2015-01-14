@@ -4,8 +4,8 @@
 //:: Copyright (c) 2001 Bioware Corp.
 //:://////////////////////////////////////////////
 /*
-    Goes through the area and sleeps the lowest 2d4
-    HD of creatures first.
+	Goes through the area and sleeps the lowest 2d4
+	HD of creatures first.
 */
 //:://////////////////////////////////////////////
 //:: Created By: Preston Watamaniuk
@@ -62,15 +62,16 @@ int MakeResistanceCheck( object oCaster, object oTarget ) {
 	return FALSE;
 }
 
-void ApplySpellEffect( object oTarget ) {
+void ApplySpellEffect( object oTarget, float fDuration ) {
 	SetLocalInt( oTarget, SLEEP_TEMP_VAR, TRUE );
 	
 	// Build effect.
-    effect eSleep =  EffectSleep();
+	effect eSleep =  EffectSleep();
 	effect eDurIcon = EffectVisualEffect( VFX_DUR_SLEEP );
 	effect eLinkedEffect = EffectLinkEffects( eSleep, eDurIcon );
 	
-	
+	// Apply effect.
+	ApplyEffectToObject( DURATION_TYPE_TEMPORARY, eLinkedEffect, oTarget, fDuration );
 }
 
 void main() {
@@ -82,7 +83,7 @@ void main() {
 	object oTarget;
 	location lTarget = GetSpellTargetLocation();
 	int nHDAffected = 0;
-	float nDuration = ACR_GetSpellDuration( oCaster, ACR_DURATION_TYPE_PER_CL, ACR_DURATION_1M );
+	float fDuration = ACR_GetSpellDuration( oCaster, ACR_DURATION_TYPE_PER_CL, ACR_DURATION_1M );
 
 	// Get the number valid of targets.
 	int nAvailableTargets = 0;
@@ -108,7 +109,7 @@ void main() {
 		while ( GetIsObjectValid( oTarget ) && nHDAffected <= SLEEP_MAX_HD ) {
 			int nHD = GetHitDice( oTarget );
 			if ( nHD == nTargetHD && AffectedBySleep( oTarget ) && !MakeResistanceCheck( oCaster, oTarget ) ) {
-				ApplySpellEffect( oTarget );
+				ApplySpellEffect( oTarget, fDuration );
 				nHDAffected += nHD;
 				nAffected++;
 			}
