@@ -1,4 +1,5 @@
 #include "acr_quest_i"
+#include "acr_notifications_i"
 
 const string ACR_QST_FAILURE_STATE = "ACR_QST_FAILURE_STATE";
 const string DEFENSE_QUEST_ID = "DEF_QST_ID";
@@ -10,14 +11,18 @@ const string DEFENSE_QUEST_WAVE_DELAY = "DEF_QST_WAVE_DELAY";
 
 const string DEFENSE_QUEST_SPAWN_WAYPOINT = "DEF_QST_SPAWN_WAYPOINT";
 const string DEFENSE_QUEST_WALK_WAYPOINT = "DEF_QST_WALK_WAYPOINT";
+const string DEFENSE_QUEST_FRIEND_WAYPOINT = "DEF_QST_FRIEND_WAYPOINT";
 
 const string DEFENSE_QUEST_TRICKLE_SPAWN_CREATURE = "DEF_QST_TRICKLE_SPAWN_";
 const string DEFENSE_QUEST_WAVE_SPAWN_CREATURE = "DEF_QST_WAVE_SPAWN_";
+const string DEFENSE_QUEST_FRIEND_SPAWN_CREATURE = "DEF_QST_FRIEND_SPAWN_";
 
 const string DEFENSE_QUEST_START_MESSAGE = "DEF_QST_START_MESSAGE";
 const string DEFENSE_QUEST_WAVE_MESSAGE = "DEF_QST_WAVE_MESSAGE";
 const string DEFENSE_QUEST_END_MESSAGE = "DEF_QST_END_MESSAGE";
 const string DEFENSE_QUEST_FAIL_MESSAGE = "DEF_QST_FAIL_MESSAGE";
+
+
 
 void ACR_AdvanceDefenseQuest(int questID)
 {
@@ -57,16 +62,30 @@ void ACR_FailDefenseQuest(int questID)
 	}	
 }
 
-int ACR_CheckForDefenseFailure()
+int ACR_CheckForDefenseFailure(int questID)
 {
 	object oEntering = GetEnteringObject();
 	if(GetIsPC(oEntering)) return FALSE;
+	
+	object oPC = GetFirstPC(TRUE);
+	object oPCInQuest = OBJECT_INVALID;
+	while(GetIsObjectValid(oPCInQuest))
+	{
+    if(GetLocalInt(oPC, DEFENSE_QUEST_ID) == questID)
+    {
+      oPCInQuest = oPC;
+		}
+		oPC = GetNextPC(TRUE);
+	}
+	if(!GetIsObjectValid(oPCInQuest)) return TRUE;
 	
 	object oContained = GetFirstInPersistentObject();
 	while(GetIsObjectValid(oContained))
 	{
 		if(GetIsPC(oContained) && !GetIsDMPossessed(oContained)) return FALSE;
 		if(GetIsPC(GetMaster(oContained))) return FALSE;
+		if(GetReputation(oContained, oPCInQuest) > 10) return FALSE;
+		if(GetReputation(oPCInQuest, oContained) > 10) return FALSE;
 		oContained = GetNextInPersistentObject();
 	}
 	return TRUE;
@@ -159,7 +178,7 @@ void main()
 	if(currentQuestID != 0)
 	{
 		// If there is a current quest ID, then this is an existing defense quest. Check for failure.
-		if(ACR_CheckForDefenseFailure())
+		if(ACR_CheckForDefenseFailure(currentQuestID))
 		{
 			ACR_FailDefenseQuest(currentQuestID);
 			DeleteLocalInt(OBJECT_SELF, DEFENSE_QUEST_ID);
@@ -167,6 +186,7 @@ void main()
 		object oPC = GetEnteringObject();
 		if(GetLocalInt(oPC, DEFENSE_QUEST_ID) != currentQuestID)
 		{
+      NotifyPlayer(oPC, NOTIFY_TYPE_URGENT, "Defend this ground!", "This is a defense quest. If enemies enter this space and you're not here to meet them, you will fail the quest.", NOTIFY_WINDOW_MESSAGE_BOX);
       SendMessageToPC(oPC, GetLocalString(OBJECT_SELF, DEFENSE_QUEST_START_MESSAGE));
       SetLocalInt(oPC, DEFENSE_QUEST_ID, currentQuestID);
     }
@@ -183,12 +203,23 @@ void main()
 			SetLocalInt(OBJECT_SELF, DEFENSE_QUEST_COUNTER, newQuestID);
 			SetLocalInt(OBJECT_SELF, DEFENSE_QUEST_ID, newQuestID);
 			SetLocalInt(oPC, DEFENSE_QUEST_ID, newQuestID);
+			NotifyPlayer(oPC, NOTIFY_TYPE_URGENT, "Defend this ground!", "This is a defense quest. If enemies enter this space and you're not here to meet them, you will fail the quest.", NOTIFY_WINDOW_MESSAGE_BOX);
 			SendMessageToPC(oPC, GetLocalString(OBJECT_SELF, DEFENSE_QUEST_START_MESSAGE));
 		
 			float initialDelay = GetLocalFloat(OBJECT_SELF, DEFENSE_QUEST_INITIAL_DELAY);
 			float trickleDelay = GetLocalFloat(OBJECT_SELF, DEFENSE_QUEST_TRICKLE_DELAY);
 			float waveDelay = GetLocalFloat(OBJECT_SELF, DEFENSE_QUEST_WAVE_DELAY);
-		
+      
+      int count = 1;
+      object spawnPoint = GetWaypointByTag(GetLocalString(OBJECT_SELF, DEFENSE_QUEST_FRIEND_WAYPOINT));
+      string creatureToSpawn = GetLocalString(OBJECT_SELF, DEFENSE_QUEST_FRIEND_SPAWN_CREATURE + IntToString(count));
+      while(creatureToSpawn != "")
+      {
+        CreateObject(OBJECT_TYPE_CREATURE, creatureToSpawn, GetLocation(spawnPoint), TRUE);
+        count++;
+        creatureToSpawn = GetLocalString(OBJECT_SELF, DEFENSE_QUEST_FRIEND_SPAWN_CREATURE + IntToString(count));
+      }
+	
 			DelayCommand(initialDelay, ACR_TrickleSpawn(newQuestID));
 			DelayCommand(initialDelay + waveDelay, ACR_WaveSpawn(newQuestID, 1));
 		}
