@@ -123,9 +123,6 @@ string _GetIconFromType(int nNotifyType)
 
 void NotifyPlayer( object oPC, int nNotifyType, string sNotifyAbbreviation, string sNotifyMessage, string sNotifyWindow="", string sOKCB="", string sCancelCB="", string sOKText="", string sCancelText="")
 {
-    // Temporary standin-- we'll get rid of this line once the GUI is working.
-    SendMessageToPC(oPC, sNotifyMessage);
-
     DisplayGuiScreen(oPC, "SCREEN_NOTIFY", FALSE, "notifylist.xml");
 
     // Assign the message a unique number, so we can check against it later.
