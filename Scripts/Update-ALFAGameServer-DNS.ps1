@@ -14,7 +14,7 @@ foreach ($ModuleName in $ScriptsModules)
 	Import-Module $ModuleFullName
 }
 
-$ZoneNames = @("dynamic.alandfaraway.org", "dynamic.alandfaraway.info")
+$ZoneNames = @("dynamic.alandfaraway.org", "dynamic.alandfaraway.info", "dynamic.alandfaraway.pw")
 $RecordSuffix = "nwn2gs"
 
 $Query = @"
