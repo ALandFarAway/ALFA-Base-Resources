@@ -96,6 +96,8 @@ void ACR_InflictFallDamage( object oPC, int nDistance, int bWilling = FALSE, int
 int ACR_IsFeatherFalling( object oPC );
 
 // Temperature condition private functions.
+int _IsObjectInHazard( object oPC );
+void _DoHeatDamage( object oPC, int nDamage, int nLethal);
 void _DoHeat( object oPC );
 void _DoSevereHeat( object oPC );
 void _DoExtremeHeat( object oPC );
@@ -274,19 +276,24 @@ void ACR_DoTemperatureHazard( object oPC, float fTemperature = ACR_TEMP_INVALID 
 		return;
 	}
 	
+	float fDelayToReCheck = 60.0f;
 	// What type of hazard are we doing?
 	if ( fTemperature >= ACR_TEMP_HOT_EXTREME ) {
 		_DoExtremeHeat( oPC );
 	} else if ( fTemperature >= ACR_TEMP_HOT_SEVERE ) {
 		_DoSevereHeat( oPC );
+		fDelayToReCheck = 60.0f * 10.0f;
 	} else if ( fTemperature >= ACR_TEMP_HOT ) {
 		_DoHeat( oPC );
+		fDelayToReCheck = HoursToSeconds(1);
 	} else if ( fTemperature <= ACR_TEMP_COLD_EXTREME ) {
 		_DoExtremeCold( oPC );
 	} else if ( fTemperature <= ACR_TEMP_COLD_SEVERE ) {
 		_DoSevereCold( oPC );
+		fDelayToReCheck = 60.0f * 10.0f;
 	} else if ( fTemperature <= ACR_TEMP_COLD ) {
 		_DoCold( oPC );
+		fDelayToReCheck = HoursToSeconds(1);
 	} else {
 		// This should never happen. If it does, still update our lock.
 		SetLocalInt( oPC, ACR_HAZ_TEMP_LCK, nLock - 1 );
@@ -297,8 +304,9 @@ void ACR_DoTemperatureHazard( object oPC, float fTemperature = ACR_TEMP_INVALID 
 	int nCounter = GetLocalInt( oPC, ACR_HAZ_TEMP_CNT );
 	SetLocalInt( oPC, ACR_HAZ_TEMP_CNT, nCounter + 1 );
 	
-	// Call this script again every minute.
-	DelayCommand( 60.0f, ACR_DoTemperatureHazard( oPC, fTemperature ) );
+	// Call this script again based on how often we expect checks to happen.
+	if(_IsObjectInHazard( oPC )) DelayCommand( fDelayToReCheck, ACR_DoTemperatureHazard( oPC, fTemperature ) );
+	else SetLocalInt( oPC, ACR_HAZ_TEMP_LCK, nLock - 1 );
 }
 
 
@@ -475,18 +483,116 @@ int ACR_IsFeatherFalling( object oPC ) {
 // Function Definitions : PRIVATE //////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
+int _IsObjectInHazard( object oPC ) {
+    if(GetObjectType(OBJECT_SELF) == OBJECT_TYPE_TRIGGER ||
+       GetObjectType(OBJECT_SELF) == OBJECT_TYPE_AREA_OF_EFFECT) {
+        object oObj = GetFirstInPersistentObject();
+        while(GetIsObjectValid(oObj)) {
+            if(oObj == oPC) return TRUE;
+            oObj = GetNextInPersistentObject();
+        }
+        return FALSE;
+    }
+    else {
+        object oObj = GetFirstObjectInArea(OBJECT_SELF);
+        while(GetIsObjectValid(oObj)) {
+            if(oObj == oPC) return TRUE;
+            oObj = GetNextObjectInArea(OBJECT_SELF);
+        }
+        return FALSE;
+    }
+}
+
+void _DoHeatDamage( object oPC, int nDamage, int nLethal) {
+	int nCurrentHP = GetCurrentHitPoints( oPC );
+
+	if ( !nLethal && ( _GetNLDTotal( oPC ) <= nCurrentHP ) ) {
+		ACR_ApplyNonlethalDamageToCreature( oPC, d6() );
+	} else {
+		ApplyEffectToObject( DURATION_TYPE_INSTANT, EffectDamage( nDamage, DAMAGE_TYPE_FIRE, FALSE ), oPC );
+		if ( nCurrentHP != GetCurrentHitPoints( oPC ) ) {
+			ACR_SetIsFatigued( oPC, TRUE );
+		}
+	}
+}
+
 void _DoHeat( object oPC ) {
+	// Basic data.
+	int nChecks = GetLocalInt( oPC, ACR_HAZ_TEMP_CHK );
+	int nCounter = GetLocalInt( oPC, ACR_HAZ_TEMP_CNT );
+	int nDC = 15 + nChecks;
+	int nBonus = 0;
 	
+	// Make a DC 15 survival check to help resist conditions.
+	if ( ACR_SkillCheck( SKILL_SURVIVAL, oPC, 15, TRUE ) ) {
+		SendMessageToPC( oPC, "Your survival skills help you ward yourself against the heat." );
+		nBonus += 3; // This should be +2 if moving, +4 if stationary. We can't really detect that here very well, so we compromise.
+	}
+	
+	// Make a DC 15 + nChecks fortitude save, or take nonlethal damage.
+	if ( !ACR_SaveCheck( SAVING_THROW_FORT, oPC, nDC, TRUE, FALSE, nBonus ) ) {
+		SendMessageToPC( oPC, "The heat saps you, leaving behind sweat and exhaustion." );
+		_DoHeatDamage( oPC, d6(), FALSE );
+	}
+	
+	// Increment check counter.
+	nChecks++;
+	SetLocalInt( oPC, ACR_HAZ_TEMP_CHK, nChecks );
 }
 
 
 void _DoSevereHeat( object oPC ) {
+	// Basic data.
+	int nChecks = GetLocalInt( oPC, ACR_HAZ_TEMP_CHK );
+	int nCounter = GetLocalInt( oPC, ACR_HAZ_TEMP_CNT );
+	int nDC = 15 + nChecks;
+	int nBonus = 0;
 	
+	// Make a DC 15 survival check to help resist conditions.
+	if ( ACR_SkillCheck( SKILL_SURVIVAL, oPC, 15, TRUE ) ) {
+		SendMessageToPC( oPC, "Your survival skills help you ward yourself against the heat." );
+		nBonus += 3; // This should be +2 if moving, +4 if stationary. We can't really detect that here very well, so we compromise.
+	}
+	
+	// Make a DC 15 + nChecks fortitude save, or take nonlethal damage.
+	if ( !ACR_SaveCheck( SAVING_THROW_FORT, oPC, nDC, TRUE, FALSE, nBonus ) ) {
+		SendMessageToPC( oPC, "The heat saps you, leaving behind sweat and exhaustion." );
+		_DoHeatDamage( oPC, d6(), FALSE );
+	}
+	
+	// Increment check counter.
+	nChecks++;
+	SetLocalInt( oPC, ACR_HAZ_TEMP_CHK, nChecks );
 }
 
 
 void _DoExtremeHeat( object oPC ) {
+	// Basic data.
+	int nChecks = GetLocalInt( oPC, ACR_HAZ_TEMP_CHK );
+	int nCounter = GetLocalInt( oPC, ACR_HAZ_TEMP_CNT );
+	int nDC = 15 + nChecks;
+	int nBonus = 0;
 	
+	// Make a DC 15 survival check to help resist conditions.
+	if ( ACR_SkillCheck( SKILL_SURVIVAL, oPC, 15, TRUE ) ) {
+		SendMessageToPC( oPC, "Your survival skills help you ward yourself against the heat." );
+		nBonus += 3; // This should be +2 if moving, +4 if stationary. We can't really detect that here very well, so we compromise.
+	}
+	
+	// Always take lethal damage.
+	SendMessageToPC( oPC, "The heat is so oppressive that it scorches your skin." );
+	_DoHeatDamage( oPC, d6(), TRUE );
+	
+	// Make a DC 15 + nChecks fortitude save, or take nonlethal damage. 
+	if ( !ACR_SaveCheck( SAVING_THROW_FORT, oPC, nDC, TRUE, FALSE, nBonus ) ) {
+		_DoHeatDamage( oPC, d4(), FALSE );
+	}
+	
+	// TODO: Chill equipment.
+	
+	// Increment check counter.
+	nChecks++;
+	SetLocalInt( oPC, ACR_HAZ_TEMP_CHK, nChecks );
 }
 
 
@@ -510,13 +616,6 @@ void _DoCold( object oPC ) {
 	int nCounter = GetLocalInt( oPC, ACR_HAZ_TEMP_CNT );
 	int nDC = 15 + nChecks;
 	int nBonus = 0;
-	
-	// Determine how often we make this check.
-	int nCheckRate = 60;
-	//! TODO: Add winter clothing checks.
-
-	// Cold checks are made once every hour.
-	if ( nCounter % nCheckRate != 0 ) return;
 	
 	// Make a DC 15 survival check to help resist conditions.
 	if ( ACR_SkillCheck( SKILL_SURVIVAL, oPC, 15, TRUE ) ) {
@@ -542,13 +641,6 @@ void _DoSevereCold( object oPC ) {
 	int nCounter = GetLocalInt( oPC, ACR_HAZ_TEMP_CNT );
 	int nDC = 15 + nChecks;
 	int nBonus = 0;
-	
-	// Determine how often we make this check.
-	int nCheckRate = 10;
-	//! TODO: Add winter clothing checks.
-
-	// Cold checks are made once every hour.
-	if ( nCounter % nCheckRate != 0 ) return;
 	
 	// Make a DC 15 survival check to help resist conditions.
 	if ( ACR_SkillCheck( SKILL_SURVIVAL, oPC, 15, TRUE ) ) {
