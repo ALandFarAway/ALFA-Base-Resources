@@ -39,7 +39,7 @@ void main();
 
 void main() 
 {
-    ACR_TriggerOnEnter();
+    ACR_TriggerOnExit();
 
     ExitWater(OBJECT_SELF, GetExitingObject());
 }
