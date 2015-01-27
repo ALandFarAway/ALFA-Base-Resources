@@ -69,7 +69,7 @@ int ACR_CheckForDefenseFailure(int questID)
 	
 	object oPC = GetFirstPC(TRUE);
 	object oPCInQuest = OBJECT_INVALID;
-	while(GetIsObjectValid(oPCInQuest))
+	while(GetIsObjectValid(oPC))
 	{
     if(GetLocalInt(oPC, DEFENSE_QUEST_ID) == questID)
     {
