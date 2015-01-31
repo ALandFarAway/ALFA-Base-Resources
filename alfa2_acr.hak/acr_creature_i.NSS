@@ -333,11 +333,8 @@ void ACR_CreatureOnDeath()
         ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_ON_DEATH);
     }
     
-    if(GetLocalString(OBJECT_SELF, ACR_QST_INFESTATION_NAME) == "")
-    {
-        return;
-    }
     string sInfestName = GetLocalString(GetArea(OBJECT_SELF), ACR_QST_INFESTATION_NAME);
+    if(sInfestName == "") return;
     float fAreaCR = GetLocalFloat(GetArea(OBJECT_SELF), ACR_QST_INFESTATION_CR);
     float fCreatCR = GetChallengeRating(OBJECT_SELF);
     if(fCreatCR > fAreaCR) 
@@ -350,7 +347,7 @@ void ACR_CreatureOnDeath()
         RemoveInfestationBoss(sInfestName, GetResRef(OBJECT_SELF));
     }
     object oAlly = GetLocalObject(GetArea(OBJECT_SELF), "INFEST_CACHED_LIVING");
-    if(GetLocalString(oAlly, ACR_QST_INFESTATION_NAME) != "" &&
+    if((GetLocalString(oAlly, ACR_QST_INFESTATION_NAME) != "" || GetReputation(oAlly, oKiller) <= 10) &&
        oAlly != OBJECT_SELF &&
        GetObjectType(oAlly) == OBJECT_TYPE_CREATURE &&
        GetIsDead(oAlly) == FALSE)
@@ -360,7 +357,9 @@ void ACR_CreatureOnDeath()
     oAlly = GetFirstObjectInArea();
     while(GetIsObjectValid(oAlly))
     {
-        if(GetLocalString(oAlly, ACR_QST_INFESTATION_NAME) != "" &&
+        // look for living creatures who are not the caller and are either hostile to the killer or
+        // are flagged as infestation members.
+        if((GetLocalString(oAlly, ACR_QST_INFESTATION_NAME) != "" || GetReputation(oAlly, oKiller) <= 10) &&
            oAlly != OBJECT_SELF &&
            GetObjectType(oAlly) == OBJECT_TYPE_CREATURE &&
            GetIsDead(oAlly) == FALSE)
@@ -384,6 +383,7 @@ void ACR_CreatureOnDeath()
         oAlly = GetNextPC(TRUE);
     }
     object oLootBag = CreateObject(OBJECT_TYPE_PLACEABLE, "acr_inf_lootbag", GetLocation(oKiller));
+    DeleteLocalFloat(GetArea(OBJECT_SELF), ACR_QST_INFESTATION_CR);
     ACR_GenerateLoot(oLootBag, FloatToInt(nLootBase * PCCount * fMult), FloatToInt(nLootBase * fMult), ACR_ITEMS_CSHARP_GENERATE_LOOT);
     DegradeInfestationArea(sInfestName);
 }
