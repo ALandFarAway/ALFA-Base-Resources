@@ -53,7 +53,8 @@ void main()
     {
         nBonus = 5;
     }
-    int nLoss = d6() + nBonus;
+    int nRoll = d6();
+    int nLoss = nRoll + nBonus;
 
     if (spellsIsTarget(oTarget, SPELL_TARGET_STANDARDHOSTILE, OBJECT_SELF))
     {
@@ -77,7 +78,7 @@ void main()
                 }
                 if (nMetaMagic == METAMAGIC_EMPOWER)
                 {
-                     nLoss = nLoss + (nLoss/2);
+                     nLoss = nRoll + (nRoll/2) + nBonus;
                 }
                 if (nMetaMagic == METAMAGIC_EXTEND)
                 {
