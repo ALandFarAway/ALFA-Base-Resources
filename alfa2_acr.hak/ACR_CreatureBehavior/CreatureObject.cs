@@ -53,7 +53,10 @@ namespace ACR_CreatureBehavior
             IsAIControlled = true;
             foreach(uint NearbyCreatureId in Script.GetObjectsInShape(CLRScriptBase.SHAPE_SPHERE, 25.0f, Script.GetLocation(this.ObjectId), true, CLRScriptBase.OBJECT_TYPE_CREATURE, Script.Vector(0.0f,0.0f,0.0f)))
             {
-                if (Script.GetFactionEqual(this.ObjectId, NearbyCreatureId) == CLRScriptBase.TRUE)
+                // It's possible that we're friendly with folk who aren't in our faction-- like if 
+                // we've been set as defenders and these guys are commoners.
+                if (Script.GetReputation(this.ObjectId, NearbyCreatureId) > 75 ||
+                    Script.GetFactionEqual(this.ObjectId, NearbyCreatureId) == CLRScriptBase.TRUE)
                 {
                     CreatureObject NearbyCreature = Server.ObjectManager.GetCreatureObject(NearbyCreatureId, true);
                     if (NearbyCreature != null && NearbyCreature.Party != null)
@@ -434,6 +437,7 @@ namespace ACR_CreatureBehavior
         private void OnPerceptionSeenObject(uint PerceivedObjectId,
             bool InitialDetection)
         {
+            if (Script.GetObjectType(PerceivedObjectId) != CLRScriptBase.OBJECT_TYPE_CREATURE) return;
             CreatureObject SeenObject = Server.ObjectManager.GetCreatureObject(PerceivedObjectId, true);
             
 //===== If we just started seeing this person again, we need to process memberships. ====//
@@ -483,6 +487,7 @@ namespace ACR_CreatureBehavior
         private void OnPerceptionHeardObject(uint PerceivedObjectId,
             bool InitialDetection)
         {
+            if (Script.GetObjectType(PerceivedObjectId) != CLRScriptBase.OBJECT_TYPE_CREATURE) return;
             CreatureObject SeenObject = Server.ObjectManager.GetCreatureObject(PerceivedObjectId, true);
 
 //===== If we just started hearing this person again, we need to process memberships. ====//
@@ -536,6 +541,7 @@ namespace ACR_CreatureBehavior
         {
             if (Party == null) return; // Creature hasn't initialized as spawned yet; thus, there's nothing
                                        // tracked as already existing.
+            if (Script.GetObjectType(PerceivedObjectId) != CLRScriptBase.OBJECT_TYPE_CREATURE) return;
             CreatureObject SeenObject = Server.ObjectManager.GetCreatureObject(PerceivedObjectId, true);
 
 //===== If we've actually lost this creature, we need to populate missing lists. ====//
@@ -892,8 +898,11 @@ namespace ACR_CreatureBehavior
                 UsingEndCombatRound = false;
                 CreatureObject Healer = Party.GetNearest(this, Party.PartyMedics);
                 // Everyone gather around the healer; he or she might be using mass heals.
-                if (Healer != null)
+                if (Healer != null && Healer != this)
+                {
                     Script.ActionMoveToObject(Healer.ObjectId, CLRScriptBase.TRUE, 1.0f);
+                    return;
+                }
                 if (TacticsType == AIParty.AIType.BEHAVIOR_TYPE_MEDIC &&
                     CurrentAction == CLRScriptBase.ACTION_INVALID)
                 {
@@ -905,6 +914,9 @@ namespace ACR_CreatureBehavior
                 }
                 else
                     TryToHeal(this, nMissingHitPoints);
+
+                _AmbientBehavior();
+                return;
             }
 
             // Are we in critical condition?
@@ -915,26 +927,25 @@ namespace ACR_CreatureBehavior
                     Healer = Party.GetNearest(this, Party.PartyBuffs);
                 if (Healer != null && Healer != this)
                 {
-                    if(Script.GetDistanceBetween(Healer.ObjectId, this.ObjectId) > 5.0f)
+                    if (Script.GetDistanceBetween(Healer.ObjectId, this.ObjectId) > 5.0f)
+                    {
                         Script.ActionMoveToObject(Healer.ObjectId, CLRScriptBase.TRUE, 1.0f);
-                    if(TryToHeal(this, nMissingHitPoints))
+                        TryToHeal(this, nMissingHitPoints);
                         return;
+                    }
                 }
                 else if (Party.PartyLeader != null && Party.PartyLeader != this)
                 {
                     Healer = Party.PartyLeader;
                     if (Script.GetDistanceBetween(Healer.ObjectId, this.ObjectId) > 5.0f)
+                    {
                         Script.ActionMoveToObject(Healer.ObjectId, CLRScriptBase.TRUE, 1.0f);
-                    if(TryToHeal(this, nMissingHitPoints))
+                        TryToHeal(this, nMissingHitPoints);
                         return;
+                    }
                 }
-                else
-                {
-                    if (TryToHeal(this, nMissingHitPoints))
-                        return;
-                }
-
-                if (TryToHeal(this, nMissingHitPoints)) return;
+                if (TryToHeal(this, nMissingHitPoints))
+                    return;
             }
 
             #region Early Returns: Mindless
@@ -2094,13 +2105,15 @@ namespace ACR_CreatureBehavior
             foreach (CreatureObject enemy in Party.EnemySoftTargets)
             {
                 if (Script.LineOfSightObject(this.ObjectId, enemy.ObjectId) == CLRScriptBase.TRUE)
-                    killObject = enemy;
-                Vector3 loc = Script.GetPosition(enemy.ObjectId);
-                float diff = ((loc.x - myLoc.x) * (loc.x - myLoc.x)) + ((loc.y - myLoc.y) * (loc.y - myLoc.y));
-                if(diff < 25.0f)
                 {
-                    // We're too close to this enemy to rely on ranged combat.
-                    return false;
+                    killObject = enemy;
+                    Vector3 loc = Script.GetPosition(enemy.ObjectId);
+                    float diff = ((loc.x - myLoc.x) * (loc.x - myLoc.x)) + ((loc.y - myLoc.y) * (loc.y - myLoc.y));
+                    if (diff < 5.0f)
+                    {
+                        // We appear to be in melee range; probably unwise to shoot.
+                        return false;
+                    }
                 }
             }
             if (killObject == null)
@@ -2108,13 +2121,15 @@ namespace ACR_CreatureBehavior
                 foreach (CreatureObject enemy in Party.Enemies)
                 {
                     if (Script.LineOfSightObject(this.ObjectId, enemy.ObjectId) == CLRScriptBase.TRUE)
-                        killObject = enemy;
-                    Vector3 loc = Script.GetPosition(enemy.ObjectId);
-                    float diff = ((loc.x - myLoc.x) * (loc.x - myLoc.x)) + ((loc.y - myLoc.y) * (loc.y - myLoc.y));
-                    if (diff < 25.0f)
                     {
-                        // We're too close to this enemy to rely on ranged combat.
-                        return false;
+                        killObject = enemy;
+                        Vector3 loc = Script.GetPosition(enemy.ObjectId);
+                        float diff = ((loc.x - myLoc.x) * (loc.x - myLoc.x)) + ((loc.y - myLoc.y) * (loc.y - myLoc.y));
+                        if (diff < 5.0f)
+                        {
+                            // We appear to be in melee range; probably unwise to shoot.
+                            return false;
+                        }
                     }
                 }
             }
@@ -2184,7 +2199,7 @@ namespace ACR_CreatureBehavior
             }
             if (finalTarget == null &&
                 Script.GetIsObjectValid(Script.GetAttackTarget(this.ObjectId)) == CLRScriptBase.TRUE)
-                    finalTarget = Server.ObjectManager.GetCreatureObject(Script.GetAttackTarget(this.ObjectId), true);
+                    finalTarget = Server.ObjectManager.GetCreatureObject(Script.GetAttackTarget(this.ObjectId), false);
             if(finalTarget == null)
                 finalTarget = Party.GetNearest(this, Party.Enemies);
             if(finalTarget == null)
@@ -3005,7 +3020,5 @@ namespace ACR_CreatureBehavior
         const string EFFECT_PHYSICAL = "_EFFECT_PHYSICAL";
         const string EFFECT_DAMAGE = "_EFFECT_DAMAGE";
         #endregion
-
-        bool debug = true;
     }
 }
