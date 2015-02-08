@@ -426,6 +426,15 @@ namespace ACR_CreatureBehavior
             }
         }
 
+        public void DropParty()
+        {
+            if (Party != null)
+            {
+                Party.RemovePartyMember(this);
+            }
+            new AIParty(Server.PartyManager).AddPartyMember(this);
+        }
+
         /// <summary>
         /// Called when an object first sees an object.
         /// </summary>

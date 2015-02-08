@@ -66,6 +66,7 @@ const int CREATUREBEHAVIOR_CREATURE_ON_HEARTBEAT = 9;
 const int CREATUREBEHAVIOR_CREATURE_ON_RESTED = 10;
 const int CREATUREBEHAVIOR_CREATURE_ON_PERCEPTION = 11;
 const int CREATUREBEHAVIOR_CREATURE_ON_USER_DEFINED = 12;
+const int CREATUREBEHAVIOR_CREATURE_DROP_PARTY = 13;
             
 const int CREATUREBEHAVIOR_MODULE_ON_STARTED = 100;
 
@@ -561,6 +562,16 @@ void ACR_CreatureOnUserDefined()
     	// still call the Obsidian script for AI for now.
     	ExecuteScript("nw_c2_defaultd", OBJECT_SELF);
 	}
+}
+
+void ACR_CreatureDropParty()
+{
+    if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+    {
+        ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_DROP_PARTY);
+        return;
+    }
 }
 
 void ACR_CreatureIdentify(object oPC, object oTarget)

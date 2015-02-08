@@ -164,6 +164,14 @@ namespace ACR_CreatureBehavior
                     }
                     break;
 
+                case EVENT_TYPE.CREATURE_DROP_PARTY:
+                    {
+                        CreatureObject Creature = Server.ObjectManager.GetCreatureObject(OBJECT_SELF, false);
+                        if(Creature != null)
+                            Creature.DropParty();
+                    }
+                    break;
+
                 case EVENT_TYPE.MODULE_ON_STARTED:
                     {
                         //
@@ -227,6 +235,7 @@ namespace ACR_CreatureBehavior
             CREATURE_ON_RESTED = 10,
             CREATURE_ON_PERCEPTION = 11,
             CREATURE_ON_USER_DEFINED = 12,
+            CREATURE_DROP_PARTY = 13,
             
             MODULE_ON_STARTED = 100,
 
