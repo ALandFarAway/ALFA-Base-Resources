@@ -39,11 +39,11 @@
 // *** BEGIN PUBLIC FUNCTIONS ***
 ////////////////////////////////////////////////////////////////////////////////
 
-void main(string sNotifyEvent, string sRowName, string sNotifyWindow, string sNotifyMessage)
+void main(string sNotifyEvent, string sRowName, string sNotifyWindow, string sNotifyMessage, string sOKCB, string sCancelCB, string sOKTest, string sCancelText)
 {
     if(sNotifyEvent == NOTIFY_EVENT_CLICKED_TICKER)
     {
-        HandleRowClick( OBJECT_SELF, sRowName, sNotifyWindow, sNotifyMessage);
+        HandleRowClick( OBJECT_SELF, sRowName, sNotifyWindow, sNotifyMessage, sOKCB, sCancelCB, sOKTest, sCancelText);
         return;
     }
 }
