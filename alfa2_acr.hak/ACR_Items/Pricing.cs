@@ -7525,7 +7525,9 @@ namespace ACR_Items
                     case ITEM_PROPERTY_IMMUNITY_SPECIFIC_SPELL:
                         {
                             float spellLevel = 0.0f;
-                            float.TryParse(script.Get2DAString("spells", "Innate", script.GetItemPropertyCostTableValue(prop.Property)), out spellLevel);
+                            int SpellIndex = 0;
+                            int.TryParse(script.Get2DAString("iprp_spellcost", "Innate", script.GetItemPropertyCostTableValue(prop.Property)), out SpellIndex);
+                            float.TryParse(script.Get2DAString("spells", "Innate", SpellIndex), out spellLevel);
                             if (spellLevel < 0.5f)
                             {
                                 spellLevel = 0.5f;
