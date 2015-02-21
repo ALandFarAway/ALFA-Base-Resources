@@ -1805,6 +1805,7 @@ object _SpawnObject(string sResRef, int nObjectType, object oWP, location lLoc, 
 		vector vPos = GetPositionFromLocation(lLoc);
 		_PassToCSharp(TRAP_EVENT_CREATE_GENERIC, vPos.x, vPos.y, vPos.z, GetAreaFromLocation(lLoc), -1, -1, -1.0f, -1, -1, -1, -1, -1, 1, OBJECT_INVALID, ALIGNMENT_ALL, RACIAL_TYPE_ALL, 1, -1, -1, sResRef);
 		_AddTrapToSpawnPoint(oWP, GetLocalString(GetModule(), "ACR_TRAPS_LAST_TAG"));
+		oSpawned = GetObjectByTag(GetLocalString(GetModule(), "ACR_TRAPS_LAST_TAG"));
 	}
 	else
 	{
@@ -1869,20 +1870,19 @@ object _SpawnObject(string sResRef, int nObjectType, object oWP, location lLoc, 
 		// Set the faction.
 		// FIX ME !! Come NWN2.
 		// string sSpawnFaction = GetLocalString(oWP, _WP_SPAWN_FACTION);
-
-		// Run the spawn-in scripts, if any.
-		int i = 1;
-		while(1) {
-			string sScript = GetLocalString(oWP, _WP_SPAWN_IN_SCRIPT_ARRAY + IntToString(i));
-			if(sScript == "") {
-				break;
-			}
-			ExecuteScript(sScript, oSpawned);
-			i++;
-		}
-
-		_AddObjectToSpawnPoint(oWP, oSpawned);
 	}
+	
+	// Run the spawn-in scripts, if any.
+	int i = 1;
+	while(1) {
+		string sScript = GetLocalString(oWP, _WP_SPAWN_IN_SCRIPT_ARRAY + IntToString(i));
+		if(sScript == "") {
+			break;
+		}
+		ExecuteScript(sScript, oSpawned);
+		i++;
+	}
+	_AddObjectToSpawnPoint(oWP, oSpawned);
 
     // Spit debug information to logfile
     if (GetLocalInt(GetModule(), ACR_LOG_SPAWNS)) {
