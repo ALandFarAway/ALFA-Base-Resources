@@ -919,32 +919,18 @@ void ACR_DeathOnPCLoaded(object oPC)
     }
 }
 
-void ACR_RestoreCorpsesOnModuleLoad()
+int _RestoreCorpse(int nDecayed)
 {
-	location lLocation;
-	string sDatabaseName, sCorpseName, sTag, sCID;
-	int nStatus, nDecayed, nPID;
-	object oCorpse, oItem, oNewBody, oDeathMod = GetModule();	
-	// create the debug system ID for reporting if it doesn't exist
-	ACR_CreateDebugSystem(ACR_DTH_DEBUG_ID, DEBUG_TARGET_TALK, DEBUG_TARGET_LOG, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS);
-	
-	// retrieve all the records of dead players with corpses in the game world
-	//  - only pull those that corrspond with the current server.
-	//ACR_SQLQuery("SELECT d1.Name, d1.Tag, d1.Value, d2.Value FROM pwdata as d1, pwdata as d2 WHERE d1.`Key`='" + ACR_DTH_LOCATION + "' and d1.Name=d2.Name and d1.Tag=d2.Tag and d2.`Key`='" + ACR_PLAYER_FLAGS + "' and d2.Value | " + IntToString(ACR_PLAYER_FLAG_DEAD));
-	ACR_SQLQuery("SELECT pwdata.Name, pwdata.Tag, pwdata.Value, characters.ID, characters.Status, characters.PlayerID FROM characters JOIN players on players.ID=characters.PlayerID JOIN pwdata on pwdata.Name=characters.Name WHERE pwdata.Tag=players.CDKey and pwdata.`Key`='" + ACR_DTH_LOCATION + "' and characters.ServerID = '"+IntToString(ACR_GetServerId())+"' and characters.Status = characters.Status | " + IntToString(ACR_PLAYER_FLAG_DEAD));
-
-	// loop through all the bodies at the morgue and recreate their corpses in the world
-	while (ACR_SQLFetch() == SQL_SUCCESS)
-	{
 		// DO NOT RUN ANOTHER QUERY IN THIS WHILE LOOP - IT WILL RESET THE RESULTS
-		
-		// get the last resting place of the corpse
-		lLocation = ACR_StringToLocation(ACR_SQLGetData(2));
+		object oCorpse, oItem, oNewBody, oDeathMod = GetModule();	
+		int nStatus, nPID;
+		string sDatabaseName, sCorpseName, sTag, sCID;
+		location lLocation = ACR_StringToLocation(ACR_SQLGetData(2));
 
 		// ignore locations that are not valid - corpses in PC inventories should be left alone
 		// corpses traveling in PC inventories will be recreated when the bodies are put down
 		if (!GetIsObjectValid(GetAreaFromLocation(lLocation)))
-			continue;
+			return nDecayed;
 
 		sTag = ACR_SQLGetData(1); sCID = ACR_SQLGetData(3); nStatus = StringToInt(ACR_SQLGetData(4)); nPID = StringToInt(ACR_SQLGetData(5));
 		
@@ -987,14 +973,42 @@ void ACR_RestoreCorpsesOnModuleLoad()
 		}
 
 
-		object oNewBody = CreateItemOnObject(ACR_DTH_BODY_RESREF, oCorpse, 1, sTag);
+		oNewBody = CreateItemOnObject(ACR_DTH_BODY_RESREF, oCorpse, 1, sTag);
 		// set the name, description, and database
 		SetFirstName(oNewBody, GetName(oCorpse)); SetDescription(oNewBody, GetDescription(oCorpse));
 		ACR_SetDatabaseName(oNewBody, sDatabaseName);
 
 		// set the character ID on the corpse and token (for setting/clearing status flags)
 		ACR_SetCharacterID(oNewBody, ACR_GetCharacterID(oCorpse), ACR_GetPlayerID(oCorpse));
+		
+		return nDecayed;
+}
 
+void ACR_RestoreCorpsesOnModuleLoad()
+{
+	int nDecayed = 0;
+	object oCorpse, oDeathMod = GetModule();	
+	// create the debug system ID for reporting if it doesn't exist
+	ACR_CreateDebugSystem(ACR_DTH_DEBUG_ID, DEBUG_TARGET_TALK, DEBUG_TARGET_LOG, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS);
+	
+	// retrieve all the records of dead players with corpses in the game world
+	//  - only pull those that corrspond with the current server.
+	//ACR_SQLQuery("SELECT d1.Name, d1.Tag, d1.Value, d2.Value FROM pwdata as d1, pwdata as d2 WHERE d1.`Key`='" + ACR_DTH_LOCATION + "' and d1.Name=d2.Name and d1.Tag=d2.Tag and d2.`Key`='" + ACR_PLAYER_FLAGS + "' and d2.Value | " + IntToString(ACR_PLAYER_FLAG_DEAD));
+	ACR_SQLQuery("SELECT pwdata.Name, pwdata.Tag, pwdata.Value, characters.ID, characters.Status, characters.PlayerID FROM characters JOIN players on players.ID=characters.PlayerID JOIN pwdata on pwdata.Name=characters.Name WHERE pwdata.Tag=players.CDKey and pwdata.`Key`='" + ACR_DTH_LOCATION + "' and characters.ServerID = '"+IntToString(ACR_GetServerId())+"' and characters.Status = characters.Status | " + IntToString(ACR_PLAYER_FLAG_DEAD));
+  
+  if(ACR_SQLFetch() == SQL_SUCCESS)
+  {
+    nDecayed = _RestoreCorpse(nDecayed);
+  }
+  else
+  {
+    DelayCommand(120.0f, ACR_RestoreCorpsesOnModuleLoad());
+    return;
+  }
+	// loop through all the bodies at the morgue and recreate their corpses in the world
+	while (ACR_SQLFetch() == SQL_SUCCESS)
+	{
+     nDecayed = _RestoreCorpse(nDecayed);
 	}
 
 	// now, go back and delete locations for any decayed corpses.
