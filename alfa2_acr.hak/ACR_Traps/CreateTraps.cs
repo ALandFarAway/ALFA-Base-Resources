@@ -77,7 +77,7 @@ namespace ACR_Traps
                 0.0f);
 
             script.ApplyEffectAtLocation(DURATION_TYPE_PERMANENT,
-                script.SupernaturalEffect(script.EffectAreaOfEffect(triggerAreaToDetectArea(triggerArea), "acr_trapdtctenter", "****", "acr_trapdtctexit", tag)),
+                script.SupernaturalEffect(script.EffectAreaOfEffect(triggerAreaToDetectArea(triggerArea), "acr_trapdtctenter", "****", "acr_trapdtctexit", detectTag)),
                 location,
                 0.0f);
 
@@ -105,10 +105,41 @@ namespace ACR_Traps
             createdTrap.ConfigureDisplayName();
             createdTrap.CalculateCR();
 
+            if (script.GetIsObjectValid(createdTrap.TrapOrigin) == CLRScriptBase.FALSE)
+            {
+                createdTrap.TrapOrigin = GetNearestTrapEmitter(script, location);
+            }
+
             ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect.Add(detectTag, createdTrap);
             ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers.Add(tag, createdTrap);
 
             script.SetLocalString(script.GetModule(), "ACR_TRAPS_LAST_TAG", tag);
+        }
+
+        private static uint GetNearestTrapEmitter(CLRScriptBase script, NWLocation loc)
+        {
+            float nearestDist = -1.0f;
+            uint nearestObject = CLRScriptBase.OBJECT_INVALID;
+            Vector3 trapPos = script.GetPositionFromLocation(loc);
+            foreach(uint obj in script.GetObjectsInArea(script.GetAreaFromLocation(loc)))
+            {
+                if(script.GetObjectType(obj) == OBJECT_TYPE_PLACEABLE &&
+                   script.GetTag(obj) == "TRAP_EMITTER")
+                {
+                    Vector3 emitterPos = script.GetPosition(obj);
+                    float newDist = (trapPos.x - emitterPos.x)*(trapPos.x - emitterPos.x)+(trapPos.y - emitterPos.y)*(trapPos.y - emitterPos.y);
+                    if(nearestDist < 0 || nearestDist > newDist)
+                    {
+                        nearestDist = newDist;
+                        nearestObject = obj;
+                    }
+                }
+            }
+            if(script.GetIsObjectValid(nearestObject) == CLRScriptBase.FALSE)
+            {
+                nearestObject = script.CreateObject(CLRScriptBase.OBJECT_TYPE_PLACEABLE, "TRAP_EMITTER", loc, CLRScriptBase.FALSE, "");
+            }
+            return nearestObject;
         }
 
         /// <summary>
