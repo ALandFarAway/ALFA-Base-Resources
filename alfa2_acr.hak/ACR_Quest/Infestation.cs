@@ -1,6 +1,4 @@
-﻿#define DEBUG
-
-using ALFA;
+﻿using ALFA;
 using ALFA.Shared;
 using System;
 using System.Collections.Generic;

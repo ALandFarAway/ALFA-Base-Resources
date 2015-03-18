@@ -201,6 +201,157 @@ namespace ACR_Quest
                         SendMessageToAllDMs(inf.ToString());
                     }
                     break;
+                case Command.InstanceDungeon:
+                    if (DungeonStore.Dungeons.ContainsKey(name)) return 0;
+                    DungeonStore.FindAvailableAreas(template);
+                    RandomDungeon dung = new RandomDungeon(template, state, state, this);
+                    dung.retLoc = GetLocation(OBJECT_SELF);
+                    DungeonStore.Dungeons.Add(name, dung);
+                    break;
+                case Command.EnterDungeon:
+                    if (DungeonStore.Dungeons.ContainsKey(name))
+                    {
+                        SendMessageToAllDMs("Jumping to area");
+                        RandomDungeon dungeon = DungeonStore.Dungeons[name];
+                        RandomDungeonArea enter = dungeon.GetEntranceArea();
+                        enter.LoadArea(this);
+                        enter.TransitionToArea(this, enter.DungeonExit);
+                    }
+                    break;
+                case Command.DungeonTransitionNorth:
+                    if (DungeonStore.Dungeons.ContainsKey(name))
+                    {
+                        RandomDungeon dungeon = DungeonStore.Dungeons[name];
+                        RandomDungeonArea current = dungeon.GetCurrentArea(this);
+                        if (current == null) return 0;
+                        if (current.DungeonExit == ExitDirection.North)
+                        {
+                            JumpToLocation(dungeon.retLoc);
+                            return 0;
+                        }
+                        RandomDungeonArea target = dungeon.GetAdjacentArea(this, ExitDirection.North, current);
+                        target.LoadArea(this);
+                        target.TransitionToArea(this, ExitDirection.South);
+                    }
+                    break;
+                case Command.DungeonTransitionEast:
+                    if (DungeonStore.Dungeons.ContainsKey(name))
+                    {
+                        RandomDungeon dungeon = DungeonStore.Dungeons[name];
+                        RandomDungeonArea current = dungeon.GetCurrentArea(this);
+                        if (current == null) return 0;
+                        if (current.DungeonExit == ExitDirection.East)
+                        {
+                            JumpToLocation(dungeon.retLoc);
+                            return 0;
+                        }
+                        RandomDungeonArea target = dungeon.GetAdjacentArea(this, ExitDirection.East, current);
+                        target.LoadArea(this);
+                        target.TransitionToArea(this, ExitDirection.West);
+                    }
+                    break;
+                case Command.DungeonTransitionSouth:
+                    if (DungeonStore.Dungeons.ContainsKey(name))
+                    {
+                        RandomDungeon dungeon = DungeonStore.Dungeons[name];
+                        RandomDungeonArea current = dungeon.GetCurrentArea(this);
+                        if (current == null) return 0;
+                        if (current.DungeonExit == ExitDirection.South)
+                        {
+                            JumpToLocation(dungeon.retLoc);
+                            return 0;
+                        }
+                        RandomDungeonArea target = dungeon.GetAdjacentArea(this, ExitDirection.South, current);
+                        target.LoadArea(this);
+                        target.TransitionToArea(this, ExitDirection.North);
+                    }
+                    break;
+                case Command.DungeonTransitionWest:
+                    if (DungeonStore.Dungeons.ContainsKey(name))
+                    {
+                        RandomDungeon dungeon = DungeonStore.Dungeons[name];
+                        RandomDungeonArea current = dungeon.GetCurrentArea(this);
+                        if (current == null) return 0;
+                        if (current.DungeonExit == ExitDirection.West)
+                        {
+                            JumpToLocation(dungeon.retLoc);
+                            return 0;
+                        }
+                        RandomDungeonArea target = dungeon.GetAdjacentArea(this, ExitDirection.West, current);
+                        target.LoadArea(this);
+                        target.TransitionToArea(this, ExitDirection.East);
+                    }
+                    break;
+                case Command.DungeonTransitionUp:
+                    if (DungeonStore.Dungeons.ContainsKey(name))
+                    {
+                        RandomDungeon dungeon = DungeonStore.Dungeons[name];
+                        RandomDungeonArea current = dungeon.GetCurrentArea(this);
+                        if (current == null) return 0;
+                        if (current.DungeonExit == ExitDirection.Up)
+                        {
+                            JumpToLocation(dungeon.retLoc);
+                            return 0;
+                        }
+                        RandomDungeonArea target = dungeon.GetAdjacentArea(this, ExitDirection.Up, current);
+                        target.LoadArea(this);
+                        target.TransitionToArea(this, ExitDirection.Down);
+                    }
+                    break;
+                case Command.DungeonTransitionDown:
+                    if (DungeonStore.Dungeons.ContainsKey(name))
+                    {
+                        RandomDungeon dungeon = DungeonStore.Dungeons[name];
+                        RandomDungeonArea current = dungeon.GetCurrentArea(this);
+                        if (current == null) return 0;
+                        if(current.DungeonExit == ExitDirection.Down)
+                        {
+                            JumpToLocation(dungeon.retLoc);
+                            return 0;
+                        }
+                        RandomDungeonArea target = dungeon.GetAdjacentArea(this, ExitDirection.Down, current);
+                        target.LoadArea(this);
+                        target.TransitionToArea(this, ExitDirection.Up);
+                    }
+                    break;
+                case Command.AddDungeonSpawn:
+                    if(!DungeonStore.DungeonSpawns.ContainsKey(name))
+                    {
+                        DungeonStore.DungeonSpawns.Add(name, new Dictionary<int, List<string>>());
+                    }
+                    if(!DungeonStore.DungeonSpawns[name].ContainsKey(state))
+                    {
+                        DungeonStore.DungeonSpawns[name].Add(state, new List<string>());
+                    }
+                    DungeonStore.DungeonSpawns[name][state].Add(template);
+                    break;
+                case Command.RemoveDungeonSpawn:
+                    if(DungeonStore.DungeonSpawns.ContainsKey(name) &&
+                       DungeonStore.DungeonSpawns[name].ContainsKey(state) &&
+                       DungeonStore.DungeonSpawns[name][state].Contains(template))
+                    {
+                        DungeonStore.DungeonSpawns[name][state].Remove(template);
+                    }
+                    break;
+                case Command.SetDungeonSpawnType:
+                    if (DungeonStore.Dungeons.ContainsKey(name))
+                    {
+                        foreach(RandomDungeonArea area in DungeonStore.Dungeons[name].AreasOfDungeon)
+                        {
+                            area.SpawnType = template;
+                        }
+                    }
+                    break;
+                case Command.PrintDungeons:
+                    foreach(KeyValuePair<string, RandomDungeon> dungeon in DungeonStore.Dungeons)
+                    {
+                        SendMessageToAllDMs(dungeon.Key);
+                        foreach(RandomDungeonArea area in dungeon.Value.AreasOfDungeon)
+                        {
+                            SendMessageToAllDMs(GetName(area.TemplateAreaId) + " : " + GetName(area.AreaId));
+                        }
+                    }
+                    break;
             }
             return 0;
         }
@@ -221,6 +372,19 @@ namespace ACR_Quest
             UpgradeInfestationCreatureTier = 11,
             DowngradeInfestationCreatureTier = 12,
 
+            InstanceDungeon = 100,
+            EnterDungeon = 101,
+            DungeonTransitionNorth = 102,
+            DungeonTransitionEast = 103,
+            DungeonTransitionSouth = 104,
+            DungeonTransitionWest = 105,
+            DungeonTransitionUp = 106,
+            DungeonTransitionDown = 107,
+            AddDungeonSpawn = 108,
+            RemoveDungeonSpawn = 109,
+            SetDungeonSpawnType = 110,
+
+            PrintDungeons = 998,
             PrintInfestations = 999,
         }
 

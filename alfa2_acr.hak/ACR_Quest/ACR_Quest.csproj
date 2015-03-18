@@ -51,6 +51,8 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ACR_Quest.cs" />
     <Compile Include="Infestation.cs" />
+    <Compile Include="RandomDungeon.cs" />
+    <Compile Include="RandomDungeonArea.cs" />
     <Compile Include="Spawn.cs" />
     <Compile Include="StandardEntrypoints.cs" />
   </ItemGroup>
