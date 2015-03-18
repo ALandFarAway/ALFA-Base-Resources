@@ -130,6 +130,18 @@ const int ACR_QsT_CLR_COMMAND_POPULATE_GUI = 10;
 const int ACR_QST_CLR_COMMAND_CREAT_TIER_UP = 11;
 const int ACR_QST_CLR_COMMAND_CREAT_TIER_DOWN = 12;
 
+const int ACR_QST_CLR_COMMAND_DUNG_NEW = 100;
+const int ACR_QST_CLR_COMMAND_DUNG_ENTER = 101;
+const int ACR_QST_CLR_COMMAND_DUNG_GO_NORTH = 102;
+const int ACR_QST_CLR_COMMAND_DUNG_GO_EAST = 103;
+const int ACR_QST_CLR_COMMAND_DUNG_GO_SOUTH = 104;
+const int ACR_QST_CLR_COMMAND_DUNG_GO_WEST = 105;
+const int ACR_QST_CLR_COMMAND_DUNG_GO_UP = 106;
+const int ACR_QST_CLR_COMMAND_DUNG_GO_DOWN = 107;
+const int ACR_QST_CLR_COMMAND_DUNG_ADD_SPAWN = 108;
+const int ACR_QST_CLR_COMMAND_DUNG_REMOVE_SPAWN = 109;
+const int ACR_QST_CLR_COMMAND_DUNG_SET_SPAWN = 110;
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -266,8 +278,43 @@ void RemoveInfestationBoss(string sName, string sBoss);
 //! with information about this area's infestation.
 void PopulateInfestationGui();
 
+//! A function that will create a new random dungeon.
+//! - dungeonName: the unique identifier used for the dungeon.
+//! - dungeonTileset: the prefix used by all of the template areas
+//! - CR: the challenge rating of the most-dangerous area of the dungeon.
+void CreateRandomDungeon(string dungeonName, string dungeonTileset, int CR);
+
+//! A function that will add a single spawn at a given CR to a given table.
+//! - tableName: the name of the spawn table
+//! - CR: the CR to add the creature at
+//! - creatureTemplate: the resource name of the creature to be used in the table
+void AddSpawnToDungeonTable(string tableName, int CR, string creatureTemplate);
+
+//! A function that will remove a single spawn from a given CR from a given table
+//! - tableName: the name of the spawn table
+//! - CR: the CR to remove the creature from
+//! - creatureTemplate: the resource name of the creature to remove
+void RemoveSpawnFromDungeonTable(string tableName, int CR, string creatureTemplate);
+
+//! A function that will cause a dungeon to begin to use a specific spawn table
+//! - dungeonName: the unique identifier used for the dungeon
+//! - tableName: the name of the spawn table
+void AssignSpawnTableToDungeon(string dungeonName, string tableName);
+
+//! A function that will send a creature to a random dungeon, starting at the
+//! entrance area.
+//! - creature: the creature to send
+//! - dungeonName: the dungeon to send the creature to
+void SendCreatureToDungeon(object creature, string dungeonName);
+
+//! A function that sends a creature through an area transition inside of a random dungeon
+//! - creature: the creature to send
+//! - dungeonName: the dungeon to send the creature through
+//! - direction: the direction, using const int ACR_QST_CLR_COMMAND_DUNG_GO_* constants
+void SendCreatureThroughDungeonTransition(object creature, string dungeonName, int direction);
+
 //!  A generic NWscript wrapper for the CLRScript project.
-void _callQuestCLRScript(int command, string name, int state, string template);
+void _callQuestCLRScript(int command, string name, int state, string template, object scriptTarget=OBJECT_SELF);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
@@ -938,14 +985,44 @@ void DecreaseInfestationCreatureTier(string sName, string sCreature, int nTier)
     _callQuestCLRScript(ACR_QST_CLR_COMMAND_CREAT_TIER_DOWN, sName, nTier, sCreature);
 }
 
-void _callQuestCLRScript(int command, string name, int state, string template)
+void CreateRandomDungeon(string dungeonName, string dungeonTileset, int CR)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_DUNG_NEW, dungeonName, CR, dungeonTileset);
+}
+
+void AddSpawnToDungeonTable(string tableName, int CR, string creatureTemplate)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_DUNG_ADD_SPAWN, tableName, CR, creatureTemplate);
+}
+
+void RemoveSpawnFromDungeonTable(string tableName, int CR, string creatureTemplate)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_DUNG_REMOVE_SPAWN, tableName, CR, creatureTemplate);
+}
+
+void AssignSpawnTableToDungeon(string dungeonName, string tableName)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_DUNG_REMOVE_SPAWN, dungeonName, 0, tableName);
+}
+
+void SendCreatureToDungeon(object creature, string dungeonName)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_DUNG_ENTER, dungeonName, 0, "", creature);
+}
+
+void SendCreatureThroughDungeonTransition(object creature, string dungeonName, int direction)
+{
+    _callQuestCLRScript(direction, dungeonName, 0, "", creature);
+}
+
+void _callQuestCLRScript(int command, string name, int state, string template, object scriptTarget=OBJECT_SELF)
 {
     ClearScriptParams();
     AddScriptParameterInt(command);
     AddScriptParameterString(name);
     AddScriptParameterInt(state);
     AddScriptParameterString(template);
-    ExecuteScriptEnhanced("ACR_Quest", OBJECT_SELF, TRUE);
+    ExecuteScriptEnhanced("ACR_Quest", scriptTarget, TRUE);
 }
 
 #endif
