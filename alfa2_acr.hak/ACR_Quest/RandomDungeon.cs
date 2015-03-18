@@ -26,7 +26,7 @@ namespace ACR_Quest
 
         Random rnd = new Random();
 
-        public RandomDungeon(string areaPrefix, int areasToGenerate, int cr, CLRScriptBase script)
+        public RandomDungeon(string areaPrefix, int areasToGenerate, int cr, string name, CLRScriptBase script)
         {
             CR = cr;
             DungeonStore.FindAvailableAreas(areaPrefix);
@@ -60,6 +60,7 @@ namespace ACR_Quest
             RandomDungeonArea template = sourceAreas[rnd.Next(sourceAreas.Count)];
             RandomDungeonArea toAdd = new RandomDungeonArea();
             toAdd.TemplateAreaId = template.AreaId;
+            toAdd.DungeonName = name;
             toAdd.AreaExits = new List<ExitDirection>();
             toAdd.AreaExits.AddRange(template.AreaExits);
             toAdd.DungeonExit = toAdd.AreaExits[rnd.Next(toAdd.AreaExits.Count)];
@@ -250,6 +251,7 @@ namespace ACR_Quest
                     toAdd = new RandomDungeonArea();
                     template = sourceAreas[rnd.Next(sourceAreas.Count)];
                     toAdd.TemplateAreaId = template.AreaId;
+                    toAdd.DungeonName = name;
                     toAdd.AreaExits = new List<ExitDirection>();
                     toAdd.AreaExits.AddRange(template.AreaExits);
                     toAdd.DungeonExit = toAdd.AreaExits[rnd.Next(toAdd.AreaExits.Count)];
@@ -318,6 +320,7 @@ namespace ACR_Quest
                         toAdd.Y = Y;
                         toAdd.Z = Z;
                         toAdd.TemplateAreaId = template.AreaId;
+                        toAdd.DungeonName = name;
                         toAdd.AreaExits = new List<ExitDirection>();
                         toAdd.AreaExits.AddRange(template.AreaExits);
                         toAdd.DungeonExit = toAdd.AreaExits[rnd.Next(toAdd.AreaExits.Count)];

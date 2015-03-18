@@ -670,6 +670,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_infestpick.ncs                    \
             $(OUTPUTDIR)\nw_s0_identify.ncs                    \
             $(OUTPUTDIR)\nw_s0_greasea.ncs                     \
+            $(OUTPUTDIR)\acr_rnddungtrans.ncs                  \
             $(OUTPUTDIR)\acr_set_player_password.ncs           
 
 #

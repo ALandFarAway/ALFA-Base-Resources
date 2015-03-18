@@ -16,6 +16,7 @@ namespace ACR_Quest
         public List<ExitDirection> AreaExits = new List<ExitDirection>();
         public Dictionary<ExitDirection, RandomDungeonArea> AdjacentAreas;
 
+        public string DungeonName = "";
         public string SpawnType = "";
         public int CR = 0;
 
@@ -46,6 +47,7 @@ namespace ACR_Quest
                 {
                     AreaId = DungeonStore.CachedAreas[TemplateAreaId][0];
                     DungeonStore.CachedAreas[TemplateAreaId].Remove(DungeonStore.CachedAreas[TemplateAreaId][0]);
+                    script.SetLocalString(AreaId, "DUNGEON_NAME", DungeonName);
                     PopulateArea(script);
                     return true;
                 }
@@ -55,6 +57,7 @@ namespace ACR_Quest
             AreaId = script.CreateInstancedAreaFromSource(TemplateAreaId);
             if(script.GetIsObjectValid(AreaId) == CLRScriptBase.TRUE)
             {
+                script.SetLocalString(AreaId, "DUNGEON_NAME", DungeonName);
                 PopulateArea(script);
                 return true;
             }

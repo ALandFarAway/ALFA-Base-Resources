@@ -204,7 +204,7 @@ namespace ACR_Quest
                 case Command.InstanceDungeon:
                     if (DungeonStore.Dungeons.ContainsKey(name)) return 0;
                     DungeonStore.FindAvailableAreas(template);
-                    RandomDungeon dung = new RandomDungeon(template, state, state, this);
+                    RandomDungeon dung = new RandomDungeon(template, state, state, name, this);
                     dung.retLoc = GetLocation(OBJECT_SELF);
                     DungeonStore.Dungeons.Add(name, dung);
                     break;
