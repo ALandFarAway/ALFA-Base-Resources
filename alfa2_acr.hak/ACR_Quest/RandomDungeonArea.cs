@@ -137,6 +137,18 @@ namespace ACR_Quest
                 }
             }
         }
+
+        public void ClearArea(CLRScriptBase script)
+        {
+            foreach(uint obj in script.GetObjectsInArea(AreaId))
+            {
+                if(script.GetObjectType(obj) == CLRScriptBase.OBJECT_TYPE_CREATURE ||
+                   script.GetObjectType(obj) == CLRScriptBase.OBJECT_TYPE_AREA_OF_EFFECT)
+                {
+                    script.DestroyObject(obj, 0.0f, CLRScriptBase.FALSE);
+                }
+            }
+        }
     }
 
     public enum ExitDirection

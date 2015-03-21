@@ -141,6 +141,7 @@ const int ACR_QST_CLR_COMMAND_DUNG_GO_DOWN = 107;
 const int ACR_QST_CLR_COMMAND_DUNG_ADD_SPAWN = 108;
 const int ACR_QST_CLR_COMMAND_DUNG_REMOVE_SPAWN = 109;
 const int ACR_QST_CLR_COMMAND_DUNG_SET_SPAWN = 110;
+const int ACR_QST_CLR_COMMAND_DUNG_DISPOSE = 111;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -312,6 +313,10 @@ void SendCreatureToDungeon(object creature, string dungeonName);
 //! - dungeonName: the dungeon to send the creature through
 //! - direction: the direction, using const int ACR_QST_CLR_COMMAND_DUNG_GO_* constants
 void SendCreatureThroughDungeonTransition(object creature, string dungeonName, int direction);
+
+//! A function that declares a random dungeon finished and returns all of its areas
+//! to the cache.
+void DisposeDungeon(string dungeonName);
 
 //!  A generic NWscript wrapper for the CLRScript project.
 void _callQuestCLRScript(int command, string name, int state, string template, object scriptTarget=OBJECT_SELF);
@@ -1013,6 +1018,11 @@ void SendCreatureToDungeon(object creature, string dungeonName)
 void SendCreatureThroughDungeonTransition(object creature, string dungeonName, int direction)
 {
     _callQuestCLRScript(direction, dungeonName, 0, "", creature);
+}
+
+void DisposeDungeon(string dungeonName)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_DUNG_DISPOSE, dungeonName, 0, "", OBJECT_SELF);
 }
 
 void _callQuestCLRScript(int command, string name, int state, string template, object scriptTarget=OBJECT_SELF)

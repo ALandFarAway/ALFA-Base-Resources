@@ -342,6 +342,14 @@ namespace ACR_Quest
                         }
                     }
                     break;
+                case Command.DisposeDungeon:
+                    if (DungeonStore.Dungeons.ContainsKey(name))
+                    {
+                        RandomDungeon toDispose = DungeonStore.Dungeons[name];
+                        toDispose.DisposeDungeon(this);
+                        DungeonStore.Dungeons.Remove(name);
+                    }
+                    break;
                 case Command.PrintDungeons:
                     foreach(KeyValuePair<string, RandomDungeon> dungeon in DungeonStore.Dungeons)
                     {
@@ -383,6 +391,7 @@ namespace ACR_Quest
             AddDungeonSpawn = 108,
             RemoveDungeonSpawn = 109,
             SetDungeonSpawnType = 110,
+            DisposeDungeon = 111,
 
             PrintDungeons = 998,
             PrintInfestations = 999,

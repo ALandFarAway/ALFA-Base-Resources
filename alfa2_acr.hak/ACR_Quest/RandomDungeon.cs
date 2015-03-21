@@ -421,6 +421,17 @@ namespace ACR_Quest
             return targetArea;
         }
 
+        public void DisposeDungeon(CLRScriptBase script)
+        {
+            foreach(RandomDungeonArea area in AreasOfDungeon)
+            {
+                area.ClearArea(script);
+                if (!DungeonStore.CachedAreas.ContainsKey(area.TemplateAreaId)) DungeonStore.CachedAreas.Add(area.TemplateAreaId, new List<uint>());
+                DungeonStore.CachedAreas[area.TemplateAreaId].Add(area.AreaId);
+            }
+            AreasOfDungeon.Clear();
+        }
+
         private RandomDungeonArea getSingleExitArea(ExitDirection exit, string prefix)
         {
             foreach(RandomDungeonArea area in DungeonStore.AvailableAreas[prefix])
