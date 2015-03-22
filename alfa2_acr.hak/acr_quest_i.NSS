@@ -142,6 +142,9 @@ const int ACR_QST_CLR_COMMAND_DUNG_ADD_SPAWN = 108;
 const int ACR_QST_CLR_COMMAND_DUNG_REMOVE_SPAWN = 109;
 const int ACR_QST_CLR_COMMAND_DUNG_SET_SPAWN = 110;
 const int ACR_QST_CLR_COMMAND_DUNG_DISPOSE = 111;
+const int ACR_QST_CLR_COMMAND_DUNG_ADD_TRAP = 112;
+const int ACR_QST_CLR_COMMAND_DUNG_REMOVE_TRAP = 113;
+const int ACR_QST_CLR_COMMAND_DUNG_SET_TRAP = 114;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -301,6 +304,23 @@ void RemoveSpawnFromDungeonTable(string tableName, int CR, string creatureTempla
 //! - dungeonName: the unique identifier used for the dungeon
 //! - tableName: the name of the spawn table
 void AssignSpawnTableToDungeon(string dungeonName, string tableName);
+
+//! A function that will add a single trap at a given CR to a given table.
+//! - tableName: the name of the trap table
+//! - CR: the CR to add the trap at
+//! - creatureTemplate: the resource name of the trap to be used in the table
+void AddTrapToDungeonTable(string tableName, int CR, string trapTemplate);
+
+//! A function that will remove a single trap from a given CR from a given table
+//! - tableName: the name of the trap table
+//! - CR: the CR to remove the trap from
+//! - creatureTemplate: the resource name of the trap to remove
+void RemoveTrapFromDungeonTable(string tableName, int CR, string trapTemplate);
+
+//! A function that will cause a dungeon to begin to use a specific trap table
+//! - dungeonName: the unique identifier used for the dungeon
+//! - tableName: the name of the trap table
+void AssignTrapTableToDungeon(string dungeonName, string tableName);
 
 //! A function that will send a creature to a random dungeon, starting at the
 //! entrance area.
@@ -1007,7 +1027,22 @@ void RemoveSpawnFromDungeonTable(string tableName, int CR, string creatureTempla
 
 void AssignSpawnTableToDungeon(string dungeonName, string tableName)
 {
-    _callQuestCLRScript(ACR_QST_CLR_COMMAND_DUNG_REMOVE_SPAWN, dungeonName, 0, tableName);
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_DUNG_SET_SPAWN, dungeonName, 0, tableName);
+}
+
+void AddTrapToDungeonTable(string tableName, int CR, string trapTemplate)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_DUNG_ADD_TRAP, tableName, CR, trapTemplate);
+}
+
+void RemoveTrapFromDungeonTable(string tableName, int CR, string trapTemplate)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_DUNG_REMOVE_TRAP, tableName, CR, trapTemplate);
+}
+
+void AssignTrapTableToDungeon(string dungeonName, string tableName)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_DUNG_SET_TRAP, dungeonName, 0, tableName);
 }
 
 void SendCreatureToDungeon(object creature, string dungeonName)

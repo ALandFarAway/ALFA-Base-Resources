@@ -457,6 +457,8 @@ namespace ACR_Quest
 
         public static Dictionary<string, Dictionary<int, List<string>>> DungeonSpawns = new Dictionary<string, Dictionary<int, List<string>>>();
 
+        public static Dictionary<string, Dictionary<int, List<string>>> DungeonTraps = new Dictionary<string, Dictionary<int, List<string>>>();
+
         public static ExitDirection GetOppositeDirection(ExitDirection original)
         {
             switch(original)

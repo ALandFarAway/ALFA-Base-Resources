@@ -18,6 +18,7 @@ namespace ACR_Quest
 
         public string DungeonName = "";
         public string SpawnType = "";
+        public string TrapType = "";
         public int CR = 0;
 
         public uint AreaId = 0;
@@ -92,7 +93,34 @@ namespace ACR_Quest
                     }
                 }
                 else if (script.GetTag(wp) == "TRAP")
-                { }
+                { 
+                    if(DungeonStore.DungeonTraps[TrapType].ContainsKey(CR))
+                    {
+                        script.ClearScriptParams();
+                        script.AddScriptParameterInt(1);
+                        script.AddScriptParameterFloat(-1.0f);
+                        script.AddScriptParameterFloat(-1.0f);
+                        script.AddScriptParameterFloat(-1.0f);
+                        script.AddScriptParameterObject(CLRScriptBase.OBJECT_INVALID);
+                        script.AddScriptParameterInt(-1);
+                        script.AddScriptParameterInt(-1);
+                        script.AddScriptParameterFloat(-1.0f);
+                        script.AddScriptParameterInt(-1);
+                        script.AddScriptParameterInt(-1);
+                        script.AddScriptParameterInt(-1);
+                        script.AddScriptParameterInt(-1);
+                        script.AddScriptParameterInt(-1);
+                        script.AddScriptParameterInt(-1);
+                        script.AddScriptParameterObject(CLRScriptBase.OBJECT_INVALID);
+                        script.AddScriptParameterInt(-1);
+                        script.AddScriptParameterInt(-1);
+                        script.AddScriptParameterInt(-1);
+                        script.AddScriptParameterInt(-1);
+                        script.AddScriptParameterInt(-1);
+                        script.AddScriptParameterString(DungeonStore.DungeonTraps[TrapType][CR][rand.Next(DungeonStore.DungeonTraps[TrapType][CR].Count)]);
+                        script.ExecuteScriptEnhanced("ACR_Traps", AreaId, CLRScriptBase.TRUE);
+                    }
+                }
             }
         }
 

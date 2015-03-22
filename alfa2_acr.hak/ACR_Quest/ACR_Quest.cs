@@ -350,6 +350,35 @@ namespace ACR_Quest
                         DungeonStore.Dungeons.Remove(name);
                     }
                     break;
+                case Command.AddDungeonTrap:
+                    if(!DungeonStore.DungeonTraps.ContainsKey(name))
+                    {
+                        DungeonStore.DungeonTraps.Add(name, new Dictionary<int, List<string>>());
+                    }
+                    if(!DungeonStore.DungeonTraps[name].ContainsKey(state))
+                    {
+                        DungeonStore.DungeonTraps[name].Add(state, new List<string>());
+                    }
+                    DungeonStore.DungeonSpawns[name][state].Add(template);
+                    break;
+                case Command.RemoveDungeonTrap:
+                    if (DungeonStore.DungeonTraps.ContainsKey(name) &&
+                       DungeonStore.DungeonTraps[name].ContainsKey(state) &&
+                       DungeonStore.DungeonTraps[name][state].Contains(template))
+                    {
+                        DungeonStore.DungeonTraps[name][state].Remove(template);
+                    }
+                    break;
+                case Command.SetDungeonTrapType:
+                    if (DungeonStore.Dungeons.ContainsKey(name))
+                    {
+                        foreach(RandomDungeonArea area in DungeonStore.Dungeons[name].AreasOfDungeon)
+                        {
+                            area.TrapType = template;
+                        }
+                    }
+                    break;
+                    break;
                 case Command.PrintDungeons:
                     foreach(KeyValuePair<string, RandomDungeon> dungeon in DungeonStore.Dungeons)
                     {
@@ -392,6 +421,9 @@ namespace ACR_Quest
             RemoveDungeonSpawn = 109,
             SetDungeonSpawnType = 110,
             DisposeDungeon = 111,
+            AddDungeonTrap = 112,
+            RemoveDungeonTrap = 113,
+            SetDungeonTrapType = 114,
 
             PrintDungeons = 998,
             PrintInfestations = 999,
