@@ -354,6 +354,59 @@ namespace ACR_Quest
             }
         }
 
+        public void CorrectDungeonCR()
+        {
+            RandomDungeonArea start = GetEntranceArea();
+            List<RandomDungeonArea> remainingAreas = new List<RandomDungeonArea>();
+            remainingAreas.AddRange(AreasOfDungeon);
+            remainingAreas.Remove(start);
+            start.CR = 0;
+            List<RandomDungeonArea> nextAreas = new List<RandomDungeonArea>();
+            List<RandomDungeonArea> lastAreas = new List<RandomDungeonArea>();
+            lastAreas.Add(start);
+            int CRtoSet = 1;
+            while(remainingAreas.Count > 0)
+            {
+                foreach(RandomDungeonArea lastArea in lastAreas)
+                {
+                    foreach(RandomDungeonArea nextArea in lastArea.AdjacentAreas.Values)
+                    {
+                        nextArea.CR = CRtoSet;
+                        if (AreasOfDungeon.Contains(nextArea))
+                        {
+                            nextAreas.Add(nextArea);
+                            AreasOfDungeon.Remove(nextArea);
+                        }
+                    }
+                }
+                if (nextAreas.Count == 0) break;
+                lastAreas.Clear();
+                lastAreas.AddRange(nextAreas);
+                nextAreas.Clear();
+                CRtoSet++;
+            }
+            int diff = CR - CRtoSet;
+            foreach(RandomDungeonArea area in AreasOfDungeon)
+            {
+                CR += diff;
+            }
+        }
+
+        public RandomDungeonArea GetEndArea()
+        {
+            int grabbedCR = -1;
+            RandomDungeonArea ret = null;
+            foreach(RandomDungeonArea area in AreasOfDungeon)
+            {
+                if(area.CR > grabbedCR)
+                {
+                    ret = area;
+                    grabbedCR = area.CR;
+                }
+            }
+            return ret;
+        }
+
         public RandomDungeonArea GetEntranceArea()
         {
             foreach(RandomDungeonArea area in AreasOfDungeon)

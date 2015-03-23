@@ -206,6 +206,7 @@ namespace ACR_Quest
                     DungeonStore.FindAvailableAreas(template);
                     RandomDungeon dung = new RandomDungeon(template, state, state, name, this);
                     dung.retLoc = GetLocation(OBJECT_SELF);
+                    dung.CorrectDungeonCR();
                     DungeonStore.Dungeons.Add(name, dung);
                     break;
                 case Command.EnterDungeon:
@@ -359,7 +360,7 @@ namespace ACR_Quest
                     {
                         DungeonStore.DungeonTraps[name].Add(state, new List<string>());
                     }
-                    DungeonStore.DungeonSpawns[name][state].Add(template);
+                    DungeonStore.DungeonTraps[name][state].Add(template);
                     break;
                 case Command.RemoveDungeonTrap:
                     if (DungeonStore.DungeonTraps.ContainsKey(name) &&
@@ -378,6 +379,11 @@ namespace ACR_Quest
                         }
                     }
                     break;
+                case Command.SetDungeonQuestObjective:
+                    if (DungeonStore.Dungeons.ContainsKey(name))
+                    {
+                        DungeonStore.Dungeons[name].GetEndArea().Quest = template;
+                    }
                     break;
                 case Command.PrintDungeons:
                     foreach(KeyValuePair<string, RandomDungeon> dungeon in DungeonStore.Dungeons)
@@ -424,6 +430,7 @@ namespace ACR_Quest
             AddDungeonTrap = 112,
             RemoveDungeonTrap = 113,
             SetDungeonTrapType = 114,
+            SetDungeonQuestObjective = 115,
 
             PrintDungeons = 998,
             PrintInfestations = 999,

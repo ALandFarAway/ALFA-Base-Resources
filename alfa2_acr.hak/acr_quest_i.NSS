@@ -145,6 +145,7 @@ const int ACR_QST_CLR_COMMAND_DUNG_DISPOSE = 111;
 const int ACR_QST_CLR_COMMAND_DUNG_ADD_TRAP = 112;
 const int ACR_QST_CLR_COMMAND_DUNG_REMOVE_TRAP = 113;
 const int ACR_QST_CLR_COMMAND_DUNG_SET_TRAP = 114;
+const int ACR_QST_CLR_COMMAND_DUNG_SET_QUEST = 115;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -1043,6 +1044,11 @@ void RemoveTrapFromDungeonTable(string tableName, int CR, string trapTemplate)
 void AssignTrapTableToDungeon(string dungeonName, string tableName)
 {
     _callQuestCLRScript(ACR_QST_CLR_COMMAND_DUNG_SET_TRAP, dungeonName, 0, tableName);
+}
+
+void AssignQuestToDungeon(string dungeonName, string questName)
+{
+    _callQuestCLRScript(ACR_QST_CLR_COMMAND_DUNG_SET_QUEST, dungeonName, 0, questName);
 }
 
 void SendCreatureToDungeon(object creature, string dungeonName)
