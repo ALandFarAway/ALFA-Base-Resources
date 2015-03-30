@@ -582,7 +582,7 @@ namespace ACR_Candlekeep
                             item.Name == "PADDING_PERSONAL_VFX")
                         {
                             // This line is padding.
-                            ALFA.Shared.Modules.InfoStore.IPCastSpells.Add(null);
+                            ALFA.Shared.Modules.InfoStore.BaseItems.Add(null);
                             continue;
                         }
 
@@ -591,7 +591,7 @@ namespace ACR_Candlekeep
                 }
                 catch (Exception ex)
                 {
-                    Archivist.debug += "\n iprp_spells.2da error: " + ex.Message;
+                    Archivist.debug += "\n baseitems.2da error: " + ex.Message;
                 }
                 #endregion
 
