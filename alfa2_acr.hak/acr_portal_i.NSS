@@ -202,7 +202,7 @@ int ACR_PortalCheckCooldown(object oTraveller)
         } 
         else 
         {
-            return (24 - nHoursSincePortal);
+            return (ACR_PTL_COOLDOWN - nHoursSincePortal);
         }
     }
 }
