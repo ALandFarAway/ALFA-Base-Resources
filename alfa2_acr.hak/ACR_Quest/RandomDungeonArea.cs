@@ -23,7 +23,7 @@ namespace ACR_Quest
 
         public ExitDirection DungeonExit = ExitDirection.None;
         public List<ExitDirection> AreaExits = new List<ExitDirection>();
-        public Dictionary<ExitDirection, RandomDungeonArea> AdjacentAreas;
+        public Dictionary<ExitDirection, RandomDungeonArea> AdjacentAreas = new Dictionary<ExitDirection,RandomDungeonArea>();
 
         public string DungeonName = "";
         public string SpawnType = "";

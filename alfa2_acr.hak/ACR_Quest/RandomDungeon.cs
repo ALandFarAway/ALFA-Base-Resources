@@ -73,16 +73,11 @@ namespace ACR_Quest
             areasToGenerate -= 1;
             AreasOfDungeon.Add(toAdd);
 
-            if (areasToGenerate == 0) return;
-
             List<RandomDungeonArea> areasNeedingAdjacentAreas = new List<RandomDungeonArea>();
             areasNeedingAdjacentAreas.Add(toAdd);
 
-            while(areasToGenerate > 0)
+            while (areasNeedingAdjacentAreas.Count > 0)
             {
-                // Early return if we don't actually have any areas left to expand.
-                if (areasNeedingAdjacentAreas.Count == 0) return;
-
                 // Randomly select one of our bare ends to build out from.
                 RandomDungeonArea toExpand = areasNeedingAdjacentAreas[rnd.Next(areasNeedingAdjacentAreas.Count)];
 
@@ -221,6 +216,18 @@ namespace ACR_Quest
                     }
                 }
 
+                // If we can't generate more areas, order the new areas to not open up any more exits that we'd have to
+                // attach areas to. Future additions will just be attaching things to dangling ATs.
+                if(areasToGenerate <= 0)
+                {
+                    if (!necessaryBorders.ContainsKey(ExitDirection.North)) necessaryBorders.Add(ExitDirection.North, false);
+                    if (!necessaryBorders.ContainsKey(ExitDirection.East)) necessaryBorders.Add(ExitDirection.East, false);
+                    if (!necessaryBorders.ContainsKey(ExitDirection.South)) necessaryBorders.Add(ExitDirection.South, false);
+                    if (!necessaryBorders.ContainsKey(ExitDirection.West)) necessaryBorders.Add(ExitDirection.West, false);
+                    if (!necessaryBorders.ContainsKey(ExitDirection.Up)) necessaryBorders.Add(ExitDirection.Up, false);
+                    if (!necessaryBorders.ContainsKey(ExitDirection.Down)) necessaryBorders.Add(ExitDirection.Down, false);
+                }
+
                 // Now that we know where the area is and what borders it has to maintain, we
                 // loop through the areas that are available and build a list of all of the ones
                 // that fit the restrictions of the area's location.
@@ -240,22 +247,18 @@ namespace ACR_Quest
                         }
                         if(!areaUseful) break;
                     }
-                    if(!areaUseful) break;
-                    sourceAreas.Add(area);
+                    if(areaUseful) sourceAreas.Add(area);
                 }
 
                 if(sourceAreas.Count >= 1)
                 {
                     // If we have more at least one area that fits the bill, we'll try to use that, so that
                     // the dungeon feels as connected and continuous as possible.
-                    toAdd = new RandomDungeonArea();
                     template = sourceAreas[rnd.Next(sourceAreas.Count)];
                     toAdd.TemplateAreaId = template.AreaId;
                     toAdd.DungeonName = name;
                     toAdd.AreaExits = new List<ExitDirection>();
                     toAdd.AreaExits.AddRange(template.AreaExits);
-                    toAdd.DungeonExit = toAdd.AreaExits[rnd.Next(toAdd.AreaExits.Count)];
-                    toAdd.AreaExits.Remove(toAdd.DungeonExit);
                     toAdd.CR = cr;
                     areasToGenerate -= (toAdd.AreaExits.Count - toAdd.AdjacentAreas.Count);
                     foreach(KeyValuePair<ExitDirection, RandomDungeonArea> adj in adjacentToBe)
@@ -323,8 +326,6 @@ namespace ACR_Quest
                         toAdd.DungeonName = name;
                         toAdd.AreaExits = new List<ExitDirection>();
                         toAdd.AreaExits.AddRange(template.AreaExits);
-                        toAdd.DungeonExit = toAdd.AreaExits[rnd.Next(toAdd.AreaExits.Count)];
-                        toAdd.AreaExits.Remove(toAdd.DungeonExit);
                         areasToGenerate -= (toAdd.AreaExits.Count - toAdd.AdjacentAreas.Count);
                         toAdd.AdjacentAreas.Add(adj.Key, adj.Value);
                         switch(adj.Key)
@@ -375,7 +376,7 @@ namespace ACR_Quest
                         if (AreasOfDungeon.Contains(nextArea))
                         {
                             nextAreas.Add(nextArea);
-                            AreasOfDungeon.Remove(nextArea);
+                            remainingAreas.Remove(nextArea);
                         }
                     }
                 }
@@ -385,10 +386,10 @@ namespace ACR_Quest
                 nextAreas.Clear();
                 CRtoSet++;
             }
-            int diff = CR - CRtoSet;
+            int diff = 1 + CR - CRtoSet; // CRtoSet will always be 1 higher than the last area in the dungeon.
             foreach(RandomDungeonArea area in AreasOfDungeon)
             {
-                CR += diff;
+                area.CR += diff;
             }
         }
 

@@ -231,6 +231,11 @@ namespace ACR_Quest
                             return 0;
                         }
                         RandomDungeonArea target = dungeon.GetAdjacentArea(this, ExitDirection.North, current);
+                        if (target == null)
+                        {
+                            SendMessageToPC(OBJECT_SELF, "This appears to be a dead end.");
+                            return 0;
+                        }
                         target.LoadArea(this);
                         target.TransitionToArea(this, ExitDirection.South);
                     }
@@ -247,6 +252,11 @@ namespace ACR_Quest
                             return 0;
                         }
                         RandomDungeonArea target = dungeon.GetAdjacentArea(this, ExitDirection.East, current);
+                        if (target == null)
+                        {
+                            SendMessageToPC(OBJECT_SELF, "This appears to be a dead end.");
+                            return 0;
+                        }
                         target.LoadArea(this);
                         target.TransitionToArea(this, ExitDirection.West);
                     }
@@ -263,6 +273,11 @@ namespace ACR_Quest
                             return 0;
                         }
                         RandomDungeonArea target = dungeon.GetAdjacentArea(this, ExitDirection.South, current);
+                        if (target == null)
+                        {
+                            SendMessageToPC(OBJECT_SELF, "This appears to be a dead end.");
+                            return 0;
+                        }
                         target.LoadArea(this);
                         target.TransitionToArea(this, ExitDirection.North);
                     }
@@ -279,6 +294,11 @@ namespace ACR_Quest
                             return 0;
                         }
                         RandomDungeonArea target = dungeon.GetAdjacentArea(this, ExitDirection.West, current);
+                        if (target == null)
+                        {
+                            SendMessageToPC(OBJECT_SELF, "This appears to be a dead end.");
+                            return 0;
+                        }
                         target.LoadArea(this);
                         target.TransitionToArea(this, ExitDirection.East);
                     }
@@ -295,6 +315,11 @@ namespace ACR_Quest
                             return 0;
                         }
                         RandomDungeonArea target = dungeon.GetAdjacentArea(this, ExitDirection.Up, current);
+                        if (target == null)
+                        {
+                            SendMessageToPC(OBJECT_SELF, "This appears to be a dead end.");
+                            return 0;
+                        }
                         target.LoadArea(this);
                         target.TransitionToArea(this, ExitDirection.Down);
                     }
@@ -311,6 +336,11 @@ namespace ACR_Quest
                             return 0;
                         }
                         RandomDungeonArea target = dungeon.GetAdjacentArea(this, ExitDirection.Down, current);
+                        if (target == null)
+                        {
+                            SendMessageToPC(OBJECT_SELF, "This appears to be a dead end.");
+                            return 0;
+                        }
                         target.LoadArea(this);
                         target.TransitionToArea(this, ExitDirection.Up);
                     }
@@ -391,7 +421,7 @@ namespace ACR_Quest
                         SendMessageToAllDMs(dungeon.Key);
                         foreach(RandomDungeonArea area in dungeon.Value.AreasOfDungeon)
                         {
-                            SendMessageToAllDMs(GetName(area.TemplateAreaId) + " : " + GetName(area.AreaId));
+                            SendMessageToAllDMs(GetName(area.TemplateAreaId) + " : " + GetName(area.AreaId) + " CR " + area.CR + "(" + area.X + "," + area.Y + "," + area.Z + ")");
                         }
                     }
                     break;
