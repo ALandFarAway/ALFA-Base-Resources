@@ -192,6 +192,7 @@ namespace ACR_Quest
                     return;
                 }
             }
+            script.SendMessageToPC(script.OBJECT_SELF, "I can't find a door to jump you to.");
         }
 
         public void ClearArea(CLRScriptBase script)

@@ -31,15 +31,12 @@ namespace ACR_Quest
             CR = cr;
             DungeonStore.FindAvailableAreas(areaPrefix);
 
-            List<RandomDungeonArea> sourceAreas;
-
-            if (areasToGenerate >= 6) sourceAreas = DungeonStore.AvailableAreas[areaPrefix];
-            else if(areasToGenerate > 1)
+            List<RandomDungeonArea> sourceAreas = new List<RandomDungeonArea>();
+            if (areasToGenerate > 1)
             {
-                sourceAreas = new List<RandomDungeonArea>();
-                foreach(RandomDungeonArea area in DungeonStore.AvailableAreas[areaPrefix])
+                foreach (RandomDungeonArea area in DungeonStore.AvailableAreas[areaPrefix])
                 {
-                    if(area.AreaExits.Count <= areasToGenerate && area.AreaExits.Count > 1)
+                    if (area.AreaExits.Count <= areasToGenerate && area.AreaExits.Count > 1)
                     {
                         sourceAreas.Add(area);
                     }
@@ -47,7 +44,6 @@ namespace ACR_Quest
             }
             else
             {
-                sourceAreas = new List<RandomDungeonArea>();
                 foreach (RandomDungeonArea area in DungeonStore.AvailableAreas[areaPrefix])
                 {
                     if (area.AreaExits.Count == 1)
@@ -101,132 +97,17 @@ namespace ACR_Quest
                 // appropriately.
                 ExitDirection nextAreaDirection = NextAreaDirections[rnd.Next(NextAreaDirections.Count)];
                 toAdd = new RandomDungeonArea();
-                switch(nextAreaDirection)
-                {
-                    case ExitDirection.North:
-                        toAdd.X = toExpand.X;
-                        toAdd.Y = toExpand.Y + 1;
-                        toAdd.Z = toExpand.Z;
-                        break;
-                    case ExitDirection.East:
-                        toAdd.X = toExpand.X + 1;
-                        toAdd.Y = toExpand.Y;
-                        toAdd.Z = toExpand.Z;
-                        break;
-                    case ExitDirection.South:
-                        toAdd.X = toExpand.X;
-                        toAdd.Y = toExpand.Y - 1;
-                        toAdd.Z = toExpand.Z;
-                        break;
-                    case ExitDirection.West:
-                        toAdd.X = toExpand.X - 1;
-                        toAdd.Y = toExpand.Y;
-                        toAdd.Z = toExpand.Z;
-                        break;
-                    case ExitDirection.Up:
-                        toAdd.X = toExpand.X;
-                        toAdd.Y = toExpand.Y;
-                        toAdd.Z = toExpand.Z + 1;
-                        break;
-                    case ExitDirection.Down:
-                        toAdd.X = toExpand.X;
-                        toAdd.Y = toExpand.Y;
-                        toAdd.Z = toExpand.Z - 1;
-                        break;
-                }
+                _setAreaCoordinates(toExpand, toAdd, nextAreaDirection);
 
                 // Scan for adjacent areas, and determine the necessary parts of the target area.
-                Dictionary<ExitDirection, bool> necessaryBorders = new Dictionary<ExitDirection,bool>();
-                Dictionary<ExitDirection, RandomDungeonArea> adjacentToBe = new Dictionary<ExitDirection,RandomDungeonArea>();
-                foreach(RandomDungeonArea area in AreasOfDungeon)
-                {
-                    if(area.X == toAdd.X && area.Y == toAdd.Y && area.Z == toAdd.Z + 1)
-                    {
-                        // Area is above the new area.
-                        if(area.AreaExits.Contains(ExitDirection.Down))
-                        {
-                            necessaryBorders.Add(ExitDirection.Up, true);
-                            adjacentToBe.Add(ExitDirection.Up, area);
-                        }
-                        else if(!necessaryBorders.ContainsKey(ExitDirection.Up))
-                        {
-                            // This location might have double end caps in it.
-                            necessaryBorders.Add(ExitDirection.Up, false);
-                        }
-                    }
-                    else if(area.X == toAdd.X && area.Y == toAdd.Y && area.Z == toAdd.Z - 1)
-                    {
-                        if(area.AreaExits.Contains(ExitDirection.Up))
-                        {
-                            necessaryBorders.Add(ExitDirection.Down, true);
-                            adjacentToBe.Add(ExitDirection.Down, area);
-                        }
-                        else if(!necessaryBorders.ContainsKey(ExitDirection.Down))
-                        {
-                            necessaryBorders.Add(ExitDirection.Down, false);
-                        }
-                    }
-                    else if(area.X == toAdd.X + 1 && area.Y == toAdd.Y && area.Z == toAdd.Z)
-                    {
-                        if(area.AreaExits.Contains(ExitDirection.West))
-                        {
-                            necessaryBorders.Add(ExitDirection.East, true);
-                            adjacentToBe.Add(ExitDirection.East, area);
-                        }
-                        else if(!necessaryBorders.ContainsKey(ExitDirection.East))
-                        {
-                            necessaryBorders.Add(ExitDirection.East, false);
-                        }
-                    }
-                    else if(area.X == toAdd.X - 1 && area.Y == toAdd.Y && area.Z == toAdd.Z)
-                    {
-                        if(area.AreaExits.Contains(ExitDirection.East))
-                        {
-                            necessaryBorders.Add(ExitDirection.West, true);
-                            adjacentToBe.Add(ExitDirection.West, area);
-                        }
-                        else if(!necessaryBorders.ContainsKey(ExitDirection.West))
-                        {
-                            necessaryBorders.Add(ExitDirection.West, false);
-                        }
-                    }
-                    else if(area.X == toAdd.X && area.Y == toAdd.Y + 1 && area.Z == toAdd.Z)
-                    {
-                        if(area.AreaExits.Contains(ExitDirection.South))
-                        {
-                            necessaryBorders.Add(ExitDirection.North, true);
-                            adjacentToBe.Add(ExitDirection.North, area);
-                        }
-                        else if(!necessaryBorders.ContainsKey(ExitDirection.North))
-                        {
-                            necessaryBorders.Add(ExitDirection.North, false);
-                        }
-                    }
-                    else if(area.X == toAdd.X && area.Y == toAdd.Y - 1 && area.Z == toAdd.Z)
-                    {
-                        if(area.AreaExits.Contains(ExitDirection.North))
-                        {
-                            necessaryBorders.Add(ExitDirection.South, true);
-                            adjacentToBe.Add(ExitDirection.South, area);
-                        }
-                        else if(!necessaryBorders.ContainsKey(ExitDirection.South))
-                        {
-                            necessaryBorders.Add(ExitDirection.South, false);
-                        }
-                    }
-                }
+                Dictionary<ExitDirection, bool> necessaryBorders = new Dictionary<ExitDirection, bool>();
+                Dictionary<ExitDirection, RandomDungeonArea> adjacentToBe = new Dictionary<ExitDirection, RandomDungeonArea>();
+                _buildBorders(necessaryBorders, adjacentToBe, toAdd);
+
 
                 // If we can't generate more areas, order the new areas to not open up any more exits that we'd have to
                 // attach areas to. Future additions will just be attaching things to dangling ATs.
-                if(areasToGenerate <= 0)
-                {
-                    if (!necessaryBorders.ContainsKey(ExitDirection.North)) necessaryBorders.Add(ExitDirection.North, false);
-                    if (!necessaryBorders.ContainsKey(ExitDirection.East)) necessaryBorders.Add(ExitDirection.East, false);
-                    if (!necessaryBorders.ContainsKey(ExitDirection.South)) necessaryBorders.Add(ExitDirection.South, false);
-                    if (!necessaryBorders.ContainsKey(ExitDirection.West)) necessaryBorders.Add(ExitDirection.West, false);
-                    if (!necessaryBorders.ContainsKey(ExitDirection.Up)) necessaryBorders.Add(ExitDirection.Up, false);
-                    if (!necessaryBorders.ContainsKey(ExitDirection.Down)) necessaryBorders.Add(ExitDirection.Down, false);
-                }
+                if(areasToGenerate <= 0) _sealBorders(necessaryBorders);
 
                 // Now that we know where the area is and what borders it has to maintain, we
                 // loop through the areas that are available and build a list of all of the ones
@@ -257,10 +138,8 @@ namespace ACR_Quest
                     template = sourceAreas[rnd.Next(sourceAreas.Count)];
                     toAdd.TemplateAreaId = template.AreaId;
                     toAdd.DungeonName = name;
-                    toAdd.AreaExits = new List<ExitDirection>();
                     toAdd.AreaExits.AddRange(template.AreaExits);
                     toAdd.CR = cr;
-                    areasToGenerate -= (toAdd.AreaExits.Count - toAdd.AdjacentAreas.Count);
                     foreach(KeyValuePair<ExitDirection, RandomDungeonArea> adj in adjacentToBe)
                     {
                         toAdd.AdjacentAreas.Add(adj.Key, adj.Value);
@@ -286,7 +165,9 @@ namespace ACR_Quest
                                 break;
                         }
                     }
+                    areasToGenerate -= (toAdd.AreaExits.Count - toAdd.AdjacentAreas.Count);
                     AreasOfDungeon.Add(toAdd);
+                    areasNeedingAdjacentAreas.Add(toAdd);
                 }
                 else
                 {
@@ -324,9 +205,7 @@ namespace ACR_Quest
                         toAdd.Z = Z;
                         toAdd.TemplateAreaId = template.AreaId;
                         toAdd.DungeonName = name;
-                        toAdd.AreaExits = new List<ExitDirection>();
                         toAdd.AreaExits.AddRange(template.AreaExits);
-                        areasToGenerate -= (toAdd.AreaExits.Count - toAdd.AdjacentAreas.Count);
                         toAdd.AdjacentAreas.Add(adj.Key, adj.Value);
                         switch(adj.Key)
                         {
@@ -349,9 +228,139 @@ namespace ACR_Quest
                                 adj.Value.AdjacentAreas.Add(ExitDirection.Up, toAdd);
                                 break;
                         }
+                        areasToGenerate -= (toAdd.AreaExits.Count - toAdd.AdjacentAreas.Count);
                         AreasOfDungeon.Add(toAdd);
+                        areasNeedingAdjacentAreas.Add(toAdd);
                     }
                 }
+            }
+        }
+
+        private void _sealBorders(Dictionary<ExitDirection, bool> necessaryBorders)
+        {
+            if (!necessaryBorders.ContainsKey(ExitDirection.North)) necessaryBorders.Add(ExitDirection.North, false);
+            if (!necessaryBorders.ContainsKey(ExitDirection.East)) necessaryBorders.Add(ExitDirection.East, false);
+            if (!necessaryBorders.ContainsKey(ExitDirection.South)) necessaryBorders.Add(ExitDirection.South, false);
+            if (!necessaryBorders.ContainsKey(ExitDirection.West)) necessaryBorders.Add(ExitDirection.West, false);
+            if (!necessaryBorders.ContainsKey(ExitDirection.Up)) necessaryBorders.Add(ExitDirection.Up, false);
+            if (!necessaryBorders.ContainsKey(ExitDirection.Down)) necessaryBorders.Add(ExitDirection.Down, false);
+        }
+
+        private void _buildBorders(Dictionary<ExitDirection, bool> necessaryBorders, Dictionary<ExitDirection, RandomDungeonArea> adjacentToBe, RandomDungeonArea toAdd)
+        {
+            foreach (RandomDungeonArea area in AreasOfDungeon)
+            {
+                if (area.X == toAdd.X && area.Y == toAdd.Y && area.Z == toAdd.Z + 1)
+                {
+                    // Area is above the new area.
+                    if (area.AreaExits.Contains(ExitDirection.Down))
+                    {
+                        necessaryBorders.Add(ExitDirection.Up, true);
+                        adjacentToBe.Add(ExitDirection.Up, area);
+                    }
+                    else if (!necessaryBorders.ContainsKey(ExitDirection.Up))
+                    {
+                        // This location might have double end caps in it.
+                        necessaryBorders.Add(ExitDirection.Up, false);
+                    }
+                }
+                else if (area.X == toAdd.X && area.Y == toAdd.Y && area.Z == toAdd.Z - 1)
+                {
+                    if (area.AreaExits.Contains(ExitDirection.Up))
+                    {
+                        necessaryBorders.Add(ExitDirection.Down, true);
+                        adjacentToBe.Add(ExitDirection.Down, area);
+                    }
+                    else if (!necessaryBorders.ContainsKey(ExitDirection.Down))
+                    {
+                        necessaryBorders.Add(ExitDirection.Down, false);
+                    }
+                }
+                else if (area.X == toAdd.X + 1 && area.Y == toAdd.Y && area.Z == toAdd.Z)
+                {
+                    if (area.AreaExits.Contains(ExitDirection.West))
+                    {
+                        necessaryBorders.Add(ExitDirection.East, true);
+                        adjacentToBe.Add(ExitDirection.East, area);
+                    }
+                    else if (!necessaryBorders.ContainsKey(ExitDirection.East))
+                    {
+                        necessaryBorders.Add(ExitDirection.East, false);
+                    }
+                }
+                else if (area.X == toAdd.X - 1 && area.Y == toAdd.Y && area.Z == toAdd.Z)
+                {
+                    if (area.AreaExits.Contains(ExitDirection.East))
+                    {
+                        necessaryBorders.Add(ExitDirection.West, true);
+                        adjacentToBe.Add(ExitDirection.West, area);
+                    }
+                    else if (!necessaryBorders.ContainsKey(ExitDirection.West))
+                    {
+                        necessaryBorders.Add(ExitDirection.West, false);
+                    }
+                }
+                else if (area.X == toAdd.X && area.Y == toAdd.Y + 1 && area.Z == toAdd.Z)
+                {
+                    if (area.AreaExits.Contains(ExitDirection.South))
+                    {
+                        necessaryBorders.Add(ExitDirection.North, true);
+                        adjacentToBe.Add(ExitDirection.North, area);
+                    }
+                    else if (!necessaryBorders.ContainsKey(ExitDirection.North))
+                    {
+                        necessaryBorders.Add(ExitDirection.North, false);
+                    }
+                }
+                else if (area.X == toAdd.X && area.Y == toAdd.Y - 1 && area.Z == toAdd.Z)
+                {
+                    if (area.AreaExits.Contains(ExitDirection.North))
+                    {
+                        necessaryBorders.Add(ExitDirection.South, true);
+                        adjacentToBe.Add(ExitDirection.South, area);
+                    }
+                    else if (!necessaryBorders.ContainsKey(ExitDirection.South))
+                    {
+                        necessaryBorders.Add(ExitDirection.South, false);
+                    }
+                }
+            }
+        }
+
+        private void _setAreaCoordinates(RandomDungeonArea toExpand, RandomDungeonArea toAdd, ExitDirection exit)
+        {
+            switch (exit)
+            {
+                case ExitDirection.North:
+                    toAdd.X = toExpand.X;
+                    toAdd.Y = toExpand.Y + 1;
+                    toAdd.Z = toExpand.Z;
+                    break;
+                case ExitDirection.East:
+                    toAdd.X = toExpand.X + 1;
+                    toAdd.Y = toExpand.Y;
+                    toAdd.Z = toExpand.Z;
+                    break;
+                case ExitDirection.South:
+                    toAdd.X = toExpand.X;
+                    toAdd.Y = toExpand.Y - 1;
+                    toAdd.Z = toExpand.Z;
+                    break;
+                case ExitDirection.West:
+                    toAdd.X = toExpand.X - 1;
+                    toAdd.Y = toExpand.Y;
+                    toAdd.Z = toExpand.Z;
+                    break;
+                case ExitDirection.Up:
+                    toAdd.X = toExpand.X;
+                    toAdd.Y = toExpand.Y;
+                    toAdd.Z = toExpand.Z + 1;
+                    break;
+                case ExitDirection.Down:
+                    toAdd.X = toExpand.X;
+                    toAdd.Y = toExpand.Y;
+                    toAdd.Z = toExpand.Z - 1;
+                    break;
             }
         }
 
