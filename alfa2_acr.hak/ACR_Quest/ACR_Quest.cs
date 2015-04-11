@@ -212,7 +212,6 @@ namespace ACR_Quest
                 case Command.EnterDungeon:
                     if (DungeonStore.Dungeons.ContainsKey(name))
                     {
-                        SendMessageToAllDMs("Jumping to area");
                         RandomDungeon dungeon = DungeonStore.Dungeons[name];
                         RandomDungeonArea enter = dungeon.GetEntranceArea();
                         enter.LoadArea(this);
@@ -236,7 +235,11 @@ namespace ACR_Quest
                             SendMessageToPC(OBJECT_SELF, "This appears to be a dead end.");
                             return 0;
                         }
-                        target.LoadArea(this);
+                        if (!target.LoadArea(this))
+                        {
+                            SendMessageToPC(OBJECT_SELF, "I cannot load that area, so this is effectively a dead end.");
+                            return 0;
+                        }
                         target.TransitionToArea(this, ExitDirection.South);
                     }
                     break;
@@ -257,7 +260,11 @@ namespace ACR_Quest
                             SendMessageToPC(OBJECT_SELF, "This appears to be a dead end.");
                             return 0;
                         }
-                        target.LoadArea(this);
+                        if (!target.LoadArea(this))
+                        {
+                            SendMessageToPC(OBJECT_SELF, "I cannot load that area, so this is effectively a dead end.");
+                            return 0;
+                        }
                         target.TransitionToArea(this, ExitDirection.West);
                     }
                     break;
@@ -278,7 +285,11 @@ namespace ACR_Quest
                             SendMessageToPC(OBJECT_SELF, "This appears to be a dead end.");
                             return 0;
                         }
-                        target.LoadArea(this);
+                        if (!target.LoadArea(this))
+                        {
+                            SendMessageToPC(OBJECT_SELF, "I cannot load that area, so this is effectively a dead end.");
+                            return 0;
+                        }
                         target.TransitionToArea(this, ExitDirection.North);
                     }
                     break;
@@ -299,7 +310,11 @@ namespace ACR_Quest
                             SendMessageToPC(OBJECT_SELF, "This appears to be a dead end.");
                             return 0;
                         }
-                        target.LoadArea(this);
+                        if (!target.LoadArea(this))
+                        {
+                            SendMessageToPC(OBJECT_SELF, "I cannot load that area, so this is effectively a dead end.");
+                            return 0;
+                        }
                         target.TransitionToArea(this, ExitDirection.East);
                     }
                     break;
@@ -320,7 +335,11 @@ namespace ACR_Quest
                             SendMessageToPC(OBJECT_SELF, "This appears to be a dead end.");
                             return 0;
                         }
-                        target.LoadArea(this);
+                        if (!target.LoadArea(this))
+                        {
+                            SendMessageToPC(OBJECT_SELF, "I cannot load that area, so this is effectively a dead end.");
+                            return 0;
+                        }
                         target.TransitionToArea(this, ExitDirection.Down);
                     }
                     break;
@@ -341,7 +360,11 @@ namespace ACR_Quest
                             SendMessageToPC(OBJECT_SELF, "This appears to be a dead end.");
                             return 0;
                         }
-                        target.LoadArea(this);
+                        if (!target.LoadArea(this))
+                        {
+                            SendMessageToPC(OBJECT_SELF, "I cannot load that area, so this is effectively a dead end.");
+                            return 0;
+                        }
                         target.TransitionToArea(this, ExitDirection.Up);
                     }
                     break;
@@ -421,7 +444,7 @@ namespace ACR_Quest
                         SendMessageToAllDMs(dungeon.Key);
                         foreach(RandomDungeonArea area in dungeon.Value.AreasOfDungeon)
                         {
-                            SendMessageToAllDMs(GetName(area.TemplateAreaId) + " : " + GetName(area.AreaId) + " CR " + area.CR + "(" + area.X + "," + area.Y + "," + area.Z + ")");
+                            SendMessageToAllDMs(GetName(area.TemplateAreaId) + "("+area.TemplateAreaId+") : " + GetName(area.AreaId) + "("+area.AreaId+") CR " + area.CR + "(" + area.X + "," + area.Y + "," + area.Z + ")");
                         }
                     }
                     break;
