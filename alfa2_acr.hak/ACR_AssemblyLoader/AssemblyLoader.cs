@@ -88,10 +88,27 @@ namespace ACR_AssemblyLoader
 
             Assembly Asm = KnownAssemblies.Where(x => x.FullName == args.Name).FirstOrDefault();
 
-            if (Asm == null)
-                return null;
+            if (Asm != null)
+                return Asm;
 
-            return Asm;
+            //
+            // Some assemblies may depend on a compatibility search via an
+            // app.config file.  Since these are not visible to the framework
+            // for CLRScript assemblies, fall back to a loose search via same
+            // assembly name and public key token.
+            //
+
+            AssemblyName SearchName = new AssemblyName(args.Name);
+
+            Asm = KnownAssemblies.Where(x => x.GetName().Name == SearchName.Name && 
+                x.GetName().CultureInfo.Name == SearchName.CultureInfo.Name &&
+                x.GetName().Version >= SearchName.Version &&
+                x.GetName().GetPublicKeyToken().SequenceEqual(SearchName.GetPublicKeyToken())).FirstOrDefault();
+
+            if (Asm != null)
+                return Asm;
+
+            return null;
         }
 
         /// <summary>
