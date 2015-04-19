@@ -1722,7 +1722,7 @@ namespace ACR_Candlekeep
                 }
                 else if (varName == "ACR_TRAP_DESCRIPTION")
                 {
-                    addingTrap.Description = (string)var["Value"].Value;
+                    addingTrap.Description = var["Value"].Value.ToString();
                     continue;
                 }
             }
