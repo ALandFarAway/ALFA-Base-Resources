@@ -48,7 +48,6 @@ namespace ACR_Traps
             createdTrap.Tag = tag;
             createdTrap.TargetAlignment = targetAlignment;
             createdTrap.TargetRace = targetRace;
-            createdTrap.TrapOrigin = trapOrigin;
             createdTrap.TrapTriggerVFX = triggerAreaToTrapVFX(triggerArea);
             createdTrap.DetectDC = detectDC;
             createdTrap.DisarmDC = disarmDC;
@@ -59,6 +58,8 @@ namespace ACR_Traps
             createdTrap.IsFiring = false;
             createdTrap.ConfigureDisplayName();
             createdTrap.CalculateCR();
+
+            createdTrap.TrapOrigin = GetNearestTrapEmitter(script, location);
 
             ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect.Add(detectTag, createdTrap);
             ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers.Add(tag, createdTrap);
@@ -92,7 +93,6 @@ namespace ACR_Traps
             createdTrap.Tag = tag;
             createdTrap.TargetAlignment = targetAlignment;
             createdTrap.TargetRace = targetRace;
-            createdTrap.TrapOrigin = trapOrigin;
             createdTrap.SpellId = spellId;
             createdTrap.TrapTriggerVFX = triggerAreaToTrapVFX(triggerArea);
             createdTrap.DetectDC = detectDC;
@@ -105,10 +105,7 @@ namespace ACR_Traps
             createdTrap.ConfigureDisplayName();
             createdTrap.CalculateCR();
 
-            if (script.GetIsObjectValid(createdTrap.TrapOrigin) == CLRScriptBase.FALSE)
-            {
-                createdTrap.TrapOrigin = GetNearestTrapEmitter(script, location);
-            }
+            createdTrap.TrapOrigin = GetNearestTrapEmitter(script, location);
 
             ALFA.Shared.Modules.InfoStore.SpawnedTrapDetect.Add(detectTag, createdTrap);
             ALFA.Shared.Modules.InfoStore.SpawnedTrapTriggers.Add(tag, createdTrap);
@@ -124,7 +121,8 @@ namespace ACR_Traps
             foreach(uint obj in script.GetObjectsInArea(script.GetAreaFromLocation(loc)))
             {
                 if(script.GetObjectType(obj) == OBJECT_TYPE_PLACEABLE &&
-                   script.GetTag(obj) == "TRAP_EMITTER")
+                   (script.GetTag(obj) == "TRAP_EMITTER" ||
+                    script.GetTag(obj) == "TRAP_ORIGIN"))
                 {
                     Vector3 emitterPos = script.GetPosition(obj);
                     float newDist = (trapPos.x - emitterPos.x)*(trapPos.x - emitterPos.x)+(trapPos.y - emitterPos.y)*(trapPos.y - emitterPos.y);
