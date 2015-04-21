@@ -133,9 +133,9 @@ namespace ACR_Traps
                     }
                 }
             }
-            if(script.GetIsObjectValid(nearestObject) == CLRScriptBase.FALSE)
+            if(script.GetIsObjectValid(nearestObject) == CLRScriptBase.FALSE || nearestDist > 400.0f) // 20 meters; nearestDist is squared to be cheaper
             {
-                nearestObject = script.CreateObject(CLRScriptBase.OBJECT_TYPE_PLACEABLE, "TRAP_EMITTER", loc, CLRScriptBase.FALSE, "");
+                nearestObject = CLRScriptBase.OBJECT_INVALID;
             }
             return nearestObject;
         }

@@ -112,16 +112,9 @@ namespace ACR_Traps
                 foreach (uint victim in s.GetObjectsInShape(trap.EffectArea, trap.EffectSize, s.GetLocation(target), false, OBJECT_TYPE_CREATURE, s.GetPosition(caster)))
                 {
                     s.ApplyEffectToObject(DURATION_TYPE_INSTANT, GetTrapEffect(s, trap, victim), victim, 0.0f);
+                    _doSoloVFX(s, trap, victim);
                 }
-                NWEffect vfx;
-                if (GetTrapVFX(s, trap, caster, out vfx))
-                {
-                    s.ApplyEffectAtLocation(DURATION_TYPE_INSTANT, vfx, s.GetLocation(target), 0.0f);
-                }
-                else
-                {
-                    s.ApplyEffectToObject(DURATION_TYPE_INSTANT, vfx, target, 0.0f);
-                }
+                _doGroupVFX(s, trap, s.GetLocation(target));
             }
 
             if (trap.NumberOfShots > -1)
@@ -139,6 +132,173 @@ namespace ACR_Traps
 
             trap.IsFiring = true;
             s.DelayCommand(6.0f, delegate { Fire(s, trap); });
+        }
+
+        private static void _doGroupVFX(CLRScriptBase s, ALFA.Shared.ActiveTrap trap, NWLocation target)
+        {
+            if (trap.EffectSize < 2.0f) { return; } // these are probably single-target, and a group VFX would be overkill.
+            else
+            {
+                if((trap.DamageType & DAMAGE_TYPE_DIVINE) == DAMAGE_TYPE_DIVINE)
+                {
+                    s.ApplyEffectAtLocation(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_FNF_LOS_HOLY_10, FALSE), target, 0.0f);
+                }
+                else if ((trap.DamageType & DAMAGE_TYPE_FIRE) == DAMAGE_TYPE_FIRE)
+                {
+                    s.ApplyEffectAtLocation(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_FNF_FIREBALL, FALSE), target, 0.0f);
+                }
+                else if ((trap.DamageType & DAMAGE_TYPE_MAGICAL) == DAMAGE_TYPE_MAGICAL)
+                {
+                    s.ApplyEffectAtLocation(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_FNF_LOS_NORMAL_10, FALSE), target, 0.0f);
+                }
+                else if((trap.DamageType & DAMAGE_TYPE_NEGATIVE) == DAMAGE_TYPE_NEGATIVE)
+                {
+                    s.ApplyEffectAtLocation(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_FNF_SUMMON_UNDEAD, FALSE), target, 0.0f);
+                }
+                else if((trap.DamageType & DAMAGE_TYPE_POSITIVE) == DAMAGE_TYPE_POSITIVE)
+                {
+                    s.ApplyEffectAtLocation(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_FNF_LOS_HOLY_10, FALSE), target, 0.0f);
+                }
+                else
+                {
+                    s.ApplyEffectAtLocation(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_FNF_FIREBALL, FALSE), target, 0.0f);
+                }
+            }
+        }
+
+        private static void _doSoloVFX(CLRScriptBase s, ALFA.Shared.ActiveTrap trap, uint target)
+        {
+            if (trap.EffectSize < 2.0f)
+            {
+                if (s.GetIsObjectValid(trap.TrapOrigin) == CLRScriptBase.TRUE)
+                {
+                    if ((trap.DamageType & DAMAGE_TYPE_ACID) == DAMAGE_TYPE_ACID)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_TEMPORARY, s.EffectBeam(VFX_BEAM_ACID, trap.TrapOrigin, BODY_NODE_CHEST, FALSE), target, 1.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_BLUDGEONING) == DAMAGE_TYPE_BLUDGEONING)
+                    {
+                        s.SpawnItemProjectile(trap.TrapOrigin, target, s.GetLocation(trap.TrapOrigin), s.GetLocation(target), BASE_ITEM_SLING, PROJECTILE_PATH_TYPE_HOMING, OVERRIDE_ATTACK_RESULT_HIT_SUCCESSFUL, 0);
+                        float fShotDelay = 0.1f;
+                        int c = 1;
+                        while (c < trap.DiceNumber)
+                        {
+                            s.DelayCommand(fShotDelay, delegate { s.SpawnItemProjectile(trap.TrapOrigin, target, s.GetLocation(trap.TrapOrigin), s.GetLocation(target), BASE_ITEM_SLING, PROJECTILE_PATH_TYPE_HOMING, OVERRIDE_ATTACK_RESULT_HIT_SUCCESSFUL, 0); });
+                            fShotDelay += 0.1f;
+                            c++;
+                        }
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_COLD) == DAMAGE_TYPE_COLD)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_TEMPORARY, s.EffectBeam(VFX_BEAM_ICE, trap.TrapOrigin, BODY_NODE_CHEST, FALSE), target, 1.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_DIVINE) == DAMAGE_TYPE_DIVINE)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_TEMPORARY, s.EffectBeam(VFX_BEAM_HOLY, trap.TrapOrigin, BODY_NODE_CHEST, FALSE), target, 1.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_ELECTRICAL) == DAMAGE_TYPE_ELECTRICAL)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_TEMPORARY, s.EffectBeam(VFX_BEAM_LIGHTNING, trap.TrapOrigin, BODY_NODE_CHEST, FALSE), target, 1.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_FIRE) == DAMAGE_TYPE_FIRE)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_TEMPORARY, s.EffectBeam(VFX_BEAM_FIRE, trap.TrapOrigin, BODY_NODE_CHEST, FALSE), target, 1.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_MAGICAL) == DAMAGE_TYPE_MAGICAL)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_TEMPORARY, s.EffectBeam(VFX_BEAM_MAGIC, trap.TrapOrigin, BODY_NODE_CHEST, FALSE), target, 1.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_NEGATIVE) == DAMAGE_TYPE_NEGATIVE)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_TEMPORARY, s.EffectBeam(VFX_BEAM_EVIL, trap.TrapOrigin, BODY_NODE_CHEST, FALSE), target, 1.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_PIERCING) == DAMAGE_TYPE_PIERCING)
+                    {
+                        s.SpawnItemProjectile(trap.TrapOrigin, target, s.GetLocation(trap.TrapOrigin), s.GetLocation(target), BASE_ITEM_DART, PROJECTILE_PATH_TYPE_HOMING, OVERRIDE_ATTACK_RESULT_HIT_SUCCESSFUL, 0);
+                        float fShotDelay = 0.1f;
+                        int c = 1;
+                        while (c < trap.DiceNumber)
+                        {
+                            s.SpawnItemProjectile(trap.TrapOrigin, target, s.GetLocation(trap.TrapOrigin), s.GetLocation(target), BASE_ITEM_DART, PROJECTILE_PATH_TYPE_HOMING, OVERRIDE_ATTACK_RESULT_HIT_SUCCESSFUL, 0);
+                            fShotDelay += 0.1f;
+                            c++;
+                        }
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_POSITIVE) == DAMAGE_TYPE_POSITIVE)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_TEMPORARY, s.EffectBeam(VFX_BEAM_HOLY, trap.TrapOrigin, BODY_NODE_CHEST, FALSE), target, 1.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_SLASHING) == DAMAGE_TYPE_SLASHING)
+                    {
+                        s.SpawnItemProjectile(trap.TrapOrigin, target, s.GetLocation(trap.TrapOrigin), s.GetLocation(target), BASE_ITEM_THROWINGAXE, PROJECTILE_PATH_TYPE_HOMING, OVERRIDE_ATTACK_RESULT_HIT_SUCCESSFUL, 0);
+                        float fShotDelay = 0.1f;
+                        int c = 1;
+                        while (c < trap.DiceNumber)
+                        {
+                            s.SpawnItemProjectile(trap.TrapOrigin, target, s.GetLocation(trap.TrapOrigin), s.GetLocation(target), BASE_ITEM_THROWINGAXE, PROJECTILE_PATH_TYPE_HOMING, OVERRIDE_ATTACK_RESULT_HIT_SUCCESSFUL, 0);
+                            fShotDelay += 0.1f;
+                            c++;
+                        }
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_SONIC) == DAMAGE_TYPE_SONIC)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_TEMPORARY, s.EffectBeam(VFX_BEAM_SONIC, trap.TrapOrigin, BODY_NODE_CHEST, FALSE), target, 1.0f);
+                    }
+                }
+                else
+                {
+                    // These are pretty much single-target effects.
+                    if ((trap.DamageType & DAMAGE_TYPE_ACID) == DAMAGE_TYPE_ACID)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_IMP_ACID_S, FALSE), target, 0.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_BLUDGEONING) == DAMAGE_TYPE_BLUDGEONING)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_COM_BLOOD_CRT_RED, FALSE), target, 0.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_COLD) == DAMAGE_TYPE_COLD)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_IMP_FROST_L, FALSE), target, 0.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_DIVINE) == DAMAGE_TYPE_DIVINE)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_COM_HIT_DIVINE, FALSE), target, 0.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_ELECTRICAL) == DAMAGE_TYPE_ELECTRICAL)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_IMP_LIGHTNING_S, FALSE), target, 0.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_FIRE) == DAMAGE_TYPE_FIRE)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_IMP_FLAME_S, FALSE), target, 0.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_MAGICAL) == DAMAGE_TYPE_MAGICAL)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_IMP_MAGBLUE, FALSE), target, 0.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_NEGATIVE) == DAMAGE_TYPE_NEGATIVE)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_IMP_NEGATIVE_ENERGY, FALSE), target, 0.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_PIERCING) == DAMAGE_TYPE_PIERCING)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_IMP_SPIKE_TRAP, FALSE), target, 0.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_POSITIVE) == DAMAGE_TYPE_POSITIVE)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_IMP_SUNSTRIKE, FALSE), target, 0.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_SLASHING) == DAMAGE_TYPE_SLASHING)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_COM_BLOOD_CRT_RED, FALSE), target, 0.0f);
+                    }
+                    if ((trap.DamageType & DAMAGE_TYPE_SONIC) == DAMAGE_TYPE_SONIC)
+                    {
+                        s.ApplyEffectToObject(DURATION_TYPE_INSTANT, s.EffectVisualEffect(VFX_IMP_SONIC, FALSE), target, 0.0f);
+                    }
+                }
+            }
+            else { return; }
         }
 
         private static bool GetTrapVFX(CLRScriptBase s, ALFA.Shared.ActiveTrap trap, uint source, out NWEffect vfx)
@@ -180,7 +340,7 @@ namespace ACR_Traps
                 }
                 if ((trap.DamageType & DAMAGE_TYPE_MAGICAL) == DAMAGE_TYPE_MAGICAL)
                 {
-                    vfx = s.EffectVisualEffect(VFX_COM_HIT_DIVINE, FALSE);
+                    vfx = s.EffectVisualEffect(VFX_IMP_MAGBLUE, FALSE);
                     return true;
                 }
                 if ((trap.DamageType & DAMAGE_TYPE_NEGATIVE) == DAMAGE_TYPE_NEGATIVE)
@@ -195,7 +355,7 @@ namespace ACR_Traps
                 }
                 if ((trap.DamageType & DAMAGE_TYPE_POSITIVE) == DAMAGE_TYPE_POSITIVE)
                 {
-                    vfx = s.EffectVisualEffect(VFX_COM_HIT_DIVINE, FALSE);
+                    vfx = s.EffectVisualEffect(VFX_IMP_SUNSTRIKE, FALSE);
                     return true;
                 }
                 if ((trap.DamageType & DAMAGE_TYPE_SLASHING) == DAMAGE_TYPE_SLASHING)
@@ -244,7 +404,10 @@ namespace ACR_Traps
             }
             else
             {
-                if (s.d20(1) + trap.AttackBonus < s.GetAC(target, FALSE))
+                int roll = new Random().Next(20) + 1;
+                int final = roll + trap.AttackBonus;
+                s.SendMessageToPC(target, "Trap: " + roll + " + " + trap.AttackBonus + " = " + final);
+                if (final < s.GetAC(target, FALSE) && roll != 20)
                     damage = 0;
             }
 
