@@ -232,11 +232,14 @@ namespace ACR_Movement
                     script.EffectDamageDecrease(damagePenalty, damageType);
                 }
                 weapon = script.GetItemInSlot(CLRScriptBase.INVENTORY_SLOT_LEFTHAND, Creature);
-                weaponType = script.GetBaseItemType(weapon);
-                if (ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType != 1 &&
-                    ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType != 0) // unfortunately, this is magic numbered in the 2da as well
+                if (script.GetIsObjectValid(weapon) == CLRScriptBase.TRUE)
                 {
-                    script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_TEMPORARY, script.ExtraordinaryEffect(script.EffectAttackDecrease(2, CLRScriptBase.ATTACK_BONUS_OFFHAND)), Creature, 6.0f);
+                    weaponType = script.GetBaseItemType(weapon);
+                    if (ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType != 1 &&
+                        ALFA.Shared.Modules.InfoStore.BaseItems[weaponType].WeaponType != 0) // unfortunately, this is magic numbered in the 2da as well
+                    {
+                        script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_TEMPORARY, script.ExtraordinaryEffect(script.EffectAttackDecrease(2, CLRScriptBase.ATTACK_BONUS_OFFHAND)), Creature, 6.0f);
+                    }
                 }
             }
             else
