@@ -64,7 +64,7 @@ namespace ACR_Traps
                             int minimumToTrigger = (int)ScriptParameters[17];
                             int detectDC = (int)ScriptParameters[18];
                             int disarmDC = (int)ScriptParameters[19];
-                            CreateTraps.GenericDamage(this, loc, triggerArea, effectArea, effectSize, damageType, diceNumber, diceType, saveDC, attackBonus, numberOfShots, trapOrigin, targetAlignment, targetRace, minimumToTrigger, detectDC, disarmDC);
+                            CreateTraps.GenericDamage(this, loc, triggerArea, effectArea, effectSize, damageType, diceNumber, diceType, saveDC, attackBonus, numberOfShots, trapOrigin, targetAlignment, targetRace, minimumToTrigger, detectDC, disarmDC, "");
                             break;
                         }
                         else
@@ -72,11 +72,11 @@ namespace ACR_Traps
                             ALFA.Shared.TrapResource trapToSpawn = ALFA.Shared.Modules.InfoStore.ModuleTraps[(string)ScriptParameters[20]];
                             if (trapToSpawn.SpellTrap)
                             {
-                                CreateTraps.Spell(this, loc, (TriggerArea)trapToSpawn.TriggerArea, trapToSpawn.SpellId, trapToSpawn.NumberOfShots, trapToSpawn.TrapOrigin, trapToSpawn.TargetAlignment, trapToSpawn.TargetRace, trapToSpawn.MinimumToTrigger, trapToSpawn.DetectDC, trapToSpawn.DisarmDC);
+                                CreateTraps.Spell(this, loc, (TriggerArea)trapToSpawn.TriggerArea, trapToSpawn.SpellId, trapToSpawn.NumberOfShots, trapToSpawn.TrapOrigin, trapToSpawn.TargetAlignment, trapToSpawn.TargetRace, trapToSpawn.MinimumToTrigger, trapToSpawn.DetectDC, trapToSpawn.DisarmDC, trapToSpawn.Description);
                             }
                             else
                             {
-                                CreateTraps.GenericDamage(this, loc, (TriggerArea)trapToSpawn.TriggerArea, trapToSpawn.EffectArea, trapToSpawn.EffectSize, trapToSpawn.DamageType, trapToSpawn.DiceNumber, trapToSpawn.DiceType, trapToSpawn.SaveDC, trapToSpawn.AttackBonus, trapToSpawn.NumberOfShots, trapToSpawn.TrapOrigin, trapToSpawn.TargetAlignment, trapToSpawn.TargetRace, trapToSpawn.MinimumToTrigger, trapToSpawn.DetectDC, trapToSpawn.DisarmDC);
+                                CreateTraps.GenericDamage(this, loc, (TriggerArea)trapToSpawn.TriggerArea, trapToSpawn.EffectArea, trapToSpawn.EffectSize, trapToSpawn.DamageType, trapToSpawn.DiceNumber, trapToSpawn.DiceType, trapToSpawn.SaveDC, trapToSpawn.AttackBonus, trapToSpawn.NumberOfShots, trapToSpawn.TrapOrigin, trapToSpawn.TargetAlignment, trapToSpawn.TargetRace, trapToSpawn.MinimumToTrigger, trapToSpawn.DetectDC, trapToSpawn.DisarmDC, trapToSpawn.Description);
                             }
                         }
                         break;

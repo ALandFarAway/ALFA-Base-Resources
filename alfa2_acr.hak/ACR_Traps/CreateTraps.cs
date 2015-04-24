@@ -15,7 +15,7 @@ namespace ACR_Traps
 {
     public class CreateTraps: CLRScriptBase
     {
-        public static void GenericDamage(CLRScriptBase script, NWLocation location, TriggerArea triggerArea, int effectArea, float effectSize, int damageType, int diceNumber, int diceType, int saveDC, int attackBonus, int numberOfShots, uint trapOrigin, int targetAlignment, int targetRace, int minimumToTrigger, int detectDC, int disarmDC)
+        public static void GenericDamage(CLRScriptBase script, NWLocation location, TriggerArea triggerArea, int effectArea, float effectSize, int damageType, int diceNumber, int diceType, int saveDC, int attackBonus, int numberOfShots, uint trapOrigin, int targetAlignment, int targetRace, int minimumToTrigger, int detectDC, int disarmDC, string description)
         {
             string tag = uniqueTrapTag();
             string detectTag = tag + detectSuffix();
@@ -56,6 +56,7 @@ namespace ACR_Traps
             createdTrap.Helpers = new List<uint>();
             createdTrap.TotalHelp = 0;
             createdTrap.IsFiring = false;
+            createdTrap.Description = description;
             createdTrap.ConfigureDisplayName();
             createdTrap.CalculateCR();
 
@@ -67,7 +68,7 @@ namespace ACR_Traps
             script.SetLocalString(script.GetModule(), "ACR_TRAPS_LAST_TAG", tag);
         }
 
-        public static void Spell(CLRScriptBase script, NWLocation location, TriggerArea triggerArea, int spellId, int numberOfShots, uint trapOrigin, int targetAlignment, int targetRace, int minimumToTrigger, int detectDC, int disarmDC)
+        public static void Spell(CLRScriptBase script, NWLocation location, TriggerArea triggerArea, int spellId, int numberOfShots, uint trapOrigin, int targetAlignment, int targetRace, int minimumToTrigger, int detectDC, int disarmDC, string description)
         {
             string tag = uniqueTrapTag();
             string detectTag = tag + detectSuffix();
@@ -102,6 +103,7 @@ namespace ACR_Traps
             createdTrap.Helpers = new List<uint>();
             createdTrap.TotalHelp = 0;
             createdTrap.IsFiring = false;
+            createdTrap.Description = description;
             createdTrap.ConfigureDisplayName();
             createdTrap.CalculateCR();
 
