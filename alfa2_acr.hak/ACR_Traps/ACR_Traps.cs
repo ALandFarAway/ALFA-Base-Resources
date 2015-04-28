@@ -93,7 +93,7 @@ namespace ACR_Traps
                         int minimumToTrigger = (int)ScriptParameters[17];
                         int detectDC = (int)ScriptParameters[18];
                         int disarmDC = (int)ScriptParameters[19];
-                        CreateTraps.Spell(this, loc, triggerArea, spellId, numberOfShots, trapOrigin, targetAlignment, targetRace, minimumToTrigger, detectDC, disarmDC);
+                        CreateTraps.Spell(this, loc, triggerArea, spellId, numberOfShots, trapOrigin, targetAlignment, targetRace, minimumToTrigger, detectDC, disarmDC, "");
                         break;
                     }
                 case TrapEvent.DetectEnter:
