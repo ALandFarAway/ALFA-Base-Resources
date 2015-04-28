@@ -359,7 +359,7 @@ void main()
 		SetGender(oSpawn,nGender);
 
 		
-		ACR_RandomizeAppearance(oSpawn,nHead,nHair,nHair1,nHair2,nHair3,nBHair,nSkin,nEyes);
+		if(nRace < 9) ACR_RandomizeAppearance(oSpawn,nHead,nHair,nHair1,nHair2,nHair3,nBHair,nSkin,nEyes);
 
 		EquipCreature(oSpawn, nGear, oData);
 		SetAlignment(oSpawn, nAlignment);
