@@ -571,9 +571,12 @@ namespace ACR_CreatureBehavior
         /// <returns>true if the creature is seen by any member of the party</returns>
         public bool CanPartySee(CreatureObject Creature)
         {
+            if (Creature == null) return false;
+            if (Creature.ObjectId == null || Creature.ObjectId == 0) return false;
+            if (PartyMembers == null) return false; // If there's no one in the party, well, obviously.
             foreach (CreatureObject PartyMember in PartyMembers)
             {
-                if (PartyMember.Script != null &&
+                if (PartyMember != null &&
                     PartyMember.Script.GetObjectSeen(PartyMember.ObjectId, Creature.ObjectId) == CLRScriptBase.TRUE)
                     return true;
             }
@@ -582,9 +585,12 @@ namespace ACR_CreatureBehavior
 
         public bool CanPartyHear(CreatureObject Creature)
         {
+            if (Creature == null) return false;
+            if (Creature.ObjectId == null || Creature.ObjectId == 0) return false;
+            if (PartyMembers == null) return false; // If there's no one in the party, well, obviously.
             foreach (CreatureObject PartyMember in PartyMembers)
             {
-                if (PartyMember.Script != null &&
+                if (PartyMember != null &&
                     PartyMember.Script.GetObjectHeard(PartyMember.ObjectId, Creature.ObjectId) == CLRScriptBase.TRUE)
                     return true;
             }
