@@ -170,7 +170,7 @@ namespace ACR_Traps
         {
             if (trap.EffectSize < 2.0f)
             {
-                if (s.GetIsObjectValid(trap.TrapOrigin) == CLRScriptBase.TRUE)
+                if (trap.TrapOrigin > 0 && s.GetIsObjectValid(trap.TrapOrigin) == CLRScriptBase.TRUE)
                 {
                     if ((trap.DamageType & DAMAGE_TYPE_ACID) == DAMAGE_TYPE_ACID)
                     {
