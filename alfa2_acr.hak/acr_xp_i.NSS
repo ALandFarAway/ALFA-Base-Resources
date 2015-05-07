@@ -323,7 +323,7 @@ void ACR_AwardCombatXP(object oPCParty, object oKill)
         {
             if(ACR_GetECL(oPC) - FloatToInt(fCR) <= 8)
             {
-                int nXP = FloatToInt(fXP  / IntToFloat(nNumPCs));
+                int nXP = FloatToInt(fXP);
                 ACR_GiveXPToPC(oPC, nXP);
                 ACR_LogEvent(oPC, ACR_LOG_COMBATXP, IntToString(nXP) + " XP for combat against " + GetName(oKill) + " (resref: " + GetResRef(oKill) + ")");
             }
