@@ -1069,7 +1069,7 @@ void ACR_ModuleOnPCLoaded()
             DelayCommand(30.0, ACR_XPOnClientLoaded(oPC));
             // process simulated rest (spell uses handled accordingly)
             //  delay this long enough for the status restore to take effect for HP.
-            DelayCommand(1.5, ACR_RestOnClientEnter(oPC));
+            DelayCommand(10.0, ACR_RestOnClientEnter(oPC));
         }
 		
 		// Refresh their PC Hide.

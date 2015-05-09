@@ -198,6 +198,9 @@ void ACR_SetAFK( object oPC, int nState );
 int ACR_GetAFK( object oPC );
 
 //! *** PRIVATE FUNCTIONS ***
+//! This function restores the PC's hit points such that they
+//! reflect having lost nDamage hit points.
+void _playerRestoreHitPoints(object oPC, int nDamage);
 
 //! This function transitions the PC to their last saved location upon spawning in
 //!  - oPC: player to transition
@@ -919,12 +922,7 @@ void ACR_PCOnPCLoaded(object oPC)
             ApplyEffectToObject(DURATION_TYPE_PERMANENT, EffectAbilityDecrease(ABILITY_CHARISMA, nDelta), oPC);
         }
 
-        // restore hit points - do this at the conclusion of the script to make sure it doesn't preempt location restores
-        if (nDamage > 0) 
-        {
-            effect eDamage = EffectDamage(nDamage);
-            DelayCommand(0.3, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDamage, oPC));
-        }
+        DelayCommand(5.0f, _playerRestoreHitPoints(oPC, nDamage));
                         
         // restore spell uses
         ACR_RestoreSpellUses(oPC);
@@ -1173,6 +1171,21 @@ void ACR_PPSValidatePC(object oTarget) {
 ////////////////////////////////////////////////////////////////////////////////
 // *** BEGIN PRIVATE FUNCTIONS ***
 ////////////////////////////////////////////////////////////////////////////////
+
+void _playerRestoreHitPoints(object oPC, int nDamage)
+{
+    int nAlreadyDamaged = GetMaxHitPoints(oPC) - GetCurrentHitPoints(oPC);
+    if(nAlreadyDamaged < nDamage)
+    {
+        effect eDamage = EffectDamage(nDamage - nAlreadyDamaged);
+        DelayCommand(0.3, ApplyEffectToObject(DURATION_TYPE_INSTANT, eDamage, oPC));
+    }
+    else if(nDamage < nAlreadyDamaged)
+    {
+        effect eHeal = EffectHeal(nAlreadyDamaged - nDamage);
+        DelayCommand(0.3, ApplyEffectToObject(DURATION_TYPE_INSTANT, eHeal, oPC));
+    }
+}
 
 void _playerRestoreLocation(object oPC, location lLocation, int nCount = 0)
 {
