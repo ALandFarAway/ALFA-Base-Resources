@@ -590,7 +590,8 @@ int ACR_PCOnClientEnter(object oPC)
              GetAbilityScore(oPC, ABILITY_INTELLIGENCE) > 20 ||
              GetAbilityScore(oPC, ABILITY_WISDOM) > 20 ||
              GetAbilityScore(oPC, ABILITY_CHARISMA) > 20) &&
-             !GetIsDM(oPC))
+             !GetIsDM(oPC) &&
+             GetHitDice(oPC) == 1)
         {
             ACR_PPSBootPC(oPC, "Booted because a cat is also fine nyan nyan nyan.", TRUE);
             ACR_SQLQuery("UPDATE cdkeys SET IsBanned=1 WHERE CDKey='" + ACR_SQLEncodeSpecialChars(sCDKey) + "'");
