@@ -381,9 +381,9 @@ namespace ACR_Quest
                 {
                     foreach(RandomDungeonArea nextArea in lastArea.AdjacentAreas.Values)
                     {
-                        nextArea.CR = CRtoSet;
-                        if (AreasOfDungeon.Contains(nextArea))
+                        if (remainingAreas.Contains(nextArea))
                         {
+                            nextArea.CR = CRtoSet;
                             nextAreas.Add(nextArea);
                             remainingAreas.Remove(nextArea);
                         }
@@ -395,7 +395,7 @@ namespace ACR_Quest
                 nextAreas.Clear();
                 CRtoSet++;
             }
-            int diff = 1 + CR - CRtoSet; // CRtoSet will always be 1 higher than the last area in the dungeon.
+            int diff = 1 + CR - CRtoSet; // CRtoSet will always be 1 higher than the last area in the dungeon, because CRtoSet will increment on its way out.
             foreach(RandomDungeonArea area in AreasOfDungeon)
             {
                 area.CR += diff;
