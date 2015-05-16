@@ -12,5 +12,13 @@ void main()
   else if(tag == "DOOR_UP") transitionTarget = ACR_QST_CLR_COMMAND_DUNG_GO_UP;
   else if(tag == "DOOR_DOWN") transitionTarget = ACR_QST_CLR_COMMAND_DUNG_GO_DOWN;
 
-  SendCreatureThroughDungeonTransition(GetClickingObject(), GetLocalString(GetArea(OBJECT_SELF), "DUNGEON_NAME"), transitionTarget);
+  string dungName = GetLocalString(GetArea(OBJECT_SELF), "DUNGEON_NAME");
+  if(dungName != "")
+  {
+    SendCreatureThroughDungeonTransition(GetClickingObject(), dungName, transitionTarget);
+  }
+  else
+  {
+    AssignCommand(GetClickingObject(), JumpToLocation(GetStartingLocation()));
+  }
 }
