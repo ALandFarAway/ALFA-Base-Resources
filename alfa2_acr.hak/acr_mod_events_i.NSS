@@ -1355,6 +1355,13 @@ void ACR_ModuleOnPlayerLevelUp() {
 			return;
 		}
 	}
+    int prcs = 0;
+    if(Get2DAString("classes", "PreReqTable", GetClassByPosition(1, oPC)) != "") prcs++;
+    if(Get2DAString("classes", "PreReqTable", GetClassByPosition(2, oPC)) != "") prcs++;
+    if(Get2DAString("classes", "PreReqTable", GetClassByPosition(3, oPC)) != "") prcs++;
+    if(Get2DAString("classes", "PreReqTable", GetClassByPosition(4, oPC)) != "") prcs++;
+    
+    if(prcs > 1) _ReLevelPC(oPC);
 
     // handle the level up attempt
     ACR_ProcessLevelUpAttempt(oPC);
