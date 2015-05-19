@@ -65,6 +65,7 @@ namespace ACR_Movement
 
         #region Storage of Movement Types
         public static Dictionary<uint, MovementType> characterMovement = new Dictionary<uint, MovementType>();
+        public static Dictionary<uint, uint> currentSwimTrigger = new Dictionary<uint, uint>();
         public static Dictionary<uint, bool> overlandMap = new Dictionary<uint, bool>();
 
         public enum MovementType

@@ -27,13 +27,14 @@ namespace ACR_Movement
         public const string ACR_NO_AIR = "ACR_NO_AIR";
         public const string ACR_CREATURE_AQUATIC = "ACR_CREATURE_AQUATIC";
 
-        public static void SwimTriggerEnter(CLRScriptBase script, uint Creature, uint Trigger)
+        public static void SwimTriggerEnter(CLRScriptBase script, uint Creature)
         {
-            SwimHeartbeat(script, Creature, Trigger);
+            SwimHeartbeat(script, Creature);
         }
 
-        private static void SwimHeartbeat(CLRScriptBase script, uint Creature, uint Trigger)
+        private static void SwimHeartbeat(CLRScriptBase script, uint Creature)
         {
+            uint Trigger = AppearanceTypes.currentSwimTrigger[Creature];
             foreach(uint contents in script.GetObjectsInPersistentObject(Trigger, CLRScriptBase.OBJECT_TYPE_CREATURE, CLRScriptBase.PERSISTENT_ZONE_ACTIVE))
             {
                 if(contents == Creature)
@@ -95,10 +96,11 @@ namespace ACR_Movement
                         script.SendMessageToPC(Creature, "Your swim speed and capacity to breathe water allows you to move easily through the water.");
                         return;
                     }
-                    script.DelayCommand(6.0f, delegate { SwimHeartbeat(script, Creature, Trigger); });
+                    script.DelayCommand(6.0f, delegate { SwimHeartbeat(script, Creature); });
                     return;
                 }
             }
+            AppearanceTypes.currentSwimTrigger[Creature] = CLRScriptBase.OBJECT_INVALID;
             AppearanceTypes.characterMovement[Creature] = AppearanceTypes.MovementType.Walking;
             if (Swimming.CurrentDrownStatus.ContainsKey(Creature)) Swimming.CurrentDrownStatus.Remove(Creature);
             AppearanceTypes.RecalculateMovement(script, Creature);

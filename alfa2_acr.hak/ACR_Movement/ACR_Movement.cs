@@ -49,18 +49,27 @@ namespace ACR_Movement
             {
                 AppearanceTypes.overlandMap.Add(Target, false);
             }
+            if(!AppearanceTypes.currentSwimTrigger.ContainsKey(Target))
+            {
+                AppearanceTypes.currentSwimTrigger.Add(Target, OBJECT_INVALID);
+            }
 
             switch((MovementCommand)Command)
             {
                 case MovementCommand.EnterWater:
                     AppearanceTypes.characterMovement[Target] = AppearanceTypes.MovementType.Swimming;
                     AppearanceTypes.RecalculateMovement(this, Target);
-                    Swimming.SwimTriggerEnter(this, Target, OBJECT_SELF);
+                    if (GetIsObjectValid(AppearanceTypes.currentSwimTrigger[Target]) == CLRScriptBase.TRUE)
+                    {
+                        AppearanceTypes.currentSwimTrigger[Target] = OBJECT_SELF;
+                    }
+                    else
+                    {
+                        AppearanceTypes.currentSwimTrigger[Target] = OBJECT_SELF;
+                        Swimming.SwimTriggerEnter(this, Target);
+                    }
                     break;
                 case MovementCommand.ExitWater:
-                    AppearanceTypes.characterMovement[Target] = AppearanceTypes.MovementType.Walking;
-                    if (Swimming.CurrentDrownStatus.ContainsKey(Target)) Swimming.CurrentDrownStatus.Remove(Target);
-                    AppearanceTypes.RecalculateMovement(this, Target);
                     break;
                 case MovementCommand.MountHorse:
                     AppearanceTypes.characterMovement[Target] = AppearanceTypes.MovementType.Riding;
