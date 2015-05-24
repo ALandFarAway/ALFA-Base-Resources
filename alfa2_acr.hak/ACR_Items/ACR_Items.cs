@@ -2279,8 +2279,9 @@ namespace ACR_Items
                 ALFA.Shared.Modules.InfoStore.ModifiedGff[ModelChangeVarName] = null;
                 if (GetObjectType(Target) != OBJECT_TYPE_PLACEABLE)
                 {
-                    CopyItem(newObj, OBJECT_SELF, TRUE);
+                    int item = ObjectToInt(CopyItem(newObj, OBJECT_SELF, TRUE));
                     DestroyObject(newObj, 0.0f, FALSE);
+                    return item;
                 }
             }
             return 0;
