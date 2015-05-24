@@ -671,6 +671,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s0_identify.ncs                    \
             $(OUTPUTDIR)\nw_s0_greasea.ncs                     \
             $(OUTPUTDIR)\acr_rnddungtrans.ncs                  \
+            $(OUTPUTDIR)\nw_s2_snghaven.ncs                    \
             $(OUTPUTDIR)\acr_set_player_password.ncs           
 
 #
