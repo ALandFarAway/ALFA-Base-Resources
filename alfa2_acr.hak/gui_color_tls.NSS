@@ -10,6 +10,7 @@
 
 #include "nwnx_craft_system"
 #include "acr_vanity_i"
+#include "acr_items_i"
 
 void main (int iTeinte, int iLuminosite, int iSaturation)
 {	
@@ -80,8 +81,40 @@ void main (int iTeinte, int iLuminosite, int iSaturation)
 		return;
 	}
 	*/
-		
-	SetLocalObject(oPC, "XC_ITEM_TO_CRAFT", XPCraft_ActionChangeColor(oPC, iNewColorValue));
+	if(GetLocalInt(oPC, "ACR_ITEM_COMMAND")) 
+	{
+    iNewColorValue = ((iRed & 255)<<16) + ((iGreen & 255)<<8) + (iBlue & 255);
+    object oItem = GetItemInSlot(GetLocalInt(oPC, "ACR_ITEM_INV_SLOT"), oPC);
+    if(!GetIsObjectValid(oItem)) return;
+	
+    ClearScriptParams();
+    AddScriptParameterObject(oItem);
+    AddScriptParameterInt(GetLocalInt(oPC, "ACR_ITEM_COMMAND"));
+    
+    if(GetLocalInt(oPC, "ACR_ITEM_PARAM_1") == -101)
+    {
+      AddScriptParameterInt(iNewColorValue);
+      AddScriptParameterInt(GetLocalInt(oPC, "ACR_ITEM_COLOR_ACCENT"));
+      SetLocalInt(oPC, "ACR_ITEM_COLOR_BASE", iNewColorValue);
+    }
+    else if(GetLocalInt(oPC, "ACR_ITEM_PARAM_1") == -102)
+    {
+      AddScriptParameterInt(GetLocalInt(oPC, "ACR_ITEM_COLOR_BASE"));
+      AddScriptParameterInt(iNewColorValue);
+      SetLocalInt(oPC, "ACR_ITEM_COLOR_ACCENT", iNewColorValue);
+    }
+    else
+    {
+      AddScriptParameterInt(GetLocalInt(oPC, "ACR_ITEM_PARAM_1"));
+      AddScriptParameterInt(iNewColorValue);
+    }
+    int ret = ExecuteScriptEnhanced("ACR_Items", oPC, TRUE);
+    if(ret > 0) AssignCommand(oPC, ActionEquipItem(IntToObject(ret), GetLocalInt(oPC, "ACR_ITEM_INV_SLOT")));
+	}
+	else
+	{
+    SetLocalObject(oPC, "XC_ITEM_TO_CRAFT", XPCraft_ActionChangeColor(oPC, iNewColorValue));
+  }
 	
 	//SetLocalInt(oPC, "XC_ITEM_COLOR_CRAFTED",1);
 		
