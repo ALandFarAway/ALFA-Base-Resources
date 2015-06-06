@@ -1224,7 +1224,6 @@ void DoPetrification(int nPower, object oSource, object oTarget, int nSpellID, i
                     {
                         // * under hardcore rules or higher, this is an instant death
                         ApplyEffectToObject(DURATION_TYPE_PERMANENT, eLink, oTarget);
-                        DelayCommand(2.75, PopUpDeathGUIPanel(oTarget, FALSE , TRUE, 40579));
                         // if in hardcore, treat the player as an NPC
                         bIsPC = FALSE;
                         //fDifficulty = TurnsToSeconds(nPower); // One turn per hit-die
