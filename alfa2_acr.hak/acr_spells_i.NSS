@@ -152,6 +152,10 @@ void PersistACBonusFromSpell(object oTarget, int nSpellId, int nACType, int nACB
 //!!     2 - Scroll use failed.
 int ACR_ScrollUse(object oUser, object oScroll, int nSpellID);
 
+//! Checks if OBJECT_SELF can carry out a gaze attack on oCreature
+//!  - oCreature: The creature to be gaze attacked
+int ACR_CanGazeAttack(object oCreature);
+
 //! *** PRIVATE FUNCTIONS ***
 
 //! Determines which class a given caster should use to activate a scroll, and whether they succeed.
@@ -752,6 +756,21 @@ int ACR_ScrollUse(object oUser, object oScroll, int nSpellID) {
    } 
    // otherwise, scroll use was successful.
 return TRUE;
+}
+
+
+int ACR_CanGazeAttack(object oCreature)
+{
+    effect eEffect = GetFirstEffect(oCreature);
+    if(!GetObjectSeen(OBJECT_SELF, oCreature)) return FALSE;
+    if(!GetObjectSeen(oCreature, OBJECT_SELF)) return FALSE;
+    while(GetIsEffectValid(eEffect))
+    {
+        if(GetEffectType(eEffect) == EFFECT_TYPE_BLINDNESS) return FALSE;
+        if(GetEffectSpellId(eEffect) == SPELL_BLINDSIGHT) return FALSE;
+        eEffect = GetNextEffect(oCreature);
+    }
+    return TRUE;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

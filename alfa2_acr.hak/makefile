@@ -671,7 +671,19 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s0_identify.ncs                    \
             $(OUTPUTDIR)\nw_s0_greasea.ncs                     \
             $(OUTPUTDIR)\acr_rnddungtrans.ncs                  \
-            $(OUTPUTDIR)\nw_s2_snghaven.ncs                    \
+            $(OUTPUTDIR)\nw_s1_gazechaos.ncs                   \
+            $(OUTPUTDIR)\nw_s1_gazecharm.ncs                   \
+            $(OUTPUTDIR)\nw_s1_gazeconfu.ncs                   \
+            $(OUTPUTDIR)\nw_s1_gazedaze.ncs                    \
+            $(OUTPUTDIR)\nw_s1_gazedeath.ncs                   \
+            $(OUTPUTDIR)\nw_s1_gazedomn.ncs                    \
+            $(OUTPUTDIR)\nw_s1_gazedoom.ncs                    \
+            $(OUTPUTDIR)\nw_s1_gazeevil.ncs                    \
+            $(OUTPUTDIR)\nw_s1_gazefear.ncs                    \
+            $(OUTPUTDIR)\nw_s1_gazegood.ncs                    \
+            $(OUTPUTDIR)\nw_s1_gazelaw.ncs                     \
+            $(OUTPUTDIR)\nw_s1_gazeparal.ncs                   \
+            $(OUTPUTDIR)\nw_s1_gazestun.ncs                    \
             $(OUTPUTDIR)\acr_set_player_password.ncs           
 
 #
