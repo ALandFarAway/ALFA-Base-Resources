@@ -83,16 +83,19 @@ namespace ALFA.Shared
             /// <param name="Disposing">Supplies true if called from Dispose.</param>
             private void Dispose(bool Disposing)
             {
-                if (GetBinaryDataPatch != null)
+                if (Disposing == true)
                 {
-                    GetBinaryDataPatch.Dispose();
-                    GetBinaryDataPatch = null;
-                }
+                    if (GetBinaryDataPatch != null)
+                    {
+                        GetBinaryDataPatch.Dispose();
+                        GetBinaryDataPatch = null;
+                    }
 
-                if (AddBinaryDataPatch != null)
-                {
-                    AddBinaryDataPatch.Dispose();
-                    AddBinaryDataPatch = null;
+                    if (AddBinaryDataPatch != null)
+                    {
+                        AddBinaryDataPatch.Dispose();
+                        AddBinaryDataPatch = null;
+                    }
                 }
             }
 
