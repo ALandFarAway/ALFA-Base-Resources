@@ -96,11 +96,38 @@ namespace CLRScriptFramework
         /// 
         public delegate void NWAction();
 
+        public class NWActionState
+        {
+            /// <summary>
+            /// The action delegate.
+            /// </summary>
+            public NWAction ActionDelegate;
+
+            /// <summary>
+            /// The 'this' object for the script.
+            /// </summary>
+
+            public CLRScriptBase ScriptThis;
+
+            /// <summary>
+            /// Construct a NWActionState.
+            /// </summary>
+            /// <param name="ActionDelegate">Supplies the associated action
+            /// delegate.</param>
+            /// <param name="ScriptThis">Supplies the this object that CLR code
+            /// will expect to run under.</param>
+            public NWActionState(NWAction ActionDelegate, CLRScriptBase ScriptThis)
+            {
+                this.ActionDelegate = ActionDelegate;
+                this.ScriptThis = ScriptThis;
+            }
+        }
+
         /// <summary>
         /// This table is used to track pending action delegates for resume.
         /// It should not be used by user code.
         /// </summary>
-        protected static Dictionary<UInt32, NWAction> ActionDelegateTable = new Dictionary<UInt32, NWAction>();
+        protected static Dictionary<UInt32, NWActionState> ActionDelegateTable = new Dictionary<UInt32, NWActionState>();
 
         /// <summary>
         /// This variable tracks the next available resume method id for an
@@ -152,7 +179,7 @@ namespace CLRScriptFramework
 
             UInt32 ResumeMethodId = NextActionDelegateId++ | 0x80000000;
 
-            ActionDelegateTable[ResumeMethodId] = Action;
+            ActionDelegateTable[ResumeMethodId] = new NWActionState(Action, this);
 
             //
             // Now clone the script program, save off global variables, and
@@ -197,6 +224,7 @@ namespace CLRScriptFramework
         public void DispatchExecuteScriptSituation([In] UInt32 ScriptSituationId, [In] object[] Locals, [In] UInt32 ObjectSelf)
         {
             UInt32 OldOBJECT_SELF = OBJECT_SELF;
+            UInt32 OldOBJECT_SELF2;
 
             //
             // If this was a script situation set up by CLR script code, run
@@ -210,13 +238,19 @@ namespace CLRScriptFramework
                 // dispatch to the delegate.
                 //
 
+                NWActionState State = ActionDelegateTable[ScriptSituationId];
+
+                OldOBJECT_SELF2 = State.ScriptThis.OBJECT_SELF;
+
                 try
                 {
                     OBJECT_SELF = ObjectSelf;
-                    ActionDelegateTable[ScriptSituationId].Invoke();
+                    State.ScriptThis.OBJECT_SELF = ObjectSelf;
+                    State.ActionDelegate.Invoke();
                 }
                 finally
                 {
+                    State.ScriptThis.OBJECT_SELF = OldOBJECT_SELF2;
                     OBJECT_SELF = OldOBJECT_SELF;
                     ActionDelegateTable.Remove(ScriptSituationId);
                 }
