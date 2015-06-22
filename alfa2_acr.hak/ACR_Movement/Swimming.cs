@@ -85,7 +85,8 @@ namespace ACR_Movement
                         else
                         {
                             script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_TEMPORARY, script.ExtraordinaryEffect(script.EffectMovementSpeedDecrease(75)), Creature, 6.0f);
-                            script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_TEMPORARY, script.ExtraordinaryEffect(script.EffectACDecrease(2, CLRScriptBase.AC_DODGE_BONUS, CLRScriptBase.DAMAGE_TYPE_ALL)), Creature, 6.0f);
+                            // TODO: Find a way to apply this penalty without completely screwing the PC's AC.
+                            //script.ApplyEffectToObject(CLRScriptBase.DURATION_TYPE_TEMPORARY, script.ExtraordinaryEffect(script.EffectACDecrease(2, CLRScriptBase.AC_DODGE_BONUS, CLRScriptBase.DAMAGE_TYPE_ALL)), Creature, 6.0f);
                             script.SendMessageToPC(Creature, String.Format("*Swim: {0} + {1} = {2} v. DC {3} :: Failure!*", Roll, Bonus, Roll + Bonus, SwimDC));
                             script.SendMessageToPC(Creature, String.Format("You're completely overwhelmed by the pull of the water!"));
                             ProcessNoAir(script, Creature);
