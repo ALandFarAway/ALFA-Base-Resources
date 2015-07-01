@@ -188,7 +188,8 @@ void ACR_CreatureOnSpawnIn()
 	SetIdentified(GetItemInSlot(INVENTORY_SLOT_RIGHTRING), TRUE);
 	
     if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
-       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "" ||
+       GetLocalInt(GetModule(), "ACR_CREATURE_BEHAVIOR") == 1)
     {
         ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_ON_SPAWN);
         return;
@@ -239,7 +240,8 @@ void ACR_CreatureOnSpellCastAt()
     // apply any effects on the creature
     //ACR_VFXOnSpellCastAt(oCaster, OBJECT_SELF);
     if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
-       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "" ||
+       GetLocalInt(GetModule(), "ACR_CREATURE_BEHAVIOR") == 1)
     {
         ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_ON_SPELL_CAST_AT);
         return;
@@ -260,7 +262,8 @@ void ACR_CreatureOnPhysicallyAttacked()
     // apply any effects on the creature
     //ACR_VFXOnAttack(oAttacker, OBJECT_SELF);
     if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
-       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "" ||
+       GetLocalInt(GetModule(), "ACR_CREATURE_BEHAVIOR") == 1)
     {
         ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_ON_PHYSICALLY_ATTACKED);
         return;
@@ -281,7 +284,8 @@ void ACR_CreatureOnDamaged()
 	_startRunning();
 
     if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
-       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "" ||
+       GetLocalInt(GetModule(), "ACR_CREATURE_BEHAVIOR") == 1)
     {
         ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_ON_DAMAGED);
         return;
@@ -329,7 +333,8 @@ void ACR_CreatureOnDeath()
     ACR_QuestCreatureOnDeath(oKiller);
 
     if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
-       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "" ||
+       GetLocalInt(GetModule(), "ACR_CREATURE_BEHAVIOR") == 1)
     {
         ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_ON_DEATH);
     }
@@ -392,7 +397,8 @@ void ACR_CreatureOnDeath()
 void ACR_CreatureOnBlocked()
 {
     if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
-       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "" ||
+       GetLocalInt(GetModule(), "ACR_CREATURE_BEHAVIOR") == 1)
     {
         ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_ON_BLOCKED);
         return;
@@ -406,7 +412,8 @@ void ACR_CreatureOnBlocked()
 void ACR_CreatureOnEndCombatRound()
 {
     if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
-       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "" ||
+       GetLocalInt(GetModule(), "ACR_CREATURE_BEHAVIOR") == 1)
     {
         ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_END_COMBAT_ROUND);
         return;
@@ -420,7 +427,8 @@ void ACR_CreatureOnEndCombatRound()
 void ACR_CreatureOnConversation()
 {
     if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
-       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "" ||
+       GetLocalInt(GetModule(), "ACR_CREATURE_BEHAVIOR") == 1)
     {
         ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_ON_CONVERSATION);
         return;
@@ -439,7 +447,8 @@ void ACR_CreatureOnInventoryDisturbed()
     ACR_VFXOnDisturb(oDisturber, OBJECT_SELF);
 
     if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
-       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "" ||
+       GetLocalInt(GetModule(), "ACR_CREATURE_BEHAVIOR") == 1)
     {
         ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_ON_INVENTORY_DISTURBED);
         return;
@@ -506,7 +515,8 @@ void ACR_CreatureOnHeartBeat()
         ACR_VFXOnHeartBeat(OBJECT_SELF);
     */
         if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
-           GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+           GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "" ||
+           GetLocalInt(GetModule(), "ACR_CREATURE_BEHAVIOR") == 1)
         {
             ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_ON_HEARTBEAT);
             return;
@@ -521,7 +531,8 @@ void ACR_CreatureOnHeartBeat()
 void ACR_CreatureOnRested()
 {
     if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
-       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "" ||
+       GetLocalInt(GetModule(), "ACR_CREATURE_BEHAVIOR") == 1)
     {
         ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_ON_RESTED);
         return;
@@ -537,7 +548,8 @@ void ACR_CreatureOnPerception()
     object oPerceived = GetLastPerceived();
 
     if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
-       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "" ||
+       GetLocalInt(GetModule(), "ACR_CREATURE_BEHAVIOR") == 1)
     {
         ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_ON_PERCEPTION);
         return;
@@ -553,7 +565,8 @@ void ACR_CreatureOnPerception()
 void ACR_CreatureOnUserDefined()
 {
     if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
-       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "" ||
+       GetLocalInt(GetModule(), "ACR_CREATURE_BEHAVIOR") == 1)
     {
         ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_ON_USER_DEFINED);
         return;
@@ -567,7 +580,8 @@ void ACR_CreatureOnUserDefined()
 void ACR_CreatureDropParty()
 {
     if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
-       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "")
+       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "" ||
+       GetLocalInt(GetModule(), "ACR_CREATURE_BEHAVIOR") == 1)
     {
         ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_DROP_PARTY);
         return;
