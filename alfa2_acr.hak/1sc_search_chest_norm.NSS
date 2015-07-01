@@ -1,11 +1,11 @@
-#include "1sc_searchable"
-#include "1sc_searchable_treasure"
+#include "acr_xp_i"
+#include "acr_wealth_i"
 
 void main()
 {
-	// This is the normal version of the loot script, it generates
-	// 37.5% Chance for items of Low quality
-	// 50% chance of items of Low quality
-	// 12.5% chance of items of High quality
-	PL_UseChest(TREASURE_TYPE_LOW,TREASURE_TYPE_MED,TREASURE_TYPE_MED,TREASURE_TYPE_HIGH);
+  if(GetLocalInt(OBJECT_SELF, "LOOTED")) return;
+  SetLocalInt(OBJECT_SELF, "LOOTED", 1);
+  int loot = FloatToInt(ACR_CalculateMultiplier(GetLastUsedBy()) * 25);
+  int maxItem = GetMaxItemValue(ACR_GetECL(GetLastUsedBy()));
+  ACR_GenerateLoot(OBJECT_SELF, loot, maxItem);
 }

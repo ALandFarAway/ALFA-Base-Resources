@@ -17,39 +17,5 @@
 
 void main()
 	{
-	// This is the low version of the damaged script, it generates
-	// 62.5% Chance for items of Low quality
-	// 25% chance of items of Normal quality
-	// 12.5% chance of items of High quality
-	if (!GetLocalInt(OBJECT_SELF,"searched")) {
-		FillContainer(TREASURE_TYPE_LOW,TREASURE_TYPE_LOW,TREASURE_TYPE_LOW,TREASURE_TYPE_MED);
-	}
-	// get the amount of damage that has been dealt to the container
-	// and from that calculate how much items in the chest where damaged.
-	int iDamage = GetTotalDamageDealt();
-	// compare the total search DC against the required DC for
-	// all the findable items on the container
-	int iCurrentSearchFor = 1;
-	int iFindableItems = 32 - GetLocalInt(OBJECT_SELF, "findable_items");
-	object oBrokenItem;
-	int iStackSize;
-	while(iCurrentSearchFor < iFindableItems)
-		{
-		int iCurrentItemDC = GetLocalInt(OBJECT_SELF, ("item_dc" + IntToString(iCurrentSearchFor)));
-		// if we deal enough damage to damage the item then break the item
-		if(iCurrentItemDC <= iDamage && iCurrentItemDC > 0)
-			{
-			oBrokenItem = GetLocalObject(OBJECT_SELF, ("findable_item" + IntToString(iCurrentSearchFor)));
-			// we can't break gold
-			if(GetBaseItemType(oBrokenItem) != BASE_ITEM_GOLD)
-				{
-				DestroyObject(oBrokenItem);
-				SpeakString("Something breaks inside the container");
-				CreateItemOnObject("n2_it_brokenitem",OBJECT_SELF);
-				SetLocalInt(OBJECT_SELF, ("item_dc" + IntToString(iCurrentSearchFor)), 999);
-				}
-			}
-		iCurrentSearchFor = iCurrentSearchFor + 1;
-		}
-	SetLocalInt(OBJECT_SELF,"searched",1);
+
 	}
