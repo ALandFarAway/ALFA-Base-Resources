@@ -101,7 +101,7 @@ const string ACR_QST_SPAWN_DELAY = "ACR_QST_SPAWN_DELAY";
 const string ACR_QST_MESSAGE = "ACR_QST_MESSAGE";
 
 //! local variable for which skill is to be checked on a skill check quest trigger
-const string ACR_QST_REQUiRED_SKILL = "ACR_QST_REQUIRED_SKILL";
+const string ACR_QST_REQUIRED_SKILL = "ACR_QST_REQUIRED_SKILL";
 
 //! local variable for the DC of the skill check
 const string ACR_QST_SKILL_DC = "ACR_QST_SKILL_DC";
@@ -632,9 +632,9 @@ void ACR_QuestTriggerEnter(object oPC)
         // determine if the activation requirements have been met
         if ((nState == nLower) || (nLower == 0))
         {
-            if(GetLocalInt(OBJECT_SELF, ACR_QST_REQUiRED_SKILL))
+            if(GetLocalInt(OBJECT_SELF, ACR_QST_REQUIRED_SKILL))
             {
-                if(!ACR_SkillCheck(GetLocalInt(OBJECT_SELF, ACR_QST_REQUiRED_SKILL), oPC, GetLocalInt(OBJECT_SELF, ACR_QST_SKILL_DC), TRUE))
+                if(!ACR_SkillCheck(GetLocalInt(OBJECT_SELF, ACR_QST_REQUIRED_SKILL), oPC, GetLocalInt(OBJECT_SELF, ACR_QST_SKILL_DC), TRUE))
                 {
                     SetLocalInt(OBJECT_SELF, IntToString(GetLocalInt(oPC, "ACR_CID")), 1);
                     return;
