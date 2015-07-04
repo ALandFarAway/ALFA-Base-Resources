@@ -32,6 +32,7 @@ void main()
 						eEffect = GetNextEffect(oTarget);
 					}
 				}
+				ApplyEffectToObject(DURATION_TYPE_PERMANENT, SupernaturalEffect(EffectTemporaryHitpoints(5)), OBJECT_SELF);
 				ApplyEffectToObject(DURATION_TYPE_PERMANENT, SupernaturalEffect(EffectAbilityDecrease(ABILITY_CONSTITUTION, nDrain)), oTarget);
 				ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectDamage(nDamage), oTarget);
 				ApplyEffectToObject( DURATION_TYPE_INSTANT, EffectVisualEffect( VFX_IMP_PULSE_NEGATIVE ), oTarget );
@@ -48,24 +49,16 @@ void main()
 			int nDrain = d6();
 			if(nTouch)
 			{
-				if(nDrain >  GetAbilityScore(oTarget, ABILITY_CONSTITUTION) &&
-				   !GetIsImmune(oTarget, IMMUNITY_TYPE_ABILITY_DECREASE))
+				effect eEffect = GetFirstEffect(oTarget);
+				while(GetIsEffectValid(eEffect))
 				{
-					ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectParalyze(), oTarget);
-				}
-				else
-				{
-					effect eEffect = GetFirstEffect(oTarget);
-					while(GetIsEffectValid(eEffect))
+					if(GetEffectSpellId(eEffect) == GetSpellId() &&
+					   GetEffectCreator(eEffect) == OBJECT_SELF)
 					{
-						if(GetEffectSpellId(eEffect) == GetSpellId() &&
-						   GetEffectCreator(eEffect) == OBJECT_SELF)
-						{
-							nDrain += GetEffectInteger(eEffect, 1);
-							RemoveEffect(oTarget, eEffect);
-						}
-						eEffect = GetNextEffect(oTarget);
+						nDrain += GetEffectInteger(eEffect, 1);
+						RemoveEffect(oTarget, eEffect);
 					}
+					eEffect = GetNextEffect(oTarget);
 				}
 				int nAbility = ABILITY_STRENGTH;
 				
@@ -86,7 +79,13 @@ void main()
 				{
 					nAbility = ABILITY_INTELLIGENCE;
 				}
-
+				
+				if(nDrain >  GetAbilityScore(oTarget, nAbility) &&
+				   !GetIsImmune(oTarget, IMMUNITY_TYPE_ABILITY_DECREASE))
+				{
+					ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectParalyze(), oTarget);
+				}
+        ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectHeal(5), OBJECT_SELF);
 				ApplyEffectToObject(DURATION_TYPE_PERMANENT, SupernaturalEffect(EffectAbilityDecrease(nAbility, nDrain)), oTarget);
 				ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectDamage(nDamage), oTarget);
 				ApplyEffectToObject(DURATION_TYPE_INSTANT, EffectVisualEffect( VFX_IMP_PULSE_NEGATIVE ), oTarget );
@@ -136,9 +135,7 @@ void main()
 			if(nTouch == 2) nDamage += d8(2);
 			if(nTouch)
 			{
-			// void ApplyEffectToObject(int nDurationType, effect eEffect, object oTarget, float fDuration=0.0f);
-
-				ApplyEffectToObject( DURATION_TYPE_INSTANT, EffectDamage( DAMAGE_TYPE_ELECTRICAL, nDamage ), oTarget );
+				ApplyEffectToObject( DURATION_TYPE_INSTANT, EffectDamage( nDamage, DAMAGE_TYPE_ELECTRICAL ), oTarget );
 				ApplyEffectToObject( DURATION_TYPE_INSTANT, EffectVisualEffect( VFX_BEAM_SHOCKING_GRASP ), oTarget );
 			}
 		}
