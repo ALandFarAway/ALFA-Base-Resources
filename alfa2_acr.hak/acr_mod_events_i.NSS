@@ -794,8 +794,9 @@ void ACR_ModuleOnModuleLoad()
     // Initialize one-time PC status setups
     ACR_PCOnModuleLoad();
 
-    // Recreate player corpses
-    ACR_RestoreCorpsesOnModuleLoad();
+    // Recreate player corpses after we've given the databse a couple
+    // minutes to catch its breath.
+    DelayCommand(120.0f, ACR_RestoreCorpsesOnModuleLoad());
 
     // Set bioware/obsidian module switches as desired:
     SetModuleSwitch(MODULE_SWITCH_ENABLE_INVISIBLE_GLYPH_OF_WARDING, TRUE);
