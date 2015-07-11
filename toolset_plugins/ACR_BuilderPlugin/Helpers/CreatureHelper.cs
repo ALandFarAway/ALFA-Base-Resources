@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using NWN2Toolset.NWN2.Data.Templates;
+using NWN2Toolset.NWN2.Data.TypedCollections;
 using NWN2Toolset.NWN2.Rules;
 
 namespace ACR_BuilderPlugin
@@ -14,6 +15,32 @@ namespace ACR_BuilderPlugin
             Ignore = -1,
             PenAndPaper = 1,
             Maximum = 2
+        }
+
+        public static void SetCreatureBehaviorType(NWN2CreatureTemplate creature, string behavior)
+        {
+            creature.Variables.GetVariable("ACR_CREATURE_BEHAVIOR").ValueString = behavior;
+        }
+
+        public static void SetCreatureHitPoints(NWN2CreatureTemplate creature, HPType hpType)
+        {
+            // Check for blacklisting.
+            if (creature.Variables.GetVariable("ABP_SETHP_OVERRIDE").ValueInt > 0) hpType = (CreatureHelper.HPType)creature.Variables.GetVariable("ABP_SETHP_OVERRIDE").ValueInt;
+            if (hpType == CreatureHelper.HPType.Ignore) return;
+
+            // Find the new HP.
+            short newHP = 0;
+            switch (hpType)
+            {
+                case CreatureHelper.HPType.PenAndPaper: newHP = CreatureHelper.GetHitPointsPNP(creature); break;
+                case CreatureHelper.HPType.Maximum: newHP = CreatureHelper.GetHitPointsMax(creature); break;
+                default: return;
+            }
+
+            // And set it.
+            creature.BaseHitPoints = newHP;
+            creature.CurrentHitPoints = newHP;
+            creature.CharsheetHitPoints = newHP;
         }
 
         public static short GetHitPointsPNP(NWN2CreatureTemplate creature)

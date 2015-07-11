@@ -46,11 +46,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreatureHelper.cs" />
+    <Compile Include="Editors\Converters\CreatureBehaviorTypeConverter.cs" />
+    <Compile Include="Editors\Converters\SpawnTypeConverter.cs" />
+    <Compile Include="Editors\Wrappers\ACRCreature.cs" />
+    <Compile Include="Editors\Wrappers\ACRSpawnWaypoint.cs" />
+    <Compile Include="Editors\CreatureEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Editors\CreatureEditor.Designer.cs">
+      <DependentUpon>CreatureEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editors\WaypointEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Editors\WaypointEditor.Designer.cs">
+      <DependentUpon>WaypointEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\CreatureHelper.cs" />
+    <Compile Include="Helpers\ModuleHelper.cs" />
+    <Compile Include="Helpers\ToolsetHelper.cs" />
+    <Compile Include="Helpers\VariableHelper.cs" />
     <Compile Include="PluginMain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ModuleValidator.cs" />
+    <Compile Include="Utils\ModuleValidator.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

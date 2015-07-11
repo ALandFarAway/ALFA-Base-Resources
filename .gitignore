@@ -30,3 +30,6 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 #Ignore release folder.
 release/
+toolset_plugins/ABR_creator/bin
+toolset_plugins/ABR_creator/obj
+toolset_plugins/ACR_BuilderPlugin/Properties/
