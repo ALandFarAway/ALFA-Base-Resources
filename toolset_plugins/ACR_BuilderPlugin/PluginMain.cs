@@ -24,6 +24,7 @@ namespace ACR_BuilderPlugin
 
         // Editors.
         CreatureEditor creatureEditor = new CreatureEditor();
+        TriggerEditor triggerEditor = new TriggerEditor();
         WaypointEditor waypointEditor = new WaypointEditor();
 
         /// <summary>
@@ -61,6 +62,11 @@ namespace ACR_BuilderPlugin
             creatureEditor.Show();
         }
 
+        private void OpenTriggerEditor(object sender, EventArgs e)
+        {
+            triggerEditor.Show();
+        }
+
         private void OpenWaypointEditor(object sender, EventArgs e)
         {
             waypointEditor.Show();
@@ -73,11 +79,16 @@ namespace ACR_BuilderPlugin
         {
             try
             {
-                foreach (NWN2CreatureBlueprint creature in NWN2ToolsetMainForm.App.Module.Creatures) CreatureHelper.SetCreatureHitPoints(creature, hpType);
+                foreach (NWN2CreatureBlueprint creature in NWN2ToolsetMainForm.App.Module.Creatures)
+                    CreatureHelper.SetCreatureHitPoints(creature, hpType);
+
                 foreach (NWN2GameArea area in NWN2ToolsetMainForm.App.Module.Areas.Values)
                 {
                     area.Demand();
-                    foreach (NWN2CreatureInstance creature in area.Creatures) CreatureHelper.SetCreatureHitPoints(creature, hpType);
+
+                    foreach (NWN2CreatureInstance creature in area.Creatures)
+                        CreatureHelper.SetCreatureHitPoints(creature, hpType);
+
                     area.LoadAllHookPoints();
                     area.OEISerialize();
                     area.Release();
@@ -121,11 +132,8 @@ namespace ACR_BuilderPlugin
             ToolsetHelper.GetControl(typeof(ToolBarContainer), "topSandBarDock").Controls.Add(toolBar);
 
             // Populate it with some buttons.
-            toolBar.Items.Add(ToolsetHelper.GenerateButtonItem("Module"));
             toolBar.Items.Add(ToolsetHelper.GenerateButtonItem("Creature", OpenCreatureEditor));
-            toolBar.Items.Add(ToolsetHelper.GenerateButtonItem("Door"));
-            toolBar.Items.Add(ToolsetHelper.GenerateButtonItem("Item"));
-            toolBar.Items.Add(ToolsetHelper.GenerateButtonItem("Placeable"));
+            toolBar.Items.Add(ToolsetHelper.GenerateButtonItem("Trigger", OpenTriggerEditor));
             toolBar.Items.Add(ToolsetHelper.GenerateButtonItem("Waypoint", OpenWaypointEditor));
 
             // Handle blueprint view selection changes.
@@ -141,6 +149,9 @@ namespace ACR_BuilderPlugin
                             break;
                         case NWN2ObjectType.Waypoint:
                             waypointEditor.setFocus((NWN2WaypointBlueprint)blueprint);
+                            break;
+                        case NWN2ObjectType.Trigger:
+                            triggerEditor.setFocus((NWN2TriggerBlueprint)blueprint);
                             break;
                     }
                 }

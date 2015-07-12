@@ -1,6 +1,6 @@
 ﻿namespace ACR_BuilderPlugin
 {
-    partial class WaypointEditor
+    partial class TriggerEditor
     {
         /// <summary>
         /// Required designer variable.
@@ -28,34 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.propBasic = new System.Windows.Forms.PropertyGrid();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.alwaysOnTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aCRSpawnDocumentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabProperties = new System.Windows.Forms.TabPage();
-            this.tabSpawn = new System.Windows.Forms.TabPage();
-            this.propSpawn = new System.Windows.Forms.PropertyGrid();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.propQuest = new System.Windows.Forms.PropertyGrid();
+            this.tabProperties = new System.Windows.Forms.TabPage();
+            this.propBasic = new System.Windows.Forms.PropertyGrid();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
             this.menuStrip1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tabProperties.SuspendLayout();
-            this.tabSpawn.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabProperties.SuspendLayout();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // propBasic
-            // 
-            this.propBasic.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.propBasic.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propBasic.Location = new System.Drawing.Point(3, 3);
-            this.propBasic.Name = "propBasic";
-            this.propBasic.Size = new System.Drawing.Size(483, 371);
-            this.propBasic.TabIndex = 0;
-            this.propBasic.ToolbarVisible = false;
             // 
             // menuStrip1
             // 
@@ -98,50 +85,6 @@
             this.aCRSpawnDocumentationToolStripMenuItem.Text = "ACR Spawn Documentation";
             this.aCRSpawnDocumentationToolStripMenuItem.Click += new System.EventHandler(this.aCRSpawnDocumentationToolStripMenuItem_Click);
             // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabProperties);
-            this.tabControl1.Controls.Add(this.tabSpawn);
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 24);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(497, 403);
-            this.tabControl1.TabIndex = 2;
-            // 
-            // tabProperties
-            // 
-            this.tabProperties.Controls.Add(this.propBasic);
-            this.tabProperties.Location = new System.Drawing.Point(4, 22);
-            this.tabProperties.Name = "tabProperties";
-            this.tabProperties.Padding = new System.Windows.Forms.Padding(3);
-            this.tabProperties.Size = new System.Drawing.Size(489, 377);
-            this.tabProperties.TabIndex = 0;
-            this.tabProperties.Text = "Properties";
-            this.tabProperties.UseVisualStyleBackColor = true;
-            // 
-            // tabSpawn
-            // 
-            this.tabSpawn.Controls.Add(this.propSpawn);
-            this.tabSpawn.Location = new System.Drawing.Point(4, 22);
-            this.tabSpawn.Name = "tabSpawn";
-            this.tabSpawn.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSpawn.Size = new System.Drawing.Size(489, 377);
-            this.tabSpawn.TabIndex = 1;
-            this.tabSpawn.Text = "ACR Spawn";
-            this.tabSpawn.UseVisualStyleBackColor = true;
-            // 
-            // propSpawn
-            // 
-            this.propSpawn.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.propSpawn.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.propSpawn.Location = new System.Drawing.Point(3, 3);
-            this.propSpawn.Name = "propSpawn";
-            this.propSpawn.Size = new System.Drawing.Size(483, 371);
-            this.propSpawn.TabIndex = 0;
-            this.propSpawn.ToolbarVisible = false;
-            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.propQuest);
@@ -162,7 +105,39 @@
             this.propQuest.TabIndex = 0;
             this.propQuest.ToolbarVisible = false;
             // 
-            // WaypointEditor
+            // tabProperties
+            // 
+            this.tabProperties.Controls.Add(this.propBasic);
+            this.tabProperties.Location = new System.Drawing.Point(4, 22);
+            this.tabProperties.Name = "tabProperties";
+            this.tabProperties.Padding = new System.Windows.Forms.Padding(3);
+            this.tabProperties.Size = new System.Drawing.Size(489, 377);
+            this.tabProperties.TabIndex = 0;
+            this.tabProperties.Text = "Properties";
+            this.tabProperties.UseVisualStyleBackColor = true;
+            // 
+            // propBasic
+            // 
+            this.propBasic.CategoryForeColor = System.Drawing.SystemColors.InactiveCaptionText;
+            this.propBasic.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propBasic.Location = new System.Drawing.Point(3, 3);
+            this.propBasic.Name = "propBasic";
+            this.propBasic.Size = new System.Drawing.Size(483, 371);
+            this.propBasic.TabIndex = 0;
+            this.propBasic.ToolbarVisible = false;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabProperties);
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 24);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(497, 403);
+            this.tabControl1.TabIndex = 2;
+            // 
+            // TriggerEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -170,14 +145,13 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "WaypointEditor";
-            this.Text = "ACR Waypoint Editor";
+            this.Name = "TriggerEditor";
+            this.Text = "ACR Trigger Editor";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
-            this.tabProperties.ResumeLayout(false);
-            this.tabSpawn.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabProperties.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,17 +159,15 @@
 
         #endregion
 
-        private System.Windows.Forms.PropertyGrid propBasic;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aCRSpawnDocumentationToolStripMenuItem;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabProperties;
-        private System.Windows.Forms.TabPage tabSpawn;
-        private System.Windows.Forms.PropertyGrid propSpawn;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem alwaysOnTopToolStripMenuItem;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.PropertyGrid propQuest;
+        private System.Windows.Forms.TabPage tabProperties;
+        private System.Windows.Forms.PropertyGrid propBasic;
+        private System.Windows.Forms.TabControl tabControl1;
     }
 }

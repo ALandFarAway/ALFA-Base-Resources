@@ -35,7 +35,7 @@
             this.maximumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.alwaysOnTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabControl = new System.Windows.Forms.TabControl();
             this.tabProperties = new System.Windows.Forms.TabPage();
             this.propMain = new System.Windows.Forms.PropertyGrid();
             this.tabACRProps = new System.Windows.Forms.TabPage();
@@ -43,7 +43,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lbStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.tabControl.SuspendLayout();
             this.tabProperties.SuspendLayout();
             this.tabACRProps.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -74,20 +74,20 @@
             this.penAndPaperToolStripMenuItem,
             this.maximumToolStripMenuItem});
             this.setHitPointsToolStripMenuItem.Name = "setHitPointsToolStripMenuItem";
-            this.setHitPointsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.setHitPointsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.setHitPointsToolStripMenuItem.Text = "Set HitPoints";
             // 
             // penAndPaperToolStripMenuItem
             // 
             this.penAndPaperToolStripMenuItem.Name = "penAndPaperToolStripMenuItem";
-            this.penAndPaperToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.penAndPaperToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.penAndPaperToolStripMenuItem.Text = "Pen and Paper";
             this.penAndPaperToolStripMenuItem.Click += new System.EventHandler(this.penAndPaperToolStripMenuItem_Click);
             // 
             // maximumToolStripMenuItem
             // 
             this.maximumToolStripMenuItem.Name = "maximumToolStripMenuItem";
-            this.maximumToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.maximumToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.maximumToolStripMenuItem.Text = "Maximum";
             this.maximumToolStripMenuItem.Click += new System.EventHandler(this.maximumToolStripMenuItem_Click);
             // 
@@ -102,20 +102,20 @@
             // alwaysOnTopToolStripMenuItem
             // 
             this.alwaysOnTopToolStripMenuItem.Name = "alwaysOnTopToolStripMenuItem";
-            this.alwaysOnTopToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.alwaysOnTopToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.alwaysOnTopToolStripMenuItem.Text = "Always on Top";
             this.alwaysOnTopToolStripMenuItem.Click += new System.EventHandler(this.alwaysOnTopToolStripMenuItem_Click);
             // 
-            // tabControl1
+            // tabControl
             // 
-            this.tabControl1.Controls.Add(this.tabProperties);
-            this.tabControl1.Controls.Add(this.tabACRProps);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 24);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(622, 457);
-            this.tabControl1.TabIndex = 2;
+            this.tabControl.Controls.Add(this.tabProperties);
+            this.tabControl.Controls.Add(this.tabACRProps);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl.Location = new System.Drawing.Point(0, 24);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(622, 457);
+            this.tabControl.TabIndex = 2;
             // 
             // tabProperties
             // 
@@ -180,7 +180,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(622, 503);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tabControl);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
             this.Name = "CreatureEditor";
@@ -188,7 +188,7 @@
             this.Text = "ACR Creature Editor";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
+            this.tabControl.ResumeLayout(false);
             this.tabProperties.ResumeLayout(false);
             this.tabACRProps.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
@@ -202,7 +202,7 @@
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabProperties;
         private System.Windows.Forms.ToolStripMenuItem setHitPointsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem penAndPaperToolStripMenuItem;

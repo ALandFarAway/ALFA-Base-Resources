@@ -14,17 +14,15 @@ using ACR_BuilderPlugin.Editors.Wrappers;
 
 namespace ACR_BuilderPlugin
 {
-    public partial class WaypointEditor : Form
+    public partial class TriggerEditor : Form
     {
-        ACRSpawnWaypoint ACRSpawnWP = new ACRSpawnWaypoint();
-        ACRQuestWaypoint ACRQuestWP = new ACRQuestWaypoint();
+        ACRQuestObject ACRQuestTGR = new ACRQuestObject();
 
-        public WaypointEditor()
+        public TriggerEditor()
         {
             InitializeComponent();
 
-            propSpawn.SelectedObject = ACRSpawnWP;
-            propQuest.SelectedObject = ACRQuestWP;
+            propQuest.SelectedObject = ACRQuestTGR;
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -34,39 +32,37 @@ namespace ACR_BuilderPlugin
             base.OnClosing(e);
         }
 
-        public void setFocus(NWN2WaypointTemplate wp)
+        public void setFocus(NWN2TriggerTemplate tgr)
         {
-            if (wp == null)
+            if (tgr == null)
             {
-                Text = "ACR Waypoint Editor";
+                Text = "ACR Trigger Editor";
                 propBasic.SelectedObject = null;
-                ACRSpawnWP.SetSelection(null);
+                ACRQuestTGR.SetSelection(null);
                 propBasic.Refresh();
-                propSpawn.Refresh();
+                propQuest.Refresh();
             }
 
             // Update main property sheet.
-            if (wp.GetType() == typeof(NWN2WaypointBlueprint))
+            if (tgr.GetType() == typeof(NWN2TriggerBlueprint))
             {
-                Text = "ACR Waypoint Editor: " + ((NWN2WaypointBlueprint)wp).ResourceName.Value;
-                propBasic.SelectedObject = (NWN2WaypointBlueprint)wp;
+                Text = "ACR Trigger Editor: " + ((NWN2TriggerBlueprint)tgr).ResourceName.Value;
+                propBasic.SelectedObject = (NWN2TriggerBlueprint)tgr;
             }
-            else if (wp.GetType() == typeof(NWN2WaypointInstance))
+            else if (tgr.GetType() == typeof(NWN2WaypointInstance))
             {
-                Text = "ACR Creature Editor: " + ((NWN2WaypointInstance)wp).Template.ResRef.Value + " (instance)";
-                propBasic.SelectedObject = (NWN2WaypointInstance)wp;
+                Text = "ACR Trigger Editor: " + ((NWN2TriggerInstance)tgr).Template.ResRef.Value + " (instance)";
+                propBasic.SelectedObject = (NWN2TriggerInstance)tgr;
             }
             else
             {
-                propBasic.SelectedObject = wp;
+                propBasic.SelectedObject = tgr;
             }
 
             // Update ACR property sheet.
-            ACRSpawnWP.SetSelection(wp);
-            ACRQuestWP.SetSelection(wp);
+            ACRQuestTGR.SetSelection(tgr);
 
             propBasic.Refresh();
-            propSpawn.Refresh();
             propQuest.Refresh();
         }
 
