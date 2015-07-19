@@ -315,8 +315,9 @@ namespace ACR_BuilderPlugin
 
         private void Validate(NWN2TriggerInstance trigger)
         {
-            // Custom validation of only instances here.
-
+            // Bypass walkmesh cutters.
+            if (trigger.Tag == "Walkmesh Cutter")
+                return;
 
             // Validation of all NWN2ItemTemplates (in areas, blueprints).
             Validate((NWN2TriggerTemplate)trigger, trigger.Tag);
@@ -411,13 +412,13 @@ namespace ACR_BuilderPlugin
                     }
                     if (!GetAreVariablesEqual(waypoint, "ACR_SPAWN_IN_DAY", "ACR_SPAWN_OUT_DAY"))
                     {
-                        ValidateVariableBounds(reference, waypoint, "ACR_SPAWN_IN_DAY", 1, 31);
-                        ValidateVariableBounds(reference, waypoint, "ACR_SPAWN_OUT_DAY", 1, 31);
+                        ValidateVariableBounds(reference, waypoint, "ACR_SPAWN_IN_DAY", 0, 31);
+                        ValidateVariableBounds(reference, waypoint, "ACR_SPAWN_OUT_DAY", 0, 31);
                     }
                     if (!GetAreVariablesEqual(waypoint, "ACR_SPAWN_IN_MONTH", "ACR_SPAWN_OUT_MONTH"))
                     {
-                        ValidateVariableBounds(reference, waypoint, "ACR_SPAWN_IN_MONTH", 1, 12);
-                        ValidateVariableBounds(reference, waypoint, "ACR_SPAWN_OUT_MONTH", 1, 12);
+                        ValidateVariableBounds(reference, waypoint, "ACR_SPAWN_IN_MONTH", 0, 12);
+                        ValidateVariableBounds(reference, waypoint, "ACR_SPAWN_OUT_MONTH", 0, 12);
                     }
                 }
             }
