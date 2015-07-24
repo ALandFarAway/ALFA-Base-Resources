@@ -136,7 +136,7 @@ void main()
 			if(nTouch)
 			{
 				ApplyEffectToObject( DURATION_TYPE_INSTANT, EffectDamage( nDamage, DAMAGE_TYPE_ELECTRICAL ), oTarget );
-				ApplyEffectToObject( DURATION_TYPE_TEMPORARY, EffectBeam( VFX_BEAM_SHOCKING_GRASP, OBJECT_SELF ), oTarget, 1.0f );
+				ApplyEffectToObject( DURATION_TYPE_TEMPORARY, EffectBeam( VFX_BEAM_SHOCKING_GRASP, OBJECT_SELF, BODY_NODE_CHEST, FALSE ), oTarget, 1.0f );
 			}
 		}
 	}
