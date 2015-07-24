@@ -684,6 +684,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s1_gazelaw.ncs                     \
             $(OUTPUTDIR)\nw_s1_gazeparal.ncs                   \
             $(OUTPUTDIR)\nw_s1_gazestun.ncs                    \
+            $(OUTPUTDIR)\nw_s2_snghaven.ncs                    \
             $(OUTPUTDIR)\acr_set_player_password.ncs           
 
 #
