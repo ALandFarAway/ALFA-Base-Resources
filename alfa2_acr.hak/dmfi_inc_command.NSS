@@ -1202,10 +1202,6 @@ int DMFI_RunCommandCode(object oTool, object oPC, string sOriginal)
 		}
 		AssignCommand(oTarget, ClearAllActions(TRUE));
 		ChangeToStandardFaction(oTarget, nTest);
-		
-		oTest = GetNearestCreature(CREATURE_TYPE_REPUTATION, REPUTATION_TYPE_ENEMY, oTarget, 1);
-		if (GetIsObjectValid(oTest))
-			DelayCommand(1.0, AssignCommand(oTarget, ActionAttack(oTest, FALSE)));
 	
 		SendText(oPC, TXT_FACTION_SET + sCommand, TRUE, COLOR_GREEN);
 	}
