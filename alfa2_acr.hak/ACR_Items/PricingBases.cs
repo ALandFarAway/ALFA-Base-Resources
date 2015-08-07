@@ -63,7 +63,6 @@ namespace ACR_Items
             BASE_ITEM_SICKLE,
             BASE_ITEM_WHIP,
             BASE_ITEM_LIGHTFLAIL,
-            BASE_ITEM_RAPIER,
             BASE_ITEM_BRACER,
             BASE_ITEM_GLOVES,
         };
