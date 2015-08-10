@@ -210,12 +210,13 @@ int _DoTradeScrollSpellHook()
         return TRUE;
     }
 
-    if (GetResRef(oTarget) == ACR_MOD_SPELLBOOK_RESREF)
+    if (GetResRef(oTarget) == ACR_MOD_SPELLBOOK_RESREF && GetIdentified(oTarget))
     {
         ACR_CreateTradeScroll( OBJECT_SELF, nSpell );
         SetModuleOverrideSpellScriptFinished();
         nReturn = TRUE;
     }
+
     return nReturn;
 }
 
