@@ -1397,7 +1397,7 @@ namespace ACR_Items
                     #region Keen
                     case ITEM_PROPERTY_KEEN:
                         {
-                            effectivePlus += 2.0f;
+                            effectivePlus += 1.0f;
                             break;
                         }
                     #endregion
