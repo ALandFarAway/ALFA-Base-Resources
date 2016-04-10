@@ -459,9 +459,8 @@ namespace ACR_CreatureBehavior
                         Party.EnemiesLost.Remove(SeenObject);
                     Party.AddPartyEnemy(SeenObject);
                     HasCombatRoundProcess = true;
-                    if (!HasCombatRoundProcess)
+                    if (!UsingEndCombatRound)
                     {
-                        HasCombatRoundProcess = true;
                         Script.DelayCommand(3.0f, delegate() { SelectCombatRoundAction(false); });
                     }
                 }
