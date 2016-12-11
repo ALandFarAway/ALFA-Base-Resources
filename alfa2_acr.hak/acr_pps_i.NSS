@@ -370,9 +370,11 @@ void ACR_PCUpdateStatus(object oPC, int bLocation = TRUE)
              ", Class1=" + IntToString(GetClassByPosition(1, oPC)) +
              ", Class2=" + IntToString(GetClassByPosition(2, oPC)) +
              ", Class3=" + IntToString(GetClassByPosition(3, oPC)) +
+             ", Class4=" + IntToString(GetClassByPosition(4, oPC)) +
              ", Level1=" + IntToString(GetLevelByPosition(1, oPC)) +
              ", Level2=" + IntToString(GetLevelByPosition(2, oPC)) +
              ", Level3=" + IntToString(GetLevelByPosition(3, oPC)) +
+             ", Level4=" + IntToString(GetLevelByPosition(4, oPC)) +
              ", STR=" + IntToString(GetAbilityScore(oPC, ABILITY_STRENGTH)) +
              ", CON=" + IntToString(GetAbilityScore(oPC, ABILITY_CONSTITUTION)) +
              ", DEX=" + IntToString(GetAbilityScore(oPC, ABILITY_DEXTERITY)) +
@@ -396,9 +398,11 @@ void ACR_PCUpdateStatus(object oPC, int bLocation = TRUE)
              ", Class1=" + IntToString(GetClassByPosition(1, oPC)) +
              ", Class2=" + IntToString(GetClassByPosition(2, oPC)) +
              ", Class3=" + IntToString(GetClassByPosition(3, oPC)) +
+             ", Class4=" + IntToString(GetClassByPosition(4, oPC)) +
              ", Level1=" + IntToString(GetLevelByPosition(1, oPC)) +
              ", Level2=" + IntToString(GetLevelByPosition(2, oPC)) +
              ", Level3=" + IntToString(GetLevelByPosition(3, oPC)) +
+             ", Level4=" + IntToString(GetLevelByPosition(4, oPC)) +
              ", STR=" + IntToString(GetAbilityScore(oPC, ABILITY_STRENGTH)) +
              ", CON=" + IntToString(GetAbilityScore(oPC, ABILITY_CONSTITUTION)) +
              ", DEX=" + IntToString(GetAbilityScore(oPC, ABILITY_DEXTERITY)) +
@@ -599,7 +603,7 @@ int ACR_PCOnClientEnter(object oPC)
             return FALSE;             
         }
 
-        ACR_SQLQuery("INSERT INTO characters (ServerID, PlayerID, Name, Level, Race, Subrace, Deity, Gender, HP, XP, GP, Ethics, Morals, Class1, Class2, Class3, Level1, Level2, Level3, STR, CON, DEX, `INT`, WIS, CHA, Damage, Deaths, IsOnline, IsDeleted, IsPlayable, AcrVersion) VALUES (" +
+        ACR_SQLQuery("INSERT INTO characters (ServerID, PlayerID, Name, Level, Race, Subrace, Deity, Gender, HP, XP, GP, Ethics, Morals, Class1, Class2, Class3, Class4, Level1, Level2, Level3, Level4, STR, CON, DEX, `INT`, WIS, CHA, Damage, Deaths, IsOnline, IsDeleted, IsPlayable, AcrVersion) VALUES (" +
              IntToString(ACR_GetServerId()) + "," +
                sPID + ",'" + 
                ACR_SQLEncodeSpecialChars(sCharacterName) + "'," + 
@@ -615,7 +619,8 @@ int ACR_PCOnClientEnter(object oPC)
                IntToString(GetGoodEvilValue(oPC)) + "," +
                IntToString(GetClassByPosition(1, oPC)) + "," +
                IntToString(GetClassByPosition(2, oPC)) + "," +
-               IntToString(GetClassByPosition(3, oPC)) + ",1,0,0," +
+               IntToString(GetClassByPosition(3, oPC)) + "," +
+               IntToString(GetClassByPosition(4, oPC)) + ",1,0,0,0" +
                IntToString(GetAbilityScore(oPC, ABILITY_STRENGTH)) + "," +
                IntToString(GetAbilityScore(oPC, ABILITY_CONSTITUTION)) + "," +
                IntToString(GetAbilityScore(oPC, ABILITY_DEXTERITY)) + "," +
