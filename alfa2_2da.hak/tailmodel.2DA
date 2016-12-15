@@ -1,0 +1,24 @@
+2DA V2.0
+
+                         LABEL     StringRef           NWN2_ModelName     NWN2_Skeleton_File     NWN2_BaseAnims                 MODEL
+  0                      None        112753                     ****                   ****               ****                  ****
+  1                    Lizard          ****                     ****                   ****               ****             c_tailliz
+  2                      Bone          ****                     ****                   ****               ****            c_tailbone
+  3                     Devil          ****                     ****                   ****               ****           c_taildevil
+  4             RedDragonTail        112573         c_reddragon_tail      c_dragontail_skel           c_dragon      c_reddragon_tail
+  5              SuccubusTail        113254          C_Succubus_Tail    c_succubustail_skel         C_Succubus       C_Succubus_Tail
+  6             N_HezebelTail        113349           N_Hezebel_tail         P_HHFtail_skel              P_HHF        N_Hezebel_tail
+  7           BlackDragonTail        181022       C_Blackdragon_Tail C_Blackdragontail_skel      c_blackdragon    C_Blackdragon_Tail
+  8        Tiefling_Tail_Male        184703               P_HTM_tail         P_HHMtail_skel              P_HHM            P_HTM_tail
+  9      Tiefling_Tail_Female        184704               P_HTF_tail         P_HHFtail_skel              P_HHF            P_HTF_tail
+ 10            BlueDragonTail        185674        c_bluedragon_tail  c_bluedragontail_skel       c_bluedragon     c_bluedragon_tail
+ 11          BronzeDragonTail        201148      c_bronzedragon_tail      c_dragontail_skel           c_dragon   c_bronzedragon_tail
+ 12          ShadowDragonTail          ****      c_shadowdragon_tail      c_dragontail_skel           c_dragon   c_shadowdragon_tail
+ 13                      ****          ****                     ****                   ****               ****                  ****
+ 14                      ****          ****                     ****                   ****               ****                  ****
+ 15                      ****          ****                     ****                   ****               ****                  ****
+ 16                      ****          ****                     ****                   ****               ****                  ****
+ 17                      ****          ****                     ****                   ****               ****                  ****
+ 18                      ****          ****                     ****                   ****               ****                  **** 
+ 19                     ****          ****                     ****                   ****               ****                  **** 
+20                      ****          ****                     ****                   ****               ****                  **** 
