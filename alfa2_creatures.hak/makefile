@@ -8,7 +8,6 @@ HAKFILE=$(OUTPUTDIR)\alfa_creatures.hak
 HAK_SOURCES=                                                   \
             .\*.TXT                                            \
             .\*.UTC                                            \
-            .\*.UTI                                            \
             .\*.WAV                                            \
             .\*.MDB                                            \
             .\*.GR2                                            \
