@@ -956,7 +956,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_1_CHARGE_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 36);
+                                        prop.ChargedPrice = (int)(multiplier * 15);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_1_USE_PER_DAY:
@@ -966,7 +966,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_2_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 18);
+                                        prop.ChargedPrice = (int)(multiplier * 7);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_2_USES_PER_DAY:
@@ -976,7 +976,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_3_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 12);
+                                        prop.ChargedPrice = (int)(multiplier * 5);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_3_USES_PER_DAY:
@@ -986,7 +986,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_4_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 9);
+                                        prop.ChargedPrice = (int)(multiplier * 4);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_4_USES_PER_DAY:
@@ -996,7 +996,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_5_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 7);
+                                        prop.ChargedPrice = (int)(multiplier * 3);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_5_USES_PER_DAY:
@@ -1010,22 +1010,22 @@ namespace ACR_Items
                                         {
                                             if (IsClassRestricted)
                                             {
-                                                prop.ChargedPrice = (int)((multiplier * 25) / script.GetItemCharges(target));
+                                                prop.ChargedPrice = (int)((multiplier * 10) / script.GetItemCharges(target));
                                             }
                                             else
                                             {
-                                                prop.ChargedPrice = (int)((multiplier * 50) / script.GetItemCharges(target));
+                                                prop.ChargedPrice = (int)((multiplier * 20) / script.GetItemCharges(target));
                                             }
                                         }
                                         else
                                         {
                                             if (IsClassRestricted)
                                             {
-                                                prop.Price = (int)(multiplier * 25);
+                                                prop.Price = (int)(multiplier * 10);
                                             }
                                             else
                                             {
-                                                prop.Price = (int)(multiplier * 50);
+                                                prop.Price = (int)(multiplier * 20);
                                             }
                                         }
                                         break;
@@ -2158,7 +2158,7 @@ namespace ACR_Items
             }
             if (IsClassRestricted)
             {
-                value -= (chargesCost - ((chargesCost * 750) / 1800));
+                value -= (chargesCost - ((chargesCost * 300) / 720));
             }
             #endregion
             #endregion
@@ -6285,7 +6285,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_1_CHARGE_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 36);
+                                        prop.ChargedPrice = (int)(multiplier * 15);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_1_USE_PER_DAY:
@@ -6295,7 +6295,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_2_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 18);
+                                        prop.ChargedPrice = (int)(multiplier * 7);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_2_USES_PER_DAY:
@@ -6305,7 +6305,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_3_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 12);
+                                        prop.ChargedPrice = (int)(multiplier * 5);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_3_USES_PER_DAY:
@@ -6315,7 +6315,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_4_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 9);
+                                        prop.ChargedPrice = (int)(multiplier * 4);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_4_USES_PER_DAY:
@@ -6325,7 +6325,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_5_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 7);
+                                        prop.ChargedPrice = (int)(multiplier * 3);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_5_USES_PER_DAY:
@@ -6339,22 +6339,22 @@ namespace ACR_Items
                                         {
                                             if (IsClassRestricted)
                                             {
-                                                prop.ChargedPrice = (int)((multiplier * 25) / script.GetItemCharges(target));
+                                                prop.ChargedPrice = (int)((multiplier * 10) / script.GetItemCharges(target));
                                             }
                                             else
                                             {
-                                                prop.ChargedPrice = (int)((multiplier * 50) / script.GetItemCharges(target));
+                                                prop.ChargedPrice = (int)((multiplier * 20) / script.GetItemCharges(target));
                                             }
                                         }
                                         else
                                         {
                                             if (IsClassRestricted)
                                             {
-                                                prop.Price = (int)(multiplier * 25);
+                                                prop.Price = (int)(multiplier * 10);
                                             }
                                             else
                                             {
-                                                prop.Price = (int)(multiplier * 50);
+                                                prop.Price = (int)(multiplier * 20);
                                             }
                                         }
                                         break;
@@ -7122,7 +7122,7 @@ namespace ACR_Items
             }
             if (IsClassRestricted)
             {
-                value -= (chargesCost - ((chargesCost * 750) / 1800));
+                value -= (chargesCost - ((chargesCost * 300) / 720));
             }
             #endregion
             #endregion
@@ -7256,7 +7256,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_1_CHARGE_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 36);
+                                        prop.ChargedPrice = (int)(multiplier * 15);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_1_USE_PER_DAY:
@@ -7267,7 +7267,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_2_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 18);
+                                        prop.ChargedPrice = (int)(multiplier * 7);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_2_USES_PER_DAY:
@@ -7278,7 +7278,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_3_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 12);
+                                        prop.ChargedPrice = (int)(multiplier * 5);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_3_USES_PER_DAY:
@@ -7289,7 +7289,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_4_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 9);
+                                        prop.ChargedPrice = (int)(multiplier * 4);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_4_USES_PER_DAY:
@@ -7300,7 +7300,7 @@ namespace ACR_Items
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_5_CHARGES_PER_USE:
                                     {
-                                        prop.ChargedPrice = (int)(multiplier * 7);
+                                        prop.ChargedPrice = (int)(multiplier * 3);
                                         break;
                                     }
                                 case IP_CONST_CASTSPELL_NUMUSES_5_USES_PER_DAY:
@@ -7315,22 +7315,22 @@ namespace ACR_Items
                                         {
                                             if (IsClassRestricted)
                                             {
-                                                prop.ChargedPrice = (int)((multiplier * 25) / script.GetItemCharges(target));
+                                                prop.ChargedPrice = (int)((multiplier * 10) / script.GetItemCharges(target));
                                             }
                                             else
                                             {
-                                                prop.ChargedPrice = (int)((multiplier * 50) / script.GetItemCharges(target));
+                                                prop.ChargedPrice = (int)((multiplier * 20) / script.GetItemCharges(target));
                                             }
                                         }
                                         else
                                         {
                                             if (IsClassRestricted)
                                             {
-                                                prop.Price = (int)(multiplier * 25);
+                                                prop.Price = (int)(multiplier * 10);
                                             }
                                             else
                                             {
-                                                prop.Price = (int)(multiplier * 50);
+                                                prop.Price = (int)(multiplier * 20);
                                             }
                                         }
                                         break;

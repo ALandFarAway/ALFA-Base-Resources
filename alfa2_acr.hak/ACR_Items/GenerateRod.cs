@@ -295,10 +295,10 @@ namespace ACR_Items
         {
             foreach (KeyValuePair<int, int> key in from)
             {
-                int value = 36 * ALFA.Shared.Modules.InfoStore.IPCastSpells[key.Key].CasterLevel * ALFA.Shared.Modules.InfoStore.IPCastSpells[key.Key].InnateLevel;
+                int value = 15 * ALFA.Shared.Modules.InfoStore.IPCastSpells[key.Key].CasterLevel * ALFA.Shared.Modules.InfoStore.IPCastSpells[key.Key].InnateLevel;
                 if (value == 0) // innate level is 0
                 {
-                    value = 36 * ALFA.Shared.Modules.InfoStore.IPCastSpells[key.Key].CasterLevel / 2;
+                    value = 15 * ALFA.Shared.Modules.InfoStore.IPCastSpells[key.Key].CasterLevel / 2;
                 }
                 to.Add(key.Key, value);
             }

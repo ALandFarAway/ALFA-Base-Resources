@@ -889,10 +889,10 @@ namespace ACR_Items
             Dictionary<int, int> newDict = new Dictionary<int, int>();
             foreach (int ip in dict.Keys)
             {
-                int value = 15 * ALFA.Shared.Modules.InfoStore.IPCastSpells[ip].CasterLevel * ALFA.Shared.Modules.InfoStore.IPCastSpells[ip].InnateLevel;
+                int value = 6 * ALFA.Shared.Modules.InfoStore.IPCastSpells[ip].CasterLevel * ALFA.Shared.Modules.InfoStore.IPCastSpells[ip].InnateLevel;
                 if(value == 0) // innate level is 0
                 {
-                    value = 15 * ALFA.Shared.Modules.InfoStore.IPCastSpells[ip].CasterLevel / 2;
+                    value = 6 * ALFA.Shared.Modules.InfoStore.IPCastSpells[ip].CasterLevel / 2;
                 }
                 newDict.Add(ip, value);
             }

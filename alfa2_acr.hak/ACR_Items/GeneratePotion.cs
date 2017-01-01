@@ -23,51 +23,53 @@ namespace ACR_Items
 {
     public class GeneratePotion: CLRScriptBase
     {
+        private const int PRICE_POTION_LEVEL_1 = 20;
+        private const int PRICE_POTION_LEVEL_2 = 120;
+        private const int PRICE_POTION_LEVEL_3 = 300;
+
         public static int NewPotion(CLRScriptBase script, int maxValue)
         {
-            if (maxValue < 50)
+            if (maxValue < PRICE_POTION_LEVEL_1)
             {
                 return 0;
             }
-            if (maxValue >= 750)
+            if (maxValue >= PRICE_POTION_LEVEL_3)
             {
                 switch (Generation.rand.Next(3))
                 {
                     case 0:
                         script.CreateItemOnObject(Level1Potions[Generation.rand.Next(Level1Potions.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                        return 50;
+                        return PRICE_POTION_LEVEL_1;
                     case 1:
                         script.CreateItemOnObject(Level2Potions[Generation.rand.Next(Level2Potions.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                        return 300;
+                        return PRICE_POTION_LEVEL_2;
                     case 2:
                         script.CreateItemOnObject(Level3Potions[Generation.rand.Next(Level3Potions.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                        return 750;
+                        return PRICE_POTION_LEVEL_3;
                 }
             }
-            else if (maxValue >= 300)
+            else if (maxValue >= 120)
             {
                 switch (Generation.rand.Next(2))
                 {
                     case 0:
                         script.CreateItemOnObject(Level1Potions[Generation.rand.Next(Level1Potions.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                        return 50;
+                        return PRICE_POTION_LEVEL_1;
                     case 1:
                         script.CreateItemOnObject(Level2Potions[Generation.rand.Next(Level2Potions.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                        return 300;
+                        return PRICE_POTION_LEVEL_2;
                 }
             }
             script.CreateItemOnObject(Level1Potions[Generation.rand.Next(Level1Potions.Count)], script.OBJECT_SELF, 1, "", FALSE);
-            return 50;
+            return PRICE_POTION_LEVEL_1;
         }
 
         public static List<string> Level1Potions = new List<string>
         {
             "abr_it_mpotion_bless",
             "abr_it_mpotion_marm",
-            "abr_it_mpotion_mfang",
             "abr_it_mpotion_sanc",
             "abr_it_mpotion_sof",
-            "abr_it_mpotion01",
             "abr_it_mpotion01",
             "abr_it_mpotion01",
             "abr_it_mpotion01",
@@ -96,9 +98,7 @@ namespace ACR_Items
 
         public static List<string> Level3Potions = new List<string>
         {
-            "abr_it_mpotion_antidote",
             "abr_it_mpotion_speed",
-            "abr_it_mpotion03",
             "abr_it_mpotion03",
         };
     }

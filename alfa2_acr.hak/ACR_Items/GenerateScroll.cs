@@ -23,344 +23,355 @@ namespace ACR_Items
 {
     public class GenerateScroll: CLRScriptBase
     {
+        private const int PRICE_SCROLL_LEVEL_0 = 5;
+        private const int PRICE_SCROLL_LEVEL_1 = 10;
+        private const int PRICE_SCROLL_LEVEL_2 = 60;
+        private const int PRICE_SCROLL_LEVEL_3 = 150;
+        private const int PRICE_SCROLL_LEVEL_4 = 280;
+        private const int PRICE_SCROLL_LEVEL_5 = 450;
+        private const int PRICE_SCROLL_LEVEL_6 = 660;
+        private const int PRICE_SCROLL_LEVEL_7 = 910;
+        private const int PRICE_SCROLL_LEVEL_8 = 1200;
+        private const int PRICE_SCROLL_LEVEL_9 = 1530;
+
         public static int NewScroll(CLRScriptBase script, int maxValue)
         {
             #region Early Return if No Scrolls Fit the Criteria
-            if (maxValue < 12)
+            if (maxValue < PRICE_SCROLL_LEVEL_0)
             {
                 return 0;
             }
             #endregion
 
             #region Generate up to Level 9 Scrolls
-            if (maxValue >= 3825)
+            if (maxValue >= PRICE_SCROLL_LEVEL_9)
             {
                 int roll = Generation.rand.Next(512);
                 if((roll & 256) == 0)
                 {
                     script.CreateItemOnObject(Level0Scrolls[Generation.rand.Next(Level0Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 12;
+                    return PRICE_SCROLL_LEVEL_0;
                 }
                 else if((roll & 128) == 0)
                 {
                     script.CreateItemOnObject(Level1Scrolls[Generation.rand.Next(Level1Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 25;
+                    return PRICE_SCROLL_LEVEL_1;
                 }
                 else if ((roll & 64) == 0)
                 {
                     script.CreateItemOnObject(Level2Scrolls[Generation.rand.Next(Level2Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 150;
+                    return PRICE_SCROLL_LEVEL_2;
                 }
                 else if ((roll & 32) == 0)
                 {
                     script.CreateItemOnObject(Level3Scrolls[Generation.rand.Next(Level3Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 375;
+                    return PRICE_SCROLL_LEVEL_3;
                 }
                 else if ((roll & 16) == 0)
                 {
                     script.CreateItemOnObject(Level4Scrolls[Generation.rand.Next(Level4Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 700;
+                    return PRICE_SCROLL_LEVEL_4;
                 }
                 else if ((roll & 8) == 0)
                 {
                     script.CreateItemOnObject(Level5Scrolls[Generation.rand.Next(Level5Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 1125;
+                    return PRICE_SCROLL_LEVEL_5;
                 }
                 else if ((roll & 4) == 0)
                 {
                     script.CreateItemOnObject(Level6Scrolls[Generation.rand.Next(Level6Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 1650;
+                    return PRICE_SCROLL_LEVEL_6;
                 }
                 else if ((roll & 2) == 0)
                 {
                     script.CreateItemOnObject(Level7Scrolls[Generation.rand.Next(Level7Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 2275;
+                    return PRICE_SCROLL_LEVEL_7;
                 }
                 else if ((roll & 1) == 0)
                 {
                     script.CreateItemOnObject(Level8Scrolls[Generation.rand.Next(Level8Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 3000;
+                    return PRICE_SCROLL_LEVEL_8;
                 }
                 else
                 {
                     script.CreateItemOnObject(Level9Scrolls[Generation.rand.Next(Level9Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 3825;
+                    return PRICE_SCROLL_LEVEL_9;
                 }
             }
             #endregion
 
             #region Generate up to Level 8 Scrolls
-            else if (maxValue > 3000)
+            else if (maxValue > PRICE_SCROLL_LEVEL_8)
             {
                 int roll = Generation.rand.Next(256);
                 if ((roll & 128) == 0)
                 {
                     script.CreateItemOnObject(Level0Scrolls[Generation.rand.Next(Level0Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 12;
+                    return PRICE_SCROLL_LEVEL_0;
                 }
                 else if ((roll & 64) == 0)
                 {
                     script.CreateItemOnObject(Level1Scrolls[Generation.rand.Next(Level1Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 25;
+                    return PRICE_SCROLL_LEVEL_1;
                 }
                 else if ((roll & 32) == 0)
                 {
                     script.CreateItemOnObject(Level2Scrolls[Generation.rand.Next(Level2Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 150;
+                    return PRICE_SCROLL_LEVEL_2;
                 }
                 else if ((roll & 16) == 0)
                 {
                     script.CreateItemOnObject(Level3Scrolls[Generation.rand.Next(Level3Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 375;
+                    return PRICE_SCROLL_LEVEL_3;
                 }
                 else if ((roll & 8) == 0)
                 {
                     script.CreateItemOnObject(Level4Scrolls[Generation.rand.Next(Level4Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 700;
+                    return PRICE_SCROLL_LEVEL_4;
                 }
                 else if ((roll & 4) == 0)
                 {
                     script.CreateItemOnObject(Level5Scrolls[Generation.rand.Next(Level5Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 1125;
+                    return PRICE_SCROLL_LEVEL_5;
                 }
                 else if ((roll & 2) == 0)
                 {
                     script.CreateItemOnObject(Level6Scrolls[Generation.rand.Next(Level6Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 1650;
+                    return PRICE_SCROLL_LEVEL_6;
                 }
                 else if ((roll & 1) == 0)
                 {
                     script.CreateItemOnObject(Level7Scrolls[Generation.rand.Next(Level7Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 2275;
+                    return PRICE_SCROLL_LEVEL_7;
                 }
                 else
                 {
                     script.CreateItemOnObject(Level8Scrolls[Generation.rand.Next(Level8Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 3000;
+                    return PRICE_SCROLL_LEVEL_8;
                 }
             }
             #endregion
 
             #region Generate up to Level 7 Scrolls
-            else if (maxValue > 2275)
+            else if (maxValue > PRICE_SCROLL_LEVEL_7)
             {
                 int roll = Generation.rand.Next(128);
                 if ((roll & 64) == 0)
                 {
                     script.CreateItemOnObject(Level0Scrolls[Generation.rand.Next(Level0Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 12;
+                    return PRICE_SCROLL_LEVEL_0;
                 }
                 else if ((roll & 32) == 0)
                 {
                     script.CreateItemOnObject(Level1Scrolls[Generation.rand.Next(Level1Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 25;
+                    return PRICE_SCROLL_LEVEL_1;
                 }
                 else if ((roll & 16) == 0)
                 {
                     script.CreateItemOnObject(Level2Scrolls[Generation.rand.Next(Level2Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 150;
+                    return PRICE_SCROLL_LEVEL_2;
                 }
                 else if ((roll & 8) == 0)
                 {
                     script.CreateItemOnObject(Level3Scrolls[Generation.rand.Next(Level3Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 375;
+                    return PRICE_SCROLL_LEVEL_3;
                 }
                 else if ((roll & 4) == 0)
                 {
                     script.CreateItemOnObject(Level4Scrolls[Generation.rand.Next(Level4Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 700;
+                    return PRICE_SCROLL_LEVEL_4;
                 }
                 else if ((roll & 2) == 0)
                 {
                     script.CreateItemOnObject(Level5Scrolls[Generation.rand.Next(Level5Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 1125;
+                    return PRICE_SCROLL_LEVEL_5;
                 }
                 else if ((roll & 1) == 0)
                 {
                     script.CreateItemOnObject(Level6Scrolls[Generation.rand.Next(Level6Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 1650;
+                    return PRICE_SCROLL_LEVEL_6;
                 }
                 else
                 {
                     script.CreateItemOnObject(Level7Scrolls[Generation.rand.Next(Level7Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 2275;
+                    return PRICE_SCROLL_LEVEL_7;
                 }
             }
             #endregion
 
             #region Generate up to Level 6 Scrolls
-            else if (maxValue > 1650)
+            else if (maxValue > PRICE_SCROLL_LEVEL_6)
             {
                 int roll = Generation.rand.Next(64);
                 if ((roll & 32) == 0)
                 {
                     script.CreateItemOnObject(Level0Scrolls[Generation.rand.Next(Level0Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 12;
+                    return PRICE_SCROLL_LEVEL_0;
                 }
                 else if ((roll & 16) == 0)
                 {
                     script.CreateItemOnObject(Level1Scrolls[Generation.rand.Next(Level1Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 25;
+                    return PRICE_SCROLL_LEVEL_1;
                 }
                 else if ((roll & 8) == 0)
                 {
                     script.CreateItemOnObject(Level2Scrolls[Generation.rand.Next(Level2Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 150;
+                    return PRICE_SCROLL_LEVEL_2;
                 }
                 else if ((roll & 4) == 0)
                 {
                     script.CreateItemOnObject(Level3Scrolls[Generation.rand.Next(Level3Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 375;
+                    return PRICE_SCROLL_LEVEL_3;
                 }
                 else if ((roll & 2) == 0)
                 {
                     script.CreateItemOnObject(Level4Scrolls[Generation.rand.Next(Level4Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 700;
+                    return PRICE_SCROLL_LEVEL_4;
                 }
                 else if ((roll & 1) == 0)
                 {
                     script.CreateItemOnObject(Level5Scrolls[Generation.rand.Next(Level5Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 1125;
+                    return PRICE_SCROLL_LEVEL_5;
                 }
                 else
                 {
                     script.CreateItemOnObject(Level6Scrolls[Generation.rand.Next(Level6Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 1650;
+                    return PRICE_SCROLL_LEVEL_6;
                 }
             }
             #endregion
 
             #region Generate up to Level 5 Scrolls
-            else if (maxValue > 1125)
+            else if (maxValue > PRICE_SCROLL_LEVEL_5)
             {
                 int roll = Generation.rand.Next(32);
                 if ((roll & 16) == 0)
                 {
                     script.CreateItemOnObject(Level0Scrolls[Generation.rand.Next(Level0Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 12;
+                    return PRICE_SCROLL_LEVEL_0;
                 }
                 else if ((roll & 8) == 0)
                 {
                     script.CreateItemOnObject(Level1Scrolls[Generation.rand.Next(Level1Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 25;
+                    return PRICE_SCROLL_LEVEL_1;
                 }
                 else if ((roll & 4) == 0)
                 {
                     script.CreateItemOnObject(Level2Scrolls[Generation.rand.Next(Level2Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 150;
+                    return PRICE_SCROLL_LEVEL_2;
                 }
                 else if ((roll & 2) == 0)
                 {
                     script.CreateItemOnObject(Level3Scrolls[Generation.rand.Next(Level3Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 375;
+                    return PRICE_SCROLL_LEVEL_3;
                 }
                 else if ((roll & 1) == 0)
                 {
                     script.CreateItemOnObject(Level4Scrolls[Generation.rand.Next(Level4Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 700;
+                    return PRICE_SCROLL_LEVEL_4;
                 }
                 else
                 {
                     script.CreateItemOnObject(Level5Scrolls[Generation.rand.Next(Level5Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 1125;
+                    return PRICE_SCROLL_LEVEL_5;
                 }
             }
             #endregion
 
             #region Generate up to Level 4 Scrolls
-            else if (maxValue > 700)
+            else if (maxValue > PRICE_SCROLL_LEVEL_4)
             {
                 int roll = Generation.rand.Next(16);
                 if ((roll & 8) == 0)
                 {
                     script.CreateItemOnObject(Level0Scrolls[Generation.rand.Next(Level0Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 12;
+                    return PRICE_SCROLL_LEVEL_0;
                 }
                 else if ((roll & 4) == 0)
                 {
                     script.CreateItemOnObject(Level1Scrolls[Generation.rand.Next(Level1Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 25;
+                    return PRICE_SCROLL_LEVEL_1;
                 }
                 else if ((roll & 2) == 0)
                 {
                     script.CreateItemOnObject(Level2Scrolls[Generation.rand.Next(Level2Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 150;
+                    return PRICE_SCROLL_LEVEL_2;
                 }
                 else if ((roll & 1) == 0)
                 {
                     script.CreateItemOnObject(Level3Scrolls[Generation.rand.Next(Level3Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 375;
+                    return PRICE_SCROLL_LEVEL_3;
                 }
                 else
                 {
                     script.CreateItemOnObject(Level4Scrolls[Generation.rand.Next(Level4Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 700;
+                    return PRICE_SCROLL_LEVEL_4;
                 }
             }
             #endregion
 
             #region Generate up to Level 3 Scrolls
-            else if (maxValue > 375)
+            else if (maxValue > PRICE_SCROLL_LEVEL_3)
             {
                 int roll = Generation.rand.Next(8);
                 if ((roll & 4) == 0)
                 {
                     script.CreateItemOnObject(Level0Scrolls[Generation.rand.Next(Level0Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 12;
+                    return PRICE_SCROLL_LEVEL_0;
                 }
                 else if ((roll & 2) == 0)
                 {
                     script.CreateItemOnObject(Level1Scrolls[Generation.rand.Next(Level1Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 25;
+                    return PRICE_SCROLL_LEVEL_1;
                 }
                 else if ((roll & 1) == 0)
                 {
                     script.CreateItemOnObject(Level2Scrolls[Generation.rand.Next(Level2Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 150;
+                    return PRICE_SCROLL_LEVEL_2;
                 }
                 else
                 {
                     script.CreateItemOnObject(Level3Scrolls[Generation.rand.Next(Level3Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 375;
+                    return PRICE_SCROLL_LEVEL_3;
                 }
             }
             #endregion
 
             #region Generate up to Level 2 Scrolls
-            else if (maxValue > 150)
+            else if (maxValue > PRICE_SCROLL_LEVEL_2)
             {
                 int roll = Generation.rand.Next(4);
                 if ((roll & 2) == 0)
                 {
                     script.CreateItemOnObject(Level0Scrolls[Generation.rand.Next(Level0Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 12;
+                    return PRICE_SCROLL_LEVEL_0;
                 }
                 else if ((roll & 1) == 0)
                 {
                     script.CreateItemOnObject(Level1Scrolls[Generation.rand.Next(Level1Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 25;
+                    return PRICE_SCROLL_LEVEL_1;
                 }
                 else
                 {
                     script.CreateItemOnObject(Level2Scrolls[Generation.rand.Next(Level2Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 150;
+                    return PRICE_SCROLL_LEVEL_2;
                 }
             }
             #endregion
 
             #region Generate up to Level 1 Spells
-            else if (maxValue > 25)
+            else if (maxValue > PRICE_SCROLL_LEVEL_1)
             {
                 int roll = Generation.rand.Next(2);
                 if ((roll & 1) == 0)
                 {
                     script.CreateItemOnObject(Level0Scrolls[Generation.rand.Next(Level0Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 12;
+                    return PRICE_SCROLL_LEVEL_0;
                 }
                 else
                 {
                     script.CreateItemOnObject(Level1Scrolls[Generation.rand.Next(Level1Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                    return 25;
+                    return PRICE_SCROLL_LEVEL_1;
                 }
             }
             #endregion
@@ -369,7 +380,7 @@ namespace ACR_Items
             else
             {
                 script.CreateItemOnObject(Level0Scrolls[Generation.rand.Next(Level0Scrolls.Count)], script.OBJECT_SELF, 1, "", FALSE);
-                return 12;
+                return PRICE_SCROLL_LEVEL_0;
             }
             #endregion
         }
