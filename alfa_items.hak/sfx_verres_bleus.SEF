@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<EventList>
+  <Name>sfx_verres_bleus</Name>
+  <MaxDuration>0</MaxDuration>
+  <SpecialTargetPosition>0</SpecialTargetPosition>
+  <FogMultiplier>1</FogMultiplier>
+  <Event0>
+    <Type>7</Type>
+    <Name>Verres (teinte bleue)</Name>
+    <DefinitionFile>p_hhm_hd_helm07_googlesb.mdb</DefinitionFile>
+    <DelayTime>0</DelayTime>
+    <MaxDuration>0</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </Position>
+    <UseOrientedPosition>1</UseOrientedPosition>
+    <SourceAttachment>16</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>0</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+    <Skeleton>p_hhm_skel</Skeleton>
+    <SEFToPlayOnModel>
+    </SEFToPlayOnModel>
+    <AnimationToPlay>0</AnimationToPlay>
+    <TintColor1>
+      <r>0</r>
+      <g>0</g>
+      <b>255</b>
+      <a>255</a>
+    </TintColor1>
+    <TintColor2>
+      <r>255</r>
+      <g>255</g>
+      <b>255</b>
+      <a>255</a>
+    </TintColor2>
+    <TintColor3>
+      <r>255</r>
+      <g>255</g>
+      <b>255</b>
+      <a>255</a>
+    </TintColor3>
+    <Looping>0</Looping>
+  </Event0>
+</EventList>
