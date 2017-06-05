@@ -620,7 +620,7 @@ int ACR_PCOnClientEnter(object oPC)
                IntToString(GetClassByPosition(1, oPC)) + "," +
                IntToString(GetClassByPosition(2, oPC)) + "," +
                IntToString(GetClassByPosition(3, oPC)) + "," +
-               IntToString(GetClassByPosition(4, oPC)) + ",1,0,0,0" +
+               IntToString(GetClassByPosition(4, oPC)) + ",1,0,0,0," +
                IntToString(GetAbilityScore(oPC, ABILITY_STRENGTH)) + "," +
                IntToString(GetAbilityScore(oPC, ABILITY_CONSTITUTION)) + "," +
                IntToString(GetAbilityScore(oPC, ABILITY_DEXTERITY)) + "," +
