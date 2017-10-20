@@ -2097,6 +2097,7 @@ void ACR_PersonalVFXItemOnEquip( object oPC, object oItem ) {
 	object oCurrentWeapon = GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oPC);
 	int nCurrentWeaponType = GetBaseItemType(oCurrentWeapon);
 	string sTest = "";
+	effect eTest = GetFirstEffect(oPC); 
 	if ((nCurrentWeaponType == BASE_ITEM_BASTARDSWORD) || (nItemType == BASE_ITEM_BASTARDSWORD))  {
 		// special handling for equipped bastard swords, equipped already or being equipped.
 		// first, manage any pending VFX associated
