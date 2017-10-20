@@ -104,9 +104,9 @@ void main() {
 	int nAffected = 0;
 	int bContinue = TRUE;
 	int nTargetHD = nLowestHD;
-	while ( bContinue ) {	
+	while ( bContinue ) {
 		oTarget = GetFirstObjectInShape( SHAPE_SPHERE, RADIUS_SIZE_HUGE, lTarget );
-		while ( GetIsObjectValid( oTarget ) && nHDAffected <= SLEEP_MAX_HD ) {
+		while ( GetIsObjectValid( oTarget ) && nHDAffected + nTargetHD <= SLEEP_MAX_HD ) {
 			int nHD = GetHitDice( oTarget );
 			if ( nHD == nTargetHD && AffectedBySleep( oTarget ) && !MakeResistanceCheck( oCaster, oTarget ) ) {
 				ApplySpellEffect( oTarget, fDuration );
@@ -118,8 +118,7 @@ void main() {
 		
 		// Have we affected enough?
 		nTargetHD++;
-		if ( nHDAffected > SLEEP_MAX_HD ) bContinue = FALSE;
-		if ( nTargetHD > SLEEP_MAX_HD ) bContinue = FALSE;
+		if ( nHDAffected + nTargetHD > SLEEP_MAX_HD ) bContinue = FALSE;
 	}
 	
 	// Finally we loop through the targets one last time to clean up our variable.
