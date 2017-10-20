@@ -2077,13 +2077,232 @@ void ACR_RefreshPersonalVFXUI( object oPC ) {
 	}
 }
 
+
 void ACR_PersonalVFXItemOnEquip( object oPC, object oItem ) {
-	// Not quite yet supported. :(
+	int nItemType = GetBaseItemType(oItem);
+	object oCurrentWeapon = GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oPC);
+	int nCurrentWeaponType = GetBaseItemType(oCurrentWeapon);
+	string sTest = "";
+	if ((nCurrentWeaponType == BASE_ITEM_BASTARDSWORD) || (nItemType == BASE_ITEM_BASTARDSWORD))  {
+		// special handling for equipped bastard swords, equipped already or being equipped.
+		// first, manage any pending VFX associated
+		sTest = GetLocalString(oPC, "LongSwordBelt");
+		if (sTest != "") {
+			// Belted sword VFX active, drop and associate
+			while (GetIsEffectValid(eTest))  {
+				if (GetEffectSpellId(eTest) == ACR_VFX_POS_LEFTHIP) {
+					RemoveEffect(oPC, eTest);
+					break;
+				}
+				eTest = GetNextEffect(oPC);
+			}
+			SetLocalString(oItem, "WeapVFX", sTest);
+			SetLocalInt(oItem, "WeapVFXnum", ACR_VFX_POS_LEFTHIP);
+			SendMessageToPC(oPC, "Left hip sword VFX bound to item: "+GetName(oItem));
+			DeleteLocalString(oPC, "LongSwordBelt");
+		 } else {
+			sTest = GetLocalString(oPC, "LongSwordBack");
+			if (sTest != "") {
+				// Backsword VFX active, drop and associate
+				while (GetIsEffectValid(eTest)) {
+					if (GetEffectSpellId(eTest) == ACR_VFX_POS_LEFTSHOULDER) {
+						RemoveEffect(oPC, eTest);
+						break;
+					}
+					eTest = GetNextEffect(oPC);
+				}
+				SetLocalString(oItem, "WeapVFX", sTest);
+				SetLocalInt(oItem, "WeapVFXnum", ACR_VFX_POS_LEFTSHOULDER);
+				SendMessageToPC(oPC, "Back-sheathed sword VFX bound to item: "+GetName(oItem));
+				DeleteLocalString(oPC, "LongSwordBack");
+			}
+		}
+	} else if (nItemType == BASE_ITEM_MANDOLIN) {
+		// Also handle VFX
+		sTest = GetLocalString(oPC, "Lute");
+		if (sTest == "fx_at_backmandolin01") {
+			//Lute VFX active, equipping lute, drop VFX
+			while (GetIsEffectValid(eTest)) {
+				if (GetEffectSpellId(eTest) ==  ACR_VFX_POS_BACKLUTE) {
+					RemoveEffect(oPC, eTest);
+					break;
+				}
+				eTest = GetNextEffect(oPC);
+			}
+			SetLocalString(oItem, "WeapVFX", sTest);
+			SetLocalInt(oItem, "WeapVFXnum",  ACR_VFX_POS_BACKLUTE);
+			SendMessageToPC(oPC, "Lute VFX bound to item: "+GetName(oItem));
+			DeleteLocalString(oPC, "Lute");
+		}
+	} else if (nItemType == BASE_ITEM_BATTLEAXE) {
+		// allow DwarAxe or GreatAxe VFX, DwarAxe primary
+		sTest = GetLocalString(oPC, "DwarAxe");
+		if (sTest != "") {
+			// Dwarven Axe VFX active; drop and associate
+			while (GetIsEffectValid(eTest))  {
+				if (GetEffectSpellId(eTest) == ACR_VFX_POS_BACKAXE) {
+					RemoveEffect(oPC, eTest);
+					break;
+				}
+				eTest = GetNextEffect(oPC);
+			}
+			SetLocalString(oItem, "WeapVFX", sTest);
+			SetLocalInt(oItem, "WeapVFXnum", ACR_VFX_POS_BACKAXE);
+			SendMessageToPC(oPC, "Back-slung axe VFX bound to item: "+GetName(oItem));
+			DeleteLocalString(oPC, "DwarAxe");
+		} else {
+			sTest = GetLocalString(oPC, "GreatAxe");
+			if (sTest != "") {
+				// Greataxe VFX active, drop and associate
+				while (GetIsEffectValid(eTest))  {
+					if (GetEffectSpellId(eTest) == ACR_VFX_POS_BACKAXE) {
+						RemoveEffect(oPC, eTest);
+						break;
+					}
+					eTest = GetNextEffect(oPC);
+				}
+				SetLocalString(oItem, "WeapVFX", sTest);
+				SetLocalInt(oItem, "WeapVFXnum", ACR_VFX_POS_BACKAXE);
+				SendMessageToPC(oPC, "Large back-slung axe VFX bound to item: "+GetName(oItem));
+				DeleteLocalString(oPC, "GreatAxe");
+			}
+		}
+			
+	} else if (nItemType == BASE_ITEM_DWARVENWARAXE) {
+		sTest = GetLocalString(oPC, "DwarAxe");
+		if (sTest != "") {
+			// Dwarven Axe VFX active; drop and associate
+			while (GetIsEffectValid(eTest))  {
+				if (GetEffectSpellId(eTest) == ACR_VFX_POS_BACKAXE) {
+					RemoveEffect(oPC, eTest);
+					break;
+				}
+				eTest = GetNextEffect(oPC);
+			}
+			SetLocalString(oItem, "WeapVFX", sTest);
+			SetLocalInt(oItem, "WeapVFXnum", ACR_VFX_POS_BACKAXE);
+			SendMessageToPC(oPC, "Back-slung axe VFX bound to item: "+GetName(oItem));
+			DeleteLocalString(oPC, "DwarAxe");
+		}
+	} else if (nItemType == BASE_ITEM_GREATAXE) {
+		sTest = GetLocalString(oPC, "GreatAxe");
+		if (sTest != "") {
+			// Greataxe VFX active, drop and associate
+			while (GetIsEffectValid(eTest))  {
+				if (GetEffectSpellId(eTest) == ACR_VFX_POS_BACKAXE) {
+					RemoveEffect(oPC, eTest);
+					break;
+				}
+				eTest = GetNextEffect(oPC);
+			}
+			SetLocalString(oItem, "WeapVFX", sTest);
+			SetLocalInt(oItem, "WeapVFXnum", ACR_VFX_POS_BACKAXE);
+			SendMessageToPC(oPC, "Large back-slung axe VFX bound to item: "+GetName(oItem));
+			DeleteLocalString(oPC, "GreatAxe");
+		}    
+	} else if ((nItemType == BASE_ITEM_TOWERSHIELD) || (nItemType == BASE_ITEM_SMALLSHIELD) || (nItemType == BASE_ITEM_LARGESHIELD)) {
+		//special case: shields
+		sTest = GetLocalString(oPC, "Shield");
+		if (sTest != "") {
+			// Shield VFX active, drop and associate
+			while (GetIsEffectValid(eTest)) {
+				if (GetEffectSpellId(eTest) == ACR_VFX_POS_SHIELDBACK) {
+					RemoveEffect(oPC, eTest);
+					break;
+				}
+				eTest = GetNextEffect(oPC);
+			}
+			SetLocalString(oItem, "WeapVFX", sTest);
+			SetLocalInt(oItem, "WeapVFXnum", ACR_VFX_POS_SHIELDBACK);
+			SendMessageToPC(oPC, "Back-slung shield VFX bound to item: "+GetName(oItem));
+			DeleteLocalString(oPC, "Shield");
+		}
+	} else if ((nItemType == BASE_ITEM_LONGBOW) || (nItemType == BASE_ITEM_SHORTBOW)) {
+		sTest = GetLocalString(oPC, "LongBow");
+		if (sTest != "") {
+			// Bow VFX active, drop and associate
+			while (GetIsEffectValid(eTest))  {
+				if (GetEffectSpellId(eTest) == ACR_VFX_POS_BOW) {
+					RemoveEffect(oPC, eTest);
+					break;
+				}
+				eTest = GetNextEffect(oPC);
+			}
+			SetLocalString(oItem, "WeapVFX", sTest);
+			SetLocalInt(oItem, "WeapVFXnum", ACR_VFX_POS_BOW);
+			SendMessageToPC(oPC, "Back-slung bow VFX bound to item: "+GetName(oItem));
+			DeleteLocalString(oPC, "LongBow");
+		}
+	} else if ((nItemType == BASE_ITEM_GREATSWORD) || (nItemType == BASE_ITEM_FALCHION)) {
+		// large swords take the Greatsword VFX for now
+		sTest = GetLocalString(oPC, "GreatSword");
+		if (sTest != "") {
+			// Greatswords VFX active, drop and associate
+			while (GetIsEffectValid(eTest))  {
+				if (GetEffectSpellId(eTest) == ACR_VFX_POS_LEFTSHOULDER) {
+					RemoveEffect(oPC, eTest);
+					break;
+				}
+				eTest = GetNextEffect(oPC);
+			}
+			SetLocalString(oItem, "WeapVFX", sTest);
+			SetLocalInt(oItem, "WeapVFXnum", ACR_VFX_POS_LEFTSHOULDER);
+			SendMessageToPC(oPC, "Back-sheathed large sword VFX bound to item: "+GetName(oItem));
+			DeleteLocalString(oPC, "GreatSword");
+		}
+	} else if ((nItemType == BASE_ITEM_LONGSWORD) || (nItemType == BASE_ITEM_SHORTSWORD) || (nItemType == BASE_ITEM_RAPIER) || (nItemType == BASE_ITEM_SCIMITAR) || (nItemType == BASE_ITEM_KATANA)) {
+		// small/medium swords can use either back or hip VFX, hip primary
+		sTest = GetLocalString(oPC, "LongSwordBelt");
+		if (sTest != "") {
+			// Belted sword VFX active, drop and associate
+			while (GetIsEffectValid(eTest))  {
+				if (GetEffectSpellId(eTest) == ACR_VFX_POS_LEFTHIP) {
+					RemoveEffect(oPC, eTest);
+					break;
+				}
+				eTest = GetNextEffect(oPC);
+			}
+			SetLocalString(oItem, "WeapVFX", sTest);
+			SetLocalInt(oItem, "WeapVFXnum", ACR_VFX_POS_LEFTHIP);
+			SendMessageToPC(oPC, "Left hip sword VFX bound to item: "+GetName(oItem));
+			DeleteLocalString(oPC, "LongSwordBelt");
+		} else {
+			sTest = GetLocalString(oPC, "LongSwordBack");
+			if (sTest != "") {
+				// Backsword VFX active, drop and associate
+				while (GetIsEffectValid(eTest))  {
+					if (GetEffectSpellId(eTest) == ACR_VFX_POS_LEFTSHOULDER) {
+						RemoveEffect(oPC, eTest);
+						break;
+					}
+					eTest = GetNextEffect(oPC);
+				}
+				SetLocalString(oItem, "WeapVFX", sTest);
+				SetLocalInt(oItem, "WeapVFXnum", ACR_VFX_POS_LEFTSHOULDER);
+				SendMessageToPC(oPC, "Back-sheathed sword VFX bound to item: "+GetName(oItem));
+				DeleteLocalString(oPC, "LongSwordBack");
+			}
+		}
+	}
 }
 
 
 void ACR_PersonalVFXItemOnUnEquip( object oPC, object oItem ) {
-	// Not quite yet supported. :(
+	// Run any VFX operations needed
+	string sVFX = GetLocalString(oItem, "WeapVFX");
+	int nVFXNum = GetLocalInt(oItem, "WeapVFXnum");
+	effect eTest = GetFirstEffect(oPC); 
+	if (nVFXNum !=0) {
+		effect eVFX = SupernaturalEffect(SetEffectSpellId(EffectNWN2SpecialEffectFile(sVFX), nVFXNum));
+		while (GetIsEffectValid(eTest))  {
+			if (GetEffectSpellId(eTest) == nVFXNum) {
+				RemoveEffect(oPC, eTest);
+				break;
+			}
+			eTest = GetNextEffect(oPC);
+		}
+		ApplyEffectToObject(DURATION_TYPE_PERMANENT, eVFX, oPC);
+	}
 }
 
 #endif
