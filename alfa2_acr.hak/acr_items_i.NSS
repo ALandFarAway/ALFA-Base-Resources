@@ -43,21 +43,6 @@ const string ACR_MOD_SPELLBOOK_TAG = "abr_it_spellbook";
 const string ACR_MOD_HOLYSYMBOL_TAG = "abr_it_holysymbol";
 const string ACR_MODHEALKIT_TAG = "abr_it_firstaid";
 
-//! Constant integers for activatable VFX
-const int ACR_VFX_POS_BACKPACK = 1992;       // backpack position
-const int ACR_VFX_POS_LEFTHIP = 1993;        // longsword, bastard sword, shortsword at left hip
-const int ACR_VFX_POS_BOW = 1994;            // Longbow/shortbow, across body diagonal
-const int ACR_VFX_POS_SHIELDBACK = 1995;     // Shield variants, on back
-const int ACR_VFX_POS_LEFTSHOULDER = 1996;   // longsword, bastard sword, shortsword, greatsword, falchion on back, left shoulder
-const int ACR_VFX_POS_BACKLUTE = 1997;       // lute/mandolin position across back, diagonal
-const int ACR_VFX_POS_QUIVER = 1998;         // VFX quiver position
-const int ACR_VFX_POS_BACKAXE = 1999;         // Dwarven waraxe or greataxe, center back upright
-
-const int ACR_VFX_POS_EARRINGS = 2000;         // for activatable earring VFX
-const int ACR_VFX_POS_EAR_LEFT = 2001;
-const int ACR_VFX_POS_EAR_RIGHT = 2002;
-
-
 int ACR_IP_ACP_OFFSET = 7 + IP_MISC_OFFSET;
 
 //! Constant strings for VFX variables
