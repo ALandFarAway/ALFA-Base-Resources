@@ -41,3 +41,5 @@
 *.FAC	diff=gff
 *.jrl	diff=gff
 *.JRL	diff=gff
+*.tlk	diff=tlk
+*.TLK	diff=tlk
