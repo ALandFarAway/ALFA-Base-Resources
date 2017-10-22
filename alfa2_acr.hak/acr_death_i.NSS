@@ -991,6 +991,16 @@ void ACR_RestoreCorpsesOnModuleLoad()
 	// create the debug system ID for reporting if it doesn't exist
 	ACR_CreateDebugSystem(ACR_DTH_DEBUG_ID, DEBUG_TARGET_TALK, DEBUG_TARGET_LOG, DEBUG_TARGET_LOG | DEBUG_TARGET_DMS);
 	
+	// cache the morgue waypoint on the module for faster access
+	object oDeathWP = GetWaypointByTag(ACR_DTH_MORGUE_WP_TAG);
+	if (GetIsObjectValid(oDeathWP)) {
+		SetLocalObject(GetModule(), ACR_DTH_WAYPOINT, oDeathWP);
+	} else {
+		ACR_PrintDebugMessage("WARNING - Morgue waypoint missing or invalid. Attempting to find again in 20 seconds.", ACR_DTH_DEBUG_ID, DEBUG_LEVEL_WARNING);
+		DelayCommand(20.0f, ACR_RestoreCorpsesOnModuleLoad());
+		return;
+	}
+	
 	// retrieve all the records of dead players with corpses in the game world
 	//  - only pull those that corrspond with the current server.
 	//ACR_SQLQuery("SELECT d1.Name, d1.Tag, d1.Value, d2.Value FROM pwdata as d1, pwdata as d2 WHERE d1.`Key`='" + ACR_DTH_LOCATION + "' and d1.Name=d2.Name and d1.Tag=d2.Tag and d2.`Key`='" + ACR_PLAYER_FLAGS + "' and d2.Value | " + IntToString(ACR_PLAYER_FLAG_DEAD));
@@ -1023,9 +1033,6 @@ void ACR_RestoreCorpsesOnModuleLoad()
 		// decrement the counter
 		nDecayed = nDecayed - 1;
 	}
-	
-	// cache the morgue waypoint on the module for faster access
-	SetLocalObject(GetModule(), ACR_DTH_WAYPOINT, GetWaypointByTag(ACR_DTH_MORGUE_WP_TAG));
 }
 
 int ACR_GetIsCorpse(object oObject)
