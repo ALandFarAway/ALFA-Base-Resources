@@ -2092,12 +2092,45 @@ void ACR_RefreshPersonalVFXUI( object oPC ) {
 }
 
 
+void ACR_PersonalVFXItemOnUnAcquire( object oItem, object oPC ) {
+	// Clear VFX locals stored on the item.
+	effect eTest = GetFirstEffect(oPC);     
+	int nVFXnum = GetLocalInt(oItem, "WeapVFXnum");
+	if (nVFXnum != 0) {
+		while (GetIsEffectValid(eTest))  {
+			if (GetEffectSpellId(eTest) == nVFXnum) {
+				RemoveEffect(oPC, eTest);
+				break;
+			}
+			eTest = GetNextEffect(oPC);      
+		}
+		DeleteLocalInt(oItem, "WeapVFXnum");
+		DeleteLocalString(oItem, "WeapVFX");
+	}
+}
+
+
 void ACR_PersonalVFXItemOnEquip( object oPC, object oItem ) {
 	int nItemType = GetBaseItemType(oItem);
 	object oCurrentWeapon = GetItemInSlot(INVENTORY_SLOT_RIGHTHAND, oPC);
 	int nCurrentWeaponType = GetBaseItemType(oCurrentWeapon);
 	string sTest = "";
-	effect eTest = GetFirstEffect(oPC); 
+	effect eTest = GetFirstEffect(oPC);
+
+	// Clear any associated VFX associated with this weapon.
+	int nVFXnum = GetLocalInt(oItem, "WeapVFXnum");
+	if (nVFXnum != 0) {
+		while (GetIsEffectValid(eTest))  {
+			if (GetEffectSpellId(eTest) == nVFXnum) {
+				RemoveEffect(oPC, eTest);
+				break;
+			}
+			eTest = GetNextEffect(oPC);      
+		}
+	}
+	
+	// Handle any weapon binding.
+	eTest = GetFirstEffect(oPC);
 	if ((nCurrentWeaponType == BASE_ITEM_BASTARDSWORD) || (nItemType == BASE_ITEM_BASTARDSWORD))  {
 		// special handling for equipped bastard swords, equipped already or being equipped.
 		// first, manage any pending VFX associated
