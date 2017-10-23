@@ -359,24 +359,26 @@ int GetRandomHeadModel(int nSubrace, int nGender=0)
 
 	switch (nSubrace) {
 		case RACIAL_SUBTYPE_SHIELD_DWARF:
-			res = UniformRandomOverInterval("[1-6]");
+			res = UniformRandomOverInterval("[1-9][1-6]", nGender);
 			break;
 		case RACIAL_SUBTYPE_GOLD_DWARF:
 		case RACIAL_SUBTYPE_GRAY_DWARF:
 			res = UniformRandomOverInterval("[1-3]");
 			break;
 		case RACIAL_SUBTYPE_MOON_ELF:
-			res = UniformRandomOverInterval("[1-7,10][1-8]", nGender);
+			res = UniformRandomOverInterval("[1-7,10-17,20,31][1-8,11-18,92-95]", nGender);
 			break;
 		case RACIAL_SUBTYPE_SUN_ELF: 
-			res = UniformRandomOverInterval("[1-3][1-2,4-5]", nGender);
+			res = UniformRandomOverInterval("[1-6,12,20,31][1-2,4-10,13,15,53]", nGender);
 			break;
 		case RACIAL_SUBTYPE_WILD_ELF:
+			res = UniformRandomOverInterval("[1-6,14,20][1-3,13,15,53]", nGender);
+			break;
 		case RACIAL_SUBTYPE_WOOD_ELF:
-			res = UniformRandomOverInterval("[1-3]");
+			res = UniformRandomOverInterval("[1-6,14,20][1-6,13,15,53]", nGender);
 			break;
 		case RACIAL_SUBTYPE_DROW:
-			res = UniformRandomOverInterval("[1-3][1-5]", nGender);
+			res = UniformRandomOverInterval("[1-6,12,14,20,31][1-9,10,14,19,24,53]", nGender);
 			break;
 		case RACIAL_SUBTYPE_ROCK_GNOME:
 			res = UniformRandomOverInterval("[1-8,10][1-4,7]", nGender);
@@ -385,10 +387,10 @@ int GetRandomHeadModel(int nSubrace, int nGender=0)
 			res = UniformRandomOverInterval("[1-5][1-4]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HALFELF:
-			res = UniformRandomOverInterval("[1-6]");
+			res = UniformRandomOverInterval("[1-6,42,44-45][1-12]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HALFDROW:
-			res = UniformRandomOverInterval("[1-3]");
+			res = UniformRandomOverInterval("[1-3,7-12,42,44-45][13,7-12]", nGender);
 			break;
 		case RACIAL_SUBTYPE_LIGHTFOOT_HALF:
 		case RACIAL_SUBTYPE_GHOSTWISE_HALF:
@@ -401,7 +403,7 @@ int GetRandomHeadModel(int nSubrace, int nGender=0)
 			res = UniformRandomOverInterval("[1-6][1-7]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HUMAN:
-			res = UniformRandomOverInterval("[1-10,12-20,22-24,40-42][1-6,8-11,14,15,20,25,58-60,88,95]", nGender);
+			res = UniformRandomOverInterval("[1-10,12-20,22-24,40-42,51-60,62-66,99][1-6,8-15,20,25,31,33,36,39-40,58-60,75,87-95,97]", nGender);
 			break;
 		case RACIAL_SUBTYPE_YUANTI:
 		case RACIAL_SUBTYPE_GRAYORC:
@@ -412,6 +414,8 @@ int GetRandomHeadModel(int nSubrace, int nGender=0)
 			res = UniformRandomOverInterval("[1-3]");
 			break;
 		case RACIAL_SUBTYPE_AASIMAR:
+			res = UniformRandomOverInterval("[1-5][1-5,12]", nGender);
+			break;
 		case RACIAL_SUBTYPE_TIEFLING:
 			res = UniformRandomOverInterval("[1-5]");
 			break;
@@ -491,24 +495,26 @@ string GetValidHeadModels(int nSubrace, int nGender=0)
 
 	switch (nSubrace) {
 		case RACIAL_SUBTYPE_SHIELD_DWARF:
-			res = IntervalToList("[1-6]");
+			res = IntervalToList("[1-9][1-6]", nGender);
 			break;
 		case RACIAL_SUBTYPE_GOLD_DWARF:
 		case RACIAL_SUBTYPE_GRAY_DWARF:
 			res = IntervalToList("[1-3]");
 			break;
 		case RACIAL_SUBTYPE_MOON_ELF:
-			res = IntervalToList("[1-7,10][1-8]", nGender);
+			res = IntervalToList("[1-7,10-17,20,31][1-8,11-18,92-95]", nGender);
 			break;
 		case RACIAL_SUBTYPE_SUN_ELF: 
-			res = IntervalToList("[1-3][1-2,4-5]", nGender);
+			res = IntervalToList("[1-6,12,20,31][1-2,4-10,13,15,53]", nGender);
 			break;
 		case RACIAL_SUBTYPE_WILD_ELF:
+			res = IntervalToList("[1-6,14,20][1-3,13,15,53]", nGender);
+			break;
 		case RACIAL_SUBTYPE_WOOD_ELF:
-			res = IntervalToList("[1-3]");
+			res = IntervalToList("[1-6,14,20][1-6,13,15,53]", nGender);
 			break;
 		case RACIAL_SUBTYPE_DROW:
-			res = IntervalToList("[1-3][1-5]", nGender);
+			res = IntervalToList("[1-6,12,14,20,31][1-9,10,14,19,24,53]", nGender);
 			break;
 		case RACIAL_SUBTYPE_ROCK_GNOME:
 			res = IntervalToList("[1-8,10][1-4,7]", nGender);
@@ -517,10 +523,10 @@ string GetValidHeadModels(int nSubrace, int nGender=0)
 			res = IntervalToList("[1-5][1-4]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HALFELF:
-			res = IntervalToList("[1-6]");
+			res = IntervalToList("[1-6,42,44-45][1-12]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HALFDROW:
-			res = IntervalToList("[1-3]");
+			res = IntervalToList("[1-3,7-12,42,44-45][13,7-12]", nGender);
 			break;
 		case RACIAL_SUBTYPE_LIGHTFOOT_HALF:
 		case RACIAL_SUBTYPE_GHOSTWISE_HALF:
@@ -533,7 +539,7 @@ string GetValidHeadModels(int nSubrace, int nGender=0)
 			res = IntervalToList("[1-6][1-7]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HUMAN:
-			res = IntervalToList("[1-10,12-20,22-24,40-42][1-6,8-11,14,15,20,25,58-60,88,95]", nGender);
+			res = IntervalToList("[1-10,12-20,22-24,40-42,51-60,62-66,99][1-6,8-15,20,25,31,33,36,39-40,58-60,75,87-95,97]", nGender);
 			break;
 		case RACIAL_SUBTYPE_YUANTI:
 		case RACIAL_SUBTYPE_GRAYORC:
@@ -544,6 +550,8 @@ string GetValidHeadModels(int nSubrace, int nGender=0)
 			res = IntervalToList("[1-3]");
 			break;
 		case RACIAL_SUBTYPE_AASIMAR:
+			res = IntervalToList("[1-5][1-5,12]", nGender);
+			break;
 		case RACIAL_SUBTYPE_TIEFLING:
 			res = IntervalToList("[1-5]");
 			break;
