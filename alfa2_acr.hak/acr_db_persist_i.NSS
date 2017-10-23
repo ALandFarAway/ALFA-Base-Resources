@@ -1326,6 +1326,7 @@ void ACR_CreateSQLTables()
 		"`Name` varchar(64) NOT NULL," +
 		"`IPAddress` varchar(21) NOT NULL," +
 		"`IsPublic` bool NOT NULL default true," +
+		"`MachineName` varchar(256) NULL DEFAULT NULL COMMENT 'Machine name that host computer must have to start server (or else NULL for any machine), for recovery use.'" +
 		"PRIMARY KEY (`ID`)" +
 	") ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 
