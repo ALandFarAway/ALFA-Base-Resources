@@ -995,6 +995,7 @@ void ACR_RestoreCorpsesOnModuleLoad()
 	object oDeathWP = GetWaypointByTag(ACR_DTH_MORGUE_WP_TAG);
 	if (GetIsObjectValid(oDeathWP)) {
 		SetLocalObject(GetModule(), ACR_DTH_WAYPOINT, oDeathWP);
+		ACR_PrintDebugMessage("INFO - Morgue waypoint cached.", ACR_DTH_DEBUG_ID, DEBUG_LEVEL_INFO);
 	} else {
 		ACR_PrintDebugMessage("WARNING - Morgue waypoint missing or invalid. Attempting to find again in 20 seconds.", ACR_DTH_DEBUG_ID, DEBUG_LEVEL_WARNING);
 		DelayCommand(20.0f, ACR_RestoreCorpsesOnModuleLoad());
