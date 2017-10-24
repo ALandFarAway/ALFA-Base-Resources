@@ -481,20 +481,10 @@ void ACR_ItemOnUnAcquire(object oItem, object oPC) {
 
     // create a corpse where a body is discarded
     ACR_CorpseOnUnacquire(oItem, oPC);    
-    // clear VFX locals stored on the item
-    effect eTest = GetFirstEffect(oPC);     
-    int nVFXnum = GetLocalInt(oItem, "WeapVFXnum");
-    if (nVFXnum != 0) {
-        while (GetIsEffectValid(eTest))  {
-               if (GetEffectSpellId(eTest) == nVFXnum) {
-                   RemoveEffect(oPC, eTest);
-                  break;
-            }
-        eTest = GetNextEffect(oPC);      
-        }
-    DeleteLocalInt(oItem, "WeapVFXnum");
-    DeleteLocalString(oItem, "WeapVFX");
-    }
+    
+    // Handle VFX unaquire event.
+    ACR_PersonalVFXItemOnUnAcquire(oItem, oPC);
+
     //SendMessageToPC(oPC, "UnAquire event firing: Cached gold was "+IntToString(GetLocalInt(oPC, "ACR_GOLD"))+", current gold is "+IntToString(GetGold(oPC)));
     // add a hook to catch leftover subdual properties and clear them
     object oWeapon = oItem; 
