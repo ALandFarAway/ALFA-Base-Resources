@@ -127,6 +127,18 @@ int ACR_GetIsUndead( object oTarget );
 // Calls into ACR_CreatureBehavior to appropriately handle oCreature's actions for nEvent
 void ACR_ResolveCreatureBehavior( object oCreature, int nEvent );
 
+//! Determines if a creature is immune to critical hits.
+int ACR_GetIsImmuneToCriticalHits( object oCreature );
+
+//! Determines if a creature is immune to sneak attacks.
+int ACR_GetIsImmuneToSneakAttacks( object oCreature );
+
+//! Gets the number of sneak attack dice that the creature should roll.
+int ACR_GetSneakAttackDamageDice( object oCreature );
+
+//! Gets randomly rolled sneak attack damage for a target, or 0 if the creature doesn't use sneak attacks.
+int ACR_GetSneakAttackDamage( object oCreature );
+
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -683,5 +695,83 @@ void ACR_ResolveCreatureBehavior( object oCreature, int nEvent )
     ExecuteScriptEnhanced("acr_creaturebehavior", oCreature, TRUE);
 }
 
+int ACR_GetIsImmuneToCriticalHits( object oCreature ) {
+	// Check for straight-up immunity.
+	if ( GetIsImmune( oCreature, IMMUNITY_TYPE_CRITICAL_HIT ) ) {
+		return TRUE;
+	}
+	
+	// Guard against mistooled racial types.
+	int nRacialType = GetRacialType( oCreature );
+	if ( nRacialType == RACIAL_TYPE_CONSTRUCT
+		|| nRacialType == RACIAL_TYPE_ELEMENTAL
+		|| nRacialType == RACIAL_TYPE_OOZE
+		|| ACR_GetIsUndead( oCreature ) ) {
+		return TRUE;
+	}
+	
+	// Guard against mistooled racial subtypes.
+	int nRacialSubtype = GetSubRace( oCreature );
+	if ( nRacialSubtype == RACIAL_SUBTYPE_CONSTRUCT
+		|| nRacialType == RACIAL_SUBTYPE_ELEMENTAL
+		|| nRacialType == RACIAL_SUBTYPE_OOZE
+		|| nRacialType == RACIAL_SUBTYPE_PLANT ) {
+		return TRUE;
+	}
+	
+	return FALSE;
+}
+
+int ACR_GetIsImmuneToSneakAttacks( object oCreature ) {
+	// Critical hit immunity applies.
+	if ( ACR_GetIsImmuneToCriticalHits( oCreature ) ) {
+		return TRUE;
+	}
+	
+	// Check for straight-up immunity.
+	if ( GetIsImmune( oCreature, IMMUNITY_TYPE_SNEAK_ATTACK ) ) {
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+int ACR_GetSneakAttackDamageDice( object oCreature ) {
+	int nDice = 0;
+
+	// Rogues get sneak attack damage every odd level.
+	nDice += (GetLevelByClass( CLASS_TYPE_ROGUE, oCreature ) + 1) / 2;
+	
+	// Assassins get sneak attack damage every odd level.
+	nDice += (GetLevelByClass( CLASS_TYPE_ASSASSIN, oCreature ) + 1) / 2;
+	
+	// Assassins get sneak attack damage every odd level.
+	nDice += (GetLevelByClass( CLASS_TYPE_ASSASSIN, oCreature ) + 1) / 2;
+	
+	// Blackguards get sneak attack damage at 4, 7, and 10.
+	nDice += (GetLevelByClass( CLASS_TYPE_BLACKGUARD, oCreature ) - 1) / 3;
+
+	// Arcane Tricksters get sneak attack damage every even level.
+	nDice += GetLevelByClass( CLASS_TYPE_ARCANETRICKSTER, oCreature ) / 2;
+
+	// Shadow Thieves of Amn get sneak attack damage every odd level.
+	nDice += (GetLevelByClass( CLASS_TYPE_SHADOWTHIEFOFAMN, oCreature ) + 1) / 2;
+
+	// At level 3, NW9 gets +2 sneak attack damage.
+	if ( GetLevelByClass( CLASS_NWNINE_WARDER, oCreature ) >= 3 ) {
+		nDice += 2;
+	}
+
+	return nDice;
+}
+
+int ACR_GetSneakAttackDamage( object oCreature ) {
+	int nDice = ACR_GetSneakAttackDamageDice( oCreature );
+	if ( nDice > 0 ) {
+		return d6(nDice);
+	} else {
+		return 0;
+	}
+}
 
 #endif

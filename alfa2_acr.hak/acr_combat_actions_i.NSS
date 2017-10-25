@@ -83,6 +83,9 @@ void _ClearCombatModes(object oCreature, string sMode="");
 //! Handle or force Combat Expertise/Power Attack GUI events.
 void _HandlePowExpGUIEvent( object oPC, int nEvent, int nAmount );
 
+//! Determine if oTarget is susceptible to a sneak attack from oCreature.
+int ACR_GetCanSneakAttack( object oCreature, object oTarget );
+
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -91,6 +94,7 @@ void _HandlePowExpGUIEvent( object oPC, int nEvent, int nAmount );
 #include "acr_time_i"
 #include "acr_tools_i"
 #include "acr_items_i"
+#include "acr_creature_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -449,6 +453,90 @@ void _HandlePowExpGUIEvent( object oPC, int nEvent, int nAmount ) {
             FightWithPowerAttack(oPC, nNewMode);
         }
     }
+}
+
+int ACR_GetCanSneakAttack( object oCreature, object oTarget ) {
+    // All objects must be valid.
+    if ( !GetIsObjectValid( oCreature) || !GetIsObjectValid( oTarget ) ) {
+        return FALSE;
+    }
+
+    // All objects must be creatures.
+    if ( GetObjectType( oCreature ) != OBJECT_TYPE_CREATURE ||  GetObjectType( oTarget ) != OBJECT_TYPE_CREATURE ) {
+        return FALSE;
+    }
+    
+    // Sneak attacks must be performed within 30'. Note that GetDistanceBetween returns a distance in meters.
+    float fDistanceToTarget = GetDistanceBetween( oCreature, oTarget );
+    if ( fDistanceToTarget > 9.144f ) {
+        return FALSE;
+    }
+    
+    // Is the vulnerable to sneak attacks?
+    if ( ACR_GetIsImmuneToSneakAttacks( oTarget ) ) {
+        return FALSE;
+    }
+
+    // If the caster is concealed, they can sneak attack.
+    if ( ACR_GetHasEffectOfType( oCreature, EFFECT_TYPE_CONCEALMENT ) ) {
+        return TRUE;
+    }
+    
+    // If the target can't see the attacker, they're flat-footed.
+    if ( !GetObjectSeen( oCreature, oTarget ) ) {
+        return TRUE;
+    }
+    
+    // Certain effects allow us to always sneak attack the target. This includes helpless,
+    // paralyzed, held, bound, sleeping, or unconscious targets.
+	effect eEffect = GetFirstEffect(oCreature);
+	while ( GetIsEffectValid( eEffect ) ) {
+        int nEffectType = GetEffectType(eEffect);
+        if (nEffectType == EFFECT_TYPE_BLINDNESS || nEffectType == EFFECT_TYPE_CUTSCENE_PARALYZE ||
+            nEffectType == EFFECT_TYPE_CUTSCENEIMMOBILIZE || nEffectType == EFFECT_TYPE_ENTANGLE ||
+            nEffectType == EFFECT_TYPE_PARALYZE || nEffectType == EFFECT_TYPE_SLEEP ||
+            nEffectType == EFFECT_TYPE_STUNNED) {
+            return TRUE;
+        }
+		eEffect = GetNextEffect( oCreature );
+    }
+    
+    // Check for actions that make the target flat-footed.
+    int nTargetAction = GetCurrentAction( oTarget );
+    if ( nTargetAction == ACTION_CLOSEDOOR ||
+        nTargetAction == ACTION_DIALOGOBJECT ||
+        nTargetAction == ACTION_DISABLETRAP ||
+        nTargetAction == ACTION_DROPITEM ||
+        nTargetAction == ACTION_EXAMINETRAP ||
+        nTargetAction == ACTION_FLAGTRAP ||
+        nTargetAction == ACTION_FOLLOW ||
+        nTargetAction == ACTION_HEAL ||
+        nTargetAction == ACTION_INVALID ||
+        nTargetAction == ACTION_LOCK ||
+        nTargetAction == ACTION_MOVETOPOINT ||
+        nTargetAction == ACTION_OPENDOOR ||
+        nTargetAction == ACTION_OPENLOCK ||
+        nTargetAction == ACTION_PICKUPITEM ||
+        nTargetAction == ACTION_RANDOMWALK ||
+        nTargetAction == ACTION_RECOVERTRAP ||
+        nTargetAction == ACTION_SETTRAP ||
+        nTargetAction == ACTION_WAIT ) {
+        return TRUE;
+    }
+    
+    // If you're in melee range (7 feet here), and are flanking.
+    //! TODO: Right now we check flanking by making sure we're not the current target's target.
+    if ( oCreature == GetAttackTarget(oTarget) ) {
+        return FALSE;
+    }
+
+    // Check to see if outside of 180 degree cone of vision.
+    float angleDifference = 180 - fabs(fabs(GetFacing(oCreature) - GetFacing(oTarget)) - 180);
+    if ( angleDifference > 120.0f ) {
+        return FALSE;
+    }
+
+    return TRUE;
 }
 
 #endif

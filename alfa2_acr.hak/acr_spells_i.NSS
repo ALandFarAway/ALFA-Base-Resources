@@ -249,6 +249,30 @@ float ACR_GetSpellDuration( object oCaster, int nDurationType, float nDurationBa
 	return nDuration;
 }
 
+// Called to determine if a spell touch attack succeeds on a target.
+// Returns TOUCH_ATTACK_RESULT_MISS, TOUCH_ATTACK_RESULT_HIT, or TOUCH_ATTACK_RESULT_CRITICAL.
+int ACR_SpellTouchAttackRanged(object oTarget, int bDisplayFeedback=TRUE, int bCanSneakAttack=FALSE) {
+	return TouchAttackRanged(oTarget, bDisplayFeedback);
+}
+
+int ACR_GetSpellSneakAttackDamage(object oCaster, object oTarget) {
+	// Get damage.
+	int nDamage = ACR_GetSneakAttackDamage( oCaster );
+	if ( nDamage <= 0 ) {
+		return 0;
+	}
+
+	// Bail if we can't sneak attack the target.
+	if ( !ACR_GetCanSneakAttack( oCaster, oTarget ) ) {
+		SendMessageToPC( oCaster, "Cannot sneak attack target." );
+		return 0;
+	}
+
+	SendMessageToPC( oCaster, "Sneak attack damage: " + IntToString(nDamage) );
+	FloatingTextStringOnCreature("<C=gray>*Sneak Attack!*</C>", oCaster, FALSE, 1.5f);
+	return nDamage;
+}
+
 int ACR_PayMaterialComponentCost( object oCaster, string sItemName, int nGold, int bPayGoldIfNoItem = TRUE ) {
 	// Dealing with an item or gold?
 	if ( sItemName == "" ) {
