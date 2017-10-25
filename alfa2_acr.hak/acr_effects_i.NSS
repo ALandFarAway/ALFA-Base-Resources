@@ -151,6 +151,9 @@ void ChangeEffectFromSource(int nSource, object oCreature, effect eEffect);
 //! Return AOE ID for a specific radius for EffectAreaOfEffect
 int ACR_GetAOERadiusID(float fRadius);
 
+//! Returns TRUE if oCreature has an effect of type nEffectType.
+int ACR_GetHasEffectOfType(object oCreature, int nEffectType);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -376,6 +379,18 @@ void ACR_RemoveTemporaryDarkvision(object player, object item)
 	IPRemoveMatchingItemProperties(item, ITEM_PROPERTY_BONUS_FEAT, DURATION_TYPE_PERMANENT);
 
 	SetItemCursedFlag(item, 0);
+}
+
+int ACR_GetHasEffectOfType(object oCreature, int nEffectType)
+{
+	if (!GetIsObjectValid(oCreature)) return FALSE;
+	
+	effect eEffect = GetFirstEffect(oCreature);
+	while (GetIsEffectValid(eEffect)) {
+		if (GetEffectType(eEffect) == nEffectType) return TRUE;
+		eEffect = GetNextEffect(oCreature);
+	}
+	return FALSE;
 }
 
 #endif
