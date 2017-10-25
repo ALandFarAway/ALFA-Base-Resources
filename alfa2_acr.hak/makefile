@@ -271,6 +271,36 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s0_masheal.ncs                     \
             $(OUTPUTDIR)\nw_s0_regen.ncs                       \
             $(OUTPUTDIR)\nw_s0_rejuvcocoon.ncs                 \
+            $(OUTPUTDIR)\X0_S0_AcidSplash.ncs                  \
+            $(OUTPUTDIR)\x0_s0_inflict.ncs                     \
+            $(OUTPUTDIR)\NX2_S0_OrbAcid.ncs                    \
+            $(OUTPUTDIR)\NX2_S0_OrbAcidLess.ncs                \
+            $(OUTPUTDIR)\NX2_S0_OrbCold.ncs                    \
+            $(OUTPUTDIR)\NX2_S0_OrbColdLess.ncs                \
+            $(OUTPUTDIR)\NX2_S0_OrbElec.ncs                    \
+            $(OUTPUTDIR)\NX2_S0_OrbElecLess.ncs                \
+            $(OUTPUTDIR)\NX2_S0_OrbFire.ncs                    \
+            $(OUTPUTDIR)\NX2_S0_OrbFireLess.ncs                \
+            $(OUTPUTDIR)\NX2_S0_OrbSound.ncs                   \
+            $(OUTPUTDIR)\NX2_S0_OrbSoundLess.ncs               \
+            $(OUTPUTDIR)\nw_s0_shknggrsp.ncs                   \
+            $(OUTPUTDIR)\nw_s0_rejuvcocoon.ncs                 \
+            $(OUTPUTDIR)\nw_s0_deathknel.ncs                   \
+            $(OUTPUTDIR)\nx_s0_scorchingray.ncs                \
+            $(OUTPUTDIR)\nx_s0_scorchingraysingle.ncs          \
+            $(OUTPUTDIR)\nx_s0_scorchingraymany.ncs            \
+            $(OUTPUTDIR)\X2_S0_InfestMag.ncs                   \
+            $(OUTPUTDIR)\NW_S0_SearLght.ncs                    \
+            $(OUTPUTDIR)\nw_s0_vamptch.ncs                     \
+            $(OUTPUTDIR)\nw_s0_contagion.ncs                   \
+            $(OUTPUTDIR)\nw_s0_enervat.ncs                     \
+            $(OUTPUTDIR)\nw_s0_slaylive.ncs                    \
+            $(OUTPUTDIR)\nw_s0_disngrt.ncs                     \
+            $(OUTPUTDIR)\nw_s0_polarray.ncs                    \
+            $(OUTPUTDIR)\nw_s0_enedrain.ncs                    \
+            $(OUTPUTDIR)\x0_s0_bigby4.ncs                      \
+            $(OUTPUTDIR)\x0_s0_bigby5.ncs                      \
+            $(OUTPUTDIR)\nx_s0_avasculate.ncs                  \
             $(OUTPUTDIR)\nw_s2_layonhand.ncs                   \
             $(OUTPUTDIR)\nw_s2_snginregn.ncs                   \
             $(OUTPUTDIR)\nw_s2_sngfascin.ncs                   \
