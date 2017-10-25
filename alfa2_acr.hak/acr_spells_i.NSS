@@ -264,11 +264,9 @@ int ACR_GetSpellSneakAttackDamage(object oCaster, object oTarget) {
 
 	// Bail if we can't sneak attack the target.
 	if ( !ACR_GetCanSneakAttack( oCaster, oTarget ) ) {
-		SendMessageToPC( oCaster, "Cannot sneak attack target." );
 		return 0;
 	}
 
-	SendMessageToPC( oCaster, "Sneak attack damage: " + IntToString(nDamage) );
 	FloatingTextStringOnCreature("<C=gray>*Sneak Attack!*</C>", oCaster, FALSE, 1.5f);
 	return nDamage;
 }
