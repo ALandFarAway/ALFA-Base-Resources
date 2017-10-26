@@ -27,6 +27,7 @@
 #include "NW_I0_SPELLS"    
 #include "x2_inc_spellhook" 
 #include "nwn2_inc_spells"
+#include "acr_spells_i"
 
 void main()
 {

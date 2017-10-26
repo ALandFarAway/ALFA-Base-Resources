@@ -15,6 +15,7 @@
 
 #include "NW_I0_SPELLS"    
 #include "x2_inc_spellhook" 
+#include "acr_spells_i"
 
 void main()
 {
@@ -60,7 +61,7 @@ void main()
 	            {
 	                nDam = nDam + nDam/2; //Damage/Healing is +50%
 	            }
-		nDamage += ACR_GetSpellSneakAttackDamage( OBJECT_SELF, oTarget );
+				nDam += ACR_GetSpellSneakAttackDamage( OBJECT_SELF, oTarget );
 	            //Set damage effect
 	            effect eDam = EffectDamage(nDam, DAMAGE_TYPE_COLD);
 	   	 		effect eVis = EffectVisualEffect(VFX_HIT_SPELL_ICE);

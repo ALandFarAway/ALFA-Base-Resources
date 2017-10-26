@@ -32,6 +32,7 @@ Georg 2003-09-11
 
 #include "x0_I0_SPELLS"
 #include "x2_inc_spellhook"
+#include "acr_spells_i"
 
 void main()
 {
