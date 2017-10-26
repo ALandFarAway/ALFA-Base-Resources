@@ -119,7 +119,7 @@ void main()
 				{
 					nDamage = d6( nDice );
 				}
-				
+				nDamage += ACR_GetSpellSneakAttackDamage( OBJECT_SELF, oTarget );
 				// If we should damage the target, apply it now
                 if ( nDamage > 0 )
                 {

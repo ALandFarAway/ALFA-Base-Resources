@@ -103,6 +103,7 @@ void main()
 
     effect eHeal = EffectTemporaryHitpoints(nDamage);
 
+nDamage += ACR_GetSpellSneakAttackDamage( OBJECT_SELF, oTarget );
     effect eDamage = EffectDamage(nDamage, DAMAGE_TYPE_NEGATIVE);
     effect eVis = EffectVisualEffect(VFX_HIT_SPELL_NECROMANCY);
     effect eVisHeal = EffectVisualEffect(VFX_IMP_HEALING_S);

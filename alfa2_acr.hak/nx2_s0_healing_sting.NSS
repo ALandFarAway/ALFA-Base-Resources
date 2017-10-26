@@ -46,6 +46,7 @@ void main()
 		nCasterLevel = 10;
 	// Effects
 	int nDamage				= d12(1) + nCasterLevel;
+	nDamage += ACR_GetSpellSneakAttackDamage( OBJECT_SELF, oTarget );
 	effect eDamage 			= EffectDamage(nDamage, DAMAGE_TYPE_NEGATIVE);
 	int nHeal				= nDamage;
 	int nMaxHP 				= GetMaxHitPoints(oCaster);

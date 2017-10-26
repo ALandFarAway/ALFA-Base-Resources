@@ -128,7 +128,7 @@ void main()
 				
 
 				
-	
+	nDamage += ACR_GetSpellSneakAttackDamage( OBJECT_SELF, oTarget );
 	            //Set the damage effect
 	            effect eDam = EffectDamage(nDamage, DAMAGE_TYPE_DIVINE);
     			effect eVis = EffectVisualEffect( VFX_HIT_SPELL_SEARING_LIGHT );

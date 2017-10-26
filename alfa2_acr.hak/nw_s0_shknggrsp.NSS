@@ -75,7 +75,7 @@ void main()
                 	//Check for metamagic
                 	nDamage = ApplyMetamagicVariableMods(nDamage, nMaxLvl*6);
 				}
-				
+				nDamage += ACR_GetSpellSneakAttackDamage( OBJECT_SELF, oTarget );
                 eDam = EffectDamage(nDamage,DAMAGE_TYPE_ELECTRICAL);
 
                 //Apply the VFX impact and effects

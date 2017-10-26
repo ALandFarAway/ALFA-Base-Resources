@@ -88,6 +88,7 @@ void main()
 	}
 	
 	int nTargetHP = GetCurrentHitPoints( oTarget );
+	nDamage += ACR_GetSpellSneakAttackDamage( OBJECT_SELF, oTarget );
 	effect eDamage = EffectDamage( nDamage, DAMAGE_TYPE_NEGATIVE );
 	effect eDamageVis = EffectVisualEffect( VFX_HIT_SPELL_EVIL );
 	effect eDamageLink = EffectLinkEffects( eDamage, eDamageVis );

@@ -79,7 +79,7 @@ void main()
 				ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eDeaf, oTarget, RoundsToSeconds(1));
 			}
 			
-			
+			nDamage += ACR_GetSpellSneakAttackDamage( OBJECT_SELF, oTarget );
 			effect eDam = EffectDamage(nDamage, DAMAGE_TYPE_SONIC, DAMAGE_POWER_NORMAL);
 			// visual!!!!
 			//effect eVis = EffectVisualEffect(VFX_HIT_SPELL_FIRE);

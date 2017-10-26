@@ -64,6 +64,7 @@ void main()
 
 //Determine damage
 			nDam		=	GetCurrentHitPoints(oTarget)/2;
+			nDamage += ACR_GetSpellSneakAttackDamage( OBJECT_SELF, oTarget );
 			eDam		=	EffectDamage(nDam, DAMAGE_TYPE_MAGICAL, DAMAGE_POWER_NORMAL, TRUE);	// AFW-OEI 07/10/2007: Ignore all resistances.
 			
 	

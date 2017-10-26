@@ -62,6 +62,7 @@ void main()
 					nDamage = ApplyMetamagicVariableMods(nDamage, 6);
 				}
 				
+				nDamage += ACR_GetSpellSneakAttackDamage( OBJECT_SELF, oTarget );
 	            effect eBad = EffectDamage(nDamage, DAMAGE_TYPE_ACID);
 	            //Apply the VFX impact and damage effect
 	            ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, oTarget);

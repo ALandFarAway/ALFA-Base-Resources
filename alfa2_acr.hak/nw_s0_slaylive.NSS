@@ -77,6 +77,7 @@ void main()
                     {
                         nDamage = nDamage + (nDamage/2);
                     }
+                    nDamage += ACR_GetSpellSneakAttackDamage( OBJECT_SELF, oTarget );
                     //Apply damage effect and VFX impact
                     eDam = EffectDamage(nDamage, DAMAGE_TYPE_NEGATIVE);
                     ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam, oTarget);

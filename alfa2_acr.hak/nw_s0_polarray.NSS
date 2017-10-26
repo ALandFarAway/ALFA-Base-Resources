@@ -60,7 +60,7 @@ void main()
 	            {
 	                nDam = nDam + nDam/2; //Damage/Healing is +50%
 	            }
-		
+		nDamage += ACR_GetSpellSneakAttackDamage( OBJECT_SELF, oTarget );
 	            //Set damage effect
 	            effect eDam = EffectDamage(nDam, DAMAGE_TYPE_COLD);
 	   	 		effect eVis = EffectVisualEffect(VFX_HIT_SPELL_ICE);

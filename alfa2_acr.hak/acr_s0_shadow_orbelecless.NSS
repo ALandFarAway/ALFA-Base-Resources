@@ -82,7 +82,7 @@ void main()
         			    	// DO EMPOWER damage * 1.5
 							nDamage = nDamage + (nDamage/2);
          				}
-			
+			nDamage += ACR_GetSpellSneakAttackDamage( OBJECT_SELF, oTarget );
 						effect eDam = EffectDamage(nDamage, DAMAGE_TYPE_ELECTRICAL, DAMAGE_POWER_NORMAL);
 						// visual!!!!
 						//effect eVis = EffectVisualEffect(VFX_HIT_SPELL_FIRE);
@@ -104,6 +104,7 @@ void main()
          				}
 						nDamage = nDamage/5;
 					
+					nDamage += ACR_GetSpellSneakAttackDamage( OBJECT_SELF, oTarget );
 						effect eDam = EffectDamage(nDamage, DAMAGE_TYPE_ELECTRICAL, DAMAGE_POWER_NORMAL);
 						ApplyEffectToObject(DURATION_TYPE_INSTANT, eDam, oTarget);
 					}

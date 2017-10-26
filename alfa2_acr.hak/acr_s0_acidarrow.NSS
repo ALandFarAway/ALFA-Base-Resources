@@ -104,7 +104,7 @@ void main()
 					 nDamage = d4(4);
 					 nDamage = ApplyMetamagicVariableMods(nDamage, 16);
 				}
-				
+				nDamage += ACR_GetSpellSneakAttackDamage( OBJECT_SELF, oTarget );
 	            effect eDam = EffectDamage(nDamage, DAMAGE_TYPE_ACID);
 
 				//DelayCommand(fDelay,ApplyEffectToObject(DURATION_TYPE_INSTANT, eVis, oTarget));
