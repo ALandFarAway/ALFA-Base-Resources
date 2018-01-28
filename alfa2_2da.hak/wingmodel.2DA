@@ -72,4 +72,9 @@
 68       GargoyleWings_27       ****          c_gargoyle_wings27             c_winglegwing_skel          c_wingleg           c_gargoyle_wings27
 69       GargoyleWings_29       ****          c_gargoyle_wings29             c_winglegwing_skel          c_wingleg           c_gargoyle_wings29
 70       GargoyleWings_31       ****          c_gargoyle_wings31             c_winglegwing_skel          c_wingleg           c_gargoyle_wings31
-71	     HydraTongue	        ****	      c_hydra_tongue	             c_hydratongue_skel	         c_hydra	         c_hydra_tongue
+71	     *****      	        ****	      ****           	             ****           	         ****    	         ****
+72	     NWNDragonWings			****		  c_nwndragonwings				 c_nwndragonwings_skel		 c_nwndragon		 c_nwndragonwings
+73	     DragonWings,NWN		****		  c_nwn_dragonwings				 c_nwn_dragonwings_skel		 c_nwn_dragon		 c_nwn_dragonwings
+74	     DragonWings,NWN2		****		  c_nwn_drgwings				 c_nwn_dragonwings_skel		 c_nwn_dragon		 c_nwn_drgwings
+75	     Aarakocra_Wings	    ****	      c_aarakocrawings	             c_aarakocrawings_skel	     c_aarakocra	     c_aarakocrawings
+76       ReaperWings            94973         c_reaper_wings                 c_devilwing_skel            c_devil             c_reaper_wings
