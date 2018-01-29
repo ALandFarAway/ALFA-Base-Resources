@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Trail>
+  <EffectType>5</EffectType>
+  <Color>
+    <r>158</r>
+    <g>158</g>
+    <b>158</b>
+    <a>255</a>
+  </Color>
+  <UpdateFrequency>30</UpdateFrequency>
+  <FadeOutTime>1</FadeOutTime>
+  <Texture>fx_caustics.tga</Texture>
+  <SourceBlend>5</SourceBlend>
+  <DestBlend>2</DestBlend>
+  <TextureType>1</TextureType>
+  <AnimatedTextureSpeed>1</AnimatedTextureSpeed>
+  <RequiresFrameBuffer>0</RequiresFrameBuffer>
+  <FrameBufferPixelDisplacement>0.1</FrameBufferPixelDisplacement>
+</Trail>

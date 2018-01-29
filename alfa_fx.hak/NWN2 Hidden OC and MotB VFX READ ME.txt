@@ -1,0 +1,59 @@
+NWN2 Hidden OC and MotB VFX
+
+These VFX’s were missing in the toolset due to them being contained within various MODULES and not contained within the NWN2_VFX.zip or the NWN2_VFX_X1.zip Data files.
+
+****************UPDATE*********************
+2 VFX's were not working, do to an error on my part (sorry!). The latest version (v3) includes the 2 missing files.
+
+I created Placed Effects blueprints for all the VFX's, to make it easier for you to use these.
+
+Effects that have the beginning letter "M" in their name are from Mask of the Betrayer.
+Effects that have the beginning letter "O" in their name are from the Origional Campaign.
+
+I then further categorized them with a {} description, in their name. If a Placed Effect has a {Area} in it's name, I felt that effect looked best placed in the Area. If it has a {Creature} in the name, the effect more than likely will not show up in an area, but DO show up only on a Creature.
+
+For example the Placed Effect Blueprint named “O-Garius Field1{Area}” is from the Origional Campaign and looks best placed in the area. But you can of course place this effect on a Creature if you want. :)
+
+All blueprints are grouped into one classification called Hidden OC and MotB VFX. Look for the blueprints there, in Placed Effects.
+
+There are 59 Blueprints total.
+
+Thanks to shaughn for suggesting I make these blueprints.
+********************************************
+
+A HUGE thank you to Anduraga, son of Kosaraga from the Bio boards for coming up with this idea in the first place! I followed up with him on this project and he had already extracted the ones from Mask of the Betrayer. He gave me these files, and I extracted the ones from the OC.
+
+All files have their original names, except I added a prefix to them (to make them easier to find in the toolset).
+SEF files with the prefix of “ajoc_” are from the OC.
+SEF files with a prefix of “ajm_” are from MotB
+
+Features:
+59 new VFX’s that you can now select in the toolset.
+
+Notes:
+“ajoc_24_door.sef” is missing a particle file. It still works, and someone may find it useful.
+“ajoc_fx_purification” is also missing a file. It currently only plays a sound.
+“ajoc_3500_fx_fire_lg.SEF” the files needed for this effect already exists in the game. Only the .SEF file was missing.
+"ajm_fx_blight_cloud_area.SEF" the files needed for this effect already exists in the game. Only the .SEF file was missing. You need to have Mask of the Betrayer to see this VFX.
+
+Install:
+Here are a few options to choose from to have these VFX’s show up in the toolset. If you place these files in BOTH locations, due note the toolset will now list these VFX’s twice. You should only place them in one area.
+
+1.Uncompress this folder into your MyDocs/NeverwinterNights2/override directory. You will need to re-start the toolset if you already have it open.
+
+2. Uncompress the files and place the files into your mod (Directory Mode). When you load up your mod in the toolset, these VFX’s will now be available.
+
+Special thanks: Anduraga, son of Kosaraga, and Grinning Fool who told me a way to find these MUCH easier!
+
+ALL VFX's were made by Obsidian Entertainment.
+
+Blueprints were made my me.
+
+Releases
+10-15-08
+v1 – initial release
+v2 - Added missing VFX from MotB "fx_blight_cloud_area.SEF".
+     Renamed to "ajm_fx_blight_cloud_area.SEF".
+v3 - Added missing BBX effects "20_fx_candle_blue.BBX" and "fx_zhjaeve_door.BBX".
+     This was making the ajoc_fx_zhjaeve_door.SEF and ajoc_20_fx_candle_blue.SEF effects not work.
+     They work perfectly now.

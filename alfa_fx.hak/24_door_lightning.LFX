@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<Lightning>
+  <EffectType>2</EffectType>
+  <BeginPos>
+    <x>0</x>
+    <y>0</y>
+    <z>5</z>
+  </BeginPos>
+  <EndPos>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </EndPos>
+  <BeginWidth>0.5</BeginWidth>
+  <EndWidth>0</EndWidth>
+  <BeginColor>
+    <r>107</r>
+    <g>129</g>
+    <b>250</b>
+    <a>255</a>
+  </BeginColor>
+  <EndColor>
+    <r>15</r>
+    <g>47</g>
+    <b>255</b>
+    <a>255</a>
+  </EndColor>
+  <Jaggedness>150</Jaggedness>
+  <Jumpiness>0</Jumpiness>
+  <Spread>0</Spread>
+  <BranchProbability>1</BranchProbability>
+  <UpdateFrequency>45</UpdateFrequency>
+  <BeginBranch>0</BeginBranch>
+  <EndBranch>1</EndBranch>
+  <Texture>fx_lightning_test.tga</Texture>
+</Lightning>

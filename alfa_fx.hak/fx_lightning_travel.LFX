@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<Lightning>
+  <EffectType>2</EffectType>
+  <BeginPos>
+    <x>0</x>
+    <y>0</y>
+    <z>5</z>
+  </BeginPos>
+  <EndPos>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </EndPos>
+  <BeginWidth>0.5</BeginWidth>
+  <EndWidth>0</EndWidth>
+  <BeginColor>
+    <r>255</r>
+    <g>73</g>
+    <b>28</b>
+    <a>255</a>
+  </BeginColor>
+  <EndColor>
+    <r>255</r>
+    <g>13</g>
+    <b>13</b>
+    <a>255</a>
+  </EndColor>
+  <Jaggedness>90</Jaggedness>
+  <Jumpiness>0</Jumpiness>
+  <Spread>0</Spread>
+  <BranchProbability>1</BranchProbability>
+  <UpdateFrequency>45</UpdateFrequency>
+  <BeginBranch>0</BeginBranch>
+  <EndBranch>1</EndBranch>
+  <Texture>override\nwn2_materials\fx_lightning_test.tga</Texture>
+</Lightning>

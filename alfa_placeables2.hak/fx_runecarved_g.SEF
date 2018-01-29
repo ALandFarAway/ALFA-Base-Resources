@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<EventList>
+  <Name>rune</Name>
+  <MaxDuration>0</MaxDuration>
+  <SpecialTargetPosition>0</SpecialTargetPosition>
+  <FogMultiplier>1</FogMultiplier>
+  <Event0>
+    <Type>12</Type>
+    <Name>Apply normal texture</Name>
+    <DefinitionFile>.res</DefinitionFile>
+    <DelayTime>0</DelayTime>
+    <MaxDuration>0</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>0</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>0</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+    <GameModelEffectType>2</GameModelEffectType>
+    <LerpInTime>0</LerpInTime>
+    <LerpOutTime>0</LerpOutTime>
+    <Texture>rune_carved_g.dds</Texture>
+  </Event0>
+</EventList>
