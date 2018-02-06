@@ -79,20 +79,20 @@
 76	****	****	****	1	184845	****	****
 77	****	****	****	1	184846	****	****
 78	****	****	****	1	184847	****	****
-79	****	****	****	0	207939	"For the latest news on Neverwinter Nights 2 and Mask of the Betrayer, visit www.nwn2.com."	****
-80	****	****	****	0	208023	"Wizards of the Coast, Atari, and Obsidian Entertainment welcome you to Neverwinter Nights 2, the ultimate D&D computer role-playing experience."	****
-81	****	****	****	0	208024	Use the Neverwinter Nights 2 toolset to create your own adventures for friends to enjoy.	****
-82	****	****	****	0	207940	"TIP: Press ""*"" to switch between Strategic Mode and Character Mode."	****
-83	****	1	4	1	208646	"TIP: The AI Off button in the lower right will toggle your characters' AI, preventing them from acting on their own in combat."	****
-84	****	1	4	1	207940	"TIP: Press ""*"" to switch between Strategic Mode and Character Mode."	****
-85	****	1	4	1	207941	TIP: Using marquee select in Strategic Play Mode lets you play NWN2 more like a real-time strategy game.	****
+79	****	****	****	0	207939	"For the latest news on Neverwinter Nights 2 and Mask of the Betrayer, visit www.nwn2.com."	                                                         ****
+80	****	****	****	0	208023	"Wizards of the Coast, Atari, and Obsidian Entertainment welcome you to Neverwinter Nights 2, the ultimate D&D computer role-playing experience."	 ****
+81	****	****	****	0	208024	"Use the Neverwinter Nights 2 toolset to create your own adventures for friends to enjoy."                                                           ****
+82	****	****	****	0	207940	"TIP: Press ""*"" to switch between Strategic Mode and Character Mode."	                                                                              ****
+83	****	1	    4	    1	208646	"TIP: The AI Off button in the lower right will toggle your characters' AI, preventing them from acting on their own in combat."	                  ****
+84	****	1	    4	    1	207940	"TIP: Press ""*"" to switch between Strategic Mode and Character Mode."	                                                                               ****
+85	****	1	    4	    1	207941	"TIP: Using marquee select in Strategic Play Mode lets you play NWN2 more like a real-time strategy game."                                            ****
 86	****	****	****	4	16788234	****	acr_hint019
 87	****	****	****	4	16788235	****	acr_hint020
 88	****	****	****	4	16788236	****	acr_hint021
 89	****	****	****	4	16788237	****	acr_hint022
 90	****	****	****	4	16788238	****	acr_hint023
 91	****	****	****	4	16788239	****	acr_hint024
-92	****	1	4	1	207948	"TIP: Checking the box for Spontaneous Conversion in the Quick Cast menu will allow good and neutral clerics to convert their spells to cure wounds, evil clerics to convert their spells to inflict wounds, and druids to convert their spells to summon creatures."	****
+92	****	1	    4	    1	207948	    "TIP: Checking the box for Spontaneous Conversion in the Quick Cast menu will allow good and neutral clerics to convert their spells to cure wounds, evil clerics to convert their spells to inflict wounds, and druids to convert their spells to summon creatures."	****
 93	****	1	4	1	207950	"TIP: Press ""F"" to display the Quickcast Panel."	****
 94	****	****	****	4	16788240	****	acr_hint025
 95	****	****	****	4	16788241	****	acr_hint026
