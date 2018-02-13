@@ -5036,10 +5036,10 @@
 5032 Room_4dr                                    Room_4dr        CPT     SPR4      1
 5033 Room_2dr                                    Room_2dr        CPT     SPR5      1
 5034 Stairs_up                                   Stairs_up       CPT     STU3      1
-5035 Stairs_up_End_hall                          Stairs_up_End_hall	CPT	STU2	1
+5035 Stairs_up_End_hall                          Stairs_up_End_hall	CPT	 STU2	   1
 5036 Stairs_dwn                                  Stairs_dwn      CPT     STD3      1
-5037 Stairs_dwn_End_hall                         Stairs_dwn_End_hall	CPT	STD2	1
-5038 ****                                        ****            ****    ****      ****
+5037 Stairs_dwn_End_hall                         Stairs_dwn_End_hall CPT STD2      1
+5038 Cavelink                                    Cavelink        CPT     CAVL      9
 5039 ****                                        ****            ****    ****      ****
 5040 ****                                        ****            ****    ****      ****
 5041 ****                                        ****            ****    ****      ****
