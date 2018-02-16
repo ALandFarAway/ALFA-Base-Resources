@@ -1373,3 +1373,36 @@ tl_ds_rust01_n.DDS          (shared)
 tl_pc_stu4_01.MDB
 tl_xx_blacktexture.DDS      (shared)
 tl_xx_blacktexture_n.DDS    (shared)
+
+2018 \Arianna
+seperated out  tiles into haks 1&2  found that files over 2GB do not
+load all assests and causes  texture issues 
+
+
+ADDED 
+Hak1 
+
+Barrow Tileset by ryshae
+Brothel tile - new wall for castle by Trinital
+Castle walls - new options for castle
+Catacombs by Kalister68 
+Classic Dungeon Set by rjshae
+Estate tiles - new walls for the estate
+Floortex - new floors that work with may tilesets
+Ice Cave - ice tiles for the caves by fkirenicus
+Ice Temple Tileset - high ceilings by rjshae 
+Jungle Ruins Tileset by rjshae
+Standard Reskins - more walls/floors for Standard
+Standard walls - Even more walls for Standard
+
+Hak2
+
+Adobe tileset by rjshae
+Cellar tileset by rjshae
+Crypt Tileset by Kalister68 
+Crypt cavelink tile for the Crypt set by cuillv
+Illithid tileset by rjshae
+Sea Caves Tileset 
+Sewer tileset by Tupoun
+Lava Tubes by Rjshae
+

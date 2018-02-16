@@ -10,7 +10,8 @@ HAK_SOURCES=                                                   \
             .\*.TXT                                            \
             .\*.MDB                                            \
             .\*.JPG                                            \
-            .\*.DDS                                            
+            .\*.DDS                                            \
+            .\*.TGA											                                               
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
 )
