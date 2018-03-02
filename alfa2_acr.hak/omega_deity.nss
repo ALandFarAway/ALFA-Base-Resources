@@ -230,8 +230,10 @@ void main()
 		{sDeity = "Bahamut";	} 
 	if(iDeity == 106)
 		{sDeity = "Unther";	} 
-	
-	
+    if(iDeity == 107)
+		{sDeity = "Jannath";	}	
+    if(iDeity == 108)
+		{sDeity = "Isis";	}	
 	
 	if(iDeity >= 0)
 		{SetDeity(oObject, sDeity);

@@ -135,7 +135,8 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_traps_i.nss                       \
             $(OUTPUTDIR)\acr_bard_i.nss                        \
             $(OUTPUTDIR)\acr_movement_i.nss                    \
-            $(OUTPUTDIR)\acr_guiglobals_i.nss                   
+            $(OUTPUTDIR)\acr_guiglobals_i.nss                  \
+            $(OUTPUTDIR)\acr_servercmd_i.nss   
 
 NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\1sc_plc_ontrapdisarm.ncs              \
@@ -284,7 +285,6 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\NX2_S0_OrbSound.ncs                   \
             $(OUTPUTDIR)\NX2_S0_OrbSoundLess.ncs               \
             $(OUTPUTDIR)\nw_s0_shknggrsp.ncs                   \
-            $(OUTPUTDIR)\nw_s0_rejuvcocoon.ncs                 \
             $(OUTPUTDIR)\nw_s0_deathknel.ncs                   \
             $(OUTPUTDIR)\nx_s0_scorchingray.ncs                \
             $(OUTPUTDIR)\nx_s0_scorchingraysingle.ncs          \
@@ -302,7 +302,6 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\x0_s0_bigby5.ncs                      \
             $(OUTPUTDIR)\nx_s0_avasculate.ncs                  \
             $(OUTPUTDIR)\nw_s2_layonhand.ncs                   \
-            $(OUTPUTDIR)\nw_s2_snginregn.ncs                   \
             $(OUTPUTDIR)\nw_s2_sngfascin.ncs                   \
             $(OUTPUTDIR)\nw_s2_wholeness.ncs                   \
             $(OUTPUTDIR)\nx2_s0_healing_sting.ncs              \
@@ -331,7 +330,6 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_zspawn_2d4.ncs                    \
             $(OUTPUTDIR)\acr_zspawn_one_nh.ncs                 \
             $(OUTPUTDIR)\acr_zspawn_2d4_nh.ncs                 \
-            $(OUTPUTDIR)\nw_s0_magearm.ncs                     \
             $(OUTPUTDIR)\gui_atsign.ncs                        \
             $(OUTPUTDIR)\gui_acr_anchorman.ncs                 \
             $(OUTPUTDIR)\gui_acr_examine.ncs                   \
@@ -716,7 +714,17 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s1_gazeparal.ncs                   \
             $(OUTPUTDIR)\nw_s1_gazestun.ncs                    \
             $(OUTPUTDIR)\nw_s2_snghaven.ncs                    \
-            $(OUTPUTDIR)\acr_set_player_password.ncs           
+            $(OUTPUTDIR)\acr_set_player_password.ncs           \
+            $(OUTPUTDIR)\gui_ps_parchment_rename.ncs           \
+            $(OUTPUTDIR)\gui_ps_parchment_write.ncs            \
+            $(OUTPUTDIR)\i_ps_parchment_ac.ncs                 \
+            $(OUTPUTDIR)\ps_parchment_read.ncs                 \
+            $(OUTPUTDIR)\ps_parchment_readaloud.ncs            \
+            $(OUTPUTDIR)\ps_parchment_write.ncs                \
+            $(OUTPUTDIR)\gui_alfa_appraise.ncs                 \
+            $(OUTPUTDIR)\gui_alfa_firstaid.ncs                 \
+            $(OUTPUTDIR)\gui_alfa_updatestring.ncs             \
+            $(OUTPUTDIR)\gui_it_pickupexamine.ncs
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and
