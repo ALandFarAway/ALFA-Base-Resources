@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<EventList>
+  <Name>texture swap</Name>
+  <MaxDuration>0</MaxDuration>
+  <SpecialTargetPosition>0</SpecialTargetPosition>
+  <FogMultiplier>1</FogMultiplier>
+  <Event0>
+    <Type>12</Type>
+    <Name>alpha</Name>
+    <DefinitionFile>.res</DefinitionFile>
+    <DelayTime>0</DelayTime>
+    <MaxDuration>0</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>0</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>0</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+    <GameModelEffectType>6</GameModelEffectType>
+    <LerpInTime>0</LerpInTime>
+    <LerpOutTime>0</LerpOutTime>
+    <Alpha>0.6</Alpha>
+  </Event0>
+</EventList>
