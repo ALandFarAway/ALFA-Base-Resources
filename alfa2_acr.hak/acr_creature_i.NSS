@@ -12,7 +12,7 @@
 //  Description
 //  This script handles events executed on all creatures, either PCs or NPCs.
 //
-//  http://www.alandfaraway.org/docs/Technical/ACR2Creatures
+//  http://www.alandfaraway.info/docs/Technical/ACR2Creatures
 //
 //  Revision History
 //  2006/11/01  Cipher  Added calls to VFX functions
@@ -242,48 +242,10 @@ void ACR_CreatureOnSpawnIn()
 
 void ACR_CreatureOnSpellCastAt()
 {
-    object oCaster = GetLastSpellCaster();
-	
-	if(GetLastSpellHarmful()) {
-		// I've probably been spotted. Get out of modes that keep me from running.
-		_startRunning();
-	}
-
-    // apply any effects on the creature
-    //ACR_VFXOnSpellCastAt(oCaster, OBJECT_SELF);
-    if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
-       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "" ||
-       GetLocalInt(GetModule(), "ACR_CREATURE_BEHAVIOR") == 1)
-    {
-        ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_ON_SPELL_CAST_AT);
-        return;
-    }
-    if (GetLocalInt(OBJECT_SELF, _CRE_NO_AI) == FALSE) {
-    	// still call the Obsidian script for AI for now.
-    	ExecuteScript("nw_c2_defaultb", OBJECT_SELF);  
-	}  
 }
 
 void ACR_CreatureOnPhysicallyAttacked()
 {
-    object oAttacker = GetLastAttacker();
-	
-	// I've probably been spotted. Get out of modes that keep me from running.
-	_startRunning();
-    
-    // apply any effects on the creature
-    //ACR_VFXOnAttack(oAttacker, OBJECT_SELF);
-    if(GetLocalInt(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != 0 ||
-       GetLocalString(OBJECT_SELF, "ACR_CREATURE_BEHAVIOR") != "" ||
-       GetLocalInt(GetModule(), "ACR_CREATURE_BEHAVIOR") == 1)
-    {
-        ACR_ResolveCreatureBehavior(OBJECT_SELF, CREATUREBEHAVIOR_CREATURE_ON_PHYSICALLY_ATTACKED);
-        return;
-    }
-    if (GetLocalInt(OBJECT_SELF, _CRE_NO_AI) == FALSE) { 
-   		// still call the Obsidian script for AI for now.
-    	ExecuteScript("nw_c2_default5", OBJECT_SELF);
-	}
 }
 
 void ACR_CreatureOnDamaged()

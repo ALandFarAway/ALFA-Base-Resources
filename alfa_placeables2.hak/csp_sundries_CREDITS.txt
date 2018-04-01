@@ -1,0 +1,102 @@
+This set of 209 placeables provides a variety of third party
+models that have been ported for use in Neverwinter Nights 2, along
+with some of my own contributions that I've previously used for
+various purposes. It is an expansion to content for the City-State
+Project, and the blueprints have been numbered accordingly. Some of
+the models have been animated.
+
+A big thank you goes to the model builders whose excellent works
+have been included in this set. (See the credits below.) I hope you
+find a use for some of these works in your own modules.
+
+____________________________________________________________________
+
+To accomodate all of the incorporated models, this set is being
+distributed under the Creative Commons Attribution-Share Alike
+Non-Commercial 3.0 United States license. This means you are free:
+
+ * to share – to copy, distribute and transmit the work
+ * to remix – to adapt the work
+
+Under the following conditions:
+
+ * attribution – You must attribute the work in the manner specified
+   by the author or licensor (but not in any way that suggests that
+   they endorse you or your use of the work).
+ * share alike – If you alter, transform, or build upon this work,
+   you may distribute the resulting work only under the same or
+   similar license to this one.
+ * non-commercial - You may not use the material for commercial
+   purposes.
+
+____________________________________________________________________
+
+The following lists the credits for the models that have been ported
+for this set.
+
+Legend
+-------------------------------
+BS  -- Blend Swap
+CN  -- CadNav
+F&O -- Free and open only if project also open
+NC  -- Free for non-commercial use
+OGA -- OpenGameArt
+P&C -- Free (Personal and Commercial)
+PU  -- Personal use (non-commercial)
+SF  -- SketchFab
+TS  -- Turbosquid
+
+* 145 bread low 3D by PBR Scans [TS, RFL]
+* 3D Roman Amphora Pack by OpusPolygonum [TS, RFL]
+* 3D model Eyes by brandonj1914 [TS, RFL]
+* 3D model Halloween GraveStone by newlc [TS, RFL]
+* 3D model Medieval Bucket by Profenix Studio [TS, RFL]
+* Ancient Fountain Ruin by CadNav [P&C]
+* Ancient Magical Mirror by CadNav [P&C]
+* Anglo-Saxons Shield Pack by Leinnan [OGA, CC-BY 3.0]
+* Antique dining table by CadNav [P&C]
+* Bell by Dimensional Dreams [TS, RFL]
+* Bench by OHC M [TS, RFL]
+* Birdcage horror style model by Wing13 [TS, RFL]
+* Bridge by atillakurt [SF, CC-BY]
+* Broken Wall by CadNav [P&C]
+* Celtic Tombstone Handpainted by McBuffington [BS, CC]
+* Evil idol by Shemsu-Heru and CadNav [Vault, F&O, P&C]
+* Fantasy Building by CadNav [P&C]
+* Fantasy Fountain by CadNav [P&C]
+* Fantasy Mushroom by CadNav [P&C]
+* Garden Ruins by CadNav [P&C]
+* Fountain by maliaceant [TS, RFL]
+* Halloween Pumpkin with witch hat by JeepersCreepersUA [TS, RFL]
+* High Back Kings Chair by mwierenga [BS, CC-BY]
+* High back wood chair 3d model by CadNav [P&C]
+* Kite Shield 1 by Lucian Pavel [OGA, CC0]
+* Medieval Bench by Stumboy [TS, RFL]
+* Medieval Interior Asset Pack by Soi [itch.io, free]
+* Medieval Stone Arch by CadNav [P&C]
+* Medieval Town Building by CadNav [P&C]
+* Oh No Not More Barrels! by ulf [OGA, CC-BY 3.0]
+* Old Cart with Stones by CadNav [P&C]
+* Old Dead Trees by CadNav [P&C]
+* Old water tower by CadNav [P&C]
+* Porcoi Pot by Ouren [OGA, CC-BY 3.0]
+* Primitive Hut House by CadNav [P&C]
+* Primitive Furnace by CadNav [P&C]
+* Primitive Tribe Building by CadNav [P&C]
+* Raven Guard Statue by CadNav [P&C]
+* Rock Gate by CadNav [P&C]
+* Scary Bunny Stuffed Animal by CadNav [P&C]
+* Shield by ringx [TS, RFL]
+* skull rocks by ice kazim [TS, RFL]
+* Skull Throne Chair by CadNav [P&C]
+* Snake Statue by CadNav [P&C]
+* Statue holding Lightpost by Colorado Stark [OGA, CC0]
+* Thatched Hut by CadNav [P&C]
+* Tom Banjo's Placeables
+* Treasure Chest by mastahcez [OGA, CC0]
+* Vintage Incinerator by CadNav [P&C]
+* Volcano with Lava by CadNav [P&C]
+* Wooden Barrel by mahesh [BS, CC-BY]
+* Wooden Barrel Low Poly 3D model by 3dhelius [TS, RFL]
+* Wooden Bed by flukierjupiter [F3D, PU]
+* Wooden Cart by dngoncharov [TS, RFL]
