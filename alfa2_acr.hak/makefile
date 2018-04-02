@@ -724,6 +724,11 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_alfa_appraise.ncs                 \
             $(OUTPUTDIR)\gui_alfa_firstaid.ncs                 \
             $(OUTPUTDIR)\gui_alfa_updatestring.ncs             \
+            $(OUTPUTDIR)\c_cyclops_heartbeat.ncs               \
+            $(OUTPUTDIR)\c_dragonbreath.ncs                    \
+            $(OUTPUTDIR)\c_nwndragon_hb_vfx.ncs                \
+            $(OUTPUTDIR)\c_nwndragon_vfx.ncs                   \
+            $(OUTPUTDIR)\scr_wasp_death.ncs                    \
             $(OUTPUTDIR)\gui_it_pickupexamine.ncs
 
 #

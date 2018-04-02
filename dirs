@@ -5,14 +5,17 @@
 DIRS=                               \
      alfa2_acr.hak                  \
      alfa2_creatures.hak            \
+     alfa2_creatures2.hak           \
      alfa2_2da.hak                  \
      alfa2_gui.hak                  \
      alfa_fx.hak                    \
      alfa_items.hak                 \
      alfa_placeables.hak            \
+     alfa_placeables2.hak           \
      alfa_terrain.hak               \
      alfa2_pr.hak                   \
      alfa_tiles.hak                 \
+     alfa_tiles2.hak                \
      alfa2_templates.hak            \
      buildmod                       \
      IRCBot                         

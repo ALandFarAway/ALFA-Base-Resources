@@ -6,9 +6,6 @@
 
 HAKFILE=$(OUTPUTDIR)\alfa_placeables.hak
 HAK_SOURCES=                                                   \
-            .\*.JPG                                            \
-            .\*.TXT                                            \
-            .\*.TGA                                            \
             .\*.GR2                                            \
             .\*.MDB                                            \
             .\*.UTP                                            \

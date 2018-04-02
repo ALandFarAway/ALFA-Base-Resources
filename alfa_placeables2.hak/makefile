@@ -1,14 +1,13 @@
 #
-# This project constructs alfa_placeables.hak.
+# This project constructs alfa_placeables2.hak.
 #
 
 !include $(PROJECT_SOURCE_ROOT)\makefile.def
 
 HAKFILE=$(OUTPUTDIR)\alfa_placeables2.hak
 HAK_SOURCES=                                                   \
-            .\*.JPG                                            \
+            .\*.SEF                                            \
             .\*.TXT                                            \
-            .\*.TGA                                            \
             .\*.GR2                                            \
             .\*.MDB                                            \
             .\*.UTP                                            \

@@ -1,17 +1,14 @@
 #
-# This project constructs alfa_tiles.hak.
+# This project constructs alfa_tiles2.hak.
 #
 
 !include $(PROJECT_SOURCE_ROOT)\makefile.def
 
 HAKFILE=$(OUTPUTDIR)\alfa_tiles2.hak
 HAK_SOURCES=                                                   \
-            .\*.GR2                                            \
-            .\*.TXT                                            \
             .\*.MDB                                            \
-            .\*.JPG                                            \
-            .\*.DDS                                            \
-            .\*.TGA											                                               
+            .\*.DDS                                            
+										                                               
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
 )

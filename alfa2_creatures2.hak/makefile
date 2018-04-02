@@ -6,7 +6,6 @@
 
 HAKFILE=$(OUTPUTDIR)\alfa_creatures2.hak
 HAK_SOURCES=                                                   \
-            .\*.TXT                                            \
             .\*.UTC                                            \
             .\*.WAV                                            \
             .\*.MDB                                            \
@@ -16,7 +15,7 @@ HAK_SOURCES=                                                   \
             .\*.FXA                                            \
             .\*.XML                                            \
             .\*.SEF                                            \
-            .\*.DDS                                            
+            .\*.DDS                                             
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
 )
