@@ -135,8 +135,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_traps_i.nss                       \
             $(OUTPUTDIR)\acr_bard_i.nss                        \
             $(OUTPUTDIR)\acr_movement_i.nss                    \
-            $(OUTPUTDIR)\acr_guiglobals_i.nss                  \
-            $(OUTPUTDIR)\acr_servercmd_i.nss   
+            $(OUTPUTDIR)\acr_guiglobals_i.nss                  
 
 NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\1sc_plc_ontrapdisarm.ncs              \
@@ -720,16 +719,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\i_ps_parchment_ac.ncs                 \
             $(OUTPUTDIR)\ps_parchment_read.ncs                 \
             $(OUTPUTDIR)\ps_parchment_readaloud.ncs            \
-            $(OUTPUTDIR)\ps_parchment_write.ncs                \
-            $(OUTPUTDIR)\gui_alfa_appraise.ncs                 \
-            $(OUTPUTDIR)\gui_alfa_firstaid.ncs                 \
-            $(OUTPUTDIR)\gui_alfa_updatestring.ncs             \
-            $(OUTPUTDIR)\c_cyclops_heartbeat.ncs               \
-            $(OUTPUTDIR)\c_dragonbreath.ncs                    \
-            $(OUTPUTDIR)\c_nwndragon_hb_vfx.ncs                \
-            $(OUTPUTDIR)\c_nwndragon_vfx.ncs                   \
-            $(OUTPUTDIR)\scr_wasp_death.ncs                    \
-            $(OUTPUTDIR)\gui_it_pickupexamine.ncs
+            $(OUTPUTDIR)\ps_parchment_write.ncs               
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and
