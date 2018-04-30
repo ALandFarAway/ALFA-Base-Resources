@@ -17,6 +17,10 @@ HAK_SOURCES=                                                   \
             .\*.DDS                                            \
             .\*.MDB                                            \
             .\*.PFB                                            \
+            .\*.UPE                                            \
+            .\*.TFX                                            \
+            .\*.LFX                                            \
+            .\*.BFX                                            \
             .\*.TXT                                            
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
