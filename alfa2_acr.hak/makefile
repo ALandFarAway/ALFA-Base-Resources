@@ -719,7 +719,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\i_ps_parchment_ac.ncs                 \
             $(OUTPUTDIR)\ps_parchment_read.ncs                 \
             $(OUTPUTDIR)\ps_parchment_readaloud.ncs            \
-            $(OUTPUTDIR)\ps_parchment_write.ncs               
+            $(OUTPUTDIR)\ps_parchment_write.ncs                 
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and

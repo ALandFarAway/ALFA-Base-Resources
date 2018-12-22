@@ -6,10 +6,10 @@
 #$ServerIdsToCheck = "(3, 9, 10)"
 $HeartbeatGracePeriod = "INTERVAL 16 MINUTE"
 
-$ReportMailTo   = "server_down@alandfaraway.org"
-$ReportMailFrom = "reports@alandfaraway.org"
+$ReportMailTo   = "server_down@alandfaraway.info"
+$ReportMailFrom = "reports@alandfaraway.info"
 $ReportSubject  = "ALFA server down alert"
-$ReportSMTPSrv  = "mail.alandfaraway.org"
+$ReportSMTPSrv  = "mail.alandfaraway.info"
 
 $ScriptsLibDir = "C:\Scripts\";
 $ScriptsModules = @("MySQL-Routines.psm1", "MySQL-ALFA.psm1", "ALFA-Production-Servers.psm1")

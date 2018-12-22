@@ -18,10 +18,10 @@ HAK_SOURCES=                                                   \
             .\*.MDB                                            \
             .\*.PFB                                            \
             .\*.UPE                                            \
+            .\*.TXT                                            \
             .\*.TFX                                            \
             .\*.LFX                                            \
-            .\*.BFX                                            \
-            .\*.TXT                                            
+            .\*.BFX                                            
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
 )

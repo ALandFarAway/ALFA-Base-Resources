@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\alfa2_acr.hak",
+    "\\alfa2_acr.hak\\ALFA.Shared"
   ],
+  "SelectedNode": "\\alfa2_acr.hak\\ALFA.Shared\\VisualEffectResource.cs",
   "PreviewInSolutionExplorer": false
 }

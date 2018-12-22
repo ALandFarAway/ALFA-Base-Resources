@@ -4,10 +4,10 @@
 #
 
 $ReportPeriod   = "INTERVAL 1 DAY"
-$ReportMailTo   = "reports@alandfaraway.org"
-$ReportMailFrom = "reports@alandfaraway.org"
+$ReportMailTo   = "reports@alandfaraway.info"
+$ReportMailFrom = "reports@alandfaraway.info"
 $ReportSubject  = "ALFA Daily Report"
-$ReportSMTPSrv  = "mail.alandfaraway.org"
+$ReportSMTPSrv  = "mail.alandfaraway.info"
 $InactiveDays   = 21
 
 $Divider        = "--------------------------------------------------------------------------------`n"

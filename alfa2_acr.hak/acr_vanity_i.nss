@@ -301,28 +301,30 @@ int GetRandomHairModel(int nSubrace, int nGender=0)
 
 		case RACIAL_SUBTYPE_SHIELD_DWARF:
 		case RACIAL_SUBTYPE_GOLD_DWARF: 
-			res = UniformRandomOverInterval("[1-19,80-82,94][1-19,73,94]", nGender);
+			res = UniformRandomOverInterval("[1-19,80-82,94][1-19,60,73,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_MOON_ELF:
 		case RACIAL_SUBTYPE_SUN_ELF: 
 		case RACIAL_SUBTYPE_WOOD_ELF:
 		case RACIAL_SUBTYPE_DROW: 
-			res = UniformRandomOverInterval("[1-14,16,17,61-64,66-75,80-82,94][1-14,16,17,50-52,61-64,66-78,80-82,85-90,94]", nGender);
+			res = UniformRandomOverInterval("[1-17,61-64,66-75,80-82,94,121-169][1-17,21-44,50-52,59-64,66-78,80-82,85-94,106-221]", nGender);
 			break;
 		case RACIAL_SUBTYPE_WILD_ELF:  
-			res = UniformRandomOverInterval("[1-3,75,80,81,83]");
+			res = UniformRandomOverInterval("[1-3,66-75,80-83,94][1-3,21-44,60,63,64,66-78,80-83,85-90,92-94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_ROCK_GNOME:
-			res = UniformRandomOverInterval("[1-8,10-14,16,17,94][1-14,16,17,50-52,73,80-82,94]", nGender);
+			res = UniformRandomOverInterval("[1-17,94][1-17,50-52,73,80-82,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_GRAY_DWARF:
+		     res = UniformRandomOverInterval("[17][17]", nGender);
+		     break;
 		case RACIAL_SUBTYPE_SVIRFNEBLIN:
-			res = 17;
+			 res = UniformRandomOverInterval("[17][1-17,50-52,73,80-82,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HUMAN:
 		case RACIAL_SUBTYPE_HALFELF:
 		case RACIAL_SUBTYPE_HALFDROW:
-			res = UniformRandomOverInterval("[1-8,10-14,16,17,37,38,63,66,71-75,80-82,94][1-14,16,17,23,24,50-52,61-64,66-78,80-82,85-90,94]", nGender);
+			res = UniformRandomOverInterval("[1-8,10-14,16,17,37,38,63,66,71-75,80-82,94][1-14,16,17,23,24,50-52,61-64,66-78,80-82,85-94,106-221]", nGender);
 			break;
 		case RACIAL_SUBTYPE_LIGHTFOOT_HALF:
 		case RACIAL_SUBTYPE_GHOSTWISE_HALF:
@@ -331,22 +333,22 @@ int GetRandomHairModel(int nSubrace, int nGender=0)
 			break;
 		case RACIAL_SUBTYPE_HALFORC:
 		case RACIAL_SUBTYPE_GRAYORC:
-			res = UniformRandomOverInterval("[1-19,94]");
+			res = UniformRandomOverInterval("[1-19,94][1-19,90,94]");
 			break;
 		case RACIAL_SUBTYPE_YUANTI:
-			res = UniformRandomOverInterval("[1-17]");
+			res = UniformRandomOverInterval("[1-17, 37-38,40,61-63,66-75,80-82,94,121-169][1-17,19,21-52,60-78,80-82,85-94,106-221]", nGender);
 			break;
 		case RACIAL_SUBTYPE_WATER_GENASI:
 		case RACIAL_SUBTYPE_FIRE_GENASI:
 		case RACIAL_SUBTYPE_EARTH_GENASI:
 		case RACIAL_SUBTYPE_AIR_GENASI:
-			res = UniformRandomOverInterval("[1-3]");
+			res = UniformRandomOverInterval("[1-3,94][1-3,84,91-94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_TIEFLING:
 			res = UniformRandomOverInterval("[1-18,94][1-19,73,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_AASIMAR:
-			res = UniformRandomOverInterval("[1-8,10-14,16,17,37,38,63,66,71-75,80-82,94][1-14,16,17,23,24,50-52,61-64,67-78,80-82,85-90,94]", nGender);
+			res = UniformRandomOverInterval("[1-17,37,38,40,61-63,66-75,80-82,94,121-169][1-17,19-46,50-52,60-78,80-82,85-94, 106-221]", nGender);
 			break;
 	}
 
@@ -433,37 +435,39 @@ string GetValidHairModels(int nSubrace, int nGender=0)
 		case RACIAL_SUBTYPE_SHIELD_DWARF:
 		case RACIAL_SUBTYPE_GOLD_DWARF: 
 		case RACIAL_SUBTYPE_GRAY_DWARF:
-			res = IntervalToList("[0-19,80-82,94][0-19,73,94]", nGender);
+			res = IntervalToList("[1-19,80-82,94][1-19,60,73,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_MOON_ELF:
 		case RACIAL_SUBTYPE_SUN_ELF: 
 		case RACIAL_SUBTYPE_WOOD_ELF:
 		case RACIAL_SUBTYPE_DROW: 
-			res = IntervalToList("[0-17,61-64,66-75,80-82,94][0-17,50-52,61-64,66-78,80-82,85-90,94]", nGender);
+			res = IntervalToList("[1-17,61-64,66-75,80-82,94,121-169][1-17,21-44,50-52,59-64,66-78,80-82,85-94,106-221]", nGender);
 			break;
 		case RACIAL_SUBTYPE_WILD_ELF:  
-			res = IntervalToList("[0-3,66-75,80-83,94][0-3,66-78,80-83,85-90,94]", nGender);
+			res = IntervalToList("[1-3,66-75,80-83,94][1-3,21-44,60,63,64,66-78,80-83,85-90,92-94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_ROCK_GNOME:
+		res = IntervalToList("[1-17,94][1-17,50-52,73,80-82,94]", nGender);
+		break;
 		case RACIAL_SUBTYPE_SVIRFNEBLIN:
 			res = IntervalToList("[0-17,94][0-17,50-52,73,80-82,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HUMAN:
 		case RACIAL_SUBTYPE_HALFELF:
 		case RACIAL_SUBTYPE_HALFDROW:
-			res = IntervalToList("[0-17,37,38,61-63,66-75,80-82,94][0-19,23,24,50-52,61-64,66-78,80-82,85-90,94]", nGender);
+			res = IntervalToList("[1-8,10-14,16,17,37,38,63,66,71-75,80-82,94][1-14,16,17,23,24,50-52,61-64,66-78,80-82,85-94,106-221]", nGender);
 			break;
 		case RACIAL_SUBTYPE_LIGHTFOOT_HALF:
 		case RACIAL_SUBTYPE_GHOSTWISE_HALF:
 		case RACIAL_SUBTYPE_STRONGHEART_HALF:
-			res = IntervalToList("[0-19,66-69,71-75,80,94][0-17,19,51-56,66-78,80,94]", nGender);
+			res = IntervalToList("[1-8,10-14,16-19,66,74,75,94][1-14,16,17,19,51-56,23,24,50-52,66,73-78,80,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HALFORC:
 		case RACIAL_SUBTYPE_GRAYORC:
-			res = IntervalToList("[0-19,94]");
+			res = IntervalToList("[1-19,94][1-19,90,94]");
 			break;
 		case RACIAL_SUBTYPE_YUANTI:
-			res = IntervalToList("[0-17,37,38,61-63,66-75,80-82,94][0-19,23,24,50-52,61-64,66-78,80-82,85-90,94]", nGender);
+			res = IntervalToList("[1-17, 37-38,40,61-63,66-75,80-82,94,121-169][1-17,19,21-52,60-78,80-82,85-94,106-221]", nGender);
 			break;
 		case RACIAL_SUBTYPE_AIR_GENASI:
 			res = IntervalToList("[0-3,94,95][0-3,73,91-94]", nGender);
@@ -478,10 +482,10 @@ string GetValidHairModels(int nSubrace, int nGender=0)
 			res = IntervalToList("[0-3,94,98][0-3,90-94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_TIEFLING:
-			res = IntervalToList("[0-18,94][0-19,73,94]", nGender);
+			res = IntervalToList("[1-18,94][1-19,73,94]", nGender);
 			break;
 		case RACIAL_SUBTYPE_AASIMAR:
-			res = IntervalToList("[0-17,37,38,61-63,66-75,80-82,94][0-19,23,24,50-52,61-64,66-78,80-82,85-90,94]", nGender);
+			res = IntervalToList("[1-17,37,38,40,61-63,66-75,80-82,94,121-169][1-17,19-46,50-52,60-78,80-82,85-94, 106-221]", nGender);
 			break;
 	}
 
