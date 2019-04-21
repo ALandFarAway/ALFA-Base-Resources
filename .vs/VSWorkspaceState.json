@@ -1,9 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\alfa2_acr.hak",
-    "\\alfa2_acr.hak\\ALFA.Shared"
+    "\\AdvancedLogParser",
+    "\\AdvancedLogParser\\AdvancedLogParser",
+    "\\alfa2_acr.hak"
   ],
-  "SelectedNode": "\\alfa2_acr.hak\\ALFA.Shared\\VisualEffectResource.cs",
+  "SelectedNode": "\\alfa2_acr.hak\\kemo_animation_hb.NSS",
   "PreviewInSolutionExplorer": false
 }

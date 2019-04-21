@@ -17,13 +17,13 @@
 13   padding        ****             ****   ****   
 14   padding        ****             ****   ****   
 15   padding        ****             ****   ****   
-16   DMCB_cloth     Deprecated       DMCB   ****   
-17   ACME           Deprecated       ACME   ****   
-18   GodBeastX      Deprecated       GBX    **** 
+16   DMCB_cloth     Deprecated       DMCB   1  
+17   ACME           Deprecated       ACME   1  
+18   GodBeastX      Deprecated       GBX    1
 19   padding        ****             ****   **** 
 20   padding        ****             ****   ****   
 21   padding        ****             ****   ****   
 22   padding        ****             ****   ****   
 23   padding        ****             ****   ****   
 24   padding        ****             ****   ****   
-25   DaronasArmor   DarArmor         MP     **** 
+25   DaronasArmor   DarArmor         MP     1 

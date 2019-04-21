@@ -78,7 +78,7 @@ namespace ACR_ServerCommunicator
         /// <summary>
         /// The base URL of the account association service.
         /// </summary>
-        private const string AccountAssociationServiceURL = "http://www.alandfaraway.org/services/AccountAssociator";
+        private const string AccountAssociationServiceURL = "http://www.alandfaraway.info/services/AccountAssociator";
 
     }
 }
