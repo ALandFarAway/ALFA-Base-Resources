@@ -11,7 +11,7 @@
 //
 //  Description
 //  Persistent PC status system implementation based on ALFA requirements:
-//  http://www.alandfaraway.org/forums/viewtopic.php?f=168&t=30615
+//  http://www.alandfaraway.info/forums/viewtopic.php?f=168&t=30615
 //
 //  Revision History
 //  2006/07/22  Cipher  Inception
@@ -735,7 +735,7 @@ void ACR_PCOnPCLoaded(object oPC)
 	 {
         // log the event then boot the player
         ACR_LogEvent(oPC, ACR_LOG_LOGIN, "Non-member booted immediately due to member protection level: " + GetName(oPC));
-        ACR_PPSBootPC(oPC, "Booted because non-members are not permitted to log in.  Fill out a membership application at http://www.alandfaraway.org in order to request membership.", TRUE);
+        ACR_PPSBootPC(oPC, "Booted because non-members are not permitted to log in.  Fill out a membership application at http://www.alandfaraway.info in order to request membership.", TRUE);
         return;
 	 }
 
@@ -746,7 +746,7 @@ void ACR_PCOnPCLoaded(object oPC)
        ACR_LogEvent(oPC, ACR_LOG_LOGIN, "Non-member quarantined due to member protection level: " + GetName(oPC));
 		 SendMessageToPC(oPC, "**** Non-members are not permitted to log in.");
 		 SendMessageToPC(oPC, "**** A membership application is required in order to play.");
-		 SendMessageToPC(oPC, "**** Fill one out at http://www.alandfaraway.org in order to request membership.");
+		 SendMessageToPC(oPC, "**** Fill one out at http://www.alandfaraway.info in order to request membership.");
 
 		 if (ProtectionLevel >= MEMBER_PROTECTION_LEVEL_BOOT_5S_DELAY)
 		 {

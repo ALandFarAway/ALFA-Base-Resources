@@ -11,7 +11,7 @@
 //
 //  Description
 //  Resting system implementation based on ALFA requirements:
-//  http://www.alandfaraway.org/phpBB2/viewtopic.php?t=27478
+//  http://www.alandfaraway.info/wiki/ACR_Rest
 //
 //  Revision History
 //  2006/05/25  Cipher  Inception

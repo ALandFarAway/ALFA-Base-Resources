@@ -14,7 +14,7 @@
 //  handles all of their events, as well as other ways ALFA may have of
 //  interacting with triggers.
 //
-//  http://www.alandfaraway.org/docs/Technical/ACR2Triggers
+//  http://www.alandfaraway.info/wiki/Building_Triggers
 //
 //  Revision History
 //  2007/01/20  Cipher  Inception

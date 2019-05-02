@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="PatchURL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://www.alandfaraway.org/patches/latest.xml</Value>
+      <Value Profile="(Default)">http://www.alandfaraway.info/patches/latest.xml</Value>
     </Setting>
     <Setting Name="NWN2InstallPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Program Files (x86)\Atari\Neverwinter Nights 2</Value>

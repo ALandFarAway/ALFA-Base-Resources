@@ -16,7 +16,7 @@
 //  handles all of their events, as well as other ways ALFA may have of
 //  interacting with placables (such as picking them up, forcing them open, etc).
 //
-//  http://www.alandfaraway.org/docs/Technical/ACR2Placeables
+//  http://www.alandfaraway.info/wiki/Building_Placeables
 //
 //  Revision History
 //  2006/11/01  Cipher  Added calls to VFX functions

@@ -87,7 +87,7 @@ namespace ALFA
         /// <summary>
         /// This constant supplies the base URL for all ALFA web services.
         /// </summary>
-        private static string WebServicesURL = "http://www.alandfaraway.org/";
+        private static string WebServicesURL = "http://www.alandfaraway.info/";
 
     }   
 }

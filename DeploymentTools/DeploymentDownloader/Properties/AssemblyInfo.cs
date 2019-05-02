@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ALFA Deployment Tool")]
-[assembly: AssemblyDescription("Deployment tool for ALFA (http://alandfaraway.org) ACR updates.")]
+[assembly: AssemblyDescription("Deployment tool for ALFA (http://alandfaraway.info) ACR updates.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("ALFA Tech Staff")]
 [assembly: AssemblyProduct("DeploymentTool")]

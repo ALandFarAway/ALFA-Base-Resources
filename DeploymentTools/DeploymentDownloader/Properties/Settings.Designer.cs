@@ -25,7 +25,7 @@ namespace DeploymentDownloader.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://www.alandfaraway.org/patches/latest.xml")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www.alandfaraway.info/patches/latest.xml")]
         public string PatchURL {
             get {
                 return ((string)(this["PatchURL"]));

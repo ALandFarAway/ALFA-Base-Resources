@@ -2468,7 +2468,7 @@ namespace ACR_Items
 
         public static Dictionary<int, List<int>> HelmetVariations = new Dictionary<int, List<int>>
         {
-            {0, new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 39, 50, 51, 52, 53, 59, 60, 61, 62, 63, 64, 65, 67, 68, 69, 70, 79, 83, 97, 98, 102, 127, 184, } },
+            {0, new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 39, 50, 51, 52, 53, 59, 60, 61, 62, 63, 64, 65, 67, 68, 69, 70, 79, 83, 97, 98, 102, 127, 184, } },
             {2, new List<int> { 0, 1, 2, 3, 4, 5, } },
             {4, new List<int> { 0, 1, 3, } },
             {5, new List<int> { 0, 1, 3, } },
@@ -2476,7 +2476,7 @@ namespace ACR_Items
             {7, new List<int> { 0, 1, 2, 4, 5, 6, 7, 9, 10, 29, 50, 51, 52, 53, } },
             {8, new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 19, 24, 29, } },
             {9, new List<int> { 0, 1, 2, 3, 4, 6, } },
-            {25, new List<int> { 4, 5, 6, 10, } },
+            {25, new List<int> { 0, 1, 5, 9, 10, } },
         };    
 
         public static Dictionary<int, List<int>> BootVariations = new Dictionary<int, List<int>>

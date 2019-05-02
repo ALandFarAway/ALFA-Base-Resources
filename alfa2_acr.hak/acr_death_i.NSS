@@ -12,7 +12,7 @@
 //
 //  Description
 //  Death system implementation based on ALFA requirements:
-//  http://www.alandfaraway.org/phpBB2/viewtopic.php?t=27360
+//  http://www.alandfaraway.info/phpBB2/viewtopic.php?t=27360
 //
 //  Revision History
 //  2006/10/05  Cipher  Inception

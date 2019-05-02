@@ -56,10 +56,10 @@ const int ACR_SCLIEXT_DEFAULT_FEATURE_BITS = ACR_SCLIEXT_FEATURE_DM_AREA_POLLING
 
 // Download and information URL to recommend to players for installation and
 // upgrade.
-const string ACR_SCLIEXT_URL = "http://www.alandfaraway.org/forums/viewtopic.php?f=231&t=43769";
+const string ACR_SCLIEXT_URL = "http://www.alandfaraway.info/forums/viewtopic.php?f=231&t=43769";
 
 // URL with forum location description.
-const string ACR_SCLIEXT_URL_AND_FORUM_INFO = "http://www.alandfaraway.org/forums/viewtopic.php?f=231&t=43769 (ALFA Forums, New Players forum under ALFA General, Skywing's NWN2 Client Extension sticky thread)";
+const string ACR_SCLIEXT_URL_AND_FORUM_INFO = "http://www.alandfaraway.info/forums/viewtopic.php?f=231&t=43769 (ALFA Forums, New Players forum under ALFA General, Skywing's NWN2 Client Extension sticky thread)";
 
 const string ACR_SCLIEXT_DISABLE_EXISTANCE_CHECK = "ACR_SCLIEXT_DISABLE_EXISTANCE_CHECK";
 
