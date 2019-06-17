@@ -1,10 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\AdvancedLogParser",
     "\\AdvancedLogParser\\AdvancedLogParser",
-    "\\alfa2_acr.hak"
+    "\\AdvancedLogParser\\AdvancedLogParser\\Properties",
+    "\\toolset_plugins\\ACR_BuilderPlugin\\Editors",
+    "\\Tools\\PortraitSyncer"
   ],
-  "SelectedNode": "\\alfa2_acr.hak\\kemo_animation_hb.NSS",
   "PreviewInSolutionExplorer": false
 }
