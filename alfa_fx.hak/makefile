@@ -20,8 +20,8 @@ HAK_SOURCES=                                                   \
             .\*.TXT                                            \
             .\*.TFX                                            \
             .\*.LFX                                            \
-            .\*.BFX                                            
-
+            .\*.BFX                                             
+            
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
 )
 
