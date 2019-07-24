@@ -48,9 +48,9 @@ string WhatCategory(int nKat)
 	//else return "General";
 }
 
-int GetCurrentDBID(object oPC, object oBoard)
+int GetCurrentDBID(object oPC, object oArea)
 {
-	return GetLocalInt(oBoard, "dbid_"+IntToString(GetLocalInt(oPC,"BBOARD_VIEWING")));
+	return GetLocalInt(oArea, "dbid_"+IntToString(GetLocalInt(oPC,"BBOARD_VIEWING")));
 }
 
 void DeleteDatabase(int nIndex, object oPC)
@@ -96,7 +96,7 @@ void ReplyDatabase(string sTitle, string sBody, int iCat, int iBID, int iDBID, o
 	SendMessageToPC(oPC,"Sucessfully replied");
 }
 
-void ReadDatabase(int b_index, object oBoard, object oPC)
+void ReadDatabase(int b_index, object oArea, object oPC)
 {
 	int i, max = 16, cat, id, f_cat, f_id, num_used;
 	string title,msg,name,gsid,f_title,f_msg,f_name,f_gsid,s_index;
@@ -150,20 +150,20 @@ void ReadDatabase(int b_index, object oBoard, object oPC)
 
 		s_index = IntToString(i);
 
-		SetLocalString(oBoard,"Title_"+s_index,f_title);
-		SetLocalString(oBoard,"Body_"+s_index,f_msg);
-		SetLocalString(oBoard,"Name_"+s_index, f_name);
-		SetLocalString(oBoard,"Player_"+s_index, f_gsid);
-		SetLocalInt(oBoard,"Category_"+s_index,f_cat);
-		SetLocalInt(oBoard,"dbid_"+s_index,f_id);
+		SetLocalString(oArea,"Title_"+s_index,f_title);
+		SetLocalString(oArea,"Body_"+s_index,f_msg);
+		SetLocalString(oArea,"Name_"+s_index, f_name);
+		SetLocalString(oArea,"Player_"+s_index, f_gsid);
+		SetLocalInt(oArea,"Category_"+s_index,f_cat);
+		SetLocalInt(oArea,"dbid_"+s_index,f_id);
 	}
 
 	
 	for (i=0; i <= num_used; ++i) {
 		s_index = IntToString(i);
 
-		cat = GetLocalInt(oBoard,"Category_"+s_index);
-		title = GetLocalString(oBoard,"Title_"+s_index);
+		cat = GetLocalInt(oArea,"Category_"+s_index);
+		title = GetLocalString(oArea,"Title_"+s_index);
 
 		SetGUIObjectText(oPC,SCREEN_MSGBOARD,SLOT+s_index, -1,title);
 		SetGUITexture(oPC,SCREEN_MSGBOARD,SLOT+s_index,"board_cat_"+IntToString(cat)+".tga");
@@ -172,23 +172,23 @@ void ReadDatabase(int b_index, object oBoard, object oPC)
 	for (i=num_used+1; i <= max; ++i) {
 		s_index = IntToString(i);
 
-		cat = GetLocalInt(oBoard,"Category_"+s_index);
+		cat = GetLocalInt(oArea,"Category_"+s_index);
 
 		SetGUIObjectText(oPC,SCREEN_MSGBOARD,SLOT+s_index, -1,"");
 		SetGUITexture(oPC,SCREEN_MSGBOARD,SLOT+s_index,"");
 
 
 
-		DeleteLocalString(oBoard,"Title_"+s_index);
-		DeleteLocalString(oBoard,"Body_"+s_index);
-		DeleteLocalString(oBoard,"Name_"+s_index);
-		DeleteLocalString(oBoard,"Player_"+s_index);
-		DeleteLocalInt(oBoard,"Category_"+s_index);
-		DeleteLocalInt(oBoard,"dbid_"+s_index);
+		DeleteLocalString(oArea,"Title_"+s_index);
+		DeleteLocalString(oArea,"Body_"+s_index);
+		DeleteLocalString(oArea,"Name_"+s_index);
+		DeleteLocalString(oArea,"Player_"+s_index);
+		DeleteLocalInt(oArea,"Category_"+s_index);
+		DeleteLocalInt(oArea,"dbid_"+s_index);
 	}
 }
 
-void AddPost(object oPC, object oBoard, string title, string msg, int iDBID, int iBID)
+void AddPost(object oPC, object oArea, string title, string msg, int iDBID, int iBID)
 {
 	int iCat = GetLocalInt(oPC,"DMFI_NUM_MSG_CAT");
 
@@ -215,21 +215,21 @@ void AddPost(object oPC, object oBoard, string title, string msg, int iDBID, int
 
 	CloseGUIScreen(oPC,SCREEN_NEWTOPIC);
 	CloseGUIScreen(oPC,SCREEN_MSGBOARD);
-	//ReadDatabase(iBID, oBoard, oPC);
+	//ReadDatabase(iBID, oArea, oPC);
 }
 
-void ShowPost(object oPC, object oBoard, int nSlot)
+void ShowPost(object oPC, object oArea, int nSlot)
 {
 	string sMsg = "No Message";
 	string slot = IntToString(nSlot);
 					
 	SetLocalInt(oPC,"BBOARD_VIEWING",nSlot);
-	SetLocalInt(oPC,"ACR_BOARD_ID", GetLocalInt(oBoard, "ACR_BOARD_ID"));
-	string sBody = GetLocalString(oBoard,"Body_"+slot);
-	string sName = GetLocalString(oBoard,"Name_"+slot);
-	string sTitle = GetLocalString(oBoard,"Title_"+slot);
-	string sPlayer = GetLocalString(oBoard,"Player_"+slot);
-	int iCat = GetLocalInt(oBoard,"Category_"+slot);
+	SetLocalInt(oPC,"ACR_BOARD_ID", GetLocalInt(oArea, "ACR_BOARD_ID"));
+	string sBody = GetLocalString(oArea,"Body_"+slot);
+	string sName = GetLocalString(oArea,"Name_"+slot);
+	string sTitle = GetLocalString(oArea,"Title_"+slot);
+	string sPlayer = GetLocalString(oArea,"Player_"+slot);
+	int iCat = GetLocalInt(oArea,"Category_"+slot);
 	string sCat = WhatCategory(iCat);
 
 	if (iCat != 0)
@@ -238,7 +238,7 @@ void ShowPost(object oPC, object oBoard, int nSlot)
 	SetGUIObjectText(oPC,SCREEN_MSGBOARD,"FULL_MESSAGE",-1,sMsg);
 }
 
-void RemovePost(object oPC, object oBoard, int iDBID)
+void RemovePost(object oPC, object oArea, int iDBID)
 {
 	DeleteDatabase(iDBID, oPC);
 }
@@ -250,9 +250,9 @@ void main(int N1, int N2, string sVar, string sVar2)
 	if (!GetIsObjectValid(oPC))
 		oPC = OBJECT_SELF;
 		
-	object oBoard = GetNearestObjectByTag(BOARD_OBJECT,oPC);
-	int iBID = GetLocalInt(oBoard, "ACR_BOARD_ID");
-	int iDBID = GetCurrentDBID(oPC, oBoard);
+	object oArea = GetArea(oPC);
+	int iBID = GetLocalInt(oArea, "ACR_BOARD_ID");
+	int iDBID = GetCurrentDBID(oPC, oArea);
 	 	
 	switch (N1) {
 		case 0: 
@@ -267,7 +267,7 @@ void main(int N1, int N2, string sVar, string sVar2)
 				break;
 			// Board add
                         case 2:
-				ReadDatabase(iBID, oBoard, oPC);
+				ReadDatabase(iBID, oArea, oPC);
 				break;
 			// Board remove
 			case 3:
@@ -313,7 +313,7 @@ void main(int N1, int N2, string sVar, string sVar2)
 				// Delete thread
 				case 2:
 					if (GetIsDM(oPC) || GetIsDMPossessed(oPC))
-						RemovePost(oPC, oBoard, iDBID);
+						RemovePost(oPC, oArea, iDBID);
 					break;
 			}
 			break;
@@ -321,13 +321,13 @@ void main(int N1, int N2, string sVar, string sVar2)
 		// Add post
 		// title->svar2 and body->svar
 		case 2: 
-			AddPost(oPC, oBoard, sVar2, sVar, iDBID, iBID);
+			AddPost(oPC, oArea, sVar2, sVar, iDBID, iBID);
 
 			break;	
 
 		// Read topic button
 		case 3: 
-			ShowPost(oPC, oBoard, N2);
+			ShowPost(oPC, oArea, N2);
 
 			break;
 
