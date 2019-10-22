@@ -10,7 +10,7 @@ void main () {
     object oDM = GetItemActivator();
     object oArea = GetArea(oDM);
 	object oWP = ACR_GetSpawnPoint(oArea, 1);
-	int nIndex = 1;
+	int nIndex = 0;
 	
 	if (oWP == OBJECT_INVALID) {
 	    SendMessageToPC(oDM, "No ALFA spawn points found in area "+GetName(oArea));

@@ -1,10 +1,6 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\AdvancedLogParser\\AdvancedLogParser",
-    "\\AdvancedLogParser\\AdvancedLogParser\\Properties",
-    "\\toolset_plugins\\ACR_BuilderPlugin\\Editors",
-    "\\Tools\\PortraitSyncer"
+    ""
   ],
   "PreviewInSolutionExplorer": false
 }
