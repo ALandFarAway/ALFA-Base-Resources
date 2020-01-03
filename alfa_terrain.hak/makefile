@@ -5,9 +5,10 @@
 !include $(PROJECT_SOURCE_ROOT)\makefile.def
 
 HAKFILE=$(OUTPUTDIR)\alfa_terrain.hak
-HAK_SOURCES=                                                   \
-            .\*.TXT                                            \
-            .\*.DDS                                            
+HAK_SOURCES=                      \
+            .\*.TXT               \
+            .\*.DDS 			  \
+            .\*.BMP                                           
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
 )
