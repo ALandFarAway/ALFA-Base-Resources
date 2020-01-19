@@ -9,6 +9,7 @@ DIRS=                               \
      alfa2_2da.hak                  \
      alfa2_gui.hak                  \
      alfa_fx.hak                    \
+     alfa_fx2.hak                   \
      alfa_items.hak                 \
      alfa_placeables.hak            \
      alfa_placeables2.hak           \

@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<EventList>
+  <Name>
+  </Name>
+  <MaxDuration>4</MaxDuration>
+  <SpecialTargetPosition>0</SpecialTargetPosition>
+  <FogMultiplier>1</FogMultiplier>
+  <Event0 > <DelayTime>0</DelayTime>     <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>7.75</z> </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event0>
+  <Event1 > <DelayTime>0.015</DelayTime> <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>7.5</z>  </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event1>
+  <Event2 > <DelayTime>0.03</DelayTime>  <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>7.25</z> </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event2>
+  <Event3 > <DelayTime>0.045</DelayTime> <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>7</z>    </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event3>
+  <Event4 > <DelayTime>0.06</DelayTime>  <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>6.75</z> </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event4>
+  <Event5 > <DelayTime>0.075</DelayTime> <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>6.5</z>  </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event5>
+  <Event6 > <DelayTime>0.09</DelayTime>  <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>6.25</z> </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event6>
+  <Event7 > <DelayTime>0.105</DelayTime> <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>6</z>    </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event7>
+  <Event8 > <DelayTime>0.12</DelayTime>  <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>5.75</z> </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event8>
+  <Event9 > <DelayTime>0.135</DelayTime> <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>5.5</z>  </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event9>
+  <Event10> <DelayTime>0.15</DelayTime>  <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>5.25</z> </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event10>
+  <Event11> <DelayTime>0.165</DelayTime> <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>5</z>    </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event11>
+  <Event12> <DelayTime>0.18</DelayTime>  <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>4.75</z> </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event12>
+  <Event13> <DelayTime>0.195</DelayTime> <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>4.5</z>  </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event13>
+  <Event14> <DelayTime>0.21</DelayTime>  <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>4.25</z> </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event14>
+  <Event15> <DelayTime>0.225</DelayTime> <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>4</z>    </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event15>
+  <Event16> <DelayTime>0.24</DelayTime>  <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>3.75</z> </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event16>
+  <Event17> <DelayTime>0.255</DelayTime> <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>3.5</z>  </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event17>
+  <Event18> <DelayTime>0.27</DelayTime>  <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>3.25</z> </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event18>
+  <Event19> <DelayTime>0.285</DelayTime> <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>3</z>    </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event19>
+  <Event20> <DelayTime>0.3</DelayTime>   <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>2.75</z> </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event20>
+  <Event21> <DelayTime>0.315</DelayTime> <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>2.5</z>  </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event21>
+  <Event22> <DelayTime>0.33</DelayTime>  <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>2.25</z> </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event22>
+  <Event23> <DelayTime>0.345</DelayTime> <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>2</z>    </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event23>
+  <Event24> <DelayTime>0.36</DelayTime>  <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>1.75</z> </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event24>
+  <Event25> <DelayTime>0.375</DelayTime> <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>1.5</z>  </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event25>
+  <Event26> <DelayTime>0.39</DelayTime>  <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>1.25</z> </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event26>
+  <Event27> <DelayTime>0.405</DelayTime> <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>1</z>    </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event27>
+  <Event28> <DelayTime>0.42</DelayTime>  <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>0.75</z> </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event28>
+  <Event29> <DelayTime>0.435</DelayTime> <MaxDuration>0.1</MaxDuration> <Position><x>0</x><y>0</y><z>0.5</z>  </Position><Type>6</Type><Name></Name><DefinitionFile>lcda_godhammer_1.bbx</DefinitionFile><UseOrientedPosition>0</UseOrientedPosition><SourceAttachment>0</SourceAttachment><TargetAttachment>0</TargetAttachment><SourceAttachmentObject>0</SourceAttachmentObject><TargetAttachmentObject>1</TargetAttachmentObject>  </Event29>
+  <Event30>
+    <Type>1</Type>
+    <Name>particles</Name>
+    <DefinitionFile>sp_holy_aoe_fx3.pfx</DefinitionFile>
+    <DelayTime>0.43</DelayTime>
+    <MaxDuration>0</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>0</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>0</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+  </Event30>
+  <Event31>
+    <Type>10</Type>
+    <Name>cracks</Name>
+    <DefinitionFile>.ptx</DefinitionFile>
+    <DelayTime>0.43</DelayTime>
+    <MaxDuration>4</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>0</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>0</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+    <Texture>fx_earthquake2.tga</Texture>
+    <ProjectionType>0</ProjectionType>
+    <FOV>0.7853982</FOV>
+    <Width>10</Width>
+    <Height>10</Height>
+    <Length>5</Length>
+    <FOVEnd>0.7853982</FOVEnd>
+    <WidthEnd>10</WidthEnd>
+    <HeightEnd>10</HeightEnd>
+    <LengthEnd>5</LengthEnd>
+    <SourceBlend>2</SourceBlend>
+    <DestBlend>2</DestBlend>
+    <Lerp>1</Lerp>
+    <LerpPeriod>8</LerpPeriod>
+    <Color>-10361</Color>
+    <ColorEnd>-16777216</ColorEnd>
+    <Orientation>
+      <x>0</x>
+      <y>0</y>
+      <z>-1</z>
+    </Orientation>
+    <GroundOnly>1</GroundOnly>
+    <RotationalVelocity>0</RotationalVelocity>
+    <RotationalAcceleration>0</RotationalAcceleration>
+    <RotationInitial>0</RotationInitial>
+    <FadeInTime>0.5</FadeInTime>
+  </Event31>
+  <Event32>
+    <Type>10</Type>
+    <Name>impact proj</Name>
+    <DefinitionFile>.ptx</DefinitionFile>
+    <DelayTime>0.43</DelayTime>
+    <MaxDuration>1</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>0</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>0</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+    <Texture>fx_ice_proj.tga</Texture>
+    <ProjectionType>0</ProjectionType>
+    <FOV>0.7853982</FOV>
+    <Width>7</Width>
+    <Height>7</Height>
+    <Length>5</Length>
+    <FOVEnd>0.7853982</FOVEnd>
+    <WidthEnd>7</WidthEnd>
+    <HeightEnd>7</HeightEnd>
+    <LengthEnd>5</LengthEnd>
+    <SourceBlend>2</SourceBlend>
+    <DestBlend>2</DestBlend>
+    <Lerp>1</Lerp>
+    <LerpPeriod>2</LerpPeriod>
+    <Color>-6290</Color>
+    <ColorEnd>-16777216</ColorEnd>
+    <Orientation>
+      <x>0</x>
+      <y>0</y>
+      <z>-1</z>
+    </Orientation>
+    <GroundOnly>1</GroundOnly>
+    <RotationalVelocity>0</RotationalVelocity>
+    <RotationalAcceleration>0</RotationalAcceleration>
+    <RotationInitial>0</RotationInitial>
+    <FadeInTime>0.1</FadeInTime>
+  </Event32>
+  <Event33>
+    <Type>8</Type>
+    <Name>sound</Name>
+    <DefinitionFile>sim_strkholy.wav</DefinitionFile>
+    <DelayTime>0</DelayTime>
+    <MaxDuration>0</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>0</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>0</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+    <SoundLoops>0</SoundLoops>
+  </Event33>
+  <Event34>
+    <Type>1</Type>
+    <Name>sonic wave</Name>
+    <DefinitionFile>sp_sonic_aoe_fx2.pfx</DefinitionFile>
+    <DelayTime>0.43</DelayTime>
+    <MaxDuration>0</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>0</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>0</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+  </Event34>
+  <Event35>
+    <Type>1</Type>
+    <Name>sonic wave 2</Name>
+    <DefinitionFile>sp_sonic_aoe_fx1.pfx</DefinitionFile>
+    <DelayTime>0.43</DelayTime>
+    <MaxDuration>0</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>0</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>0</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+  </Event35>
+</EventList>

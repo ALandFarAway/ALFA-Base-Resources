@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<EventList>
+  <Name>
+  </Name>
+  <MaxDuration>0</MaxDuration>
+  <SpecialTargetPosition>0</SpecialTargetPosition>
+  <FogMultiplier>1</FogMultiplier>
+  <Event0>
+    <Type>2</Type>
+    <Name>
+    </Name>
+    <DefinitionFile>sp_ice_storm_fx2.pfx</DefinitionFile>
+    <DelayTime>0</DelayTime>
+    <MaxDuration>0</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>0</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>0</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+    <MeshBodyParts>
+      <Part0>0</Part0>
+      <Part1>1</Part1>
+      <Part2>2</Part2>
+      <Part3>3</Part3>
+      <Part4>7</Part4>
+      <Part5>8</Part5>
+      <Part6>10</Part6>
+      <Part7>9</Part7>
+    </MeshBodyParts>
+  </Event0>
+</EventList>

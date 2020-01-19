@@ -1,0 +1,32 @@
+
+-----------------------------------------------------------------
+
+                       DYNAMIC LIGHT BEAMS
+
+Beams of light that change angle depending on the hour of the day
+
+-----------------------------------------------------------------
+
+
+Copy the SEF and BFX files to your override or campaign folder, or put them in a HAK and associate it with your module.
+
+Import the ERF into your module. It contains the script and some light blueprints.
+
+Place an ipoint where you want the light beam to originate (window, doorway, etc).
+
+Assign the script 'hb_lightbeams' to the ipoint as a heartbeat script.
+
+Add the following variables to the ipoint (if needed):
+
+- Wall (str) = N, S, E or W (for windows or doors)
+- Light (int) = 1 (for a dynamic light source that changes colour for dawn, day, dusk or night)
+- Z (float) = height of beam destination (if not zero)
+- Range (float) = how far the beam moves either side of ipoint source (defaults to 2x height if not set)
+
+For holes in the ceiling with no light object, no variables are required at all.
+
+If in doubt, look at the test module in the toolset.
+
+
+-----------------------------------------------------------------
+Dann Pigdon, 2014

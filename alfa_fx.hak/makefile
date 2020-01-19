@@ -6,19 +6,18 @@
 
 HAKFILE=$(OUTPUTDIR)\alfa_fx.hak
 HAK_SOURCES=                                                   \
+            .\*.SEF                                            \
             .\*.SSF                                            \
             .\*.WAV                                            \
             .\*.PFX                                            \
-            .\*.SEF                                            \
             .\*.BBX                                            \
             .\*.GR2                                            \
             .\*.TGA                                            \
             .\*.DDS                                            \
             .\*.MDB                                            \
             .\*.PFB                                            \
-            .\*.TXT                                            \
-            .\*.UPE                                            \
-            
+            .\*.TXT                                            
+
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
 )
 

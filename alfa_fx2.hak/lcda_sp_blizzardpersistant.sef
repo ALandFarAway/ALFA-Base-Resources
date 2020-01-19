@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<EventList>
+  <Name>
+  </Name>
+  <MaxDuration>0</MaxDuration>
+  <SpecialTargetPosition>0</SpecialTargetPosition>
+  <FogMultiplier>1</FogMultiplier>
+  <Event0>
+    <Type>1</Type>
+    <Name>effet visuel</Name>
+    <DefinitionFile>lcda_sp_blizzardpersistant.pfx</DefinitionFile>
+    <DelayTime>0</DelayTime>
+    <MaxDuration>0</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>0</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>0</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+  </Event0>
+  <Event1>
+    <Type>8</Type>
+    <Name>son vent</Name>
+    <DefinitionFile>al_en_wind_high_lp_2.wav</DefinitionFile>
+    <DelayTime>0</DelayTime>
+    <MaxDuration>0</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>0</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>0</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+    <SoundLoops>1</SoundLoops>
+  </Event1>
+</EventList>
