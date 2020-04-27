@@ -240,6 +240,8 @@ const int HSS_PC_TOOLS_DIE_ABILITY = 300;
 const int HSS_PC_TOOLS_DIE_SKILL = 400;
 const int HSS_PC_TOOLS_EMOTE = 500;
 
+const string CHAT_BUBBLE_DISPLAY_OFF = "bChatBubbleDisabled";
+
 const string SCREEN_HSS_PC_TOOLS = "SCREEN_HSS_PC_TOOLS";
 const string HSS_PC_TOOLS_XML = "hss_pc_tools.xml";
 const string SCREEN_HSS_PC_TOOLS_CB = "SCREEN_HSS_PC_TOOLS_CB";
@@ -329,7 +331,7 @@ const string HSS_PCTOOLS_CUSTOM12_TEXT = "VFX-Dwarfaxe";
 const string HSS_PCTOOLS_CUSTOM13_TEXT = "VFX-Swrd-back";
 const string HSS_PCTOOLS_CUSTOM14_TEXT = "VFX-Swrd-belt";
 const string HSS_PCTOOLS_CUSTOM15_TEXT = "VFX-Bow-back";
-const string HSS_PCTOOLS_CUSTOM16_TEXT = "Custom 16";
+const string HSS_PCTOOLS_CUSTOM16_TEXT = "Chat bubble";
 const string HSS_PCTOOLS_CUSTOM17_TEXT = "Custom 17";
 const string HSS_PCTOOLS_CUSTOM18_TEXT = "Custom 18";
 const string HSS_PCTOOLS_CUSTOM19_TEXT = "Close Door";
@@ -2346,7 +2348,7 @@ void HSS_PCTools_CustomButton(object oPC, int nButton, float fX = 0.0, float fY 
    location lTargetLoc = Location(GetAreaFromLocation(GetLocation(oPC)),
                          vTargetPos, 0.0);
 	string	PlayerDescription2, PlayerDescription3;
-	//int DoOnce;
+	int bBubbleDisabled;
 			
 	effect eBeltProp = SupernaturalEffect(SetEffectSpellId(EffectNWN2SpecialEffectFile("fx_at_back_grsword02"), 1992));
     effect e6First = GetFirstEffect(oPC);   
@@ -2448,9 +2450,14 @@ void HSS_PCTools_CustomButton(object oPC, int nButton, float fX = 0.0, float fY 
 		   
 		   //custom button 16
 		   case 16:
-           //your custom button code goes here
-		   SendMessageToPC(oPC, HSS_PCTOOLS_COLOUR1 + "Button number " +
-		                  IntToString(nButton) + " has no custom code enabled.");		   
+                bBubbleDisabled = !GetLocalInt(oPC, CHAT_BUBBLE_DISPLAY_OFF);
+                SetLocalInt(oPC, CHAT_BUBBLE_DISPLAY_OFF, bBubbleDisabled);
+		        SendMessageToPC(
+                    oPC,
+                    HSS_PCTOOLS_COLOUR1 + "Your chat bubble is " + (
+                        bBubbleDisabled ? "disabled" : "enabled"
+                    )
+                );
 		   break;
 		   		   		   		   		   		   		   
 		   //custom button 17

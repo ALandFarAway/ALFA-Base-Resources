@@ -134,6 +134,8 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\gui_bhvr_inc.nss                      \
             $(OUTPUTDIR)\acr_traps_i.nss                       \
             $(OUTPUTDIR)\acr_bard_i.nss                        \
+            $(OUTPUTDIR)\shinn_sava_config_i.nss               \
+            $(OUTPUTDIR)\shinn_sava_i.nss                      \
             $(OUTPUTDIR)\acr_movement_i.nss                    \
             $(OUTPUTDIR)\acr_guiglobals_i.nss                  
 
@@ -714,6 +716,17 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s1_gazestun.ncs                    \
             $(OUTPUTDIR)\nw_s2_snghaven.ncs                    \
             $(OUTPUTDIR)\acr_set_player_password.ncs           \
+            $(OUTPUTDIR)\nw_s1_mephit_caustic_breath.ncs       \
+            $(OUTPUTDIR)\nw_s1_mephit_dust_breath.ncs          \
+            $(OUTPUTDIR)\nw_s1_mephit_grit_breath.ncs          \
+            $(OUTPUTDIR)\nw_s1_mephit_magma_breath.ncs         \
+            $(OUTPUTDIR)\c_nwndragon_hb_vfx.ncs                \
+            $(OUTPUTDIR)\c_nwndragon_vfx.ncs                   \
+            $(OUTPUTDIR)\gui_chatbub_vfx.ncs                   \
+            $(OUTPUTDIR)\i_smoker_ac.ncs                       \
+            $(OUTPUTDIR)\gui_shinn_sava_main.ncs               \
+            $(OUTPUTDIR)\shinn_sava_hub.ncs                    \
+            $(OUTPUTDIR)\shinn_sava_start.ncs                  \
             $(OUTPUTDIR)\gui_ps_parchment_rename.ncs           \
             $(OUTPUTDIR)\gui_ps_parchment_write.ncs            \
             $(OUTPUTDIR)\i_ps_parchment_ac.ncs                 \

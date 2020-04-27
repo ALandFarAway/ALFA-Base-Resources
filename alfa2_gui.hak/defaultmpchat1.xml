@@ -22,7 +22,7 @@
 
 	<!-- Input Fields -->
 	<!-- Nota Bene: These 3 groups need to be in sequence -->
-		<UIText name="IMEReadingWindow" x=16 y=106 valign="middle" width=64 height=32 editable="false" selectable="false" 
+		<UIText name="IMEReadingWindow" x=16 y=106 valign="middle" width=64 height=32 editable="false" selectable="false"
 			multiline="false" scaleytoparent="false" scalewidthtoparent="true" fontfamily="International" hidden="true" color="FFFFFF" />
 		<UIIcon name="IMEReadingWindowBG" img="fx_white.tga" color="FF0F2F2F" alpha="1.0" x=16 y=86 width=64 height=32 scaleytoparent="false" />
 
@@ -51,24 +51,29 @@
 	<UIPane name="NO_PANE_NO_GAIN" x=6 y=26 width="18" height="108" >
 		<UIGrid name="CHAT_GRID" rows=6 columns=1 x=0 y=0 xPadding=0 yPadding=0 >
 
-			<UIButton name="LOCAL SAY" buttontype=radio groupid=1 groupmemberid=1 
-				OnSelected=UIButton_Input_SetChatMode(0) style="CHAT_MODE_BUTTON"  text="L"
+			<UIButton name="LOCAL SAY" buttontype=radio groupid=1 groupmemberid=1
+				OnSelected0=UIObject_Misc_ExecuteServerScript("gui_chatbub_vfx","S")
+				OnSelected1=UIButton_Input_SetChatMode(0) style="CHAT_MODE_BUTTON"  text="L"
 				OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(184736,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") />
 
-			<UIButton name="WHISPER" buttontype=radio groupid=1 groupmemberid=2 
-				OnSelected=UIButton_Input_SetChatMode(1) style="CHAT_MODE_BUTTON"  text="W"
+			<UIButton name="WHISPER" buttontype=radio groupid=1 groupmemberid=2
+				OnSelected0=UIObject_Misc_ExecuteServerScript("gui_chatbub_vfx","W")
+				OnSelected1=UIButton_Input_SetChatMode(1) style="CHAT_MODE_BUTTON"  text="W"
 				OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(184737,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") />
 
-			<UIButton name="PARTY" buttontype="radio" groupid="1" groupmemberid="3" 
-				OnSelected=UIButton_Input_SetChatMode(2) style="CHAT_MODE_BUTTON"  text="P"
+			<UIButton name="PARTY" buttontype="radio" groupid="1" groupmemberid="3"
+				OnSelected0=UIObject_Misc_ExecuteServerScript("gui_chatbub_vfx","S")
+				OnSelected1=UIButton_Input_SetChatMode(2) style="CHAT_MODE_BUTTON"  text="P"
 				OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(184738,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") />
 
-			<UIButton name="DUNGEON MASTER" buttontype="radio" groupid="1" groupmemberid="4" 
-				OnSelected=UIButton_Input_SetChatMode(3) style="CHAT_MODE_BUTTON"  text="D"
+			<UIButton name="DUNGEON MASTER" buttontype="radio" groupid="1" groupmemberid="4"
+				OnSelected0=UIObject_Misc_ExecuteServerScript("gui_chatbub_vfx","W")
+				OnSelected1=UIButton_Input_SetChatMode(3) style="CHAT_MODE_BUTTON"  text="D"
 				OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(184739,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") />
 
 			<UIButton name="SHOUT" buttontype="radio" groupid="1" groupmemberid="5"
-				OnSelected=UIButton_Input_SetChatMode(4) style="CHAT_MODE_BUTTON"  text="S"
+				OnSelected0=UIObject_Misc_ExecuteServerScript("gui_chatbub_vfx","S")
+				OnSelected1=UIButton_Input_SetChatMode(4) style="CHAT_MODE_BUTTON"  text="S"
 				OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(184740,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") />
 
 			<UIButton name="LANGUAGE" style="CHAT_MODE_BUTTON" text="@"
@@ -85,7 +90,7 @@
 		scrollbaronright="false" unequalcontrols="true" scrollsegmentsize="16" hidescrollbarwhennotneeded="true" snaptobottom="true"
 		scaleheighttoparent="true" scalewidthtoparent="true" capturemouseclicks="false" >
 
-		<UIText name="repliestext" width="PARENT_WIDTH" height="DYNAMIC" color="ffc8c0" highlightcolor="FFFFFF" sizetofit="true" align="left" 
+		<UIText name="repliestext" width="PARENT_WIDTH" height="DYNAMIC" color="ffc8c0" highlightcolor="FFFFFF" sizetofit="true" align="left"
 			prototype="true" fontfamily="Default" capturemouseclicks=false capturemouseevents=true />
 
 		<UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>
@@ -97,10 +102,14 @@
 		unequalcontrols="true" scrollsegmentsize="30" hidescrollbarwhennotneeded="true" >
 
 			<!-- WAS filter="alphanumeric" and not allowspace="true" -->
-			<UIText name="inputbox" allowspace="true" width="PARENT_WIDTH" height="DYNAMIC" align="left" valign="top" 
+			<UIText name="inputbox" allowspace="true" width="PARENT_WIDTH" height="DYNAMIC" align="left" valign="top"
 			fontfamily="International" multiline="true" returnrestricted="true" editable="true" selectable="true"
-			maxlength="4000" OnReturn="UIText_OnReturn_ParseChatInput()" 
-			update=true OnUpdate="UIText_OnUpdate_ParseChatInput()"
+			maxlength="4000" OnReturn0="UIText_OnReturn_ParseChatInput()"
+			OnReturn1=UIObject_Misc_ExecuteServerScript("gui_chatbub_vfx","clear")
+			update=true
+			OnUpdate0=UIText_OnUpdate_ParseChatInput()
+ 			OnUpdate1=UIObject_Misc_SetLocalVarString(local:1)
+			OnUpdate2=UIObject_Misc_ExecuteServerScript("gui_chatbub_vfx","type",local:1)
 			/>
 
 			<UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<EventList>
+  <Name>
+  </Name>
+  <MaxDuration>0</MaxDuration>
+  <SpecialTargetPosition>0</SpecialTargetPosition>
+  <FogMultiplier>1</FogMultiplier>
+  <Event0>
+    <Type>12</Type>
+    <Name>
+    </Name>
+    <DefinitionFile>.res</DefinitionFile>
+    <DelayTime>0</DelayTime>
+    <MaxDuration>0</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>0</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>0</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+    <GameModelEffectType>1</GameModelEffectType>
+    <LerpInTime>1</LerpInTime>
+    <LerpOutTime>0</LerpOutTime>
+    <Texture>fx_ice_sheet.tga</Texture>
+  </Event0>
+</EventList>

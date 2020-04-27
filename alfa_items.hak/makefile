@@ -5,12 +5,12 @@
 !include $(PROJECT_SOURCE_ROOT)\makefile.def
 
 HAKFILE=$(OUTPUTDIR)\alfa_items.hak
-HAK_SOURCES=                                                   \
-            .\*.DDS                                            \
-            .\*.GR2                                            \
-            .\*.TGA                                            \
-            .\*.TXT                                            \
-            .\*.MDB                                            
+HAK_SOURCES=                                                  \
+           .\*.DDS                                            \
+           .\*.GR2                                            \
+           .\*.MDB                                            \
+           .\*.TXT                                            \
+           .\*.TGA                                            
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
 )
