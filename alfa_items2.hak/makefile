@@ -9,6 +9,7 @@ HAK_SOURCES=                                                   \
             .\*.DDS                                            \
             .\*.GR2                                            \
             .\*.TGA                                            \
+            .\*.UTP                                            \
             .\*.MDB                                            \
             .\*.UTI                                                                                    
 

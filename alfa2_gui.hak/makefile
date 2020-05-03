@@ -8,6 +8,12 @@ HAKFILE=$(OUTPUTDIR)\alfa2_gui.hak
 HAK_SOURCES=                                                   \
             .\*.XML                                            \
             .\*.TGA                                            \
+            .\*.DDS                                            \
+            .\*.BBX                                            \
+            .\*.LFX                                            \
+            .\*.PFX                                            \
+            .\*.TFX                                            \
+            .\*.BFX                                            \
             .\*.MDB                                            \
             .\*.SEF                                            \
             .\*.TXT                                            
