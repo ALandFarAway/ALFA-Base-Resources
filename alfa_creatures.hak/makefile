@@ -1,5 +1,5 @@
 #
-# This project constructs alfa2_creatures.hak.
+# This project constructs alfa_creatures.hak.
 #
 
 !include $(PROJECT_SOURCE_ROOT)\makefile.def
@@ -7,12 +7,15 @@
 HAKFILE=$(OUTPUTDIR)\alfa_creatures.hak
 HAK_SOURCES=                                                   \
             .\*.TXT                                            \
+            .\*.UTI											   \
             .\*.UTC                                            \
             .\*.WAV                                            \
             .\*.MDB                                            \
             .\*.GR2                                            \
             .\*.TGA                                            \
             .\*.SSF                                            \
+            .\*.PFX											   \
+            .\*.BBX											   \
             .\*.FXA                                            \
             .\*.XML                                            \
             .\*.SEF                                            \
