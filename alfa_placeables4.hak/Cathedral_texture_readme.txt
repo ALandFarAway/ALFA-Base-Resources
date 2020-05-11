@@ -1,1 +1,0 @@
-Stock Cathedral uses many of the same textures as Deep Halls, so some textures are kept in that folder.

@@ -7,7 +7,7 @@
 HAKFILE=$(OUTPUTDIR)\alfa_terrain.hak
 HAK_SOURCES=                      \
            .\*.TXT                \
-           .\*.DDS 			      \
+           .\*.DDS                \
            .\*.BMP                                           
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^

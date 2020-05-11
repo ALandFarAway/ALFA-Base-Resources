@@ -722,6 +722,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s1_mephit_magma_breath.ncs         \
             $(OUTPUTDIR)\c_nwndragon_hb_vfx.ncs                \
             $(OUTPUTDIR)\c_nwndragon_vfx.ncs                   \
+            $(OUTPUTDIR)\gui_chatbub_vfx.ncs                   \
             $(OUTPUTDIR)\i_smoker_ac.ncs                       \
             $(OUTPUTDIR)\gui_shinn_sava_main.ncs               \
             $(OUTPUTDIR)\shinn_sava_hub.ncs                    \

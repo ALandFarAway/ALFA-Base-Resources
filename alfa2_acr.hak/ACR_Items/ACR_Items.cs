@@ -2462,26 +2462,27 @@ namespace ACR_Items
             {5, new List<int> { 0, 1, 2, 11, 12, 24, } },
             {8, new List<int> { 0, 1, 2, 9, 10, 11, 12, 46, 49, 50, 52, 53, 54, 55, 56, 150, 162, 165, 170, } },
             {9, new List<int> { 0, 1, 2, 3, 70, } },
-            {10, new List<int> { 0, 19, } },
+            {10, new List<int> { 0, 19, 99, 100, 101, 102, 103, 104, 105, } },
             {17, new List<int> { 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 59, } },
         };
 
         public static Dictionary<int, List<int>> HelmetVariations = new Dictionary<int, List<int>>
         {
-            {0, new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 39, 50, 51, 52, 53, 59, 60, 61, 62, 63, 64, 65, 67, 68, 69, 70, 79, 83, 97, 98, 102, 127, 184, } },
-            {2, new List<int> { 0, 1, 2, 3, 4, 5, } },
+            {0, new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 39, 50, 51, 52, 53, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 79, 83, 97, 98, 99, 100, 101, 102, 103, 105, 127, 184, } },
+            {2, new List<int> { 0, 1, 2, 3, 4, 5, 81, } },
             {4, new List<int> { 0, 1, 3, } },
             {5, new List<int> { 0, 1, 3, } },
             {6, new List<int> { 0, 1, 2, 3, 4, 5, 9, } },
-            {7, new List<int> { 0, 1, 2, 4, 5, 6, 7, 9, 10, 29, 50, 51, 52, 53, } },
+            {7, new List<int> { 0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 29, 50, 51, 52, 53, 57, 58, } },
             {8, new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 19, 24, 29, } },
             {9, new List<int> { 0, 1, 2, 3, 4, 6, } },
+            {10, new List<int> { 11, 12, 13, 23, } },
             {25, new List<int> { 0, 1, 5, 9, 10, } },
         };    
 
         public static Dictionary<int, List<int>> BootVariations = new Dictionary<int, List<int>>
         {
-            {0, new List<int> { 0, 1, 2, 3, 4, 49, 50, 69, 91, 92, 98, 249, } },
+            {0, new List<int> { 0, 1, 2, 3, 4, 49, 50, 69, 91, 92, 98, 102, 224, 249, } },
             {2, new List<int> { 0, 1, 2, 3, 4, 5, 6, } },
             {3, new List<int> { 0, } },
             {4, new List<int> { 0, 1, 2, 24, } },
@@ -2490,6 +2491,7 @@ namespace ACR_Items
             {7, new List<int> { 0, } },
             {8, new List<int> { 0, 1, 49, 162, 165, 167, } },
             {9, new List<int> { 1, } },
+            {10, new List<int> {18, 99, } },
         };
 
         public static Dictionary<int, List<int>> GloveVariations = new Dictionary<int, List<int>>
@@ -2507,16 +2509,17 @@ namespace ACR_Items
         public static Dictionary<int, List<int>> BeltVariations = new Dictionary<int, List<int>>
         {
             {0, new List<int> { 1, 2, 3, 180, 181, 184, 185, } },
-            {1, new List<int> { 0, 79, 85, 87, 88, 91, 93, 94, 95, } },
+            {1, new List<int> { 0, 79, 85, 87, 88, 91, 92, 93, 94, 95, } },
             {2, new List<int> { 0, 1, 2, 3, 18, 19, 67, 68, 222, } },
             {5, new List<int> { 0, 1, 2, 3, } },
             {8, new List<int> { 0, 1, 2, 3, 180, } },
-            {9, new List<int> { 0, }},
+            {9, new List<int> { 0, } },
+            {10, new List<int> {99, } },
         };
 
         public static Dictionary<int, List<int>> CloakVariations = new Dictionary<int, List<int>>
         {
-            {0, new List<int> { 0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 102, } },
+            {0, new List<int> { 0, 1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 102, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 120, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, } },
             {9, new List<int> { 0, }},
             {25, new List<int> { 1, 3, 4, 5, 13, 14, } },
         };

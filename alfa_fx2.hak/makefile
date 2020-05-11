@@ -3,24 +3,23 @@
 #
 
 !include $(PROJECT_SOURCE_ROOT)\makefile.def
-
 HAKFILE=$(OUTPUTDIR)\alfa_fx2.hak
-HAK_SOURCES=                                                   \
-            .\*.SEF                                            \
-            .\*.SSF                                            \
-            .\*.WAV                                            \
-            .\*.PFX                                            \
-            .\*.BBX                                            \
-            .\*.TGA                                            \
-            .\*.DDS                                            \
-            .\*.MDB                                            \
-            .\*.BFX											   \
-            .\*.IFX                                            \
-            .\*.LFX                                            \
-            .\*.TFX                                            \
-            .\*.ULT                                            \
-            .\*.UPE                                            \
-            .\*.TXT                                            
+HAK_SOURCES=                     \
+            .\*.BFX              \
+            .\*.BBX              \
+            .\*.DDS              \
+            .\*.MDB              \
+            .\*.PFX              \
+            .\*.SEF              \
+            .\*.SSF              \
+            .\*.TGA              \
+            .\*.TXT              \
+            .\*.ULT              \
+            .\*.UPE              \
+            .\*.WAV              \
+            .\*.LFX              \
+            .\*.IFX              \
+            .\*.TFX
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
 )
@@ -39,4 +38,4 @@ $(HAKFILE): $(HAK_SOURCES)
 	@$(MKERF_NWN2) -c $(HAKFILE) @<<$(ERFUTIL_RSP)
 -z$(HAK_SOURCES_NL)
 <<NOKEEP
-
+ 

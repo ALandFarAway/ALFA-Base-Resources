@@ -5,17 +5,14 @@
 !include $(PROJECT_SOURCE_ROOT)\makefile.def
 
 HAKFILE=$(OUTPUTDIR)\alfa2_gui.hak
-HAK_SOURCES=                                                   \
-            .\*.XML                                            \
-            .\*.TGA                                            \
-            .\*.DDS                                            \
-            .\*.BBX                                            \
-            .\*.LFX                                            \
-            .\*.PFX                                            \
-            .\*.TFX                                            \
-            .\*.BFX                                            \
-            .\*.MDB                                            \
-            .\*.SEF                                            \
+HAK_SOURCES=                        \
+            .\*.XML                 \
+            .\*.TGA                 \
+            .\*.DDS                 \
+            .\*.BBX                 \
+            .\*.PFX                 \
+            .\*.MDB                 \
+            .\*.SEF                 \
             .\*.TXT                                            
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<EventList>
+  <Name>
+  </Name>
+  <MaxDuration>0</MaxDuration>
+  <SpecialTargetPosition>0</SpecialTargetPosition>
+  <FogMultiplier>1</FogMultiplier>
+  <Event0>
+    <Type>1</Type>
+    <Name>cloudlarge</Name>
+    <DefinitionFile>fx_air_cloudlg_white2.pfx</DefinitionFile>
+    <DelayTime>0</DelayTime>
+    <MaxDuration>0</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>2</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>0</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>1</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+  </Event0>
+  <Event1>
+    <Type>1</Type>
+    <Name>cloud small</Name>
+    <DefinitionFile>fx_air_cloudlg_white1.pfx</DefinitionFile>
+    <DelayTime>0</DelayTime>
+    <MaxDuration>0</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>2</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>0</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>1</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+  </Event1>
+</EventList>

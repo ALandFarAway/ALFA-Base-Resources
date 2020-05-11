@@ -1,0 +1,10 @@
+Misc Missing FX from the various game discs not in the  NWN2Toolset
+
+Maps vfx
+Gortons Signs
+Wall Decals
+ajoc misc vfx
+container fillers
+Bats
+Window Glows
+Gibbering Mouther

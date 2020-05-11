@@ -2454,9 +2454,9 @@ void HSS_PCTools_CustomButton(object oPC, int nButton, float fX = 0.0, float fY 
                 SetLocalInt(oPC, CHAT_BUBBLE_DISPLAY_OFF, bBubbleDisabled);
 		        SendMessageToPC(
                     oPC,
-                    HSS_PCTOOLS_COLOUR1 + "Your chat bubble is " + (
+                    HSS_PCTOOLS_COLOUR1 + "Your own chat bubble is now " + (
                         bBubbleDisabled ? "disabled" : "enabled"
-                    )
+                    ) + "."
                 );
 		   break;
 		   		   		   		   		   		   		   

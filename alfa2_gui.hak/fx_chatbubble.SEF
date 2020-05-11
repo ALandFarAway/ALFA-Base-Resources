@@ -11,8 +11,8 @@
     <DelayTime>0</DelayTime>
     <MaxDuration>0</MaxDuration>
     <Position>
-      <x>0</x>
-      <y>0</y>
+      <x>0.06</x>
+      <y>0.07</y>
       <z>0</z>
     </Position>
     <UseOrientedPosition>0</UseOrientedPosition>

@@ -6,21 +6,23 @@
 
 HAKFILE=$(OUTPUTDIR)\alfa_creatures.hak
 HAK_SOURCES=                                                   \
-            .\*.TXT                                            \
-            .\*.UTI											   \
             .\*.UTC                                            \
             .\*.WAV                                            \
             .\*.MDB                                            \
             .\*.GR2                                            \
             .\*.TGA                                            \
             .\*.SSF                                            \
-            .\*.PFX											   \
-            .\*.BBX											   \
             .\*.FXA                                            \
             .\*.XML                                            \
             .\*.SEF                                            \
-            .\*.DDS                                            
-
+            .\*.BBX                                            \
+            .\*.GRM                                            \
+            .\*.PFX                                            \
+            .\*.PDN                                            \
+            .\*.UTI                                            \
+            .\*.DDS                                            \
+            .\*.TXT
+                                                       
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
 )
 

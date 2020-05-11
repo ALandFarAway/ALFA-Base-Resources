@@ -15,7 +15,9 @@ HAK_SOURCES=                                                   \
             .\*.FXA                                            \
             .\*.XML                                            \
             .\*.SEF                                            \
-            .\*.DDS                                            
+            .\*.DDS                                            \
+            .\*.PFX                                            \
+            .\*.TXT                                            
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
 )
@@ -34,4 +36,3 @@ $(HAKFILE): $(HAK_SOURCES)
 	@$(MKERF_NWN2) -c $(HAKFILE) @<<$(ERFUTIL_RSP)
 -z$(HAK_SOURCES_NL)
 <<NOKEEP
-
