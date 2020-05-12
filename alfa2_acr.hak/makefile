@@ -225,6 +225,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s0_stoneskin.ncs                  \
             $(OUTPUTDIR)\acr_s0_water_breathing.ncs            \
             $(OUTPUTDIR)\acr_s0_web.ncs                        \
+            $(OUTPUTDIR)\acr_s0_shillelagh.ncs                 \
             $(OUTPUTDIR)\acr_s0_rp.ncs                         \
             $(OUTPUTDIR)\acr_s1_recall_spirit.ncs              \
             $(OUTPUTDIR)\acr_s2_wildshape.ncs                  \
