@@ -1,5 +1,5 @@
 #
-# This project constructs alfa2_2da.hak.
+# This project constructs alfa_acr02.tlk.
 #
 
 !include $(PROJECT_SOURCE_ROOT)\makefile.def
