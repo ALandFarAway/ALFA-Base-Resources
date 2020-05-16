@@ -15,4 +15,5 @@ BUILD_MSGFILE=@type
 !include project.mk
 !include NWScript.mk
 !include ERF.mk
+!include TLK.mk
 !include CSProj.mk

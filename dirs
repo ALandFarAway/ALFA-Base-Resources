@@ -22,6 +22,7 @@ DIRS=                               \
      alfa_tiles.hak                 \
      alfa_tiles2.hak                \
      alfa2_templates.hak            \
+     tlk                            \
      buildmod                       \
      IRCBot                         
 
