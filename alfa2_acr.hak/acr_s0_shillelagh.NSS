@@ -51,8 +51,9 @@ void main()
         return;
     }
 
-    oTarget = GetSpellTargetObject();
     oCaster = OBJECT_SELF;
+    oTarget = IPGetTargetedOrEquippedMeleeWeapon();
+
     nBaseItemType = GetBaseItemType(oTarget);
     nMaterialType = GetItemBaseMaterialType(oTarget);
     nCurrentEnhancement = IPGetWeaponEnhancementBonus(oTarget, ITEM_PROPERTY_ENHANCEMENT_BONUS);
