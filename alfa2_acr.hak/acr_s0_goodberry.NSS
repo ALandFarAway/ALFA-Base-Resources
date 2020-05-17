@@ -27,8 +27,8 @@ void main()
         return;
     }
 
-    oTarget = GetSpellTargetObject();
     oCaster = OBJECT_SELF;
+    oTarget = oCaster;  // Target of spell is always caster, despite what someone might target
 
     // Signal event successful
     SignalEvent(oTarget, EventSpellCastAt(oCaster, GetSpellId(), FALSE));
