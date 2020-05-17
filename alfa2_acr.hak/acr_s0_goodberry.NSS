@@ -39,14 +39,12 @@ void main()
     // Number of goodberries to create
     nNumberToCreate = d4(2);
 
-    // Create each goodberry
-    for (i = 0; i < nNumberToCreate; ++i) {
-        oBerry = CreateItemOnObject(GOODBERRY_RES_REF, oCaster, 5, "", 1);
+    // Create goodberries
+    oBerry = CreateItemOnObject(GOODBERRY_RES_REF, oCaster, nNumberToCreate, "", 1);
 
-        // Create temporary spell of cure minor wounds
-        ipCureMinorWounds = ItemPropertyCastSpell(IP_CONST_CASTSPELL_CURE_MINOR_WOUNDS_1, 1);
+    // Create temporary spell of cure minor wounds
+    ipCureMinorWounds = ItemPropertyCastSpell(IP_CONST_CASTSPELL_CURE_MINOR_WOUNDS_1, 1);
 
-        // Add bonuses
-        IPSafeAddItemProperty(oBerry, ipCureMinorWounds, fDuration, X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
-    }
+    // Add bonuses
+    IPSafeAddItemProperty(oBerry, ipCureMinorWounds, fDuration, X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
 }

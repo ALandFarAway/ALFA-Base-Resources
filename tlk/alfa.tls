@@ -4825,8 +4825,7 @@ NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
 
 This spell imbues the subject with a touch of divine guidance. The creature gets a +1 competence bonus on a single attack roll, saving throw, or skill check. It must choose to use the bonus before making the roll to which it applies. 
 <1325><16778541>:Goodberry
-<1326><16778542>:<b>Goodberry</b>
-Transmutation
+<1326><16778542>:Transmutation
 Level: Drd 1
 Components: V, S, DF
 Casting Time: 1 standard action
