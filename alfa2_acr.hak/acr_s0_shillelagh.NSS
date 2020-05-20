@@ -39,6 +39,25 @@ void verify_owner(object oCaster, object oWeapon, itemproperty ipBludgeon, itemp
 }
 
 
+int isClubOrQuarterstaff(int nBaseItemType)
+{
+    return (
+        nBaseItemType == BASE_ITEM_CLUB ||
+        nBaseItemType == BASE_ITEM_QUARTERSTAFF
+    );
+}
+
+
+int isWooden(int nMaterialType)
+{
+    return (
+        nMaterialType == GMATERIAL_NONSPECIFIC ||
+        nMaterialType == GMATERIAL_WOOD_DUSKWOOD ||
+        nMaterialType == GMATERIAL_WOOD_DARKWOOD
+    );
+}
+
+
 void main()
 {
     object oCaster, oTarget;
@@ -56,15 +75,20 @@ void main()
 
     nBaseItemType = GetBaseItemType(oTarget);
     nMaterialType = GetItemBaseMaterialType(oTarget);
-    nCurrentEnhancement = IPGetWeaponEnhancementBonus(oTarget, ITEM_PROPERTY_ENHANCEMENT_BONUS);
 
-    // Is target not a club/quarterstaff OR is target not made of wood OR
+    // Enhancement check errors out for OBJECT_INVALID
+    if (oTarget != OBJECT_INVALID) {
+        nCurrentEnhancement = IPGetWeaponEnhancementBonus(oTarget, ITEM_PROPERTY_ENHANCEMENT_BONUS);
+    }
+
+    // Is target not a club/quarterstaff OR
+    // is target not made of wood OR
     // is the target have an enhancement bonus > 0 OR
-    // not a valid object
+    // is not a valid object
     if (
         oTarget == OBJECT_INVALID ||
-        (nBaseItemType != BASE_ITEM_CLUB && nBaseItemType != BASE_ITEM_QUARTERSTAFF) ||
-        (nMaterialType != GMATERIAL_NONSPECIFIC && nMaterialType != GMATERIAL_WOOD_DUSKWOOD) ||
+        !isClubOrQuarterstaff(nBaseItemType) ||
+        !isWooden(nMaterialType) ||
         nCurrentEnhancement > 0
     ) {
         SendMessageToPC(oCaster, "Spell target must be a club or quarterstaff that is wooden and non-magical.");
