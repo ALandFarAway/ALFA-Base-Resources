@@ -17,10 +17,10 @@ const string MAGICSTONE_RES_REF = "abr_it_wp_magicstone";
 
 void main()
 {
-    object oCaster, oTarget, oBerry;
-    int nCasterLevel, nNumberToCreate, i;
+    object oCaster, oTarget, oStone;
+    int nNumberToCreate;
     float fDuration;
-    itemproperty ipCureMinorWounds;
+    itemproperty ipPlusOne, ipPlusTwoVsUndead, ip1d6VsUndead;
 
     // If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell
     if (!ACR_PrecastEvent()) {
@@ -33,14 +33,13 @@ void main()
     // Signal event successful
     SignalEvent(oTarget, EventSpellCastAt(oCaster, GetSpellId(), FALSE));
 
-    nCasterLevel = ACR_GetCorrectCasterLevel(OBJECT_SELF);
     fDuration = ACR_DURATION_10M * 3.0f;  // Always 30m -- no matter what
 
     // Number of pebbles to create
     nNumberToCreate = 3;
 
     // Create pebbles 
-    oBerry = CreateItemOnObject(MAGICSTONE_RES_REF, oCaster, nNumberToCreate, "", 1);
+    oStone = CreateItemOnObject(MAGICSTONE_RES_REF, oCaster, nNumberToCreate, "", 1);
 
     // Create bonuses:
     //  +1 enhancement bonus
@@ -51,7 +50,7 @@ void main()
     ip1d6VsUndead = ItemPropertyDamageBonusVsRace(IP_CONST_RACIALTYPE_UNDEAD, IP_CONST_DAMAGETYPE_BLUDGEONING, IP_CONST_DAMAGEBONUS_1d6);
 
     // Add bonuses
-    IPSafeAddItemProperty(oBerry, ipPlusOne, fDuration, X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
-    IPSafeAddItemProperty(oBerry, ipPlusTwoVsUndead, fDuration, X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
-    IPSafeAddItemProperty(oBerry, ip1d6VsUndead, fDuration, X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
+    IPSafeAddItemProperty(oStone, ipPlusOne, fDuration, X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
+    IPSafeAddItemProperty(oStone, ipPlusTwoVsUndead, fDuration, X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
+    IPSafeAddItemProperty(oStone, ip1d6VsUndead, fDuration, X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
 }
