@@ -61,7 +61,7 @@ int isWooden(int nMaterialType)
 void main()
 {
     object oCaster, oTarget;
-    int nCasterLevel, nBaseItemType, nMaterialType, nCurrentEnhancement;
+    int nCasterLevel, nBaseItemType, nMaterialType = 0, nCurrentEnhancement = 0;
     float fDuration;
     itemproperty ipBludgeon, ipEnhancement;
 
@@ -74,11 +74,11 @@ void main()
     oTarget = IPGetTargetedOrEquippedMeleeWeapon();
 
     nBaseItemType = GetBaseItemType(oTarget);
-    nMaterialType = GetItemBaseMaterialType(oTarget);
 
-    // Enhancement check errors out for OBJECT_INVALID
-    if (oTarget != OBJECT_INVALID) {
+    // Only check for weapons
+    if (isClubOrQuarterstaff(nBaseItemType)) {
         nCurrentEnhancement = IPGetWeaponEnhancementBonus(oTarget, ITEM_PROPERTY_ENHANCEMENT_BONUS);
+        nMaterialType = GetItemBaseMaterialType(oTarget);
     }
 
     // Is target not a club/quarterstaff OR
