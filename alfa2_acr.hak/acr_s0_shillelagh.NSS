@@ -59,8 +59,10 @@ void main()
     nCurrentEnhancement = IPGetWeaponEnhancementBonus(oTarget, ITEM_PROPERTY_ENHANCEMENT_BONUS);
 
     // Is target not a club/quarterstaff OR is target not made of wood OR
-    // is the target have an enhancement bonus > 0
+    // is the target have an enhancement bonus > 0 OR
+    // not a valid object
     if (
+        oTarget == OBJECT_INVALID ||
         (nBaseItemType != BASE_ITEM_CLUB && nBaseItemType != BASE_ITEM_QUARTERSTAFF) ||
         (nMaterialType != GMATERIAL_NONSPECIFIC && nMaterialType != GMATERIAL_WOOD_DUSKWOOD) ||
         nCurrentEnhancement > 0
