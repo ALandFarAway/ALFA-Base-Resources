@@ -39,10 +39,29 @@ void verify_owner(object oCaster, object oWeapon, itemproperty ipBludgeon, itemp
 }
 
 
+int isClubOrQuarterstaff(int nBaseItemType)
+{
+    return (
+        nBaseItemType == BASE_ITEM_CLUB ||
+        nBaseItemType == BASE_ITEM_QUARTERSTAFF
+    );
+}
+
+
+int isWooden(int nMaterialType)
+{
+    return (
+        nMaterialType == GMATERIAL_NONSPECIFIC ||
+        nMaterialType == GMATERIAL_WOOD_DUSKWOOD ||
+        nMaterialType == GMATERIAL_WOOD_DARKWOOD
+    );
+}
+
+
 void main()
 {
     object oCaster, oTarget;
-    int nCasterLevel, nBaseItemType, nMaterialType, nCurrentEnhancement;
+    int nCasterLevel, nBaseItemType, nMaterialType = 0, nCurrentEnhancement = 0;
     float fDuration;
     itemproperty ipBludgeon, ipEnhancement;
 
@@ -51,17 +70,25 @@ void main()
         return;
     }
 
-    oTarget = GetSpellTargetObject();
     oCaster = OBJECT_SELF;
-    nBaseItemType = GetBaseItemType(oTarget);
-    nMaterialType = GetItemBaseMaterialType(oTarget);
-    nCurrentEnhancement = IPGetWeaponEnhancementBonus(oTarget, ITEM_PROPERTY_ENHANCEMENT_BONUS);
+    oTarget = IPGetTargetedOrEquippedMeleeWeapon();
 
-    // Is target not a club/quarterstaff OR is target not made of wood OR
-    // is the target have an enhancement bonus > 0
+    nBaseItemType = GetBaseItemType(oTarget);
+
+    // Only check for weapons
+    if (isClubOrQuarterstaff(nBaseItemType)) {
+        nCurrentEnhancement = IPGetWeaponEnhancementBonus(oTarget, ITEM_PROPERTY_ENHANCEMENT_BONUS);
+        nMaterialType = GetItemBaseMaterialType(oTarget);
+    }
+
+    // Is target not a club/quarterstaff OR
+    // is target not made of wood OR
+    // is the target have an enhancement bonus > 0 OR
+    // is not a valid object
     if (
-        (nBaseItemType != BASE_ITEM_CLUB && nBaseItemType != BASE_ITEM_QUARTERSTAFF) ||
-        (nMaterialType != GMATERIAL_NONSPECIFIC && nMaterialType != GMATERIAL_WOOD_DUSKWOOD) ||
+        oTarget == OBJECT_INVALID ||
+        !isClubOrQuarterstaff(nBaseItemType) ||
+        !isWooden(nMaterialType) ||
         nCurrentEnhancement > 0
     ) {
         SendMessageToPC(oCaster, "Spell target must be a club or quarterstaff that is wooden and non-magical.");
