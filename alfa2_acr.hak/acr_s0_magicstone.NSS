@@ -38,7 +38,7 @@ void main()
     // Number of pebbles to create
     nNumberToCreate = 3;
 
-    // Create pebbles 
+    // Create pebbles
     oStone = CreateItemOnObject(MAGICSTONE_RES_REF, oCaster, nNumberToCreate, "", 1);
 
     // Create bonuses:
