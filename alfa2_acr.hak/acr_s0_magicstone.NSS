@@ -12,6 +12,7 @@
 #include "acr_spells_i"
 
 
+const int IP_CONST_ONHIT_CASTSPELL_ONHIT_MSTONE = 178;
 const string MAGICSTONE_RES_REF = "abr_it_wp_magicstone";
 
 
@@ -41,16 +42,7 @@ void main()
     // Create pebbles
     oStone = CreateItemOnObject(MAGICSTONE_RES_REF, oCaster, nNumberToCreate, "", 1);
 
-    // Create bonuses:
-    //  +1 enhancement bonus
-    //  +2 vs undead
-    //  +1d6 vs undead
-    ipPlusOne = ItemPropertyEnhancementBonus(1);
-    ipPlusTwoVsUndead = ItemPropertyEnhancementBonusVsRace(IP_CONST_RACIALTYPE_UNDEAD, 2);
-    ip1d6VsUndead = ItemPropertyDamageBonusVsRace(IP_CONST_RACIALTYPE_UNDEAD, IP_CONST_DAMAGETYPE_BLUDGEONING, IP_CONST_DAMAGEBONUS_1d6);
-
-    // Add bonuses
-    IPSafeAddItemProperty(oStone, ipPlusOne, fDuration, X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
-    IPSafeAddItemProperty(oStone, ipPlusTwoVsUndead, fDuration, X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
-    IPSafeAddItemProperty(oStone, ip1d6VsUndead, fDuration, X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
+    // Create bonus:
+    ipOnHitMagicStone = ItemPropertyOnHitCastSpell(IP_CONST_ONHIT_CASTSPELL_ONHIT_MSTONE, 1);
+    IPSafeAddItemProperty(oStone, ipOnHitMagicStone, fDuration, X2_IP_ADDPROP_POLICY_REPLACE_EXISTING);
 }
