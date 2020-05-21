@@ -34,7 +34,8 @@ void main()
     // Signal event successful
     SignalEvent(oTarget, EventSpellCastAt(oCaster, GetSpellId(), FALSE));
 
-    fDuration = ACR_DURATION_10M * 3.0f;  // Always 30m -- no matter what
+    // 30m, modified by metamagic
+    fDuration = ACR_GetSpellDuration(oCaster, ACR_DURATION_TYPE_STATIC, ACR_DURATION_10M * 3.0f);
 
     // Number of pebbles to create
     nNumberToCreate = 3;
