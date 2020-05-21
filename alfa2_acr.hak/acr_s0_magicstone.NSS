@@ -21,7 +21,7 @@ void main()
     object oCaster, oTarget, oStone;
     int nNumberToCreate;
     float fDuration;
-    itemproperty ipPlusOne, ipPlusTwoVsUndead, ip1d6VsUndead;
+    itemproperty ipOnHitMagicStone;
 
     // If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell
     if (!ACR_PrecastEvent()) {

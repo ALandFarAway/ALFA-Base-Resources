@@ -33,7 +33,7 @@ void main()
 
         // Create a visual and damage effect
         eDamage = EffectDamage(nDamage, DAMAGE_TYPE_BLUDGEONING);
-        eVisualEffect = EffectVisualEffect(VFX_IMP_PULSE_HOLY);
+        eVisualEffect = EffectVisualEffect(VFX_IMP_SONIC);
         eDamage = EffectLinkEffects(eVisualEffect, eDamage);
 
         // Apply effect
