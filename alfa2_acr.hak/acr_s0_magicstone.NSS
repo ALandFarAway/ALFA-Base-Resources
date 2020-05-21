@@ -5,8 +5,8 @@
 //::///////////////////////////////////////////////
 /*
    Creates 3 pebbles that each temporarily have
-   the ability to be +1 weapons that do 1d6 damage
-   and 2d6+2 against undead.
+   the ability to do 1d6+1 damage or 2d6+2 against
+   undead.
 */
 
 #include "acr_spells_i"
