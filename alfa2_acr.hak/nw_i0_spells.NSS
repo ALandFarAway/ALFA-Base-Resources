@@ -952,6 +952,14 @@ effect CreateProtectionFromAlignmentLink(int nAlignment, int nPower = 1)
         //eDur = EffectVisualEffect(VFX_DUR_PROTECTION_EVIL_MINOR);	// no longer using NWN1 VFX
         eDur = EffectVisualEffect( VFX_DUR_SPELL_EVIL_CIRCLE );	// makes use of NWN2 VFX
     }
+    else if(nAlignment == ALIGNMENT_CHAOS)
+    {
+        eDur = EffectVisualEffect( VFX_DUR_SPELL_EVIL_CIRCLE );
+    }
+    else if(nAlignment == ALIGNMENT_LAW)
+    {
+        eDur = EffectVisualEffect( VFX_DUR_SPELL_GOOD_CIRCLE );
+    }
 
     //effect eDur2 = EffectVisualEffect(VFX_DUR_CESSATE_POSITIVE);
     effect eLink = EffectLinkEffects(eImmune, eSave);
