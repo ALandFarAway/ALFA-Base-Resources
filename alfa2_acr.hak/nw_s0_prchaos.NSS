@@ -26,7 +26,7 @@ void main()
 
 
     //Declare major variables
-    int nAlign = ALIGNMENT_CHAOS;
+    int nAlign = ALIGNMENT_CHAOTIC;
     object oTarget = GetSpellTargetObject();
     float fDuration = HoursToSeconds(GetCasterLevel(OBJECT_SELF));
 

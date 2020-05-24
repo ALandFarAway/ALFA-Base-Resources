@@ -26,7 +26,7 @@ void main()
 
 
     //Declare major variables
-    int nAlign = ALIGNMENT_LAW;
+    int nAlign = ALIGNMENT_LAWFUL;
     object oTarget = GetSpellTargetObject();
     float fDuration = HoursToSeconds(GetCasterLevel(OBJECT_SELF));
 
