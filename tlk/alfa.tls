@@ -1904,6 +1904,30 @@ At 13th level, a druid gains the ability to change her appearance at will, as if
 <791><16778007>:Extra Spell Slot (Assassin - Level 1)
 <792><16778008>:Extra Spell Slot (Assassin - Level 2)
 <793><16778009>: Extra Spell Slot (Assassin - Level 3)
+<998><16778214>:Caster Level(s): Cleric 1, Paladin 1, Wizard / Sorcerer 1
+Innate Level: 1
+School: Abjuration
+Descriptor(s):
+Component(s): Verbal, Somatic
+Range: Touch
+Area of Effect / Target: Single
+Duration: 1 Hour / Level
+Save: Harmless
+Spell Resistance: No
+
+When this spell is cast, you choose a target to be protected from good, evil, law, or chaos. The target receives a +2 deflection bonus to Armor Class, +2 to all saving throws, and immunity to any mind-affecting spells and spell-like abilities used by creatures of the chosen alignment.
+<999><16778215>:Caster Level(s): Cleric 3, Paladin 3, Wizard / Sorcerer 3, Good 2
+Innate Level: 3
+School: Abjuration
+Descriptor(s):
+Component(s): Verbal, Somatic
+Range: Touch
+Area of Effect / Target: Single, Medium
+Duration: 1 Hour / Level
+Save: Harmless
+Spell Resistance: No
+
+When this spell is cast, you choose to protect the target from good, evil, law, or chaos. The spell target and all allies within 10 feet receive a +2 deflection bonus to Armor Class, +2 to all saving throws, and immunity to any mind-affecting spells and spell-like abilities used by creatures of the chosen alignment.
 <1000><16778216>:Least Spell Mantle
 <1001><16778217>:Caster Level(s): Wizard / Sorcerer 4
 Innate Level: 4
