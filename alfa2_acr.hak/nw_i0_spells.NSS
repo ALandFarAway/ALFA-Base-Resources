@@ -952,11 +952,11 @@ effect CreateProtectionFromAlignmentLink(int nAlignment, int nPower = 1)
         //eDur = EffectVisualEffect(VFX_DUR_PROTECTION_EVIL_MINOR);	// no longer using NWN1 VFX
         eDur = EffectVisualEffect( VFX_DUR_SPELL_EVIL_CIRCLE );	// makes use of NWN2 VFX
     }
-    else if(nAlignment == ALIGNMENT_CHAOS)
+    else if(nAlignment == ALIGNMENT_CHAOTIC)
     {
         eDur = EffectVisualEffect( VFX_DUR_SPELL_EVIL_CIRCLE );
     }
-    else if(nAlignment == ALIGNMENT_LAW)
+    else if(nAlignment == ALIGNMENT_LAWFUL)
     {
         eDur = EffectVisualEffect( VFX_DUR_SPELL_GOOD_CIRCLE );
     }
