@@ -656,8 +656,16 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\x2_s0_holyswrd.ncs                    \
             $(OUTPUTDIR)\nw_s0_circgood.ncs                    \
             $(OUTPUTDIR)\nw_s0_circevil.ncs                    \
+            $(OUTPUTDIR)\nw_s0_circlaw.ncs                     \
+            $(OUTPUTDIR)\nw_s0_circlawa.ncs                    \
+            $(OUTPUTDIR)\nw_s0_circlawb.ncs                    \
+            $(OUTPUTDIR)\nw_s0_circchaos.ncs                   \
+            $(OUTPUTDIR)\nw_s0_circchaoa.ncs                   \
+            $(OUTPUTDIR)\nw_s0_circchaob.ncs                   \
             $(OUTPUTDIR)\nw_s0_previl.ncs                      \
             $(OUTPUTDIR)\nw_s0_prgood.ncs                      \
+            $(OUTPUTDIR)\nw_s0_prlaw.ncs                       \
+            $(OUTPUTDIR)\nw_s0_prchaos.ncs                     \
             $(OUTPUTDIR)\x2_s0_blssweap.ncs                    \
             $(OUTPUTDIR)\nw_s0_crgrund.ncs                     \
             $(OUTPUTDIR)\nw_s0_crundead.ncs                    \

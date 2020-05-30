@@ -1,6 +1,6 @@
 //::///////////////////////////////////////////////
-//:: Magic Circle Against Evil
-//:: NW_S0_CircEvil.nss
+//:: Magic Circle Against Law
+//:: NW_S0_CircLaw.nss
 //:: Copyright (c) 2020 A Land Far Away
 //:://////////////////////////////////////////////
 //:://////////////////////////////////////////////
@@ -13,7 +13,7 @@ void main()
     if (!ACR_PrecastEvent()) {
         return;
     }
-    effect eAOE = EffectAreaOfEffect(AOE_MOB_CIRCGOOD);
+    effect eAOE = EffectAreaOfEffect(AOE_MOB_CIRCCHAOS);
 
     object oCaster = OBJECT_SELF;
     object oTarget = GetSpellTargetObject();
@@ -21,7 +21,7 @@ void main()
     float fDuration = ACR_GetSpellDuration(oCaster, ACR_DURATION_TYPE_PER_CL, ACR_DURATION_1H);
 
     // Fire cast spell at event for the specified target
-    SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, SPELL_MAGIC_CIRCLE_AGAINST_EVIL, FALSE));
+    SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, SPELL_MAGIC_CIRCLE_AGAINST_LAW, FALSE));
     // Create an instance of the AOE Object using the Apply Effect function
     ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eAOE, oTarget, fDuration);
 }
