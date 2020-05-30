@@ -60,6 +60,7 @@ const string ACR_LOG_LOGIN_PLAYER_NAME_NON_NORMALIZED = "Login, Player Name Non-
 const string ACR_LOG_LOGIN_CHARACTER_NAME_NON_NORMALIZED = "Login, Character Name Non-Normalized";
 const string ACR_LOG_LOGOUT = "Logout";
 const string ACR_LOG_DROP = "Drop";
+const string ACR_LOG_DROP_GOLD = "Drop, Gold";
 const string ACR_LOG_DROP_ILLEGAL = "Drop, Illegal";
 const string ACR_LOG_ACQUIRE = "Acquire";
 const string ACR_LOG_ACQUIRE_ILLEGAL = "Acquire, Illegal";
@@ -382,6 +383,12 @@ void ACR_LogOnUnacquired(object oItem, object oGiver, int bStolen=FALSE)
 	} 
 	ACR_LogEvent(oGiver, ACR_LOG_DROP, sUnAcquireDesc);
 	// SendMessageToPC(oGiver, sUnAcquireDesc);
+}
+
+void ACR_LogOnUnacquiredGold(object oGiver, int nQuantity)
+{
+    string sGoldLostDesc = "Value " + IntToString(nQuantity);
+	ACR_LogEvent(oGiver, ACR_LOG_DROP_GOLD, sGoldLostDesc);
 }
 
 void ACR_LogOnActivate(object oItem, object oActivator, object oTarget)

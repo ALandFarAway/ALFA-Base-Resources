@@ -136,6 +136,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_bard_i.nss                        \
             $(OUTPUTDIR)\shinn_sava_config_i.nss               \
             $(OUTPUTDIR)\shinn_sava_i.nss                      \
+            $(OUTPUTDIR)\acr_dropgold_i.nss                    \
             $(OUTPUTDIR)\acr_movement_i.nss                    \
             $(OUTPUTDIR)\acr_guiglobals_i.nss                  
 
@@ -343,6 +344,9 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_acr_slang.ncs                     \
             $(OUTPUTDIR)\gui_acr_ugui.ncs                      \
             $(OUTPUTDIR)\gui_acr_ugui_target.ncs               \
+            $(OUTPUTDIR)\gui_dropgold_cancel.ncs               \
+            $(OUTPUTDIR)\gui_dropgold_confirm.ncs              \
+            $(OUTPUTDIR)\gui_dropgold_target.ncs               \
             $(OUTPUTDIR)\tkl_cardgame_chair.ncs                \
             $(OUTPUTDIR)\tkl_performer_lute.ncs                \
             $(OUTPUTDIR)\tkl_performer_drum.ncs                \

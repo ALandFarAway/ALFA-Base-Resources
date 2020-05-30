@@ -1,0 +1,2 @@
+const float MAXIMUM_DROP_DISTANCE = 4.0f;
+const string ACR_LAST_GOLD_DROP_LOC = "ACR_LAST_GOLD_DROP_LOC";

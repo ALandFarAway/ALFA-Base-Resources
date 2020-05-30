@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8">
+
+<UIScene name="SCREEN_GOLD_DROP" width=160 height=120 x="ALIGN_RIGHT" y="ALIGN_CENTER" draggable="true" scriptloadable="true" idleexpiretime=1.0 backoutkey="true" 
+	 priority="SCENE_SCRIPT"
+	OnAdd=UIScene_OnAdd_SetFocus(inputbox)
+	OnBackout=UIObject_Misc_ExecuteServerScript("gui_dropgold_cancel") />
+
+	<UIListBox name="messageboxlb" x=-8 y=16 width=180 height=20 showpartialchild="true" xPadding=0 yPadding=0
+		hidescrollbarwhennotneeded=true scrollsegmentsize="17" unequalcontrols="true">
+
+		<UIText name="messagetext" text="Gold Pieces To Drop" fontfamily="Body_Font" style=3 width="PARENT_WIDTH" height="DYNAMIC" color="EEEEEE" sizetofit="true" align="center" />
+
+		<UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>
+	</UIListBox>
+
+	<UIPane name="INPUT_CONTAINER" x=30 y=40 width=90 height=24	>
+
+		<UIListBox name="INPUTBOX_LISTBOX" x=4 y=4 width=80 height=30 showpartialchild=true
+			unequalcontrols=true scrollsegmentsize=30 hidescrollbarwhennotneeded=false >
+
+			<UIText name="inputbox" allowspace="false" width=PARENT_WIDTH height=DYNAMIC align=left valign=top filter=numeric maxlines=1
+				fontfamily="International" multiline="false" editable=true selectable=true maxlength=128 update=true
+				OnUpdate=UIObject_Misc_SetLocalVarString(local:101)
+				OnReturn0=UIObject_Misc_SetLocalVarString(local:101)
+				OnReturn1=UIObject_Misc_ExecuteServerScript("gui_dropgold_confirm",local:101)
+				OnReturn2=UIObject_Misc_ExecuteServerScript("gui_dropgold_cancel")/>	
+	
+		</UIListBox>	
+
+		<!-- Input Frame-->
+		<UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
+			bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
+			left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
+			border=3 />
+	</UIPane>	
+
+	<!-- BUTTON CONTAINER -->
+	<UIPane name="BUTTON_CONTAINER" x=ALIGN_CENTER y=ALIGN_CENTER width=140 height=80	>
+		<!-- OK Button -->
+				
+		<UIButton name="okbutton" x=10 y=54 width=46 height=20  MouseUpSFX="gui_button" text="Drop"
+				OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_dropgold_confirm",local:101)
+				OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dropgold_cancel") >
+			<UIText  align=center valign=middle fontfamily="Title_Font" />
+			<UIFrame state=up		fill="b_sm_normal.tga" />
+			<UIFrame state=down		fill="b_sm_pressed.tga" />
+			<UIFrame state=focused	fill="b_sm_normal.tga" />
+			<UIFrame state=hilited	fill="b_sm_hover.tga" />
+			<UIFrame state=hifocus	fill="b_sm_hover.tga" />
+			<UIFrame state=disabled	fill="b_sm_normal.tga" />			
+			 </UIButton>		
+
+		<!-- Cancel Button -->
+		<UIButton name="cancelbutton" x=68 y=54 width=60 height=20 MouseUpSFX="gui_button" text="Cancel"
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dropgold_cancel")  >
+			<UIText  align=center valign=middle fontfamily="Title_Font" />
+			<UIFrame state=up		fill="b_sm_normal.tga" />
+			<UIFrame state=down		fill="b_sm_pressed.tga" />
+			<UIFrame state=focused	fill="b_sm_normal.tga" />
+			<UIFrame state=hilited	fill="b_sm_hover.tga" />
+			<UIFrame state=hifocus	fill="b_sm_hover.tga" />
+			<UIFrame state=disabled	fill="b_sm_normal.tga" />			
+			 </UIButton>
+	</UIPane>
+
+	<UIFrame x=2 y=0 width=150 height=116 topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
+		bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
+		left="frame1_l.tga" right="frame1_r.tga" border=24 />	
+
+	<UIFrame x=8 y=4 width=138 height=106 fillstyle="tile" fill="frame_main_bg.tga"/>		
+
