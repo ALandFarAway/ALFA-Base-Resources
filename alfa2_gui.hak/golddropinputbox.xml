@@ -23,21 +23,21 @@
 				OnUpdate=UIObject_Misc_SetLocalVarString(local:101)
 				OnReturn0=UIObject_Misc_SetLocalVarString(local:101)
 				OnReturn1=UIObject_Misc_ExecuteServerScript("gui_dropgold_confirm",local:101)
-				OnReturn2=UIObject_Misc_ExecuteServerScript("gui_dropgold_cancel")/>	
-	
-		</UIListBox>	
+				OnReturn2=UIObject_Misc_ExecuteServerScript("gui_dropgold_cancel")/>
+
+		</UIListBox>
 
 		<!-- Input Frame-->
 		<UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT topleft="tp_frame_tl.tga" topright="tp_frame_tr.tga" bottomleft="tp_frame_bl.tga"
 			bottomright="tp_frame_BR.tga" top="tp_frame_t.tga" bottom="tp_frame_b.tga"
 			left="tp_frame_l.tga" right="tp_frame_r.tga" fillstyle="stretch" fill="tp_frame_bg.tga"
 			border=3 />
-	</UIPane>	
+	</UIPane>
 
 	<!-- BUTTON CONTAINER -->
 	<UIPane name="BUTTON_CONTAINER" x=ALIGN_CENTER y=ALIGN_CENTER width=140 height=80	>
 		<!-- OK Button -->
-				
+
 		<UIButton name="okbutton" x=10 y=54 width=46 height=20  MouseUpSFX="gui_button" text="Drop"
 				OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_dropgold_confirm",local:101)
 				OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dropgold_cancel") >
@@ -47,8 +47,8 @@
 			<UIFrame state=focused	fill="b_sm_normal.tga" />
 			<UIFrame state=hilited	fill="b_sm_hover.tga" />
 			<UIFrame state=hifocus	fill="b_sm_hover.tga" />
-			<UIFrame state=disabled	fill="b_sm_normal.tga" />			
-			 </UIButton>		
+			<UIFrame state=disabled	fill="b_sm_normal.tga" />
+			 </UIButton>
 
 		<!-- Cancel Button -->
 		<UIButton name="cancelbutton" x=68 y=54 width=60 height=20 MouseUpSFX="gui_button" text="Cancel"
@@ -59,13 +59,12 @@
 			<UIFrame state=focused	fill="b_sm_normal.tga" />
 			<UIFrame state=hilited	fill="b_sm_hover.tga" />
 			<UIFrame state=hifocus	fill="b_sm_hover.tga" />
-			<UIFrame state=disabled	fill="b_sm_normal.tga" />			
+			<UIFrame state=disabled	fill="b_sm_normal.tga" />
 			 </UIButton>
 	</UIPane>
 
 	<UIFrame x=2 y=0 width=150 height=116 topleft="frame1_tl.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga"
 		bottomright="frame1_BR.tga" top="frame1_t.tga" bottom="frame1_b.tga"
-		left="frame1_l.tga" right="frame1_r.tga" border=24 />	
+		left="frame1_l.tga" right="frame1_r.tga" border=24 />
 
-	<UIFrame x=8 y=4 width=138 height=106 fillstyle="tile" fill="frame_main_bg.tga"/>		
-
+	<UIFrame x=8 y=4 width=138 height=106 fillstyle="tile" fill="frame_main_bg.tga"/>
