@@ -18,5 +18,5 @@
 
 void main()
 {
-    handle_protection_vs_align(ALIGNMENT_GOOD, FEAT_EVIL_DOMAIN_POWER)
+    handle_protection_vs_align(ALIGNMENT_GOOD, FEAT_EVIL_DOMAIN_POWER);
 }
