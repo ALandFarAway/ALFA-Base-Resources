@@ -14,6 +14,9 @@ void main()
     nAmountGold = GetLocalInt(oGroundGold, ACR_DROPGOLD_AMOUNT);
     DestroyObject(oGroundGold);
 
+    // Give gold
     GiveGoldToCreature(oPC, nAmountGold);
-	SendMessageToPC(oPC, "Acquired " + IntToString(nAmountGold) + "GP");
+
+    // Show some fancy vfx
+    PlayAnimation(ANIMATION_LOOPING_GET_LOW, 1.0, 1.0);
 }

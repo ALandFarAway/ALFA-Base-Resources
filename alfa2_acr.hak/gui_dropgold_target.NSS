@@ -6,11 +6,12 @@ void main(string xValue, string yValue, string zValue)
     int nAmountDropped;
     string sGoldTemplate, sFullDescription, sAmountDescription;
     vector vGoldTarget;
-    location lGoldTargetLocation;
+    location lGoldTargetLocation, lPCLocation;
     float fGoldFacingAngle;
     
-    // Fetch gold amount and clear out temporary variable
     oPC = OBJECT_SELF;
+
+    // Fetch gold amount and clear out temporary variable
     nAmountDropped = GetLocalInt(oPC, ACR_DROPGOLD_AMOUNT_TMP);
     DeleteLocalInt(oPC, ACR_DROPGOLD_AMOUNT_TMP);
 
@@ -26,10 +27,12 @@ void main(string xValue, string yValue, string zValue)
 
     // Fetch vector to drop
     vGoldTarget = Vector(StringToFloat(xValue), StringToFloat(yValue), StringToFloat(zValue));
-    // Fetch direction gold is facing
-    fGoldFacingAngle = VectorToAngle(vGoldTarget);
     // Fetch location from vector (and set it facing the way the PC is facing)
     lGoldTargetLocation = Location(GetArea(oPC), vGoldTarget, GetFacing(oPC));
+
+    // Fetch direction gold is facing from PC
+    lPCLocation = GetLoction(oPC);
+    fGoldFacingAngle = GetAngleBetweenLocations(lPCLocation, lGoldTargetLocation);
 
     if (!GetIsLocationValid(lGoldTargetLocation)) {
         SendMessageToPC(oPC, "Target location is invalid.");
