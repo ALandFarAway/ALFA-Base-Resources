@@ -14,7 +14,7 @@
 #include "acr_spells_i"
 
 
-void handle_protection_vs_align(alignment_to_protect_against, feat_to_give_bonus)
+void handle_protection_vs_align(int alignment_to_protect_against, int feat_to_give_bonus)
 {
     if (!X2PreSpellCastCode())
     {
