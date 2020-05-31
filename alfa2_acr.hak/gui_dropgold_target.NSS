@@ -1,3 +1,4 @@
+#include "x0_i0_position"
 #include "acr_dropgold_i"
 
 void main(string xValue, string yValue, string zValue)
@@ -31,7 +32,7 @@ void main(string xValue, string yValue, string zValue)
     lGoldTargetLocation = Location(GetArea(oPC), vGoldTarget, GetFacing(oPC));
 
     // Fetch direction gold is facing from PC
-    lPCLocation = GetLoction(oPC);
+    lPCLocation = GetLocation(oPC);
     fGoldFacingAngle = GetAngleBetweenLocations(lPCLocation, lGoldTargetLocation);
 
     if (!GetIsLocationValid(lGoldTargetLocation)) {
@@ -39,7 +40,7 @@ void main(string xValue, string yValue, string zValue)
 	    return;
     }
 
-    if (GetDistanceBetweenLocations(GetLocation(oPC), lGoldTargetLocation) > ACR_DROPGOLD_MAXIMUM_DROP_DISTANCE) {
+    if (GetDistanceBetweenLocations(lPCLocation, lGoldTargetLocation) > ACR_DROPGOLD_MAXIMUM_DROP_DISTANCE) {
         SendMessageToPC(oPC, "Target location too far away.");
         return;
     }

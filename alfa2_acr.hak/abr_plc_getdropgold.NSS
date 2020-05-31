@@ -18,5 +18,5 @@ void main()
     GiveGoldToCreature(oPC, nAmountGold);
 
     // Show some fancy vfx
-    PlayAnimation(ANIMATION_LOOPING_GET_LOW, 1.0, 1.0);
+    AssignCommand(oPC, ActionPlayAnimation(ANIMATION_LOOPING_GET_LOW, 1.0, 1.0));
 }
