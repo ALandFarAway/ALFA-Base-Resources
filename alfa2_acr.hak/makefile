@@ -116,6 +116,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_server_misc_i.nss                 \
             $(OUTPUTDIR)\acr_scliext_i.nss                     \
             $(OUTPUTDIR)\acr_area_instance_i.nss               \
+            $(OUTPUTDIR)\nw_s0_prvalign_i.nss                  \
             $(OUTPUTDIR)\x0_i0_anims.nss                       \
             $(OUTPUTDIR)\x0_i0_enemy.nss                       \
             $(OUTPUTDIR)\x2_inc_switches.nss                   \
@@ -655,7 +656,11 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s0_unhaura.ncs                     \
             $(OUTPUTDIR)\x2_s0_holyswrd.ncs                    \
             $(OUTPUTDIR)\nw_s0_circgood.ncs                    \
+            $(OUTPUTDIR)\nw_s0_circgooda.ncs                   \
+            $(OUTPUTDIR)\nw_s0_circgoodb.ncs                   \
             $(OUTPUTDIR)\nw_s0_circevil.ncs                    \
+            $(OUTPUTDIR)\nw_s0_circevila.ncs                   \
+            $(OUTPUTDIR)\nw_s0_circevilb.ncs                   \
             $(OUTPUTDIR)\nw_s0_circlaw.ncs                     \
             $(OUTPUTDIR)\nw_s0_circlawa.ncs                    \
             $(OUTPUTDIR)\nw_s0_circlawb.ncs                    \

@@ -72,7 +72,9 @@ const int NW_I0_SPELLS_MAX_BREACH = 33;
 
 const string VAR_IMMUNE_TO_HEAL = "IMMUNE_TO_HEAL";
 
- 
+const int SPELL_PROTECTION_FROM_ALIGNMENT = 321;
+const int SPELL_MAGIC_CIRCLE_AGAINST_ALIGNMENT = 322;
+
 //=========================================================================
 // Prototypes
 //=========================================================================
@@ -932,7 +934,7 @@ int MySavingThrow(int nSavingThrow, object oTarget, int nDC, int nSaveType=SAVIN
     return bValid;
 }
 
-effect CreateProtectionFromAlignmentLink(int nAlignment, int nPower = 1)
+effect CreateProtectionFromAlignmentLink(int nAlignment, int nPower = 1, int nCastingType = SPELL_PROTECTION_FROM_ALIGNMENT)
 {
     int nFinal = nPower * 2;
     effect eAC = EffectACIncrease(nFinal, AC_DEFLECTION_BONUS);
@@ -942,7 +944,12 @@ effect CreateProtectionFromAlignmentLink(int nAlignment, int nPower = 1)
     effect eImmune = EffectImmunity(IMMUNITY_TYPE_MIND_SPELLS);
     eImmune = VersusAlignmentEffect(eImmune,ALIGNMENT_ALL, nAlignment);
     effect eDur;
-    if(nAlignment == ALIGNMENT_EVIL)
+
+    if(nCastingType == SPELL_PROTECTION_FROM_ALIGNMENT)
+    {
+        eDur = EffectVisualEffect( VFX_DUR_SPELL_PROT_ALIGN );
+    }
+    else if(nAlignment == ALIGNMENT_EVIL)
     {
         //eDur = EffectVisualEffect(VFX_DUR_PROTECTION_GOOD_MINOR);	// no longer using NWN1 VFX
         eDur = EffectVisualEffect( VFX_DUR_SPELL_GOOD_CIRCLE );	// makes use of NWN2 VFX
@@ -961,11 +968,10 @@ effect CreateProtectionFromAlignmentLink(int nAlignment, int nPower = 1)
         eDur = EffectVisualEffect( VFX_DUR_SPELL_GOOD_CIRCLE );
     }
 
-    //effect eDur2 = EffectVisualEffect(VFX_DUR_CESSATE_POSITIVE);
     effect eLink = EffectLinkEffects(eImmune, eSave);
     eLink = EffectLinkEffects(eLink, eAC);
     eLink = EffectLinkEffects(eLink, eDur);
-    //eLink = EffectLinkEffects(eLink, eDur2);
+
     return eLink;
 }
 
