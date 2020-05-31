@@ -3,7 +3,7 @@
 
 void main()
 {
-    object oPC, oGoundGold;
+    object oPC, oGroundGold;
     string nAmountGold;
 
     ACR_PlaceableOnUsed();
