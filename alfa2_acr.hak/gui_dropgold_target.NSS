@@ -8,7 +8,6 @@ void main(string xValue, string yValue, string zValue)
     string sGoldTemplate, sFullDescription, sAmountDescription;
     vector vGoldTarget;
     location lGoldTargetLocation, lPCLocation;
-    float fGoldFacingAngle;
     
     oPC = OBJECT_SELF;
 
@@ -30,10 +29,7 @@ void main(string xValue, string yValue, string zValue)
     vGoldTarget = Vector(StringToFloat(xValue), StringToFloat(yValue), StringToFloat(zValue));
     // Fetch location from vector (and set it facing the way the PC is facing)
     lGoldTargetLocation = Location(GetArea(oPC), vGoldTarget, GetFacing(oPC));
-
-    // Fetch direction gold is facing from PC
     lPCLocation = GetLocation(oPC);
-    fGoldFacingAngle = GetAngleBetweenLocations(lPCLocation, lGoldTargetLocation);
 
     if (!GetIsLocationValid(lGoldTargetLocation)) {
         SendMessageToPC(oPC, "Target location is invalid.");
@@ -71,6 +67,6 @@ void main(string xValue, string yValue, string zValue)
     SetDescription(oGroundGold, sFullDescription);
 
     // Show some fancy visual stuff at the end
-    SetFacing(fGoldFacingAngle);
+    TurnToFaceObject(oGroundGold, oPC);
     PlayAnimation(ANIMATION_LOOPING_GET_LOW, 1.0, 1.0);
 }
