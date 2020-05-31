@@ -111,7 +111,7 @@ int MySavingThrow(int nSavingThrow, object oTarget, int nDC, int nSaveType=SAVIN
 
 // * Will pass back a linked effect for all the protection from alignment spells.  The power represents the multiplier of strength.
 // * That is instead of +3 AC and +2 Saves a  power of 2 will yield +6 AC and +4 Saves.
-effect CreateProtectionFromAlignmentLink(int nAlignment, int nPower = 1);
+effect CreateProtectionFromAlignmentLink(int nAlignment, int nPower = 1, int CastingType = SPELL_PROTECTION_FROM_ALIGNMENT);
 
 // * Will pass back a linked effect for all of the doom effects.
 effect CreateDoomEffectsLink();
