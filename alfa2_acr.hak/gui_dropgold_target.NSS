@@ -14,12 +14,12 @@ void main(string xValue, string yValue, string zValue)
     nAmountDropped = GetLocalInt(oPC, ACR_DROPGOLD_AMOUNT_TMP);
     DeleteLocalInt(oPC, ACR_DROPGOLD_AMOUNT_TMP);
 
-    if (nAmount <= 0) {
+    if (nAmountDropped <= 0) {
         SendMessageToPC(oPC, "You cannot drop nothing.");
         return;
     }
 
-    if (GetGold(oPC) < nAmount) {
+    if (GetGold(oPC) < nAmountDropped) {
         SendMessageToPC(oPC, "Not enough gold.");
         return;
     }
@@ -36,34 +36,34 @@ void main(string xValue, string yValue, string zValue)
 	    return;
     }
 
-    if (GetDistanceBetweenLocations(GetLocation(oPC), lGoldTargetLocation) > MAXIMUM_DROP_DISTANCE) {
+    if (GetDistanceBetweenLocations(GetLocation(oPC), lGoldTargetLocation) > ACR_DROPGOLD_MAXIMUM_DROP_DISTANCE) {
         SendMessageToPC(oPC, "Target location too far away.");
         return;
     }
 
-    if (nGoldAmount == 1) {
+    if (nAmountDropped == 1) {
         sAmountDescription = "a single gold coin";
     }
     else {
-        sAmountDescription = StringToInt(nGoldAmount) + " gold coins";
+        sAmountDescription = StringToInt(nAmountDropped) + " gold coins";
     }
 
     // Randomize the appearance: gold stack (1) or gold pouch (2)
     if (Random(2) == FALSE) {
-        sTemplate = "acr_gold_drop_1";
+        sGoldTemplate = "acr_gold_drop_1";
         sFullDescription = "A pile containing " + sAmountDescription + ".";
     }
     else {
-        sTemplate = "acr_gold_drop_2";
+        sGoldTemplate = "acr_gold_drop_2";
         sFullDescription = "A pouch containing " + sAmountDescription + ".";
     }
 
     // Take our gold!
-    TakeGoldFromCreature(nGoldAmount, oPC, TRUE);
+    TakeGoldFromCreature(nAmountDropped, oPC, TRUE);
 
     // Create a gold object and drop it, reflecting the amonut
     oGroundGold = CreateObject(OBJECT_TYPE_PLACEABLE, sGoldTemplate, lGoldTargetLocation);
-    SetLocalInt(oGroundGold, ACR_DROPGOLD_AMOUNT, nGoldAmount);
+    SetLocalInt(oGroundGold, ACR_DROPGOLD_AMOUNT, nAmountDropped);
     SetDescription(oGroundGold, sFullDescription);
 
     // Show some fancy visual stuff at the end
