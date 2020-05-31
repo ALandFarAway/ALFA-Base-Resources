@@ -23,7 +23,7 @@ void handle_protection_vs_align(int alignment_to_protect_against, int feat_to_gi
 
     int caster_level, duration_type;
     float duration;
-    object oTarget;
+    object target;
     effect spell_effect;
 
     target = GetSpellTargetObject();
