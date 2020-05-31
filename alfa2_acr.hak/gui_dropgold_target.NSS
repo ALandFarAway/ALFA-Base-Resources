@@ -45,7 +45,7 @@ void main(string xValue, string yValue, string zValue)
         sAmountDescription = "a single gold coin";
     }
     else {
-        sAmountDescription = StringToInt(nAmountDropped) + " gold coins";
+        sAmountDescription = IntToString(nAmountDropped) + " gold coins";
     }
 
     // Randomize the appearance: gold stack (1) or gold pouch (2)
