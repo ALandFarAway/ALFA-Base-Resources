@@ -1,4 +1,6 @@
 #include "x0_i0_position"
+
+#include "acr_1984_i"
 #include "acr_dropgold_i"
 
 void main(string xValue, string yValue, string zValue)
@@ -8,7 +10,7 @@ void main(string xValue, string yValue, string zValue)
     string sGoldTemplate, sFullDescription, sAmountDescription;
     vector vGoldTarget;
     location lGoldTargetLocation, lPCLocation;
-    
+
     oPC = OBJECT_SELF;
 
     // Fetch gold amount and clear out temporary variable
@@ -33,7 +35,7 @@ void main(string xValue, string yValue, string zValue)
 
     if (!GetIsLocationValid(lGoldTargetLocation)) {
         SendMessageToPC(oPC, "Target location is invalid.");
-	    return;
+        return;
     }
 
     if (GetDistanceBetweenLocations(lPCLocation, lGoldTargetLocation) > ACR_DROPGOLD_MAXIMUM_DROP_DISTANCE) {
@@ -69,4 +71,7 @@ void main(string xValue, string yValue, string zValue)
     // Show some fancy visual stuff at the end
     TurnToFaceObject(oGroundGold, oPC);
     PlayAnimation(ANIMATION_LOOPING_GET_LOW, 1.0, 1.0);
+
+    // Finally, log
+    ACR_LogOnUnacquiredGold(oPC, nAmountDropped);
 }

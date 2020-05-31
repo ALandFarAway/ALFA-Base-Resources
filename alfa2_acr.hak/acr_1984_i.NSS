@@ -386,16 +386,16 @@ void ACR_LogOnUnacquired(object oItem, object oGiver, int bStolen=FALSE)
 	// SendMessageToPC(oGiver, sUnAcquireDesc);
 }
 
-void ACR_LogOnAcquiredGold(object oGiver, int nQuantity)
+void ACR_LogOnAcquiredGold(object oTaker, int nQuantity)
 {
     string sGoldGainedDesc = "Value " + IntToString(nQuantity);
-	ACR_LogEvent(oGiver, ACR_LOG_ACQUIRE_GOLD, sGoldGainedDesc);
+    ACR_LogEvent(oTaker, ACR_LOG_ACQUIRE_GOLD, sGoldGainedDesc);
 }
 
 void ACR_LogOnUnacquiredGold(object oGiver, int nQuantity)
 {
     string sGoldLostDesc = "Value " + IntToString(nQuantity);
-	ACR_LogEvent(oGiver, ACR_LOG_DROP_GOLD, sGoldLostDesc);
+    ACR_LogEvent(oGiver, ACR_LOG_DROP_GOLD, sGoldLostDesc);
 }
 
 void ACR_LogOnActivate(object oItem, object oActivator, object oTarget)

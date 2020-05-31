@@ -1,5 +1,6 @@
-#include "acr_placeable_i"
+#include "acr_1984_i"
 #include "acr_dropgold_i"
+#include "acr_placeable_i"
 
 void main()
 {
@@ -19,4 +20,7 @@ void main()
 
     // Show some fancy vfx
     AssignCommand(oPC, ActionPlayAnimation(ANIMATION_LOOPING_GET_LOW, 1.0, 1.0));
+
+    // Finally, log
+    ACR_LogOnAcquiredGold(oPC, nAmountGold);
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8">
 
-<UIScene name="SCREEN_GOLD_DROP" width=160 height=120 x="ALIGN_RIGHT" y="ALIGN_CENTER" draggable="true" scriptloadable="true" idleexpiretime=1.0 backoutkey="true" 
+<UIScene name="SCREEN_GOLD_DROP" width=160 height=120 x="ALIGN_RIGHT" y="ALIGN_CENTER" draggable="true" scriptloadable="true" idleexpiretime=1.0 backoutkey="true"
 	 priority="SCENE_SCRIPT"
 	OnAdd=UIScene_OnAdd_SetFocus(inputbox)
 	OnBackout=UIObject_Misc_ExecuteServerScript("gui_dropgold_close") />
