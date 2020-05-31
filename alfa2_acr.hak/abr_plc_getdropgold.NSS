@@ -15,5 +15,5 @@ void main()
     DestroyObject(oGroundGold);
 
     GiveGoldToCreature(oPC, nAmountGold);
-	SendMessageToPC(oPC, "Acquired " + IntToString(nAmountGold) + "GP);
+	SendMessageToPC(oPC, "Acquired " + IntToString(nAmountGold) + "GP");
 }
