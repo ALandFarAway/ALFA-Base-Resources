@@ -4,7 +4,7 @@
 void main()
 {
     object oPC, oGroundGold;
-    string nAmountGold;
+    int nAmountGold;
 
     ACR_PlaceableOnUsed();
 
