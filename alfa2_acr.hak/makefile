@@ -344,9 +344,10 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_acr_slang.ncs                     \
             $(OUTPUTDIR)\gui_acr_ugui.ncs                      \
             $(OUTPUTDIR)\gui_acr_ugui_target.ncs               \
-            $(OUTPUTDIR)\gui_dropgold_cancel.ncs               \
+            $(OUTPUTDIR)\gui_dropgold_close.ncs                \
             $(OUTPUTDIR)\gui_dropgold_confirm.ncs              \
             $(OUTPUTDIR)\gui_dropgold_target.ncs               \
+            $(OUTPUTDIR)\abr_plc_getdropgold.ncs               \
             $(OUTPUTDIR)\tkl_cardgame_chair.ncs                \
             $(OUTPUTDIR)\tkl_performer_lute.ncs                \
             $(OUTPUTDIR)\tkl_performer_drum.ncs                \
