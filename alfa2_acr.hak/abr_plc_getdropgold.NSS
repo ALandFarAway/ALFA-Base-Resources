@@ -9,7 +9,7 @@ void main()
     ACR_PlaceableOnUsed();
 
     oGroundGold = OBJECT_SELF;
-    oPC = GetLastOpenedBy();
+    oPC = GetLastUsedBy();
 
     nAmountGold = GetLocalInt(oGroundGold, ACR_DROPGOLD_AMOUNT);
     DestroyObject(oGroundGold);
