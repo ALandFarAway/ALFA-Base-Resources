@@ -346,6 +346,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_acr_ugui_target.ncs               \
             $(OUTPUTDIR)\gui_dropgold_close.ncs                \
             $(OUTPUTDIR)\gui_dropgold_confirm.ncs              \
+            $(OUTPUTDIR)\gui_dropgold_open.ncs                 \
             $(OUTPUTDIR)\gui_dropgold_target.ncs               \
             $(OUTPUTDIR)\abr_plc_getdropgold.ncs               \
             $(OUTPUTDIR)\tkl_cardgame_chair.ncs                \

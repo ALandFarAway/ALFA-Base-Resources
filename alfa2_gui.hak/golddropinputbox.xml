@@ -40,8 +40,8 @@
 
 		<UIButton name="okbutton" x=10 y=54 width=46 height=20  MouseUpSFX="gui_button" text="Drop"
 				OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_dropgold_confirm",local:101)
-				OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dropgold_close") >
-				OnLeftClick2=UIObject_Input_ActionTargetScript("ground",91,27,14,"false","gui_dropgold_target","target:x","target:y","target:z")
+				OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dropgold_close")
+				OnLeftClick2=UIObject_Input_ActionTargetScript("ground",91,27,14,"false","gui_dropgold_target","target:x","target:y","target:z") >
 			<UIText  align=center valign=middle fontfamily="Title_Font" />
 			<UIFrame state=up		fill="b_sm_normal.tga" />
 			<UIFrame state=down		fill="b_sm_pressed.tga" />
