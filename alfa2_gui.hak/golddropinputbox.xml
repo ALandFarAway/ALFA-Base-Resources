@@ -3,7 +3,7 @@
 <UIScene name="SCREEN_GOLD_DROP" width=160 height=120 x="ALIGN_RIGHT" y="ALIGN_CENTER" draggable="true" scriptloadable="true" idleexpiretime=1.0 backoutkey="true" 
 	 priority="SCENE_SCRIPT"
 	OnAdd=UIScene_OnAdd_SetFocus(inputbox)
-	OnBackout=UIObject_Misc_ExecuteServerScript("gui_dropgold_cancel") />
+	OnBackout=UIObject_Misc_ExecuteServerScript("gui_dropgold_close") />
 
 	<UIListBox name="messageboxlb" x=-8 y=16 width=180 height=20 showpartialchild="true" xPadding=0 yPadding=0
 		hidescrollbarwhennotneeded=true scrollsegmentsize="17" unequalcontrols="true">
@@ -22,8 +22,8 @@
 				fontfamily="International" multiline="false" editable=true selectable=true maxlength=128 update=true
 				OnUpdate=UIObject_Misc_SetLocalVarString(local:101)
 				OnReturn0=UIObject_Misc_SetLocalVarString(local:101)
-				OnReturn1=UIObject_Misc_ExecuteServerScript("gui_dropgold_confirm",local:101)
-				OnReturn2=UIObject_Misc_ExecuteServerScript("gui_dropgold_cancel")/>
+				OnReturn2=UIObject_Misc_ExecuteServerScript("gui_dropgold_confirm",local:101)
+				OnReturn3=UIObject_Misc_ExecuteServerScript("gui_dropgold_close")/>
 
 		</UIListBox>
 
@@ -40,7 +40,8 @@
 
 		<UIButton name="okbutton" x=10 y=54 width=46 height=20  MouseUpSFX="gui_button" text="Drop"
 				OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_dropgold_confirm",local:101)
-				OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dropgold_cancel") >
+				OnLeftClick1=UIObject_Misc_ExecuteServerScript("gui_dropgold_close") >
+				OnLeftClick2=UIObject_Input_ActionTargetScript("ground",91,27,14,"false","gui_dropgold_target","target:x","target:y","target:z")
 			<UIText  align=center valign=middle fontfamily="Title_Font" />
 			<UIFrame state=up		fill="b_sm_normal.tga" />
 			<UIFrame state=down		fill="b_sm_pressed.tga" />
@@ -52,7 +53,7 @@
 
 		<!-- Cancel Button -->
 		<UIButton name="cancelbutton" x=68 y=54 width=60 height=20 MouseUpSFX="gui_button" text="Cancel"
-		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dropgold_cancel")  >
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dropgold_close")  >
 			<UIText  align=center valign=middle fontfamily="Title_Font" />
 			<UIFrame state=up		fill="b_sm_normal.tga" />
 			<UIFrame state=down		fill="b_sm_pressed.tga" />

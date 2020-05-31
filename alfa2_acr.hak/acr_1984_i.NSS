@@ -63,6 +63,7 @@ const string ACR_LOG_DROP = "Drop";
 const string ACR_LOG_DROP_GOLD = "Drop, Gold";
 const string ACR_LOG_DROP_ILLEGAL = "Drop, Illegal";
 const string ACR_LOG_ACQUIRE = "Acquire";
+const string ACR_LOG_ACQUIRE_GOLD = "Acquire, Gold";
 const string ACR_LOG_ACQUIRE_ILLEGAL = "Acquire, Illegal";
 const string ACR_LOG_ACTIVATE = "Activate";
 const string ACR_LOG_TRANSITION = "Transition";
@@ -383,6 +384,12 @@ void ACR_LogOnUnacquired(object oItem, object oGiver, int bStolen=FALSE)
 	} 
 	ACR_LogEvent(oGiver, ACR_LOG_DROP, sUnAcquireDesc);
 	// SendMessageToPC(oGiver, sUnAcquireDesc);
+}
+
+void ACR_LogOnAcquiredGold(object oGiver, int nQuantity)
+{
+    string sGoldGainedDesc = "Value " + IntToString(nQuantity);
+	ACR_LogEvent(oGiver, ACR_LOG_ACQUIRE_GOLD, sGoldGainedDesc);
 }
 
 void ACR_LogOnUnacquiredGold(object oGiver, int nQuantity)
