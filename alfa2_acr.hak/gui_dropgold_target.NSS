@@ -33,7 +33,7 @@ void _drop_placeable_gold(object oPC, int nAmountDropped, location lGoldTargetLo
 
 void _drop_container_gold(object oPC, int nAmountDropped, object oTarget)
 {
-    CreateItemOnObject("nw_it_gold", oTarget, nAmountDropped);
+    CreateItemOnObject("NW_IT_GOLD001", oTarget, nAmountDropped);
 }
 
 
@@ -69,7 +69,7 @@ void main(string sAmount, object oTarget, string xValue, string yValue, string z
         return;
     }
 
-    if (!IsDM(oPC) && GetDistanceBetweenLocations(lPCLocation, lGoldTargetLocation) > ACR_DROPGOLD_MAXIMUM_DROP_DISTANCE) {
+    if (!GetIsDM(oPC) && GetDistanceBetweenLocations(lPCLocation, lGoldTargetLocation) > ACR_DROPGOLD_MAXIMUM_DROP_DISTANCE) {
         SendMessageToPC(oPC, "Target location is too far away.");
         return;
     }
@@ -79,7 +79,7 @@ void main(string sAmount, object oTarget, string xValue, string yValue, string z
             SendMessageToPC(oPC, "Gold can not be put into that.");
             return;
         }
-        if (!IsDM(oPC) && !GetIsOpen(oTarget)) {
+        if (!GetIsDM(oPC) && !GetIsOpen(oTarget)) {
             SendMessageToPC(oPC, "Target container must be open.");
             return;
         }
@@ -97,7 +97,7 @@ void main(string sAmount, object oTarget, string xValue, string yValue, string z
     }
 
     // Show some fancy visual stuff at the end
-    AssignCommand(oPC, SetFacingPoint(lGoldTargetLocation)));
+    AssignCommand(oPC, SetFacingPoint(vGoldTarget));
     PlayAnimation(ANIMATION_LOOPING_GET_LOW, 1.0, 1.0);
 
     // Finally, log

@@ -23,7 +23,7 @@
 				OnUpdate=UIObject_Misc_SetLocalVarString(local:101)
 				OnReturn0=UIObject_Misc_SetLocalVarString(local:101)
 				OnReturn1=UIObject_Misc_ExecuteServerScript("gui_dropgold_close")
-                OnReturn2=UIObject_Input_ActionTargetScript("ground",91,27,14,"false","gui_dropgold_target",local:101,"target:x","target:y","target:z") />
+                OnReturn2=UIObject_Input_ActionTargetScript("ground,placeable",91,27,14,"false","gui_dropgold_target",local:101,"target:object","target:x","target:y","target:z") />
 
 		</UIListBox>
 
@@ -40,7 +40,7 @@
 
 		<UIButton name="okbutton" x=10 y=54 width=46 height=20  MouseUpSFX="gui_button" text="Drop"
 				OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_dropgold_close")
-				OnLeftClick1=UIObject_Input_ActionTargetScript("ground",91,27,14,"false","gui_dropgold_target",local:101,"target:x","target:y","target:z") >
+				OnLeftClick1=UIObject_Input_ActionTargetScript("ground,placeable",91,27,14,"false","gui_dropgold_target",local:101,"target:object","target:x","target:y","target:z") >
 			<UIText  align=center valign=middle fontfamily="Title_Font" />
 			<UIFrame state=up		fill="b_sm_normal.tga" />
 			<UIFrame state=down		fill="b_sm_pressed.tga" />
