@@ -407,7 +407,7 @@ void ACR_LogOnUnacquiredGold(object oGiver, int nQuantity, object oContainer = O
     string sGoldLostDesc = "Gold of value " + IntToString(nQuantity);
 
     if (GetIsObjectValid(oContainer)) {
-        sGoldLostDesc += ", to: " + ACR_SQLEncodeSpecialChars(GetName(oContainer)); 
+        sGoldLostDesc += ", to: " + ACR_SQLEncodeSpecialChars(GetName(oContainer));
     } 
 
     ACR_LogEvent(oGiver, ACR_LOG_DROP, sGoldLostDesc);
