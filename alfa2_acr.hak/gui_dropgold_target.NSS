@@ -1,21 +1,52 @@
-#include "x0_i0_position"
-
 #include "acr_1984_i"
 #include "acr_dropgold_i"
 
-void main(string xValue, string yValue, string zValue)
+
+void _drop_placeable_gold(object oPC, int nAmountDropped, location lGoldTargetLocation)
 {
-    object oPC, oGroundGold;
-    int nAmountDropped;
+    object oGroundGold;
     string sGoldTemplate, sFullDescription, sAmountDescription;
+
+    if (nAmountDropped == 1) {
+        sAmountDescription = "a single gold coin";
+    }
+    else {
+        sAmountDescription = IntToString(nAmountDropped) + " gold coins";
+    }
+
+    // Randomize the appearance: gold stack (1) or gold pouch (2)
+    if (Random(2) == FALSE) {
+        sGoldTemplate = "acr_gold_drop_1";
+        sFullDescription = "A pile containing " + sAmountDescription + ".";
+    }
+    else {
+        sGoldTemplate = "acr_gold_drop_2";
+        sFullDescription = "A pouch containing " + sAmountDescription + ".";
+    }
+
+    // Create a gold object and drop it, reflecting the amonut
+    oGroundGold = CreateObject(OBJECT_TYPE_PLACEABLE, sGoldTemplate, lGoldTargetLocation);
+    SetLocalInt(oGroundGold, ACR_DROPGOLD_AMOUNT, nAmountDropped);
+    SetDescription(oGroundGold, sFullDescription);
+}
+
+
+void _drop_container_gold(object oPC, int nAmountDropped, object oTarget)
+{
+    CreateItemOnObject("nw_it_gold", oTarget, nAmountDropped);
+}
+
+
+void main(string sAmount, object oTarget, string xValue, string yValue, string zValue)
+{
+    object oPC;
+    int nAmountDropped, bTargetIsObject;
     vector vGoldTarget;
     location lGoldTargetLocation, lPCLocation;
 
     oPC = OBJECT_SELF;
-
-    // Fetch gold amount and clear out temporary variable
-    nAmountDropped = GetLocalInt(oPC, ACR_DROPGOLD_AMOUNT_TMP);
-    DeleteLocalInt(oPC, ACR_DROPGOLD_AMOUNT_TMP);
+    nAmountDropped = StringToInt(sAmount);
+    bTargetIsObject = (oTarget != OBJECT_INVALID);
 
     if (nAmountDropped <= 0) {
         SendMessageToPC(oPC, "You cannot drop nothing.");
@@ -38,38 +69,35 @@ void main(string xValue, string yValue, string zValue)
         return;
     }
 
-    if (GetDistanceBetweenLocations(lPCLocation, lGoldTargetLocation) > ACR_DROPGOLD_MAXIMUM_DROP_DISTANCE) {
-        SendMessageToPC(oPC, "Target location too far away.");
+    if (!IsDM(oPC) && GetDistanceBetweenLocations(lPCLocation, lGoldTargetLocation) > ACR_DROPGOLD_MAXIMUM_DROP_DISTANCE) {
+        SendMessageToPC(oPC, "Target location is too far away.");
         return;
     }
 
-    if (nAmountDropped == 1) {
-        sAmountDescription = "a single gold coin";
-    }
-    else {
-        sAmountDescription = IntToString(nAmountDropped) + " gold coins";
-    }
-
-    // Randomize the appearance: gold stack (1) or gold pouch (2)
-    if (Random(2) == FALSE) {
-        sGoldTemplate = "acr_gold_drop_1";
-        sFullDescription = "A pile containing " + sAmountDescription + ".";
-    }
-    else {
-        sGoldTemplate = "acr_gold_drop_2";
-        sFullDescription = "A pouch containing " + sAmountDescription + ".";
+    if (bTargetIsObject) {
+        if (GetObjectType(oTarget) != OBJECT_TYPE_PLACEABLE || !GetHasInventory(oTarget)) {
+            SendMessageToPC(oPC, "Gold can not be put into that.");
+            return;
+        }
+        if (!IsDM(oPC) && !GetIsOpen(oTarget)) {
+            SendMessageToPC(oPC, "Target container must be open.");
+            return;
+        }
     }
 
     // Take our gold!
     TakeGoldFromCreature(nAmountDropped, oPC, TRUE);
 
-    // Create a gold object and drop it, reflecting the amonut
-    oGroundGold = CreateObject(OBJECT_TYPE_PLACEABLE, sGoldTemplate, lGoldTargetLocation);
-    SetLocalInt(oGroundGold, ACR_DROPGOLD_AMOUNT, nAmountDropped);
-    SetDescription(oGroundGold, sFullDescription);
+    // Drop our gold!
+    if (bTargetIsObject) {
+        _drop_container_gold(oPC, nAmountDropped, oTarget);
+    }
+    else {
+        _drop_placeable_gold(oPC, nAmountDropped, lGoldTargetLocation);
+    }
 
     // Show some fancy visual stuff at the end
-    TurnToFaceObject(oGroundGold, oPC);
+    AssignCommand(oPC, SetFacingPoint(lGoldTargetLocation)));
     PlayAnimation(ANIMATION_LOOPING_GET_LOW, 1.0, 1.0);
 
     // Finally, log
