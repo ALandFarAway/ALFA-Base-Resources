@@ -1,4 +1,8 @@
+#include "acr_dropgold_i"
+
+
 void main()
 {
-    CloseGUIScreen(OBJECT_SELF, "SCREEN_GOLD_DROP");
+    object oPC = OBJECT_SELF;
+    CloseGUIScreen(oPC, ACR_GUI_DROPGOLD_WINDOW);
 }

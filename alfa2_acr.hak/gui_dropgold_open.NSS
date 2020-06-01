@@ -4,5 +4,5 @@
 void main()
 {
     object oPC = OBJECT_SELF;
-    DisplayGuiScreen(oPC, ACR_DROPGOLD_WINDOW, FALSE, ACR_DROPGOLD_WINDOW_XML);
+    DisplayGuiScreen(oPC, ACR_GUI_DROPGOLD_WINDOW, FALSE, ACR_GUI_DROPGOLD_WINDOW_XML);
 }

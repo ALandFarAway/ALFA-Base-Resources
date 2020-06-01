@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8">
 
-<UIScene name="SCREEN_GOLD_DROP" width=160 height=160 x="ALIGN_RIGHT" y="ALIGN_CENTER" draggable="true" scriptloadable="true" idleexpiretime=1.0 backoutkey="true"
+<UIScene name="SCREEN_GOLD_DROP" width=160 height=120 x="ALIGN_RIGHT" y="ALIGN_CENTER" draggable="true" scriptloadable="true" idleexpiretime=1.0 backoutkey="true"
 	 priority="SCENE_SCRIPT"
 	OnAdd=UIScene_OnAdd_SetFocus(inputbox)
 	OnBackout=UIObject_Misc_ExecuteServerScript("gui_dropgold_close") />
 
-	<UIListBox name="messageboxlb" x=-8 y=16 width=180 height=20 showpartialchild="true" xPadding=0 yPadding=0
+	<UIListBox name="messageboxlb" x=-8 y=8 width=180 height=16 showpartialchild="true" xPadding=0 yPadding=0
 		hidescrollbarwhennotneeded=true scrollsegmentsize="17" unequalcontrols="true">
 
-		<UIText name="messagetext" text="Gold Pieces To Drop" fontfamily="Body_Font" style=3 width="PARENT_WIDTH" height="DYNAMIC" color="EEEEEE" sizetofit="true" align="center" />
+		<UIText name="messagetext" text="Drop how much gold?" fontfamily="Body_Font" style=3 width="PARENT_WIDTH" height="DYNAMIC" color="EEEEEE" sizetofit="true" align="center" />
 
 		<UIScrollBar name="SB" style="STYLE_SB_ULTRA_THIN"></UIScrollBar>
 	</UIListBox>
 
-	<UIPane name="INPUT_CONTAINER" x=30 y=40 width=90 height=24	>
+	<UIPane name="INPUT_CONTAINER" x=20 y=24 width=75 height=25	>
 
-		<UIListBox name="INPUTBOX_LISTBOX" x=4 y=4 width=80 height=30 showpartialchild=true
+		<UIListBox name="INPUTBOX_LISTBOX" x=4 y=6 width=66 height=30 showpartialchild=true
 			unequalcontrols=true scrollsegmentsize=30 hidescrollbarwhennotneeded=false >
 
 			<UIText name="inputbox" allowspace="false" width=PARENT_WIDTH height=DYNAMIC align=left valign=top filter=numeric maxlines=1
@@ -35,11 +35,35 @@
 	</UIPane>
 
 	<!-- BUTTON CONTAINER -->
-	<UIPane name="BUTTON_CONTAINER" x=ALIGN_CENTER y=ALIGN_CENTER width=140 height=120	>
+	<UIPane name="BUTTON_CONTAINER" x=ALIGN_CENTER y=ALIGN_CENTER width=140 height=100	>
+
+		<!-- Minus Button -->
+		<UIButton name="minusbutton" x=87 y=15 width=20 height=23  MouseUpSFX="gui_button" text="-"
+			OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_dropgold_modify_value","subtract",local:101) >
+			<UIText  align=center valign=middle fontfamily="Title_Font" />
+			<UIFrame state=up		fill="b_sm_normal.tga" />
+			<UIFrame state=down		fill="b_sm_pressed.tga" />
+			<UIFrame state=focused	fill="b_sm_normal.tga" />
+			<UIFrame state=hilited	fill="b_sm_hover.tga" />
+			<UIFrame state=hifocus	fill="b_sm_hover.tga" />
+			<UIFrame state=disabled	fill="b_sm_normal.tga" />
+			 </UIButton>
+
+		<!-- Plus Button -->
+		<UIButton name="plusbutton" x=107 y=15 width=20 height=23  MouseUpSFX="gui_button" text="+"
+			OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_dropgold_close","add",local:101) >
+			<UIText  align=center valign=middle fontfamily="Title_Font" />
+			<UIFrame state=up		fill="b_sm_normal.tga" />
+			<UIFrame state=down		fill="b_sm_pressed.tga" />
+			<UIFrame state=focused	fill="b_sm_normal.tga" />
+			<UIFrame state=hilited	fill="b_sm_hover.tga" />
+			<UIFrame state=hifocus	fill="b_sm_hover.tga" />
+			<UIFrame state=disabled	fill="b_sm_normal.tga" />
+			 </UIButton>
 
 		<!-- SelectAll Button -->
-		<UIButton name="selectallbutton" x=10 y=54 width=120 height=20  MouseUpSFX="gui_button" text="Select All"
-				OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_dropgold_selectall")
+		<UIButton name="selectallbutton" x=8 y=43 width=121 height=23  MouseUpSFX="gui_button" text="Select All"
+			OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_dropgold_modify_value","all",local:101) >
 			<UIText  align=center valign=middle fontfamily="Title_Font" />
 			<UIFrame state=up		fill="b_sm_normal.tga" />
 			<UIFrame state=down		fill="b_sm_pressed.tga" />
@@ -50,7 +74,7 @@
 			 </UIButton>
 
 		<!-- OK Button -->
-		<UIButton name="okbutton" x=10 y=74 width=46 height=20  MouseUpSFX="gui_button" text="Drop"
+		<UIButton name="okbutton" x=8 y=70 width=50 height=23  MouseUpSFX="gui_button" text="OK"
 				OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_dropgold_close")
 				OnLeftClick1=UIObject_Input_ActionTargetScript("ground,placeable",91,27,14,"false","gui_dropgold_target",local:101,"target:object","target:x","target:y","target:z") >
 			<UIText  align=center valign=middle fontfamily="Title_Font" />
@@ -63,7 +87,7 @@
 			 </UIButton>
 
 		<!-- Cancel Button -->
-		<UIButton name="cancelbutton" x=68 y=74 width=60 height=20 MouseUpSFX="gui_button" text="Cancel"
+		<UIButton name="cancelbutton" x=65 y=70 width=63 height=23 MouseUpSFX="gui_button" text="Cancel"
 		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dropgold_close")  >
 			<UIText  align=center valign=middle fontfamily="Title_Font" />
 			<UIFrame state=up		fill="b_sm_normal.tga" />
