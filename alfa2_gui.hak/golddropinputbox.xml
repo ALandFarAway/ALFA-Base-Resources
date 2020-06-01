@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8">
 
-<UIScene name="SCREEN_GOLD_DROP" width=160 height=120 x="ALIGN_RIGHT" y="ALIGN_CENTER" draggable="true" scriptloadable="true" idleexpiretime=1.0 backoutkey="true"
+<UIScene name="SCREEN_GOLD_DROP" width=160 height=150 x="ALIGN_RIGHT" y="ALIGN_CENTER" draggable="true" scriptloadable="true" idleexpiretime=1.0 backoutkey="true"
 	 priority="SCENE_SCRIPT"
 	OnAdd=UIScene_OnAdd_SetFocus(inputbox)
 	OnBackout=UIObject_Misc_ExecuteServerScript("gui_dropgold_close") />
@@ -35,10 +35,22 @@
 	</UIPane>
 
 	<!-- BUTTON CONTAINER -->
-	<UIPane name="BUTTON_CONTAINER" x=ALIGN_CENTER y=ALIGN_CENTER width=140 height=80	>
-		<!-- OK Button -->
+	<UIPane name="BUTTON_CONTAINER" x=ALIGN_CENTER y=ALIGN_CENTER width=140 height=160	>
 
-		<UIButton name="okbutton" x=10 y=54 width=46 height=20  MouseUpSFX="gui_button" text="Drop"
+		<!-- SelectAll Button -->
+		<UIButton name="selectallbutton" x=10 y=54 width=120 height=20  MouseUpSFX="gui_button" text="Select All"
+				OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_dropgold_selectall")
+			<UIText  align=center valign=middle fontfamily="Title_Font" />
+			<UIFrame state=up		fill="b_sm_normal.tga" />
+			<UIFrame state=down		fill="b_sm_pressed.tga" />
+			<UIFrame state=focused	fill="b_sm_normal.tga" />
+			<UIFrame state=hilited	fill="b_sm_hover.tga" />
+			<UIFrame state=hifocus	fill="b_sm_hover.tga" />
+			<UIFrame state=disabled	fill="b_sm_normal.tga" />
+			 </UIButton>
+
+		<!-- OK Button -->
+		<UIButton name="okbutton" x=10 y=74 width=46 height=20  MouseUpSFX="gui_button" text="Drop"
 				OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_dropgold_close")
 				OnLeftClick1=UIObject_Input_ActionTargetScript("ground,placeable",91,27,14,"false","gui_dropgold_target",local:101,"target:object","target:x","target:y","target:z") >
 			<UIText  align=center valign=middle fontfamily="Title_Font" />
@@ -51,7 +63,7 @@
 			 </UIButton>
 
 		<!-- Cancel Button -->
-		<UIButton name="cancelbutton" x=68 y=54 width=60 height=20 MouseUpSFX="gui_button" text="Cancel"
+		<UIButton name="cancelbutton" x=68 y=74 width=60 height=20 MouseUpSFX="gui_button" text="Cancel"
 		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dropgold_close")  >
 			<UIText  align=center valign=middle fontfamily="Title_Font" />
 			<UIFrame state=up		fill="b_sm_normal.tga" />
