@@ -26,5 +26,5 @@ void main(string sOperation, string sCurrentAmount)
         SendMessageToPC(oPC, "Error: unimplemented");
     }
 
-    SetGUIObjectText(oPC, ACR_GUI_DROPGOLD_WINDOW, ACR_GUI_DROPGOLD_AMOUNT_FIELD, -1, IntToString(nTotalGold));
+    SetGUIObjectText(oPC, ACR_GUI_DROPGOLD_WINDOW, ACR_GUI_DROPGOLD_AMOUNT_FIELD, -1, IntToString(nGoldToSet));
 }

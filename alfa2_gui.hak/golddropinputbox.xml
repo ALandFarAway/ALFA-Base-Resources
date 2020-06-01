@@ -51,7 +51,7 @@
 
 		<!-- Plus Button -->
 		<UIButton name="plusbutton" x=107 y=15 width=20 height=23  MouseUpSFX="gui_button" text="+"
-			OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_dropgold_close","add",local:101) >
+			OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_dropgold_modify_value","add",local:101) >
 			<UIText  align=center valign=middle fontfamily="Title_Font" />
 			<UIFrame state=up		fill="b_sm_normal.tga" />
 			<UIFrame state=down		fill="b_sm_pressed.tga" />
@@ -74,7 +74,7 @@
 			 </UIButton>
 
 		<!-- OK Button -->
-		<UIButton name="okbutton" x=8 y=70 width=50 height=23  MouseUpSFX="gui_button" text="OK"
+		<UIButton name="okbutton" x=8 y=70 width=52 height=23  MouseUpSFX="gui_button" text="OK"
 				OnLeftClick0=UIObject_Misc_ExecuteServerScript("gui_dropgold_close")
 				OnLeftClick1=UIObject_Input_ActionTargetScript("ground,placeable",91,27,14,"false","gui_dropgold_target",local:101,"target:object","target:x","target:y","target:z") >
 			<UIText  align=center valign=middle fontfamily="Title_Font" />
@@ -87,7 +87,7 @@
 			 </UIButton>
 
 		<!-- Cancel Button -->
-		<UIButton name="cancelbutton" x=65 y=70 width=63 height=23 MouseUpSFX="gui_button" text="Cancel"
+		<UIButton name="cancelbutton" x=63 y=70 width=65 height=23 MouseUpSFX="gui_button" text="Cancel"
 		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dropgold_close")  >
 			<UIText  align=center valign=middle fontfamily="Title_Font" />
 			<UIFrame state=up		fill="b_sm_normal.tga" />
