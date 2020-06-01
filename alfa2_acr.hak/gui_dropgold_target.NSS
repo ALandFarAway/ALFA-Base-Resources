@@ -46,7 +46,7 @@ void main(string sAmount, object oTarget, string xValue, string yValue, string z
 
     oPC = OBJECT_SELF;
     nAmountDropped = StringToInt(sAmount);
-    bTargetIsObject = !GetIsObjectValid(oTarget);
+    bTargetIsObject = GetIsObjectValid(oTarget);
 
     if (nAmountDropped <= 0) {
         SendMessageToPC(oPC, "You cannot drop nothing.");

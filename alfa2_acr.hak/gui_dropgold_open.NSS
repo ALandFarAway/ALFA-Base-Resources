@@ -1,5 +1,8 @@
+#include "acr_dropgold_i"
+
+
 void main()
 {
     object oPC = OBJECT_SELF;
-    DisplayGuiScreen(oPC, "SCREEN_GOLD_DROP", FALSE, "golddropinputbox.xml");
+    DisplayGuiScreen(oPC, ACR_DROPGOLD_WINDOW, FALSE, ACR_DROPGOLD_WINDOW_XML);
 }
