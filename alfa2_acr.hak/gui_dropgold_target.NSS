@@ -46,7 +46,7 @@ void main(string sAmount, object oTarget, string xValue, string yValue, string z
 
     oPC = OBJECT_SELF;
     nAmountDropped = StringToInt(sAmount);
-    bTargetIsObject = (oTarget != OBJECT_INVALID);
+    bTargetIsObject = !GetIsObjectValid(oTarget);
 
     if (nAmountDropped <= 0) {
         SendMessageToPC(oPC, "You cannot drop nothing.");
@@ -101,5 +101,5 @@ void main(string sAmount, object oTarget, string xValue, string yValue, string z
     PlayAnimation(ANIMATION_LOOPING_GET_LOW, 1.0, 1.0);
 
     // Finally, log
-    ACR_LogOnUnacquiredGold(oPC, nAmountDropped);
+    ACR_LogOnUnacquiredGold(oPC, nAmountDropped, oTarget);
 }
