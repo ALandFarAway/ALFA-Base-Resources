@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8">
 
-<UIScene name="SCREEN_GOLD_DROP" width=160 height=150 x="ALIGN_RIGHT" y="ALIGN_CENTER" draggable="true" scriptloadable="true" idleexpiretime=1.0 backoutkey="true"
+<UIScene name="SCREEN_GOLD_DROP" width=160 height=160 x="ALIGN_RIGHT" y="ALIGN_CENTER" draggable="true" scriptloadable="true" idleexpiretime=1.0 backoutkey="true"
 	 priority="SCENE_SCRIPT"
 	OnAdd=UIScene_OnAdd_SetFocus(inputbox)
 	OnBackout=UIObject_Misc_ExecuteServerScript("gui_dropgold_close") />
@@ -35,7 +35,7 @@
 	</UIPane>
 
 	<!-- BUTTON CONTAINER -->
-	<UIPane name="BUTTON_CONTAINER" x=ALIGN_CENTER y=ALIGN_CENTER width=140 height=160	>
+	<UIPane name="BUTTON_CONTAINER" x=ALIGN_CENTER y=ALIGN_CENTER width=140 height=120	>
 
 		<!-- SelectAll Button -->
 		<UIButton name="selectallbutton" x=10 y=54 width=120 height=20  MouseUpSFX="gui_button" text="Select All"
