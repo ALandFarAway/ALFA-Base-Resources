@@ -23,7 +23,7 @@ void main()
         //Declare major variables
         int nDuration = GetCasterLevel(OBJECT_SELF);
         //effect eVis = EffectVisualEffect( VFX_DUR_SPELL_GOOD_CIRCLE );	// handled by CreateProtectionFromAlignmentLink()
-        effect eLink = CreateProtectionFromAlignmentLink(ALIGNMENT_GOOD);
+        effect eLink = CreateProtectionFromAlignmentLink(ALIGNMENT_GOOD, 1, SPELL_MAGIC_CIRCLE_AGAINST_ALIGNMENT);
 
         //Fire cast spell at event for the specified target
         SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, SPELL_MAGIC_CIRCLE_AGAINST_GOOD, FALSE));
