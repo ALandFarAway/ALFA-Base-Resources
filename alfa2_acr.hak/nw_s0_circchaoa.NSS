@@ -17,7 +17,7 @@ void main()
     if (spellsIsTarget(oTarget, SPELL_TARGET_ALLALLIES, GetAreaOfEffectCreator()))
     {
         int nDuration = GetCasterLevel(OBJECT_SELF);
-        effect eLink = CreateProtectionFromAlignmentLink(ALIGNMENT_CHAOTIC);
+        effect eLink = CreateProtectionFromAlignmentLink(ALIGNMENT_CHAOTIC, 1, SPELL_MAGIC_CIRCLE_AGAINST_ALIGNMENT);
 
         // Fire cast spell at event for the specified target
         SignalEvent(oTarget, EventSpellCastAt(OBJECT_SELF, SPELL_MAGIC_CIRCLE_AGAINST_CHAOS, FALSE));
