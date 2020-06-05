@@ -87,6 +87,9 @@
 	<!-- Character Gold -->
 	<UIIcon name="GOLD_ICON" img="icon_gold.tga" x=243 y=108 width=29 height=29
 		OnToolTip=UIObject_Tooltip_DisplayTooltipStringRef(65759,"OBJECT_X","OBJECT_Y","SCREEN_TOOLTIP_2") />
+	<UIButton name="GOLD_BUTTON" x=243 y=108 width=29 height=29
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dropgold_open") >
+	</UIButton>
 	<UIText name="PLAYER_GOLD"	x=274 y=108 width=85 height=29 valign=middle align=left multiline=false fontfamily="Body_Font" style=1 
 		update="true" OnUpdate=UIObject_OnUpdate_GetCharacterData("PARTY","PLAYER_GOLD") />
 

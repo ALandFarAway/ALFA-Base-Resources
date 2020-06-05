@@ -143,6 +143,18 @@ void ACR_LogOnAcquired(object oItem, object oTaker, int bStolen=FALSE);
 //!  - Returns: Nothing
 void ACR_LogOnUnacquired(object oItem, object oGiver, int bStolen=FALSE);
 
+//! Log gold acquisition from the ground
+//!  - oTaker: the player taking the gold
+//!  - nQuantity: amount of gold
+//!  - Returns: Nothing
+void ACR_LogOnAcquiredGold(object oTaker, int nQuantity);
+
+//! Log discarded gold by players 
+//!  - oGiver: the player losing the item
+//!  - oContainer: the placeable container (if any) it is being put in
+//!  - Returns: Nothing
+void ACR_LogOnUnacquiredGold(object oGiver, int nQuantity, object oContainer = OBJECT_INVALID);
+
 //! log item activation
 //!  - oItem: the item being activated
 //!  - oActivator: the player activating the item
@@ -382,6 +394,23 @@ void ACR_LogOnUnacquired(object oItem, object oGiver, int bStolen=FALSE)
 	} 
 	ACR_LogEvent(oGiver, ACR_LOG_DROP, sUnAcquireDesc);
 	// SendMessageToPC(oGiver, sUnAcquireDesc);
+}
+
+void ACR_LogOnAcquiredGold(object oTaker, int nQuantity)
+{
+    string sGoldGainedDesc = "Gold of value " + IntToString(nQuantity);
+    ACR_LogEvent(oTaker, ACR_LOG_ACQUIRE, sGoldGainedDesc);
+}
+
+void ACR_LogOnUnacquiredGold(object oGiver, int nQuantity, object oContainer = OBJECT_INVALID)
+{
+    string sGoldLostDesc = "Gold of value " + IntToString(nQuantity);
+
+    if (GetIsObjectValid(oContainer)) {
+        sGoldLostDesc += ", to: " + ACR_SQLEncodeSpecialChars(GetName(oContainer));
+    } 
+
+    ACR_LogEvent(oGiver, ACR_LOG_DROP, sGoldLostDesc);
 }
 
 void ACR_LogOnActivate(object oItem, object oActivator, object oTarget)
