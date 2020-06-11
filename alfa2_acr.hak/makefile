@@ -690,6 +690,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\acr_s2_charmdom.ncs                   \
             $(OUTPUTDIR)\acr_s0_longstride.ncs                 \
             $(OUTPUTDIR)\acr_s0_mount.ncs                      \
+            $(OUTPUTDIR)\acr_s0_analyzeportal.ncs              \
             $(OUTPUTDIR)\acr_resync_gui.ncs                    \
             $(OUTPUTDIR)\gui_choosercreator.ncs                \
             $(OUTPUTDIR)\gui_creatorspawn.ncs                  \
