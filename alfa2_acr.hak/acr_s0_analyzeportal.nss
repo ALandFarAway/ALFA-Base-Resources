@@ -6,7 +6,7 @@
 //        $Date:: 2020-06-10 date the file was created or modified
 //       Author : Wynna, Paazin
 //
-//    
+//
 //  Description
 //  Analyze Portal as per FRCS
 //////////////////////////////////////////////////////////////////////////////
@@ -16,6 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "x0_i0_position"
+#include "acr_spells_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constants ///////////////////////////////////////////////////////////////////
@@ -123,11 +124,13 @@ void main()
 {
     int nSpellId = GetSpellId();
     object oCaster = OBJECT_SELF;
+    object oTarget;
     object oPortal;
     int nCasterLevel;
-    float fDuration;
     int nPortalNumber = 0;
     float fResultsDelay = 0.0;
+    float fDuration;
+    location lTarget;
     string sTag;
 
     // If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell
@@ -137,6 +140,8 @@ void main()
 
     oTarget = oCaster;  // Target of spell is always caster, despite what someone might target
 
+    lTarget = GetSpellTargetLocation();
+
     // Signal event successful
     SignalEvent(oTarget, EventSpellCastAt(oCaster, GetSpellId(), FALSE));
 
@@ -145,8 +150,12 @@ void main()
 
 	SetLocalFloat(oCaster, "AnalyzePortalFloatDelay", 0.0);
 	SendMessageToAllDMs(GetName(oCaster) + " is casting Analyze Portal");
-	oPortal = GetFirstObjectInShape(SHAPE_CONE, 20.0, GetLocation(oCaster), FALSE, OBJECT_TYPE_PLACEABLE | OBJECT_TYPE_TRIGGER | OBJECT_TYPE_DOOR);
+	oPortal = GetFirstObjectInShape(SHAPE_SPHERE, 20.0, GetLocation(oCaster), FALSE, OBJECT_TYPE_PLACEABLE | OBJECT_TYPE_TRIGGER | OBJECT_TYPE_DOOR);
 	while(oPortal != OBJECT_INVALID) {
+		// Terminate check if the spell expires
+		if (fDuration < fResultsDelay) {
+			return;
+		}
 		sTag = GetTag(oPortal);
 		if((sTag == "alfa_portal_trg") || (sTag == "alfa_portal_plc") || (sTag == "alfa_portal_door")) {
 			if(GetObjectType(oPortal) == OBJECT_TYPE_PLACEABLE) {
@@ -165,8 +174,8 @@ void main()
 			if(nPortalNumber == 0) {
 				SendMessageToPC(
 					oCaster,
-					"You have discovered a portal within 60 feet! " +
-					"It is " + sPortalCompassDirection + " of your position. " + 
+					"You have discovered a portal within 60 feet! "
+					"It is " + sPortalCompassDirection + " of your position. " +
 					sPortalLocation
 				);
 				}
@@ -177,17 +186,17 @@ void main()
 					fResultsDelay,
 					SendMessageToPC(
 						oCaster,
-						"You have discovered another portal within 60 feet! " + 
-						"It is " + sPortalCompassDirection + " of your position. " + 
+						"You have discovered another portal within 60 feet! " +
+						"It is " + sPortalCompassDirection + " of your position. " +
 						sPortalLocation
 					)
 				);
 				}
 			SendMessageToAllDMs(
-				GetName(oCaster) + 
-				" has discovered a portal. " + 
-				" It is " + sPortalCompassDirection + " of the PC. " +
-				sPortalLocation + 
+				GetName(oCaster) +
+				" has discovered a portal. " +
+				" It is " + sPortalCompassDirection + " of the PC. "
+				sPortalLocation +
 				" The PC will also learn the following information in increments of 6 seconds:"
 				);
 			int nCLCheck;
@@ -213,23 +222,23 @@ void main()
 					case 5:
 						sPortalVariable = sPortalFunc;
 						break;
-					   }		
+					   }
 
-				if(d20(1) + nCasterLevel >= 17) {   
+				if(d20(1) + nCasterLevel >= 17) {
 					SendMessageToAllDMs(GetName(oCaster) + " learned: " + sPortalVariable);
 					SetLocalFloat(oCaster, "AnalyzePortalFloatDelay", fResultsDelay + 6.0);
 					fResultsDelay = fResultsDelay + 6.0;
 					DelayCommand(fResultsDelay, SendMessageToPC(oCaster, sPortalVariable));
 					}
 				else {SendMessageToAllDMs(GetName(oCaster) + " failed a caster level check on Analyze Portal and will learn no more about this portal.");
-					  DelayCommand(fResultsDelay + 6.0, SendMessageToPC(oCaster, "You have failed a caster level check and will learn no more about this portal.")); 
+					  DelayCommand(fResultsDelay + 6.0, SendMessageToPC(oCaster, "You have failed a caster level check and will learn no more about this portal."));
 					  break;
 					 }
 			}
-							
-		nPortalNumber++;	
+
+		nPortalNumber++;
 		}
-			
-		oPortal = GetNextObjectInShape(SHAPE_CONE, 20.0, GetLocation(oCaster), FALSE, OBJECT_TYPE_PLACEABLE | OBJECT_TYPE_TRIGGER | OBJECT_TYPE_DOOR);
+
+		oPortal = GetNextObjectInShape(SHAPE_SPHERE, 20.0, GetLocation(oCaster), FALSE, OBJECT_TYPE_PLACEABLE | OBJECT_TYPE_TRIGGER | OBJECT_TYPE_DOOR);
     }
 }
