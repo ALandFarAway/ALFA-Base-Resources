@@ -174,7 +174,7 @@ void main()
 			if(nPortalNumber == 0) {
 				SendMessageToPC(
 					oCaster,
-					"You have discovered a portal within 60 feet! "
+					"You have discovered a portal within 60 feet! " +
 					"It is " + sPortalCompassDirection + " of your position. " +
 					sPortalLocation
 				);
@@ -195,7 +195,7 @@ void main()
 			SendMessageToAllDMs(
 				GetName(oCaster) +
 				" has discovered a portal. " +
-				" It is " + sPortalCompassDirection + " of the PC. "
+				" It is " + sPortalCompassDirection + " of the PC. " +
 				sPortalLocation +
 				" The PC will also learn the following information in increments of 6 seconds:"
 				);
