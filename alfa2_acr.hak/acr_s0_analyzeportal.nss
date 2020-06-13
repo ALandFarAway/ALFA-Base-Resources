@@ -130,6 +130,9 @@ void main()
     int nPortalNumber = 0;
     float fResultsDelay = 0.0;
     float fDuration;
+    float fAngleCasterFacing;
+    float fAnglePortalFromCaster;
+    float fAnglePortalFacingFromCaster;
     location lTarget;
     string sTag;
 
@@ -156,8 +159,14 @@ void main()
 		if (fDuration < fResultsDelay) {
 			return;
 		}
+		fAnglePortalFromCaster = GetAngleBetweenObjects(oCaster, oPortal);
+		fAngleCasterFacing = GetFacing(oCaster);
+		fAnglePortalFacingFromCaster = fAnglePortalFromCaster - fAngleCasterFacing;
 		sTag = GetTag(oPortal);
-		if((sTag == "alfa_portal_trg") || (sTag == "alfa_portal_plc") || (sTag == "alfa_portal_door")) {
+		if(
+			(fAbs(fAnglePortalFacingFromCaster) <= 45.0) &&
+			((sTag == "alfa_portal_trg") || (sTag == "alfa_portal_plc") || (sTag == "alfa_portal_door"))
+		) {
 			if(GetObjectType(oPortal) == OBJECT_TYPE_PLACEABLE) {
 				SetUseableFlag(oPortal, TRUE);
 				}
@@ -168,9 +177,8 @@ void main()
 			string sPortalProps = GetLocalString(oPortal, "PORTAL_PROPERTIES");
 			string sPortalDest = GetLocalString(oPortal, "PORTAL_DESTINATION");
 			string sPortalFunc = GetLocalString(oPortal, "PORTAL_FUNCTIONALITY");
-			string sPortalCompassDirection = GetCompassDirectionOfAngle(
-				GetAngleBetweenObjects(oCaster, oPortal)
-			);
+			string sPortalCompassDirection = GetCompassDirectionOfAngle(fAnglePortalFromCaster);
+
 			if(nPortalNumber == 0) {
 				SendMessageToPC(
 					oCaster,
