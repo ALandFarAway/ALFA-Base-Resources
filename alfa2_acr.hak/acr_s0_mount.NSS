@@ -99,6 +99,7 @@ void setup_horse(object oCaster, object oHorseTool)
             VERIFY_IS_IN_EFFECT_POLL_DURATION,
             verify_is_in_effect(oCaster, oHorse, oHorseTool)
         );
+        return;
     }
 
     // Setup isn't ready yet, wait again
