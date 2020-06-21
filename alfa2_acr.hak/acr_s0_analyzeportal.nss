@@ -9,6 +9,7 @@
 //
 //  Description
 //  Analyze Portal as per FRCS
+//  (Does require proper set up on portals ingame to function)
 //////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -24,6 +25,8 @@
 
 const float NUMBER_OF_COMPASS_DIRECTIONS = 16.0;
 const float HALF_COMPASS_ANGLE = 360.0/(NUMBER_OF_COMPASS_DIRECTIONS * 2.0);
+
+const string ACR_PORTAL_TAG_PREFIX = "alfa_portal_";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -130,8 +133,11 @@ void main()
     int nPortalNumber = 0;
     float fResultsDelay = 0.0;
     float fDuration;
+    float fAngleCasterFacing;
+    float fAnglePortalFromCaster;
+    float fAnglePortalFacingFromCaster;
     location lTarget;
-    string sTag;
+    string sTagPrefix;
 
     // If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell
     if (!ACR_PrecastEvent()) {
@@ -156,8 +162,14 @@ void main()
 		if (fDuration < fResultsDelay) {
 			return;
 		}
-		sTag = GetTag(oPortal);
-		if((sTag == "alfa_portal_trg") || (sTag == "alfa_portal_plc") || (sTag == "alfa_portal_door")) {
+		fAnglePortalFromCaster = GetAngleBetweenObjects(oCaster, oPortal);
+		fAngleCasterFacing = GetFacing(oCaster);
+		fAnglePortalFacingFromCaster = fAnglePortalFromCaster - fAngleCasterFacing;
+		sTagPrefix = GetStringLeft(GetTag(oPortal), GetStringLength(ACR_PORTAL_TAG_PREFIX));
+		if(
+			(fabs(fAnglePortalFacingFromCaster) <= 45.0) &&
+			(sTagPrefix == ACR_PORTAL_TAG_PREFIX)
+		) {
 			if(GetObjectType(oPortal) == OBJECT_TYPE_PLACEABLE) {
 				SetUseableFlag(oPortal, TRUE);
 				}
@@ -168,9 +180,8 @@ void main()
 			string sPortalProps = GetLocalString(oPortal, "PORTAL_PROPERTIES");
 			string sPortalDest = GetLocalString(oPortal, "PORTAL_DESTINATION");
 			string sPortalFunc = GetLocalString(oPortal, "PORTAL_FUNCTIONALITY");
-			string sPortalCompassDirection = GetCompassDirectionOfAngle(
-				GetAngleBetweenObjects(oCaster, oPortal)
-			);
+			string sPortalCompassDirection = GetCompassDirectionOfAngle(fAnglePortalFromCaster);
+
 			if(nPortalNumber == 0) {
 				SendMessageToPC(
 					oCaster,
