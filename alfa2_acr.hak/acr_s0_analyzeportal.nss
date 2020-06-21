@@ -25,6 +25,8 @@
 const float NUMBER_OF_COMPASS_DIRECTIONS = 16.0;
 const float HALF_COMPASS_ANGLE = 360.0/(NUMBER_OF_COMPASS_DIRECTIONS * 2.0);
 
+const string ACR_PORTAL_TAG_PREFIX = "alfa_portal_";
+
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -134,7 +136,7 @@ void main()
     float fAnglePortalFromCaster;
     float fAnglePortalFacingFromCaster;
     location lTarget;
-    string sTag;
+    string sTagPrefix;
 
     // If code within the PreSpellCastHook (i.e. UMD) reports FALSE, do not run this spell
     if (!ACR_PrecastEvent()) {
@@ -162,10 +164,10 @@ void main()
 		fAnglePortalFromCaster = GetAngleBetweenObjects(oCaster, oPortal);
 		fAngleCasterFacing = GetFacing(oCaster);
 		fAnglePortalFacingFromCaster = fAnglePortalFromCaster - fAngleCasterFacing;
-		sTag = GetTag(oPortal);
+		sTagPrefix = GetStringLeft(GetTag(oPortal), GetStringLength(ACR_PORTAL_TAG_PREFIX));
 		if(
 			(fAbs(fAnglePortalFacingFromCaster) <= 45.0) &&
-			((sTag == "alfa_portal_trg") || (sTag == "alfa_portal_plc") || (sTag == "alfa_portal_door"))
+			(sTagPrefix == ACR_PORTAL_TAG_PREFIX)
 		) {
 			if(GetObjectType(oPortal) == OBJECT_TYPE_PLACEABLE) {
 				SetUseableFlag(oPortal, TRUE);
