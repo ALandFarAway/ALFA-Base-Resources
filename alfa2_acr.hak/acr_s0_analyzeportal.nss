@@ -167,7 +167,7 @@ void main()
 		fAnglePortalFacingFromCaster = fAnglePortalFromCaster - fAngleCasterFacing;
 		sTagPrefix = GetStringLeft(GetTag(oPortal), GetStringLength(ACR_PORTAL_TAG_PREFIX));
 		if(
-			(fAbs(fAnglePortalFacingFromCaster) <= 45.0) &&
+			(fabs(fAnglePortalFacingFromCaster) <= 45.0) &&
 			(sTagPrefix == ACR_PORTAL_TAG_PREFIX)
 		) {
 			if(GetObjectType(oPortal) == OBJECT_TYPE_PLACEABLE) {
