@@ -5069,6 +5069,9 @@ Arcane Material Component: A bit of charcoal.
 <b>Duration</b>: 24 hours (D)
 <b>Saving Throw</b>: None
 <b>Spell Resistance</b>: No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
 This spell ensures privacy. Anyone looking into the area from outside sees only a dark, foggy mass. Darkvision cannot penetrate it. No sounds, no matter how loud, can escape the area, so nobody can eavesdrop from outside. Those inside can see out normally.
 
 Divination (scrying) spells cannot perceive anything within the area, and those within are immune to <i>detect thoughts</i>. The ward prevents speech between those inside and those outside (because it blocks sound), but it does not prevent other communication, such as a <i>sending</i> or <i>message</i> spell, or telepathic communication, such as that between a wizard and her familiar.
@@ -5088,6 +5091,7 @@ A thin sheet of lead, a piece of opaque glass, a wad of cotton or cloth, and pow
 <b>Duration</b>: 1 min./level
 <b>Saving Throw</b>: Will negates
 <b>Spell Resistance</b>: Yes
+
 A sleep spell causes a magical slumber to come upon 4 Hit Dice of creatures. Creatures with the fewest HD are affected first.
 
 Among creatures with equal HD, those who are closest to the spell's point of origin are affected first. Hit Dice that are not sufficient to affect a creature are wasted.
@@ -5098,6 +5102,217 @@ Sleep does not target unconscious creatures, constructs, or undead creatures.
 
 <i>Material Component</i>
 A pinch of fine sand, rose petals, or a live cricket.
+<1354><16778570>:Detect Alignment
+<1355><16778571>:Divination
+<b>Level</b>: Cleric 1
+<b>Components</b>: V, S
+<b>Casting Time</b>: 1 round
+<b>Range</b>: 60 ft.
+<b>Area</b>: Cone-shaped emanation
+<b>Duration</b>: Concentration, up to 10 min./level (D)
+<b>Saving Throw</b>: None
+<b>Spell Resistance</b>: No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+You can sense the presence of a specific alignment. The amount of information revealed depends on how long you study a particular area or subject.
+
+<i>1st Round</i>
+Presence or absence of the alignment.
+
+<i>2nd Round</i>
+Number of the alignment's auras (creatures, objects, or spells) in the area and the power of the most potent aura present.
+
+If you are of the opposite alignment, and the strongest aura's power is overwhelming, and the HD or level of the aura's source is at least twice your character level, you are stunned for 1 round and the spell ends.
+
+<i>3rd Round</i>
+The power and location of each aura. If an aura is outside your line of sight, then you discern its direction but not its exact location.
+
+<i>Aura Power</i>
+An aura's power depends on the type of creature or object that you're detecting and its HD, caster level, or (in the case of a cleric) class level. If an aura falls into more than one strength category, the spell indicates the stronger of the two.
+
+Creature/Object | Faint | Moderate | Strong | Overwhelming
+Evil creature* (HD) | 10 or lower | 11-25 | 26-50 | 51 or higher
+Undead (HD) | 2 or lower | 3-8 | 9-20 | 21 or higher
+Evil outsider (HD) | 1 or lower | 2-4 | 5-10 | 11 or higher
+Cleric of an evil deity% (class levels) | 1 | 2-4 | 5-10 | 11 or higher
+Evil magic item or spell (caster level) | 2nd or lower | 3rd-8th | 9th-20th | 21st or higher
+    *Except for undead and outsiders, which have their own entries on the table.
+    %Some characters who are not clerics may radiate an aura of equivalent power. The class description will indicate whether this applies.
+
+<i>Lingering Aura</i>
+An evil aura lingers after its original source dissipates (in the case of a spell) or is destroyed (in the case of a creature or magic item). If detect evil is cast and directed at such a location, the spell indicates an aura strength of dim (even weaker than a faint aura). How long the aura lingers at this dim level depends on its original power.
+
+Animals, traps, poisons, and other potential perils are not evil, and as such this spell does not detect them.
+
+Each round, you can turn to detect evil in a new area. The spell can penetrate barriers, but 1 foot of stone, 1 inch of common metal, a thin sheet of lead, or 3 feet of wood or dirt blocks it.
+
+Original Strength | Duration of Lingering Aura
+Faint | 1d6 rounds
+Moderate | 1d6 minutes
+Strong | 1d6×10 minutes
+Overwhelming | 1d6 days
+<1356><16778572>:Detect Evil
+<1357><16778573>:Detect Good
+<1358><16778574>:Detect Chaos
+<1359><16778575>:Detect Law
+<1360><16778576>:Tenser's Floating Disk
+<1361><16778577>:Evocation [Force]
+<b>Level:</b> Sor/Wiz 1
+<b>Components:</b> V, S, M
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Close (25 ft. + 5 ft./2 levels)
+<b>Effect:</b> 3-ft.-diameter disk of force
+<b>Duration:</b> 1 hour/level
+<b>Saving Throw:</b> None
+<b>Spell Resistance:</b> No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+You create a slightly concave, circular plane of force that follows you about and carries loads for you. The disk is 3 feet in diameter and 1 inch deep at its center. It can hold 100 pounds of weight per caster level. (If used to transport a liquid, its capacity is 2 gallons.) The disk floats approximately 3 feet above the ground at all times and remains level. It floats along horizontally within spell range and will accompany you at a rate of no more than your normal speed each round. If not otherwise directed, it maintains a constant interval of 5 feet between itself and you. The disk winks out of existence when the spell duration expires. The disk also winks out if you move beyond range or try to take the disk more than 3 feet away from the surface beneath it. When the disk winks out, whatever it was supporting falls to the surface beneath it.
+
+<i>Material Component</i>
+A drop of mercury.
+<1362><16778578>:Gentle Repose
+<1363><16778579>:Necromancy
+<b>Level:</b> Clr 2, Sor/Wiz 3, Repose 2, Time 2
+<b>Components:</b> V, S, M/DF
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Touch
+<b>Target:</b> Corpse touched
+<b>Duration:</b> One day/level
+<b>Saving Throw:</b> Will negates (object)
+<b>Spell Resistance:</b> Yes (object)
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+You preserve the remains of a dead creature so that they do not decay. Doing so effectively extends the time limit on raising that creature from the dead (see raise dead). Days spent under the influence of this spell don't count against the time limit. Additionally, this spell makes transporting a fallen comrade more pleasant.
+
+The spell also works on severed body parts and the like.
+
+<i>Arcane Material Component</i>
+A pinch of salt, and a copper piece for each eye the corpse has (or had).
+<1364><16778580>:Levitate
+<1365><16778581>:Transmutation
+<b>Level:</b> Sor/Wiz 2
+<b>Components:</b> V, S, F
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Personal or close (25 ft. + 5 ft./2 levels)
+<b>Target:</b> You or one willing creature or one object (total weight up to 100 lb./level)
+<b>Duration:</b> 1 min./level (D)
+<b>Saving Throw:</b> None
+<b>Spell Resistance:</b> No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+Levitate allows you to move yourself, another creature, or an object up and down as you wish. A creature must be willing to be levitated, and an object must be unattended or possessed by a willing creature. You can mentally direct the recipient to move up or down as much as 20 feet each round; doing so is a move action. You cannot move the recipient horizontally, but the recipient could clamber along the face of a cliff, for example, or push against a ceiling to move laterally (generally at half its base land speed).
+
+A levitating creature that attacks with a melee or ranged weapon finds itself increasingly unstable; the first attack has a -1 penalty on attack rolls, the second -2, and so on, to a maximum penalty of -5. A full round spent stabilizing allows the creature to begin again at -1.
+
+<i>Focus</i>
+Either a small leather loop or a piece of golden wire bent into a cup shape with a long shank on one end.
+<1366><16778582>:Rope Trick
+<1367><16778583>:Transmutation
+<b>Level:</b> Sor/Wiz 2
+<b>Components:</b> V, S, F
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Personal or close (25 ft. + 5 ft./2 levels)
+<b>Target:</b> You or one willing creature or one object (total weight up to 100 lb./level)
+<b>Duration:</b> 1 min./level (D)
+<b>Saving Throw:</b> None
+<b>Spell Resistance:</b> No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+When this spell is cast upon a piece of rope from 5 to 30 feet long, one end of the rope rises into the air until the whole rope hangs perpendicular to the ground, as if affixed at the upper end. The upper end is, in fact, fastened to an extradimensional space that is outside the multiverse of extradimensional spaces ("planes"). Creatures in the extradimensional space are hidden, beyond the reach of spells (including divinations), unless those spells work across planes. The space holds as many as eight creatures (of any size). Creatures in the space can pull the rope up into the space, making the rope "disappear." In that case, the rope counts as one of the eight creatures that can fit in the space. The rope can support up to 16,000 pounds. A weight greater than that can pull the rope free.
+
+Spells cannot be cast across the extradimensional interface, nor can area effects cross it. Those in the extradimensional space can see out of it as if a 3-foot by 5-foot window were centered on the rope. The window is present on the Material Plane, but it's invisible, and even creatures that can see the window can't see through it. Anything inside the extradimensional space drops out when the spell ends. The rope can be climbed by only one person at a time. The rope trick spell enables climbers to reach a normal place if they do not climb all the way to the extradimensional space.
+
+<i>Note:</i> It is hazardous to create an extradimensional space within an existing extradimensional space or to take an extradimensional space into an existing one.
+
+<i>Material Component</i>
+Powdered corn extract and a twisted loop of parchment.
+<1368><16778584>:Glitterdust
+<1369><16778585>:Conjuration (Creation)
+<b>Level:</b> Brd 2, Sor/Wiz 2
+<b>Components:</b> V, S, M
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Medium (100 ft. + 10 ft./level)
+<b>Target:</b> Creatures and objects within 10-ft.-radius spread
+<b>Duration:</b> 1 round/level
+<b>Saving Throw:</b> Will negates (blinding only)
+<b>Spell Resistance:</b> No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+A cloud of golden particles covers everyone and everything in the area, causing creatures to become blinded and visibly outlining invisible things for the duration of the spell. All within the area are covered by the dust, which cannot be removed and continues to sparkle until it fades.
+
+Any creature covered by the dust takes a -40 penalty on Hide checks.
+
+<i>Material Component</i>
+Ground mica.
+<1370><16778586>:Status
+<1371><16778587>:Divination
+<b>Level:</b> Clr 2
+<b>Components:</b> V, S
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Touch
+<b>Target:</b> One living creature touched per three levels
+<b>Duration:</b> 1 hour/level
+<b>Saving Throw:</b> Will negates (harmless)
+<b>Spell Resistance:</b> Yes (harmless)
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+When you need to keep track of comrades who may get separated, status allows you to mentally monitor their relative positions and general condition. You are aware of direction and distance to the creatures and any conditions affecting them: unharmed, wounded, disabled, staggered, unconscious, dying, nauseated, panicked, stunned, poisoned, diseased, confused, or the like. Once the spell has been cast upon the subjects, the distance between them and the caster does not affect the spell as long as they are on the same plane of existence. If a subject leaves the plane, or if it dies, the spell ceases to function for it.
+<1372><16778588>:Consecrate
+<1373><16778589>:Evocation [Good]
+<b>Level:</b> Clr 2
+<b>Components:</b> V, S, M, DF
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Close (25 ft. + 5 ft./2 levels)
+<b>Area:</b> 20-ft.-radius emanation
+<b>Duration:</b> 2 hours/level
+<b>Saving Throw:</b> None
+<b>Spell Resistance:</b> No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+This spell blesses an area with positive energy. Each Charisma check made to turn undead within this area gains a +3 sacred bonus. Every undead creature entering a consecrated area suffers minor disruption, giving it a -1 penalty on attack rolls, damage rolls, and saves. Undead cannot be created within or summoned into a consecrated area.
+
+If the consecrated area contains an altar, shrine, or other permanent fixture dedicated to your deity, pantheon, or aligned higher power, the modifiers given above are doubled (+6 sacred bonus on turning checks, -2 penalties for undead in the area). You cannot consecrate an area with a similar fixture of a deity other than your own patron.
+
+If the area does contain an altar, shrine, or other permanent fixture of a deity, pantheon, or higher power other than your patron, the consecrate spell instead curses the area, cutting off its connection with the associated deity or power. This secondary function, if used, does not also grant the bonuses and penalties relating to undead, as given above.
+
+Consecrate counters and dispels desecrate.
+
+<i>Material Component</i>
+A vial of holy water and 25 gp worth (5 pounds) of silver dust, all of which must be sprinkled around the area.
+<1374><16778590>:Desecrate
+<1375><16778591>:Evocation [Evil]
+<b>Level:</b> Clr 2, Evil 2
+<b>Components:</b> V, S, M, DF
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Close (25 ft. + 5 ft./2 levels)
+<b>Area:</b> 20-ft.-radius emanation
+<b>Duration:</b> 2 hours/level
+<b>Saving Throw:</b> None
+<b>Spell Resistance:</b> Yes
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+This spell imbues an area with negative energy. Each Charisma check made to turn undead within this area takes a -3 profane penalty, and every undead creature entering a desecrated area gains a +1 profane bonus on attack rolls, damage rolls, and saving throws. An undead creature created within or summoned into such an area gains +1 hit points per HD.
+
+If the desecrated area contains an altar, shrine, or other permanent fixture dedicated to your deity or aligned higher power, the modifiers given above are doubled (-6 profane penalty on turning checks, +2 profane bonus and +2 hit points per HD for undead in the area).
+
+Furthermore, anyone who casts animate dead within this area may create as many as double the normal amount of undead (that is, 4 HD per caster level rather than 2 HD per caster level).
+
+If the area contains an altar, shrine, or other permanent fixture of a deity, pantheon, or higher power other than your patron, the desecrate spell instead curses the area, cutting off its connection with the associated deity or power. This secondary function, if used, does not also grant the bonuses and penalties relating to undead, as given above.
+
+Desecrate counters and dispels consecrate.
+
+<i>Material Component</i>
+A vial of unholy water and 25 gp worth (5 pounds) of silver dust, all of which must be sprinkled around the area.
 <2000><16779216>:Bless (1)
 <2001><16779217>:Cure Light Wounds (1)
 <2002><16779218>:Endure Elements (1)
@@ -9696,6 +9911,70 @@ Worship of Isis is seen most often among the common people of Mulhorand.
 Clerics of Isis typically wear a white linen dress with sandals. They usually wear a wig over shaved heads, and paint three blue circles on their forehead as a symbol of their status as a priest of Mulhorand.
 When preparing for combat, priestess of Isis tend to shy from the use of armor. They otherwise equip them selves practically for the situation.
 Divine spellcasters of Isis pray for spells before the first meal of the day.
+<6230><16783446>:Path of Enlightenment
+<6231><16783447>:<color=Gold><b>PATH OF ENLIGHTENMENT</b></color>
+
+<b>Aliases:</b><i> The True Path, The Way of Enlightenment</i>
+
+The Path of Enlightenment, or the True Path, and known in Kozakura as the Way of Enlightenment, is the state religion of both Shou Lung and Wa and a popular one in Kozakura and other Kara-Turan countries. It is a major religion of much of Kara-Tur and the Hordelands.
+
+The Path of Enlightenment is based on a written code of behavior and beliefs believed to have been created by the Celestial Emperor in order that the mortal world and the Celestial Heaven mirror one another in the process of attaining perfection. They admonish people to:
+
+<i>
+- "Honor that which has gone before you. For the past is eternal."
+
+- "Honor and respect your Elders and the Ancestors. Show honor in word, thought, action, and deed."
+
+- "Speak not false words, nor engage in false deeds, for these are not li."
+
+- "Do honor to he who rules you, for the Earth is the Mirror of Heaven, and the Son of Heaven is the mirror of the Celestial One. Be obedient to your lord."
+
+- "Engage in no base thing, nor commit murder, for to strike another in the name of anger is not li."
+
+- "Do honor to those you must rule, for under the eye of Heaven, they are your equals. Be fair to those you rule."
+
+- "Know that all things are One under Heaven, even the lowliest of creatures."
+</i>
+
+In these commandments, li was a term meaning "rightness under heaven." Nine cardinal virtues were also emphasized by the Path: in alphabetical order, these were Artistry, Compassion, Courage, Fidelity, Honor, Karma, Love, Respect for Tradition, and Scholarship.
+
+The Path of Enlightenment is conveniently oriented to serve the wishes of the Imperial Family. It encourages fealty and obedience to one's lord, veneration of the past (including past emperors), and those who teach and guard the path. Its very nature deifies the person of the Emperor, elevating him to the very side of the Celestial One in importance, and conferring upon him a secret animal name upon his death.
+
+As the Celestial One's mirror upon the Earth, the Emperor has the right to speak directly to the Immortals as an equal, as well as to call upon the spirits of the Ancestral Emperors, whether in his direct family line or not. He does this in the Heart of the Place Most Secret, a shrine located in the very center of the Forbidden City, and known only to him and his most trusted wu jen. He must also perform all the proper rites, such as plowing the first fields with a silver plow at the start of the New Year (to ensure good harvest), and traveling to the Mountains of the Immortals to make the yearly rituals and sacrifices.
+<6232><16783448>:The Way
+<6233><16783449>:<color=Gold><b>THE WAY</b></color>
+
+The Way is a faith dominant in Shou Lung, T'u Lung, and other lands of Kara-Tur. The followers of the Way are known as Chung Tao, or Guides of the Way. The Way is much more of a philosophy than a religion, because its adherents believe that the true nature of the Way is unknowable. Its shrines are more like hermitages, and its very few temples organized as monasteries or schools, teaching a wide variety of subjects. The Way states that all things in the Celestial Universe affect and are affected by all others. There is no Good, Evil, Law or Chaos -- only the forces of the Universe, which may be manipulated as desired. The proper student of the Way thus recognizes this and strives to know the proper way in which to use these forces.
+
+A Chung Tao priest is actually something more of a wizard than a monk or scholar, and both dang-ki (shukenja) and wu jen may be followers of the Way. Powerful positions within the faith are occupied by mages or sorcerers more often than priests, and indeed, many of the great wu jen of history have been Chung Tao priests as well.
+
+The use of power is often the subject of debate, and so it is among the Chung Tao priests. In the earliest days of the Empire, this caused a great rift in the unified faith, with two main temple emerging from the chaos. One group, known as the Black Chung Tao, believe that the superior man has a duty to shape the universe to his ends; directing the unenlightened of the Earth to a higher goal. The second group, known as the White Chung Tao, believe that there are no superior men, only enlightened, ones, and that the proper observance of the Way is in maintaining the natural balance of events. The two sects are distinguished by an identifying mark worn on the chest or sewn on the garments. This symbol, representing the concept of Yin and Yang, is a circle with one half black and one half white. Within the center of each area is a small dot of the opposing color, symbolizing that each half is partially composed of the other. Among Black Chung Tao, the black side is uppermost -- among Whites, the white side is uppermost.
+<6234><16783450>:Faith of the Nine Travelers
+<6235><16783451>:<color=Gold><b>FAITH OF THE NINE TRAVELERS</b></color>
+
+<b>Aliases:</b><i> The Nine Travelers, The Nine Immortals</i>
+
+The Faith of the Nine Travelers, or simply "the Nine Travelers," is a faith common in Shou Lung and Wa in Kara-Tur.
+
+The Faith of the Nine Travelers is less a faith or religion and more a set of customs and a philosophy. It holds that Heaven is a vast mirror of the empire of Shou Lung, with its own empire, government, bureaucracy, and emperor. All of this in fact is believed to describe the Celestial Empire, which held spiritual authority over Kara-Tur: nevertheless, outsiders tend to disbelieve it out of hand, for the simple fact that it seemed so banal and mundane.
+
+In particular, adherents follow the Nine Immortals, also known as the Nine Travelers, and held that they were enormously powerful beings of the Celestial Bureaucracy. Each is followed by a different sect; believers argue about which of the Nine is the leader.
+
+A fundamental tenet of the faith is that even the lowest commoner could rise to become a ruler. This view is openly commended by the nobility but of course not exactly encouraged.
+
+As a religion, the Faith of the Nine Travelers is perhaps the least powerful of the faiths in Kara-Tur. It has no organized priesthood and very few temples. Instead, its true power lays in the many people of the lower classes and the bureaucracy who follow it.
+<6236><16783452>:Eight Million Gods
+<6237><16783453>:<color=Gold><b>EIGHT MILLION GODS</b></color>
+
+This ancient Kozakuran religion is a collection of beliefs and rituals that relate to various nature deities. There is no great teacher or book for the Eight Million Gods, or uniform rituals of worship. Observances vary from deity to deity and shrine to shrine.
+
+Shrines dedicated to the Eight Million Gods fall into two categories. First shrines and normal shrines. First shrines have been officially recognized and supported by the emperor and other nobles for centuries. They are often located in the old districts of cities and provincial capitals, and are larger and more powerful than other shrines. Many establish branches in other provinces to promote their particular beliefs and acquire a larger economic base of support.
+
+Normal shrines are often built and supported by local peasantry. They may commemorate past events, ensure good harvests, ward off evil influences, or even appease powerful evil beings. Local nobility also support shrines, particularly in towns or villages near their homes.
+
+Regardless of the type, most shrines are independent and unrelated to others. They are usually associated with a site of natural beauty or legendary significance, and may be found on the slopes of major mountains, along riverbanks, by the sea, or hidden away in forests. Many important shrines are dedicated to the sun goddess and the emperor, who is believed to be of divine ancestry.
+
+Worship at these places often consists of ritual purification, offerings of food or donations of money, and prayers. At least once a year major shrines have more elaborate festivals, involving sacred dances, bonfires, and processions through the streets.
 <7001><16784217>:Chain Shirt, Heavy (+1 ACP)
 <7003><16784219>:Scale Armor, Heavy (+1 ACP)
 <7005><16784221>:Banded Mail, Heavy (+1 ACP)
