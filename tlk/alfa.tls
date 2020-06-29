@@ -5313,6 +5313,24 @@ Desecrate counters and dispels consecrate.
 
 <i>Material Component</i>
 A vial of unholy water and 25 gp worth (5 pounds) of silver dust, all of which must be sprinkled around the area.
+<1376><16778592>:Whispering Wind
+<1377><16778593>:Evocation [Good]
+<b>Level:</b> Brd 2, Sor/Wiz 2
+<b>Components:</b> V, S
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> 1 mile/level
+<b>Area:</b> 10-ft.-radius spread
+<b>Duration:</b> No more than 1 hour/level or until discharged (destination is reached)
+<b>Saving Throw:</b> None
+<b>Spell Resistance:</b> No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+You send a message or sound on the wind to a designated spot. The whispering wind travels to a specific location within range that is familiar to you, provided that it can find a way to the location. A whispering wind is as gentle and unnoticed as a zephyr until it reaches the location. It then delivers its whisper-quiet message or other sound. Note that the message is delivered regardless of whether anyone is present to hear it. The wind then dissipates.
+
+You can prepare the spell to bear a message of no more than twenty-five words, cause the spell to deliver other sounds for 1 round, or merely have the whispering wind seem to be a faint stirring of the air. You can likewise cause the whispering wind to move as slowly as 1 mile per hour or as quickly as 1 mile per 10 minutes.
+
+When the spell reaches its objective, it swirls and remains in place until the message is delivered. As with magic mouth, whispering wind cannot speak verbal components, use command words, or activate magical effects.
 <2000><16779216>:Bless (1)
 <2001><16779217>:Cure Light Wounds (1)
 <2002><16779218>:Endure Elements (1)
