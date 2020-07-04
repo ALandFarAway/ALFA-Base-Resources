@@ -99,12 +99,13 @@ void main()
 			string sPortalDest = GetLocalString(oPortal, "PORTAL_DESTINATION");
 			string sPortalFunc = GetLocalString(oPortal, "PORTAL_FUNCTIONALITY");
 			string sPortalCompassDirection = GetCompassDirectionOfAngle(fAnglePortalFromCaster);
+            string sPortalDistance = GetDisplayableDistance(GetDistanceBetween(oCaster, oPortal));
 
 			if(nPortalNumber == 0) {
 				SendMessageToPC(
 					oCaster,
 					"You have discovered a portal within 60 feet! " +
-					"It is " + sPortalCompassDirection + " of your position. " +
+					"It is " sPortalDistance + " " + sPortalCompassDirection + " of your position. " +
 					sPortalLocation
 				);
 				}
@@ -116,7 +117,7 @@ void main()
 					SendMessageToPC(
 						oCaster,
 						"You have discovered another portal within 60 feet! " +
-						"It is " + sPortalCompassDirection + " of your position. " +
+					    "It is " sPortalDistance + " " + sPortalCompassDirection + " of your position. " +
 						sPortalLocation
 					)
 				);
