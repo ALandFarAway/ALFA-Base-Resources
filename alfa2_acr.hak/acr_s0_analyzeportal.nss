@@ -105,8 +105,8 @@ void main()
 				SendMessageToPC(
 					oCaster,
 					"You have discovered a portal within 60 feet! " +
-					"It is " + sPortalDistance + " " + sPortalCompassDirection + " of your position. " +
-					sPortalLocation
+					"It is " + sPortalDistance + " and " + sPortalCompassDirection +
+					" to your position. " + sPortalLocation
 				);
 				}
 			else {
@@ -117,8 +117,8 @@ void main()
 					SendMessageToPC(
 						oCaster,
 						"You have discovered another portal within 60 feet! " +
-						"It is " + sPortalDistance + " " + sPortalCompassDirection + " of your position. " +
-						sPortalLocation
+						"It is " + sPortalDistance + " and " + sPortalCompassDirection +
+						" to your position. " + sPortalLocation
 					)
 				);
 				}
