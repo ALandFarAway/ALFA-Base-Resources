@@ -13,6 +13,7 @@
 */
 
 #include "acr_spells_i"
+#include "acr_material_i"
 
 
 // How often verify_owner is polled to confirm the current owner
@@ -48,16 +49,6 @@ int isClubOrQuarterstaff(int nBaseItemType)
 }
 
 
-int isWooden(int nMaterialType)
-{
-    return (
-        nMaterialType == GMATERIAL_NONSPECIFIC ||
-        nMaterialType == GMATERIAL_WOOD_DUSKWOOD ||
-        nMaterialType == GMATERIAL_WOOD_DARKWOOD
-    );
-}
-
-
 void main()
 {
     object oCaster, oTarget;
@@ -88,7 +79,7 @@ void main()
     if (
         oTarget == OBJECT_INVALID ||
         !isClubOrQuarterstaff(nBaseItemType) ||
-        !isWooden(nMaterialType) ||
+        !IsMaterialWooden(nMaterialType) ||
         nCurrentEnhancement > 0
     ) {
         SendMessageToPC(oCaster, "Spell target must be a club or quarterstaff that is wooden and non-magical.");

@@ -523,6 +523,14 @@ namespace ACR_Items
                 }
                 #endregion
 
+                #region Dragonhide
+                else if (specialMat == GMATERIAL_CREATURE_DRAGONHIDE)
+                {
+                    value *= 2;
+                    masterworkCounted = true;
+                }
+                #endregion
+
                 #region Duskwood
                 else if (specialMat == GMATERIAL_WOOD_DUSKWOOD)
                 {
@@ -758,7 +766,7 @@ namespace ACR_Items
                 #endregion
 
                 #region Sondarr
-                else if (specialMat == GMATERIAL_LIVING_METAL)
+                else if (specialMat == GMATERIAL_SONDARR)
                 {
                     value += 1000;
                 }
