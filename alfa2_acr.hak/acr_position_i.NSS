@@ -21,7 +21,7 @@
 // Constants ///////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-const float METER_TO_FEET = 1.0f/FeetToMeters(1.0f);
+const float METER_TO_FEET = 3.28084;
 const float NUMBER_OF_COMPASS_DIRECTIONS = 16.0;
 const float HALF_COMPASS_ANGLE = 360.0/(NUMBER_OF_COMPASS_DIRECTIONS * 2.0);
 
@@ -56,11 +56,10 @@ string GetDisplayableDistance(float fDistance)
     /* Takes a distance in meters and returns a displayable value showing
      * relative distance
      */
-    string sFeetRaw, sFeetTruncated, sRelativeDistance;
+    string sFeet, sRelativeDistance;
 
     // turns meter distance into displayable feet, e.g. 1.0 -> "3"
-    sFeetRaw = FloatToString(MetersToFeet(fDistance));
-    sFeetTruncated = GetStringLeft(sFeetRaw, FindSubString(sFeetRaw, "."));
+    sFeet = FloatToString(MetersToFeet(fDistance), 0, 0);
 
     if (fDistance < 0.8f) {
         sRelativeDistance = "very close";
@@ -77,7 +76,7 @@ string GetDisplayableDistance(float fDistance)
     } else {
         sRelativeDistance = "very far away";
     }
-    return sRelativeDistance + " (" + sFeetTruncated + " ft)";
+    return sRelativeDistance + " (" + sFeet + " ft)";
 }
 
 

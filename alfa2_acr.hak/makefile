@@ -139,6 +139,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\shinn_sava_i.nss                      \
             $(OUTPUTDIR)\acr_dropgold_i.nss                    \
             $(OUTPUTDIR)\acr_movement_i.nss                    \
+            $(OUTPUTDIR)\acr_position_i.nss                    \
             $(OUTPUTDIR)\acr_guiglobals_i.nss                  
 
 NSS_OBJECTS=                                                   \
