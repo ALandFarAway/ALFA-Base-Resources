@@ -332,6 +332,7 @@ int _getSufferArmorFatigue(object oPC);
 #include "acr_nonlethal_i"
 #include "acr_effects_i"
 #include "acr_skills_i"
+#include "acr_spells_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -770,6 +771,9 @@ void _playerRestoreSpells(object oCaster, string sClasses, int nHitPoints)
 
     // clear away any improperly restored spells (that retain spelltrack entries)
     ACR_RestoreSpellUses(oCaster);
+
+    // Remove all spells with nontrackable side-effects
+    ACR_RemoveNonstandardSpellEffects(oCaster);
 	
     // restart the spell check timer - only needed for divine and wizard spells.  Each will be handled
     //  by a separate event, so either/or will work

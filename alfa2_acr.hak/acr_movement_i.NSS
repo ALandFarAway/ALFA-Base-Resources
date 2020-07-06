@@ -36,6 +36,7 @@ const string ACR_HORSE_PERS_LOC_Y = "ACR_HORSE_PERS_LOC_Y";
 const string ACR_HORSE_PERS_LOC_Z = "ACR_HORSE_PERS_LOC_Z";
 const string ACR_HORSE_OBJECT = "ACR_HORSE_OBJECT";
 const string ACR_HORSE_ID = "ACR_HORSE_ID";
+const string ACR_HORSE_SUMMONED = "ACR_HORSE_SUMMONED";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Structures //////////////////////////////////////////////////////////////////
@@ -101,6 +102,9 @@ object GetOwnershipItemById(object oPC, int nHorseId);
 
 // Set collision without changing DMs.
 void ACR_SetCollision( object oObject, int bCollide );
+
+// Destroy a horse and object owned by a PC
+void DestroyHorse(object oPC, object oHorseTool);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
@@ -417,4 +421,16 @@ object GetOwnershipItemById(object oPC, int nHorseId)
 void ACR_SetCollision( object oObject, int bCollide ) {
 	if ( GetIsDM( oObject ) ) return;
 	SetCollision( oObject, bCollide );
+}
+
+void DestroyHorse(object oPC, object oHorseTool)
+{
+  oHorse = GetLocalObject(oHorseTool, ACR_HORSE_OBJECT);
+
+  if (GetIsObjectValid(oPC)) {
+    Dismount(oPC);
+  }
+
+  RemoveHorseOwnership(oHorse);
+  DestroyObject(oHorse, 0.1);
 }
