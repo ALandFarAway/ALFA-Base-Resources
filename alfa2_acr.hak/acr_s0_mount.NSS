@@ -39,7 +39,7 @@ void verify_is_in_effect(object oCaster, object oHorse, object oHorseTool)
 
     // (For now) if caster doesn't exist, remove
     if (!GetIsObjectValid(oCaster)) {
-        despawn_horse(oCaster, oHorse, oHorseTool);
+        DestroyHorse(oCaster, oHorseTool);
         return;
     }
 
@@ -134,7 +134,7 @@ void main()
     // Set housekeeping/anti-exploit stuff on horse object
     SetDroppableFlag(oHorseTool, FALSE);
     SetPlotFlag(oHorseTool, TRUE);
-    SetName(oHorseTool, "(( OOC )) Summoned Horse");
+    SetFirstName(oHorseTool, "(( OOC )) Summoned Horse");
     SetLocalInt(oHorseTool, ACR_HORSE_SUMMONED, TRUE);
 
     // Create an invisible effect to track this spell
