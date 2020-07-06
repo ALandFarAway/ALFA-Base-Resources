@@ -77,10 +77,10 @@ const int  GMATERIAL_BONE_NONSPECIFIC = 57;
 ////////////////////////////////////////////////////////////////////////////////
 
 // Returns TRUE if this material is of a wooden type
-void isMaterialWooden(int nMaterialType, bAssumeWoodenIfUnset);
+void isMaterialWooden(int nMaterialType, int bAssumeWoodenIfUnset);
 
 // Returns TRUE if this material is of a metal type
-void isMaterialMetal(int nMaterialType, bAssumeMetalIfUnset);
+void isMaterialMetal(int nMaterialType, int bAssumeMetalIfUnset);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
