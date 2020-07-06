@@ -156,9 +156,6 @@ int ACR_ScrollUse(object oUser, object oScroll, int nSpellID);
 //!  - oCreature: The creature to be gaze attacked
 int ACR_CanGazeAttack(object oCreature);
 
-//! Removes all nonstandard spell effects created by PC
-void ACR_RemoveNonstandardSpellEffects(oPC);
-
 //! *** PRIVATE FUNCTIONS ***
 
 //! Determines which class a given caster should use to activate a scroll, and whether they succeed.
@@ -180,9 +177,6 @@ void _ProcessMishap(object oCaster, int nSpellLevel, int nSpellID);
 //! Check if we need to cache the spell 2da list
 int ACR__CheckIsReadySpell2daList();
 
-//! Remove all summoned mounts owned by PC
-void _RemoveSummonedMounts(object oPC);
-
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -193,7 +187,6 @@ void _RemoveSummonedMounts(object oPC);
 #include "acr_roll_i"
 #include "acr_creature_i"
 #include "acr_effects_i"
-#include "acr_movement_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -800,11 +793,6 @@ int ACR_CanGazeAttack(object oCreature)
         eEffect = GetNextEffect(oCreature);
     }
     return TRUE;
-}
-
-void ACR_RemoveNonstandardSpellEffects(object oPC)
-{
-    _RemoveSummonedMounts(oPC);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1579,17 +1567,6 @@ void _ProcessMishap(object oCaster, int nSpellLevel, int nSpellID) {
 			ApplyEffectToObject(DURATION_TYPE_TEMPORARY, eMishap, oCaster, (IntToFloat(nDuration)*8.57));
 		}	
 
-}
-
-
-void _RemoveSummonedMounts(object oPC)
-{
-    object oItem;
-    for (oItem = GetFirstItemInInventory(oPC); GetIsObjectValid(oItem) == TRUE; oItem = GetNextItemInInventory(oPC)) {
-        if (GetLocalInt(item, ACR_HORSE_SUMMONED) == TRUE) {
-            DestroyHorse(oPC, oItem);
-        }
-    }
 }
 
 #endif

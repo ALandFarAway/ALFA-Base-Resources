@@ -233,6 +233,9 @@ void ACR_ForceRest( object oPC );
 //!  - oPC: Player to instantly rest.
 void ACR_QuickRest( object oPC );
 
+//! Removes all nonstandard spell effects created by PC
+void ACR_RemoveNonstandardSpellEffects(object oPC);
+
 //! *** PRIVATE FUNCTIONS ***
 
 //! This function determines if a player is allowed to rest (heal and restore spells)
@@ -324,6 +327,9 @@ void _ProcessOffCameraRest(object oPC, int nDuration);
 //! Returns 1 if the user should be fatigued from wearing armor, else 0.
 int _getSufferArmorFatigue(object oPC);
 
+//! Remove all summoned mounts owned by PC
+void _RemoveSummonedMounts(object oPC);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Includes ////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -331,8 +337,8 @@ int _getSufferArmorFatigue(object oPC);
 #include "acr_time_i"
 #include "acr_nonlethal_i"
 #include "acr_effects_i"
+#include "acr_movement_i"
 #include "acr_skills_i"
-#include "acr_spells_i"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function Definitions ////////////////////////////////////////////////////////
@@ -670,6 +676,11 @@ void ACR_QuickRest( object oPC ) {
 	_playerRestFinish(oPC);
 }
 
+
+void ACR_RemoveNonstandardSpellEffects(object oPC)
+{
+    _RemoveSummonedMounts(oPC);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // *** BEGIN PRIVATE FUNCTIONS ***
@@ -1272,6 +1283,16 @@ void _ProcessOffCameraRest(object oPC, int nDuration)
 
     // save the character
     ACR_PCSave(oPC);
+}
+
+void _RemoveSummonedMounts(object oPC)
+{
+    object oItem;
+    for (oItem = GetFirstItemInInventory(oPC); GetIsObjectValid(oItem) == TRUE; oItem = GetNextItemInInventory(oPC)) {
+        if (GetLocalInt(oItem, ACR_HORSE_SUMMONED) == TRUE) {
+            DestroyHorse(oPC, oItem);
+        }
+    }
 }
 
 #endif
