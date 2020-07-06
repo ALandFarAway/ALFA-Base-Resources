@@ -194,6 +194,25 @@ namespace CLRScriptFramework
         public const int GMATERIAL_CREATURE_COPPER_DRAGON = 36;
         public const int GMATERIAL_CREATURE_GOLD_DRAGON = 37;
         public const int GMATERIAL_CREATURE_SILVER_DRAGON = 38;
+        public const int GMATERIAL_CREATURE_BULETTE = 39;
+        public const int GMATERIAL_CREATURE_ANKHEG = 40;
+        public const int GMATERIAL_CREATURE_DRAGONHIDE = 41;
+        public const int GMATERIAL_LEATHER_NONSPECIFIC = 42;
+        public const int GMATERIAL_METAL_STEEL = 43;
+        public const int GMATERIAL_METAL_BRONZE = 44;
+        public const int GMATERIAL_METAL_BRASS = 45;
+        public const int GMATERIAL_METAL_TIN = 46;
+        public const int GMATERIAL_METAL_LEAD = 47;
+        public const int GMATERIAL_METAL_PEWTER = 48;
+        public const int GMATERIAL_METAL_ELECTRUM = 49;
+        public const int GMATERIAL_METAL_NONSPECIFIC = 50;
+        public const int GMATERIAL_STONE_JADE = 51;
+        public const int GMATERIAL_STONE_OBSIDIAN = 52;
+        public const int GMATERIAL_STONE_NONSPECIFIC = 53;
+        public const int GMATERIAL_EARTHENWARE_NONSPECIFIC = 54;
+        public const int GMATERIAL_WOOD_NONSPECIFIC = 55;
+        public const int GMATERIAL_CLOTH_NONSPECIFIC = 56;
+        public const int GMATERIAL_BONE_NONSPECIFIC = 57;
 
         // Damage Types
         public const int DAMAGE_TYPE_ALL = 0;    // AFW-OEI 06/07/2007: Deprecated.  May function correctly for EffectDamage(); results are undefined for EffectDamageImmunity() and EffectDamageResistance().

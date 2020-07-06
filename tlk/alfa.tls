@@ -10357,9 +10357,9 @@ Eldritch knights split their time between physical training to become better sol
 <12786><16790002>:Wood (Bluewood)
 <12787><16790003>:Metal (Copper)
 <12788><16790004>:Metal (Dlarun)
-<12789><16790005>:Creature (Dragonfang)
+<12789><16790005>:Bone (Dragonfang)
 <12790><16790006>:Metal (Fever Iron)
-<12791><16790007>:Creature (Fiendbone)
+<12791><16790007>:Bone (Fiendbone)
 <12792><16790008>:Stone (Frystalline)
 <12793><16790009>:Metal (Gold)
 <12794><16790010>:Metal (Hizagkuur)
@@ -10367,7 +10367,7 @@ Eldritch knights split their time between physical training to become better sol
 <12796><16790012>:Metal (Pandemonic Silver)
 <12797><16790013>:Metal (Platinum)
 <12798><16790014>:Wood (Serren)
-<12799><16790015>:Metal (Sondarr)
+<12799><16790015>:Stone (Sondarr)
 <12800><16790016>:Metal (Suzailian Chainweave)
 <12801><16790017>:Creature (Black Dragon)
 <12802><16790018>:Creature (Blue Dragon)
@@ -10378,6 +10378,25 @@ Eldritch knights split their time between physical training to become better sol
 <12807><16790023>:Creature (Copper Dragon)
 <12808><16790024>:Creature (Gold Dragon)
 <12809><16790025>:Creature (Silver Dragon)
+<12810><16790026>:Creature (Bulette)
+<12811><16790027>:Creature (Ankheg)
+<12812><16790028>:Creature (Dragonhide)
+<12813><16790029>:Leather
+<12814><16790030>:Metal (Steel)
+<12815><16790031>:Metal (Bronze)
+<12816><16790032>:Metal (Brass)
+<12817><16790033>:Metal (Tin)
+<12818><16790034>:Metal (Lead)
+<12819><16790035>:Metal (Pewter)
+<12820><16790036>:Metal (Electrum)
+<12821><16790037>:Metal
+<12822><16790038>:Stone (Jade)
+<12823><16790039>:Stone (Obsidian)
+<12824><16790040>:Stone
+<12825><16790041>:Earthenware
+<12826><16790042>:Wood
+<12827><16790043>:Cloth
+<12828><16790044>:Bone
 <12995><16790211>:Spawn One (Non-Hostile)
 <12996><16790212>:Spawn 2d4 (Non-Hostile)
 <12997><16790213>:Spawn One (Hostile)
