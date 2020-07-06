@@ -31,22 +31,6 @@ string get_random_horse_resref()
 }
 
 
-void despawn_horse(object oCaster, object oHorse, object oHorseTool)
-{
-    if (GetIsObjectValid(oCaster)) {
-        Dismount(oCaster);
-    }
-
-    ApplyEffectToObject(
-        DURATION_TYPE_INSTANT,
-        EffectVisualEffect(VFX_IMP_UNSUMMON),
-        oHorse
-    );
-    DestroyObject(oHorse, 0.1);
-    DestroyObject(oHorseTool, 0.1);
-}
-
-
 // Checks if the spell is still in effect; if not, unsummons horse
 void verify_is_in_effect(object oCaster, object oHorse, object oHorseTool)
 {
@@ -55,7 +39,7 @@ void verify_is_in_effect(object oCaster, object oHorse, object oHorseTool)
 
     // (For now) if caster doesn't exist, remove
     if (!GetIsObjectValid(oCaster)) {
-        despawn_horse(oCaster, oHorse, oHorseTool);
+        DestroyHorse(oCaster, oHorseTool);
         return;
     }
 
@@ -68,7 +52,12 @@ void verify_is_in_effect(object oCaster, object oHorse, object oHorseTool)
     }
 
     if (!bMountEffectActive) {
-        despawn_horse(oCaster, oHorse, oHorseTool);
+        ApplyEffectToObject(
+            DURATION_TYPE_INSTANT,
+            EffectVisualEffect(VFX_IMP_UNSUMMON),
+            oHorse
+        );
+        DestroyHorse(oCaster, oHorseTool);
         return;
     }
 
@@ -141,6 +130,12 @@ void main()
 
     // Create horse object on caster
     oHorseTool = CreateItemOnObject(get_random_horse_resref(), oCaster);
+
+    // Set housekeeping/anti-exploit stuff on horse object
+    SetDroppableFlag(oHorseTool, FALSE);
+    SetPlotFlag(oHorseTool, TRUE);
+    SetFirstName(oHorseTool, "(( OOC )) Summoned Horse");
+    SetLocalInt(oHorseTool, ACR_HORSE_SUMMONED, TRUE);
 
     // Create an invisible effect to track this spell
     ApplyEffectToObject(
