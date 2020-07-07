@@ -1496,9 +1496,9 @@
 1492 Orders_Wrath_(7)                                  16778557 7         4         10080  3154       0         1       1          is_hammerofthegods
 1493 Holy_Smite_(7)                                    16778559 7         4         10080  3155       0         1       1          is_hammerofthegods
 1494 Unholy_Blight_(7)                                 16778561 7         4         10080  3156       0         1       1          is_hammerofthegods
-1495 Mages_Private_Sanctum_(9)                         16778567 9         4         10080  3157       0         0       1          isc_abjuration
+1495 Mages_Private_Sanctum_(9)                         16778567 9         5         16200  3157       0         0       1          isc_abjuration
 1496 Detect_Alignment_(1)                              16778570 1         1         360    3159       1         1       1          is_rejuvcocoon
-1497 Floaingt_Disk_(1)                                 16778576 1         1         360    3164       0         1       1          it_orb_elem_summon
+1497 Floaing_Disk_(1)                                  16778576 1         1         360    3164       0         1       1          it_orb_elem_summon
 1498 Gentle_Repose_(3)                                 16778578 3         2         2160   3165       0         1       1          ise_exhausted
 1499 Levitate_(3)                                      16778580 3         2         2160   3166       1         1       1          ira_e_bonusprof
 1500 Rope_Trick_(3)                                    16778582 3         2         2160   3167       0         1       1          inv_tool_rope3
