@@ -527,7 +527,7 @@ string GetValidHeadModels(int nSubrace, int nGender=0)
 			res = IntervalToList("[1-5][1-4]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HALFELF:
-			res = IntervalToList("[1-6,42,44-45][1-12]", nGender);
+			res = IntervalToList("[1-6,42,44-45][1-18,26-31,34,36,83-84,86]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HALFDROW:
 			res = IntervalToList("[1-3,7-12,42,44-45][13,7-12]", nGender);
