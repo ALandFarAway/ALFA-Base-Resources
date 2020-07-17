@@ -5,18 +5,18 @@
 !include $(PROJECT_SOURCE_ROOT)\makefile.def
 
 HAKFILE=$(OUTPUTDIR)\alfa_creatures2.hak
-HAK_SOURCES=                                                   \
-            .\*.UTC                                            \
-            .\*.WAV                                            \
-            .\*.MDB                                            \
-            .\*.GR2                                            \
-            .\*.TGA                                            \
-            .\*.SSF                                            \
-            .\*.FXA                                            \
-            .\*.XML                                            \
-            .\*.SEF                                            \
-            .\*.DDS                                            \
-            .\*.PFX                                            \
+HAK_SOURCES=            \
+            .\*.WAV     \
+            .\*.MDB     \
+            .\*.GR2     \
+            .\*.TGA     \
+            .\*.SSF     \
+            .\*.FXA     \
+            .\*.XML     \
+			.\*.RES     \
+            .\*.SEF     \
+            .\*.DDS     \
+            .\*.PFX     \
             .\*.TXT                                            
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
