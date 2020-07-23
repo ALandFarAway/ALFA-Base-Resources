@@ -13,10 +13,12 @@
 //:: Copied to NWN2 July, 2020
 //:://////////////////////////////////////////////
 
-void SplitCreature(object oCreature, int iHP);
+void SplitCreature(object oCreature);
 
-void SplitCreature(object oCreature, int iHP)
+void SplitCreature(object oCreature)
 {
+    int iCloneHP;
+    int iCurrentHP = GetCurrentHitPoints(oCreature);
     int iHitDice = GetHitDice(oCreature);
     int iDamage;
 
@@ -40,7 +42,8 @@ void SplitCreature(object oCreature, int iHP)
 
     if ((GetIsObjectValid(oClone1)) && (GetIsObjectValid(oClone2)))
     {
-        iDamage = GetCurrentHitPoints(oClone1) - (iHP/2);
+        iCloneHP = GetCurrentHitPoints(oClone1);
+        iDamage = iCloneHP - (iCurrentHP/2);
         eDamage = EffectDamage(iDamage);
 
         ApplyEffectAtLocation(DURATION_TYPE_INSTANT, ePoof1, lSpawn);

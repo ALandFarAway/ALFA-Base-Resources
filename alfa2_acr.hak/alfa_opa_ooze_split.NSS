@@ -22,8 +22,7 @@ void main()
     object oWeapon = GetLastWeaponUsed(oPC);
 
     effect eGhost = EffectCutsceneGhost();
-    int iCurrentHP = GetCurrentHitPoints(oSelf);
 
     ApplyEffectToObject(DURATION_TYPE_PERMANENT, eGhost, oSelf);
-    SplitCreature(oSelf, iCurrentHP);
+    SplitCreature(oSelf);
 }
