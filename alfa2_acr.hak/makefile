@@ -137,6 +137,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_bard_i.nss                        \
             $(OUTPUTDIR)\shinn_sava_config_i.nss               \
             $(OUTPUTDIR)\shinn_sava_i.nss                      \
+            $(OUTPUTDIR)\alfa_i0_oozesplit.nss                 \
             $(OUTPUTDIR)\acr_dropgold_i.nss                    \
             $(OUTPUTDIR)\acr_movement_i.nss                    \
             $(OUTPUTDIR)\acr_position_i.nss                    \
@@ -756,6 +757,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_ps_parchment_rename.ncs           \
             $(OUTPUTDIR)\gui_ps_parchment_write.ncs            \
             $(OUTPUTDIR)\i_ps_parchment_ac.ncs                 \
+            $(OUTPUTDIR)\alfa_opa_ooze_split.ncs               \
             $(OUTPUTDIR)\ps_parchment_read.ncs                 \
             $(OUTPUTDIR)\ps_parchment_readaloud.ncs            \
             $(OUTPUTDIR)\ps_parchment_write.ncs                 
