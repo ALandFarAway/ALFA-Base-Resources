@@ -225,7 +225,8 @@ void main()
 
     if(!GetIsObjectValid(oIntruder) ||
         GetIsDead(oIntruder) ||
-		(GetCurrentHitPoints(oIntruder) <= 0) ||      // AL Addition for ALFA
+        (GetCurrentHitPoints(oIntruder) <= 0) ||      // AL Addition for ALFA
+        GetHasEffect(EFFECT_TYPE_PETRIFY, oIntruder) ||      // Addition for ALFA
         GetLocalInt(oIntruder, sHenchRunningAway) ||
         GetAssociateState(NW_ASC_MODE_DYING, oIntruder) ||
         GetPlotFlag(oIntruder) ||
