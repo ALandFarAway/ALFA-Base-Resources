@@ -27,6 +27,8 @@ void SplitCreature(object oCreature, object oPC)
     int iDamage;
     int iSplit;
 
+    float fScale;
+
     string sResRef = GetResRef(oCreature);
 
     effect ePoof = EffectVisualEffect(VFX_IMP_ACID_L);
@@ -41,8 +43,6 @@ void SplitCreature(object oCreature, object oPC)
     if (iCurrentHP > 10) {
         iSplit = GetLocalInt(oCreature, "split") + 1;
         
-        SendMessageToPC(oPC, "splitting " + sResRef);
-    
         oClone1 = CreateObject(OBJECT_TYPE_CREATURE, sResRef, lSpawn);
         oClone2 = CreateObject(OBJECT_TYPE_CREATURE, sResRef, lSpawn);
     }
@@ -56,8 +56,9 @@ void SplitCreature(object oCreature, object oPC)
         ApplyEffectAtLocation(DURATION_TYPE_INSTANT, ePoof, lSpawn);
 
         // Make 50% smaller
-        SetScale(oClone1, 0.5, 0.5, 0.5);
-        SetScale(oClone2, 0.5, 0.5, 0.5);
+        fScale = pow(0.5, IntToFloat(iSplit));
+        SetScale(oClone1, fScale, fScale, fScale);
+        SetScale(oClone2, fScale, fScale, fScale);
 
         // Reduce max hp by 2^split
         iMaxHP = GetMaxHitPoints(oClone1);
