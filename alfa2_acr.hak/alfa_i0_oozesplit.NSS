@@ -42,7 +42,7 @@ void SplitCreature(object oCreature, object oPC)
     // Only split if HP > 10
     if (iCurrentHP > 10) {
         iSplit = GetLocalInt(oCreature, "split") + 1;
-        
+
         oClone1 = CreateObject(OBJECT_TYPE_CREATURE, sResRef, lSpawn);
         oClone2 = CreateObject(OBJECT_TYPE_CREATURE, sResRef, lSpawn);
     }
@@ -70,13 +70,13 @@ void SplitCreature(object oCreature, object oPC)
         eConLoss = EffectAbilityDecrease(ABILITY_CONSTITUTION, iConLoss);
         ApplyEffectToObject(DURATION_TYPE_PERMANENT, eConLoss, oClone1);
         ApplyEffectToObject(DURATION_TYPE_PERMANENT, eConLoss, oClone2);
-        
+
         // Bump up Fort for con loss
         iFortBonus = iConLoss / 2;
         eFortBonus = EffectSavingThrowIncrease(SAVING_THROW_FORT, iFortBonus);
         ApplyEffectToObject(DURATION_TYPE_PERMANENT, eFortBonus, oClone1);
         ApplyEffectToObject(DURATION_TYPE_PERMANENT, eFortBonus, oClone2);
-        
+
         // Reduce the hitpoints of the ooze
         iCloneHP = GetCurrentHitPoints(oClone1);
         iDamage = iCloneHP - (iCurrentHP/2);

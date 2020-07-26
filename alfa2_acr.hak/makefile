@@ -757,7 +757,6 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_ps_parchment_rename.ncs           \
             $(OUTPUTDIR)\gui_ps_parchment_write.ncs            \
             $(OUTPUTDIR)\i_ps_parchment_ac.ncs                 \
-            $(OUTPUTDIR)\alfa_opa_ooze_split.ncs               \
             $(OUTPUTDIR)\ps_parchment_read.ncs                 \
             $(OUTPUTDIR)\ps_parchment_readaloud.ncs            \
             $(OUTPUTDIR)\ps_parchment_write.ncs                 
