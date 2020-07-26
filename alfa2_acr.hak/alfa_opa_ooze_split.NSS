@@ -1,5 +1,5 @@
 //::///////////////////////////////////////////////
-//:: nw_ochrejlly_opa
+//:: alfa_opa_ooze_split
 //:: Copyright (c) 2004 Bioware Corp.
 //:://////////////////////////////////////////////
 /*
@@ -11,7 +11,7 @@
 //:: Created By: Keith K2 Hayward
 //:: Created On: August 2004
 //:: Modified On: January, 2006
-//:: Copied for NWN2 July, 2020
+//:: Rewritten for NWN2 July, 2020
 //:://////////////////////////////////////////////
 #include "alfa_i0_oozesplit"
 
@@ -21,8 +21,12 @@ void main()
     object oSelf = OBJECT_SELF;
     object oWeapon = GetLastWeaponUsed(oPC);
 
-    effect eGhost = EffectCutsceneGhost();
-
-    ApplyEffectToObject(DURATION_TYPE_PERMANENT, eGhost, oSelf);
-    SplitCreature(oSelf);
+    if (
+        GetIsObjectValid(oWeapon) && (
+            GetWeaponType(oWeapon) == WEAPON_TYPE_PIERCING ||
+            GetWeaponType(oWeapon) == WEAPON_TYPE_SLASHING ||
+            GetWeaponType(oWeapon) == WEAPON_TYPE_PIERCING_AND_SLASHING
+    )) {
+        SplitCreature(oSelf, oPC);
+    }
 }

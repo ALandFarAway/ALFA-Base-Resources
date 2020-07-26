@@ -1,5 +1,5 @@
 //::///////////////////////////////////////////////
-//:: nw_i0_ochrejelly (alfa_i0_oozesplit)
+//:: alfa_i0_oozesplit
 //:: Copyright (c) 2004 Bioware Corp.
 //:://////////////////////////////////////////////
 /*
@@ -10,60 +10,79 @@
 //:: Created By: Keith K2 Hayward
 //:: Created On: July, 2004
 //:: Modified On: January, 2006
-//:: Copied to NWN2 July, 2020
+//:: Rewritten for NWN2 July, 2020
 //:://////////////////////////////////////////////
 
-void SplitCreature(object oCreature);
+void SplitCreature(object oCreature, object oPC);
 
-void SplitCreature(object oCreature)
+void SplitCreature(object oCreature, object oPC)
 {
     int iCloneHP;
+    int iConLoss;
+    int iNewCon;
+    int iTotalCon;
+    int iFortBonus;
     int iCurrentHP = GetCurrentHitPoints(oCreature);
-    int iHitDice = GetHitDice(oCreature);
+    int iMaxHP;
     int iDamage;
+    int iSplit;
 
-    effect ePoof1 = EffectVisualEffect(VFX_IMP_ACID_L);
-    effect ePoof2 = EffectVisualEffect(VFX_HIT_SPELL_POISON);
-    effect eLevelDown, eDamage;
+    string sResRef = GetResRef(oCreature);
+
+    effect ePoof = EffectVisualEffect(VFX_IMP_ACID_L);
+    effect eDamage, eConLoss, eFortBonus;
 
     object oClone1;
     object oClone2;
 
     location lSpawn = GetLocation(oCreature);
-    string sResRef = GetResRef(oCreature);
 
-    // Split hit dice by half
-    if (iHitDice > 2)
-    {
-        oClone1 = CreateObject(OBJECT_TYPE_CREATURE, sResRef, lSpawn, TRUE);
-        oClone2 = CreateObject(OBJECT_TYPE_CREATURE, sResRef, lSpawn, TRUE);
-        iHitDice /= 2;
+    // Only split if HP > 10
+    if (iCurrentHP > 10) {
+        iSplit = GetLocalInt(oCreature, "split") + 1;
+        
+        SendMessageToPC(oPC, "splitting " + sResRef);
+    
+        oClone1 = CreateObject(OBJECT_TYPE_CREATURE, sResRef, lSpawn);
+        oClone2 = CreateObject(OBJECT_TYPE_CREATURE, sResRef, lSpawn);
     }
 
-    if ((GetIsObjectValid(oClone1)) && (GetIsObjectValid(oClone2)))
-    {
-        iCloneHP = GetCurrentHitPoints(oClone1);
-        iDamage = iCloneHP - (iCurrentHP/2);
-        eDamage = EffectDamage(iDamage);
+    if ((GetIsObjectValid(oClone1)) && (GetIsObjectValid(oClone2))) {
+        // Count split number
+        SetLocalInt(oClone1, "split", iSplit);
+        SetLocalInt(oClone2, "split", iSplit);
 
-        ApplyEffectAtLocation(DURATION_TYPE_INSTANT, ePoof1, lSpawn);
-        ApplyEffectToObject(DURATION_TYPE_INSTANT, ePoof2, oClone1);
-        ApplyEffectToObject(DURATION_TYPE_INSTANT, ePoof2, oClone2);
+        // VFX
+        ApplyEffectAtLocation(DURATION_TYPE_INSTANT, ePoof, lSpawn);
 
         // Make 50% smaller
         SetScale(oClone1, 0.5, 0.5, 0.5);
         SetScale(oClone2, 0.5, 0.5, 0.5);
 
-        // Reduce the hitpoints of the Jellies and take away levels
-        ApplyEffectToObject(DURATION_TYPE_INSTANT, eDamage, oClone1);
-        ApplyEffectToObject(DURATION_TYPE_INSTANT, eDamage, oClone2);
-
-        // If the Level of the monster is greater then 1 reduce it by levels
-        eLevelDown = EffectNegativeLevel(iHitDice, TRUE);
-        if (iHitDice > 0)
-        {
-            ApplyEffectToObject(DURATION_TYPE_INSTANT, eLevelDown, oClone1);
-            ApplyEffectToObject(DURATION_TYPE_INSTANT, eLevelDown, oClone2);
+        // Reduce max hp by 2^split
+        iMaxHP = GetMaxHitPoints(oClone1);
+        iTotalCon = GetAbilityScore(oClone1, ABILITY_CONSTITUTION);
+        iNewCon = (
+            iTotalCon / FloatToInt(pow(2.0, IntToFloat(iSplit)))
+        );
+        iConLoss = iTotalCon - iNewCon;
+        eConLoss = EffectAbilityDecrease(ABILITY_CONSTITUTION, iConLoss);
+        ApplyEffectToObject(DURATION_TYPE_PERMANENT, eConLoss, oClone1);
+        ApplyEffectToObject(DURATION_TYPE_PERMANENT, eConLoss, oClone2);
+        
+        // Bump up Fort for con loss
+        iFortBonus = iConLoss / 2;
+        eFortBonus = EffectSavingThrowIncrease(SAVING_THROW_FORT, iFortBonus);
+        ApplyEffectToObject(DURATION_TYPE_PERMANENT, eFortBonus, oClone1);
+        ApplyEffectToObject(DURATION_TYPE_PERMANENT, eFortBonus, oClone2);
+        
+        // Reduce the hitpoints of the ooze
+        iCloneHP = GetCurrentHitPoints(oClone1);
+        iDamage = iCloneHP - (iCurrentHP/2);
+        if (iDamage > 0) {
+            eDamage = EffectDamage(iDamage);
+            ApplyEffectToObject(DURATION_TYPE_INSTANT, eDamage, oClone1);
+            ApplyEffectToObject(DURATION_TYPE_INSTANT, eDamage, oClone2);
         }
 
         AssignCommand(oCreature, ClearAllActions(TRUE));
