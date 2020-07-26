@@ -56,7 +56,7 @@ void SplitCreature(object oCreature, object oPC)
         ApplyEffectAtLocation(DURATION_TYPE_INSTANT, ePoof, lSpawn);
 
         // Make area 50% smaller per split (70.7% reduction in scale each time)
-        fScale = pow(1.0f/sqrt(2), IntToFloat(iSplit));
+        fScale = pow(1.0f/sqrt(2.0f), IntToFloat(iSplit));
         SetScale(oClone1, fScale, fScale, fScale);
         SetScale(oClone2, fScale, fScale, fScale);
 
