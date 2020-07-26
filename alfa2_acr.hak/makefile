@@ -137,6 +137,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_bard_i.nss                        \
             $(OUTPUTDIR)\shinn_sava_config_i.nss               \
             $(OUTPUTDIR)\shinn_sava_i.nss                      \
+            $(OUTPUTDIR)\alfa_i0_oozesplit.nss                 \
             $(OUTPUTDIR)\acr_dropgold_i.nss                    \
             $(OUTPUTDIR)\acr_movement_i.nss                    \
             $(OUTPUTDIR)\acr_position_i.nss                    \
