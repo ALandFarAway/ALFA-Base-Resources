@@ -741,6 +741,11 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\nw_s1_gazeparal.ncs                   \
             $(OUTPUTDIR)\nw_s1_gazestun.ncs                    \
             $(OUTPUTDIR)\nw_s2_snghaven.ncs                    \
+            $(OUTPUTDIR)\nw_s2_sngcountr.ncs                   \
+            $(OUTPUTDIR)\nw_s2_sngcldmnd.ncs                   \
+            $(OUTPUTDIR)\nw_s2_sngfreedm.ncs                   \
+            $(OUTPUTDIR)\nw_s2_snginhero.ncs                   \
+            $(OUTPUTDIR)\nw_s2_sngiron.ncs                     \
             $(OUTPUTDIR)\acr_set_player_password.ncs           \
             $(OUTPUTDIR)\nw_s1_mephit_caustic_breath.ncs       \
             $(OUTPUTDIR)\nw_s1_mephit_dust_breath.ncs          \
