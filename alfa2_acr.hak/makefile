@@ -309,6 +309,8 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\x0_s0_bigby4.ncs                      \
             $(OUTPUTDIR)\x0_s0_bigby5.ncs                      \
             $(OUTPUTDIR)\nx_s0_avasculate.ncs                  \
+            $(OUTPUTDIR)\x0_s1_petrbreath.ncs                  \
+            $(OUTPUTDIR)\nw_s1_golemgas.ncs                    \
             $(OUTPUTDIR)\nw_s2_layonhand.ncs                   \
             $(OUTPUTDIR)\nw_s2_sngfascin.ncs                   \
             $(OUTPUTDIR)\nw_s2_wholeness.ncs                   \
