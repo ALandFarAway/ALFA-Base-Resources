@@ -57,7 +57,6 @@ void main()
 	if ( GetIsObjectValidSongTarget( oTarget ) )
 	{
     
-		int 	nPerform 	= GetSkillRank(SKILL_PERFORM);
 		int 	nSaveDC		= 11 + ( nPerform / 2 ); 
 		int 	nDuration 	= ApplySongDurationFeatMods( 10, OBJECT_SELF ); // Rounds
 

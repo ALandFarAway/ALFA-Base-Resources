@@ -147,7 +147,7 @@ namespace ABM_creator
         override public string baseDescription { get { return "A scroll is a heavy sheet of fine vellum or high-quality paper. An area about 8 ½ inches wide and 11 inches long is sufficient to hold one spell. The sheet is reinforced at the top and bottom with strips of leather slightly longer than the sheet is wide. To protect it from wrinkling or tearing, a scroll is rolled up from both ends to form a double cylinder. (This also helps the user unroll the scroll quickly.) The scroll is placed in a tube of ivory, jade, leather, metal, or wood, which is often sealed to keep out water and other liquids. Most scroll cases are inscribed with magic symbols which often identify the owner or the spells stored on the scrolls inside. A scroll has AC 9, 1 hit point, hardness 0, and a break DC of 8."; } }
         
         override public int baseType { get { return 75; } }
-        override public int baseCost { get { return 25; } }
+        override public int baseCost { get { return 10; } }
 
         public Scroll(int ip, int spellId, int spellLevel, int casterLevel, CNWSpell spell, string icon) : base(ip, spellId, spellLevel, casterLevel, spell, false, icon) { }
 
@@ -196,10 +196,10 @@ namespace ABM_creator
         override protected int cost(int spellLevel, int casterLevel)
         {
             if (spellLevel == 0)
-                return 12;
+                return 5;
             else if (spellLevel == 1)
-                return 25;
-            else return spellLevel * 50;
+                return 10;
+            else return spellLevel * 20;
         }
 
         override protected string GetAuraDescription(int spellLevel, CNWSpell spell) { return ""; }
@@ -233,7 +233,7 @@ namespace ABM_creator
         }
 
         override public int baseType { get { return 49; } }
-        override public int baseCost { get { return 50; } }
+        override public int baseCost { get { return 20; } }
 
         public Potion(int ip, int spellId, int spellLevel, int casterLevel, CNWSpell spell) : base(ip, spellId, spellLevel, casterLevel, spell) {}
 
@@ -346,7 +346,7 @@ namespace ABM_creator
         override public string baseName(int spellId) { return "wand"; }
 
         override public int baseType { get { return 46; } }
-        override public int baseCost { get { return 750; } }
+        override public int baseCost { get { return 300; } }
 
         public Wand(int ip, int spellId, int spellLevel, int casterLevel, CNWSpell spell) : base(ip, spellId, spellLevel, casterLevel, spell, false)
         {
