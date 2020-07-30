@@ -5649,8 +5649,8 @@ Round | Metal Temperature | Damage
 Any cold intense enough to damage the creature negates fire damage from the spell (and vice versa) on a point-for-point basis. If cast underwater, heat metal deals half damage and boils the surrounding water.
 
 Heat metal counters and dispels <i>chill metal</i>.
-<1405><16778620>:Chill Metal
-<1406><16778621>:Transmuation [Gold]
+<1404><16778620>:Chill Metal
+<1405><16778621>:Transmuation [Cold]
 <b>Level:</b> Drd 2
 <b>Components:</b> V, S, DF
 <b>Casting Time:</b> 1 standard action
@@ -5678,8 +5678,8 @@ Round | Metal Temperature | Damage
 Any heat intense enough to damage the creature negates cold damage from the spell (and vice versa) on a point-for-point basis. Underwater, chill metal deals no damage, but ice immediately forms around the affected metal, making it more buoyant.
 
 Chill metal counters and dispels heat metal.
-<1407><16778622>:Calm Emotions
-<1408><16778623>:Enchantment (Compulsion) [Mind-Affecting]
+<1406><16778622>:Calm Emotions
+<1407><16778623>:Enchantment (Compulsion) [Mind-Affecting]
 <b>Level:</b> Brd 2, Clr 2
 <b>Components:</b> V, S, DF
 <b>Casting Time:</b> 1 standard action
@@ -5694,8 +5694,8 @@ NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
 This spell calms agitated creatures. You have no control over the affected creatures, but calm emotions can stop raging creatures from fighting or joyous ones from reveling. Creatures so affected cannot take violent actions (although they can defend themselves) or do anything destructive. Any aggressive action against or damage dealt to a calmed creature immediately breaks the spell on all calmed creatures.
 
 This spell automatically suppresses (but does not dispel) any morale bonuses granted by spells such as <i>bless</i>, <i>good hope</i>, and <i>rage</i>, as well as negating a bard's ability to inspire courage or a barbarian's rage ability. It also suppresses any fear effects and removes the <i>confused</i> condition from all targets. While the spell lasts, a suppressed spell or effect has no effect. When the calm emotions spell ends, the original spell or effect takes hold of the creature again, provided that its duration has not expired in the meantime.
-<1409><16778624>:Make Whole
-<1410><16778625>:Transmutation
+<1408><16778624>:Make Whole
+<1409><16778625>:Transmutation
 <b>Level:</b> Clr 2
 <b>Components:</b> V, S
 <b>Casting Time:</b> 1 standard action
@@ -5708,8 +5708,8 @@ This spell automatically suppresses (but does not dispel) any morale bonuses gra
 NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
 
 Make whole completely repairs an object made of any substance, even one with multiple breaks, to be as strong as new. The spell does not restore the magical abilities of a broken magic item made whole, and it cannot mend broken magic rods, staffs, or wands. The spell does not repair items that have been warped, burned, <i>disintegrated</i>, ground to powder, melted, or vaporized, nor does it affect creatures (including constructs).
-<1411><16778626>:Continual Flame
-<1412><16778627>:Evocation [Light]
+<1410><16778626>:Continual Flame
+<1411><16778627>:Evocation [Light]
 <b>Level:</b> Clr 3, Sor/Wiz 2
 <b>Components:</b> V, S, M
 <b>Casting Time:</b> 1 standard action
@@ -5728,8 +5728,8 @@ Light spells counter and dispel darkness spells of an equal or lower level.
 
 <i>Material Component</i>
 You sprinkle ruby dust (worth 50 gp) on the item that is to carry the flame.
-<1413><16778628>:Good Hope
-<1414><16778629>:Enchantment (Compulsion) [Mind-Affecting]
+<1412><16778628>:Good Hope
+<1413><16778629>:Enchantment (Compulsion) [Mind-Affecting]
 <b>Level:</b> Brd 3
 <b>Components:</b> V, S
 <b>Casting Time:</b> 1 standard action
@@ -5744,8 +5744,8 @@ NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
 This spell instills powerful hope in the subjects. Each affected creature gains a +2 morale bonus on saving throws, attack rolls, ability checks, skill checks, and weapon damage rolls.
 
 Good hope counters and dispels <i>crushing despair</i>.
-<1415><16778630>:Moon Blade
-<1416><16778631>:Evocation
+<1414><16778630>:Moon Blade
+<1415><16778631>:Evocation
 <b>Level:</b> Moon 3
 <b>Components:</b> V, S, M/DF
 <b>Casting Time:</b> 1 standard action
@@ -5767,8 +5767,8 @@ The <i>moon blade</i> spell has no connection with the magic items known as <i>m
 
 <i>Arcane Material Component</i>
 A small candy made with wintergreen oil.
-<1417><16778632>:Phantom Steed
-<1418><16778633>:Conjuration (Creation)
+<1416><16778632>:Phantom Steed
+<1417><16778633>:Conjuration (Creation)
 <b>Level:</b> Brd 3, Sor/Wiz 3
 <b>Components:</b> V, S
 <b>Casting Time:</b> 10 minutes
@@ -5797,8 +5797,8 @@ The mount can use air walk at will (as the spell, no action required to activate
 
 <i>14th Level</i>
 The mount can fly at its speed (average maneuverability).
-<1419><16778634>:Stone Shape
-<1420><16778635>:Transmutation [Earth]
+<1418><16778634>:Stone Shape
+<1419><16778635>:Transmutation [Earth]
 <b>Level:</b> Clr 3, Brd 3, Sor/Wiz 4
 <b>Components:</b> V, S, M/DF
 <b>Casting Time:</b> 1 standard action
