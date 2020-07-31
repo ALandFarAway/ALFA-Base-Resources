@@ -1903,7 +1903,56 @@ At 13th level, a druid gains the ability to change her appearance at will, as if
 <790><16778006>:Practiced Spellcaster (Assassin)
 <791><16778007>:Extra Spell Slot (Assassin - Level 1)
 <792><16778008>:Extra Spell Slot (Assassin - Level 2)
-<793><16778009>: Extra Spell Slot (Assassin - Level 3)
+<793><16778009>:Extra Spell Slot (Assassin - Level 3)
+<794><16778010>:Detect Evil
+<795><16778011>:Divination castable at-will
+<b>Activation Time</b>: 1 round
+<b>Range</b>: 60 ft.
+<b>Area</b>: Cone-shaped emanation
+<b>Duration</b>: Concentration, up to 10 min./level (D)
+<b>Saving Throw</b>: None
+<b>Spell Resistance</b>: No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+You can sense the presence of evil. The amount of information revealed depends on how long you study a particular area or subject.
+
+<i>1st Round</i>
+Presence or absence of evil.
+
+<i>2nd Round</i>
+Number of the evil's auras (creatures, objects, or spells) in the area and the power of the most potent aura present.
+
+If you are of the good alignment, and the strongest aura's power is overwhelming, and the HD or level of the aura's source is at least twice your character level, you are stunned for 1 round and the spell ends.
+
+<i>3rd Round</i>
+The power and location of each aura. If an aura is outside your line of sight, then you discern its direction but not its exact location.
+
+<i>Aura Power</i>
+An aura's power depends on the type of creature or object that you're detecting and its HD, caster level, or (in the case of a cleric) class level. If an aura falls into more than one strength category, the spell indicates the stronger of the two.
+
+Creature/Object | Faint | Moderate | Strong | Overwhelming
+Evil creature* (HD) | 10 or lower | 11-25 | 26-50 | 51 or higher
+Undead (HD) | 2 or lower | 3-8 | 9-20 | 21 or higher
+Evil outsider (HD) | 1 or lower | 2-4 | 5-10 | 11 or higher
+Cleric of an Evil deity% (class levels) | 1 | 2-4 | 5-10 | 11 or higher
+Evil magic item or spell (caster level) | 2nd or lower | 3rd-8th | 9th-20th | 21st or higher
+    *Except for undead and outsiders, which have their own entries on the table.
+    %Some characters who are not clerics may radiate an aura of equivalent power. The class description will indicate whether this applies.
+
+<i>Lingering Aura</i>
+An evil aura lingers after its original source dissipates (in the case of a spell) or is destroyed (in the case of a creature or magic item). If detect evil is cast and directed at such a location, the spell indicates an aura strength of dim (even weaker than a faint aura). How long the aura lingers at this dim level depends on its original power.
+
+Original Strength | Duration of Lingering Aura
+Faint | 1d6 rounds
+Moderate | 1d6 minutes
+Strong | 1d6×10 minutes
+Overwhelming | 1d6 days
+
+Animals, traps, poisons, and other potential perils are not evil, and as such this spell does not detect them.
+
+Each round, you can turn to detect evil in a new area. The spell can penetrate barriers, but 1 foot of stone, 1 inch of common metal, a thin sheet of lead, or 3 feet of wood or dirt blocks it.
+
 <998><16778214>:Caster Level(s): Cleric 1, Paladin 1, Wizard / Sorcerer 1
 Innate Level: 1
 School: Abjuration
@@ -4652,8 +4701,7 @@ You gain intuitive insight into the workings of traps. You can use the Search sk
 Note that find traps grants no ability to disable the traps you may find.
 
 In addition, note that traps created before ACR v1.90 will be directly revealed at the casting of the spell.
-<1306><16778522>:Silence
-Illusion (Glamer)
+<1306><16778522>:Illusion (Glamer)
 Level: Brd 2, Clr 2
 Components: V, S
 Casting Time: 1 standard action
@@ -4665,8 +4713,7 @@ Spell Resistance: Yes; see text or no (object)
 
 Upon the casting of this spell, complete silence prevails in the affected area. All sound is stopped: Conversation is impossible, spells with verbal components cannot be cast, and no noise whatsoever issues from, enters, or passes through the area. The spell can be cast on a point in space, but the effect is stationary unless cast on a mobile object. The spell can be centered on a creature, and the effect then radiates from the creature and moves as it moves. An unwilling creature can attempt a Will save to negate the spell and can use spell resistance, if any. Items in a creature's possession or magic items that emit sound receive the benefits of saves and spell resistance, but unattended objects and points in space do not. This spell provides a defense against sonic or language-based attacks.
 <1307><16778523>:Animate Rope
-<1308><16778524>:<b>Animate Rope</b>
-Transmutation
+<1308><16778524>:Transmutation
 Level: Brd 1, Sor/Wiz 1
 Components: V, S
 Casting Time: 1 standard action
@@ -4692,8 +4739,7 @@ This spell grants a +2 bonus on any Use Rope checks you make when using the tran
 
 The spell cannot animate objects carried or worn by a creature.
 <1309><16778525>:Detect Secret Doors
-<1310><16778526>:<b>Detect Secret Doors</b>
-Divination
+<1310><16778526>:Divination
 Level: Brd 1, Knowledge 1, Sor/Wiz 1
 Components: V, S
 Casting Time: 1 standard action
@@ -4716,8 +4762,7 @@ Number of secret doors and the location of each. If an aura is outside your line
 <i>Each Additional Round</i>
 The mechanism or trigger for one particular secret portal closely examined by you. Each round, you can turn to detect secret doors in a new area. The spell can penetrate barriers, but 1 foot of stone, 1 inch of common metal, a thin sheet of lead, or 3 feet of wood or dirt blocks it. 
 <1311><16778527>:Erase
-<1312><16778528>:<b>Erase</b>
-Transmutation
+<1312><16778528>:Transmutation
 Level: Brd 1, Sor/Wiz 1
 Components: V, S
 Casting Time: 1 standard action
@@ -4733,8 +4778,7 @@ Erase removes writings of either magical or mundane nature from a scroll or from
 
 Magic writing must be touched to be erased, and you also must succeed on a caster level check (1d20 + caster level) against DC 15. (A natural 1 or 2 is always a failure on this check.) If you fail to erase explosive runes, a glyph of warding, or a sepia snake sigil, you accidentally activate that writing instead. 
 <1313><16778529>:Hypnotism
-<1314><16778530>:Hypnotism
-Enchantment (Compulsion) [Mind-Affecting]
+<1314><16778530>:Enchantment (Compulsion) [Mind-Affecting]
 Level: Brd 1, Sor/Wiz 1
 Components: V, S
 Casting Time: 1 round
@@ -4754,8 +4798,7 @@ While the subject is fascinated by this spell, it reacts as though it were two s
 
 A creature that fails its saving throw does not remember that you enspelled it. 
 <1315><16778531>:Magic Mouth
-<1316><16778532>:<b>Magic Mouth</b>
-Illusion (Glamer)
+<1316><16778532>:Illusion (Glamer)
 Level: Brd 1, Sor/Wiz 2
 Components: V, S, M
 Casting Time: 1 standard action
@@ -4778,8 +4821,7 @@ Magic mouth can be made permanent with a permanency spell.
 <i>Material Component</i>
 A small bit of honeycomb and jade dust worth 10 gp. 
 <1317><16778533>:Obscure Object
-<1318><16778534>:<b>Obscure Object</b>
-Abjuration
+<1318><16778534>:Abjuration
 Level: Brd 1, Clr 3, Sor/Wiz 2
 Components: V, S, M/DF
 Casting Time: 1 standard action
@@ -4796,8 +4838,7 @@ This spell hides an object from location by divination (scrying) effects, such a
 <i>Arcane Material Component</i>
 A piece of chameleon skin. 
 <1319><16778535>:Silent Image
-<1320><16778536>:<b>Silent Image</b>
-Illusion (Figment)
+<1320><16778536>:Illusion (Figment)
 Level: Brd 1, Sor/Wiz 1
 Components: V, S, F
 Casting Time: 1 standard action
@@ -4814,8 +4855,7 @@ This spell creates the visual illusion of an object, creature, or force, as visu
 <i>Focus</i>
 A bit of fleece. 
 <1321><16778537>:Ventriloquism
-<1322><16778538>:<b>Ventriloquism</b>
-Illusion (Figment)
+<1322><16778538>:Illusion (Figment)
 Level: Brd 1, Sor/Wiz 1
 Components: V, F
 Casting Time: 1 standard action
@@ -4832,8 +4872,7 @@ You can make your voice (or any sound that you can normally make vocally) seem t
 <i>Focus</i>
 A parchment rolled up into a small cone. 
 <1323><16778539>:Guidance
-<1324><16778540>:<b>Guidance</b>
-Divination
+<1324><16778540>:Divination
 Level: Clr 0, Drd 0
 Components: V, S
 Casting Time: 1 standard action
@@ -5132,26 +5171,26 @@ The power and location of each aura. If an aura is outside your line of sight, t
 An aura's power depends on the type of creature or object that you're detecting and its HD, caster level, or (in the case of a cleric) class level. If an aura falls into more than one strength category, the spell indicates the stronger of the two.
 
 Creature/Object | Faint | Moderate | Strong | Overwhelming
-Evil creature* (HD) | 10 or lower | 11-25 | 26-50 | 51 or higher
-Undead (HD) | 2 or lower | 3-8 | 9-20 | 21 or higher
-Evil outsider (HD) | 1 or lower | 2-4 | 5-10 | 11 or higher
-Cleric of an evil deity% (class levels) | 1 | 2-4 | 5-10 | 11 or higher
-Evil magic item or spell (caster level) | 2nd or lower | 3rd-8th | 9th-20th | 21st or higher
+Aligned creature* (HD) | 10 or lower | 11-25 | 26-50 | 51 or higher
+Undead [only when detecting evil] (HD) | 2 or lower | 3-8 | 9-20 | 21 or higher
+Aligned outsider (HD) | 1 or lower | 2-4 | 5-10 | 11 or higher
+Cleric of an Aligned deity% (class levels) | 1 | 2-4 | 5-10 | 11 or higher
+Aligned magic item or spell (caster level) | 2nd or lower | 3rd-8th | 9th-20th | 21st or higher
     *Except for undead and outsiders, which have their own entries on the table.
     %Some characters who are not clerics may radiate an aura of equivalent power. The class description will indicate whether this applies.
 
 <i>Lingering Aura</i>
-An evil aura lingers after its original source dissipates (in the case of a spell) or is destroyed (in the case of a creature or magic item). If detect evil is cast and directed at such a location, the spell indicates an aura strength of dim (even weaker than a faint aura). How long the aura lingers at this dim level depends on its original power.
-
-Animals, traps, poisons, and other potential perils are not evil, and as such this spell does not detect them.
-
-Each round, you can turn to detect evil in a new area. The spell can penetrate barriers, but 1 foot of stone, 1 inch of common metal, a thin sheet of lead, or 3 feet of wood or dirt blocks it.
+An alignment aura lingers after its original source dissipates (in the case of a spell) or is destroyed (in the case of a creature or magic item). If detect alignment is cast and directed at such a location, the spell indicates an aura strength of dim (even weaker than a faint aura). How long the aura lingers at this dim level depends on its original power.
 
 Original Strength | Duration of Lingering Aura
 Faint | 1d6 rounds
 Moderate | 1d6 minutes
 Strong | 1d6×10 minutes
 Overwhelming | 1d6 days
+
+Animals, traps, poisons, and other potential perils are not aligned, nor are beneficial items such as healing potions, antidotes -- thus this spell does not detect them.
+
+Each round, you can turn to detect alignments in a new area. The spell can penetrate barriers, but 1 foot of stone, 1 inch of common metal, a thin sheet of lead, or 3 feet of wood or dirt blocks it.
 <1356><16778572>:Detect Evil
 <1357><16778573>:Detect Good
 <1358><16778574>:Detect Chaos
@@ -5331,8 +5370,461 @@ You send a message or sound on the wind to a designated spot. The whispering win
 You can prepare the spell to bear a message of no more than twenty-five words, cause the spell to deliver other sounds for 1 round, or merely have the whispering wind seem to be a faint stirring of the air. You can likewise cause the whispering wind to move as slowly as 1 mile per hour or as quickly as 1 mile per 10 minutes.
 
 When the spell reaches its objective, it swirls and remains in place until the message is delivered. As with magic mouth, whispering wind cannot speak verbal components, use command words, or activate magical effects.
-<1378><16778594>:BLANK
-<1956><16779172>:BLANK
+<1378><16778594>:Enthrall
+<1379><16778595>:Enchantment (Charm) [Language Dependent, Mind-Affecting, Sonic]
+<b>Level:</b> Brd 2, Clr 2
+<b>Components:</b> V, S
+<b>Casting Time:</b> 1 round
+<b>Range:</b> Medium (100 ft. + 10 ft./level)
+<b>Targets:</b> Any number of creatures
+<b>Duration:</b> 1 hour or less
+<b>Saving Throw:</b> Will negates; see text
+<b>Spell Resistance:</b> Yes
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+If you have the attention of a group of creatures, you can use this spell to hold them spellbound. To cast the spell, you must speak or sing without interruption for 1 full round. Thereafter, those affected give you their undivided attention, ignoring their surroundings. They are considered to have an attitude of friendly while under the effect of the spell. Any potentially affected creature of a race or religion unfriendly to yours gets a +4 bonus on the saving throw.
+
+A creature with 4 or more HD or with a Wisdom score of 16 or higher remains aware of its surroundings and has an attitude of indifferent. It gains a new saving throw if it witnesses actions that it opposes.
+
+The effect lasts as long as you speak or sing, to a maximum of 1 hour. Those enthralled by your words take no action while you speak or sing and for 1d3 rounds thereafter while they discuss the topic or performance. Those entering the area during the performance must also successfully save or become enthralled. The speech ends (but the 1d3-round delay still applies) if you lose concentration or do anything other than speak or sing.
+
+If those not enthralled have unfriendly or hostile attitudes toward you, they can collectively make a Charisma check to try to end the spell by jeering and heckling. For this check, use the Charisma bonus of the creature with the highest Charisma in the group; others may make Charisma checks to assist. The heckling ends the spell if this check result beats your Charisma check result. Only one such challenge is allowed per use of the spell.
+
+If any member of the audience is attacked or subjected to some other overtly hostile act, the spell ends and the previously enthralled members become immediately unfriendly toward you. Each creature with 4 or more HD or with a Wisdom score of 16 or higher becomes hostile.
+<1380><16778596>:Shatter
+<1381><16778597>:Evocation [Sonic]
+<b>Level:</b> Brd 2, Clr 2, Sor/Wiz 2
+<b>Components:</b> V, S, M/DF
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Close (25 ft. + 5 ft./2 levels)
+<b>Area or Target:</b> 5-ft.-radius spread; or one solid object or one crystalline creature
+<b>Duration:</b> Instantaneous
+<b>Saving Throw:</b> Will negates (object); Will negates (object) or Fortitude half; see text
+<b>Spell Resistance:</b> Yes (object)
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+Shatter creates a loud, ringing noise that breaks brittle, nonmagical objects; sunders a single solid, nonmagical object; or damages a crystalline creature.
+
+Used as an area attack, shatter destroys nonmagical objects of crystal, glass, ceramic, or porcelain. All such objects within a 5-foot radius of the point of origin are smashed into dozens of pieces by the spell. Objects weighing more than 1 pound per your level are not affected, but all other objects of the appropriate composition are shattered.
+
+Alternatively, you can target shatter against a single solid object, regardless of composition, weighing up to 10 pounds per caster level. Targeted against a crystalline creature (of any weight), shatter deals 1d6 points of sonic damage per caster level (maximum 10d6), with a Fortitude save for half damage.
+
+<i>Arcane Material Component</i>
+A chip of mica.
+<1382><16778598>:Pyrotechnics
+<1383><16778599>:Transmutation
+<b>Level:</b> Brd 2, Sor/Wiz 2
+<b>Components:</b> V, S, M
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Long (400 ft. + 40 ft./level)
+<b>Target:</b> One fire source, up to a 20-ft. cube
+<b>Duration:</b> 1d4+1 rounds, or 1d4+1 rounds after creatures leave the smoke cloud; see text
+<b>Saving Throw:</b> Will negates or Fortitude negates; see text
+<b>Spell Resistance:</b> Yes or No; see text
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+Pyrotechnics turns a fire into either a burst of blinding fireworks or a thick cloud of choking smoke, depending on the version you choose.
+
+<i>Fireworks</i>
+The fireworks are a flashing, fiery, momentary burst of glowing, colored aerial lights. This effect causes creatures within 120 feet of the fire source to become blinded for 1d4+1 rounds (Will negates). These creatures must have line of sight to the fire to be affected. Spell resistance can prevent blindness.
+
+<i>Smoke Cloud</i>
+A writhing stream of smoke billows out from the source, forming a choking cloud. The cloud spreads 20 feet in all directions and lasts for 1 round per caster level. All sight, even darkvision, is ineffective in or through the cloud. All within the cloud take -4 penalties to Strength and Dexterity (Fortitude negates). These effects last for 1d4+1 rounds after the cloud dissipates or after the creature leaves the area of the cloud. Spell resistance does not apply.
+
+<i>Material Component</i>
+The spell uses one fire source, which is immediately extinguished. A fire so large that it exceeds a 20-foot cube is only partly extinguished. Magical fires are not extinguished, although a fire-based creature used as a source takes 1 point of damage per caster level.
+<1384><16778600>:Flaming Sphere
+<1385><16778601>:Evocation [Fire]
+<b>Level:</b> Drd 2, Sor/Wiz 2
+<b>Components:</b> V, S, M/DF
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Medium (100 ft. + 10 ft./level)
+<b>Effect:</b> 5-ft.-diameter sphere
+<b>Duration:</b> 1 ronud/level
+<b>Saving Throw:</b> Reflex negates
+<b>Spell Resistance:</b> Yes
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+A burning globe of fire rolls in whichever direction you point and burns those it strikes. It moves 30 feet per round. As part of this movement, it can ascend or jump up to 30 feet to strike a target. If it enters a space with a creature, it stops moving for the round and deals 2d6 points of fire damage to that creature, though a successful Reflex save negates that damage. A flaming sphere rolls over barriers less than 4 feet tall. It ignites flammable substances it touches and illuminates the same area as a torch would.
+
+The sphere moves as long as you actively direct it (a move action for you); otherwise, it merely stays at rest and burns. It can be extinguished by any means that would put out a normal fire of its size. The surface of the sphere has a spongy, yielding consistency and so does not cause damage except by its flame. It cannot push aside unwilling creatures or batter down large obstacles. A flaming sphere winks out if it exceeds the spell's range.
+
+<i>Arcane Material Component</i>
+A bit of tallow, a pinch of brimstone, and a dusting of powdered iron.
+<1386><16778602>:Fire Trap
+<1387><16778603>:Abjuration [Fire]
+<b>Level:</b> Drd 2, Sor/Wiz 4
+<b>Components:</b> V, S, M
+<b>Casting Time:</b> 10 minutes
+<b>Range:</b> Touch
+<b>Target:</b> Object touched
+<b>Duration:</b> Permanent until discharged (D)
+<b>Saving Throw:</b> Reflex half; see text
+<b>Spell Resistance:</b> Yes
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+Fire trap creates a fiery explosion when an intruder opens the item that the trap protects. A fire trap can ward any object that can be opened and closed.
+
+When casting fire trap, you select a point on the object as the spell's center. When someone other than you opens the object, a fiery explosion fills the area within a 5-foot radius around the spell's center. The flames deal 1d4 points of fire damage +1 point per caster level (maximum +20). The item protected by the trap is not harmed by this explosion.
+
+A fire trapped item cannot have a second closure or warding spell placed on it.
+
+A <i>knock</i> spell does not bypass a fire trap. An unsuccessful <i>dispel magic</i> spell does not detonate the spell.
+
+Underwater, this ward deals half damage and creates a large cloud of steam.
+
+You can use the fire trapped object without discharging it, as can any individual to whom the object was specifically attuned when cast. Attuning a fire trapped object to an individual usually involves setting a password that you can share with friends.
+
+<i>Note:</i> Magic traps such as fire trap are hard to detect and disable. A rogue (only) can use the Search skill to find a fire trap and Disable Device to thwart it. The DC in each case is 25 + spell level (DC 27 for a druid's fire trap or DC 29 for the arcane version).
+
+<i>Material Component</i>
+A half-pound of gold dust (cost 25 gp) sprinkled on the warded object.
+<1388><16778604>:Warp Wood
+<1389><16778605>:Transmutation
+<b>Level:</b> Drd 2
+<b>Components:</b> V, S
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Close (25 ft. + 5 ft./2 levels)
+<b>Target:</b> 1 Small wooden object/level, all within a 20-ft. radius
+<b>Duration:</b> Instantaneous
+<b>Saving Throw:</b> Will negates (object)
+<b>Spell Resistance:</b> Yes (object)
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+You cause wood to bend and warp, permanently destroying its straightness, form, and strength. A warped door springs open (or becomes stuck, requiring a Strength check to open, at your option). A boat or ship springs a leak. Warped ranged weapons are useless. A warped melee weapon causes a -4 penalty on attack rolls.
+
+You may warp one Small or smaller object or its equivalent per caster level. A Medium object counts as two Small objects, a Large object as four, a Huge object as eight, a Gargantuan object as sixteen, and a Colossal object as thirty-two.
+
+Alternatively, you can unwarp wood (effectively warping it back to normal) with this spell, straightening wood that has been warped by this spell or by other means. <i>Make whole</i>, on the other hand, does no good in repairing a warped item.
+
+You can combine multiple consecutive warp wood spells to warp (or unwarp) an object that is too large for you to warp with a single spell.
+
+Until the object is completely warped, it suffers no ill effects.
+<1390><16778606>:Arcane Lock
+<1391><16778607>:Abjuration
+<b>Level:</b> Sor/Wiz 2
+<b>Components:</b> V, S, M
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Touch
+<b>Target:</b> The door, chest, or portal touched, up to 30 sq. ft./level in size
+<b>Duration:</b> Permanent
+<b>Saving Throw:</b> None
+<b>Spell Resistance:</b> No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+An arcane lock spell cast upon a door, chest, or portal magically locks it. You can freely pass your own arcane lock without affecting it; otherwise, a door or object secured with this spell can be opened only by breaking in or with a successful <i>dispel magic</i> or <i>knock</i> spell. Add 10 to the normal DC to break open a door or portal affected by this spell. (A <i>knock</i> spell does not remove an arcane lock; it only suppresses the effect for 10 minutes.)
+
+<i>Material Component</i>
+Gold dust worth 25 gp.
+<1392><16778608>:Misdirection
+<1393><16778609>:Illusion (Glamer)
+<b>Level:</b> Brd 2, Sor/Wiz 2
+<b>Components:</b> V, S
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Close (25 ft. + 5 ft./2 levels)
+<b>Target:</b> One creature or object, up to a 10-ft. cube in size
+<b>Duration:</b> 1 hour/level
+<b>Saving Throw:</b> None or Will negates; see text
+<b>Spell Resistance:</b> No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+By means of this spell, you misdirect the information from divination spells that reveal auras (<i>detect evil</i>, <i>detect magic</i>, <i>discern lies</i>, and the like). On casting the spell, you choose another object within range. For the duration of the spell, the subject of misdirection is detected as if it were the other object. (Neither the subject nor the other object gets a saving throw against this effect.) Detection spells provide information based on the second object rather than on the actual target of the detection unless the caster of the detection succeeds on a Will save. For instance, you could make yourself detect as a tree if one were within range at casting: not evil, not lying, not magical, neutral in alignment, and so forth. This spell does not affect other types of divination magic (<i>augury</i>, <i>detect thoughts</i>, <i>clairaudience/clairvoyance</i>, and the like).
+<1394><16778610>:Minor Image
+<1395><16778611>:Illusion (Figment)
+<b>Level:</b> Brd 2, Sor/Wiz 2
+<b>Components:</b> V, S, F
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Long (400 ft. + 40 ft./level)
+<b>Effect:</b> Visual figment that cannot extend beyond four 10-ft. cubes + one 10-ft. cube/level (S)
+<b>Duration:</b> Concentration + 2 rounds
+<b>Saving Throw:</b> Will disbelief (if interacted with)
+<b>Spell Resistance:</b> No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+This spell creates the visual illusion of an object, creature, or force, as visualized by you. The illusion does not create smell, texture, or temperature and only some minor sounds but not understandable speech. You can move the image within the limits of the size of the effect.
+
+<i>Focus</i>
+A bit of fleece.
+<1396><16778612>:Fog Cloud
+<1397><16778613>:Conjuration (Creation)
+<b>Level:</b> Drd 2, Sor/Wiz 2, Water 2
+<b>Components:</b> V, S
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Medium (100 ft. + 10 ft. level)
+<b>Effect:</b> Fog spreads in 20-ft. radius, 20 ft. high
+<b>Duration:</b> 10 min./level
+<b>Saving Throw:</b> None
+<b>Spell Resistance:</b> No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+A bank of fog billows out from the point you designate. The fog obscures all sight, including darkvision, beyond 5 feet. A creature within 5 feet has concealment (attacks have a 20% miss chance). Creatures farther away have total concealment (50% miss chance, and the attacker can't use sight to locate the target).
+
+A moderate wind (11+ mph) disperses the fog in 4 rounds; a strong wind (21+ mph) disperses the fog in 1 round.
+
+The spell does not function underwater.
+<1398><16778614>:Wood Shape
+<1399><16778615>:Transmutation
+<b>Level:</b> Drd 2
+<b>Components:</b> V, S, DF
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Touch
+<b>Effect:</b> One touched piece of wood no larger than 10 cu. ft. + 1 cu. ft./level
+<b>Duration:</b> Instantaneous
+<b>Saving Throw:</b> Will negates (object)
+<b>Spell Resistance:</b> Yes (object)
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+Wood shape enables you to form one existing piece of wood into any shape that suits your purpose. While it is possible to make crude coffers, doors, and so forth, fine detail isn't possible. There is a 30% chance that any shape that includes moving parts simply doesn't work.
+<1400><16778616>:Soften Earth and Stone
+<1401><16778617>:Transmuation [Earth]
+<b>Level:</b> Drd 2, Earth 2
+<b>Components:</b> V, S, DF
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Close (25 ft. + 5 ft./2 levels)
+<b>Effect:</b> 10-ft. square/level; see text
+<b>Duration:</b> Instantaneous
+<b>Saving Throw:</b> None
+<b>Spell Resistance:</b> No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+When this spell is cast, all natural, undressed earth or stone in the spell's area is softened. Wet earth becomes thick mud, dry earth becomes loose sand or dirt, and stone becomes soft clay that is easily molded or chopped. You affect a 10-footsquare area to a depth of 1 to 4 feet, depending on the toughness or resilience of the ground at that spot. Magical, enchanted, dressed, or worked stone cannot be affected. Earth or stone creatures are not affected.
+
+A creature in mud must succeed on a Reflex save or be caught for 1d2 rounds and unable to move, attack, or cast spells. A creature that succeeds on its save can move through the mud at half speed, and it can't run or charge.
+
+Loose dirt is not as troublesome as mud, but all creatures in the area can move at only half their normal speed and can't run or charge over the surface.
+
+Stone softened into clay does not hinder movement, but it does allow characters to cut, shape, or excavate areas they may not have been able to affect before.
+
+While soften earth and stone does not affect dressed or worked stone, cavern ceilings or vertical surfaces such as cliff faces can be affected. Usually, this causes a moderate collapse or landslide as the loosened material peels away from the face of the wall or roof and falls.
+
+A moderate amount of structural damage can be dealt to a manufactured structure by softening the ground beneath it, causing it to settle. However, most well-built structures will only be damaged by this spell, not destroyed.
+<1402><16778618>:Heat Metal
+<1403><16778619>:Transmutation [Fire]
+<b>Level:</b> Drd 2, Sun 2
+<b>Components:</b> V, S, DF
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Close (25 ft. + 5 ft./2 levels)
+<b>Target:</b> Metal equipment of one creature per two levels, no two of which can be more than 30 ft. apart; or 25 lb. of metal/level, all of which must be within a 30-ft. circle
+<b>Duration:</b> 7 rounds
+<b>Saving Throw:</b> Will negates (object)
+<b>Spell Resistance:</b> Yes (object)
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+Heat metal makes metal extremely warm. Unattended, nonmagical metal gets no saving throw. Magical metal is allowed a saving throw against the spell. An item in a creature's possession uses the creature's saving throw bonus unless its own is higher.
+
+A creature takes fire damage if its equipment is heated. It takes full damage if its armor is affected or if it is holding, touching, wearing, or carrying metal weighing one-fifth of its weight. The creature takes minimum damage (1 point or 2 points; see the table) if it's not wearing metal armor and the metal that it's carrying weighs less than one-fifth of its weight.
+
+On the first round of the spell, the metal becomes warm and uncomfortable to touch but deals no damage. The same effect also occurs on the last round of the spell's duration. During the second (and also the next-to-last) round, intense heat causes pain and damage. In the third, fourth, and fifth rounds, the metal is searing hot, causing more damage, as shown on the table below.
+
+Round | Metal Temperature | Damage
+1 | Warm | None
+2 | Hot | 1d4 points
+3-5 | Searing | 2d4 points
+6 | Hot | 1d4 points
+7 | Warm | None
+
+Any cold intense enough to damage the creature negates fire damage from the spell (and vice versa) on a point-for-point basis. If cast underwater, heat metal deals half damage and boils the surrounding water.
+
+Heat metal counters and dispels <i>chill metal</i>.
+<1404><16778620>:Chill Metal
+<1405><16778621>:Transmuation [Cold]
+<b>Level:</b> Drd 2
+<b>Components:</b> V, S, DF
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Close (25 ft. + 5 ft./2 levels)
+<b>Target:</b> Metal equipment of one creature per two levels, no two of which can be more than 30 ft. apart; or 25 lb. of metal/level, none of which can be more than 30 ft. away from any of the rest
+<b>Duration:</b> 7 rounds
+<b>Saving Throw:</b> Will negates (object)
+<b>Spell Resistance:</b> Yes (object)
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+Chill metal makes metal extremely cold. Unattended, nonmagical metal gets no saving throw. Magical metal is allowed a saving throw against the spell. An item in a creature's possession uses the creature's saving throw bonus unless its own is higher.
+
+A creature takes cold damage if its equipment is chilled. It takes full damage if its armor is affected or if it is holding, touching, wearing, or carrying metal weighing one-fifth of its weight. The creature takes minimum damage (1 point or 2 points; see the table) if it's not wearing metal armor and the metal that it's carrying weighs less than one-fifth of its weight.
+
+On the first round of the spell, the metal becomes chilly and uncomfortable to touch but deals no damage. The same effect also occurs on the last round of the spell's duration. During the second (and also the next-to-last) round, icy coldness causes pain and damage. In the third, fourth, and fifth rounds, the metal is freezing cold, causing more damage, as shown on the table below.
+
+Round | Metal Temperature | Damage
+1 | Cold | None
+2 | Icy | 1d4 points
+3-5 | Freezing | 2d4 points
+6 | Icy | 1d4 points
+7 | Cold | None
+
+Any heat intense enough to damage the creature negates cold damage from the spell (and vice versa) on a point-for-point basis. Underwater, chill metal deals no damage, but ice immediately forms around the affected metal, making it more buoyant.
+
+Chill metal counters and dispels heat metal.
+<1406><16778622>:Calm Emotions
+<1407><16778623>:Enchantment (Compulsion) [Mind-Affecting]
+<b>Level:</b> Brd 2, Clr 2
+<b>Components:</b> V, S, DF
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Medium (100 ft. + 10 ft./level)
+<b>Target:</b> Creatures in a 20-ft.-radius spread
+<b>Duration:</b> Concentration, up to 1 round/level (D)
+<b>Saving Throw:</b> Will negates
+<b>Spell Resistance:</b> Yes
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+This spell calms agitated creatures. You have no control over the affected creatures, but calm emotions can stop raging creatures from fighting or joyous ones from reveling. Creatures so affected cannot take violent actions (although they can defend themselves) or do anything destructive. Any aggressive action against or damage dealt to a calmed creature immediately breaks the spell on all calmed creatures.
+
+This spell automatically suppresses (but does not dispel) any morale bonuses granted by spells such as <i>bless</i>, <i>good hope</i>, and <i>rage</i>, as well as negating a bard's ability to inspire courage or a barbarian's rage ability. It also suppresses any fear effects and removes the <i>confused</i> condition from all targets. While the spell lasts, a suppressed spell or effect has no effect. When the calm emotions spell ends, the original spell or effect takes hold of the creature again, provided that its duration has not expired in the meantime.
+<1408><16778624>:Make Whole
+<1409><16778625>:Transmutation
+<b>Level:</b> Clr 2
+<b>Components:</b> V, S
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Close (25 ft. + 5 ft./2 levels)
+<b>Target:</b> One object of up to 10 cu. ft./ level
+<b>Duration:</b> Instantaneous
+<b>Saving Throw:</b> Will negates (harmless, object)
+<b>Spell Resistance:</b> Yes (harmless, object)
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+Make whole completely repairs an object made of any substance, even one with multiple breaks, to be as strong as new. The spell does not restore the magical abilities of a broken magic item made whole, and it cannot mend broken magic rods, staffs, or wands. The spell does not repair items that have been warped, burned, <i>disintegrated</i>, ground to powder, melted, or vaporized, nor does it affect creatures (including constructs).
+<1410><16778626>:Continual Flame
+<1411><16778627>:Evocation [Light]
+<b>Level:</b> Clr 3, Sor/Wiz 2
+<b>Components:</b> V, S, M
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Touch
+<b>Target:</b> Object touched
+<b>Effect:</b> Magical, heatless flame
+<b>Duration:</b> Permanent
+<b>Saving Throw:</b> None
+<b>Spell Resistance:</b> No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+A flame, equivalent in brightness to a torch, springs forth from an object that you touch. The effect looks like a regular flame, but it creates no heat and doesn't use oxygen. A continual flame can be covered and hidden but not smothered or quenched.
+
+Light spells counter and dispel darkness spells of an equal or lower level.
+
+<i>Material Component</i>
+You sprinkle ruby dust (worth 50 gp) on the item that is to carry the flame.
+<1412><16778628>:Good Hope
+<1413><16778629>:Enchantment (Compulsion) [Mind-Affecting]
+<b>Level:</b> Brd 3
+<b>Components:</b> V, S
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Medium (100 ft. + 10 ft./level)
+<b>Targets:</b> One living creature/level, no two of which may be more than 30 ft. apart
+<b>Duration:</b> 1 min./level
+<b>Saving Throw:</b> Will negates (harmless)
+<b>Spell Resistance:</b> Yes (harmless)
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+This spell instills powerful hope in the subjects. Each affected creature gains a +2 morale bonus on saving throws, attack rolls, ability checks, skill checks, and weapon damage rolls.
+
+Good hope counters and dispels <i>crushing despair</i>.
+<1414><16778630>:Moon Blade
+<1415><16778631>:Evocation
+<b>Level:</b> Moon 3
+<b>Components:</b> V, S, M/DF
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> 0 ft.
+<b>Effect:</b> A swordline beam
+<b>Duration:</b> 1 min./level (D)
+<b>Saving Throw:</b> None
+<b>Spell Resistance:</b> Yes
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+A 3-foot-long, blazing beam of moonlight springs forth from your hand. Anyone who can cast <i>moon blade</i> can wield the beam with proficiency. However, if you are proficient with any type of sword, you can wield the beam as if it were any type of sword and thus gain the benefits of any special sword skill you might have, such as Weapon Focus.
+
+Attacks with the <i>moon blade</i> are melee touch attacks. Its strike saps vitality or life force, causing no visible wounds but dealing 1d8 points of damage plus 1 point per two caster levels (to a maximum of +15) to any type of creature except undead. Undead are visibly wounded by a <i>moon blade</i>. Their substance boils away from its touch, and they take 2d8 points of damage plus 1 point per caster level (to a maximum of +30) per blow. The blade is immaterial, and your Strength modifier does not apply to the damage.
+
+A successful <i>moon blade</i> strike temporarily scrambles magic. On the target's next turn after a hit from a <i>moon blade</i>, the creature must make a Concentration check to use any spell or spell-like ability. The DC is 10 + points of damage dealt + spell level. (An opponent hit by a <i>moon blade</i> while casting a spell must make the usual Concentration check to avoid ruining the spell in addition to the check on its next turn).
+
+The <i>moon blade</i> spell has no connection with the magic items known as <i>moonblades</i> borne and made by some elves.
+
+<i>Arcane Material Component</i>
+A small candy made with wintergreen oil.
+<1416><16778632>:Phantom Steed
+<1417><16778633>:Conjuration (Creation)
+<b>Level:</b> Brd 3, Sor/Wiz 3
+<b>Components:</b> V, S
+<b>Casting Time:</b> 10 minutes
+<b>Range:</b> 0 ft.
+<b>Effect:</b> One quasi-real, horselike creature
+<b>Duration:</b> 1 hour/level (D)
+<b>Saving Throw:</b> None
+<b>Spell Resistance:</b> No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+You conjure a Large, quasi-real, horselike creature. The steed can be ridden only by you or by the one person for whom you specifically created the mount. A phantom steed has a black head and body, gray mane and tail, and smoke-colored, insubstantial hooves that make no sound. It has what seems to be a saddle, bit, and bridle. It does not fight, but animals shun it and refuse to attack it.
+
+The mount has an AC of 18 (-1 size, +4 natural armor, +5 Dex) and 7 hit points +1 hit point per caster level. If it loses all its hit points, the phantom steed disappears. A phantom steed has a speed of 20 feet per caster level, to a maximum of 240 feet. It can bear its rider's weight plus up to 10 pounds per caster level.
+
+These mounts gain certain powers according to caster level. A mount's abilities include those of mounts of lower caster levels.
+
+<i>8th Level</i>
+The mount can ride over sandy, muddy, or even swampy ground without difficulty or decrease in speed.
+
+<i>10th Level</i>
+The mount can use water walk at will (as the spell, no action required to activate this ability).
+
+<i>12th Level</i>
+The mount can use air walk at will (as the spell, no action required to activate this ability) for up to 1 round at a time, after which it falls to the ground.
+
+<i>14th Level</i>
+The mount can fly at its speed (average maneuverability).
+<1418><16778634>:Stone Shape
+<1419><16778635>:Transmutation [Earth]
+<b>Level:</b> Clr 3, Brd 3, Sor/Wiz 4
+<b>Components:</b> V, S, M/DF
+<b>Casting Time:</b> 1 standard action
+<b>Range:</b> Touch
+<b>Target:</b> Stone or stone object touched, up to 10 cu. ft. + 1 cu. ft./level
+<b>Duration:</b> Instantaneous
+<b>Saving Throw:</b> None
+<b>Spell Resistance:</b> No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+You can form an existing piece of stone into any shape that suits your purpose. While it's possible to make crude coffers, doors, and so forth with stone shape, fine detail isn't possible. There is a 30% chance that any shape including moving parts simply doesn't work.
+
+<i>Arcane Material Component</i>
+Soft clay, which must be worked into roughly the desired shape of the stone object and then touched to the stone while the verbal component is uttered.
+<1936><16779152>:Stone Shape (5)
+<1937><16779153>:Phantom Steed (5)
+<1938><16779154>:Moon Blade (5)
+<1939><16779155>:Good Hope (5)
+<1940><16779156>:Continual Flame (3)
+<1941><16779157>:Make Whole (3)
+<1942><16779158>:Calm Emotions (3)
+<1943><16779159>:Chill Metal (3)
+<1944><16779160>:Heat Metal (3)
+<1945><16779161>:Soften Earth and Stone (3)
+<1946><16779162>:Wood Shape (3)
+<1947><16779163>:Fog Cloud (3)
+<1948><16779164>:Minor Image (3)
+<1949><16779165>:Misdirection (3)
+<1950><16779166>:Arcane Lock (3)
+<1951><16779167>:Warp Wood (3)
+<1952><16779168>:Fire Trap (3)
+<1953><16779169>:Flaming Sphere (3)
+<1954><16779170>:Pyrotechnics (3)
+<1955><16779171>:Shatter (3)
+<1956><16779172>:Enthrall (3)
 <1957><16779173>:Whispering Wind (3)
 <1958><16779174>:Desecrate (3)
 <1959><16779175>:Consecrate (3)
