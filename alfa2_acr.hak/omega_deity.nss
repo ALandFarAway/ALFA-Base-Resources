@@ -234,6 +234,14 @@ void main()
 		{sDeity = "Jannath";	}	
     if(iDeity == 108)
 		{sDeity = "Isis";	}	
+	if(iDeity == 109)
+		{sDeity = "Path of Enlightenment";	}
+	if(iDeity == 110)
+		{sDeity = "The Way";	}
+	if(iDeity == 111)
+		{sDeity = "Faith of the Nine Travelers";	}
+	if(iDeity == 112)
+		{sDeity = "Eight Million Gods";	}
 	
 	if(iDeity >= 0)
 		{SetDeity(oObject, sDeity);
