@@ -694,7 +694,7 @@ int _playerCanRest(object oPC)
     // do the simpler, local checks first before hitting the database for the rest cycle/time check
     
     // exit if the player is unconscious
-    if (GetCurrentHitPoints(oPC) < 0)
+    if (GetCurrentHitPoints(oPC) <= 0)
     {
         return ACR_REST_TYPE_INVALID;
     }
