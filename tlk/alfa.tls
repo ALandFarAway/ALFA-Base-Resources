@@ -7848,6 +7848,131 @@ Any use of an item or spell cancels this mode.
 <4813><16782029>:  Custom Poison (DC 39)
 <4814><16782030>: Custom Poison (DC 40) 
 <4815><16782031>:Custom Poison
+<4938><16781954>:Dragon Disciples
+<4939><16781955>:dragon disciples
+<4940><16781956>:Draconic Heritage (Red)
+<4941><16781957>:Draconic Heritage (Blue)
+<4942><16781958>:Draconic Heritage (Black)
+<4943><16781959>:Draconic Heritage (Green)
+<4944><16781960>:Draconic Heritage (White)
+<4945><16781961>:Draconic Heritage (Gold)
+<4946><16781962>:Draconic Heritage (Silver)
+<4947><16781963>:Draconic Heritage (Copper)
+<4948><16781964>:Draconic Heritage (Bronze)
+<4949><16781965>:Draconic Heritage (Brass)
+<4950><16781966>:Type of Feat: Class
+Prerequisite: Dragon Disciple.
+Specifics: The Dragon Disciple's heritage will determine his future abilities:
+- Gold, Red, and Brass Dragon decendants gain Fire breath weapons and Fire Immunity
+- Blue and Bronze Dragon decendants gain Lightning breath weapons and Lightning Immunity
+- Copper, Black, and Green Dragon decendants gain Acid breath weapons and Acid Immunity
+- Silver and White Dragon decendants gain Cold breath weapons and Cold Immunity
+
+Use: Automatic
+<4951><16781967>:Type of Feat: Class
+Prerequisite: Dragon Disciple level 3.
+Specifics: At 3rd level, the blue dragon disciple gains the ability to breate a line of lightning that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
+Use: Selected. This ability may be used once per day.
+<4952><16781968>:Type of Feat: Class
+Prerequisite: Dragon Disciple level 3.
+Specifics: At 3rd level, the black dragon disciple gains the ability to breate a line of acid that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
+Use: Selected. This ability may be used once per day.
+<4953><16781969>:Type of Feat: Class
+Prerequisite: Dragon Disciple level 3.
+Specifics: At 3rd level, the green dragon disciple gains the ability to breate a cone of acid that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
+Use: Selected. This ability may be used once per day.
+<4954><16781970>:Type of Feat: Class
+Prerequisite: Dragon Disciple level 3.
+Specifics: At 3rd level, the white dragon disciple gains the ability to breate a cone of cold that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
+Use: Selected. This ability may be used once per day.
+<4955><16781971>:Type of Feat: Class
+Prerequisite: Dragon Disciple level 3.
+Specifics: At 3rd level, the gold dragon disciple gains the ability to breate a cone of fire that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
+Use: Selected. This ability may be used once per day.
+<4956><16781972>:Type of Feat: Class
+Prerequisite: Dragon Disciple level 3.
+Specifics: At 3rd level, the silver dragon disciple gains the ability to breate a cone of cold that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
+Use: Selected. This ability may be used once per day.
+<4957><16781973>:Type of Feat: Class
+Prerequisite: Dragon Disciple level 3.
+Specifics: At 3rd level, the copper dragon disciple gains the ability to breate a line of acid that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
+Use: Selected. This ability may be used once per day.
+<4958><16781974>:Type of Feat: Class
+Prerequisite: Dragon Disciple level 3.
+Specifics: At 3rd level, the bronze dragon disciple gains the ability to breate a line of lightning that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
+Use: Selected. This ability may be used once per day.
+<4959><16781975>:Type of Feat: Class
+Prerequisite: Dragon Disciple level 3.
+Specifics: At 3rd level, the brass dragon disciple gains the ability to breate a line of fire that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
+Use: Selected. This ability may be used once per day.
+<4960><16781976>:Immunity to Acid
+<4961><16781977>:Type of Feat: Class
+Prerequisite: Dragon Disciple level 10.
+Specifics: The character gains immunity to acid.
+Use: Automatic
+<4962><16781978>:Immunity to Cold
+<4963><16781979>:Type of Feat: Class
+Prerequisite: Dragon Disciple level 10.
+Specifics: The character gains immunity to cold.
+Use: Automatic
+<4964><16781980>:Immunity to Lightning
+<4965><16781981>:Type of Feat: Class
+Prerequisite: Dragon Disciple level 10.
+Specifics: The character gains immunity to lightning.
+Use: Automatic
+<4966><16781982>:Blood of the Dragon
+<4967><16781983>:Type of Feat: Class
+Prerequisite: Dragon Disciple level 1.
+Specifics: The Dragon Disciple is a descendant of the union between a dragon and a humanoid.  As such, the dragon blood that flows through their veins waits to be awakened.
+<4968><16781984>:Bonus Dragon Disciple Slot (Sorcerer - Level 0)
+<4969><16781985>:Bonus Dragon Disciple Slot (Sorcerer - Level 1)
+<4970><16781986>:Bonus Dragon Disciple Slot (Sorcerer - Level 2)
+<4971><16781987>:Bonus Dragon Disciple Slot (Sorcerer - Level 3)
+<4972><16781988>:Bonus Dragon Disciple Slot (Sorcerer - Level 4)
+<4973><16781989>:Bonus Dragon Disciple Slot (Sorcerer - Level 5)
+<4974><16781990>:Bonus Dragon Disciple Slot (Sorcerer - Level 6)
+<4975><16781991>:Bonus Dragon Disciple Slot (Sorcerer - Level 7)
+<4976><16781992>:Bonus Dragon Disciple Slot (Sorcerer - Level 8)
+<4977><16781993>:Bonus Dragon Disciple Slot (Sorcerer - Level 9)
+<4978><16781994>:Type of Feat: Class
+Prerequisite: Dragon Disciple
+Specifics: You gain one extra spell slot in your daily allotment, at any level up to the highest level of spell you can currently cast.
+Use: Automatic
+<4979><16781995>:Bonus Dragon Disciple Slot (Bard - Level 0)
+<4980><16781996>:Bonus Dragon Disciple Slot (Bard - Level 1)
+<4981><16781997>:Bonus Dragon Disciple Slot (Bard - Level 2)
+<4982><16781998>:Bonus Dragon Disciple Slot (Bard - Level 3)
+<4983><16781999>:Bonus Dragon Disciple Slot (Bard - Level 4)
+<4984><16782200>:Bonus Dragon Disciple Slot (Bard - Level 5)
+<4985><16782201>:Bonus Dragon Disciple Slot (Bard - Level 6)
+<4986><16782202>:0th Level RDD Sorcerer Slot
+<4987><16782203>:Through increased magical intuition, you gain the ability to use a Dragon Disciple Bonus Spell Slot to cast Level 0 Sorcerer spells if you decide to become a Dragon Disciple.
+
+You gain this feat when you have the ability to cast Level 1 Sorcerer spells.
+<4988><16782204>:1st Level RDD Sorcerer Slot
+<4989><16782205>:Through increased magical intuition, you gain the ability to use a Dragon Disciple Bonus Spell Slot to cast Level 1 Sorcerer spells if you decide to become a Dragon Disciple.
+
+You gain this feat when you have the ability to cast Level 1 Sorcerer spells.
+<4990><16782206>:2nd Level RDD Sorcerer Slot
+<4991><16782207>:Through increased magical intuition, you gain the ability to use a Dragon Disciple Bonus Spell Slot to cast Level 2 Sorcerer spells if you decide to become a Dragon Disciple.
+
+You gain this feat when you have the ability to cast Level 2 Sorcerer spells.
+<4992><16782208>:3rd Level RDD Sorcerer Slot
+<4993><16782209>:Through increased magical intuition, you gain the ability to use a Dragon Disciple Bonus Spell Slot to cast Level 3 Sorcerer spells if you decide to become a Dragon Disciple.
+
+You gain this feat when you have the ability to cast Level 3 Sorcerer spells.
+<4994><16782210>:4th Level RDD Sorcerer Slot
+<4995><16782211>:Through increased magical intuition, you gain the ability to use a Dragon Disciple Bonus Spell Slot to cast Level 4 Sorcerer spells if you decide to become a Dragon Disciple.
+
+You gain this feat when you have the ability to cast Level 4 Sorcerer spells.
+<4996><16782212>:5th Level RDD Sorcerer Slot
+<4997><16782213>:Through increased magical intuition, you gain the ability to use a Dragon Disciple Bonus Spell Slot to cast Level 5 Sorcerer spells if you decide to become a Dragon Disciple.
+
+You gain this feat when you have the ability to cast Level 5 Sorcerer spells.
+<4998><16782214>:6th Level RDD Sorcerer Slot
+<4999><16782215>:Through increased magical intuition, you gain the ability to use a Dragon Disciple Bonus Spell Slot to cast Level 6 Sorcerer spells if you decide to become a Dragon Disciple.
+
+You gain this feat when you have the ability to cast Level 6 Sorcerer spells.
 <5000><16782216>:Arcane Archer
 <5001><16782217>:<color=Gold><b>Arcane Archer</b></color>
 
@@ -8892,13 +9017,13 @@ A ranger can use a variety of weapons and is quite capable in combat. His skills
 - <b>Camouflage:</b> At 13th level the ranger does not suffer a movement penalty for using stealth mode when in outdoor areas.
 
 - <b>Hide in Plain Sight:</b> When outdoors, a 17th level ranger has the ability to use the Hide skill even when being watched and in combat.
-<5048><16782264>:Red Dragon Disciple
-<5049><16782265>:<color=Gold><b>Red Dragon Disciple</b></color>
+<5048><16782264>:Dragon Disciple
+<5049><16782265>:<color=Gold><b>Dragon Disciple</b></color>
 
 <b><i>ALFA Note: The requirements on this class have been altered to more closely match PnP canon rules.</i></b>
 <color=Red>(PRESTIGE CLASS: This class is not available at character creation and must be unlocked by meeting special requirements, listed below.)</color>
 
-It is known that certain dragons can take humanoid form and even have humanoid lovers. Sometimes a child is born of this union, and every child of that child unto the thousandth generation claims a bit of dragon blood, be it ever so small. Usually, little comes of it, though mighty sorcerers occasionally credit their powers to draconic heritage. For some, however, dragon blood beckons irresistibly. These characters become dragon disciples, who use their magical power as a catalyst to ignite their dragon blood, realizing its fullest potential. Members of this prestige class draw on the potent blood of red dragons coursing in their veins. Though red dragons are among the most cruel and evil creatures on Faerûn, red dragon disciples may be of any alignment.
+It is known that certain dragons can take humanoid form and even have humanoid lovers. Sometimes a child is born of this union, and every child of that child unto the thousandth generation claims a bit of dragon blood, be it ever so small. Usually, little comes of it, though mighty sorcerers occasionally credit their powers to draconic heritage. For some, however, dragon blood beckons irresistibly. These characters become dragon disciples, who use their magical power as a catalyst to ignite their dragon blood, realizing its fullest potential. Members of this prestige class draw on the potent blood of dragons coursing in their veins.
 
 <color=Gold>Requirements:</color>
 
@@ -8922,15 +9047,21 @@ It is known that certain dragons can take humanoid form and even have humanoid l
 
 - <b>Class Skills:</b> The dragon disciple's class skills (and the key ability for each skill) are Concentration (Con), Craft (Int), Diplomacy (Cha), Escape Artist (Dex), Gather Information (Cha), Knowledge (all skills, taken individually) (Int), Listen (Wis), Parry (Dex), Profession (Wis), Search (Int), Speak Language (None), Spellcraft (Int), and Spot (Wis).
 
-- <b>Natural Armor Increase:</b> At 1st level, the red dragon disciple's skin toughens and begins to grow scaly, granting him a +1 natural armor bonus to AC. This bonus improves to +2 at 4th level, +3 at 7th level, and +4 at 10th level.
+- <b>Draconic Heritage:</b> At level 1 the dragon disciple chooses the source of his draconic heritage from 10 varieties of dragons.  This choice will determine the path of his future growth and abilities.  
 
-- <b>Draconic Ability Scores:</b> As the red dragon disciple's oneness with his draconic blood increases, his ability scores improve significantly. At 2nd level, he gains a +2 to Strength. At 4th level, this bonus increases to +4. At 7th level, the red dragon disciple gains a +2 to Constitution, and at 8th level he gains +2 Intelligence. Finally, at 10th level, he gains an additional +4 bonus to Strength (for a total of +8).
+- <b>Bonus Spells:</b> Dragon disciples gain bonus spells as they gain levels in this prestige class, as if from having a high ability score, at Dragon disciple levels 2, 4, 5, 6, 8 and 9. A bonus spell can be added to any level of spells the disciple already has the ability to cast.  Once a bonus spell has been applied, it cannot be changed.
 
-- <b>Breath Weapon:</b> At 3rd level, the red dragon disciple gains the ability to breathe a cone of fire that deals 2d10 points of damage to all creatures within its area. This damage increases to 4d10 at 7th level and 6d10 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 the red dragon disciple's class level + the character's Charisma bonus). This ability may be used once per day.
+- <b>Natural Armor Increase:</b> At 1st level, a dragon disciple becomes more draconic in appearance. His skin develops tiny iridescent scales, nearly invisible at first but becoming more noticeable at higher levels. This provides a +1 Natural armor increase. This bonus improves to +2 at 4th level, +3 at 7th level, and +4 at 10th level.
 
-- <b>Blind-Fight:</b> At 5th level, the red dragon disciple gains the ability to fight well, even if blinded or against invisible creatures. A character with this ability gets to reroll her miss chance percentile one time to see if she actually hits. Furthermore, invisible creatures get no bonus to hit the character in melee.
+- <b>Claws and Bite:</b> At 2nd level, a dragon disciple gains claw and bite attacks if he does not already have them. The Bite/Claw damage for a Small-sized creature is 1d4/1d3, and for a Medium-sized creature is is 1d6/1d4.
 
-- <b>Half-Dragon:</b> At 10th level, the red dragon disciple's transformation is complete. He becomes a half-dragon, and gains darkvision as well as immunity to sleep, paralysis, and fire.
+- <b>Draconic Ability Scores:</b> As the dragon disciple's oneness with his draconic blood increases, his ability scores improve significantly. At 2nd level, he gains a +2 to Strength. At 4th level, this bonus increases to +4. At 6th level, the dragon disciple gains a +2 to Constitution, and at 8th level he gains +2 Intelligence. 
+
+- <b>Breath Weapon:</b> At 3rd level, the red dragon disciple gains the ability to breathe the breath weapon of his ancestor that deals 2d8 points of damage (also determined by his ancestor's blood). At 7th level, the damage increases to 4d8, and when a disciple attains dragon apotheosis at 10th level, it reaches its full power at 6d8. Regardless of its strength, the breath weapon can be used only once per day. The DC of the breath weapon is 10 + class level + Con modifier.
+
+- <b>Blind-Fight:</b> At 5th level, the dragon disciple gains the ability to fight well, even if blinded or against invisible creatures. A character with this ability gets to reroll her miss chance percentile one time to see if she actually hits. Furthermore, invisible creatures get no bonus to hit the character in melee.
+
+- <b>Dragon Apotheosis:</b> At 10th level, a dragon disciple fully realizes his draconic heritage and becomes a half-dragon. His breath weapon reaches full strength (as noted above) and he gains +4 to Strength and +2 to Charisma. His natural armor bonus is increased to +4, and he acquires low-light vision, 60-foot darkvision, immunity to <i>sleep</i> and paralysis effects, and immunity to the same element as his breath weapon.
 <5050><16782266>:Red Wizard
 <5051><16782267>:<color=Gold><b>Red Wizard</b></color>
 
