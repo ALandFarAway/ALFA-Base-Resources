@@ -616,6 +616,9 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\as_group_loot_nature.ncs              \
             $(OUTPUTDIR)\gui_notifylist.ncs                    \
             $(OUTPUTDIR)\d_appearance_action.ncs               \
+            $(OUTPUTDIR)\acr_dd_breath_line.ncs                \
+            $(OUTPUTDIR)\acr_dd_immunity.ncs                   \
+            $(OUTPUTDIR)\x2_S2_discbreath.ncs                  \
             $(OUTPUTDIR)\acr_ipc_logmsg.ncs                    \
             $(OUTPUTDIR)\acr_checkpersistentint.ncs            \
             $(OUTPUTDIR)\acr_subdual.ncs                       \
