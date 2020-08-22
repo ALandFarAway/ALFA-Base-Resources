@@ -7,6 +7,7 @@ DIRS=                               \
      alfa_creatures.hak             \
      alfa_creatures2.hak            \
      alfa_creatures3.hak            \
+     alfa_creatures4.hak            \
      alfa2_2da.hak                  \
      alfa2_gui.hak                  \
      alfa_fx.hak                    \

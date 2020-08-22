@@ -1,0 +1,4 @@
+////Judes Faces of Neverwinter////
+///These are high rez textures that may cause issues in game.   There are about  120 different heads for various races that are included here///
+/// installed 9/2020  by Arri///  
+///This is the entire contents of the  alfa_creatures4.hak///

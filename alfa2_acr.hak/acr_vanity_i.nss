@@ -405,7 +405,7 @@ int GetRandomHeadModel(int nSubrace, int nGender=0)
 			res = UniformRandomOverInterval("[1-6][1-7]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HUMAN:
-			res = UniformRandomOverInterval("[1-10,12-20,22-24,40-42,51-60,62-66,99][1-6,8-15,20,25,31,33,36,39-40,58-60,75,87-95,97]", nGender);
+			res = UniformRandomOverInterval("[1-10,12-20,22-24,40-42,51-60,62-66,201,202, 204, 207,210][1-6,8-15,20,25,31,33,36,39-40,58-60,75,87-95,97, 210, 215, 216]", nGender);
 			break;
 		case RACIAL_SUBTYPE_YUANTI:
 		case RACIAL_SUBTYPE_GRAYORC:
@@ -518,16 +518,16 @@ string GetValidHeadModels(int nSubrace, int nGender=0)
 			res = IntervalToList("[1-6,14,20][1-6,13,15,53]", nGender);
 			break;
 		case RACIAL_SUBTYPE_DROW:
-			res = IntervalToList("[1-6,12,14,20,31][1-9,10,14,19,24,53]", nGender);
+			res = IntervalToList("[1-6,12,14,20,31,201,202,][1-9,10,14,19,24,53]", nGender);
 			break;
 		case RACIAL_SUBTYPE_ROCK_GNOME:
-			res = IntervalToList("[1-8,10][1-4,7]", nGender);
+			res = IntervalToList("[1-8,10,210][1-4,7,201,204]", nGender);
 			break;
 		case RACIAL_SUBTYPE_SVIRFNEBLIN:
 			res = IntervalToList("[1-5][1-4]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HALFELF:
-			res = IntervalToList("[1-6,42,44-45][1-18,26-31,34,36,83-84,86]", nGender);
+			res = IntervalToList("[1-6,42,44-45,201-204][1-18,26-31,34,36,83-84,86,201,202,205]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HALFDROW:
 			res = IntervalToList("[1-3,7-12,42,44-45][13,7-12]", nGender);
@@ -540,10 +540,10 @@ string GetValidHeadModels(int nSubrace, int nGender=0)
 			res = IntervalToList("[1-7][1-5]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HALFORC:
-			res = IntervalToList("[1-6][1-7]", nGender);
+			res = IntervalToList("[1-6,200,202,205][1-7,202]", nGender);
 			break;
 		case RACIAL_SUBTYPE_HUMAN:
-			res = IntervalToList("[1-10,12-20,22-24,40-42,51-60,62-66,99][1-6,8-15,20,25,31,33,36,39-40,58-60,75,87-95,97]", nGender);
+			res = IntervalToList("[1-10,12-20,22-24,40-42,51-60,62-66,201,202,204,207,210][1-6,8-15,20,25,31,33,36,39-40,58-60,75,87-95,97,210,215,216]", nGender);
 			break;
 		case RACIAL_SUBTYPE_YUANTI:
 		case RACIAL_SUBTYPE_GRAYORC:
