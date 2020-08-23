@@ -425,12 +425,14 @@ void ACR_SetCollision( object oObject, int bCollide ) {
 
 void DestroyHorse(object oPC, object oHorseTool)
 {
-  object oHorse = GetLocalObject(oHorseTool, ACR_HORSE_OBJECT);
-
+  object oHorse;
   if (GetIsObjectValid(oPC)) {
     Dismount(oPC);
   }
 
+  oHorse = GetLocalObject(oHorseTool, ACR_HORSE_OBJECT);
   RemoveHorseOwnership(oHorse);
+
   DestroyObject(oHorse, 0.1);
+  DestroyObject(oHorseTool, 0.1);
 }
