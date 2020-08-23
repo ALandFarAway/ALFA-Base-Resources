@@ -7848,23 +7848,23 @@ Any use of an item or spell cancels this mode.
 <4813><16782029>:  Custom Poison (DC 39)
 <4814><16782030>: Custom Poison (DC 40) 
 <4815><16782031>:Custom Poison
-<4920><16762136>:Type of Feat: General
+<4920><16782136>:Type of Feat: General
 Prerequisite: None.
 Specifics: This feat grants the character the ability to fight well, even if blinded or against invisible creatures. The character gets to reroll its miss chance percentile one time to see if it actually hits. Furthermore, invisible creatures get no bonus to hit the character in melee. Dragon disciples automatically gain this feat at 5th level.
 Use: Automatic.
-<4921><16762137>:Type of Feat: Race
+<4921><16782137>:Type of Feat: Race
 Prerequisite: Dwarf, half-orc, aasimar, tiefling, genasi, drow, deep gnome, githzerai, hagspawn, yuan-ti pureblood; shadowdancer level 2, pale master level 3, or dragon disciple level 10.
 Specifics: This feat grants the ability to see in the dark.
 Use: Selected.
-<4922><16762138>:Type of Feat: Race
+<4922><16782138>:Type of Feat: Race
 Prerequisite: Drow or Dragon Disciple.
 Specifics: This feat grants the ability to cast See Invisibility as per the spell once per day (caster level equal to character level).
 Use: Selected.
-<4923><16762139>:Type of Feat: Class
+<4923><16782139>:Type of Feat: Class
 Prerequisite: Dragon Disciple.
 Specifics: A dragon disciple becomes more draconic in appearance. His skin develops tiny iridescent scales, nearly invisible. This provides increasing natural armor bonuses to his base Armor Class (+1 at 1st, +2 at 4th, +3 at 7th  and +4 at 10th level).
 Use: Automatic
-<4924><16762140>:Type of Feat: Class
+<4924><16782140>:Type of Feat: Class
 Prerequisite: Dragon Disciple.
 Specifics: As the dragon disciple gains levels in this prestige class, his ability scores increase by the following table:
  Level
@@ -7874,11 +7874,11 @@ Specifics: As the dragon disciple gains levels in this prestige class, his abili
  8 :  +2 to Int
  10: +4 to Strength, +2 to Charisma
 Use: Automatic
-<4925><16762141>:Type of Feat: Class
+<4925><16782141>:Type of Feat: Class
 Prerequisite: Dragon Disciple level 3.
 Specifics: At 3rd level, the dragon disciple gains the ability to breate a cone of fire that deals 2d10 points of damage to all creatures within its area. This damage increases to 4d10 at 7th level and 6d10 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 the dragon disciple's class level + the disciple's Charisma bonus).
 Use: Selected. This ability may be used once per day.
-<4926><16762142>:Type of Feat: Class
+<4926><16782142>:Type of Feat: Class
 Prerequisite: Dragon Disciple level 10.
 Specifics: The dragon disciple gains immunity to paralysis.
 Use: Automatic
@@ -7938,15 +7938,7 @@ Use: Automatic
 <4947><16782163>:Draconic Heritage (Copper)
 <4948><16781964>:Draconic Heritage (Bronze)
 <4949><16782165>:Draconic Heritage (Brass)
-<4950><16782166>:Type of Feat: Class
-Prerequisite: Dragon Disciple.
-Specifics: The Dragon Disciple's heritage will determine his future abilities:
-- Gold, Red, and Brass Dragon decendants gain Fire breath weapons and Fire Immunity
-- Blue and Bronze Dragon decendants gain Lightning breath weapons and Lightning Immunity
-- Copper, Black, and Green Dragon decendants gain Acid breath weapons and Acid Immunity
-- Silver and White Dragon decendants gain Cold breath weapons and Cold Immunity
-
-Use: Automatic
+<4950><16782166>:empty
 <4951><16782167>:Type of Feat: Class
 Prerequisite: Dragon Disciple level 3.
 Specifics: At 3rd level, the blue dragon disciple gains the ability to breate a line of lightning that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
