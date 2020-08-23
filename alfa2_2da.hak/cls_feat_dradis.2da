@@ -30,7 +30,7 @@
 26  FEAT_DRAGON_ARMOR                   961       3    1              0      
 27  FEAT_DRAGON_ABILITIES               962       3    2              0      
 28  FEAT_DRAGON_IMMUNE_PARALYSIS        963       3    10             0      
-29  FEAT_DRAGON_IMMUNE_FIRE             964       3    -1             0      
+29  FEAT_DRAGON_IMMUNE_FIRE             964       1    -1             0      
 30  ****                                ****      0    ****           0      
 31  Immunity_sleep                      235       3    10             0      
 32  darkvision                          228       3    10             0      
