@@ -7848,6 +7848,84 @@ Any use of an item or spell cancels this mode.
 <4813><16782029>:  Custom Poison (DC 39)
 <4814><16782030>: Custom Poison (DC 40) 
 <4815><16782031>:Custom Poison
+<4920><16762136>:Type of Feat: General
+Prerequisite: None.
+Specifics: This feat grants the character the ability to fight well, even if blinded or against invisible creatures. The character gets to reroll its miss chance percentile one time to see if it actually hits. Furthermore, invisible creatures get no bonus to hit the character in melee. Dragon disciples automatically gain this feat at 5th level.
+Use: Automatic.
+<4921><16762137>:Type of Feat: Race
+Prerequisite: Dwarf, half-orc, aasimar, tiefling, genasi, drow, deep gnome, githzerai, hagspawn, yuan-ti pureblood; shadowdancer level 2, pale master level 3, or dragon disciple level 10.
+Specifics: This feat grants the ability to see in the dark.
+Use: Selected.
+<4922><16762138>:Type of Feat: Race
+Prerequisite: Drow or Dragon Disciple.
+Specifics: This feat grants the ability to cast See Invisibility as per the spell once per day (caster level equal to character level).
+Use: Selected.
+<4923><16762139>:Type of Feat: Class
+Prerequisite: Dragon Disciple.
+Specifics: A dragon disciple becomes more draconic in appearance. His skin develops tiny iridescent scales, nearly invisible. This provides increasing natural armor bonuses to his base Armor Class (+1 at 1st, +2 at 4th, +3 at 7th  and +4 at 10th level).
+Use: Automatic
+<4924><16762140>:Type of Feat: Class
+Prerequisite: Dragon Disciple.
+Specifics: As the dragon disciple gains levels in this prestige class, his ability scores increase by the following table:
+ Level
+ 2 :  +2 to Strength
+ 4 :  +2 to Strength
+ 6 :  +2 to Con
+ 8 :  +2 to Int
+ 10: +4 to Strength, +2 to Charisma
+Use: Automatic
+<4925><16762141>:Type of Feat: Class
+Prerequisite: Dragon Disciple level 3.
+Specifics: At 3rd level, the dragon disciple gains the ability to breate a cone of fire that deals 2d10 points of damage to all creatures within its area. This damage increases to 4d10 at 7th level and 6d10 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 the dragon disciple's class level + the disciple's Charisma bonus).
+Use: Selected. This ability may be used once per day.
+<4926><16762142>:Type of Feat: Class
+Prerequisite: Dragon Disciple level 10.
+Specifics: The dragon disciple gains immunity to paralysis.
+Use: Automatic
+<4927><16782143>:Type of Feat: Class
+Prerequisite: Dragon Disciple level 10.
+Specifics: The character gains immunity to fire.
+Use: Automatic
+<4928><16782144>:Type of Feat: Class
+Prerequisite: Dragon Disciple.
+Specifics: The Dragon Disciple's heritage will determine his future abilities. Red dragon decendants gain Fire breath weapons and Fire Immunity.
+Use: Automatic
+<4929><16782145>:Type of Feat: Class
+Prerequisite: Dragon Disciple.
+Specifics: The Dragon Disciple's heritage will determine his future abilities. Blue dragon decendants gain Lightning breath weapons and Lightning Immunity.
+Use: Automatic
+<4930><16782146>:Type of Feat: Class
+Prerequisite: Dragon Disciple.
+Specifics: The Dragon Disciple's heritage will determine his future abilities. Black dragon decendants gain Acid breath weapons and Acid Immunity.
+Use: Automatic
+<4931><16782147>:Type of Feat: Class
+Prerequisite: Dragon Disciple.
+Specifics: The Dragon Disciple's heritage will determine his future abilities. Green dragon decendants gain Acid breath weapons and Acid Immunity.
+Use: Automatic
+<4932><16782148>:Type of Feat: Class
+Prerequisite: Dragon Disciple.
+Specifics: The Dragon Disciple's heritage will determine his future abilities. White dragon decendants gain Cold breath weapons and Cold Immunity.
+Use: Automatic
+<4933><16782149>:Type of Feat: Class
+Prerequisite: Dragon Disciple.
+Specifics: The Dragon Disciple's heritage will determine his future abilities. Gold dragon decendants gain Fire breath weapons and Fire Immunity.
+Use: Automatic
+<4934><16782150>:Type of Feat: Class
+Prerequisite: Dragon Disciple.
+Specifics: The Dragon Disciple's heritage will determine his future abilities. Silver dragon decendants gain Cold breath weapons and Cold Immunity.
+Use: Automatic
+<4935><16782151>:Type of Feat: Class
+Prerequisite: Dragon Disciple.
+Specifics: The Dragon Disciple's heritage will determine his future abilities. Copper dragon decendants gain Acid breath weapons and Acid Immunity.
+Use: Automatic
+<4936><16782152>:Type of Feat: Class
+Prerequisite: Dragon Disciple.
+Specifics: The Dragon Disciple's heritage will determine his future abilities. Bronze dragon decendants gain Lightning breath weapons and Lightning Immunity.
+Use: Automatic
+<4937><16782153>:Type of Feat: Class
+Prerequisite: Dragon Disciple.
+Specifics: The Dragon Disciple's heritage will determine his future abilities. Brass dragon decendants gain Fire breath weapons and Fire Immunity.
+Use: Automatic
 <4938><16782154>:Dragon Disciples
 <4939><16782155>:dragon disciples
 <4940><16782156>:Draconic Heritage (Red)
@@ -7943,31 +8021,31 @@ Use: Automatic
 <4983><16782199>:Bonus Dragon Disciple Slot (Bard - Level 4)
 <4984><16782200>:Bonus Dragon Disciple Slot (Bard - Level 5)
 <4985><16782201>:Bonus Dragon Disciple Slot (Bard - Level 6)
-<4986><16782202>:0th Level RDD Sorcerer Slot
+<4986><16782202>:0th Level DD Sorcerer Slot
 <4987><16782203>:Through increased magical intuition, you gain the ability to use a Dragon Disciple Bonus Spell Slot to cast Level 0 Sorcerer spells if you decide to become a Dragon Disciple.
 
 You gain this feat when you have the ability to cast Level 1 Sorcerer spells.
-<4988><16782204>:1st Level RDD Sorcerer Slot
+<4988><16782204>:1st Level DD Sorcerer Slot
 <4989><16782205>:Through increased magical intuition, you gain the ability to use a Dragon Disciple Bonus Spell Slot to cast Level 1 Sorcerer spells if you decide to become a Dragon Disciple.
 
 You gain this feat when you have the ability to cast Level 1 Sorcerer spells.
-<4990><16782206>:2nd Level RDD Sorcerer Slot
+<4990><16782206>:2nd Level DD Sorcerer Slot
 <4991><16782207>:Through increased magical intuition, you gain the ability to use a Dragon Disciple Bonus Spell Slot to cast Level 2 Sorcerer spells if you decide to become a Dragon Disciple.
 
 You gain this feat when you have the ability to cast Level 2 Sorcerer spells.
-<4992><16782208>:3rd Level RDD Sorcerer Slot
+<4992><16782208>:3rd Level DD Sorcerer Slot
 <4993><16782209>:Through increased magical intuition, you gain the ability to use a Dragon Disciple Bonus Spell Slot to cast Level 3 Sorcerer spells if you decide to become a Dragon Disciple.
 
 You gain this feat when you have the ability to cast Level 3 Sorcerer spells.
-<4994><16782210>:4th Level RDD Sorcerer Slot
+<4994><16782210>:4th Level DD Sorcerer Slot
 <4995><16782211>:Through increased magical intuition, you gain the ability to use a Dragon Disciple Bonus Spell Slot to cast Level 4 Sorcerer spells if you decide to become a Dragon Disciple.
 
 You gain this feat when you have the ability to cast Level 4 Sorcerer spells.
-<4996><16782212>:5th Level RDD Sorcerer Slot
+<4996><16782212>:5th Level DD Sorcerer Slot
 <4997><16782213>:Through increased magical intuition, you gain the ability to use a Dragon Disciple Bonus Spell Slot to cast Level 5 Sorcerer spells if you decide to become a Dragon Disciple.
 
 You gain this feat when you have the ability to cast Level 5 Sorcerer spells.
-<4998><16782214>:6th Level RDD Sorcerer Slot
+<4998><16782214>:6th Level DD Sorcerer Slot
 <4999><16782215>:Through increased magical intuition, you gain the ability to use a Dragon Disciple Bonus Spell Slot to cast Level 6 Sorcerer spells if you decide to become a Dragon Disciple.
 
 You gain this feat when you have the ability to cast Level 6 Sorcerer spells.
@@ -9019,6 +9097,7 @@ A ranger can use a variety of weapons and is quite capable in combat. His skills
 <5049><16782265>:<color=Gold><b>Dragon Disciple</b></color>
 
 <b><i>ALFA Note: The requirements on this class have been altered to more closely match PnP canon rules.</i></b>
+
 <color=Red>(PRESTIGE CLASS: This class is not available at character creation and must be unlocked by meeting special requirements, listed below.)</color>
 
 It is known that certain dragons can take humanoid form and even have humanoid lovers. Sometimes a child is born of this union, and every child of that child unto the thousandth generation claims a bit of dragon blood, be it ever so small. Usually, little comes of it, though mighty sorcerers occasionally credit their powers to draconic heritage. For some, however, dragon blood beckons irresistibly. These characters become dragon disciples, who use their magical power as a catalyst to ignite their dragon blood, realizing its fullest potential. Members of this prestige class draw on the potent blood of dragons coursing in their veins.
