@@ -7848,19 +7848,19 @@ Any use of an item or spell cancels this mode.
 <4813><16782029>:  Custom Poison (DC 39)
 <4814><16782030>: Custom Poison (DC 40) 
 <4815><16782031>:Custom Poison
-<4938><16781954>:Dragon Disciples
-<4939><16781955>:dragon disciples
-<4940><16781956>:Draconic Heritage (Red)
-<4941><16781957>:Draconic Heritage (Blue)
-<4942><16781958>:Draconic Heritage (Black)
-<4943><16781959>:Draconic Heritage (Green)
-<4944><16781960>:Draconic Heritage (White)
-<4945><16781961>:Draconic Heritage (Gold)
-<4946><16781962>:Draconic Heritage (Silver)
-<4947><16781963>:Draconic Heritage (Copper)
+<4938><16782154>:Dragon Disciples
+<4939><16782155>:dragon disciples
+<4940><16782156>:Draconic Heritage (Red)
+<4941><16782157>:Draconic Heritage (Blue)
+<4942><16782158>:Draconic Heritage (Black)
+<4943><16782159>:Draconic Heritage (Green)
+<4944><16782160>:Draconic Heritage (White)
+<4945><16782161>:Draconic Heritage (Gold)
+<4946><16782162>:Draconic Heritage (Silver)
+<4947><16782163>:Draconic Heritage (Copper)
 <4948><16781964>:Draconic Heritage (Bronze)
-<4949><16781965>:Draconic Heritage (Brass)
-<4950><16781966>:Type of Feat: Class
+<4949><16782165>:Draconic Heritage (Brass)
+<4950><16782166>:Type of Feat: Class
 Prerequisite: Dragon Disciple.
 Specifics: The Dragon Disciple's heritage will determine his future abilities:
 - Gold, Red, and Brass Dragon decendants gain Fire breath weapons and Fire Immunity
@@ -7869,80 +7869,78 @@ Specifics: The Dragon Disciple's heritage will determine his future abilities:
 - Silver and White Dragon decendants gain Cold breath weapons and Cold Immunity
 
 Use: Automatic
-<4951><16781967>:Type of Feat: Class
+<4951><16782167>:Type of Feat: Class
 Prerequisite: Dragon Disciple level 3.
 Specifics: At 3rd level, the blue dragon disciple gains the ability to breate a line of lightning that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
 Use: Selected. This ability may be used once per day.
-<4952><16781968>:Type of Feat: Class
+<4952><16782168>:Type of Feat: Class
 Prerequisite: Dragon Disciple level 3.
 Specifics: At 3rd level, the black dragon disciple gains the ability to breate a line of acid that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
 Use: Selected. This ability may be used once per day.
-<4953><16781969>:Type of Feat: Class
+<4953><16782169>:Type of Feat: Class
 Prerequisite: Dragon Disciple level 3.
 Specifics: At 3rd level, the green dragon disciple gains the ability to breate a cone of acid that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
 Use: Selected. This ability may be used once per day.
-<4954><16781970>:Type of Feat: Class
+<4954><16782170>:Type of Feat: Class
 Prerequisite: Dragon Disciple level 3.
 Specifics: At 3rd level, the white dragon disciple gains the ability to breate a cone of cold that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
 Use: Selected. This ability may be used once per day.
-<4955><16781971>:Type of Feat: Class
+<4955><16782171>:Type of Feat: Class
 Prerequisite: Dragon Disciple level 3.
 Specifics: At 3rd level, the gold dragon disciple gains the ability to breate a cone of fire that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
 Use: Selected. This ability may be used once per day.
-<4956><16781972>:Type of Feat: Class
+<4956><16782172>:Type of Feat: Class
 Prerequisite: Dragon Disciple level 3.
 Specifics: At 3rd level, the silver dragon disciple gains the ability to breate a cone of cold that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
 Use: Selected. This ability may be used once per day.
-<4957><16781973>:Type of Feat: Class
+<4957><16782173>:Type of Feat: Class
 Prerequisite: Dragon Disciple level 3.
 Specifics: At 3rd level, the copper dragon disciple gains the ability to breate a line of acid that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
 Use: Selected. This ability may be used once per day.
-<4958><16781974>:Type of Feat: Class
+<4958><16782174>:Type of Feat: Class
 Prerequisite: Dragon Disciple level 3.
 Specifics: At 3rd level, the bronze dragon disciple gains the ability to breate a line of lightning that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
 Use: Selected. This ability may be used once per day.
-<4959><16781975>:Type of Feat: Class
+<4959><16782175>:Type of Feat: Class
 Prerequisite: Dragon Disciple level 3.
 Specifics: At 3rd level, the brass dragon disciple gains the ability to breate a line of fire that deals 2d8 points of damage to all creatures within its area. This damage increases to 4d8 at 7th level and 6d8 at 10th level. Targets may make a Reflex save (DC 10 + 1/2 dragon disciple's class level + the disciple's Charisma bonus).
 Use: Selected. This ability may be used once per day.
-<4960><16781976>:Immunity to Acid
-<4961><16781977>:Type of Feat: Class
+<4960><16782176>:Immunity to Acid
+<4961><16782177>:Type of Feat: Class
 Prerequisite: Dragon Disciple level 10.
 Specifics: The character gains immunity to acid.
 Use: Automatic
-<4962><16781978>:Immunity to Cold
-<4963><16781979>:Type of Feat: Class
+<4962><16782178>:Immunity to Cold
+<4963><16782179>:Type of Feat: Class
 Prerequisite: Dragon Disciple level 10.
 Specifics: The character gains immunity to cold.
 Use: Automatic
-<4964><16781980>:Immunity to Lightning
-<4965><16781981>:Type of Feat: Class
+<4964><16782180>:Immunity to Lightning
+<4965><16782181>:Type of Feat: Class
 Prerequisite: Dragon Disciple level 10.
 Specifics: The character gains immunity to lightning.
 Use: Automatic
-<4966><16781982>:Blood of the Dragon
-<4967><16781983>:Type of Feat: Class
-Prerequisite: Dragon Disciple level 1.
-Specifics: The Dragon Disciple is a descendant of the union between a dragon and a humanoid.  As such, the dragon blood that flows through their veins waits to be awakened.
-<4968><16781984>:Bonus Dragon Disciple Slot (Sorcerer - Level 0)
-<4969><16781985>:Bonus Dragon Disciple Slot (Sorcerer - Level 1)
-<4970><16781986>:Bonus Dragon Disciple Slot (Sorcerer - Level 2)
-<4971><16781987>:Bonus Dragon Disciple Slot (Sorcerer - Level 3)
-<4972><16781988>:Bonus Dragon Disciple Slot (Sorcerer - Level 4)
-<4973><16781989>:Bonus Dragon Disciple Slot (Sorcerer - Level 5)
-<4974><16781990>:Bonus Dragon Disciple Slot (Sorcerer - Level 6)
-<4975><16781991>:Bonus Dragon Disciple Slot (Sorcerer - Level 7)
-<4976><16781992>:Bonus Dragon Disciple Slot (Sorcerer - Level 8)
-<4977><16781993>:Bonus Dragon Disciple Slot (Sorcerer - Level 9)
-<4978><16781994>:Type of Feat: Class
+<4966><16782182>:empty
+<4967><16782183>:empty
+<4968><16782184>:Bonus Dragon Disciple Slot (Sorcerer - Level 0)
+<4969><16782185>:Bonus Dragon Disciple Slot (Sorcerer - Level 1)
+<4970><16782186>:Bonus Dragon Disciple Slot (Sorcerer - Level 2)
+<4971><16782187>:Bonus Dragon Disciple Slot (Sorcerer - Level 3)
+<4972><16782188>:Bonus Dragon Disciple Slot (Sorcerer - Level 4)
+<4973><16782189>:Bonus Dragon Disciple Slot (Sorcerer - Level 5)
+<4974><16782190>:Bonus Dragon Disciple Slot (Sorcerer - Level 6)
+<4975><16782191>:Bonus Dragon Disciple Slot (Sorcerer - Level 7)
+<4976><16782192>:Bonus Dragon Disciple Slot (Sorcerer - Level 8)
+<4977><16782193>:Bonus Dragon Disciple Slot (Sorcerer - Level 9)
+<4978><16782194>:Type of Feat: Class
 Prerequisite: Dragon Disciple
 Specifics: You gain one extra spell slot in your daily allotment, at any level up to the highest level of spell you can currently cast.
 Use: Automatic
-<4979><16781995>:Bonus Dragon Disciple Slot (Bard - Level 0)
-<4980><16781996>:Bonus Dragon Disciple Slot (Bard - Level 1)
-<4981><16781997>:Bonus Dragon Disciple Slot (Bard - Level 2)
-<4982><16781998>:Bonus Dragon Disciple Slot (Bard - Level 3)
-<4983><16781999>:Bonus Dragon Disciple Slot (Bard - Level 4)
+<4979><16782195>:Bonus Dragon Disciple Slot (Bard - Level 0)
+<4980><16782196>:Bonus Dragon Disciple Slot (Bard - Level 1)
+<4981><16782197>:Bonus Dragon Disciple Slot (Bard - Level 2)
+<4982><16782198>:Bonus Dragon Disciple Slot (Bard - Level 3)
+<4983><16782199>:Bonus Dragon Disciple Slot (Bard - Level 4)
 <4984><16782200>:Bonus Dragon Disciple Slot (Bard - Level 5)
 <4985><16782201>:Bonus Dragon Disciple Slot (Bard - Level 6)
 <4986><16782202>:0th Level RDD Sorcerer Slot
