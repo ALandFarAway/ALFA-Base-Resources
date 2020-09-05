@@ -569,7 +569,8 @@ void DMFI_BuildLanguageDMList(object oTool)
 	SetLocalInt(oTool, LNG_IMASKAR, 5);	
 	SetLocalInt(oTool, LNG_INFERNAL, 5);	
 	SetLocalInt(oTool, LNG_LANTANESE, 6);	
-	SetLocalInt(oTool, LNG_LEETSPEAK, 6);
+//	SetLocalInt(oTool, LNG_LEETSPEAK, 6); // ALFA edit
+	SetLocalInt(oTool, LNG_KOZAKURAN, 6);
 	SetLocalInt(oTool, LNG_LOROSS, 6); // ALFA addition	
 	SetLocalInt(oTool, LNG_MIDANI, 6);
 	SetLocalInt(oTool, LNG_MULHORANDI, 6);
@@ -629,7 +630,8 @@ void DMFI_BuildLanguageDMList(object oTool)
 	AddStringElement(DMFI_CapitalizeWord(LNG_IMASKAR), PG_LIST_DMLANGUAGE, oTool);	
 	AddStringElement(DMFI_CapitalizeWord(LNG_INFERNAL), PG_LIST_DMLANGUAGE, oTool);	
 	AddStringElement(DMFI_CapitalizeWord(LNG_LANTANESE), PG_LIST_DMLANGUAGE, oTool);	
-	AddStringElement(DMFI_CapitalizeWord(LNG_LEETSPEAK), PG_LIST_DMLANGUAGE, oTool);
+//	AddStringElement(DMFI_CapitalizeWord(LNG_LEETSPEAK), PG_LIST_DMLANGUAGE, oTool); ALFA edit
+	AddStringElement(DMFI_CapitalizeWord(LNG_KOZAKURAN), PG_LIST_DMLANGUAGE, oTool);
 	AddStringElement(DMFI_CapitalizeWord(LNG_LOROSS), PG_LIST_DMLANGUAGE, oTool);	// ALFA addition
 	AddStringElement(DMFI_CapitalizeWord(LNG_MIDANI), PG_LIST_DMLANGUAGE, oTool);
 	AddStringElement(DMFI_CapitalizeWord(LNG_MULHORANDI), PG_LIST_DMLANGUAGE, oTool);

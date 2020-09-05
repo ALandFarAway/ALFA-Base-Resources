@@ -107,71 +107,152 @@ string ProcessDrow(string sPhrase)
 
 
 
-string ConvertLeetspeak(string sLetter)
+string ConvertKozakuran(string sLetter)
 {
     string sTranslate = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    string sConvert;
     int iTrans = FindSubString(sTranslate, sLetter);
+    int iTransLetter = iTrans % 26;
 
-    switch (iTrans)
+    switch (iTransLetter)
     {
-    case 0: return "4";
-    case 26: return "4";
-    case 1: return "8";
-    case 27: return "8";
-    case 2: return "(";
-    case 28: return "(";
-    case 3: return "|)";
-    case 29: return "|)";
-    case 4: return "3";
-    case 30: return "3";
-    case 5: return "f";
-    case 31: return "F";
-    case 6: return "9";
-    case 32: return "9";
-    case 7: return "h";
-    case 33: return "H";
-    case 8: return "!";
-    case 34: return "!";
-    case 9: return "j";
-    case 35: return "J";
-    case 10: return "|<";
-    case 36: return "|<";
-    case 11: return "1";
-    case 37: return "1";
-    case 12: return "/\/\";
-    case 38: return "/\/\";
-    case 13: return "|\|";
-    case 39: return "|\|";
-    case 14: return "0";
-    case 40: return "0";
-    case 15: return "p";
-    case 41: return "P";
-    case 16: return "Q";
-    case 42: return "Q";
-    case 17: return "R";
-    case 43: return "R";
-    case 18: return "5";
-    case 44: return "5";
-    case 19: return "7";
-    case 45: return "7";
-    case 20: return "u";
-    case 46: return "U";
-    case 21: return "\/";
-    case 47: return "\/";
-    case 22: return "\/\/";
-    case 48: return "\/\/";
-    case 23: return "x";
-    case 49: return "X";
-    case 24: return "y";
-    case 50: return "Y";
-    case 25: return "2";
-    case 51: return "2";
-    default: return sLetter;
+        case 0: switch(Random(10)) {
+            case 0: sConvert = "a"; break;
+            case 1: sConvert = "ka"; break;
+            case 2: sConvert = "sa"; break;
+            case 3: sConvert = "ta"; break;
+            case 4: sConvert = "na"; break;
+            case 5: sConvert = "ha"; break;
+            case 6: sConvert = "ma"; break;
+            case 7: sConvert = "ya"; break;
+            case 8: sConvert = "ra"; break;
+            case 9: sConvert = "wa"; break;
+        } break;
+        case 1: sConvert = "bi"; break;
+        case 2: sConvert = "shi"; break;
+        case 3: sConvert = "de"; break;
+        case 4: switch(Random(9)) {
+            case 0: sConvert = "e"; break;
+            case 1: sConvert = "ke"; break;
+            case 2: sConvert = "se"; break;
+            case 3: sConvert = "te"; break;
+            case 4: sConvert = "ne"; break;
+            case 5: sConvert = "he"; break;
+            case 6: sConvert = "me"; break;
+            case 7: sConvert = "re"; break;
+            case 8: sConvert = "we"; break;
+        } break;
+        case 5: sConvert = "fu"; break;
+        case 6: sConvert = "ga"; break;
+        case 7: switch(Random(5)) {
+            case 0: sConvert = "ha"; break;
+            case 1: sConvert = "hi"; break;
+            case 2: sConvert = "fu"; break;
+            case 3: sConvert = "he"; break;
+            case 4: sConvert = "ho"; break;
+        } break;
+        case 8: switch(Random(9)) {
+            case 0: sConvert = "i"; break;
+            case 1: sConvert = "ki"; break;
+            case 2: sConvert = "shi"; break;
+            case 3: sConvert = "chi"; break;
+            case 4: sConvert = "ni"; break;
+            case 5: sConvert = "hi"; break;
+            case 6: sConvert = "mimu"; break;
+            case 7: sConvert = "ri"; break;
+            case 8: sConvert = "wi"; break;
+        } break;
+        case 9: sConvert = "ji"; break;
+        case 10: switch(Random(5)) {
+            case 0: sConvert = "ka"; break;
+            case 1: sConvert = "ki"; break;
+            case 2: sConvert = "ku"; break;
+            case 3: sConvert = "ke"; break;
+            case 4: sConvert = "ko"; break;
+        } break;
+        case 11: sConvert = "ru"; break;
+        case 12: switch(Random(4)) {
+            case 0: sConvert = "ma"; break;
+            case 1: sConvert = "mimu"; break;
+            case 2: sConvert = "me"; break;
+            case 3: sConvert = "mo"; break;
+        } break;
+        case 13: switch(Random(5)) {
+            case 0: sConvert = "na"; break;
+            case 1: sConvert = "ni"; break;
+            case 2: sConvert = "nu"; break;
+            case 3: sConvert = "ne"; break;
+            case 4: sConvert = "no"; break;
+        } break;
+        case 14: switch(Random(10)) {
+            case 0: sConvert = "o"; break;
+            case 1: sConvert = "ko"; break;
+            case 2: sConvert = "so"; break;
+            case 3: sConvert = "to"; break;
+            case 4: sConvert = "no"; break;
+            case 5: sConvert = "ho"; break;
+            case 6: sConvert = "ho"; break;
+            case 7: sConvert = "mo"; break;
+            case 8: sConvert = "ro"; break;
+            case 9: sConvert = "wo"; break;
+        } break;
+        case 15: sConvert = "pi"; break;
+        case 16: sConvert = "ku"; break;
+        case 17: switch(Random(5)) {
+            case 0: sConvert = "ra"; break;
+            case 1: sConvert = "ri"; break;
+            case 2: sConvert = "ru"; break;
+            case 3: sConvert = "re"; break;
+            case 4: sConvert = "ro"; break;
+        } break;
+        case 18: switch(Random(5)) {
+            case 0: sConvert = "sa"; break;
+            case 1: sConvert = "shi"; break;
+            case 2: sConvert = "su"; break;
+            case 3: sConvert = "se"; break;
+            case 4: sConvert = "so"; break;
+        } break;
+        case 19: switch(Random(5)) {
+            case 0: sConvert = "ta"; break;
+            case 1: sConvert = "chi"; break;
+            case 2: sConvert = "tsu"; break;
+            case 3: sConvert = "te"; break;
+            case 4: sConvert = "to"; break;
+        } break;
+        case 20: switch(Random(8)) {
+            case 0: sConvert = "u"; break;
+            case 1: sConvert = "ku"; break;
+            case 2: sConvert = "su"; break;
+            case 3: sConvert = "tsu"; break;
+            case 4: sConvert = "nu"; break;
+            case 5: sConvert = "fu"; break;
+            case 6: sConvert = "yu"; break;
+            case 7: sConvert = "ro"; break;
+        } break;
+        case 21: sConvert = "bi"; break;
+        case 22: switch(Random(4)) {
+            case 0: sConvert = "wa"; break;
+            case 1: sConvert = "wi"; break;
+            case 2: sConvert = "we"; break;
+            case 3: sConvert = "wo"; break;
+        } break;
+        case 23: sConvert = "ki"; break;
+        case 24: switch(Random(3)) {
+            case 0: sConvert = "ya"; break;
+            case 1: sConvert = "yu"; break;
+            case 2: sConvert = "yo"; break;
+        } break;
+        case 25: sConvert = "zu"; break;
+        default: sConvert = sLetter; break;
     }
-    return "";
-}//end ConvertLeetspeak
 
-string ProcessLeetspeak(string sPhrase)
+    if (iTrans > 25) {
+        sConvert = DMFI_CapitalizeWord(sConvert);
+    }
+    return sConvert;
+}//end ConvertKozakuran
+
+string ProcessKozakuran(string sPhrase)
 {
     string sOutput;
     int iToggle;
@@ -189,7 +270,7 @@ string ProcessLeetspeak(string sPhrase)
         if (iToggle)
             sOutput = sOutput + GetStringLeft(sPhrase,1);
         else
-            sOutput = sOutput + ConvertLeetspeak(GetStringLeft(sPhrase, 1));
+            sOutput = sOutput + ConvertKozakuran(GetStringLeft(sPhrase, 1));
         sPhrase = GetStringRight(sPhrase, GetStringLength(sPhrase)-1);
     }
     return sOutput;
@@ -4525,7 +4606,7 @@ string DMFI_ProcessLanguage(string sPhrase, string sLang, object oTool)
     }
     else if (nSort==6)
     {
-        if (sLang==LNG_LEETSPEAK) sOutput =  ProcessLeetspeak(sPhrase);
+        if (sLang==LNG_KOZAKURAN) sOutput =  ProcessKozakuran(sPhrase);
         else if (sLang==LNG_LANTANESE) sOutput =  ProcessLantanese(sPhrase);
 		// ALFA edit:
         else if (sLang==LNG_LOROSS) sOutput =  ProcessTalfiric(sPhrase);

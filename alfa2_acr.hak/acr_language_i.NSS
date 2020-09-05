@@ -81,7 +81,7 @@ const int ACR_LANG_ID_HALRUAAN = 28;
 const int ACR_LANG_ID_ILLUSKAN = 29;
 const int ACR_LANG_ID_IMASKAR = 30;
 const int ACR_LANG_ID_INFERNAL = 31;
-const int ACR_LANG_ID_LEETSPEAK = 32;
+const int ACR_LANG_ID_KOZAKURAN = 32;
 const int ACR_LANG_ID_LANTANESE = 33;
 const int ACR_LANG_ID_LOROSS = 34;
 const int ACR_LANG_ID_MIDANI = 35;
@@ -420,7 +420,7 @@ string ACR_LanguageIDToName( int nID ) {
 		case ACR_LANG_ID_ILLUSKAN: return LNG_ILLUSKAN; break;
 		case ACR_LANG_ID_IMASKAR: return LNG_IMASKAR; break;
 		case ACR_LANG_ID_INFERNAL: return LNG_INFERNAL; break;
-		case ACR_LANG_ID_LEETSPEAK: return LNG_LEETSPEAK; break;
+		case ACR_LANG_ID_KOZAKURAN: return LNG_KOZAKURAN; break;
 		case ACR_LANG_ID_LANTANESE: return LNG_LANTANESE; break;
 		case ACR_LANG_ID_LOROSS: return LNG_LOROSS; break;
 		case ACR_LANG_ID_MIDANI: return LNG_MIDANI; break;
@@ -485,7 +485,7 @@ int ACR_LanguageNameToID( string sLanguage ) {
 	else if ( sLanguage == LNG_ILLUSKAN ) return ACR_LANG_ID_ILLUSKAN;
 	else if ( sLanguage == LNG_IMASKAR ) return ACR_LANG_ID_IMASKAR;
 	else if ( sLanguage == LNG_INFERNAL ) return ACR_LANG_ID_INFERNAL;
-	else if ( sLanguage == LNG_LEETSPEAK ) return ACR_LANG_ID_LEETSPEAK;
+	else if ( sLanguage == LNG_KOZAKURAN) return ACR_LANG_ID_KOZAKURAN;
 	else if ( sLanguage == LNG_LANTANESE ) return ACR_LANG_ID_LANTANESE;
 	else if ( sLanguage == LNG_LOROSS ) return ACR_LANG_ID_LOROSS;
 	else if ( sLanguage == LNG_MIDANI ) return ACR_LANG_ID_MIDANI;
@@ -1983,8 +1983,8 @@ string ACR_LangIDToString(string s_id)
 		return "Imaskar";
 	else if (s_id == LNG_INFERNAL)
 		return "Infernal";
-	else if (s_id == LNG_LEETSPEAK)
-		return "Leet";
+	else if (s_id == LNG_KOZAKURAN)
+		return "Kozakuran";
 	else if (s_id == LNG_LANTANESE)
 		return "Lantanese";
 	else if (s_id == LNG_LOROSS)
@@ -2104,8 +2104,8 @@ string ACR_LanguageAbbreviationToFullName( string sLang )
 		 return LNG_IMASKAR;
 	else if (sLang == "inf")
 		 return LNG_INFERNAL;
-	else if (sLang == "l37")
-		 return LNG_LEETSPEAK;
+	else if (sLang == "koz")
+		 return LNG_KOZAKURAN;
 	else if (sLang == "lan")
 		 return LNG_LANTANESE;
 	else if (sLang == "lor")
@@ -2190,7 +2190,7 @@ string ACR_LanguageIDToAbbreviation( int nLanguage ) {
 		case ACR_LANG_ID_ILLUSKAN: return "ill"; break;
 		case ACR_LANG_ID_IMASKAR: return "ims"; break;
 		case ACR_LANG_ID_INFERNAL: return "inf"; break;
-		case ACR_LANG_ID_LEETSPEAK: return "l37"; break;
+		case ACR_LANG_ID_KOZAKURAN: return "koz"; break;
 		case ACR_LANG_ID_LANTANESE: return "lan"; break;
 		case ACR_LANG_ID_LOROSS: return "lor"; break;
 		case ACR_LANG_ID_MIDANI: return "mid"; break;
