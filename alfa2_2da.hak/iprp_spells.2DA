@@ -626,7 +626,7 @@
 622  Song_of_Discord_(13)                              16779335 13        5         23400  900        0         0       1          it_s_songdiscord           
 623  Song_of_Discord_(15)                              16779336 15        5         27000  900        0         0       1          it_s_songdiscord           
 624  Song_of_Discord_(20)                              16779337 20        5         36000  900        0         0       1          it_s_songdiscord           
-625  Spiderskin_(5)                                    16779338 5         3         5400   860        1         0       1          it_s_spiderskin            
+625  Spiderskin_(5)                                    16779338 5         3         5400   860        1         1       1          it_s_spiderskin            
 626  Spiderskin_(9)                                    16779339 9         3         9720   860        1         0       1          it_s_spiderskin            
 627  Spiderskin_(12)                                   16779340 12        3         12960  860        1         0       1          it_s_spiderskin            
 628  Stone_Body_(11)                                   16779341 11        6         23760  878        0         0       1          it_s_stonebody             
@@ -1528,3 +1528,5 @@
 1523 Moon_Blade_(5)                                    16779154 5         3         5400   3191       0         1       1          it_s_sunbeam
 1524 Phantom_Steed_(5)                                 16779153 5         3         5400   3192       0         1       1          it_s_hissofsleep
 1525 Stone_Shape_(5)                                   16779152 5         3         5400   3193       0         1       1          it_s_elementalswarm
+1526 Teleport_(9)                                      16779151 9         5         16200  3043       0         0       1          it_s_gate
+1527 Greater_Teleport_(13)                             16779150 13        7         32760  3044       0         0       1          it_s_gate
