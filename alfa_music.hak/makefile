@@ -7,6 +7,7 @@
 HAKFILE=$(OUTPUTDIR)\alfa_music.hak.
 HAK_SOURCES=                                                \
             .\*.BMU                                         \
+            .\*.MP3                                         \
             .\*.WAV                                           
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
