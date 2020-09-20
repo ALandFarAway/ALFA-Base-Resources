@@ -306,8 +306,8 @@
 302  Greater_Endurance                                 5392     11        6         23760  362        1         0       1          it_s_bearsendurance        
 303  Awaken                                            6344     9         5         16200  363        0         0       1          it_s_awaken                
 304  Creeping_Doom                                     6345     13        7         32760  364        0         0       1          it_s_creepingdoom          
-305  Darkvision                                        6346     3         2         2160   365        1         1       1          it_s_darkvision            
-306  Darkvision                                        6347     6         2         4320   365        1         1       1          it_s_darkvision            
+305  Darkvision                                        6346     3         2         2160   365        1         1       1          it_s_lowlightvision        
+306  Darkvision                                        6347     6         2         4320   365        1         1       1          it_s_lowlightvision        
 307  Destruction                                       6348     13        7         32760  366        0         0       1          it_s_destruction           
 308  Horrid_Wilting                                    6349     15        8         43200  367        0         0       1          it_s_horridwithering       
 309  Horrid_Wilting                                    6350     20        8         57600  367        0         0       1          it_s_horridwithering       
