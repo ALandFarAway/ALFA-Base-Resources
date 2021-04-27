@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<EventList>
+  <Name>Fishing Splash</Name>
+  <MaxDuration>8</MaxDuration>
+  <SpecialTargetPosition>0</SpecialTargetPosition>
+  <FogMultiplier>1</FogMultiplier>
+  <Event0>
+    <Type>1</Type>
+    <Name>Water Splash</Name>
+    <DefinitionFile>fx_hss_fishing_splash.pfx</DefinitionFile>
+    <DelayTime>0</DelayTime>
+    <MaxDuration>8</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0.15</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>0</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>0</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+  </Event0>
+  <Event1>
+    <Type>6</Type>
+    <Name>Water Ripple</Name>
+    <DefinitionFile>fx_hss_water_plonk_fx.bbx</DefinitionFile>
+    <DelayTime>0.5</DelayTime>
+    <MaxDuration>8</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0.05</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>0</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>0</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+  </Event1>
+  <Event2>
+    <Type>8</Type>
+    <Name>Water Splash Sound</Name>
+    <DefinitionFile>fs_water_hard2.wav</DefinitionFile>
+    <DelayTime>0</DelayTime>
+    <MaxDuration>0</MaxDuration>
+    <Position>
+      <x>0</x>
+      <y>0</y>
+      <z>0</z>
+    </Position>
+    <UseOrientedPosition>0</UseOrientedPosition>
+    <SourceAttachment>0</SourceAttachment>
+    <TargetAttachment>0</TargetAttachment>
+    <SourceAttachmentObject>0</SourceAttachmentObject>
+    <TargetAttachmentObject>1</TargetAttachmentObject>
+    <SoundLoops>0</SoundLoops>
+  </Event2>
+</EventList>
