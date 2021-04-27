@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<Trail>
+  <EffectType>5</EffectType>
+  <Color>
+    <r>176</r>
+    <g>208</g>
+    <b>235</b>
+    <a>60</a>
+  </Color>
+  <UpdateFrequency>50</UpdateFrequency>
+  <FadeOutTime>1</FadeOutTime>
+  <Texture>fx_magmis_trail.dds</Texture>
+  <SourceBlend>5</SourceBlend>
+  <DestBlend>2</DestBlend>
+  <TextureType>1</TextureType>
+  <AnimatedTextureSpeed>0.5</AnimatedTextureSpeed>
+  <RequiresFrameBuffer>0</RequiresFrameBuffer>
+  <FrameBufferPixelDisplacement>0.1</FrameBufferPixelDisplacement>
+</Trail>
