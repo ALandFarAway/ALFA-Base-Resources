@@ -54,6 +54,10 @@ void main(string sValue, int n)
 		{
 		 ExecuteScript("gr_outofmyway",oPC);
 		}
+	else if (sValue =="EVENTTOOL")
+		{
+	     DisplayGuiScreen(oPC,"EVENT_TOOL_SCREEN",FALSE,"eventtool.xml");	 
+		}
 	else if (sValue =="PORTAL_A")
 		{
 		 DoPortal(GetLocation(oTarget),1);

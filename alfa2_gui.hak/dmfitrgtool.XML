@@ -272,6 +272,16 @@ draggable="true" dragregion_x=0 dragregion_y=0 dragregion_width=120 dragregion_h
 		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
 		</UIButton>
 
+        <UIButton name="INIDaBest" width="25" height="25" 
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("EVENTTOOL",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_dmfi_trgtool","EVENTTOOL")>
+		<UIFrame state="base"	fill="acr_DaBest.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
+		</UIButton>
 
 		</UIGrid>
 

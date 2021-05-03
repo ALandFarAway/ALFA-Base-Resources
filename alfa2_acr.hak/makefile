@@ -141,6 +141,7 @@ NSS_INCLNSS=                                                   \
             $(OUTPUTDIR)\acr_dropgold_i.nss                    \
             $(OUTPUTDIR)\acr_movement_i.nss                    \
             $(OUTPUTDIR)\acr_position_i.nss                    \
+            $(OUTPUTDIR)\gui_event_tool.nss                    \
             $(OUTPUTDIR)\acr_guiglobals_i.nss                  
 
 NSS_OBJECTS=                                                   \

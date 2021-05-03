@@ -13,6 +13,7 @@ DIRS=                               \
      alfa_fx2.hak                   \
      alfa_items.hak                 \
      alfa_items2.hak                \
+     alfa_items3.hak                \
      alfa_placeables.hak            \
      alfa_placeables2.hak           \
      alfa_placeables3.hak           \

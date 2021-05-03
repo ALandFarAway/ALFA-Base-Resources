@@ -42,6 +42,10 @@ const string _DOOR_BREAK_DC_LI = "ACR_DOOR_BREAK_DC";
 // own if left open.
 const string _AUTO_CLOSE_DELAY_LF = "ACR_DOOR_CLOSE_DELAY";
 
+// Set this variable if you want to auto close the door only between specific hours
+const string _AUTO_CLOSE_HOUR_START_LI = "ACR_DOOR_CLOSE_HOUR_START";
+const string _AUTO_CLOSE_HOUR_END_LI = "ACR_DOOR_CLOSE_HOUR_END";
+
 // Boolean which indicates if a door locks itself when closing automatically.
 const string _AUTO_LOCK_LI = "ACR_DOOR_AUTO_LOCK";
 
@@ -185,7 +189,7 @@ void ACR_CloseDoor(object oDoor);
 
 //! *** PRIVATE FUNCTIONS ***
 
-//! Initializes oDoor if it has not already been initialized, 
+//! Initializes oDoor if it has not already been initialized,
 //! and returns its status data.
 int _InitializeDoor(object oDoor);
 
@@ -221,7 +225,7 @@ int _GetDoorBreakOpenDC(object oDoor, int nStatus);
 // *** BEGIN PUBLIC FUNCTIONS ***
 ////////////////////////////////////////////////////////////////////////////////
 
-void ACR_DoorOnAreaTransitionClick() {	
+void ACR_DoorOnAreaTransitionClick() {
 	_InitializeDoor(OBJECT_SELF);
     ACR_OnAreaTransitionClick();
 }
@@ -229,13 +233,13 @@ void ACR_DoorOnAreaTransitionClick() {
 void ACR_DoorOnClose() {
 	int nStatus = _InitializeDoor(OBJECT_SELF);
 	object oCloser = GetLastClosedBy();
-	
+
     if( nStatus & _IS_AUTO_LOCKED && !(nStatus & _IS_BROKEN_OPEN) ) {
         SetLocked(OBJECT_SELF, 1);
     }
 
 	// Sync up with the door on the other side of the AT, if any.
-	object oAT = GetTransitionTarget(OBJECT_SELF);	
+	object oAT = GetTransitionTarget(OBJECT_SELF);
     if(GetIsObjectValid(oAT) && GetIsOpen(oAT)) {
 		ActionCloseDoor(oAT);
     }
@@ -304,7 +308,7 @@ void ACR_DoorOnLock() {
 	        return;
 	    }
 	}
-	
+
     if(!GetLocked(oAT)) {
         SetLocked(oAT, 1);
     }
@@ -314,18 +318,18 @@ void ACR_DoorOnOpen() {
 	int nStatus = _InitializeDoor(OBJECT_SELF);
 	object oOpener = GetLastOpenedBy();
 	object oAT =  GetTransitionTarget(OBJECT_SELF);
-	
+
 	// Did a non-DM creature try to open the door?
 	if(GetObjectType(oOpener) == OBJECT_TYPE_CREATURE && !GetIsDM(oOpener)) {
 		// If so, check to see if its openable.
-	    if( nStatus & _IS_STUCK ) {        
+	    if( nStatus & _IS_STUCK ) {
 	        ClearAllActions(TRUE);
 	        ActionCloseDoor(OBJECT_SELF);
-			SpeakString("*the door is firmly stuck, and will not open*");		
+			SpeakString("*the door is firmly stuck, and will not open*");
 	        _DoorOnFailToOpen(oOpener);
 	        return;
 	    }
-	
+
 	    /*if( GetHasSpellEffect(SPELL_ARCANE_LOCK, OBJECT_SELF)
 	    	|| GetHasSpellEffect(SPELL_HOLD_PORTAL, OBJECT_SELF) ) {
 	        ClearAllActions(TRUE);
@@ -336,15 +340,20 @@ void ACR_DoorOnOpen() {
 	        return;
 	    } Fix me !! uncomment when these spells are added. */
 	}
-	
+
 	// Check for auto-close settings.
-	float fDelay = GetLocalFloat(OBJECT_SELF, _AUTO_CLOSE_DELAY_LF);
-	if(fDelay > 0.0) {
-		//SendMessageToPC(oPC, "Door closing in: " + FloatToString(fDelay, 3, 0) + " seconds.");
-		DelayCommand( fDelay, _AutoClose(OBJECT_SELF, fDelay, nStatus) );
+
+	int nStartHour = GetLocalInt(OBJECT_SELF, _AUTO_CLOSE_HOUR_START_LI);
+	int nEndHour = GetLocalInt(OBJECT_SELF, _AUTO_CLOSE_HOUR_END_LI);
+	if(nStartHour == nEndHour || GetIsIntegerInWindow(GetTimeHour(), nStartHour, nEndHour)){
+		float fDelay = GetLocalFloat(OBJECT_SELF, _AUTO_CLOSE_DELAY_LF);
+		if(fDelay > 0.0) {
+			//SendMessageToPC(oPC, "Door closing in: " + FloatToString(fDelay, 3, 0) + " seconds.");
+			DelayCommand( fDelay, _AutoClose(OBJECT_SELF, fDelay, nStatus) );
+		}
 	}
-	
-	if(GetIsObjectValid(oAT) && !GetIsOpen(oAT)) // Is the door on the other side of the AT open?	
+
+	if(GetIsObjectValid(oAT) && !GetIsOpen(oAT)) // Is the door on the other side of the AT open?
 		ActionOpenDoor(oAT);
 }
 
@@ -441,7 +450,7 @@ void ACR_DoorSetIsStuck(object oDoor) {
     int nStatus = _InitializeDoor(OBJECT_SELF);
     object oATDoor = GetTransitionTarget(oDoor);
     int nATStatus = GetLocalInt(oATDoor, _DOOR_STATUS);
-    
+
 	SetLocalInt(oDoor, _DOOR_STATUS, nStatus | _IS_STUCK);
     SetLocalInt(oATDoor, _DOOR_STATUS, nATStatus | _IS_STUCK);
 }
@@ -450,7 +459,7 @@ void ACR_DoorSetIsNotStuck(object oDoor) {
     int nStatus = _InitializeDoor(OBJECT_SELF);
     object oATDoor = GetTransitionTarget(oDoor);
     int nATStatus = GetLocalInt(oATDoor, _DOOR_STATUS);
-    
+
 	SetLocalInt(oDoor, _DOOR_STATUS, nStatus & ~_IS_STUCK);
     SetLocalInt(oATDoor, _DOOR_STATUS, nATStatus & ~_IS_STUCK);
 }
@@ -459,7 +468,7 @@ void ACR_DoorSetIsBroken(object oDoor) {
     int nStatus = _InitializeDoor(OBJECT_SELF);
     object oATDoor = GetTransitionTarget(oDoor);
     int nATStatus = GetLocalInt(oATDoor, _DOOR_STATUS);
-    
+
     SetLocalInt(oDoor, _DOOR_STATUS, nStatus | _IS_BROKEN_OPEN);
     SetLocalInt(oATDoor, _DOOR_STATUS, nATStatus | _IS_BROKEN_OPEN);
 	SetLocked(oDoor, 0);
@@ -472,7 +481,7 @@ void ACR_DoorSetIsNotBroken(object oDoor) {
     int nStatus = _InitializeDoor(OBJECT_SELF);
     object oATDoor = GetTransitionTarget(oDoor);
     int nATStatus = GetLocalInt(oATDoor, _DOOR_STATUS);
-	
+
 	SetLocalInt(oDoor, _DOOR_STATUS, nStatus & ~_IS_BROKEN_OPEN);
 	SetLocalInt(oATDoor, _DOOR_STATUS, nATStatus & ~_IS_BROKEN_OPEN);
 	//SetLockLockable(oDoor, nStatus | _WAS_LOCKABLE);
@@ -517,9 +526,9 @@ int _InitializeDoor(object oDoor) {
 	if(GetObjectType(oDoor) != OBJECT_TYPE_DOOR) {
 		return 0;
 	}
-	
+
     int nStatus = GetLocalInt(oDoor, _DOOR_STATUS);
-	
+
     if(!(nStatus & _IS_INITIALIZED)) {
         if( !GetPlotFlag() ) {
             ACR_InitializePhysicalObject(oDoor);
@@ -555,17 +564,17 @@ int _InitializeDoor(object oDoor) {
         if(GetLockLockable(oDoor)) {
             nStatus = nStatus | _WAS_LOCKABLE;
         }
-		
+
 		int nAutostick = GetLocalInt(oDoor, _AUTOSTUCK_LI);
 		switch(nAutostick) {
 			case _AUTOSTICK_CLOSED:
 				nStatus = nStatus | _AUTOSTUCK_CLOSED;
 				break;
-			
+
 			case _AUTOSTICK_OPEN:
 				nStatus = nStatus | _AUTOSTUCK_OPEN;
 				break;
-				
+
 			case _AUTOSTICK_BOTH:
 				nStatus = nStatus | _AUTOSTUCK_OPEN | _AUTOSTUCK_CLOSED;
 				break;
@@ -601,7 +610,7 @@ void _AutoClose(object oDoor, float fDelay, int nStatus) {
     if(!GetIsOpen(oDoor)) {
         return;
     }
-	
+
 	object oAT = GetTransitionTarget(oDoor);
 
     if(!(nStatus & _CLOSE_NEAR_PCS)) {
@@ -616,7 +625,7 @@ void _AutoClose(object oDoor, float fDelay, int nStatus) {
         }
     }
     ActionCloseDoor(oDoor);
-	ActionCloseDoor(oAT);	
+	ActionCloseDoor(oAT);
 }
 
 int _GetDoorBreakOpenDC(object oDoor, int nStatus) {
