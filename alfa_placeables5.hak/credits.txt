@@ -1,0 +1,10 @@
+window textures: http://spiralgraphics.biz/packs/window_medieval/index.htm?25#anchor
+http://www.rgbstock.com/photo/mhY9REy/Medieval+stained-glass+texture
+https://blenderartists.org/forum/showthread.php?249812-Medieval-Market-Scene/page5
+http://free-texture-site.blogspot.com/2010/10/free-tudor-wall-texture_15.html
+
+Building textures from
+https://neverwintervault.org/project/nwn2/hakpak/original-hakpak/sigil-exterior-codi-content-nwn1
+
+Building models from
+https://neverwintervault.org/project/nwn2/hakpak/original-hakpak/city-state-project-volume-ii

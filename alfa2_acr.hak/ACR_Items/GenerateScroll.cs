@@ -400,6 +400,18 @@ namespace ACR_Items
             "abr_scroll_0_resistance",
             "abr_scroll_0_touchfatigue",
             "abr_scroll_0_virtue",
+            "abr_scroll_0_arcanemark",
+            "abr_scroll_0_cureminorwounds",
+            "abr_scroll_0_dancinglights",
+            "abr_scroll_0_detpoison",
+            "abr_scroll_0_ghostsound",
+            "abr_scroll_0_knowdir",
+            "abr_scroll_0_magehand",
+            "abr_scroll_0_mending",
+            "abr_scroll_0_message",
+            "abr_scroll_0_open/close",
+            "abr_scroll_0_prestidigitation",
+            
         };
         #endregion
 
@@ -453,15 +465,24 @@ namespace ACR_Items
             "abr_scroll_1_sleep",
             "abr_scroll_1_smncreat1",
             "abr_scroll_1_truestrike",
+            "abr_scroll_1_alarm",
+            "abr_scroll_1_complang",
+            "abr_scroll_1_disguiseself",
+            "abr_scroll_1_featherfall",
+            "abr_scroll_1_identify",
+            "abr_scroll_1_jump",
+            "abr_scroll_1_magicaura",
+            "abr_scroll_1_snakeswiftness",
+            "abr_scroll_1_speakanimals",
         };
         #endregion
 
         #region Level 2 Scrolls
         public static List<string> Level2Scrolls = new List<string>
         {
-            "abr_scroll_1_tashhidlaugh",
             "abr_scroll_2_aid",
             "abr_scroll_2_animalisticpwr",
+            "abr_scroll_2_animalmessenger",
             "abr_scroll_2_auraglory",
             "abr_scroll_2_barkskin",
             "abr_scroll_2_bearsendure",
@@ -476,10 +497,13 @@ namespace ACR_Items
             "abr_scroll_2_cloudbewilder",
             "abr_scroll_2_cmw",
             "abr_scroll_2_combust",
+            "abr_scroll_2_curseimpblade",
             "abr_scroll_2_darkness",
             "abr_scroll_2_dazemon",
             "abr_scroll_2_deatharmor",
             "abr_scroll_2_deathknell",
+            "abr_scroll_2_delaypoison",
+            "abr_scroll_2_detthoughts",
             "abr_scroll_2_eaglessplendor",
             "abr_scroll_2_falselife",
             "abr_scroll_2_findtraps",
@@ -489,6 +513,7 @@ namespace ACR_Items
             "abr_scroll_2_gedleeelectloop",
             "abr_scroll_2_ghostlyvisage",
             "abr_scroll_2_ghoultouch",
+            "abr_scroll_2_gustwind",
             "abr_scroll_2_healingsting",
             "abr_scroll_2_holdanimal",
             "abr_scroll_2_holdperson",
@@ -498,6 +523,7 @@ namespace ACR_Items
             "abr_scroll_2_knock",
             "abr_scroll_2_lesserdispel",
             "abr_scroll_2_livingundeath",
+            "abr_scroll_2_locateobj",
             "abr_scroll_2_lsrstr",
             "abr_scroll_2_melfacidarrow",
             "abr_scroll_2_mirrorimage",
@@ -505,9 +531,11 @@ namespace ACR_Items
             "abr_scroll_2_protectfromarrows",
             "abr_scroll_2_reduceanimal",
             "abr_scroll_2_resistelements",
+            "abr_scroll_2_resistenergy",
             "abr_scroll_2_rmprlys",
             "abr_scroll_2_scare",
             "abr_scroll_2_scorchingray",
+            "abr_scroll_2_seeinvisible",
             "abr_scroll_2_shieldother",
             "abr_scroll_2_silence",
             "abr_scroll_2_snakeswift",
@@ -517,6 +545,7 @@ namespace ACR_Items
             "abr_scroll_2_stabilize",
             "abr_scroll_2_summoncreat02",
             "abr_scroll_2_touchidiocy",
+            "abr_scroll_2_undetalign",
             "abr_scroll_2_web",
         };
         #endregion
@@ -582,6 +611,7 @@ namespace ACR_Items
             "abr_scroll_3_srglght",
             "abr_scroll_3_stinkingcloud",
             "abr_scroll_3_summoncreat03",
+            "abr_scroll_3_tashhidlaugh",
             "abr_scroll_3_vampirtouch",
             "abr_scroll_3_vigor",
             "abr_scroll_3_vigorlessermass",

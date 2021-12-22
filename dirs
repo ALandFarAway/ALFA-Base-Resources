@@ -14,10 +14,12 @@ DIRS=                               \
      alfa_items.hak                 \
      alfa_items2.hak                \
      alfa_items3.hak                \
+     alfa_items4.hak                \
      alfa_placeables.hak            \
      alfa_placeables2.hak           \
      alfa_placeables3.hak           \
      alfa_placeables4.hak           \
+     alfa_placeables5.hak           \
      alfa_terrain.hak               \
      alfa2_pr.hak                   \
      alfa_tiles.hak                 \

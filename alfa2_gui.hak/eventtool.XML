@@ -1,37 +1,18 @@
 <?xml version="1.0" encoding="utf-8">
-
+<!-- DAtabase Event Save Tool version 1.1 -->
 <UIScene name="EVENT_TOOL_SCREEN" 
-	x=415 y=55 width=270 height=120
-	draggable="true" idleexpiretime="1.0f" scriptloadable="true" 
+	x=415 y=55 width=216 height=136
+	draggable="true" idleexpiretime="1.0f" scriptloadable="true"
 	priority="SCENE_SCRIPT" 
 	OnAdd=UIObject_Misc_ExecuteServerScript("gui_event_tool","append",local:0,"true")
 />
-
-	<!-- Content Pane -->
-	<UIPane name="pnlContentPane" x=ALIGN_CENTER y=50 width=240 height=52 capturemouseclicks="true" ignoreevents="false" >
-
-		<UIText name="lblDatabaseName" text="Database Name:" fontfamily="Body_Font" style=4 x=0 y=5 width=110 height=18 valign="middle" align="left" selectable=false editable=false multiline=false />	
-		<UIText name="txtDatabaseName" text="" fontfamily="International" x=ALIGN_CENTER y=32 width=210 height=18 valign="middle" align="left" highlightcolor=FFFFFF allowspace=false allowpunc=false selectable=true editable=true maxlength=32 multiline=false update=true OnUpdate=UIObject_Misc_SetLocalVarString(local:0) />
-
-		<UIButton name="append" x=210 y=22 width=30 height=30
-			OnToolTip=UIObject_Tooltip_DisplayTooltipString("AppendDatabase",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
-			OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_event_tool","append",local:0,local:1) >
-			<UIFrame state="base"	fill="is_identify.tga" />
-			<UIFrame state="up"		fill="b_empty.tga" />
-			<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.85" />
-			<UIFrame state="focused"	fill="b_empty.tga" />
-			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
-			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
-		</UIButton>
-
-	</UIPane>
-
-<UIGrid name="pcButtons_grid" x=10 y=15 columns=7 rows=1 xPadding=5 yPadding=5 >
-	
-	<UIButton name="displayhelp" width=30 height=30 
-		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Help",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
-		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_event_tool","help") >
-		
+<!-- Content Pane -->
+<UIPane name="pnlContentPane" x=10 y=5 width=206 height=57 capturemouseclicks="true" ignoreevents="false" >
+	<UIText name="lblDatabaseName" text="Database Name:" fontfamily="Body_Font" style=4 x=3 y=5 width=110 height=18 valign="middle" align="left" selectable=false editable=false multiline=false />	
+	<UIText name="txtDatabaseName" text="" fontfamily="International" x=ALIGN_CENTER y=23 width=202 height=18 valign="middle" align="left" highlightcolor=FFFFFF allowspace=false allowpunc=false selectable=true editable=true maxlength=32 multiline=false update=true OnUpdate=UIObject_Misc_SetLocalVarString(local:0) />
+	<UIButton name="append" x=112 y=5 width=18 height=18
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("AppendDatabase",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_event_tool","append",local:0,local:1) >
 		<UIFrame state="base"	fill="is_identify.tga" />
 		<UIFrame state="up"		fill="b_empty.tga" />
 		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.85" />
@@ -39,11 +20,32 @@
 		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
 		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
 	</UIButton>
-	
-	<UIButton name="marktarget" width="30" height="30" 
-		OnToolTip=UIObject_Tooltip_DisplayTooltipString("MarkTarget",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+	<UIText name="EVENT_TOOL_TARGET" text="CurrentTarget" fontfamily="Body_Font" style=4 x=3 y=39 width=206 height=18 valign="middle" align="left" selectable=false editable=false multiline=false />	
+	<UIButton name="exitgui" x=176 y=5 width=20 height=20
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("Exit",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_event_tool","closegui") >
+		<UIFrame state="base"	fill="ia_exit.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.7" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.45" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.45"/>
+	</UIButton>
+</UIPane>
+<UIGrid name="pcButtons_grid" x=9 y=60 columns=6 rows=2 xPadding=3 yPadding=3 >
+	<UIButton name="listmarked" width=30 height=30
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("ListMarked",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_event_tool","list") >
+		<UIFrame state="base"	fill="is_identify.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.85" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.6" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.6"/>
+	</UIButton>
+	<UIButton name="marktarget" width=30 height=30
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("MarkTarget",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
 		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_event_tool","mark") >
-		
 		<UIFrame state="base"	fill="ia_bootplayer.tga" />
 		<UIFrame state="up"		fill="b_empty.tga" />
 		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.90" />
@@ -51,11 +53,9 @@
 		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.75" />
 		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.75"/>
 	</UIButton>
-	
-	<UIButton name="unmarktarget" width="30" height="30" 
-		OnToolTip=UIObject_Tooltip_DisplayTooltipString("UnmarkTarget",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+	<UIButton name="unmarktarget" width=30 height=30
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("UnmarkTarget",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
 		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_event_tool","unmark") >
-		
 		<UIFrame state="base"	fill="ia_banplayer.tga" />
 		<UIFrame state="up"		fill="b_empty.tga" />
 		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.75" />
@@ -63,11 +63,9 @@
 		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
 		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
 	</UIButton>
-	
-	<UIButton name="savearea" width="30" height="30" 
-		OnToolTip=UIObject_Tooltip_DisplayTooltipString("SaveArea",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+	<UIButton name="savearea" width=30 height=30
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("SaveArea",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
 		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_event_tool","savearea",local:0,local:1) >
-		
 		<UIFrame state="base"	fill="is_legendlore.tga" />
 		<UIFrame state="up"		fill="b_empty.tga" />
 		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.8" />
@@ -75,9 +73,8 @@
 		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
 		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
 	</UIButton>
-	
-	<UIButton name="cleararea" width="30" height="30" 
-		OnToolTip=UIObject_Tooltip_DisplayTooltipString("ClearArea",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+	<UIButton name="cleararea" width=30 height=30
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("ClearArea",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
 		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_event_tool","cleararea") >
 			<UIFrame state="base"	fill="ia_domainability.tga" />
 			<UIFrame state="up"		fill="b_empty.tga" />
@@ -86,7 +83,8 @@
 			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.5" />
 			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.5"/>
 	</UIButton>
-	<UIButton name="loadarea" width="30" height="30" OnToolTip=UIObject_Tooltip_DisplayTooltipString("LoadFile",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+	<UIButton name="loadarea" width=30 height=30
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("LoadFile",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
 		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_event_tool","loadarea",local:0) >
 			<UIFrame state="base"	fill="is_resurrection.tga" />
 			<UIFrame state="up"		fill="b_empty.tga" />
@@ -95,18 +93,67 @@
 			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.45" />
 			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.45"/>
 	</UIButton>
-	<UIButton name="exitgui" width="30" height="30" OnToolTip=UIObject_Tooltip_DisplayTooltipString("Exit",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
-		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_event_tool","closegui") >
-			<UIFrame state="base"	fill="ia_exit.tga" />
+	<UIButton name="nearest" width=30 height=30
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("NearestPlaceable",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT) 
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_event_tool","nearest") >
+			<UIFrame state="base"	fill="ife_keepdef.tga" />
 			<UIFrame state="up"		fill="b_empty.tga" />
 			<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.7" />
 			<UIFrame state="focused"	fill="b_empty.tga" />
 			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.45" />
 			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.45"/>
 	</UIButton>
-
+	<UIButton name="next" width=30 height=30
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("NextPlaceable",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_event_tool","next") >
+			<UIFrame state="base"	fill="b_rotr_normal.tga" />
+			<UIFrame state="up"		fill="b_empty.tga" />
+			<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.7" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.45" />
+			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.45"/>
+	</UIButton>
+	<UIButton name="previous" width=30 height=30
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("PreviousPlaceable",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_event_tool","previous") >
+			<UIFrame state="base"	fill="b_rotl_normal.tga" />
+			<UIFrame state="up"		fill="b_empty.tga" />
+			<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.7" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.45" />
+			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.45"/>
+	</UIButton>
+	<UIButton name="markplaceable" width=30 height=30
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("MarkPlaceable",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_event_tool","markplaceable") >
+			<UIFrame state="base"	fill="b_plus_normal.tga" />
+			<UIFrame state="up"		fill="b_empty.tga" />
+			<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.7" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.45" />
+			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.45"/>
+	</UIButton>
+	<UIButton name="unmarkplaceable" width=30 height=30
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("UnmarkPlaceable",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_event_tool","unmarkplaceable") >
+			<UIFrame state="base"	fill="b_minus_normal.tga" />
+			<UIFrame state="up"		fill="b_empty.tga" />
+			<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.7" />
+			<UIFrame state="focused"	fill="b_empty.tga" />
+			<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.45" />
+			<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.45"/>
+	</UIButton>
+	<UIButton name="usable" width=30 height=30
+		OnToolTip=UIObject_Tooltip_DisplayTooltipString("ToggleUsable",OBJECT_X,OBJECT_Y,SCREEN_TOOLTIP_2,ALIGN_NONE,ALIGN_NONE,0,0,ALIGN_LEFT)
+		OnLeftClick=UIObject_Misc_ExecuteServerScript("gui_event_tool","usable") >
+		<UIFrame state="base"	fill="b_options.tga" />
+		<UIFrame state="up"		fill="b_empty.tga" />
+		<UIFrame state="down"	fill="b_overlay_active.tga" alpha="0.7" />
+		<UIFrame state="focused"	fill="b_empty.tga" />
+		<UIFrame state="hilited"	fill="b_overlay_active.tga" alpha="0.45" />
+		<UIFrame state="hifocus"	fill="b_overlay_active.tga" alpha="0.45"/>
+	</UIButton>
 </UIGrid>
-
 <!-- Background Image -->
 <UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT border=32 topleft="frame1_tl.tga" top="frame1_t.tga" topright="frame1_tr.tga" bottomleft="frame1_bl.tga" bottom="frame1_b.tga" bottomright="frame1_BR.tga" left="frame1_l.tga" right="frame1_r.tga" />
 <UIFrame x=0 y=0 width=PARENT_WIDTH height=PARENT_HEIGHT fillstyle="tile" border=7 fill="bg_60_alpha.tga"/>

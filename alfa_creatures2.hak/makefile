@@ -12,7 +12,6 @@ HAK_SOURCES=            \
             .\*.TGA     \
             .\*.SSF     \
             .\*.FXA     \
-            .\*.XML     \
 			.\*.RES     \
             .\*.SEF     \
             .\*.DDS     \

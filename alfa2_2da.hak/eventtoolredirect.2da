@@ -1,0 +1,20 @@
+2DA V2.0
+
+	Original	          Replacement
+0	****	              plc_mp_lever_usable
+1	mc_bedroll2_t01	      plc_mc_bedroll2_t01
+2	plc_bc_houserw05	  bc_houserw05_t01
+3	plc_bc_merch01	      bc_merch01_t01
+4	plc_bc_merch01r	      bc_merch01_t01r
+5	plc_bc_stateb01	      plc_bc_stateb02
+6	plc_bl_shedl01	      plc_bl_shedm01
+7	plc_ipspeaker	      plc_ipcleaner
+8	plc_mc_crate01	      plc_mc_crate10
+9	plc_mc_grave4	      plc_mc_grave04
+10	plc_mc_grave5	      plc_mc_grave05
+11	plc_mc_winebasket01	  plc_mc_winecrate01
+12	plc_mr_alarm01	      plc_mc_alarm01
+13	plc_mr_alarm02	      plc_mc_alarm02
+14	plc_mr_stool	      plc_mr_songport
+15	plc_nt_rocks15	      plc_nt_rocks150
+16	plc_wc_bcity_f01	  plc_wc_bcity_f010
