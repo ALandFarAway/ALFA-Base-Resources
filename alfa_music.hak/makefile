@@ -1,13 +1,11 @@
 #
-# This project constructs aalfa_music.hak.
+# This project constructs alfa_music.hak.
 #
 
 !include $(PROJECT_SOURCE_ROOT)\makefile.def
 
 HAKFILE=$(OUTPUTDIR)\alfa_music.hak.
 HAK_SOURCES=                                                \
-            .\*.BMU                                         \
-            .\*.MP3                                         \
             .\*.WAV                                           
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
