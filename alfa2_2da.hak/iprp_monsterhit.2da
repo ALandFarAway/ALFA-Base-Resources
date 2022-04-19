@@ -1,0 +1,17 @@
+2DA V2.0
+
+   Name   Label            Cost Param1ResRef Param2ResRef 
+0  1004   AbilityDrain     3    2            7            
+1  989    Confusion        2    1            ****         
+2  1006   Disease          1    6            ****         
+3  992    Doom             1    1            ****         
+4  993    Fear             2    1            ****         
+5  1003   LevelDrain       4    7            ****         
+6  1005   Poison           2    8            ****         
+7  995    Slow             2    1            ****         
+8  987    Stun             1    1            ****         
+9  741    Wounding         2    7            ****         
+10 186247 AbilityDrain_1d4 4    2            7            
+11 186248 AbilityDrain_1d6 5    2            7            
+12 186249 AbilityDrain_1d8 6    2            7            
+13 742    Touch_Attack	   1    2            7
