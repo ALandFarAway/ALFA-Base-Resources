@@ -28,6 +28,9 @@ int GetEffectID( int nSpellID );
 
 #include "x2_inc_spellhook"
 #include "acr_i" 
+#include "acr_spells_i"
+#include "ginc_behavior"
+
 
 void main()
 {
@@ -52,6 +55,7 @@ void main()
     //Declare major variables
     int nSpellID = GetSpellId();
     int nDuration = GetCasterLevel(OBJECT_SELF) + 3;
+
     if(GetHasFeat(FEAT_GOOD_DOMAIN_POWER)) nDuration++;
     else if(GetHasFeat(FEAT_EVIL_DOMAIN_POWER)) nDuration++;
     else if(GetHasFeat(FEAT_LAW_DOMAIN_POWER)) nDuration++;
@@ -69,6 +73,18 @@ void main()
     ApplyEffectAtLocation(DURATION_TYPE_TEMPORARY, eSummon, GetSpellTargetLocation(),RoundsToSeconds(nDuration));
 }
 
+// command all controlled creatures with tag sTag to attack oTarget, if sTag is blank all controlled creatures will be commanded to attack
+void CommandControlledCreaturesToAttack(object oTarget, string sTag = "") {
+	object oCreature = GetFirstFactionMember(OBJECT_SELF,FALSE);
+    while(GetIsObjectValid(oCreature))
+    {
+		if ((sTag == "" || sTag == GetTag(oCreature)) && GetMaster(oCreature) == OBJECT_SELF) {
+			AssignCommand(oCreature,MoveToAndAttack(oTarget, TRUE, TRUE));
+			SendMessageToPC(OBJECT_SELF,GetName(oCreature)+" appears to attack "+GetName(oTarget));
+		}
+        oCreature = GetNextFactionMember(OBJECT_SELF,FALSE);
+    }
+}
 
 effect SetSummonEffect(int nSpellID)
 {

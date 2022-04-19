@@ -13,7 +13,8 @@
 //:: Update Pass By: Preston W, On: Aug 3, 2001
 
 #include "x2_inc_spellhook" 
-#include "acr_i"
+#include "acr_spellhook_i"
+#include "acr_spells_i"
 
 void main()
 {

@@ -1523,7 +1523,7 @@ int IPGetDamageBonusConstantFromNumber(int nNumber)
         case 18:  return DAMAGE_BONUS_18;
         case 19:  return DAMAGE_BONUS_19;
         case 20: return DAMAGE_BONUS_20;
-	case 21: return DAMAGE_BONUS_21;
+	    case 21: return DAMAGE_BONUS_21;
         case 22: return DAMAGE_BONUS_22;
         case 23: return DAMAGE_BONUS_23;
         case 24: return DAMAGE_BONUS_24;

@@ -646,7 +646,6 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\i_abr_it_msc_bagpipes_ac.ncs          \
             $(OUTPUTDIR)\acr_restartcombatmode.ncs             \
             $(OUTPUTDIR)\i_abr_it_gr_rope_climb_ac.ncs         \
-            $(OUTPUTDIR)\acr_touchattack.ncs                   \
             $(OUTPUTDIR)\x2_s0_grmagweap.ncs                   \
             $(OUTPUTDIR)\x2_s0_magcweap.ncs                    \
             $(OUTPUTDIR)\nw_s2_turndead.ncs                    \
@@ -764,6 +763,7 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\gui_shinn_sava_main.ncs               \
             $(OUTPUTDIR)\shinn_sava_hub.ncs                    \
             $(OUTPUTDIR)\shinn_sava_start.ncs                  \
+            $(OUTPUTDIR)\x2_ai_touchattack.ncs                 \
             $(OUTPUTDIR)\gui_ps_parchment_rename.ncs           \
             $(OUTPUTDIR)\gui_ps_parchment_write.ncs            \
             $(OUTPUTDIR)\i_ps_parchment_ac.ncs                 \

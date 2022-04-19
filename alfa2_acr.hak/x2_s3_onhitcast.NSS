@@ -32,7 +32,9 @@
 
 #include "x2_inc_switches"
 #include "acr_nonlethal_i"
-//	NLD check on lines 49, 50. May want to change that
+#include "acr_spells_i"
+
+//	NLD check on lines 48, 49. May want to change that
 
 void main()
 {
