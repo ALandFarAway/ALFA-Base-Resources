@@ -5804,6 +5804,76 @@ You can form an existing piece of stone into any shape that suits your purpose. 
 
 <i>Arcane Material Component</i>
 Soft clay, which must be worked into roughly the desired shape of the stone object and then touched to the stone while the verbal component is uttered.
+
+<1420><16778636>:Tiny Hut
+<1421><16778637>:Evocation (Force)
+<b>Level:  <b> Brd 3, <b> Sor/Wiz 3
+<b>Components: 	<b> V, S, M
+<b>Casting Time:  <b>1 standard action
+<b>Range: 	<b>20 ft.
+<b>Effect: 	<b>20-ft.-radius sphere centered on your location
+<b>Duration: 	<b>2 hours/level (D)
+<b>Saving Throw: 	<b>None
+<b>Spell Resistance: 	<b>No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+You create an unmoving, opaque sphere of force of any color you desire around yourself. Half the sphere projects above the ground, and the lower hemisphere passes through the ground. As many as nine other Medium creatures can fit into the field with you; they can freely pass into and out of the hut without harming it. However, if you remove yourself from the hut, the spell ends.
+
+The temperature inside the hut is 70° F if the exterior temperature is between 0° and 100° F. An exterior temperature below 0° or above 100° lowers or raises the interior temperature on a 1-degree-for-1 basis. The hut also provides protection against the elements, such as rain, dust, and sandstorms. The hut withstands any wind of less than hurricane force, but a hurricane (75+ mph wind speed) or greater force destroys it.
+
+The interior of the hut is a hemisphere. You can illuminate it dimly upon command or extinguish the light as desired. Although the force field is opaque from the outside, it is transparent from within. Missiles, weapons, and most spell effects can pass through the hut without affecting it, although the occupants cannot be seen from outside the hut (they have total concealment).
+Material Component
+
+A small crystal bead that shatters when the spell duration expires or the hut is dispelled. 
+
+<1422><16778638>:Mages Mansion
+<1423><16778639>:Conjuration (Creation) 
+Level: 	Sor/Wiz 7     ((RP ONLY))
+Components: 	V, S, F
+Casting Time: 	1 standard action
+Range: 	Close (25 ft. + 5 ft./2 levels)
+Effect: 	Extradimensional mansion, up to three 10-ft. cubes/level (S)
+Duration: 	2 hours/level (D)
+Saving Throw: 	None
+Spell Resistance: 	No
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+You conjure up an extradimensional dwelling that has a single entrance on the plane from which the spell was cast. The entry point looks like a faint shimmering in the air that is 4 feet wide and 8 feet high. Only those you designate may enter the mansion, and the portal is shut and made invisible behind you when you enter. You may open it again from your own side at will. Once observers have passed beyond the entrance, they are in a magnificent foyer with numerous chambers beyond. The atmosphere is clean, fresh, and warm.
+
+You can create any floor plan you desire to the limit of the spell’s effect. The place is furnished and contains sufficient foodstuffs to serve a nine-course banquet to a dozen people per caster level. A staff of near-transparent servants (as many as two per caster level), liveried and obedient, wait upon all who enter. The servants function as unseen servant spells except that they are visible and can go anywhere in the mansion.
+
+Since the place can be entered only through its special portal, outside conditions do not affect the mansion, nor do conditions inside it pass to the plane beyond.
+
+Focus
+A miniature portal carved from ivory, a small piece of polished marble, and a tiny silver spoon (each item worth 5 gp).
+
+<1424><16778640>:Dream
+<1425><16778641>:Illusion (Phantasm) [Mind-Affecting]
+Level: 	Brd 5, Sor/Wiz 5   (RP Only) 
+Components: 	V, S
+Casting Time: 	1 minute
+Range: 	Unlimited
+Target: 	One living creature touched
+Duration: 	See text
+Saving Throw: 	None
+Spell Resistance: 	Yes
+
+NOTE: This spell has no direct in-game effect, and must be roleplayed with a DM.
+
+You, or a messenger touched by you, sends a phantasmal message to others in the form of a dream. At the beginning of the spell, you must name the recipient or identify him or her by some title that leaves no doubt as to identity. The messenger then enters a trance, appears in the intended recipient’s dream, and delivers the message. The message can be of any length, and the recipient remembers it perfectly upon waking. The communication is one-way. The recipient cannot ask questions or offer information, nor can the messenger gain any information by observing the dreams of the recipient.
+
+Once the message is delivered, the messenger’s mind returns instantly to its body. The duration of the spell is the time required for the messenger to enter the recipient’s dream and deliver the message.
+
+If the recipient is awake when the spell begins, the messenger can choose to wake up (ending the spell) or remain in the trance. The messenger can remain in the trance until the recipient goes to sleep, then enter the recipient’s dream and deliver the message as normal. A messenger that is disturbed during the trance comes awake, ending the spell.
+
+Creatures who don’t sleep (such as elves, but not half-elves) or don’t dream cannot be contacted by this spell.
+
+The messenger is unaware of its own surroundings or of the activities around it while in the trance. It is defenseless both physically and mentally (always fails any saving throw) while in the trance. 
+
+
+
 <1934><16779150>:Greater Teleport (13)
 <1935><16779151>:Teleport (9)
 <1936><16779152>:Stone Shape (5)
