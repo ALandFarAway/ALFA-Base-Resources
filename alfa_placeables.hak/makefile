@@ -7,8 +7,8 @@
 HAKFILE=$(OUTPUTDIR)\alfa_placeables.hak
 HAK_SOURCES=                                                   \
             .\*.GR2                                            \
+            .\*.TXT                                            \
             .\*.MDB                                            \
-            .\*.UTP                                            \
             .\*.DDS                                            
 
 HAK_SOURCES_NL=$(HAK_SOURCES:.\=^
