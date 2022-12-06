@@ -9,7 +9,6 @@ HAK_SOURCES=                                                   \
             .\*.SEF                                            \
             .\*.GR2                                            \
             .\*.MDB                                            \
-            .\*.PNG											   \
             .\*.TGA                                            \
             .\*.DDS                                            
 

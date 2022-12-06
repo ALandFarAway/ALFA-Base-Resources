@@ -100,7 +100,7 @@ void main()
 			else {
 				eRay = EffectBeam(VFX_BEAM_FIRE, OBJECT_SELF, BODY_NODE_HAND);		// ,FALSE for miss ray (that doesn't work)
 				
-				SpeakString("I missed!" + FloatToString(IntToFloat(Random(501))/100.0));
+				//SpeakString("I missed!" + FloatToString(IntToFloat(Random(501))/100.0));
 				effect eVis = EffectVisualEffect(VFX_HIT_SPELL_FIRE);
 				location lMiss = Location(GetArea(oTarget), GetPosition(oTarget)+Vector(0.0, 0.0, 5.0), 0.0);	// above head
 		        DelayCommand(fDelay, ApplyEffectAtLocation(DURATION_TYPE_INSTANT, eVis, lMiss));				// explosion

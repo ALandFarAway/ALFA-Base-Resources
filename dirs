@@ -21,6 +21,7 @@ DIRS=                               \
      alfa_placeables3.hak           \
      alfa_placeables4.hak           \
      alfa_placeables5.hak           \
+     alfa_placeables6.hak           \
      alfa_terrain.hak               \
      alfa2_pr.hak                   \
      alfa_tiles.hak                 \

@@ -6,6 +6,8 @@
 
 HAKFILE=$(OUTPUTDIR)\alfa_items4.hak
 HAK_SOURCES=                                                   \
+            .\*.TXT                                            \
+            .\*.TGA                                            \
             .\*.DDS                                            \
             .\*.MDB                                                                                   
 
