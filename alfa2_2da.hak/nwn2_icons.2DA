@@ -2612,7 +2612,7 @@
 2609  ig_kt_way                    
 2610  ig_kt_9travelers             
 2611  ig_kt_8milgods               
-2612  ****                         
+2612  ig_mu_set                         
 2613  ****                         
 2614  ****                         
 2615  ****                         
@@ -4372,9 +4372,9 @@
 4368  it_herb_tarragon                  
 4369  it_food_tea                       
 4370  it_teeth                     
-4371  it_gem_gem_tiger_eye_0               
-4372  it_gem_gem_tiger_eye_1               
-4373  it_gem_gem_tiger_eye_2               
+4371  it_gem_tiger_eye_0               
+4372  it_gem_tiger_eye_1               
+4373  it_gem_tiger_eye_2               
 4374  it_tin_ingot                 
 4375  it_tin_ore                   
 4376  it_titanium_ingot            
@@ -4416,10 +4416,10 @@
 4412  ****                         
 4413  ****                         
 4414  ****                         
-4415  ****                         
-4416  ****                         
-4417  ****                         
-4418  ****                         
+4415  it_lockhair_blnd                       
+4416  it_lockhair_brn                      
+4417  it_lockhair_red                        
+4418  it_nail clipping                        
 4419  ****                         
 4420  ****                         
 4421  ****                         

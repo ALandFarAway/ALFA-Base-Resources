@@ -84,5 +84,6 @@
 80 Poison_DC_40                16782030 40      10        ****   ****  ****      acr_poison_applied ****   ****  ****      acr_poison_incubated 1.00 1            VFX_IMP_POISON_L     
 81 Giant_Bee_Poison            4689     11      14        4      1     STR       ****               4      1     STR       ****                 2.33 0            VFX_HIT_SPELL_POISON 
 82 NightCrawler_Venom          4690     22      10        2      2     STR       ****               2      1     STR       ****                 2.33 0            VFX_HIT_SPELL_POISON 
-83 Medusa_Venom				   4691     14      14        6      1     STR       ****               6      2     STR       ****                 2.33 1            VFX_HIT_SPELL_POISON
-84 Twig_Blight_Poison          4692		11      11        1      1     ****      ****				1      1     STR       ****                 1.5  1            VFX_HIT_SPELL_POISON
+83 Medusa_Venom				    4691     14      14        6      1     STR       ****               6      2     STR       ****                 2.33 1            VFX_HIT_SPELL_POISON
+84 Twig_Blight_Poison          4692		 11      11        1      1     ****      ****				    1      1     STR       ****                 1.5  1            VFX_HIT_SPELL_POISON
+85 Giant_Toad_Poison           4693     14      14        6      1     CON       ****               6      1     CON       ****                 1.00 1            VFX_HIT_SPELL_POISON

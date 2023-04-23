@@ -164,7 +164,16 @@ tilesets.2da 	<- Deep sewers, Deep Halls, Deep Chasms, tower tooms, cath, citade
 
 wingmodel.2da  <- From MoW creatures
 
-
+4/2023
+appearances.2da - new creatures
+spells.2da - new spells implemented  around detect magic
+placeables.2da - new placeables
+nwn2_icons.2da - locks of hair , set icons
+nwn2_deities.2da - Set added
+texturestilewall.2da - guts texture added
+texturestilefloor.2DA - guts texture added
+texturestilefloor.2DA - guts texture added
+metatiles.2DA - guts metatiles added
 
 
 
