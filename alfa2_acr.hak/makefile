@@ -573,11 +573,13 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\omega_dmprcvalidate.ncs               \
             $(OUTPUTDIR)\omega_dmquarantine.ncs                \
             $(OUTPUTDIR)\omega_faction.ncs                     \
+            $(OUTPUTDIR)\omega_get_spell_list.ncs              \
             $(OUTPUTDIR)\omega_interact.ncs                    \
             $(OUTPUTDIR)\omega_locate.ncs                      \
             $(OUTPUTDIR)\omega_lock_unlock.ncs                 \
             $(OUTPUTDIR)\omega_lockable.ncs                    \
             $(OUTPUTDIR)\omega_plc_onused.ncs                  \
+            $(OUTPUTDIR)\omega_plc_set_use.ncs                 \
             $(OUTPUTDIR)\omega_remove_effects.ncs              \
             $(OUTPUTDIR)\omega_settrapdet.ncs                  \
             $(OUTPUTDIR)\omega_settrapdis.ncs                  \
@@ -769,7 +771,30 @@ NSS_OBJECTS=                                                   \
             $(OUTPUTDIR)\i_ps_parchment_ac.ncs                 \
             $(OUTPUTDIR)\ps_parchment_read.ncs                 \
             $(OUTPUTDIR)\ps_parchment_readaloud.ncs            \
-            $(OUTPUTDIR)\ps_parchment_write.ncs                 
+            $(OUTPUTDIR)\ps_parchment_write.ncs                \
+            $(OUTPUTDIR)\acr_s0_arcanemark.ncs                 \
+            $(OUTPUTDIR)\acr_s0_summoninstrmt.ncs              \
+            $(OUTPUTDIR)\acr_s0_arcanesight.ncs                \
+            $(OUTPUTDIR)\acr_s0_createwater.ncs                \
+            $(OUTPUTDIR)\acr_s0_detectscrying.ncs              \
+            $(OUTPUTDIR)\acr_s0_erase.ncs                      \
+            $(OUTPUTDIR)\acr_s0_glyph_onenter.ncs              \
+            $(OUTPUTDIR)\acr_s0_glyph_onexit.ncs               \
+            $(OUTPUTDIR)\acr_s0_glyph_onhb.ncs                 \
+            $(OUTPUTDIR)\acr_s0_mpsanctum.ncs                  \
+            $(OUTPUTDIR)\acr_s0_mpsanctum_onenter.ncs          \
+            $(OUTPUTDIR)\acr_s0_mpsanctum_onexit.ncs           \
+            $(OUTPUTDIR)\acr_s0_mpsanctum_onhb.ncs             \
+            $(OUTPUTDIR)\acr_s0_nondetection.ncs               \
+            $(OUTPUTDIR)\ga_module_int.ncs                     \
+            $(OUTPUTDIR)\gc_module_int.ncs                     \
+            $(OUTPUTDIR)\x2_s1_harpycry.ncs                    \
+            $(OUTPUTDIR)\acr_s0_scryinggr.ncs                  \
+            $(OUTPUTDIR)\acr_s0_scrying.ncs           
+
+
+
+
 
 #
 # Note, CLR scripts must be listed once here and once in makeclrscripts and

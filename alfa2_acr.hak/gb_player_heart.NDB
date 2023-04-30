@@ -1,0 +1,626 @@
+NDB V1.0
+0000008 0000002 0000279 0000012 0000025
+n00 acr_server_ipc_i
+n01 acr_settings_i
+n02 nwnx_include
+n03 acr_array_i
+n04 acr_queue_i
+n05 acr_server_misc_i
+n06 acr_db_persist_i
+N07 gb_player_heart
+s 03 vector
+sf f x
+sf f y
+sf f z
+s 06 ACR_SERVER_IPC_EVENT
+sf i SourcePlayerID
+sf i SourceServerID
+sf i DestinationPlayerID
+sf i DestinationServerID
+sf i EventType
+sf s EventText
+f ffffffff ffffffff 000 s ACR_SERVER_IPC_SERVERCOM_SCRIPT
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_INITIALIZE
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_SIGNAL_IPC_EVENT
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_RESOLVE_CHARACTER_NAME_TO_PLAYER_ID
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_RESOLVE_PLAYER_NAME
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_RESOLVE_PLAYER_ID_TO_SERVER_ID
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_LIST_ONLINE_USERS
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_HANDLE_CHAT_EVENT
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_HANDLE_CLIENT_ENTER
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_IS_SERVER_ONLINE
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_ACTIVATE_SERVER_TO_SERVER_PORTAL
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_HANDLE_CLIENT_LEAVE
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_POPULATE_CHAT_SELECT
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_HANDLE_LATENCY_CHECK_RESPONSE
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_GET_PLAYER_LATENCY
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_DISABLE_CHARACTER_SAVE
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_ENABLE_CHARACTER_SAVE
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_PAUSE_HEARTBEAT
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_HANDLE_QUARANTINE_PLAYER
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_HANDLE_GUI_RESYNC
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_IS_SERVER_PUBLIC
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_HANDLE_SERVER_PING_RESPONSE
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_EVENT_CHAT_TELL
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_EVENT_BROADCAST_NOTIFICATION
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_EVENT_DISCONNECT_PLAYER
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_EVENT_PURGE_CACHED_CHARACTER
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_EVENT_SHUTDOWN_SERVER
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_EVENT_PAGE
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_EVENT_RUN_SCRIPT
+f ffffffff ffffffff 000 i ACR_SERVER_IPC_MAX_EVENT_LENGTH
+f ffffffff ffffffff 001 v ACR_SignalServerIPCEvent
+fp t0001
+f ffffffff ffffffff 000 v ACR_ServerIPC_OnModuleLoad
+f ffffffff ffffffff 001 v ACR_ServerIPC_OnClientEnter
+fp o
+f ffffffff ffffffff 003 i ACR_ServerIPC_OnChat
+fp o
+fp i
+fp s
+f ffffffff ffffffff 003 v ACR_SendCrossServerTellByCharacter
+fp o
+fp s
+fp s
+f ffffffff ffffffff 003 v ACR_SendCrossServerTellByPlayer
+fp o
+fp s
+fp s
+f ffffffff ffffffff 002 v ACR_SendBroadcastNotification
+fp i
+fp s
+f ffffffff ffffffff 002 v ACR_SendDisconnectPlayer
+fp i
+fp i
+f ffffffff ffffffff 003 v ACR_SendPurgeCachedCharacter
+fp i
+fp i
+fp s
+f ffffffff ffffffff 002 v ACR_SendShutdownServer
+fp i
+fp s
+f ffffffff ffffffff 001 v ACR_SendOnlineUserList
+fp o
+f ffffffff ffffffff 002 v ACR_ServerIPC_OnGUIResynchronization
+fp i
+fp s
+f ffffffff ffffffff 001 i ACR_GetIsServerPublic
+fp i
+f ffffffff ffffffff 002 v ACR_ServerIPC_OnServerPingResponse
+fp i
+fp s
+f ffffffff ffffffff 002 v ACR_SendFeedbackError
+fp o
+fp s
+f ffffffff ffffffff 003 v ACR_DeliverLocalTell
+fp o
+fp i
+fp s
+f ffffffff ffffffff 003 v ACR_DeliverCrossServerTellConfirmation
+fp o
+fp s
+fp s
+f ffffffff ffffffff 001 o ACR_GetLocalPlayerByPlayerID
+fp i
+f ffffffff ffffffff 001 i ACR_GetPlayerIDByCharacterName
+fp s
+f ffffffff ffffffff 001 i ACR_GetPlayerIDByPlayerName
+fp s
+f ffffffff ffffffff 001 i ACR_GetPlayerLoggedOnServerID
+fp i
+f ffffffff ffffffff 001 i ACR_GetIsServerOnline
+fp i
+f ffffffff ffffffff 003 v ACR_StartServerToServerPortal
+fp i
+fp i
+fp o
+f ffffffff ffffffff 001 v ACR_PopulateChatSelect
+fp o
+f ffffffff ffffffff 001 v ACR_HandleLatencyCheckResponse
+fp o
+f ffffffff ffffffff 001 i ACR_GetPlayerLatency
+fp o
+f ffffffff ffffffff 001 i ACR_DisableCharacterSave
+fp o
+f ffffffff ffffffff 001 i ACR_EnableCharacterSave
+fp o
+f 0000007c 000000f7 001 i ACR_PauseHeartbeat
+fp o
+f ffffffff ffffffff 001 i ACR_ServerIPC_OnQuarantinePlayer
+fp o
+f ffffffff ffffffff 003 i ACR_RunScriptOnServer
+fp i
+fp s
+fp s
+f 000000f7 000001a0 008 i ACR_CallIPCScript
+fp i
+fp i
+fp i
+fp i
+fp i
+fp i
+fp s
+fp o
+f ffffffff ffffffff 000 s _ACR_SETTINGS_SERVER_ID
+f ffffffff ffffffff 000 s _ACR_SETTINGS_SERVER_NAME
+f ffffffff ffffffff 000 s _ACR_SETTINGS_SERVER_REGION
+f ffffffff ffffffff 000 s _ACR_SETTINGS_SERVER_IP
+f ffffffff ffffffff 000 i ACR_GetServerId
+f ffffffff ffffffff 000 i ACR_GetServerID
+f ffffffff ffffffff 000 s ACR_GetServerName
+f ffffffff ffffffff 000 i ACR_GetServerRegion
+f ffffffff ffffffff 000 s ACR_GetServerIp
+f ffffffff ffffffff 004 v SetServerData
+fp i
+fp s
+fp i
+fp s
+f ffffffff ffffffff 000 i SQL_ERROR
+f ffffffff ffffffff 000 i SQL_SUCCESS
+f ffffffff ffffffff 000 s ACR_CID
+f ffffffff ffffffff 000 s ACR_PID
+f ffffffff ffffffff 000 s ACR_MEMBERSHIP
+f ffffffff ffffffff 000 s ACR_SRVADMIN
+f ffffffff ffffffff 000 s ACR_DISABLE_STATISTICS
+f ffffffff ffffffff 000 s ACR_GAMEOBJUPDATE
+f ffffffff ffffffff 000 s ACR_MOD_CONTENT_PATCH_PATH
+f ffffffff ffffffff 000 s ACR_MOD_WER_DISABLED
+f ffffffff ffffffff 000 s ACR_MOD_COMPILER_OPTIONS
+f ffffffff ffffffff 000 s ACR_MODULERESOURCEFILES_DB
+f ffffffff ffffffff 000 s ACR_MODULERESOURCEFILES_MOD
+f ffffffff ffffffff 000 s ACR_NOTIFY_SERVICE_CHARACTER_ID_MOD
+f ffffffff ffffffff 000 s ACR_ERROR_NOTIFY_IRC_RECIPIENT_MOD
+f ffffffff ffffffff 000 s ACR_GAME_DIFFICULTY_LEVEL_MOD
+f ffffffff ffffffff 000 s ACR_CONTENT_PATCH_PATH
+f ffffffff ffffffff 000 s ACR_WER_DISABLED
+f ffffffff ffffffff 000 s ACR_COMPILER_OPTIONS
+f ffffffff ffffffff 000 s ACR_NOTIFY_SERVICE_CHARACTER_ID
+f ffffffff ffffffff 000 s ACR_ERROR_NOTIFY_IRC_RECIPIENT
+f ffffffff ffffffff 000 s ACR_GAME_DIFFICULTY_LEVEL
+f ffffffff ffffffff 000 i ACR_SRVADMIN_INDETERMINITE
+f ffffffff ffffffff 000 i ACR_SRVADMIN_IS_ADMIN
+f ffffffff ffffffff 000 i ACR_SRVADMIN_NOT_ADMIN
+f ffffffff ffffffff 000 i ACR_CHARACTER_ID_NONE
+f ffffffff ffffffff 000 s ACR_PLAYERSTATUS_CACHE_VAR
+f ffffffff ffffffff 000 s ACR_HEALTHMONITOR_GAMEOBJUPDATE_BACKOFF_VAR
+f ffffffff ffffffff 000 s ACR_CDKEY
+f ffffffff ffffffff 000 s ACR_DB_FAILURES
+f ffffffff ffffffff 000 f _ACR_DB_SQL_ASYNC_WRITE_HEARTBEAT_DELAY
+f ffffffff ffffffff 000 s _ACR_DB_SQL_QUEUE
+f ffffffff ffffffff 000 s _ACR_DB_CONTROL_FLAGS_VAR
+f ffffffff ffffffff 000 s _ACR_DB_SQL_PENDING_QUERY_VAR
+f ffffffff ffffffff 000 s _ACR_DB_SQL_SERVER_BOOT_TIME_VAR
+f ffffffff ffffffff 000 s _ACR_DB_SQL_SERVER_BOOT_TIME_MOD_VAR
+f ffffffff ffffffff 000 s _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX
+f ffffffff ffffffff 000 s _ACR_DB_VDB_FILE
+f ffffffff ffffffff 000 i _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX_LEN
+f ffffffff ffffffff 000 i _ACR_SQL_SAQ_FLUSHALL
+f ffffffff ffffffff 000 i _ACR_SQL_DBCTRL_DATABASE_OFFLINE
+f ffffffff ffffffff 000 i _ACR_SQL_DBCTRL_ASYNC_PENDING
+f ffffffff ffffffff 000 i _ACR_SQL_QUERY_MAX_LEN
+f ffffffff ffffffff 000 s ACR_DTH_CORPSE_RESREF
+f ffffffff ffffffff 000 s ACR_DTH_BODY_RESREF
+f ffffffff ffffffff 000 i ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS
+f ffffffff ffffffff 000 i ACR_PC_LOCAL_FLAG_PORTAL_COMMITTED
+f ffffffff ffffffff 000 i ACR_PC_LOCAL_FLAG_SERVER_TELL_HELP
+f ffffffff ffffffff 000 i ACR_QUERY_LOW_PRIORITY
+f ffffffff ffffffff 000 v ACR_StartAsyncService
+f ffffffff ffffffff 000 v ACR_LoadDatabaseConfiguration
+f ffffffff ffffffff 000 v ACR_InitializeDatabase
+f ffffffff ffffffff 001 v ACR_AsyncSQLQuery
+fp s
+f ffffffff ffffffff 003 v ACR_AsyncSQLQueryEx
+fp s
+fp o
+fp i
+f ffffffff ffffffff 001 v ACR_SQLQuery
+fp s
+f ffffffff ffffffff 001 i ACR_SQLFetch
+fp s
+f ffffffff ffffffff 001 s ACR_SQLGetData
+fp i
+f ffffffff ffffffff 000 i ACR_SQLGetAffectedRows
+f ffffffff ffffffff 001 v ACR_IncrementStatistic
+fp s
+f ffffffff ffffffff 004 v ACR_SetPersistentString
+fp o
+fp s
+fp s
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentStringNoTimestamp
+fp o
+fp s
+fp s
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentInt
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentFloat
+fp o
+fp s
+fp f
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentLocation
+fp o
+fp s
+fp e2
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentVector
+fp o
+fp s
+fp t0000
+fp i
+f ffffffff ffffffff 005 v ACR_SetPersistentObject
+fp o
+fp s
+fp o
+fp s
+fp i
+f ffffffff ffffffff 002 s ACR_GetPersistentString
+fp o
+fp s
+f ffffffff ffffffff 002 i ACR_GetPersistentInt
+fp o
+fp s
+f ffffffff ffffffff 002 f ACR_GetPersistentFloat
+fp o
+fp s
+f ffffffff ffffffff 002 e2 ACR_GetPersistentLocation
+fp o
+fp s
+f ffffffff ffffffff 002 t0000 ACR_GetPersistentVector
+fp o
+fp s
+f ffffffff ffffffff 003 o ACR_GetPersistentObject
+fp o
+fp s
+fp s
+f ffffffff ffffffff 003 o ACR_GetLegacyPersistentObject
+fp o
+fp s
+fp s
+f ffffffff ffffffff 002 v ACR_DeletePersistentVariable
+fp o
+fp s
+f ffffffff ffffffff 001 s ACR_SQLEncodeSpecialChars
+fp s
+f ffffffff ffffffff 001 s ACR_LocationToString
+fp e2
+f ffffffff ffffffff 001 e2 ACR_StringToLocation
+fp s
+f ffffffff ffffffff 001 s ACR_VectorToString
+fp t0000
+f ffffffff ffffffff 001 t0000 ACR_StringToVector
+fp s
+f ffffffff ffffffff 001 v ACR_SetPCPublicCDKey
+fp o
+f ffffffff ffffffff 001 s ACR_GetPCPublicCDKey
+fp o
+f ffffffff ffffffff 003 v ACR_SetCharacterID
+fp o
+fp i
+fp i
+f ffffffff ffffffff 001 i ACR_GetCharacterID
+fp o
+f ffffffff ffffffff 001 i ACR_GetPlayerID
+fp o
+f ffffffff ffffffff 001 i ACR_GetIsMember
+fp o
+f ffffffff ffffffff 001 i ACR_IsServerAdmin
+fp o
+f ffffffff ffffffff 001 i ACR_GetPCLocalFlags
+fp o
+f ffffffff ffffffff 002 v ACR_SetPCLocalFlags
+fp o
+fp i
+f ffffffff ffffffff 000 v ACR_CreateSQLTables
+f ffffffff ffffffff 000 v ACR_ResetDatabase
+f ffffffff ffffffff 000 v ACR_AdjustTables
+f ffffffff ffffffff 001 v ACR_DBPersistOnIncomingPlayer
+fp o
+f ffffffff ffffffff 001 v ACR_DBPersistOnOutgoingPlayer
+fp o
+f ffffffff ffffffff 000 i ACR_GetUTCTime
+f ffffffff ffffffff 000 i ACR_GetModuleStartTime
+f ffffffff ffffffff 001 v ACR_FlushQueryQueue
+fp o
+f ffffffff ffffffff 000 s ACR_GetServerAddressFromDatabase
+f ffffffff ffffffff 003 i ACR_LoadObjectVariablesFromPersistStore
+fp o
+fp o
+fp s
+f ffffffff ffffffff 003 v ACR_SaveObjectVariablesToPersistStore
+fp o
+fp o
+fp s
+f ffffffff ffffffff 000 v _ResetServer
+f ffffffff ffffffff 000 v _ServiceAsyncQueries
+f ffffffff ffffffff 004 i _ServiceAsyncQueriesForQueue
+fp o
+fp i
+fp i
+fp o
+f ffffffff ffffffff 001 v _FlushQueryQueue
+fp o
+f ffffffff ffffffff 004 v _ExecuteQueryQueues
+fp i
+fp o
+fp o
+fp i
+f ffffffff ffffffff 001 v _RunQueryQueue
+fp i
+f ffffffff ffffffff 001 i _GetTotalQueuedQueryCount
+fp o
+f ffffffff ffffffff 000 i _GetDatabaseControlFlags
+f ffffffff ffffffff 001 v _SetDatabaseControlFlags
+fp i
+f ffffffff ffffffff 002 v _MaintainACRPersistCache
+fp o
+fp s
+f ffffffff ffffffff 001 v _ClearACRPersistCache
+fp o
+f ffffffff ffffffff 001 i _CalculateTargetMaxQueriesServiced
+fp i
+f ffffffff ffffffff 001 v _SQLQueryInternal
+fp s
+f ffffffff ffffffff 001 i _SQLQueryReturnsValues
+fp s
+f ffffffff ffffffff 000 i NWNXInstalled
+f ffffffff ffffffff 000 i NWNXGetPluginCount
+f ffffffff ffffffff 001 s NWNXGetPluginClass
+fp i
+f ffffffff ffffffff 001 s NWNXGetPluginSubClass
+fp s
+f ffffffff ffffffff 001 s NWNXGetPluginVersion
+fp s
+f ffffffff ffffffff 001 s NWNXGetPluginDescription
+fp s
+f ffffffff ffffffff 000 s _ACR_QUEUE_HEAD_LI
+f ffffffff ffffffff 000 s _ACR_QUEUE_TAIL_LI
+f ffffffff ffffffff 003 v PushQueueString
+fp o
+fp s
+fp s
+f ffffffff ffffffff 002 s PopQueueString
+fp o
+fp s
+f ffffffff ffffffff 002 i GetQueueLength
+fp o
+fp s
+f ffffffff ffffffff 003 s GetLocalArrayString
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 i GetLocalArrayInt
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 f GetLocalArrayFloat
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 e2 GetLocalArrayLocation
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 o GetLocalArrayObject
+fp o
+fp s
+fp i
+f ffffffff ffffffff 004 v SetLocalArrayInt
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v SetLocalArrayFloat
+fp o
+fp s
+fp i
+fp f
+f ffffffff ffffffff 004 v SetLocalArrayObject
+fp o
+fp s
+fp i
+fp o
+f ffffffff ffffffff 004 v SetLocalArrayLocation
+fp o
+fp s
+fp i
+fp e2
+f ffffffff ffffffff 004 v SetLocalArrayString
+fp o
+fp s
+fp i
+fp s
+f ffffffff ffffffff 003 v DeleteLocalArrayInt
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 v DeleteLocalArrayFloat
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 v DeleteLocalArrayString
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 v DeleteLocalArrayLocation
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 v DeleteLocalArrayObject
+fp o
+fp s
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayInts
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayFloats
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayStrings
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayLocations
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayObjects
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 005 v LoadStringArrayIntoCustomTokens
+fp o
+fp s
+fp i
+fp i
+fp i
+f ffffffff ffffffff 000 s ACR_SERVER_MISC_SUPPORT_SCRIPT
+f ffffffff ffffffff 000 s ACR_SERVER_MISC_OBJECT_RETVAL_VAR
+f ffffffff ffffffff 000 s ACR_SERVER_MISC_STRING_RETVAL_VAR
+f ffffffff ffffffff 000 i SCRIPT_DATABASE_CONNECTION_DEBUG
+f ffffffff ffffffff 000 i SCRIPT_DATABASE_CONNECTION_STANDARD_QUERY_LOG
+f ffffffff ffffffff 000 i SCRIPT_DATABASE_CONNECTION_STANDARD_CONNECTION
+f ffffffff ffffffff 000 i SCRIPT_STANDARD_DATABASE_CONNECTION_ID
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_CREATE_AREA_INSTANCE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_RELEASE_AREA_INSTANCE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_RUN_POWERSHELL_SCRIPTLET
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_CREATE_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_DESTROY_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_QUERY_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_FETCH_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_COLUMN_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_AFFECTED_ROW_COUNT_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_ESCAPE_STRING_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_STACK_TRACE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_SET_DICTIONARY_VALUE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_DICTIONARY_VALUE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_FIRST_ITERATE_DICTIONARY
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_NEXT_ITERATE_DICTIONARY
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_DELETE_DICTIONARY_KEY
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_CLEAR_DICTIONARY
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_SALTED_MD5
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_HAS_DATABASE_STORE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_DELETE_DATABASE_STORE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_DELETE_DATABASE_STORE_AT_INDEX
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_SHOW_COMPILER_LOG
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_RESTART_SERVER
+f ffffffff ffffffff 000 i ACR_ExecuteServerUpdaterScript
+f ffffffff ffffffff 003 v ACR_DictionarySet
+fp s
+fp s
+fp s
+f ffffffff ffffffff 002 s ACR_DictionaryGet
+fp s
+fp s
+f ffffffff ffffffff 001 s ACR_DictionaryIterateFirst
+fp s
+f ffffffff ffffffff 001 s ACR_DictionaryIterateNext
+fp s
+f ffffffff ffffffff 002 v ACR_DictionaryDeleteKey
+fp s
+fp s
+f ffffffff ffffffff 001 v ACR_DictionaryClear
+fp s
+f ffffffff ffffffff 001 o ACR_InternalCreateAreaInstance
+fp o
+f ffffffff ffffffff 001 v ACR_InternalReleaseAreaInstance
+fp o
+f ffffffff ffffffff 002 i ACR_RunPowerShellScriptlet
+fp s
+fp o
+f ffffffff ffffffff 002 i ACR_CreateDatabaseConnection
+fp s
+fp i
+f ffffffff ffffffff 001 i ACR_DestroyDatabaseConnection
+fp i
+f ffffffff ffffffff 002 i ACR_QueryDatabaseConnection
+fp i
+fp s
+f ffffffff ffffffff 001 i ACR_FetchDatabaseConnection
+fp i
+f ffffffff ffffffff 002 s ACR_GetColumnDatabaseConnection
+fp i
+fp i
+f ffffffff ffffffff 001 i ACR_GetAffectedRowCountDatabaseConnection
+fp i
+f ffffffff ffffffff 002 s ACR_EscapeStringDatabaseConnection
+fp i
+fp s
+f ffffffff ffffffff 000 s ACR_GetStackTrace
+f ffffffff ffffffff 001 s ACR_GetSaltedMD5
+fp s
+f ffffffff ffffffff 001 i ACR_GetHasDatabaseStore
+fp s
+f ffffffff ffffffff 001 i ACR_DeleteDatabaseStore
+fp s
+f ffffffff ffffffff 002 i ACR_DeleteDatabaseStoreAtIndex
+fp s
+fp i
+f ffffffff ffffffff 001 i ACR_ShowCompilerLog
+fp o
+f ffffffff ffffffff 000 i ACR_RestartServer
+f ffffffff ffffffff 008 i ACR_CallServerMiscScript
+fp i
+fp i
+fp i
+fp s
+fp s
+fp s
+fp o
+fp o
+f ffffffff ffffffff 000 s ACR__GetServerMiscReturnString
+f ffffffff ffffffff 000 o ACR__GetServerMiscReturnObject
+f ffffffff ffffffff 001 v ACR_ServerIPC_OnClientLeave
+fp o
+f 00000021 0000007c 000 v main
+f 0000000d 00000015 000 v #loader
+f 00000015 00000021 000 v #globals
+v 00000035 00000074 00000000 s sHBScript
+v 0000007c 000000f5 00000000 i #retval
+v 0000007c 000000ef 00000004 o PlayerObject
+v 000000f7 0000019e 00000000 i #retval
+v 000000f7 00000198 00000004 o ObjectSelf
+v 000000f7 00000198 00000008 s P5
+v 000000f7 00000198 0000000c i P4
+v 000000f7 00000198 00000010 i P3
+v 000000f7 00000198 00000014 i P2
+v 000000f7 00000198 00000018 i P1
+v 000000f7 00000198 0000001c i P0
+v 000000f7 00000198 00000020 i Command
+l00 0000150 00000015 00000015
+l00 0000151 00000015 00000015
+l00 0000152 00000015 00000015
+l00 0000153 00000015 00000015
+l00 0000154 00000015 00000015
+l00 0000155 00000015 00000015
+l07 0000012 00000021 00000035
+l07 0000014 00000035 0000004d
+l07 0000015 0000004d 0000005b
+l07 0000016 00000061 00000074
+l07 0000017 0000007a 0000007c
+l00 0000736 0000007c 00000083
+l00 0000737 00000089 000000a3
+l00 0000739 000000a3 000000ef
+l00 0000748 000000ef 000000f7
+l00 0000902 000000f7 000000fc
+l00 0000903 000000fc 00000109
+l00 0000904 00000109 00000116
+l00 0000905 00000116 00000123
+l00 0000906 00000123 00000130
+l00 0000907 00000130 0000013d
+l00 0000908 0000013d 0000014a
+l00 0000909 0000014a 00000157
+l00 0000911 00000157 00000198
+l00 0000912 00000198 000001a0

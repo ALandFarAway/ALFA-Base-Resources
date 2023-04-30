@@ -1,0 +1,304 @@
+NDB V1.0
+0000003 0000001 0000172 0000033 0000074
+n00 tkl_cardgame_descriptions
+n01 tkl_cardgame_include
+N02 gui_tkl_cardgame_pot
+s 03 vector
+sf f x
+sf f y
+sf f z
+f ffffffff ffffffff 000 s SET_TAROT
+f ffffffff ffffffff 000 s SET_POKER
+f ffffffff ffffffff 000 s SUIT_CLUBS
+f ffffffff ffffffff 000 s SUIT_HEARTS
+f ffffffff ffffffff 000 s SUIT_SPADES
+f ffffffff ffffffff 000 s SUIT_DIAMONDS
+f ffffffff ffffffff 000 s SUIT_SWORDS
+f ffffffff ffffffff 000 s SUIT_WANDS
+f ffffffff ffffffff 000 s SUIT_PENTACLES
+f ffffffff ffffffff 000 s SUIT_CUPS
+f ffffffff ffffffff 000 s SUIT_TRUMPS
+f ffffffff ffffffff 000 s CARD_HEARTS_2
+f ffffffff ffffffff 000 s CARD_HEARTS_3
+f ffffffff ffffffff 000 s CARD_HEARTS_4
+f ffffffff ffffffff 000 s CARD_HEARTS_5
+f ffffffff ffffffff 000 s CARD_HEARTS_6
+f ffffffff ffffffff 000 s CARD_HEARTS_7
+f ffffffff ffffffff 000 s CARD_HEARTS_8
+f ffffffff ffffffff 000 s CARD_HEARTS_9
+f ffffffff ffffffff 000 s CARD_HEARTS_10
+f ffffffff ffffffff 000 s CARD_HEARTS_JACK
+f ffffffff ffffffff 000 s CARD_HEARTS_QUEEN
+f ffffffff ffffffff 000 s CARD_HEARTS_KING
+f ffffffff ffffffff 000 s CARD_HEARTS_ACE
+f ffffffff ffffffff 000 s CARD_SPADES_2
+f ffffffff ffffffff 000 s CARD_SPADES_3
+f ffffffff ffffffff 000 s CARD_SPADES_4
+f ffffffff ffffffff 000 s CARD_SPADES_5
+f ffffffff ffffffff 000 s CARD_SPADES_6
+f ffffffff ffffffff 000 s CARD_SPADES_7
+f ffffffff ffffffff 000 s CARD_SPADES_8
+f ffffffff ffffffff 000 s CARD_SPADES_9
+f ffffffff ffffffff 000 s CARD_SPADES_10
+f ffffffff ffffffff 000 s CARD_SPADES_JACK
+f ffffffff ffffffff 000 s CARD_SPADES_QUEEN
+f ffffffff ffffffff 000 s CARD_SPADES_KING
+f ffffffff ffffffff 000 s CARD_SPADES_ACE
+f ffffffff ffffffff 000 s CARD_CLUBS_2
+f ffffffff ffffffff 000 s CARD_CLUBS_3
+f ffffffff ffffffff 000 s CARD_CLUBS_4
+f ffffffff ffffffff 000 s CARD_CLUBS_5
+f ffffffff ffffffff 000 s CARD_CLUBS_6
+f ffffffff ffffffff 000 s CARD_CLUBS_7
+f ffffffff ffffffff 000 s CARD_CLUBS_8
+f ffffffff ffffffff 000 s CARD_CLUBS_9
+f ffffffff ffffffff 000 s CARD_CLUBS_10
+f ffffffff ffffffff 000 s CARD_CLUBS_JACK
+f ffffffff ffffffff 000 s CARD_CLUBS_QUEEN
+f ffffffff ffffffff 000 s CARD_CLUBS_KING
+f ffffffff ffffffff 000 s CARD_CLUBS_ACE
+f ffffffff ffffffff 000 s CARD_DIAMONDS_2
+f ffffffff ffffffff 000 s CARD_DIAMONDS_3
+f ffffffff ffffffff 000 s CARD_DIAMONDS_4
+f ffffffff ffffffff 000 s CARD_DIAMONDS_5
+f ffffffff ffffffff 000 s CARD_DIAMONDS_6
+f ffffffff ffffffff 000 s CARD_DIAMONDS_7
+f ffffffff ffffffff 000 s CARD_DIAMONDS_8
+f ffffffff ffffffff 000 s CARD_DIAMONDS_9
+f ffffffff ffffffff 000 s CARD_DIAMONDS_10
+f ffffffff ffffffff 000 s CARD_DIAMONDS_JACK
+f ffffffff ffffffff 000 s CARD_DIAMONDS_QUEEN
+f ffffffff ffffffff 000 s CARD_DIAMONDS_KING
+f ffffffff ffffffff 000 s CARD_DIAMONDS_ACE
+f ffffffff ffffffff 000 s CARD_WANDS_2
+f ffffffff ffffffff 000 s CARD_WANDS_3
+f ffffffff ffffffff 000 s CARD_WANDS_4
+f ffffffff ffffffff 000 s CARD_WANDS_5
+f ffffffff ffffffff 000 s CARD_WANDS_6
+f ffffffff ffffffff 000 s CARD_WANDS_7
+f ffffffff ffffffff 000 s CARD_WANDS_8
+f ffffffff ffffffff 000 s CARD_WANDS_9
+f ffffffff ffffffff 000 s CARD_WANDS_10
+f ffffffff ffffffff 000 s CARD_WANDS_KNIGHT
+f ffffffff ffffffff 000 s CARD_WANDS_PAGE
+f ffffffff ffffffff 000 s CARD_WANDS_QUEEN
+f ffffffff ffffffff 000 s CARD_WANDS_KING
+f ffffffff ffffffff 000 s CARD_WANDS_ACE
+f ffffffff ffffffff 000 s CARD_SWORDS_2
+f ffffffff ffffffff 000 s CARD_SWORDS_3
+f ffffffff ffffffff 000 s CARD_SWORDS_4
+f ffffffff ffffffff 000 s CARD_SWORDS_5
+f ffffffff ffffffff 000 s CARD_SWORDS_6
+f ffffffff ffffffff 000 s CARD_SWORDS_7
+f ffffffff ffffffff 000 s CARD_SWORDS_8
+f ffffffff ffffffff 000 s CARD_SWORDS_9
+f ffffffff ffffffff 000 s CARD_SWORDS_10
+f ffffffff ffffffff 000 s CARD_SWORDS_KNIGHT
+f ffffffff ffffffff 000 s CARD_SWORDS_PAGE
+f ffffffff ffffffff 000 s CARD_SWORDS_QUEEN
+f ffffffff ffffffff 000 s CARD_SWORDS_KING
+f ffffffff ffffffff 000 s CARD_SWORDS_ACE
+f ffffffff ffffffff 000 s CARD_PENTACLES_2
+f ffffffff ffffffff 000 s CARD_PENTACLES_3
+f ffffffff ffffffff 000 s CARD_PENTACLES_4
+f ffffffff ffffffff 000 s CARD_PENTACLES_5
+f ffffffff ffffffff 000 s CARD_PENTACLES_6
+f ffffffff ffffffff 000 s CARD_PENTACLES_7
+f ffffffff ffffffff 000 s CARD_PENTACLES_8
+f ffffffff ffffffff 000 s CARD_PENTACLES_9
+f ffffffff ffffffff 000 s CARD_PENTACLES_10
+f ffffffff ffffffff 000 s CARD_PENTACLES_KNIGHT
+f ffffffff ffffffff 000 s CARD_PENTACLES_PAGE
+f ffffffff ffffffff 000 s CARD_PENTACLES_QUEEN
+f ffffffff ffffffff 000 s CARD_PENTACLES_KING
+f ffffffff ffffffff 000 s CARD_PENTACLES_ACE
+f ffffffff ffffffff 000 s CARD_CUPS_2
+f ffffffff ffffffff 000 s CARD_CUPS_3
+f ffffffff ffffffff 000 s CARD_CUPS_4
+f ffffffff ffffffff 000 s CARD_CUPS_5
+f ffffffff ffffffff 000 s CARD_CUPS_6
+f ffffffff ffffffff 000 s CARD_CUPS_7
+f ffffffff ffffffff 000 s CARD_CUPS_8
+f ffffffff ffffffff 000 s CARD_CUPS_9
+f ffffffff ffffffff 000 s CARD_CUPS_10
+f ffffffff ffffffff 000 s CARD_CUPS_KNIGHT
+f ffffffff ffffffff 000 s CARD_CUPS_PAGE
+f ffffffff ffffffff 000 s CARD_CUPS_QUEEN
+f ffffffff ffffffff 000 s CARD_CUPS_KING
+f ffffffff ffffffff 000 s CARD_CUPS_ACE
+f ffffffff ffffffff 000 s CARD_TRUMP_0
+f ffffffff ffffffff 000 s CARD_TRUMP_1
+f ffffffff ffffffff 000 s CARD_TRUMP_2
+f ffffffff ffffffff 000 s CARD_TRUMP_3
+f ffffffff ffffffff 000 s CARD_TRUMP_4
+f ffffffff ffffffff 000 s CARD_TRUMP_5
+f ffffffff ffffffff 000 s CARD_TRUMP_6
+f ffffffff ffffffff 000 s CARD_TRUMP_7
+f ffffffff ffffffff 000 s CARD_TRUMP_8
+f ffffffff ffffffff 000 s CARD_TRUMP_9
+f ffffffff ffffffff 000 s CARD_TRUMP_10
+f ffffffff ffffffff 000 s CARD_TRUMP_11
+f ffffffff ffffffff 000 s CARD_TRUMP_12
+f ffffffff ffffffff 000 s CARD_TRUMP_13
+f ffffffff ffffffff 000 s CARD_TRUMP_14
+f ffffffff ffffffff 000 s CARD_TRUMP_15
+f ffffffff ffffffff 000 s CARD_TRUMP_16
+f ffffffff ffffffff 000 s CARD_TRUMP_17
+f ffffffff ffffffff 000 s CARD_TRUMP_18
+f ffffffff ffffffff 000 s CARD_TRUMP_19
+f ffffffff ffffffff 000 s CARD_TRUMP_20
+f ffffffff ffffffff 000 s CARD_TRUMP_21
+f ffffffff ffffffff 001 s GetCardDescription
+fp o
+f ffffffff ffffffff 000 s DRAW_TEXT
+f ffffffff ffffffff 000 s DRAW_FACEUP_TEXT
+f ffffffff ffffffff 000 s DISCARD_TEXT
+f ffffffff ffffffff 000 s DISCARD_FACEUP_TEXT
+f ffffffff ffffffff 000 s DRAW_FROM_DISCARD_TEXT
+f ffffffff ffffffff 000 s DRAW_FACEUP_FROM_DISCARD_TEXT
+f ffffffff ffffffff 000 s DEAL_TEXT
+f ffffffff ffffffff 000 s TAKE_TEXT
+f ffffffff ffffffff 000 s PLAY_TEXT
+f ffffffff ffffffff 000 s SHUFFLE_TEXT
+f ffffffff ffffffff 000 s DRAW_TO_BOARD_TEXT
+f ffffffff ffffffff 000 s DISCARD_FROM_BOARD_TEXT
+f ffffffff ffffffff 000 s POT_ADD_TEXT
+f ffffffff ffffffff 000 s BANK_CLEAR_TEXT
+f ffffffff ffffffff 000 s POT_CLEAR_TEXT
+f ffffffff ffffffff 000 s ALL_POTS_TEXT
+f ffffffff ffffffff 000 s PASS_TEXT
+f ffffffff ffffffff 001 v RefreshCards
+fp o
+f ffffffff ffffffff 001 v RefreshPlayers
+fp o
+f ffffffff ffffffff 001 s GetScreenName
+fp i
+f ffffffff ffffffff 001 s GetXMLFile
+fp i
+f ffffffff ffffffff 001 v ResetGame
+fp o
+f ffffffff ffffffff 001 v RefreshBoard
+fp o
+f 0000028a 000003ab 001 s GetPlayerColor
+fp i
+f 000003ab 00000485 002 v SendMessageToPlayers
+fp o
+fp s
+f ffffffff ffffffff 002 v ChangeCardInfo
+fp o
+fp o
+f 00000485 000009d2 001 v RefreshBets
+fp o
+f ffffffff ffffffff 002 s HisOrHer
+fp o
+fp i
+f 00000015 0000028a 001 v main
+fp s
+f 0000000d 00000015 000 v #loader
+v 00000015 00000282 00000000 s sAmount
+v 00000015 0000027c 00000004 o oPC
+v 0000001b 0000027c 00000008 o oDeck
+v 00000030 0000027c 0000000c i iPlayer
+v 0000004c 0000027c 00000010 s sPlayerColor
+v 0000005c 0000027c 00000014 s sName
+v 00000069 0000027c 00000018 i iAmount
+v 00000076 0000027c 0000001c i iBankTotal
+v 00000091 0000027c 00000020 i iPotTotal
+v 000000ab 0000027c 00000024 i iMax
+v 0000028a 000003a9 00000000 s #retval
+v 0000028a 000003a3 00000004 i iPlayer
+v 0000028c 0000039d 00000008 s sTextColor
+v 000003ab 0000047d 00000000 s sMessage
+v 000003ab 0000047d 00000004 o oDeck
+v 000003ab 00000477 00000008 o oPlayer1
+v 000003c9 00000477 0000000c o oPlayer2
+v 000003e7 00000477 00000010 o oPlayer3
+v 00000405 00000477 00000014 o oPlayer4
+v 00000485 000009ca 00000000 o oPC
+v 00000485 000009c4 00000004 i iPlayer
+v 000004a1 000009c4 00000008 s sPlayer
+v 000004ae 000009c4 0000000c o oDeck
+v 000004c3 000009c4 00000010 o oPlayer1
+v 000004e1 000009c4 00000014 o oPlayer2
+v 000004ff 000009c4 00000018 o oPlayer3
+v 0000051d 000009c4 0000001c o oPlayer4
+v 0000053b 000009c4 00000020 i iAllPots
+v 000005a9 000009c4 00000024 s sAllPotsText
+v 000005bf 000009c4 00000028 i iPot
+v 000005d9 000009c4 0000002c i iBank
+v 000005f4 000009c4 00000030 s sPotText
+v 000005fc 000009c4 00000034 s sBankText
+l02 0000013 00000015 0000001b
+l02 0000014 0000001b 00000030
+l02 0000015 00000030 0000004c
+l02 0000016 0000004c 0000005c
+l02 0000017 0000005c 00000069
+l02 0000018 00000069 00000076
+l02 0000019 00000076 00000091
+l02 0000020 00000091 000000ab
+l02 0000022 000000ab 000000bd
+l02 0000023 000000bd 000000cd
+l02 0000024 000000d3 000000df
+l02 0000025 000000df 000000f1
+l02 0000027 000000f7 0000013e
+l02 0000028 0000013e 0000014a
+l02 0000030 00000150 00000152
+l02 0000032 00000168 00000188
+l02 0000033 00000188 00000194
+l02 0000035 0000019a 0000019c
+l02 0000037 0000019c 000001bc
+l02 0000039 000001bc 000001de
+l02 0000042 000001de 000001ff
+l02 0000044 000001ff 0000026e
+l02 0000047 0000026e 0000027c
+l02 0000049 00000282 0000028a
+l01 0000429 0000028a 0000028c
+l01 0000430 0000028c 0000029c
+l01 0000431 000002a2 000002c6
+l01 0000432 000002cc 000002ce
+l01 0000433 000002e4 00000307
+l01 0000434 0000030d 0000030f
+l01 0000435 00000325 00000343
+l01 0000436 00000349 0000034b
+l01 0000437 00000361 00000381
+l01 0000438 00000381 0000039d
+l01 0000439 000003a3 000003ab
+l01 0000444 000003ab 000003c9
+l01 0000445 000003c9 000003e7
+l01 0000446 000003e7 00000405
+l01 0000447 00000405 00000423
+l01 0000449 00000423 00000438
+l01 0000450 00000438 0000044d
+l01 0000451 0000044d 00000462
+l01 0000452 00000462 00000477
+l01 0000453 0000047d 00000485
+l01 0000472 00000485 000004a1
+l01 0000473 000004a1 000004ae
+l01 0000474 000004ae 000004c3
+l01 0000476 000004c3 000004e1
+l01 0000477 000004e1 000004ff
+l01 0000478 000004ff 0000051d
+l01 0000479 0000051d 0000053b
+l01 0000481 0000053b 000005a9
+l01 0000485 000005a9 000005bf
+l01 0000487 000005bf 000005d9
+l01 0000488 000005d9 000005f4
+l01 0000489 000005f4 000005fc
+l01 0000490 000005fc 00000604
+l01 0000491 00000604 00000614
+l01 0000492 0000061a 0000063e
+l01 0000493 0000063e 0000064e
+l01 0000494 00000654 00000678
+l01 0000496 00000678 000006c2
+l01 0000497 000006c2 0000070c
+l01 0000498 0000070c 00000756
+l01 0000499 00000756 000007a0
+l01 0000500 000007a0 000007eb
+l01 0000501 000007eb 00000836
+l01 0000502 00000836 00000881
+l01 0000503 00000881 000008cc
+l01 0000504 000008cc 0000090a
+l01 0000505 0000090a 00000948
+l01 0000506 00000948 00000986
+l01 0000507 00000986 000009c4
+l01 0000508 000009ca 000009d2

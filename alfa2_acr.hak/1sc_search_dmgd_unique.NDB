@@ -1,0 +1,480 @@
+NDB V1.0
+0000005 0000001 0000197 0000015 0000016
+n00 ginc_debug
+n01 1sc_searchable_treasure
+n02 nw_o2_coninclude
+n03 1sc_searchable
+N04 1sc_search_dmgd_unique
+s 03 vector
+sf f x
+sf f y
+sf f z
+f ffffffff ffffffff 000 i POST_COLOR_RED
+f ffffffff ffffffff 000 i POST_COLOR_GREEN
+f ffffffff ffffffff 000 i POST_COLOR_BLUE
+f ffffffff ffffffff 000 i POST_COLOR_WHITE
+f ffffffff ffffffff 000 i POST_COLOR_BLACK
+f ffffffff ffffffff 000 i POST_COLOR_OFFSET
+f ffffffff ffffffff 000 i POST_COLOR_DEBUG
+f ffffffff ffffffff 000 i POST_COLOR_ERROR
+f ffffffff ffffffff 000 i LINE_SIZE
+f ffffffff ffffffff 000 i PRETTY_LINE_WRAP
+f ffffffff ffffffff 000 i PRETTY_X_OFFSET
+f ffffffff ffffffff 000 i PRETTY_Y_OFFSET
+f ffffffff ffffffff 000 f PRETTY_DURATION
+f ffffffff ffffffff 000 f DURATION_NORMAL
+f ffffffff ffffffff 000 f DURATION_LONG
+f ffffffff ffffffff 001 o GetFirstPCInFaction
+fp o
+f ffffffff ffffffff 006 v Message
+fp s
+fp i
+fp i
+fp f
+fp i
+fp i
+f ffffffff ffffffff 005 v ErrorMessage
+fp s
+fp i
+fp i
+fp f
+fp i
+f ffffffff ffffffff 005 v DebugMessage
+fp s
+fp i
+fp i
+fp f
+fp i
+f ffffffff ffffffff 002 v OldFunctionMessage
+fp s
+fp s
+f ffffffff ffffffff 005 v MessageLine
+fp i
+fp s
+fp i
+fp f
+fp i
+f ffffffff ffffffff 005 v DebugMessageLine
+fp i
+fp s
+fp i
+fp f
+fp i
+f ffffffff ffffffff 004 v PrettyPostString
+fp o
+fp s
+fp f
+fp i
+f ffffffff ffffffff 003 v PrettyDebug
+fp s
+fp f
+fp i
+f ffffffff ffffffff 003 v PrettyError
+fp s
+fp f
+fp i
+f ffffffff ffffffff 003 v PrettyMessage
+fp s
+fp f
+fp i
+f ffffffff ffffffff 006 v Backdrop
+fp o
+fp s
+fp i
+fp i
+fp f
+fp i
+f ffffffff ffffffff 001 v SendMessageToAllPlayersByStrRef
+fp i
+f ffffffff ffffffff 002 v SendMessageToPartyByStrRef
+fp o
+fp i
+f ffffffff ffffffff 000 i RANGE_1_MIN
+f ffffffff ffffffff 000 i RANGE_1_MAX
+f ffffffff ffffffff 000 i RANGE_2_MIN
+f ffffffff ffffffff 000 i RANGE_2_MAX
+f ffffffff ffffffff 000 i RANGE_3_MIN
+f ffffffff ffffffff 000 i RANGE_3_MAX
+f ffffffff ffffffff 000 i RANGE_4_MIN
+f ffffffff ffffffff 000 i RANGE_4_MAX
+f ffffffff ffffffff 000 i RANGE_5_MIN
+f ffffffff ffffffff 000 i RANGE_5_MAX
+f ffffffff ffffffff 000 i RANGE_6_MIN
+f ffffffff ffffffff 000 i RANGE_6_MAX
+f ffffffff ffffffff 000 i LOW_TREASURE_DROP_CHANCE
+f ffffffff ffffffff 000 i MID_TREASURE_DROP_CHANCE
+f ffffffff ffffffff 000 i HIGH_TREASURE_DROP_CHANCE
+f ffffffff ffffffff 000 i NUMBER_LOW_ONE
+f ffffffff ffffffff 000 i NUMBER_MED_ONE
+f ffffffff ffffffff 000 i NUMBER_HIGH_ONE
+f ffffffff ffffffff 000 i NUMBER_BOSS_ONE
+f ffffffff ffffffff 000 i NUMBER_LOW_TWO
+f ffffffff ffffffff 000 i NUMBER_MED_TWO
+f ffffffff ffffffff 000 i NUMBER_HIGH_TWO
+f ffffffff ffffffff 000 i NUMBER_BOSS_TWO
+f ffffffff ffffffff 000 i NUMBER_LOW_THREE
+f ffffffff ffffffff 000 i NUMBER_MED_THREE
+f ffffffff ffffffff 000 i NUMBER_HIGH_THREE
+f ffffffff ffffffff 000 i NUMBER_BOSS_THREE
+f ffffffff ffffffff 000 i NUMBER_BOOK_ONE
+f ffffffff ffffffff 000 i NUMBER_BOOK_TWO
+f ffffffff ffffffff 000 i NUMBER_BOOK_THREE
+f ffffffff ffffffff 000 f LOW_MOD_GOLD
+f ffffffff ffffffff 000 f MEDIUM_MOD_GOLD
+f ffffffff ffffffff 000 f HIGH_MOD_GOLD
+f ffffffff ffffffff 000 i LOW_PROB_BOOK
+f ffffffff ffffffff 000 i MEDIUM_PROB_BOOK
+f ffffffff ffffffff 000 i HIGH_PROB_BOOK
+f ffffffff ffffffff 000 i LOW_PROB_ANIMAL
+f ffffffff ffffffff 000 i MEDIUM_PROB_ANIMAL
+f ffffffff ffffffff 000 i HIGH_PROB_ANIMAL
+f ffffffff ffffffff 000 i LOW_PROB_JUNK
+f ffffffff ffffffff 000 i MEDIUM_PROB_JUNK
+f ffffffff ffffffff 000 i HIGH_PROB_JUNK
+f ffffffff ffffffff 000 i LOW_PROB_GOLD
+f ffffffff ffffffff 000 i MEDIUM_PROB_GOLD
+f ffffffff ffffffff 000 i HIGH_PROB_GOLD
+f ffffffff ffffffff 000 i LOW_PROB_GEM
+f ffffffff ffffffff 000 i MEDIUM_PROB_GEM
+f ffffffff ffffffff 000 i HIGH_PROB_GEM
+f ffffffff ffffffff 000 i LOW_PROB_JEWEL
+f ffffffff ffffffff 000 i MEDIUM_PROB_JEWEL
+f ffffffff ffffffff 000 i HIGH_PROB_JEWEL
+f ffffffff ffffffff 000 i LOW_PROB_ARCANE
+f ffffffff ffffffff 000 i MEDIUM_PROB_ARCANE
+f ffffffff ffffffff 000 i HIGH_PROB_ARCANE
+f ffffffff ffffffff 000 i LOW_PROB_DIVINE
+f ffffffff ffffffff 000 i MEDIUM_PROB_DIVINE
+f ffffffff ffffffff 000 i HIGH_PROB_DIVINE
+f ffffffff ffffffff 000 i LOW_PROB_AMMO
+f ffffffff ffffffff 000 i MEDIUM_PROB_AMMO
+f ffffffff ffffffff 000 i HIGH_PROB_AMMO
+f ffffffff ffffffff 000 i LOW_PROB_KIT
+f ffffffff ffffffff 000 i MEDIUM_PROB_KIT
+f ffffffff ffffffff 000 i HIGH_PROB_KIT
+f ffffffff ffffffff 000 i LOW_PROB_POTION
+f ffffffff ffffffff 000 i MEDIUM_PROB_POTION
+f ffffffff ffffffff 000 i HIGH_PROB_POTION
+f ffffffff ffffffff 000 i LOW_PROB_TABLE2
+f ffffffff ffffffff 000 i MEDIUM_PROB_TABLE2
+f ffffffff ffffffff 000 i HIGH_PROB_TABLE2
+f ffffffff ffffffff 000 i TREASURE_LOW
+f ffffffff ffffffff 000 i TREASURE_MEDIUM
+f ffffffff ffffffff 000 i TREASURE_HIGH
+f ffffffff ffffffff 000 i TREASURE_BOSS
+f ffffffff ffffffff 000 i TREASURE_BOOK
+f ffffffff ffffffff 000 i JUMP_LEVEL
+f ffffffff ffffffff 000 i NWN2_MAX_NUM_ITEMS_BOOKS
+f ffffffff ffffffff 001 v CreateBook
+fp o
+f ffffffff ffffffff 001 v CreateNWN1Book
+fp o
+f ffffffff ffffffff 001 v CreateRecipeBook
+fp o
+f ffffffff ffffffff 003 v CreateGenericExotic
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateGenericMonkWeapon
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateSpecificMonkWeapon
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateGenericDruidWeapon
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateSpecificDruidWeapon
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateGenericWizardWeapon
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateSpecificWizardWeapon
+fp o
+fp o
+fp i
+f ffffffff ffffffff 001 i nDetermineClassToUse
+fp o
+f ffffffff ffffffff 001 v dbSpeak
+fp s
+f ffffffff ffffffff 003 v dbCreateItemOnObject
+fp s
+fp o
+fp i
+f ffffffff ffffffff 000 o GetLastOpener
+f ffffffff ffffffff 002 i GetRange
+fp i
+fp i
+f ffffffff ffffffff 001 i GetNumberOfItems
+fp i
+f ffffffff ffffffff 001 v CreateAnimalPart
+fp o
+f ffffffff ffffffff 001 v CreateJunk
+fp o
+f ffffffff ffffffff 004 v CreateGold
+fp o
+fp o
+fp i
+fp i
+f ffffffff ffffffff 004 v CreateGem
+fp o
+fp o
+fp i
+fp i
+f ffffffff ffffffff 004 v CreateJewel
+fp o
+fp o
+fp i
+fp i
+f ffffffff ffffffff 001 i GetNW_ArcaneScrollMax
+fp i
+f ffffffff ffffffff 002 i GetNW_ArcaneScrollSkip
+fp i
+fp i
+f ffffffff ffffffff 001 i GetNW_ArcaneScrollRandom
+fp i
+f ffffffff ffffffff 003 v CreateArcaneScroll
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateDivineScroll
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateAmmo
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateTrapKit
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateHealingKit
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateLockPick
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateKit
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreatePotion
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateGenericMiscItem
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateGenericClassItem
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateGenericRodStaffWand
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateGenericSimple
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateGenericMartial
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateGenericLightArmor
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateGenericMediumArmor
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v CreateGenericHeavyArmor
+fp o
+fp o
+fp i
+f ffffffff ffffffff 002 v CreateSpecificMiscItem
+fp o
+fp o
+f ffffffff ffffffff 002 v CreateSpecificRodStaffWand
+fp o
+fp o
+f ffffffff ffffffff 002 v CreateSpecificSimple
+fp o
+fp o
+f ffffffff ffffffff 002 v CreateSpecificMartial
+fp o
+fp o
+f ffffffff ffffffff 002 v CreateSpecificExotic
+fp o
+fp o
+f ffffffff ffffffff 002 v CreateSpecificLightArmor
+fp o
+fp o
+f ffffffff ffffffff 002 v CreateSpecificMediumArmor
+fp o
+fp o
+f ffffffff ffffffff 002 v CreateSpecificHeavyArmor
+fp o
+fp o
+f ffffffff ffffffff 003 v CreateTable2Item
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v GenerateTreasure
+fp i
+fp o
+fp o
+f ffffffff ffffffff 002 v GenerateLowTreasure
+fp o
+fp o
+f ffffffff ffffffff 002 v GenerateMediumTreasure
+fp o
+fp o
+f ffffffff ffffffff 002 v GenerateHighTreasure
+fp o
+fp o
+f ffffffff ffffffff 002 v GenerateBossTreasure
+fp o
+fp o
+f ffffffff ffffffff 002 v GenerateBookTreasure
+fp o
+fp o
+f ffffffff ffffffff 003 v GenerateNPCTreasure
+fp i
+fp o
+fp o
+f ffffffff ffffffff 000 v ShoutDisturbed
+f ffffffff ffffffff 000 i BK_CHANCE_OF_N0_MONSTERTREASURE
+f ffffffff ffffffff 000 i CTG_GetNumItems
+f ffffffff ffffffff 001 i CTG_GetNumItemsInBaseContainer
+fp o
+f ffffffff ffffffff 000 i CTG_IsItemGold
+f ffffffff ffffffff 001 o CTG_GetMonsterBaseContainer
+fp o
+f ffffffff ffffffff 002 o CTG_GetNearestBaseContainer
+fp i
+fp o
+f ffffffff ffffffff 001 o CTG_GetModuleBaseContainer
+fp i
+f ffffffff ffffffff 002 o CTG_GetTreasureItem
+fp o
+fp i
+f ffffffff ffffffff 001 i CTG_GetIsTreasureGenerated
+fp o
+f ffffffff ffffffff 002 v CTG_SetIsTreasureGenerated
+fp o
+fp i
+f ffffffff ffffffff 003 v CTG_CreateTreasure
+fp i
+fp o
+fp o
+f ffffffff ffffffff 005 o CTG_GetSpecificBaseTypeTreasureItem
+fp o
+fp i
+fp i
+fp i
+fp i
+f ffffffff ffffffff 006 v CTG_CreateSpecificBaseTypeTreasure
+fp i
+fp o
+fp o
+fp i
+fp i
+fp i
+f ffffffff ffffffff 003 v CTG_CreateGoldTreasure
+fp i
+fp o
+fp o
+f ffffffff ffffffff 002 v CTG_GenerateNPCTreasure
+fp i
+fp o
+f ffffffff ffffffff 004 i CTG_GetIsBaseType
+fp i
+fp i
+fp i
+fp i
+f ffffffff ffffffff 001 i CTG_GetIsWeapon
+fp i
+f ffffffff ffffffff 001 i CTG_GetIsWeaponNoammo
+fp i
+f ffffffff ffffffff 001 i CTG_GetIsRangedWeapon
+fp i
+f ffffffff ffffffff 001 i CTG_GetIsMeleeWeapon
+fp i
+f ffffffff ffffffff 001 i CTG_GetIsArmor
+fp i
+f ffffffff ffffffff 001 i CTG_GetIsClothing
+fp i
+f ffffffff ffffffff 002 s CTG_GetRacialtypeChestTag
+fp s
+fp o
+f ffffffff ffffffff 001 i CTG_GetIsContainerInitialized
+fp o
+f ffffffff ffffffff 002 v CTG_SetIsContainerInitialized
+fp o
+fp i
+f ffffffff ffffffff 001 v CTG_InitContainer
+fp o
+f ffffffff ffffffff 001 i GetIsInteger
+fp s
+f ffffffff ffffffff 001 i getNumItemsInContainer
+fp o
+f ffffffff ffffffff 001 i getItemSize
+fp o
+f ffffffff ffffffff 004 v FillContainer
+fp i
+fp i
+fp i
+fp i
+f ffffffff ffffffff 001 v SearchChest
+fp i
+f ffffffff ffffffff 004 v PL_UseChest
+fp i
+fp i
+fp i
+fp i
+f 0000017a 0000017c 000 v main
+f 0000000d 00000015 000 v #loader
+f 00000015 0000017a 000 v #globals
+v 00000015 ffffffff 00000000 s PRETTY_LINE_COUNT_VAR
+v 0000002c ffffffff 00000004 s sModContLow
+v 00000043 ffffffff 00000008 s sModContMed
+v 0000005a ffffffff 0000000c s sModContHigh
+v 00000072 ffffffff 00000010 s sModContUniq
+v 0000008a ffffffff 00000014 s sContLow
+v 0000009d ffffffff 00000018 s sContMed
+v 000000b0 ffffffff 0000001c s sContHigh
+v 000000c4 ffffffff 00000020 s sContUniq
+v 000000d8 ffffffff 00000024 s sContMonster
+v 000000ef ffffffff 00000028 s sGoldResRef
+v 00000100 ffffffff 0000002c s sNumTreasureItemsVarname
+v 00000119 ffffffff 00000030 s sBaseTypeVarname
+v 00000132 ffffffff 00000034 s sTreasureItemVarname
+v 00000146 ffffffff 00000038 s sTreasureGeneratedVarname
+l00 0000048 00000015 0000002c
+l01 0000196 0000002c 00000043
+l01 0000197 00000043 0000005a
+l01 0000198 0000005a 00000072
+l01 0000199 00000072 0000008a
+l01 0000202 0000008a 0000009d
+l01 0000203 0000009d 000000b0
+l01 0000204 000000b0 000000c4
+l01 0000205 000000c4 000000d8
+l01 0000208 000000d8 000000ef
+l01 0000211 000000ef 00000100
+l01 0000214 00000100 00000119
+l01 0000217 00000119 00000132
+l01 0000220 00000132 00000146
+l01 0000223 00000146 00000168
+l04 0000021 0000017a 0000017c

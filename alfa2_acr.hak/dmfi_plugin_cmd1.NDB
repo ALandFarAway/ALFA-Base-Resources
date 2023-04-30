@@ -1,0 +1,377 @@
+NDB V1.0
+0000002 0000001 0000265 0000013 0000062
+n00 dmfi_inc_sendtex
+N01 dmfi_plugin_cmd1
+s 03 vector
+sf f x
+sf f y
+sf f z
+f 00000238 000003cb 005 v SendText
+fp o
+fp s
+fp i
+fp i
+fp i
+f ffffffff ffffffff 004 v SendTalkText
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 006 v SendDMText
+fp o
+fp s
+fp i
+fp i
+fp i
+fp o
+f ffffffff ffffffff 005 v SendPartyText
+fp o
+fp s
+fp i
+fp i
+fp i
+f ffffffff ffffffff 007 v SendVarBasedText
+fp o
+fp s
+fp i
+fp i
+fp s
+fp i
+fp i
+f 000003cb 00000a1d 002 s ColorText
+fp s
+fp i
+f ffffffff ffffffff 000 i DMFI_LANGUAGELORE_DC
+f ffffffff ffffffff 000 i DMFI_LANGUAGETRANSLATE_DC
+f ffffffff ffffffff 000 i DMFI_EMOTES_ENABLED
+f ffffffff ffffffff 000 i DMFI_PLAYER_NAME_CHANGING
+f ffffffff ffffffff 000 i DMFI_PCLANGUAGES_ENABLED
+f ffffffff ffffffff 000 i DMFI_GIVE_COMMON
+f ffffffff ffffffff 000 i DMFI_GIVE_DEFAULT_LANGUAGES
+f ffffffff ffffffff 000 i DMFI_CHOOSE_LANGUAGES
+f ffffffff ffffffff 000 s DMFI_RUNSCRIPT_PREFIX
+f ffffffff ffffffff 000 i DMFI_PC_RUNSCRIPT_ALLOWED
+f ffffffff ffffffff 000 i DMFI_UPDATE_INVENTORY
+f ffffffff ffffffff 000 s DMFI_POPUPMESSAGE
+f ffffffff ffffffff 000 s DMFI_STORE_DB
+f ffffffff ffffffff 000 i DMFI_FOLLOWOFF
+f ffffffff ffffffff 000 s DMFI_CHAR_CMD
+f ffffffff ffffffff 000 s DMFI_CHAR_EMOTE
+f ffffffff ffffffff 000 s DMFI_CHAR_RUNSCRIPT
+f ffffffff ffffffff 000 s DMFI_LISTENER_PC
+f ffffffff ffffffff 000 s DMFI_HEARD_TEXT
+f ffffffff ffffffff 000 s DMFI_HEARD_MODE
+f ffffffff ffffffff 000 s DMFI_HEARD_SUPRESS
+f ffffffff ffffffff 000 s DMFI_OBJECT_SPEAKER
+f ffffffff ffffffff 000 s DMFI_OBJECT_LISTENER
+f ffffffff ffffffff 000 s DMFI_EXECUTE
+f ffffffff ffffffff 000 s DMFI_LISTEN_MONITOR
+f ffffffff ffffffff 000 s DMFI_LISTENER_MISSING
+f ffffffff ffffffff 000 s DMFI_FOLLOW
+f ffffffff ffffffff 000 s DMFI_FOLLOW_NPC
+f ffffffff ffffffff 000 s DMFI_FOLLOW_TARGET
+f ffffffff ffffffff 000 s DMFI_LISTEN
+f ffffffff ffffffff 000 s DMFI_LISTEN_ON
+f ffffffff ffffffff 000 s DMFI_LISTEN_END
+f ffffffff ffffffff 000 s DMFI_LISTENER
+f ffffffff ffffffff 000 s DMFI_LISTENER_REF
+f ffffffff ffffffff 000 s DMFI_LISTENER_TAG
+f ffffffff ffffffff 000 s DMFI_DM_STATE
+f ffffffff ffffffff 000 s SCREEN_DMFI_SKILLS
+f ffffffff ffffffff 000 s SCREEN_DMFI_CHGITEM
+f ffffffff ffffffff 000 s SCREEN_DMFI_CHGNAME
+f ffffffff ffffffff 000 s SCREEN_DMFI_PLAYER
+f ffffffff ffffffff 000 s SCREEN_DMFI_FOLLOWOFF
+f ffffffff ffffffff 000 s SCREEN_DMFI_LANGOFF
+f ffffffff ffffffff 000 s SCREEN_DMFI_LIST
+f ffffffff ffffffff 000 s SCREEN_DMFI_VFXTOOL
+f ffffffff ffffffff 000 s SCREEN_DMFI_AMBTOOL
+f ffffffff ffffffff 000 s SCREEN_DMFI_DMLIST
+f ffffffff ffffffff 000 s SCREEN_DMFI_COMMANDREF
+f ffffffff ffffffff 000 s SCREEN_DMFI_SNDTOOL
+f ffffffff ffffffff 000 s SCREEN_DMFI_MUSICTOOL
+f ffffffff ffffffff 000 s SCREEN_DMFI_DICETOOL
+f ffffffff ffffffff 000 s SCREEN_DMFI_
+f ffffffff ffffffff 000 s SCREEN_DMFI_DM
+f ffffffff ffffffff 000 s SCREEN_DMFI_TEXT
+f ffffffff ffffffff 000 s SCREEN_DMFI_CHOOSE
+f ffffffff ffffffff 000 s SCREEN_DMFI_BATTLE
+f ffffffff ffffffff 000 s SCREEN_DMFI_TRGTOOL
+f ffffffff ffffffff 000 s SCREEN_DMFI_MNGRTOOL
+f ffffffff ffffffff 000 s SCREEN_DMFI_VFXINPUT
+f ffffffff ffffffff 000 s SCREEN_DMFI_DESC
+f ffffffff ffffffff 000 s DMFI_UI_ACTIVELANG
+f ffffffff ffffffff 000 s DMFI_UI_LISTTITLE
+f ffffffff ffffffff 000 s DMFI_UI_SKILLTITLE
+f ffffffff ffffffff 000 s DMFI_UI_LIST
+f ffffffff ffffffff 000 s DMFI_UI_DMLIST
+f ffffffff ffffffff 000 s DMFI_REQ_INT
+f ffffffff ffffffff 000 s DMFI_UI_PAGE
+f ffffffff ffffffff 000 s DMFI_UI_LIST_TITLE
+f ffffffff ffffffff 000 s DMFI_LAST_UI_COM
+f ffffffff ffffffff 000 s DMFI_AMB_NIGHT
+f ffffffff ffffffff 000 s DMFI_MUSIC_TIME
+f ffffffff ffffffff 000 s DMFI_CURRENT
+f ffffffff ffffffff 000 s DMFI_LIST_PRIOR
+f ffffffff ffffffff 000 i DMFI_LIST_ABILITY
+f ffffffff ffffffff 000 i DMFI_LIST_LANG
+f ffffffff ffffffff 000 i DMFI_LIST_NUMBER
+f ffffffff ffffffff 000 i DMFI_LIST_TYPE
+f ffffffff ffffffff 000 s DMFI_MODE_CHAT
+f ffffffff ffffffff 000 s SCREEN_MESSAGEBOX_REPORT
+f ffffffff ffffffff 000 s SCREEN_MESSAGEBOX_DEFAULT
+f ffffffff ffffffff 000 s DMFI_TEMP
+f ffffffff ffffffff 000 s DMFI_PC_UI_STATE
+f ffffffff ffffffff 000 s DMFI_CONV_DEF
+f ffffffff ffffffff 000 s DMFI_CONV_DEF_PC
+f ffffffff ffffffff 000 s DMFI_ITEM_TARGET
+f ffffffff ffffffff 000 s DMFI_EXE_CONV
+f ffffffff ffffffff 000 s DMFI_EXE_CONV_PC
+f ffffffff ffffffff 000 s DMFI_FILE_LOCKER
+f ffffffff ffffffff 000 s DMFI_ITEM_TAG
+f ffffffff ffffffff 000 s DMFI_LAST_COMMAND
+f ffffffff ffffffff 000 s DMFI_PAGE
+f ffffffff ffffffff 000 s DMFI_PAGES
+f ffffffff ffffffff 000 s DMFI_PLUGIN_TAG
+f ffffffff ffffffff 000 s DMFI_SPEAKER
+f ffffffff ffffffff 000 s DMFI_STORE
+f ffffffff ffffffff 000 s DMFI_TARGET
+f ffffffff ffffffff 000 s DMFI_TARGET_LOC
+f ffffffff ffffffff 000 s DMFI_TOOL
+f ffffffff ffffffff 000 s DMFI_TOOL_ACQUIRED
+f ffffffff ffffffff 000 s DMFI_TOOL_DESTROYED
+f ffffffff ffffffff 000 s DMFI_TOOL_PC
+f ffffffff ffffffff 000 s DMFI_TRANSLATE
+f ffffffff ffffffff 000 s DMFI_VOICEREF
+f ffffffff ffffffff 000 s DMFI_DATABASE
+f ffffffff ffffffff 000 s DMFI_TOOL_VERSION
+f ffffffff ffffffff 000 s DMFI_STORAGE
+f ffffffff ffffffff 000 s DMFI_APPEARANCE
+f ffffffff ffffffff 000 s DMFI_INVENTORY_TARGET
+f ffffffff ffffffff 000 s DMFI_INVEN_TEMP
+f ffffffff ffffffff 000 s DMFI_sTool
+f ffffffff ffffffff 000 s DMFI_sCommand
+f ffffffff ffffffff 000 s DMFI_sParam1
+f ffffffff ffffffff 000 s DMFI_sParam2
+f ffffffff ffffffff 000 i DMFI_PRE_EVENT
+f ffffffff ffffffff 000 i DMFI_POST_EVENT
+f ffffffff ffffffff 000 i DMFI_STATE_ERROR
+f ffffffff ffffffff 000 i DMFI_STATE_NO_ACTION
+f ffffffff ffffffff 000 i DMFI_STATE_SUCCESS
+f ffffffff ffffffff 000 s DMFI_COMMAND
+f ffffffff ffffffff 000 s DMFI_EMOTE
+f ffffffff ffffffff 000 s DMFI_LANGUAGE
+f ffffffff ffffffff 000 s DMFI_WAYPOINT_RESREF
+f ffffffff ffffffff 000 s DMFI_STORAGE_RESREF
+f ffffffff ffffffff 000 s DMFI_TOOL_RESREF
+f ffffffff ffffffff 000 s DMFI_PCTOOL_RESREF
+f ffffffff ffffffff 000 s DMFI_PORTAL
+f ffffffff ffffffff 000 s DMFI_EMOTE_LAUGH
+f ffffffff ffffffff 000 s DMFI_EMOTE_WHISTLE
+f ffffffff ffffffff 000 s DMFI_2DA
+f ffffffff ffffffff 000 s DMFI_VOICE_TOGGLE
+f ffffffff ffffffff 000 s DMFI_LANGUAGE_TOGGLE
+f ffffffff ffffffff 000 s DMFI_CHOOSE
+f ffffffff ffffffff 000 s DMFI_LAST_ROLLER
+f ffffffff ffffffff 000 s DMFI_LAST_ROLL
+f ffffffff ffffffff 000 s DMFI_MESSAGE_LIST
+f ffffffff ffffffff 000 s DMFI_MESSAGE_LIST_MAX
+f ffffffff ffffffff 000 s DMFI_MESSAGE_REF
+f ffffffff ffffffff 000 s DMFI_HEARD
+f ffffffff ffffffff 000 s DMFI_VOICE_CHAT_DISABLED
+f ffffffff ffffffff 000 s DMFI_LOOP
+f ffffffff ffffffff 000 s DMFI_PRIOR_PAGE
+f ffffffff ffffffff 000 s DMFI_PLUGIN_PROCESSED
+f ffffffff ffffffff 000 s DMFI_2DA_ON_TOOL
+f ffffffff ffffffff 000 s DMFI_PROMPT
+f ffffffff ffffffff 000 s DMFI_VFX_DURATION
+f ffffffff ffffffff 000 s DMFI_VFX_LAST
+f ffffffff ffffffff 000 s DMFI_VFX_RECENT
+f ffffffff ffffffff 000 s DMFI_AMBIENT_LOCATION
+f ffffffff ffffffff 000 s DMFI_AMBIENT_VOLUME
+f ffffffff ffffffff 000 s DMFI_SOUND_DELAY
+f ffffffff ffffffff 000 s DMFI_SOUND_VOLUME
+f ffffffff ffffffff 000 s DMFI_SOUND_LAST
+f ffffffff ffffffff 000 s DMFI_SOUND_LAST_PRM
+f ffffffff ffffffff 000 s DMFI_DICEBAG_DC
+f ffffffff ffffffff 000 s DMFI_DICEBAG_DETAIL
+f ffffffff ffffffff 000 s DMFI_DICEBAG_REPORT
+f ffffffff ffffffff 000 s DMFI_DICEBAG_ROLL
+f ffffffff ffffffff 000 s DMFI_PC_DICE
+f ffffffff ffffffff 000 s DMFI_PC_NUMBER
+f ffffffff ffffffff 000 s DMFI_DEF_APP
+f ffffffff ffffffff 000 s DMFI_MUSIC_INITIALIZED
+f ffffffff ffffffff 000 s DMFI_MUSIC_BATTLE
+f ffffffff ffffffff 000 s DMFI_MUSIC_DAY
+f ffffffff ffffffff 000 s DMFI_MUSIC_NIGHT
+f ffffffff ffffffff 000 s DMFI_PC
+f ffffffff ffffffff 000 s DMFI_DM
+f ffffffff ffffffff 000 s DMFI_STRING_EXECUTE
+f ffffffff ffffffff 000 s DMFI_STRING_PRIORITY
+f ffffffff ffffffff 000 s DMFI_STRING_OVERRIDE
+f ffffffff ffffffff 000 s DMFI_STRING_LANGUAGE
+f ffffffff ffffffff 000 s DMFI_STRING_COMMAND
+f ffffffff ffffffff 000 s DMFI_STRING_EMOTE
+f ffffffff ffffffff 000 s DMFI_STRING_RULE
+f ffffffff ffffffff 000 s DMFI_STRING_NAME
+f ffffffff ffffffff 000 s DMFI_STRING_DMONLY
+f ffffffff ffffffff 000 s DMFI_STRING_MAX
+f ffffffff ffffffff 000 s DMFI_ITEM_PROPS
+f ffffffff ffffffff 000 s DMFI_STR_EFFECT
+f ffffffff ffffffff 000 s DMFI_DEX_EFFECT
+f ffffffff ffffffff 000 s DMFI_CON_EFFECT
+f ffffffff ffffffff 000 s DMFI_SR_EFFECT
+f ffffffff ffffffff 000 s DMFI_HP_EFFECT
+f ffffffff ffffffff 000 s DMFI_2DA_COLUMN
+f ffffffff ffffffff 000 s DMFI_2DA_COL_RESOURCE
+f ffffffff ffffffff 000 s DMFI_2DA_COL_DESCRIPT
+f ffffffff ffffffff 000 s DMFI_2DA_COL_NAME
+f ffffffff ffffffff 000 s DMFI_2DA_MUSIC
+f ffffffff ffffffff 000 s DMFI_2DA_VFX
+f ffffffff ffffffff 000 s DMFI_2DA_COL_MAXVALUE
+f ffffffff ffffffff 000 s DMFI_2DA_AMBIENT
+f ffffffff ffffffff 000 s DMFI_2DA_SKILLS
+f ffffffff ffffffff 000 s DMFI_2DA_ITEMVALUE
+f ffffffff ffffffff 000 s DMFI_2DA_DISEASE
+f ffffffff ffffffff 000 s DMFI_2DA_POISON
+f ffffffff ffffffff 000 s PRM_
+f ffffffff ffffffff 000 s PG_MAIN
+f ffffffff ffffffff 000 s PG_MUSIC
+f ffffffff ffffffff 000 s PG_DICEBAG
+f ffffffff ffffffff 000 s PG_AMBIENT
+f ffffffff ffffffff 000 s PG_VFX
+f ffffffff ffffffff 000 s PG_WEATHER
+f ffffffff ffffffff 000 s PG_SERVER
+f ffffffff ffffffff 000 s PG_TARGET
+f ffffffff ffffffff 000 s PG_CONFIRM_ACTION
+f ffffffff ffffffff 000 s PG_INITIALIZE
+f ffffffff ffffffff 000 s PG_SOUND
+f ffffffff ffffffff 000 s PG_CREATURE
+f ffffffff ffffffff 000 s PG_ITEM
+f ffffffff ffffffff 000 s PG_MUSIC_CATEGORY
+f ffffffff ffffffff 000 s PG_AMBIENT_CATEGORY
+f ffffffff ffffffff 000 s PG_LIST_ABILITY
+f ffffffff ffffffff 000 s PG_LIST_SKILL
+f ffffffff ffffffff 000 s PG_LIST_MUSIC_NWN2
+f ffffffff ffffffff 000 s PG_LIST_MUSIC_BATTLE
+f ffffffff ffffffff 000 s PG_LIST_MUSIC_MOTB
+f ffffffff ffffffff 000 s PG_LIST_MUSIC_NWN1
+f ffffffff ffffffff 000 s PG_LIST_MUSIC_XP
+f ffffffff ffffffff 000 s PG_LIST_SOUND
+f ffffffff ffffffff 000 s PG_LIST_VFX_SPELL
+f ffffffff ffffffff 000 s PG_LIST_VFX_IMP
+f ffffffff ffffffff 000 s PG_LIST_VFX_DUR
+f ffffffff ffffffff 000 s PG_LIST_VFX_MISC
+f ffffffff ffffffff 000 s PG_LIST_VFX_RECENT
+f ffffffff ffffffff 000 s PG_LIST_AMBIENT_PEOPLE
+f ffffffff ffffffff 000 s PG_LIST_AMBIENT_CAVE
+f ffffffff ffffffff 000 s PG_LIST_AMBIENT_MAGIC
+f ffffffff ffffffff 000 s PG_LIST_AMBIENT_MISC
+f ffffffff ffffffff 000 s PG_LIST_10
+f ffffffff ffffffff 000 s PG_LIST_50
+f ffffffff ffffffff 000 s PG_LIST_300
+f ffffffff ffffffff 000 s PG_LIST_100
+f ffffffff ffffffff 000 s PG_LIST_24
+f ffffffff ffffffff 000 s PG_LIST_DURATIONS
+f ffffffff ffffffff 000 s PG_LIST_EFFECT
+f ffffffff ffffffff 000 s PG_LIST_DICE
+f ffffffff ffffffff 000 s PG_LIST_DISEASE
+f ffffffff ffffffff 000 s PG_LIST_POISON
+f ffffffff ffffffff 000 s PG_LIST_SOUND_CITY
+f ffffffff ffffffff 000 s PG_LIST_SOUND_NATURE
+f ffffffff ffffffff 000 s PG_LIST_SOUND_PEOPLE
+f ffffffff ffffffff 000 s PG_LIST_SOUND_MAGICAL
+f ffffffff ffffffff 000 s PG_LIST_APPEARANCE
+f ffffffff ffffffff 000 s PG_LIST_DMLANGUAGE
+f ffffffff ffffffff 000 s PG_TARGET_PC
+f ffffffff ffffffff 000 s PG_TARGET_NPC
+f ffffffff ffffffff 000 s PG_TARGET_LOCAL
+f ffffffff ffffffff 000 s PG_TARGET_PARTY
+f ffffffff ffffffff 000 s PG_TARGET_ITEM
+f ffffffff ffffffff 000 s PG_TARGET_OBJECT
+f ffffffff ffffffff 000 s PG_TARGET_ITEMPROP
+f ffffffff ffffffff 000 s PG_TARGET_EFFECT
+f ffffffff ffffffff 000 s PG_PCMAIN
+f ffffffff ffffffff 000 s PG_LIST_LANGUAGE
+f ffffffff ffffffff 000 s PG_LIST_POSSLANGUAGE
+f ffffffff ffffffff 000 s DMFI_UI_ABILITY
+f ffffffff ffffffff 000 s DMFI_UI_SKILL
+f ffffffff ffffffff 000 s DMFI_UI_LANGUAGE
+f ffffffff ffffffff 000 s DMFI_UI_DICE
+f 00000015 00000238 000 v main
+f 0000000d 00000015 000 v #loader
+v 00000015 00000230 00000000 o oPC
+v 0000001b 00000230 00000004 o oSpeaker
+v 0000003d 00000230 00000008 o oTarget
+v 0000005e 00000230 0000000c s sInput
+v 00000238 000003c3 00000000 i bFaction
+v 00000238 000003c3 00000004 i nColor
+v 00000238 000003c3 00000008 i bFloat
+v 00000238 000003c3 0000000c s sText
+v 00000238 000003c3 00000010 o oPC
+v 0000023a 000003bd 00000014 o oFaction
+v 000003cb 00000a1b 00000000 s #retval
+v 000003cb 00000a15 00000004 i nColor
+v 000003cb 00000a15 00000008 s sString
+l01 0000007 00000015 0000001b
+l01 0000008 0000001b 0000003d
+l01 0000009 0000003d 0000005e
+l01 0000010 0000005e 0000007c
+l01 0000012 0000007c 000000ac
+l01 0000013 000000ac 000000e9
+l01 0000014 000000e9 0000012c
+l01 0000015 0000012c 00000170
+l01 0000016 00000170 000001b3
+l01 0000018 000001b3 000001c6
+l01 0000022 000001cc 000001e8
+l01 0000023 000001e8 00000230
+l01 0000026 00000236 00000238
+l00 0000053 00000238 0000023a
+l00 0000054 0000023a 0000024a
+l00 0000056 00000276 0000027e
+l00 0000057 00000284 000002cb
+l00 0000058 000002d1 000002d3
+l00 0000060 000002d3 000002db
+l00 0000062 000002e1 00000302
+l00 0000063 00000302 00000315
+l00 0000065 00000315 0000035e
+l00 0000066 00000364 00000379
+l00 0000067 00000379 0000039a
+l00 0000070 000003a6 000003a8
+l00 0000072 000003c3 000003cb
+l00 0000229 000003cb 000003db
+l00 0000230 000003e1 0000041e
+l00 0000231 00000424 00000426
+l00 0000232 0000043c 00000482
+l00 0000233 00000488 0000048a
+l00 0000234 000004a0 000004e1
+l00 0000235 000004e7 000004e9
+l00 0000236 000004ff 00000540
+l00 0000237 00000546 00000548
+l00 0000238 0000055e 000005a1
+l00 0000239 000005a7 000005a9
+l00 0000240 000005bf 000005fb
+l00 0000241 00000601 00000603
+l00 0000242 00000619 0000065b
+l00 0000243 00000661 00000663
+l00 0000244 00000679 000006ba
+l00 0000245 000006c0 000006c2
+l00 0000246 000006d8 00000719
+l00 0000247 0000071f 00000721
+l00 0000248 00000737 00000776
+l00 0000249 0000077c 0000077e
+l00 0000250 00000794 000007d2
+l00 0000251 000007d8 000007da
+l00 0000252 000007f0 00000832
+l00 0000253 00000838 0000083a
+l00 0000254 00000850 0000088b
+l00 0000255 00000891 00000893
+l00 0000256 000008a9 000008e8
+l00 0000257 000008ee 000008f0
+l00 0000258 00000906 00000943
+l00 0000259 00000949 0000094b
+l00 0000260 00000961 0000099f
+l00 0000261 000009a5 000009a7
+l00 0000262 000009bd 000009f9
+l00 0000264 000009f9 00000a15
+l00 0000265 00000a15 00000a1d

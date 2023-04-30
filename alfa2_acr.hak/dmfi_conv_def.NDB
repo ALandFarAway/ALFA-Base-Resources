@@ -1,0 +1,2710 @@
+NDB V1.0
+0000004 0000001 0001663 0000074 0000758
+n00 dmfi_inc_conv
+n01 dmfi_inc_sendtex
+n02 dmfi_inc_tool
+N03 dmfi_conv_def
+s 03 vector
+sf f x
+sf f y
+sf f z
+f ffffffff ffffffff 000 s MOD_NAME
+f ffffffff ffffffff 000 s MOD_VERSION
+f ffffffff ffffffff 000 i bTEXTDEBUG
+f ffffffff ffffffff 005 v SendText
+fp o
+fp s
+fp i
+fp i
+fp i
+f ffffffff ffffffff 004 v SendTalkText
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 006 v SendDMText
+fp o
+fp s
+fp i
+fp i
+fp i
+fp o
+f ffffffff ffffffff 005 v SendPartyText
+fp o
+fp s
+fp i
+fp i
+fp i
+f ffffffff ffffffff 007 v SendVarBasedText
+fp o
+fp s
+fp i
+fp i
+fp s
+fp i
+fp i
+f 0000149c 00001aee 002 s ColorText
+fp s
+fp i
+f ffffffff ffffffff 000 i DLG_CONV_NUM
+f ffffffff ffffffff 000 s LIST_PREFIX
+f ffffffff ffffffff 000 i DLG_INIT
+f ffffffff ffffffff 000 i DLG_PAGE_INIT
+f ffffffff ffffffff 000 i DLG_SELECTION
+f ffffffff ffffffff 000 i DLG_ABORT
+f ffffffff ffffffff 000 i DLG_END
+f ffffffff ffffffff 000 s DLG_CURRENT_HANDLER
+f ffffffff ffffffff 000 s DLG_HANDLER
+f ffffffff ffffffff 000 s DLG_PROMPT
+f ffffffff ffffffff 000 s DLG_RESPONSE_LIST
+f ffffffff ffffffff 000 s DLG_RESPONSE_LIST_HOLDER
+f ffffffff ffffffff 000 s DLG_EVENT_TYPE
+f ffffffff ffffffff 000 s DLG_EVENT_SELECTION
+f ffffffff ffffffff 000 s DLG_PAGE_ID
+f ffffffff ffffffff 000 s DLG_ITEM
+f ffffffff ffffffff 000 s DLG_ITEM_CONVERSER
+f ffffffff ffffffff 000 s DLG_STATE
+f ffffffff ffffffff 000 s DLG_START_ENTRY
+f ffffffff ffffffff 000 s DLG_HAS_PREV
+f ffffffff ffffffff 000 s DLG_HAS_NEXT
+f ffffffff ffffffff 000 s DLG_HAS_END
+f ffffffff ffffffff 000 i DLG_STATE_INIT
+f ffffffff ffffffff 000 i DLG_STATE_RUNNING
+f ffffffff ffffffff 000 i DLG_STATE_ENDED
+f ffffffff ffffffff 000 i DLG_BASE_TOKEN
+f 00001b9b 00001bd9 002 i GetElementCount
+fp s
+fp o
+f ffffffff ffffffff 003 i RemoveElement
+fp i
+fp s
+fp o
+f ffffffff ffffffff 004 i RemoveElements
+fp i
+fp i
+fp s
+fp o
+f ffffffff ffffffff 003 i InsertElement
+fp i
+fp s
+fp o
+f ffffffff ffffffff 002 i DeleteList
+fp s
+fp o
+f 00001aee 00001b9b 003 i AddStringElement
+fp s
+fp s
+fp o
+f ffffffff ffffffff 003 s GetStringElement
+fp i
+fp s
+fp o
+f ffffffff ffffffff 002 s PopStringElement
+fp s
+fp o
+f ffffffff ffffffff 004 s ReplaceStringElement
+fp i
+fp s
+fp s
+fp o
+f ffffffff ffffffff 002 s GetFirstStringElement
+fp s
+fp o
+f ffffffff ffffffff 000 s GetNextStringElement
+f ffffffff ffffffff 003 i AddObjectElement
+fp o
+fp s
+fp o
+f ffffffff ffffffff 003 o GetObjectElement
+fp i
+fp s
+fp o
+f ffffffff ffffffff 002 o PopObjectElement
+fp s
+fp o
+f ffffffff ffffffff 004 o ReplaceObjectElement
+fp i
+fp o
+fp s
+fp o
+f ffffffff ffffffff 002 o GetFirstObjectElement
+fp s
+fp o
+f ffffffff ffffffff 000 o GetNextObjectElement
+f ffffffff ffffffff 003 i AddIntElement
+fp i
+fp s
+fp o
+f ffffffff ffffffff 003 i GetIntElement
+fp i
+fp s
+fp o
+f ffffffff ffffffff 002 i PopIntElement
+fp s
+fp o
+f 00001c20 00001d44 004 i ReplaceIntElement
+fp i
+fp i
+fp s
+fp o
+f ffffffff ffffffff 002 i GetFirstIntElement
+fp s
+fp o
+f ffffffff ffffffff 000 i GetNextIntElement
+f ffffffff ffffffff 000 o GetPcDlgSpeaker
+f ffffffff ffffffff 001 v SetCurrentDlgHandlerScript
+fp s
+f ffffffff ffffffff 000 s GetCurrentDlgHandlerScript
+f ffffffff ffffffff 001 s GetDefaultDlgHandlerScript
+fp o
+f ffffffff ffffffff 001 v SetDlgPrompt
+fp s
+f ffffffff ffffffff 000 s GetDlgPrompt
+f ffffffff ffffffff 001 v SetShowEndSelection
+fp i
+f ffffffff ffffffff 000 i GetShowEndSelection
+f ffffffff ffffffff 002 v SetDlgResponseList
+fp s
+fp o
+f ffffffff ffffffff 000 s GetDlgResponseList
+f ffffffff ffffffff 000 i GetDlgEventType
+f ffffffff ffffffff 000 i GetDlgSelection
+f ffffffff ffffffff 001 v SetDlgPageString
+fp s
+f ffffffff ffffffff 000 s GetDlgPageString
+f ffffffff ffffffff 001 v SetDlgPageInt
+fp i
+f ffffffff ffffffff 000 i GetDlgPageInt
+f ffffffff ffffffff 006 v StartDlg
+fp o
+fp o
+fp s
+fp i
+fp i
+fp i
+f ffffffff ffffffff 000 v EndDlg
+f 00001bd9 00001c20 002 s IndexToString
+fp i
+fp s
+f ffffffff ffffffff 001 i GetDlgResponseCount
+fp o
+f ffffffff ffffffff 002 s GetDlgResponse
+fp i
+fp o
+f ffffffff ffffffff 003 v _SetDlgPreviousNext
+fp o
+fp i
+fp i
+f ffffffff ffffffff 001 i _HasDlgPrevious
+fp o
+f ffffffff ffffffff 001 i _HasDlgNext
+fp o
+f ffffffff ffffffff 001 i _HasDlgEnd
+fp o
+f ffffffff ffffffff 002 v _SetDlgFirstResponse
+fp o
+fp i
+f ffffffff ffffffff 001 i _GetDlgFirstResponse
+fp o
+f ffffffff ffffffff 002 i _SetupDlgResponse
+fp i
+fp o
+f ffffffff ffffffff 001 v _CleanupDlg
+fp o
+f ffffffff ffffffff 004 v _SendDlgEvent
+fp o
+fp i
+fp i
+fp o
+f ffffffff ffffffff 003 v _DoDlgSelection
+fp o
+fp i
+fp o
+f ffffffff ffffffff 001 i _GetDlgState
+fp o
+f ffffffff ffffffff 002 v _InitializePage
+fp o
+fp o
+f ffffffff ffffffff 006 v ConfigureConv
+fp s
+fp o
+fp i
+fp i
+fp s
+fp s
+f ffffffff ffffffff 003 v StaticPage
+fp s
+fp s
+fp i
+f ffffffff ffffffff 003 v DynamicPage
+fp s
+fp s
+fp i
+f ffffffff ffffffff 003 v AddReply
+fp s
+fp s
+fp i
+f 0000136d 0000149c 004 v AddReplyLinkInt
+fp s
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v AddReplyLinkObject
+fp s
+fp s
+fp i
+fp o
+f ffffffff ffffffff 001 v UseReplyPage
+fp s
+f ffffffff ffffffff 000 i DMFI_LANGUAGELORE_DC
+f ffffffff ffffffff 000 i DMFI_LANGUAGETRANSLATE_DC
+f ffffffff ffffffff 000 i DMFI_EMOTES_ENABLED
+f ffffffff ffffffff 000 i DMFI_PLAYER_NAME_CHANGING
+f ffffffff ffffffff 000 i DMFI_PCLANGUAGES_ENABLED
+f ffffffff ffffffff 000 i DMFI_GIVE_COMMON
+f ffffffff ffffffff 000 i DMFI_GIVE_DEFAULT_LANGUAGES
+f ffffffff ffffffff 000 i DMFI_CHOOSE_LANGUAGES
+f ffffffff ffffffff 000 s DMFI_RUNSCRIPT_PREFIX
+f ffffffff ffffffff 000 i DMFI_PC_RUNSCRIPT_ALLOWED
+f ffffffff ffffffff 000 i DMFI_UPDATE_INVENTORY
+f ffffffff ffffffff 000 s DMFI_POPUPMESSAGE
+f ffffffff ffffffff 000 s DMFI_STORE_DB
+f ffffffff ffffffff 000 i DMFI_FOLLOWOFF
+f ffffffff ffffffff 000 s DMFI_CHAR_CMD
+f ffffffff ffffffff 000 s DMFI_CHAR_EMOTE
+f ffffffff ffffffff 000 s DMFI_CHAR_RUNSCRIPT
+f ffffffff ffffffff 000 s DMFI_LISTENER_PC
+f ffffffff ffffffff 000 s DMFI_HEARD_TEXT
+f ffffffff ffffffff 000 s DMFI_HEARD_MODE
+f ffffffff ffffffff 000 s DMFI_HEARD_SUPRESS
+f ffffffff ffffffff 000 s DMFI_OBJECT_SPEAKER
+f ffffffff ffffffff 000 s DMFI_OBJECT_LISTENER
+f ffffffff ffffffff 000 s DMFI_EXECUTE
+f ffffffff ffffffff 000 s DMFI_LISTEN_MONITOR
+f ffffffff ffffffff 000 s DMFI_LISTENER_MISSING
+f ffffffff ffffffff 000 s DMFI_FOLLOW
+f ffffffff ffffffff 000 s DMFI_FOLLOW_NPC
+f ffffffff ffffffff 000 s DMFI_FOLLOW_TARGET
+f ffffffff ffffffff 000 s DMFI_LISTEN
+f ffffffff ffffffff 000 s DMFI_LISTEN_ON
+f ffffffff ffffffff 000 s DMFI_LISTEN_END
+f ffffffff ffffffff 000 s DMFI_LISTENER
+f ffffffff ffffffff 000 s DMFI_LISTENER_REF
+f ffffffff ffffffff 000 s DMFI_LISTENER_TAG
+f ffffffff ffffffff 000 s DMFI_DM_STATE
+f ffffffff ffffffff 000 s SCREEN_DMFI_SKILLS
+f ffffffff ffffffff 000 s SCREEN_DMFI_CHGITEM
+f ffffffff ffffffff 000 s SCREEN_DMFI_CHGNAME
+f ffffffff ffffffff 000 s SCREEN_DMFI_PLAYER
+f ffffffff ffffffff 000 s SCREEN_DMFI_FOLLOWOFF
+f ffffffff ffffffff 000 s SCREEN_DMFI_LANGOFF
+f ffffffff ffffffff 000 s SCREEN_DMFI_LIST
+f ffffffff ffffffff 000 s SCREEN_DMFI_VFXTOOL
+f ffffffff ffffffff 000 s SCREEN_DMFI_AMBTOOL
+f ffffffff ffffffff 000 s SCREEN_DMFI_DMLIST
+f ffffffff ffffffff 000 s SCREEN_DMFI_COMMANDREF
+f ffffffff ffffffff 000 s SCREEN_DMFI_SNDTOOL
+f ffffffff ffffffff 000 s SCREEN_DMFI_MUSICTOOL
+f ffffffff ffffffff 000 s SCREEN_DMFI_DICETOOL
+f ffffffff ffffffff 000 s SCREEN_DMFI_
+f ffffffff ffffffff 000 s SCREEN_DMFI_DM
+f ffffffff ffffffff 000 s SCREEN_DMFI_TEXT
+f ffffffff ffffffff 000 s SCREEN_DMFI_CHOOSE
+f ffffffff ffffffff 000 s SCREEN_DMFI_BATTLE
+f ffffffff ffffffff 000 s SCREEN_DMFI_TRGTOOL
+f ffffffff ffffffff 000 s SCREEN_DMFI_MNGRTOOL
+f ffffffff ffffffff 000 s SCREEN_DMFI_VFXINPUT
+f ffffffff ffffffff 000 s SCREEN_DMFI_DESC
+f ffffffff ffffffff 000 s DMFI_UI_ACTIVELANG
+f ffffffff ffffffff 000 s DMFI_UI_LISTTITLE
+f ffffffff ffffffff 000 s DMFI_UI_SKILLTITLE
+f ffffffff ffffffff 000 s DMFI_UI_LIST
+f ffffffff ffffffff 000 s DMFI_UI_DMLIST
+f ffffffff ffffffff 000 s DMFI_REQ_INT
+f ffffffff ffffffff 000 s DMFI_UI_PAGE
+f ffffffff ffffffff 000 s DMFI_UI_LIST_TITLE
+f ffffffff ffffffff 000 s DMFI_LAST_UI_COM
+f ffffffff ffffffff 000 s DMFI_AMB_NIGHT
+f ffffffff ffffffff 000 s DMFI_MUSIC_TIME
+f ffffffff ffffffff 000 s DMFI_CURRENT
+f ffffffff ffffffff 000 s DMFI_LIST_PRIOR
+f ffffffff ffffffff 000 i DMFI_LIST_ABILITY
+f ffffffff ffffffff 000 i DMFI_LIST_LANG
+f ffffffff ffffffff 000 i DMFI_LIST_NUMBER
+f ffffffff ffffffff 000 i DMFI_LIST_TYPE
+f ffffffff ffffffff 000 s DMFI_MODE_CHAT
+f ffffffff ffffffff 000 s SCREEN_MESSAGEBOX_REPORT
+f ffffffff ffffffff 000 s SCREEN_MESSAGEBOX_DEFAULT
+f ffffffff ffffffff 000 s DMFI_TEMP
+f ffffffff ffffffff 000 s DMFI_PC_UI_STATE
+f ffffffff ffffffff 000 s DMFI_CONV_DEF
+f ffffffff ffffffff 000 s DMFI_CONV_DEF_PC
+f ffffffff ffffffff 000 s DMFI_ITEM_TARGET
+f ffffffff ffffffff 000 s DMFI_EXE_CONV
+f ffffffff ffffffff 000 s DMFI_EXE_CONV_PC
+f ffffffff ffffffff 000 s DMFI_FILE_LOCKER
+f ffffffff ffffffff 000 s DMFI_ITEM_TAG
+f ffffffff ffffffff 000 s DMFI_LAST_COMMAND
+f ffffffff ffffffff 000 s DMFI_PAGE
+f ffffffff ffffffff 000 s DMFI_PAGES
+f ffffffff ffffffff 000 s DMFI_PLUGIN_TAG
+f ffffffff ffffffff 000 s DMFI_SPEAKER
+f ffffffff ffffffff 000 s DMFI_STORE
+f ffffffff ffffffff 000 s DMFI_TARGET
+f ffffffff ffffffff 000 s DMFI_TARGET_LOC
+f ffffffff ffffffff 000 s DMFI_TOOL
+f ffffffff ffffffff 000 s DMFI_TOOL_ACQUIRED
+f ffffffff ffffffff 000 s DMFI_TOOL_DESTROYED
+f ffffffff ffffffff 000 s DMFI_TOOL_PC
+f ffffffff ffffffff 000 s DMFI_TRANSLATE
+f ffffffff ffffffff 000 s DMFI_VOICEREF
+f ffffffff ffffffff 000 s DMFI_DATABASE
+f ffffffff ffffffff 000 s DMFI_TOOL_VERSION
+f ffffffff ffffffff 000 s DMFI_STORAGE
+f ffffffff ffffffff 000 s DMFI_APPEARANCE
+f ffffffff ffffffff 000 s DMFI_INVENTORY_TARGET
+f ffffffff ffffffff 000 s DMFI_INVEN_TEMP
+f ffffffff ffffffff 000 s DMFI_sTool
+f ffffffff ffffffff 000 s DMFI_sCommand
+f ffffffff ffffffff 000 s DMFI_sParam1
+f ffffffff ffffffff 000 s DMFI_sParam2
+f ffffffff ffffffff 000 i DMFI_PRE_EVENT
+f ffffffff ffffffff 000 i DMFI_POST_EVENT
+f ffffffff ffffffff 000 i DMFI_STATE_ERROR
+f ffffffff ffffffff 000 i DMFI_STATE_NO_ACTION
+f ffffffff ffffffff 000 i DMFI_STATE_SUCCESS
+f ffffffff ffffffff 000 s DMFI_COMMAND
+f ffffffff ffffffff 000 s DMFI_EMOTE
+f ffffffff ffffffff 000 s DMFI_LANGUAGE
+f ffffffff ffffffff 000 s DMFI_WAYPOINT_RESREF
+f ffffffff ffffffff 000 s DMFI_STORAGE_RESREF
+f ffffffff ffffffff 000 s DMFI_TOOL_RESREF
+f ffffffff ffffffff 000 s DMFI_PCTOOL_RESREF
+f ffffffff ffffffff 000 s DMFI_PORTAL
+f ffffffff ffffffff 000 s DMFI_EMOTE_LAUGH
+f ffffffff ffffffff 000 s DMFI_EMOTE_WHISTLE
+f ffffffff ffffffff 000 s DMFI_2DA
+f ffffffff ffffffff 000 s DMFI_VOICE_TOGGLE
+f ffffffff ffffffff 000 s DMFI_LANGUAGE_TOGGLE
+f ffffffff ffffffff 000 s DMFI_CHOOSE
+f ffffffff ffffffff 000 s DMFI_LAST_ROLLER
+f ffffffff ffffffff 000 s DMFI_LAST_ROLL
+f ffffffff ffffffff 000 s DMFI_MESSAGE_LIST
+f ffffffff ffffffff 000 s DMFI_MESSAGE_LIST_MAX
+f ffffffff ffffffff 000 s DMFI_MESSAGE_REF
+f ffffffff ffffffff 000 s DMFI_HEARD
+f ffffffff ffffffff 000 s DMFI_VOICE_CHAT_DISABLED
+f ffffffff ffffffff 000 s DMFI_LOOP
+f ffffffff ffffffff 000 s DMFI_PRIOR_PAGE
+f ffffffff ffffffff 000 s DMFI_PLUGIN_PROCESSED
+f ffffffff ffffffff 000 s DMFI_2DA_ON_TOOL
+f ffffffff ffffffff 000 s DMFI_PROMPT
+f ffffffff ffffffff 000 s DMFI_VFX_DURATION
+f ffffffff ffffffff 000 s DMFI_VFX_LAST
+f ffffffff ffffffff 000 s DMFI_VFX_RECENT
+f ffffffff ffffffff 000 s DMFI_AMBIENT_LOCATION
+f ffffffff ffffffff 000 s DMFI_AMBIENT_VOLUME
+f ffffffff ffffffff 000 s DMFI_SOUND_DELAY
+f ffffffff ffffffff 000 s DMFI_SOUND_VOLUME
+f ffffffff ffffffff 000 s DMFI_SOUND_LAST
+f ffffffff ffffffff 000 s DMFI_SOUND_LAST_PRM
+f ffffffff ffffffff 000 s DMFI_DICEBAG_DC
+f ffffffff ffffffff 000 s DMFI_DICEBAG_DETAIL
+f ffffffff ffffffff 000 s DMFI_DICEBAG_REPORT
+f ffffffff ffffffff 000 s DMFI_DICEBAG_ROLL
+f ffffffff ffffffff 000 s DMFI_PC_DICE
+f ffffffff ffffffff 000 s DMFI_PC_NUMBER
+f ffffffff ffffffff 000 s DMFI_DEF_APP
+f ffffffff ffffffff 000 s DMFI_MUSIC_INITIALIZED
+f ffffffff ffffffff 000 s DMFI_MUSIC_BATTLE
+f ffffffff ffffffff 000 s DMFI_MUSIC_DAY
+f ffffffff ffffffff 000 s DMFI_MUSIC_NIGHT
+f ffffffff ffffffff 000 s DMFI_PC
+f ffffffff ffffffff 000 s DMFI_DM
+f ffffffff ffffffff 000 s DMFI_STRING_EXECUTE
+f ffffffff ffffffff 000 s DMFI_STRING_PRIORITY
+f ffffffff ffffffff 000 s DMFI_STRING_OVERRIDE
+f ffffffff ffffffff 000 s DMFI_STRING_LANGUAGE
+f ffffffff ffffffff 000 s DMFI_STRING_COMMAND
+f ffffffff ffffffff 000 s DMFI_STRING_EMOTE
+f ffffffff ffffffff 000 s DMFI_STRING_RULE
+f ffffffff ffffffff 000 s DMFI_STRING_NAME
+f ffffffff ffffffff 000 s DMFI_STRING_DMONLY
+f ffffffff ffffffff 000 s DMFI_STRING_MAX
+f ffffffff ffffffff 000 s DMFI_ITEM_PROPS
+f ffffffff ffffffff 000 s DMFI_STR_EFFECT
+f ffffffff ffffffff 000 s DMFI_DEX_EFFECT
+f ffffffff ffffffff 000 s DMFI_CON_EFFECT
+f ffffffff ffffffff 000 s DMFI_SR_EFFECT
+f ffffffff ffffffff 000 s DMFI_HP_EFFECT
+f ffffffff ffffffff 000 s DMFI_2DA_COLUMN
+f ffffffff ffffffff 000 s DMFI_2DA_COL_RESOURCE
+f ffffffff ffffffff 000 s DMFI_2DA_COL_DESCRIPT
+f ffffffff ffffffff 000 s DMFI_2DA_COL_NAME
+f ffffffff ffffffff 000 s DMFI_2DA_MUSIC
+f ffffffff ffffffff 000 s DMFI_2DA_VFX
+f ffffffff ffffffff 000 s DMFI_2DA_COL_MAXVALUE
+f ffffffff ffffffff 000 s DMFI_2DA_AMBIENT
+f ffffffff ffffffff 000 s DMFI_2DA_SKILLS
+f ffffffff ffffffff 000 s DMFI_2DA_ITEMVALUE
+f ffffffff ffffffff 000 s DMFI_2DA_DISEASE
+f ffffffff ffffffff 000 s DMFI_2DA_POISON
+f ffffffff ffffffff 000 s PRM_
+f ffffffff ffffffff 000 s PG_MAIN
+f ffffffff ffffffff 000 s PG_MUSIC
+f ffffffff ffffffff 000 s PG_DICEBAG
+f ffffffff ffffffff 000 s PG_AMBIENT
+f ffffffff ffffffff 000 s PG_VFX
+f ffffffff ffffffff 000 s PG_WEATHER
+f ffffffff ffffffff 000 s PG_SERVER
+f ffffffff ffffffff 000 s PG_TARGET
+f ffffffff ffffffff 000 s PG_CONFIRM_ACTION
+f ffffffff ffffffff 000 s PG_INITIALIZE
+f ffffffff ffffffff 000 s PG_SOUND
+f ffffffff ffffffff 000 s PG_CREATURE
+f ffffffff ffffffff 000 s PG_ITEM
+f ffffffff ffffffff 000 s PG_MUSIC_CATEGORY
+f ffffffff ffffffff 000 s PG_AMBIENT_CATEGORY
+f ffffffff ffffffff 000 s PG_LIST_ABILITY
+f ffffffff ffffffff 000 s PG_LIST_SKILL
+f ffffffff ffffffff 000 s PG_LIST_MUSIC_NWN2
+f ffffffff ffffffff 000 s PG_LIST_MUSIC_BATTLE
+f ffffffff ffffffff 000 s PG_LIST_MUSIC_MOTB
+f ffffffff ffffffff 000 s PG_LIST_MUSIC_NWN1
+f ffffffff ffffffff 000 s PG_LIST_MUSIC_XP
+f ffffffff ffffffff 000 s PG_LIST_SOUND
+f ffffffff ffffffff 000 s PG_LIST_VFX_SPELL
+f ffffffff ffffffff 000 s PG_LIST_VFX_IMP
+f ffffffff ffffffff 000 s PG_LIST_VFX_DUR
+f ffffffff ffffffff 000 s PG_LIST_VFX_MISC
+f ffffffff ffffffff 000 s PG_LIST_VFX_RECENT
+f ffffffff ffffffff 000 s PG_LIST_AMBIENT_PEOPLE
+f ffffffff ffffffff 000 s PG_LIST_AMBIENT_CAVE
+f ffffffff ffffffff 000 s PG_LIST_AMBIENT_MAGIC
+f ffffffff ffffffff 000 s PG_LIST_AMBIENT_MISC
+f ffffffff ffffffff 000 s PG_LIST_10
+f ffffffff ffffffff 000 s PG_LIST_50
+f ffffffff ffffffff 000 s PG_LIST_300
+f ffffffff ffffffff 000 s PG_LIST_100
+f ffffffff ffffffff 000 s PG_LIST_24
+f ffffffff ffffffff 000 s PG_LIST_DURATIONS
+f ffffffff ffffffff 000 s PG_LIST_EFFECT
+f ffffffff ffffffff 000 s PG_LIST_DICE
+f ffffffff ffffffff 000 s PG_LIST_DISEASE
+f ffffffff ffffffff 000 s PG_LIST_POISON
+f ffffffff ffffffff 000 s PG_LIST_SOUND_CITY
+f ffffffff ffffffff 000 s PG_LIST_SOUND_NATURE
+f ffffffff ffffffff 000 s PG_LIST_SOUND_PEOPLE
+f ffffffff ffffffff 000 s PG_LIST_SOUND_MAGICAL
+f ffffffff ffffffff 000 s PG_LIST_APPEARANCE
+f ffffffff ffffffff 000 s PG_LIST_DMLANGUAGE
+f ffffffff ffffffff 000 s PG_TARGET_PC
+f ffffffff ffffffff 000 s PG_TARGET_NPC
+f ffffffff ffffffff 000 s PG_TARGET_LOCAL
+f ffffffff ffffffff 000 s PG_TARGET_PARTY
+f ffffffff ffffffff 000 s PG_TARGET_ITEM
+f ffffffff ffffffff 000 s PG_TARGET_OBJECT
+f ffffffff ffffffff 000 s PG_TARGET_ITEMPROP
+f ffffffff ffffffff 000 s PG_TARGET_EFFECT
+f ffffffff ffffffff 000 s PG_PCMAIN
+f ffffffff ffffffff 000 s PG_LIST_LANGUAGE
+f ffffffff ffffffff 000 s PG_LIST_POSSLANGUAGE
+f ffffffff ffffffff 000 s DMFI_UI_ABILITY
+f ffffffff ffffffff 000 s DMFI_UI_SKILL
+f ffffffff ffffffff 000 s DMFI_UI_LANGUAGE
+f ffffffff ffffffff 000 s DMFI_UI_DICE
+f ffffffff ffffffff 000 s TXT_ACQUIRE
+f ffffffff ffffffff 000 s TXT_BASE_COMMAND
+f ffffffff ffffffff 000 s TXT_DATA_LOAD
+f ffffffff ffffffff 000 s TXT_DEBUG
+f ffffffff ffffffff 000 s TXT_DM_TOOL_WARNING
+f ffffffff ffffffff 000 s TXT_INITIALIZE_TOOL
+f ffffffff ffffffff 000 s TXT_INITIALIZE_DATABASE
+f ffffffff ffffffff 000 s TXT_ONE_TOOL
+f ffffffff ffffffff 000 s TXT_UNACQUIRE
+f ffffffff ffffffff 000 s TXT_VERSION
+f ffffffff ffffffff 000 s TXT_PLUGIN_LOADED
+f ffffffff ffffffff 000 s TXT_PLUGIN_COMMAND
+f ffffffff ffffffff 000 s TXT_PLUGIN_EMOTE
+f ffffffff ffffffff 000 s TXT_PLUGIN_LANGUAGE
+f ffffffff ffffffff 000 s TXT_PLUGIN_LANG_ADDED
+f ffffffff ffffffff 000 s TXT_PLUGINS_INITIALIZED
+f ffffffff ffffffff 000 s TXT_ITEM_TARGET
+f ffffffff ffffffff 000 s TXT_ROLLER
+f ffffffff ffffffff 000 s TXT_SUB_TARGET_REMOVED
+f ffffffff ffffffff 000 s TXT_TARGET
+f ffffffff ffffffff 000 s TXT_TARGET_LOC
+f ffffffff ffffffff 000 s TXT_TARGET_TEMP
+f ffffffff ffffffff 000 s TXT_MESSAGE_DELIVERED
+f ffffffff ffffffff 000 s TXT_ALL_LANGUAGES
+f ffffffff ffffffff 000 s TXT_LANGUAGE
+f ffffffff ffffffff 000 s TXT_LANGUAGE_KNOWN
+f ffffffff ffffffff 000 s TXT_LANGUAGE_LIST
+f ffffffff ffffffff 000 s TXT_LANGUAGE_REMOVED
+f ffffffff ffffffff 000 s TXT_NO_LANGUAGE
+f ffffffff ffffffff 000 s TXT_NO_ASSOCIATE
+f ffffffff ffffffff 000 s TXT_TRANSLATED
+f ffffffff ffffffff 000 s TXT_VOICE_TARGET
+f ffffffff ffffffff 000 s TXT_VOICE_TARGET_INVALID
+f ffffffff ffffffff 000 s TXT_BACK_BATTLE_STOP
+f ffffffff ffffffff 000 s TXT_COMMAND_NOT_FOUND
+f ffffffff ffffffff 000 s TXT_CREATURE
+f ffffffff ffffffff 000 s TXT_CREATURE_PC_ONLY
+f ffffffff ffffffff 000 s TXT_DAY_NIGHT
+f ffffffff ffffffff 000 s TXT_DAY_NIGHT_BATTLE
+f ffffffff ffffffff 000 s TXT_DM_PC_PARTY
+f ffffffff ffffffff 000 s TXT_EFFECT
+f ffffffff ffffffff 000 s TXT_GOLD_NETWORTH_XP_INFO
+f ffffffff ffffffff 000 s TXT_HIGH_MED_LOW
+f ffffffff ffffffff 000 s TXT_ITEM
+f ffffffff ffffffff 000 s TXT_INVALID_ROLLER_TARGET
+f ffffffff ffffffff 000 s TXT_INT
+f ffffffff ffffffff 000 s TXT_INVENTORY
+f ffffffff ffffffff 000 s TXT_INVALID_OBJECT
+f ffffffff ffffffff 000 s TXT_INVALID_TARGET_OBJECT
+f ffffffff ffffffff 000 s TXT_KEY_MESSAGE_MISSING
+f ffffffff ffffffff 000 s TXT_NAME_OBJECT
+f ffffffff ffffffff 000 s TXT_NAME_REQUIRED
+f ffffffff ffffffff 000 s TXT_NO_EFFECT
+f ffffffff ffffffff 000 s TXT_NO_VALID_OBJECT
+f ffffffff ffffffff 000 s TXT_OWN_ITEM
+f ffffffff ffffffff 000 s TXT_PAGE_NOT_FOUND
+f ffffffff ffffffff 000 s TXT_PARAM_MISSING
+f ffffffff ffffffff 000 s TXT_PC_PARTY_BEST
+f ffffffff ffffffff 000 s TXT_PC_PARTY
+f ffffffff ffffffff 000 s TXT_PC_REQ
+f ffffffff ffffffff 000 s TXT_STRING
+f ffffffff ffffffff 000 s TXT_TARGET_SELF
+f ffffffff ffffffff 000 s TXT_SET_DESCRIPTION
+f ffffffff ffffffff 000 s TXT_SET_NAME_PRIOR
+f ffffffff ffffffff 000 s TXT_SET_NAME_POST
+f ffffffff ffffffff 000 s TXT_RETURN_ORIGINAL
+f ffffffff ffffffff 000 s TXT_SET_DICEBAG_DC
+f ffffffff ffffffff 000 s TXT_SET_DETAILHIGH
+f ffffffff ffffffff 000 s TXT_SET_DETAILMED
+f ffffffff ffffffff 000 s TXT_SET_DETAILLOW
+f ffffffff ffffffff 000 s TXT_SET_REPORTDM
+f ffffffff ffffffff 000 s TXT_SET_REPORTPC
+f ffffffff ffffffff 000 s TXT_SET_REPORTPARTY
+f ffffffff ffffffff 000 s TXT_SET_ROLLPC
+f ffffffff ffffffff 000 s TXT_SET_ROLLPARTY
+f ffffffff ffffffff 000 s TXT_SET_ROLLBEST
+f ffffffff ffffffff 000 s TXT_SET_MUSIC_DAY
+f ffffffff ffffffff 000 s TXT_SET_MUSIC_NIGHT
+f ffffffff ffffffff 000 s TXT_SET_MUSIC_BOTH
+f ffffffff ffffffff 000 s TXT_SET_MUSIC_BATTLE
+f ffffffff ffffffff 000 s TXT_SET_AMBIENT_DAY
+f ffffffff ffffffff 000 s TXT_SET_AMBIENT_DELAY
+f ffffffff ffffffff 000 s TXT_SET_AMBIENT_NIGHT
+f ffffffff ffffffff 000 s TXT_SET_AMBIENT_VOLUME
+f ffffffff ffffffff 000 s TXT_SET_SOUND_VOLUME
+f ffffffff ffffffff 000 s TXT_SET_SOUND_DELAY
+f ffffffff ffffffff 000 s TXT_SET_VFX_DURATION
+f ffffffff ffffffff 000 s TXT_FOLLOW_ON
+f ffffffff ffffffff 000 s TXT_FOLLOW_OFF
+f ffffffff ffffffff 000 s TXT_FOLLOW_TARGET_SET
+f ffffffff ffffffff 000 s TXT_FOLLOWING
+f ffffffff ffffffff 000 s TXT_NOT_FOLLOWING
+f ffffffff ffffffff 000 s TXT_MUSIC_BACKGROUND
+f ffffffff ffffffff 000 s TXT_MUSIC_BATTLE
+f ffffffff ffffffff 000 s TXT_MUSIC_STOP
+f ffffffff ffffffff 000 s TXT_MUSIC_RESTORE
+f ffffffff ffffffff 000 s TXT_MUSIC_DEFAULT
+f ffffffff ffffffff 000 s TXT_SOUND_PLAYED
+f ffffffff ffffffff 000 s TXT_VFX_PLAYED
+f ffffffff ffffffff 000 s TXT_VFX_LABEL
+f ffffffff ffffffff 000 s TXT_AMBIENT_PLAY
+f ffffffff ffffffff 000 s TXT_AMBIENT_STOP
+f ffffffff ffffffff 000 s TXT_NOT_TRAINED
+f ffffffff ffffffff 000 s TXT_ROLL_PASSED
+f ffffffff ffffffff 000 s TXT_ROLL_FAILED
+f ffffffff ffffffff 000 s TXT_ROLL
+f ffffffff ffffffff 000 s TXT_MODIFIER
+f ffffffff ffffffff 000 s TXT_TOTAL
+f ffffffff ffffffff 000 s TXT_AGAINST_DC
+f ffffffff ffffffff 000 s TXT_DAY
+f ffffffff ffffffff 000 s TXT_NIGHT
+f ffffffff ffffffff 000 s TXT_FACING_COMPLETE
+f ffffffff ffffffff 000 s TXT_FACING_ERROR
+f ffffffff ffffffff 000 s TXT_ROLL_DICE
+f ffffffff ffffffff 000 s TXT_ROLL_DICE_FORMAT_ERROR
+f ffffffff ffffffff 000 s TXT_ITEMPROP_REMOVED
+f ffffffff ffffffff 000 s TXT_EFFECT_REMOVED
+f ffffffff ffffffff 000 s TXT_WEATHER_CLEAR
+f ffffffff ffffffff 000 s TXT_WEATHER_RAIN
+f ffffffff ffffffff 000 s TXT_WEATHER_SNOW
+f ffffffff ffffffff 000 s TXT_TIME
+f ffffffff ffffffff 000 s TXT_INVENTORY_UBER
+f ffffffff ffffffff 000 s TXT_INVENTORY_IDENTIFIED
+f ffffffff ffffffff 000 s TXT_INVENTORY_STRIPPED
+f ffffffff ffffffff 000 s TXT_PLOT_CURSED_DROPPED_FLAG
+f ffffffff ffffffff 000 s TXT_PC_INVENTORY_STRIPPED
+f ffffffff ffffffff 000 s TXT_PC_INVENTORY_IDENTIFIED
+f ffffffff ffffffff 000 s TXT_PC_INVENTORY_UBER
+f ffffffff ffffffff 000 s TXT_DM_ACTION
+f ffffffff ffffffff 000 s TXT_BOOTED
+f ffffffff ffffffff 000 s TXT_DM_FROZEN
+f ffffffff ffffffff 000 s TXT_FROZEN
+f ffffffff ffffffff 000 s TXT_STORE_PC
+f ffffffff ffffffff 000 s TXT_STORE_PARTY
+f ffffffff ffffffff 000 s TXT_RECALL
+f ffffffff ffffffff 000 s TXT_REPORT
+f ffffffff ffffffff 000 s TXT_PLAYERNAME
+f ffffffff ffffffff 000 s TXT_CDKEY
+f ffffffff ffffffff 000 s TXT_IPADRESS
+f ffffffff ffffffff 000 s TXT_EFFECT_APPLIED
+f ffffffff ffffffff 000 s TXT_EFFECT_ERROR
+f ffffffff ffffffff 000 s TXT_SCALE
+f ffffffff ffffffff 000 s TXT_INVALID_RESREF
+f ffffffff ffffffff 000 s TXT_CREATE_DMTOOL
+f ffffffff ffffffff 000 s TXT_CREATE_PCTOOL
+f ffffffff ffffffff 000 s TXT_DMTOOL_STORED
+f ffffffff ffffffff 000 s TXT_PCTOOL_STORED
+f ffffffff ffffffff 000 s CV_PC_FOLLOW_ON
+f ffffffff ffffffff 000 s CV_PC_FOLLOW_OFF
+f ffffffff ffffffff 000 s CV_PC_ROLL_ABILITY
+f ffffffff ffffffff 000 s CV_PC_ROLL_SKILL
+f ffffffff ffffffff 000 s CV_PC_ROLL_DICE
+f ffffffff ffffffff 000 s CV_PC_LANGUAGE
+f ffffffff ffffffff 000 s CV_PC_LANGUAGE_OFF
+f ffffffff ffffffff 000 s CV_LD_D2
+f ffffffff ffffffff 000 s CV_LD_D3
+f ffffffff ffffffff 000 s CV_LD_D4
+f ffffffff ffffffff 000 s CV_LD_D6
+f ffffffff ffffffff 000 s CV_LD_D8
+f ffffffff ffffffff 000 s CV_LD_D10
+f ffffffff ffffffff 000 s CV_LD_D12
+f ffffffff ffffffff 000 s CV_LD_D20
+f ffffffff ffffffff 000 s CV_LD_D100
+f ffffffff ffffffff 000 s CV_SV_INVEN_IDENTIFY
+f ffffffff ffffffff 000 s CV_SV_INVEN_STRIP
+f ffffffff ffffffff 000 s CV_SV_INVEN_UBER
+f ffffffff ffffffff 000 s CV_SV_FREEZE
+f ffffffff ffffffff 000 s CV_SV_BOOT
+f ffffffff ffffffff 000 s CV_SV_SCALE
+f ffffffff ffffffff 000 s CV_IT_IDENTIFY
+f ffffffff ffffffff 000 s CV_IT_DESTROY
+f ffffffff ffffffff 000 s CV_IT_TAKE
+f ffffffff ffffffff 000 s CV_IT_CURSED
+f ffffffff ffffffff 000 s CV_IT_PLOT
+f ffffffff ffffffff 000 s CV_IT_STOLEN
+f ffffffff ffffffff 000 s CV_RS_ITEM
+f ffffffff ffffffff 000 s CV_MC_NWN2
+f ffffffff ffffffff 000 s CV_MC_NWN1
+f ffffffff ffffffff 000 s CV_MC_XP
+f ffffffff ffffffff 000 s CV_MC_BATTLE
+f ffffffff ffffffff 000 s CV_MC_MOTB
+f ffffffff ffffffff 000 s CV_MUSIC
+f ffffffff ffffffff 000 s CV_AM_CAVE
+f ffffffff ffffffff 000 s CV_AM_MAGIC
+f ffffffff ffffffff 000 s CV_AM_PEOPLE
+f ffffffff ffffffff 000 s CV_AM_MISC
+f ffffffff ffffffff 000 s CV_AMBIENT
+f ffffffff ffffffff 000 s CV_SD_CITY
+f ffffffff ffffffff 000 s CV_SD_MAGIC
+f ffffffff ffffffff 000 s CV_SD_NATURE
+f ffffffff ffffffff 000 s CV_SD_PEOPLE
+f ffffffff ffffffff 000 s CV_SOUND
+f ffffffff ffffffff 000 s CV_DI_ABIL
+f ffffffff ffffffff 000 s CV_DI_SKILL
+f ffffffff ffffffff 000 s CV_DI_DICE
+f ffffffff ffffffff 000 s CV_DICE
+f ffffffff ffffffff 000 s CV_VF_SPELLS
+f ffffffff ffffffff 000 s CV_VF_INVOCATION
+f ffffffff ffffffff 000 s CV_VF_DURATION
+f ffffffff ffffffff 000 s CV_VF_MISC
+f ffffffff ffffffff 000 s CV_VF_RECENT
+f ffffffff ffffffff 000 s CV_VFX
+f ffffffff ffffffff 000 s CV_TOOL
+f ffffffff ffffffff 000 s CV_PROMPT_TIME
+f ffffffff ffffffff 000 s CV_PROMPT_EFFECTS
+f ffffffff ffffffff 000 s CV_PROMPT_SCALE
+f ffffffff ffffffff 000 s CV_PROMPT_DC
+f ffffffff ffffffff 000 s CV_PROMPT_DELAY
+f ffffffff ffffffff 000 s CV_PROMPT_DURATION
+f ffffffff ffffffff 000 s CV_PROMPT_VOLUME
+f ffffffff ffffffff 000 s CV_PROMPT_MS_TRACK
+f ffffffff ffffffff 000 s CV_PROMPT_ABILITY
+f ffffffff ffffffff 000 s CV_PROMPT_SV
+f ffffffff ffffffff 000 s CV_PROMPT_DICE
+f ffffffff ffffffff 000 s CV_PROMPT_VFX
+f ffffffff ffffffff 000 s CV_PROMPT_SOUND
+f ffffffff ffffffff 000 s CV_PROMPT_GRANT
+f ffffffff ffffffff 000 s CV_PROMPT_REMOVE
+f ffffffff ffffffff 000 s CV_PROMPT_CHOOSE
+f ffffffff ffffffff 000 s PRM_AMBIENT
+f ffffffff ffffffff 000 s PRM_BOOT
+f ffffffff ffffffff 000 s PRM_CREATURE
+f ffffffff ffffffff 000 s PRM_DAY
+f ffffffff ffffffff 000 s PRM_DELETE
+f ffffffff ffffffff 000 s PRM_DICEBAG
+f ffffffff ffffffff 000 s PRM_DISEASE
+f ffffffff ffffffff 000 s PRM_DM
+f ffffffff ffffffff 000 s PRM_FOLLOW
+f ffffffff ffffffff 000 s PRM_FREEZE
+f ffffffff ffffffff 000 s PRM_INFORMATION
+f ffffffff ffffffff 000 s PRM_INITIALIZE
+f ffffffff ffffffff 000 s PRM_INVENTORY
+f ffffffff ffffffff 000 s PRM_LANGUAGE
+f ffffffff ffffffff 000 s PRM_LIST
+f ffffffff ffffffff 000 s PRM_LISTEN
+f ffffffff ffffffff 000 s PRM_MUSIC
+f ffffffff ffffffff 000 s PRM_NIGHT
+f ffffffff ffffffff 000 s PRM_NPC
+f ffffffff ffffffff 000 s PRM_POISON
+f ffffffff ffffffff 000 s PRM_REMOVE
+f ffffffff ffffffff 000 s PRM_RELOAD
+f ffffffff ffffffff 000 s PRM_RENAME
+f ffffffff ffffffff 000 s PRM_REPEAT
+f ffffffff ffffffff 000 s PRM_REPORT
+f ffffffff ffffffff 000 s PRM_ROLL
+f ffffffff ffffffff 000 s PRM_SCALE
+f ffffffff ffffffff 000 s PRM_SET
+f ffffffff ffffffff 000 s PRM_SOUND
+f ffffffff ffffffff 000 s PRM_TARGET
+f ffffffff ffffffff 000 s PRM_TIME
+f ffffffff ffffffff 000 s PRM_TOGGLE
+f ffffffff ffffffff 000 s PRM_VFX
+f ffffffff ffffffff 000 s PRM_VOICE
+f ffffffff ffffffff 000 s PRM_WEATHER
+f ffffffff ffffffff 000 s PRM_MESSAGE_PARTY
+f ffffffff ffffffff 000 s PRM_MESSAGE_LOCAL
+f ffffffff ffffffff 000 s PRM_ABILITY_STRENGTH
+f ffffffff ffffffff 000 s PRM_ABILITY_DEXTERITY
+f ffffffff ffffffff 000 s PRM_ABILITY_CONSTITUTION
+f ffffffff ffffffff 000 s PRM_ABILITY_INTELLIGENCE
+f ffffffff ffffffff 000 s PRM_ABILITY_WISDOM
+f ffffffff ffffffff 000 s PRM_ABILITY_CHARISMA
+f ffffffff ffffffff 000 s PRM_SAVE_FORTITUDE
+f ffffffff ffffffff 000 s PRM_SAVE_REFLEX
+f ffffffff ffffffff 000 s PRM_SAVE_WILL
+f ffffffff ffffffff 000 s PRM_SKILL_CONCENTRATION
+f ffffffff ffffffff 000 s PRM_SKILL_DISABLE_TRAP
+f ffffffff ffffffff 000 s PRM_SKILL_HEAL
+f ffffffff ffffffff 000 s PRM_SKILL_HIDE
+f ffffffff ffffffff 000 s PRM_SKILL_LISTEN
+f ffffffff ffffffff 000 s PRM_SKILL_MOVE_SILENTLY
+f ffffffff ffffffff 000 s PRM_SKILL_OPEN_LOCK
+f ffffffff ffffffff 000 s PRM_SKILL_PARRY
+f ffffffff ffffffff 000 s PRM_SKILL_PERSUADE
+f ffffffff ffffffff 000 s PRM_SKILL_PICK_POCKET
+f ffffffff ffffffff 000 s PRM_SKILL_SEARCH
+f ffffffff ffffffff 000 s PRM_SKILL_SPELLCRAFT
+f ffffffff ffffffff 000 s PRM_SKILL_SPOT
+f ffffffff ffffffff 000 s PRM_SKILL_USE_MAGIC_DEVICE
+f ffffffff ffffffff 000 s PRM_SKILL_APPRAISE
+f ffffffff ffffffff 000 s PRM_SKILL_TUMBLE
+f ffffffff ffffffff 000 s PRM_SKILL_BLUFF
+f ffffffff ffffffff 000 s PRM_SKILL_INTIMIDATE
+f ffffffff ffffffff 000 s PRM_SKILL_DIPLOMACY
+f ffffffff ffffffff 000 s PRM_SKILL_SLEIGHT_OF_HAND
+f ffffffff ffffffff 000 s PRM_SKILL_SURVIVAL
+f ffffffff ffffffff 000 s PRM_SKILL_BALANCE
+f ffffffff ffffffff 000 s PRM_SKILL_CLIMB
+f ffffffff ffffffff 000 s PRM_SKILL_CRAFT__ALCHEMY
+f ffffffff ffffffff 000 s PRM_SKILL_CRAFT_ARMORSMITHING
+f ffffffff ffffffff 000 s PRM_SKILL_CRAFT_BOWMAKING
+f ffffffff ffffffff 000 s PRM_SKILL_CRAFT_WEAPONSMITHING
+f ffffffff ffffffff 000 s PRM_SKILL_DECIPHER_SCRIPT
+f ffffffff ffffffff 000 s PRM_SKILL_DISGUISE
+f ffffffff ffffffff 000 s PRM_SKILL_ESCAPE_ARTIST
+f ffffffff ffffffff 000 s PRM_SKILL_FORGERY
+f ffffffff ffffffff 000 s PRM_SKILL_GATHER_INFORMATION
+f ffffffff ffffffff 000 s PRM_SKILL_HANDLE_ANIMAL
+f ffffffff ffffffff 000 s PRM_SKILL_JUMP
+f ffffffff ffffffff 000 s PRM_SKILL_KNOWLEDGE_ARCANA
+f ffffffff ffffffff 000 s PRM_SKILL_KNOWLEDGE_DUNGEONEERING
+f ffffffff ffffffff 000 s PRM_SKILL_KNOWLEDGE_GEOGRAPHY
+f ffffffff ffffffff 000 s PRM_SKILL_KNOWLEDGE_HISTORY
+f ffffffff ffffffff 000 s PRM_SKILL_KNOWLEDGE_NATURE
+f ffffffff ffffffff 000 s PRM_SKILL_KNOWLEDGE_NOBILITY
+f ffffffff ffffffff 000 s PRM_SKILL_KNOWLEDGE_RELIGION
+f ffffffff ffffffff 000 s PRM_SKILL_KNOWLEDGE_THEPLANES
+f ffffffff ffffffff 000 s PRM_SKILL_PERFORM_ACT
+f ffffffff ffffffff 000 s PRM_SKILL_PERFORM_COMEDY
+f ffffffff ffffffff 000 s PRM_SKILL_PERFORM_DANCE
+f ffffffff ffffffff 000 s PRM_SKILL_PERFORM_KEYBOARDS
+f ffffffff ffffffff 000 s PRM_SKILL_PERFORM_ORATORY
+f ffffffff ffffffff 000 s PRM_SKILL_PERFORM_PERCUSSION
+f ffffffff ffffffff 000 s PRM_SKILL_PERFORM_STRINGINSTRUMENTS
+f ffffffff ffffffff 000 s PRM_SKILL_PERFORM_WINDINSTRUMENTS
+f ffffffff ffffffff 000 s PRM_SKILL_PERFORM_SING
+f ffffffff ffffffff 000 s PRM_SKILL_PROFESSION
+f ffffffff ffffffff 000 s PRM_SKILL_RIDE
+f ffffffff ffffffff 000 s PRM_SKILL_SENSE_MOTIVE
+f ffffffff ffffffff 000 s PRM_SKILL_SPEAK_LANGUAGE
+f ffffffff ffffffff 000 s PRM_SKILL_SWIM
+f ffffffff ffffffff 000 s PRM_SKILL_USE_ROPE
+f ffffffff ffffffff 000 s PRM_AC
+f ffffffff ffffffff 000 s PRM_BATTLE
+f ffffffff ffffffff 000 s PRM_BEST
+f ffffffff ffffffff 000 s PRM_BOTH
+f ffffffff ffffffff 000 s PRM_CITY
+f ffffffff ffffffff 000 s PRM_CLEAR
+f ffffffff ffffffff 000 s PRM_COM
+f ffffffff ffffffff 000 s PRM_DC
+f ffffffff ffffffff 000 s PRM_DESCRIPTION
+f ffffffff ffffffff 000 s PRM_DEFAULT
+f ffffffff ffffffff 000 s PRM_DELAY
+f ffffffff ffffffff 000 s PRM_DETAIL
+f ffffffff ffffffff 000 s PRM_DUR
+f ffffffff ffffffff 000 s PRM_EFFECT
+f ffffffff ffffffff 000 s PRM_EXTRAORDINARY
+f ffffffff ffffffff 000 s PRM_FACING
+f ffffffff ffffffff 000 s PRM_GRANT
+f ffffffff ffffffff 000 s PRM_GOLD
+f ffffffff ffffffff 000 s PRM_HIGH
+f ffffffff ffffffff 000 s PRM_IDENTIFY
+f ffffffff ffffffff 000 s PRM_ITEM
+f ffffffff ffffffff 000 s PRM_ITEMNAME
+f ffffffff ffffffff 000 s PRM_ITEMPROP
+f ffffffff ffffffff 000 s PRM_ITEMTARGET
+f ffffffff ffffffff 000 s PRM_KEY
+f ffffffff ffffffff 000 s PRM_LOC
+f ffffffff ffffffff 000 s PRM_LOCAL
+f ffffffff ffffffff 000 s PRM_LOW
+f ffffffff ffffffff 000 s PRM_MAGICAL
+f ffffffff ffffffff 000 s PRM_MED
+f ffffffff ffffffff 000 s PRM_MESSAGE
+f ffffffff ffffffff 000 s PRM_NAME
+f ffffffff ffffffff 000 s PRM_NATURE
+f ffffffff ffffffff 000 s PRM_NETWORTH
+f ffffffff ffffffff 000 s PRM_OBJECT
+f ffffffff ffffffff 000 s PRM_PLACEABLE
+f ffffffff ffffffff 000 s PRM_ON
+f ffffffff ffffffff 000 s PRM_OFF
+f ffffffff ffffffff 000 s PRM_PARTY
+f ffffffff ffffffff 000 s PRM_PC
+f ffffffff ffffffff 000 s PRM_PEOPLE
+f ffffffff ffffffff 000 s PRM_PLAY
+f ffffffff ffffffff 000 s PRM_PLUGINS
+f ffffffff ffffffff 000 s PRM_RAIN
+f ffffffff ffffffff 000 s PRM_SELF
+f ffffffff ffffffff 000 s PRM_SIT
+f ffffffff ffffffff 000 s PRM_SNOW
+f ffffffff ffffffff 000 s PRM_SOUNDLOC
+f ffffffff ffffffff 000 s PRM_STANDARD
+f ffffffff ffffffff 000 s PRM_STOP
+f ffffffff ffffffff 000 s PRM_STRIP
+f ffffffff ffffffff 000 s PRM_SUPERNATURAL
+f ffffffff ffffffff 000 s PRM_TEST
+f ffffffff ffffffff 000 s PRM_RESTORE
+f ffffffff ffffffff 000 s PRM_UBER
+f ffffffff ffffffff 000 s PRM_VFXLOC
+f ffffffff ffffffff 000 s PRM_VFXTYPE
+f ffffffff ffffffff 000 s PRM_VOL
+f ffffffff ffffffff 000 s PRM_XP
+f ffffffff ffffffff 000 s PRM_PLOTP
+f ffffffff ffffffff 000 s PRM_NORAIN
+f ffffffff ffffffff 000 s PRM_ANIMAL
+f ffffffff ffffffff 000 s PRM_FAMILIAR
+f ffffffff ffffffff 000 s PRM_DOMINATED
+f ffffffff ffffffff 000 s PRM_SUMMONED
+f ffffffff ffffffff 000 s EFF_BLINDNESS
+f ffffffff ffffffff 000 s EFF_CHARMED
+f ffffffff ffffffff 000 s EFF_CONFUSED
+f ffffffff ffffffff 000 s EFF_CUTDOMINATED
+f ffffffff ffffffff 000 s EFF_CUTGHOST
+f ffffffff ffffffff 000 s EFF_CUTIMMOBILIZE
+f ffffffff ffffffff 000 s EFF_CUTPARALYZE
+f ffffffff ffffffff 000 s EFF_DARKNESS
+f ffffffff ffffffff 000 s EFF_DAZED
+f ffffffff ffffffff 000 s EFF_DEAF
+f ffffffff ffffffff 000 s EFF_DISPELALL
+f ffffffff ffffffff 000 s EFF_DISPELBEST
+f ffffffff ffffffff 000 s EFF_DOMINATED
+f ffffffff ffffffff 000 s EFF_ENTANGLE
+f ffffffff ffffffff 000 s EFF_ETHEREAL
+f ffffffff ffffffff 000 s EFF_FRIGHTENED
+f ffffffff ffffffff 000 s EFF_HASTE
+f ffffffff ffffffff 000 s EFF_KNOCKDOWN
+f ffffffff ffffffff 000 s EFF_PARALYZE
+f ffffffff ffffffff 000 s EFF_PETRIFY
+f ffffffff ffffffff 000 s EFF_RESURRECTION
+f ffffffff ffffffff 000 s EFF_SEEINVIS
+f ffffffff ffffffff 000 s EFF_SILENCE
+f ffffffff ffffffff 000 s EFF_SLEEP
+f ffffffff ffffffff 000 s EFF_SLOW
+f ffffffff ffffffff 000 s EFF_STUNNED
+f ffffffff ffffffff 000 s EFF_TIMESTOP
+f ffffffff ffffffff 000 s EFF_TRUESEEING
+f ffffffff ffffffff 000 s EFF_TURNED
+f ffffffff ffffffff 000 s EFF_ULTRAVISION
+f ffffffff ffffffff 000 s EMT_ABL_STRENGTH
+f ffffffff ffffffff 000 s EMT_ABL_DEXTERITY
+f ffffffff ffffffff 000 s EMT_ABL_CONSTITUTION
+f ffffffff ffffffff 000 s EMT_ABL_INTELLIGENCE
+f ffffffff ffffffff 000 s EMT_ABL_WISDOM
+f ffffffff ffffffff 000 s EMT_ABL_CHARISMA
+f ffffffff ffffffff 000 s EMT_SAVE_FORTITUDE
+f ffffffff ffffffff 000 s EMT_SAVE_REFLEX
+f ffffffff ffffffff 000 s EMT_SAVE_WILL
+f ffffffff ffffffff 000 s EMT_SKL_APPRAISE
+f ffffffff ffffffff 000 s EMT_SKL_BLUFF
+f ffffffff ffffffff 000 s EMT_SKL_CONCENTRATION
+f ffffffff ffffffff 000 s EMT_SKL_DIPLOMACY
+f ffffffff ffffffff 000 s EMT_SKL_DISABLE_TRAP
+f ffffffff ffffffff 000 s EMT_SKL_HEAL
+f ffffffff ffffffff 000 s EMT_SKL_HIDE
+f ffffffff ffffffff 000 s EMT_SKL_INTIMIDATE
+f ffffffff ffffffff 000 s EMT_SKL_LISTEN
+f ffffffff ffffffff 000 s EMT_SKL_MOVE_SILENTLY
+f ffffffff ffffffff 000 s EMT_SKL_OPEN_LOCK
+f ffffffff ffffffff 000 s EMT_SKL_PARRY
+f ffffffff ffffffff 000 s EMT_SKL_SEARCH
+f ffffffff ffffffff 000 s EMT_SKL_SLEIGHT_OF_HAND
+f ffffffff ffffffff 000 s EMT_SKL_SPELLCRAFT
+f ffffffff ffffffff 000 s EMT_SKL_SPOT
+f ffffffff ffffffff 000 s EMT_SKL_SURVIVAL
+f ffffffff ffffffff 000 s EMT_SKL_TUMBLE
+f ffffffff ffffffff 000 s EMT_SKL_USE_MAGIC_DEVICE
+f ffffffff ffffffff 000 s EMT_SKL_BALANCE
+f ffffffff ffffffff 000 s EMT_SKL_CLIMB
+f ffffffff ffffffff 000 s EMT_SKL_CRAFT__ALCHEMY
+f ffffffff ffffffff 000 s EMT_SKL_CRAFT_ARMORSMITHING
+f ffffffff ffffffff 000 s EMT_SKL_CRAFT_BOWMAKING
+f ffffffff ffffffff 000 s EMT_SKL_CRAFT_WEAPONSMITHING
+f ffffffff ffffffff 000 s EMT_SKL_DECIPHER_SCRIPT
+f ffffffff ffffffff 000 s EMT_SKL_DISGUISE
+f ffffffff ffffffff 000 s EMT_SKL_ESCAPE_ARTIST
+f ffffffff ffffffff 000 s EMT_SKL_FORGERY
+f ffffffff ffffffff 000 s EMT_SKL_GATHER_INFORMATION
+f ffffffff ffffffff 000 s EMT_SKL_HANDLE_ANIMAL
+f ffffffff ffffffff 000 s EMT_SKL_JUMP
+f ffffffff ffffffff 000 s EMT_SKL_KNOWLEDGE_ARCANA
+f ffffffff ffffffff 000 s EMT_SKL_KNOWLEDGE_DUNGEONEERING
+f ffffffff ffffffff 000 s EMT_SKL_KNOWLEDGE_GEOGRAPHY
+f ffffffff ffffffff 000 s EMT_SKL_KNOWLEDGE_HISTORY
+f ffffffff ffffffff 000 s EMT_SKL_KNOWLEDGE_NATURE
+f ffffffff ffffffff 000 s EMT_SKL_KNOWLEDGE_NOBILITY
+f ffffffff ffffffff 000 s EMT_SKL_KNOWLEDGE_RELIGION
+f ffffffff ffffffff 000 s EMT_SKL_KNOWLEDGE_THEPLANES
+f ffffffff ffffffff 000 s EMT_SKL_PERFORM_ACT
+f ffffffff ffffffff 000 s EMT_SKL_PERFORM_COMEDY
+f ffffffff ffffffff 000 s EMT_SKL_PERFORM_DANCE
+f ffffffff ffffffff 000 s EMT_SKL_PERFORM_ORATORY
+f ffffffff ffffffff 000 s EMT_SKL_PERFORM_KEYBOARDS
+f ffffffff ffffffff 000 s EMT_SKL_PERFORM_PERCUSSION
+f ffffffff ffffffff 000 s EMT_SKL_PERFORM_STRINGINSTRUMENTS
+f ffffffff ffffffff 000 s EMT_SKL_PERFORM_WINDINSTRUMENTS
+f ffffffff ffffffff 000 s EMT_SKL_PERFORM_SING
+f ffffffff ffffffff 000 s EMT_SKL_PROFESSION
+f ffffffff ffffffff 000 s EMT_SKL_RIDE
+f ffffffff ffffffff 000 s EMT_SKL_SENSE_MOTIVE
+f ffffffff ffffffff 000 s EMT_SKL_SPEAK_LANGUAGE
+f ffffffff ffffffff 000 s EMT_SKL_SWIM
+f ffffffff ffffffff 000 s EMT_SKL_USE_ROPE
+f ffffffff ffffffff 000 s EMT_ACTIVATE
+f ffffffff ffffffff 000 s EMT_AGREE
+f ffffffff ffffffff 000 s EMT_BACK
+f ffffffff ffffffff 000 s EMT_BARD
+f ffffffff ffffffff 000 s EMT_BEG
+f ffffffff ffffffff 000 s EMT_BEND
+f ffffffff ffffffff 000 s EMT_BOOGIE
+f ffffffff ffffffff 000 s EMT_BOOK
+f ffffffff ffffffff 000 s EMT_BORED
+f ffffffff ffffffff 000 s EMT_BOW
+f ffffffff ffffffff 000 s EMT_BOX
+f ffffffff ffffffff 000 s EMT_CANTRIP
+f ffffffff ffffffff 000 s EMT_CARRY
+f ffffffff ffffffff 000 s EMT_CAST
+f ffffffff ffffffff 000 s EMT_CELEBRATE
+f ffffffff ffffffff 000 s EMT_CHATS
+f ffffffff ffffffff 000 s EMT_CHEER
+f ffffffff ffffffff 000 s EMT_CHUCKLE
+f ffffffff ffffffff 000 s EMT_COLLAPSE
+f ffffffff ffffffff 000 s EMT_COOK
+f ffffffff ffffffff 000 s EMT_CRAFT
+f ffffffff ffffffff 000 s EMT_CURTSEY
+f ffffffff ffffffff 000 s EMT_DANCE
+f ffffffff ffffffff 000 s EMT_DEATH
+f ffffffff ffffffff 000 s EMT_DEMAND
+f ffffffff ffffffff 000 s EMT_DIE
+f ffffffff ffffffff 000 s EMT_DODGE
+f ffffffff ffffffff 000 s EMT_DOWN
+f ffffffff ffffffff 000 s EMT_DRINK
+f ffffffff ffffffff 000 s EMT_DRUM
+f ffffffff ffffffff 000 s EMT_DRUNK
+f ffffffff ffffffff 000 s EMT_DUCK
+f ffffffff ffffffff 000 s EMT_EXAMINE
+f ffffffff ffffffff 000 s EMT_EXHAUSTED
+f ffffffff ffffffff 000 s EMT_FALL
+f ffffffff ffffffff 000 s EMT_FAR
+f ffffffff ffffffff 000 s EMT_FATIGUE
+f ffffffff ffffffff 000 s EMT_FIDDLE
+f ffffffff ffffffff 000 s EMT_FIDGET
+f ffffffff ffffffff 000 s EMT_FLOOR
+f ffffffff ffffffff 000 s EMT_FLOP
+f ffffffff ffffffff 000 s EMT_FLUTE
+f ffffffff ffffffff 000 s EMT_FORGE
+f ffffffff ffffffff 000 s EMT_FORWARD
+f ffffffff ffffffff 000 s EMT_FROLIC
+f ffffffff ffffffff 000 s EMT_GIGGLE
+f ffffffff ffffffff 000 s EMT_GREET
+f ffffffff ffffffff 000 s EMT_GROUND
+f ffffffff ffffffff 000 s EMT_GUITAR
+f ffffffff ffffffff 000 s EMT_HAHA
+f ffffffff ffffffff 000 s EMT_HELLO
+f ffffffff ffffffff 000 s EMT_HI
+f ffffffff ffffffff 000 s EMT_HOORAY
+f ffffffff ffffffff 000 s EMT_HUM
+f ffffffff ffffffff 000 s EMT_HURT
+f ffffffff ffffffff 000 s EMT_HURRY
+f ffffffff ffffffff 000 s EMT_HURRI
+f ffffffff ffffffff 000 s EMT_INJURE
+f ffffffff ffffffff 000 s EMT_INTIMIDATE
+f ffffffff ffffffff 000 s EMT_KNEEL
+f ffffffff ffffffff 000 s EMT_LAUGH
+f ffffffff ffffffff 000 s EMT_LAY
+f ffffffff ffffffff 000 s EMT_LEFT
+f ffffffff ffffffff 000 s EMT_LETS_GO
+f ffffffff ffffffff 000 s EMT_LIMP
+f ffffffff ffffffff 000 s EMT_LOAD
+f ffffffff ffffffff 000 s EMT_LOL
+f ffffffff ffffffff 000 s EMT_LOOK
+f ffffffff ffffffff 000 s EMT_LUTE
+f ffffffff ffffffff 000 s EMT_MEAL
+f ffffffff ffffffff 000 s EMT_MEDITATE
+f ffffffff ffffffff 000 s EMT_MESS
+f ffffffff ffffffff 000 s EMT_MOCK
+f ffffffff ffffffff 000 s EMT_MOVE
+f ffffffff ffffffff 000 s EMT_MUSIC
+f ffffffff ffffffff 000 s EMT_NAP
+f ffffffff ffffffff 000 s EMT_NOD
+f ffffffff ffffffff 000 s EMT_PAPER
+f ffffffff ffffffff 000 s EMT_PEER
+f ffffffff ffffffff 000 s EMT_PLAY
+f ffffffff ffffffff 000 s EMT_PLEAD
+f ffffffff ffffffff 000 s EMT_PRAY
+f ffffffff ffffffff 000 s EMT_PRONE
+f ffffffff ffffffff 000 s EMT_READ
+f ffffffff ffffffff 000 s EMT_REST
+f ffffffff ffffffff 000 s EMT_RIGHT
+f ffffffff ffffffff 000 s EMT_SALUTE
+f ffffffff ffffffff 000 s EMT_SCAN
+f ffffffff ffffffff 000 s EMT_SCRATCH
+f ffffffff ffffffff 000 s EMT_SEARCH
+f ffffffff ffffffff 000 s EMT_SCOUT
+f ffffffff ffffffff 000 s EMT_SHAKES_HEAD
+f ffffffff ffffffff 000 s EMT_SHOVEL
+f ffffffff ffffffff 000 s EMT_SING
+f ffffffff ffffffff 000 s EMT_SIP
+f ffffffff ffffffff 000 s EMT_SNORE
+f ffffffff ffffffff 000 s EMT_SONG
+f ffffffff ffffffff 000 s EMT_SPASM
+f ffffffff ffffffff 000 s EMT_SPEAK
+f ffffffff ffffffff 000 s EMT_STAND
+f ffffffff ffffffff 000 s EMT_STEAL
+f ffffffff ffffffff 000 s EMT_STOOP
+f ffffffff ffffffff 000 s EMT_STORY
+f ffffffff ffffffff 000 s EMT_STRETCH
+f ffffffff ffffffff 000 s EMT_SWAY
+f ffffffff ffffffff 000 s EMT_SWIPE
+f ffffffff ffffffff 000 s EMT_TALK
+f ffffffff ffffffff 000 s EMT_TAUNT
+f ffffffff ffffffff 000 s EMT_TELLS
+f ffffffff ffffffff 000 s EMT_THREATEN
+f ffffffff ffffffff 000 s EMT_TINKER
+f ffffffff ffffffff 000 s EMT_TIRED
+f ffffffff ffffffff 000 s EMT_TRIPS
+f ffffffff ffffffff 000 s EMT_UP
+f ffffffff ffffffff 000 s EMT_USE
+f ffffffff ffffffff 000 s EMT_WAVE
+f ffffffff ffffffff 000 s EMT_WHISTLES
+f ffffffff ffffffff 000 s EMT_WILDSHAPE
+f ffffffff ffffffff 000 s EMT_WOOZY
+f ffffffff ffffffff 000 s EMT_WORSHIP
+f ffffffff ffffffff 000 s EMT_YAWN
+f ffffffff ffffffff 000 s EMT_ATTACK
+f ffffffff ffffffff 000 s EMT_BATTLECRY
+f ffffffff ffffffff 000 s EMT_HEAL
+f ffffffff ffffffff 000 s EMT_HELP
+f ffffffff ffffffff 000 s EMT_ENEMIES
+f ffffffff ffffffff 000 s EMT_FLEE
+f ffffffff ffffffff 000 s EMT_GUARDME
+f ffffffff ffffffff 000 s EMT_ME
+f ffffffff ffffffff 000 s EMT_HOLD
+f ffffffff ffffffff 000 s EMT_PAIN
+f ffffffff ffffffff 000 s EMT_NEAR
+f ffffffff ffffffff 000 s EMT_POISONED
+f ffffffff ffffffff 000 s EMT_SPELL_FAIL
+f ffffffff ffffffff 000 s EMT_WEAPON_SUCKS
+f ffffffff ffffffff 000 s EMT_FOLLOW_ME
+f ffffffff ffffffff 000 s EMT_HERE
+f ffffffff ffffffff 000 s EMT_GROUP
+f ffffffff ffffffff 000 s EMT_MOVE_OVER
+f ffffffff ffffffff 000 s EMT_CANTDO
+f ffffffff ffffffff 000 s EMT_CANDO
+f ffffffff ffffffff 000 s EMT_TASKCOMPLETE
+f ffffffff ffffffff 000 s EMT_ENCUMBERED
+f ffffffff ffffffff 000 s EMT_SELECTED
+f ffffffff ffffffff 000 s EMT_NO
+f ffffffff ffffffff 000 s EMT_STOP
+f ffffffff ffffffff 000 s EMT_GOODBYE
+f ffffffff ffffffff 000 s EMT_THANKS
+f ffffffff ffffffff 000 s EMT_CUSS
+f ffffffff ffffffff 000 s EMT_TALKTOME
+f ffffffff ffffffff 000 s EMT_GOODIDEA
+f ffffffff ffffffff 000 s EMT_BADIDEA
+f ffffffff ffffffff 000 s EMT_PICK_LOCK
+f ffffffff ffffffff 000 s EMT_CHECK_AREA
+f ffffffff ffffffff 000 s EMT_YES
+f ffffffff ffffffff 000 s EMT_COVER
+f ffffffff ffffffff 000 s TXT_TOGGLE_CURSED
+f ffffffff ffffffff 000 s TXT_TOGGLE_PLOT
+f ffffffff ffffffff 000 s TXT_TOGGLE_STOLEN
+f ffffffff ffffffff 000 s TXT_CURSED
+f ffffffff ffffffff 000 s TXT_PLOT
+f ffffffff ffffffff 000 s TXT_STOLEN
+f ffffffff ffffffff 000 s TXT_ITEM_STATE
+f ffffffff ffffffff 000 s TXT_ITEM_TAKEN
+f ffffffff ffffffff 000 s TXT_ITEM_IDENTIFIED
+f ffffffff ffffffff 000 s TXT_ITEM_RETRIEVED
+f ffffffff ffffffff 000 s TXT_DATABASE_INITIALIZED
+f ffffffff ffffffff 000 s PRM_CURSED
+f ffffffff ffffffff 000 s PRM_PLOT
+f ffffffff ffffffff 000 s PRM_STOLEN
+f ffffffff ffffffff 000 s PRM_TAKE
+f ffffffff ffffffff 000 s PRM_UI
+f ffffffff ffffffff 000 s TXT_RENAME_OBJ_SUCCESS
+f ffffffff ffffffff 000 s TXT_RENAME_ITM_SUCCESS
+f ffffffff ffffffff 000 s TXT_RENAME_INVALID_TARGET
+f ffffffff ffffffff 000 s TXT_AGAINST
+f ffffffff ffffffff 000 s TXT_AREA
+f ffffffff ffffffff 000 s TXT_SPEAKING
+f ffffffff ffffffff 000 s TXT_CHOOSE_ABILITY
+f ffffffff ffffffff 000 s TXT_CHOOSE_SKILL
+f ffffffff ffffffff 000 s TXT_CHOOSE_LANGUAGE
+f ffffffff ffffffff 000 s TXT_CHOOSE_NUMBER
+f ffffffff ffffffff 000 s TXT_CHOOSE_TYPE
+f ffffffff ffffffff 000 s LNG_ANIMAL
+f ffffffff ffffffff 000 s LNG_ASSASSIN
+f ffffffff ffffffff 000 s LNG_ABYSSAL
+f ffffffff ffffffff 000 s LNG_ALZHEDO
+f ffffffff ffffffff 000 s LNG_AQUAN
+f ffffffff ffffffff 000 s LNG_AURAN
+f ffffffff ffffffff 000 s LNG_ALGARONDAN
+f ffffffff ffffffff 000 s LNG_CANT
+f ffffffff ffffffff 000 s LNG_CELESTIAL
+f ffffffff ffffffff 000 s LNG_CHESSENTAN
+f ffffffff ffffffff 000 s LNG_CHONDATHAN
+f ffffffff ffffffff 000 s LNG_CHULTAN
+f ffffffff ffffffff 000 s LNG_DWARF
+f ffffffff ffffffff 000 s LNG_DROW
+f ffffffff ffffffff 000 s LNG_DROWSIGN
+f ffffffff ffffffff 000 s LNG_DRUIDIC
+f ffffffff ffffffff 000 s LNG_DRACONIC
+f ffffffff ffffffff 000 s LNG_DAMARAN
+f ffffffff ffffffff 000 s LNG_DAMBRATHAN
+f ffffffff ffffffff 000 s LNG_DURPARI
+f ffffffff ffffffff 000 s LNG_ELVEN
+f ffffffff ffffffff 000 s LNG_GNOME
+f ffffffff ffffffff 000 s LNG_GOBLIN
+f ffffffff ffffffff 000 s LNG_GIANT
+f ffffffff ffffffff 000 s LNG_GNOLL
+f ffffffff ffffffff 000 s LNG_HALFLING
+f ffffffff ffffffff 000 s LNG_IGNAN
+f ffffffff ffffffff 000 s LNG_HALARDRIM
+f ffffffff ffffffff 000 s LNG_HALRUAAN
+f ffffffff ffffffff 000 s LNG_ILLUSKAN
+f ffffffff ffffffff 000 s LNG_IMASKAR
+f ffffffff ffffffff 000 s LNG_INFERNAL
+f ffffffff ffffffff 000 s LNG_KOZAKURAN
+f ffffffff ffffffff 000 s LNG_LANTANESE
+f ffffffff ffffffff 000 s LNG_LOROSS
+f ffffffff ffffffff 000 s LNG_MIDANI
+f ffffffff ffffffff 000 s LNG_MULHORANDI
+f ffffffff ffffffff 000 s LNG_NETHERESE
+f ffffffff ffffffff 000 s LNG_RASHEMI
+f ffffffff ffffffff 000 s LNG_SERUSAN
+f ffffffff ffffffff 000 s LNG_SHAARAN
+f ffffffff ffffffff 000 s LNG_SHOU
+f ffffffff ffffffff 000 s LNG_SYLVAN
+f ffffffff ffffffff 000 s LNG_TERRAN
+f ffffffff ffffffff 000 s LNG_TREANT
+f ffffffff ffffffff 000 s LNG_TASHALAN
+f ffffffff ffffffff 000 s LNG_TUIGAN
+f ffffffff ffffffff 000 s LNG_TURMIC
+f ffffffff ffffffff 000 s LNG_ORC
+f ffffffff ffffffff 000 s LNG_NEXALAN
+f ffffffff ffffffff 000 s LNG_YUANTI
+f ffffffff ffffffff 000 s LNG_UNDERCOMMON
+f ffffffff ffffffff 000 s LNG_ULUIK
+f ffffffff ffffffff 000 s LNG_UNTHERIC
+f ffffffff ffffffff 000 s LNG_VAASAN
+f ffffffff ffffffff 000 s PRM_DICE
+f ffffffff ffffffff 000 s PRM_UPDATE
+f ffffffff ffffffff 000 s TXT_TOOL_VERSION_ERROR
+f ffffffff ffffffff 000 s TXT_DB_VERSION_ERROR
+f ffffffff ffffffff 000 s TXT_DB_VERSION
+f ffffffff ffffffff 000 s TXT_MAX_VALUE
+f ffffffff ffffffff 000 s TXT_CREATE_STORAGE
+f ffffffff ffffffff 000 s TXT_REPORT_GOLD
+f ffffffff ffffffff 000 s TXT_REPORT_NETWORTH
+f ffffffff ffffffff 000 s TXT_REPORT_XP
+f ffffffff ffffffff 000 s TXT_CLIPBOARD_EMPTY
+f ffffffff ffffffff 000 s PRM_FACTION
+f ffffffff ffffffff 000 s PRM_HOSTILE
+f ffffffff ffffffff 000 s PRM_COMMONER
+f ffffffff ffffffff 000 s PRM_MERCHANT
+f ffffffff ffffffff 000 s PRM_DEFENDER
+f ffffffff ffffffff 000 s TXT_DEFAULT_FACTION_REQ
+f ffffffff ffffffff 000 s TXT_FACTION_SET
+f ffffffff ffffffff 000 s PRM_SERVER
+f ffffffff ffffffff 000 s TXT_FACTION_HOSTILE
+f ffffffff ffffffff 000 s TXT_FACTION_COMMONER
+f ffffffff ffffffff 000 s LNG_COMMON
+f ffffffff ffffffff 000 s TXT_DM_MESS
+f ffffffff ffffffff 000 s PRM_COPY
+f ffffffff ffffffff 000 s PRM_PASTE
+f ffffffff ffffffff 000 s TXT_NON_PC
+f ffffffff ffffffff 000 s TXT_TRANSLATED_LORE
+f ffffffff ffffffff 000 s TXT_NAME_CHANGING_DISABLED
+f ffffffff ffffffff 000 s TXT_PC_LANG_DISABLED
+f ffffffff ffffffff 000 s TXT_EMOTES_DISABLED
+f ffffffff ffffffff 000 s TXT_LANGUAGES_RESET
+f ffffffff ffffffff 000 s TXT_LANGUAGES_DMRESET
+f ffffffff ffffffff 000 s TXT_LANGUAGES_SERVER_ERROR
+f ffffffff ffffffff 000 s PRM_APPEARANCE
+f ffffffff ffffffff 000 s CV_PROMPT_APPEARANCE
+f ffffffff ffffffff 000 s TXT_APPEARANCE_SET
+f ffffffff ffffffff 000 s TXT_BATTLE_STR
+f ffffffff ffffffff 000 s TXT_BATTLE_DEX
+f ffffffff ffffffff 000 s TXT_BATTLE_CON
+f ffffffff ffffffff 000 s TXT_BATTLE_SR
+f ffffffff ffffffff 000 s TXT_BATTLE_HP
+f ffffffff ffffffff 000 s TXT_IS_A_PC
+f ffffffff ffffffff 000 s ASCANT_A
+f ffffffff ffffffff 000 s ASCANT_B
+f ffffffff ffffffff 000 s ASCANT_C
+f ffffffff ffffffff 000 s ASCANT_D
+f ffffffff ffffffff 000 s ASCANT_E
+f ffffffff ffffffff 000 s ASCANT_F
+f ffffffff ffffffff 000 s ASCANT_G
+f ffffffff ffffffff 000 s ASCANT_H
+f ffffffff ffffffff 000 s ASCANT_I
+f ffffffff ffffffff 000 s ASCANT_J
+f ffffffff ffffffff 000 s ASCANT_K
+f ffffffff ffffffff 000 s ASCANT_L
+f ffffffff ffffffff 000 s ASCANT_M
+f ffffffff ffffffff 000 s ASCANT_N
+f ffffffff ffffffff 000 s ASCANT_O
+f ffffffff ffffffff 000 s ASCANT_P
+f ffffffff ffffffff 000 s ASCANT_Q
+f ffffffff ffffffff 000 s ASCANT_R
+f ffffffff ffffffff 000 s ASCANT_S
+f ffffffff ffffffff 000 s ASCANT_T
+f ffffffff ffffffff 000 s ASCANT_U
+f ffffffff ffffffff 000 s ASCANT_V
+f ffffffff ffffffff 000 s ASCANT_W
+f ffffffff ffffffff 000 s ASCANT_X
+f ffffffff ffffffff 000 s ASCANT_Y
+f ffffffff ffffffff 000 s ASCANT_Z
+f ffffffff ffffffff 000 s ASCANT_DEFAULT
+f ffffffff ffffffff 000 s CANT_A
+f ffffffff ffffffff 000 s CANT_B
+f ffffffff ffffffff 000 s CANT_C
+f ffffffff ffffffff 000 s CANT_D
+f ffffffff ffffffff 000 s CANT_E
+f ffffffff ffffffff 000 s CANT_F
+f ffffffff ffffffff 000 s CANT_G
+f ffffffff ffffffff 000 s CANT_H
+f ffffffff ffffffff 000 s CANT_I
+f ffffffff ffffffff 000 s CANT_J
+f ffffffff ffffffff 000 s CANT_K
+f ffffffff ffffffff 000 s CANT_L
+f ffffffff ffffffff 000 s CANT_M
+f ffffffff ffffffff 000 s CANT_N
+f ffffffff ffffffff 000 s CANT_O
+f ffffffff ffffffff 000 s CANT_P
+f ffffffff ffffffff 000 s CANT_Q
+f ffffffff ffffffff 000 s CANT_R
+f ffffffff ffffffff 000 s CANT_S
+f ffffffff ffffffff 000 s CANT_T
+f ffffffff ffffffff 000 s CANT_U
+f ffffffff ffffffff 000 s CANT_V
+f ffffffff ffffffff 000 s CANT_W
+f ffffffff ffffffff 000 s CANT_X
+f ffffffff ffffffff 000 s CANT_Y
+f ffffffff ffffffff 000 s CANT_Z
+f ffffffff ffffffff 000 s CANT_DEFAULT
+f ffffffff ffffffff 000 s DCANT_A
+f ffffffff ffffffff 000 s DCANT_B
+f ffffffff ffffffff 000 s DCANT_C
+f ffffffff ffffffff 000 s DCANT_D
+f ffffffff ffffffff 000 s DCANT_E
+f ffffffff ffffffff 000 s DCANT_F
+f ffffffff ffffffff 000 s DCANT_G
+f ffffffff ffffffff 000 s DCANT_H
+f ffffffff ffffffff 000 s DCANT_I
+f ffffffff ffffffff 000 s DCANT_J
+f ffffffff ffffffff 000 s DCANT_K
+f ffffffff ffffffff 000 s DCANT_L
+f ffffffff ffffffff 000 s DCANT_M
+f ffffffff ffffffff 000 s DCANT_N
+f ffffffff ffffffff 000 s DCANT_O
+f ffffffff ffffffff 000 s DCANT_P
+f ffffffff ffffffff 000 s DCANT_Q
+f ffffffff ffffffff 000 s DCANT_R
+f ffffffff ffffffff 000 s DCANT_S
+f ffffffff ffffffff 000 s DCANT_T
+f ffffffff ffffffff 000 s DCANT_U
+f ffffffff ffffffff 000 s DCANT_V
+f ffffffff ffffffff 000 s DCANT_W
+f ffffffff ffffffff 000 s DCANT_X
+f ffffffff ffffffff 000 s DCANT_Y
+f ffffffff ffffffff 000 s DCANT_Z
+f ffffffff ffffffff 000 s as_bell_church01
+f ffffffff ffffffff 000 s as_cv_belltower1
+f ffffffff ffffffff 000 s as_cv_boilergrn1
+f ffffffff ffffffff 000 s as_cv_boomdist1
+f ffffffff ffffffff 000 s as_cv_claybreak1
+f ffffffff ffffffff 000 s as_hr_x2chnratl1
+f ffffffff ffffffff 000 s as_cv_crank1
+f ffffffff ffffffff 000 s al_cv_firecamp1
+f ffffffff ffffffff 000 s al_na_firelarge2
+f ffffffff ffffffff 000 s al_cv_firesmldr1
+f ffffffff ffffffff 000 s as_cv_glasbreak1
+f ffffffff ffffffff 000 s as_na_x2lowrum2
+f ffffffff ffffffff 000 s amb_metal_creaking_1
+f ffffffff ffffffff 000 s al_cv_millwheel1
+f ffffffff ffffffff 000 s as_cv_minepick1
+f ffffffff ffffffff 000 s as_cv_mineshovl1
+f ffffffff ffffffff 000 s as_hr_x2drnoise4
+f ffffffff ffffffff 000 s as_hr_x2drnoise
+f ffffffff ffffffff 000 s cs_shipsink_long
+f ffffffff ffffffff 000 s as_cv_smithhamr1
+f ffffffff ffffffff 000 s as_cv_woodbreak1
+f ffffffff ffffffff 000 s as_cv_bldgcrumb1
+f ffffffff ffffffff 000 s amb_caverumb_01
+f ffffffff ffffffff 000 s amb_caverumb_02
+f ffffffff ffffffff 000 s amb_cavewind_03
+f ffffffff ffffffff 000 s amb_cavewind_04
+f ffffffff ffffffff 000 s al_wt_gustcavrn1
+f ffffffff ffffffff 000 s al_wt_gustchasm1
+f ffffffff ffffffff 000 s al_wt_gustgrass1
+f ffffffff ffffffff 000 s as_wt_gustdraft1
+f ffffffff ffffffff 000 s as_wt_gusforst1
+f ffffffff ffffffff 000 s as_wt_gustsoft1
+f ffffffff ffffffff 000 s as_wt_guststrng1
+f ffffffff ffffffff 000 s as_na_lavaburst1
+f ffffffff ffffffff 000 s al_na_lavafire1
+f ffffffff ffffffff 000 s al_na_lavagyser1
+f ffffffff ffffffff 000 s al_na_lavalake1
+f ffffffff ffffffff 000 s amb_ocean_lp1
+f ffffffff ffffffff 000 s al_wt_rainlight1
+f ffffffff ffffffff 000 s al_wt_rainhard1
+f ffffffff ffffffff 000 s as_na_rockfallg1
+f ffffffff ffffffff 000 s as_na_rockcavsm1
+f ffffffff ffffffff 000 s al_na_sludglake1
+f ffffffff ffffffff 000 s al_na_steamsm1
+f ffffffff ffffffff 000 s as_na_steamlong1
+f ffffffff ffffffff 000 s al_na_steamlg1
+f ffffffff ffffffff 000 s al_na_stream4
+f ffffffff ffffffff 000 s al_na_cvstream2
+f ffffffff ffffffff 000 s al_na_cvstream1
+f ffffffff ffffffff 000 s as_na_surf1
+f ffffffff ffffffff 000 s as_na_surf2
+f ffffffff ffffffff 000 s as_wt_thunderds1
+f ffffffff ffffffff 000 s as_wt_thundercl1
+f ffffffff ffffffff 000 s al_na_waterfall2
+f ffffffff ffffffff 000 s as_na_waterlap3
+f ffffffff ffffffff 000 s al_na_wtrflvoid1
+f ffffffff ffffffff 000 s al_na_waterpipe1
+f ffffffff ffffffff 000 s al_na_watertunl1
+f ffffffff ffffffff 000 s al_wind_leaves
+f ffffffff ffffffff 000 s as_pl_ailingm1
+f ffffffff ffffffff 000 s as_pl_ailingf1
+f ffffffff ffffffff 000 s c_orc_atk1
+f ffffffff ffffffff 000 s c_orc_bat1
+f ffffffff ffffffff 000 s as_pl_battlegrp1
+f ffffffff ffffffff 000 s as_pl_chantingm1
+f ffffffff ffffffff 000 s as_pl_comyaygrp1
+f ffffffff ffffffff 000 s as_pl_crptvoice1
+f ffffffff ffffffff 000 s cs_kos_death
+f ffffffff ffffffff 000 s as_pl_despairm1
+f ffffffff ffffffff 000 s as_an_dragonror1
+f ffffffff ffffffff 000 s as_pl_evilchantm
+f ffffffff ffffffff 000 s as_cv_flute1
+f ffffffff ffffffff 000 s as_hr_x2ghost4
+f ffffffff ffffffff 000 s as_hr_x2ghost2
+f ffffffff ffffffff 000 s as_an_lizrdhiss1
+f ffffffff ffffffff 000 s as_cv_lute1
+f ffffffff ffffffff 000 s as_pl_marketgrp1
+f ffffffff ffffffff 000 s as_an_mephgrunt1
+f ffffffff ffffffff 000 s as_pl_officerm1
+f ffffffff ffffffff 000 s as_an_ogregrunt1
+f ffffffff ffffffff 000 s as_an_orcgrunt1
+f ffffffff ffffffff 000 s as_cv_shopfruit1
+f ffffffff ffffffff 000 s as_pl_taverngrp1
+f ffffffff ffffffff 000 s as_pl_towncrym1
+f ffffffff ffffffff 000 s wilhelm_scream
+f ffffffff ffffffff 000 s as_pl_yelcitycf1
+f ffffffff ffffffff 000 s as_pl_yellcitym1
+f ffffffff ffffffff 000 s as_pl_zombief1
+f ffffffff ffffffff 000 s al_mg_ballmagic1
+f ffffffff ffffffff 000 s al_mg_cauldron1
+f ffffffff ffffffff 000 s al_mg_crystalev1
+f ffffffff ffffffff 000 s al_mg_crystalgd1
+f ffffffff ffffffff 000 s al_mg_crystalic1
+f ffffffff ffffffff 000 s al_mg_crystallv1
+f ffffffff ffffffff 000 s al_mg_crystalnt1
+f ffffffff ffffffff 000 s al_eerie_caveloop1
+f ffffffff ffffffff 000 s al_eerie_caveloop2
+f ffffffff ffffffff 000 s al_eerie_caveloop4
+f ffffffff ffffffff 000 s al_eerie_droneloop1
+f ffffffff ffffffff 000 s al_mg_entrevil1
+f ffffffff ffffffff 000 s al_mg_entrmyst1
+f ffffffff ffffffff 000 s al_mg_entrscry1
+f ffffffff ffffffff 000 s as_mg_frstmagic1
+f ffffffff ffffffff 000 s al_mg_pillrlght1
+f ffffffff ffffffff 000 s al_mg_portal3
+f ffffffff ffffffff 000 s al_mg_portal4
+f ffffffff ffffffff 000 s al_mg_portal2
+f ffffffff ffffffff 000 s as_mg_telepin1
+f ffffffff ffffffff 000 s al_mg_spirtbarrow_01
+f ffffffff ffffffff 000 s al_en_deathgodamb
+f ffffffff ffffffff 000 s al_en_roomtone
+f ffffffff ffffffff 000 s EFT_INVALIDEFFECT
+f ffffffff ffffffff 000 s EFT_DAMAGE_RESISTANCE
+f ffffffff ffffffff 000 s EFT_REGENERATE
+f ffffffff ffffffff 000 s EFT_DAMAGE_REDUCTION
+f ffffffff ffffffff 000 s EFT_TEMPORARY_HITPOINTS
+f ffffffff ffffffff 000 s EFT_ENTANGLE
+f ffffffff ffffffff 000 s EFT_INVULNERABLE
+f ffffffff ffffffff 000 s EFT_DEAF
+f ffffffff ffffffff 000 s EFT_RESURRECTION
+f ffffffff ffffffff 000 s EFT_IMMUNITY
+f ffffffff ffffffff 000 s EFT_ENEMY_ATTACK_BONUS
+f ffffffff ffffffff 000 s EFT_ARCANE_SPELL_FAILURE
+f ffffffff ffffffff 000 s EFT_AREA_OF_EFFEC
+f ffffffff ffffffff 000 s EFT_BEAM
+f ffffffff ffffffff 000 s EFT_CHARMED
+f ffffffff ffffffff 000 s EFT_CONFUSED
+f ffffffff ffffffff 000 s EFT_FRIGHTENED
+f ffffffff ffffffff 000 s EFT_DOMINATED
+f ffffffff ffffffff 000 s EFT_PARALYZE
+f ffffffff ffffffff 000 s EFT_DAZED
+f ffffffff ffffffff 000 s EFT_STUNNED
+f ffffffff ffffffff 000 s EFT_SLEEP
+f ffffffff ffffffff 000 s EFT_POISON
+f ffffffff ffffffff 000 s EFT_DISEASE
+f ffffffff ffffffff 000 s EFT_CURSE
+f ffffffff ffffffff 000 s EFT_SILENCE
+f ffffffff ffffffff 000 s EFT_TURNED
+f ffffffff ffffffff 000 s EFT_HASTE
+f ffffffff ffffffff 000 s EFT_SLOW
+f ffffffff ffffffff 000 s EFT_ABILITY_INCREASE
+f ffffffff ffffffff 000 s EFT_ABILITY_DECREASE
+f ffffffff ffffffff 000 s EFT_ATTACK_INCREASE
+f ffffffff ffffffff 000 s EFT_ATTACK_DECREASE
+f ffffffff ffffffff 000 s EFT_DAMAGE_INCREASE
+f ffffffff ffffffff 000 s EFT_DAMAGE_DECREASE
+f ffffffff ffffffff 000 s EFT_DAMAGE_IMMUNITY_INCREASE
+f ffffffff ffffffff 000 s EFT_DAMAGE_IMMUNITY_DECREASE
+f ffffffff ffffffff 000 s EFT_AC_INCREASE
+f ffffffff ffffffff 000 s EFT_AC_DECREASE
+f ffffffff ffffffff 000 s EFT_MOVEMENT_SPEED_INCREASE
+f ffffffff ffffffff 000 s EFT_MOVEMENT_SPEED_DECREASE
+f ffffffff ffffffff 000 s EFT_SAVING_THROW_INCREASE
+f ffffffff ffffffff 000 s EFT_SAVING_THROW_DECREASE
+f ffffffff ffffffff 000 s EFT_SPELL_RESISTANCE_INCREASE
+f ffffffff ffffffff 000 s EFT_SPELL_RESISTANCE_DECREASE
+f ffffffff ffffffff 000 s EFT_SKILL_INCREASE
+f ffffffff ffffffff 000 s EFT_SKILL_DECREASE
+f ffffffff ffffffff 000 s EFT_INVISIBILITY
+f ffffffff ffffffff 000 s EFT_GREATERINVISIBILITY
+f ffffffff ffffffff 000 s EFT_DARKNESS
+f ffffffff ffffffff 000 s EFT_DISPELMAGICALL
+f ffffffff ffffffff 000 s EFT_ELEMENTALSHIELD
+f ffffffff ffffffff 000 s EFT_NEGATIVELEVEL
+f ffffffff ffffffff 000 s EFT_POLYMORPH
+f ffffffff ffffffff 000 s EFT_SANCTUARY
+f ffffffff ffffffff 000 s EFT_TRUESEEING
+f ffffffff ffffffff 000 s EFT_SEEINVISIBLE
+f ffffffff ffffffff 000 s EFT_TIMESTOP
+f ffffffff ffffffff 000 s EFT_BLINDNESS
+f ffffffff ffffffff 000 s EFT_SPELLLEVELABSORPTION
+f ffffffff ffffffff 000 s EFT_DISPELMAGICBEST
+f ffffffff ffffffff 000 s EFT_ULTRAVISION
+f ffffffff ffffffff 000 s EFT_MISS_CHANCE
+f ffffffff ffffffff 000 s EFT_CONCEALMENT
+f ffffffff ffffffff 000 s EFT_SPELL_IMMUNITY
+f ffffffff ffffffff 000 s EFT_VISUALEFFECT
+f ffffffff ffffffff 000 s EFT_DISAPPEARAPPEAR
+f ffffffff ffffffff 000 s EFT_SWARM
+f ffffffff ffffffff 000 s EFT_TURN_RESISTANCE_DECREASE
+f ffffffff ffffffff 000 s EFT_TURN_RESISTANCE_INCREASE
+f ffffffff ffffffff 000 s EFT_PETRIFY
+f ffffffff ffffffff 000 s EFT_CUTSCENE_PARALYZE
+f ffffffff ffffffff 000 s EFT_ETHEREAL
+f ffffffff ffffffff 000 s EFT_SPELL_FAILURE
+f ffffffff ffffffff 000 s EFT_CUTSCENEGHOST
+f ffffffff ffffffff 000 s EFT_CUTSCENEIMMOBILIZE
+f ffffffff ffffffff 000 s EFT_BARDSONG_SINGING
+f ffffffff ffffffff 000 s EFT_HIDEOUS_BLOW
+f ffffffff ffffffff 000 s EFT_NWN2_DEX_ACMOD_DISABLE
+f ffffffff ffffffff 000 s EFT_DETECTUNDEAD
+f ffffffff ffffffff 000 s EFT_SHAREDDAMAGE
+f ffffffff ffffffff 000 s EFT_ASSAYRESISTANCE
+f ffffffff ffffffff 000 s EFT_DAMAGEOVERTIME
+f ffffffff ffffffff 000 s EFT_ABSORBDAMAGE
+f ffffffff ffffffff 000 s EFT_AMORPENALTYINC
+f ffffffff ffffffff 000 s EFT_DISINTEGRATE
+f ffffffff ffffffff 000 s EFT_HEAL_ON_ZERO_HP
+f ffffffff ffffffff 000 s EFT_BREAK_ENCHANTMENT
+f ffffffff ffffffff 000 s EFT_MESMERIZE
+f ffffffff ffffffff 000 s EFT_ON_DISPEL
+f ffffffff ffffffff 000 s EFT_BONUS_HITPOINTS
+f ffffffff ffffffff 000 s EFT_JARRING
+f ffffffff ffffffff 000 s EFT_MAX_DAMAGE
+f ffffffff ffffffff 000 s EFT_WOUNDING
+f ffffffff ffffffff 000 s EFT_WILDSHAPE
+f ffffffff ffffffff 000 s DMFI_Default
+f ffffffff ffffffff 000 s DMFI_Assimar
+f ffffffff ffffffff 000 s DMFI_Badger
+f ffffffff ffffffff 000 s DMFI_Badger_Dire
+f ffffffff ffffffff 000 s DMFI_Bat
+f ffffffff ffffffff 000 s DMFI_Bear_Brown
+f ffffffff ffffffff 000 s DMFI_Bear_Dire
+f ffffffff ffffffff 000 s DMFI_Bear_Polar
+f ffffffff ffffffff 000 s DMFI_Beetle
+f ffffffff ffffffff 000 s DMFI_Beetle_Bombadier
+f ffffffff ffffffff 000 s DMFI_Beetle_Fire
+f ffffffff ffffffff 000 s DMFI_Beetle_Stag
+f ffffffff ffffffff 000 s DMFI_Beholder
+f ffffffff ffffffff 000 s DMFI_Bird
+f ffffffff ffffffff 000 s DMFI_Bladeling
+f ffffffff ffffffff 000 s DMFI_Bladeling_Warrior_A
+f ffffffff ffffffff 000 s DMFI_Boar
+f ffffffff ffffffff 000 s DMFI_Boar_Dire
+f ffffffff ffffffff 000 s DMFI_Bodak
+f ffffffff ffffffff 000 s DMFI_Bugbear
+f ffffffff ffffffff 000 s DMFI_CargoShip
+f ffffffff ffffffff 000 s DMFI_Cat
+f ffffffff ffffffff 000 s DMFI_Cat_Panther
+f ffffffff ffffffff 000 s DMFI_Chicken
+f ffffffff ffffffff 000 s DMFI_Cow
+f ffffffff ffffffff 000 s DMFI_Deer
+f ffffffff ffffffff 000 s DMFI_Deer_Stag
+f ffffffff ffffffff 000 s DMFI_Demon_Balor
+f ffffffff ffffffff 000 s DMFI_Demon_Hezrou
+f ffffffff ffffffff 000 s DMFI_Demon_Marilith
+f ffffffff ffffffff 000 s DMFI_Devil_Deva
+f ffffffff ffffffff 000 s DMFI_Devil_Erinyes
+f ffffffff ffffffff 000 s DMFI_Devil_Horned
+f ffffffff ffffffff 000 s DMFI_Devil_PitFiend
+f ffffffff ffffffff 000 s DMFI_Dog_Dire_Wolf
+f ffffffff ffffffff 000 s DMFI_Dog_Hell_Hound
+f ffffffff ffffffff 000 s DMFI_Dog_Shadow_Mastif
+f ffffffff ffffffff 000 s DMFI_Dog_Winter_Wolf
+f ffffffff ffffffff 000 s DMFI_Dog_Wolf
+f ffffffff ffffffff 000 s DMFI_Doppleganger
+f ffffffff ffffffff 000 s DMFI_Dragon_Black
+f ffffffff ffffffff 000 s DMFI_Dragon_Pseudo
+f ffffffff ffffffff 000 s DMFI_Dragon_Red
+f ffffffff ffffffff 000 s DMFI_Dryad
+f ffffffff ffffffff 000 s DMFI_Dwarf
+f ffffffff ffffffff 000 s DMFI_Elemental_Air
+f ffffffff ffffffff 000 s DMFI_Elemental_Earth
+f ffffffff ffffffff 000 s DMFI_Elemental_Fire
+f ffffffff ffffffff 000 s DMFI_Elemental_Water
+f ffffffff ffffffff 000 s DMFI_Elf
+f ffffffff ffffffff 000 s DMFI_Eyeball
+f ffffffff ffffffff 000 s DMFI_Faerie_Dragon
+f ffffffff ffffffff 000 s DMFI_Gargoyle
+f ffffffff ffffffff 000 s DMFI_Ghast
+f ffffffff ffffffff 000 s DMFI_Ghost
+f ffffffff ffffffff 000 s DMFI_Ghoul
+f ffffffff ffffffff 000 s DMFI_Giant_Fire
+f ffffffff ffffffff 000 s DMFI_Giant_Frost
+f ffffffff ffffffff 000 s DMFI_Githyanki
+f ffffffff ffffffff 000 s DMFI_Githyanki_Female
+f ffffffff ffffffff 000 s DMFI_Githzerai
+f ffffffff ffffffff 000 s DMFI_Gnoll
+f ffffffff ffffffff 000 s DMFI_Gnome
+f ffffffff ffffffff 000 s DMFI_Goblin
+f ffffffff ffffffff 000 s DMFI_Golem_Blade
+f ffffffff ffffffff 000 s DMFI_Golem_Iron
+f ffffffff ffffffff 000 s DMFI_Half_Orc
+f ffffffff ffffffff 000 s DMFI_HalfDragon
+f ffffffff ffffffff 000 s DMFI_Horse_Black_Stallion
+f ffffffff ffffffff 000 s DMFI_Horse_Brown
+f ffffffff ffffffff 000 s DMFI_Horse_Palomino
+f ffffffff ffffffff 000 s DMFI_Horse_Pinto
+f ffffffff ffffffff 000 s DMFI_Horse_White_Stallion
+f ffffffff ffffffff 000 s DMFI_Horse_Nightmare
+f ffffffff ffffffff 000 s DMFI_Horse_Skeletal
+f ffffffff ffffffff 000 s DMFI_HoundArchon
+f ffffffff ffffffff 000 s DMFI_Imp
+f ffffffff ffffffff 000 s DMFI_Kobold
+f ffffffff ffffffff 000 s DMFI_Lantern_Archon
+f ffffffff ffffffff 000 s DMFI_Lich
+f ffffffff ffffffff 000 s DMFI_Lizardfolk
+f ffffffff ffffffff 000 s DMFI_Mephit_Fire
+f ffffffff ffffffff 000 s DMFI_Mephit_Ice
+f ffffffff ffffffff 000 s DMFI_Mindflayer
+f ffffffff ffffffff 000 s DMFI_Mummy_Common
+f ffffffff ffffffff 000 s DMFI_Nightshade_Nightwalker
+f ffffffff ffffffff 000 s DMFI_NPC_Ahja
+f ffffffff ffffffff 000 s DMFI_NPC_Aldanon
+f ffffffff ffffffff 000 s DMFI_NPC_AmmonJerro
+f ffffffff ffffffff 000 s DMFI_NPC_ChildHHF
+f ffffffff ffffffff 000 s DMFI_NPC_ChildHHM
+f ffffffff ffffffff 000 s DMFI_NPC_Ctann
+f ffffffff ffffffff 000 s DMFI_NPC_Duncan
+f ffffffff ffffffff 000 s DMFI_NPC_Durler
+f ffffffff ffffffff 000 s DMFI_NPC_Garius
+f ffffffff ffffffff 000 s DMFI_NPC_GithCaptain
+f ffffffff ffffffff 000 s DMFI_NPC_Hezebel
+f ffffffff ffffffff 000 s DMFI_NPC_HostTower
+f ffffffff ffffffff 000 s DMFI_NPC_HunterStaute
+f ffffffff ffffffff 000 s DMFI_NPC_Jacoby
+f ffffffff ffffffff 000 s DMFI_NPC_Jalboun
+f ffffffff ffffffff 000 s DMFI_NPC_Kharlever
+f ffffffff ffffffff 000 s DMFI_NPC_KingofShadows
+f ffffffff ffffffff 000 s DMFI_NPC_Kralwok
+f ffffffff ffffffff 000 s DMFI_NPC_LordNasher
+f ffffffff ffffffff 000 s DMFI_NPC_Lorne
+f ffffffff ffffffff 000 s DMFI_NPC_Mephasm
+f ffffffff ffffffff 000 s DMFI_NPC_Morkai
+f ffffffff ffffffff 000 s DMFI_NPC_Nolaloth
+f ffffffff ffffffff 000 s DMFI_NPC_Sarya
+f ffffffff ffffffff 000 s DMFI_NPC_Shandra
+f ffffffff ffffffff 000 s DMFI_NPC_Sydney
+f ffffffff ffffffff 000 s DMFI_NPC_Tenavrok
+f ffffffff ffffffff 000 s DMFI_NPC_TorioClaven
+f ffffffff ffffffff 000 s DMFI_NPC_Uthanck
+f ffffffff ffffffff 000 s DMFI_NPC_Zaxis
+f ffffffff ffffffff 000 s DMFI_NPC_Zeeaire
+f ffffffff ffffffff 000 s DMFI_NPC_Zees_Lt
+f ffffffff ffffffff 000 s DMFI_NPC_Zhjaeve
+f ffffffff ffffffff 000 s DMFI_NPC_Zokan
+f ffffffff ffffffff 000 s DMFI_Nymph
+f ffffffff ffffffff 000 s DMFI_Ogre
+f ffffffff ffffffff 000 s DMFI_Ogre_Mage
+f ffffffff ffffffff 000 s DMFI_Orc_A
+f ffffffff ffffffff 000 s DMFI_Pig
+f ffffffff ffffffff 000 s DMFI_Pixie
+f ffffffff ffffffff 000 s DMFI_PushBlock
+f ffffffff ffffffff 000 s DMFI_Rabbit
+f ffffffff ffffffff 000 s DMFI_Rakshasas
+f ffffffff ffffffff 000 s DMFI_Rat
+f ffffffff ffffffff 000 s DMFI_Rat_Dire
+f ffffffff ffffffff 000 s DMFI_Salamander
+f ffffffff ffffffff 000 s DMFI_Shadow
+f ffffffff ffffffff 000 s DMFI_Shadow_Reaver
+f ffffffff ffffffff 000 s DMFI_Siegetower
+f ffffffff ffffffff 000 s DMFI_SiegetowerB
+f ffffffff ffffffff 000 s DMFI_Sirene
+f ffffffff ffffffff 000 s DMFI_Skeleton
+f ffffffff ffffffff 000 s DMFI_Skeleton_Common
+f ffffffff ffffffff 000 s DMFI_SmugglerWagon
+f ffffffff ffffffff 000 s DMFI_Spectre
+f ffffffff ffffffff 000 s DMFI_Spider_Blade
+f ffffffff ffffffff 000 s DMFI_Spider_Dire
+f ffffffff ffffffff 000 s DMFI_Spider_Giant
+f ffffffff ffffffff 000 s DMFI_Spider_Glow
+f ffffffff ffffffff 000 s DMFI_Spider_Kristal
+f ffffffff ffffffff 000 s DMFI_Spider_Phase
+f ffffffff ffffffff 000 s DMFI_Spider_Wraith
+f ffffffff ffffffff 000 s DMFI_Succubus
+f ffffffff ffffffff 000 s DMFI_Sylph
+f ffffffff ffffffff 000 s DMFI_Tiger
+f ffffffff ffffffff 000 s DMFI_Tiger_Dire
+f ffffffff ffffffff 000 s DMFI_Troll
+f ffffffff ffffffff 000 s DMFI_Troll_Forest
+f ffffffff ffffffff 000 s DMFI_Troll_War
+f ffffffff ffffffff 000 s DMFI_Umberhulk
+f ffffffff ffffffff 000 s DMFI_Vampire
+f ffffffff ffffffff 000 s DMFI_Vampire_Hd_Female
+f ffffffff ffffffff 000 s DMFI_Vampire_Hd_Male
+f ffffffff ffffffff 000 s DMFI_Vampire_Female
+f ffffffff ffffffff 000 s DMFI_Vampire_Male
+f ffffffff ffffffff 000 s DMFI_Weasel
+f ffffffff ffffffff 000 s DMFI_Werewolf
+f ffffffff ffffffff 000 s DMFI_Will_O_Wisp
+f ffffffff ffffffff 000 s DMFI_Wraith
+f ffffffff ffffffff 000 s DMFI_Wyvern_Blade
+f ffffffff ffffffff 000 s DMFI_Wyvern_Crown
+f ffffffff ffffffff 000 s DMFI_Wyvern_Horn
+f ffffffff ffffffff 000 s DMFI_Zombie
+f ffffffff ffffffff 000 s DMFI_Akachi
+f ffffffff ffffffff 000 s DMFI_Okku
+f ffffffff ffffffff 000 s DMFI_Panther
+f ffffffff ffffffff 000 s DMFI_Wolverine
+f ffffffff ffffffff 000 s DMFI_InvisibleStalker
+f ffffffff ffffffff 000 s DMFI_Homunculus
+f ffffffff ffffffff 000 s DMFI_GolemImaskari
+f ffffffff ffffffff 000 s DMFI_RedWizCompanion
+f ffffffff ffffffff 000 s DMFI_DeathKnight
+f ffffffff ffffffff 000 s DMFI_BarrowGuardian
+f ffffffff ffffffff 000 s DMFI_SeaMonster
+f ffffffff ffffffff 000 s DMFI_OneOfMany
+f ffffffff ffffffff 000 s DMFI_ShamblingMoud
+f ffffffff ffffffff 000 s DMFI_Solar
+f ffffffff ffffffff 000 s DMFI_WolverineDire
+f ffffffff ffffffff 000 s DMFI_DragonBlue
+f ffffffff ffffffff 000 s DMFI_Djinn
+f ffffffff ffffffff 000 s DMFI_GnollThayan
+f ffffffff ffffffff 000 s DMFI_GolemClay
+f ffffffff ffffffff 000 s DMFI_GolemFaithless
+f ffffffff ffffffff 000 s DMFI_Demilich
+f ffffffff ffffffff 000 s DMFI_HagAnnis
+f ffffffff ffffffff 000 s DMFI_HagGreen
+f ffffffff ffffffff 000 s DMFI_HagNight
+f ffffffff ffffffff 000 s DMFI_HorseWhite
+f ffffffff ffffffff 000 s DMFI_DemilichSmall
+f ffffffff ffffffff 000 s DMFI_LeopardSnow
+f ffffffff ffffffff 000 s DMFI_Treant
+f ffffffff ffffffff 000 s DMFI_TrollFell
+f ffffffff ffffffff 000 s DMFI_Uthraki
+f ffffffff ffffffff 000 s DMFI_Wyvern
+f ffffffff ffffffff 000 s DMFI_RavenousIncarnation
+f ffffffff ffffffff 000 s DMFI_ElfWild
+f ffffffff ffffffff 000 s DMFI_HalfDrow
+f ffffffff ffffffff 000 s DMFI_Magda
+f ffffffff ffffffff 000 s DMFI_Nefris
+f ffffffff ffffffff 000 s DMFI_ElfWild2
+f ffffffff ffffffff 000 s DMFI_EarthGenasi
+f ffffffff ffffffff 000 s DMFI_FireGenasi
+f ffffffff ffffffff 000 s DMFI_AirGenasi
+f ffffffff ffffffff 000 s DMFI_WaterGenasi
+f ffffffff ffffffff 000 s DMFI_HalfDrow2
+f ffffffff ffffffff 000 s DMFI_DogWolfTheltor
+f ffffffff ffffffff 000 s DMFI_HagSpawn
+f ffffffff ffffffff 000 s PRM_MANAGE
+f ffffffff ffffffff 000 s PRM_GIVE
+f ffffffff ffffffff 000 s TXT_INVENTORY_MANAGE
+f ffffffff ffffffff 000 s TXT_INVENTORY_ONLY
+f ffffffff ffffffff 000 s TXT_INVENTORY_TARGET_INVALID
+f ffffffff ffffffff 000 s TXT_ITEM_GIVE
+f ffffffff ffffffff 000 s TXT_ITEM_CONTAINER_ERROR
+f ffffffff ffffffff 000 s DMFI_STATUS_SHEET
+f ffffffff ffffffff 000 s DONE_UI_BUTTON
+f ffffffff ffffffff 000 s ONLY_ITEMCREAT
+f ffffffff ffffffff 000 s SUCCESS_ADD
+f ffffffff ffffffff 000 s SLOT_EMPTY
+f ffffffff ffffffff 000 s TXT_NOTDMEQUAL
+f 0000216e 000022dc 005 i DMFI_AddConversationElement
+fp o
+fp s
+fp s
+fp s
+fp i
+f 00000f01 00000fa7 002 i DMFI_AddPage
+fp o
+fp s
+f 000022dc 000024af 003 v DMFI_Build2DAList
+fp o
+fp s
+fp s
+f ffffffff ffffffff 002 v DMFI_BuildEffectList
+fp o
+fp o
+f ffffffff ffffffff 001 v DMFI_BuildEffectsPossList
+fp o
+f ffffffff ffffffff 002 v DMFI_BuildItemPropList
+fp o
+fp o
+f ffffffff ffffffff 002 v DMFI_BuildLanguageList
+fp o
+fp o
+f 00002060 0000216e 001 s DMFI_CapitalizeWord
+fp s
+f ffffffff ffffffff 001 i DMFI_GetIsDM
+fp o
+f ffffffff ffffffff 001 o DMFI_GetTool
+fp o
+f ffffffff ffffffff 001 i DMFI_IsNumber
+fp s
+f ffffffff ffffffff 002 s DMFI_Parse
+fp s
+fp s
+f ffffffff ffffffff 003 s DMFI_RemoveParsed
+fp s
+fp s
+fp s
+f ffffffff ffffffff 002 s DMFI_RemovePrefix
+fp s
+fp s
+f 00002dcf 0000320d 003 v DMFI_SortVFXList
+fp s
+fp i
+fp o
+f ffffffff ffffffff 002 s DMFI_TogglePreferences
+fp o
+fp s
+f ffffffff ffffffff 002 o DMFI_UITarget
+fp o
+fp o
+f ffffffff ffffffff 001 s DMFI_UnderscoreToSpace
+fp s
+f ffffffff ffffffff 003 v DMFI_UpdateNumberToken
+fp o
+fp s
+fp s
+f 000049a4 000077a1 002 s DMFI_GetSoundString
+fp i
+fp s
+f ffffffff ffffffff 001 s DMFI_GetEffectString
+fp s
+f 000077a1 0000c4cf 001 v DMFI_BuildAppearanceList
+fp o
+f 00001d44 00002060 000 v DMFI_Build2DAASoundsList
+f 00000fa7 0000136d 000 v DMFI_Build2DAAMusicList
+f 0000320d 000045bd 001 v DMFI_BuildLanguageDMList
+fp o
+f 000045bd 000049a4 001 v DMFI_BuildPlaceableSoundList
+fp o
+f ffffffff ffffffff 001 v DMFI_BuildRecentVFXList
+fp o
+f 000024af 00002dcf 001 v DMFI_BuildVFXList
+fp o
+f ffffffff ffffffff 001 v DMFI_ClearUIData
+fp o
+f ffffffff ffffffff 002 v DMFI_SetItemPrompt
+fp o
+fp o
+f ffffffff ffffffff 002 v DMFI_ShowDMListUI
+fp o
+fp s
+f ffffffff ffffffff 003 v DMFI_ToggleItemPrefs
+fp s
+fp o
+fp o
+f 0000002b 00000f01 000 v main
+f 0000000d 00000015 000 v #loader
+f 00000015 0000002b 000 v #globals
+v 00000015 ffffffff 00000000 s currentList
+v 0000002b 00000ef9 00000000 o oTool
+v 00000033 00000ef9 00000004 i n
+v 00000f01 00000fa5 00000000 i #retval
+v 00000f01 00000f9f 00000004 s sPage
+v 00000f01 00000f9f 00000008 o oHolder
+v 00000f01 00000f99 0000000c i n
+v 00000fa9 00001365 00000000 s sResult
+v 00000fa9 00001365 00000004 i n
+v 0000136d 00001494 00000000 i nLink
+v 0000136d 00001494 00000004 i nColor
+v 0000136d 00001494 00000008 s sTargetPage
+v 0000136d 00001494 0000000c s sReply
+v 0000136f 0000148e 00000010 i n
+v 00001371 0000148e 00000014 s sPage
+v 00001371 0000148e 00000018 o oHolder
+v 0000149c 00001aec 00000000 s #retval
+v 0000149c 00001ae6 00000004 i nColor
+v 0000149c 00001ae6 00000008 s sString
+v 00001aee 00001b99 00000000 i #retval
+v 00001aee 00001b93 00000004 o holder
+v 00001aee 00001b93 00000008 s list
+v 00001aee 00001b93 0000000c s item
+v 00001aee 00001b8d 00000010 i count
+v 00001b9b 00001bd7 00000000 i #retval
+v 00001b9b 00001bd1 00000004 o holder
+v 00001b9b 00001bd1 00000008 s list
+v 00001bd9 00001c1e 00000000 s #retval
+v 00001bd9 00001c18 00000004 s list
+v 00001bd9 00001c18 00000008 i index
+v 00001c20 00001d42 00000000 i #retval
+v 00001c20 00001d3c 00000004 o holder
+v 00001c20 00001d3c 00000008 s list
+v 00001c20 00001d3c 0000000c i value
+v 00001c20 00001d3c 00000010 i index
+v 00001c20 00001d36 00000014 i count
+v 00001cc8 00001d36 00000018 i original
+v 00001d46 00002058 00000000 s sResult
+v 00001d48 00002058 00000004 s sResource
+v 00001d48 00002058 00000008 i n
+v 00002060 0000216c 00000000 s #retval
+v 00002060 00002166 00000004 s sWord
+v 00002100 00002160 00000008 i nLength
+v 0000210d 00002160 0000000c s sReturn
+v 0000216e 000022da 00000000 i #retval
+v 0000216e 000022d4 00000004 i nColor
+v 0000216e 000022d4 00000008 s sCommand
+v 0000216e 000022d4 0000000c s sResponse
+v 0000216e 000022d4 00000010 s sPage
+v 0000216e 000022d4 00000014 o oHolder
+v 000021aa 000022ce 00000018 i nCount
+v 000022dc 000024a7 00000000 s sFileName
+v 000022dc 000024a7 00000004 s sPage
+v 000022dc 000024a7 00000008 o oTool
+v 000022de 000024a1 0000000c s sColumn
+v 000022e0 000024a1 00000010 s sResult
+v 000022e0 000024a1 00000014 i n
+v 000024af 00002dc7 00000000 o oTool
+v 000024b1 00002dc1 00000004 s sResult
+v 000024b1 00002dc1 00000008 i n
+v 00002dcf 00003205 00000000 o oTool
+v 00002dcf 00003205 00000004 i n
+v 00002dcf 00003205 00000008 s sResult
+v 00002dd1 000031ff 0000000c i nCurrent
+v 00002dd3 000031ff 00000010 i nLength
+v 0000320d 000045b5 00000000 o oTool
+v 000045bd 0000499c 00000000 o oTool
+v 000045bd 00004996 00000004 i n
+v 000045c5 00004996 00000008 s sSound
+v 000049a4 0000779f 00000000 s #retval
+v 000049a4 00007799 00000004 s sParam
+v 000049a4 00007799 00000008 i nValue
+v 000077a1 0000c4c7 00000000 o oTool
+v 000077a1 0000c4c1 00000004 i n
+l00 0000234 00000015 00000019
+l03 0000012 0000002b 00000031
+l03 0000013 00000031 00000033
+l03 0000014 00000033 00000056
+l03 0000018 00000056 0000007f
+l03 0000019 0000007f 000000a8
+l03 0000020 000000a8 000000cf
+l03 0000021 000000cf 000000fa
+l03 0000022 000000fa 00000123
+l03 0000024 00000123 00000129
+l03 0000027 00000129 00000154
+l03 0000028 00000154 00000180
+l03 0000029 00000180 000001ad
+l03 0000030 000001ad 000001d8
+l03 0000032 000001d8 000001fb
+l03 0000035 000001fb 00000221
+l03 0000037 00000221 00000271
+l03 0000038 00000271 000002bf
+l03 0000039 000002bf 00000311
+l03 0000040 00000311 00000363
+l03 0000041 00000363 000003ae
+l03 0000042 000003ae 000003fb
+l03 0000043 000003fb 0000044a
+l03 0000044 0000044a 00000495
+l03 0000045 00000495 000004de
+l03 0000048 000004de 00000502
+l03 0000049 00000502 00000528
+l03 0000053 00000528 00000550
+l03 0000054 00000550 00000576
+l03 0000055 00000576 0000059c
+l03 0000056 0000059c 000005c3
+l03 0000058 000005c3 000005ee
+l03 0000060 000005ee 00000617
+l03 0000063 00000617 0000063d
+l03 0000064 0000063d 00000666
+l03 0000067 00000666 0000068b
+l03 0000068 0000068b 000006b2
+l03 0000072 000006b2 000006d3
+l03 0000073 000006d3 000006e7
+l03 0000075 000006fd 00000735
+l03 0000073 00000735 00000749
+l03 0000078 0000074f 00000771
+l03 0000079 00000771 00000785
+l03 0000081 0000079b 000007d4
+l03 0000079 000007d4 000007f2
+l03 0000084 000007f8 0000081a
+l03 0000085 0000081a 0000082e
+l03 0000087 00000844 0000087d
+l03 0000085 0000087d 0000089b
+l03 0000090 000008a1 000008c2
+l03 0000091 000008c2 000008d6
+l03 0000093 000008ec 00000924
+l03 0000091 00000924 00000942
+l03 0000096 00000948 00000969
+l03 0000097 00000969 0000097d
+l03 0000099 00000993 000009cb
+l03 0000097 000009cb 000009df
+l03 0000103 000009e5 00000a0e
+l03 0000104 00000a0e 00000a1c
+l03 0000108 00000a1c 00000a44
+l03 0000109 00000a44 00000a75
+l03 0000110 00000a75 00000a90
+l03 0000111 00000a90 00000aac
+l03 0000112 00000aac 00000ac8
+l03 0000113 00000ac8 00000ae4
+l03 0000114 00000ae4 00000b00
+l03 0000115 00000b00 00000b1c
+l03 0000116 00000b1c 00000b39
+l03 0000117 00000b39 00000b56
+l03 0000118 00000b56 00000b73
+l03 0000119 00000b73 00000b92
+l03 0000122 00000b92 00000bb5
+l03 0000124 00000bb5 00000be8
+l03 0000125 00000be8 00000c1b
+l03 0000126 00000c1b 00000c4e
+l03 0000127 00000c4e 00000c81
+l03 0000128 00000c81 00000cb4
+l03 0000129 00000cb4 00000ce8
+l03 0000130 00000ce8 00000d1c
+l03 0000131 00000d1c 00000d50
+l03 0000132 00000d50 00000d85
+l03 0000135 00000d85 00000dac
+l03 0000138 00000dac 00000dd1
+l03 0000141 00000dd1 00000dfa
+l03 0000142 00000dfa 00000e24
+l03 0000143 00000e24 00000e4f
+l03 0000144 00000e4f 00000e7a
+l03 0000146 00000e7a 00000ea5
+l03 0000150 00000ea5 00000ece
+l03 0000151 00000ece 00000ef9
+l03 0000153 00000eff 00000f01
+l02 0000156 00000f01 00000f1b
+l02 0000157 00000f1b 00000f4b
+l02 0000158 00000f4b 00000f75
+l02 0000159 00000f75 00000f99
+l02 0000160 00000f9f 00000fa7
+l02 0000426 00000fa7 00000fa9
+l02 0000427 00000fa9 00000faf
+l02 0000429 00000faf 00000fc5
+l02 0000431 00000fc5 00000fff
+l02 0000432 00000fff 00001025
+l02 0000433 00001025 00001035
+l02 0000435 0000103b 0000106d
+l02 0000436 0000106d 0000108d
+l02 0000438 00001093 00001095
+l02 0000440 0000114b 0000117f
+l02 0000441 0000117f 0000119f
+l02 0000443 000011a5 000011a7
+l02 0000445 000011dd 0000120f
+l02 0000446 0000120f 0000122f
+l02 0000449 00001235 00001237
+l02 0000451 0000124d 0000127f
+l02 0000452 0000127f 0000129f
+l02 0000454 000012a5 000012a7
+l02 0000456 000012a7 000012d7
+l02 0000457 000012d7 000012f7
+l02 0000460 000012f7 0000130b
+l02 0000461 0000130b 0000131b
+l02 0000462 00001335 00001345
+l02 0000464 0000136b 0000136d
+l00 0001093 0000136d 0000136f
+l00 0001094 0000136f 00001371
+l00 0001095 00001371 0000138a
+l00 0001096 0000138a 0000139a
+l00 0001098 000013c6 000013f3
+l00 0001099 000013f3 00001421
+l00 0001100 00001421 00001457
+l00 0001101 00001457 0000148e
+l00 0001102 00001494 0000149c
+l01 0000229 0000149c 000014ac
+l01 0000230 000014b2 000014ef
+l01 0000231 000014f5 000014f7
+l01 0000232 0000150d 00001553
+l01 0000233 00001559 0000155b
+l01 0000234 00001571 000015b2
+l01 0000235 000015b8 000015ba
+l01 0000236 000015d0 00001611
+l01 0000237 00001617 00001619
+l01 0000238 0000162f 00001672
+l01 0000239 00001678 0000167a
+l01 0000240 00001690 000016cc
+l01 0000241 000016d2 000016d4
+l01 0000242 000016ea 0000172c
+l01 0000243 00001732 00001734
+l01 0000244 0000174a 0000178b
+l01 0000245 00001791 00001793
+l01 0000246 000017a9 000017ea
+l01 0000247 000017f0 000017f2
+l01 0000248 00001808 00001847
+l01 0000249 0000184d 0000184f
+l01 0000250 00001865 000018a3
+l01 0000251 000018a9 000018ab
+l01 0000252 000018c1 00001903
+l01 0000253 00001909 0000190b
+l01 0000254 00001921 0000195c
+l01 0000255 00001962 00001964
+l01 0000256 0000197a 000019b9
+l01 0000257 000019bf 000019c1
+l01 0000258 000019d7 00001a14
+l01 0000259 00001a1a 00001a1c
+l01 0000260 00001a32 00001a70
+l01 0000261 00001a76 00001a78
+l01 0000262 00001a8e 00001aca
+l01 0000264 00001aca 00001ae6
+l01 0000265 00001ae6 00001aee
+l00 0000406 00001aee 00001b06
+l00 0000407 00001b06 00001b33
+l00 0000408 00001b33 00001b47
+l00 0000409 00001b47 00001b71
+l00 0000411 00001b71 00001b8d
+l00 0000412 00001b93 00001b9b
+l00 0000249 00001b9b 00001bd1
+l00 0000250 00001bd1 00001bd9
+l00 0000243 00001bd9 00001c18
+l00 0000244 00001c18 00001c20
+l00 0000604 00001c20 00001c38
+l00 0000605 00001c38 00001c4a
+l00 0000607 00001c50 00001cae
+l00 0000609 00001cae 00001cc8
+l00 0000612 00001cc8 00001ced
+l00 0000613 00001ced 00001d1a
+l00 0000615 00001d1a 00001d36
+l00 0000616 00001d3c 00001d44
+l02 0000389 00001d44 00001d48
+l02 0000390 00001d48 00001d4e
+l02 0000392 00001d4e 00001d64
+l02 0000394 00001d64 00001d9e
+l02 0000395 00001d9e 00001dd5
+l02 0000396 00001dd5 00001dfb
+l02 0000397 00001dfb 00001e1e
+l02 0000399 00001e24 00001e5a
+l02 0000400 00001e5a 00001e7a
+l02 0000402 00001e80 00001e82
+l02 0000404 00001eab 00001edf
+l02 0000405 00001edf 00001eff
+l02 0000407 00001f05 00001f07
+l02 0000409 00001f63 00001f98
+l02 0000410 00001f98 00001fb8
+l02 0000412 00001fbe 00001fc0
+l02 0000414 00001fc0 00001ff4
+l02 0000415 00001ff4 00002014
+l02 0000418 00002014 00002028
+l02 0000419 00002028 00002038
+l02 0000421 0000205e 00002060
+l02 0000848 00002060 00002070
+l02 0000849 00002096 00002098
+l02 0000850 000020ce 000020d0
+l02 0000853 00002100 0000210d
+l02 0000854 0000210d 00002144
+l02 0000856 00002144 00002160
+l02 0000857 00002166 0000216e
+l02 0000136 0000216e 0000217e
+l02 0000137 00002184 000021aa
+l02 0000140 000021aa 000021c2
+l02 0000141 000021c2 000021ef
+l02 0000142 000021ef 000021fd
+l02 0000144 00002203 00002239
+l02 0000145 00002239 00002274
+l02 0000147 00002274 00002288
+l02 0000148 00002288 000022b2
+l02 0000149 000022b2 000022ce
+l02 0000150 000022d4 000022dc
+l02 0000470 000022dc 000022de
+l02 0000471 000022de 000022e0
+l02 0000472 000022e0 000022e6
+l02 0000474 000022e6 000022fd
+l02 0000475 00002303 00002319
+l02 0000476 0000231f 00002321
+l02 0000477 00002321 00002338
+l02 0000478 00002338 00002363
+l02 0000479 00002363 00002377
+l02 0000482 00002377 000023bb
+l02 0000483 000023c1 000023e7
+l02 0000486 000023e7 00002404
+l02 0000489 0000240a 00002430
+l02 0000491 00002430 00002444
+l02 0000492 00002444 0000246f
+l02 0000496 00002475 000024a1
+l02 0000497 000024a7 000024af
+l02 0000742 000024af 000024b1
+l02 0000743 000024b1 000024b7
+l02 0000745 000024b7 000024cd
+l02 0000747 000024cd 00002502
+l02 0000748 00002502 00002520
+l02 0000749 00002520 00002534
+l02 0000750 00002534 00002564
+l02 0000752 00002584 00002598
+l02 0000753 00002598 000025cd
+l02 0000754 000025cd 000025eb
+l02 0000755 000025eb 000025ff
+l02 0000756 000025ff 00002634
+l02 0000757 00002634 00002652
+l02 0000758 00002652 00002666
+l02 0000759 00002666 0000269b
+l02 0000760 0000269b 000026b9
+l02 0000761 000026b9 000026cd
+l02 0000762 000026cd 00002702
+l02 0000763 00002702 00002720
+l02 0000764 00002720 00002734
+l02 0000765 00002734 00002769
+l02 0000766 00002769 00002787
+l02 0000767 00002787 0000279b
+l02 0000768 0000279b 000027b1
+l02 0000770 000027b1 000027e6
+l02 0000771 000027e6 00002804
+l02 0000772 00002804 00002818
+l02 0000774 0000281e 00002832
+l02 0000775 00002832 00002848
+l02 0000777 00002848 0000287d
+l02 0000778 0000287d 0000289b
+l02 0000779 0000289b 000028af
+l02 0000780 000028af 000028bf
+l02 0000782 000028df 000028f3
+l02 0000783 000028f3 00002909
+l02 0000785 00002909 0000293e
+l02 0000786 0000293e 0000295c
+l02 0000787 0000295c 00002970
+l02 0000789 00002976 0000298a
+l02 0000790 0000298a 000029a0
+l02 0000792 000029a0 000029d5
+l02 0000793 000029d5 000029f3
+l02 0000794 000029f3 00002a07
+l02 0000796 00002a0d 00002a21
+l02 0000797 00002a21 00002a37
+l02 0000799 00002a37 00002a6c
+l02 0000800 00002a6c 00002a8a
+l02 0000801 00002a8a 00002a9e
+l02 0000803 00002aa4 00002ab8
+l02 0000804 00002ab8 00002ace
+l02 0000806 00002ace 00002b03
+l02 0000807 00002b03 00002b21
+l02 0000808 00002b21 00002b35
+l02 0000810 00002b3b 00002b4f
+l02 0000811 00002b4f 00002b65
+l02 0000813 00002b65 00002b9a
+l02 0000814 00002b9a 00002bb8
+l02 0000815 00002bb8 00002bcc
+l02 0000816 00002bcc 00002bdc
+l02 0000818 00002bfc 00002c10
+l02 0000819 00002c10 00002c26
+l02 0000821 00002c26 00002c5b
+l02 0000822 00002c5b 00002c79
+l02 0000823 00002c79 00002c8d
+l02 0000825 00002c93 00002ca7
+l02 0000826 00002ca7 00002cbd
+l02 0000828 00002cbd 00002cf2
+l02 0000829 00002cf2 00002d10
+l02 0000830 00002d10 00002d24
+l02 0000832 00002d2a 00002d3e
+l02 0000833 00002d3e 00002d54
+l02 0000835 00002d54 00002d89
+l02 0000836 00002d89 00002da7
+l02 0000837 00002da7 00002dbb
+l02 0000839 00002dc7 00002dcf
+l02 0001038 00002dcf 00002dd1
+l02 0001039 00002dd1 00002dd3
+l02 0001041 00002dd3 00002df9
+l02 0001043 00002dff 00002e1a
+l02 0001044 00002e1a 00002e45
+l02 0001045 00002e45 00002e7d
+l02 0001046 00002e7d 00002ebd
+l02 0001048 00002ec3 00002ec5
+l02 0001050 00002eef 00002f0a
+l02 0001051 00002f0a 00002f35
+l02 0001052 00002f35 00002f6b
+l02 0001053 00002f6b 00002fa9
+l02 0001055 00002faf 00002fb1
+l02 0001057 00003016 00003043
+l02 0001058 00003049 00003079
+l02 0001059 0000307f 00003081
+l02 0001061 00003081 0000309c
+l02 0001062 0000309c 000030c7
+l02 0001064 000030c7 000030fd
+l02 0001065 000030fd 0000313b
+l02 0001067 00003141 00003143
+l02 0001069 00003143 0000315e
+l02 0001070 0000315e 00003189
+l02 0001071 00003189 000031c0
+l02 0001072 000031c0 000031ff
+l02 0001074 00003205 0000320d
+l02 0000538 0000320d 0000322a
+l02 0000539 0000322a 00003248
+l02 0000540 00003248 00003269
+l02 0000541 00003269 00003287
+l02 0000542 00003287 000032a4
+l02 0000543 000032a4 000032c0
+l02 0000544 000032c0 000032df
+l02 0000545 000032df 000032fb
+l02 0000546 000032fb 00003316
+l02 0000547 00003316 00003336
+l02 0000548 00003336 00003357
+l02 0000549 00003357 00003378
+l02 0000550 00003378 00003396
+l02 0000551 00003396 000033b4
+l02 0000552 000033b4 000033d5
+l02 0000553 000033d5 000033f4
+l02 0000554 000033f4 0000340f
+l02 0000555 0000340f 0000342e
+l02 0000556 0000342e 0000344c
+l02 0000557 0000344c 0000346a
+l02 0000558 0000346a 00003486
+l02 0000559 00003486 000034a2
+l02 0000560 000034a2 000034be
+l02 0000561 000034be 000034da
+l02 0000562 000034da 000034f6
+l02 0000563 000034f6 00003513
+l02 0000564 00003513 00003533
+l02 0000565 00003533 00003552
+l02 0000566 00003552 00003571
+l02 0000567 00003571 0000358d
+l02 0000568 0000358d 000035ac
+l02 0000569 000035ac 000035ca
+l02 0000570 000035ca 000035e9
+l02 0000571 000035e9 00003609
+l02 0000573 00003609 00003629
+l02 0000574 00003629 00003646
+l02 0000575 00003646 00003663
+l02 0000576 00003663 00003684
+l02 0000577 00003684 000036a4
+l02 0000578 000036a4 000036c2
+l02 0000580 000036c2 000036dc
+l02 0000581 000036dc 000036fa
+l02 0000583 000036fa 00003718
+l02 0000584 00003718 00003736
+l02 0000585 00003736 00003751
+l02 0000586 00003751 0000376e
+l02 0000588 0000376e 0000378d
+l02 0000589 0000378d 000037aa
+l02 0000590 000037aa 000037c7
+l02 0000591 000037c7 000037e4
+l02 0000592 000037e4 00003801
+l02 0000593 00003801 0000381d
+l02 0000594 0000381d 0000383f
+l02 0000595 0000383f 0000385e
+l02 0000596 0000385e 0000387b
+l02 0000597 0000387b 00003899
+l02 0000599 00003899 000038d4
+l02 0000600 000038d4 00003910
+l02 0000601 00003910 0000394f
+l02 0000602 0000394f 0000398b
+l02 0000603 0000398b 000039c6
+l02 0000604 000039c6 00003a00
+l02 0000605 00003a00 00003a3d
+l02 0000606 00003a3d 00003a77
+l02 0000607 00003a77 00003ab0
+l02 0000608 00003ab0 00003aee
+l02 0000609 00003aee 00003b2d
+l02 0000610 00003b2d 00003b6c
+l02 0000611 00003b6c 00003ba8
+l02 0000612 00003ba8 00003be4
+l02 0000613 00003be4 00003c23
+l02 0000614 00003c23 00003c60
+l02 0000615 00003c60 00003c99
+l02 0000616 00003c99 00003cd6
+l02 0000617 00003cd6 00003d12
+l02 0000618 00003d12 00003d4e
+l02 0000619 00003d4e 00003d88
+l02 0000620 00003d88 00003dc2
+l02 0000621 00003dc2 00003dfc
+l02 0000622 00003dfc 00003e36
+l02 0000623 00003e36 00003e70
+l02 0000624 00003e70 00003eab
+l02 0000625 00003eab 00003ee9
+l02 0000626 00003ee9 00003f26
+l02 0000627 00003f26 00003f63
+l02 0000628 00003f63 00003f9d
+l02 0000629 00003f9d 00003fda
+l02 0000630 00003fda 00004016
+l02 0000631 00004016 00004053
+l02 0000632 00004053 00004091
+l02 0000634 00004091 000040cf
+l02 0000635 000040cf 0000410a
+l02 0000636 0000410a 00004145
+l02 0000637 00004145 00004184
+l02 0000638 00004184 000041c2
+l02 0000639 000041c2 000041fe
+l02 0000641 000041fe 00004236
+l02 0000642 00004236 00004272
+l02 0000644 00004272 000042ae
+l02 0000645 000042ae 000042ea
+l02 0000646 000042ea 00004323
+l02 0000647 00004323 0000435e
+l02 0000649 0000435e 0000439b
+l02 0000650 0000439b 000043d6
+l02 0000651 000043d6 00004411
+l02 0000652 00004411 0000444c
+l02 0000653 0000444c 00004487
+l02 0000654 00004487 000044c1
+l02 0000655 000044c1 00004501
+l02 0000656 00004501 0000453e
+l02 0000657 0000453e 00004579
+l02 0000658 00004579 000045b5
+l02 0000659 000045b5 000045bd
+l02 0000682 000045bd 000045c3
+l02 0000683 000045c3 000045c5
+l02 0000685 000045c5 000045d9
+l02 0000687 000045ef 00004615
+l02 0000688 00004615 00004646
+l02 0000689 00004646 0000468c
+l02 0000685 0000468c 000046a0
+l02 0000691 000046a6 000046ba
+l02 0000692 000046ba 000046ce
+l02 0000694 000046e4 0000470c
+l02 0000695 0000470c 0000473f
+l02 0000696 0000473f 00004787
+l02 0000692 00004787 0000479b
+l02 0000698 000047a1 000047b5
+l02 0000699 000047b5 000047c9
+l02 0000701 000047df 00004807
+l02 0000702 00004807 0000483a
+l02 0000703 0000483a 00004882
+l02 0000699 00004882 00004896
+l02 0000706 0000489c 000048b0
+l02 0000707 000048b0 000048c4
+l02 0000709 000048da 00004903
+l02 0000710 00004903 00004935
+l02 0000711 00004935 0000497c
+l02 0000707 0000497c 00004990
+l02 0000713 0000499c 000049a4
+l02 0001447 000049a4 000049b6
+l02 0001449 000049bc 00004b98
+l02 0001451 00004b98 00004b98
+l02 0001452 00004beb 00004beb
+l02 0001453 00004c3d 00004c3d
+l02 0001454 00004c8b 00004c8b
+l02 0001455 00004cdb 00004cdb
+l02 0001456 00004d2d 00004d2d
+l02 0001457 00004d81 00004d81
+l02 0001458 00004dca 00004dca
+l02 0001459 00004e19 00004e19
+l02 0001460 00004e6b 00004e6b
+l02 0001461 00004ebf 00004ebf
+l02 0001462 00004f12 00004f12
+l02 0001463 00004f63 00004f63
+l02 0001464 00004fba 00004fba
+l02 0001465 0000500b 0000500b
+l02 0001466 0000505b 0000505b
+l02 0001467 000050ae 000050ae
+l02 0001468 00005100 00005100
+l02 0001469 00005152 00005152
+l02 0001470 000051a3 000051a3
+l02 0001471 000051f7 000051f7
+l02 0001473 00005249 00005261
+l02 0001477 0000526d 0000526f
+l02 0001479 00005289 000055db
+l02 0001481 000055db 000055db
+l02 0001482 00005630 00005630
+l02 0001483 00005681 00005681
+l02 0001484 000056d2 000056d2
+l02 0001485 00005723 00005723
+l02 0001486 00005774 00005774
+l02 0001487 000057c7 000057c7
+l02 0001488 00005819 00005819
+l02 0001489 0000586b 0000586b
+l02 0001490 000058bd 000058bd
+l02 0001491 0000590f 0000590f
+l02 0001492 00005960 00005960
+l02 0001493 000059b3 000059b3
+l02 0001494 00005a05 00005a05
+l02 0001495 00005a55 00005a55
+l02 0001496 00005aa7 00005aa7
+l02 0001497 00005af7 00005af7
+l02 0001498 00005b41 00005b41
+l02 0001499 00005b93 00005b93
+l02 0001500 00005be3 00005be3
+l02 0001501 00005c34 00005c34
+l02 0001502 00005c85 00005c85
+l02 0001503 00005cd8 00005cd8
+l02 0001504 00005d29 00005d29
+l02 0001505 00005d7b 00005d7b
+l02 0001506 00005dcc 00005dcc
+l02 0001507 00005e17 00005e17
+l02 0001508 00005e69 00005e69
+l02 0001509 00005ebb 00005ebb
+l02 0001510 00005f03 00005f03
+l02 0001511 00005f4b 00005f4b
+l02 0001512 00005fa0 00005fa0
+l02 0001513 00005fef 00005fef
+l02 0001514 00006040 00006040
+l02 0001515 00006091 00006091
+l02 0001516 000060e3 000060e3
+l02 0001517 00006135 00006135
+l02 0001518 00006189 00006189
+l02 0001520 000061da 000061f2
+l02 0001524 000061fe 00006200
+l02 0001526 0000621a 000064a6
+l02 0001528 000064a6 000064a6
+l02 0001529 000064f6 000064f6
+l02 0001530 00006548 00006548
+l02 0001531 00006594 00006594
+l02 0001532 000065e0 000065e0
+l02 0001533 00006634 00006634
+l02 0001534 00006688 00006688
+l02 0001535 000066dc 000066dc
+l02 0001536 0000672f 0000672f
+l02 0001537 0000677c 0000677c
+l02 0001538 000067ce 000067ce
+l02 0001539 00006821 00006821
+l02 0001540 00006873 00006873
+l02 0001541 000068bc 000068bc
+l02 0001542 00006907 00006907
+l02 0001543 00006953 00006953
+l02 0001544 000069a5 000069a5
+l02 0001545 000069ec 000069ec
+l02 0001546 00006a3a 00006a3a
+l02 0001547 00006a8b 00006a8b
+l02 0001548 00006ad8 00006ad8
+l02 0001549 00006b2a 00006b2a
+l02 0001550 00006b7a 00006b7a
+l02 0001551 00006bcc 00006bcc
+l02 0001552 00006c20 00006c20
+l02 0001553 00006c71 00006c71
+l02 0001554 00006cc5 00006cc5
+l02 0001555 00006d18 00006d18
+l02 0001556 00006d6b 00006d6b
+l02 0001558 00006db7 00006dcf
+l02 0001562 00006ddb 00006ddd
+l02 0001564 00006df8 00007000
+l02 0001566 00007000 00007000
+l02 0001567 00007052 00007052
+l02 0001568 000070a1 000070a1
+l02 0001569 000070f5 000070f5
+l02 0001570 00007149 00007149
+l02 0001571 0000719c 0000719c
+l02 0001572 000071ed 000071ed
+l02 0001573 0000723e 0000723e
+l02 0001574 00007293 00007293
+l02 0001575 000072e8 000072e8
+l02 0001576 0000733d 0000733d
+l02 0001577 00007392 00007392
+l02 0001578 000073e3 000073e3
+l02 0001579 00007434 00007434
+l02 0001580 00007486 00007486
+l02 0001581 000074d9 000074d9
+l02 0001582 0000752d 0000752d
+l02 0001583 0000757a 0000757a
+l02 0001584 000075c7 000075c7
+l02 0001585 00007614 00007614
+l02 0001586 00007665 00007665
+l02 0001587 000076bc 000076bc
+l02 0001588 00007710 00007710
+l02 0001589 00007763 0000777b
+l02 0001592 00007781 00007799
+l02 0001593 00007799 000077a1
+l02 0000167 000077a1 000077a7
+l02 0000168 000077a7 000077db
+l02 0000169 00007826 0000785a
+l02 0000170 000078a5 000078d8
+l02 0000171 00007923 0000795b
+l02 0000172 000079a6 000079d6
+l02 0000173 00007a21 00007a58
+l02 0000174 00007aa3 00007ad9
+l02 0000177 00007b24 00007b61
+l02 0000178 00007bac 00007be4
+l02 0000179 00007c2f 00007c67
+l02 0000181 00007cb2 00007ce3
+l02 0000184 00007d2e 00007d5f
+l02 0000185 00007daa 00007de0
+l02 0000187 00007e2b 00007e5f
+l02 0000188 00007eaa 00007ee0
+l02 0000189 00007f2b 00007f5b
+l02 0000191 00007fa6 00007fda
+l02 0000192 00008025 00008055
+l02 0000193 000080a0 000080d1
+l02 0000194 0000811c 00008152
+l02 0000195 0000819d 000081d5
+l02 0000196 00008220 00008259
+l02 0000199 000082a4 000082de
+l02 0000200 00008329 00008362
+l02 0000201 000083ad 000083e8
+l02 0000202 00008433 0000846d
+l02 0000203 000084b8 000084f3
+l02 0000205 0000853e 0000857a
+l02 0000206 000085c5 000085fa
+l02 0000208 00008645 0000867e
+l02 0000210 000086c9 00008700
+l02 0000211 0000874b 0000877d
+l02 0000212 000087c8 000087fa
+l02 0000213 00008845 0000887f
+l02 0000214 000088ca 00008906
+l02 0000215 00008951 0000898c
+l02 0000216 000089d7 00008a13
+l02 0000217 00008a5e 00008a8e
+l02 0000220 00008ad9 00008b0e
+l02 0000221 00008b59 00008b8b
+l02 0000223 00008bd6 00008c08
+l02 0000224 00008c53 00008c8a
+l02 0000225 00008cd5 00008d0d
+l02 0000226 00008d58 00008d8e
+l02 0000229 00008dd9 00008e0b
+l02 0000230 00008e56 00008e88
+l02 0000231 00008ed3 00008f06
+l02 0000232 00008f51 00008f89
+l02 0000233 00008fd4 0000900b
+l02 0000234 00009056 0000908a
+l02 0000244 000090d5 00009105
+l02 0000245 00009150 00009183
+l02 0000247 000091ce 000091ff
+l02 0000248 0000924a 00009281
+l02 0000249 000092cc 00009304
+l02 0000250 0000934f 00009386
+l02 0000251 000093d1 00009408
+l02 0000252 00009453 0000948c
+l02 0000253 000094d7 0000951a
+l02 0000254 00009565 0000959a
+l02 0000255 000095e5 0000961d
+l02 0000257 00009668 000096a1
+l02 0000258 000096ec 00009725
+l02 0000259 00009770 000097a6
+l02 0000260 000097f1 00009828
+l02 0000261 00009873 000098aa
+l02 0000262 000098f5 0000992c
+l02 0000263 00009977 000099b3
+l02 0000264 000099fe 00009a36
+l02 0000265 00009a81 00009abb
+l02 0000266 00009b06 00009b43
+l02 0000267 00009b8e 00009bc5
+l02 0000268 00009c10 00009c48
+l02 0000269 00009c93 00009ccd
+l02 0000270 00009d18 00009d56
+l02 0000271 00009da1 00009dd9
+l02 0000272 00009e24 00009e5f
+l02 0000273 00009eaa 00009ee0
+l02 0000274 00009f2b 00009f63
+l02 0000275 00009fae 00009fe5
+l02 0000276 0000a030 0000a069
+l02 0000277 0000a0b4 0000a0ea
+l02 0000278 0000a135 0000a16d
+l02 0000279 0000a1b8 0000a1ef
+l02 0000280 0000a23a 0000a273
+l02 0000281 0000a2be 0000a2fa
+l02 0000282 0000a345 0000a37d
+l02 0000283 0000a3c8 0000a3fe
+l02 0000284 0000a449 0000a481
+l02 0000285 0000a4cc 0000a504
+l02 0000286 0000a54f 0000a587
+l02 0000287 0000a5d2 0000a608
+l02 0000289 0000a653 0000a684
+l02 0000290 0000a6cf 0000a704
+l02 0000291 0000a74f 0000a77f
+l02 0000292 0000a7ca 0000a7fa
+l02 0000293 0000a845 0000a877
+l02 0000294 0000a8c2 0000a8f8
+l02 0000295 0000a943 0000a976
+l02 0000297 0000a9c1 0000a9f1
+l02 0000298 0000aa3c 0000aa71
+l02 0000301 0000aabc 0000aaf6
+l02 0000302 0000ab41 0000ab78
+l02 0000303 0000abc3 0000abfb
+l02 0000305 0000ac46 0000ac7b
+l02 0000307 0000acc6 0000ad00
+l02 0000309 0000ad4b 0000ad84
+l02 0000310 0000adcf 0000ae07
+l02 0000311 0000ae52 0000ae8b
+l02 0000312 0000aed6 0000af0e
+l02 0000313 0000af59 0000af94
+l02 0000314 0000afdf 0000b018
+l02 0000315 0000b063 0000b09d
+l02 0000316 0000b0e8 0000b11d
+l02 0000317 0000b168 0000b19a
+l02 0000320 0000b1e5 0000b217
+l02 0000323 0000b262 0000b298
+l02 0000328 0000b2e3 0000b31c
+l02 0000329 0000b367 0000b39a
+l02 0000330 0000b3e5 0000b41a
+l02 0000332 0000b465 0000b498
+l02 0000336 0000b4e3 0000b516
+l02 0000339 0000b561 0000b597
+l02 0000340 0000b5e2 0000b616
+l02 0000341 0000b661 0000b697
+l02 0000342 0000b6e2 0000b720
+l02 0000343 0000b76b 0000b7a2
+l02 0000344 0000b7ed 0000b828
+l02 0000345 0000b873 0000b8b4
+l02 0000346 0000b8ff 0000b938
+l02 0000347 0000b983 0000b9bf
+l02 0000348 0000ba0a 0000ba42
+l02 0000349 0000ba8d 0000bac5
+l02 0000350 0000bb10 0000bb4b
+l02 0000352 0000bb96 0000bbd1
+l02 0000353 0000bc1c 0000bc54
+l02 0000354 0000bc9f 0000bcd1
+l02 0000356 0000bd1c 0000bd53
+l02 0000357 0000bd9e 0000bdda
+l02 0000358 0000be25 0000be5a
+l02 0000359 0000bea5 0000bedb
+l02 0000360 0000bf26 0000bf5c
+l02 0000361 0000bfa7 0000bfdd
+l02 0000362 0000c028 0000c060
+l02 0000363 0000c0ab 0000c0e6
+l02 0000364 0000c131 0000c16a
+l02 0000365 0000c1b5 0000c1e8
+l02 0000366 0000c233 0000c26a
+l02 0000367 0000c2b5 0000c2e9
+l02 0000368 0000c334 0000c367
+l02 0000369 0000c3b2 0000c3f3
+l02 0000380 0000c43e 0000c476
+l02 0000382 0000c4c7 0000c4cf

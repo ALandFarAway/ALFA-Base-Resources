@@ -1,0 +1,1548 @@
+NDB V1.0
+0000010 0000001 0000420 0000134 0000564
+n00 nwnx_time
+n01 tkl_performer_settings
+n02 nwnx_include
+n03 acr_array_i
+n04 acr_queue_i
+n05 acr_settings_i
+n06 acr_server_misc_i
+n07 acr_db_persist_i
+n08 tkl_performer_include
+N09 gui_tkl_performer_input
+s 03 vector
+sf f x
+sf f y
+sf f z
+f ffffffff ffffffff 000 s sColor
+f ffffffff ffffffff 000 s sEndColor
+f ffffffff ffffffff 000 s sMinorEndColor
+f ffffffff ffffffff 000 s sDimEndColor
+f ffffffff ffffffff 000 s sMinorEnd
+f ffffffff ffffffff 000 s TKL_PERFORMER_SCREEN
+f ffffffff ffffffff 000 s TKL_PERFORMER_DATABASE
+f ffffffff ffffffff 000 f TKL_CHORD_ROLL_OFFSET
+f ffffffff ffffffff 000 f TKL_DRUM_ROLL_OFFSET
+f ffffffff ffffffff 000 i IMPROV_INSTRUMENT_NONE
+f ffffffff ffffffff 000 i IMPROV_INSTRUMENT_LUTE_NOTES
+f ffffffff ffffffff 000 i IMPROV_INSTRUMENT_LUTE_CHORDS
+f ffffffff ffffffff 000 i IMPROV_INSTRUMENT_DRUM
+f ffffffff ffffffff 000 i IMPROV_INSTRUMENT_FLUTE
+f ffffffff ffffffff 000 i IMPROV_MOVEMENT_REPEAT
+f ffffffff ffffffff 000 i IMPROV_MOVEMENT_LEAP
+f ffffffff ffffffff 000 i IMPROV_MOVEMENT_STEP
+f ffffffff ffffffff 000 i TOTAL_STYLES
+f ffffffff ffffffff 000 i WRITE_RECURSION_LIMIT
+f ffffffff ffffffff 000 s ACR_TKL_MIGRATED
+f ffffffff ffffffff 002 v StartTimer
+fp o
+fp s
+f ffffffff ffffffff 002 s StopTimer
+fp o
+fp s
+f ffffffff ffffffff 002 s QueryTimer
+fp o
+fp s
+f ffffffff ffffffff 000 s timeSpacer
+f ffffffff ffffffff 000 i TKL_NWNX4_NOT_INSTALLED
+f ffffffff ffffffff 000 i TKL_ALLOW_DISABLE_MUSIC
+f ffffffff ffffffff 000 i TKL_ALLOW_DISABLE_SOUNDS
+f ffffffff ffffffff 000 f TKL_PREVIEW
+f ffffffff ffffffff 000 i TKL_MINIMUM_PERFORM_TO_USE
+f ffffffff ffffffff 000 i TKL_USE_ADJUSTED_PERFORM
+f ffffffff ffffffff 000 i TKL_PERFORM_AFFECTS_SONGS
+f ffffffff ffffffff 000 f TKL_SONGS_PER_PERFORM_POINT
+f ffffffff ffffffff 000 i TKL_PERFORM_AFFECTS_LYRICS
+f ffffffff ffffffff 000 i TKL_LYRICS_PER_PERFORM_POINT
+f ffffffff ffffffff 000 i TKL_PERFORM_AFFECTS_SPEED
+f ffffffff ffffffff 000 i TKL_SPEED_PER_PERFORM_POINT
+f ffffffff ffffffff 001 i GetPerform
+fp o
+f ffffffff ffffffff 000 i TKL_TRANSCRIPTIONS_PER_RESET
+f ffffffff ffffffff 000 i TKL_ONE_TRANSCRIPTION_PER_HOUR
+f ffffffff ffffffff 000 i TKL_TRANSCRIPTION_DC
+f ffffffff ffffffff 000 i TKL_TRANSCRIPTION_LENGTH_PENALTY
+f ffffffff ffffffff 000 i TKL_TRANSCRIPTION_CHARGES
+f ffffffff ffffffff 000 s STYLE_1_NAME
+f ffffffff ffffffff 000 s STYLE_1_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_1_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_1_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_1_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_1_CHORDS
+f ffffffff ffffffff 000 s STYLE_1_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_1_NOTES
+f ffffffff ffffffff 000 s STYLE_1_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_1_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_2_NAME
+f ffffffff ffffffff 000 s STYLE_2_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_2_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_2_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_2_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_2_CHORDS
+f ffffffff ffffffff 000 s STYLE_2_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_2_NOTES
+f ffffffff ffffffff 000 s STYLE_2_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_2_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_3_NAME
+f ffffffff ffffffff 000 s STYLE_3_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_3_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_3_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_3_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_3_CHORDS
+f ffffffff ffffffff 000 s STYLE_3_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_3_NOTES
+f ffffffff ffffffff 000 s STYLE_3_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_3_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_4_NAME
+f ffffffff ffffffff 000 s STYLE_4_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_4_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_4_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_4_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_4_CHORDS
+f ffffffff ffffffff 000 s STYLE_4_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_4_NOTES
+f ffffffff ffffffff 000 s STYLE_4_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_4_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_5_NAME
+f ffffffff ffffffff 000 s STYLE_5_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_5_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_5_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_5_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_5_CHORDS
+f ffffffff ffffffff 000 s STYLE_5_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_5_NOTES
+f ffffffff ffffffff 000 s STYLE_5_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_5_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_6_NAME
+f ffffffff ffffffff 000 s STYLE_6_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_6_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_6_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_6_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_6_CHORDS
+f ffffffff ffffffff 000 s STYLE_6_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_6_NOTES
+f ffffffff ffffffff 000 s STYLE_6_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_6_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_7_NAME
+f ffffffff ffffffff 000 s STYLE_7_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_7_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_7_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_7_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_7_CHORDS
+f ffffffff ffffffff 000 s STYLE_7_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_7_NOTES
+f ffffffff ffffffff 000 s STYLE_7_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_7_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_8_NAME
+f ffffffff ffffffff 000 s STYLE_8_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_8_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_8_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_8_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_8_CHORDS
+f ffffffff ffffffff 000 s STYLE_8_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_8_NOTES
+f ffffffff ffffffff 000 s STYLE_8_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_8_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_9_NAME
+f ffffffff ffffffff 000 s STYLE_9_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_9_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_9_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_9_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_9_CHORDS
+f ffffffff ffffffff 000 s STYLE_9_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_9_NOTES
+f ffffffff ffffffff 000 s STYLE_9_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_9_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_10_NAME
+f ffffffff ffffffff 000 s STYLE_10_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_10_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_10_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_10_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_10_CHORDS
+f ffffffff ffffffff 000 s STYLE_10_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_10_NOTES
+f ffffffff ffffffff 000 s STYLE_10_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_10_PERFORM_REQUIRED
+f ffffffff ffffffff 000 i SQL_ERROR
+f ffffffff ffffffff 000 i SQL_SUCCESS
+f ffffffff ffffffff 000 s ACR_CID
+f ffffffff ffffffff 000 s ACR_PID
+f ffffffff ffffffff 000 s ACR_MEMBERSHIP
+f ffffffff ffffffff 000 s ACR_SRVADMIN
+f ffffffff ffffffff 000 s ACR_DISABLE_STATISTICS
+f ffffffff ffffffff 000 s ACR_GAMEOBJUPDATE
+f ffffffff ffffffff 000 s ACR_MOD_CONTENT_PATCH_PATH
+f ffffffff ffffffff 000 s ACR_MOD_WER_DISABLED
+f ffffffff ffffffff 000 s ACR_MOD_COMPILER_OPTIONS
+f ffffffff ffffffff 000 s ACR_MODULERESOURCEFILES_DB
+f ffffffff ffffffff 000 s ACR_MODULERESOURCEFILES_MOD
+f ffffffff ffffffff 000 s ACR_NOTIFY_SERVICE_CHARACTER_ID_MOD
+f ffffffff ffffffff 000 s ACR_ERROR_NOTIFY_IRC_RECIPIENT_MOD
+f ffffffff ffffffff 000 s ACR_GAME_DIFFICULTY_LEVEL_MOD
+f ffffffff ffffffff 000 s ACR_CONTENT_PATCH_PATH
+f ffffffff ffffffff 000 s ACR_WER_DISABLED
+f ffffffff ffffffff 000 s ACR_COMPILER_OPTIONS
+f ffffffff ffffffff 000 s ACR_NOTIFY_SERVICE_CHARACTER_ID
+f ffffffff ffffffff 000 s ACR_ERROR_NOTIFY_IRC_RECIPIENT
+f ffffffff ffffffff 000 s ACR_GAME_DIFFICULTY_LEVEL
+f ffffffff ffffffff 000 i ACR_SRVADMIN_INDETERMINITE
+f ffffffff ffffffff 000 i ACR_SRVADMIN_IS_ADMIN
+f ffffffff ffffffff 000 i ACR_SRVADMIN_NOT_ADMIN
+f ffffffff ffffffff 000 i ACR_CHARACTER_ID_NONE
+f ffffffff ffffffff 000 s ACR_PLAYERSTATUS_CACHE_VAR
+f ffffffff ffffffff 000 s ACR_HEALTHMONITOR_GAMEOBJUPDATE_BACKOFF_VAR
+f ffffffff ffffffff 000 s ACR_CDKEY
+f ffffffff ffffffff 000 s ACR_DB_FAILURES
+f ffffffff ffffffff 000 f _ACR_DB_SQL_ASYNC_WRITE_HEARTBEAT_DELAY
+f ffffffff ffffffff 000 s _ACR_DB_SQL_QUEUE
+f ffffffff ffffffff 000 s _ACR_DB_CONTROL_FLAGS_VAR
+f ffffffff ffffffff 000 s _ACR_DB_SQL_PENDING_QUERY_VAR
+f ffffffff ffffffff 000 s _ACR_DB_SQL_SERVER_BOOT_TIME_VAR
+f ffffffff ffffffff 000 s _ACR_DB_SQL_SERVER_BOOT_TIME_MOD_VAR
+f ffffffff ffffffff 000 s _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX
+f ffffffff ffffffff 000 s _ACR_DB_VDB_FILE
+f ffffffff ffffffff 000 i _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX_LEN
+f ffffffff ffffffff 000 i _ACR_SQL_SAQ_FLUSHALL
+f ffffffff ffffffff 000 i _ACR_SQL_DBCTRL_DATABASE_OFFLINE
+f ffffffff ffffffff 000 i _ACR_SQL_DBCTRL_ASYNC_PENDING
+f ffffffff ffffffff 000 i _ACR_SQL_QUERY_MAX_LEN
+f ffffffff ffffffff 000 s ACR_DTH_CORPSE_RESREF
+f ffffffff ffffffff 000 s ACR_DTH_BODY_RESREF
+f ffffffff ffffffff 000 i ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS
+f ffffffff ffffffff 000 i ACR_PC_LOCAL_FLAG_PORTAL_COMMITTED
+f ffffffff ffffffff 000 i ACR_PC_LOCAL_FLAG_SERVER_TELL_HELP
+f ffffffff ffffffff 000 i ACR_QUERY_LOW_PRIORITY
+f ffffffff ffffffff 000 v ACR_StartAsyncService
+f ffffffff ffffffff 000 v ACR_LoadDatabaseConfiguration
+f ffffffff ffffffff 000 v ACR_InitializeDatabase
+f ffffffff ffffffff 001 v ACR_AsyncSQLQuery
+fp s
+f ffffffff ffffffff 003 v ACR_AsyncSQLQueryEx
+fp s
+fp o
+fp i
+f ffffffff ffffffff 001 v ACR_SQLQuery
+fp s
+f ffffffff ffffffff 001 i ACR_SQLFetch
+fp s
+f ffffffff ffffffff 001 s ACR_SQLGetData
+fp i
+f ffffffff ffffffff 000 i ACR_SQLGetAffectedRows
+f ffffffff ffffffff 001 v ACR_IncrementStatistic
+fp s
+f ffffffff ffffffff 004 v ACR_SetPersistentString
+fp o
+fp s
+fp s
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentStringNoTimestamp
+fp o
+fp s
+fp s
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentInt
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentFloat
+fp o
+fp s
+fp f
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentLocation
+fp o
+fp s
+fp e2
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentVector
+fp o
+fp s
+fp t0000
+fp i
+f ffffffff ffffffff 005 v ACR_SetPersistentObject
+fp o
+fp s
+fp o
+fp s
+fp i
+f ffffffff ffffffff 002 s ACR_GetPersistentString
+fp o
+fp s
+f ffffffff ffffffff 002 i ACR_GetPersistentInt
+fp o
+fp s
+f ffffffff ffffffff 002 f ACR_GetPersistentFloat
+fp o
+fp s
+f ffffffff ffffffff 002 e2 ACR_GetPersistentLocation
+fp o
+fp s
+f ffffffff ffffffff 002 t0000 ACR_GetPersistentVector
+fp o
+fp s
+f ffffffff ffffffff 003 o ACR_GetPersistentObject
+fp o
+fp s
+fp s
+f ffffffff ffffffff 003 o ACR_GetLegacyPersistentObject
+fp o
+fp s
+fp s
+f ffffffff ffffffff 002 v ACR_DeletePersistentVariable
+fp o
+fp s
+f ffffffff ffffffff 001 s ACR_SQLEncodeSpecialChars
+fp s
+f ffffffff ffffffff 001 s ACR_LocationToString
+fp e2
+f ffffffff ffffffff 001 e2 ACR_StringToLocation
+fp s
+f ffffffff ffffffff 001 s ACR_VectorToString
+fp t0000
+f ffffffff ffffffff 001 t0000 ACR_StringToVector
+fp s
+f ffffffff ffffffff 001 v ACR_SetPCPublicCDKey
+fp o
+f ffffffff ffffffff 001 s ACR_GetPCPublicCDKey
+fp o
+f ffffffff ffffffff 003 v ACR_SetCharacterID
+fp o
+fp i
+fp i
+f ffffffff ffffffff 001 i ACR_GetCharacterID
+fp o
+f ffffffff ffffffff 001 i ACR_GetPlayerID
+fp o
+f ffffffff ffffffff 001 i ACR_GetIsMember
+fp o
+f ffffffff ffffffff 001 i ACR_IsServerAdmin
+fp o
+f ffffffff ffffffff 001 i ACR_GetPCLocalFlags
+fp o
+f ffffffff ffffffff 002 v ACR_SetPCLocalFlags
+fp o
+fp i
+f ffffffff ffffffff 000 v ACR_CreateSQLTables
+f ffffffff ffffffff 000 v ACR_ResetDatabase
+f ffffffff ffffffff 000 v ACR_AdjustTables
+f ffffffff ffffffff 001 v ACR_DBPersistOnIncomingPlayer
+fp o
+f ffffffff ffffffff 001 v ACR_DBPersistOnOutgoingPlayer
+fp o
+f ffffffff ffffffff 000 i ACR_GetUTCTime
+f ffffffff ffffffff 000 i ACR_GetModuleStartTime
+f ffffffff ffffffff 001 v ACR_FlushQueryQueue
+fp o
+f ffffffff ffffffff 000 s ACR_GetServerAddressFromDatabase
+f ffffffff ffffffff 003 i ACR_LoadObjectVariablesFromPersistStore
+fp o
+fp o
+fp s
+f ffffffff ffffffff 003 v ACR_SaveObjectVariablesToPersistStore
+fp o
+fp o
+fp s
+f ffffffff ffffffff 000 v _ResetServer
+f ffffffff ffffffff 000 v _ServiceAsyncQueries
+f ffffffff ffffffff 004 i _ServiceAsyncQueriesForQueue
+fp o
+fp i
+fp i
+fp o
+f ffffffff ffffffff 001 v _FlushQueryQueue
+fp o
+f ffffffff ffffffff 004 v _ExecuteQueryQueues
+fp i
+fp o
+fp o
+fp i
+f ffffffff ffffffff 001 v _RunQueryQueue
+fp i
+f ffffffff ffffffff 001 i _GetTotalQueuedQueryCount
+fp o
+f ffffffff ffffffff 000 i _GetDatabaseControlFlags
+f ffffffff ffffffff 001 v _SetDatabaseControlFlags
+fp i
+f ffffffff ffffffff 002 v _MaintainACRPersistCache
+fp o
+fp s
+f ffffffff ffffffff 001 v _ClearACRPersistCache
+fp o
+f ffffffff ffffffff 001 i _CalculateTargetMaxQueriesServiced
+fp i
+f ffffffff ffffffff 001 v _SQLQueryInternal
+fp s
+f ffffffff ffffffff 001 i _SQLQueryReturnsValues
+fp s
+f ffffffff ffffffff 000 i NWNXInstalled
+f ffffffff ffffffff 000 i NWNXGetPluginCount
+f ffffffff ffffffff 001 s NWNXGetPluginClass
+fp i
+f ffffffff ffffffff 001 s NWNXGetPluginSubClass
+fp s
+f ffffffff ffffffff 001 s NWNXGetPluginVersion
+fp s
+f ffffffff ffffffff 001 s NWNXGetPluginDescription
+fp s
+f ffffffff ffffffff 000 s _ACR_QUEUE_HEAD_LI
+f ffffffff ffffffff 000 s _ACR_QUEUE_TAIL_LI
+f ffffffff ffffffff 003 v PushQueueString
+fp o
+fp s
+fp s
+f ffffffff ffffffff 002 s PopQueueString
+fp o
+fp s
+f ffffffff ffffffff 002 i GetQueueLength
+fp o
+fp s
+f ffffffff ffffffff 003 s GetLocalArrayString
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 i GetLocalArrayInt
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 f GetLocalArrayFloat
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 e2 GetLocalArrayLocation
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 o GetLocalArrayObject
+fp o
+fp s
+fp i
+f ffffffff ffffffff 004 v SetLocalArrayInt
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v SetLocalArrayFloat
+fp o
+fp s
+fp i
+fp f
+f ffffffff ffffffff 004 v SetLocalArrayObject
+fp o
+fp s
+fp i
+fp o
+f ffffffff ffffffff 004 v SetLocalArrayLocation
+fp o
+fp s
+fp i
+fp e2
+f ffffffff ffffffff 004 v SetLocalArrayString
+fp o
+fp s
+fp i
+fp s
+f ffffffff ffffffff 003 v DeleteLocalArrayInt
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 v DeleteLocalArrayFloat
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 v DeleteLocalArrayString
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 v DeleteLocalArrayLocation
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 v DeleteLocalArrayObject
+fp o
+fp s
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayInts
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayFloats
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayStrings
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayLocations
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayObjects
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 005 v LoadStringArrayIntoCustomTokens
+fp o
+fp s
+fp i
+fp i
+fp i
+f ffffffff ffffffff 000 s _ACR_SETTINGS_SERVER_ID
+f ffffffff ffffffff 000 s _ACR_SETTINGS_SERVER_NAME
+f ffffffff ffffffff 000 s _ACR_SETTINGS_SERVER_REGION
+f ffffffff ffffffff 000 s _ACR_SETTINGS_SERVER_IP
+f ffffffff ffffffff 000 i ACR_GetServerId
+f ffffffff ffffffff 000 i ACR_GetServerID
+f ffffffff ffffffff 000 s ACR_GetServerName
+f ffffffff ffffffff 000 i ACR_GetServerRegion
+f ffffffff ffffffff 000 s ACR_GetServerIp
+f ffffffff ffffffff 004 v SetServerData
+fp i
+fp s
+fp i
+fp s
+f ffffffff ffffffff 000 s ACR_SERVER_MISC_SUPPORT_SCRIPT
+f ffffffff ffffffff 000 s ACR_SERVER_MISC_OBJECT_RETVAL_VAR
+f ffffffff ffffffff 000 s ACR_SERVER_MISC_STRING_RETVAL_VAR
+f ffffffff ffffffff 000 i SCRIPT_DATABASE_CONNECTION_DEBUG
+f ffffffff ffffffff 000 i SCRIPT_DATABASE_CONNECTION_STANDARD_QUERY_LOG
+f ffffffff ffffffff 000 i SCRIPT_DATABASE_CONNECTION_STANDARD_CONNECTION
+f ffffffff ffffffff 000 i SCRIPT_STANDARD_DATABASE_CONNECTION_ID
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_CREATE_AREA_INSTANCE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_RELEASE_AREA_INSTANCE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_RUN_POWERSHELL_SCRIPTLET
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_CREATE_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_DESTROY_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_QUERY_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_FETCH_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_COLUMN_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_AFFECTED_ROW_COUNT_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_ESCAPE_STRING_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_STACK_TRACE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_SET_DICTIONARY_VALUE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_DICTIONARY_VALUE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_FIRST_ITERATE_DICTIONARY
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_NEXT_ITERATE_DICTIONARY
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_DELETE_DICTIONARY_KEY
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_CLEAR_DICTIONARY
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_SALTED_MD5
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_HAS_DATABASE_STORE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_DELETE_DATABASE_STORE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_DELETE_DATABASE_STORE_AT_INDEX
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_SHOW_COMPILER_LOG
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_RESTART_SERVER
+f ffffffff ffffffff 000 i ACR_ExecuteServerUpdaterScript
+f ffffffff ffffffff 003 v ACR_DictionarySet
+fp s
+fp s
+fp s
+f ffffffff ffffffff 002 s ACR_DictionaryGet
+fp s
+fp s
+f ffffffff ffffffff 001 s ACR_DictionaryIterateFirst
+fp s
+f ffffffff ffffffff 001 s ACR_DictionaryIterateNext
+fp s
+f ffffffff ffffffff 002 v ACR_DictionaryDeleteKey
+fp s
+fp s
+f ffffffff ffffffff 001 v ACR_DictionaryClear
+fp s
+f ffffffff ffffffff 001 o ACR_InternalCreateAreaInstance
+fp o
+f ffffffff ffffffff 001 v ACR_InternalReleaseAreaInstance
+fp o
+f ffffffff ffffffff 002 i ACR_RunPowerShellScriptlet
+fp s
+fp o
+f ffffffff ffffffff 002 i ACR_CreateDatabaseConnection
+fp s
+fp i
+f ffffffff ffffffff 001 i ACR_DestroyDatabaseConnection
+fp i
+f ffffffff ffffffff 002 i ACR_QueryDatabaseConnection
+fp i
+fp s
+f ffffffff ffffffff 001 i ACR_FetchDatabaseConnection
+fp i
+f ffffffff ffffffff 002 s ACR_GetColumnDatabaseConnection
+fp i
+fp i
+f ffffffff ffffffff 001 i ACR_GetAffectedRowCountDatabaseConnection
+fp i
+f ffffffff ffffffff 002 s ACR_EscapeStringDatabaseConnection
+fp i
+fp s
+f ffffffff ffffffff 000 s ACR_GetStackTrace
+f ffffffff ffffffff 001 s ACR_GetSaltedMD5
+fp s
+f ffffffff ffffffff 001 i ACR_GetHasDatabaseStore
+fp s
+f ffffffff ffffffff 001 i ACR_DeleteDatabaseStore
+fp s
+f ffffffff ffffffff 002 i ACR_DeleteDatabaseStoreAtIndex
+fp s
+fp i
+f ffffffff ffffffff 001 i ACR_ShowCompilerLog
+fp o
+f ffffffff ffffffff 000 i ACR_RestartServer
+f ffffffff ffffffff 008 i ACR_CallServerMiscScript
+fp i
+fp i
+fp i
+fp s
+fp s
+fp s
+fp o
+fp o
+f ffffffff ffffffff 000 s ACR__GetServerMiscReturnString
+f ffffffff ffffffff 000 o ACR__GetServerMiscReturnObject
+f 00003324 000035d0 001 f GetSongLength
+fp o
+f ffffffff ffffffff 002 i TransposeChord
+fp i
+fp i
+f ffffffff ffffffff 002 v PlayNote
+fp i
+fp i
+f 00000602 00000654 001 v ClearTKLPerformerVariables
+fp o
+f ffffffff ffffffff 003 v RefreshLyrics
+fp o
+fp o
+fp i
+f 000006b6 0000134e 002 v RefreshNames
+fp o
+fp o
+f ffffffff ffffffff 001 v RefreshSongList
+fp o
+f ffffffff ffffffff 009 v SetNoteNames
+fp o
+fp i
+fp s
+fp s
+fp s
+fp s
+fp s
+fp s
+fp s
+f ffffffff ffffffff 002 v RefreshNoteNames
+fp o
+fp o
+f 000030f1 00003324 003 v EraseTrack
+fp o
+fp i
+fp i
+f ffffffff ffffffff 002 v EnableButtons
+fp o
+fp o
+f ffffffff ffffffff 003 v DisableButtons
+fp o
+fp o
+fp i
+f ffffffff ffffffff 004 v PlayLyrics
+fp o
+fp o
+fp i
+fp i
+f ffffffff ffffffff 007 v PlayTrack
+fp o
+fp o
+fp i
+fp i
+fp i
+fp i
+fp i
+f ffffffff ffffffff 007 v PlaySong
+fp o
+fp o
+fp i
+fp i
+fp i
+fp i
+fp i
+f ffffffff ffffffff 003 v RecordTrack
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v PlayMetronome
+fp o
+fp i
+fp i
+f 00000654 000006b6 003 v PassTKLParameters
+fp o
+fp s
+fp i
+f 00005099 000051c2 001 v EraseLyricTrack
+fp o
+f ffffffff ffffffff 001 v EraseLyrics
+fp o
+f ffffffff ffffffff 003 v TransferSong
+fp o
+fp o
+fp i
+f ffffffff ffffffff 002 v StopRecording
+fp o
+fp o
+f ffffffff ffffffff 002 v RefreshRecordPane
+fp o
+fp o
+f ffffffff ffffffff 002 v RefreshMuting
+fp o
+fp o
+f ffffffff ffffffff 002 v RefreshModes
+fp o
+fp o
+f ffffffff ffffffff 003 v LaunchTKLPerformer
+fp o
+fp o
+fp s
+f ffffffff ffffffff 002 v ShutDownTKLPerformer
+fp o
+fp o
+f ffffffff ffffffff 003 v FindLastNote
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v FinalizeNoteSorting
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v SortNotes
+fp o
+fp o
+fp i
+f ffffffff ffffffff 001 s GetNoteName
+fp i
+f ffffffff ffffffff 002 v RefreshCopyPane
+fp o
+fp o
+f ffffffff ffffffff 002 v ResetExpiringVariables
+fp o
+fp o
+f ffffffff ffffffff 002 v RefreshNotePane
+fp o
+fp o
+f ffffffff ffffffff 003 v DeleteNote
+fp o
+fp i
+fp i
+f ffffffff ffffffff 001 i GetMaximumSpeed
+fp o
+f 000035d0 0000389a 002 i GetPercussionPitch
+fp s
+fp i
+f 00003def 00004124 003 i GetChordPitch
+fp s
+fp s
+fp s
+f 00003a43 00003def 005 i GetMelodyPitch
+fp s
+fp s
+fp i
+fp i
+fp i
+f ffffffff ffffffff 002 v SetupImprovPane
+fp o
+fp o
+f ffffffff ffffffff 003 i ParseImprovVariables
+fp o
+fp s
+fp s
+f ffffffff ffffffff 002 v SetImprovStyle
+fp o
+fp i
+f ffffffff ffffffff 002 v ClearImprovVariables
+fp o
+fp s
+f ffffffff ffffffff 001 v ClearImprovStyle
+fp o
+f ffffffff ffffffff 001 v Improvise
+fp o
+f ffffffff ffffffff 001 i ParseChord
+fp s
+f ffffffff ffffffff 002 i GetIsChordTone
+fp i
+fp i
+f ffffffff ffffffff 002 f GetOffset
+fp i
+fp f
+f ffffffff ffffffff 008 v ImproviseMelodyMeasure
+fp o
+fp i
+fp i
+fp f
+fp i
+fp i
+fp i
+fp i
+f ffffffff ffffffff 005 v ImprovisePercussionMeasure
+fp o
+fp i
+fp i
+fp f
+fp i
+f 0000389a 00003a43 005 v WriteNote
+fp o
+fp i
+fp i
+fp i
+fp f
+f 0000134e 000030f1 011 v WriteTrack
+fp o
+fp o
+fp i
+fp s
+fp s
+fp i
+fp i
+fp i
+fp i
+fp f
+fp i
+f 00004124 00004158 001 v SetSongLength
+fp o
+f 000051c2 0000524e 004 v WriteLyric
+fp o
+fp i
+fp i
+fp f
+f 00004158 00005099 003 v WriteLyrics
+fp o
+fp o
+fp s
+f ffffffff ffffffff 002 s GetTKLPersistString
+fp o
+fp s
+f ffffffff ffffffff 003 v SetTKLPersistString
+fp o
+fp s
+fp s
+f ffffffff ffffffff 002 f GetTKLPersistFloat
+fp o
+fp s
+f ffffffff ffffffff 003 v SetTKLPersistFloat
+fp o
+fp s
+fp f
+f ffffffff ffffffff 004 o RetrieveTKLPersistInstrumentObject
+fp o
+fp s
+fp e2
+fp o
+f ffffffff ffffffff 003 v StoreTKLPersistInstrumentObject
+fp o
+fp s
+fp o
+f ffffffff ffffffff 001 v UpgradeTKLDatabase
+fp o
+f ffffffff ffffffff 001 i ParseNote
+fp s
+f 00000015 00000602 001 v main
+fp s
+f 0000000d 00000015 000 v #loader
+v 00000015 000005fa 00000000 s sInput
+v 00000015 000005f4 00000004 o oPC
+v 0000001b 000005f4 00000008 s sAction
+v 00000040 000005f4 0000000c i iOption
+v 00000065 000005f4 00000010 s sOption
+v 00000072 000005f4 00000014 o oInstrument
+v 0000025a 0000034e 00000018 s sOldComposer
+v 00000399 000004a5 00000018 s sOldWrite
+v 0000042c 000004a5 0000001c s sGUIFile
+v 000004d3 00000589 00000018 s sOldWrite
+v 00000602 0000064c 00000000 o oPC
+v 00000654 000006ae 00000000 i iOption
+v 00000654 000006ae 00000004 s sAction
+v 00000654 000006ae 00000008 o oPC
+v 000006b6 00001346 00000000 o oInstrument
+v 000006b6 00001346 00000004 o oPC
+v 000006b6 00001340 00000008 s sSongName
+v 00000724 00001340 0000000c s sTrack1Name
+v 00000796 00001340 00000010 s sTrack2Name
+v 00000808 00001340 00000014 s sTrack3Name
+v 0000087a 00001340 00000018 s sTrack4Name
+v 0000134e 000030e9 00000000 i iRecursions
+v 0000134e 000030e9 00000004 f fDelay
+v 0000134e 000030e9 00000008 i iRepeatsDone
+v 0000134e 000030e9 0000000c i iRepeatStart
+v 0000134e 000030e9 00000010 i iPosition
+v 0000134e 000030e9 00000014 i iNotesWritten
+v 0000134e 000030e9 00000018 s sGUIFile
+v 0000134e 000030e9 0000001c s sInput
+v 0000134e 000030e9 00000020 i iTrack
+v 0000134e 000030e9 00000024 o oInstrument
+v 0000134e 000030e9 00000028 o oPC
+v 0000136a 000030e3 0000002c s sOption
+v 000013a7 000030e3 00000030 f fWriteDelay
+v 000013a7 000030e3 00000034 i iTempo
+v 000013eb 000030e3 00000038 f fTick
+v 00001402 000030e3 0000003c i iPitch
+v 00001402 000030e3 00000040 s sChar
+v 0000141d 000030e3 00000044 s sChar2
+v 00001440 000030e3 00000048 s sChar3
+v 00001465 000030e3 0000004c i iRow
+v 00001465 000030e3 00000050 i iInstrumentOffset
+v 0000146b 000030e3 00000054 i bDrums
+v 0000151e 00002f9b 00000058 s sLowerChar
+v 000015e3 000018dc 0000005c i iSymbolLength
+v 000015e9 000018dc 00000060 i iTotalRepeats
+v 00001609 000017df 00000064 i iRepeatPosition
+v 00001619 000017df 00000068 s sRepeatChar
+v 00001636 000017df 0000006c s sRepeats
+v 00001638 000017df 00000070 i iDigitLength
+v 00001a07 00001aa1 0000005c f fDivision
+v 00001be9 00001ffa 0000005c i iPositionIncrease
+v 00001e62 00001efc 00000060 f fDivision
+v 00002697 00002731 0000005c f fDivision
+v 00002aaa 00002e77 0000005c s sQuality
+v 00002cdf 00002d79 00000060 f fDivision
+v 000030f1 0000331c 00000000 i bEraseName
+v 000030f1 0000331c 00000004 i iTrack
+v 000030f1 0000331c 00000008 o oInstrument
+v 000030f1 00003316 0000000c s sTrack
+v 000030fe 00003316 00000010 i iTotalNotes
+v 0000312f 00003316 00000014 s sID
+v 00003324 000035ce 00000000 f #retval
+v 00003324 000035c8 00000004 o oInstrument
+v 00003326 000035c2 00000008 f fSongLength
+v 00003328 000035c2 0000000c f fTrackLength
+v 0000332a 000035c2 00000010 i iTrack
+v 0000332c 000035c2 00000014 i iTotalNotes
+v 0000332c 000035c2 00000018 i iTempo
+v 0000336c 000035c2 0000001c f fTempo
+v 00003383 000035c2 00000020 s sTrack
+v 000035d0 00003898 00000000 i #retval
+v 000035d0 00003892 00000004 i iRow
+v 000035d0 00003892 00000008 s sChar2
+v 000035d0 0000388c 0000000c s sLower
+v 000035df 0000388c 00000010 i iPitch
+v 0000389a 00003a3b 00000000 f fDelay
+v 0000389a 00003a3b 00000004 i iPitch
+v 0000389a 00003a3b 00000008 i iTrack
+v 0000389a 00003a3b 0000000c i iNotesRecorded
+v 0000389a 00003a3b 00000010 o oInstrument
+v 0000389a 00003a35 00000014 s sTrack
+v 000038bb 00003a35 00000018 s sID
+v 00003a43 00003ded 00000000 i #retval
+v 00003a43 00003de7 00000004 i iInstrumentOffset
+v 00003a43 00003de7 00000008 i bDrums
+v 00003a43 00003de7 0000000c i iRow
+v 00003a43 00003de7 00000010 s sChar2
+v 00003a43 00003de7 00000014 s sChar
+v 00003a43 00003de1 00000018 i iPitch
+v 00003a49 00003de1 0000001c s sLower
+v 00003def 00004122 00000000 i #retval
+v 00003def 0000411c 00000004 s sQuality
+v 00003def 0000411c 00000008 s sChar2
+v 00003def 0000411c 0000000c s sChar
+v 00003def 00004116 00000010 i iPitch
+v 00003df5 00004116 00000014 s sLower
+v 00004124 00004150 00000000 o oInstrument
+v 00004158 00005091 00000000 s sInput
+v 00004158 00005091 00000004 o oInstrument
+v 00004158 00005091 00000008 o oPC
+v 00004158 0000508b 0000000c f fTick
+v 00004227 0000508b 00000010 f fWriteDelay
+v 00004229 0000508b 00000014 f fDelay
+v 0000422b 0000508b 00000018 i iLyricsWritten
+v 0000422d 0000508b 0000001c i iPosition
+v 0000422f 0000508b 00000020 i iLyric
+v 00004231 0000508b 00000024 i iLastLyricWritten
+v 00004231 0000508b 00000028 s sChar
+v 0000424c 0000508b 0000002c s sChar2
+v 0000426f 0000508b 00000030 s sChar3
+v 00004294 0000508b 00000034 i iRepeatStart
+v 00004296 0000508b 00000038 i iRepeatsDone
+v 000042aa 00004f9d 0000003c s sLowerChar
+v 0000436f 00004659 00000040 i iSymbolLength
+v 00004375 00004659 00000044 i iTotalRepeats
+v 00004395 0000455c 00000048 i iRepeatPosition
+v 000043a5 0000455c 0000004c s sRepeatChar
+v 000043c2 0000455c 00000050 s sRepeats
+v 000043c4 0000455c 00000054 i iDigitLength
+v 00004741 0000499e 00000040 s sNextTwo
+v 00004764 0000499e 00000044 i iEndPoint
+v 00004850 0000499e 00000048 i i
+v 00004ac9 00004b63 00000040 f fDivision
+v 00004bae 00004e80 00000040 s sNextTwo
+v 00004bd1 00004e80 00000044 i iLyricNumber
+v 00004db8 00004e52 00000048 f fDivision
+v 00005099 000051ba 00000000 o oInstrument
+v 00005099 000051b4 00000004 i iTotalLyrics
+v 000051c2 00005246 00000000 f fDelay
+v 000051c2 00005246 00000004 i iLyric
+v 000051c2 00005246 00000008 i iLyricsRecorded
+v 000051c2 00005246 0000000c o oInstrument
+v 000051d6 00005240 00000010 s sID
+l09 0000016 00000015 0000001b
+l09 0000017 0000001b 00000040
+l09 0000018 00000040 00000065
+l09 0000019 00000065 00000072
+l09 0000020 00000072 0000009b
+l09 0000022 0000009b 000000b4
+l09 0000024 000000ba 000000c8
+l09 0000026 000000ce 00000100
+l09 0000027 00000100 0000010c
+l09 0000029 0000010c 00000134
+l09 0000030 00000134 000001a3
+l09 0000031 000001a3 000001b1
+l09 0000034 000001b7 000001b9
+l09 0000036 000001d3 000001e3
+l09 0000038 000001e9 0000021d
+l09 0000040 00000223 00000225
+l09 0000042 00000225 00000247
+l09 0000044 00000247 00000254
+l09 0000046 0000025a 0000027c
+l09 0000047 0000027c 000002a0
+l09 0000048 000002a0 0000034e
+l09 0000051 00000354 0000036a
+l09 0000052 0000036a 00000378
+l09 0000055 0000037e 00000380
+l09 0000057 00000399 000003bf
+l09 0000058 000003bf 000003ef
+l09 0000060 000003f5 00000420
+l09 0000061 00000420 0000042c
+l09 0000064 0000042c 00000445
+l09 0000065 00000445 00000497
+l09 0000066 00000497 000004a5
+l09 0000069 000004b1 000004b3
+l09 0000071 000004d3 000004f0
+l09 0000072 000004f0 00000520
+l09 0000074 00000526 00000551
+l09 0000075 00000551 0000055d
+l09 0000078 0000055d 0000057b
+l09 0000079 0000057b 00000589
+l09 0000082 00000595 00000597
+l09 0000084 000005bc 000005e6
+l09 0000085 000005e6 000005f4
+l09 0000087 000005fa 00000602
+l08 0000259 00000602 00000627
+l08 0000260 00000627 0000064c
+l08 0000261 0000064c 00000654
+l08 0000807 00000654 00000681
+l08 0000808 00000681 000006ae
+l08 0000809 000006ae 000006b6
+l08 0000296 000006b6 000006d0
+l08 0000297 000006d0 000006de
+l08 0000299 000006e4 000006fe
+l08 0000300 000006fe 00000724
+l08 0000302 00000724 00000741
+l08 0000303 00000741 0000074f
+l08 0000305 00000755 0000076e
+l08 0000306 0000076e 00000796
+l08 0000308 00000796 000007b3
+l08 0000309 000007b3 000007c1
+l08 0000311 000007c7 000007e0
+l08 0000312 000007e0 00000808
+l08 0000314 00000808 00000825
+l08 0000315 00000825 00000833
+l08 0000317 00000839 00000852
+l08 0000318 00000852 0000087a
+l08 0000320 0000087a 00000897
+l08 0000321 00000897 000008a5
+l08 0000323 000008ab 000008c4
+l08 0000324 000008c4 000008ec
+l08 0000326 000008ec 00000926
+l08 0000327 00000926 00000965
+l08 0000328 00000965 000009a3
+l08 0000329 000009a3 000009e1
+l08 0000330 000009e1 00000a24
+l08 0000331 00000a24 00000a66
+l08 0000332 00000a66 00000aad
+l08 0000333 00000aad 00000af0
+l08 0000335 00000af0 00000b2c
+l08 0000336 00000b2c 00000b6d
+l08 0000337 00000b6d 00000bad
+l08 0000338 00000bad 00000bed
+l08 0000339 00000bed 00000c32
+l08 0000340 00000c32 00000c76
+l08 0000341 00000c76 00000cbf
+l08 0000342 00000cbf 00000d04
+l08 0000344 00000d04 00000d40
+l08 0000345 00000d40 00000d81
+l08 0000346 00000d81 00000dc1
+l08 0000347 00000dc1 00000e01
+l08 0000348 00000e01 00000e46
+l08 0000349 00000e46 00000e8a
+l08 0000350 00000e8a 00000ed3
+l08 0000351 00000ed3 00000f18
+l08 0000353 00000f18 00000f54
+l08 0000354 00000f54 00000f95
+l08 0000355 00000f95 00000fd5
+l08 0000356 00000fd5 00001015
+l08 0000357 00001015 0000105a
+l08 0000358 0000105a 0000109e
+l08 0000359 0000109e 000010e7
+l08 0000360 000010e7 0000112c
+l08 0000362 0000112c 00001168
+l08 0000363 00001168 000011a9
+l08 0000364 000011a9 000011e9
+l08 0000365 000011e9 00001229
+l08 0000366 00001229 0000126e
+l08 0000367 0000126e 000012b2
+l08 0000368 000012b2 000012fb
+l08 0000369 000012fb 00001340
+l08 0000370 00001346 0000134e
+l08 0002600 0000134e 0000136a
+l08 0002601 0000136a 00001377
+l08 0002602 00001377 000013a5
+l08 0002603 000013a5 000013a7
+l08 0002604 000013a7 000013c1
+l08 0002605 000013c1 000013d1
+l08 0002606 000013d7 000013eb
+l08 0002607 000013eb 00001400
+l08 0002608 00001400 00001402
+l08 0002609 00001402 0000141d
+l08 0002610 0000141d 00001440
+l08 0002611 00001440 00001463
+l08 0002612 00001463 00001465
+l08 0002613 00001465 0000146b
+l08 0002614 0000146b 00001471
+l08 0002615 00001471 00001496
+l08 0002616 0000149c 000014b0
+l08 0002617 000014b6 000014b8
+l08 0002619 000014e2 000014f6
+l08 0002620 000014f6 0000150a
+l08 0002622 0000150a 0000151e
+l08 0002624 0000151e 0000152b
+l08 0002626 0000152b 00001559
+l08 0002628 0000155f 0000157d
+l08 0002629 0000157d 00001593
+l08 0002630 00001593 000015a7
+l08 0002634 000015ad 000015af
+l08 0002636 000015e3 000015e9
+l08 0002637 000015e9 000015ef
+l08 0002639 000015ef 00001603
+l08 0002641 00001609 00001619
+l08 0002642 00001619 00001634
+l08 0002643 00001634 00001636
+l08 0002644 00001636 00001638
+l08 0002645 00001638 0000164c
+l08 0002648 00001662 00001671
+l08 0002650 00001677 00001692
+l08 0002651 00001692 000016b0
+l08 0002652 000016b0 000016b6
+l08 0002655 000016bc 000016be
+l08 0002657 000016be 000016de
+l08 0002658 000016de 000016f2
+l08 0002659 000016f2 0000171b
+l08 0002645 0000171b 0000172f
+l08 0002663 00001735 00001745
+l08 0002665 0000174b 0000179c
+l08 0002666 0000179c 000017d3
+l08 0002667 000017d3 000017df
+l08 0002671 000017e5 000017f5
+l08 0002674 0000180f 0000181f
+l08 0002676 00001825 00001839
+l08 0002677 00001839 0000186a
+l08 0002681 0000186a 00001884
+l08 0002683 0000188a 000018a0
+l08 0002684 000018a0 000018b4
+l08 0002687 000018ba 000018bc
+l08 0002689 000018bc 000018dc
+l08 0002694 000018e8 000018ea
+l08 0002696 0000197b 0000198f
+l08 0002699 00001995 00001997
+l08 0002701 000019cb 000019df
+l08 0002703 000019df 00001a01
+l08 0002705 00001a07 00001a2f
+l08 0002706 00001a2f 00001a3f
+l08 0002707 00001a59 00001a83
+l08 0002708 00001a83 00001aa1
+l08 0002710 00001aad 00001aaf
+l08 0002711 00001aaf 00001acf
+l08 0002714 00001ad5 00001ad7
+l08 0002716 00001aec 00001b10
+l08 0002718 00001b16 00001b8b
+l08 0002719 00001b8b 00001bc2
+l08 0002720 00001bc2 00001bce
+l08 0002722 00001bce 00001be9
+l08 0002723 00001be9 00001bef
+l08 0002724 00001bef 00001c1f
+l08 0002726 00001c25 00001c3e
+l08 0002727 00001c3e 00001c52
+l08 0002729 00001c52 00001c78
+l08 0002730 00001c78 00001c88
+l08 0002732 00001c8e 00001d39
+l08 0002733 00001d39 00001d70
+l08 0002734 00001d70 00001d7c
+l08 0002736 00001d7c 00001de8
+l08 0002737 00001de8 00001e06
+l08 0002738 00001e06 00001e26
+l08 0002739 00001e26 00001e3a
+l08 0002741 00001e3a 00001e5c
+l08 0002743 00001e62 00001e8a
+l08 0002744 00001e8a 00001e9a
+l08 0002745 00001eb4 00001ede
+l08 0002746 00001ede 00001efc
+l08 0002748 00001f08 00001f0a
+l08 0002749 00001f0a 00001f2a
+l08 0002752 00001f2a 00001f44
+l08 0002754 00001f4a 00001fee
+l08 0002755 00001fee 00001ffa
+l08 0002759 00002006 00002008
+l08 0002764 00002153 00002181
+l08 0002766 00002187 000021a2
+l08 0002767 000021a2 000021b6
+l08 0002769 000021bc 000021be
+l08 0002771 000021be 000021d9
+l08 0002773 000021d9 00002229
+l08 0002775 0000222f 000022bf
+l08 0002776 000022bf 000022f6
+l08 0002777 000022f6 00002302
+l08 0002779 00002302 00002346
+l08 0002781 0000234c 000023ab
+l08 0002782 000023ab 000023e2
+l08 0002783 000023e2 000023ee
+l08 0002785 000023ee 0000241d
+l08 0002787 00002423 0000248a
+l08 0002788 0000248a 000024c1
+l08 0002789 000024c1 000024cd
+l08 0002792 000024cd 0000250b
+l08 0002793 0000250b 0000251b
+l08 0002795 00002521 00002570
+l08 0002796 00002570 000025a7
+l08 0002797 000025a7 000025b3
+l08 0002799 000025b3 0000261f
+l08 0002800 0000261f 0000263d
+l08 0002801 0000263d 0000265b
+l08 0002802 0000265b 0000266f
+l08 0002804 0000266f 00002691
+l08 0002806 00002697 000026bf
+l08 0002807 000026bf 000026cf
+l08 0002808 000026e9 00002713
+l08 0002809 00002713 00002731
+l08 0002811 0000273d 0000273f
+l08 0002812 0000273f 0000275f
+l08 0002815 0000275f 00002779
+l08 0002817 0000277f 00002823
+l08 0002818 00002823 0000282f
+l08 0002823 00002835 00002837
+l08 0002827 000029c0 000029e4
+l08 0002829 000029ea 00002a65
+l08 0002830 00002a65 00002a9c
+l08 0002831 00002a9c 00002aa8
+l08 0002834 00002aa8 00002aaa
+l08 0002836 00002aaa 00002ad8
+l08 0002838 00002ade 00002af2
+l08 0002839 00002af2 00002b08
+l08 0002841 00002b0e 00002b10
+l08 0002842 00002b10 00002b26
+l08 0002845 00002b26 00002b54
+l08 0002846 00002b54 00002b64
+l08 0002848 00002b6a 00002bb8
+l08 0002849 00002bb8 00002bef
+l08 0002850 00002bef 00002bfb
+l08 0002852 00002bfb 00002c67
+l08 0002853 00002c67 00002c85
+l08 0002854 00002c85 00002ca3
+l08 0002855 00002ca3 00002cb7
+l08 0002857 00002cb7 00002cd9
+l08 0002859 00002cdf 00002d07
+l08 0002860 00002d07 00002d17
+l08 0002861 00002d31 00002d5b
+l08 0002862 00002d5b 00002d79
+l08 0002864 00002d85 00002d87
+l08 0002865 00002d87 00002da7
+l08 0002868 00002da7 00002dc1
+l08 0002870 00002dc7 00002e6b
+l08 0002871 00002e6b 00002e77
+l08 0002874 00002e83 00002e85
+l08 0002876 00002e85 00002ecd
+l08 0002878 00002ecd 00002f04
+l08 0002879 00002f04 00002f10
+l08 0002882 00002f10 00002f39
+l08 0002883 00002f39 00002f6a
+l08 0002884 00002f6a 00002f9b
+l08 0002887 00002fa7 00002fde
+l08 0002888 00002fde 00003019
+l08 0002889 00003019 0000306d
+l08 0002890 0000306d 000030e3
+l08 0002891 000030e9 000030f1
+l08 0000631 000030f1 000030fe
+l08 0000632 000030fe 0000312d
+l08 0000633 0000312d 0000312f
+l08 0000634 0000312f 00003145
+l08 0000636 00003145 0000316a
+l08 0000637 0000316a 0000319a
+l08 0000638 0000319a 000031cd
+l08 0000639 000031cd 000031e1
+l08 0000641 000031e7 00003216
+l08 0000642 00003216 0000321e
+l08 0000643 00003224 00003250
+l08 0000644 00003250 00003271
+l08 0000645 00003271 000032a4
+l08 0000646 000032a4 000032ca
+l08 0000647 000032ca 000032f6
+l08 0000648 000032f6 00003316
+l08 0000649 0000331c 00003324
+l08 0000194 00003324 00003328
+l08 0000195 00003328 0000332c
+l08 0000196 0000332c 00003342
+l08 0000197 00003342 00003352
+l08 0000198 00003358 0000336c
+l08 0000199 0000336c 00003381
+l08 0000200 00003381 00003383
+l08 0000201 00003383 00003397
+l08 0000203 000033ad 000033c8
+l08 0000204 000033c8 00003405
+l08 0000205 00003405 00003415
+l08 0000207 0000341b 0000346b
+l08 0000209 0000346b 0000348b
+l08 0000210 0000348b 0000349d
+l08 0000211 000034a3 000034b9
+l08 0000201 000034b9 000034cd
+l08 0000214 000034d3 00003501
+l08 0000215 00003501 00003511
+l08 0000217 00003517 00003558
+l08 0000218 00003558 00003578
+l08 0000219 00003578 0000358a
+l08 0000220 00003590 000035a6
+l08 0000222 000035a6 000035c2
+l08 0000223 000035c8 000035d0
+l08 0001630 000035d0 000035dd
+l08 0001631 000035dd 000035df
+l08 0001632 000035df 000035ee
+l08 0001633 000035f4 00003608
+l08 0001634 0000360e 00003610
+l08 0001635 00003625 00003639
+l08 0001636 0000363f 00003641
+l08 0001637 00003656 0000366a
+l08 0001638 00003670 00003672
+l08 0001639 00003687 0000369b
+l08 0001640 000036a1 000036a3
+l08 0001641 000036b8 000036cc
+l08 0001642 000036d2 000036d4
+l08 0001643 000036e9 000036fd
+l08 0001644 00003703 00003705
+l08 0001645 0000371a 0000372e
+l08 0001646 00003734 00003736
+l08 0001647 0000374b 0000375f
+l08 0001648 00003765 00003767
+l08 0001649 0000377c 00003790
+l08 0001650 00003796 00003798
+l08 0001651 000037ad 000037c1
+l08 0001652 000037c7 000037c9
+l08 0001653 000037c9 000037e3
+l08 0001655 000037e3 000037f3
+l08 0001656 000037f9 00003817
+l08 0001658 00003817 0000382e
+l08 0001659 00003834 00003852
+l08 0001661 00003852 00003870
+l08 0001662 00003870 0000388c
+l08 0001663 00003892 0000389a
+l08 0002586 0000389a 000038a7
+l08 0002587 000038a7 000038bb
+l08 0002588 000038bb 000038d2
+l08 0002590 000038d2 00003902
+l08 0002591 00003908 00003926
+l08 0002592 0000392c 0000392e
+l08 0002593 000039a4 000039c2
+l08 0002594 000039c2 000039fd
+l08 0002595 000039fd 00003a35
+l08 0002596 00003a3b 00003a43
+l08 0001716 00003a43 00003a49
+l08 0001717 00003a49 00003a56
+l08 0001718 00003a56 00003a65
+l08 0001719 00003a6b 00003a7f
+l08 0001720 00003a85 00003a87
+l08 0001721 00003a9c 00003ab0
+l08 0001723 00003ab0 00003abf
+l08 0001724 00003ac5 00003ad9
+l08 0001725 00003adf 00003ae1
+l08 0001726 00003af6 00003b14
+l08 0001727 00003b1a 00003b1c
+l08 0001728 00003b31 00003b4f
+l08 0001729 00003b55 00003b57
+l08 0001730 00003b6c 00003b8a
+l08 0001731 00003b90 00003b92
+l08 0001732 00003ba7 00003bc5
+l08 0001733 00003bcb 00003bcd
+l08 0001734 00003be2 00003c00
+l08 0001735 00003c06 00003c08
+l08 0001736 00003c1d 00003c3b
+l08 0001737 00003c41 00003c43
+l08 0001738 00003c43 00003c5d
+l08 0001741 00003c5d 00003c6d
+l08 0001742 00003c73 00003c87
+l08 0001744 00003c87 00003c97
+l08 0001745 00003c9d 00003cbb
+l08 0001747 00003cbb 00003ccb
+l08 0001748 00003cd1 00003cef
+l08 0001750 00003cef 00003d26
+l08 0001751 00003d2c 00003d4a
+l08 0001752 00003d4a 00003d81
+l08 0001753 00003d87 00003da5
+l08 0001755 00003da5 00003dc5
+l08 0001757 00003dc5 00003de1
+l08 0001758 00003de7 00003def
+l08 0001667 00003def 00003df5
+l08 0001668 00003df5 00003e02
+l08 0001669 00003e02 00003e11
+l08 0001670 00003e17 00003e2b
+l08 0001671 00003e31 00003e33
+l08 0001672 00003e48 00003e5c
+l08 0001674 00003e5c 00003e6b
+l08 0001675 00003e71 00003e85
+l08 0001676 00003e8b 00003e8d
+l08 0001677 00003ea2 00003ec0
+l08 0001678 00003ec6 00003ec8
+l08 0001679 00003edd 00003efb
+l08 0001680 00003f01 00003f03
+l08 0001681 00003f18 00003f36
+l08 0001682 00003f3c 00003f3e
+l08 0001683 00003f53 00003f71
+l08 0001684 00003f77 00003f79
+l08 0001685 00003f8e 00003fac
+l08 0001686 00003fb2 00003fb4
+l08 0001687 00003fc9 00003fe7
+l08 0001688 00003fed 00003fef
+l08 0001689 00003fef 00004009
+l08 0001692 00004009 00004019
+l08 0001693 0000401f 00004033
+l08 0001695 00004033 00004042
+l08 0001697 00004048 00004066
+l08 0001700 0000406c 0000406e
+l08 0001702 00004083 000040a1
+l08 0001706 000040a1 000040b8
+l08 0001707 000040be 000040dc
+l08 0001709 000040dc 000040fa
+l08 0001711 000040fa 00004116
+l08 0001712 0000411c 00004124
+l08 0002895 00004124 00004150
+l08 0002897 00004150 00004158
+l08 0002909 00004158 0000417a
+l08 0002910 0000417a 0000418a
+l08 0002912 00004190 000041e6
+l08 0002913 000041e6 000041f2
+l08 0002915 000041f2 00004200
+l08 0002916 00004200 00004225
+l08 0002917 00004225 00004229
+l08 0002918 00004229 0000422b
+l08 0002919 0000422b 00004231
+l08 0002920 00004231 0000424c
+l08 0002921 0000424c 0000426f
+l08 0002922 0000426f 00004292
+l08 0002923 00004292 00004296
+l08 0002924 00004296 000042aa
+l08 0002926 000042aa 000042b7
+l08 0002928 000042b7 000042e5
+l08 0002930 000042eb 00004309
+l08 0002931 00004309 0000431f
+l08 0002932 0000431f 00004333
+l08 0002936 00004339 0000433b
+l08 0002938 0000436f 00004375
+l08 0002939 00004375 0000437b
+l08 0002941 0000437b 0000438f
+l08 0002943 00004395 000043a5
+l08 0002944 000043a5 000043c0
+l08 0002945 000043c0 000043c2
+l08 0002946 000043c2 000043c4
+l08 0002947 000043c4 000043d8
+l08 0002950 000043ee 000043fd
+l08 0002952 00004403 0000441e
+l08 0002953 0000441e 0000443c
+l08 0002954 0000443c 00004442
+l08 0002957 00004448 0000444a
+l08 0002959 0000444a 0000446a
+l08 0002960 0000446a 0000447e
+l08 0002961 0000447e 000044a7
+l08 0002947 000044a7 000044bb
+l08 0002965 000044c1 000044d1
+l08 0002967 000044d7 00004528
+l08 0002968 00004528 00004550
+l08 0002969 00004550 0000455c
+l08 0002973 00004562 00004572
+l08 0002976 0000458c 0000459c
+l08 0002978 000045a2 000045b6
+l08 0002979 000045b6 000045e7
+l08 0002983 000045e7 00004601
+l08 0002985 00004607 0000461d
+l08 0002986 0000461d 00004631
+l08 0002989 00004637 00004639
+l08 0002991 00004639 00004659
+l08 0002996 00004665 00004667
+l08 0002998 000046a0 000046b0
+l08 0003000 000046b6 0000470d
+l08 0003001 0000470d 00004735
+l08 0003002 00004735 00004741
+l08 0003006 00004741 00004764
+l08 0003007 00004764 00004771
+l08 0003009 00004771 00004781
+l08 0003010 000047ad 000047bd
+l08 0003012 000047c3 0000481a
+l08 0003013 0000481a 00004842
+l08 0003014 00004842 0000484e
+l08 0003016 0000484e 00004850
+l08 0003017 00004850 0000486e
+l08 0003019 00004886 000048ea
+l08 0003020 000048ea 0000490a
+l08 0003021 0000490a 0000491e
+l08 0003022 0000491e 00004934
+l08 0003023 00004934 00004952
+l08 0003017 00004952 00004966
+l08 0003025 0000496c 0000499e
+l08 0003029 000049aa 000049ac
+l08 0003031 00004a3d 00004a51
+l08 0003034 00004a57 00004a59
+l08 0003036 00004a8d 00004aa1
+l08 0003038 00004aa1 00004ac3
+l08 0003040 00004ac9 00004af1
+l08 0003041 00004af1 00004b01
+l08 0003042 00004b1b 00004b45
+l08 0003043 00004b45 00004b63
+l08 0003045 00004b6f 00004b71
+l08 0003046 00004b71 00004b91
+l08 0003051 00004b97 00004b99
+l08 0003055 00004bae 00004bd1
+l08 0003056 00004bd1 00004bde
+l08 0003058 00004bde 00004bee
+l08 0003059 00004c1a 00004c2a
+l08 0003061 00004c30 00004c7e
+l08 0003062 00004c7e 00004ca6
+l08 0003063 00004ca6 00004cb2
+l08 0003065 00004cb2 00004d16
+l08 0003066 00004d16 00004d2a
+l08 0003067 00004d2a 00004d40
+l08 0003068 00004d40 00004d5e
+l08 0003069 00004d5e 00004d90
+l08 0003071 00004d90 00004db2
+l08 0003073 00004db8 00004de0
+l08 0003074 00004de0 00004df0
+l08 0003075 00004e0a 00004e34
+l08 0003076 00004e34 00004e52
+l08 0003078 00004e5e 00004e60
+l08 0003079 00004e60 00004e80
+l08 0003081 00004e8c 00004e8e
+l08 0003083 00004e8e 00004ede
+l08 0003085 00004ede 00004f06
+l08 0003086 00004f06 00004f12
+l08 0003089 00004f12 00004f3b
+l08 0003090 00004f3b 00004f6c
+l08 0003091 00004f6c 00004f9d
+l08 0003094 00004fa9 00004fd1
+l08 0003095 00004fd1 00005025
+l08 0003096 00005025 0000508b
+l08 0003097 00005091 00005099
+l08 0000813 00005099 000050b9
+l08 0000814 000050b9 000050cf
+l08 0000816 000050cf 000050fe
+l08 0000817 000050fe 00005131
+l08 0000818 00005131 00005145
+l08 0000820 0000514b 00005177
+l08 0000821 00005177 00005197
+l08 0000822 00005197 000051b4
+l08 0000823 000051ba 000051c2
+l08 0002901 000051c2 000051d6
+l08 0002902 000051d6 000051ee
+l08 0002903 000051ee 00005219
+l08 0002904 00005219 00005240
+l08 0002905 00005246 0000524e

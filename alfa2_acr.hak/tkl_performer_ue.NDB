@@ -1,0 +1,987 @@
+NDB V1.0
+0000010 0000001 0000420 0000032 0000106
+n00 nwnx_time
+n01 tkl_performer_settings
+n02 nwnx_include
+n03 acr_array_i
+n04 acr_queue_i
+n05 acr_settings_i
+n06 acr_server_misc_i
+n07 acr_db_persist_i
+n08 tkl_performer_include
+N09 tkl_performer_ue
+s 03 vector
+sf f x
+sf f y
+sf f z
+f ffffffff ffffffff 000 s sColor
+f ffffffff ffffffff 000 s sEndColor
+f ffffffff ffffffff 000 s sMinorEndColor
+f ffffffff ffffffff 000 s sDimEndColor
+f ffffffff ffffffff 000 s sMinorEnd
+f ffffffff ffffffff 000 s TKL_PERFORMER_SCREEN
+f ffffffff ffffffff 000 s TKL_PERFORMER_DATABASE
+f ffffffff ffffffff 000 f TKL_CHORD_ROLL_OFFSET
+f ffffffff ffffffff 000 f TKL_DRUM_ROLL_OFFSET
+f ffffffff ffffffff 000 i IMPROV_INSTRUMENT_NONE
+f ffffffff ffffffff 000 i IMPROV_INSTRUMENT_LUTE_NOTES
+f ffffffff ffffffff 000 i IMPROV_INSTRUMENT_LUTE_CHORDS
+f ffffffff ffffffff 000 i IMPROV_INSTRUMENT_DRUM
+f ffffffff ffffffff 000 i IMPROV_INSTRUMENT_FLUTE
+f ffffffff ffffffff 000 i IMPROV_MOVEMENT_REPEAT
+f ffffffff ffffffff 000 i IMPROV_MOVEMENT_LEAP
+f ffffffff ffffffff 000 i IMPROV_MOVEMENT_STEP
+f ffffffff ffffffff 000 i TOTAL_STYLES
+f ffffffff ffffffff 000 i WRITE_RECURSION_LIMIT
+f ffffffff ffffffff 000 s ACR_TKL_MIGRATED
+f ffffffff ffffffff 002 v StartTimer
+fp o
+fp s
+f 0000064f 0000069d 002 s StopTimer
+fp o
+fp s
+f ffffffff ffffffff 002 s QueryTimer
+fp o
+fp s
+f ffffffff ffffffff 000 s timeSpacer
+f ffffffff ffffffff 000 i TKL_NWNX4_NOT_INSTALLED
+f ffffffff ffffffff 000 i TKL_ALLOW_DISABLE_MUSIC
+f ffffffff ffffffff 000 i TKL_ALLOW_DISABLE_SOUNDS
+f ffffffff ffffffff 000 f TKL_PREVIEW
+f ffffffff ffffffff 000 i TKL_MINIMUM_PERFORM_TO_USE
+f ffffffff ffffffff 000 i TKL_USE_ADJUSTED_PERFORM
+f ffffffff ffffffff 000 i TKL_PERFORM_AFFECTS_SONGS
+f ffffffff ffffffff 000 f TKL_SONGS_PER_PERFORM_POINT
+f ffffffff ffffffff 000 i TKL_PERFORM_AFFECTS_LYRICS
+f ffffffff ffffffff 000 i TKL_LYRICS_PER_PERFORM_POINT
+f ffffffff ffffffff 000 i TKL_PERFORM_AFFECTS_SPEED
+f ffffffff ffffffff 000 i TKL_SPEED_PER_PERFORM_POINT
+f ffffffff ffffffff 001 i GetPerform
+fp o
+f ffffffff ffffffff 000 i TKL_TRANSCRIPTIONS_PER_RESET
+f ffffffff ffffffff 000 i TKL_ONE_TRANSCRIPTION_PER_HOUR
+f ffffffff ffffffff 000 i TKL_TRANSCRIPTION_DC
+f ffffffff ffffffff 000 i TKL_TRANSCRIPTION_LENGTH_PENALTY
+f ffffffff ffffffff 000 i TKL_TRANSCRIPTION_CHARGES
+f ffffffff ffffffff 000 s STYLE_1_NAME
+f ffffffff ffffffff 000 s STYLE_1_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_1_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_1_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_1_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_1_CHORDS
+f ffffffff ffffffff 000 s STYLE_1_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_1_NOTES
+f ffffffff ffffffff 000 s STYLE_1_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_1_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_2_NAME
+f ffffffff ffffffff 000 s STYLE_2_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_2_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_2_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_2_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_2_CHORDS
+f ffffffff ffffffff 000 s STYLE_2_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_2_NOTES
+f ffffffff ffffffff 000 s STYLE_2_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_2_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_3_NAME
+f ffffffff ffffffff 000 s STYLE_3_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_3_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_3_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_3_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_3_CHORDS
+f ffffffff ffffffff 000 s STYLE_3_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_3_NOTES
+f ffffffff ffffffff 000 s STYLE_3_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_3_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_4_NAME
+f ffffffff ffffffff 000 s STYLE_4_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_4_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_4_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_4_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_4_CHORDS
+f ffffffff ffffffff 000 s STYLE_4_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_4_NOTES
+f ffffffff ffffffff 000 s STYLE_4_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_4_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_5_NAME
+f ffffffff ffffffff 000 s STYLE_5_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_5_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_5_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_5_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_5_CHORDS
+f ffffffff ffffffff 000 s STYLE_5_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_5_NOTES
+f ffffffff ffffffff 000 s STYLE_5_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_5_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_6_NAME
+f ffffffff ffffffff 000 s STYLE_6_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_6_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_6_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_6_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_6_CHORDS
+f ffffffff ffffffff 000 s STYLE_6_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_6_NOTES
+f ffffffff ffffffff 000 s STYLE_6_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_6_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_7_NAME
+f ffffffff ffffffff 000 s STYLE_7_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_7_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_7_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_7_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_7_CHORDS
+f ffffffff ffffffff 000 s STYLE_7_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_7_NOTES
+f ffffffff ffffffff 000 s STYLE_7_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_7_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_8_NAME
+f ffffffff ffffffff 000 s STYLE_8_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_8_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_8_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_8_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_8_CHORDS
+f ffffffff ffffffff 000 s STYLE_8_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_8_NOTES
+f ffffffff ffffffff 000 s STYLE_8_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_8_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_9_NAME
+f ffffffff ffffffff 000 s STYLE_9_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_9_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_9_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_9_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_9_CHORDS
+f ffffffff ffffffff 000 s STYLE_9_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_9_NOTES
+f ffffffff ffffffff 000 s STYLE_9_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_9_PERFORM_REQUIRED
+f ffffffff ffffffff 000 s STYLE_10_NAME
+f ffffffff ffffffff 000 s STYLE_10_DESCRIPTION
+f ffffffff ffffffff 000 i STYLE_10_BEATS_PER_MINUTE
+f ffffffff ffffffff 000 s STYLE_10_MELODIC_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_10_PERCUSSIVE_RHYTHMS
+f ffffffff ffffffff 000 s STYLE_10_CHORDS
+f ffffffff ffffffff 000 s STYLE_10_STRUM_PATTERNS
+f ffffffff ffffffff 000 s STYLE_10_NOTES
+f ffffffff ffffffff 000 s STYLE_10_ALT_NOTES
+f ffffffff ffffffff 000 i STYLE_10_PERFORM_REQUIRED
+f ffffffff ffffffff 000 i SQL_ERROR
+f ffffffff ffffffff 000 i SQL_SUCCESS
+f ffffffff ffffffff 000 s ACR_CID
+f ffffffff ffffffff 000 s ACR_PID
+f ffffffff ffffffff 000 s ACR_MEMBERSHIP
+f ffffffff ffffffff 000 s ACR_SRVADMIN
+f ffffffff ffffffff 000 s ACR_DISABLE_STATISTICS
+f ffffffff ffffffff 000 s ACR_GAMEOBJUPDATE
+f ffffffff ffffffff 000 s ACR_MOD_CONTENT_PATCH_PATH
+f ffffffff ffffffff 000 s ACR_MOD_WER_DISABLED
+f ffffffff ffffffff 000 s ACR_MOD_COMPILER_OPTIONS
+f ffffffff ffffffff 000 s ACR_MODULERESOURCEFILES_DB
+f ffffffff ffffffff 000 s ACR_MODULERESOURCEFILES_MOD
+f ffffffff ffffffff 000 s ACR_NOTIFY_SERVICE_CHARACTER_ID_MOD
+f ffffffff ffffffff 000 s ACR_ERROR_NOTIFY_IRC_RECIPIENT_MOD
+f ffffffff ffffffff 000 s ACR_GAME_DIFFICULTY_LEVEL_MOD
+f ffffffff ffffffff 000 s ACR_CONTENT_PATCH_PATH
+f ffffffff ffffffff 000 s ACR_WER_DISABLED
+f ffffffff ffffffff 000 s ACR_COMPILER_OPTIONS
+f ffffffff ffffffff 000 s ACR_NOTIFY_SERVICE_CHARACTER_ID
+f ffffffff ffffffff 000 s ACR_ERROR_NOTIFY_IRC_RECIPIENT
+f ffffffff ffffffff 000 s ACR_GAME_DIFFICULTY_LEVEL
+f ffffffff ffffffff 000 i ACR_SRVADMIN_INDETERMINITE
+f ffffffff ffffffff 000 i ACR_SRVADMIN_IS_ADMIN
+f ffffffff ffffffff 000 i ACR_SRVADMIN_NOT_ADMIN
+f ffffffff ffffffff 000 i ACR_CHARACTER_ID_NONE
+f ffffffff ffffffff 000 s ACR_PLAYERSTATUS_CACHE_VAR
+f ffffffff ffffffff 000 s ACR_HEALTHMONITOR_GAMEOBJUPDATE_BACKOFF_VAR
+f ffffffff ffffffff 000 s ACR_CDKEY
+f ffffffff ffffffff 000 s ACR_DB_FAILURES
+f ffffffff ffffffff 000 f _ACR_DB_SQL_ASYNC_WRITE_HEARTBEAT_DELAY
+f ffffffff ffffffff 000 s _ACR_DB_SQL_QUEUE
+f ffffffff ffffffff 000 s _ACR_DB_CONTROL_FLAGS_VAR
+f ffffffff ffffffff 000 s _ACR_DB_SQL_PENDING_QUERY_VAR
+f ffffffff ffffffff 000 s _ACR_DB_SQL_SERVER_BOOT_TIME_VAR
+f ffffffff ffffffff 000 s _ACR_DB_SQL_SERVER_BOOT_TIME_MOD_VAR
+f ffffffff ffffffff 000 s _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX
+f ffffffff ffffffff 000 s _ACR_DB_VDB_FILE
+f ffffffff ffffffff 000 i _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX_LEN
+f ffffffff ffffffff 000 i _ACR_SQL_SAQ_FLUSHALL
+f ffffffff ffffffff 000 i _ACR_SQL_DBCTRL_DATABASE_OFFLINE
+f ffffffff ffffffff 000 i _ACR_SQL_DBCTRL_ASYNC_PENDING
+f ffffffff ffffffff 000 i _ACR_SQL_QUERY_MAX_LEN
+f ffffffff ffffffff 000 s ACR_DTH_CORPSE_RESREF
+f ffffffff ffffffff 000 s ACR_DTH_BODY_RESREF
+f ffffffff ffffffff 000 i ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS
+f ffffffff ffffffff 000 i ACR_PC_LOCAL_FLAG_PORTAL_COMMITTED
+f ffffffff ffffffff 000 i ACR_PC_LOCAL_FLAG_SERVER_TELL_HELP
+f ffffffff ffffffff 000 i ACR_QUERY_LOW_PRIORITY
+f ffffffff ffffffff 000 v ACR_StartAsyncService
+f ffffffff ffffffff 000 v ACR_LoadDatabaseConfiguration
+f ffffffff ffffffff 000 v ACR_InitializeDatabase
+f ffffffff ffffffff 001 v ACR_AsyncSQLQuery
+fp s
+f ffffffff ffffffff 003 v ACR_AsyncSQLQueryEx
+fp s
+fp o
+fp i
+f ffffffff ffffffff 001 v ACR_SQLQuery
+fp s
+f ffffffff ffffffff 001 i ACR_SQLFetch
+fp s
+f ffffffff ffffffff 001 s ACR_SQLGetData
+fp i
+f ffffffff ffffffff 000 i ACR_SQLGetAffectedRows
+f ffffffff ffffffff 001 v ACR_IncrementStatistic
+fp s
+f ffffffff ffffffff 004 v ACR_SetPersistentString
+fp o
+fp s
+fp s
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentStringNoTimestamp
+fp o
+fp s
+fp s
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentInt
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentFloat
+fp o
+fp s
+fp f
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentLocation
+fp o
+fp s
+fp e2
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentVector
+fp o
+fp s
+fp t0000
+fp i
+f ffffffff ffffffff 005 v ACR_SetPersistentObject
+fp o
+fp s
+fp o
+fp s
+fp i
+f ffffffff ffffffff 002 s ACR_GetPersistentString
+fp o
+fp s
+f ffffffff ffffffff 002 i ACR_GetPersistentInt
+fp o
+fp s
+f ffffffff ffffffff 002 f ACR_GetPersistentFloat
+fp o
+fp s
+f ffffffff ffffffff 002 e2 ACR_GetPersistentLocation
+fp o
+fp s
+f ffffffff ffffffff 002 t0000 ACR_GetPersistentVector
+fp o
+fp s
+f ffffffff ffffffff 003 o ACR_GetPersistentObject
+fp o
+fp s
+fp s
+f ffffffff ffffffff 003 o ACR_GetLegacyPersistentObject
+fp o
+fp s
+fp s
+f ffffffff ffffffff 002 v ACR_DeletePersistentVariable
+fp o
+fp s
+f ffffffff ffffffff 001 s ACR_SQLEncodeSpecialChars
+fp s
+f ffffffff ffffffff 001 s ACR_LocationToString
+fp e2
+f ffffffff ffffffff 001 e2 ACR_StringToLocation
+fp s
+f ffffffff ffffffff 001 s ACR_VectorToString
+fp t0000
+f ffffffff ffffffff 001 t0000 ACR_StringToVector
+fp s
+f ffffffff ffffffff 001 v ACR_SetPCPublicCDKey
+fp o
+f ffffffff ffffffff 001 s ACR_GetPCPublicCDKey
+fp o
+f ffffffff ffffffff 003 v ACR_SetCharacterID
+fp o
+fp i
+fp i
+f ffffffff ffffffff 001 i ACR_GetCharacterID
+fp o
+f ffffffff ffffffff 001 i ACR_GetPlayerID
+fp o
+f ffffffff ffffffff 001 i ACR_GetIsMember
+fp o
+f ffffffff ffffffff 001 i ACR_IsServerAdmin
+fp o
+f ffffffff ffffffff 001 i ACR_GetPCLocalFlags
+fp o
+f ffffffff ffffffff 002 v ACR_SetPCLocalFlags
+fp o
+fp i
+f ffffffff ffffffff 000 v ACR_CreateSQLTables
+f ffffffff ffffffff 000 v ACR_ResetDatabase
+f ffffffff ffffffff 000 v ACR_AdjustTables
+f ffffffff ffffffff 001 v ACR_DBPersistOnIncomingPlayer
+fp o
+f ffffffff ffffffff 001 v ACR_DBPersistOnOutgoingPlayer
+fp o
+f ffffffff ffffffff 000 i ACR_GetUTCTime
+f ffffffff ffffffff 000 i ACR_GetModuleStartTime
+f ffffffff ffffffff 001 v ACR_FlushQueryQueue
+fp o
+f ffffffff ffffffff 000 s ACR_GetServerAddressFromDatabase
+f ffffffff ffffffff 003 i ACR_LoadObjectVariablesFromPersistStore
+fp o
+fp o
+fp s
+f ffffffff ffffffff 003 v ACR_SaveObjectVariablesToPersistStore
+fp o
+fp o
+fp s
+f ffffffff ffffffff 000 v _ResetServer
+f ffffffff ffffffff 000 v _ServiceAsyncQueries
+f ffffffff ffffffff 004 i _ServiceAsyncQueriesForQueue
+fp o
+fp i
+fp i
+fp o
+f ffffffff ffffffff 001 v _FlushQueryQueue
+fp o
+f ffffffff ffffffff 004 v _ExecuteQueryQueues
+fp i
+fp o
+fp o
+fp i
+f ffffffff ffffffff 001 v _RunQueryQueue
+fp i
+f ffffffff ffffffff 001 i _GetTotalQueuedQueryCount
+fp o
+f ffffffff ffffffff 000 i _GetDatabaseControlFlags
+f ffffffff ffffffff 001 v _SetDatabaseControlFlags
+fp i
+f ffffffff ffffffff 002 v _MaintainACRPersistCache
+fp o
+fp s
+f ffffffff ffffffff 001 v _ClearACRPersistCache
+fp o
+f ffffffff ffffffff 001 i _CalculateTargetMaxQueriesServiced
+fp i
+f ffffffff ffffffff 001 v _SQLQueryInternal
+fp s
+f ffffffff ffffffff 001 i _SQLQueryReturnsValues
+fp s
+f ffffffff ffffffff 000 i NWNXInstalled
+f ffffffff ffffffff 000 i NWNXGetPluginCount
+f ffffffff ffffffff 001 s NWNXGetPluginClass
+fp i
+f ffffffff ffffffff 001 s NWNXGetPluginSubClass
+fp s
+f ffffffff ffffffff 001 s NWNXGetPluginVersion
+fp s
+f ffffffff ffffffff 001 s NWNXGetPluginDescription
+fp s
+f ffffffff ffffffff 000 s _ACR_QUEUE_HEAD_LI
+f ffffffff ffffffff 000 s _ACR_QUEUE_TAIL_LI
+f ffffffff ffffffff 003 v PushQueueString
+fp o
+fp s
+fp s
+f ffffffff ffffffff 002 s PopQueueString
+fp o
+fp s
+f ffffffff ffffffff 002 i GetQueueLength
+fp o
+fp s
+f ffffffff ffffffff 003 s GetLocalArrayString
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 i GetLocalArrayInt
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 f GetLocalArrayFloat
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 e2 GetLocalArrayLocation
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 o GetLocalArrayObject
+fp o
+fp s
+fp i
+f ffffffff ffffffff 004 v SetLocalArrayInt
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v SetLocalArrayFloat
+fp o
+fp s
+fp i
+fp f
+f ffffffff ffffffff 004 v SetLocalArrayObject
+fp o
+fp s
+fp i
+fp o
+f ffffffff ffffffff 004 v SetLocalArrayLocation
+fp o
+fp s
+fp i
+fp e2
+f ffffffff ffffffff 004 v SetLocalArrayString
+fp o
+fp s
+fp i
+fp s
+f ffffffff ffffffff 003 v DeleteLocalArrayInt
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 v DeleteLocalArrayFloat
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 v DeleteLocalArrayString
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 v DeleteLocalArrayLocation
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 v DeleteLocalArrayObject
+fp o
+fp s
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayInts
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayFloats
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayStrings
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayLocations
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayObjects
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 005 v LoadStringArrayIntoCustomTokens
+fp o
+fp s
+fp i
+fp i
+fp i
+f ffffffff ffffffff 000 s _ACR_SETTINGS_SERVER_ID
+f ffffffff ffffffff 000 s _ACR_SETTINGS_SERVER_NAME
+f ffffffff ffffffff 000 s _ACR_SETTINGS_SERVER_REGION
+f ffffffff ffffffff 000 s _ACR_SETTINGS_SERVER_IP
+f ffffffff ffffffff 000 i ACR_GetServerId
+f ffffffff ffffffff 000 i ACR_GetServerID
+f ffffffff ffffffff 000 s ACR_GetServerName
+f ffffffff ffffffff 000 i ACR_GetServerRegion
+f ffffffff ffffffff 000 s ACR_GetServerIp
+f ffffffff ffffffff 004 v SetServerData
+fp i
+fp s
+fp i
+fp s
+f ffffffff ffffffff 000 s ACR_SERVER_MISC_SUPPORT_SCRIPT
+f ffffffff ffffffff 000 s ACR_SERVER_MISC_OBJECT_RETVAL_VAR
+f ffffffff ffffffff 000 s ACR_SERVER_MISC_STRING_RETVAL_VAR
+f ffffffff ffffffff 000 i SCRIPT_DATABASE_CONNECTION_DEBUG
+f ffffffff ffffffff 000 i SCRIPT_DATABASE_CONNECTION_STANDARD_QUERY_LOG
+f ffffffff ffffffff 000 i SCRIPT_DATABASE_CONNECTION_STANDARD_CONNECTION
+f ffffffff ffffffff 000 i SCRIPT_STANDARD_DATABASE_CONNECTION_ID
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_CREATE_AREA_INSTANCE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_RELEASE_AREA_INSTANCE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_RUN_POWERSHELL_SCRIPTLET
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_CREATE_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_DESTROY_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_QUERY_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_FETCH_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_COLUMN_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_AFFECTED_ROW_COUNT_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_ESCAPE_STRING_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_STACK_TRACE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_SET_DICTIONARY_VALUE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_DICTIONARY_VALUE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_FIRST_ITERATE_DICTIONARY
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_NEXT_ITERATE_DICTIONARY
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_DELETE_DICTIONARY_KEY
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_CLEAR_DICTIONARY
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_SALTED_MD5
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_HAS_DATABASE_STORE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_DELETE_DATABASE_STORE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_DELETE_DATABASE_STORE_AT_INDEX
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_SHOW_COMPILER_LOG
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_RESTART_SERVER
+f ffffffff ffffffff 000 i ACR_ExecuteServerUpdaterScript
+f ffffffff ffffffff 003 v ACR_DictionarySet
+fp s
+fp s
+fp s
+f ffffffff ffffffff 002 s ACR_DictionaryGet
+fp s
+fp s
+f ffffffff ffffffff 001 s ACR_DictionaryIterateFirst
+fp s
+f ffffffff ffffffff 001 s ACR_DictionaryIterateNext
+fp s
+f ffffffff ffffffff 002 v ACR_DictionaryDeleteKey
+fp s
+fp s
+f ffffffff ffffffff 001 v ACR_DictionaryClear
+fp s
+f ffffffff ffffffff 001 o ACR_InternalCreateAreaInstance
+fp o
+f ffffffff ffffffff 001 v ACR_InternalReleaseAreaInstance
+fp o
+f ffffffff ffffffff 002 i ACR_RunPowerShellScriptlet
+fp s
+fp o
+f ffffffff ffffffff 002 i ACR_CreateDatabaseConnection
+fp s
+fp i
+f ffffffff ffffffff 001 i ACR_DestroyDatabaseConnection
+fp i
+f ffffffff ffffffff 002 i ACR_QueryDatabaseConnection
+fp i
+fp s
+f ffffffff ffffffff 001 i ACR_FetchDatabaseConnection
+fp i
+f ffffffff ffffffff 002 s ACR_GetColumnDatabaseConnection
+fp i
+fp i
+f ffffffff ffffffff 001 i ACR_GetAffectedRowCountDatabaseConnection
+fp i
+f ffffffff ffffffff 002 s ACR_EscapeStringDatabaseConnection
+fp i
+fp s
+f ffffffff ffffffff 000 s ACR_GetStackTrace
+f ffffffff ffffffff 001 s ACR_GetSaltedMD5
+fp s
+f ffffffff ffffffff 001 i ACR_GetHasDatabaseStore
+fp s
+f ffffffff ffffffff 001 i ACR_DeleteDatabaseStore
+fp s
+f ffffffff ffffffff 002 i ACR_DeleteDatabaseStoreAtIndex
+fp s
+fp i
+f ffffffff ffffffff 001 i ACR_ShowCompilerLog
+fp o
+f ffffffff ffffffff 000 i ACR_RestartServer
+f ffffffff ffffffff 008 i ACR_CallServerMiscScript
+fp i
+fp i
+fp i
+fp s
+fp s
+fp s
+fp o
+fp o
+f ffffffff ffffffff 000 s ACR__GetServerMiscReturnString
+f ffffffff ffffffff 000 o ACR__GetServerMiscReturnObject
+f 0000069d 00000949 001 f GetSongLength
+fp o
+f ffffffff ffffffff 002 i TransposeChord
+fp i
+fp i
+f ffffffff ffffffff 002 v PlayNote
+fp i
+fp i
+f ffffffff ffffffff 001 v ClearTKLPerformerVariables
+fp o
+f ffffffff ffffffff 003 v RefreshLyrics
+fp o
+fp o
+fp i
+f ffffffff ffffffff 002 v RefreshNames
+fp o
+fp o
+f ffffffff ffffffff 001 v RefreshSongList
+fp o
+f ffffffff ffffffff 009 v SetNoteNames
+fp o
+fp i
+fp s
+fp s
+fp s
+fp s
+fp s
+fp s
+fp s
+f ffffffff ffffffff 002 v RefreshNoteNames
+fp o
+fp o
+f ffffffff ffffffff 003 v EraseTrack
+fp o
+fp i
+fp i
+f ffffffff ffffffff 002 v EnableButtons
+fp o
+fp o
+f ffffffff ffffffff 003 v DisableButtons
+fp o
+fp o
+fp i
+f ffffffff ffffffff 004 v PlayLyrics
+fp o
+fp o
+fp i
+fp i
+f ffffffff ffffffff 007 v PlayTrack
+fp o
+fp o
+fp i
+fp i
+fp i
+fp i
+fp i
+f ffffffff ffffffff 007 v PlaySong
+fp o
+fp o
+fp i
+fp i
+fp i
+fp i
+fp i
+f ffffffff ffffffff 003 v RecordTrack
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v PlayMetronome
+fp o
+fp i
+fp i
+f ffffffff ffffffff 003 v PassTKLParameters
+fp o
+fp s
+fp i
+f ffffffff ffffffff 001 v EraseLyricTrack
+fp o
+f ffffffff ffffffff 001 v EraseLyrics
+fp o
+f ffffffff ffffffff 003 v TransferSong
+fp o
+fp o
+fp i
+f 00000134 0000064f 002 v StopRecording
+fp o
+fp o
+f ffffffff ffffffff 002 v RefreshRecordPane
+fp o
+fp o
+f ffffffff ffffffff 002 v RefreshMuting
+fp o
+fp o
+f 00000949 00000ddb 002 v RefreshModes
+fp o
+fp o
+f ffffffff ffffffff 003 v LaunchTKLPerformer
+fp o
+fp o
+fp s
+f 00000027 00000134 002 v ShutDownTKLPerformer
+fp o
+fp o
+f ffffffff ffffffff 003 v FindLastNote
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v FinalizeNoteSorting
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 v SortNotes
+fp o
+fp o
+fp i
+f ffffffff ffffffff 001 s GetNoteName
+fp i
+f ffffffff ffffffff 002 v RefreshCopyPane
+fp o
+fp o
+f ffffffff ffffffff 002 v ResetExpiringVariables
+fp o
+fp o
+f ffffffff ffffffff 002 v RefreshNotePane
+fp o
+fp o
+f ffffffff ffffffff 003 v DeleteNote
+fp o
+fp i
+fp i
+f ffffffff ffffffff 001 i GetMaximumSpeed
+fp o
+f ffffffff ffffffff 002 i GetPercussionPitch
+fp s
+fp i
+f ffffffff ffffffff 003 i GetChordPitch
+fp s
+fp s
+fp s
+f ffffffff ffffffff 005 i GetMelodyPitch
+fp s
+fp s
+fp i
+fp i
+fp i
+f ffffffff ffffffff 002 v SetupImprovPane
+fp o
+fp o
+f ffffffff ffffffff 003 i ParseImprovVariables
+fp o
+fp s
+fp s
+f ffffffff ffffffff 002 v SetImprovStyle
+fp o
+fp i
+f ffffffff ffffffff 002 v ClearImprovVariables
+fp o
+fp s
+f ffffffff ffffffff 001 v ClearImprovStyle
+fp o
+f ffffffff ffffffff 001 v Improvise
+fp o
+f ffffffff ffffffff 001 i ParseChord
+fp s
+f ffffffff ffffffff 002 i GetIsChordTone
+fp i
+fp i
+f ffffffff ffffffff 002 f GetOffset
+fp i
+fp f
+f ffffffff ffffffff 008 v ImproviseMelodyMeasure
+fp o
+fp i
+fp i
+fp f
+fp i
+fp i
+fp i
+fp i
+f ffffffff ffffffff 005 v ImprovisePercussionMeasure
+fp o
+fp i
+fp i
+fp f
+fp i
+f ffffffff ffffffff 005 v WriteNote
+fp o
+fp i
+fp i
+fp i
+fp f
+f ffffffff ffffffff 011 v WriteTrack
+fp o
+fp o
+fp i
+fp s
+fp s
+fp i
+fp i
+fp i
+fp i
+fp f
+fp i
+f ffffffff ffffffff 001 v SetSongLength
+fp o
+f ffffffff ffffffff 004 v WriteLyric
+fp o
+fp i
+fp i
+fp f
+f ffffffff ffffffff 003 v WriteLyrics
+fp o
+fp o
+fp s
+f ffffffff ffffffff 002 s GetTKLPersistString
+fp o
+fp s
+f ffffffff ffffffff 003 v SetTKLPersistString
+fp o
+fp s
+fp s
+f ffffffff ffffffff 002 f GetTKLPersistFloat
+fp o
+fp s
+f ffffffff ffffffff 003 v SetTKLPersistFloat
+fp o
+fp s
+fp f
+f ffffffff ffffffff 004 o RetrieveTKLPersistInstrumentObject
+fp o
+fp s
+fp e2
+fp o
+f ffffffff ffffffff 003 v StoreTKLPersistInstrumentObject
+fp o
+fp s
+fp o
+f ffffffff ffffffff 001 v UpgradeTKLDatabase
+fp o
+f ffffffff ffffffff 001 i ParseNote
+fp s
+f 00000015 00000027 000 v main
+f 0000000d 00000015 000 v #loader
+v 00000027 0000012c 00000000 o oItem
+v 00000027 0000012c 00000004 o oPC
+v 00000134 00000647 00000000 o oInstrument
+v 00000134 00000647 00000004 o oPC
+v 00000134 00000641 00000008 s sStop
+v 00000150 00000641 0000000c i iTrack
+v 00000190 00000641 00000010 i bRecordingLyrics
+v 000001d2 00000641 00000014 s sTrack
+v 000001df 00000641 00000018 f fLagCheck
+v 000001f9 00000641 0000001c i bLagCheckOn
+v 00000218 00000641 00000020 f fCurrent
+v 00000228 00000428 00000024 s sID
+v 0000022a 00000428 00000028 i iNotesRecorded
+v 00000471 000004f0 00000024 i iMetronome
+v 0000064f 0000069b 00000000 s #retval
+v 0000064f 00000695 00000004 s sName
+v 0000064f 00000695 00000008 o oObject
+v 0000069d 00000947 00000000 f #retval
+v 0000069d 00000941 00000004 o oInstrument
+v 0000069f 0000093b 00000008 f fSongLength
+v 000006a1 0000093b 0000000c f fTrackLength
+v 000006a3 0000093b 00000010 i iTrack
+v 000006a5 0000093b 00000014 i iTotalNotes
+v 000006a5 0000093b 00000018 i iTempo
+v 000006e5 0000093b 0000001c f fTempo
+v 000006fc 0000093b 00000020 s sTrack
+v 00000949 00000dd3 00000000 o oInstrument
+v 00000949 00000dd3 00000004 o oPC
+v 00000949 00000dcd 00000008 i bRecordMode
+v 00000965 00000dcd 0000000c i bMinorMode
+v 00000980 00000dcd 00000010 i bEasyMode
+v 0000099a 00000dcd 00000014 s sPane
+l09 0000011 00000015 00000025
+l09 0000012 00000025 00000027
+l08 0001191 00000027 00000088
+l08 0001193 0000008e 000000a4
+l08 0001194 000000a4 000000c0
+l08 0001196 000000c0 000000e9
+l08 0001197 000000e9 00000107
+l08 0001198 00000107 0000012c
+l08 0001199 0000012c 00000134
+l08 0000974 00000134 00000150
+l08 0000975 00000150 00000170
+l08 0000976 00000170 00000190
+l08 0000977 00000190 000001b1
+l08 0000978 000001b1 000001d2
+l08 0000979 000001d2 000001df
+l08 0000980 000001df 000001f9
+l08 0000981 000001f9 00000216
+l08 0000982 00000216 00000218
+l08 0000983 00000218 00000220
+l08 0000985 00000226 00000228
+l08 0000986 00000228 0000022a
+l08 0000987 0000022a 0000023a
+l08 0000988 00000240 0000027d
+l08 0000989 00000283 00000285
+l08 0000990 00000293 000002c1
+l08 0000991 000002c1 000002d7
+l08 0000993 000002d7 000002e7
+l08 0000995 000002ed 00000330
+l08 0000996 00000330 00000353
+l08 0000997 00000353 0000037a
+l08 0000999 00000380 00000382
+l08 0001001 00000390 000003c4
+l08 0001002 000003c4 000003e7
+l08 0001003 000003e7 0000040e
+l08 0001005 0000040e 00000422
+l08 0001008 0000042e 0000046b
+l08 0001010 00000471 0000048b
+l08 0001011 0000048b 0000049b
+l08 0001012 000004a1 000004b5
+l08 0001013 000004b5 000004f0
+l08 0001015 000004fc 000004fe
+l08 0001016 000004fe 00000531
+l08 0001018 00000531 00000554
+l08 0001020 00000554 00000580
+l08 0001021 00000580 00000588
+l08 0001022 0000058e 000005ce
+l08 0001023 000005d4 000005d6
+l08 0001024 000005d6 0000060f
+l08 0001026 0000060f 0000062b
+l08 0001027 0000062b 00000641
+l08 0001028 00000647 0000064f
+l00 0000038 0000064f 00000695
+l00 0000039 00000695 0000069d
+l08 0000194 0000069d 000006a1
+l08 0000195 000006a1 000006a5
+l08 0000196 000006a5 000006bb
+l08 0000197 000006bb 000006cb
+l08 0000198 000006d1 000006e5
+l08 0000199 000006e5 000006fa
+l08 0000200 000006fa 000006fc
+l08 0000201 000006fc 00000710
+l08 0000203 00000726 00000741
+l08 0000204 00000741 0000077e
+l08 0000205 0000077e 0000078e
+l08 0000207 00000794 000007e4
+l08 0000209 000007e4 00000804
+l08 0000210 00000804 00000816
+l08 0000211 0000081c 00000832
+l08 0000201 00000832 00000846
+l08 0000214 0000084c 0000087a
+l08 0000215 0000087a 0000088a
+l08 0000217 00000890 000008d1
+l08 0000218 000008d1 000008f1
+l08 0000219 000008f1 00000903
+l08 0000220 00000909 0000091f
+l08 0000222 0000091f 0000093b
+l08 0000223 00000941 00000949
+l08 0001113 00000949 00000965
+l08 0001114 00000965 00000980
+l08 0001115 00000980 0000099a
+l08 0001117 0000099a 000009a2
+l08 0001119 000009a2 000009b2
+l08 0001120 000009b8 00000a02
+l08 0001121 00000a08 00000a0a
+l08 0001123 00000a0a 00000a47
+l08 0001124 00000a47 00000a67
+l08 0001127 00000a67 00000a77
+l08 0001128 00000a7d 00000ab9
+l08 0001129 00000abf 00000ac1
+l08 0001131 00000ac1 00000afd
+l08 0001132 00000afd 00000b1e
+l08 0001135 00000b1e 00000b2e
+l08 0001137 00000b34 00000b71
+l08 0001138 00000b71 00000b91
+l08 0001140 00000b97 00000b99
+l08 0001141 00000b99 00000be3
+l08 0001143 00000be3 00000c13
+l08 0001144 00000c13 00000c50
+l08 0001145 00000c50 00000c89
+l08 0001146 00000c89 00000cc2
+l08 0001147 00000cc2 00000cf6
+l08 0001148 00000cf6 00000d2b
+l08 0001149 00000d2b 00000d5f
+l08 0001150 00000d5f 00000d97
+l08 0001152 00000d97 00000dcd
+l08 0001153 00000dd3 00000ddb

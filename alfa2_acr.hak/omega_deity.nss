@@ -242,6 +242,10 @@ void main()
 		{sDeity = "Faith of the Nine Travelers";	}
 	if(iDeity == 112)
 		{sDeity = "Eight Million Gods";	}
+	if(iDeity == 113)
+		{sDeity = "Horus-Re";	}
+	if(iDeity == 114)
+		{sDeity = "Set";	}
 	
 	if(iDeity >= 0)
 		{SetDeity(oObject, sDeity);

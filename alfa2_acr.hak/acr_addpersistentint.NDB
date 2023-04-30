@@ -1,0 +1,838 @@
+NDB V1.0
+0000007 0000001 0000215 0000133 0000247
+n00 nwnx_include
+n01 acr_array_i
+n02 acr_queue_i
+n03 acr_settings_i
+n04 acr_server_misc_i
+n05 acr_db_persist_i
+N06 acr_addpersistentint
+s 03 vector
+sf f x
+sf f y
+sf f z
+f ffffffff ffffffff 000 i SQL_ERROR
+f ffffffff ffffffff 000 i SQL_SUCCESS
+f ffffffff ffffffff 000 s ACR_CID
+f ffffffff ffffffff 000 s ACR_PID
+f ffffffff ffffffff 000 s ACR_MEMBERSHIP
+f ffffffff ffffffff 000 s ACR_SRVADMIN
+f ffffffff ffffffff 000 s ACR_DISABLE_STATISTICS
+f ffffffff ffffffff 000 s ACR_GAMEOBJUPDATE
+f ffffffff ffffffff 000 s ACR_MOD_CONTENT_PATCH_PATH
+f ffffffff ffffffff 000 s ACR_MOD_WER_DISABLED
+f ffffffff ffffffff 000 s ACR_MOD_COMPILER_OPTIONS
+f ffffffff ffffffff 000 s ACR_MODULERESOURCEFILES_DB
+f ffffffff ffffffff 000 s ACR_MODULERESOURCEFILES_MOD
+f ffffffff ffffffff 000 s ACR_NOTIFY_SERVICE_CHARACTER_ID_MOD
+f ffffffff ffffffff 000 s ACR_ERROR_NOTIFY_IRC_RECIPIENT_MOD
+f ffffffff ffffffff 000 s ACR_GAME_DIFFICULTY_LEVEL_MOD
+f ffffffff ffffffff 000 s ACR_CONTENT_PATCH_PATH
+f ffffffff ffffffff 000 s ACR_WER_DISABLED
+f ffffffff ffffffff 000 s ACR_COMPILER_OPTIONS
+f ffffffff ffffffff 000 s ACR_NOTIFY_SERVICE_CHARACTER_ID
+f ffffffff ffffffff 000 s ACR_ERROR_NOTIFY_IRC_RECIPIENT
+f ffffffff ffffffff 000 s ACR_GAME_DIFFICULTY_LEVEL
+f ffffffff ffffffff 000 i ACR_SRVADMIN_INDETERMINITE
+f ffffffff ffffffff 000 i ACR_SRVADMIN_IS_ADMIN
+f ffffffff ffffffff 000 i ACR_SRVADMIN_NOT_ADMIN
+f ffffffff ffffffff 000 i ACR_CHARACTER_ID_NONE
+f ffffffff ffffffff 000 s ACR_PLAYERSTATUS_CACHE_VAR
+f ffffffff ffffffff 000 s ACR_HEALTHMONITOR_GAMEOBJUPDATE_BACKOFF_VAR
+f ffffffff ffffffff 000 s ACR_CDKEY
+f ffffffff ffffffff 000 s ACR_DB_FAILURES
+f ffffffff ffffffff 000 f _ACR_DB_SQL_ASYNC_WRITE_HEARTBEAT_DELAY
+f ffffffff ffffffff 000 s _ACR_DB_SQL_QUEUE
+f ffffffff ffffffff 000 s _ACR_DB_CONTROL_FLAGS_VAR
+f ffffffff ffffffff 000 s _ACR_DB_SQL_PENDING_QUERY_VAR
+f ffffffff ffffffff 000 s _ACR_DB_SQL_SERVER_BOOT_TIME_VAR
+f ffffffff ffffffff 000 s _ACR_DB_SQL_SERVER_BOOT_TIME_MOD_VAR
+f ffffffff ffffffff 000 s _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX
+f ffffffff ffffffff 000 s _ACR_DB_VDB_FILE
+f ffffffff ffffffff 000 i _ACR_DB_SQL_PERSIST_CACHE_VAR_PREFIX_LEN
+f ffffffff ffffffff 000 i _ACR_SQL_SAQ_FLUSHALL
+f ffffffff ffffffff 000 i _ACR_SQL_DBCTRL_DATABASE_OFFLINE
+f ffffffff ffffffff 000 i _ACR_SQL_DBCTRL_ASYNC_PENDING
+f ffffffff ffffffff 000 i _ACR_SQL_QUERY_MAX_LEN
+f ffffffff ffffffff 000 s ACR_DTH_CORPSE_RESREF
+f ffffffff ffffffff 000 s ACR_DTH_BODY_RESREF
+f ffffffff ffffffff 000 i ACR_PC_LOCAL_FLAG_PORTAL_IN_PROGRESS
+f ffffffff ffffffff 000 i ACR_PC_LOCAL_FLAG_PORTAL_COMMITTED
+f ffffffff ffffffff 000 i ACR_PC_LOCAL_FLAG_SERVER_TELL_HELP
+f ffffffff ffffffff 000 i ACR_QUERY_LOW_PRIORITY
+f ffffffff ffffffff 000 v ACR_StartAsyncService
+f ffffffff ffffffff 000 v ACR_LoadDatabaseConfiguration
+f ffffffff ffffffff 000 v ACR_InitializeDatabase
+f ffffffff ffffffff 001 v ACR_AsyncSQLQuery
+fp s
+f 0000187d 0000191d 003 v ACR_AsyncSQLQueryEx
+fp s
+fp o
+fp i
+f 000004f2 000005f9 001 v ACR_SQLQuery
+fp s
+f 0000127d 000012a7 001 i ACR_SQLFetch
+fp s
+f 000012f7 00001329 001 s ACR_SQLGetData
+fp i
+f ffffffff ffffffff 000 i ACR_SQLGetAffectedRows
+f ffffffff ffffffff 001 v ACR_IncrementStatistic
+fp s
+f 0000163e 0000187d 004 v ACR_SetPersistentString
+fp o
+fp s
+fp s
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentStringNoTimestamp
+fp o
+fp s
+fp s
+fp i
+f 0000160b 0000163e 004 v ACR_SetPersistentInt
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentFloat
+fp o
+fp s
+fp f
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentLocation
+fp o
+fp s
+fp e2
+fp i
+f ffffffff ffffffff 004 v ACR_SetPersistentVector
+fp o
+fp s
+fp t0000
+fp i
+f ffffffff ffffffff 005 v ACR_SetPersistentObject
+fp o
+fp s
+fp o
+fp s
+fp i
+f 0000009f 000001b9 002 s ACR_GetPersistentString
+fp o
+fp s
+f 00000066 0000009f 002 i ACR_GetPersistentInt
+fp o
+fp s
+f ffffffff ffffffff 002 f ACR_GetPersistentFloat
+fp o
+fp s
+f ffffffff ffffffff 002 e2 ACR_GetPersistentLocation
+fp o
+fp s
+f ffffffff ffffffff 002 t0000 ACR_GetPersistentVector
+fp o
+fp s
+f ffffffff ffffffff 003 o ACR_GetPersistentObject
+fp o
+fp s
+fp s
+f ffffffff ffffffff 003 o ACR_GetLegacyPersistentObject
+fp o
+fp s
+fp s
+f ffffffff ffffffff 002 v ACR_DeletePersistentVariable
+fp o
+fp s
+f 0000155d 0000158f 001 s ACR_SQLEncodeSpecialChars
+fp s
+f ffffffff ffffffff 001 s ACR_LocationToString
+fp e2
+f ffffffff ffffffff 001 e2 ACR_StringToLocation
+fp s
+f ffffffff ffffffff 001 s ACR_VectorToString
+fp t0000
+f ffffffff ffffffff 001 t0000 ACR_StringToVector
+fp s
+f ffffffff ffffffff 001 v ACR_SetPCPublicCDKey
+fp o
+f 000001b9 000001ef 001 s ACR_GetPCPublicCDKey
+fp o
+f ffffffff ffffffff 003 v ACR_SetCharacterID
+fp o
+fp i
+fp i
+f ffffffff ffffffff 001 i ACR_GetCharacterID
+fp o
+f ffffffff ffffffff 001 i ACR_GetPlayerID
+fp o
+f ffffffff ffffffff 001 i ACR_GetIsMember
+fp o
+f ffffffff ffffffff 001 i ACR_IsServerAdmin
+fp o
+f ffffffff ffffffff 001 i ACR_GetPCLocalFlags
+fp o
+f ffffffff ffffffff 002 v ACR_SetPCLocalFlags
+fp o
+fp i
+f ffffffff ffffffff 000 v ACR_CreateSQLTables
+f ffffffff ffffffff 000 v ACR_ResetDatabase
+f ffffffff ffffffff 000 v ACR_AdjustTables
+f ffffffff ffffffff 001 v ACR_DBPersistOnIncomingPlayer
+fp o
+f ffffffff ffffffff 001 v ACR_DBPersistOnOutgoingPlayer
+fp o
+f 0000046a 000004f2 000 i ACR_GetUTCTime
+f 000003a7 0000046a 000 i ACR_GetModuleStartTime
+f ffffffff ffffffff 001 v ACR_FlushQueryQueue
+fp o
+f ffffffff ffffffff 000 s ACR_GetServerAddressFromDatabase
+f ffffffff ffffffff 003 i ACR_LoadObjectVariablesFromPersistStore
+fp o
+fp o
+fp s
+f ffffffff ffffffff 003 v ACR_SaveObjectVariablesToPersistStore
+fp o
+fp o
+fp s
+f ffffffff ffffffff 000 v _ResetServer
+f 00001aaa 00001bc2 000 v _ServiceAsyncQueries
+f 00000d24 000010be 004 i _ServiceAsyncQueriesForQueue
+fp o
+fp i
+fp i
+fp o
+f ffffffff ffffffff 001 v _FlushQueryQueue
+fp o
+f 00000a6f 00000d24 004 v _ExecuteQueryQueues
+fp i
+fp o
+fp o
+fp i
+f 000019df 00001a74 001 v _RunQueryQueue
+fp i
+f 000007dc 00000987 001 i _GetTotalQueuedQueryCount
+fp o
+f 000010be 000010fa 000 i _GetDatabaseControlFlags
+f 00001a74 00001aaa 001 v _SetDatabaseControlFlags
+fp i
+f 000001ef 000003a7 002 v _MaintainACRPersistCache
+fp o
+fp s
+f 00001428 0000155d 001 v _ClearACRPersistCache
+fp o
+f 000009ef 00000a6f 001 i _CalculateTargetMaxQueriesServiced
+fp i
+f 000006c3 000006e7 001 v _SQLQueryInternal
+fp s
+f 000005f9 000006c3 001 i _SQLQueryReturnsValues
+fp s
+f ffffffff ffffffff 000 i NWNXInstalled
+f ffffffff ffffffff 000 i NWNXGetPluginCount
+f ffffffff ffffffff 001 s NWNXGetPluginClass
+fp i
+f ffffffff ffffffff 001 s NWNXGetPluginSubClass
+fp s
+f ffffffff ffffffff 001 s NWNXGetPluginVersion
+fp s
+f ffffffff ffffffff 001 s NWNXGetPluginDescription
+fp s
+f ffffffff ffffffff 000 s _ACR_QUEUE_HEAD_LI
+f ffffffff ffffffff 000 s _ACR_QUEUE_TAIL_LI
+f 0000191d 000019ab 003 v PushQueueString
+fp o
+fp s
+fp s
+f 000010fa 00001211 002 s PopQueueString
+fp o
+fp s
+f 00000987 000009ef 002 i GetQueueLength
+fp o
+fp s
+f 00001211 00001251 003 s GetLocalArrayString
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 i GetLocalArrayInt
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 f GetLocalArrayFloat
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 e2 GetLocalArrayLocation
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 o GetLocalArrayObject
+fp o
+fp s
+fp i
+f ffffffff ffffffff 004 v SetLocalArrayInt
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v SetLocalArrayFloat
+fp o
+fp s
+fp i
+fp f
+f ffffffff ffffffff 004 v SetLocalArrayObject
+fp o
+fp s
+fp i
+fp o
+f ffffffff ffffffff 004 v SetLocalArrayLocation
+fp o
+fp s
+fp i
+fp e2
+f 000019ab 000019df 004 v SetLocalArrayString
+fp o
+fp s
+fp i
+fp s
+f ffffffff ffffffff 003 v DeleteLocalArrayInt
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 v DeleteLocalArrayFloat
+fp o
+fp s
+fp i
+f 00001251 0000127d 003 v DeleteLocalArrayString
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 v DeleteLocalArrayLocation
+fp o
+fp s
+fp i
+f ffffffff ffffffff 003 v DeleteLocalArrayObject
+fp o
+fp s
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayInts
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayFloats
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayStrings
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayLocations
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 004 v DeleteLocalArrayObjects
+fp o
+fp s
+fp i
+fp i
+f ffffffff ffffffff 005 v LoadStringArrayIntoCustomTokens
+fp o
+fp s
+fp i
+fp i
+fp i
+f ffffffff ffffffff 000 s _ACR_SETTINGS_SERVER_ID
+f ffffffff ffffffff 000 s _ACR_SETTINGS_SERVER_NAME
+f ffffffff ffffffff 000 s _ACR_SETTINGS_SERVER_REGION
+f ffffffff ffffffff 000 s _ACR_SETTINGS_SERVER_IP
+f ffffffff ffffffff 000 i ACR_GetServerId
+f ffffffff ffffffff 000 i ACR_GetServerID
+f ffffffff ffffffff 000 s ACR_GetServerName
+f ffffffff ffffffff 000 i ACR_GetServerRegion
+f ffffffff ffffffff 000 s ACR_GetServerIp
+f ffffffff ffffffff 004 v SetServerData
+fp i
+fp s
+fp i
+fp s
+f ffffffff ffffffff 000 s ACR_SERVER_MISC_SUPPORT_SCRIPT
+f ffffffff ffffffff 000 s ACR_SERVER_MISC_OBJECT_RETVAL_VAR
+f ffffffff ffffffff 000 s ACR_SERVER_MISC_STRING_RETVAL_VAR
+f ffffffff ffffffff 000 i SCRIPT_DATABASE_CONNECTION_DEBUG
+f ffffffff ffffffff 000 i SCRIPT_DATABASE_CONNECTION_STANDARD_QUERY_LOG
+f ffffffff ffffffff 000 i SCRIPT_DATABASE_CONNECTION_STANDARD_CONNECTION
+f ffffffff ffffffff 000 i SCRIPT_STANDARD_DATABASE_CONNECTION_ID
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_EXECUTE_UPDATER_SCRIPT
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_CREATE_AREA_INSTANCE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_RELEASE_AREA_INSTANCE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_RUN_POWERSHELL_SCRIPTLET
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_CREATE_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_DESTROY_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_QUERY_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_FETCH_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_COLUMN_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_AFFECTED_ROW_COUNT_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_ESCAPE_STRING_DATABASE_CONNECTION
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_STACK_TRACE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_SET_DICTIONARY_VALUE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_DICTIONARY_VALUE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_FIRST_ITERATE_DICTIONARY
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_NEXT_ITERATE_DICTIONARY
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_DELETE_DICTIONARY_KEY
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_CLEAR_DICTIONARY
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_SALTED_MD5
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_GET_HAS_DATABASE_STORE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_DELETE_DATABASE_STORE
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_DELETE_DATABASE_STORE_AT_INDEX
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_SHOW_COMPILER_LOG
+f ffffffff ffffffff 000 i ACR_SERVER_MISC_RESTART_SERVER
+f ffffffff ffffffff 000 i ACR_ExecuteServerUpdaterScript
+f ffffffff ffffffff 003 v ACR_DictionarySet
+fp s
+fp s
+fp s
+f ffffffff ffffffff 002 s ACR_DictionaryGet
+fp s
+fp s
+f ffffffff ffffffff 001 s ACR_DictionaryIterateFirst
+fp s
+f ffffffff ffffffff 001 s ACR_DictionaryIterateNext
+fp s
+f ffffffff ffffffff 002 v ACR_DictionaryDeleteKey
+fp s
+fp s
+f ffffffff ffffffff 001 v ACR_DictionaryClear
+fp s
+f ffffffff ffffffff 001 o ACR_InternalCreateAreaInstance
+fp o
+f ffffffff ffffffff 001 v ACR_InternalReleaseAreaInstance
+fp o
+f ffffffff ffffffff 002 i ACR_RunPowerShellScriptlet
+fp s
+fp o
+f ffffffff ffffffff 002 i ACR_CreateDatabaseConnection
+fp s
+fp i
+f ffffffff ffffffff 001 i ACR_DestroyDatabaseConnection
+fp i
+f 000006e7 0000073b 002 i ACR_QueryDatabaseConnection
+fp i
+fp s
+f 000012a7 000012f7 001 i ACR_FetchDatabaseConnection
+fp i
+f 00001329 000013a3 002 s ACR_GetColumnDatabaseConnection
+fp i
+fp i
+f ffffffff ffffffff 001 i ACR_GetAffectedRowCountDatabaseConnection
+fp i
+f 0000158f 0000160b 002 s ACR_EscapeStringDatabaseConnection
+fp i
+fp s
+f ffffffff ffffffff 000 s ACR_GetStackTrace
+f ffffffff ffffffff 001 s ACR_GetSaltedMD5
+fp s
+f ffffffff ffffffff 001 i ACR_GetHasDatabaseStore
+fp s
+f ffffffff ffffffff 001 i ACR_DeleteDatabaseStore
+fp s
+f ffffffff ffffffff 002 i ACR_DeleteDatabaseStoreAtIndex
+fp s
+fp i
+f ffffffff ffffffff 001 i ACR_ShowCompilerLog
+fp o
+f ffffffff ffffffff 000 i ACR_RestartServer
+f 0000073b 000007dc 008 i ACR_CallServerMiscScript
+fp i
+fp i
+fp i
+fp s
+fp s
+fp s
+fp o
+fp o
+f 000013a3 00001428 000 s ACR__GetServerMiscReturnString
+f ffffffff ffffffff 000 o ACR__GetServerMiscReturnObject
+f 00000015 00000066 002 v main
+fp s
+fp i
+f 0000000d 00000015 000 v #loader
+v 00000015 0000005e 00000000 i nVariableValue
+v 00000015 0000005e 00000004 s sVariableName
+v 00000015 00000058 00000008 o oPC
+v 00000066 0000009d 00000000 i #retval
+v 00000066 00000097 00000004 s sVarName
+v 00000066 00000097 00000008 o oObject
+v 0000009f 000001b7 00000000 s #retval
+v 0000009f 000001b1 00000004 s sVarName
+v 0000009f 000001b1 00000008 o oObject
+v 0000009f 000001ab 0000000c s sTag
+v 000001b9 000001ed 00000000 s #retval
+v 000001b9 000001e7 00000004 o oPC
+v 000001ef 0000039f 00000000 s sTag
+v 000001ef 0000039f 00000004 o oCacheObject
+v 000001ef 00000399 00000008 i CacheModuleStartTime
+v 0000021b 00000399 0000000c i ModuleStartTime
+v 00000225 00000399 00000010 i VarCount
+v 000003a7 00000468 00000000 i #retval
+v 000003a7 00000462 00000004 o Module
+v 000003ac 00000462 00000008 i StartTime
+v 0000046a 000004f0 00000000 i #retval
+v 000004f2 000005f1 00000000 s sSQL
+v 0000051e 000005eb 00000004 i MaxServiced
+v 0000051e 000005eb 00000008 o Module
+v 00000523 000005eb 0000000c i TotalQueueLength
+v 00000533 000005eb 00000010 s Query
+v 000005f9 000006c1 00000000 i #retval
+v 000005f9 000006bb 00000004 s sSQL
+v 000005f9 000006b5 00000008 s Verb
+v 000006c3 000006df 00000000 s sSQL
+v 000006e7 00000739 00000000 i #retval
+v 000006e7 00000733 00000004 s Query
+v 000006e7 00000733 00000008 i ConnectionHandle
+v 0000073b 000007da 00000000 i #retval
+v 0000073b 000007d4 00000004 o ObjectSelf
+v 0000073b 000007d4 00000008 o P5
+v 0000073b 000007d4 0000000c s P4
+v 0000073b 000007d4 00000010 s P3
+v 0000073b 000007d4 00000014 s P2
+v 0000073b 000007d4 00000018 i P1
+v 0000073b 000007d4 0000001c i P0
+v 0000073b 000007d4 00000020 i Command
+v 000007dc 00000985 00000000 i #retval
+v 000007dc 0000097f 00000004 o oExtraQueueObject
+v 000007de 00000979 00000008 o Module
+v 000007e0 00000979 0000000c o Player
+v 000007e2 00000979 00000010 i QueryCount
+v 00000987 000009ed 00000000 i #retval
+v 00000987 000009e7 00000004 s sQueue
+v 00000987 000009e7 00000008 o oObject
+v 000009ef 00000a6d 00000000 i #retval
+v 000009ef 00000a67 00000004 i nTotalQueueLength
+v 000009f1 00000a61 00000008 i MaxServiced
+v 00000a6f 00000d1c 00000000 i bAccumulate
+v 00000a6f 00000d1c 00000004 o oExtraQueueObject
+v 00000a6f 00000d1c 00000008 o oModule
+v 00000a6f 00000d1c 0000000c i nMaxServiced
+v 00000a71 00000d16 00000010 i Processed
+v 00000a73 00000d16 00000014 s Query
+v 00000a75 00000d16 00000018 o QueueObject
+v 00000d24 000010bc 00000000 i #retval
+v 00000d24 000010b6 00000004 o oModule
+v 00000d24 000010b6 00000008 i nMaxServiced
+v 00000d24 000010b6 0000000c i nFlags
+v 00000d24 000010b6 00000010 o oQueuedTo
+v 00000d26 000010b0 00000014 i i
+v 00000d28 000010b0 00000018 i Length
+v 00000d2a 000010b0 0000001c i MaxQueries
+v 00000d2c 000010b0 00000020 i QueriesLeft
+v 00000d2e 000010b0 00000024 s Query
+v 000010be 000010f8 00000000 i #retval
+v 000010fa 0000120f 00000000 s #retval
+v 000010fa 00001209 00000004 s sQueue
+v 000010fa 00001209 00000008 o oObject
+v 000010fa 00001203 0000000c i tail
+v 0000111f 00001203 00000010 i head
+v 00001174 00001203 00000014 s sVal
+v 00001211 0000124f 00000000 s #retval
+v 00001211 00001249 00000004 i nIndex
+v 00001211 00001249 00000008 s sVarName
+v 00001211 00001249 0000000c o oObject
+v 00001251 00001275 00000000 i nIndex
+v 00001251 00001275 00000004 s sVarName
+v 00001251 00001275 00000008 o oObject
+v 0000127d 000012a5 00000000 i #retval
+v 0000127d 0000129f 00000004 s mode
+v 000012a7 000012f5 00000000 i #retval
+v 000012a7 000012ef 00000004 i ConnectionHandle
+v 000012f7 00001327 00000000 s #retval
+v 000012f7 00001321 00000004 i nCol
+v 00001329 000013a1 00000000 s #retval
+v 00001329 0000139b 00000004 i ColumnIndex
+v 00001329 0000139b 00000008 i ConnectionHandle
+v 000013a3 00001426 00000000 s #retval
+v 000013a3 00001420 00000004 o Module
+v 000013a8 00001420 00000008 s Data
+v 00001428 00001555 00000000 o oCacheObject
+v 0000142a 0000154f 00000004 i i
+v 0000142c 0000154f 00000008 i VarCount
+v 00001473 00001503 0000000c s VarName
+v 00001490 00001503 00000010 s VarPrefix
+v 0000155d 0000158d 00000000 s #retval
+v 0000155d 00001587 00000004 s sString
+v 0000158f 00001609 00000000 s #retval
+v 0000158f 00001603 00000004 s String
+v 0000158f 00001603 00000008 i ConnectionHandle
+v 0000160b 00001636 00000000 i iExpiration
+v 0000160b 00001636 00000004 i iValue
+v 0000160b 00001636 00000008 s sVarName
+v 0000160b 00001636 0000000c o oObject
+v 0000163e 00001875 00000000 i iExpiration
+v 0000163e 00001875 00000004 s sValue
+v 0000163e 00001875 00000008 s sVarName
+v 0000163e 00001875 0000000c o oObject
+v 0000163e 0000186f 00000010 s sTag
+v 0000187d 00001915 00000000 i nFlags
+v 0000187d 00001915 00000004 o oQueueTo
+v 0000187d 00001915 00000008 s sSQL
+v 0000187d 0000190f 0000000c i Deferred
+v 00001897 0000190f 00000010 i PrevQueueLength
+v 0000191d 000019a3 00000000 s sVal
+v 0000191d 000019a3 00000004 s sQueue
+v 0000191d 000019a3 00000008 o oObject
+v 0000191d 0000199d 0000000c i tail
+v 000019ab 000019d7 00000000 s sValue
+v 000019ab 000019d7 00000004 i nIndex
+v 000019ab 000019d7 00000008 s sVarName
+v 000019ab 000019d7 0000000c o oObject
+v 000019df 00001a6c 00000000 i bDeferred
+v 00001a74 00001aa2 00000000 i nControlFlags
+v 00001aac 00001bba 00000000 i MaxServiced
+v 00001aac 00001bba 00000004 o Module
+v 00001ab1 00001bba 00000008 i TotalQueueLength
+l06 0000008 00000015 0000001a
+l06 0000010 0000001a 00000058
+l06 0000012 0000005e 00000066
+l05 0000848 00000066 00000097
+l05 0000849 00000097 0000009f
+l05 0000834 0000009f 000000d5
+l05 0000836 000000d5 0000012e
+l05 0000837 00000155 0000016b
+l05 0000838 0000016b 000001ab
+l05 0000839 000001b1 000001b9
+l05 0001030 000001b9 000001e7
+l05 0001031 000001e7 000001ef
+l05 0001990 000001ef 0000021b
+l05 0001991 0000021b 00000223
+l05 0001992 00000223 00000225
+l05 0001995 00000225 00000237
+l05 0001996 0000023d 00000249
+l05 0002002 00000249 00000257
+l05 0002005 00000257 0000026b
+l05 0002007 0000026b 000002da
+l05 0002008 000002da 000002f5
+l05 0002010 000002f5 00000309
+l05 0002011 00000309 00000349
+l05 0002022 0000034f 0000035f
+l05 0002023 00000365 00000399
+l05 0002024 0000039f 000003a7
+l05 0001573 000003a7 000003ac
+l05 0001574 000003ac 000003df
+l05 0001579 000003df 000003ef
+l05 0001581 000003f5 0000040b
+l05 0001582 0000040b 00000446
+l05 0001585 00000446 00000462
+l05 0001586 00000468 0000046a
+l05 0001563 0000046a 0000048c
+l05 0001565 0000048c 000004a1
+l05 0001566 000004a7 000004c1
+l05 0001567 000004c7 000004c9
+l05 0001568 000004c9 000004f0
+l05 0001569 000004f0 000004f2
+l05 0000719 000004f2 00000502
+l05 0000721 00000508 00000516
+l05 0000722 00000516 0000051c
+l05 0000727 0000051c 0000051e
+l05 0000728 0000051e 00000523
+l05 0000729 00000523 00000531
+l05 0000730 00000531 00000533
+l05 0000732 00000533 00000551
+l05 0000736 00000551 00000573
+l05 0000739 00000573 000005b4
+l05 0000740 000005b4 000005c2
+l05 0000741 000005c2 000005eb
+l05 0000742 000005f1 000005f9
+l05 0002081 000005f9 00000617
+l05 0002083 00000617 00000673
+l05 0002084 00000679 00000693
+l05 0002085 00000699 0000069b
+l05 0002086 0000069b 000006b5
+l05 0002087 000006bb 000006c3
+l05 0002073 000006c3 000006df
+l05 0002077 000006df 000006e7
+l04 0000495 000006e7 00000733
+l04 0000503 00000733 0000073b
+l04 0000659 0000073b 00000740
+l04 0000660 00000740 0000074d
+l04 0000661 0000074d 0000075a
+l04 0000662 0000075a 00000767
+l04 0000663 00000767 00000774
+l04 0000664 00000774 00000781
+l04 0000665 00000781 0000078e
+l04 0000666 0000078e 0000079b
+l04 0000668 0000079b 000007d4
+l04 0000669 000007d4 000007dc
+l05 0001945 000007dc 000007de
+l05 0001946 000007de 000007e0
+l05 0001947 000007e0 000007e2
+l05 0001949 000007e2 000007f5
+l05 0001950 000007f5 00000821
+l05 0001952 00000821 00000833
+l05 0001953 00000839 0000084d
+l05 0001956 0000084d 00000866
+l05 0001957 00000866 0000087c
+l05 0001959 0000087c 000008b2
+l05 0001961 000008b2 000008c4
+l05 0001962 000008ca 000008de
+l05 0001964 000008de 000008f7
+l05 0001968 000008fd 0000090d
+l05 0001970 00000913 00000949
+l05 0001972 00000949 0000095d
+l05 0001975 0000095d 00000979
+l05 0001976 0000097f 00000987
+l02 0000083 00000987 000009e7
+l02 0000084 000009e7 000009ef
+l05 0002057 000009ef 000009f1
+l05 0002060 000009f1 00000a17
+l05 0002062 00000a17 00000a29
+l05 0002063 00000a2f 00000a45
+l05 0002067 00000a45 00000a61
+l05 0002068 00000a67 00000a6f
+l05 0001872 00000a6f 00000a71
+l05 0001873 00000a71 00000a73
+l05 0001874 00000a73 00000a75
+l05 0001877 00000a75 00000aa9
+l05 0001878 00000aa9 00000ac9
+l05 0001880 00000ac9 00000adb
+l05 0001881 00000ae1 00000af5
+l05 0001884 00000af5 00000b05
+l05 0001888 00000b0b 00000b24
+l05 0001889 00000b24 00000b3a
+l05 0001891 00000b3a 00000b6e
+l05 0001892 00000b6e 00000b8e
+l05 0001894 00000b8e 00000ba0
+l05 0001895 00000ba6 00000bba
+l05 0001898 00000bba 00000bca
+l05 0001899 00000bd0 00000bd6
+l05 0001901 00000bd6 00000bef
+l05 0001906 00000bf5 00000c05
+l05 0001908 00000c0b 00000c3f
+l05 0001909 00000c3f 00000c5f
+l05 0001911 00000c5f 00000c73
+l05 0001915 00000c73 00000c7b
+l05 0001916 00000c81 00000c8d
+l05 0001919 00000c8d 00000cc4
+l05 0001921 00000cc4 00000cd9
+l05 0001923 00000cdf 00000ced
+l05 0001924 00000ced 00000d16
+l05 0001926 00000d1c 00000d24
+l05 0001637 00000d24 00000d26
+l05 0001638 00000d26 00000d28
+l05 0001639 00000d28 00000d2a
+l05 0001640 00000d2a 00000d2c
+l05 0001641 00000d2c 00000d2e
+l05 0001643 00000d2e 00000d5a
+l05 0001646 00000d5a 00000d6a
+l05 0001647 00000d70 00000d8a
+l05 0001651 00000d8a 00000da2
+l05 0001653 00000da8 00000dbe
+l05 0001655 00000dc4 00000dc6
+l05 0001657 00000dc6 00000ddc
+l05 0001659 00000ddc 00000dee
+l05 0001660 00000df4 00000e0a
+l05 0001665 00000e0a 00000e84
+l05 0001670 00000e8a 00000f0e
+l05 0001672 00000f0e 00000f22
+l05 0001675 00000f22 00000f59
+l05 0001678 00000f59 00000f6d
+l05 0001680 00000f85 00000fc2
+l05 0001682 00000fc2 00000fd7
+l05 0001684 00000fdd 00000feb
+l05 0001685 00000feb 00000ffd
+l05 0001678 00000ffd 00001011
+l05 0001689 00001017 0000102c
+l05 0001691 00001032 00001063
+l05 0001693 00001069 0000106b
+l05 0001695 0000106b 00001094
+l05 0001698 00001094 000010b0
+l05 0001699 000010b6 000010be
+l05 0001980 000010be 000010f8
+l05 0001981 000010f8 000010fa
+l02 0000069 000010fa 0000111f
+l02 0000070 0000111f 00001144
+l02 0000072 00001144 00001156
+l02 0000074 00001174 00001194
+l02 0000075 00001194 000011b2
+l02 0000077 000011b2 000011e7
+l02 0000079 000011e7 00001203
+l02 0000080 00001209 00001211
+l01 0000138 00001211 00001249
+l01 0000139 00001249 00001251
+l01 0000186 00001251 00001275
+l01 0000187 00001275 0000127d
+l05 0000747 0000127d 0000129f
+l05 0000751 0000129f 000012a7
+l04 0000507 000012a7 000012ef
+l04 0000515 000012ef 000012f7
+l05 0000756 000012f7 00001321
+l05 0000760 00001321 00001329
+l04 0000519 00001329 00001361
+l04 0000528 00001367 0000137f
+l04 0000531 0000137f 0000139b
+l04 0000532 0000139b 000013a3
+l04 0000673 000013a3 000013a8
+l04 0000674 000013a8 000013d6
+l04 0000676 000013d6 00001404
+l04 0000678 00001404 00001420
+l04 0000679 00001426 00001428
+l05 0002028 00001428 0000142a
+l05 0002029 0000142a 0000142c
+l05 0002035 0000142c 00001447
+l05 0002037 00001447 0000145d
+l05 0002039 00001473 00001490
+l05 0002040 00001490 000014a9
+l05 0002043 000014a9 000014c8
+l05 0002044 000014ce 000014da
+l05 0002048 000014da 000014ef
+l05 0002049 000014ef 00001503
+l05 0002037 00001509 0000151d
+l05 0002052 00001523 0000154f
+l05 0002053 00001555 0000155d
+l05 0000791 0000155d 00001587
+l05 0000795 00001587 0000158f
+l04 0000548 0000158f 000015c9
+l04 0000557 000015cf 000015e7
+l04 0000560 000015e7 00001603
+l04 0000561 00001603 0000160b
+l05 0000843 0000160b 00001636
+l05 0000844 00001636 0000163e
+l05 0000800 0000163e 00001674
+l05 0000802 00001674 000016cd
+l05 0000804 000016f4 0000170a
+l05 0000805 0000170a 0000173e
+l05 0000807 0000173e 0000186f
+l05 0000812 00001875 0000187d
+l05 0000701 0000187d 00001895
+l05 0000702 00001895 00001897
+l05 0000706 00001897 000018a6
+l05 0000707 000018ac 000018bf
+l05 0000709 000018bf 000018e3
+l05 0000712 000018e3 000018fb
+l05 0000713 00001901 0000190f
+l05 0000714 00001915 0000191d
+l02 0000062 0000191d 00001942
+l02 0000064 00001942 00001968
+l02 0000065 00001968 0000199d
+l02 0000066 000019a3 000019ab
+l01 0000174 000019ab 000019d7
+l01 0000175 000019d7 000019df
+l05 0001931 000019df 000019f5
+l05 0001937 000019f5 000019fd
+l05 0001938 00001a03 00001a42
+l05 0001939 00001a48 00001a4a
+l05 0001940 00001a4a 00001a6c
+l05 0001941 00001a6c 00001a74
+l05 0001985 00001a74 00001aa2
+l05 0001986 00001aa2 00001aaa
+l05 0001610 00001aaa 00001aac
+l05 0001611 00001aac 00001ab1
+l05 0001612 00001ab1 00001abf
+l05 0001616 00001abf 00001acf
+l05 0001618 00001ad5 00001aeb
+l05 0001619 00001aeb 00001af7
+l05 0001622 00001af7 00001b15
+l05 0001625 00001b15 00001b37
+l05 0001629 00001b37 00001b47
+l05 0001630 00001b4d 00001b8f
+l05 0001631 00001b95 00001b97
+l05 0001632 00001b97 00001bba
+l05 0001633 00001bc0 00001bc2

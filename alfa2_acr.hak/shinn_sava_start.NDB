@@ -1,0 +1,283 @@
+NDB V1.0
+0000004 0000003 0000088 0000003 0000022
+n00 X0_I0_STRINGLIB
+n01 shinn_sava_config_i
+n02 shinn_sava_i
+N03 shinn_sava_start
+s 03 vector
+sf f x
+sf f y
+sf f z
+s 05 sStringTokenizer
+sf i nRemainingLen
+sf s sOrig
+sf s sRemaining
+sf s sDelim
+sf s sLastTok
+s 02 rNameValuePair
+sf s sName
+sf i iValue
+f ffffffff ffffffff 002 t0001 GetStringTokenizer
+fp s
+fp s
+f ffffffff ffffffff 001 i HasMoreTokens
+fp t0001
+f ffffffff ffffffff 001 t0001 AdvanceToNextToken
+fp t0001
+f ffffffff ffffffff 001 s GetNextToken
+fp t0001
+f ffffffff ffffffff 002 i GetNumberTokens
+fp s
+fp s
+f ffffffff ffffffff 003 s GetTokenByPosition
+fp s
+fp s
+fp i
+f ffffffff ffffffff 002 t0002 GetFirstAlpha
+fp s
+fp s
+f ffffffff ffffffff 003 s RemoveListElement
+fp s
+fp s
+fp s
+f ffffffff ffffffff 002 s Sort
+fp s
+fp s
+f ffffffff ffffffff 002 s FormListElement
+fp s
+fp s
+f ffffffff ffffffff 003 s AppendToList
+fp s
+fp s
+fp s
+f ffffffff ffffffff 003 i FindListElementIndex
+fp s
+fp s
+fp s
+f ffffffff ffffffff 003 i GetIsInList
+fp s
+fp s
+fp s
+f ffffffff ffffffff 003 s AppendUniqueToList
+fp s
+fp s
+fp s
+f ffffffff ffffffff 004 s AppendGlobalList
+fp s
+fp s
+fp i
+fp s
+f ffffffff ffffffff 003 s GetStringPad
+fp s
+fp i
+fp s
+f ffffffff ffffffff 003 s ReplaceSubString
+fp s
+fp s
+fp s
+f ffffffff ffffffff 003 s ReplaceAllSubStrings
+fp s
+fp s
+fp s
+f ffffffff ffffffff 003 s SpliceString
+fp s
+fp i
+fp i
+f ffffffff ffffffff 000 i DICE_SIZE
+f ffffffff ffffffff 000 i SAVE_ALLOWED
+f ffffffff ffffffff 000 i SPIDER_ALLOWED
+f ffffffff ffffffff 000 s SAVE_RESREF
+f ffffffff ffffffff 000 s BACKGROUND
+f ffffffff ffffffff 000 s DICES
+f ffffffff ffffffff 000 s GAME_LOG
+f ffffffff ffffffff 000 s KILLS
+f ffffffff ffffffff 000 s LOSTS
+f ffffffff ffffffff 000 s NEW_GAME
+f ffffffff ffffffff 000 s LOAD_GAME
+f ffffffff ffffffff 000 s CLOSE
+f ffffffff ffffffff 000 s CANCEL
+f ffffffff ffffffff 000 s WAITING
+f ffffffff ffffffff 000 s STARTS_GAME
+f ffffffff ffffffff 000 s CONT_GAME
+f ffffffff ffffffff 000 s AT
+f ffffffff ffffffff 000 s CAPTURES
+f ffffffff ffffffff 000 s LOOSE_TEXT
+f ffffffff ffffffff 000 s EXIT_GAME
+f ffffffff ffffffff 000 s SAVE_GAME
+f ffffffff ffffffff 000 s RETURN_TO_GAME
+f ffffffff ffffffff 000 s WIN_TEXT
+f ffffffff ffffffff 000 s DESTROYED
+f ffffffff ffffffff 000 s DISCONNECTED
+f ffffffff ffffffff 000 s SPIDER_USED
+f ffffffff ffffffff 000 s OPTIONS
+f ffffffff ffffffff 000 s SAVE_AS
+f ffffffff ffffffff 000 s SAVED
+f ffffffff ffffffff 000 s TURN
+f ffffffff ffffffff 000 s VAR_ERROR
+f ffffffff ffffffff 000 s OBJ_ERROR
+f ffffffff ffffffff 001 v SetLanguageVars
+fp o
+f ffffffff ffffffff 000 s sStart2da
+f ffffffff ffffffff 000 s sPiece2da
+f ffffffff ffffffff 000 s sSpider2da
+f ffffffff ffffffff 004 v SetGUIPiece
+fp i
+fp i
+fp i
+fp o
+f ffffffff ffffffff 003 v SetupGUIPieces
+fp o
+fp o
+fp o
+f ffffffff ffffffff 004 v SetPlaceablePiece
+fp i
+fp i
+fp i
+fp o
+f ffffffff ffffffff 005 v PrintMoveLine
+fp s
+fp i
+fp i
+fp o
+fp o
+f ffffffff ffffffff 005 v PrintMoveJumper
+fp s
+fp i
+fp i
+fp o
+fp o
+f ffffffff ffffffff 005 v PrintMoveLineJumper
+fp s
+fp i
+fp i
+fp o
+fp o
+f ffffffff ffffffff 004 v PrintMoveAttack
+fp s
+fp i
+fp o
+fp o
+f ffffffff ffffffff 006 v PrintMoveRange
+fp s
+fp i
+fp i
+fp i
+fp o
+fp o
+f ffffffff ffffffff 004 v ShowMoveOptions
+fp i
+fp i
+fp o
+fp o
+f ffffffff ffffffff 002 v CleanSelection
+fp o
+fp o
+f ffffffff ffffffff 003 i GenerateNewPosition
+fp i
+fp i
+fp i
+f ffffffff ffffffff 005 v MovePieceToField
+fp i
+fp i
+fp i
+fp o
+fp o
+f ffffffff ffffffff 007 v SendMessageToGameLog
+fp o
+fp i
+fp i
+fp i
+fp i
+fp i
+fp o
+f ffffffff ffffffff 005 v TakePieceFromField
+fp o
+fp i
+fp i
+fp i
+fp o
+f ffffffff ffffffff 002 v ChangeRound
+fp o
+fp o
+f ffffffff ffffffff 002 v DeclareWin
+fp o
+fp o
+f ffffffff ffffffff 004 v ShowOwnPieces
+fp i
+fp o
+fp o
+fp i
+f ffffffff ffffffff 004 v ShowEnemyPieces
+fp i
+fp o
+fp o
+fp i
+f ffffffff ffffffff 003 i GetRandomPiece
+fp i
+fp o
+fp s
+f ffffffff ffffffff 004 v KillerSpiderActivation
+fp o
+fp i
+fp o
+fp i
+f ffffffff ffffffff 001 v CheckSaveSettings
+fp o
+f ffffffff ffffffff 002 i SaveGame
+fp o
+fp o
+f ffffffff ffffffff 001 v CheckSpiderSettings
+fp o
+f ffffffff ffffffff 004 i Promotion
+fp i
+fp i
+fp i
+fp o
+f ffffffff ffffffff 003 v SendMessageToPlayers
+fp s
+fp i
+fp o
+f ffffffff ffffffff 003 i DeletePiece
+fp i
+fp o
+fp i
+f ffffffff ffffffff 001 v StartGamePlaceableSetup
+fp o
+f ffffffff ffffffff 001 v EndGameCleanUp
+fp o
+f ffffffff ffffffff 003 v KillerSpiderButton
+fp o
+fp i
+fp o
+f ffffffff ffffffff 003 v ShowKillerSpiderTooltip
+fp o
+fp i
+fp o
+f 00000021 000001de 000 v main
+f 0000000d 00000015 000 v #loader
+f 00000015 00000021 000 v #globals
+v 00000021 000001d6 00000000 o oPC
+v 00000026 000001d6 00000004 o oHub
+v 000000a3 000001d6 00000008 i PlayerSeat
+l00 0000021 00000015 00000015
+l00 0000022 00000015 00000015
+l00 0000023 00000015 00000015
+l00 0000024 00000015 00000015
+l00 0000025 00000015 00000015
+l00 0000031 00000015 00000015
+l00 0000032 00000015 00000015
+l03 0000014 00000021 00000026
+l03 0000016 00000026 00000048
+l03 0000018 00000048 00000058
+l03 0000020 0000005e 00000097
+l03 0000021 00000097 000000a3
+l03 0000024 000000a3 000000b8
+l03 0000026 000000b8 000000c8
+l03 0000028 000000ce 0000010c
+l03 0000029 0000010c 00000118
+l03 0000033 00000118 00000144
+l03 0000034 00000144 00000165
+l03 0000035 00000165 00000187
+l03 0000037 00000187 00000198
+l03 0000039 00000198 000001d6
+l03 0000042 000001dc 000001de
