@@ -175,6 +175,21 @@ texturestilefloor.2DA - guts texture added
 texturestilefloor.2DA - guts texture added
 metatiles.2DA - guts metatiles added
 
+10/2023 
+placeables 2da - new placeables
+appearance 2da - new creatures
+nwn2_icons 2da - new hat icons
+wingmodel 2da - wings
+metatiles 2da - huge caves added 
+texturestileswall
+texturestileceiling
+texturestilefloor
+tiles
+tilesets
+iprp_spells - fixed some so NPCs have access to new spells
+
+
+
 
 
 

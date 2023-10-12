@@ -87,3 +87,4 @@
 83 Medusa_Venom				    4691     14      14        6      1     STR       ****               6      2     STR       ****                 2.33 1            VFX_HIT_SPELL_POISON
 84 Twig_Blight_Poison          4692		 11      11        1      1     ****      ****				    1      1     STR       ****                 1.5  1            VFX_HIT_SPELL_POISON
 85 Giant_Toad_Poison           4693     14      14        6      1     CON       ****               6      1     CON       ****                 1.00 1            VFX_HIT_SPELL_POISON
+86 Ashworm_Stinger_Poison      4694     14      14        6      2     STR       ****               6      2     STR       ****                 1.00 1            VFX_HIT_SPELL_POISON

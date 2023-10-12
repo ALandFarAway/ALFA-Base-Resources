@@ -804,7 +804,7 @@
 800  ****                                              ****     ****      ****      ****   ****       ****      ****    ****       ****                       
 801  ****                                              ****     ****      ****      ****   ****       ****      ****    ****       ****                       
 802  ****                                              ****     ****      ****      ****   ****       ****      ****    ****       ****                       
-803  ****                                              ****     ****      ****      ****   ****       ****      ****    ****       ****                       
+803  GrayEnlarge                                     112015    is_enlarge                   T      S     vs   ****      0x2B       nw_s2_enlrgeper                 **** ****   ****  ****    ****   ****     ****    ****   1500     party     sp_transmutation_conjure.sef     sp_magic_conjure.sef      ****            ****            ****             ****                 ****                 ****              self      1000     sp_transmutation_cast.sef      sp_transmutation_cast.sef      ****        ****        ****          0    ****           ****                        ****                        ****              ****          ****           ****            ****                              ****                              ****           ****         ****         ****         ****         ****         ****         ****     ****   1        113158    1                0                 0                 ****       0              1073      ****     ****     0             ****        0           1              0       
 804  ****                                              ****     ****      ****      ****   ****       ****      ****    ****       ****                       
 805  ****                                              ****     ****      ****      ****   ****       ****      ****    ****       ****                       
 806  ****                                              ****     ****      ****      ****   ****       ****      ****    ****       ****                       
@@ -1219,7 +1219,7 @@
 1215 Heretical_Purge_(17)                              220809   17        9         55080  572        0         0       1          is_poison                  
 1216 Zehirs_Wrath_(17)                                 220809   17        9         55080  573        0         0       1          is_poison                  
 1217 Flying_Debris_(5)                                 40565    5         3         5400   620        1         1       1          it_wo_bulletgiantbane      
-1218 Harpysong_(7)                                     83574    7         4         10080  686        0         1       1          is_tashahideouslaugh       
+1218 Harpy_Beguiling_song_(7)                          83574    7         4         10080  686        0         0       1          is_tashahideouslaugh       
 1219 GWildShape_Stonegaze_(9)                          3799     9         5         16200  687        0         0       1          is_blindsight              
 1220 GWildShape_DriderDarkness_(3)                     786      3         2         2160   688        1         1       1          is_darkness                
 1221 Greater_Wild_Shape_Spikes_(9)                     3804     9         5         16200  692        0         0       1          ife_SH_greatwildshape      

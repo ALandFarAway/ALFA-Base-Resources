@@ -2506,3 +2506,7 @@ Moving Ship VFX Prototype by M. Rieder
 
 ship.sef
 ship_dragon_head.sef
+
+10/2023
+updated the kemo animations to include breathing/blinking
+fixed the male staff holding animation

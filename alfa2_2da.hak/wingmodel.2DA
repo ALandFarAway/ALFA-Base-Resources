@@ -88,3 +88,7 @@
 84 Harpie_Wings02         HarpyWings,dark   c_harpie_wings02           c_harpie_skel           c_harpie       c_harpie_wings02        
 85 Harpie_Wings03         HarpyWings        c_harpie_wings03           c_harpie_skel           c_harpie       c_harpie_wings03        
 86 Harpie_Wings04         HarpyWings,bright c_harpie_wings04           c_harpie_skel           c_harpie       c_harpie_wings04        
+87 ImpWings2              ****              c_imp_wings02              c_impwing_skel          c_imp          c_imp_wings02             
+88 ImpFireWings2          ****              c_impfire_wings02          c_impwing_skel          c_imp          c_impfire_wings02         
+89 ImpIceWings2           ****              c_impice_wings02           c_impwing_skel          c_imp          c_impice_wings02          
+90 DevilhornWings2        ****              C_Devilhorn_Wings02        c_winglegwing_skel      c_wingleg      C_Devilhorn_Wings02       
