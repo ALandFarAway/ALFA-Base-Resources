@@ -328,5 +328,7 @@ x0_s3_tangle.nss
 x0_s3_thunder.ncs
 x0_s3_thunder.nss
 
+added in the ability for DMs to save scenes
+
 11/2022
 removed speak string in firebolt spell

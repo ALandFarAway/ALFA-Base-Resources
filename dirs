@@ -23,11 +23,13 @@ DIRS=                               \
      alfa_placeables4.hak           \
      alfa_placeables5.hak           \
      alfa_placeables6.hak           \
+     alfa_placeables7.hak           \
      alfa_terrain.hak               \
      alfa2_pr.hak                   \
      alfa_tiles.hak                 \
      alfa_tiles2.hak                \
      alfa2_templates.hak            \
+     alfa2_bp_icons.hak             \
      alfa_music.hak                 \
      tlk                            \
      buildmod                       \
