@@ -1,0 +1,57 @@
+Importing with Blender 2.80 (sub 75)/NWN2 MDK 0.18
+
+Indexing: Data/NWN2_Materials_X2.zip
+Indexing: Data/NWN2_Materials_X1_v121.zip
+Indexing: Data/NWN2_Materials_X1_v113.zip
+Indexing: Data/NWN2_Materials_X1.zip
+Indexing: Data/NWN2_Materials_v121.zip
+Indexing: Data/NWN2_Materials_v112.zip
+Indexing: Data/NWN2_Materials_v110.zip
+Indexing: Data/NWN2_Materials_v107.zip
+Indexing: Data/NWN2_Materials_v106.zip
+Indexing: Data/NWN2_Materials_v104.zip
+Indexing: Data/NWN2_Materials_v103x1.zip
+Indexing: Data/NWN2_Materials.zip
+Indexing: Data/NWN2_Models_X2_v121.zip
+Indexing: Data/NWN2_Models_X2.zip
+Indexing: Data/NWN2_Models_X1_v121.zip
+Indexing: Data/NWN2_Models_X1.zip
+Indexing: Data/NWN2_Models_v121.zip
+Indexing: Data/NWN2_Models_v112.zip
+Indexing: Data/NWN2_Models_v107.zip
+Indexing: Data/NWN2_Models_v106.zip
+Indexing: Data/NWN2_Models_v105.zip
+Indexing: Data/NWN2_Models_v104.zip
+Indexing: Data/NWN2_Models_v103x1.zip
+Indexing: Data/NWN2_Models.zip
+Indexing: Data/lod-merged_X2_v121.zip
+Indexing: Data/lod-merged_X2.zip
+Indexing: Data/lod-merged_X1_v121.zip
+Indexing: Data/lod-merged_X1.zip
+Indexing: Data/lod-merged_v121.zip
+Indexing: Data/lod-merged_v107.zip
+Indexing: Data/lod-merged_v101.zip
+Indexing: Data/lod-merged.zip
+
+Searching: "C:\Users\arian\OneDrive\Documents\Neverwinter Nights 2\ALFA-Base-Resources\c_axbeak_cl_body07.mdb"
+  - F:\GOG Games\NWN2 Complete\Data/NWN2_Models_X2_v121.zip
+  - F:\GOG Games\NWN2 Complete\Data/NWN2_Models_X2.zip
+  - F:\GOG Games\NWN2 Complete\Data/NWN2_Models_X1_v121.zip
+  - F:\GOG Games\NWN2 Complete\Data/NWN2_Models_X1.zip
+  - F:\GOG Games\NWN2 Complete\Data/NWN2_Models_v121.zip
+  - F:\GOG Games\NWN2 Complete\Data/NWN2_Models_v112.zip
+  - F:\GOG Games\NWN2 Complete\Data/NWN2_Models_v107.zip
+  - F:\GOG Games\NWN2 Complete\Data/NWN2_Models_v106.zip
+  - F:\GOG Games\NWN2 Complete\Data/NWN2_Models_v105.zip
+  - F:\GOG Games\NWN2 Complete\Data/NWN2_Models_v104.zip
+  - F:\GOG Games\NWN2 Complete\Data/NWN2_Models_v103x1.zip
+  - F:\GOG Games\NWN2 Complete\Data/NWN2_Models.zip
+  - F:\GOG Games\NWN2 Complete\Data/lod-merged_X2_v121.zip
+  - F:\GOG Games\NWN2 Complete\Data/lod-merged_X2.zip
+  - F:\GOG Games\NWN2 Complete\Data/lod-merged_X1_v121.zip
+  - F:\GOG Games\NWN2 Complete\Data/lod-merged_X1.zip
+  - F:\GOG Games\NWN2 Complete\Data/lod-merged_v121.zip
+  - F:\GOG Games\NWN2 Complete\Data/lod-merged_v107.zip
+  - F:\GOG Games\NWN2 Complete\Data/lod-merged_v101.zip
+  - F:\GOG Games\NWN2 Complete\Data/lod-merged.zip
+  # 0 total matches

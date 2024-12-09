@@ -1,0 +1,44 @@
+Importing with Blender 4.1.1/NWN2 MDK 0.17
+
+Indexing: Data/NWN2_Materials_X2.zip
+Indexing: Data/NWN2_Materials_X1_v121.zip
+Indexing: Data/NWN2_Materials_X1_v113.zip
+Indexing: Data/NWN2_Materials_X1.zip
+Indexing: Data/NWN2_Materials_v121.zip
+Indexing: Data/NWN2_Materials_v112.zip
+Indexing: Data/NWN2_Materials_v110.zip
+Indexing: Data/NWN2_Materials_v107.zip
+Indexing: Data/NWN2_Materials_v106.zip
+Indexing: Data/NWN2_Materials_v104.zip
+Indexing: Data/NWN2_Materials_v103x1.zip
+Indexing: Data/NWN2_Materials.zip
+
+===
+MDB
+===
+Major Version: 1
+Minor Version: 12
+Packet Count:  1
+
+RIGD
+----
+Signature:      RIGD
+Size:           44604
+Name:           i_mandolin07
+Diffuse Map:    i_mandolin07
+Normal Map:     i_mandolin07_n
+Tint Map:       
+Glow Map:       
+Diffuse Color:  0.8, 0.8, 0.8
+Specular Color: 0.2, 0.2, 0.2
+Specular Level: 0.5
+Glossiness:     10.3
+Flags:          0x3
+                ALPHA_TEST
+                ALPHA_BLEND
+Vertices:       673
+Faces:          670
+
+Importing RIGD: i_mandolin07
+
+Output is nwn2mdk-tmp.fbx
