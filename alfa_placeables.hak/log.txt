@@ -1,4 +1,4 @@
-Importing with Blender 3.5.1/NWN2 MDK 0.15
+Importing with Blender 3.6.0/NWN2 MDK 0.15
 
 Indexing: Data/NWN2_Materials_X2.zip
 Indexing: Data/NWN2_Materials_X1_v121.zip
@@ -18,461 +18,116 @@ MDB
 ===
 Major Version: 1
 Minor Version: 12
-Packet Count:  25
+Packet Count:  6
 
 RIGD
 ----
 Signature:      RIGD
-Size:           30168
-Name:           OBJ_PLC_BR_RWSTower06_01
-Diffuse Map:    BrickRound0047_1_S
-Normal Map:     BrickRound0047_1_N
+Size:           86718
+Name:           plc_cs_hedge01_L01
+Diffuse Map:    plc_cs_hedge01
+Normal Map:     plc_cs_hedge01_n
 Tint Map:       
 Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0.2
-Glossiness:     10
-Flags:          0x0
-Vertices:       481
-Faces:          184
+Diffuse Color:  0.8, 0.8, 0.8
+Specular Color: 1, 1, 1
+Specular Level: 0.5
+Glossiness:     5
+Flags:          0x3
+                ALPHA_TEST
+                ALPHA_BLEND
+Vertices:       1371
+Faces:          709
 
 RIGD
 ----
 Signature:      RIGD
-Size:           87000
-Name:           PLC_BR_RWSTower06
-Diffuse Map:    tcn01_brick03
-Normal Map:     tcn01_brick03_N
+Size:           149826
+Name:           plc_cs_hedge01
+Diffuse Map:    plc_cs_hedge01
+Normal Map:     plc_cs_hedge01_n
 Tint Map:       
 Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0
-Glossiness:     10
-Flags:          0x0
-Vertices:       1366
-Faces:          806
-
-HOOK
-----
-Signature:   HOOK
-Size:        84
-Name:        HP_DR_STD01
-Type:        0
-Size:        0
-Position:    -2.11166, -8.61635, 7.94953
-Orientation:
-  1 -6.12339e-07 -0 
-  -6.12339e-07 -1 -8.02678e-07 
-  -4.76354e-13 -8.02679e-07 1 
+Diffuse Color:  0.8, 0.8, 0.8
+Specular Color: 1, 1, 1
+Specular Level: 0.5
+Glossiness:     5
+Flags:          0x3
+                ALPHA_TEST
+                ALPHA_BLEND
+Vertices:       2373
+Faces:          1207
 
 RIGD
 ----
 Signature:      RIGD
-Size:           16758
-Name:           OBJ_PLC_BR_RWSTower06_03
-Diffuse Map:    PLC_MC_Well
-Normal Map:     PLC_MC_Well_n
+Size:           46566
+Name:           plc_cs_hedge01_L02
+Diffuse Map:    plc_cs_hedge01
+Normal Map:     plc_cs_hedge01_n
 Tint Map:       
 Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0.2
-Glossiness:     10
-Flags:          0x0
-Vertices:       257
-Faces:          189
-
-RIGD
-----
-Signature:      RIGD
-Size:           3720
-Name:           OBJ_PLC_BR_RWSTower06_04
-Diffuse Map:    BrickRound0047_1_S
-Normal Map:     BrickRound0047_1_N
-Tint Map:       
-Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0.2
-Glossiness:     10
-Flags:          0x0
-Vertices:       56
-Faces:          26
-
-RIGD
-----
-Signature:      RIGD
-Size:           3468
-Name:           OBJ_PLC_BR_RWSTower06_05
-Diffuse Map:    BrickRound0047_1_S
-Normal Map:     BrickRound0047_1_N
-Tint Map:       
-Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0.2
-Glossiness:     10
-Flags:          0x0
-Vertices:       52
-Faces:          24
-
-RIGD
-----
-Signature:      RIGD
-Size:           6840
-Name:           OBJ_PLC_BR_RWSTower06_06
-Diffuse Map:    
-Normal Map:     
-Tint Map:       
-Glow Map:       
-Diffuse Color:  0.882353, 0.882353, 0.784314
-Specular Color: 0.329412, 0.329412, 0.329412
-Specular Level: 0
-Glossiness:     0
-Flags:          0x0
-Vertices:       106
-Faces:          46
-
-RIGD
-----
-Signature:      RIGD
-Size:           31380
-Name:           OBJ_PLC_BR_RWSTower06_07
-Diffuse Map:    PLC_NF_BOULDERS8
-Normal Map:     PLC_NF_BOULDERS8_n
-Tint Map:       
-Glow Map:       
-Diffuse Color:  0.588, 0.588, 0.588
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0
-Glossiness:     10
-Flags:          0x0
-Vertices:       485
-Faces:          346
-
-RIGD
-----
-Signature:      RIGD
-Size:           7644
-Name:           OBJ_PLC_BR_RWSTower06_08
-Diffuse Map:    tcn01_brick03
-Normal Map:     tcn01_brick03_N
-Tint Map:       
-Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0
-Glossiness:     10
-Flags:          0x0
-Vertices:       114
-Faces:          100
-
-RIGD
-----
-Signature:      RIGD
-Size:           11436
-Name:           OBJ_PLC_BR_RWSTower06_09
-Diffuse Map:    tcn01_brick03
-Normal Map:     tcn01_brick03_N
-Tint Map:       
-Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0
-Glossiness:     10
-Flags:          0x0
-Vertices:       178
-Faces:          92
-
-RIGD
-----
-Signature:      RIGD
-Size:           4812
-Name:           OBJ_PLC_BR_RWSTower06_10
-Diffuse Map:    tcn01_brick03
-Normal Map:     tcn01_brick03_N
-Tint Map:       
-Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0
-Glossiness:     10
-Flags:          0x0
-Vertices:       70
-Faces:          68
-
-RIGD
-----
-Signature:      RIGD
-Size:           2472
-Name:           OBJ_PLC_BR_RWSTower06_11
-Diffuse Map:    ttd01_cblock03
-Normal Map:     ttd01_cblock03_N
-Tint Map:       
-Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0
-Glossiness:     10
-Flags:          0x0
-Vertices:       36
-Faces:          18
-
-RIGD
-----
-Signature:      RIGD
-Size:           39804
-Name:           OBJ_PLC_BR_RWSTower06_12
-Diffuse Map:    BrickRound0047_1_S
-Normal Map:     BrickRound0047_1_N
-Tint Map:       
-Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0.2
-Glossiness:     10
-Flags:          0x0
-Vertices:       626
-Faces:          340
-
-RIGD
-----
-Signature:      RIGD
-Size:           20808
-Name:           OBJ_PLC_BR_RWSTower06_21
-Diffuse Map:    clay06L
-Normal Map:     clay06L_N
-Tint Map:       
-Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0
-Glossiness:     10
-Flags:          0x0
-Vertices:       315
-Faces:          284
-
-RIGD
-----
-Signature:      RIGD
-Size:           1710
-Name:           OBJ_PLC_BR_RWSTower06_14
-Diffuse Map:    BrickRound0047_1_S
-Normal Map:     BrickRound0047_1_N
-Tint Map:       
-Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0.2
-Glossiness:     10
-Flags:          0x0
-Vertices:       23
-Faces:          21
-
-RIGD
-----
-Signature:      RIGD
-Size:           3690
-Name:           OBJ_PLC_BR_RWSTower06_15
-Diffuse Map:    BrickRound0047_1_S
-Normal Map:     BrickRound0047_1_N
-Tint Map:       
-Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0.2
-Glossiness:     10
-Flags:          0x0
-Vertices:       53
-Faces:          51
-
-RIGD
-----
-Signature:      RIGD
-Size:           3372
-Name:           OBJ_PLC_BR_RWSTower06_16
-Diffuse Map:    BrickRound0047_1_S
-Normal Map:     BrickRound0047_1_N
-Tint Map:       
-Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0.2
-Glossiness:     10
-Flags:          0x0
-Vertices:       48
-Faces:          48
-
-RIGD
-----
-Signature:      RIGD
-Size:           456
-Name:           OBJ_PLC_BR_RWSTower06_17
-Diffuse Map:    TL_CR_Floor01_G
-Normal Map:     TL_CR_Floor01_N
-Tint Map:       TL_CR_Floor01_T
-Glow Map:       
-Diffuse Color:  0.588, 0.588, 0.588
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0
-Glossiness:     10
-Flags:          0x0
-Vertices:       4
-Faces:          2
-
-RIGD
-----
-Signature:      RIGD
-Size:           3720
-Name:           OBJ_PLC_BR_RWSTower06_18
-Diffuse Map:    BrickRound0047_1_S
-Normal Map:     BrickRound0047_1_N
-Tint Map:       
-Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0.2
-Glossiness:     10
-Flags:          0x0
-Vertices:       56
-Faces:          26
-
-RIGD
-----
-Signature:      RIGD
-Size:           12180
-Name:           OBJ_PLC_BR_RWSTower06_19
-Diffuse Map:    BrickRound0047_1_S
-Normal Map:     BrickRound0047_1_N
-Tint Map:       
-Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0.2
-Glossiness:     10
-Flags:          0x0
-Vertices:       183
-Faces:          166
-
-RIGD
-----
-Signature:      RIGD
-Size:           5424
-Name:           OBJ_PLC_BR_RWSTower06_13
-Diffuse Map:    tcn01_brick03
-Normal Map:     tcn01_brick03_N
-Tint Map:       
-Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0
-Glossiness:     10
-Flags:          0x0
-Vertices:       80
-Faces:          70
-
-RIGD
-----
-Signature:      RIGD
-Size:           38316
-Name:           OBJ_PLC_BR_RWSTower06_20
-Diffuse Map:    tcn01_brick03
-Normal Map:     tcn01_brick03_N
-Tint Map:       
-Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 0.9, 0.9, 0.9
-Specular Level: 0
-Glossiness:     10
-Flags:          0x0
-Vertices:       594
-Faces:          412
+Diffuse Color:  0.8, 0.8, 0.8
+Specular Color: 1, 1, 1
+Specular Level: 0.5
+Glossiness:     5
+Flags:          0x3
+                ALPHA_TEST
+                ALPHA_BLEND
+Vertices:       733
+Faces:          397
 
 WALK
 ----
 Signature:      WALK
-Size:           3916
-Name:           PLC_BR_RWSTower06_W
-Vertices:       131
-Faces:          230
-
-COL3
-----
-Signature:      COL3
-Size:           19044
-Name:           PLC_BR_RWSTower06_C3
-Diffuse Map:    
-Normal Map:     
-Tint Map:       
-Glow Map:       
-Diffuse Color:  1, 1, 1
-Specular Color: 1, 1, 1
-Specular Level: 1
-Glossiness:     10
-Flags:          0x0
-Vertices:       485
-Faces:          230
+Size:           112
+Name:           plc_cs_hedge01_W
+Vertices:       4
+Faces:          2
 
 COL2
 ----
 Signature:      COL2
-Size:           3948
-Name:           PLC_BR_RWSTower06_C2
-Diffuse Map:    
-Normal Map:     
+Size:           564
+Name:           plc_cs_hedge01_C2
+Diffuse Map:    unknown
+Normal Map:     unknown_n
 Tint Map:       
 Glow Map:       
 Diffuse Color:  1, 1, 1
 Specular Color: 1, 1, 1
 Specular Level: 1
-Glossiness:     10
-Flags:          0x0
-Vertices:       96
-Faces:          48
+Glossiness:     1
+Flags:          0x41
+                ALPHA_TEST
+                CAST_NO_SHADOWS
+Vertices:       8
+Faces:          12
 
-Searching: "TL_CR_Floor01_N."
-  - F:\GOG Games\NWN2 Complete\Data/NWN2_Materials_X2.zip
-  - F:\GOG Games\NWN2 Complete\Data/NWN2_Materials_X1_v121.zip
-  - F:\GOG Games\NWN2 Complete\Data/NWN2_Materials_X1_v113.zip
-  - F:\GOG Games\NWN2 Complete\Data/NWN2_Materials_X1.zip
-  - F:\GOG Games\NWN2 Complete\Data/NWN2_Materials_v121.zip
-  - F:\GOG Games\NWN2 Complete\Data/NWN2_Materials_v112.zip
-  - F:\GOG Games\NWN2 Complete\Data/NWN2_Materials_v110.zip
-  - F:\GOG Games\NWN2 Complete\Data/NWN2_Materials_v107.zip
-  - F:\GOG Games\NWN2 Complete\Data/NWN2_Materials_v106.zip
-  - F:\GOG Games\NWN2 Complete\Data/NWN2_Materials_v104.zip
-  - F:\GOG Games\NWN2 Complete\Data/NWN2_Materials_v103x1.zip
-  - F:\GOG Games\NWN2 Complete\Data/NWN2_Materials.zip
-    NWN2_Materials/Placeables/TL_CR_Floor01_N.dds
-    # 1 matches
-  # 1 total matches
-Extracting: TL_CR_Floor01_N.dds
-Importing RIGD: OBJ_PLC_BR_RWSTower06_01
-Importing RIGD: PLC_BR_RWSTower06
-Importing HOOK: HP_DR_STD01
-Importing RIGD: OBJ_PLC_BR_RWSTower06_03
-Importing RIGD: OBJ_PLC_BR_RWSTower06_04
-Importing RIGD: OBJ_PLC_BR_RWSTower06_05
-Importing RIGD: OBJ_PLC_BR_RWSTower06_06
-Importing RIGD: OBJ_PLC_BR_RWSTower06_07
-Importing RIGD: OBJ_PLC_BR_RWSTower06_08
-Importing RIGD: OBJ_PLC_BR_RWSTower06_09
-Importing RIGD: OBJ_PLC_BR_RWSTower06_10
-Importing RIGD: OBJ_PLC_BR_RWSTower06_11
-Importing RIGD: OBJ_PLC_BR_RWSTower06_12
-Importing RIGD: OBJ_PLC_BR_RWSTower06_21
-Importing RIGD: OBJ_PLC_BR_RWSTower06_14
-Importing RIGD: OBJ_PLC_BR_RWSTower06_15
-Importing RIGD: OBJ_PLC_BR_RWSTower06_16
-Importing RIGD: OBJ_PLC_BR_RWSTower06_17
-Importing RIGD: OBJ_PLC_BR_RWSTower06_18
-Importing RIGD: OBJ_PLC_BR_RWSTower06_19
-Importing RIGD: OBJ_PLC_BR_RWSTower06_13
-Importing RIGD: OBJ_PLC_BR_RWSTower06_20
-Importing WALK: PLC_BR_RWSTower06_W
-Importing COL3: PLC_BR_RWSTower06_C3
-Importing COL2: PLC_BR_RWSTower06_C2
+COL3
+----
+Signature:      COL3
+Size:           564
+Name:           plc_cs_hedge01_C3
+Diffuse Map:    unknown
+Normal Map:     unknown_n
+Tint Map:       
+Glow Map:       
+Diffuse Color:  1, 1, 1
+Specular Color: 1, 1, 1
+Specular Level: 1
+Glossiness:     1
+Flags:          0x41
+                ALPHA_TEST
+                CAST_NO_SHADOWS
+Vertices:       8
+Faces:          12
+
+Importing RIGD: plc_cs_hedge01_L01
+Importing RIGD: plc_cs_hedge01
+Importing RIGD: plc_cs_hedge01_L02
+Importing WALK: plc_cs_hedge01_W
+Importing COL2: plc_cs_hedge01_C2
+Importing COL3: plc_cs_hedge01_C3
 
 Output is nwn2mdk-tmp.fbx
